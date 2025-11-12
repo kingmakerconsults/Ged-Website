@@ -3795,13 +3795,13 @@ try {
   // Serve interactive math tools for quiz runner at exact import paths
   app.get('/graphing/GraphCanvas.js', (req, res) => {
     try {
-      res.set('Content-Type', 'application/javascript');
+      res.set('Content-Type', 'application/javascript; charset=utf-8');
     } catch {}
     res.sendFile(path.join(__dirname, 'GraphCanvas.js'));
   });
   app.get('/geometry/GeometryCanvas.js', (req, res) => {
     try {
-      res.set('Content-Type', 'application/javascript');
+      res.set('Content-Type', 'application/javascript; charset=utf-8');
     } catch {}
     res.sendFile(path.join(__dirname, 'GeometryCanvas.js'));
   });

@@ -102,7 +102,7 @@ try {
     PREMADE_QUIZ_CATALOG['Math'].length === 0
   ) {
     console.warn(
-      '[progress] Math premade catalog is empty �� progress bars will show 0/0'
+      '[progress] Math premade catalog is empty — progress bars will show 0/0'
     );
   }
 } catch {}
@@ -593,7 +593,7 @@ const FALLBACK_VOCABULARY = {
     {
       term: 'Quadratic Equation',
       definition:
-        'An equation in the form ax� + bx + c = 0, where a, b, and c are constants and a �� 0.',
+        'An equation in the form ax² + bx + c = 0, where a, b, and c are constants and a ≠ 0.',
     },
     {
       term: 'Linear Function',
@@ -3095,7 +3095,7 @@ const SCI_NUMERACY_QUESTIONS = [
     type: 'knowledge',
     passage: `<p>A student heats four samples of the same liquid:</p>
           <table class="min-w-full text-sm text-left">
-            <thead><tr><th>Trial</th><th>Start Temp (�C)</th><th>End Temp (�C)</th></tr></thead>
+            <thead><tr><th>Trial</th><th>Start Temp (°C)</th><th>End Temp (°C)</th></tr></thead>
             <tbody>
               <tr><td>A</td><td>22</td><td>30</td></tr>
               <tr><td>B</td><td>22</td><td>29</td></tr>
@@ -3107,16 +3107,16 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: 'Trial A',
-        rationale: 'Increase was 30��22 = 8�C.',
+        rationale: 'Increase was 30 − 22 = 8°C.',
         isCorrect: false,
       },
-      { text: 'Trial B', rationale: 'Increase was 7�C.', isCorrect: false },
+      { text: 'Trial B', rationale: 'Increase was 7°C.', isCorrect: false },
       {
         text: 'Trial C',
-        rationale: 'Correct. Increase was 35��22 = 13�C, the largest.',
+        rationale: 'Correct. Increase was 35 − 22 = 13°C, the largest.',
         isCorrect: true,
       },
-      { text: 'Trial D', rationale: 'Increase was 6�C.', isCorrect: false },
+      { text: 'Trial D', rationale: 'Increase was 6°C.', isCorrect: false },
     ],
   },
   {
@@ -3133,7 +3133,7 @@ const SCI_NUMERACY_QUESTIONS = [
         rationale: '12 is just the smallest value.',
         isCorrect: false,
       },
-      { text: '18', rationale: '18 is not max �� min.', isCorrect: false },
+      { text: '18', rationale: '18 is not max − min.', isCorrect: false },
       {
         text: '30',
         rationale: '30 is just the largest value.',
@@ -3141,7 +3141,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '18 (thousand)',
-        rationale: 'Correct. Range = 30 �� 12 = 18.',
+        rationale: 'Correct. Range = 30 − 12 = 18.',
         isCorrect: true,
       },
     ],
@@ -4402,7 +4402,7 @@ const AppData = {
                   {
                     text: 'An element consists of only one type of atom, while a compound consists of two or more different types of atoms chemically bonded together.',
                     rationale:
-                      'Correct. For example, oxygen (O) is an element, while water (H��O) is a compound.',
+                      'Correct. For example, oxygen (O) is an element, while water (H₂O) is a compound.',
                     isCorrect: true,
                   },
                   {
@@ -4474,7 +4474,7 @@ const AppData = {
                   {
                     text: 'Boiling water',
                     rationale:
-                      'Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically H��O. This is a physical change.',
+                      'Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically H₂O. This is a physical change.',
                     isCorrect: true,
                   },
                   {
@@ -4550,7 +4550,7 @@ const AppData = {
                 questionNumber: 10,
                 type: 'knowledge',
                 question:
-                  "In the chemical formula for water, H��O, what does the subscript '2' indicate?",
+                  "In the chemical formula for water, H₂O, what does the subscript '2' indicate?",
                 answerOptions: [
                   {
                     text: 'There are two water molecules.',
@@ -4612,7 +4612,7 @@ const AppData = {
                 challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
-                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ions��charged atoms that are then attracted to each other.',
+                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ions—charged atoms that are then attracted to each other.',
                 question:
                   'What is the key difference between a covalent bond and an ionic bond?',
                 answerOptions: [
@@ -25925,7 +25925,7 @@ function App({ externalTheme, onThemeChange }) {
       subject,
       quizCode,
       quizTitle:
-        quizDetails.title || quizDetails.topicTitle || 'GED� Practice Exam',
+        quizDetails.title || quizDetails.topicTitle || 'GED® Practice Exam',
       quizType: quizDetails.type,
       score: results.score,
       totalQuestions: results.totalQuestions,
@@ -25947,7 +25947,7 @@ function App({ externalTheme, onThemeChange }) {
           subject,
           quizCode,
           quizTitle:
-            quizDetails.title || quizDetails.topicTitle || 'GED� Practice Exam',
+            quizDetails.title || quizDetails.topicTitle || 'GED® Practice Exam',
           quizType: quizDetails.type,
           score: results.score,
           totalQuestions: results.totalQuestions,
@@ -29229,7 +29229,7 @@ function FormulaSheetModal({ onClose }) {
           style={{ borderColor: 'rgba(148,163,184,0.35)' }}
         >
           <h2 className="formula-sheet-title text-xl font-bold">
-            GED� Mathematical Reasoning Formula Sheet
+            GED® Mathematical Reasoning Formula Sheet
           </h2>
           <button
             onClick={onClose}
@@ -31723,7 +31723,7 @@ function StartScreen({
                         {
                           id: 'essay_practice_tool',
                           type: 'essay',
-                          title: 'GED� Essay Practice Toolkit',
+                          title: 'GED® Essay Practice Toolkit',
                         },
                         selectedSubject
                       )
@@ -34342,7 +34342,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
             }`}
           >
             <span role="img" aria-label="timer">
-              ��️
+              ⏱️
             </span>
             <span>{formatTime(timeLeft)}</span>
             {isPaused && (
@@ -34466,13 +34466,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const getPerf = (score) => {
     if (score >= 175)
       return {
-        level: 'GED� College Ready + Credit',
+        level: 'GED® College Ready + Credit',
         color: 'text-purple-600',
       };
     if (score >= 165)
-      return { level: 'GED� College Ready', color: 'text-blue-600' };
+      return { level: 'GED® College Ready', color: 'text-blue-600' };
     if (score >= 145)
-      return { level: 'GED� Passing Score', color: 'text-green-600' };
+      return { level: 'GED® Passing Score', color: 'text-green-600' };
     return { level: 'Keep studying!', color: 'text-amber-600' };
   };
 
@@ -34521,7 +34521,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         Results: {quiz?.title || 'Completed Quiz'}
       </h2>
       <div className="my-6">
-        <p className="text-lg text-slate-600">Your estimated GED� Score is:</p>
+        <p className="text-lg text-slate-600">Your estimated GED® Score is:</p>
         <p className={`text-6xl font-bold my-2 ${performance.color}`}>
           {scaledScore}
         </p>
@@ -34540,7 +34540,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             Suggested Focus Areas
           </h3>
           {loadingSuggestions && !suggestions.length ? (
-            <p className="text-sm text-slate-500">Loading suggestions��</p>
+            <p className="text-sm text-slate-500">Loading suggestions…</p>
           ) : suggestions.length ? (
             <ul className="space-y-2">
               {suggestions.map((s) => (
@@ -34751,7 +34751,9 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                     })();
                     return <>Your answer: {display} </>;
                   })()}
-                  {isCorrect ? '��' : '��'}
+                  <span aria-label={isCorrect ? 'correct' : 'incorrect'}>
+                    {isCorrect ? '✓' : '✗'}
+                  </span>
                 </p>
                 {!isCorrect &&
                   ((correctMC && correctMC.text) || question.correctAnswer) && (
@@ -35580,7 +35582,7 @@ function EssayGuide({ onExit }) {
     ? `After reading both passages about "${selectedPassage.topic}", write an essay in which you explain which author presents the more convincing argument. Support your response with evidence from both passages and explain why the evidence you cite supports your evaluation.`
     : '';
   const overlayButtons = [
-    { id: 'prompt', label: 'Essay Prompt', title: 'GED� RLA Essay Prompt' },
+    { id: 'prompt', label: 'Essay Prompt', title: 'GED® RLA Essay Prompt' },
     {
       id: 'passage1',
       label: 'Passage A',
