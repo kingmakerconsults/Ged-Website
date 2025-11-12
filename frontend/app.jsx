@@ -18364,7 +18364,7 @@ const AppData = {
               title: 'The Case for Year-Round Schooling',
               genre: 'Persuasive Essay',
               text: [
-                "The traditional ten-month school calendar, with its long summer break, is an outdated relic of an agrarian past that no longer serves the needs of modern students. It is time for a fundamental shift to a year-round schooling model. A balanced calendar, with shorter, more frequent breaks distributed throughout the year, offers a powerful solution to combat the well-documented 'summer slide'��the significant learning loss that occurs over the long summer vacation. This loss is particularly detrimental to students from low-income families, who often lack access to enriching summer activities, thus widening the achievement gap.",
+                "The traditional ten-month school calendar, with its long summer break, is an outdated relic of an agrarian past that no longer serves the needs of modern students. It is time for a fundamental shift to a year-round schooling model. A balanced calendar, with shorter, more frequent breaks distributed throughout the year, offers a powerful solution to combat the well-documented 'summer slide'—the significant learning loss that occurs over the long summer vacation. This loss is particularly detrimental to students from low-income families, who often lack access to enriching summer activities, thus widening the achievement gap.",
                 "Opponents of year-round schooling often raise concerns about disrupting family traditions and the summer tourism industry. While these are valid considerations, they pale in comparison to the profound educational benefits. Shorter breaks mean that teachers spend less time re-teaching old material in the fall, allowing them to cover more ground and delve deeper into complex topics. Furthermore, a balanced calendar can reduce teacher and student burnout by providing more frequent opportunities for rest and rejuvenation. The argument that 'kids need a break' misunderstands the nature of modern learning; the goal is not to eliminate breaks, but to distribute them more effectively to create a continuous and more engaging learning environment.",
                 "Ultimately, the transition to year-round schooling is not merely a logistical change; it is an investment in our children's future. It is a commitment to closing the achievement gap, improving academic retention, and creating a more efficient and effective educational system. Clinging to a calendar designed for a bygone era is a disservice to our students. We must have the courage to embrace a model that is better suited to the demands of the 21st century.",
               ],
@@ -20686,6 +20686,28 @@ function normalizeQuestionAssets(question, subjectName) {
   if (question.useGeometryTool) question.useGeometryTool = true;
   if (question.useGraphTool) question.useGraphTool = true;
   return question;
+}
+
+// Helper functions to safely handle both string and object answerOptions formats
+function getOptionText(opt) {
+  if (typeof opt === 'string') return opt;
+  if (opt && typeof opt === 'object' && typeof opt.text === 'string')
+    return opt.text;
+  return '';
+}
+
+function getOptionIsCorrect(opt) {
+  if (typeof opt === 'string') return false;
+  if (opt && typeof opt === 'object') return opt.isCorrect || false;
+  return false;
+}
+
+function findCorrectOption(answerOptions) {
+  if (!Array.isArray(answerOptions)) return null;
+  const correctOpt = answerOptions.find((opt) => getOptionIsCorrect(opt));
+  return correctOpt
+    ? { text: getOptionText(correctOpt), raw: correctOpt }
+    : null;
 }
 
 function generateSubjectQuestion(subject, baseIndex = 1, template = {}) {
@@ -26200,10 +26222,8 @@ function App({ externalTheme, onThemeChange }) {
             correct =
               !!user && !!key && (user === key || isNumericEqual(user, key));
           } else {
-            const correctOption = (q.answerOptions || []).find(
-              (opt) => opt.isCorrect
-            );
-            correct = !!correctOption && userAns === correctOption.text;
+            const correctOpt = findCorrectOption(q.answerOptions);
+            correct = !!correctOpt && userAns === correctOpt.text;
           }
           const tags = Array.isArray(q.challenge_tags) ? q.challenge_tags : [];
           return { correct, challenge_tags: tags };
@@ -32480,7 +32500,6 @@ function StartScreen({
                   >
                     {displayedChallenges.map((challenge) => (
                       <li key={challenge.id}>
-                        �{' '}
                         {challenge.label ||
                           `${challenge.subject} – ${challenge.subtopic}`}
                       </li>
@@ -33630,8 +33649,13 @@ function QuizInterface({
           ) : (
             <div className="space-y-3">
               {(currentQ.answerOptions || []).map((opt, i) => {
-                const cleanedOptionText = opt.text.trim().replace(/^\$\$/, '$');
-                const isSelected = answers[currentIndex] === opt.text;
+                // Handle both string and object formats for answerOptions
+                const optText = typeof opt === 'string' ? opt : opt?.text || '';
+                const cleanedOptionText =
+                  typeof optText === 'string'
+                    ? optText.trim().replace(/^\$\$/, '$')
+                    : '';
+                const isSelected = answers[currentIndex] === optText;
                 const optionStyles = {};
                 if (isSelected) {
                   optionStyles.backgroundColor = scheme.optionSelectedBg;
@@ -33651,7 +33675,7 @@ function QuizInterface({
                 return (
                   <button
                     key={i}
-                    onClick={() => handleSelect(opt.text)}
+                    onClick={() => handleSelect(optText)}
                     className={optionClassNames.join(' ')}
                     style={optionStyles}
                   >
@@ -34104,8 +34128,8 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
         q.answerOptions.length === 0 ||
         q.type === 'fill-in-the-blank';
       if (!isFillIn) {
-        const correctOption = q.answerOptions.find((opt) => opt.isCorrect);
-        if (correctOption && finalAnswers[i] === correctOption.text) {
+        const correctOpt = findCorrectOption(q.answerOptions);
+        if (correctOpt && finalAnswers[i] === correctOpt.text) {
           score++;
         }
       } else {
@@ -34404,26 +34428,20 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     ];
 
     const part1Correct = part1Questions.reduce((count, question, index) => {
-      const correctOption = (question.answerOptions || []).find(
-        (opt) => opt.isCorrect
-      );
+      const correctOpt = findCorrectOption(question.answerOptions);
       return (
         count +
-        (correctOption &&
-        correctOption.text === (part1Data.answers?.[index] ?? null)
+        (correctOpt && correctOpt.text === (part1Data.answers?.[index] ?? null)
           ? 1
           : 0)
       );
     }, 0);
 
     const part3Correct = part3Questions.reduce((count, question, index) => {
-      const correctOption = (question.answerOptions || []).find(
-        (opt) => opt.isCorrect
-      );
+      const correctOpt = findCorrectOption(question.answerOptions);
       return (
         count +
-        (correctOption &&
-        correctOption.text === (part3Data.answers?.[index] ?? null)
+        (correctOpt && correctOpt.text === (part3Data.answers?.[index] ?? null)
           ? 1
           : 0)
       );
@@ -35004,14 +35022,12 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               : [];
             const userAnswer =
               rawAnswers[index] !== undefined ? rawAnswers[index] : null;
-            const correctMC = (question.answerOptions || []).find(
-              (opt) => opt.isCorrect
-            );
+            const correctOpt = findCorrectOption(question.answerOptions);
             // Use unified comparison logic for results display
             let isCorrect;
-            if (correctMC) {
+            if (correctOpt) {
               // Multiple choice - use compareAnswers with subject context
-              isCorrect = compareAnswers(correctMC.text, userAnswer, {
+              isCorrect = compareAnswers(correctOpt.text, userAnswer, {
                 subject: quiz.subject,
                 questionType: question.type,
               });
@@ -35118,13 +35134,14 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                   )}
                 </p>
                 {!isCorrect &&
-                  ((correctMC && correctMC.text) || question.correctAnswer) && (
+                  ((correctOpt && correctOpt.text) ||
+                    question.correctAnswer) && (
                     <p className="text-green-700 question-stem">
                       Correct answer:{' '}
                       <span
                         className="question-stem"
                         dangerouslySetInnerHTML={renderQuestionTextForDisplay(
-                          (correctMC && correctMC.text) ||
+                          (correctOpt && correctOpt.text) ||
                             question.correctAnswer,
                           question.isPremade === true,
                           question
@@ -35132,13 +35149,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       />
                     </p>
                   )}
-                {correctMC && correctMC.rationale && (
+                {correctOpt && correctOpt.raw && correctOpt.raw.rationale && (
                   <div className="explanation">
                     <span className="font-semibold">Rationale:</span>{' '}
                     <span
                       className="question-stem"
                       dangerouslySetInnerHTML={renderQuestionTextForDisplay(
-                        correctMC.rationale,
+                        correctOpt.raw.rationale,
                         question.isPremade === true,
                         question
                       )}
@@ -35190,10 +35207,8 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
     setIsSubmitted(true);
     let score = 0;
     quiz.questions.forEach((q, i) => {
-      const correctOption = (q.answerOptions || []).find(
-        (opt) => opt.isCorrect
-      );
-      if (correctOption && answers[i] === correctOption.text) {
+      const correctOpt = findCorrectOption(q.answerOptions);
+      if (correctOpt && answers[i] === correctOpt.text) {
         score++;
       }
     });
@@ -35260,121 +35275,128 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
           Questions
         </h3>
         <div className="space-y-6">
-          {quiz.questions.map((q, i) => (
-            <div
-              key={i}
-              className={`question-container p-4 rounded-lg transition-colors ${
-                isSubmitted
-                  ? answers[i] ===
-                    (q.answerOptions || []).find((o) => o.isCorrect)?.text
-                    ? 'bg-green-50'
-                    : 'bg-red-50'
-                  : 'bg-slate-50'
-              }`}
-            >
-              {(() => {
-                const rawImg =
-                  !(q.stimulusImage && q.stimulusImage.src) && q.imageUrl
-                    ? q.imageUrl
-                    : null;
-                const imgSrc = resolveAssetUrl(rawImg);
-                return imgSrc ? (
-                  <img
-                    src={imgSrc}
-                    alt={`Visual for question ${i + 1}`}
-                    className="my-2 rounded-md border max-w-xs h-auto"
-                    onError={(e) => {
-                      if (e.target.dataset.fallbackApplied) {
-                        e.target.style.display = 'none';
-                        return;
-                      }
-                      e.target.dataset.fallbackApplied = '1';
-                      const src = e.target.getAttribute('src') || '';
-                      // if we failed on Netlify, try current origin with the original normalized path
-                      const origin =
-                        (typeof window !== 'undefined' &&
-                          window.location &&
-                          window.location.origin) ||
-                        '';
-                      // rebuild a /frontend/Images/... from the current src
-                      const idx = src.indexOf('/Images/');
-                      if (idx !== -1) {
-                        const rel = src
-                          .substring(idx)
-                          .replace('/Images/', '/frontend/Images/');
-                        e.target.src = origin + rel;
-                      } else {
-                        e.target.style.display = 'none';
-                      }
-                    }}
-                  />
-                ) : null;
-              })()}
-              {GEOMETRY_FIGURES_ENABLED && q.geometrySpec && (
-                <div className="my-3 max-w-md">
-                  <GeometryFigure
-                    spec={q.geometrySpec}
-                    className="w-full h-auto"
+          {quiz.questions.map((q, i) => {
+            const correctOpt = findCorrectOption(q.answerOptions);
+            return (
+              <div
+                key={i}
+                className={`question-container p-4 rounded-lg transition-colors ${
+                  isSubmitted
+                    ? answers[i] === correctOpt?.text
+                      ? 'bg-green-50'
+                      : 'bg-red-50'
+                    : 'bg-slate-50'
+                }`}
+              >
+                {(() => {
+                  const rawImg =
+                    !(q.stimulusImage && q.stimulusImage.src) && q.imageUrl
+                      ? q.imageUrl
+                      : null;
+                  const imgSrc = resolveAssetUrl(rawImg);
+                  return imgSrc ? (
+                    <img
+                      src={imgSrc}
+                      alt={`Visual for question ${i + 1}`}
+                      className="my-2 rounded-md border max-w-xs h-auto"
+                      onError={(e) => {
+                        if (e.target.dataset.fallbackApplied) {
+                          e.target.style.display = 'none';
+                          return;
+                        }
+                        e.target.dataset.fallbackApplied = '1';
+                        const src = e.target.getAttribute('src') || '';
+                        // if we failed on Netlify, try current origin with the original normalized path
+                        const origin =
+                          (typeof window !== 'undefined' &&
+                            window.location &&
+                            window.location.origin) ||
+                          '';
+                        // rebuild a /frontend/Images/... from the current src
+                        const idx = src.indexOf('/Images/');
+                        if (idx !== -1) {
+                          const rel = src
+                            .substring(idx)
+                            .replace('/Images/', '/frontend/Images/');
+                          e.target.src = origin + rel;
+                        } else {
+                          e.target.style.display = 'none';
+                        }
+                      }}
+                    />
+                  ) : null;
+                })()}
+                {GEOMETRY_FIGURES_ENABLED && q.geometrySpec && (
+                  <div className="my-3 max-w-md">
+                    <GeometryFigure
+                      spec={q.geometrySpec}
+                      className="w-full h-auto"
+                    />
+                  </div>
+                )}
+                <div className="mb-2 flex items-start gap-3">
+                  <span className="font-semibold question-stem leading-relaxed">
+                    {i + 1}.
+                  </span>
+                  <Stem
+                    item={{ ...q, questionNumber: q.questionNumber ?? i + 1 }}
                   />
                 </div>
-              )}
-              <div className="mb-2 flex items-start gap-3">
-                <span className="font-semibold question-stem leading-relaxed">
-                  {i + 1}.
-                </span>
-                <Stem
-                  item={{ ...q, questionNumber: q.questionNumber ?? i + 1 }}
-                />
-              </div>
-              <div className="mt-2 space-y-1">
-                {(q.answerOptions || []).map((opt, j) => {
-                  const isSelectedOption = answers[i] === opt.text;
-                  const optionClasses = [
-                    'answer-option flex items-center p-2 rounded cursor-pointer',
-                    isSelectedOption ? 'bg-slate-200' : 'hover:bg-slate-100',
-                    isSubmitted && opt.isCorrect ? 'correct' : '',
-                    isSubmitted && isSelectedOption && !opt.isCorrect
-                      ? 'incorrect'
-                      : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ');
-                  return (
-                    <label key={j} className={optionClasses}>
-                      <input
-                        type="radio"
-                        name={`q${i}`}
-                        value={opt.text}
-                        onChange={() => handleAnswer(i, opt.text)}
-                        disabled={isSubmitted}
-                        className="mr-2"
-                      />
-                      <span
-                        className={`${
-                          isSubmitted && opt.isCorrect
-                            ? 'font-bold text-green-700'
-                            : ''
-                        } ${
-                          isSubmitted && isSelectedOption && !opt.isCorrect
-                            ? 'line-through text-red-700'
-                            : ''
-                        } question-stem`}
-                      >
-                        <span
-                          className="question-stem"
-                          dangerouslySetInnerHTML={renderQuestionTextForDisplay(
-                            opt.text,
-                            q.isPremade === true,
-                            q
-                          )}
+                <div className="mt-2 space-y-1">
+                  {(q.answerOptions || []).map((opt, j) => {
+                    // Handle both string and object formats for answerOptions
+                    const optText =
+                      typeof opt === 'string' ? opt : opt?.text || '';
+                    const optIsCorrect =
+                      typeof opt === 'string' ? false : opt?.isCorrect || false;
+                    const isSelectedOption = answers[i] === optText;
+                    const optionClasses = [
+                      'answer-option flex items-center p-2 rounded cursor-pointer',
+                      isSelectedOption ? 'bg-slate-200' : 'hover:bg-slate-100',
+                      isSubmitted && optIsCorrect ? 'correct' : '',
+                      isSubmitted && isSelectedOption && !optIsCorrect
+                        ? 'incorrect'
+                        : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ');
+                    return (
+                      <label key={j} className={optionClasses}>
+                        <input
+                          type="radio"
+                          name={`q${i}`}
+                          value={optText}
+                          onChange={() => handleAnswer(i, optText)}
+                          disabled={isSubmitted}
+                          className="mr-2"
                         />
-                      </span>
-                    </label>
-                  );
-                })}
+                        <span
+                          className={`${
+                            isSubmitted && optIsCorrect
+                              ? 'font-bold text-green-700'
+                              : ''
+                          } ${
+                            isSubmitted && isSelectedOption && !optIsCorrect
+                              ? 'line-through text-red-700'
+                              : ''
+                          } question-stem`}
+                        >
+                          <span
+                            className="question-stem"
+                            dangerouslySetInnerHTML={renderQuestionTextForDisplay(
+                              optText,
+                              q.isPremade === true,
+                              q
+                            )}
+                          />
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         {!isSubmitted && (
           <button
