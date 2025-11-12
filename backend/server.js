@@ -411,8 +411,10 @@ async function loadUserWithRole(userId) {
             u.name,
             u.role,
             u.organization_id,
+            u.organization_join_code,
             u.picture_url,
-            o.name AS organization_name
+            o.name AS organization_name,
+            (o.access_code IS NOT NULL) AS organization_requires_code
          FROM users u
          LEFT JOIN organizations o ON o.id = u.organization_id
          WHERE u.id = $1`,
@@ -457,6 +459,8 @@ function buildUserResponse(row, fallbackPicture = null) {
     role: normalizeRole(row.role),
     organization_id: row.organization_id ?? null,
     organization_name: row.organization_name || null,
+    organization_join_code: row.organization_join_code || null,
+    organization_requires_code: row.organization_requires_code || false,
     picture: row.picture_url || fallbackPicture || null,
   };
 }
@@ -4798,6 +4802,115 @@ app.get(
       return res.status(500).json({
         ok: false,
         error: 'whoami_failed',
+        details: err?.message || String(err),
+      });
+    }
+  }
+);
+
+// Public endpoint to list all organizations for student join flow
+app.get('/api/organizations', async (req, res) => {
+  try {
+    const result = await db.query(`
+      SELECT 
+        id, 
+        name, 
+        (access_code IS NOT NULL) AS requires_code
+      FROM organizations
+      ORDER BY name
+    `);
+    
+    return res.json({
+      ok: true,
+      organizations: result.rows,
+    });
+  } catch (err) {
+    console.error('[/api/organizations] ERROR:', err);
+    return res.status(500).json({
+      ok: false,
+      error: 'Failed to load organizations',
+      details: err?.message || String(err),
+    });
+  }
+});
+
+// Student endpoint to join an organization with optional access code
+app.post(
+  '/api/student/select-organization',
+  devAuth,
+  ensureTestUserForNow,
+  requireAuthInProd,
+  authRequired,
+  async (req, res) => {
+    try {
+      const userId = req.user?.id || req.user?.userId;
+      if (!userId) {
+        return res.status(401).json({ ok: false, error: 'unauthorized' });
+      }
+
+      const { organization_id, access_code } = req.body;
+      
+      if (!organization_id) {
+        return res.status(400).json({
+          ok: false,
+          error: 'organization_id is required',
+        });
+      }
+
+      // Fetch the organization
+      const orgResult = await db.query(
+        'SELECT id, name, access_code FROM organizations WHERE id = $1',
+        [organization_id]
+      );
+
+      if (orgResult.rows.length === 0) {
+        return res.status(404).json({
+          ok: false,
+          error: 'Organization not found',
+        });
+      }
+
+      const org = orgResult.rows[0];
+
+      // Validate access code if organization requires one
+      if (org.access_code) {
+        if (!access_code) {
+          return res.status(400).json({
+            ok: false,
+            error: 'access_code_required',
+            message: 'This organization requires an access code',
+          });
+        }
+
+        if (access_code.trim() !== org.access_code) {
+          return res.status(403).json({
+            ok: false,
+            error: 'invalid_access_code',
+            message: 'The access code you entered is incorrect',
+          });
+        }
+      }
+
+      // Update user's organization
+      await db.query(
+        `UPDATE users 
+         SET organization_id = $1, organization_join_code = $2
+         WHERE id = $3`,
+        [organization_id, access_code || null, userId]
+      );
+
+      // Reload user with fresh organization data
+      const updatedUser = await loadUserWithRole(userId);
+
+      return res.json({
+        ok: true,
+        user: buildUserResponse(updatedUser),
+      });
+    } catch (err) {
+      console.error('[/api/student/select-organization] ERROR:', err);
+      return res.status(500).json({
+        ok: false,
+        error: 'Failed to join organization',
         details: err?.message || String(err),
       });
     }
