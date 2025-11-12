@@ -1,7 +1,11 @@
 // sim/lifetime.js
 // Time, age, and pacing engine for 40-50 year simulation
 
-export function initClock({ startAgeYears = 20, retirementTarget = 67, maxYears = 50 } = {}) {
+export function initClock({
+  startAgeYears = 20,
+  retirementTarget = 67,
+  maxYears = 50,
+} = {}) {
   return {
     birthYear: 2025 - startAgeYears,
     currentYear: 2025,
@@ -12,7 +16,7 @@ export function initClock({ startAgeYears = 20, retirementTarget = 67, maxYears 
     startAgeYears,
     monthsPassed: 0,
     autoAdvanceMs: 100, // milliseconds per month tick
-    paused: false
+    paused: false,
   };
 }
 

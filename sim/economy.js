@@ -14,10 +14,13 @@ export function computeGrossIncome(careerState, monthState, player) {
   // Handle unemployment with benefits
   if (player && player.unemployed) {
     const lastWage = careerState.currentBasePay || 0;
-    const monthlyWage = careerState.type === 'salary' ? lastWage / 12 : lastWage * careerState.hours_per_week * 4.33;
+    const monthlyWage =
+      careerState.type === 'salary'
+        ? lastWage / 12
+        : lastWage * careerState.hours_per_week * 4.33;
     return monthlyWage * (player.unemploymentBenefit || 0.45);
   }
-  
+
   if (careerState.type === 'salary') {
     return careerState.currentBasePay / 12;
   } else {
@@ -97,16 +100,17 @@ export function applyMonthlyRaises(careerState, perfScore, ageYears) {
   if (ageYears >= 55) {
     meritMultiplier = 0.5; // Half the merit raises
   }
-  
+
   // COLA
   let cola = careerState.raise.cola / 12;
   // Merit
   let merit =
     ((careerState.raise.merit[0] + careerState.raise.merit[1]) / 2 / 12) *
-    perfScore * meritMultiplier;
+    perfScore *
+    meritMultiplier;
   careerState.currentBasePay *= 1 + cola + merit;
   careerState.monthsInRole++;
-  
+
   // Promotion (not available after 55)
   let promoted = false;
   if (
@@ -127,33 +131,39 @@ export function calcMonthlyFromAnnualProb(a) {
   return 1 - Math.pow(1 - a, 1 / 12);
 }
 
-export function advanceInvestmentsOneMonth(player, retirementConfig, isEmployed) {
+export function advanceInvestmentsOneMonth(
+  player,
+  retirementConfig,
+  isEmployed
+) {
   if (!player.investments) player.investments = 0;
-  
+
   // Monthly contribution if employed
   let contribution = 0;
   if (isEmployed && player.investmentContribution) {
     contribution = player.investmentContribution;
     player.cash -= contribution;
-    
+
     // Employer match (3% of gross wage)
-    const employerMatch = contribution * retirementConfig.investment.employer_match;
+    const employerMatch =
+      contribution * retirementConfig.investment.employer_match;
     contribution += employerMatch;
   }
-  
+
   player.investments += contribution;
-  
+
   // Monthly return with volatility (simple Monte Carlo)
   const annualReturn = retirementConfig.investment.mean_return;
   const annualVolatility = retirementConfig.investment.volatility;
-  
+
   const monthlyReturn = annualReturn / 12;
   const monthlyVolatility = annualVolatility / Math.sqrt(12);
-  
+
   // Generate random return
-  const randomReturn = monthlyReturn + monthlyVolatility * (Math.random() - 0.5) * 2;
-  player.investments *= (1 + randomReturn);
-  
+  const randomReturn =
+    monthlyReturn + monthlyVolatility * (Math.random() - 0.5) * 2;
+  player.investments *= 1 + randomReturn;
+
   return contribution;
 }
 
