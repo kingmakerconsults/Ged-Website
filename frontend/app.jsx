@@ -23744,7 +23744,12 @@ function JoinOrganizationModal({ onJoin, authToken }) {
     // Fetch organizations on mount
     async function fetchOrganizations() {
       try {
-        const response = await fetch('/api/organizations');
+        const response = await fetch(`${API_BASE_URL}/api/organizations`);
+        // Guard against HTML responses from proxies/static hosts
+        const contentType = response.headers.get('content-type') || '';
+        if (!contentType.includes('application/json')) {
+          throw new Error('Server returned non-JSON response');
+        }
         const data = await response.json();
         if (data.ok && Array.isArray(data.organizations)) {
           setOrganizations(data.organizations);
@@ -23781,18 +23786,26 @@ function JoinOrganizationModal({ onJoin, authToken }) {
     setError('');
 
     try {
-      const response = await fetch('/api/student/select-organization', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`,
-        },
-        body: JSON.stringify({
-          organization_id: Number(selectedOrgId),
-          access_code: accessCode.trim() || undefined,
-        }),
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/api/student/select-organization`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify({
+            organization_id: Number(selectedOrgId),
+            access_code: accessCode.trim() || undefined,
+          }),
+        }
+      );
 
+      // Guard against HTML responses from proxies/static hosts
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error('Server returned non-JSON response');
+      }
       const data = await response.json();
 
       if (!response.ok) {
