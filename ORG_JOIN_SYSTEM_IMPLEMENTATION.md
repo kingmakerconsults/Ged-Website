@@ -1,16 +1,20 @@
 # Organization Join System Implementation
 
 ## Overview
+
 Implemented a mandatory organization join system that requires students to select and join an organization before accessing the app. The system supports two organizations:
+
 1. **Commonpoint Bronx** - Public (no access code required)
 2. **Commonpoint Queens** - Protected (requires access code: `6709`)
 
 ## Database Changes
 
 ### Migration File
+
 **Location**: `backend/migrations/2025-11-12-organization-join-system.sql`
 
 **Changes**:
+
 1. Inserts two organizations into the database
 2. Adds `organization_join_code` column to `users` table to store the code used when joining
 3. Cleans up any default organization assignments (sets NULL for non-admin users)
@@ -30,27 +34,35 @@ UPDATE users SET organization_id = NULL, organization_join_code = NULL WHERE rol
 ## Backend Changes
 
 ### Modified Files
+
 **File**: `backend/server.js`
 
 #### 1. Updated `loadUserWithRole` function (line ~405-420)
+
 Added `organization_join_code` and a computed `organization_requires_code` flag to the SELECT query:
+
 ```javascript
 u.organization_join_code,
 (o.access_code IS NOT NULL) AS organization_requires_code
 ```
 
 #### 2. Updated `buildUserResponse` function (line ~445-461)
+
 Added new fields to the user response object:
+
 ```javascript
 organization_join_code: row.organization_join_code || null,
 organization_requires_code: row.organization_requires_code || false,
 ```
 
 #### 3. Added Public Organizations Endpoint
+
 **Endpoint**: `GET /api/organizations`
+
 - **Authentication**: None (public)
 - **Purpose**: Returns list of all organizations for student selection
 - **Response**:
+
 ```json
 {
   "ok": true,
@@ -70,21 +82,26 @@ organization_requires_code: row.organization_requires_code || false,
 ```
 
 #### 4. Added Student Join Organization Endpoint
+
 **Endpoint**: `POST /api/student/select-organization`
+
 - **Authentication**: Required (JWT token)
 - **Purpose**: Allows students to join an organization with optional access code
 - **Request Body**:
+
 ```json
 {
   "organization_id": 2,
   "access_code": "6709"
 }
 ```
+
 - **Validation**:
   - Checks if organization exists
   - Verifies access code if organization requires one
   - Returns appropriate error messages for invalid codes
 - **Response**:
+
 ```json
 {
   "ok": true,
@@ -104,10 +121,13 @@ organization_requires_code: row.organization_requires_code || false,
 ## Frontend Changes
 
 ### Modified Files
+
 **File**: `frontend/app.jsx`
 
 #### 1. Added `JoinOrganizationModal` Component (line ~23735)
+
 Modal component that:
+
 - Fetches available organizations on mount
 - Displays a dropdown to select organization
 - Shows access code input field when required
@@ -115,24 +135,32 @@ Modal component that:
 - Handles errors (invalid code, missing code, etc.)
 
 **Props**:
+
 - `onJoin(updatedUser)` - Callback when join succeeds
 - `authToken` - JWT token for API authentication
 
 #### 2. Added State Management
+
 **New state variable**: `showJoinOrgModal` (line ~24248)
 
 #### 3. Updated User Load Logic (line ~25918)
+
 Modified the `useEffect` that loads stored user to check for `organization_id`:
+
 - If student has no `organization_id`, show join modal and block access
 - If student has `organization_id`, proceed with name prompt and quiz loading
 
 #### 4. Updated `handleLogin` Function (line ~26026)
+
 Added organization check after login:
+
 - If student has no `organization_id`, show join modal
 - Otherwise proceed with normal onboarding flow
 
 #### 5. Added `handleJoinOrganization` Handler (line ~26106)
+
 Handler that:
+
 - Updates `currentUser` with the fresh user data from backend
 - Persists updated user to localStorage
 - Closes the join modal
@@ -140,24 +168,29 @@ Handler that:
 - Loads quiz attempts
 
 #### 6. Updated `handleLogout` Function (line ~26130)
+
 Added `setShowJoinOrgModal(false)` to reset state on logout
 
 #### 7. Updated Render Output (line ~26999)
+
 - Added modal to JSX with conditional rendering
 - Added `aria-hidden` attribute to main content when modal is visible
 
 ```jsx
-{showJoinOrgModal && (
-  <JoinOrganizationModal
-    onJoin={handleJoinOrganization}
-    authToken={authToken}
-  />
-)}
+{
+  showJoinOrgModal && (
+    <JoinOrganizationModal
+      onJoin={handleJoinOrganization}
+      authToken={authToken}
+    />
+  );
+}
 ```
 
 ## User Flow
 
 ### New Student Registration or Login
+
 1. User authenticates (Google OAuth or email/password)
 2. System checks if `organization_id` is NULL
 3. If NULL, show `JoinOrganizationModal` (blocking modal)
@@ -172,11 +205,13 @@ Added `setShowJoinOrgModal(false)` to reset state on logout
 10. Modal closes and user proceeds to name setup or dashboard
 
 ### Existing Student Login
+
 1. User authenticates
 2. System checks if `organization_id` is present
 3. If present, skip join modal and proceed to dashboard
 
 ### Super Admin / Org Admin
+
 - Join modal never shows (checked by role)
 - Super Admin explicitly has `organization_id = NULL` in database
 

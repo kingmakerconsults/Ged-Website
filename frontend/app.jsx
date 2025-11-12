@@ -23761,7 +23761,9 @@ function JoinOrganizationModal({ onJoin, authToken }) {
     fetchOrganizations();
   }, []);
 
-  const selectedOrg = organizations.find((org) => org.id === Number(selectedOrgId));
+  const selectedOrg = organizations.find(
+    (org) => org.id === Number(selectedOrgId)
+  );
   const requiresCode = selectedOrg?.requires_code || false;
 
   const handleJoin = async () => {
@@ -23840,11 +23842,15 @@ function JoinOrganizationModal({ onJoin, authToken }) {
           Welcome! Join Your Organization
         </h2>
         <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
-          To use this app, you need to join an organization. Please select one below.
+          To use this app, you need to join an organization. Please select one
+          below.
         </p>
 
         {fetchingOrgs ? (
-          <div className="text-center py-4" style={{ color: 'var(--text-secondary)' }}>
+          <div
+            className="text-center py-4"
+            style={{ color: 'var(--text-secondary)' }}
+          >
             Loading organizations...
           </div>
         ) : (
@@ -26037,7 +26043,9 @@ function App({ externalTheme, onThemeChange }) {
         setShowNamePrompt(false);
       } else {
         setShowJoinOrgModal(false);
-        const customNameSet = localStorage.getItem(`customNameSet_${profile.id}`);
+        const customNameSet = localStorage.getItem(
+          `customNameSet_${profile.id}`
+        );
         if (!customNameSet) {
           setShowNamePrompt(true);
         }
@@ -26108,15 +26116,18 @@ function App({ externalTheme, onThemeChange }) {
       } catch (error) {
         console.warn('Unable to persist updated user locally:', error);
       }
-      
+
       currentUserRef.current = profile;
       setCurrentUser(profile);
       setShowJoinOrgModal(false);
 
       // Now check if we need to show name prompt
-      const isStudent = profile.role !== 'super_admin' && profile.role !== 'org_admin';
+      const isStudent =
+        profile.role !== 'super_admin' && profile.role !== 'org_admin';
       if (isStudent) {
-        const customNameSet = localStorage.getItem(`customNameSet_${profile.id}`);
+        const customNameSet = localStorage.getItem(
+          `customNameSet_${profile.id}`
+        );
         if (!customNameSet) {
           setShowNamePrompt(true);
         }
