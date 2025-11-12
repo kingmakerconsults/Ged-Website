@@ -1111,49 +1111,6 @@ const resolveSubjectParam = (subject) => {
   return SUBJECT_PARAM_MAP[subject] || subject;
 };
 
-// Helper: Normalize subject labels from various API formats to canonical app subject names
-function normalizeSubjectLabel(s) {
-  if (!s) return null;
-  const x = String(s).toLowerCase();
-  if (x.includes('social')) return 'Social Studies';
-  if (x.includes('rla') || x.includes('language'))
-    return 'Reasoning Through Language Arts (RLA)';
-  if (x.includes('sci')) return 'Science';
-  if (x.includes('math')) return 'Math';
-  return null;
-}
-
-// Helper: Return first non-empty string from arguments
-function firstNonEmpty(...vals) {
-  for (const v of vals) {
-    if (typeof v === 'string' && v.trim()) return v.trim();
-  }
-  return null;
-}
-
-// Helper: Build a map of today's tasks by subject from weekly coach data
-function buildTodayTaskMap(weekly) {
-  const out = {};
-  if (!weekly) return out;
-
-  const days = weekly.days || weekly.plan?.days || weekly.week?.days || [];
-  if (!Array.isArray(days) || !days.length) return out;
-
-  const todayIso = new Date().toISOString().slice(0, 10);
-  const pick = days.find((d) => d.date === todayIso) || days[0];
-
-  const tasks = pick?.tasks || pick?.items || [];
-  tasks.forEach((t) => {
-    const subject = normalizeSubjectLabel(t.subject || t.area || t.category);
-    if (!subject) return;
-    const topic = firstNonEmpty(t.topic, t.focus, t.tag, t.title, t.skill);
-    const action = t.action || t.activity || null;
-    out[subject] = { topic, action, raw: t };
-  });
-
-  return out;
-}
-
 function applySafeMathFix(text) {
   if (typeof text !== 'string') {
     return text;
@@ -29659,8 +29616,6 @@ function StartScreen({
   const [coachDailySubjects, setCoachDailySubjects] = useState([]);
   // weekly coach summary for dashboard
   const [weeklyCoachSummary, setWeeklyCoachSummary] = useState([]);
-  // Today's task map for each subject tile on dashboard
-  const [todayTasksBySubject, setTodayTasksBySubject] = useState({});
   const [generatingAll, setGeneratingAll] = useState(false);
   // Vocabulary collapsible
   const [vocabOpen, setVocabOpen] = useState(true);
@@ -29844,9 +29799,6 @@ function StartScreen({
       const normalized = adaptWeeklyCoachResponse(data);
       setWeeklyCoachPlan(normalized);
       setWeeklyCoachSummary(Array.isArray(data?.subjects) ? data.subjects : []);
-      // Build today's task map for dashboard tiles
-      const taskMap = buildTodayTaskMap(normalized);
-      setTodayTasksBySubject(taskMap);
     } catch (e) {
       setCoachError('Unable to load weekly coach plan.');
       setWeeklyCoachPlan(
@@ -30321,55 +30273,6 @@ function StartScreen({
       setIsLoading(false);
     }
   };
-
-  // Universal handler to start today's daily task for any subject tile
-  const startDailyTask = useCallback(
-    async (subject) => {
-      const task = todayTasksBySubject?.[subject];
-      if (!task) {
-        alert('No daily task found for this subject today.');
-        return;
-      }
-
-      try {
-        setIsLoading(true);
-        setLoadingMessage(`Loading your daily task for ${subject}…`);
-
-        // Prefer an explicit quiz code if present
-        const raw = task.raw || {};
-        const quizCode = raw.quizCode || raw.quiz_code || null;
-        const topic = task.topic || null;
-
-        // If Weekly Coach gave us a premade quiz code -> use the premade/composite route
-        if (quizCode) {
-          // Try using the global helper if available, or fall back to startQuiz
-          if (
-            typeof window !== 'undefined' &&
-            window.__GED_START_QUIZ_BY_CODE__
-          ) {
-            return window.__GED_START_QUIZ_BY_CODE__(subject, quizCode);
-          }
-          return startQuiz({ mode: 'premade', subject, quizCode });
-        }
-
-        // Otherwise: topic-based generation (works great for Math/SS/RLA/Science)
-        if (topic) {
-          const subjectParam = resolveSubjectParam(subject);
-          const items = await generateTopicQuiz(subjectParam, topic, 'mixed');
-          return startQuiz({ mode: 'topic', subject, topic, items });
-        }
-
-        // Final fallback – regular subject practice
-        return startQuiz({ mode: 'subject', subject });
-      } catch (e) {
-        alert('Unable to start daily task right now.');
-        console.error('startDailyTask error:', e);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [todayTasksBySubject]
-  );
 
   // Ask Coach (subject) temporarily disabled; keep stub so callers won't break
   const startDailyCompositeForSubject = async (subject, focusTag) => {
@@ -32762,10 +32665,6 @@ function StartScreen({
                     ? 'science'
                     : 'social';
 
-                // Get today's task for this subject from the task map
-                const todayTask = todayTasksBySubject?.[subjectName];
-                const dailyTaskTopic = todayTask?.topic || null;
-
                 return (
                   <button
                     key={subjectName}
@@ -32777,12 +32676,7 @@ function StartScreen({
                         );
                         return;
                       }
-                      // If there's a daily task, start it; otherwise open premades
-                      if (dailyTaskTopic) {
-                        startDailyTask(subjectName);
-                      } else {
-                        openSubjectPremades(subjectName);
-                      }
+                      openSubjectPremades(subjectName);
                     }}
                     className="subject-card group flex flex-col items-center justify-between gap-4 p-6 rounded-2xl border shadow-lg transition-all duration-300 subject-choice"
                     data-testid={`subject-button-${subjectName
@@ -32800,25 +32694,6 @@ function StartScreen({
                           }
                     }
                   >
-                    {/* Daily Task Chip at top */}
-                    {dailyTaskTopic ? (
-                      <div
-                        className="daily-task-chip gold-chip self-start"
-                        title="Today's Coach Task"
-                      >
-                        <span className="chip-label">Daily Task</span>
-                        <span className="chip-topic">{dailyTaskTopic}</span>
-                      </div>
-                    ) : window.__COACH_ENABLED__ ? (
-                      <div
-                        className="daily-task-chip muted-chip self-start"
-                        title="No task scheduled today"
-                      >
-                        <span className="chip-label">Daily Task</span>
-                        <span className="chip-topic">Not scheduled</span>
-                      </div>
-                    ) : null}
-
                     <div
                       className="w-full rounded-xl py-6 flex items-center justify-center shadow-inner"
                       style={
