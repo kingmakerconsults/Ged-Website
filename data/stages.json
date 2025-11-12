@@ -1,0 +1,530 @@
+{
+  "stages": [
+    {
+      "id": "stage_1_start",
+      "title": "Who You Are",
+      "age_min": null,
+      "age_max": null,
+      "once": true,
+      "requires": [],
+      "questions": [
+        {
+          "id": "q_personality",
+          "prompt": "Take the personality test to set your tendencies.",
+          "type": "personality",
+          "choices": []
+        },
+        {
+          "id": "q_path",
+          "prompt": "Pick your early path:",
+          "choices": [
+            {
+              "label": "Skilled Trade (HVAC Apprentice)",
+              "requires": [],
+              "effects": {
+                "set_flag": ["path_trade"],
+                "loan_add": 0,
+                "happiness": 4,
+                "stress": -2,
+                "career_set": "hvac_apprentice"
+              }
+            },
+            {
+              "label": "College (AA/BA start)",
+              "requires": [],
+              "effects": {
+                "set_flag": ["path_college"],
+                "loan_add": 8000,
+                "happiness": 6,
+                "stress": 3,
+                "career_set": "student_pt"
+              }
+            },
+            {
+              "label": "Gap / Work Now (Retail)",
+              "requires": [],
+              "effects": {
+                "set_flag": ["path_gap"],
+                "loan_add": 0,
+                "happiness": 3,
+                "stress": 0,
+                "career_set": "retail_associate"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage_2_early_career",
+      "title": "Early Career & Commute",
+      "age_min": 22,
+      "age_max": 30,
+      "once": true,
+      "requires": [],
+      "questions": [
+        {
+          "id": "q_commute",
+          "prompt": "How will you get to work?",
+          "choices": [
+            {
+              "label": "Transit Pass ($80/mo)",
+              "requires": [],
+              "effects": {
+                "transport": "transit",
+                "monthly_cost_add": 80,
+                "happiness": 1,
+                "stress": 0
+              }
+            },
+            {
+              "label": "Used Car (loan + $200/mo gas/insurance)",
+              "requires": [],
+              "effects": {
+                "transport": "car",
+                "loan_add": 6000,
+                "monthly_cost_add": 200,
+                "happiness": 2,
+                "stress": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q_side",
+          "prompt": "Add a side gig (5-10 hrs/wk)?",
+          "choices": [
+            {
+              "label": "No thanks, focus on balance",
+              "requires": [],
+              "effects": {
+                "set_flag": ["no_side"],
+                "happiness": 1,
+                "stress": -1
+              }
+            },
+            {
+              "label": "Yes, earn extra $150/mo",
+              "requires": [],
+              "effects": {
+                "set_flag": ["side_gig"],
+                "income_add_monthly": 150,
+                "happiness": 0,
+                "stress": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage_3_living",
+      "title": "Independence & Living",
+      "age_min": 25,
+      "age_max": 35,
+      "once": true,
+      "requires": [],
+      "questions": [
+        {
+          "id": "q_dwelling",
+          "prompt": "Choose your dwelling (rent starts now):",
+          "choices": [
+            {
+              "label": "Roommates (lowest rent)",
+              "requires": [],
+              "effects": {
+                "dwelling": "roommate",
+                "happiness": 3,
+                "stress": -1
+              }
+            },
+            {
+              "label": "Studio Apartment",
+              "requires": [],
+              "effects": {
+                "dwelling": "studio",
+                "happiness": 4,
+                "stress": 1
+              }
+            },
+            {
+              "label": "1BR Apartment",
+              "requires": [],
+              "effects": {
+                "dwelling": "1BR",
+                "happiness": 6,
+                "stress": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "q_lifestyle",
+          "prompt": "Lifestyle add-on:",
+          "choices": [
+            {
+              "label": "Adopt a Pet (+$50/mo)",
+              "requires": [],
+              "effects": {
+                "monthly_cost_add": 50,
+                "happiness": 3,
+                "set_flag": ["has_pet"]
+              }
+            },
+            {
+              "label": "Gym / Club Membership (+$35/mo)",
+              "requires": [],
+              "effects": {
+                "monthly_cost_add": 35,
+                "happiness": 2
+              }
+            },
+            {
+              "label": "Keep it simple",
+              "requires": [],
+              "effects": {
+                "happiness": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage_4_relationships",
+      "title": "Relationships & Family",
+      "age_min": 25,
+      "age_max": 40,
+      "once": true,
+      "requires": [],
+      "questions": [
+        {
+          "id": "q_partner",
+          "prompt": "Do you form a long-term partnership?",
+          "choices": [
+            {
+              "label": "Yes (share expenses, reduce rent by 25%)",
+              "requires": [],
+              "effects": {
+                "set_flag": ["partner"],
+                "shared_expenses_pct": 0.25,
+                "happiness": 5,
+                "stress": 1
+              }
+            },
+            {
+              "label": "No (stay independent)",
+              "requires": [],
+              "effects": {
+                "happiness": 0,
+                "stress": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q_children",
+          "prompt": "Kids now, later, or never?",
+          "choices": [
+            {
+              "label": "Yes, start family soon (+$700/mo childcare for 4 years)",
+              "requires": [],
+              "effects": {
+                "set_flag": ["wants_kids", "has_child"],
+                "childcare_months": 48,
+                "childcare_cost": 700,
+                "happiness": 7,
+                "stress": 4
+              }
+            },
+            {
+              "label": "Maybe later (defer decision)",
+              "requires": [],
+              "effects": {
+                "set_flag": ["maybe_kids"],
+                "happiness": 1,
+                "stress": 0
+              }
+            },
+            {
+              "label": "No kids planned",
+              "requires": [],
+              "effects": {
+                "set_flag": ["no_kids"],
+                "happiness": 0,
+                "stress": -1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage_5_career_growth",
+      "title": "Career Growth or Pivot",
+      "age_min": 30,
+      "age_max": 45,
+      "once": true,
+      "requires": [],
+      "questions": [
+        {
+          "id": "q_path",
+          "prompt": "What's next for your career?",
+          "choices": [
+            {
+              "label": "Pursue Promotion (training $600, higher salary track)",
+              "requires": [],
+              "effects": {
+                "promotion_push": true,
+                "training_cost": 600,
+                "happiness": 3,
+                "stress": 2
+              }
+            },
+            {
+              "label": "Switch Careers (retraining $3000)",
+              "requires": [],
+              "effects": {
+                "career_change": true,
+                "retraining_cost": 3000,
+                "happiness": 5,
+                "stress": 3
+              }
+            },
+            {
+              "label": "Steady Track (no changes)",
+              "requires": [],
+              "effects": {
+                "happiness": 1,
+                "stress": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q_hours",
+          "prompt": "Adjust work hours?",
+          "choices": [
+            {
+              "label": "Overtime (50-60 hrs/wk, +20% income)",
+              "requires": [],
+              "effects": {
+                "overwork": true,
+                "income_multiplier": 1.2,
+                "happiness": -2,
+                "stress": 5
+              }
+            },
+            {
+              "label": "Balanced (40 hrs/wk)",
+              "requires": [],
+              "effects": {
+                "happiness": 2,
+                "stress": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage_6_major_events",
+      "title": "Major Life Events",
+      "age_min": 40,
+      "age_max": 50,
+      "once": true,
+      "requires": [],
+      "questions": [
+        {
+          "id": "q_home",
+          "prompt": "Housing decision:",
+          "choices": [
+            {
+              "label": "Buy a Home (if qualified)",
+              "requires": [],
+              "effects": {
+                "home_attempt": true,
+                "happiness": 4,
+                "stress": 2
+              }
+            },
+            {
+              "label": "Refinance Mortgage (if own)",
+              "requires": ["owns_home"],
+              "effects": {
+                "refi_attempt": true,
+                "happiness": 1,
+                "stress": 0
+              }
+            },
+            {
+              "label": "Keep Renting",
+              "requires": [],
+              "effects": {
+                "happiness": 0,
+                "stress": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q_health",
+          "prompt": "Health & resilience:",
+          "choices": [
+            {
+              "label": "Preventive care plan (+$30/mo, reduce health risks)",
+              "requires": [],
+              "effects": {
+                "monthly_cost_add": 30,
+                "health_risk_down": true,
+                "happiness": 2
+              }
+            },
+            {
+              "label": "Skip for now",
+              "requires": [],
+              "effects": {
+                "happiness": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage_7_legacy",
+      "title": "Legacy & Planning",
+      "age_min": 50,
+      "age_max": 60,
+      "once": true,
+      "requires": [],
+      "questions": [
+        {
+          "id": "q_savings",
+          "prompt": "Increase retirement savings?",
+          "choices": [
+            {
+              "label": "Max 401(k) (12% of income)",
+              "requires": [],
+              "effects": {
+                "retire_contrib_pct": 0.12,
+                "happiness": 1,
+                "stress": 1
+              }
+            },
+            {
+              "label": "Moderate (6% of income)",
+              "requires": [],
+              "effects": {
+                "retire_contrib_pct": 0.06,
+                "happiness": 2,
+                "stress": 0
+              }
+            },
+            {
+              "label": "Minimal (3% of income)",
+              "requires": [],
+              "effects": {
+                "retire_contrib_pct": 0.03,
+                "happiness": 0,
+                "stress": -1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q_downsize",
+          "prompt": "Downsize housing?",
+          "choices": [
+            {
+              "label": "Yes, sell and move to smaller home",
+              "requires": ["owns_home"],
+              "effects": {
+                "downsize": true,
+                "happiness": -1,
+                "stress": -2
+              }
+            },
+            {
+              "label": "No, stay put",
+              "requires": [],
+              "effects": {
+                "happiness": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage_8_retirement",
+      "title": "Retirement & Reflection",
+      "age_min": 60,
+      "age_max": 75,
+      "once": true,
+      "requires": [],
+      "questions": [
+        {
+          "id": "q_retire",
+          "prompt": "When to retire?",
+          "choices": [
+            {
+              "label": "Age 62 (early retirement, reduced benefits)",
+              "requires": [],
+              "effects": {
+                "retire_age": 62,
+                "happiness": 3,
+                "stress": -2
+              }
+            },
+            {
+              "label": "Age 67 (full retirement)",
+              "requires": [],
+              "effects": {
+                "retire_age": 67,
+                "happiness": 2
+              }
+            },
+            {
+              "label": "Age 70 (delayed, higher benefits)",
+              "requires": [],
+              "effects": {
+                "retire_age": 70,
+                "happiness": 1,
+                "stress": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "q_use_time",
+          "prompt": "Retirement focus:",
+          "choices": [
+            {
+              "label": "Volunteer & mentor",
+              "requires": [],
+              "effects": {
+                "happiness": 4
+              }
+            },
+            {
+              "label": "Travel when possible (+$1500/year)",
+              "requires": [],
+              "effects": {
+                "annual_travel_cost": 1500,
+                "happiness": 5
+              }
+            },
+            {
+              "label": "Quiet life at home",
+              "requires": [],
+              "effects": {
+                "happiness": 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

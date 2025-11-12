@@ -376,16 +376,16 @@ const SUBJECT_COLORS = {
     mutedText: 'var(--math-muted-text)',
     onBackgroundText: 'var(--math-text)',
   },
-  Simulations: {
-    background: 'var(--subject-simulations-accent)',
-    text: 'var(--subject-simulations-surface-text)',
-    heroText: 'var(--subject-simulations-text)',
-    border: 'var(--subject-simulations-border)',
+  Workforce: {
+    background: 'var(--subject-workforce-accent)',
+    text: 'var(--subject-workforce-surface-text)',
+    heroText: 'var(--subject-workforce-text)',
+    border: 'var(--subject-workforce-border)',
     scoreBackground: 'var(--bg-overlay)',
-    scoreText: 'var(--subject-simulations-text)',
-    scoreBorder: 'var(--subject-simulations-border)',
-    accent: 'var(--subject-simulations-accent)',
-    accentText: 'var(--subject-simulations-accent-text)',
+    scoreText: 'var(--subject-workforce-text)',
+    scoreBorder: 'var(--subject-workforce-border)',
+    accent: 'var(--subject-workforce-accent)',
+    accentText: 'var(--subject-workforce-accent-text)',
   },
 };
 
@@ -394,7 +394,7 @@ const SUBJECT_BG_GRADIENTS = {
   Science: 'var(--subject-science-gradient)',
   'Social Studies': 'var(--subject-social-gradient)',
   'Reasoning Through Language Arts (RLA)': 'var(--subject-rla-gradient)',
-  Simulations: 'var(--subject-simulations-gradient)',
+  Workforce: 'var(--subject-workforce-gradient)',
 };
 
 const SUBJECT_LIGHT_SURFACE_GRADIENTS = {
@@ -405,8 +405,8 @@ const SUBJECT_LIGHT_SURFACE_GRADIENTS = {
     'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(22,163,74,0.12))',
   'Reasoning Through Language Arts (RLA)':
     'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(124,58,237,0.12))',
-  Simulations:
-    'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(249,115,22,0.12))',
+  Workforce:
+    'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(20,184,166,0.12))',
 };
 
 const SUBJECT_LIGHT_TINTS = {
@@ -414,7 +414,7 @@ const SUBJECT_LIGHT_TINTS = {
   Science: 'rgba(220,38,38,0.2)',
   'Social Studies': 'rgba(22,163,74,0.2)',
   'Reasoning Through Language Arts (RLA)': 'rgba(124,58,237,0.2)',
-  Simulations: 'rgba(249,115,22,0.2)',
+  Workforce: 'rgba(20,184,166,0.2)',
 };
 
 const SUBJECT_SHORT_LABELS = {
@@ -1110,6 +1110,49 @@ const resolveSubjectParam = (subject) => {
   }
   return SUBJECT_PARAM_MAP[subject] || subject;
 };
+
+// Helper: Normalize subject labels from various API formats to canonical app subject names
+function normalizeSubjectLabel(s) {
+  if (!s) return null;
+  const x = String(s).toLowerCase();
+  if (x.includes('social')) return 'Social Studies';
+  if (x.includes('rla') || x.includes('language'))
+    return 'Reasoning Through Language Arts (RLA)';
+  if (x.includes('sci')) return 'Science';
+  if (x.includes('math')) return 'Math';
+  return null;
+}
+
+// Helper: Return first non-empty string from arguments
+function firstNonEmpty(...vals) {
+  for (const v of vals) {
+    if (typeof v === 'string' && v.trim()) return v.trim();
+  }
+  return null;
+}
+
+// Helper: Build a map of today's tasks by subject from weekly coach data
+function buildTodayTaskMap(weekly) {
+  const out = {};
+  if (!weekly) return out;
+
+  const days = weekly.days || weekly.plan?.days || weekly.week?.days || [];
+  if (!Array.isArray(days) || !days.length) return out;
+
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const pick = days.find((d) => d.date === todayIso) || days[0];
+
+  const tasks = pick?.tasks || pick?.items || [];
+  tasks.forEach((t) => {
+    const subject = normalizeSubjectLabel(t.subject || t.area || t.category);
+    if (!subject) return;
+    const topic = firstNonEmpty(t.topic, t.focus, t.tag, t.title, t.skill);
+    const action = t.action || t.activity || null;
+    out[subject] = { topic, action, raw: t };
+  });
+
+  return out;
+}
 
 function applySafeMathFix(text) {
   if (typeof text !== 'string') {
@@ -20018,18 +20061,32 @@ const AppData = {
       },
     },
   },
-  Simulations: {
-    icon: 'BeakerIcon',
+  Workforce: {
+    icon: 'BriefcaseIcon',
     categories: {
-      'Interactive Labs': {
-        description: 'Engage with hands-on simulations to explore concepts.',
+      'Career Readiness': {
+        description:
+          'Explore workforce readiness tools, career prep, and skill-building modules',
         topics: [
           {
-            id: 'sim_life',
-            title: 'The Game of Life',
+            id: 'resume_builder',
+            title: 'Resume Builder',
             description:
-              'A cellular automaton devised by the British mathematician John Horton Conway in 1970.',
+              'Create and customize professional resumes for job applications.',
+            type: 'tool',
+          },
+          {
+            id: 'interview_prep',
+            title: 'Interview Simulations',
+            description: 'Practice common interview questions and scenarios.',
             type: 'simulation',
+          },
+          {
+            id: 'job_readiness',
+            title: 'Job Readiness Assessment',
+            description:
+              'Evaluate your workplace skills and identify areas for growth.',
+            type: 'assessment',
           },
         ],
       },
@@ -20129,7 +20186,7 @@ function isVariantSuffix(text) {
 
 function splitOnDivider(title) {
   // Prefer colon or long dash as divider between base and variant
-  const dividers = [':', '��', '��', '-', '|'];
+  const dividers = [':', '–', '-', '|'];
   for (const d of dividers) {
     const idx = title.indexOf(d);
     if (idx > -1) {
@@ -20785,11 +20842,11 @@ function ensureMinQuestions(quiz, subject, min = 12) {
     }
   } catch {}
   const current = quiz.questions.length;
-  // 0��4 => flush with new unique questions
+  // 0–4 => flush with new unique questions
   if (current < 5) {
     return flushShortQuizToTwelve(quiz, subject);
   }
-  // 5��11 => pad by cloning last
+  // 5–11 => pad by cloning last
   if (current > 4 && current < min) {
     const last = quiz.questions[current - 1];
     while (quiz.questions.length < min) {
@@ -20954,7 +21011,7 @@ function assignPremadeQuizCodes(data) {
                 }
                 if (
                   base.startsWith(':') ||
-                  base.startsWith('��') ||
+                  base.startsWith('–') ||
                   base.startsWith('-')
                 )
                   base = base.slice(1).trim();
@@ -20997,7 +21054,7 @@ function assignPremadeQuizCodes(data) {
                     quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`;
                   quizTitle = fallback
                     ? `${fallback}`
-                    : `${topic.title || 'Quiz'} �� ${labelText}`;
+                    : `${topic.title || 'Quiz'} – ${labelText}`;
                 }
               }
               registerQuiz(quiz, code, quizTitle);
@@ -21052,7 +21109,7 @@ function assignPremadeQuizCodes(data) {
               .join('__');
             const quizTitle =
               quiz.title ||
-              `${categoryName} �� ${
+              `${categoryName} – ${
                 quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`
               }`;
             // Stamp code for potential resolution later
@@ -21085,7 +21142,7 @@ function assignPremadeQuizCodes(data) {
         const code = [subjectSlug, setSegment].filter(Boolean).join('__');
         const quizTitle =
           quiz.title ||
-          `${subjectName} �� ${
+          `${subjectName} – ${
             quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`
           }`;
         quiz.quizCode = code;
@@ -21142,7 +21199,7 @@ function initPremades() {
       );
       if (!source)
         console.log(
-          '[premade] ExpandedQuizData not found �� using empty catalog'
+          '[premade] ExpandedQuizData not found – using empty catalog'
         );
     }
   } catch (err) {
@@ -21361,10 +21418,7 @@ if (typeof window !== 'undefined') {
 
 // --- ICON COMPONENTS ---
 const BookOpenIcon = ({ className = '' } = {}) => (
-  <i
-    className={['fas fa-book-open', className].filter(Boolean).join(' ')}
-    aria-hidden="true"
-  ></i>
+  <BookClosedIcon className={className} />
 );
 const CalendarIcon = ({ className = '' } = {}) => (
   <i
@@ -21373,16 +21427,13 @@ const CalendarIcon = ({ className = '' } = {}) => (
   ></i>
 );
 const GlobeIcon = ({ className = '' } = {}) => (
-  <i
-    className={['fas fa-landmark', className].filter(Boolean).join(' ')}
-    aria-hidden="true"
-  ></i>
+  <ParthenonIcon className={className} />
 );
 const BeakerIcon = ({ className = '' } = {}) => (
-  <i
-    className={['fas fa-flask', className].filter(Boolean).join(' ')}
-    aria-hidden="true"
-  ></i>
+  <DoubleHelixIcon className={className} />
+);
+const BriefcaseIcon = ({ className = '' } = {}) => (
+  <CustomBriefcaseIcon className={className} />
 );
 const CalculatorIcon = ({ className = '' } = {}) => (
   <i
@@ -21438,6 +21489,284 @@ const ShapesIcon = () => (
     />
   </svg>
 );
+
+// --- CUSTOM SVG ICONS FROM icons/ FOLDER ---
+const SunIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 1024 1024"
+    className={className || 'h-5 w-5'}
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path
+      d="M861 656.7l144.6-144.6L861 367.6V163.1H656.6L512 18.6 367.4 163.1H163v204.5L18.4 512.1 163 656.7v204.4h204.4L512 1005.7l144.6-144.6H861z"
+      fill="#FCD170"
+    />
+    <path
+      d="M512 1015.7c-2.6 0-5.1-1-7.1-2.9L363.3 871.1H163c-5.5 0-10-4.5-10-10V660.8L11.4 519.2c-1.9-1.9-2.9-4.4-2.9-7.1 0-2.7 1.1-5.2 2.9-7.1L153 363.4V163.1c0-5.5 4.5-10 10-10h200.3L504.9 11.5c1.9-1.9 4.4-2.9 7.1-2.9s5.2 1.1 7.1 2.9l141.6 141.6H861c5.5 0 10 4.5 10 10v200.3L1012.6 505c1.9 1.9 2.9 4.4 2.9 7.1 0 2.7-1.1 5.2-2.9 7.1L871 660.8v200.3c0 5.5-4.5 10-10 10H660.7l-141.6 141.6c-2 2-4.5 3-7.1 3zM173 851.1h194.4c2.7 0 5.2 1.1 7.1 2.9L512 991.6l137.5-137.5c1.9-1.9 4.4-2.9 7.1-2.9H851V656.7c0-2.7 1.1-5.2 2.9-7.1l137.5-137.5-137.5-137.5c-1.9-1.9-2.9-4.4-2.9-7.1V173.1H656.6c-2.7 0-5.2-1.1-7.1-2.9L512 32.7 374.5 170.2c-1.9 1.9-4.4 2.9-7.1 2.9H173v194.4c0 2.7-1.1 5.2-2.9 7.1L32.6 512.1l137.5 137.5c1.9 1.9 2.9 4.4 2.9 7.1v194.4z"
+      fill="currentColor"
+    />
+    <path
+      d="M512 512.1m-257.8 0a257.8 257.8 0 1 0 515.6 0 257.8 257.8 0 1 0-515.6 0Z"
+      fill="#F7DDAD"
+    />
+    <path
+      d="M512 779.9c-71.5 0-138.8-27.9-189.4-78.4-50.6-50.6-78.4-117.8-78.4-189.4s27.9-138.8 78.4-189.4c50.6-50.6 117.8-78.4 189.4-78.4 71.5 0 138.8 27.9 189.4 78.4 50.6 50.6 78.4 117.8 78.4 189.4S752 650.9 701.4 701.5 583.5 779.9 512 779.9z m0-515.6c-66.2 0-128.4 25.8-175.2 72.6-46.8 46.8-72.6 109-72.6 175.2s25.8 128.4 72.6 175.2c46.8 46.8 109 72.6 175.2 72.6 66.2 0 128.4-25.8 175.2-72.6 46.8-46.8 72.6-109 72.6-175.2S734 383.7 687.2 336.9c-46.8-46.8-109-72.6-175.2-72.6z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+const SleepingMoonIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="-9.5 0 256 256"
+    className={className || 'h-5 w-5'}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path
+      d="M73.033,78.600 C73.033,152.253 133.520,211.960 210.754,211.960 C221.001,211.960 222.928,222.357 215.609,227.570 C192.230,244.220 164.488,255.719 133.547,255.719 C59.791,255.719 -0.000,196.011 -0.000,122.359 C-0.000,67.939 32.747,21.654 79.444,0.693 C83.967,-1.337 97.271,0.365 89.310,15.041 C79.004,34.041 73.033,55.469 73.033,78.600 Z"
+      fill="#fce202"
+      fillRule="evenodd"
+    />
+    <path
+      d="M177.941,164.969 C177.941,164.969 193.000,164.969 193.000,164.969 C195.209,164.969 197.000,166.760 197.000,168.969 C197.000,171.178 195.209,172.969 193.000,172.969 C193.000,172.969 167.437,172.969 167.437,172.969 C166.137,172.969 164.792,172.623 163.901,171.536 C162.500,169.828 162.748,167.308 164.456,165.906 C164.456,165.906 182.095,150.969 182.095,150.969 C182.095,150.969 167.000,150.969 167.000,150.969 C164.791,150.969 163.000,149.178 163.000,146.969 C163.000,144.760 164.791,142.969 167.000,142.969 C167.000,142.969 193.000,142.991 193.000,142.991 C194.156,142.992 195.303,143.473 196.094,144.436 C197.495,146.144 197.246,148.665 195.538,150.066 C195.538,150.066 177.941,164.969 177.941,164.969 Z"
+      fill="#3a75c7"
+      fillRule="evenodd"
+    />
+    <path
+      d="M138.011,122.969 C138.011,122.969 168.000,122.969 168.000,122.969 C170.761,122.969 173.000,125.207 173.000,127.969 C173.000,130.730 170.761,132.969 168.000,132.969 C168.000,132.969 124.451,132.969 124.451,132.969 C122.838,133.121 121.183,132.492 120.089,131.138 C118.352,128.991 118.686,125.842 120.833,124.106 C120.833,124.106 153.988,96.969 153.988,96.969 C153.988,96.969 124.000,96.969 124.000,96.969 C121.238,96.969 119.000,94.730 119.000,91.969 C119.000,89.207 121.238,86.969 124.000,86.969 C124.000,86.969 168.000,86.979 168.000,86.979 C169.458,86.978 170.905,87.590 171.893,88.813 C173.630,90.960 173.296,94.108 171.149,95.844 C171.149,95.844 138.011,122.969 138.011,122.969 Z"
+      fill="#01bef2"
+      fillRule="evenodd"
+    />
+    <path
+      d="M185.718,60.969 C185.718,60.969 229.000,60.969 229.000,60.969 C233.418,60.969 237.000,64.550 237.000,68.969 C237.000,73.387 233.418,76.969 229.000,76.969 C229.000,76.969 162.000,76.969 162.000,76.969 C162.000,76.969 159.371,77.290 156.713,73.884 C153.994,70.401 154.614,65.374 158.097,62.656 C158.097,62.656 206.269,23.906 206.269,23.906 C206.269,23.906 163.000,23.906 163.000,23.906 C158.582,23.906 155.000,20.324 155.000,15.906 C155.000,11.488 158.582,7.906 163.000,7.906 C163.000,7.906 228.583,7.906 228.583,7.906 C228.583,7.906 232.629,7.567 235.291,10.978 C238.010,14.461 237.390,19.488 233.907,22.207 C233.907,22.207 185.718,60.969 185.718,60.969 Z"
+      fill="#1ae1ff"
+      fillRule="evenodd"
+    />
+  </svg>
+);
+
+const DoubleHelixIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 1024 1024"
+    className={className || 'h-6 w-6'}
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path
+      d="M528 872c1.6-16 16-28.8 32-28.8 14.4 0 27.2 9.6 30.4 24l56-3.2c4.8 0 8 3.2 8 8s-3.2 8-8 8l-57.6 3.2c-3.2 14.4-16 24-30.4 24-12.8 0-25.6-8-30.4-20.8l-144 9.6c-4.8 0-8-3.2-8-8s3.2-8 8-8l144-8z m-94.4-320c3.2-14.4 16-24 30.4-24s27.2 9.6 30.4 24H640c4.8 0 8 3.2 8 8s-3.2 8-8 8h-145.6c-3.2 14.4-16 24-30.4 24s-27.2-9.6-30.4-24h-41.6c-4.8 0-8-3.2-8-8s3.2-8 8-8h41.6z m112-56c3.2-14.4 16-24 30.4-24 12.8 0 24 8 28.8 19.2l33.6-3.2c4.8 0 8 3.2 8 8s-3.2 8-8 8l-30.4 3.2c-1.6 16-14.4 28.8-32 28.8-14.4 0-27.2-9.6-30.4-24l-168 16c-4.8 0-8-3.2-8-8s3.2-8 8-8l168-16z m-96-361.6c3.2-12.8 16-22.4 30.4-22.4 16 0 30.4 12.8 32 28.8l128 11.2c4.8 0 8 4.8 8 8s-4.8 8-8 8l-129.6-11.2c-4.8 11.2-16 19.2-30.4 19.2-16 0-28.8-11.2-32-25.6L376 144c-4.8 0-8-4.8-8-8 0-4.8 4.8-8 8-8l73.6 6.4z m-14.4 305.6c-4.8 1.6-8 0-9.6-4.8-1.6-4.8 0-8 4.8-9.6l160-56c4.8-1.6 8 0 9.6 4.8 1.6 4.8 0 8-4.8 9.6l-160 56z m1.6-216c-4.8-1.6-6.4-6.4-4.8-11.2 1.6-4.8 6.4-6.4 11.2-4.8l152 64c4.8 1.6 6.4 6.4 4.8 11.2-1.6 4.8-6.4 6.4-11.2 4.8l-152-64z m-38.4-40c-4.8-1.6-6.4-4.8-6.4-9.6 1.6-4.8 4.8-6.4 9.6-6.4l224 48c4.8 1.6 6.4 4.8 6.4 9.6-1.6 4.8-4.8 6.4-9.6 6.4l-224-48z m-30.4-80c-4.8 0-8-3.2-8-8s3.2-8 8-8h288c4.8 0 8 3.2 8 8s-3.2 8-8 8H368z m235.2 656l-152 64c-4.8 1.6-8 0-11.2-4.8-1.6-4.8 0-8 4.8-11.2l152-64c4.8-1.6 8 0 11.2 4.8 1.6 4.8-1.6 9.6-4.8 11.2zM406.4 848l216-48c4.8-1.6 8 1.6 9.6 6.4 1.6 4.8-1.6 8-6.4 9.6l-216 48c-4.8 1.6-8-1.6-9.6-6.4 0-4.8 1.6-8 6.4-9.6zM368 936c-4.8 0-8-3.2-8-8s3.2-8 8-8h288c4.8 0 8 3.2 8 8s-3.2 8-8 8H368z m25.6-448c-4.8 1.6-8-1.6-9.6-6.4-1.6-4.8 1.6-8 6.4-9.6l232-48c4.8-1.6 8 1.6 9.6 6.4 1.6 4.8-1.6 8-6.4 9.6l-232 48z m20.8 120c-4.8 0-8-4.8-6.4-9.6s4.8-8 9.6-6.4l208 24c4.8 0 8 4.8 6.4 9.6 0 4.8-4.8 8-9.6 6.4l-208-24z m62.4 40c-4.8-1.6-6.4-6.4-4.8-9.6s6.4-6.4 9.6-4.8l112 40c4.8 1.6 6.4 6.4 4.8 9.6s-6.4 6.4-9.6 4.8l-112-40z"
+      fill="#2F4BFF"
+    />
+    <path
+      d="M553.6 305.6C611.2 240 640 171.2 640 80c0-9.6 6.4-16 16-16s16 6.4 16 16c0 100.8-33.6 177.6-97.6 249.6 62.4 70.4 89.6 126.4 89.6 198.4 0 68.8-25.6 123.2-80 185.6C641.6 776 672 848 672 944c0 9.6-6.4 16-16 16s-16-6.4-16-16c0-86.4-25.6-150.4-78.4-208-12.8 12.8-27.2 27.2-43.2 41.6-4.8 4.8-51.2 46.4-64 57.6-22.4 20.8-36.8 36.8-48 52.8-16 20.8-22.4 38.4-22.4 56 0 9.6-6.4 16-16 16s-16-6.4-16-16c0-25.6 9.6-49.6 28.8-75.2 12.8-17.6 28.8-35.2 52.8-56 12.8-11.2 59.2-54.4 64-57.6 16-14.4 28.8-27.2 41.6-40-11.2-11.2-24-20.8-36.8-32-12.8-9.6-89.6-64-107.2-80-28.8-24-43.2-48-43.2-75.2 0-19.2 8-38.4 22.4-56 12.8-16 28.8-32 56-54.4 6.4-6.4 32-25.6 35.2-28.8 14.4-11.2 25.6-20.8 36.8-30.4 11.2-9.6 20.8-19.2 30.4-28.8l-35.2-35.2c-1.6-1.6-33.6-33.6-43.2-41.6-16-16-28.8-28.8-40-41.6-41.6-48-62.4-88-62.4-131.2 0-9.6 6.4-16 16-16s16 6.4 16 16c0 33.6 17.6 67.2 54.4 108.8 11.2 12.8 22.4 24 38.4 40 9.6 9.6 40 40 43.2 41.6 11.2 12.8 22.4 24 33.6 35.2z m6.4 385.6c48-56 72-104 72-163.2 0-60.8-24-112-78.4-174.4-9.6 9.6-19.2 19.2-30.4 28.8 11.2-9.6-105.6 88-123.2 108.8-11.2 12.8-16 25.6-16 36.8 0 16 9.6 32 32 51.2 16 14.4 91.2 67.2 105.6 78.4 14.4 11.2 27.2 20.8 38.4 33.6z"
+      fill="#050D42"
+    />
+  </svg>
+);
+
+const BookClosedIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 64 64"
+    className={className || 'h-6 w-6'}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path
+      fill="#F9EBB2"
+      d="M56,62H10c-2.209,0-4-1.791-4-4s1.791-4,4-4h46V62z"
+    />
+    <path
+      fill="#45AAB8"
+      d="M6,4v49.537C7.062,52.584,8.461,52,10,52h2V2H8C6.896,2,6,2.896,6,4z"
+    />
+    <path fill="#45AAB8" d="M56,2H14v50h42h2v-2V4C58,2.896,57.104,2,56,2z" />
+    <path
+      fill="currentColor"
+      d="M60,52V4c0-2.211-1.789-4-4-4H8C5.789,0,4,1.789,4,4v54c0,3.313,2.687,6,6,6h49c0.553,0,1-0.447,1-1 s-0.447-1-1-1h-1v-8C59.104,54,60,53.104,60,52z M6,4c0-1.104,0.896-2,2-2h4v50h-2c-1.539,0-2.938,0.584-4,1.537V4z M56,62H10 c-2.209,0-4-1.791-4-4s1.791-4,4-4h46V62z M56,52H14V2h42c1.104,0,2,0.896,2,2v46v2H56z"
+    />
+    <path
+      fill="currentColor"
+      d="M43,26H23c-0.553,0-1,0.447-1,1s0.447,1,1,1h20c0.553,0,1-0.447,1-1S43.553,26,43,26z"
+    />
+    <path
+      fill="currentColor"
+      d="M49,20H23c-0.553,0-1,0.447-1,1s0.447,1,1,1h26c0.553,0,1-0.447,1-1S49.553,20,49,20z"
+    />
+    <path
+      fill="currentColor"
+      d="M23,16h12c0.553,0,1-0.447,1-1s-0.447-1-1-1H23c-0.553,0-1,0.447-1,1S22.447,16,23,16z"
+    />
+  </svg>
+);
+
+const ParthenonIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 1024 1024"
+    className={className || 'h-6 w-6'}
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path d="M261.2 745.8h501.7V794H261.2z" fill="#E0E7EA" />
+    <path
+      d="M774.9 380.5c0-4.4 3.6-8 8-8s8 3.6 8 8V422c0 4.4-3.6 8-8 8H241.1c-4.4 0-8-3.6-8-8v-41.4c0-4.4 3.6-8 8-8s8 3.6 8 8V414h525.8v-33.5zM249.1 733.7v10.5c0 4.4-3.6 8-8 8s-8-3.6-8-8v-18.5c0-4.4 3.6-8 8-8h541.8c4.4 0 8 3.6 8 8v22.7c0 4.4-3.6 8-8 8s-8-3.6-8-8v-14.7H249.1zM722.2 777.8c-4.4 0-8-3.6-8-8s3.6-8 8-8H813c4.4 0 8 3.6 8 8v45.4c0 4.4-3.6 8-8 8H211c-4.4 0-8-3.6-8-8v-45.4c0-4.4 3.6-8 8-8h403.4c4.4 0 8 3.6 8 8s-3.6 8-8 8H219v29.4h586v-29.4h-82.8z m-66.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8h23.1c4.4 0 8 3.6 8 8s-3.6 8-8 8h-23.1z"
+      fill="currentColor"
+    />
+    <path
+      d="M349.3 304l162-88 296.3 160.9h-78L511.3 258.7 295.4 376.9H215l105.5-57.3"
+      fill="#E0E7EA"
+    />
+    <path
+      d="M511.3 225.1L353.1 311c-3.9 2.1-8.7 0.7-10.8-3.2-2.1-3.9-0.7-8.7 3.2-10.8l162-88c2.4-1.3 5.3-1.3 7.6 0l296.3 160.9c7.3 4 4.5 15-3.8 15H215c-8.3 0-11.1-11.1-3.8-15l105.5-57.3c3.9-2.1 8.7-0.7 10.8 3.2 2.1 3.9 0.7 8.7-3.2 10.8l-77.8 42.2h529.6L511.3 225.1z"
+      fill="currentColor"
+    />
+    <path
+      d="M512.2 321.7m-31.8 0a31.8 31.8 0 1 0 63.6 0 31.8 31.8 0 1 0-63.6 0Z"
+      fill="#FFC200"
+    />
+    <path
+      d="M357.5 484v222.5h-50.2V469.7h50.2M536.1 484v222.5h-50.2V469.7h50.2M716.7 484v222.5h-50.2V469.7h50.2"
+      fill="#FF684C"
+    />
+    <path
+      d="M728.8 523.1c0-4.4 3.6-8 8-8s8 3.6 8 8v202.5c0 4.4-3.6 8-8 8h-90.3c-4.4 0-8-3.6-8-8V456.8c0-4.4 3.6-8 8-8s8 3.6 8 8v260.8h74.3V523.1z m0-66.3c0-4.4 3.6-8 8-8s8 3.6 8 8v23.6c0 4.4-3.6 8-8 8s-8-3.6-8-8v-23.6z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+const CustomBriefcaseIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 -1.5 1027 1027"
+    className={className || 'h-6 w-6'}
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path
+      d="M47.273865 685.070423h931.856025v302.071987c0 12.018779-9.615023 20.832551-20.83255 20.832551H68.907668c-12.018779 0-20.832551-9.615023-20.832551-20.832551l-0.801252-302.071987z"
+      fill="#B08A77"
+    />
+    <path
+      d="M958.29734 1024H68.106416c-20.832551 0-36.85759-16.826291-36.85759-36.85759V669.045383h963.906104v318.097027c0.801252 20.832551-16.025039 36.85759-36.85759 36.85759zM63.298905 701.095462v286.046948c0 3.205008 2.403756 4.807512 4.807511 4.807512h890.190924c3.205008 0 4.807512-2.403756 4.807511-4.807512V701.095462H63.298905z"
+      fill="currentColor"
+    />
+    <path
+      d="M38.460094 241.978091h949.483568c12.820031 0 22.435055 10.416275 22.435055 22.435055v398.222222c0 12.820031-10.416275 22.435055-22.435055 22.435055H38.460094c-12.820031 0-22.435055-10.416275-22.435055-22.435055V264.413146c0-12.820031 10.416275-22.435055 22.435055-22.435055z"
+      fill="#B08A77"
+    />
+    <path
+      d="M342.935837 16.025039h341.333334c12.018779 0 21.633803 9.615023 21.633802 21.633803v204.319249h-384.600939V37.658842c0-12.018779 9.615023-21.633803 21.633803-21.633803z"
+      fill="#B08A77"
+    />
+    <path
+      d="M384.600939 74.516432h258.00313v166.660407H384.600939z"
+      fill="#FFE6A4"
+    />
+  </svg>
+);
+
+const HouseIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 32 32"
+    className={className || 'h-5 w-5'}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path
+      d="M16 27C15.7348 27 15.4804 26.8946 15.2929 26.7071C15.1054 26.5196 15 26.2652 15 26V23C15 22.7348 15.1054 22.4804 15.2929 22.2929C15.4804 22.1054 15.7348 22 16 22C16.2652 22 16.5196 22.1054 16.7071 22.2929C16.8946 22.4804 17 22.7348 17 23V26C17 26.2652 16.8946 26.5196 16.7071 26.7071C16.5196 26.8946 16.2652 27 16 27Z"
+      fill="#263238"
+    />
+    <path
+      d="M27 13C27 15.9174 25.8411 18.7153 23.7782 20.7782C21.7153 22.8411 18.9174 24 16 24C15.0893 23.9998 14.1823 23.8856 13.3 23.66C12.5276 23.4641 11.7796 23.1824 11.07 22.82C9.24766 21.9063 7.71506 20.5043 6.64322 18.7703C5.57138 17.0363 5.00248 15.0385 5 13C5 12.87 5 12.73 5 12.6C5.03746 11.7183 5.18528 10.8449 5.44 9.99998C6.17929 7.4644 7.8062 5.27947 10.0235 3.84441C12.2407 2.40935 14.9003 1.81997 17.5163 2.18397C20.1322 2.54797 22.5299 3.84105 24.2712 5.82692C26.0124 7.8128 26.981 10.3589 27 13Z"
+      fill="#0277BD"
+    />
+    <path
+      d="M22.93 28.63L21.73 25.63C21.6559 25.4439 21.5276 25.2844 21.3618 25.1721C21.196 25.0598 21.0003 24.9998 20.8 25H11.2C10.9997 24.9998 10.804 25.0598 10.6382 25.1721C10.4724 25.2844 10.3441 25.4439 10.27 25.63L9.06999 28.63C9.00954 28.7818 8.9872 28.9461 9.00492 29.1085C9.02265 29.2709 9.07989 29.4265 9.17165 29.5616C9.26341 29.6968 9.38689 29.8075 9.53129 29.8839C9.67569 29.9603 9.83662 30.0002 9.99999 30H22C22.1634 30.0002 22.3243 29.9603 22.4687 29.8839C22.6131 29.8075 22.7366 29.6968 22.8283 29.5616C22.9201 29.4265 22.9773 29.2709 22.9951 29.1085C23.0128 28.9461 22.9904 28.7818 22.93 28.63Z"
+      fill="#263238"
+    />
+    <path
+      d="M12.84 21.55C12.7633 21.6621 12.6647 21.7574 12.55 21.83L11.07 22.83C9.24615 21.9156 7.71254 20.512 6.6406 18.7761C5.56865 17.0401 5.00062 15.0403 5 13C5 12.87 5 12.73 5 12.6C5.03746 11.7184 5.18528 10.8449 5.44 10C6.81089 9.18658 8.26187 8.51638 9.77 8.00004C10.222 7.81354 10.7101 7.73108 11.1982 7.75877C11.6864 7.78647 12.162 7.92361 12.59 8.16004C14.03 9.22004 13.91 11.86 12.84 13.51C12.496 14.036 12.0507 14.4881 11.53 14.84C12.4853 15.08 13.3185 15.6639 13.87 16.48C14.57 17.76 14.23 19.4 12.84 21.55Z"
+      fill="#7CB342"
+    />
+    <path
+      d="M27 13C26.9993 14.643 26.6338 16.2654 25.93 17.75L25 17.67L24.77 17.62C22.43 16.84 19.94 15 19.69 13C19.43 10.81 20.47 8.14002 24.16 7.18002C24.3338 7.13514 24.5162 7.13514 24.69 7.18002L25.47 7.41002C26.4705 9.10309 26.9989 11.0334 27 13Z"
+      fill="#558B2F"
+    />
+  </svg>
+);
+
+const StudentIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 64 64"
+    className={className || 'h-5 w-5'}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <circle cx="32" cy="16" r="14" fill="#FFD93B" />
+    <path
+      d="M32 2C23.163 2 16 9.163 16 18c0 8.837 7.163 16 16 16s16-7.163 16-16C48 9.163 40.837 2 32 2zm0 30c-7.732 0-14-6.268-14-14S24.268 4 32 4s14 6.268 14 14-6.268 14-14 14z"
+      fill="currentColor"
+    />
+    <path
+      d="M56 62H8c-2.209 0-4-1.791-4-4V38c0-8.837 7.163-16 16-16h24c8.837 0 16 7.163 16 16v20c0 2.209-1.791 4-4 4z"
+      fill="#6FAAFF"
+    />
+    <path
+      d="M56 64H8c-3.314 0-6-2.686-6-6V38c0-9.925 8.075-18 18-18h24c9.925 0 18 8.075 18 18v20c0 3.314-2.686 6-6 6zM20 24c-7.72 0-14 6.28-14 14v20c0 1.104.896 2 2 2h48c1.104 0 2-.896 2-2V38c0-7.72-6.28-14-14-14H20z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+const ChartPieIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 64 64"
+    className={className || 'h-5 w-5'}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path d="M32 2v30l20-10C46.8 11.2 40.2 4.6 32 2z" fill="#4CAF50" />
+    <path
+      d="M52 22L32 32l15 25.9C56.5 52.5 62 43.1 62 32c0-3.7-.6-7.2-1.7-10.5L52 22z"
+      fill="#2196F3"
+    />
+    <path
+      d="M47 57.9L32 32 2 32c0 16.5 13.5 30 30 30 5.6 0 10.8-1.5 15.3-4.1L47 57.9z"
+      fill="#FF9800"
+    />
+    <circle
+      cx="32"
+      cy="32"
+      r="28"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="4"
+    />
+  </svg>
+);
+
 const UserIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -21605,7 +21934,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     if (!text) return '';
     const clean = String(text).trim();
     if (clean.length <= max) return clean;
-    return clean.slice(0, Math.max(0, max - 1)).trim() + '��';
+    return clean.slice(0, Math.max(0, max - 1)).trim() + '…';
   };
   const topicOneLiner = (topic) => {
     const fromTopic = topic?.description?.trim();
@@ -21681,7 +22010,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             getAttemptMeta(b.topic.quizCode || b.topic.id || '').attempts -
             getAttemptMeta(a.topic.quizCode || a.topic.id || '').attempts
         );
-      case 'Topic A��Z':
+      case 'Topic A–Z':
         return [...items].sort((a, b) =>
           (a.topic.title || '').localeCompare(b.topic.title || '')
         );
@@ -21791,7 +22120,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         }
         if (
           base.startsWith(':') ||
-          base.startsWith('��') ||
+          base.startsWith('–') ||
           base.startsWith('-')
         )
           base = base.slice(1).trim();
@@ -21804,7 +22133,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         if (!base) return 'Practice';
         return base;
       };
-      let derivedTitle = quiz.title || `${baseTitle} �� ${quizLabel}`;
+      let derivedTitle = quiz.title || `${baseTitle} – ${quizLabel}`;
       if (looksAutoId(derivedTitle)) {
         if (String(subjectName).toLowerCase() === 'math') {
           const catRaw = getCategoryOfTopic(subjectName, topic.id);
@@ -21961,7 +22290,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                       persistExpanded(next);
                     }}
                   >
-                    {expanded ? 'Show fewer' : 'More in this topic��'}
+                    {expanded ? 'Show fewer' : 'More in this topic…'}
                   </button>
                 )}
               </div>
@@ -22088,7 +22417,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     const preparedQuiz = {
       id,
       quizCode: id,
-      title: `${stackedSet.baseTitle}: Set ${stackedSet.setIndex} �� Quiz ${
+      title: `${stackedSet.baseTitle}: Set ${stackedSet.setIndex} – Quiz ${
         quizIndex + 1
       }`,
       topicTitle: stackedSet.baseTitle,
@@ -22140,7 +22469,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
           value={filters.sort}
           onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
         >
-          {['Newest', 'Most Attempted', 'Highest Score', 'Topic A��Z'].map(
+          {['Newest', 'Most Attempted', 'Highest Score', 'Topic A–Z'].map(
             (opt) => (
               <option key={opt} value={opt}>
                 {opt}
@@ -22381,7 +22710,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                       persistExpanded(next);
                     }}
                   >
-                    ��️
+                    ℹ️
                   </button>
                 </div>
                 {coreInfoOpen && (
@@ -22466,7 +22795,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                 persistExpanded(next);
               }}
             >
-              ��️
+              ℹ️
             </button>
           </div>
           <button
@@ -22974,7 +23303,7 @@ const DEFAULT_CHALLENGE_OPTIONS = [
     id: 'social-4',
     subject: 'Social Studies',
     subtopic: 'US History',
-    label: 'Colonial �� Civil War sequence',
+    label: 'Colonial – Civil War sequence',
     selected: false,
   },
   {
@@ -23240,10 +23569,11 @@ function AppHeader({
           <nav className="hidden md:flex items-center gap-4 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">
             <button
               onClick={onShowHome}
-              className="hover:text-sky-600 dark:hover:text-sky-400 transition"
+              className="flex items-center gap-1.5 hover:text-sky-600 dark:hover:text-sky-400 transition"
               type="button"
             >
-              Dashboard
+              <HouseIcon className="h-4 w-4" />
+              <span>Dashboard</span>
             </button>
             <button
               onClick={onShowQuizzes}
@@ -23255,11 +23585,12 @@ function AppHeader({
             </button>
             <button
               onClick={onShowProgress}
-              className="hover:text-sky-600 dark:hover:text-sky-400 transition"
+              className="flex items-center gap-1.5 hover:text-sky-600 dark:hover:text-sky-400 transition"
               type="button"
               aria-controls="progress"
             >
-              Progress
+              <ChartPieIcon className="h-4 w-4" />
+              <span>Progress</span>
             </button>
           </nav>
         </div>
@@ -23273,28 +23604,9 @@ function AppHeader({
             style={toggleButtonStyle}
           >
             {isDark ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                role="img"
-                aria-hidden="true"
-              >
-                <path d="M17.293 13.293A8 8 0 016.707 2.707 6 6 0 1017.293 13.293z" />
-              </svg>
+              <SleepingMoonIcon className="h-5 w-5" />
             ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 drop-shadow"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                role="img"
-                aria-hidden="true"
-              >
-                <path d="M10 3a1 1 0 011 1v1a1 1 0 11-2 0V4a1 1 0 011-1zm4.22 1.78a1 1 0 011.415 1.414l-.708.708a1 1 0 11-1.414-1.414l.707-.708zM17 9a1 1 0 110 2h-1a1 1 0 110-2h1zm-2.072 5.657a1 1 0 011.414 1.414l-.707.707a1 1 0 11-1.415-1.414l.708-.707zM11 16a1 1 0 11-2 0v-1a1 1 0 112 0v1zm-5.657-.343a1 1 0 10-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM4 9a1 1 0 100 2H3a1 1 0 100-2h1zm2.343-3.657a1 1 0 10-1.414-1.414l-.707.707A1 1 0 105.636 6.05l.707-.707z" />
-                <path d="M10 5a5 5 0 100 10A5 5 0 0010 5z" />
-              </svg>
+              <SunIcon className="h-5 w-5 drop-shadow" />
             )}
           </button>
           {currentUser && (
@@ -23307,8 +23619,8 @@ function AppHeader({
                     className="w-9 h-9 rounded-full object-cover shadow"
                   />
                 ) : (
-                  <div className="w-9 h-9 rounded-full bg-sky-600 text-white flex items-center justify-center font-semibold shadow">
-                    {initial}
+                  <div className="w-9 h-9 rounded-full bg-sky-600 text-white flex items-center justify-center shadow">
+                    <StudentIcon className="w-7 h-7" />
                   </div>
                 )}
                 <div className="flex flex-col leading-tight">
@@ -23610,7 +23922,7 @@ function PracticeSessionModal({
             style={{ backgroundColor: '#2563eb', color: 'white' }}
             disabled={submitting}
           >
-            {submitting ? 'Starting��' : 'Start'}
+            {submitting ? 'Starting…' : 'Start'}
           </button>
         </div>
       </div>
@@ -26619,7 +26931,7 @@ function ProfileView({
               className="refresh-button inline-flex items-center justify-center rounded-lg border px-3 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
               disabled={loading}
             >
-              {loading ? 'Refreshing��' : 'Refresh'}
+              {loading ? 'Refreshing…' : 'Refresh'}
             </button>
             <button
               type="button"
@@ -26627,7 +26939,7 @@ function ProfileView({
               className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:opacity-60"
               disabled={!!savingAll}
             >
-              {savingAll ? 'Saving��' : 'Save All'}
+              {savingAll ? 'Saving…' : 'Save All'}
             </button>
             <button
               type="button"
@@ -26673,7 +26985,7 @@ function ProfileView({
                 className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
                 disabled={finishingOnboarding}
               >
-                {finishingOnboarding ? 'Checking��' : "I'm Done"}
+                {finishingOnboarding ? 'Checking…' : "I'm Done"}
               </button>
               <button
                 id="completeLaterBtn"
@@ -26725,7 +27037,7 @@ function ProfileView({
               className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
               disabled={nameSaving}
             >
-              {nameSaving ? 'Saving��' : 'Save Name'}
+              {nameSaving ? 'Saving…' : 'Save Name'}
             </button>
           </div>
           <p className="text-xs text-slate-500">Maximum 80 characters.</p>
@@ -26873,7 +27185,7 @@ function ProfileView({
                         disabled={savingThisSubject}
                       >
                         {savingThisSubject
-                          ? 'Saving��'
+                          ? 'Saving…'
                           : `Save ${entry.subject}`}
                       </button>
                       {edits.passed ? (
@@ -27035,7 +27347,7 @@ function ProfileView({
               className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
               disabled={challengesSaving}
             >
-              {challengesSaving ? 'Saving��' : 'Save Challenges'}
+              {challengesSaving ? 'Saving…' : 'Save Challenges'}
             </button>
           </div>
         </form>
@@ -27061,7 +27373,7 @@ function RecentScoresPanel({
     return (
       <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
         <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
-        <p className="text-sm text-slate-600">Loading��</p>
+        <p className="text-sm text-slate-600">Loading…</p>
       </section>
     );
   }
@@ -27078,7 +27390,7 @@ function RecentScoresPanel({
 
   const formatScoreValue = (value) => {
     if (value == null) {
-      return '��';
+      return '–';
     }
     if (typeof value === 'number' && Number.isFinite(value)) {
       return `${Math.round(value)}%`;
@@ -27236,10 +27548,10 @@ function RecentScoresPanel({
                       {row.subject}
                     </td>
                     <td className="px-3 py-2">
-                      {row.latest != null ? `${row.latest}%` : '��'}
+                      {row.latest != null ? `${row.latest}%` : '–'}
                     </td>
                     <td className="px-3 py-2">
-                      {row.avg != null ? `${row.avg}%` : '��'}
+                      {row.avg != null ? `${row.avg}%` : '–'}
                     </td>
                   </tr>
                 ))}
@@ -27279,10 +27591,10 @@ function RecentScoresPanel({
                     </td>
                     <td className="px-3 py-2">{row.subtopic}</td>
                     <td className="px-3 py-2">
-                      {row.latest != null ? `${row.latest}%` : '��'}
+                      {row.latest != null ? `${row.latest}%` : '–'}
                     </td>
                     <td className="px-3 py-2">
-                      {row.avg != null ? `${row.avg}%` : '��'}
+                      {row.avg != null ? `${row.avg}%` : '–'}
                     </td>
                   </tr>
                 ))}
@@ -27492,7 +27804,7 @@ function SettingsView({
               className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60 dark:bg-sky-500 dark:hover:bg-sky-400"
               disabled={saving || loading}
             >
-              {saving ? 'Saving��' : 'Save Settings'}
+              {saving ? 'Saving…' : 'Save Settings'}
             </button>
           </div>
         </form>
@@ -27712,7 +28024,7 @@ function AuthScreen({ onLogin }) {
             disabled={submitting}
             className="w-full rounded-lg bg-sky-600 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 disabled:opacity-60"
           >
-            {submitting ? 'Please wait��' : modeLabel}
+            {submitting ? 'Please wait…' : modeLabel}
           </button>
         </form>
         <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
@@ -27763,19 +28075,19 @@ function AdminRoleBadge({ role }) {
 
 function formatDateTime(value) {
   if (!value) {
-    return '��';
+    return '–';
   }
   try {
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) {
-      return '��';
+      return '–';
     }
     return date.toLocaleString(undefined, {
       dateStyle: 'medium',
       timeStyle: 'short',
     });
   } catch (error) {
-    return '��';
+    return '–';
   }
 }
 
@@ -27846,7 +28158,7 @@ function OrganizationSummaryView({ summary }) {
                     {user.name || 'Learner'}
                   </td>
                   <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
-                    {user.email || '��'}
+                    {user.email || '–'}
                   </td>
                   <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
                     {formatDateTime(user.last_login)}
@@ -27873,7 +28185,7 @@ function OrganizationSummaryView({ summary }) {
                               Score:{' '}
                               {attempt.scaled_score != null
                                 ? attempt.scaled_score
-                                : '��'}
+                                : '–'}
                             </span>
                             <span className="text-slate-400 dark:text-slate-400">
                               {formatDateTime(attempt.attempted_at)}
@@ -28014,7 +28326,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
 
           {loadingOrgs ? (
             <p className="py-4 text-sm text-slate-500 dark:text-slate-300">
-              Loading organizations��
+              Loading organizations…
             </p>
           ) : orgError ? (
             <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
@@ -28088,7 +28400,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
           {summaryLoading ? (
             <p className="text-sm text-slate-500 dark:text-slate-300">
-              Loading organization summary��
+              Loading organization summary…
             </p>
           ) : summaryError ? (
             <div className="space-y-3">
@@ -28178,7 +28490,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
         <section className="admin-panel rounded-3xl border bg-white/95 dark:bg-slate-950/70 dark:border-slate-700 p-6">
           {loading ? (
             <p className="text-sm text-admin-subtle admin-muted">
-              Loading organization summary��
+              Loading organization summary…
             </p>
           ) : error ? (
             <div className="space-y-3">
@@ -28231,10 +28543,10 @@ function DetailedProgressView({
       : null;
 
   const formatDate = (value) => {
-    if (!value) return '��';
+    if (!value) return '–';
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) {
-      return '��';
+      return '–';
     }
     return date.toLocaleString(undefined, {
       dateStyle: 'medium',
@@ -28248,7 +28560,7 @@ function DetailedProgressView({
       return { label: 'Passed', className: 'text-emerald-600' };
     if (passed === false)
       return { label: 'Keep Practicing', className: 'text-amber-600' };
-    return { label: '��', className: 'text-slate-500' };
+    return { label: '–', className: 'text-slate-500' };
   };
 
   const recentAttempts = attempts.slice(0, 10);
@@ -28297,7 +28609,7 @@ function DetailedProgressView({
           {subject === 'Reasoning Through Language Arts (RLA)' &&
             rlaEssayAvgDisplay && (
               <p className="mt-1 text-sm text-slate-600">
-                Avg essay (0��6):{' '}
+                Avg essay (0–6):{' '}
                 <span className="font-semibold text-slate-800">
                   {rlaEssayAvgDisplay}
                 </span>
@@ -28317,7 +28629,7 @@ function DetailedProgressView({
               <p className="text-sm text-slate-600 break-words">
                 Code:{' '}
                 <span className="font-mono text-slate-700">
-                  {lastAttempt.quizCode || '��'}
+                  {lastAttempt.quizCode || '–'}
                 </span>
               </p>
               <p className="text-lg font-semibold text-slate-800">
@@ -28372,7 +28684,7 @@ function DetailedProgressView({
                             `Exam ${index + 1}`}
                         </p>
                         <p className="text-xs text-slate-500">
-                          Code: {attempt.quizCode || '��'}
+                          Code: {attempt.quizCode || '–'}
                         </p>
                       </div>
                       <div className="space-y-3">
@@ -28536,7 +28848,7 @@ function DashboardProgressSummary({
           const lastScore = data.lastAttempt?.scaledScore;
           const truncatedTitle =
             lastTitle && lastTitle.length > 52
-              ? `${lastTitle.slice(0, 49)}��`
+              ? `${lastTitle.slice(0, 49)}…`
               : lastTitle;
           const subjectId = SUBJECT_ID_MAP[subject] || null;
           const shortLabel =
@@ -29113,10 +29425,21 @@ const ICONS = {
   GlobeIcon,
   BookOpenIcon,
   BeakerIcon,
+  BriefcaseIcon,
   CalculatorIcon,
   ChartBarIcon,
   VariableIcon,
   ShapesIcon,
+  // Custom SVG icons from icons/ folder
+  SunIcon,
+  SleepingMoonIcon,
+  DoubleHelixIcon,
+  BookClosedIcon,
+  ParthenonIcon,
+  CustomBriefcaseIcon,
+  HouseIcon,
+  StudentIcon,
+  ChartPieIcon,
 };
 
 function FormulaDisplay({ latex, className = '' }) {
@@ -29149,7 +29472,7 @@ function ScienceFormulaSheet({ onClose }) {
           aria-label="Close science formula sheet"
           style={{ color: 'inherit' }}
         >
-          ��
+          ✕
         </button>
 
         <h2 className="formula-sheet-title text-xl font-bold mb-4">
@@ -29336,6 +29659,8 @@ function StartScreen({
   const [coachDailySubjects, setCoachDailySubjects] = useState([]);
   // weekly coach summary for dashboard
   const [weeklyCoachSummary, setWeeklyCoachSummary] = useState([]);
+  // Today's task map for each subject tile on dashboard
+  const [todayTasksBySubject, setTodayTasksBySubject] = useState({});
   const [generatingAll, setGeneratingAll] = useState(false);
   // Vocabulary collapsible
   const [vocabOpen, setVocabOpen] = useState(true);
@@ -29519,6 +29844,9 @@ function StartScreen({
       const normalized = adaptWeeklyCoachResponse(data);
       setWeeklyCoachPlan(normalized);
       setWeeklyCoachSummary(Array.isArray(data?.subjects) ? data.subjects : []);
+      // Build today's task map for dashboard tiles
+      const taskMap = buildTodayTaskMap(normalized);
+      setTodayTasksBySubject(taskMap);
     } catch (e) {
       setCoachError('Unable to load weekly coach plan.');
       setWeeklyCoachPlan(
@@ -29994,6 +30322,55 @@ function StartScreen({
     }
   };
 
+  // Universal handler to start today's daily task for any subject tile
+  const startDailyTask = useCallback(
+    async (subject) => {
+      const task = todayTasksBySubject?.[subject];
+      if (!task) {
+        alert('No daily task found for this subject today.');
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+        setLoadingMessage(`Loading your daily task for ${subject}…`);
+
+        // Prefer an explicit quiz code if present
+        const raw = task.raw || {};
+        const quizCode = raw.quizCode || raw.quiz_code || null;
+        const topic = task.topic || null;
+
+        // If Weekly Coach gave us a premade quiz code -> use the premade/composite route
+        if (quizCode) {
+          // Try using the global helper if available, or fall back to startQuiz
+          if (
+            typeof window !== 'undefined' &&
+            window.__GED_START_QUIZ_BY_CODE__
+          ) {
+            return window.__GED_START_QUIZ_BY_CODE__(subject, quizCode);
+          }
+          return startQuiz({ mode: 'premade', subject, quizCode });
+        }
+
+        // Otherwise: topic-based generation (works great for Math/SS/RLA/Science)
+        if (topic) {
+          const subjectParam = resolveSubjectParam(subject);
+          const items = await generateTopicQuiz(subjectParam, topic, 'mixed');
+          return startQuiz({ mode: 'topic', subject, topic, items });
+        }
+
+        // Final fallback – regular subject practice
+        return startQuiz({ mode: 'subject', subject });
+      } catch (e) {
+        alert('Unable to start daily task right now.');
+        console.error('startDailyTask error:', e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [todayTasksBySubject]
+  );
+
   // Ask Coach (subject) temporarily disabled; keep stub so callers won't break
   const startDailyCompositeForSubject = async (subject, focusTag) => {
     console.log('startDailyCompositeForSubject skipped: Ask Coach disabled.');
@@ -30244,7 +30621,7 @@ function StartScreen({
       }
     }
 
-    // NEW: Test-plan nextUpcomingTest �� also show when the next scheduled test is today
+    // NEW: Test-plan nextUpcomingTest – also show when the next scheduled test is today
     if (nextUpcomingTest && nextUpcomingTest.testDate) {
       const daysFromPlan =
         typeof nextUpcomingTest.daysUntil === 'number'
@@ -30676,7 +31053,7 @@ function StartScreen({
 
       const setIndex = orderedSetNames.findIndex((n) => n === setName);
       const setNumber = setIndex >= 0 ? setIndex + 1 : 1;
-      const title = `${selectedSubject} �� ${selectedCategory} Set ${setNumber}`;
+      const title = `${selectedSubject} – ${selectedCategory} Set ${setNumber}`;
       const subjectSlug = sanitizeCodeSegment(selectedSubject, 'subject');
       const categorySlug = sanitizeCodeSegment(selectedCategory, 'category');
       const quizCode = [subjectSlug, categorySlug, `set-${setNumber}`].join(
@@ -30690,7 +31067,7 @@ function StartScreen({
         topicId: null,
         topicTitle: selectedCategory,
         canonicalTopicTitle: selectedCategory,
-        description: `${selectedCategory} practice �� combined set of 3 quizzes`,
+        description: `${selectedCategory} practice – combined set of 3 quizzes`,
         type: 'quiz',
         questions: prepared.questions,
       };
@@ -30751,7 +31128,7 @@ function StartScreen({
                     }}
                   >
                     Start{' '}
-                    {`${selectedSubject} �� ${selectedCategory} Set ${idx + 1}`}
+                    {`${selectedSubject} – ${selectedCategory} Set ${idx + 1}`}
                   </button>
                 ))}
               </div>
@@ -30805,7 +31182,7 @@ function StartScreen({
                   quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
                 const baseTitle = topic.title || 'Quiz';
                 const derivedTitle =
-                  quiz.title || `${baseTitle} �� ${quizLabel}`;
+                  quiz.title || `${baseTitle} – ${quizLabel}`;
                 const quizIdBase = topic.id || `topic_${topicIndex}`;
                 const resolvedQuestions = resolveQuizQuestions(
                   selectedSubject,
@@ -30963,7 +31340,7 @@ function StartScreen({
                               >
                                 {expanded
                                   ? 'Show fewer'
-                                  : 'More in this topic��'}
+                                  : 'More in this topic…'}
                               </button>
                             )}
                           </div>
@@ -31252,7 +31629,7 @@ function StartScreen({
                   className="text-center text-sm mt-2"
                   style={heroMutedTextStyle}
                 >
-                  Loading��
+                  Loading…
                 </p>
               ) : dailyError ? (
                 <p className="text-center text-sm mt-2 text-red-600">
@@ -31483,7 +31860,7 @@ function StartScreen({
                       opacity: adviceLoading ? 0.6 : 1,
                     }}
                   >
-                    {adviceLoading ? 'Asking��' : 'Ask Coach'}
+                    {adviceLoading ? 'Asking…' : 'Ask Coach'}
                   </button>
                   {!window.__ASK_COACH_ENABLED__ && (
                     <span className="text-xs" style={heroMutedTextStyle}>
@@ -31622,7 +31999,7 @@ function StartScreen({
                             className="text-center text-sm"
                             style={heroMutedTextStyle}
                           >
-                            Loading��
+                            Loading…
                           </p>
                         ) : hasPlan ? (
                           <div className="mt-2 max-h-48 overflow-y-auto space-y-1">
@@ -31651,7 +32028,7 @@ function StartScreen({
                                     Day {d.day}:
                                   </span>
                                   <span>
-                                    {focus ? `${focus} �� ` : ''}
+                                    {focus ? `${focus} – ` : ''}
                                     {titles || 'Practice'} ({minutes}m)
                                   </span>
                                 </div>
@@ -32138,7 +32515,7 @@ function StartScreen({
                       <li key={challenge.id}>
                         �{' '}
                         {challenge.label ||
-                          `${challenge.subject} �� ${challenge.subtopic}`}
+                          `${challenge.subject} – ${challenge.subtopic}`}
                       </li>
                     ))}
                     {hiddenChallengeCount > 0 && (
@@ -32147,7 +32524,7 @@ function StartScreen({
                           isDarkMode ? 'text-slate-400' : 'text-slate-800'
                         }`}
                       >
-                        and {hiddenChallengeCount} more��
+                        and {hiddenChallengeCount} more…
                       </li>
                     )}
                   </ul>
@@ -32317,7 +32694,7 @@ function StartScreen({
                 onClick={onStartPopQuiz}
                 className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 quiz-start-btn"
               >
-                Start a Practice Session ��️
+                Start a Practice Session 🎯
               </button>
             </div>
             <div
@@ -32332,6 +32709,7 @@ function StartScreen({
                   'Social Studies': 'GlobeIcon',
                   'Reasoning Through Language Arts (RLA)': 'BookOpenIcon',
                   RLA: 'BookOpenIcon',
+                  Workforce: 'BriefcaseIcon',
                 };
                 const iconKey =
                   subject?.icon ||
@@ -32383,10 +32761,29 @@ function StartScreen({
                     : subjectName === 'Science'
                     ? 'science'
                     : 'social';
+
+                // Get today's task for this subject from the task map
+                const todayTask = todayTasksBySubject?.[subjectName];
+                const dailyTaskTopic = todayTask?.topic || null;
+
                 return (
                   <button
                     key={subjectName}
-                    onClick={() => openSubjectPremades(subjectName)}
+                    onClick={() => {
+                      // Guard for Workforce - not yet implemented
+                      if (subjectName === 'Workforce') {
+                        alert(
+                          'Workforce mode coming soon — explore career tools and readiness modules.'
+                        );
+                        return;
+                      }
+                      // If there's a daily task, start it; otherwise open premades
+                      if (dailyTaskTopic) {
+                        startDailyTask(subjectName);
+                      } else {
+                        openSubjectPremades(subjectName);
+                      }
+                    }}
                     className="subject-card group flex flex-col items-center justify-between gap-4 p-6 rounded-2xl border shadow-lg transition-all duration-300 subject-choice"
                     data-testid={`subject-button-${subjectName
                       .toLowerCase()
@@ -32403,6 +32800,25 @@ function StartScreen({
                           }
                     }
                   >
+                    {/* Daily Task Chip at top */}
+                    {dailyTaskTopic ? (
+                      <div
+                        className="daily-task-chip gold-chip self-start"
+                        title="Today's Coach Task"
+                      >
+                        <span className="chip-label">Daily Task</span>
+                        <span className="chip-topic">{dailyTaskTopic}</span>
+                      </div>
+                    ) : window.__COACH_ENABLED__ ? (
+                      <div
+                        className="daily-task-chip muted-chip self-start"
+                        title="No task scheduled today"
+                      >
+                        <span className="chip-label">Daily Task</span>
+                        <span className="chip-topic">Not scheduled</span>
+                      </div>
+                    ) : null}
+
                     <div
                       className="w-full rounded-xl py-6 flex items-center justify-center shadow-inner"
                       style={
@@ -32959,7 +33375,7 @@ function QuizInterface({
                 style={timerStyle}
               >
                 <span role="img" aria-label="timer">
-                  ��️
+                  ⏱️
                 </span>
                 <span>{formatTime(timeLeft)}</span>
                 {isPaused && (
@@ -33407,7 +33823,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
   const MATH_EQUIV = {
     // Configurable numeric tolerance for float comparisons
     EPS: 1e-9,
-    // Percent �� decimal conversion regex
+    // Percent – decimal conversion regex
     PERCENT_RE: /^[-+]?\d+(?:\.\d+)?%$/,
     // Currency detection
     CURRENCY_RE: /^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/,
@@ -33585,13 +34001,13 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     // 4) GED-ish scaling: 3 segments
     let scaledScore;
     if (percentage <= 40) {
-      // 0��40% => 100��135
+      // 0–40% => 100–135
       scaledScore = 100 + (percentage / 40) * 35;
     } else if (percentage <= 65) {
-      // 40��65% => 135��145
+      // 40–65% => 135–145
       scaledScore = 135 + ((percentage - 40) / 25) * 10;
     } else {
-      // 65��100% => 145��200
+      // 65–100% => 145–200
       scaledScore = 145 + ((percentage - 65) / 35) * 55;
     }
     scaledScore = Math.round(scaledScore);
@@ -33843,13 +34259,13 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
     // 4) GED-ish scaling: 3 segments
     let scaledScore;
     if (percentage <= 40) {
-      // 0��40% => 100��135
+      // 0–40% => 100–135
       scaledScore = 100 + (percentage / 40) * 35;
     } else if (percentage <= 65) {
-      // 40��65% => 135��145
+      // 40–65% => 135–145
       scaledScore = 135 + ((percentage - 40) / 25) * 10;
     } else {
-      // 65��100% => 145��200
+      // 65–100% => 145–200
       scaledScore = 145 + ((percentage - 65) / 35) * 55;
     }
     scaledScore = Math.round(scaledScore);

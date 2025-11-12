@@ -92,12 +92,17 @@
   --subject-math-accent-text: #0c4a6e;
   --subject-math-border: rgba(56, 189, 248, 0.7);
   --subject-math-gradient: linear-gradient(135deg, #0ea5e9, #22d3ee);
-  --subject-simulations-accent: #f97316;
-  --subject-simulations-text: #fff7ed;
-  --subject-simulations-surface-text: #7c2d12;
-  --subject-simulations-accent-text: #7c2d12;
-  --subject-simulations-border: rgba(251, 146, 60, 0.75);
-  --subject-simulations-gradient: linear-gradient(135deg, #f97316, #facc15);
+  --subject-workforce-accent: #14b8a6;
+  --subject-workforce-text: #f0fdfa;
+  --subject-workforce-surface-text: #134e4a;
+  --subject-workforce-accent-text: #134e4a;
+  --subject-workforce-border: rgba(20, 184, 166, 0.7);
+  --subject-workforce-gradient: linear-gradient(135deg, #0f172a, #14b8a6);
+  /* Coach gold colors for daily task indicators */
+  --coach-gold-start: #f59e0b;
+  --coach-gold-end: #fbbf24;
+  --coach-gold-text: #1f2937;
+  --coach-gold-text-on-strong: #ffffff;
 }
 
 /* Explicit theme text color blocks for safety */
@@ -308,15 +313,15 @@
     rgba(14, 165, 233, 0.9),
     rgba(34, 211, 238, 0.7)
   );
-  --subject-simulations-accent: #fb923c;
-  --subject-simulations-text: #fff7ed;
-  --subject-simulations-surface-text: #fff7ed;
-  --subject-simulations-accent-text: #fff7ed;
-  --subject-simulations-border: rgba(251, 191, 36, 0.75);
-  --subject-simulations-gradient: linear-gradient(
+  --subject-workforce-accent: #14b8a6;
+  --subject-workforce-text: #f0fdfa;
+  --subject-workforce-surface-text: #f0fdfa;
+  --subject-workforce-accent-text: #f0fdfa;
+  --subject-workforce-border: rgba(20, 184, 166, 0.7);
+  --subject-workforce-gradient: linear-gradient(
     135deg,
-    rgba(249, 115, 22, 0.9),
-    rgba(250, 204, 21, 0.7)
+    rgba(15, 23, 42, 0.95),
+    rgba(20, 184, 166, 0.85)
   );
 }
 
@@ -2391,4 +2396,109 @@ select {
 .passage-section .passage-text,
 .passage-section p {
   color: inherit !important;
+}
+
+/* Daily Task Chip Styles for Subject Cards */
+.daily-task-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  line-height: 1;
+  border: 1px solid transparent;
+}
+
+.gold-chip {
+  background: linear-gradient(
+    135deg,
+    var(--coach-gold-start),
+    var(--coach-gold-end)
+  );
+  color: var(--coach-gold-text-on-strong);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.muted-chip {
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+}
+
+.daily-task-chip .chip-label {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.daily-task-chip .chip-topic {
+  font-weight: 500;
+  opacity: 0.95;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 18ch; /* truncate long topics gracefully */
+}
+
+/* Optional: Gold styling for entire card when daily task exists */
+.gold-card {
+  background: linear-gradient(
+    135deg,
+    var(--coach-gold-start),
+    var(--coach-gold-end)
+  ) !important;
+  color: var(--coach-gold-text-on-strong);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Gold button styling for Start button when daily task exists */
+.start-btn.gold-btn {
+  background: linear-gradient(
+    135deg,
+    var(--coach-gold-start),
+    var(--coach-gold-end)
+  );
+  color: var(--coach-gold-text-on-strong);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.start-btn.gold-btn:hover {
+  filter: brightness(0.97);
+}
+
+/* Workforce Theme */
+.workforce-card {
+  background: linear-gradient(135deg, #0f172a, #14b8a6);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.workforce-card:hover {
+  transform: translateY(-3px);
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.workforce-card .subject-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+}
+
+.workforce-card .description {
+  opacity: 0.9;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.workforce-chip {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
 }
