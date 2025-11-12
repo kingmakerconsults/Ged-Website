@@ -1,0 +1,61 @@
+{
+  "retirement_age_default": 67,
+  "early_retirement_penalty_per_year": 0.067,
+  "delayed_retirement_bonus_per_year": 0.08,
+  "ss_replacement_rate_bands": [
+    { "wage_up_to": 30000, "rate": 0.60 },
+    { "wage_up_to": 70000, "rate": 0.40 },
+    { "wage_up_to": 150000, "rate": 0.20 }
+  ],
+  "ss_max_benefit_monthly": 3800,
+  "pension_eligible_careers": {
+    "rn": { "accrual_pct_per_year": 0.012 },
+    "teacher_aide": { "accrual_pct_per_year": 0.015 },
+    "paraeducator": { "accrual_pct_per_year": 0.015 }
+  },
+  "medicare_age": 65,
+  "medicare_premium_monthly": 180,
+  "pre_medicare_health_insurance_monthly": 650,
+  "retire_health_govt_subsidy_pct": 0.0,
+  "withdrawal_policy": {
+    "type": "guardrails",
+    "min_pct": 0.03,
+    "max_pct": 0.05
+  },
+  "inflation_retirement_real": 0.02,
+  "spending_glidepath": {
+    "age_start": 75,
+    "annual_reduction_pct": 0.01
+  },
+  "longevity": {
+    "average_age": 82,
+    "max_age": 95
+  },
+  "housing": {
+    "home_price_mult_annual_gross": 3.5,
+    "down_payment_pct": 0.20,
+    "mortgage_apr": 0.065,
+    "mortgage_term_years": 30,
+    "property_tax_annual_pct": 0.01,
+    "home_insurance_annual": 1200,
+    "maintenance_annual_pct": 0.01,
+    "closing_costs_pct": 0.03,
+    "selling_costs_pct": 0.06,
+    "home_appreciation_annual_avg": 0.03
+  },
+  "loans": {
+    "student_loan_apr": 0.055,
+    "car_loan_apr": 0.048,
+    "personal_loan_apr": 0.12,
+    "default_student_term_years": 10,
+    "default_car_term_years": 5,
+    "default_personal_term_years": 3
+  },
+  "investment": {
+    "annual_return_mean": 0.07,
+    "annual_return_stddev": 0.15,
+    "employer_match_default": 0.03,
+    "contribution_limit_401k_annual": 23000,
+    "roth_ira_limit_annual": 7000
+  }
+}

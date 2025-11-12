@@ -1,0 +1,150 @@
+[
+  {
+    "id": "hvac_apprentice",
+    "title": "HVAC Apprentice",
+    "type": "hourly",
+    "hourly": 18,
+    "hours_per_week": 40,
+    "benefits": ["health"],
+    "entry_costs": 300,
+    "raise": { "cola": 0.02, "merit": [0.01, 0.03] },
+    "promotion": { "to": "hvac_journeyman", "bump": 0.18, "min_months": 18 },
+    "volatility": 0.03
+  },
+  {
+    "id": "hvac_journeyman",
+    "title": "HVAC Journeyman",
+    "type": "hourly",
+    "hourly": 27,
+    "hours_per_week": 40,
+    "benefits": ["health"],
+    "entry_costs": 0,
+    "raise": { "cola": 0.02, "merit": [0.01, 0.03] },
+    "promotion": { "to": null, "bump": 0, "min_months": 0 },
+    "volatility": 0.03
+  },
+  {
+    "id": "electrician",
+    "title": "Electrician",
+    "type": "hourly",
+    "hourly": 30,
+    "hours_per_week": 40,
+    "benefits": ["health", "retirement"],
+    "entry_costs": 500,
+    "raise": { "cola": 0.02, "merit": [0.01, 0.03] },
+    "promotion": { "to": null, "bump": 0, "min_months": 0 },
+    "volatility": 0.025
+  },
+  {
+    "id": "medical_assistant",
+    "title": "Medical Assistant",
+    "type": "hourly",
+    "hourly": 19,
+    "hours_per_week": 38,
+    "benefits": ["health"],
+    "entry_costs": 200,
+    "raise": { "cola": 0.018, "merit": [0.01, 0.025] },
+    "promotion": { "to": "rn", "bump": 0.25, "min_months": 24 },
+    "volatility": 0.02
+  },
+  {
+    "id": "rn",
+    "title": "Registered Nurse (RN)",
+    "type": "salary",
+    "salary": 65000,
+    "hours_per_week": 40,
+    "benefits": ["health", "retirement"],
+    "entry_costs": 2000,
+    "raise": { "cola": 0.02, "merit": [0.01, 0.03] },
+    "promotion": { "to": null, "bump": 0, "min_months": 0 },
+    "volatility": 0.02
+  },
+  {
+    "id": "it_helpdesk",
+    "title": "IT Helpdesk",
+    "type": "hourly",
+    "hourly": 20,
+    "hours_per_week": 40,
+    "benefits": ["health"],
+    "entry_costs": 0,
+    "raise": { "cola": 0.018, "merit": [0.01, 0.025] },
+    "promotion": { "to": "sysadmin", "bump": 0.22, "min_months": 18 },
+    "volatility": 0.025
+  },
+  {
+    "id": "sysadmin",
+    "title": "SysAdmin",
+    "type": "salary",
+    "salary": 52000,
+    "hours_per_week": 40,
+    "benefits": ["health", "retirement"],
+    "entry_costs": 0,
+    "raise": { "cola": 0.02, "merit": [0.01, 0.03] },
+    "promotion": { "to": null, "bump": 0, "min_months": 0 },
+    "volatility": 0.02
+  },
+  {
+    "id": "cdl_driver",
+    "title": "CDL Driver",
+    "type": "hourly",
+    "hourly": 23,
+    "hours_per_week": 45,
+    "benefits": ["health"],
+    "entry_costs": 400,
+    "raise": { "cola": 0.018, "merit": [0.01, 0.025] },
+    "promotion": { "to": null, "bump": 0, "min_months": 0 },
+    "volatility": 0.03
+  },
+  {
+    "id": "security_guard",
+    "title": "Security Guard",
+    "type": "hourly",
+    "hourly": 16,
+    "hours_per_week": 40,
+    "benefits": ["health"],
+    "entry_costs": 100,
+    "raise": { "cola": 0.015, "merit": [0.01, 0.02] },
+    "promotion": {
+      "to": "security_supervisor",
+      "bump": 0.18,
+      "min_months": 18
+    },
+    "volatility": 0.03
+  },
+  {
+    "id": "security_supervisor",
+    "title": "Security Supervisor",
+    "type": "salary",
+    "salary": 42000,
+    "hours_per_week": 40,
+    "benefits": ["health"],
+    "entry_costs": 0,
+    "raise": { "cola": 0.018, "merit": [0.01, 0.025] },
+    "promotion": { "to": null, "bump": 0, "min_months": 0 },
+    "volatility": 0.025
+  },
+  {
+    "id": "teacher_aide",
+    "title": "Teacher Aide",
+    "type": "hourly",
+    "hourly": 15,
+    "hours_per_week": 35,
+    "benefits": ["health"],
+    "entry_costs": 0,
+    "raise": { "cola": 0.015, "merit": [0.01, 0.02] },
+    "promotion": { "to": "paraeducator", "bump": 0.15, "min_months": 18 },
+    "volatility": 0.02
+  },
+  {
+    "id": "paraeducator",
+    "title": "Paraeducator",
+    "type": "salary",
+    "salary": 34000,
+    "hours_per_week": 37,
+    "benefits": ["health"],
+    "entry_costs": 0,
+    "raise": { "cola": 0.018, "merit": [0.01, 0.025] },
+    "promotion": { "to": null, "bump": 0, "min_months": 0 },
+    "volatility": 0.02
+  }
+]

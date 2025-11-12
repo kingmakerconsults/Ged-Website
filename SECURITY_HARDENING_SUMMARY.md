@@ -17,12 +17,13 @@ function ensureTestUserForNow(req, res, next) {
   if (process.env.NODE_ENV === 'production') {
     return next();
   }
-  
+
   // Dev/test logic continues below...
 }
 ```
 
 **Impact**:
+
 - ✅ **Development**: No change - test users still work
 - ✅ **Production**: Test user bypass is disabled, real auth required
 - ✅ **Backward Compatible**: Middleware stays in route stack, just becomes a no-op
@@ -54,6 +55,7 @@ const allowedOrigins = process.env.CORS_ORIGINS
 ```
 
 **Impact**:
+
 - ✅ **No breaking changes**: Uses same defaults if env var not set
 - ✅ **Flexible**: New frontends can be added via environment variable
 - ✅ **Production Ready**: Set `CORS_ORIGINS=https://app1.com,https://app2.com`
@@ -71,9 +73,11 @@ function logAdminAccess(req, res, next) {
     const userId = req.user?.id || req.user?.userId || 'anon';
     const role = req.user?.role || 'none';
     const path = req.originalUrl || req.url;
-    
+
     if (req.user) {
-      console.log(`[admin-access] ${timestamp} user=${userId} role=${role} path=${path}`);
+      console.log(
+        `[admin-access] ${timestamp} user=${userId} role=${role} path=${path}`
+      );
     } else {
       console.log(`[admin-access-anon] ${timestamp} path=${path}`);
     }
@@ -85,11 +89,13 @@ function logAdminAccess(req, res, next) {
 ```
 
 **Applied to**:
+
 - `/api/admin/challenges/seed` (line ~6223)
 - `/api/admin/organizations` (line ~10651)
 - `/api/admin/org-summary` (line ~10693)
 
 **Impact**:
+
 - ✅ **Audit Trail**: Every admin access is logged with timestamp, user, role, path
 - ✅ **Non-blocking**: Logging failures don't break requests
 - ✅ **Zero overhead**: Simple console.log, no database writes
@@ -120,6 +126,7 @@ if (require.main === module) {
 ```
 
 **Impact**:
+
 - ✅ **Fail Loud**: Misconfiguration is immediately visible in logs
 - ✅ **Non-blocking**: Server still starts (for debugging), but error is clear
 - ✅ **Production Only**: No noise in development
@@ -129,12 +136,14 @@ if (require.main === module) {
 ## Verification Checklist
 
 ### Development Behavior (NODE_ENV ≠ 'production')
+
 - [ ] `ensureTestUserForNow` still creates fallback users
 - [ ] CORS uses default origins (or CORS_ORIGINS if set)
 - [ ] No JWT_SECRET warnings on startup
 - [ ] All routes work as before
 
 ### Production Behavior (NODE_ENV === 'production')
+
 - [ ] `ensureTestUserForNow` passes through to real auth
 - [ ] CORS uses CORS_ORIGINS if set, else defaults
 - [ ] JWT_SECRET warning appears if not configured
@@ -142,13 +151,16 @@ if (require.main === module) {
 - [ ] User-scoped routes require valid JWT tokens
 
 ### Route Middleware Order Confirmed
+
 All user-scoped routes follow this order:
+
 1. `devAuth` (optional, dev-only)
 2. `ensureTestUserForNow` (now a no-op in prod)
 3. `requireAuthInProd` (enforces auth in prod)
 4. Route handler
 
 All admin routes follow this order:
+
 1. `logAdminAccess` (new)
 2. `requireAuth`
 3. `requireSuperAdmin` or `requireOrgAdmin`
@@ -159,6 +171,7 @@ All admin routes follow this order:
 ## Testing Commands
 
 ### Test CORS Configuration
+
 ```bash
 # Use default origins (no change)
 NODE_ENV=production node backend/server.js
@@ -168,6 +181,7 @@ CORS_ORIGINS=https://myapp.com,https://staging.myapp.com NODE_ENV=production nod
 ```
 
 ### Test JWT_SECRET Warning
+
 ```bash
 # Should show warning
 NODE_ENV=production node backend/server.js
@@ -177,6 +191,7 @@ NODE_ENV=production JWT_SECRET=test123 node backend/server.js
 ```
 
 ### Test Admin Logging
+
 ```bash
 # Start server and watch logs
 npm start
@@ -193,6 +208,7 @@ curl -H "Authorization: Bearer <token>" http://localhost:3002/api/admin/organiza
 ## Breaking Changes
 
 **None**. All changes are backward-compatible:
+
 - Existing route signatures unchanged
 - Response formats unchanged
 - Development behavior unchanged

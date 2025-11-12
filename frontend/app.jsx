@@ -30462,7 +30462,7 @@ function StartScreen({
       <DetailedProgressView
         subject={detailedViewSubject}
         progressData={progress[detailedViewSubject]}
-        onBack={goBack}
+        onBack={() => setDetailedViewSubject(null)}
         rlaEssayAvgDisplay={rlaEssayAvgDisplayForDetails}
       />
     );
@@ -32067,7 +32067,12 @@ function StartScreen({
                           className="flex items-center justify-between py-1"
                         >
                           <div>
-                            <p className="font-semibold text-slate-900 dark:text-slate-100">
+                            <p
+                              className={`font-semibold ${homePanelPrimaryTextClass}`}
+                              style={
+                                isDarkMode ? undefined : { color: '#000000' }
+                              }
+                            >
                               {item.subject}
                             </p>
                             <p
@@ -32169,7 +32174,7 @@ function StartScreen({
               />
             </div>
           )}
-          {/* Coach Smith �� This Week (4 subject cards) */}
+          {/* Coach Smith 📚 This Week (4 subject cards) */}
           {window.__COACH_ENABLED__ && currentUser && (
             <div
               className={`mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md ${
@@ -32180,7 +32185,7 @@ function StartScreen({
                 <h2
                   className={`text-lg font-semibold ${homePanelPrimaryTextClass}`}
                 >
-                  Coach Smith �� This Week
+                  Coach Smith 📚 This Week
                 </h2>
                 <button
                   onClick={generateAllWeeklyPlans}
@@ -32188,7 +32193,7 @@ function StartScreen({
                   className="text-sm font-semibold px-3 py-1 rounded-md bg-white text-slate-900 hover:bg-white/90 disabled:opacity-60 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
                   title="Generate weekly plans for Math, RLA, Science, and Social Studies"
                 >
-                  {generatingAll ? 'Generating��' : 'Generate all'}
+                  {generatingAll ? 'Generating…' : 'Generate all'}
                 </button>
               </div>
 

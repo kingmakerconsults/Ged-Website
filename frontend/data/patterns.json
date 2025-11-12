@@ -1,0 +1,22 @@
+{
+  "avatars": [
+    "student",
+    "parent",
+    "career_switcher",
+    "hvac",
+    "nurse",
+    "it",
+    "driver",
+    "security",
+    "teacher"
+  ],
+  "stage_prompts": [
+    "You just started your new job!",
+    "You received your first paycheck.",
+    "A new expense has appeared.",
+    "You got a raise!",
+    "You were promoted!",
+    "You faced an unexpected event.",
+    "You reached your goal!"
+  ]
+}

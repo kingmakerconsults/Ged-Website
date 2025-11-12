@@ -3965,9 +3965,11 @@ function logAdminAccess(req, res, next) {
     const userId = req.user?.id || req.user?.userId || 'anon';
     const role = req.user?.role || 'none';
     const path = req.originalUrl || req.url;
-    
+
     if (req.user) {
-      console.log(`[admin-access] ${timestamp} user=${userId} role=${role} path=${path}`);
+      console.log(
+        `[admin-access] ${timestamp} user=${userId} role=${role} path=${path}`
+      );
     } else {
       console.log(`[admin-access-anon] ${timestamp} path=${path}`);
     }

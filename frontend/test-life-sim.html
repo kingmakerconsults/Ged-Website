@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Life Sim Test</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Life Sim Data Test</h1>
+    <div id="output"></div>
+    
+    <script>
+        async function testDataLoading() {
+            const output = document.getElementById('output');
+            const tests = [
+                { name: 'Cost of Living', url: './config/cost_of_living.json' },
+                { name: 'Careers', url: './data/careers.json' },
+                { name: 'Scenarios', url: './data/scenarios.json' },
+                { name: 'Events', url: './data/events.json' }
+            ];
+            
+            for (const test of tests) {
+                try {
+                    const response = await fetch(test.url);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const data = await response.json();
+                    output.innerHTML += `<p class="success">✓ ${test.name}: Loaded (${JSON.stringify(data).length} bytes)</p>`;
+                } catch (err) {
+                    output.innerHTML += `<p class="error">✗ ${test.name}: ${err.message}</p>`;
+                }
+            }
+            
+            output.innerHTML += '<h2>Next: Open The Game of life.html</h2>';
+        }
+        
+        testDataLoading();
+    </script>
+</body>
+</html>
