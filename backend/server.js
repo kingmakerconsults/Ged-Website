@@ -5903,11 +5903,10 @@ app.post(
       const { focusTag } = req.body || {};
       const today = todayISO();
 
-      // Throttle to 2/week unless tester email
+      // Throttle to 2/week
       let email = (req.user && (req.user.email || req.user.userEmail)) || null;
       if (!email) email = await getUserEmailById(userId);
-      const testerByEmail =
-        String(email || '').toLowerCase() === 'zacharysmith527@gmail.com';
+      const testerByEmail = false;
       const weekStartISO = getCurrentWeekStartISO();
       if (!testerByEmail) {
         const existing = await db.oneOrNone(
@@ -6131,8 +6130,7 @@ app.post(
         email = await getUserEmailById(userId);
       }
 
-      const testerByEmail =
-        String(email || '').toLowerCase() === 'zacharysmith527@gmail.com';
+      const testerByEmail = false;
 
       // Build profile bundle to inspect selected challenges and test plan
       const bundle = await buildProfileBundle(userId);
