@@ -3866,6 +3866,11 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const devAuth = require('./middleware/devAuth');
 
 function ensureTestUserForNow(req, res, next) {
+  // In production, this middleware does nothing—let real auth handle it
+  if (process.env.NODE_ENV === 'production') {
+    return next();
+  }
+
   // If a prior middleware already populated the user, just normalise and move on.
   if (ensureRequestUser(req)) {
     if (req.user && req.user.id && !req.user.userId) {
@@ -3874,7 +3879,7 @@ function ensureTestUserForNow(req, res, next) {
     return next();
   }
 
-  // TEMPORARY FALLBACK:
+  // TEMPORARY FALLBACK (DEV/TEST ONLY):
   // Force a known user ID so onboarding/profile can work while auth is fixed.
   const fallbackIdRaw =
     process.env.FALLBACK_USER_ID || process.env.TEST_USER_ID || '1';
@@ -3926,11 +3931,16 @@ ensureDefaultChallengeTags().catch((e) =>
   console.error('Default challenge tags init error:', e)
 );
 
-const allowedOrigins = [
+// CORS configuration: prefer env var, fallback to hardcoded defaults
+const defaultOrigins = [
   'https://ezged.netlify.app',
   'https://quiz.ez-ged.com',
   'http://localhost:8000', // For local testing
 ];
+
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim())
+  : defaultOrigins;
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -3947,6 +3957,26 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
+
+// Admin route access logging middleware
+function logAdminAccess(req, res, next) {
+  try {
+    const timestamp = new Date().toISOString();
+    const userId = req.user?.id || req.user?.userId || 'anon';
+    const role = req.user?.role || 'none';
+    const path = req.originalUrl || req.url;
+    
+    if (req.user) {
+      console.log(`[admin-access] ${timestamp} user=${userId} role=${role} path=${path}`);
+    } else {
+      console.log(`[admin-access-anon] ${timestamp} path=${path}`);
+    }
+  } catch (err) {
+    // Logging failure should not break the request
+    console.error('[logAdminAccess] Error:', err);
+  }
+  next();
+}
 
 // handle preflight requests
 app.options('*', cors(corsOptions)); // Use '*' to handle preflights for all routes
@@ -6201,6 +6231,7 @@ app.post(
 // Admin seed endpoint: create/populate the challenge catalog table from the fallback list
 app.post(
   '/api/admin/challenges/seed',
+  logAdminAccess,
   devAuth,
   requireAuthInProd,
   requireSuperAdmin,
@@ -10626,6 +10657,7 @@ app.post('/api/auth/google', async (req, res) => {
 // --- API ENDPOINT TO SAVE A QUIZ ATTEMPT ---
 app.get(
   '/api/admin/organizations',
+  logAdminAccess,
   requireAuth,
   requireSuperAdmin,
   async (req, res) => {
@@ -10660,6 +10692,7 @@ app.get(
 
 app.get(
   '/api/admin/org-summary',
+  logAdminAccess,
   requireAuth,
   requireOrgAdmin,
   async (req, res) => {
@@ -11501,6 +11534,18 @@ const generateAIContent = async (prompt, schema) => {
 // The '0.0.0.0' is important for containerized environments like Render.
 if (require.main === module) {
   (async () => {
+    // Security check: JWT_SECRET must be configured in production
+    if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+      console.error('');
+      console.error('='.repeat(70));
+      console.error('CRITICAL: JWT_SECRET is not configured in production!');
+      console.error('Authentication will not work without this secret.');
+      console.error('Please set JWT_SECRET in your environment variables.');
+      console.error('='.repeat(70));
+      console.error('');
+      // Don't exit, but make it very visible
+    }
+
     const desiredPort = port;
     if (await isPortBusy(desiredPort)) {
       if (!process.env.PORT && desiredPort === 3002) {
