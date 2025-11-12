@@ -1,0 +1,157 @@
+[
+  {
+    "id": "meet_partner",
+    "label": "Meeting a Life Partner",
+    "age_min": 20,
+    "age_max": 35,
+    "annual_prob": 0.18,
+    "effect": {
+      "partner": true,
+      "shared_expenses_pct": 0.25,
+      "happiness": 15
+    }
+  },
+  {
+    "id": "first_child",
+    "label": "Having Your First Child",
+    "requires": ["partner"],
+    "age_min": 22,
+    "age_max": 38,
+    "annual_prob": 0.22,
+    "effect": {
+      "add_child": true,
+      "childcare_months": 48,
+      "childcare_cost_range": [550, 900],
+      "happiness": 20
+    }
+  },
+  {
+    "id": "second_child",
+    "label": "Having a Second Child",
+    "requires": ["partner", "has_child"],
+    "age_min": 25,
+    "age_max": 42,
+    "annual_prob": 0.15,
+    "effect": {
+      "add_child": true,
+      "childcare_months": 48,
+      "childcare_cost_range": [550, 900],
+      "happiness": 15
+    }
+  },
+  {
+    "id": "buy_home",
+    "label": "Home Purchase Opportunity",
+    "age_min": 24,
+    "age_max": 50,
+    "annual_prob": 0.12,
+    "requires": ["not_owns_home"],
+    "effect": {
+      "action": "attempt_home_purchase"
+    }
+  },
+  {
+    "id": "car_replace",
+    "label": "Car Replacement",
+    "recurs_every_years": 8,
+    "effect": {
+      "one_time_cost_range": [9000, 18000]
+    }
+  },
+  {
+    "id": "health_shock",
+    "label": "Health Emergency",
+    "age_min": 45,
+    "age_max": 65,
+    "annual_prob": 0.08,
+    "effect": {
+      "one_time_cost_range": [1000, 5000],
+      "missed_work_months": [1, 3],
+      "happiness": -15
+    }
+  },
+  {
+    "id": "tuition_resume",
+    "label": "Continuing Education",
+    "age_min": 25,
+    "age_max": 40,
+    "annual_prob": 0.10,
+    "effect": {
+      "student_loan_range": [3000, 12000],
+      "career_level_boost": 1
+    }
+  },
+  {
+    "id": "parent_care",
+    "label": "Elder Parent Care",
+    "age_min": 45,
+    "age_max": 65,
+    "annual_prob": 0.12,
+    "effect": {
+      "monthly_cost_add": 450,
+      "duration_months": 36,
+      "happiness": -5
+    }
+  },
+  {
+    "id": "promotion_major",
+    "label": "Major Career Promotion",
+    "age_min": 30,
+    "age_max": 55,
+    "annual_prob": 0.10,
+    "requires": ["career_level_min_2"],
+    "effect": {
+      "salary_boost_pct": 0.20,
+      "career_level_boost": 1,
+      "happiness": 10
+    }
+  },
+  {
+    "id": "job_loss",
+    "label": "Job Loss",
+    "age_min": 25,
+    "age_max": 62,
+    "annual_prob": 0.05,
+    "effect": {
+      "unemployment_months": 4,
+      "unemployment_benefit_pct": 0.45,
+      "happiness": -20
+    }
+  },
+  {
+    "id": "market_crash",
+    "label": "Market Crash",
+    "age_min": 25,
+    "age_max": 70,
+    "annual_prob": 0.08,
+    "effect": {
+      "investment_loss_pct": 0.30,
+      "happiness": -10
+    }
+  },
+  {
+    "id": "windfall",
+    "label": "Unexpected Windfall",
+    "age_min": 25,
+    "age_max": 65,
+    "annual_prob": 0.04,
+    "effect": {
+      "one_time_cash_range": [5000, 25000],
+      "happiness": 15
+    }
+  },
+  {
+    "id": "divorce",
+    "label": "Divorce/Separation",
+    "requires": ["partner"],
+    "age_min": 30,
+    "age_max": 60,
+    "annual_prob": 0.03,
+    "effect": {
+      "partner": false,
+      "asset_split": 0.5,
+      "one_time_cost": 5000,
+      "happiness": -25
+    }
+  }
+]

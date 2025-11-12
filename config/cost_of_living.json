@@ -1,0 +1,89 @@
+{
+  "regions": {
+    "LOW": {
+      "basket": {
+        "rent_roommate": 400,
+        "rent_studio": 600,
+        "rent_1br": 800,
+        "rent_2br": 1100,
+        "utilities": 90,
+        "groceries_single": 180,
+        "groceries_family": 350,
+        "transport_transit": 60,
+        "transport_car": 220,
+        "health": 120,
+        "phone": 40,
+        "internet": 45,
+        "misc": 60
+      },
+      "tax": {
+        "fica": 0.0765,
+        "federal_bands": [
+          { "up_to": 12000, "rate": 0.1 },
+          { "up_to": 40000, "rate": 0.12 },
+          { "up_to": 85000, "rate": 0.22 },
+          { "up_to": null, "rate": 0.24 }
+        ],
+        "state_flat": 0.03
+      },
+      "inflation": 0.0025
+    },
+    "MED": {
+      "basket": {
+        "rent_roommate": 600,
+        "rent_studio": 850,
+        "rent_1br": 1100,
+        "rent_2br": 1450,
+        "utilities": 110,
+        "groceries_single": 220,
+        "groceries_family": 420,
+        "transport_transit": 80,
+        "transport_car": 260,
+        "health": 140,
+        "phone": 45,
+        "internet": 50,
+        "misc": 80
+      },
+      "tax": {
+        "fica": 0.0765,
+        "federal_bands": [
+          { "up_to": 12000, "rate": 0.1 },
+          { "up_to": 40000, "rate": 0.12 },
+          { "up_to": 85000, "rate": 0.22 },
+          { "up_to": null, "rate": 0.24 }
+        ],
+        "state_flat": 0.045
+      },
+      "inflation": 0.003
+    },
+    "HIGH": {
+      "basket": {
+        "rent_roommate": 900,
+        "rent_studio": 1200,
+        "rent_1br": 1600,
+        "rent_2br": 2100,
+        "utilities": 140,
+        "groceries_single": 300,
+        "groceries_family": 600,
+        "transport_transit": 120,
+        "transport_car": 340,
+        "health": 180,
+        "phone": 55,
+        "internet": 65,
+        "misc": 120
+      },
+      "tax": {
+        "fica": 0.0765,
+        "federal_bands": [
+          { "up_to": 12000, "rate": 0.1 },
+          { "up_to": 40000, "rate": 0.12 },
+          { "up_to": 85000, "rate": 0.22 },
+          { "up_to": null, "rate": 0.24 }
+        ],
+        "state_flat": 0.06
+      },
+      "inflation": 0.004
+    }
+  },
+  "notes": "Rent is always $0 until a dwelling is selected. All other basket items scale by region."
+}

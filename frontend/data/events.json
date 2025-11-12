@@ -1,0 +1,50 @@
+[
+  {
+    "id": "car_repair",
+    "label": "Car Repair",
+    "annual_prob": 0.18,
+    "requires": ["has_car"],
+    "one_time_cost": 450
+  },
+  {
+    "id": "medical_bill",
+    "label": "Medical Bill",
+    "annual_prob": 0.12,
+    "one_time_cost": 350
+  },
+  {
+    "id": "rent_increase",
+    "label": "Rent Increase",
+    "annual_prob": 0.1,
+    "requires": ["dwelling"],
+    "monthly_rent_delta_pct": 0.05
+  },
+  {
+    "id": "childcare",
+    "label": "Childcare",
+    "annual_prob": 0.22,
+    "requires": ["has_child"],
+    "monthly_cost_add": 320,
+    "duration_months": 12
+  },
+  {
+    "id": "side_gig",
+    "label": "Side Gig",
+    "annual_prob": 0.15,
+    "monthly_income_add": 180,
+    "duration_months": 6
+  },
+  {
+    "id": "layoff",
+    "label": "Layoff",
+    "annual_prob": 0.04,
+    "monthly_income_add": -1,
+    "duration_months": 2
+  },
+  {
+    "id": "bonus",
+    "label": "Performance Bonus",
+    "annual_prob": 0.08,
+    "one_time_cost": -500
+  }
+]

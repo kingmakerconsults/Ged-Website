@@ -1,0 +1,36 @@
+[
+  {
+    "id": "student_budget",
+    "label": "Student Budget",
+    "region": "LOW",
+    "starting_cash": 400,
+    "starting_debt": 0,
+    "has_child": false,
+    "dwelling": null,
+    "goal": { "type": "net_worth", "target": 5000, "deadline_months": 24 }
+  },
+  {
+    "id": "single_parent",
+    "label": "Single Parent",
+    "region": "MED",
+    "starting_cash": 800,
+    "starting_debt": 1500,
+    "has_child": true,
+    "dwelling": "rent_1br",
+    "goal": { "type": "debt_free", "deadline_months": 36 }
+  },
+  {
+    "id": "career_switcher",
+    "label": "Career Switcher",
+    "region": "HIGH",
+    "starting_cash": 1200,
+    "starting_debt": 0,
+    "has_child": false,
+    "dwelling": null,
+    "goal": {
+      "type": "income",
+      "target_monthly_net": 3000,
+      "deadline_months": 18
+    }
+  }
+]
