@@ -21393,10 +21393,7 @@ const BriefcaseIcon = ({ className = '' } = {}) => (
   <CustomBriefcaseIcon className={className} />
 );
 const CalculatorIcon = ({ className = '' } = {}) => (
-  <i
-    className={['fas fa-calculator', className].filter(Boolean).join(' ')}
-    aria-hidden="true"
-  ></i>
+  <MathIcon className={className} />
 );
 const ChartBarIcon = () => (
   <svg
@@ -21721,6 +21718,73 @@ const ChartPieIcon = ({ className = '' } = {}) => (
       stroke="currentColor"
       strokeWidth="4"
     />
+  </svg>
+);
+
+const MathIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 -0.93 79.957 79.957"
+    className={className || 'h-5 w-5'}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path
+      d="M76.957 42.119a1.927 1.927 0 0 1-1.923 1.926H41.863a1.929 1.929 0 0 1-1.922-1.926v-30.64a1.933 1.933 0 0 1 1.922-1.927h33.171a1.93 1.93 0 0 1 1.923 1.927z"
+      fill="currentColor"
+      opacity="0.3"
+    />
+    <path
+      d="M65.633 30.66l-4.663-4.667 4.171-4.173a.482.482 0 0 0 0-.68l-1.3-1.3a.48.48 0 0 0-.68 0l-4.171 4.173-4.17-4.173a.494.494 0 0 0-.685 0l-1.3 1.3a.484.484 0 0 0 0 .678l4.171 4.175-4.664 4.665a.479.479 0 0 0 .005.675l1.3 1.3a.487.487 0 0 0 .681 0l4.664-4.664 4.667 4.664a.479.479 0 0 0 .68 0l1.3-1.3a.484.484 0 0 0-.006-.673z"
+      fill="currentColor"
+    />
+    <path
+      d="M34.014 42.119a1.929 1.929 0 0 1-1.923 1.926H-.079a1.926 1.926 0 0 1-1.922-1.926v-30.64a1.929 1.929 0 0 1 1.922-1.927h33.17a1.933 1.933 0 0 1 1.923 1.927z"
+      fill="currentColor"
+      opacity="0.3"
+    />
+    <path
+      d="M23.514 26.374a.484.484 0 0 1-.485.481h-15.3a.481.481 0 0 1-.476-.481v-1.844a.481.481 0 0 1 .476-.481h15.3a.484.484 0 0 1 .485.481z"
+      fill="currentColor"
+    />
+    <path
+      d="M23.034 66.374h-5.893v-5.9a.484.484 0 0 0-.481-.478h-1.845a.482.482 0 0 0-.481.478v5.9h-6.6a.481.481 0 0 0-.476.478v1.844a.479.479 0 0 0 .476.481h6.6v6.6a.48.48 0 0 0 .481.48h1.845a.482.482 0 0 0 .481-.48v-6.6h5.893a.482.482 0 0 0 .485-.481v-1.844a.484.484 0 0 0-.485-.478z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+const CorrectIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 117 117"
+    className={className || 'h-5 w-5'}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path
+      d="M34.5 55.1c-1.6-1.6-4.2-1.6-5.8 0s-1.6 4.2 0 5.8l18.9 18.9c.8.8 1.8 1.2 2.9 1.2h.2c1.1-.1 2.2-.6 3-1.5l47.3-56.7c1.4-1.7 1.2-4.3-.5-5.8s-4.3-1.2-5.8.5L50.2 70.8 34.5 55.1z"
+      fill="#17AB13"
+    />
+    <path
+      d="M89.1 9.3C66.1-5.1 36.6-1.7 17.4 17.5c-22.6 22.6-22.6 59.5 0 82.1 11.3 11.3 26.2 17 41 17s29.7-5.7 41-17c19.3-19.3 22.6-48.9 8.1-71.9-1.2-1.9-3.7-2.5-5.6-1.3s-2.5 3.7-1.3 5.6c12.5 19.8 9.6 45.2-7 61.8-19.4 19.4-51.1 19.4-70.5 0s-19.4-51.1 0-70.5C39.7 6.8 65 3.9 84.8 16.2c1.9 1.2 4.4.6 5.6-1.3s.6-4.4-1.3-5.6z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+const WrongIcon = ({ className = '' } = {}) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 200 200"
+    className={className || 'h-5 w-5'}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path d="M114 100l49-49a9.9 9.9 0 0 0-14-14L100 86 51 37A9.9 9.9 0 0 0 37 51l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14z" />
   </svg>
 );
 
@@ -35047,9 +35111,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                     })();
                     return <>Your answer: {display} </>;
                   })()}
-                  <span aria-label={isCorrect ? 'correct' : 'incorrect'}>
-                    {isCorrect ? '✓' : '✗'}
-                  </span>
+                  {isCorrect ? (
+                    <CorrectIcon className="inline-block w-5 h-5 ml-1 text-green-600" />
+                  ) : (
+                    <WrongIcon className="inline-block w-5 h-5 ml-1 text-red-600" />
+                  )}
                 </p>
                 {!isCorrect &&
                   ((correctMC && correctMC.text) || question.correctAnswer) && (
