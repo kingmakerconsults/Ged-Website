@@ -1,0 +1,49 @@
+{
+  "generatedAt": "2025-11-11T23:49:33.681Z",
+  "files": [
+    {
+      "file": "public\\quizzes\\sanitized\\math.quizzes.part1.sanitized.json",
+      "totalQuestions": 720,
+      "computable": 175,
+      "mismatches": 2
+    },
+    {
+      "file": "public\\quizzes\\sanitized\\math.quizzes.part2.sanitized.json",
+      "totalQuestions": 456,
+      "computable": 130,
+      "mismatches": 1
+    }
+  ],
+  "mismatches": [
+    {
+      "quizId": "math_quant_basics_set2",
+      "category": "Quantitative Problem Solving",
+      "question": "Express $\\frac{7}{20}$ as a percentage.",
+      "expression": "(7/20)",
+      "computed": 0.35,
+      "recorded": 35,
+      "correctText": "35%",
+      "rationale": "Correct. 7 × 5 = 35 gives the percent."
+    },
+    {
+      "quizId": "math_data_09",
+      "category": "Data, Statistics & Probability",
+      "question": "A bag contains 20 marbles. If the probability of drawing a red marble is $\\frac{1}{4}$, how many red marbles are in the bag?",
+      "expression": "(1/4)",
+      "computed": 0.25,
+      "recorded": 5,
+      "correctText": "5",
+      "rationale": "1/4 of 20 is (1/4) * 20 = 5."
+    },
+    {
+      "quizId": "math_number_sense_08",
+      "category": "Number Sense & Operations",
+      "question": "What is $\\frac{1}{2}$ of 50?$$",
+      "expression": "(1/2)",
+      "computed": 0.5,
+      "recorded": 25,
+      "correctText": "25",
+      "rationale": "Half of 50 is 25."
+    }
+  ]
+}

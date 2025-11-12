@@ -153,7 +153,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Given $f(x) = x^2 + 3$, find $f(-2)$.",
+                  "question": "Given $f(x) = x^{2} + 3$, find $f(-2)$.",
                   "correctAnswer": "7",
                   "rationale": "Substitute -2 for x: f(-2) = $(-2)^2 + 3 = 4 + 3 = 7$."
                 },
@@ -519,7 +519,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "Which of the following describes the graph of $y = x^2 - 1$?",
+                  "question": "Which of the following describes the graph of $y = x^{2} - 1$?",
                   "answerOptions": [
                     {
                       "text": "A line that passes through the origin.",
@@ -630,7 +630,7 @@
                   "type": "multipleChoice",
                   "calculator": true,
                   "difficulty": "medium",
-                  "question": "If $f(x) = x^2 - 2x$, what is the value of $f(5)$?",
+                  "question": "If $f(x) = x^{2} - 2x$, what is the value of $f(5)$?",
                   "answerOptions": [
                     {
                       "text": "15",
@@ -677,7 +677,7 @@
                       "rationale": "This is a linear function."
                     },
                     {
-                      "text": "$y = 3x^2 - 4x + 2$",
+                      "text": "$y = 3x^{2} - 4x + 2$",
                       "isCorrect": true,
                       "rationale": "A quadratic function has a term with x² as its highest power."
                     },
@@ -699,7 +699,7 @@
                   "type": "multipleChoice",
                   "calculator": true,
                   "difficulty": "hard",
-                  "question": "What is the vertex of the parabola given by the equation $y = (x - 3)^2 + 5$?",
+                  "question": "What is the vertex of the parabola given by the equation $y = (x - 3)^{2} + 5$?",
                   "answerOptions": [
                     {
                       "text": "(-3, 5)",
@@ -738,25 +738,25 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "If the graph of $f(x) = x^2$ is shifted 4 units to the right, what is the new function?",
+                  "question": "If the graph of $f(x) = x^{2}$ is shifted 4 units to the right, what is the new function?",
                   "answerOptions": [
                     {
-                      "text": "$g(x) = x^2 + 4$",
+                      "text": "$g(x) = x^{2} + 4$",
                       "isCorrect": false,
                       "rationale": "This is a shift of 4 units up."
                     },
                     {
-                      "text": "$g(x) = x^2 - 4$",
+                      "text": "$g(x) = x^{2} - 4$",
                       "isCorrect": false,
                       "rationale": "This is a shift of 4 units down."
                     },
                     {
-                      "text": "$g(x) = (x + 4)^2$",
+                      "text": "$g(x) = (x + 4)^{2}$",
                       "isCorrect": false,
                       "rationale": "This is a shift of 4 units to the left."
                     },
                     {
-                      "text": "$g(x) = (x - 4)^2$",
+                      "text": "$g(x) = (x - 4)^{2}$",
                       "isCorrect": true,
                       "rationale": "A horizontal shift to the right by h units is represented by f(x-h)."
                     }
@@ -768,7 +768,7 @@
                   "type": "fillIn",
                   "calculator": true,
                   "difficulty": "medium",
-                  "question": "For the function $h(t) = -16t^2 + 64t$, find the value of $h(2)$.",
+                  "question": "For the function $h(t) = -16t^{2} + 64t$, find the value of $h(2)$.",
                   "correctAnswer": "64",
                   "rationale": "Substitute 2 for t: h(2) = -16$(2)^2$ + 64(2) = -16(4) + 128 = -64 + 128 = 64."
                 },
@@ -807,7 +807,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "What is the range of the function $f(x) = -x^2 + 3$?",
+                  "question": "What is the range of the function $f(x) = -x^{2} + 3$?",
                   "answerOptions": [
                     {
                       "text": "$y \\leq 3$",
@@ -1305,7 +1305,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Given $f(x) = x^3 - 1$, find $f(2)$.",
+                  "question": "Given $f(x) = x^{3} - 1$, find $f(2)$.",
                   "correctAnswer": "7",
                   "rationale": "Substitute 2 for x: f(2) = $(2)^3$ - 1 = 8 - 1 = 7."
                 },
@@ -1314,7 +1314,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "What is the axis of symmetry for the parabola $y = x^2 - 6x + 8$?",
+                  "question": "What is the axis of symmetry for the parabola $y = x^{2} - 6x + 8$?",
                   "answerOptions": [
                     {
                       "text": "x = -6",
@@ -1541,7 +1541,7 @@
                       "rationale": "This is a straight line."
                     },
                     {
-                      "text": "$y = x^2$",
+                      "text": "$y = x^{2}$",
                       "isCorrect": false,
                       "rationale": "This is a U-shaped parabola."
                     },
@@ -1593,7 +1593,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "What is the range of the function $f(x) = x^2 + 5$?",
+                  "question": "What is the range of the function $f(x) = x^{2} + 5$?",
                   "correctAnswer": "y >= 5",
                   "rationale": "The parabola opens upward and its vertex is at (0, 5). Therefore, the minimum y-value is 5, and the range is all real numbers greater than or equal to 5."
                 },
@@ -1602,25 +1602,25 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "If the graph of $f(x) = x^3$ is shifted 2 units to the left and 3 units down, what is the new function?",
+                  "question": "If the graph of $f(x) = x^{3}$ is shifted 2 units to the left and 3 units down, what is the new function?",
                   "answerOptions": [
                     {
-                      "text": "$g(x) = (x - 2)^3 - 3$",
+                      "text": "$g(x) = (x - 2)^{3} - 3$",
                       "isCorrect": false,
                       "rationale": "This is a shift right and down."
                     },
                     {
-                      "text": "$g(x) = (x + 2)^3 - 3$",
+                      "text": "$g(x) = (x + 2)^{3} - 3$",
                       "isCorrect": true,
                       "rationale": "A shift left by 2 is f(x+2), and a shift down by 3 is f(x)-3."
                     },
                     {
-                      "text": "$g(x) = (x + 2)^3 + 3$",
+                      "text": "$g(x) = (x + 2)^{3} + 3$",
                       "isCorrect": false,
                       "rationale": "This is a shift left and up."
                     },
                     {
-                      "text": "$g(x) = (x - 3)^3 - 2$",
+                      "text": "$g(x) = (x - 3)^{3} - 2$",
                       "isCorrect": false,
                       "rationale": "This reverses the shifts."
                     }
@@ -1641,7 +1641,7 @@
                   "type": "multipleChoice",
                   "calculator": true,
                   "difficulty": "medium",
-                  "question": "Which point is the vertex of the parabola $y = (x-5)^2 + 1$?",
+                  "question": "Which point is the vertex of the parabola $y = (x-5)^{2} + 1$?",
                   "answerOptions": [
                     {
                       "text": "(-5, 1)",
@@ -1674,22 +1674,22 @@
                   "question": "Which of these functions has a graph that opens downward?",
                   "answerOptions": [
                     {
-                      "text": "$y = x^2 - 3$",
+                      "text": "$y = x^{2} - 3$",
                       "isCorrect": false,
                       "rationale": "The coefficient of $x^2$ is positive, so it opens upward."
                     },
                     {
-                      "text": "$y = -x^2 + 4$",
+                      "text": "$y = -x^{2} + 4$",
                       "isCorrect": true,
                       "rationale": "A negative coefficient for the $x^2$ term means the parabola opens downward."
                     },
                     {
-                      "text": "$y = (x-2)^2$",
+                      "text": "$y = (x-2)^{2}$",
                       "isCorrect": false,
                       "rationale": "The coefficient of $x^2$ is positive."
                     },
                     {
-                      "text": "$y = 2x^2$",
+                      "text": "$y = 2x^{2}$",
                       "isCorrect": false,
                       "rationale": "The coefficient of $x^2$ is positive."
                     }
@@ -1782,7 +1782,7 @@
                   "type": "multipleChoice",
                   "calculator": true,
                   "difficulty": "medium",
-                  "question": "Given the function $f(x) = 3x^2 - 5$, what is the value of $f(-2)$?",
+                  "question": "Given the function $f(x) = 3x^{2} - 5$, what is the value of $f(-2)$?",
                   "answerOptions": [
                     {
                       "text": "-11",
@@ -2112,7 +2112,7 @@
                   "question": "Which of the following functions is linear?",
                   "answerOptions": [
                     {
-                      "text": "$y = x^2 + 1$",
+                      "text": "$y = x^{2} + 1$",
                       "isCorrect": false,
                       "rationale": "This is a quadratic function."
                     },
@@ -2169,7 +2169,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Find the value of $f(x) = x^2 - 3x$ when $x=-4$.",
+                  "question": "Find the value of $f(x) = x^{2} - 3x$ when $x=-4$.",
                   "correctAnswer": "28",
                   "rationale": "f(-4) = $(-4)^2$ - 3(-4) = 16 + 12 = 28."
                 },
@@ -2405,12 +2405,12 @@
                       "rationale": "This is a line."
                     },
                     {
-                      "text": "$y = x^3$",
+                      "text": "$y = x^{3}$",
                       "isCorrect": false,
                       "rationale": "This is a cubic curve."
                     },
                     {
-                      "text": "$y = x^2$",
+                      "text": "$y = x^{2}$",
                       "isCorrect": true,
                       "rationale": "A quadratic function (with $x^2$) has a U-shaped graph (a parabola)."
                     },
@@ -2505,7 +2505,7 @@
                   "type": "multipleChoice",
                   "calculator": true,
                   "difficulty": "medium",
-                  "question": "Find the vertex of the parabola $y = x^2 + 4x + 3$.",
+                  "question": "Find the vertex of the parabola $y = x^{2} + 4x + 3$.",
                   "answerOptions": [
                     {
                       "text": "(-2, -1)",
@@ -2553,7 +2553,7 @@
                       "rationale": "The base is between 0 and 1, which represents exponential decay."
                     },
                     {
-                      "text": "$y = x^2$",
+                      "text": "$y = x^{2}$",
                       "isCorrect": false,
                       "rationale": "This is a quadratic function."
                     }
@@ -2685,7 +2685,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Which of these points is NOT on the graph of the function $y = x^2 + 1$?",
+                  "question": "Which of these points is NOT on the graph of the function $y = x^{2} + 1$?",
                   "answerOptions": [
                     {
                       "text": "(0, 1)",
@@ -2793,7 +2793,7 @@
                   "type": "multipleChoice",
                   "calculator": true,
                   "difficulty": "medium",
-                  "question": "What is the vertex of the parabola $y = -(x+2)^2$?",
+                  "question": "What is the vertex of the parabola $y = -(x+2)^{2}$?",
                   "answerOptions": [
                     {
                       "text": "(2, 0)",
@@ -3003,7 +3003,7 @@
                   "type": "multipleChoice",
                   "calculator": true,
                   "difficulty": "hard",
-                  "question": "If a function is defined by $f(x) = x^2 - 4x + 3$, what is its y-intercept?",
+                  "question": "If a function is defined by $f(x) = x^{2} - 4x + 3$, what is its y-intercept?",
                   "answerOptions": [
                     {
                       "text": "(0, 3)",
@@ -3111,25 +3111,25 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "The graph of $y = x^2$ is shifted 3 units down. What is the new equation?",
+                  "question": "The graph of $y = x^{2}$ is shifted 3 units down. What is the new equation?",
                   "answerOptions": [
                     {
-                      "text": "$y = x^2 - 3$",
+                      "text": "$y = x^{2} - 3$",
                       "isCorrect": true,
                       "rationale": "A vertical shift down by k units is f(x)-k."
                     },
                     {
-                      "text": "$y = x^2 + 3$",
+                      "text": "$y = x^{2} + 3$",
                       "isCorrect": false,
                       "rationale": "This is a shift up."
                     },
                     {
-                      "text": "$y = (x-3)^2$",
+                      "text": "$y = (x-3)^{2}$",
                       "isCorrect": false,
                       "rationale": "This is a shift right."
                     },
                     {
-                      "text": "$y = (x+3)^2$",
+                      "text": "$y = (x+3)^{2}$",
                       "isCorrect": false,
                       "rationale": "This is a shift left."
                     }
@@ -3261,7 +3261,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "What is the y-intercept of the function $f(x) = x^2 - 9$?",
+                  "question": "What is the y-intercept of the function $f(x) = x^{2} - 9$?",
                   "answerOptions": [
                     {
                       "text": "3",
@@ -3330,7 +3330,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "The graph of $y = (x+1)^2 - 2$ is a parabola. What is its vertex?",
+                  "question": "The graph of $y = (x+1)^{2} - 2$ is a parabola. What is its vertex?",
                   "answerOptions": [
                     {
                       "text": "(1, -2)",
@@ -3608,7 +3608,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Given $f(x) = x^2 + 3$, find $f(-2)$.",
+                "question": "Given $f(x) = x^{2} + 3$, find $f(-2)$.",
                 "correctAnswer": "7",
                 "rationale": "Substitute -2 for x: f(-2) = $(-2)^2 + 3 = 4 + 3 = 7$."
               },
@@ -3968,7 +3968,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Which of the following describes the graph of $y = x^2 - 1$?",
+                "question": "Which of the following describes the graph of $y = x^{2} - 1$?",
                 "answerOptions": [
                   {
                     "text": "A line that passes through the origin.",
@@ -4073,7 +4073,7 @@
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "If $f(x) = x^2 - 2x$, what is the value of $f(5)$?",
+                "question": "If $f(x) = x^{2} - 2x$, what is the value of $f(5)$?",
                 "answerOptions": [
                   {
                     "text": "15",
@@ -4120,7 +4120,7 @@
                     "rationale": "This is a linear function."
                   },
                   {
-                    "text": "$y = 3x^2 - 4x + 2$",
+                    "text": "$y = 3x^{2} - 4x + 2$",
                     "isCorrect": true,
                     "rationale": "A quadratic function has a term with x² as its highest power."
                   },
@@ -4142,7 +4142,7 @@
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "What is the vertex of the parabola given by the equation $y = (x - 3)^2 + 5$?",
+                "question": "What is the vertex of the parabola given by the equation $y = (x - 3)^{2} + 5$?",
                 "answerOptions": [
                   {
                     "text": "(-3, 5)",
@@ -4181,25 +4181,25 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "If the graph of $f(x) = x^2$ is shifted 4 units to the right, what is the new function?",
+                "question": "If the graph of $f(x) = x^{2}$ is shifted 4 units to the right, what is the new function?",
                 "answerOptions": [
                   {
-                    "text": "$g(x) = x^2 + 4$",
+                    "text": "$g(x) = x^{2} + 4$",
                     "isCorrect": false,
                     "rationale": "This is a shift of 4 units up."
                   },
                   {
-                    "text": "$g(x) = x^2 - 4$",
+                    "text": "$g(x) = x^{2} - 4$",
                     "isCorrect": false,
                     "rationale": "This is a shift of 4 units down."
                   },
                   {
-                    "text": "$g(x) = (x + 4)^2$",
+                    "text": "$g(x) = (x + 4)^{2}$",
                     "isCorrect": false,
                     "rationale": "This is a shift of 4 units to the left."
                   },
                   {
-                    "text": "$g(x) = (x - 4)^2$",
+                    "text": "$g(x) = (x - 4)^{2}$",
                     "isCorrect": true,
                     "rationale": "A horizontal shift to the right by h units is represented by f(x-h)."
                   }
@@ -4211,7 +4211,7 @@
                 "type": "fillIn",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "For the function $h(t) = -16t^2 + 64t$, find the value of $h(2)$.",
+                "question": "For the function $h(t) = -16t^{2} + 64t$, find the value of $h(2)$.",
                 "correctAnswer": "64",
                 "rationale": "Substitute 2 for t: h(2) = -16$(2)^2$ + 64(2) = -16(4) + 128 = -64 + 128 = 64."
               },
@@ -4250,7 +4250,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "What is the range of the function $f(x) = -x^2 + 3$?",
+                "question": "What is the range of the function $f(x) = -x^{2} + 3$?",
                 "answerOptions": [
                   {
                     "text": "$y \\leq 3$",
@@ -4738,7 +4738,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Given $f(x) = x^3 - 1$, find $f(2)$.",
+                "question": "Given $f(x) = x^{3} - 1$, find $f(2)$.",
                 "correctAnswer": "7",
                 "rationale": "Substitute 2 for x: f(2) = $(2)^3$ - 1 = 8 - 1 = 7."
               },
@@ -4747,7 +4747,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "What is the axis of symmetry for the parabola $y = x^2 - 6x + 8$?",
+                "question": "What is the axis of symmetry for the parabola $y = x^{2} - 6x + 8$?",
                 "answerOptions": [
                   {
                     "text": "x = -6",
@@ -4968,7 +4968,7 @@
                     "rationale": "This is a straight line."
                   },
                   {
-                    "text": "$y = x^2$",
+                    "text": "$y = x^{2}$",
                     "isCorrect": false,
                     "rationale": "This is a U-shaped parabola."
                   },
@@ -5020,7 +5020,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "What is the range of the function $f(x) = x^2 + 5$?",
+                "question": "What is the range of the function $f(x) = x^{2} + 5$?",
                 "correctAnswer": "y >= 5",
                 "rationale": "The parabola opens upward and its vertex is at (0, 5). Therefore, the minimum y-value is 5, and the range is all real numbers greater than or equal to 5."
               },
@@ -5029,25 +5029,25 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "If the graph of $f(x) = x^3$ is shifted 2 units to the left and 3 units down, what is the new function?",
+                "question": "If the graph of $f(x) = x^{3}$ is shifted 2 units to the left and 3 units down, what is the new function?",
                 "answerOptions": [
                   {
-                    "text": "$g(x) = (x - 2)^3 - 3$",
+                    "text": "$g(x) = (x - 2)^{3} - 3$",
                     "isCorrect": false,
                     "rationale": "This is a shift right and down."
                   },
                   {
-                    "text": "$g(x) = (x + 2)^3 - 3$",
+                    "text": "$g(x) = (x + 2)^{3} - 3$",
                     "isCorrect": true,
                     "rationale": "A shift left by 2 is f(x+2), and a shift down by 3 is f(x)-3."
                   },
                   {
-                    "text": "$g(x) = (x + 2)^3 + 3$",
+                    "text": "$g(x) = (x + 2)^{3} + 3$",
                     "isCorrect": false,
                     "rationale": "This is a shift left and up."
                   },
                   {
-                    "text": "$g(x) = (x - 3)^3 - 2$",
+                    "text": "$g(x) = (x - 3)^{3} - 2$",
                     "isCorrect": false,
                     "rationale": "This reverses the shifts."
                   }
@@ -5068,7 +5068,7 @@
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Which point is the vertex of the parabola $y = (x-5)^2 + 1$?",
+                "question": "Which point is the vertex of the parabola $y = (x-5)^{2} + 1$?",
                 "answerOptions": [
                   {
                     "text": "(-5, 1)",
@@ -5101,22 +5101,22 @@
                 "question": "Which of these functions has a graph that opens downward?",
                 "answerOptions": [
                   {
-                    "text": "$y = x^2 - 3$",
+                    "text": "$y = x^{2} - 3$",
                     "isCorrect": false,
                     "rationale": "The coefficient of $x^2$ is positive, so it opens upward."
                   },
                   {
-                    "text": "$y = -x^2 + 4$",
+                    "text": "$y = -x^{2} + 4$",
                     "isCorrect": true,
                     "rationale": "A negative coefficient for the $x^2$ term means the parabola opens downward."
                   },
                   {
-                    "text": "$y = (x-2)^2$",
+                    "text": "$y = (x-2)^{2}$",
                     "isCorrect": false,
                     "rationale": "The coefficient of $x^2$ is positive."
                   },
                   {
-                    "text": "$y = 2x^2$",
+                    "text": "$y = 2x^{2}$",
                     "isCorrect": false,
                     "rationale": "The coefficient of $x^2$ is positive."
                   }
@@ -5205,7 +5205,7 @@
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Given the function $f(x) = 3x^2 - 5$, what is the value of $f(-2)$?",
+                "question": "Given the function $f(x) = 3x^{2} - 5$, what is the value of $f(-2)$?",
                 "answerOptions": [
                   {
                     "text": "-11",
@@ -5529,7 +5529,7 @@
                 "question": "Which of the following functions is linear?",
                 "answerOptions": [
                   {
-                    "text": "$y = x^2 + 1$",
+                    "text": "$y = x^{2} + 1$",
                     "isCorrect": false,
                     "rationale": "This is a quadratic function."
                   },
@@ -5586,7 +5586,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Find the value of $f(x) = x^2 - 3x$ when $x=-4$.",
+                "question": "Find the value of $f(x) = x^{2} - 3x$ when $x=-4$.",
                 "correctAnswer": "28",
                 "rationale": "f(-4) = $(-4)^2$ - 3(-4) = 16 + 12 = 28."
               },
@@ -5816,12 +5816,12 @@
                     "rationale": "This is a line."
                   },
                   {
-                    "text": "$y = x^3$",
+                    "text": "$y = x^{3}$",
                     "isCorrect": false,
                     "rationale": "This is a cubic curve."
                   },
                   {
-                    "text": "$y = x^2$",
+                    "text": "$y = x^{2}$",
                     "isCorrect": true,
                     "rationale": "A quadratic function (with $x^2$) has a U-shaped graph (a parabola)."
                   },
@@ -5916,7 +5916,7 @@
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "Find the vertex of the parabola $y = x^2 + 4x + 3$.",
+                "question": "Find the vertex of the parabola $y = x^{2} + 4x + 3$.",
                 "answerOptions": [
                   {
                     "text": "(-2, -1)",
@@ -5964,7 +5964,7 @@
                     "rationale": "The base is between 0 and 1, which represents exponential decay."
                   },
                   {
-                    "text": "$y = x^2$",
+                    "text": "$y = x^{2}$",
                     "isCorrect": false,
                     "rationale": "This is a quadratic function."
                   }
@@ -6092,7 +6092,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Which of these points is NOT on the graph of the function $y = x^2 + 1$?",
+                "question": "Which of these points is NOT on the graph of the function $y = x^{2} + 1$?",
                 "answerOptions": [
                   {
                     "text": "(0, 1)",
@@ -6200,7 +6200,7 @@
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "medium",
-                "question": "What is the vertex of the parabola $y = -(x+2)^2$?",
+                "question": "What is the vertex of the parabola $y = -(x+2)^{2}$?",
                 "answerOptions": [
                   {
                     "text": "(2, 0)",
@@ -6404,7 +6404,7 @@
                 "type": "multipleChoice",
                 "calculator": true,
                 "difficulty": "hard",
-                "question": "If a function is defined by $f(x) = x^2 - 4x + 3$, what is its y-intercept?",
+                "question": "If a function is defined by $f(x) = x^{2} - 4x + 3$, what is its y-intercept?",
                 "answerOptions": [
                   {
                     "text": "(0, 3)",
@@ -6512,25 +6512,25 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "The graph of $y = x^2$ is shifted 3 units down. What is the new equation?",
+                "question": "The graph of $y = x^{2}$ is shifted 3 units down. What is the new equation?",
                 "answerOptions": [
                   {
-                    "text": "$y = x^2 - 3$",
+                    "text": "$y = x^{2} - 3$",
                     "isCorrect": true,
                     "rationale": "A vertical shift down by k units is f(x)-k."
                   },
                   {
-                    "text": "$y = x^2 + 3$",
+                    "text": "$y = x^{2} + 3$",
                     "isCorrect": false,
                     "rationale": "This is a shift up."
                   },
                   {
-                    "text": "$y = (x-3)^2$",
+                    "text": "$y = (x-3)^{2}$",
                     "isCorrect": false,
                     "rationale": "This is a shift right."
                   },
                   {
-                    "text": "$y = (x+3)^2$",
+                    "text": "$y = (x+3)^{2}$",
                     "isCorrect": false,
                     "rationale": "This is a shift left."
                   }
@@ -6656,7 +6656,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "What is the y-intercept of the function $f(x) = x^2 - 9$?",
+                "question": "What is the y-intercept of the function $f(x) = x^{2} - 9$?",
                 "answerOptions": [
                   {
                     "text": "3",
@@ -6725,7 +6725,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "The graph of $y = (x+1)^2 - 2$ is a parabola. What is its vertex?",
+                "question": "The graph of $y = (x+1)^{2} - 2$ is a parabola. What is its vertex?",
                 "answerOptions": [
                   {
                     "text": "(1, -2)",
@@ -6929,7 +6929,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Evaluate the expression: $12 + (5 - 2) \\times 3^2$.",
+                  "question": "Evaluate the expression: $12 + (5 - 2) \\times $3^{2}$$.$$",
                   "correctAnswer": "39",
                   "rationale": "Following the order of operations (PEMDAS): Parentheses (5-2=3), Exponents ($3^2$=9), Multiplication (3*9=27), Addition (12+27=39)."
                 },
@@ -7403,10 +7403,10 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "What is $2^3 \\times 2^4$?",
+                  "question": "What is $2^{3} \\times $2^{4}$$?$$",
                   "answerOptions": [
                     {
-                      "text": "$2^7$",
+                      "text": "$2^{7}$$$",
                       "isCorrect": true,
                       "rationale": "When multiplying powers with the same base, you add the exponents. 3 + 4 = 7."
                     },
@@ -7416,7 +7416,7 @@
                       "rationale": "This is the result of multiplying the exponents."
                     },
                     {
-                      "text": "$4^7$",
+                      "text": "$4^{7}$$$",
                       "isCorrect": false,
                       "rationale": "The base should not change."
                     },
@@ -7514,7 +7514,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Evaluate: $3^3 - 2 \\times 5$.",
+                  "question": "Evaluate: $3^{3} - 2 \\times 5$.$$",
                   "correctAnswer": "17",
                   "rationale": "Order of operations (PEMDAS): Exponents first ($3^3$ = 27), then multiplication (2*5 = 10), then subtraction (27 - 10 = 17)."
                 },
@@ -7631,7 +7631,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "What is the result of $1.2 \\times 10^3$?",
+                  "question": "What is the result of $1.2 \\times $10^{3}$$?$$",
                   "answerOptions": [
                     {
                       "text": "12",
@@ -7919,7 +7919,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "What is $4^3$?",
+                  "question": "What is $4^{3}$?$$",
                   "answerOptions": [
                     {
                       "text": "12",
@@ -8210,22 +8210,22 @@
                   "question": "What is the scientific notation for 3,450,000?",
                   "answerOptions": [
                     {
-                      "text": "$3.45 \\times 10^4$",
+                      "text": "$3.45 \\times $10^{4}$$$$",
                       "isCorrect": false,
                       "rationale": "The exponent should be 6."
                     },
                     {
-                      "text": "$3.45 \\times 10^5$",
+                      "text": "$3.45 \\times $10^{5}$$$$",
                       "isCorrect": false,
                       "rationale": "The exponent should be 6."
                     },
                     {
-                      "text": "$3.45 \\times 10^6$",
+                      "text": "$3.45 \\times $10^{6}$$$$",
                       "isCorrect": true,
                       "rationale": "The decimal point is moved 6 places to the left."
                     },
                     {
-                      "text": "$34.5 \\times 10^5$",
+                      "text": "$34.5 \\times $10^{5}$$$$",
                       "isCorrect": false,
                       "rationale": "The number before the 'x' must be between 1 and 10."
                     }
@@ -8464,7 +8464,7 @@
                       "rationale": "The square root of 25 is 5, which is a rational number."
                     },
                     {
-                      "text": "$\\pi$",
+                      "text": "$\\\\\\pi$",
                       "isCorrect": true,
                       "rationale": "Pi is a non-terminating, non-repeating decimal, which is the definition of an irrational number."
                     },
@@ -8486,7 +8486,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "Evaluate: $(2^3 + 2)^2$.",
+                  "question": "Evaluate: $(2^{3} + 2)^{2}$.",
                   "correctAnswer": "100",
                   "rationale": "Follow the order of operations. Inside the parentheses: $2^3$ = 8, so 8+2 = 10. Then square the result: $10^2$ = 100."
                 },
@@ -8597,7 +8597,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "easy",
-                  "question": "Which of the following is equal to $5^3$?",
+                  "question": "Which of the following is equal to $5^{3}$?$$",
                   "answerOptions": [
                     {
                       "text": "15",
@@ -8666,7 +8666,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Evaluate: $5 \times (6 - 2) + 3^2$.",
+                  "question": "Evaluate: $5 \times (6 - 2) + $3^{2}$$.$$",
                   "correctAnswer": "29",
                   "rationale": "Order of operations (PEMDAS): Parentheses (6-2=4), Exponents ($3^2$=9), Multiplication (5*4=20), Addition (20+9=29)."
                 },
@@ -8954,7 +8954,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Evaluate: $100 \\div 5^2$.",
+                  "question": "Evaluate: $100 \\div $5^{2}$$.$$",
                   "correctAnswer": "4",
                   "rationale": "Order of operations: Exponents first ($5^2$ = 25), then division (100 / 25 = 4)."
                 },
@@ -9032,7 +9032,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "easy",
-                  "question": "What is $1/2$ of 50?",
+                  "question": "What is $\\frac{1}{2}$ of 50?$$",
                   "answerOptions": [
                     {
                       "text": "20",
@@ -9242,7 +9242,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Evaluate: $50 - (10 - 4)^2$.",
+                  "question": "Evaluate: $50 - (10 - 4)^{2}$.$$",
                   "correctAnswer": "14",
                   "rationale": "Order of operations (PEMDAS): Parentheses first (10-4=6), then Exponents ($6^2$=36), then subtraction (50 - 36 = 14)."
                 },
@@ -9359,7 +9359,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "What is the value of $10^4$?",
+                  "question": "What is the value of $10^{4}$?$$",
                   "answerOptions": [
                     {
                       "text": "40",
@@ -9530,7 +9530,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Evaluate: $2 \times (3+4)^2$.",
+                  "question": "Evaluate: $2 \times (3+4)^{2}$.$$",
                   "correctAnswer": "98",
                   "rationale": "Order of operations: Parentheses (3+4=7), Exponents ($7^2$=49), Multiplication (2*49=98)."
                 },
@@ -9818,7 +9818,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "Evaluate: $10 + 4 \\times 2^3$.",
+                  "question": "Evaluate: $10 + 4 \\times $2^{3}$$.$$",
                   "correctAnswer": "42",
                   "rationale": "Order of operations (PEMDAS): Exponents ($2^3$=8), Multiplication (4*8=32), Addition (10+32=42)."
                 },
@@ -9887,7 +9887,7 @@
                   "type": "fillIn",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "What is the result of $1/2 - $\\frac{1}{3}$$?$",
+                  "question": "What is the result of $\\frac{1}{2} - $\\frac{1}{3}$$?$$",
                   "correctAnswer": "$\\frac{1}{6}$",
                   "rationale": "The common denominator is 6. 1/2 = 3/6 and 1/3 = 2/6. 3/6 - 2/6 = 1/6."
                 },
@@ -9938,7 +9938,7 @@
                   "question": "What is the scientific notation for 0.00058?",
                   "answerOptions": [
                     {
-                      "text": "$5.8 \\times 10^4$",
+                      "text": "$5.8 \\times $10^{4}$$$$",
                       "isCorrect": false,
                       "rationale": "The exponent should be negative."
                     },
@@ -10223,7 +10223,7 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "medium",
-                  "question": "What is $\\sqrt{49} + 3^2$?",
+                  "question": "What is $\\sqrt{49} + 3^{2}$?",
                   "answerOptions": [
                     {
                       "text": "13",
@@ -10384,7 +10384,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate the expression: $12 + (5 - 2) \\times 3^2$.",
+                "question": "Evaluate the expression: $12 + (5 - 2) \\times $3^{2}$$.$$",
                 "correctAnswer": "39",
                 "rationale": "Following the order of operations (PEMDAS): Parentheses (5-2=3), Exponents ($3^2$=9), Multiplication (3*9=27), Addition (12+27=39)."
               },
@@ -10852,10 +10852,10 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "What is $2^3 \\times 2^4$?",
+                "question": "What is $2^{3} \\times $2^{4}$$?$$",
                 "answerOptions": [
                   {
-                    "text": "$2^7$",
+                    "text": "$2^{7}$$$",
                     "isCorrect": true,
                     "rationale": "When multiplying powers with the same base, you add the exponents. 3 + 4 = 7."
                   },
@@ -10865,7 +10865,7 @@
                     "rationale": "This is the result of multiplying the exponents."
                   },
                   {
-                    "text": "$4^7$",
+                    "text": "$4^{7}$$$",
                     "isCorrect": false,
                     "rationale": "The base should not change."
                   },
@@ -10957,7 +10957,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $3^3 - 2 \\times 5$.",
+                "question": "Evaluate: $3^{3} - 2 \\times 5$.$$",
                 "correctAnswer": "17",
                 "rationale": "Order of operations (PEMDAS): Exponents first ($3^3$ = 27), then multiplication (2*5 = 10), then subtraction (27 - 10 = 17)."
               },
@@ -11074,7 +11074,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "What is the result of $1.2 \\times 10^3$?",
+                "question": "What is the result of $1.2 \\times $10^{3}$$?$$",
                 "answerOptions": [
                   {
                     "text": "12",
@@ -11358,7 +11358,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "What is $4^3$?",
+                "question": "What is $4^{3}$?$$",
                 "answerOptions": [
                   {
                     "text": "12",
@@ -11643,22 +11643,22 @@
                 "question": "What is the scientific notation for 3,450,000?",
                 "answerOptions": [
                   {
-                    "text": "$3.45 \\times 10^4$",
+                    "text": "$3.45 \\times $10^{4}$$$$",
                     "isCorrect": false,
                     "rationale": "The exponent should be 6."
                   },
                   {
-                    "text": "$3.45 \\times 10^5$",
+                    "text": "$3.45 \\times $10^{5}$$$$",
                     "isCorrect": false,
                     "rationale": "The exponent should be 6."
                   },
                   {
-                    "text": "$3.45 \\times 10^6$",
+                    "text": "$3.45 \\times $10^{6}$$$$",
                     "isCorrect": true,
                     "rationale": "The decimal point is moved 6 places to the left."
                   },
                   {
-                    "text": "$34.5 \\times 10^5$",
+                    "text": "$34.5 \\times $10^{5}$$$$",
                     "isCorrect": false,
                     "rationale": "The number before the 'x' must be between 1 and 10."
                   }
@@ -11891,7 +11891,7 @@
                     "rationale": "The square root of 25 is 5, which is a rational number."
                   },
                   {
-                    "text": "$\\pi$",
+                    "text": "$\\\\\\pi$",
                     "isCorrect": true,
                     "rationale": "Pi is a non-terminating, non-repeating decimal, which is the definition of an irrational number."
                   },
@@ -11913,7 +11913,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Evaluate: $(2^3 + 2)^2$.",
+                "question": "Evaluate: $(2^{3} + 2)^{2}$.",
                 "correctAnswer": "100",
                 "rationale": "Follow the order of operations. Inside the parentheses: $2^3$ = 8, so 8+2 = 10. Then square the result: $10^2$ = 100."
               },
@@ -12020,7 +12020,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "Which of the following is equal to $5^3$?",
+                "question": "Which of the following is equal to $5^{3}$?$$",
                 "answerOptions": [
                   {
                     "text": "15",
@@ -12089,7 +12089,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $5 \times (6 - 2) + 3^2$.",
+                "question": "Evaluate: $5 \times (6 - 2) + $3^{2}$$.$$",
                 "correctAnswer": "29",
                 "rationale": "Order of operations (PEMDAS): Parentheses (6-2=4), Exponents ($3^2$=9), Multiplication (5*4=20), Addition (20+9=29)."
               },
@@ -12371,7 +12371,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $100 \\div 5^2$.",
+                "question": "Evaluate: $100 \\div $5^{2}$$.$$",
                 "correctAnswer": "4",
                 "rationale": "Order of operations: Exponents first ($5^2$ = 25), then division (100 / 25 = 4)."
               },
@@ -12449,7 +12449,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "easy",
-                "question": "What is $1/2$ of 50?",
+                "question": "What is $\\frac{1}{2}$ of 50?$$",
                 "answerOptions": [
                   {
                     "text": "20",
@@ -12653,7 +12653,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $50 - (10 - 4)^2$.",
+                "question": "Evaluate: $50 - (10 - 4)^{2}$.$$",
                 "correctAnswer": "14",
                 "rationale": "Order of operations (PEMDAS): Parentheses first (10-4=6), then Exponents ($6^2$=36), then subtraction (50 - 36 = 14)."
               },
@@ -12770,7 +12770,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "What is the value of $10^4$?",
+                "question": "What is the value of $10^{4}$?$$",
                 "answerOptions": [
                   {
                     "text": "40",
@@ -12937,7 +12937,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $2 \times (3+4)^2$.",
+                "question": "Evaluate: $2 \times (3+4)^{2}$.$$",
                 "correctAnswer": "98",
                 "rationale": "Order of operations: Parentheses (3+4=7), Exponents ($7^2$=49), Multiplication (2*49=98)."
               },
@@ -13219,7 +13219,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "Evaluate: $10 + 4 \\times 2^3$.",
+                "question": "Evaluate: $10 + 4 \\times $2^{3}$$.$$",
                 "correctAnswer": "42",
                 "rationale": "Order of operations (PEMDAS): Exponents ($2^3$=8), Multiplication (4*8=32), Addition (10+32=42)."
               },
@@ -13288,7 +13288,7 @@
                 "type": "fillIn",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "What is the result of $1/2 - $\\frac{1}{3}$$?$",
+                "question": "What is the result of $\\frac{1}{2} - $\\frac{1}{3}$$?$$",
                 "correctAnswer": "$\\frac{1}{6}$",
                 "rationale": "The common denominator is 6. 1/2 = 3/6 and 1/3 = 2/6. 3/6 - 2/6 = 1/6."
               },
@@ -13339,7 +13339,7 @@
                 "question": "What is the scientific notation for 0.00058?",
                 "answerOptions": [
                   {
-                    "text": "$5.8 \\times 10^4$",
+                    "text": "$5.8 \\times $10^{4}$$$$",
                     "isCorrect": false,
                     "rationale": "The exponent should be negative."
                   },
@@ -13618,7 +13618,7 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "medium",
-                "question": "What is $\\sqrt{49} + 3^2$?",
+                "question": "What is $\\sqrt{49} + 3^{2}$?",
                 "answerOptions": [
                   {
                     "text": "13",
@@ -20698,7 +20698,7 @@
                     "100 cm$^2$",
                     "108 cm$^2$"
                   ],
-                  "correctAnswer": "96 cm$^2$",
+                  "correctAnswer": "96 cm$^{2}$",
                   "difficulty": "hard"
                 }
               ],
@@ -20957,7 +20957,7 @@
                   "100 cm$^2$",
                   "108 cm$^2$"
                 ],
-                "correctAnswer": "96 cm$^2$",
+                "correctAnswer": "96 cm$^{2}$",
                 "difficulty": "hard"
               }
             ],
