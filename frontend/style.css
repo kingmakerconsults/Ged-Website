@@ -486,6 +486,16 @@ body::after {
   color: var(--text-primary);
 }
 
+/* Light mode: question stems use normal text color */
+.question-stem {
+  color: var(--text-primary);
+}
+
+.question-stem * {
+  color: inherit;
+}
+
+/* Dark mode: question stems use white for contrast */
 .dark .question-stem {
   color: #ffffff;
 }
@@ -1474,6 +1484,16 @@ h3 {
   color: var(--text-primary);
 }
 
+/* Light mode: question stems use normal text color */
+.question-stem {
+  color: var(--text-primary);
+}
+
+.question-stem * {
+  color: inherit;
+}
+
+/* Dark mode: question stems use white for contrast */
 .dark .question-stem {
   color: #ffffff;
 }
