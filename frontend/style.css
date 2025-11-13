@@ -1916,6 +1916,29 @@ h3 {
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
+
+/* Workforce Hub minimal styles */
+.workforce-hub {
+  --subject-accent: var(--subject-workforce-accent);
+  --subject-text: var(--subject-workforce-text);
+  --subject-surface-text: var(--subject-workforce-surface-text);
+  --subject-border: var(--subject-workforce-border);
+}
+.workforce-tool-card {
+  border-color: var(--subject-workforce-border);
+}
+.workforce-tool-grid {
+  align-items: stretch;
+}
+.workforce-resume-preview {
+  border-color: var(--subject-workforce-border);
+}
+.workforce-budget-summary {
+  border-color: var(--subject-workforce-border);
+}
+.workforce-kanban > div {
+  border-color: var(--subject-workforce-border);
+}
 .dark .coach-panel,
 [data-theme='dark'] .coach-panel {
   background-image: linear-gradient(

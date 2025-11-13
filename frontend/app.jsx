@@ -26868,6 +26868,9 @@ function App({ externalTheme, onThemeChange }) {
             />
           );
         }
+        if (activeView === 'workforce') {
+          return <WorkforceHub onBack={goToDashboard} />;
+        }
         // Dashboard, Quizzes, Progress all use the StartScreen container; scrolling is handled by pendingScrollTarget
         return (
           <StartScreen
@@ -26893,6 +26896,7 @@ function App({ externalTheme, onThemeChange }) {
             onSelectSubject={selectSubject}
             onSelectCategory={selectCategory}
             onBack={goBack}
+            onOpenWorkforce={() => navigateTo('workforce')}
             onSelectGenerator={async (
               subject,
               topic,
@@ -30033,6 +30037,7 @@ function StartScreen({
   onSelectSubject,
   onSelectCategory,
   onBack,
+  onOpenWorkforce,
 }) {
   const [aiQuizTopic, setAiQuizTopic] = useState('');
   const [detailedViewSubject, setDetailedViewSubject] = useState(null);
@@ -33099,12 +33104,12 @@ function StartScreen({
                   <button
                     key={subjectName}
                     onClick={() => {
-                      // Guard for Workforce - not yet implemented
+                      // Open Workforce Hub (frontend-only tools)
                       if (subjectName === 'Workforce') {
-                        alert(
-                          'Workforce mode coming soon — explore career tools and readiness modules.'
-                        );
-                        return;
+                        if (typeof onOpenWorkforce === 'function') {
+                          onOpenWorkforce();
+                          return;
+                        }
                       }
                       openSubjectPremades(subjectName);
                     }}
@@ -38418,6 +38423,667 @@ function GraphingTool({ onExit }) {
     </div>
   );
 }
+
+// ---------------- Workforce Hub (frontend-only) ----------------
+const WORKFORCE_RESUME_STORAGE_KEY = 'ged_workforce_resume_v1';
+const WORKFORCE_INTERVIEW_STORAGE_KEY = 'ged_workforce_interview_practice_v1';
+const WORKFORCE_APPS_STORAGE_KEY = 'ged_workforce_applications_v1';
+
+const WORKFORCE_CAREER_PATHWAYS = [
+  {
+    title: 'Certified Nursing Assistant (CNA)',
+    field: 'Healthcare',
+    description:
+      'Support nurses and care for patients in clinical settings with strong job stability.',
+    medianSalary: 34000,
+    growth: 'High',
+    skills: ['Compassion', 'Patient Care', 'Basic Medical Knowledge'],
+  },
+  {
+    title: 'IT Support Specialist',
+    field: 'Technology',
+    description:
+      'Troubleshoot hardware/software issues, support users, and grow toward systems or cybersecurity.',
+    medianSalary: 52000,
+    growth: 'High',
+    skills: ['Problem Solving', 'Customer Service', 'Networking Basics'],
+  },
+  {
+    title: 'HVAC Technician (Apprentice)',
+    field: 'Skilled Trades',
+    description:
+      'Install and repair heating/cooling systems. Great hands-on career with apprenticeships.',
+    medianSalary: 50000,
+    growth: 'High',
+    skills: ['Mechanics', 'Tools', 'Safety Procedures'],
+  },
+  {
+    title: 'Office Administrator',
+    field: 'Business',
+    description:
+      'Manage scheduling, documents, and operations. Strong stepping stone into many industries.',
+    medianSalary: 44000,
+    growth: 'Medium',
+    skills: ['Organization', 'Communication', 'Spreadsheets'],
+  },
+];
+
+const WORKFORCE_INTERVIEW_QUESTIONS = [
+  {
+    q: 'Tell me about yourself.',
+    hint: 'Keep it professional and focused on strengths.',
+  },
+  {
+    q: 'Why are you interested in this role?',
+    hint: 'Connect your skills to the job.',
+  },
+  {
+    q: 'Describe a time you solved a problem.',
+    hint: 'Use STAR: Situation, Task, Action, Result.',
+  },
+  {
+    q: 'What are your strengths?',
+    hint: 'Pick 2-3 relevant strengths with examples.',
+  },
+  {
+    q: 'What is a weakness you are improving?',
+    hint: 'Be honest and show growth.',
+  },
+];
+
+const DEFAULT_BUDGET_CATEGORIES = [
+  { key: 'housing', label: 'Housing', amountDefault: 900 },
+  { key: 'utilities', label: 'Utilities', amountDefault: 200 },
+  { key: 'food', label: 'Food', amountDefault: 350 },
+  { key: 'transportation', label: 'Transportation', amountDefault: 200 },
+  { key: 'healthcare', label: 'Healthcare', amountDefault: 120 },
+  { key: 'phone', label: 'Phone/Internet', amountDefault: 100 },
+  { key: 'other', label: 'Other', amountDefault: 150 },
+];
+
+function WorkforceHub({ onBack }) {
+  const [tool, setTool] = React.useState('career');
+  const isLight = (() => {
+    if (typeof document === 'undefined') return true;
+    const root = document.documentElement;
+    const attr = root.getAttribute('data-theme');
+    return attr !== 'dark' && !root.classList.contains('dark');
+  })();
+
+  const ToolButton = ({ id, label }) => (
+    <button
+      onClick={() => setTool(id)}
+      className={`workforce-tool-card px-4 py-3 rounded-xl font-semibold border transition ${
+        tool === id
+          ? 'bg-teal-600 text-white shadow'
+          : 'bg-white/70 dark:bg-slate-800/70 text-slate-800 dark:text-slate-100 hover:bg-white'
+      }`}
+      style={{ borderColor: 'var(--subject-workforce-border)' }}
+    >
+      {label}
+    </button>
+  );
+
+  return (
+    <div className="fade-in workforce-hub">
+      <div
+        className="rounded-2xl overflow-hidden shadow-xl mb-4"
+        style={{ background: 'var(--subject-workforce-gradient)' }}
+      >
+        <header className="flex flex-wrap items-center justify-between gap-3 p-4 text-[var(--subject-workforce-text)]">
+          <div className="flex-none min-w-[140px]">
+            <button
+              onClick={onBack}
+              className="inline-flex items-center gap-2 text-sm font-semibold bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md"
+            >
+              <ArrowLeftIcon />
+              <span>Back</span>
+            </button>
+          </div>
+          <h2 className="text-2xl font-extrabold text-center flex-1">
+            Workforce Hub
+          </h2>
+          <div className="flex-none min-w-[140px]" aria-hidden="true"></div>
+        </header>
+      </div>
+
+      <div className="workforce-tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 mb-4">
+        <ToolButton id="career" label="Career Finder" />
+        <ToolButton id="resume" label="Resume Builder" />
+        <ToolButton id="interview" label="Interview Practice" />
+        <ToolButton id="budget" label="Budget & Salary" />
+        <ToolButton id="tracker" label="Application Tracker" />
+      </div>
+
+      <section
+        className="bg-white dark:bg-slate-900/70 border rounded-2xl shadow p-4"
+        style={{ borderColor: 'var(--subject-workforce-border)' }}
+      >
+        {tool === 'career' && <WorkforceCareerPathFinder />}
+        {tool === 'resume' && <WorkforceResumeBuilder />}
+        {tool === 'interview' && <WorkforceInterviewPractice />}
+        {tool === 'budget' && <WorkforceBudgetCalculator />}
+        {tool === 'tracker' && <WorkforceApplicationTracker />}
+      </section>
+    </div>
+  );
+}
+
+function WorkforceCareerPathFinder() {
+  const [query, setQuery] = React.useState('');
+  const [field, setField] = React.useState('');
+  const fields = React.useMemo(
+    () => Array.from(new Set(WORKFORCE_CAREER_PATHWAYS.map((c) => c.field))),
+    []
+  );
+
+  const results = WORKFORCE_CAREER_PATHWAYS.filter((c) => {
+    const okField = !field || c.field === field;
+    const q = query.trim().toLowerCase();
+    const okQ =
+      !q ||
+      c.title.toLowerCase().includes(q) ||
+      c.description.toLowerCase().includes(q) ||
+      c.skills.some((s) => s.toLowerCase().includes(q));
+    return okField && okQ;
+  });
+
+  return (
+    <div>
+      <div className="flex flex-col sm:flex-row gap-2 mb-4">
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search by title, skill, or keyword"
+          className="flex-1 px-3 py-2 border rounded-md"
+        />
+        <select
+          value={field}
+          onChange={(e) => setField(e.target.value)}
+          className="px-3 py-2 border rounded-md"
+        >
+          <option value="">All Fields</option>
+          {fields.map((f) => (
+            <option key={f} value={f}>
+              {f}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {results.map((c) => (
+          <div
+            key={c.title}
+            className="workforce-tool-card p-4 rounded-xl border bg-white dark:bg-slate-800/70"
+          >
+            <h3 className="text-lg font-bold mb-1">{c.title}</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 mb-2">
+              {c.field} • Median: ${c.medianSalary.toLocaleString()}
+            </p>
+            <p className="text-sm mb-2">{c.description}</p>
+            <div className="text-xs text-slate-600 dark:text-slate-300">
+              Skills: {c.skills.join(', ')}
+            </div>
+          </div>
+        ))}
+        {!results.length && (
+          <div className="text-slate-500 text-sm">
+            No matches — try another search.
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function WorkforceResumeBuilder() {
+  const [form, setForm] = React.useState(() => {
+    try {
+      const raw = localStorage.getItem(WORKFORCE_RESUME_STORAGE_KEY);
+      return raw
+        ? JSON.parse(raw)
+        : {
+            name: '',
+            email: '',
+            phone: '',
+            summary: '',
+            experiences: [],
+            skills: '',
+          };
+    } catch {
+      return {
+        name: '',
+        email: '',
+        phone: '',
+        summary: '',
+        experiences: [],
+        skills: '',
+      };
+    }
+  });
+
+  const save = () => {
+    try {
+      localStorage.setItem(WORKFORCE_RESUME_STORAGE_KEY, JSON.stringify(form));
+      alert('Resume saved locally.');
+    } catch {}
+  };
+  const clear = () => {
+    setForm({
+      name: '',
+      email: '',
+      phone: '',
+      summary: '',
+      experiences: [],
+      skills: '',
+    });
+    try {
+      localStorage.removeItem(WORKFORCE_RESUME_STORAGE_KEY);
+    } catch {}
+  };
+
+  const addExp = () =>
+    setForm((f) => ({
+      ...f,
+      experiences: [
+        ...f.experiences,
+        { company: '', role: '', start: '', end: '', details: '' },
+      ],
+    }));
+  const updExp = (i, field, value) =>
+    setForm((f) => ({
+      ...f,
+      experiences: f.experiences.map((e, idx) =>
+        idx === i ? { ...e, [field]: value } : e
+      ),
+    }));
+  const delExp = (i) =>
+    setForm((f) => ({
+      ...f,
+      experiences: f.experiences.filter((_, idx) => idx !== i),
+    }));
+
+  return (
+    <div className="grid md:grid-cols-2 gap-4">
+      <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <input
+            className="px-3 py-2 border rounded-md"
+            placeholder="Full Name"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+          <input
+            className="px-3 py-2 border rounded-md"
+            placeholder="Email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
+          <input
+            className="px-3 py-2 border rounded-md"
+            placeholder="Phone"
+            value={form.phone}
+            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+          />
+          <input
+            className="px-3 py-2 border rounded-md sm:col-span-2"
+            placeholder="Skills (comma-separated)"
+            value={form.skills}
+            onChange={(e) => setForm({ ...form, skills: e.target.value })}
+          />
+        </div>
+        <textarea
+          className="mt-2 w-full px-3 py-2 border rounded-md"
+          rows={4}
+          placeholder="Professional Summary"
+          value={form.summary}
+          onChange={(e) => setForm({ ...form, summary: e.target.value })}
+        />
+        <div className="mt-3 flex items-center gap-2">
+          <button
+            onClick={addExp}
+            className="px-3 py-2 rounded-md bg-slate-200 hover:bg-slate-300 font-semibold"
+          >
+            Add Experience
+          </button>
+          <button
+            onClick={save}
+            className="px-3 py-2 rounded-md bg-teal-600 text-white font-semibold"
+          >
+            Save
+          </button>
+          <button
+            onClick={clear}
+            className="px-3 py-2 rounded-md bg-slate-100 hover:bg-slate-200 font-semibold"
+          >
+            Clear
+          </button>
+        </div>
+        <div className="mt-3 space-y-3">
+          {form.experiences.map((exp, i) => (
+            <div key={i} className="p-3 border rounded-md">
+              <div className="grid sm:grid-cols-2 gap-2">
+                <input
+                  className="px-3 py-2 border rounded-md"
+                  placeholder="Company"
+                  value={exp.company}
+                  onChange={(e) => updExp(i, 'company', e.target.value)}
+                />
+                <input
+                  className="px-3 py-2 border rounded-md"
+                  placeholder="Role"
+                  value={exp.role}
+                  onChange={(e) => updExp(i, 'role', e.target.value)}
+                />
+                <input
+                  className="px-3 py-2 border rounded-md"
+                  placeholder="Start (e.g., 2023)"
+                  value={exp.start}
+                  onChange={(e) => updExp(i, 'start', e.target.value)}
+                />
+                <input
+                  className="px-3 py-2 border rounded-md"
+                  placeholder="End (e.g., Present)"
+                  value={exp.end}
+                  onChange={(e) => updExp(i, 'end', e.target.value)}
+                />
+                <textarea
+                  className="sm:col-span-2 px-3 py-2 border rounded-md"
+                  rows={3}
+                  placeholder="Key accomplishments / responsibilities"
+                  value={exp.details}
+                  onChange={(e) => updExp(i, 'details', e.target.value)}
+                />
+              </div>
+              <div className="mt-2 text-right">
+                <button
+                  onClick={() => delExp(i)}
+                  className="px-3 py-1.5 rounded-md bg-red-100 text-red-700 hover:bg-red-200"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 className="text-lg font-semibold mb-2">Preview</h3>
+        <div className="workforce-resume-preview p-4 border rounded-xl bg-white dark:bg-slate-800/70">
+          <div className="text-xl font-bold">{form.name || 'Your Name'}</div>
+          <div className="text-sm text-slate-600 dark:text-slate-300">
+            {[form.email, form.phone].filter(Boolean).join(' • ')}
+          </div>
+          {form.summary && (
+            <p className="mt-3 whitespace-pre-wrap">{form.summary}</p>
+          )}
+          {form.skills && (
+            <div className="mt-3">
+              <span className="font-semibold">Skills:</span> {form.skills}
+            </div>
+          )}
+          {form.experiences.length > 0 && (
+            <div className="mt-4 space-y-2">
+              <div className="font-semibold">Experience</div>
+              {form.experiences.map((e, i) => (
+                <div key={i}>
+                  <div className="font-semibold">
+                    {e.role || 'Role'} — {e.company || 'Company'}
+                  </div>
+                  <div className="text-xs text-slate-600 dark:text-slate-300">
+                    {[e.start, e.end].filter(Boolean).join(' – ')}
+                  </div>
+                  {e.details && (
+                    <div className="text-sm whitespace-pre-wrap">
+                      {e.details}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WorkforceInterviewPractice() {
+  const [practiced, setPracticed] = React.useState(() => {
+    try {
+      const raw = localStorage.getItem(WORKFORCE_INTERVIEW_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  });
+  const toggle = (q) =>
+    setPracticed((p) => {
+      const next = { ...p, [q]: !p[q] };
+      try {
+        localStorage.setItem(
+          WORKFORCE_INTERVIEW_STORAGE_KEY,
+          JSON.stringify(next)
+        );
+      } catch {}
+      return next;
+    });
+  return (
+    <div className="space-y-2">
+      {WORKFORCE_INTERVIEW_QUESTIONS.map((item) => (
+        <div
+          key={item.q}
+          className="p-3 border rounded-xl bg-white dark:bg-slate-800/70 flex items-start gap-3"
+        >
+          <input
+            type="checkbox"
+            className="mt-1"
+            checked={!!practiced[item.q]}
+            onChange={() => toggle(item.q)}
+          />
+          <div>
+            <div className="font-semibold">{item.q}</div>
+            <div className="text-sm text-slate-600 dark:text-slate-300">
+              Hint: {item.hint}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function WorkforceBudgetCalculator() {
+  const [income, setIncome] = React.useState(2500);
+  const [items, setItems] = React.useState(() =>
+    DEFAULT_BUDGET_CATEGORIES.map((c) => ({ ...c, amount: c.amountDefault }))
+  );
+  const total = items.reduce((s, i) => s + (Number(i.amount) || 0), 0);
+  const savings = (Number(income) || 0) - total;
+  const setAmt = (key, val) =>
+    setItems((arr) =>
+      arr.map((i) => (i.key === key ? { ...i, amount: val } : i))
+    );
+  return (
+    <div className="grid md:grid-cols-2 gap-4">
+      <div>
+        <div className="mb-3">
+          <label className="block text-sm font-semibold mb-1">
+            Monthly Income
+          </label>
+          <input
+            type="number"
+            className="w-full px-3 py-2 border rounded-md"
+            value={income}
+            onChange={(e) => setIncome(e.target.value)}
+          />
+        </div>
+        <div className="space-y-2">
+          {items.map((i) => (
+            <div key={i.key} className="flex items-center gap-2">
+              <label className="w-40 text-sm">{i.label}</label>
+              <input
+                type="number"
+                className="flex-1 px-3 py-2 border rounded-md"
+                value={i.amount}
+                onChange={(e) => setAmt(i.key, e.target.value)}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <div className="workforce-budget-summary p-4 border rounded-xl bg-white dark:bg-slate-800/70">
+          <div className="text-lg font-bold mb-2">Summary</div>
+          <div className="text-sm">Expenses: ${total.toLocaleString()}</div>
+          <div
+            className={`text-sm ${
+              savings >= 0
+                ? 'text-emerald-700 dark:text-emerald-300'
+                : 'text-red-700 dark:text-red-300'
+            }`}
+          >
+            Savings: ${savings.toLocaleString()}
+          </div>
+          <div className="mt-2 text-xs text-slate-600 dark:text-slate-300">
+            Tip: Aim to keep housing at or below ~30% of income.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WorkforceApplicationTracker() {
+  const [apps, setApps] = React.useState(() => {
+    try {
+      const raw = localStorage.getItem(WORKFORCE_APPS_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [draft, setDraft] = React.useState({
+    company: '',
+    role: '',
+    status: 'Planned',
+  });
+  const saveAll = (list) => {
+    setApps(list);
+    try {
+      localStorage.setItem(WORKFORCE_APPS_STORAGE_KEY, JSON.stringify(list));
+    } catch {}
+  };
+  const add = () => {
+    const c = draft.company.trim();
+    const r = draft.role.trim();
+    if (!c || !r) return;
+    const next = [{ id: Date.now(), ...draft }, ...apps];
+    saveAll(next);
+    setDraft({ company: '', role: '', status: 'Planned' });
+  };
+  const update = (id, field, value) => {
+    const next = apps.map((a) => (a.id === id ? { ...a, [field]: value } : a));
+    saveAll(next);
+  };
+  const remove = (id) => {
+    const next = apps.filter((a) => a.id !== id);
+    saveAll(next);
+  };
+
+  return (
+    <div>
+      <div className="grid sm:grid-cols-3 gap-2 mb-3">
+        <input
+          className="px-3 py-2 border rounded-md"
+          placeholder="Company"
+          value={draft.company}
+          onChange={(e) => setDraft({ ...draft, company: e.target.value })}
+        />
+        <input
+          className="px-3 py-2 border rounded-md"
+          placeholder="Role"
+          value={draft.role}
+          onChange={(e) => setDraft({ ...draft, role: e.target.value })}
+        />
+        <div className="flex gap-2">
+          <select
+            className="px-3 py-2 border rounded-md flex-1"
+            value={draft.status}
+            onChange={(e) => setDraft({ ...draft, status: e.target.value })}
+          >
+            {['Planned', 'Applied', 'Interview', 'Offer', 'Rejected'].map(
+              (s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              )
+            )}
+          </select>
+          <button
+            onClick={add}
+            className="px-3 py-2 rounded-md bg-teal-600 text-white font-semibold"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-5 gap-3 workforce-kanban">
+        {['Planned', 'Applied', 'Interview', 'Offer', 'Rejected'].map((col) => (
+          <div
+            key={col}
+            className="p-3 border rounded-xl bg-white dark:bg-slate-800/70"
+          >
+            <div className="font-bold mb-2">{col}</div>
+            <div className="space-y-2">
+              {apps
+                .filter((a) => a.status === col)
+                .map((a) => (
+                  <div key={a.id} className="p-2 border rounded-md">
+                    <div className="text-sm font-semibold">{a.role}</div>
+                    <div className="text-xs text-slate-600 dark:text-slate-300">
+                      {a.company}
+                    </div>
+                    <div className="flex items-center gap-2 mt-2">
+                      <select
+                        className="px-2 py-1 border rounded-md text-sm"
+                        value={a.status}
+                        onChange={(e) => update(a.id, 'status', e.target.value)}
+                      >
+                        {[
+                          'Planned',
+                          'Applied',
+                          'Interview',
+                          'Offer',
+                          'Rejected',
+                        ].map((s) => (
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        onClick={() => remove(a.id)}
+                        className="px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-xs"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              {apps.filter((a) => a.status === col).length === 0 && (
+                <div className="text-xs text-slate-500">No items</div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ---------------- End Workforce Hub ----------------
 
 function MathPracticeToolsPage({
   onExit,
