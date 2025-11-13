@@ -301,10 +301,26 @@ ${TABLE_INTEGRITY_RULES}`;
     required: ['questionText', 'answerOptions'],
   };
   const q = await callAI(prompt, schema, options);
-  // Sanitize and normalize any returned table markup for consistency
+  // Remove <img> tags with alt text containing chart/graph/table, then normalize tables
+  function removeChartImgs(html) {
+    if (typeof html !== 'string') return html;
+    return html.replace(
+      /<img[^>]*alt=["']?([^"'>]*)["']?[^>]*>/gi,
+      (match, alt) => {
+        if (alt && /(chart|graph|table)/i.test(alt)) return '';
+        return match;
+      }
+    );
+  }
   if (q) {
-    if (q.questionText) q.questionText = normalizeTables(q.questionText);
-    if (q.passage) q.passage = normalizeTables(q.passage);
+    if (q.questionText) {
+      let cleaned = removeChartImgs(q.questionText);
+      q.questionText = normalizeTables(cleaned);
+    }
+    if (q.passage) {
+      let cleaned = removeChartImgs(q.passage);
+      q.passage = normalizeTables(cleaned);
+    }
     // Tag source for downstream UI grouping
     if (!q.source) q.source = 'numeracy';
   }
@@ -9601,12 +9617,24 @@ PASSAGE:\n${foundingPassage.text}\n`;
           } catch {}
         }
 
-        // Normalize tables via shared helper
-        draftQuestionSet = draftQuestionSet.map((q) => ({
-          ...q,
-          questionText: normalizeTables(q?.questionText),
-          passage: normalizeTables(q?.passage),
-        }));
+        // Remove <img> tags with alt text containing chart/graph/table, then normalize tables
+        function removeChartImgs(html) {
+          if (typeof html !== 'string') return html;
+          return html.replace(
+            /<img[^>]*alt=["']?([^"'>]*)["']?[^>]*>/gi,
+            (match, alt) => {
+              if (alt && /(chart|graph|table)/i.test(alt)) return '';
+              return match;
+            }
+          );
+        }
+        draftQuestionSet = draftQuestionSet.map((q) => {
+          let qt = q?.questionText;
+          let ps = q?.passage;
+          if (qt) qt = normalizeTables(removeChartImgs(qt));
+          if (ps) ps = normalizeTables(removeChartImgs(ps));
+          return { ...q, questionText: qt, passage: ps };
+        });
 
         // Append two reading-focused (science literacy) passage sets
         try {
