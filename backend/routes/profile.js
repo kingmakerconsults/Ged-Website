@@ -283,12 +283,15 @@ async function buildProfileBundle(userId) {
     `
     SELECT
       u.name,
+      u.organization_id AS "organizationId",
+      o.name AS "organizationName",
       p.font_size            AS "fontSize",
       p.theme                AS theme,
       p.timezone             AS timezone,
       p.reminder_enabled     AS "reminderEnabled",
       p.onboarding_complete  AS "onboardingComplete"
     FROM users u
+    LEFT JOIN organizations o ON o.id = u.organization_id
     JOIN profiles p
       ON p.user_id = u.id
     WHERE u.id = $1
@@ -299,6 +302,8 @@ async function buildProfileBundle(userId) {
 
   const profileRow = profileRes.rows[0] || {
     name: null,
+    organizationId: null,
+    organizationName: null,
     fontSize: 'md',
     theme: 'system',
     timezone: 'America/New_York',

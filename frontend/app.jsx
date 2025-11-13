@@ -23597,6 +23597,7 @@ function AppHeader({
   const initial = displayName
     ? displayName.trim().charAt(0).toUpperCase()
     : 'U';
+  const organizationName = currentUser?.organization_name || currentUser?.organizationName || null;
   const isProfileActive = activePanel === 'profile';
   const isSettingsActive = activePanel === 'settings';
   const isDark = theme === 'dark';
@@ -23618,7 +23619,7 @@ function AppHeader({
             onClick={onShowHome}
             className="text-left text-base sm:text-lg font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 rounded-lg px-2"
           >
-            Mr. Smith's Learning Canvas
+            {organizationName ? `${organizationName} Learning Canvas` : "Learning Canvas"}
           </button>
           <nav className="hidden md:flex items-center gap-4 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">
             <button
@@ -23685,6 +23686,11 @@ function AppHeader({
                   <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate max-w-[10rem]">
                     {currentUser.name || 'Learner'}
                   </span>
+                  {organizationName && (
+                    <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate max-w-[10rem]" title={organizationName}>
+                      {organizationName}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -27394,6 +27400,35 @@ function ProfileView({
         </form>
 
         <div className="grid gap-4 md:grid-cols-2">
+          <section
+            id="organizationCard"
+            className="rounded-2xl border bg-white/95 dark:bg-slate-950 dark:border-slate-700 p-5 shadow-sm space-y-4 col-span-2"
+            aria-labelledby="profile-organization-heading"
+          >
+            <div>
+              <h2
+                id="profile-organization-heading"
+                className="text-xl font-semibold text-slate-800 dark:text-slate-100"
+              >
+                Organization
+              </h2>
+              <p className="text-sm text-slate-500 dark:text-slate-300">
+                This is the group or program you are enrolled in.
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/60 p-4 flex items-center justify-between">
+              <div>
+                <p className="text-base font-medium text-slate-800 dark:text-slate-100">
+                  {profile.organizationName || profile.organization_name || 'No organization assigned'}
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  {profile.organizationName || profile.organization_name
+                    ? 'Provided by your administrator.'
+                    : 'Ask your instructor for a join code if you should be in an organization.'}
+                </p>
+              </div>
+            </div>
+          </section>
           <section
             id="testPlanCard"
             className={`rounded-2xl border bg-white/95 dark:bg-slate-950 dark:border-slate-700 p-5 shadow-sm space-y-4 ${

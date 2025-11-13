@@ -2968,14 +2968,16 @@
     },
     {
         "fileName": "ged-scince-fig-17.png",
-        "filePath": "/frontend/Images/Science/ged-scince-fig-17.png",
-        "altText": "This is an image related to: diagram.",
-        "detailedDescription": "This image is a pair of pie charts titled \"2004 Presidential Election Results.\" The left pie chart illustrates the \"Popular Vote\" distribution, showing Bush with 50%, Kerry with 48%, and \"Other\" candidates with 2%. The right pie chart displays the \"Electoral Vote\" distribution, indicating Bush with 53.2% and Kerry with 46.8%. The purpose of these charts is to visually represent the breakdown of both the popular and electoral votes between the main candidates in the 2004 United States Presidential Election.",
-        "subject": "Science",
+        "filePath": "/frontend/Images/Social Studies/ged-scince-fig-17.png",
+        "altText": "2004 U.S. Presidential Election: popular vs electoral vote pie charts",
+        "detailedDescription": "Two pie charts labeled Popular Vote (Bush 50%, Kerry 48%, Other 2%) and Electoral Vote (Bush 53.2%, Kerry 46.8%) from the 2004 Presidential Election, illustrating civics concepts about differences between popular and Electoral College results.",
+        "subject": "Social Studies",
         "keywords": [
-            "Diagram",
-            "Circle",
-            "Meter"
+            "Election",
+            "Popular Vote",
+            "Electoral College",
+            "Civics",
+            "Government"
         ],
         "analysisPoints": [
             "Manual review needed to add specific analysis points."
