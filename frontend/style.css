@@ -1939,6 +1939,26 @@ h3 {
 .workforce-kanban > div {
   border-color: var(--subject-workforce-border);
 }
+
+/* Workforce Hub light mode: force black text except header */
+[data-theme='light'] .workforce-hub section,
+[data-theme='light'] .workforce-hub .workforce-tool-card,
+[data-theme='light'] .workforce-hub .workforce-resume-preview,
+[data-theme='light'] .workforce-hub .workforce-budget-summary,
+[data-theme='light'] .workforce-hub .workforce-kanban {
+  color: #000000 !important;
+}
+[data-theme='light'] .workforce-hub section *,
+[data-theme='light'] .workforce-hub .workforce-tool-card *,
+[data-theme='light'] .workforce-hub .workforce-resume-preview *,
+[data-theme='light'] .workforce-hub .workforce-budget-summary *,
+[data-theme='light'] .workforce-hub .workforce-kanban * {
+  color: inherit !important;
+}
+/* Keep tool button text visible when active (white on teal) */
+[data-theme='light'] .workforce-hub .workforce-tool-card.bg-teal-600 {
+  color: #ffffff !important;
+}
 .dark .coach-panel,
 [data-theme='dark'] .coach-panel {
   background-image: linear-gradient(
