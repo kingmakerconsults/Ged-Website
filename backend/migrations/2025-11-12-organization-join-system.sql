@@ -6,7 +6,8 @@
 INSERT INTO organizations (name, access_code)
 VALUES
   ('Commonpoint Bronx', NULL),
-  ('Commonpoint Queens', '6709')
+  ('Commonpoint Queens', '6709'),
+  ('HANAC', '2740')
 ON CONFLICT (name) DO UPDATE SET access_code = EXCLUDED.access_code;
 
 -- 2. Add join_code snapshot column to users table (for audit/history)

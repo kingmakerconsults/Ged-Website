@@ -143,6 +143,10 @@ INSERT INTO organizations (name, access_code)
 VALUES ('Commonpoint Queens', '6709') 
 ON CONFLICT (name) DO NOTHING;
 
+INSERT INTO organizations (name, access_code) 
+VALUES ('HANAC', '2740') 
+ON CONFLICT (name) DO NOTHING;
+
 COMMENT ON TABLE users IS 'Main users table with authentication and profile info';
 COMMENT ON TABLE organizations IS 'Organizations that users can join';
 COMMENT ON TABLE profiles IS 'Extended user profile settings and preferences';
