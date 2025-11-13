@@ -8,9 +8,10 @@ const router = express.Router();
 // create our own pool for this router
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production'
-    ? { rejectUnauthorized: false }
-    : false,
+  ssl:
+    process.env.NODE_ENV === 'production'
+      ? { rejectUnauthorized: false }
+      : false,
 });
 
 // --- helpers -------------------------------------------------
@@ -22,39 +23,174 @@ let cachedChallengeInfo = null;
 // Used when the DB challenge catalog is unavailable or empty
 const FALLBACK_PROFILE_CHALLENGES = [
   // MATH (algebra, geometry, data)
-  { id: 'math-1', subject: 'Math', subtopic: 'Number Sense & Fluency', label: 'Fractions, decimals, %' },
-  { id: 'math-2', subject: 'Math', subtopic: 'Algebra Foundations', label: 'Writing and solving 1-step equations' },
-  { id: 'math-3', subject: 'Math', subtopic: 'Algebra Foundations', label: '2-step equations & inequalities' },
-  { id: 'math-4', subject: 'Math', subtopic: 'Word Problems', label: 'Translating real situations to expressions' },
-  { id: 'math-5', subject: 'Math', subtopic: 'Geometry & Measurement', label: 'Perimeter, area, and volume' },
-  { id: 'math-6', subject: 'Math', subtopic: 'Data & Graphs', label: 'Reading tables, charts, and graphs' },
-  { id: 'math-7', subject: 'Math', subtopic: 'Scientific Calculator', label: 'Using the calculator efficiently' },
-  { id: 'math-8', subject: 'Math', subtopic: 'Test Skills', label: 'Multi-step GED-style math items' },
+  {
+    id: 'math-1',
+    subject: 'Math',
+    subtopic: 'Number Sense & Fluency',
+    label: 'Fractions, decimals, %',
+  },
+  {
+    id: 'math-2',
+    subject: 'Math',
+    subtopic: 'Algebra Foundations',
+    label: 'Writing and solving 1-step equations',
+  },
+  {
+    id: 'math-3',
+    subject: 'Math',
+    subtopic: 'Algebra Foundations',
+    label: '2-step equations & inequalities',
+  },
+  {
+    id: 'math-4',
+    subject: 'Math',
+    subtopic: 'Word Problems',
+    label: 'Translating real situations to expressions',
+  },
+  {
+    id: 'math-5',
+    subject: 'Math',
+    subtopic: 'Geometry & Measurement',
+    label: 'Perimeter, area, and volume',
+  },
+  {
+    id: 'math-6',
+    subject: 'Math',
+    subtopic: 'Data & Graphs',
+    label: 'Reading tables, charts, and graphs',
+  },
+  {
+    id: 'math-7',
+    subject: 'Math',
+    subtopic: 'Scientific Calculator',
+    label: 'Using the calculator efficiently',
+  },
+  {
+    id: 'math-8',
+    subject: 'Math',
+    subtopic: 'Test Skills',
+    label: 'Multi-step GED-style math items',
+  },
 
   // RLA (reading, grammar, extended response)
-  { id: 'rla-1', subject: 'RLA', subtopic: 'Reading Comprehension', label: 'Main idea and supporting details' },
-  { id: 'rla-2', subject: 'RLA', subtopic: 'Reading Comprehension', label: 'Author’s purpose & tone' },
-  { id: 'rla-3', subject: 'RLA', subtopic: 'Informational Text', label: 'Reading charts / text together' },
-  { id: 'rla-4', subject: 'RLA', subtopic: 'Language & Editing', label: 'Grammar, usage, and mechanics' },
-  { id: 'rla-5', subject: 'RLA', subtopic: 'Language & Editing', label: 'Punctuation and sentence boundaries' },
-  { id: 'rla-6', subject: 'RLA', subtopic: 'Writing', label: 'Organizing ideas for responses' },
-  { id: 'rla-7', subject: 'RLA', subtopic: 'Writing', label: 'Citing evidence from the passage' },
+  {
+    id: 'rla-1',
+    subject: 'RLA',
+    subtopic: 'Reading Comprehension',
+    label: 'Main idea and supporting details',
+  },
+  {
+    id: 'rla-2',
+    subject: 'RLA',
+    subtopic: 'Reading Comprehension',
+    label: 'Author’s purpose & tone',
+  },
+  {
+    id: 'rla-3',
+    subject: 'RLA',
+    subtopic: 'Informational Text',
+    label: 'Reading charts / text together',
+  },
+  {
+    id: 'rla-4',
+    subject: 'RLA',
+    subtopic: 'Language & Editing',
+    label: 'Grammar, usage, and mechanics',
+  },
+  {
+    id: 'rla-5',
+    subject: 'RLA',
+    subtopic: 'Language & Editing',
+    label: 'Punctuation and sentence boundaries',
+  },
+  {
+    id: 'rla-6',
+    subject: 'RLA',
+    subtopic: 'Writing',
+    label: 'Organizing ideas for responses',
+  },
+  {
+    id: 'rla-7',
+    subject: 'RLA',
+    subtopic: 'Writing',
+    label: 'Citing evidence from the passage',
+  },
 
   // SCIENCE (data, life, physical, reasoning)
-  { id: 'science-1', subject: 'Science', subtopic: 'Data Interpretation', label: 'Reading charts and graphs' },
-  { id: 'science-2', subject: 'Science', subtopic: 'Physical Science', label: 'Forces, motion, and energy' },
-  { id: 'science-3', subject: 'Science', subtopic: 'Life Science', label: 'Cells and human body systems' },
-  { id: 'science-4', subject: 'Science', subtopic: 'Earth & Space', label: 'Weather, climate, earth systems' },
-  { id: 'science-5', subject: 'Science', subtopic: 'Scientific Practice', label: 'Experimental design & variables' },
-  { id: 'science-6', subject: 'Science', subtopic: 'Reasoning in Science', label: 'Cause-and-effect in passages' },
+  {
+    id: 'science-1',
+    subject: 'Science',
+    subtopic: 'Data Interpretation',
+    label: 'Reading charts and graphs',
+  },
+  {
+    id: 'science-2',
+    subject: 'Science',
+    subtopic: 'Physical Science',
+    label: 'Forces, motion, and energy',
+  },
+  {
+    id: 'science-3',
+    subject: 'Science',
+    subtopic: 'Life Science',
+    label: 'Cells and human body systems',
+  },
+  {
+    id: 'science-4',
+    subject: 'Science',
+    subtopic: 'Earth & Space',
+    label: 'Weather, climate, earth systems',
+  },
+  {
+    id: 'science-5',
+    subject: 'Science',
+    subtopic: 'Scientific Practice',
+    label: 'Experimental design & variables',
+  },
+  {
+    id: 'science-6',
+    subject: 'Science',
+    subtopic: 'Reasoning in Science',
+    label: 'Cause-and-effect in passages',
+  },
 
   // SOCIAL STUDIES (civics, history, econ, reading graphs)
-  { id: 'social-1', subject: 'Social Studies', subtopic: 'Civics', label: 'Government and civics concepts' },
-  { id: 'social-2', subject: 'Social Studies', subtopic: 'Geography', label: 'Interpreting maps and data' },
-  { id: 'social-3', subject: 'Social Studies', subtopic: 'History', label: 'Remembering historical events' },
-  { id: 'social-4', subject: 'Social Studies', subtopic: 'US History', label: 'Colonial → Civil War sequence' },
-  { id: 'social-5', subject: 'Social Studies', subtopic: 'Economics', label: 'Basic economics and graphs' },
-  { id: 'social-6', subject: 'Social Studies', subtopic: 'Document Literacy', label: 'Reading primary/secondary sources' },
+  {
+    id: 'social-1',
+    subject: 'Social Studies',
+    subtopic: 'Civics',
+    label: 'Government and civics concepts',
+  },
+  {
+    id: 'social-2',
+    subject: 'Social Studies',
+    subtopic: 'Geography',
+    label: 'Interpreting maps and data',
+  },
+  {
+    id: 'social-3',
+    subject: 'Social Studies',
+    subtopic: 'History',
+    label: 'Remembering historical events',
+  },
+  {
+    id: 'social-4',
+    subject: 'Social Studies',
+    subtopic: 'US History',
+    label: 'Colonial → Civil War sequence',
+  },
+  {
+    id: 'social-5',
+    subject: 'Social Studies',
+    subtopic: 'Economics',
+    label: 'Basic economics and graphs',
+  },
+  {
+    id: 'social-6',
+    subject: 'Social Studies',
+    subtopic: 'Document Literacy',
+    label: 'Reading primary/secondary sources',
+  },
 ];
 
 // Fixed configuration for challenge tables/columns
@@ -136,7 +272,13 @@ async function getTestPlan(userId) {
 // Build the challenge options list, plus whether the user has selected each
 async function getChallengeOptions(userId) {
   try {
-  const { optionTable, selectionTable, optionIdColumn, selectionIdColumn, selectionUserIdType } = await getChallengeInfo();
+    const {
+      optionTable,
+      selectionTable,
+      optionIdColumn,
+      selectionIdColumn,
+      selectionUserIdType,
+    } = await getChallengeInfo();
 
     // Load all available options
     const optionRes = await pool.query(
@@ -144,9 +286,15 @@ async function getChallengeOptions(userId) {
     );
 
     const optionRows = Array.isArray(optionRes?.rows) ? optionRes.rows : [];
-    const allOptions = optionRows.length > 0
-      ? optionRows
-      : FALLBACK_PROFILE_CHALLENGES.map((o) => ({ id: o.id, subject: o.subject, subtopic: o.subtopic, label: o.label }));
+    const allOptions =
+      optionRows.length > 0
+        ? optionRows
+        : FALLBACK_PROFILE_CHALLENGES.map((o) => ({
+            id: o.id,
+            subject: o.subject,
+            subtopic: o.subtopic,
+            label: o.label,
+          }));
 
     // Load user's selected challenge ids
     let paramUserId = userId;
@@ -167,7 +315,11 @@ async function getChallengeOptions(userId) {
     }
 
     let selectedRows = [];
-    if (paramUserId !== null && paramUserId !== undefined && paramUserId !== '') {
+    if (
+      paramUserId !== null &&
+      paramUserId !== undefined &&
+      paramUserId !== ''
+    ) {
       const selectedRes = await pool.query(
         `SELECT ${selectionIdColumn} AS challenge_id FROM ${selectionTable} WHERE user_id = $1`,
         [paramUserId]
@@ -185,7 +337,10 @@ async function getChallengeOptions(userId) {
       selected: chosenSet.has(String(r.id)),
     }));
   } catch (err) {
-    console.warn('[profile] getChallengeOptions failed; returning empty list:', err?.message || err);
+    console.warn(
+      '[profile] getChallengeOptions failed; returning empty list:',
+      err?.message || err
+    );
     // fall back to in-memory catalog if DB query fails entirely
     return FALLBACK_PROFILE_CHALLENGES.map((o) => ({
       id: String(o.id),
@@ -233,12 +388,12 @@ async function getRecentScores(userId) {
   );
 
   return {
-    bySubject: bySubjectRes.rows.map(r => ({
+    bySubject: bySubjectRes.rows.map((r) => ({
       subject: r.subject,
       avgPercent: Number(r.avg_percent),
       latestTakenAt: r.latest_taken_at,
     })),
-    bySubtopic: bySubtopicRes.rows.map(r => ({
+    bySubtopic: bySubtopicRes.rows.map((r) => ({
       subject: r.subject,
       subtopic: r.subtopic,
       avgPercent: Number(r.avg_percent),
@@ -251,8 +406,8 @@ async function getRecentScores(userId) {
 function computeNextUpcomingTest(testPlanRows) {
   const today = new Date();
   const upcoming = testPlanRows
-    .filter(t => t.testDate && !t.passed)
-    .map(t => {
+    .filter((t) => t.testDate && !t.passed)
+    .map((t) => {
       const d = new Date(t.testDate);
       return isNaN(d.getTime()) ? null : { ...t, _d: d };
     })
@@ -264,7 +419,9 @@ function computeNextUpcomingTest(testPlanRows) {
   }
 
   const MS_PER_DAY = 1000 * 60 * 60 * 24;
-  const daysUntil = Math.ceil((upcoming._d.getTime() - today.getTime()) / MS_PER_DAY);
+  const daysUntil = Math.ceil(
+    (upcoming._d.getTime() - today.getTime()) / MS_PER_DAY
+  );
 
   return {
     subject: upcoming.subject,
@@ -387,8 +544,14 @@ router.patch('/name', express.json(), async (req, res) => {
       return res.status(400).json({ error: 'Name is required' });
     }
 
-    console.log('[PATCH] /api/profile/name', { userId, nameLength: name.length });
-    await pool.query('UPDATE users SET name = $1 WHERE id = $2', [name, userId]);
+    console.log('[PATCH] /api/profile/name', {
+      userId,
+      nameLength: name.length,
+    });
+    await pool.query('UPDATE users SET name = $1 WHERE id = $2', [
+      name,
+      userId,
+    ]);
 
     return res.json({ name });
   } catch (err) {
@@ -411,7 +574,8 @@ router.patch('/test', express.json(), async (req, res) => {
       return res.status(403).json({ error: 'user_not_active' });
     }
 
-    const { subject, testDate, testLocation, passed, notScheduled } = req.body || {};
+    const { subject, testDate, testLocation, passed, notScheduled } =
+      req.body || {};
     const subj = (subject || '').toString().trim();
     if (!subj) {
       return res.status(400).json({ error: 'Missing subject' });
@@ -429,10 +593,16 @@ router.patch('/test', express.json(), async (req, res) => {
       normalizedDate = d.toISOString().slice(0, 10);
     }
 
-  const normLocation = (testLocation || '').toString().trim() || null;
-  const normPassed = normNotScheduled ? false : !!passed;
+    const normLocation = (testLocation || '').toString().trim() || null;
+    const normPassed = normNotScheduled ? false : !!passed;
 
-  console.log('[PATCH] /api/profile/test', { userId, subject: subj, notScheduled: normNotScheduled, hasDate: !!normalizedDate, passed: normPassed });
+    console.log('[PATCH] /api/profile/test', {
+      userId,
+      subject: subj,
+      notScheduled: normNotScheduled,
+      hasDate: !!normalizedDate,
+      passed: normPassed,
+    });
 
     const saved = await pool.query(
       `
@@ -494,7 +664,10 @@ router.patch('/challenges/tags', express.json(), async (req, res) => {
       ? req.body.selectedIds
       : [];
 
-    console.log('[PATCH] /api/profile/challenges/tags', { userId, selectedCount: selectedIds.length });
+    console.log('[PATCH] /api/profile/challenges/tags', {
+      userId,
+      selectedCount: selectedIds.length,
+    });
 
     await client.query('BEGIN');
 
@@ -511,16 +684,13 @@ router.patch('/challenges/tags', express.json(), async (req, res) => {
     // If user cleared everything, just delete all their tags
     if (selectedIds.length === 0) {
       if (selUserId !== null) {
-        await client.query(
-          `DELETE FROM ${selectionTable} WHERE user_id = $1`,
-          [selUserId]
-        );
+        await client.query(`DELETE FROM ${selectionTable} WHERE user_id = $1`, [
+          selUserId,
+        ]);
       }
     } else {
       // Remove any tags not in the new list
-      const placeholders = selectedIds
-        .map((_, i) => `$${i + 2}`)
-        .join(', ');
+      const placeholders = selectedIds.map((_, i) => `$${i + 2}`).join(', ');
       if (selUserId !== null) {
         await client.query(
           `DELETE FROM ${selectionTable}
@@ -577,7 +747,11 @@ router.patch('/preferences', express.json(), async (req, res) => {
 
     await ensureProfileRow(userId);
 
-    console.log('[PATCH] /api/profile/preferences', { userId, fontSize: normalizedSize, theme: normalizedTheme });
+    console.log('[PATCH] /api/profile/preferences', {
+      userId,
+      fontSize: normalizedSize,
+      theme: normalizedTheme,
+    });
     await pool.query(
       `
       UPDATE profiles
@@ -649,7 +823,8 @@ router.put('/', express.json(), async (req, res) => {
     }
 
     const body = req.body || {};
-    const name = typeof body.name === 'string' ? body.name.trim().slice(0, 80) : null;
+    const name =
+      typeof body.name === 'string' ? body.name.trim().slice(0, 80) : null;
     const prefs = body.preferences || {};
     const VALID_SIZES = new Set(['sm', 'md', 'lg', 'xl']);
     const VALID_THEMES = new Set(['light', 'dark', 'system']);
@@ -664,11 +839,18 @@ router.put('/', express.json(), async (req, res) => {
 
     if (name) {
       console.log('[PUT] /api/profile -> name', { userId });
-      await client.query('UPDATE users SET name = $1 WHERE id = $2', [name, userId]);
+      await client.query('UPDATE users SET name = $1 WHERE id = $2', [
+        name,
+        userId,
+      ]);
     }
 
     if (prefSize || prefTheme) {
-      console.log('[PUT] /api/profile -> preferences', { userId, fontSize: prefSize, theme: prefTheme });
+      console.log('[PUT] /api/profile -> preferences', {
+        userId,
+        fontSize: prefSize,
+        theme: prefTheme,
+      });
       await client.query(
         `UPDATE profiles SET
            font_size = COALESCE($1, font_size),
@@ -680,7 +862,10 @@ router.put('/', express.json(), async (req, res) => {
     }
 
     if (testPlan.length > 0) {
-      console.log('[PUT] /api/profile -> testPlan', { userId, count: testPlan.length });
+      console.log('[PUT] /api/profile -> testPlan', {
+        userId,
+        count: testPlan.length,
+      });
       for (const row of testPlan) {
         if (!row || !row.subject) continue;
         const subj = String(row.subject).trim();
@@ -704,7 +889,14 @@ router.put('/', express.json(), async (req, res) => {
                          passed = EXCLUDED.passed,
                          not_scheduled = EXCLUDED.not_scheduled,
                          updated_at = NOW()`,
-          [userId, subj, normalizedDate, normLocation, normPassed, normNotScheduled]
+          [
+            userId,
+            subj,
+            normalizedDate,
+            normLocation,
+            normPassed,
+            normNotScheduled,
+          ]
         );
       }
     }
@@ -712,12 +904,18 @@ router.put('/', express.json(), async (req, res) => {
     if (challenges) {
       const selectedIds = Array.isArray(challenges.selectedIds)
         ? challenges.selectedIds
-        : (Array.isArray(challenges.challengeOptions)
-            ? challenges.challengeOptions.filter((c) => c && c.id && c.selected).map((c) => c.id)
-            : []);
+        : Array.isArray(challenges.challengeOptions)
+        ? challenges.challengeOptions
+            .filter((c) => c && c.id && c.selected)
+            .map((c) => c.id)
+        : [];
       if (selectedIds) {
-        console.log('[PUT] /api/profile -> challenges', { userId, selectedCount: selectedIds.length });
-        const { selectionTable, selectionIdColumn, selectionUserIdType } = await getChallengeInfo();
+        console.log('[PUT] /api/profile -> challenges', {
+          userId,
+          selectedCount: selectedIds.length,
+        });
+        const { selectionTable, selectionIdColumn, selectionUserIdType } =
+          await getChallengeInfo();
         let selUserId = userId;
         if (selectionUserIdType === 'integer') {
           const parsed = parseInt(String(selUserId), 10);
@@ -730,9 +928,14 @@ router.put('/', express.json(), async (req, res) => {
 
         if (selUserId !== null) {
           if (selectedIds.length === 0) {
-            await client.query(`DELETE FROM ${selectionTable} WHERE user_id = $1`, [selUserId]);
+            await client.query(
+              `DELETE FROM ${selectionTable} WHERE user_id = $1`,
+              [selUserId]
+            );
           } else {
-            const placeholders = selectedIds.map((_, i) => `$${i + 2}`).join(', ');
+            const placeholders = selectedIds
+              .map((_, i) => `$${i + 2}`)
+              .join(', ');
             await client.query(
               `DELETE FROM ${selectionTable} WHERE user_id = $1 AND ${selectionIdColumn} NOT IN (${placeholders})`,
               [selUserId, ...selectedIds]
@@ -769,4 +972,3 @@ router.put('/', express.json(), async (req, res) => {
     return res.status(500).json({ error: 'Failed to save profile' });
   }
 });
-

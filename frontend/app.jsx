@@ -2831,7 +2831,10 @@ function parseHtmlTable(htmlString) {
   return { labels, datasets };
 }
 
-function ChartDisplay({ chartData }) {
+function ChartDisplay({ chartData, html }) {
+  // If the passage or question already contains a <table>, skip rendering the chart
+  if (typeof html === 'string' && html.includes('<table')) return null;
+
   const chartRef = React.useRef(null);
   const chartInstanceRef = React.useRef(null);
 
@@ -23597,7 +23600,8 @@ function AppHeader({
   const initial = displayName
     ? displayName.trim().charAt(0).toUpperCase()
     : 'U';
-  const organizationName = currentUser?.organization_name || currentUser?.organizationName || null;
+  const organizationName =
+    currentUser?.organization_name || currentUser?.organizationName || null;
   const isProfileActive = activePanel === 'profile';
   const isSettingsActive = activePanel === 'settings';
   const isDark = theme === 'dark';
@@ -23619,7 +23623,9 @@ function AppHeader({
             onClick={onShowHome}
             className="text-left text-base sm:text-lg font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 rounded-lg px-2"
           >
-            {organizationName ? `${organizationName} Learning Canvas` : "Learning Canvas"}
+            {organizationName
+              ? `${organizationName} Learning Canvas`
+              : 'Learning Canvas'}
           </button>
           <nav className="hidden md:flex items-center gap-4 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">
             <button
@@ -23687,7 +23693,10 @@ function AppHeader({
                     {currentUser.name || 'Learner'}
                   </span>
                   {organizationName && (
-                    <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate max-w-[10rem]" title={organizationName}>
+                    <span
+                      className="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate max-w-[10rem]"
+                      title={organizationName}
+                    >
                       {organizationName}
                     </span>
                   )}
@@ -27419,7 +27428,9 @@ function ProfileView({
             <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/60 p-4 flex items-center justify-between">
               <div>
                 <p className="text-base font-medium text-slate-800 dark:text-slate-100">
-                  {profile.organizationName || profile.organization_name || 'No organization assigned'}
+                  {profile.organizationName ||
+                    profile.organization_name ||
+                    'No organization assigned'}
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   {profile.organizationName || profile.organization_name
