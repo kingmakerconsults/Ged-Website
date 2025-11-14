@@ -39396,9 +39396,9 @@ function WorkforceInterviewPractice() {
 
   React.useEffect(() => {
     setRolesLoading(true);
-    fetch(`${API_BASE_URL}/api/workforce/career-paths`)
+    fetch('/data/careerPathsNYC.json')
       .then((res) => {
-        if (!res.ok) throw new Error('Failed to load roles');
+        if (!res.ok) throw new Error('Failed to load career paths');
         return res.json();
       })
       .then((data) => {
