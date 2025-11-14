@@ -4850,6 +4850,148 @@ app.get('/api/organizations', async (req, res) => {
   }
 });
 
+// ============================================================================
+// WORKFORCE CAREER INTERESTS ROUTES
+// ============================================================================
+
+// GET user's career interests
+app.get('/api/user/career-interests', authenticateToken, async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT career_id, added_at FROM user_career_interests WHERE user_id = $1 ORDER BY added_at DESC',
+      [req.user.userId]
+    );
+    res.json(result.rows.map((row) => row.career_id));
+  } catch (error) {
+    console.error('Error fetching career interests:', error);
+    res.status(500).json({ error: 'Failed to fetch career interests' });
+  }
+});
+
+// POST add career interest
+app.post('/api/user/career-interests', authenticateToken, async (req, res) => {
+  const { career_id } = req.body;
+
+  if (!career_id) {
+    return res.status(400).json({ error: 'career_id is required' });
+  }
+
+  try {
+    await db.query(
+      'INSERT INTO user_career_interests (user_id, career_id) VALUES ($1, $2) ON CONFLICT (user_id, career_id) DO NOTHING',
+      [req.user.userId, career_id]
+    );
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error adding career interest:', error);
+    res.status(500).json({ error: 'Failed to add career interest' });
+  }
+});
+
+// DELETE remove career interest
+app.delete(
+  '/api/user/career-interests/:career_id',
+  authenticateToken,
+  async (req, res) => {
+    const { career_id } = req.params;
+
+    try {
+      await db.query(
+        'DELETE FROM user_career_interests WHERE user_id = $1 AND career_id = $2',
+        [req.user.userId, career_id]
+      );
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error removing career interest:', error);
+      res.status(500).json({ error: 'Failed to remove career interest' });
+    }
+  }
+);
+
+// GET career progress for specific career
+app.get(
+  '/api/user/career-progress/:career_id',
+  authenticateToken,
+  async (req, res) => {
+    const { career_id } = req.params;
+
+    try {
+      const result = await db.query(
+        'SELECT * FROM user_career_progress WHERE user_id = $1 AND career_id = $2',
+        [req.user.userId, career_id]
+      );
+
+      if (result.rows.length === 0) {
+        return res.json(null);
+      }
+
+      res.json(result.rows[0]);
+    } catch (error) {
+      console.error('Error fetching career progress:', error);
+      res.status(500).json({ error: 'Failed to fetch career progress' });
+    }
+  }
+);
+
+// PUT update career progress
+app.put(
+  '/api/user/career-progress/:career_id',
+  authenticateToken,
+  async (req, res) => {
+    const { career_id } = req.params;
+    const {
+      resume_drafted,
+      cover_letter_drafted,
+      interview_practiced,
+      soft_skills_completed,
+      programs_viewed,
+      detail_views,
+      notes,
+    } = req.body;
+
+    try {
+      const result = await db.query(
+        `INSERT INTO user_career_progress 
+       (user_id, career_id, resume_drafted, cover_letter_drafted, interview_practiced, 
+        soft_skills_completed, programs_viewed, detail_views, notes, last_viewed_at, updated_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW(), NOW())
+       ON CONFLICT (user_id, career_id) 
+       DO UPDATE SET 
+         resume_drafted = COALESCE($3, user_career_progress.resume_drafted),
+         cover_letter_drafted = COALESCE($4, user_career_progress.cover_letter_drafted),
+         interview_practiced = COALESCE($5, user_career_progress.interview_practiced),
+         soft_skills_completed = COALESCE($6, user_career_progress.soft_skills_completed),
+         programs_viewed = COALESCE($7, user_career_progress.programs_viewed),
+         detail_views = COALESCE($8, user_career_progress.detail_views),
+         notes = COALESCE($9, user_career_progress.notes),
+         last_viewed_at = NOW(),
+         updated_at = NOW()
+       RETURNING *`,
+        [
+          req.user.userId,
+          career_id,
+          resume_drafted,
+          cover_letter_drafted,
+          interview_practiced,
+          soft_skills_completed,
+          programs_viewed,
+          detail_views,
+          notes,
+        ]
+      );
+
+      res.json(result.rows[0]);
+    } catch (error) {
+      console.error('Error updating career progress:', error);
+      res.status(500).json({ error: 'Failed to update career progress' });
+    }
+  }
+);
+
+// ============================================================================
+// ORGANIZATION ROUTES (continued)
+// ============================================================================
+
 // Student endpoint to join an organization with optional access code
 app.post(
   '/api/student/select-organization',

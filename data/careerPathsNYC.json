@@ -1,0 +1,1217 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-11-13",
+  "careers": [
+    {
+      "id": "home_health_aide",
+      "title": "Home Health Aide (HHA / PCA)",
+      "cluster": "Healthcare Support",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$17–$22/hr (NYC)",
+      "growthOutlook": "growing",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "medium",
+      "description": "Home Health Aides provide personal care and assistance to elderly, disabled, or recovering patients in their homes. You help with daily activities like bathing, dressing, meal preparation, and medication reminders.",
+      "dayInTheLife": "Visit 3-5 clients per day, assist with personal care, prepare meals, help with light housekeeping, document care notes, and communicate with family members and care coordinators.",
+      "keyTasks": [
+        "Assist with bathing, dressing, and grooming",
+        "Prepare meals and snacks",
+        "Help with mobility and transfers",
+        "Monitor vital signs and medication schedules",
+        "Provide companionship and emotional support",
+        "Document care activities"
+      ],
+      "requiredSkills": [
+        "Compassion and patience",
+        "Basic health knowledge",
+        "Communication skills",
+        "Time management",
+        "Physical stamina"
+      ],
+      "relatedGEDSkills": [
+        "RLA: Reading care plans and instructions",
+        "Math: Medication dosage and timing",
+        "Science: Basic human body systems"
+      ],
+      "advancementPath": [
+        "HHA certification",
+        "Certified Nursing Assistant (CNA)",
+        "Licensed Practical Nurse (LPN)",
+        "Registered Nurse (RN)"
+      ],
+      "tags": ["healthcare", "high-demand", "entry-level", "flexible-schedule"],
+      "programsNYC": [
+        {
+          "name": "NYC Health + Hospitals HHA Training",
+          "provider": "NYC H+H",
+          "borough": "Multiple locations",
+          "link": "https://www.nychealthandhospitals.org/careers/",
+          "notes": "Free or low-cost training, job placement assistance"
+        },
+        {
+          "name": "Home Care Association of New York State Training",
+          "provider": "HCA",
+          "link": "https://www.hcanys.org/",
+          "notes": "State-approved curriculum, multiple NYC locations"
+        },
+        {
+          "name": "STRIVE NYC Healthcare Track",
+          "provider": "STRIVE",
+          "borough": "Harlem, East New York",
+          "link": "https://www.striveinternational.org/",
+          "notes": "Free for eligible participants, includes soft skills training"
+        }
+      ],
+      "gameOfLifeTrack": "healthcare_track"
+    },
+    {
+      "id": "cna",
+      "title": "Certified Nursing Assistant (CNA)",
+      "cluster": "Healthcare Support",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "3-6 months",
+      "startingWageRange": "$19–$26/hr (NYC)",
+      "growthOutlook": "growing",
+      "goodWhileStudyingGED": false,
+      "physicalDemandLevel": "high",
+      "description": "CNAs work in hospitals, nursing homes, and clinics providing direct patient care under the supervision of nurses. You assist with daily living activities, monitor vital signs, and help maintain patient comfort and safety.",
+      "dayInTheLife": "Check patient vital signs, assist with bathing and dressing, help with meals, document care in medical records, respond to call lights, support nurses with procedures, and communicate patient status to medical team.",
+      "keyTasks": [
+        "Take and record vital signs (temperature, blood pressure, pulse)",
+        "Assist with patient mobility and positioning",
+        "Help with eating and toileting",
+        "Change bedding and maintain clean environment",
+        "Document care activities in patient charts",
+        "Report changes in patient condition to nurses"
+      ],
+      "requiredSkills": [
+        "Medical terminology basics",
+        "Patient care techniques",
+        "Vital signs measurement",
+        "Infection control procedures",
+        "Communication with medical staff",
+        "Physical strength and stamina"
+      ],
+      "relatedGEDSkills": [
+        "Science: Human anatomy and health",
+        "Math: Measurements and conversions",
+        "RLA: Medical documentation and reports"
+      ],
+      "advancementPath": [
+        "CNA certification",
+        "Specialized certifications (dementia care, geriatrics)",
+        "Licensed Practical Nurse (LPN)",
+        "Registered Nurse (RN)"
+      ],
+      "tags": [
+        "healthcare",
+        "certification-required",
+        "high-demand",
+        "union-eligible"
+      ],
+      "programsNYC": [
+        {
+          "name": "LaGuardia Community College CNA Program",
+          "provider": "CUNY LaGuardia",
+          "borough": "Queens",
+          "link": "https://www.laguardia.edu/ce/",
+          "notes": "CUNY tuition rates, financial aid available"
+        },
+        {
+          "name": "NYC Health + Hospitals CNA Training",
+          "provider": "NYC H+H",
+          "borough": "Multiple",
+          "link": "https://www.nychealthandhospitals.org/careers/",
+          "notes": "Free training with employment commitment"
+        },
+        {
+          "name": "The Caring Professionals Institute",
+          "provider": "CPI",
+          "borough": "Brooklyn",
+          "link": "https://www.caringprofessionalsinstitute.com/",
+          "notes": "Accelerated programs, evening classes available"
+        }
+      ],
+      "gameOfLifeTrack": "healthcare_track"
+    },
+    {
+      "id": "medical_assistant",
+      "title": "Medical Assistant",
+      "cluster": "Healthcare Support",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "6-12 months",
+      "startingWageRange": "$18–$25/hr (NYC)",
+      "growthOutlook": "growing",
+      "goodWhileStudyingGED": false,
+      "physicalDemandLevel": "medium",
+      "description": "Medical Assistants support doctors and nurses in clinics and medical offices. You handle both clinical tasks (taking vitals, preparing patients) and administrative duties (scheduling, medical records).",
+      "dayInTheLife": "Greet patients, update medical records, take vital signs, prepare exam rooms, assist with procedures, schedule appointments, handle patient calls, process insurance forms, and maintain medical supplies.",
+      "keyTasks": [
+        "Measure and record vital signs",
+        "Prepare patients for examinations",
+        "Assist physicians during exams",
+        "Schedule appointments and manage patient flow",
+        "Update electronic health records",
+        "Handle medical billing and insurance verification"
+      ],
+      "requiredSkills": [
+        "Clinical and administrative skills",
+        "Medical terminology",
+        "EHR software proficiency",
+        "Patient communication",
+        "Multitasking and organization",
+        "Basic medical procedures"
+      ],
+      "relatedGEDSkills": [
+        "Science: Medical terminology and body systems",
+        "Math: Dosage calculations and measurements",
+        "RLA: Professional communication and documentation"
+      ],
+      "advancementPath": [
+        "Certified Medical Assistant (CMA)",
+        "Specialized medical assistant roles",
+        "Office manager",
+        "Nursing programs (LPN/RN)"
+      ],
+      "tags": [
+        "healthcare",
+        "clinical-and-admin",
+        "high-demand",
+        "office-based"
+      ],
+      "programsNYC": [
+        {
+          "name": "Bronx Community College Medical Assistant Program",
+          "provider": "CUNY BCC",
+          "borough": "Bronx",
+          "link": "https://www.bcc.cuny.edu/",
+          "notes": "Certificate and degree options, financial aid available"
+        },
+        {
+          "name": "Allen School of Health Sciences",
+          "provider": "Allen School",
+          "borough": "Brooklyn, Queens",
+          "link": "https://www.allenschool.edu/",
+          "notes": "Accelerated programs, externship included"
+        },
+        {
+          "name": "Aviator College Medical Assistant",
+          "provider": "Aviator College",
+          "borough": "Queens",
+          "link": "https://www.aviatorcollege.edu/",
+          "notes": "Day and evening classes, job placement assistance"
+        }
+      ],
+      "gameOfLifeTrack": "healthcare_track"
+    },
+    {
+      "id": "pharmacy_technician",
+      "title": "Pharmacy Technician",
+      "cluster": "Healthcare Support",
+      "nycDemandLevel": "medium",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "3-6 months",
+      "startingWageRange": "$17–$23/hr (NYC)",
+      "growthOutlook": "stable",
+      "goodWhileStudyingGED": false,
+      "physicalDemandLevel": "low",
+      "description": "Pharmacy Technicians assist pharmacists in preparing and dispensing medications. You work in retail pharmacies, hospitals, or clinics handling prescriptions, inventory, and customer service.",
+      "dayInTheLife": "Receive prescriptions, enter orders into computer system, count and package medications, label bottles, verify insurance coverage, answer customer questions, manage inventory, and maintain pharmacy records.",
+      "keyTasks": [
+        "Process prescription orders",
+        "Count, measure, and label medications",
+        "Update patient profiles in pharmacy system",
+        "Handle insurance claims",
+        "Manage medication inventory",
+        "Assist customers with questions and refills"
+      ],
+      "requiredSkills": [
+        "Attention to detail and accuracy",
+        "Math skills for dosage calculations",
+        "Pharmacy software proficiency",
+        "Customer service",
+        "Medical terminology",
+        "Inventory management"
+      ],
+      "relatedGEDSkills": [
+        "Math: Measurement, ratios, and calculations",
+        "Science: Basic chemistry and pharmacology",
+        "RLA: Reading prescription labels and instructions"
+      ],
+      "advancementPath": [
+        "Pharmacy Technician Certification (CPhT)",
+        "Senior pharmacy technician",
+        "Pharmacy supervisor",
+        "Pharmacist (requires pharmacy degree)"
+      ],
+      "tags": [
+        "healthcare",
+        "retail",
+        "certification-required",
+        "customer-facing"
+      ],
+      "programsNYC": [
+        {
+          "name": "Hostos Community College Pharmacy Technician",
+          "provider": "CUNY Hostos",
+          "borough": "Bronx",
+          "link": "https://www.hostos.cuny.edu/",
+          "notes": "CUNY tuition, prepares for certification exam"
+        },
+        {
+          "name": "Everest Institute Pharmacy Tech",
+          "provider": "Everest",
+          "borough": "Manhattan",
+          "link": "https://www.everest.edu/",
+          "notes": "Accelerated program, externship included"
+        }
+      ],
+      "gameOfLifeTrack": "healthcare_track"
+    },
+    {
+      "id": "carpentry_helper",
+      "title": "Carpentry Helper / Pre-Apprentice",
+      "cluster": "Construction & Skilled Trades",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$18–$25/hr (NYC)",
+      "growthOutlook": "growing",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "high",
+      "description": "Carpentry Helpers assist experienced carpenters on construction sites. You carry materials, operate basic tools, help with measurements, and learn the trade while earning. This is a pathway to union apprenticeships.",
+      "dayInTheLife": "Arrive at job site, unload materials and tools, assist with framing and installation, measure and cut materials under supervision, clean work areas, learn safety procedures, and prepare for carpentry tasks.",
+      "keyTasks": [
+        "Carry lumber, tools, and equipment",
+        "Measure and mark cutting lines",
+        "Operate hand and power tools",
+        "Assist with framing and structural work",
+        "Clean and organize job sites",
+        "Learn carpentry techniques from journeymen"
+      ],
+      "requiredSkills": [
+        "Physical strength and stamina",
+        "Basic math for measurements",
+        "Ability to follow instructions",
+        "Safety awareness",
+        "Reliability and punctuality",
+        "Teamwork"
+      ],
+      "relatedGEDSkills": [
+        "Math: Fractions, measurements, and geometry",
+        "Science: Physics of structures and materials",
+        "RLA: Reading blueprints and safety manuals"
+      ],
+      "advancementPath": [
+        "Pre-apprentice",
+        "Union apprentice carpenter",
+        "Journeyman carpenter",
+        "Master carpenter / contractor"
+      ],
+      "tags": ["trades", "union-track", "high-demand", "hands-on", "physical"],
+      "programsNYC": [
+        {
+          "name": "NYC District Council of Carpenters Pre-Apprenticeship",
+          "provider": "Carpenters Union",
+          "borough": "Multiple",
+          "link": "https://www.nyccarpenter.org/",
+          "notes": "Free training, union membership pathway"
+        },
+        {
+          "name": "Nontraditional Employment for Women (NEW)",
+          "provider": "NEW",
+          "borough": "Jamaica, Queens",
+          "link": "https://www.new-nyc.org/",
+          "notes": "Women-focused trades training, free"
+        },
+        {
+          "name": "Building Trades Pre-Apprenticeship (SBS)",
+          "provider": "NYC SBS",
+          "borough": "Multiple",
+          "link": "https://www.nyc.gov/site/sbs/careers/career-training.page",
+          "notes": "City-funded, free training with stipend"
+        }
+      ],
+      "gameOfLifeTrack": "trades_track"
+    },
+    {
+      "id": "electrician_helper",
+      "title": "Electrician Helper",
+      "cluster": "Construction & Skilled Trades",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$19–$27/hr (NYC)",
+      "growthOutlook": "growing",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "medium",
+      "description": "Electrician Helpers support licensed electricians with installation, maintenance, and repair of electrical systems. You learn the trade while earning and can progress to union apprenticeships.",
+      "dayInTheLife": "Assist with running wire and conduit, hold fixtures during installation, use hand and power tools, deliver materials to work areas, clean up job sites, and learn electrical code and safety procedures.",
+      "keyTasks": [
+        "Deliver materials and tools to electricians",
+        "Assist with wire pulling and conduit installation",
+        "Operate basic hand and power tools",
+        "Maintain clean and safe work areas",
+        "Learn electrical systems and code",
+        "Support troubleshooting and repairs"
+      ],
+      "requiredSkills": [
+        "Basic math and measurements",
+        "Mechanical aptitude",
+        "Safety consciousness",
+        "Ability to work at heights",
+        "Problem-solving mindset",
+        "Teamwork and communication"
+      ],
+      "relatedGEDSkills": [
+        "Math: Algebra, geometry, and electrical calculations",
+        "Science: Electricity and circuits",
+        "RLA: Reading technical diagrams and code manuals"
+      ],
+      "advancementPath": [
+        "Electrician helper",
+        "Union apprentice electrician",
+        "Journeyman electrician",
+        "Master electrician / contractor"
+      ],
+      "tags": [
+        "trades",
+        "union-track",
+        "high-demand",
+        "technical",
+        "high-wage-potential"
+      ],
+      "programsNYC": [
+        {
+          "name": "Local 3 IBEW Electrician Pre-Apprenticeship",
+          "provider": "IBEW Local 3",
+          "borough": "Flushing, Queens",
+          "link": "https://www.local3.com/",
+          "notes": "Free training, direct pathway to union apprenticeship"
+        },
+        {
+          "name": "NYC SBS Building Trades Program",
+          "provider": "NYC SBS",
+          "borough": "Multiple",
+          "link": "https://www.nyc.gov/site/sbs/careers/career-training.page",
+          "notes": "City-funded with job placement support"
+        }
+      ],
+      "gameOfLifeTrack": "trades_track"
+    },
+    {
+      "id": "building_maintenance",
+      "title": "Building Maintenance Worker",
+      "cluster": "Construction & Skilled Trades",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$17–$24/hr (NYC)",
+      "growthOutlook": "stable",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "medium",
+      "description": "Building Maintenance Workers keep residential and commercial buildings running smoothly. You handle repairs, cleaning, safety checks, and respond to tenant requests in apartment buildings, offices, or facilities.",
+      "dayInTheLife": "Respond to maintenance requests, fix plumbing and electrical issues, paint and patch walls, replace fixtures, monitor heating and cooling systems, inspect building safety systems, and maintain common areas.",
+      "keyTasks": [
+        "Perform minor plumbing and electrical repairs",
+        "Paint, patch, and maintain building surfaces",
+        "Respond to tenant maintenance requests",
+        "Inspect and maintain HVAC systems",
+        "Replace light fixtures and hardware",
+        "Keep maintenance logs and records"
+      ],
+      "requiredSkills": [
+        "Basic repair and handyman skills",
+        "Problem-solving ability",
+        "Customer service for tenants",
+        "Safety awareness",
+        "Time management",
+        "Physical ability to lift and climb"
+      ],
+      "relatedGEDSkills": [
+        "Math: Measurements and basic calculations",
+        "Science: Building systems and mechanics",
+        "RLA: Work orders and maintenance logs"
+      ],
+      "advancementPath": [
+        "Building maintenance worker",
+        "Senior maintenance technician",
+        "Building superintendent",
+        "Facilities manager"
+      ],
+      "tags": ["trades", "entry-level", "year-round", "tenant-facing"],
+      "programsNYC": [
+        {
+          "name": "SEIU 32BJ Building Service Training",
+          "provider": "32BJ Union",
+          "borough": "Multiple",
+          "link": "https://www.seiu32bj.org/",
+          "notes": "Union-sponsored training, job placement"
+        },
+        {
+          "name": "NYC Housing Authority Maintenance Training",
+          "provider": "NYCHA",
+          "borough": "Citywide",
+          "link": "https://www.nyc.gov/site/nycha/about/employment.page",
+          "notes": "Civil service pathway, benefits"
+        }
+      ],
+      "gameOfLifeTrack": "trades_track"
+    },
+    {
+      "id": "hvac_trainee",
+      "title": "HVAC Trainee",
+      "cluster": "Construction & Skilled Trades",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "6-12 months",
+      "startingWageRange": "$18–$26/hr (NYC)",
+      "growthOutlook": "growing",
+      "goodWhileStudyingGED": false,
+      "physicalDemandLevel": "high",
+      "description": "HVAC Trainees learn to install, maintain, and repair heating, ventilation, and air conditioning systems. This is a high-demand trade with excellent long-term earning potential and union opportunities.",
+      "dayInTheLife": "Assist with HVAC installations, learn to read blueprints, use specialized tools, test system performance, perform maintenance checks, troubleshoot issues, and study for EPA certification.",
+      "keyTasks": [
+        "Assist with HVAC system installations",
+        "Learn to use gauges and diagnostic tools",
+        "Perform routine maintenance and filter changes",
+        "Test and balance air flow",
+        "Study refrigerant handling and safety",
+        "Prepare for EPA 608 certification"
+      ],
+      "requiredSkills": [
+        "Mechanical aptitude",
+        "Math skills for load calculations",
+        "Problem-solving and troubleshooting",
+        "Physical stamina and comfort with heights",
+        "Attention to detail",
+        "Customer service skills"
+      ],
+      "relatedGEDSkills": [
+        "Math: Ratios, measurements, and formulas",
+        "Science: Thermodynamics and energy",
+        "RLA: Technical manuals and blueprints"
+      ],
+      "advancementPath": [
+        "HVAC trainee / helper",
+        "EPA-certified HVAC technician",
+        "Journeyman HVAC mechanic",
+        "Master HVAC contractor"
+      ],
+      "tags": [
+        "trades",
+        "certification-required",
+        "high-demand",
+        "year-round-work",
+        "high-wage"
+      ],
+      "programsNYC": [
+        {
+          "name": "Apex Technical School HVAC Program",
+          "provider": "Apex",
+          "borough": "Manhattan",
+          "link": "https://www.apextechnicalschool.com/",
+          "notes": "Comprehensive training, EPA certification prep"
+        },
+        {
+          "name": "UA Local 638 Pre-Apprenticeship",
+          "provider": "Steamfitters Union",
+          "borough": "Queens",
+          "link": "https://www.ua638.org/",
+          "notes": "Union pathway, free training"
+        }
+      ],
+      "gameOfLifeTrack": "trades_track"
+    },
+    {
+      "id": "warehouse_associate",
+      "title": "Warehouse Associate",
+      "cluster": "Transportation & Logistics",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$16–$21/hr (NYC)",
+      "growthOutlook": "growing",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "high",
+      "description": "Warehouse Associates handle receiving, storing, and shipping products in distribution centers. You operate equipment, manage inventory, and ensure orders are fulfilled accurately and on time.",
+      "dayInTheLife": "Receive and unload shipments, scan and stock inventory, pick and pack orders, operate forklifts or pallet jacks, maintain clean work areas, and use warehouse management systems.",
+      "keyTasks": [
+        "Unload trucks and receive inventory",
+        "Pick orders from warehouse shelves",
+        "Pack and label shipments",
+        "Operate material handling equipment",
+        "Maintain accurate inventory records",
+        "Follow safety protocols"
+      ],
+      "requiredSkills": [
+        "Physical stamina and lifting ability",
+        "Attention to detail for accuracy",
+        "Basic computer skills",
+        "Time management",
+        "Teamwork and communication",
+        "Forklift operation (after training)"
+      ],
+      "relatedGEDSkills": [
+        "Math: Counting, measurements, inventory tracking",
+        "RLA: Reading shipping labels and instructions",
+        "Science: Basic safety and ergonomics"
+      ],
+      "advancementPath": [
+        "Warehouse associate",
+        "Forklift operator / material handler",
+        "Lead warehouse associate",
+        "Warehouse supervisor / manager"
+      ],
+      "tags": [
+        "logistics",
+        "entry-level",
+        "high-demand",
+        "physical",
+        "shift-work"
+      ],
+      "programsNYC": [
+        {
+          "name": "NYC SBS Forklift Certification",
+          "provider": "NYC SBS",
+          "borough": "Multiple",
+          "link": "https://www.nyc.gov/site/sbs/careers/career-training.page",
+          "notes": "Free or low-cost forklift training"
+        },
+        {
+          "name": "Goodwill NYNJ Logistics Training",
+          "provider": "Goodwill",
+          "borough": "Multiple",
+          "link": "https://goodwillnynj.org/",
+          "notes": "Free training, job placement support"
+        }
+      ],
+      "gameOfLifeTrack": "logistics_track"
+    },
+    {
+      "id": "delivery_driver",
+      "title": "Delivery Driver (non-CDL)",
+      "cluster": "Transportation & Logistics",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma + Valid Driver's License",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$17–$24/hr (NYC)",
+      "growthOutlook": "growing",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "medium",
+      "description": "Delivery Drivers transport packages, food, or goods using vans or trucks that don't require a commercial driver's license. You manage routes, interact with customers, and ensure timely deliveries.",
+      "dayInTheLife": "Load vehicle with packages, follow GPS routes, deliver to homes and businesses, collect signatures, handle customer questions, manage delivery app or device, and maintain vehicle cleanliness.",
+      "keyTasks": [
+        "Load and organize delivery vehicle",
+        "Navigate routes efficiently",
+        "Deliver packages and confirm receipt",
+        "Provide friendly customer service",
+        "Report delivery issues or delays",
+        "Maintain vehicle and perform basic checks"
+      ],
+      "requiredSkills": [
+        "Valid driver's license and clean record",
+        "Navigation and route planning",
+        "Time management and reliability",
+        "Customer service skills",
+        "Physical ability to lift packages",
+        "Smartphone/GPS proficiency"
+      ],
+      "relatedGEDSkills": [
+        "Math: Time calculations and mileage",
+        "RLA: Reading addresses and delivery notes",
+        "Science: Vehicle maintenance basics"
+      ],
+      "advancementPath": [
+        "Delivery driver",
+        "Lead driver / trainer",
+        "Route supervisor",
+        "CDL driver (with additional training)"
+      ],
+      "tags": [
+        "logistics",
+        "driver-license-required",
+        "flexible",
+        "customer-facing",
+        "independent"
+      ],
+      "programsNYC": [
+        {
+          "name": "Amazon Delivery Service Partner Program",
+          "provider": "Amazon",
+          "borough": "Multiple",
+          "link": "https://logistics.amazon.com/",
+          "notes": "Hiring partnerships, training provided"
+        },
+        {
+          "name": "UPS Seasonal to Permanent Pathway",
+          "provider": "UPS",
+          "borough": "Multiple",
+          "link": "https://www.jobs-ups.com/",
+          "notes": "Union jobs, benefits, advancement"
+        }
+      ],
+      "gameOfLifeTrack": "logistics_track"
+    },
+    {
+      "id": "cdl_trainee",
+      "title": "CDL Trainee (CDL Training Program)",
+      "cluster": "Transportation & Logistics",
+      "nycDemandLevel": "medium",
+      "educationRequired": "GED / High School Diploma + Valid Driver's License",
+      "trainingLength": "3-6 months",
+      "startingWageRange": "$22–$30/hr (NYC, post-CDL)",
+      "growthOutlook": "stable",
+      "goodWhileStudyingGED": false,
+      "physicalDemandLevel": "medium",
+      "description": "CDL Trainees learn to operate commercial trucks and earn a Commercial Driver's License (Class A or B). This opens careers in trucking, delivery, transit, and more with strong wages and demand.",
+      "dayInTheLife": "Attend classroom training on DOT regulations and safety, practice driving commercial vehicles, learn pre-trip inspections, study for CDL written and road tests, and complete behind-the-wheel hours.",
+      "keyTasks": [
+        "Study DOT regulations and traffic laws",
+        "Practice operating commercial trucks",
+        "Perform pre-trip vehicle inspections",
+        "Learn coupling and backing techniques",
+        "Pass CDL written and skills tests",
+        "Complete required training hours"
+      ],
+      "requiredSkills": [
+        "Valid driver's license and clean record",
+        "Focus and responsibility",
+        "Ability to pass DOT physical",
+        "Spatial awareness and coordination",
+        "Ability to work alone for long periods",
+        "Basic mechanical knowledge"
+      ],
+      "relatedGEDSkills": [
+        "Math: Distance, time, weight calculations",
+        "RLA: Reading DOT regulations and logs",
+        "Science: Vehicle systems and safety"
+      ],
+      "advancementPath": [
+        "CDL trainee",
+        "CDL driver (local or long-haul)",
+        "Owner-operator",
+        "Fleet manager / dispatcher"
+      ],
+      "tags": [
+        "logistics",
+        "cdl-required",
+        "certification",
+        "high-wage",
+        "independent"
+      ],
+      "programsNYC": [
+        {
+          "name": "160 Driving Academy CDL Training",
+          "provider": "160 Driving Academy",
+          "borough": "Multiple",
+          "link": "https://www.160drivingacademy.com/",
+          "notes": "Financing available, job placement"
+        },
+        {
+          "name": "NYC MTA Bus Operator Training",
+          "provider": "MTA",
+          "borough": "Multiple",
+          "link": "https://new.mta.info/careers",
+          "notes": "Union job, full benefits, free training"
+        }
+      ],
+      "gameOfLifeTrack": "logistics_track"
+    },
+    {
+      "id": "teachers_aide",
+      "title": "Teacher's Aide / Para",
+      "cluster": "Education & Human Services",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$18–$25/hr (NYC DOE)",
+      "growthOutlook": "growing",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "low",
+      "description": "Teacher's Aides (Paraprofessionals) support teachers in classrooms by helping students with learning activities, managing materials, and providing one-on-one support. This is a stable career with NYC DOE benefits.",
+      "dayInTheLife": "Assist teacher with lesson setup, work with small groups or individual students, supervise lunch and recess, help with classroom management, prepare materials, and support students with special needs.",
+      "keyTasks": [
+        "Support students during lessons",
+        "Help with reading, writing, and math activities",
+        "Supervise students during transitions",
+        "Assist with classroom materials and technology",
+        "Provide one-on-one support for students with IEPs",
+        "Communicate with teachers about student progress"
+      ],
+      "requiredSkills": [
+        "Patience and empathy",
+        "Communication with children",
+        "Classroom management support",
+        "Flexibility and adaptability",
+        "Teamwork with teachers",
+        "Basic computer skills"
+      ],
+      "relatedGEDSkills": [
+        "RLA: Reading comprehension and literacy support",
+        "Math: Basic arithmetic and problem-solving",
+        "Science: Supporting science lessons"
+      ],
+      "advancementPath": [
+        "Paraprofessional",
+        "Lead paraprofessional",
+        "Teaching certification (with degree)",
+        "Special education teacher"
+      ],
+      "tags": ["education", "nyc-doe", "union", "benefits", "school-schedule"],
+      "programsNYC": [
+        {
+          "name": "NYC DOE Paraprofessional Exam Prep",
+          "provider": "NYC DOE",
+          "borough": "Multiple",
+          "link": "https://www.schools.nyc.gov/careers",
+          "notes": "Must pass paraprofessional exam, union benefits"
+        },
+        {
+          "name": "CUNY Paraprofessional to Teacher Program",
+          "provider": "CUNY",
+          "borough": "Multiple",
+          "link": "https://www.cuny.edu/",
+          "notes": "Tuition support for paras pursuing teaching degrees"
+        }
+      ],
+      "gameOfLifeTrack": "education_track"
+    },
+    {
+      "id": "childcare_worker",
+      "title": "Childcare Worker",
+      "cluster": "Education & Human Services",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$16–$22/hr (NYC)",
+      "growthOutlook": "growing",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "medium",
+      "description": "Childcare Workers care for young children in daycare centers, preschools, or after-school programs. You supervise activities, ensure safety, and support early learning and social development.",
+      "dayInTheLife": "Greet children and parents, lead activities and playtime, supervise meals and naps, monitor safety, help with learning activities, communicate with parents, and maintain clean and organized space.",
+      "keyTasks": [
+        "Supervise children during play and activities",
+        "Support early learning and social skills",
+        "Ensure child safety at all times",
+        "Prepare snacks and assist with meals",
+        "Communicate with parents about child progress",
+        "Maintain clean and safe environment"
+      ],
+      "requiredSkills": [
+        "Patience and nurturing attitude",
+        "Energy and physical stamina",
+        "Communication with children and parents",
+        "Safety awareness and first aid",
+        "Creativity for activities",
+        "Reliability and punctuality"
+      ],
+      "relatedGEDSkills": [
+        "RLA: Reading stories and supporting early literacy",
+        "Math: Counting and basic math activities",
+        "Science: Health, safety, and nutrition basics"
+      ],
+      "advancementPath": [
+        "Childcare worker",
+        "Lead teacher",
+        "Center director",
+        "Early childhood educator (with degree)"
+      ],
+      "tags": ["education", "early-childhood", "high-demand", "flexible-hours"],
+      "programsNYC": [
+        {
+          "name": "NYC Early Childhood Professional Development Institute",
+          "provider": "CUNY",
+          "borough": "Multiple",
+          "link": "https://www.earlychildhoodnyc.org/",
+          "notes": "Free training, CDA credential pathway"
+        },
+        {
+          "name": "Administration for Children's Services Training",
+          "provider": "NYC ACS",
+          "borough": "Multiple",
+          "link": "https://www.nyc.gov/site/acs/index.page",
+          "notes": "Required training for licensed programs"
+        }
+      ],
+      "gameOfLifeTrack": "education_track"
+    },
+    {
+      "id": "customer_service_rep",
+      "title": "Customer Service Representative",
+      "cluster": "Customer Service & Office",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$17–$23/hr (NYC)",
+      "growthOutlook": "stable",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "low",
+      "description": "Customer Service Representatives help customers via phone, email, chat, or in person. You answer questions, resolve issues, process orders, and ensure customer satisfaction across many industries.",
+      "dayInTheLife": "Answer customer calls or messages, look up account information, troubleshoot problems, process orders or returns, document interactions in CRM system, escalate complex issues, and meet service metrics.",
+      "keyTasks": [
+        "Respond to customer inquiries promptly",
+        "Resolve complaints and issues",
+        "Process transactions and orders",
+        "Maintain accurate records in CRM",
+        "Follow company policies and scripts",
+        "Provide product or service information"
+      ],
+      "requiredSkills": [
+        "Clear communication and active listening",
+        "Patience and empathy",
+        "Problem-solving ability",
+        "Computer and typing skills",
+        "Multitasking (phone + computer)",
+        "Professional demeanor"
+      ],
+      "relatedGEDSkills": [
+        "RLA: Professional communication and writing",
+        "Math: Processing payments and calculations",
+        "Science: Product knowledge in technical fields"
+      ],
+      "advancementPath": [
+        "Customer service representative",
+        "Senior representative / team lead",
+        "Supervisor / manager",
+        "Customer success manager"
+      ],
+      "tags": [
+        "customer-service",
+        "entry-level",
+        "remote-possible",
+        "office-or-call-center"
+      ],
+      "programsNYC": [
+        {
+          "name": "Per Scholas Customer Service Training",
+          "provider": "Per Scholas",
+          "borough": "Bronx, Brooklyn",
+          "link": "https://perscholas.org/",
+          "notes": "Free training, job placement support"
+        },
+        {
+          "name": "STRIVE Customer Service Track",
+          "provider": "STRIVE",
+          "borough": "Harlem, East New York",
+          "link": "https://www.striveinternational.org/",
+          "notes": "Soft skills + technical training, free"
+        }
+      ],
+      "gameOfLifeTrack": "customer_service_track"
+    },
+    {
+      "id": "retail_supervisor",
+      "title": "Retail Supervisor / Key Holder",
+      "cluster": "Customer Service & Office",
+      "nycDemandLevel": "medium",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$18–$26/hr (NYC)",
+      "growthOutlook": "stable",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "medium",
+      "description": "Retail Supervisors oversee store operations, manage staff, handle customer issues, and ensure sales goals are met. You have keys to open/close and support the store manager with daily tasks.",
+      "dayInTheLife": "Open or close the store, supervise sales associates, handle customer complaints, manage cash registers, restock merchandise, train new employees, and report to store manager.",
+      "keyTasks": [
+        "Supervise and coach retail staff",
+        "Ensure excellent customer service",
+        "Manage cash handling and deposits",
+        "Monitor inventory and merchandise displays",
+        "Handle escalated customer issues",
+        "Open and close store operations"
+      ],
+      "requiredSkills": [
+        "Leadership and team management",
+        "Customer service excellence",
+        "Problem-solving under pressure",
+        "Cash handling and POS systems",
+        "Merchandising and sales knowledge",
+        "Flexibility with schedule"
+      ],
+      "relatedGEDSkills": [
+        "Math: Sales calculations, inventory, budgets",
+        "RLA: Staff communication and reporting",
+        "Science: Product knowledge (varies by industry)"
+      ],
+      "advancementPath": [
+        "Retail supervisor / key holder",
+        "Assistant store manager",
+        "Store manager",
+        "District or regional manager"
+      ],
+      "tags": ["retail", "leadership", "customer-facing", "flexible-schedule"],
+      "programsNYC": [
+        {
+          "name": "NYC SBS Retail Management Training",
+          "provider": "NYC SBS",
+          "borough": "Multiple",
+          "link": "https://www.nyc.gov/site/sbs/careers/career-training.page",
+          "notes": "Free training and industry connections"
+        }
+      ],
+      "gameOfLifeTrack": "customer_service_track"
+    },
+    {
+      "id": "it_support",
+      "title": "IT Support / Help Desk",
+      "cluster": "Tech & Digital",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "3-6 months",
+      "startingWageRange": "$20–$28/hr (NYC)",
+      "growthOutlook": "growing",
+      "goodWhileStudyingGED": false,
+      "physicalDemandLevel": "low",
+      "description": "IT Support Specialists help users with computer, software, and network issues. You troubleshoot problems, set up equipment, and provide technical guidance via phone, email, or in person.",
+      "dayInTheLife": "Answer support tickets, troubleshoot hardware and software issues, reset passwords, install updates, guide users through fixes, document solutions, and escalate complex problems to IT team.",
+      "keyTasks": [
+        "Respond to IT support requests",
+        "Diagnose and fix technical issues",
+        "Set up and configure computers",
+        "Install and update software",
+        "Maintain support documentation",
+        "Provide user training and guidance"
+      ],
+      "requiredSkills": [
+        "Technical troubleshooting",
+        "Customer service and patience",
+        "Knowledge of Windows, Mac, and mobile devices",
+        "Networking basics",
+        "Problem-solving and logical thinking",
+        "Clear communication of technical concepts"
+      ],
+      "relatedGEDSkills": [
+        "Math: Logical reasoning and problem-solving",
+        "RLA: Technical writing and documentation",
+        "Science: Understanding computer systems"
+      ],
+      "advancementPath": [
+        "Help desk technician",
+        "IT support specialist",
+        "Systems administrator",
+        "Network engineer / IT manager"
+      ],
+      "tags": [
+        "tech",
+        "high-demand",
+        "certification-helpful",
+        "office-based",
+        "growth-potential"
+      ],
+      "programsNYC": [
+        {
+          "name": "Per Scholas IT Support Training",
+          "provider": "Per Scholas",
+          "borough": "Bronx, Brooklyn",
+          "link": "https://perscholas.org/",
+          "notes": "Free, CompTIA A+ prep included, job placement"
+        },
+        {
+          "name": "NPower Tech Fundamentals",
+          "provider": "NPower",
+          "borough": "Manhattan",
+          "link": "https://www.npower.org/",
+          "notes": "Free for young adults, certifications included"
+        },
+        {
+          "name": "CUNY Tech Talent Pipeline",
+          "provider": "CUNY",
+          "borough": "Multiple",
+          "link": "https://www.cuny.edu/about/careers/tech-talent-pipeline/",
+          "notes": "Bridge programs and employer connections"
+        }
+      ],
+      "gameOfLifeTrack": "tech_track"
+    },
+    {
+      "id": "residential_aide",
+      "title": "Residential Aide (Shelters)",
+      "cluster": "Education & Human Services",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$17–$23/hr (NYC)",
+      "growthOutlook": "stable",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "medium",
+      "description": "Residential Aides work in homeless shelters, group homes, or residential facilities providing support, supervision, and advocacy for residents. You help maintain safe environments and connect people to services.",
+      "dayInTheLife": "Monitor facility and residents, assist with check-in and daily routines, enforce facility rules, respond to crises, connect residents to services, document incidents, and provide emotional support.",
+      "keyTasks": [
+        "Supervise residents and facility",
+        "Assist with daily living activities",
+        "Maintain safety and enforce policies",
+        "Respond to emergencies and conflicts",
+        "Connect residents to resources",
+        "Document incidents and progress"
+      ],
+      "requiredSkills": [
+        "Empathy and patience",
+        "De-escalation and conflict resolution",
+        "Clear communication",
+        "Crisis management",
+        "Cultural sensitivity",
+        "Reliability and professionalism"
+      ],
+      "relatedGEDSkills": [
+        "RLA: Writing reports and documentation",
+        "Math: Tracking data and schedules",
+        "Science: Understanding mental health basics"
+      ],
+      "advancementPath": [
+        "Residential aide",
+        "Case manager (with degree)",
+        "Program coordinator",
+        "Social worker (with degree + license)"
+      ],
+      "tags": [
+        "human-services",
+        "social-impact",
+        "shift-work",
+        "empathy-driven"
+      ],
+      "programsNYC": [
+        {
+          "name": "NYC Human Resources Administration Training",
+          "provider": "NYC HRA",
+          "borough": "Multiple",
+          "link": "https://www.nyc.gov/site/hra/index.page",
+          "notes": "Civil service pathway, benefits"
+        },
+        {
+          "name": "Coalition for the Homeless Job Training",
+          "provider": "Coalition",
+          "borough": "Manhattan",
+          "link": "https://www.coalitionforthehomeless.org/",
+          "notes": "On-the-job training, mission-driven"
+        }
+      ],
+      "gameOfLifeTrack": "education_track"
+    },
+    {
+      "id": "call_center_agent",
+      "title": "Call Center Agent",
+      "cluster": "Customer Service & Office",
+      "nycDemandLevel": "high",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$16–$22/hr (NYC)",
+      "growthOutlook": "stable",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "low",
+      "description": "Call Center Agents handle inbound or outbound calls for customer service, sales, or support. You follow scripts, answer questions, resolve issues, and meet call volume and quality metrics.",
+      "dayInTheLife": "Log into call system, take incoming calls, respond to customer inquiries, document call notes, follow up as needed, meet call time and resolution goals, and escalate complex issues.",
+      "keyTasks": [
+        "Answer high volume of calls",
+        "Provide information and assistance",
+        "Resolve complaints and issues",
+        "Document call details accurately",
+        "Meet performance metrics (AHT, CSAT)",
+        "Follow scripts and compliance guidelines"
+      ],
+      "requiredSkills": [
+        "Clear verbal communication",
+        "Active listening",
+        "Patience under pressure",
+        "Typing and computer skills",
+        "Ability to follow scripts",
+        "Problem-solving and adaptability"
+      ],
+      "relatedGEDSkills": [
+        "RLA: Listening comprehension and note-taking",
+        "Math: Basic calculations for billing, etc.",
+        "Science: Product/technical knowledge"
+      ],
+      "advancementPath": [
+        "Call center agent",
+        "Senior agent / quality specialist",
+        "Team lead / supervisor",
+        "Call center manager"
+      ],
+      "tags": [
+        "customer-service",
+        "high-volume",
+        "entry-level",
+        "metrics-driven"
+      ],
+      "programsNYC": [
+        {
+          "name": "STRIVE Customer Contact Training",
+          "provider": "STRIVE",
+          "borough": "Harlem, East New York",
+          "link": "https://www.striveinternational.org/",
+          "notes": "Free training, soft skills focus"
+        }
+      ],
+      "gameOfLifeTrack": "customer_service_track"
+    },
+    {
+      "id": "receptionist",
+      "title": "Receptionist / Front Desk",
+      "cluster": "Customer Service & Office",
+      "nycDemandLevel": "medium",
+      "educationRequired": "GED / High School Diploma",
+      "trainingLength": "0-3 months",
+      "startingWageRange": "$16–$22/hr (NYC)",
+      "growthOutlook": "stable",
+      "goodWhileStudyingGED": true,
+      "physicalDemandLevel": "low",
+      "description": "Receptionists are the first point of contact for businesses. You greet visitors, answer phones, schedule appointments, manage mail, and provide administrative support to keep the office running smoothly.",
+      "dayInTheLife": "Greet and check in visitors, answer and transfer calls, manage appointment calendar, sort and distribute mail, maintain tidy reception area, and assist with admin tasks as needed.",
+      "keyTasks": [
+        "Answer and route phone calls",
+        "Greet and assist visitors",
+        "Schedule and confirm appointments",
+        "Handle incoming and outgoing mail",
+        "Maintain visitor logs and security",
+        "Provide general administrative support"
+      ],
+      "requiredSkills": [
+        "Professional demeanor",
+        "Multitasking and organization",
+        "Phone etiquette",
+        "Basic computer skills (email, calendar)",
+        "Customer service mindset",
+        "Reliability and punctuality"
+      ],
+      "relatedGEDSkills": [
+        "RLA: Professional communication and writing",
+        "Math: Scheduling and basic record-keeping",
+        "Science: Office safety and equipment use"
+      ],
+      "advancementPath": [
+        "Receptionist",
+        "Administrative assistant",
+        "Office coordinator",
+        "Office manager"
+      ],
+      "tags": [
+        "office",
+        "entry-level",
+        "customer-facing",
+        "professional-environment"
+      ],
+      "programsNYC": [
+        {
+          "name": "STRIVE Office Skills Training",
+          "provider": "STRIVE",
+          "borough": "Harlem, East New York",
+          "link": "https://www.striveinternational.org/",
+          "notes": "Free, includes computer and soft skills"
+        },
+        {
+          "name": "Goodwill NYNJ Office Skills",
+          "provider": "Goodwill",
+          "borough": "Multiple",
+          "link": "https://goodwillnynj.org/",
+          "notes": "Free training, job placement"
+        }
+      ],
+      "gameOfLifeTrack": "customer_service_track"
+    }
+  ]
+}

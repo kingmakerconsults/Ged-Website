@@ -1,0 +1,671 @@
+{
+  "subject": "Workforce Readiness",
+  "categories": {
+    "Job Applications & Resumes": {
+      "topics": [
+        {
+          "id": "workforce_resume_basics",
+          "title": "Resume Writing Fundamentals",
+          "quizzes": [
+            {
+              "quizId": "workforce_resume_basics_1",
+              "label": "Resume Basics Quiz A",
+              "description": "Test your knowledge of resume structure and content.",
+              "questionSourceTopicId": "workforce_resume_basics",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multipleChoice",
+                  "difficulty": "easy",
+                  "passage": "A resume is a brief document that summarizes your education, work experience, skills, and accomplishments. It should be clear, concise, and tailored to the job you're applying for. Most employers spend less than 30 seconds reviewing each resume, so formatting and clarity are critical.",
+                  "question": "What is the primary purpose of a resume?",
+                  "answerOptions": [
+                    {
+                      "text": "To provide a detailed life story",
+                      "isCorrect": false,
+                      "rationale": "Resumes should be concise and job-focused, not comprehensive autobiographies."
+                    },
+                    {
+                      "text": "To summarize relevant qualifications for a job",
+                      "isCorrect": true,
+                      "rationale": "Correct. A resume highlights education, skills, and experience relevant to the position."
+                    },
+                    {
+                      "text": "To list every job you've ever had",
+                      "isCorrect": false,
+                      "rationale": "Resumes should focus on relevant experience, not every past job."
+                    },
+                    {
+                      "text": "To replace the job application form",
+                      "isCorrect": false,
+                      "rationale": "Resumes complement applications but don't replace them."
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 2,
+                  "type": "multipleChoice",
+                  "difficulty": "medium",
+                  "passage": "When writing a resume, use action verbs like 'managed,' 'developed,' 'coordinated,' and 'achieved' to describe your responsibilities and accomplishments. Avoid vague phrases like 'responsible for' or 'worked on.' Quantify achievements when possible, such as 'increased sales by 20%' or 'trained 15 new employees.'",
+                  "question": "Which bullet point is most effective for a resume?",
+                  "answerOptions": [
+                    {
+                      "text": "Responsible for customer service tasks",
+                      "isCorrect": false,
+                      "rationale": "This is vague and doesn't highlight accomplishments."
+                    },
+                    {
+                      "text": "Worked on various projects",
+                      "isCorrect": false,
+                      "rationale": "This lacks specificity and measurable outcomes."
+                    },
+                    {
+                      "text": "Managed a team of 8 employees and improved efficiency by 15%",
+                      "isCorrect": true,
+                      "rationale": "Correct. This uses an action verb and quantifies the achievement."
+                    },
+                    {
+                      "text": "Helped with office duties",
+                      "isCorrect": false,
+                      "rationale": "This is too general and doesn't demonstrate impact."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "quizId": "workforce_resume_basics_2",
+              "label": "Resume Basics Quiz B",
+              "description": "More practice with professional resume formatting.",
+              "questionSourceTopicId": "workforce_resume_basics",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multipleChoice",
+                  "difficulty": "easy",
+                  "passage": "Your resume should include contact information at the top: your full name, phone number, professional email address, and optionally your LinkedIn profile or city/state. Avoid using unprofessional email addresses like 'partyguy123@email.com.'",
+                  "question": "Which email address is most appropriate for a resume?",
+                  "answerOptions": [
+                    {
+                      "text": "cooldude99@email.com",
+                      "isCorrect": false,
+                      "rationale": "This is unprofessional and informal."
+                    },
+                    {
+                      "text": "john.smith.work@email.com",
+                      "isCorrect": true,
+                      "rationale": "Correct. This is professional and includes the person's name."
+                    },
+                    {
+                      "text": "funlover2024@email.com",
+                      "isCorrect": false,
+                      "rationale": "This is too casual for professional communication."
+                    },
+                    {
+                      "text": "bossbabe@email.com",
+                      "isCorrect": false,
+                      "rationale": "This lacks professionalism."
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 2,
+                  "type": "multipleChoice",
+                  "difficulty": "medium",
+                  "passage": "List your work experience in reverse chronological order, starting with your most recent job. For each position, include the job title, company name, location, and dates of employment. Use bullet points to describe your key responsibilities and achievements.",
+                  "question": "In what order should you list your work experience?",
+                  "answerOptions": [
+                    {
+                      "text": "Alphabetically by company name",
+                      "isCorrect": false,
+                      "rationale": "Work experience should be ordered by date, not alphabetically."
+                    },
+                    {
+                      "text": "Most recent job first",
+                      "isCorrect": true,
+                      "rationale": "Correct. Reverse chronological order highlights your current skills and experience."
+                    },
+                    {
+                      "text": "Oldest job first",
+                      "isCorrect": false,
+                      "rationale": "This makes it harder for employers to see your most relevant experience."
+                    },
+                    {
+                      "text": "By length of employment",
+                      "isCorrect": false,
+                      "rationale": "Date order, not duration, is the standard format."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "workforce_cover_letters",
+          "title": "Cover Letter Essentials",
+          "quizzes": [
+            {
+              "quizId": "workforce_cover_letters_1",
+              "label": "Cover Letters Quiz A",
+              "description": "Learn the fundamentals of writing effective cover letters.",
+              "questionSourceTopicId": "workforce_cover_letters",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multipleChoice",
+                  "difficulty": "easy",
+                  "passage": "A cover letter is a one-page document you submit with your resume. It introduces you to the employer, explains why you're interested in the position, and highlights how your skills and experience make you a strong candidate. Unlike a resume, a cover letter uses full sentences and paragraphs.",
+                  "question": "What is the main purpose of a cover letter?",
+                  "answerOptions": [
+                    {
+                      "text": "To list all your previous jobs in detail",
+                      "isCorrect": false,
+                      "rationale": "That's the purpose of a resume, not a cover letter."
+                    },
+                    {
+                      "text": "To introduce yourself and explain why you're a good fit",
+                      "isCorrect": true,
+                      "rationale": "Correct. Cover letters connect your qualifications to the specific job."
+                    },
+                    {
+                      "text": "To replace your resume",
+                      "isCorrect": false,
+                      "rationale": "Cover letters complement resumes, they don't replace them."
+                    },
+                    {
+                      "text": "To provide references",
+                      "isCorrect": false,
+                      "rationale": "References are typically provided separately when requested."
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 2,
+                  "type": "multipleChoice",
+                  "difficulty": "medium",
+                  "passage": "When writing a cover letter, address it to a specific person whenever possible. Research the hiring manager's name on the company website or LinkedIn. If you can't find a name, use 'Dear Hiring Manager' instead of generic greetings like 'To Whom It May Concern.'",
+                  "question": "What is the best way to start a cover letter?",
+                  "answerOptions": [
+                    {
+                      "text": "Dear Sir or Madam,",
+                      "isCorrect": false,
+                      "rationale": "This is outdated and too generic."
+                    },
+                    {
+                      "text": "To Whom It May Concern,",
+                      "isCorrect": false,
+                      "rationale": "This is impersonal; try to find the hiring manager's name."
+                    },
+                    {
+                      "text": "Dear Ms. Johnson, (using the hiring manager's name)",
+                      "isCorrect": true,
+                      "rationale": "Correct. Personalizing shows initiative and attention to detail."
+                    },
+                    {
+                      "text": "Hey there,",
+                      "isCorrect": false,
+                      "rationale": "This is too casual for a professional cover letter."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Interview Skills": {
+      "topics": [
+        {
+          "id": "workforce_interview_prep",
+          "title": "Interview Preparation",
+          "quizzes": [
+            {
+              "quizId": "workforce_interview_prep_1",
+              "label": "Interview Prep Quiz A",
+              "description": "Prepare for common interview scenarios and questions.",
+              "questionSourceTopicId": "workforce_interview_prep",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multipleChoice",
+                  "difficulty": "easy",
+                  "passage": "The most common interview question is 'Tell me about yourself.' This is your opportunity to give a brief professional summary: who you are, your relevant experience, key skills, and why you're interested in the role. Keep your answer to 1-2 minutes and focus on professional highlights, not personal details.",
+                  "question": "When answering 'Tell me about yourself,' you should:",
+                  "answerOptions": [
+                    {
+                      "text": "Share your entire life story",
+                      "isCorrect": false,
+                      "rationale": "Focus on professional highlights relevant to the job."
+                    },
+                    {
+                      "text": "Give a brief professional summary and connect to the role",
+                      "isCorrect": true,
+                      "rationale": "Correct. Keep it concise, professional, and relevant."
+                    },
+                    {
+                      "text": "Talk about your hobbies and family",
+                      "isCorrect": false,
+                      "rationale": "Personal details are generally not appropriate in this context."
+                    },
+                    {
+                      "text": "Ask the interviewer to read your resume",
+                      "isCorrect": false,
+                      "rationale": "You should provide a summary in your own words."
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 2,
+                  "type": "multipleChoice",
+                  "difficulty": "medium",
+                  "passage": "When describing accomplishments in an interview, use the STAR method: Situation (context), Task (your responsibility), Action (what you did), and Result (the outcome). For example: 'At my previous job (Situation), I was tasked with reducing customer wait times (Task). I reorganized the scheduling system (Action), which reduced wait times by 30% (Result).'",
+                  "question": "Which answer best demonstrates the STAR method?",
+                  "answerOptions": [
+                    {
+                      "text": "I'm a hard worker and good with people.",
+                      "isCorrect": false,
+                      "rationale": "This doesn't provide a specific example or outcome."
+                    },
+                    {
+                      "text": "In my last role, I led a project that improved efficiency by 20% by implementing a new system.",
+                      "isCorrect": true,
+                      "rationale": "Correct. This includes situation, task, action, and result."
+                    },
+                    {
+                      "text": "I once solved a problem at work.",
+                      "isCorrect": false,
+                      "rationale": "This is too vague and lacks detail."
+                    },
+                    {
+                      "text": "I have experience in many areas.",
+                      "isCorrect": false,
+                      "rationale": "This doesn't provide a concrete example."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Workplace Communication": {
+      "topics": [
+        {
+          "id": "workforce_professional_communication",
+          "title": "Professional Communication",
+          "quizzes": [
+            {
+              "quizId": "workforce_professional_communication_1",
+              "label": "Professional Communication Quiz A",
+              "description": "Master email etiquette and workplace communication.",
+              "questionSourceTopicId": "workforce_professional_communication",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multipleChoice",
+                  "difficulty": "easy",
+                  "passage": "Professional emails should have a clear subject line, a polite greeting, concise body text, and a professional signature. Avoid using all caps, excessive exclamation points, or informal language like 'Hey' or 'Thanks a bunch!'",
+                  "question": "Which email greeting is most professional?",
+                  "answerOptions": [
+                    {
+                      "text": "Hey!",
+                      "isCorrect": false,
+                      "rationale": "This is too casual for professional communication."
+                    },
+                    {
+                      "text": "Dear Mr. Williams,",
+                      "isCorrect": true,
+                      "rationale": "Correct. This is formal and respectful."
+                    },
+                    {
+                      "text": "Yo,",
+                      "isCorrect": false,
+                      "rationale": "This is inappropriate for workplace emails."
+                    },
+                    {
+                      "text": "What's up,",
+                      "isCorrect": false,
+                      "rationale": "This is too informal."
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 2,
+                  "type": "multipleChoice",
+                  "difficulty": "medium",
+                  "passage": "When communicating with coworkers or supervisors, use active listening: make eye contact, avoid interrupting, ask clarifying questions, and summarize what you heard. This shows respect and ensures you understand instructions correctly.",
+                  "question": "Active listening includes:",
+                  "answerOptions": [
+                    {
+                      "text": "Interrupting to share your own ideas immediately",
+                      "isCorrect": false,
+                      "rationale": "Interrupting is not part of active listening."
+                    },
+                    {
+                      "text": "Checking your phone while the other person talks",
+                      "isCorrect": false,
+                      "rationale": "This shows disrespect and lack of attention."
+                    },
+                    {
+                      "text": "Making eye contact and asking clarifying questions",
+                      "isCorrect": true,
+                      "rationale": "Correct. These behaviors demonstrate engaged listening."
+                    },
+                    {
+                      "text": "Thinking about your response while they're speaking",
+                      "isCorrect": false,
+                      "rationale": "Focus on understanding first, not planning your reply."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Workplace Soft Skills": {
+      "topics": [
+        {
+          "id": "workforce_teamwork",
+          "title": "Teamwork & Collaboration",
+          "quizzes": [
+            {
+              "quizId": "workforce_teamwork_1",
+              "label": "Teamwork Quiz A",
+              "description": "Learn effective collaboration and conflict resolution.",
+              "questionSourceTopicId": "workforce_teamwork",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multipleChoice",
+                  "difficulty": "easy",
+                  "passage": "Good teamwork involves clear communication, shared goals, respect for others' ideas, and willingness to compromise. Team members should support each other and contribute fairly to shared tasks.",
+                  "question": "What is a key characteristic of effective teamwork?",
+                  "answerOptions": [
+                    {
+                      "text": "One person does all the work",
+                      "isCorrect": false,
+                      "rationale": "Effective teams share responsibilities."
+                    },
+                    {
+                      "text": "Everyone contributes and communicates openly",
+                      "isCorrect": true,
+                      "rationale": "Correct. Collaboration and communication are essential."
+                    },
+                    {
+                      "text": "Avoiding all disagreements",
+                      "isCorrect": false,
+                      "rationale": "Healthy debate can lead to better solutions."
+                    },
+                    {
+                      "text": "Only the team leader makes decisions",
+                      "isCorrect": false,
+                      "rationale": "Good teams involve input from all members."
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 2,
+                  "type": "multipleChoice",
+                  "difficulty": "medium",
+                  "passage": "When a conflict arises at work, address it calmly and professionally. Focus on the issue, not personal attacks. Use 'I' statements like 'I feel concerned when deadlines are missed' instead of 'You never finish your work on time.'",
+                  "question": "What is the best approach to workplace conflict?",
+                  "answerOptions": [
+                    {
+                      "text": "Ignore it and hope it goes away",
+                      "isCorrect": false,
+                      "rationale": "Unresolved conflicts can escalate."
+                    },
+                    {
+                      "text": "Address it calmly with 'I' statements",
+                      "isCorrect": true,
+                      "rationale": "Correct. This approach focuses on solutions, not blame."
+                    },
+                    {
+                      "text": "Gossip about the person with coworkers",
+                      "isCorrect": false,
+                      "rationale": "This is unprofessional and damages workplace relationships."
+                    },
+                    {
+                      "text": "Send an angry email immediately",
+                      "isCorrect": false,
+                      "rationale": "Reacting emotionally can worsen the situation."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "workforce_time_management",
+          "title": "Time Management & Reliability",
+          "quizzes": [
+            {
+              "quizId": "workforce_time_management_1",
+              "label": "Time Management Quiz A",
+              "description": "Build habits for punctuality and productivity.",
+              "questionSourceTopicId": "workforce_time_management",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multipleChoice",
+                  "difficulty": "easy",
+                  "passage": "Punctuality shows respect for others' time and is a key workplace expectation. If you will be late, notify your supervisor or coworkers as soon as possible and provide an estimated arrival time.",
+                  "question": "If you will be 10 minutes late to work due to traffic, what should you do?",
+                  "answerOptions": [
+                    {
+                      "text": "Do nothing; 10 minutes isn't important",
+                      "isCorrect": false,
+                      "rationale": "Always communicate delays promptly."
+                    },
+                    {
+                      "text": "Text or call your supervisor immediately",
+                      "isCorrect": true,
+                      "rationale": "Correct. Proactive communication shows professionalism."
+                    },
+                    {
+                      "text": "Arrive late and explain only if asked",
+                      "isCorrect": false,
+                      "rationale": "It's better to notify in advance."
+                    },
+                    {
+                      "text": "Skip work that day",
+                      "isCorrect": false,
+                      "rationale": "A brief delay doesn't justify missing work."
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 2,
+                  "type": "multipleChoice",
+                  "difficulty": "medium",
+                  "passage": "To manage your time effectively, prioritize tasks by urgency and importance. Use tools like to-do lists, calendars, or apps. Break large projects into smaller steps and set deadlines for each.",
+                  "question": "Which is the best way to manage a large project?",
+                  "answerOptions": [
+                    {
+                      "text": "Wait until the deadline approaches to start",
+                      "isCorrect": false,
+                      "rationale": "Procrastination increases stress and reduces quality."
+                    },
+                    {
+                      "text": "Break it into smaller tasks with deadlines",
+                      "isCorrect": true,
+                      "rationale": "Correct. This makes large projects more manageable."
+                    },
+                    {
+                      "text": "Work on whatever feels easiest first",
+                      "isCorrect": false,
+                      "rationale": "Prioritize by importance and urgency, not ease."
+                    },
+                    {
+                      "text": "Multitask on several projects at once",
+                      "isCorrect": false,
+                      "rationale": "Focus helps you complete tasks more efficiently."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Digital Literacy": {
+      "topics": [
+        {
+          "id": "workforce_digital_basics",
+          "title": "Email, Files, and Online Safety",
+          "quizzes": [
+            {
+              "quizId": "workforce_digital_basics_1",
+              "label": "Digital Literacy Quiz A",
+              "description": "Essential digital skills for the modern workplace.",
+              "questionSourceTopicId": "workforce_digital_basics",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multipleChoice",
+                  "difficulty": "easy",
+                  "passage": "When creating passwords for work accounts, use a mix of uppercase and lowercase letters, numbers, and symbols. Avoid using easily guessed information like your birthday or the word 'password.' Never share your work password with anyone.",
+                  "question": "Which is the strongest password?",
+                  "answerOptions": [
+                    {
+                      "text": "password123",
+                      "isCorrect": false,
+                      "rationale": "This is very weak and commonly used."
+                    },
+                    {
+                      "text": "MyBirthday1990",
+                      "isCorrect": false,
+                      "rationale": "Personal information is easy to guess."
+                    },
+                    {
+                      "text": "T7k!mP3z@Qx",
+                      "isCorrect": true,
+                      "rationale": "Correct. This is random, complex, and hard to guess."
+                    },
+                    {
+                      "text": "qwerty",
+                      "isCorrect": false,
+                      "rationale": "This is one of the most common weak passwords."
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 2,
+                  "type": "multipleChoice",
+                  "difficulty": "medium",
+                  "passage": "Phishing emails try to trick you into revealing passwords or personal information. Warning signs include misspellings, generic greetings like 'Dear Customer,' urgent requests for immediate action, and suspicious links. If in doubt, contact your IT department or the supposed sender through official channels.",
+                  "question": "You receive an email claiming your account will be closed unless you click a link immediately. What should you do?",
+                  "answerOptions": [
+                    {
+                      "text": "Click the link right away to save your account",
+                      "isCorrect": false,
+                      "rationale": "This is likely a phishing attempt."
+                    },
+                    {
+                      "text": "Verify with IT or contact the sender directly through official channels",
+                      "isCorrect": true,
+                      "rationale": "Correct. Always verify suspicious requests before acting."
+                    },
+                    {
+                      "text": "Reply to the email with your password to confirm your identity",
+                      "isCorrect": false,
+                      "rationale": "Never share passwords via email."
+                    },
+                    {
+                      "text": "Forward it to all your coworkers",
+                      "isCorrect": false,
+                      "rationale": "This could spread the phishing attack."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Career Planning": {
+      "topics": [
+        {
+          "id": "workforce_career_pathways",
+          "title": "Exploring Career Pathways",
+          "quizzes": [
+            {
+              "quizId": "workforce_career_pathways_1",
+              "label": "Career Pathways Quiz A",
+              "description": "Identify skills, interests, and career options.",
+              "questionSourceTopicId": "workforce_career_pathways",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multipleChoice",
+                  "difficulty": "easy",
+                  "passage": "Career pathways are sequences of courses and training that prepare you for a specific occupation or industry. They often include entry-level positions that lead to higher-skilled roles. Examples include healthcare (CNA → LPN → RN), IT (Help Desk → Systems Admin → Network Engineer), and skilled trades (Apprentice → Journeyman → Master).",
+                  "question": "What is a career pathway?",
+                  "answerOptions": [
+                    {
+                      "text": "A single job you hold for life",
+                      "isCorrect": false,
+                      "rationale": "Career pathways involve progression through multiple roles."
+                    },
+                    {
+                      "text": "A sequence of training and positions leading to career advancement",
+                      "isCorrect": true,
+                      "rationale": "Correct. Pathways map out steps for skill and role development."
+                    },
+                    {
+                      "text": "A college major",
+                      "isCorrect": false,
+                      "rationale": "Pathways include training beyond just formal degrees."
+                    },
+                    {
+                      "text": "A list of jobs you're not interested in",
+                      "isCorrect": false,
+                      "rationale": "Pathways help you explore options you are interested in."
+                    }
+                  ]
+                },
+                {
+                  "questionNumber": 2,
+                  "type": "multipleChoice",
+                  "difficulty": "medium",
+                  "passage": "When exploring careers, consider your interests, skills, values, and the job market. Research median salaries, job growth projections, and required education or certifications. Informational interviews with people in the field can provide valuable insights.",
+                  "question": "Which factor is most important when choosing a career?",
+                  "answerOptions": [
+                    {
+                      "text": "Only salary",
+                      "isCorrect": false,
+                      "rationale": "While important, other factors like interest and values matter too."
+                    },
+                    {
+                      "text": "A balance of interests, skills, values, and market demand",
+                      "isCorrect": true,
+                      "rationale": "Correct. A well-rounded evaluation leads to better career satisfaction."
+                    },
+                    {
+                      "text": "What your parents want you to do",
+                      "isCorrect": false,
+                      "rationale": "Career choices should align with your own goals and strengths."
+                    },
+                    {
+                      "text": "The easiest path available",
+                      "isCorrect": false,
+                      "rationale": "Choosing based on ease alone often leads to dissatisfaction."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

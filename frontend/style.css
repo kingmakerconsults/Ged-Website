@@ -325,6 +325,18 @@ body {
   background-color: var(--bg-page);
   color: var(--text-primary);
 }
+/* Offset content below fixed AppHeader */
+:root {
+  --app-header-height: 64px;
+}
+body {
+  padding-top: var(--app-header-height);
+}
+@media (max-width: 640px) {
+  :root {
+    --app-header-height: 56px;
+  }
+}
 h1 {
   font-family: 'Poppins', 'Inter', system-ui, sans-serif;
   font-size: 2.25rem;
