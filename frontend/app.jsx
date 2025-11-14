@@ -39392,13 +39392,37 @@ function WorkforceInterviewPractice() {
 
   // Load career roles
   const [roles, setRoles] = React.useState([]);
+  const [rolesLoading, setRolesLoading] = React.useState(true);
+
   React.useEffect(() => {
-    fetch('/data/careerPathsNYC.json')
-      .then((res) => res.json())
-      .then((data) => {
-        setRoles(data || []);
+    setRolesLoading(true);
+    fetch(`${API_BASE_URL}/api/workforce/career-paths`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load roles');
+        return res.json();
       })
-      .catch(() => setRoles([]));
+      .then((data) => {
+        console.log('Loaded career paths:', data);
+        setRoles(data.careers || []);
+        setRolesLoading(false);
+      })
+      .catch((err) => {
+        console.error('Error loading career paths:', err);
+        // Fallback to common NYC roles
+        setRoles([
+          { id: 'cna', title: 'Certified Nursing Assistant (CNA)' },
+          { id: 'warehouse', title: 'Warehouse Associate' },
+          { id: 'retail', title: 'Retail Sales Associate' },
+          { id: 'security', title: 'Security Guard' },
+          { id: 'admin', title: 'Administrative Assistant' },
+          { id: 'customer', title: 'Customer Service Representative' },
+          { id: 'food', title: 'Food Service Worker' },
+          { id: 'janitor', title: 'Custodian/Janitor' },
+          { id: 'home-health', title: 'Home Health Aide' },
+          { id: 'delivery', title: 'Delivery Driver' },
+        ]);
+        setRolesLoading(false);
+      });
   }, []);
 
   // Initialize speech recognition
@@ -39563,8 +39587,11 @@ function WorkforceInterviewPractice() {
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
                 className="w-full border p-2 rounded-lg bg-white dark:bg-slate-800"
+                disabled={rolesLoading}
               >
-                <option value="">Choose a role...</option>
+                <option value="">
+                  {rolesLoading ? 'Loading roles...' : 'Choose a role...'}
+                </option>
                 {roles.map((r) => (
                   <option key={r.id} value={r.title}>
                     {r.title}
@@ -39625,7 +39652,7 @@ function WorkforceInterviewPractice() {
 
           <button
             onClick={startSession}
-            disabled={!role}
+            disabled={!role || rolesLoading}
             className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Start Interview Practice
