@@ -29,6 +29,7 @@ const SUBJECT_PROGRESS_KEYS = [
   'Reasoning Through Language Arts (RLA)',
   'Science',
   'Math',
+  'Workforce',
 ];
 
 const GED_PASSING_SCORE = 145;
@@ -40,6 +41,7 @@ const SUBJECT_ID_MAP = {
   'Social Studies': 'social_studies',
   'Reasoning Through Language Arts (RLA)': 'rla',
   RLA: 'rla',
+  Workforce: 'workforce',
 };
 
 const BADGE_IMG_PATHS = {
@@ -422,6 +424,7 @@ const SUBJECT_SHORT_LABELS = {
   Math: 'Math',
   'Social Studies': 'Social Studies',
   'Reasoning Through Language Arts (RLA)': 'RLA',
+  Workforce: 'Workforce',
 };
 
 const VOCABULARY_SUBJECT_COLORS = {
@@ -1102,6 +1105,7 @@ const SUBJECT_PARAM_MAP = {
   Math: 'Math',
   'Reasoning Through Language Arts (RLA)': 'RLA',
   RLA: 'RLA',
+  Workforce: 'Workforce',
 };
 
 const resolveSubjectParam = (subject) => {
@@ -30069,6 +30073,7 @@ function StartScreen({
     if (str.startsWith('science')) return 'science';
     if (str === 'rla' || str.includes('language')) return 'rla';
     if (str.includes('social')) return 'social_studies';
+    if (str.includes('workforce')) return 'workforce';
     return str.replace(/[^a-z0-9]+/g, '_');
   };
 
@@ -30078,6 +30083,7 @@ function StartScreen({
     if (id === 'social_studies') return 'Social Studies';
     if (id === 'math') return 'Math';
     if (id === 'science') return 'Science';
+    if (id === 'workforce') return 'Workforce';
     return value || 'Subject';
   };
 
@@ -30087,6 +30093,7 @@ function StartScreen({
     if (id === 'math') return 'math';
     if (id === 'science') return 'science';
     if (id === 'rla') return 'rla';
+    if (id === 'workforce') return 'workforce';
     return 'social-studies';
   };
 
@@ -30321,6 +30328,8 @@ function StartScreen({
         ? 'RLA'
         : subjectParam === 'math'
         ? 'Math'
+        : subjectParam === 'workforce'
+        ? 'Workforce'
         : 'Science';
 
     try {
@@ -30367,7 +30376,7 @@ function StartScreen({
 
     setGeneratingAll(true);
     setCoachError('');
-    const subjects = ['Math', 'RLA', 'Science', 'Social Studies'];
+    const subjects = ['Math', 'RLA', 'Science', 'Social Studies', 'Workforce'];
     const results = [];
 
     try {
@@ -30510,7 +30519,7 @@ function StartScreen({
   // Open a coach-assigned premade quiz by code (search across subjects)
   const openQuizFromCoach = (quizCode) => {
     if (!quizCode) return;
-    const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
+    const SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies', 'Workforce'];
     for (const subj of SUBJECTS) {
       if (launchPremadeByCodeGlobal(subj, quizCode)) return; // stop on first successful launch
     }
@@ -38428,45 +38437,26 @@ function GraphingTool({ onExit }) {
 const WORKFORCE_RESUME_STORAGE_KEY = 'ged_workforce_resume_v1';
 const WORKFORCE_INTERVIEW_STORAGE_KEY = 'ged_workforce_interview_practice_v1';
 const WORKFORCE_APPS_STORAGE_KEY = 'ged_workforce_applications_v1';
+const WORKFORCE_COVER_LETTER_STORAGE_KEY = 'ged_workforce_cover_letter_v1';
 
-const WORKFORCE_CAREER_PATHWAYS = [
-  {
-    title: 'Certified Nursing Assistant (CNA)',
-    field: 'Healthcare',
-    description:
-      'Support nurses and care for patients in clinical settings with strong job stability.',
-    medianSalary: 34000,
-    growth: 'High',
-    skills: ['Compassion', 'Patient Care', 'Basic Medical Knowledge'],
-  },
-  {
-    title: 'IT Support Specialist',
-    field: 'Technology',
-    description:
-      'Troubleshoot hardware/software issues, support users, and grow toward systems or cybersecurity.',
-    medianSalary: 52000,
-    growth: 'High',
-    skills: ['Problem Solving', 'Customer Service', 'Networking Basics'],
-  },
-  {
-    title: 'HVAC Technician (Apprentice)',
-    field: 'Skilled Trades',
-    description:
-      'Install and repair heating/cooling systems. Great hands-on career with apprenticeships.',
-    medianSalary: 50000,
-    growth: 'High',
-    skills: ['Mechanics', 'Tools', 'Safety Procedures'],
-  },
-  {
-    title: 'Office Administrator',
-    field: 'Business',
-    description:
-      'Manage scheduling, documents, and operations. Strong stepping stone into many industries.',
-    medianSalary: 44000,
-    growth: 'Medium',
-    skills: ['Organization', 'Communication', 'Spreadsheets'],
-  },
-];
+// Load NYC career pathways
+let NYC_CAREER_PATHWAYS = [];
+try {
+  const loadCareers = async () => {
+    const res = await fetch('/data/careerPathsNYC.json');
+    const data = await res.json();
+    NYC_CAREER_PATHWAYS = data.careers || [];
+    if (typeof window !== 'undefined')
+      window.NYC_CAREER_PATHWAYS = NYC_CAREER_PATHWAYS;
+  };
+  if (typeof window !== 'undefined' && !window.NYC_CAREER_PATHWAYS) {
+    loadCareers().catch(() => {});
+  } else if (typeof window !== 'undefined') {
+    NYC_CAREER_PATHWAYS = window.NYC_CAREER_PATHWAYS;
+  }
+} catch {}
+
+const WORKFORCE_CAREER_STORAGE_KEY = 'ged_workforce_career_interests_v1';
 
 const WORKFORCE_INTERVIEW_QUESTIONS = [
   {
@@ -38491,6 +38481,86 @@ const WORKFORCE_INTERVIEW_QUESTIONS = [
   },
 ];
 
+const WORKFORCE_SOFT_SKILLS_SCENARIOS = [
+  {
+    id: 'attendance',
+    prompt:
+      'You will be 10 minutes late to work due to a train delay. What should you do?',
+    choices: [
+      {
+        a: 'Do nothing; 10 minutes is minor.',
+        score: 0,
+        tip: 'Proactive communication matters.',
+      },
+      {
+        a: 'Text or call your supervisor immediately and apologize.',
+        score: 2,
+        tip: 'Great choice—communicate early with a plan.',
+      },
+      {
+        a: 'Arrive late and explain later if asked.',
+        score: 1,
+        tip: 'Better than silence, but still reactive.',
+      },
+    ],
+  },
+  {
+    id: 'teamwork',
+    prompt:
+      'A coworker is struggling to finish a shared task before a deadline. You finished yours early.',
+    choices: [
+      {
+        a: 'Offer help and coordinate next steps.',
+        score: 2,
+        tip: 'Shows initiative and teamwork.',
+      },
+      {
+        a: 'Ignore it—it is not your task.',
+        score: 0,
+        tip: 'Teams succeed together; offer support.',
+      },
+      {
+        a: 'Tell your manager your coworker is behind.',
+        score: 1,
+        tip: 'Escalate only after offering help.',
+      },
+    ],
+  },
+];
+
+const WORKFORCE_DIGITAL_LITERACY_QUESTIONS = [
+  {
+    q: 'Which is a professional email address?',
+    options: [
+      'coolguy123@gmail.com',
+      'j.smith.work@gmail.com',
+      'bosskiller@x.com',
+    ],
+    answer: 1,
+    tip: 'Use your name; avoid slang or jokes.',
+  },
+  {
+    q: 'A link looks suspicious. What should you do?',
+    options: [
+      'Click it quickly',
+      'Hover to preview or report it',
+      'Forward to friends',
+    ],
+    answer: 1,
+    tip: 'Hover or verify the sender; do not click.',
+  },
+  {
+    q: 'Where should you store your resume for easy sharing?',
+    options: [
+      'Random desktop folder',
+      'Cloud drive with share link',
+      'Only on a USB stick',
+    ],
+    answer: 1,
+    tip: 'Cloud storage makes sharing and versioning easy.',
+  },
+];
+
 const DEFAULT_BUDGET_CATEGORIES = [
   { key: 'housing', label: 'Housing', amountDefault: 900 },
   { key: 'utilities', label: 'Utilities', amountDefault: 200 },
@@ -38502,7 +38572,7 @@ const DEFAULT_BUDGET_CATEGORIES = [
 ];
 
 function WorkforceHub({ onBack }) {
-  const [tool, setTool] = React.useState('career');
+  const [tool, setTool] = React.useState(null);
   const isLight = (() => {
     if (typeof document === 'undefined') return true;
     const root = document.documentElement;
@@ -38510,17 +38580,18 @@ function WorkforceHub({ onBack }) {
     return attr !== 'dark' && !root.classList.contains('dark');
   })();
 
-  const ToolButton = ({ id, label }) => (
+  const ToolCard = ({ id, title, desc }) => (
     <button
       onClick={() => setTool(id)}
-      className={`workforce-tool-card px-4 py-3 rounded-xl font-semibold border transition ${
-        tool === id
-          ? 'bg-teal-600 text-white shadow'
-          : 'bg-white/70 dark:bg-slate-800/70 text-slate-800 dark:text-slate-100 hover:bg-white'
-      }`}
+      className="workforce-tool-card p-4 rounded-2xl border text-left bg-white/90 dark:bg-slate-800/70 hover:shadow transition"
       style={{ borderColor: 'var(--subject-workforce-border)' }}
     >
-      {label}
+      <div className="text-base font-bold">{title}</div>
+      {desc ? (
+        <div className="text-sm text-slate-600 dark:text-slate-300 mt-1">
+          {desc}
+        </div>
+      ) : null}
     </button>
   );
 
@@ -38547,91 +38618,544 @@ function WorkforceHub({ onBack }) {
         </header>
       </div>
 
-      <div className="workforce-tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 mb-4">
-        <ToolButton id="career" label="Career Finder" />
-        <ToolButton id="resume" label="Resume Builder" />
-        <ToolButton id="interview" label="Interview Practice" />
-        <ToolButton id="budget" label="Budget & Salary" />
-        <ToolButton id="tracker" label="Application Tracker" />
+      <div
+        className="rounded-2xl border p-6 mb-4 text-center"
+        style={{
+          background: 'var(--subject-workforce-gradient)',
+          color: 'var(--subject-workforce-text)',
+          borderColor: 'var(--subject-workforce-border)',
+        }}
+      >
+        <h1 className="text-2xl font-extrabold">Workforce Readiness</h1>
+        <p className="opacity-90 mt-1">
+          Tools and simulations to prepare you for careers
+        </p>
+      </div>
+
+      <div className="workforce-tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+        <ToolCard
+          id="resume"
+          title="Resume Builder"
+          desc="Build and save a professional resume"
+        />
+        <ToolCard
+          id="cover"
+          title="Cover Letter Builder"
+          desc="Guided prompts and phrasing"
+        />
+        <ToolCard
+          id="interview"
+          title="Interview Practice"
+          desc="Practice common interview questions"
+        />
+        <ToolCard
+          id="career"
+          title="Career Explorer"
+          desc="Explore in-demand pathways"
+        />
+        <ToolCard
+          id="softskills"
+          title="Soft Skills Trainer"
+          desc="Micro-scenarios with feedback"
+        />
+        <ToolCard
+          id="digitallit"
+          title="Digital Literacy"
+          desc="Email, files, safety, spreadsheets"
+        />
+        <ToolCard
+          id="budget"
+          title="Budget & Salary"
+          desc="Compare salary vs. monthly costs"
+        />
+        <ToolCard
+          id="tracker"
+          title="Application Tracker"
+          desc="Track job applications and status"
+        />
+        <ToolCard
+          id="simulation"
+          title="Career Life Simulation"
+          desc="Make life and career choices"
+        />
       </div>
 
       <section
         className="bg-white dark:bg-slate-900/70 border rounded-2xl shadow p-4"
         style={{ borderColor: 'var(--subject-workforce-border)' }}
       >
+        {!tool && (
+          <div className="text-slate-500 text-sm">
+            Pick a tool above to get started.
+          </div>
+        )}
         {tool === 'career' && <WorkforceCareerPathFinder />}
         {tool === 'resume' && <WorkforceResumeBuilder />}
+        {tool === 'cover' && <WorkforceCoverLetterBuilder />}
         {tool === 'interview' && <WorkforceInterviewPractice />}
+        {tool === 'softskills' && <WorkforceSoftSkillsTrainer />}
+        {tool === 'digitallit' && <WorkforceDigitalLiteracyTrainer />}
         {tool === 'budget' && <WorkforceBudgetCalculator />}
         {tool === 'tracker' && <WorkforceApplicationTracker />}
+        {tool === 'simulation' && (
+          <div
+            className="panel-surface rounded-xl p-2 border"
+            style={{
+              borderColor: 'var(--subject-workforce-border)',
+              backgroundColor: 'white',
+            }}
+          >
+            <LifeChoicesSimulation srcPath="Game of Life/The Game of life.html" />
+          </div>
+        )}
       </section>
     </div>
   );
 }
 
 function WorkforceCareerPathFinder() {
-  const [query, setQuery] = React.useState('');
-  const [field, setField] = React.useState('');
-  const fields = React.useMemo(
-    () => Array.from(new Set(WORKFORCE_CAREER_PATHWAYS.map((c) => c.field))),
-    []
-  );
+  const [careers, setCareers] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [selectedCareer, setSelectedCareer] = React.useState(null);
+  const [favorites, setFavorites] = React.useState([]);
+  const [useLocalStorage, setUseLocalStorage] = React.useState(false);
 
-  const results = WORKFORCE_CAREER_PATHWAYS.filter((c) => {
-    const okField = !field || c.field === field;
-    const q = query.trim().toLowerCase();
-    const okQ =
-      !q ||
-      c.title.toLowerCase().includes(q) ||
-      c.description.toLowerCase().includes(q) ||
-      c.skills.some((s) => s.toLowerCase().includes(q));
-    return okField && okQ;
-  });
+  // Filters
+  const [cluster, setCluster] = React.useState('All');
+  const [query, setQuery] = React.useState('');
+  const [gedStatus, setGedStatus] = React.useState('Any');
+  const [trainingLength, setTrainingLength] = React.useState('Any');
+  const [physicalDemand, setPhysicalDemand] = React.useState('Any');
+  const [goodWhileStudying, setGoodWhileStudying] = React.useState(false);
+  const [demandLevel, setDemandLevel] = React.useState('Any');
+
+  // Load careers and favorites
+  React.useEffect(() => {
+    const load = async () => {
+      try {
+        // Load career data
+        const res = await fetch('/data/careerPathsNYC.json');
+        const data = await res.json();
+        setCareers(data.careers || []);
+
+        // Try to load favorites from API
+        const token = localStorage.getItem('appToken');
+        if (token) {
+          try {
+            const favRes = await fetch(
+              `${API_BASE_URL}/api/user/career-interests`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            if (favRes.ok) {
+              const favData = await favRes.json();
+              setFavorites(Array.isArray(favData) ? favData : []);
+            } else {
+              // Fallback to localStorage
+              setUseLocalStorage(true);
+              const raw = localStorage.getItem(WORKFORCE_CAREER_STORAGE_KEY);
+              setFavorites(raw ? JSON.parse(raw) : []);
+            }
+          } catch {
+            setUseLocalStorage(true);
+            const raw = localStorage.getItem(WORKFORCE_CAREER_STORAGE_KEY);
+            setFavorites(raw ? JSON.parse(raw) : []);
+          }
+        } else {
+          // No token, use localStorage
+          setUseLocalStorage(true);
+          const raw = localStorage.getItem(WORKFORCE_CAREER_STORAGE_KEY);
+          setFavorites(raw ? JSON.parse(raw) : []);
+        }
+      } catch {
+        setCareers([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
+
+  const clusters = React.useMemo(() => {
+    const unique = Array.from(
+      new Set(careers.map((c) => c.cluster).filter(Boolean))
+    );
+    return ['All', ...unique];
+  }, [careers]);
+
+  const filtered = React.useMemo(() => {
+    return careers.filter((c) => {
+      if (cluster !== 'All' && c.cluster !== cluster) return false;
+      if (gedStatus === 'Working on GED' && !c.goodWhileStudyingGED)
+        return false;
+      if (gedStatus === 'GED Completed' && c.goodWhileStudyingGED) return false;
+      if (trainingLength !== 'Any' && c.trainingLength !== trainingLength)
+        return false;
+      if (physicalDemand !== 'Any' && c.physicalDemandLevel !== physicalDemand)
+        return false;
+      if (goodWhileStudying && !c.goodWhileStudyingGED) return false;
+      if (demandLevel !== 'Any' && c.nycDemandLevel !== demandLevel)
+        return false;
+
+      const q = query.trim().toLowerCase();
+      if (q) {
+        const keyTasks = Array.isArray(c.keyTasks) ? c.keyTasks : [];
+        const requiredSkills = Array.isArray(c.requiredSkills)
+          ? c.requiredSkills
+          : [];
+        const tags = Array.isArray(c.tags) ? c.tags : [];
+
+        const match =
+          String(c.title || '')
+            .toLowerCase()
+            .includes(q) ||
+          String(c.description || '')
+            .toLowerCase()
+            .includes(q) ||
+          String(c.cluster || '')
+            .toLowerCase()
+            .includes(q) ||
+          keyTasks.some((t) => String(t).toLowerCase().includes(q)) ||
+          requiredSkills.some((s) => String(s).toLowerCase().includes(q)) ||
+          tags.some((t) => String(t).toLowerCase().includes(q));
+
+        if (!match) return false;
+      }
+      return true;
+    });
+  }, [
+    careers,
+    cluster,
+    query,
+    gedStatus,
+    trainingLength,
+    physicalDemand,
+    goodWhileStudying,
+    demandLevel,
+  ]);
+
+  const toggleFavorite = async (id) => {
+    const isAdding = !favorites.includes(id);
+    const next = isAdding
+      ? [...favorites, id]
+      : favorites.filter((f) => f !== id);
+
+    setFavorites(next);
+
+    if (useLocalStorage) {
+      // Use localStorage for unauthenticated users
+      try {
+        localStorage.setItem(
+          WORKFORCE_CAREER_STORAGE_KEY,
+          JSON.stringify(next)
+        );
+      } catch {}
+    } else {
+      // Use API for authenticated users
+      const token = localStorage.getItem('appToken');
+      if (token) {
+        try {
+          if (isAdding) {
+            await fetch(`${API_BASE_URL}/api/user/career-interests`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ career_id: id }),
+            });
+          } else {
+            await fetch(`${API_BASE_URL}/api/user/career-interests/${id}`, {
+              method: 'DELETE',
+              headers: { Authorization: `Bearer ${token}` },
+            });
+          }
+        } catch (err) {
+          console.error('Failed to sync career interest:', err);
+          // Fallback to localStorage on error
+          localStorage.setItem(
+            WORKFORCE_CAREER_STORAGE_KEY,
+            JSON.stringify(next)
+          );
+        }
+      }
+    }
+  };
+
+  if (loading)
+    return (
+      <div className="text-center py-8 text-slate-500">
+        Loading NYC careers...
+      </div>
+    );
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row gap-2 mb-4">
+      {/* Cluster tabs */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        {clusters.map((c) => (
+          <button
+            key={c}
+            onClick={() => setCluster(c)}
+            className={`px-3 py-1.5 rounded-md font-semibold text-sm transition ${
+              cluster === c
+                ? 'bg-teal-600 text-white'
+                : 'bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600'
+            }`}
+          >
+            {c}
+          </button>
+        ))}
+      </div>
+
+      {/* Search + Filters */}
+      <div className="grid md:grid-cols-4 gap-3 mb-4">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search by title, skill, or keyword"
-          className="flex-1 px-3 py-2 border rounded-md"
+          placeholder="Search careers..."
+          className="px-3 py-2 border rounded-md md:col-span-4"
         />
         <select
-          value={field}
-          onChange={(e) => setField(e.target.value)}
+          value={gedStatus}
+          onChange={(e) => setGedStatus(e.target.value)}
           className="px-3 py-2 border rounded-md"
         >
-          <option value="">All Fields</option>
-          {fields.map((f) => (
-            <option key={f} value={f}>
-              {f}
-            </option>
-          ))}
+          <option value="Any">I am currently: Any</option>
+          <option value="Working on GED">Working on GED</option>
+          <option value="GED Completed">GED Completed</option>
+        </select>
+        <select
+          value={trainingLength}
+          onChange={(e) => setTrainingLength(e.target.value)}
+          className="px-3 py-2 border rounded-md"
+        >
+          <option value="Any">Training: Any</option>
+          <option value="0-3 months">0-3 months</option>
+          <option value="3-6 months">3-6 months</option>
+          <option value="6-12 months">6-12 months</option>
+          <option value="12+ months">12+ months</option>
+        </select>
+        <select
+          value={physicalDemand}
+          onChange={(e) => setPhysicalDemand(e.target.value)}
+          className="px-3 py-2 border rounded-md"
+        >
+          <option value="Any">Physical: Any</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <select
+          value={demandLevel}
+          onChange={(e) => setDemandLevel(e.target.value)}
+          className="px-3 py-2 border rounded-md"
+        >
+          <option value="Any">Demand: Any</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="emerging">Emerging</option>
         </select>
       </div>
+      <label className="flex items-center gap-2 mb-4">
+        <input
+          type="checkbox"
+          checked={goodWhileStudying}
+          onChange={(e) => setGoodWhileStudying(e.target.checked)}
+        />
+        <span className="text-sm">Good while studying for GED only</span>
+      </label>
+
+      {/* Career cards */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {results.map((c) => (
+        {filtered.map((c) => (
           <div
-            key={c.title}
-            className="workforce-tool-card p-4 rounded-xl border bg-white dark:bg-slate-800/70"
+            key={c.id}
+            className="workforce-tool-card p-4 rounded-xl border bg-white dark:bg-slate-800/70 relative"
           >
-            <h3 className="text-lg font-bold mb-1">{c.title}</h3>
-            <p className="text-sm text-slate-600 dark:text-slate-300 mb-2">
-              {c.field} • Median: ${c.medianSalary.toLocaleString()}
-            </p>
-            <p className="text-sm mb-2">{c.description}</p>
-            <div className="text-xs text-slate-600 dark:text-slate-300">
-              Skills: {c.skills.join(', ')}
+            <button
+              onClick={() => toggleFavorite(c.id)}
+              className="absolute top-3 right-3 text-xl"
+              title={
+                favorites.includes(c.id)
+                  ? 'Remove from favorites'
+                  : 'Add to favorites'
+              }
+            >
+              {favorites.includes(c.id) ? '❤️' : '🤍'}
+            </button>
+            <h3 className="text-lg font-bold mb-1 pr-8">{c.title}</h3>
+            <div className="text-xs font-semibold text-teal-600 dark:text-teal-400 mb-1">
+              {c.cluster}
             </div>
+            <div className="flex flex-wrap gap-1 mb-2">
+              {c.nycDemandLevel === 'high' && (
+                <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-xs rounded-full">
+                  High Demand
+                </span>
+              )}
+              {c.goodWhileStudyingGED && (
+                <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full">
+                  Good while studying
+                </span>
+              )}
+            </div>
+            <p className="text-sm mb-2">{c.description}</p>
+            <div className="text-xs text-slate-600 dark:text-slate-300 mb-2">
+              💰 {c.startingWageRange} • ⏱️ {c.trainingLength}
+            </div>
+            <button
+              onClick={() => setSelectedCareer(c)}
+              className="text-sm font-semibold text-teal-600 dark:text-teal-400 hover:underline"
+            >
+              View Details →
+            </button>
           </div>
         ))}
-        {!results.length && (
-          <div className="text-slate-500 text-sm">
-            No matches — try another search.
-          </div>
-        )}
       </div>
+      {!filtered.length && (
+        <div className="text-center py-8 text-slate-500">
+          No careers match your filters.
+        </div>
+      )}
+
+      {/* Career detail modal */}
+      {selectedCareer && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedCareer(null)}
+        >
+          <div
+            className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="sticky top-0 bg-teal-600 text-white p-4 flex items-center justify-between rounded-t-2xl">
+              <h2 className="text-2xl font-bold">{selectedCareer.title}</h2>
+              <button
+                onClick={() => setSelectedCareer(null)}
+                className="text-2xl hover:bg-white/20 px-2 rounded"
+              >
+                ×
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-sm font-semibold">
+                  {selectedCareer.cluster}
+                </span>
+                <span className="px-3 py-1 bg-slate-100 text-slate-800 rounded-full text-sm">
+                  {selectedCareer.nycDemandLevel} demand
+                </span>
+                <span className="px-3 py-1 bg-slate-100 text-slate-800 rounded-full text-sm">
+                  {selectedCareer.trainingLength}
+                </span>
+              </div>
+              <div>
+                <strong>Starting Wage:</strong>{' '}
+                {selectedCareer.startingWageRange}
+              </div>
+              <div>
+                <strong>Education Required:</strong>{' '}
+                {selectedCareer.educationRequired}
+              </div>
+              <div>
+                <strong>Description:</strong> {selectedCareer.description}
+              </div>
+              <div>
+                <strong>A Day in the Life:</strong>{' '}
+                {selectedCareer.dayInTheLife}
+              </div>
+              <div>
+                <strong>Key Tasks:</strong>
+                <ul className="list-disc ml-5">
+                  {selectedCareer.keyTasks.map((t, i) => (
+                    <li key={i}>{t}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <strong>Required Skills:</strong>{' '}
+                {selectedCareer.requiredSkills.join(', ')}
+              </div>
+              <div>
+                <strong>Related GED Skills:</strong>{' '}
+                {selectedCareer.relatedGEDSkills.join(', ')}
+              </div>
+              <div>
+                <strong>Advancement Path:</strong>{' '}
+                {selectedCareer.advancementPath.join(' → ')}
+              </div>
+              <div>
+                <strong>NYC Training Programs:</strong>
+                <ul className="space-y-2 mt-2">
+                  {selectedCareer.programsNYC.map((p, i) => (
+                    <li key={i} className="border-l-4 border-teal-500 pl-3">
+                      <div className="font-semibold">{p.name}</div>
+                      <div className="text-sm text-slate-600 dark:text-slate-300">
+                        {p.provider}
+                        {p.borough ? ` • ${p.borough}` : ''}
+                      </div>
+                      {p.notes && (
+                        <div className="text-xs text-slate-500">{p.notes}</div>
+                      )}
+                      <a
+                        href={p.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-teal-600 hover:underline"
+                      >
+                        Visit →
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="flex gap-2 pt-4 border-t">
+                <button
+                  onClick={() => toggleFavorite(selectedCareer.id)}
+                  className="px-4 py-2 bg-teal-600 text-white rounded-md font-semibold hover:bg-teal-700"
+                >
+                  {favorites.includes(selectedCareer.id)
+                    ? '❤️ Saved'
+                    : '🤍 Add to My Interests'}
+                </button>
+              </div>
+              <div className="mt-4 pt-4 border-t">
+                <div className="font-semibold mb-2">
+                  Prepare for this career with Workforce Tools:
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setSelectedCareer(null)}
+                    className="px-3 py-1.5 bg-blue-100 text-blue-800 rounded-md text-sm font-semibold hover:bg-blue-200"
+                  >
+                    📋 Build a Resume
+                  </button>
+                  <button
+                    onClick={() => setSelectedCareer(null)}
+                    className="px-3 py-1.5 bg-blue-100 text-blue-800 rounded-md text-sm font-semibold hover:bg-blue-200"
+                  >
+                    ✏️ Write a Cover Letter
+                  </button>
+                  <button
+                    onClick={() => setSelectedCareer(null)}
+                    className="px-3 py-1.5 bg-blue-100 text-blue-800 rounded-md text-sm font-semibold hover:bg-blue-200"
+                  >
+                    🎤 Practice Interview Questions
+                  </button>
+                  <button
+                    onClick={() => setSelectedCareer(null)}
+                    className="px-3 py-1.5 bg-blue-100 text-blue-800 rounded-md text-sm font-semibold hover:bg-blue-200"
+                  >
+                    🤝 Take a Soft Skills Test
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -38889,6 +39413,259 @@ function WorkforceInterviewPractice() {
           </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+function WorkforceCoverLetterBuilder() {
+  const [data, setData] = React.useState(() => {
+    try {
+      const raw = localStorage.getItem(WORKFORCE_COVER_LETTER_STORAGE_KEY);
+      return raw
+        ? JSON.parse(raw)
+        : { name: '', company: '', role: '', intro: '', body: '', closing: '' };
+    } catch {
+      return {
+        name: '',
+        company: '',
+        role: '',
+        intro: '',
+        body: '',
+        closing: '',
+      };
+    }
+  });
+  const save = () => {
+    try {
+      localStorage.setItem(
+        WORKFORCE_COVER_LETTER_STORAGE_KEY,
+        JSON.stringify(data)
+      );
+      alert('Cover letter saved locally.');
+    } catch {}
+  };
+  const clear = () => {
+    setData({
+      name: '',
+      company: '',
+      role: '',
+      intro: '',
+      body: '',
+      closing: '',
+    });
+    try {
+      localStorage.removeItem(WORKFORCE_COVER_LETTER_STORAGE_KEY);
+    } catch {}
+  };
+  return (
+    <div className="grid md:grid-cols-2 gap-4">
+      <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <input
+            className="px-3 py-2 border rounded-md"
+            placeholder="Your Name"
+            value={data.name}
+            onChange={(e) => setData({ ...data, name: e.target.value })}
+          />
+          <input
+            className="px-3 py-2 border rounded-md"
+            placeholder="Target Company"
+            value={data.company}
+            onChange={(e) => setData({ ...data, company: e.target.value })}
+          />
+          <input
+            className="px-3 py-2 border rounded-md sm:col-span-2"
+            placeholder="Role / Position"
+            value={data.role}
+            onChange={(e) => setData({ ...data, role: e.target.value })}
+          />
+        </div>
+        <textarea
+          className="mt-2 w-full px-3 py-2 border rounded-md"
+          rows={3}
+          placeholder="Intro: Why you're writing and how you fit"
+          value={data.intro}
+          onChange={(e) => setData({ ...data, intro: e.target.value })}
+        />
+        <textarea
+          className="mt-2 w-full px-3 py-2 border rounded-md"
+          rows={6}
+          placeholder="Body: Relevant achievements and examples"
+          value={data.body}
+          onChange={(e) => setData({ ...data, body: e.target.value })}
+        />
+        <textarea
+          className="mt-2 w-full px-3 py-2 border rounded-md"
+          rows={3}
+          placeholder="Closing: Thanks and availability"
+          value={data.closing}
+          onChange={(e) => setData({ ...data, closing: e.target.value })}
+        />
+        <div className="mt-3 flex items-center gap-2">
+          <button
+            onClick={save}
+            className="px-3 py-2 rounded-md bg-teal-600 text-white font-semibold"
+          >
+            Save
+          </button>
+          <button
+            onClick={clear}
+            className="px-3 py-2 rounded-md bg-slate-100 hover:bg-slate-200 font-semibold"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+      <div>
+        <h3 className="text-lg font-semibold mb-2">Preview</h3>
+        <div className="p-4 border rounded-xl bg-white dark:bg-slate-800/70">
+          <div className="whitespace-pre-wrap text-sm">
+            <div>{data.name || 'Your Name'}</div>
+            <div className="mt-3">
+              Dear Hiring Manager at {data.company || 'Company'},
+            </div>
+            <div className="mt-2">
+              I am applying for the {data.role || 'Role'} position.
+            </div>
+            {data.intro && <div className="mt-2">{data.intro}</div>}
+            {data.body && <div className="mt-2">{data.body}</div>}
+            {data.closing && <div className="mt-2">{data.closing}</div>}
+            <div className="mt-3">Sincerely,</div>
+            <div>{data.name || 'Your Name'}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WorkforceSoftSkillsTrainer() {
+  const STORAGE_KEY = 'ged_workforce_softskills_v1';
+  const [score, setScore] = React.useState(0);
+  const [answered, setAnswered] = React.useState(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  });
+  const answer = (id, choice) => {
+    if (answered[id]) return; // lock in first choice
+    const scenario = WORKFORCE_SOFT_SKILLS_SCENARIOS.find((s) => s.id === id);
+    const picked = scenario?.choices[choice];
+    const nextAnswered = { ...answered, [id]: choice };
+    setAnswered(nextAnswered);
+    if (picked) setScore((s) => s + picked.score);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(nextAnswered));
+    } catch {}
+  };
+  const reset = () => {
+    setAnswered({});
+    setScore(0);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {}
+  };
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <div className="text-sm text-slate-600 dark:text-slate-300">
+          Score: {score}
+        </div>
+        <button
+          onClick={reset}
+          className="px-3 py-1.5 rounded-md bg-slate-100 hover:bg-slate-200 text-sm font-semibold"
+        >
+          Reset
+        </button>
+      </div>
+      <div className="space-y-3">
+        {WORKFORCE_SOFT_SKILLS_SCENARIOS.map((s) => (
+          <div
+            key={s.id}
+            className="p-3 border rounded-xl bg-white dark:bg-slate-800/70"
+          >
+            <div className="font-semibold mb-2">{s.prompt}</div>
+            <div className="grid sm:grid-cols-3 gap-2">
+              {s.choices.map((c, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => answer(s.id, idx)}
+                  className={`px-3 py-2 rounded-md border text-left ${
+                    answered[s.id] === idx
+                      ? 'bg-teal-50 border-teal-300'
+                      : 'bg-white hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="text-sm font-semibold">{c.a}</div>
+                  {answered[s.id] === idx && (
+                    <div className="text-xs text-slate-600 mt-1">{c.tip}</div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function WorkforceDigitalLiteracyTrainer() {
+  const STORAGE_KEY = 'ged_workforce_digitallit_v1';
+  const [answers, setAnswers] = React.useState(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  });
+  const select = (i, optIdx) => {
+    const next = { ...answers, [i]: optIdx };
+    setAnswers(next);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    } catch {}
+  };
+  const score = WORKFORCE_DIGITAL_LITERACY_QUESTIONS.reduce((s, q, i) => {
+    return s + (answers[i] === q.answer ? 1 : 0);
+  }, 0);
+  return (
+    <div>
+      <div className="text-sm text-slate-600 dark:text-slate-300 mb-2">
+        Score: {score} / {WORKFORCE_DIGITAL_LITERACY_QUESTIONS.length}
+      </div>
+      <div className="space-y-3">
+        {WORKFORCE_DIGITAL_LITERACY_QUESTIONS.map((q, i) => (
+          <div
+            key={i}
+            className="p-3 border rounded-xl bg-white dark:bg-slate-800/70"
+          >
+            <div className="font-semibold mb-2">{q.q}</div>
+            <div className="grid sm:grid-cols-3 gap-2">
+              {q.options.map((opt, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => select(i, idx)}
+                  className={`px-3 py-2 rounded-md border text-left ${
+                    answers[i] === idx
+                      ? 'bg-teal-50 border-teal-300'
+                      : 'bg-white hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="text-sm">{opt}</div>
+                  {answers[i] === idx && (
+                    <div className="text-xs text-slate-600 mt-1">{q.tip}</div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
