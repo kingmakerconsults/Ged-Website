@@ -11833,6 +11833,16 @@ function getCareerInfo(role) {
   );
 }
 
+// API endpoint to get career paths
+app.get('/api/workforce/career-paths', (req, res) => {
+  try {
+    res.json({ careers: careerPaths });
+  } catch (err) {
+    console.error('Error loading career paths:', err);
+    res.status(500).json({ error: 'Failed to load career paths' });
+  }
+});
+
 // AI Interview Practice Route
 app.post('/api/workforce/interview-session', async (req, res) => {
   try {
