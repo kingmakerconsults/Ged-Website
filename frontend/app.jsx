@@ -39403,7 +39403,8 @@ function WorkforceInterviewPractice() {
       })
       .then((data) => {
         console.log('Loaded career paths:', data);
-        setRoles(data.careers || []);
+        const careers = Array.isArray(data?.careers) ? data.careers : [];
+        setRoles(careers);
         setRolesLoading(false);
       })
       .catch((err) => {
@@ -39592,11 +39593,12 @@ function WorkforceInterviewPractice() {
                 <option value="">
                   {rolesLoading ? 'Loading roles...' : 'Choose a role...'}
                 </option>
-                {roles.map((r) => (
-                  <option key={r.id} value={r.title}>
-                    {r.title}
-                  </option>
-                ))}
+                {Array.isArray(roles) &&
+                  roles.map((r) => (
+                    <option key={r.id} value={r.title}>
+                      {r.title}
+                    </option>
+                  ))}
               </select>
             </div>
 
