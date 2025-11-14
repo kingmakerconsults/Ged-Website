@@ -39373,46 +39373,419 @@ function WorkforceResumeBuilder() {
 }
 
 function WorkforceInterviewPractice() {
-  const [practiced, setPracticed] = React.useState(() => {
-    try {
-      const raw = localStorage.getItem(WORKFORCE_INTERVIEW_STORAGE_KEY);
-      return raw ? JSON.parse(raw) : {};
-    } catch {
-      return {};
+  const [role, setRole] = React.useState('');
+  const [experienceLevel, setExperienceLevel] = React.useState('entry');
+  const [interviewStyle, setInterviewStyle] = React.useState('general');
+  const [sessionMode, setSessionMode] = React.useState('quick');
+  const [targetQuestions, setTargetQuestions] = React.useState(5);
+
+  const [messages, setMessages] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
+  const [summary, setSummary] = React.useState(null);
+  const [sessionStarted, setSessionStarted] = React.useState(false);
+
+  const [speechSupported, setSpeechSupported] = React.useState(false);
+  const [isListening, setIsListening] = React.useState(false);
+  const recognitionRef = React.useRef(null);
+  const [pendingText, setPendingText] = React.useState('');
+
+  // Load career roles
+  const [roles, setRoles] = React.useState([]);
+  React.useEffect(() => {
+    fetch('/data/careerPathsNYC.json')
+      .then((res) => res.json())
+      .then((data) => {
+        setRoles(data || []);
+      })
+      .catch(() => setRoles([]));
+  }, []);
+
+  // Initialize speech recognition
+  React.useEffect(() => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR) {
+      recognitionRef.current = new SR();
+      recognitionRef.current.lang = 'en-US';
+      recognitionRef.current.interimResults = true;
+      recognitionRef.current.continuous = false;
+
+      recognitionRef.current.onstart = () => setIsListening(true);
+      recognitionRef.current.onend = () => setIsListening(false);
+      recognitionRef.current.onresult = (e) => {
+        let finalTranscript = '';
+        for (let i = 0; i < e.results.length; i++) {
+          finalTranscript += e.results[i][0].transcript;
+        }
+        setPendingText(finalTranscript);
+      };
+
+      setSpeechSupported(true);
     }
-  });
-  const toggle = (q) =>
-    setPracticed((p) => {
-      const next = { ...p, [q]: !p[q] };
-      try {
-        localStorage.setItem(
-          WORKFORCE_INTERVIEW_STORAGE_KEY,
-          JSON.stringify(next)
-        );
-      } catch {}
-      return next;
-    });
+  }, []);
+
+  // TTS helper
+  function speak(text) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.rate = 0.95;
+    utter.lang = 'en-US';
+    window.speechSynthesis.speak(utter);
+  }
+
+  async function startSession() {
+    if (!role) {
+      alert('Please select a role first');
+      return;
+    }
+    setSessionStarted(true);
+    setMessages([]);
+    setSummary(null);
+    setCurrentQuestionIndex(0);
+
+    // Send initial request to get first question
+    await sendAnswer('START_SESSION');
+  }
+
+  async function sendAnswer(text) {
+    if (!text.trim() && text !== 'START_SESSION') return;
+
+    const userMsg =
+      text === 'START_SESSION'
+        ? null
+        : {
+            id: crypto.randomUUID(),
+            from: 'user',
+            text,
+            timestamp: Date.now(),
+          };
+
+    if (userMsg) {
+      setMessages((prev) => [...prev, userMsg]);
+    }
+    setPendingText('');
+
+    setIsLoading(true);
+    try {
+      const history = userMsg
+        ? [...messages, userMsg].map((m) => ({
+            from: m.from,
+            text: m.text,
+          }))
+        : [];
+
+      const res = await fetch(
+        `${API_BASE_URL}/api/workforce/interview-session`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            role,
+            experienceLevel,
+            interviewStyle,
+            sessionMode,
+            targetQuestions,
+            history,
+            currentQuestionIndex,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.ok) {
+        const aiMsg = {
+          id: crypto.randomUUID(),
+          from: 'ai',
+          text: data.message.questionText,
+          meta: { type: data.message.type },
+          timestamp: Date.now(),
+        };
+        setMessages((prev) => [...prev, aiMsg]);
+        speak(data.message.questionText);
+
+        setCurrentQuestionIndex(data.progress.currentQuestionIndex);
+
+        if (data.message.type === 'wrap_up' && data.feedback.summaryPayload) {
+          setSummary(data.feedback.summaryPayload);
+        }
+      } else {
+        const errorMsg = {
+          id: crypto.randomUUID(),
+          from: 'ai',
+          text: 'Sorry, the interview service is unavailable right now. Please try again later.',
+          timestamp: Date.now(),
+        };
+        setMessages((prev) => [...prev, errorMsg]);
+      }
+    } catch (err) {
+      console.error('Interview error:', err);
+      const errorMsg = {
+        id: crypto.randomUUID(),
+        from: 'ai',
+        text: 'An error occurred. Please try again.',
+        timestamp: Date.now(),
+      };
+      setMessages((prev) => [...prev, errorMsg]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
-    <div className="space-y-2">
-      {WORKFORCE_INTERVIEW_QUESTIONS.map((item) => (
-        <div
-          key={item.q}
-          className="p-3 border rounded-xl bg-white dark:bg-slate-800/70 flex items-start gap-3"
-        >
-          <input
-            type="checkbox"
-            className="mt-1"
-            checked={!!practiced[item.q]}
-            onChange={() => toggle(item.q)}
-          />
-          <div>
-            <div className="font-semibold">{item.q}</div>
-            <div className="text-sm text-slate-600 dark:text-slate-300">
-              Hint: {item.hint}
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold">AI Interview Practice</h2>
+        {sessionStarted && (
+          <button
+            onClick={() => {
+              setSessionStarted(false);
+              setMessages([]);
+              setSummary(null);
+              setPendingText('');
+            }}
+            className="px-3 py-1 text-sm bg-slate-200 dark:bg-slate-700 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600"
+          >
+            New Session
+          </button>
+        )}
+      </div>
+
+      {!sessionStarted ? (
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold mb-1">
+                Select Role
+              </label>
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="w-full border p-2 rounded-lg bg-white dark:bg-slate-800"
+              >
+                <option value="">Choose a role...</option>
+                {roles.map((r) => (
+                  <option key={r.id} value={r.title}>
+                    {r.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold mb-1">
+                Experience Level
+              </label>
+              <select
+                value={experienceLevel}
+                onChange={(e) => setExperienceLevel(e.target.value)}
+                className="w-full border p-2 rounded-lg bg-white dark:bg-slate-800"
+              >
+                <option value="entry">Entry Level</option>
+                <option value="some">Some Experience</option>
+                <option value="experienced">Experienced</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold mb-1">
+                Interview Style
+              </label>
+              <select
+                value={interviewStyle}
+                onChange={(e) => setInterviewStyle(e.target.value)}
+                className="w-full border p-2 rounded-lg bg-white dark:bg-slate-800"
+              >
+                <option value="general">General</option>
+                <option value="behavioral">Behavioral</option>
+                <option value="customer_service">Customer Service</option>
+                <option value="technical">Technical</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold mb-1">
+                Session Mode
+              </label>
+              <select
+                value={sessionMode}
+                onChange={(e) => {
+                  const mode = e.target.value;
+                  setSessionMode(mode);
+                  setTargetQuestions(mode === 'quick' ? 5 : 10);
+                }}
+                className="w-full border p-2 rounded-lg bg-white dark:bg-slate-800"
+              >
+                <option value="quick">Quick (5 questions)</option>
+                <option value="full">Full (10 questions)</option>
+              </select>
             </div>
           </div>
+
+          <button
+            onClick={startSession}
+            disabled={!role}
+            className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Start Interview Practice
+          </button>
         </div>
-      ))}
+      ) : (
+        <>
+          {/* Chat Panel */}
+          <div className="border rounded-xl p-4 h-[400px] overflow-y-auto bg-white dark:bg-slate-900/60 space-y-3">
+            {messages.map((m) => (
+              <div
+                key={m.id}
+                className={`p-3 rounded-lg ${
+                  m.from === 'user'
+                    ? 'bg-blue-500 text-white ml-auto max-w-[80%]'
+                    : 'bg-slate-200 dark:bg-slate-700 max-w-[80%]'
+                }`}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1">{m.text}</div>
+                  {m.from === 'ai' && (
+                    <button
+                      className="flex-none text-lg opacity-70 hover:opacity-100"
+                      onClick={() => speak(m.text)}
+                      title="Read aloud"
+                    >
+                      🔊
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+            {isLoading && (
+              <div className="text-center text-slate-500 dark:text-slate-400">
+                Coach is thinking...
+              </div>
+            )}
+          </div>
+
+          {/* Progress */}
+          <div className="text-sm text-slate-600 dark:text-slate-400">
+            Question {currentQuestionIndex} of {targetQuestions}
+          </div>
+
+          {/* Input Area */}
+          {!summary && (
+            <div className="flex gap-2">
+              <input
+                value={pendingText}
+                onChange={(e) => setPendingText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendAnswer(pendingText);
+                  }
+                }}
+                className="flex-grow border p-3 rounded-lg bg-white dark:bg-slate-800"
+                placeholder="Type your answer..."
+                disabled={isLoading}
+              />
+
+              <button
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50"
+                onClick={() => sendAnswer(pendingText)}
+                disabled={isLoading || !pendingText.trim()}
+              >
+                Send
+              </button>
+
+              {speechSupported && (
+                <button
+                  className={`px-4 py-3 rounded-lg font-semibold ${
+                    isListening
+                      ? 'bg-red-600 text-white'
+                      : 'bg-slate-200 dark:bg-slate-700'
+                  }`}
+                  onClick={() => {
+                    if (!isListening) recognitionRef.current.start();
+                    else recognitionRef.current.stop();
+                  }}
+                  disabled={isLoading}
+                  title={isListening ? 'Stop recording' : 'Start voice input'}
+                >
+                  🎙️
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Summary */}
+          {summary && (
+            <div className="p-6 border rounded-xl bg-green-50 dark:bg-green-900/30 space-y-4">
+              <h2 className="font-bold text-2xl text-green-800 dark:text-green-200">
+                Session Complete! 🎉
+              </h2>
+
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl font-bold text-green-700 dark:text-green-300">
+                    {summary.overallScore}/10
+                  </span>
+                  <span className="text-sm text-slate-600 dark:text-slate-400">
+                    Overall Score
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold text-lg mb-2 text-green-800 dark:text-green-200">
+                    💪 Your Strengths:
+                  </h3>
+                  <ul className="list-disc ml-5 space-y-1">
+                    {summary.strengths?.map((s, i) => (
+                      <li
+                        key={i}
+                        className="text-slate-700 dark:text-slate-300"
+                      >
+                        {s}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold text-lg mb-2 text-orange-800 dark:text-orange-200">
+                    📈 Areas for Growth:
+                  </h3>
+                  <ul className="list-disc ml-5 space-y-1">
+                    {summary.areasForGrowth?.map((a, i) => (
+                      <li
+                        key={i}
+                        className="text-slate-700 dark:text-slate-300"
+                      >
+                        {a}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {summary.recommendedPracticeTopics?.length > 0 && (
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2 text-blue-800 dark:text-blue-200">
+                      📚 Recommended Practice:
+                    </h3>
+                    <ul className="list-disc ml-5 space-y-1">
+                      {summary.recommendedPracticeTopics.map((t, i) => (
+                        <li
+                          key={i}
+                          className="text-slate-700 dark:text-slate-300"
+                        >
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
