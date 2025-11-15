@@ -12214,6 +12214,12 @@ IMPORTANT
       }
     }
 
+    // Log raw AI output (truncate to avoid flooding logs)
+    console.log(
+      '[Interview] AI raw output:',
+      typeof raw === 'string' ? raw.slice(0, 1000) : raw
+    );
+
     // Try to parse JSON
     let parsed;
     try {
@@ -12223,10 +12229,44 @@ IMPORTANT
       const fixed = raw.substring(raw.indexOf('{'), raw.lastIndexOf('}') + 1);
       parsed = JSON.parse(fixed);
     }
+    // Normalize interview response shape
+    if (!parsed || typeof parsed !== 'object') {
+      parsed = {};
+    }
+
+    // If model didn't provide ok but did give a questionText, assume success
+    if (
+      parsed.ok === undefined &&
+      parsed.message &&
+      typeof parsed.message.questionText === 'string'
+    ) {
+      parsed.ok = true;
+    }
+
+    // If message missing but top-level questionText present, wrap it
+    if (!parsed.message && typeof parsed.questionText === 'string') {
+      parsed.message = {
+        type: parsed.message?.type || 'question',
+        questionText: parsed.questionText,
+        followUpPrompt: parsed.followUpPrompt ?? null,
+      };
+    }
+
+    // Ensure progress object exists
+    if (!parsed.progress) {
+      parsed.progress = {
+        currentQuestionIndex:
+          typeof parsed.currentQuestionIndex === 'number'
+            ? parsed.currentQuestionIndex
+            : req.body?.currentQuestionIndex ?? 0,
+        targetQuestions: req.body?.targetQuestions ?? 5,
+        done: false,
+      };
+    }
 
     res.json(parsed);
   } catch (err) {
-    console.error('Interview error:', err);
+    console.error('[Interview] route error:', err);
     res.json({
       ok: false,
       message: 'Interview service unavailable',

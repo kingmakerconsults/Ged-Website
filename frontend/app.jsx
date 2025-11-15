@@ -39518,21 +39518,33 @@ function WorkforceInterviewPractice() {
       );
 
       const data = await res.json();
+      console.log('[Interview] raw response from backend:', data);
 
-      if (data.ok) {
+      const hasQuestion =
+        data &&
+        data.message &&
+        typeof data.message.questionText === 'string' &&
+        data.message.questionText.trim().length > 0;
+
+      if (hasQuestion) {
         const aiMsg = {
           id: crypto.randomUUID(),
           from: 'ai',
           text: data.message.questionText,
-          meta: { type: data.message.type },
+          meta: { type: data.message?.type },
           timestamp: Date.now(),
         };
         setMessages((prev) => [...prev, aiMsg]);
         speak(data.message.questionText);
 
-        setCurrentQuestionIndex(data.progress.currentQuestionIndex);
+        if (data?.progress?.currentQuestionIndex != null) {
+          setCurrentQuestionIndex(data.progress.currentQuestionIndex);
+        }
 
-        if (data.message.type === 'wrap_up' && data.feedback.summaryPayload) {
+        if (
+          data?.message?.type === 'wrap_up' &&
+          data?.feedback?.summaryPayload
+        ) {
           setSummary(data.feedback.summaryPayload);
         }
       } else {
@@ -39545,7 +39557,7 @@ function WorkforceInterviewPractice() {
         setMessages((prev) => [...prev, errorMsg]);
       }
     } catch (err) {
-      console.error('Interview error:', err);
+      console.error('[Interview] fetch/parse error:', err);
       const errorMsg = {
         id: crypto.randomUUID(),
         from: 'ai',
