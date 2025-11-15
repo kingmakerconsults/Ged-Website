@@ -26488,7 +26488,73 @@ function App({ externalTheme, onThemeChange }) {
   }, [startQuiz]);
 
   const onQuizComplete = async (results) => {
-    setQuizResults(results);
+    // Build category breakdown before storing results
+    let categoryBreakdown = [];
+    try {
+      const quizObj = results.quiz || activeQuiz || {};
+      const questions = Array.isArray(quizObj?.questions)
+        ? quizObj.questions
+        : [];
+      const answers = Array.isArray(results?.answers) ? results.answers : [];
+      if (questions.length) {
+        const normalizeAnswer = (val) => {
+          if (val === null || val === undefined) return '';
+          return String(val)
+            .replace(/\u00A0/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+        };
+        const isNumericEqual = (a, b) => {
+          const na = Number(a);
+          const nb = Number(b);
+          if (!Number.isFinite(na) || !Number.isFinite(nb)) return false;
+          return Math.abs(na - nb) < 1e-9;
+        };
+        const tally = {};
+        questions.forEach((q, i) => {
+          const category =
+            (q.category && String(q.category).trim()) ||
+            (q.subtopic && String(q.subtopic).trim()) ||
+            (q.topic && String(q.topic).trim()) ||
+            (q.type && String(q.type).trim()) ||
+            'Uncategorized';
+          if (!tally[category]) tally[category] = { correct: 0, total: 0 };
+          tally[category].total++;
+          const userAns = answers[i];
+          let isCorrect = false;
+          if (Array.isArray(q.answerOptions) && q.answerOptions.length) {
+            const correctOpt = q.answerOptions.find(
+              (opt) => opt && opt.isCorrect
+            );
+            if (correctOpt) {
+              isCorrect =
+                normalizeAnswer(userAns) === normalizeAnswer(correctOpt.text);
+            }
+          } else {
+            const user = normalizeAnswer(userAns);
+            const key = normalizeAnswer(q.correctAnswer);
+            isCorrect =
+              !!user && !!key && (user === key || isNumericEqual(user, key));
+          }
+          if (isCorrect) tally[category].correct++;
+        });
+        categoryBreakdown = Object.entries(tally).map(([cat, data]) => ({
+          category: cat,
+          correct: data.correct,
+          total: data.total,
+          percent: data.total
+            ? Math.round((data.correct / data.total) * 100)
+            : 0,
+        }));
+      }
+    } catch (e) {
+      console.warn(
+        '[quiz] failed to build category breakdown:',
+        e?.message || e
+      );
+    }
+    const augmentedResults = { ...results, categoryBreakdown };
+    setQuizResults(augmentedResults);
     setView('results');
 
     if (results.quiz) {
@@ -35222,34 +35288,33 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     (_, index) => !!safeMarked[index]
   );
 
-  const performanceByCategory = quiz.questions.reduce(
-    (acc, question, index) => {
-      const type = question.type || 'knowledge'; // Default type if not specified
-      if (!acc[type]) {
-        acc[type] = { correct: 0, total: 0 };
-      }
+  // Prefer backend/augmented category breakdown if available
+  const categoryBreakdown = Array.isArray(results?.categoryBreakdown)
+    ? results.categoryBreakdown
+    : [];
+  // Fallback to legacy type-based grouping if breakdown missing
+  let fallbackBreakdown = [];
+  if (!categoryBreakdown.length) {
+    const perf = quiz.questions.reduce((acc, question, index) => {
+      const type = question.type || 'knowledge';
+      if (!acc[type]) acc[type] = { correct: 0, total: 0 };
       acc[type].total++;
       const correctAnswer = question.answerOptions?.find(
         (opt) => opt.isCorrect
       )?.text;
-      if (safeAnswers[index] === correctAnswer) {
-        acc[type].correct++;
-      }
+      if (safeAnswers[index] === correctAnswer) acc[type].correct++;
       return acc;
-    },
-    {}
-  );
-
-  const categoryNames = {
-    text: 'Text Analysis',
-    image: 'Image/Map Interpretation',
-    knowledge: 'Knowledge-Based',
-    quote: 'Quote Analysis',
-    'cause-effect': 'Cause & Effect',
-    'multi-source': 'Multi-Source Analysis',
-    analysis: 'Paired Passage Analysis',
-    chart: 'Chart/Data Analysis',
-  };
+    }, {});
+    fallbackBreakdown = Object.entries(perf).map(([cat, data]) => ({
+      category: cat,
+      correct: data.correct,
+      total: data.total,
+      percent: data.total ? Math.round((data.correct / data.total) * 100) : 0,
+    }));
+  }
+  const finalBreakdown = categoryBreakdown.length
+    ? categoryBreakdown
+    : fallbackBreakdown;
 
   return (
     <div
