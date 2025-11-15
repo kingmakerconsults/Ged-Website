@@ -11233,6 +11233,93 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
   }
 });
 
+// Submit practice test and return category analytics (no DB write required here)
+app.post('/api/submit-test', express.json(), async (req, res) => {
+  try {
+    const { questions = [], answers = [] } = req.body || {};
+    if (!Array.isArray(questions) || !Array.isArray(answers)) {
+      return res.status(400).json({
+        ok: false,
+        error: 'invalid_payload',
+        message: 'questions and answers arrays are required',
+      });
+    }
+    const total = questions.length;
+    if (total === 0) {
+      return res.json({
+        ok: true,
+        overall: { correct: 0, total: 0, percent: 0 },
+        categories: [],
+      });
+    }
+
+    const normalizeAnswer = (val) => {
+      if (val === null || val === undefined) return '';
+      return String(val)
+        .replace(/\u00A0/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    };
+    const isNumericEqual = (a, b) => {
+      const na = Number(a);
+      const nb = Number(b);
+      if (!Number.isFinite(na) || !Number.isFinite(nb)) return false;
+      return Math.abs(na - nb) < 1e-9;
+    };
+
+    const byCategory = {};
+    let correctCount = 0;
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i] || {};
+      const userAns = answers[i];
+      const category =
+        (q.category && String(q.category).trim()) ||
+        (q.subtopic && String(q.subtopic).trim()) ||
+        (q.topic && String(q.topic).trim()) ||
+        (q.type && String(q.type).trim()) ||
+        'Uncategorized';
+      if (!byCategory[category]) {
+        byCategory[category] = { correct: 0, total: 0 };
+      }
+      byCategory[category].total++;
+      let isCorrect = false;
+      if (Array.isArray(q.answerOptions) && q.answerOptions.length) {
+        const correctOpt = q.answerOptions.find((opt) => opt && opt.isCorrect);
+        if (correctOpt) {
+          isCorrect =
+            normalizeAnswer(userAns) === normalizeAnswer(correctOpt.text);
+        }
+      } else {
+        const user = normalizeAnswer(userAns);
+        const key = normalizeAnswer(q.correctAnswer);
+        isCorrect =
+          !!user && !!key && (user === key || isNumericEqual(user, key));
+      }
+      if (isCorrect) {
+        correctCount++;
+        byCategory[category].correct++;
+      }
+    }
+
+    const categories = Object.entries(byCategory).map(([cat, data]) => ({
+      category: cat,
+      correct: data.correct,
+      total: data.total,
+      percent: data.total ? Math.round((data.correct / data.total) * 100) : 0,
+    }));
+
+    const overallPercent = total ? Math.round((correctCount / total) * 100) : 0;
+    return res.json({
+      ok: true,
+      overall: { correct: correctCount, total, percent: overallPercent },
+      categories,
+    });
+  } catch (err) {
+    console.error('[submit-test] error:', err);
+    return res.status(500).json({ ok: false, error: 'server_error' });
+  }
+});
+
 // --- API ENDPOINT TO GET ALL QUIZ ATTEMPTS FOR A USER ---
 app.get('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
   try {
