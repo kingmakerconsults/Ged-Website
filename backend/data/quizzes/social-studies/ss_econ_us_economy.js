@@ -349,7 +349,7 @@ module.exports = [
       "social-5"
     ],
     "type": "image",
-    "imageUrl": "Images/Questions-are-based-on-the-following-graph.-6 (1).png",
+    "imageUrl": "Images/Social Studies/Questions-are-based-on-the-following-graph.-6 (1).png",
     "question": "This chart shows the unemployment rate in the U.S. over time. A sharp spike in the unemployment rate, like the ones seen around 2009 and 2020, is typically associated with which phase of the business cycle?",
     "answerOptions": [
       {

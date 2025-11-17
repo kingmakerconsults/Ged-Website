@@ -324,7 +324,7 @@ module.exports = [
       "social-4"
     ],
     "type": "image",
-    "imageUrl": "Images/join_or_die_cartoon.jpg",
+    "imageUrl": "Images/Social Studies/join_or_die_cartoon.jpg",
     "question": "This 1754 political cartoon by Benjamin Franklin was originally created to encourage colonial unity during the French and Indian War. How was its message re-purposed during the American Revolution?",
     "answerOptions": [
       {

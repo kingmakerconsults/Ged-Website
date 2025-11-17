@@ -404,7 +404,7 @@ module.exports = [
   {
     "questionNumber": 14,
     "type": "image",
-    "imageUrl": "Images/ged-scince-fig-7.png",
+    "imageUrl": "Images/Science/ged-scince-fig-7.png",
     "question": "This diagram illustrates the rock cycle. What process is required to turn a sedimentary rock into a metamorphic rock?",
     "answerOptions": [
       {

@@ -101,7 +101,7 @@ module.exports = [
   {
     "questionNumber": 4,
     "type": "image",
-    "imageUrl": "Images/The_Iron_Curtain_in_the_beginning_of_the_Cold_War.png",
+    "imageUrl": "Images/Social Studies/The_Iron_Curtain_in_the_beginning_of_the_Cold_War.png",
     "question": "This map depicts the 'Iron Curtain,' a term famously used by Winston Churchill. What did the 'Iron Curtain' symbolize?",
     "answerOptions": [
       {
@@ -254,7 +254,7 @@ module.exports = [
   {
     "questionNumber": 9,
     "type": "image",
-    "imageUrl": "Images/Question-is-based-on-the-following-cartoon.-4.png",
+    "imageUrl": "Images/Social Studies/Question-is-based-on-the-following-cartoon.-4.png",
     "question": "This political cartoon depicts Soviet Premier Nikita Khrushchev and U.S. President John F. Kennedy arm-wrestling while sitting on nuclear weapons. What Cold War concept does this cartoon best illustrate?",
     "answerOptions": [
       {

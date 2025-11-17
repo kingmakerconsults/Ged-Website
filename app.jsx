@@ -3760,7 +3760,7 @@ const AppData = {
               {
                 questionNumber: 3,
                 type: 'image',
-                imageUrl: 'Images/ged-scince-fig-12.png',
+                imageUrl: 'Images/Science/ged-scince-fig-12.png',
                 question:
                   'In this food web, which organism is a primary consumer?',
                 answerOptions: [
@@ -4281,7 +4281,7 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: 'image',
-                imageUrl: 'Images/licensed-image (5).jpg',
+                imageUrl: 'Images/Social Studies/licensed-image (5).jpg',
                 question:
                   'This image shows a typical entry on the periodic table for the element Carbon (C). What is the atomic number of Carbon?',
                 answerOptions: [
@@ -5577,7 +5577,7 @@ const AppData = {
               {
                 questionNumber: 14,
                 type: 'image',
-                imageUrl: 'Images/ged-scince-fig-7.png',
+                imageUrl: 'Images/Science/ged-scince-fig-7.png',
                 question:
                   'This diagram illustrates the rock cycle. What process is required to turn a sedimentary rock into a metamorphic rock?',
                 answerOptions: [
@@ -8452,7 +8452,7 @@ const AppData = {
                 questionNumber: 1,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/math_graph_1.png',
+                imageUrl: 'Images/Math/math_graph_1.png',
                 question: 'What is the slope of the line shown in the graph?',
                 answerOptions: [
                   {
@@ -8482,7 +8482,7 @@ const AppData = {
                 questionNumber: 2,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/math_graph_1.png',
+                imageUrl: 'Images/Math/math_graph_1.png',
                 question:
                   'What is the y-intercept of the line shown in the graph?',
                 answerOptions: [
@@ -8629,7 +8629,7 @@ const AppData = {
                 questionNumber: 7,
                 calculator: true,
                 type: 'image',
-                imageUrl: 'Images/math_graph_2.png',
+                imageUrl: 'Images/Math/math_graph_2.png',
                 question: 'Which point is located in Quadrant IV?',
                 answerOptions: [
                   {
@@ -8748,7 +8748,7 @@ const AppData = {
                 questionNumber: 11,
                 calculator: true,
                 type: 'image',
-                imageUrl: 'Images/math_graph_3.png',
+                imageUrl: 'Images/Math/math_graph_3.png',
                 question:
                   'The graph shows the cost of renting a car based on the number of miles driven. What does the y-intercept of the graph represent?',
                 answerOptions: [
@@ -8864,7 +8864,7 @@ const AppData = {
                 questionNumber: 15,
                 calculator: true,
                 type: 'image',
-                imageUrl: 'Images/math_graph_4.png',
+                imageUrl: 'Images/Math/math_graph_4.png',
                 question:
                   'The graph shows a parabola. What are the coordinates of the vertex?',
                 answerOptions: [
@@ -8911,7 +8911,7 @@ const AppData = {
                 questionNumber: 1,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/math_geo_1.png',
+                imageUrl: 'Images/Math/math_geo_1.png',
                 question: 'What is the area of the rectangle shown?',
                 answerOptions: [
                   {
@@ -8941,7 +8941,7 @@ const AppData = {
                 questionNumber: 2,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/math_geo_2.png',
+                imageUrl: 'Images/Math/math_geo_2.png',
                 question: 'What is the area of the triangle shown?',
                 answerOptions: [
                   {
@@ -8972,7 +8972,7 @@ const AppData = {
                 questionNumber: 3,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/math_geo_3.png',
+                imageUrl: 'Images/Math/math_geo_3.png',
                 question:
                   'What is the circumference of the circle shown? (Use $\\pi \\approx 3.14$)',
                 answerOptions: [
@@ -9719,7 +9719,7 @@ const AppData = {
                     questionNumber: 1,
                     type: 'image',
                     imageUrl:
-                      'Images/This-Question-is-based-on-the-following-graph.png',
+                      'Images/Social Studies/This-Question-is-based-on-the-following-graph.png',
                     question:
                       'This map shows the New England colonies. Which economic activity would be most characteristic of this region during the colonial era?',
                     answerOptions: [
@@ -9753,7 +9753,7 @@ const AppData = {
                     questionNumber: 2,
                     type: 'image',
                     imageUrl:
-                      'Images/A map of the Triangular Trade routes..jpg',
+                      'Images/Social Studies/A map of the Triangular Trade routes..jpg',
                     question:
                       'This map shows the Triangular Trade. The route that transported enslaved Africans from Africa to the Americas was known as the:',
                     answerOptions: [
@@ -9821,7 +9821,7 @@ const AppData = {
                     questionNumber: 4,
                     type: 'image',
                     imageUrl:
-                      'Images/American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg',
+                      'Images/Social Studies/American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg',
                     question:
                       'This political cartoon by Benjamin Franklin, created in 1754, was used to promote the Albany Plan of Union. What was the primary goal of this plan?',
                     answerOptions: [
@@ -10244,7 +10244,7 @@ const AppData = {
                   {
                     questionNumber: 1,
                     type: 'image',
-                    imageUrl: 'Images/join_or_die_cartoon.jpg',
+                    imageUrl: 'Images/Social Studies/join_or_die_cartoon.jpg',
                     question:
                       'This 1754 political cartoon by Benjamin Franklin was originally created to encourage colonial unity during the French and Indian War. How was its message re-purposed during the American Revolution?',
                     answerOptions: [
@@ -11027,7 +11027,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/Louisiana_Purchase.png',
+                    imageUrl: 'Images/Social Studies/Louisiana_Purchase.png',
                     question:
                       'This map illustrates the impact of the Louisiana Purchase in 1803. What was the most significant effect of this event?',
                     answerOptions: [
@@ -11342,7 +11342,8 @@ const AppData = {
               {
                 questionNumber: 2,
                 type: 'image',
-                imageUrl: 'Images/territorial-gains-by-the-us.jpg',
+                imageUrl:
+                  'Images/Social Studies/territorial-gains-by-the-us.jpg',
                 question:
                   'This map shows the territorial expansion of the United States. The belief that it was the divine destiny of the U.S. to expand across the continent, as depicted here, was known as:',
                 answerOptions: [
@@ -11841,7 +11842,7 @@ const AppData = {
                     questionNumber: 2,
                     type: 'image',
                     imageUrl:
-                      'Images/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg',
+                      'Images/Social Studies/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg',
                     question:
                       "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
                     answerOptions: [
@@ -11880,7 +11881,7 @@ const AppData = {
                   {
                     questionNumber: 4,
                     type: 'image',
-                    imageUrl: 'Images/licensed-image (13).jpg',
+                    imageUrl: 'Images/Social Studies/licensed-image (13).jpg',
                     question:
                       'This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:',
                     answerOptions: [
@@ -11906,7 +11907,7 @@ const AppData = {
                     questionNumber: 5,
                     type: 'image',
                     imageUrl:
-                      'Images/Questions-are-based-on-the-following-graph.-7.png',
+                      'Images/Social Studies/Questions-are-based-on-the-following-graph.-7.png',
                     question:
                       'This graph shows a significant trend of population growth, similar to the urbanization seen in the U.S. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?',
                     answerOptions: [
@@ -11934,7 +11935,7 @@ const AppData = {
                   {
                     questionNumber: 1,
                     type: 'image',
-                    imageUrl: 'Images/Bosses-of-the-Senate.jpg',
+                    imageUrl: 'Images/Social Studies/Bosses-of-the-Senate.jpg',
                     question:
                       "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
                     answerOptions: [
@@ -12226,7 +12227,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/licensed-image (9).jpg',
+                    imageUrl: 'Images/Social Studies/licensed-image (9).jpg',
                     question:
                       'This map shows the new borders of Europe established by the Treaty of Versailles after World War I. Why did the U.S. Senate refuse to ratify this treaty?',
                     answerOptions: [
@@ -12328,7 +12329,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/licensed-image (14).jpg',
+                    imageUrl: 'Images/Social Studies/licensed-image (14).jpg',
                     question:
                       "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
                     answerOptions: [
@@ -12434,7 +12435,7 @@ const AppData = {
                     questionNumber: 3,
                     type: 'image',
                     imageUrl:
-                      'Images/Questions-are-based-on-the-following-graph.-5.png',
+                      'Images/Social Studies/Questions-are-based-on-the-following-graph.-5.png',
                     question:
                       "This iconic 'Rosie the Riveter' poster from World War II became a symbol of what major change on the U.S. home front?",
                     answerOptions: [
@@ -12557,7 +12558,7 @@ const AppData = {
                     questionNumber: 4,
                     type: 'image',
                     imageUrl:
-                      'Images/The_Iron_Curtain_in_the_beginning_of_the_Cold_War.png',
+                      'Images/Social Studies/The_Iron_Curtain_in_the_beginning_of_the_Cold_War.png',
                     question:
                       "This map depicts the 'Iron Curtain,' a term famously used by Winston Churchill. What did the 'Iron Curtain' symbolize?",
                     answerOptions: [
@@ -12687,7 +12688,7 @@ const AppData = {
                     questionNumber: 4,
                     type: 'image',
                     imageUrl:
-                      'Images/Question-is-based-on-the-following-cartoon.-4.png',
+                      'Images/Social Studies/Question-is-based-on-the-following-cartoon.-4.png',
                     question:
                       'This political cartoon depicts Soviet Premier Nikita Khrushchev and U.S. President John F. Kennedy arm-wrestling while sitting on nuclear weapons. What Cold War concept does this cartoon best illustrate?',
                     answerOptions: [
@@ -12780,7 +12781,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/licensed-image (15).jpg',
+                    imageUrl: 'Images/Social Studies/licensed-image (15).jpg',
                     question:
                       "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
                     answerOptions: [
@@ -16094,7 +16095,7 @@ const AppData = {
                 questionNumber: 6,
                 type: 'image',
                 imageUrl:
-                  'Images/Questions-are-based-on-the-following-graph.-7 (1).png',
+                  'Images/Social Studies/Questions-are-based-on-the-following-graph.-7 (1).png',
                 question:
                   'This graph shows a standard supply and demand model. The point where the supply curve and the demand curve intersect is known as:',
                 answerOptions: [
@@ -16785,7 +16786,7 @@ const AppData = {
                 questionNumber: 12,
                 type: 'image',
                 imageUrl:
-                  'Images/Questions-are-based-on-the-following-graph.-6 (1).png',
+                  'Images/Social Studies/Questions-are-based-on-the-following-graph.-6 (1).png',
                 question:
                   'This chart shows the unemployment rate in the U.S. over time. A sharp spike in the unemployment rate, like the ones seen around 2009 and 2020, is typically associated with which phase of the business cycle?',
                 answerOptions: [
@@ -17020,7 +17021,7 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: 'image',
-                imageUrl: 'Images/political-map-of-world.jpg',
+                imageUrl: 'Images/Social Studies/political-map-of-world.jpg',
                 question:
                   'This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?',
                 answerOptions: [
@@ -17052,7 +17053,7 @@ const AppData = {
               {
                 questionNumber: 5,
                 type: 'image',
-                imageUrl: 'Images/political-map-of-world.jpg',
+                imageUrl: 'Images/Social Studies/political-map-of-world.jpg',
                 question:
                   "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
                 answerOptions: [
@@ -17213,7 +17214,7 @@ const AppData = {
               {
                 questionNumber: 10,
                 type: 'image',
-                imageUrl: 'Images/licensed-image (16).jpg',
+                imageUrl: 'Images/Social Studies/licensed-image (16).jpg',
                 question:
                   'This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?',
                 answerOptions: [
@@ -17246,7 +17247,7 @@ const AppData = {
               {
                 questionNumber: 11,
                 type: 'image',
-                imageUrl: 'Images/licensed-image (16).jpg',
+                imageUrl: 'Images/Social Studies/licensed-image (16).jpg',
                 question:
                   "Using the map's scale of miles, the approximate distance from the capital of Colombia (BogotÃ¡) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
@@ -25579,9 +25580,7 @@ function App({ externalTheme, onThemeChange }) {
           subject,
           quizCode,
           quizTitle:
-            quizDetails.title ||
-            quizDetails.topicTitle ||
-            'GED® Practice Exam',
+            quizDetails.title || quizDetails.topicTitle || 'GED® Practice Exam',
           quizType: quizDetails.type,
           score: results.score,
           totalQuestions: results.totalQuestions,
@@ -30366,9 +30365,7 @@ function StartScreen({
                     }}
                   >
                     Start{' '}
-                    {`${selectedSubject} €” ${selectedCategory} Set ${
-                      idx + 1
-                    }`}
+                    {`${selectedSubject} €” ${selectedCategory} Set ${idx + 1}`}
                   </button>
                 ))}
               </div>
@@ -34563,9 +34560,7 @@ function EssayGuide({ onExit }) {
     let text = html
       .replace(/<\s*br\s*\/?>/gi, '\n')
       .replace(/<\s*\/?p[^>]*>/gi, '\n\n')
-      .replace(/<\s*\/?li[^>]*>/gi, (m) =>
-        m.startsWith('</') ? '\n' : ' €¢ '
-      )
+      .replace(/<\s*\/?li[^>]*>/gi, (m) => (m.startsWith('</') ? '\n' : ' €¢ '))
       .replace(
         /<\s*\/?(strong|em|b|i|u|span|div|h\d|section|article|blockquote)[^>]*>/gi,
         ''

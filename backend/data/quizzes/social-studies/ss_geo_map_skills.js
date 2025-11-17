@@ -105,7 +105,7 @@ module.exports = [
       "social-2"
     ],
     "type": "image",
-    "imageUrl": "Images/political-map-of-world.jpg",
+    "imageUrl": "Images/Social Studies/political-map-of-world.jpg",
     "question": "This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?",
     "answerOptions": [
       {
@@ -133,7 +133,7 @@ module.exports = [
   {
     "questionNumber": 5,
     "type": "image",
-    "imageUrl": "Images/political-map-of-world.jpg",
+    "imageUrl": "Images/Social Studies/political-map-of-world.jpg",
     "question": "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
     "answerOptions": [
       {
@@ -292,7 +292,7 @@ module.exports = [
       "social-1"
     ],
     "type": "image",
-    "imageUrl": "Images/licensed-image (16).jpg",
+    "imageUrl": "Images/Social Studies/licensed-image (16).jpg",
     "question": "This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?",
     "answerOptions": [
       {
@@ -320,7 +320,7 @@ module.exports = [
   {
     "questionNumber": 11,
     "type": "image",
-    "imageUrl": "Images/licensed-image (16).jpg",
+    "imageUrl": "Images/Social Studies/licensed-image (16).jpg",
     "question": "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotá) to the capital of Venezuela (Caracas) is:",
     "answerOptions": [
       {

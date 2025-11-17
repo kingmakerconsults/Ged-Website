@@ -69,7 +69,7 @@ module.exports = [
   {
     "questionNumber": 3,
     "type": "image",
-    "imageUrl": "Images/licensed-image (15).jpg",
+    "imageUrl": "Images/Social Studies/licensed-image (15).jpg",
     "question": "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
     "answerOptions": [
       {
@@ -254,7 +254,7 @@ module.exports = [
   {
     "questionNumber": 9,
     "type": "image",
-    "imageUrl": "Images/The_Iron_Curtain_in_the_beginning_of_the_Cold_War.png",
+    "imageUrl": "Images/Social Studies/The_Iron_Curtain_in_the_beginning_of_the_Cold_War.png",
     "question": "This map depicts the 'Iron Curtain,' a term famously used by Winston Churchill. What did the 'Iron Curtain' symbolize?",
     "answerOptions": [
       {
