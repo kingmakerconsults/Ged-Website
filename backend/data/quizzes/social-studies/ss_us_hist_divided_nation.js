@@ -39,7 +39,7 @@ module.exports = [
   {
     "questionNumber": 2,
     "type": "image",
-    "imageUrl": "Images/territorial-gains-by-the-us.jpg",
+    "imageUrl": "Images/Social Studies/territorial-gains-by-the-us.jpg",
     "question": "This map shows the territorial expansion of the United States. The belief that it was the divine destiny of the U.S. to expand across the continent, as depicted here, was known as:",
     "answerOptions": [
       {

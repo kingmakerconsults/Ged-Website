@@ -3893,7 +3893,7 @@ const AppData = {
                 questionNumber: 3,
                 challenge_tags: ['science-3', 'science-2'],
                 type: 'image',
-                imageUrl: 'Images/ged-scince-fig-12.png',
+                imageUrl: 'Images/Science/ged-scince-fig-12.png',
                 question:
                   'In this food web, which organism is a primary consumer?',
                 answerOptions: [
@@ -4426,7 +4426,8 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: 'image',
-                imageUrl: 'Images/licensed-image (5).jpg',
+                imageUrl:
+                  'Images/Social Studies/Social Studies/licensed-image (5).jpg',
                 question:
                   'This image shows a typical entry on the periodic table for the element Carbon (C). What is the atomic number of Carbon?',
                 answerOptions: [
@@ -5742,7 +5743,7 @@ const AppData = {
               {
                 questionNumber: 14,
                 type: 'image',
-                imageUrl: 'Images/ged-scince-fig-7.png',
+                imageUrl: 'Images/Science/ged-scince-fig-7.png',
                 question:
                   'This diagram illustrates the rock cycle. What process is required to turn a sedimentary rock into a metamorphic rock?',
                 answerOptions: [
@@ -8639,7 +8640,7 @@ const AppData = {
                 questionNumber: 1,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/math_graph_1.png',
+                imageUrl: 'Images/Math/math_graph_1.png',
                 question: 'What is the slope of the line shown in the graph?',
                 answerOptions: [
                   {
@@ -8669,7 +8670,7 @@ const AppData = {
                 questionNumber: 2,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/math_graph_1.png',
+                imageUrl: 'Images/Math/math_graph_1.png',
                 question:
                   'What is the y-intercept of the line shown in the graph?',
                 answerOptions: [
@@ -8817,7 +8818,7 @@ const AppData = {
                 questionNumber: 7,
                 calculator: true,
                 type: 'image',
-                imageUrl: 'Images/math_graph_2.png',
+                imageUrl: 'Images/Math/math_graph_2.png',
                 question: 'Which point is located in Quadrant IV?',
                 answerOptions: [
                   {
@@ -8937,7 +8938,7 @@ const AppData = {
                 challenge_tags: ['science-1'],
                 calculator: true,
                 type: 'image',
-                imageUrl: 'Images/math_graph_3.png',
+                imageUrl: 'Images/Math/math_graph_3.png',
                 question:
                   'The graph shows the cost of renting a car based on the number of miles driven. What does the y-intercept of the graph represent?',
                 answerOptions: [
@@ -9053,7 +9054,7 @@ const AppData = {
                 questionNumber: 15,
                 calculator: true,
                 type: 'image',
-                imageUrl: 'Images/math_graph_4.png',
+                imageUrl: 'Images/Math/math_graph_4.png',
                 question:
                   'The graph shows a parabola. What are the coordinates of the vertex?',
                 answerOptions: [
@@ -9101,7 +9102,7 @@ const AppData = {
                 challenge_tags: ['math-5'],
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/math_geo_1.png',
+                imageUrl: 'Images/Math/math_geo_1.png',
                 question: 'What is the area of the rectangle shown?',
                 answerOptions: [
                   {
@@ -9132,7 +9133,7 @@ const AppData = {
                 challenge_tags: ['math-5'],
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/math_geo_2.png',
+                imageUrl: 'Images/Math/math_geo_2.png',
                 question: 'What is the area of the triangle shown?',
                 answerOptions: [
                   {
@@ -9164,7 +9165,7 @@ const AppData = {
                 challenge_tags: ['math-5'],
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/math_geo_3.png',
+                imageUrl: 'Images/Math/math_geo_3.png',
                 question:
                   'What is the circumference of the circle shown? (Use $\\pi \\approx 3.14$)',
                 answerOptions: [
@@ -11407,7 +11408,7 @@ Does this represent a function?`,
                     challenge_tags: ['social-2'],
                     type: 'image',
                     imageUrl:
-                      'Images/This-Question-is-based-on-the-following-graph.png',
+                      'Images/Social Studies/Social Studies/This-Question-is-based-on-the-following-graph.png',
                     question:
                       'This map shows the New England colonies. Which economic activity would be most characteristic of this region during the colonial era?',
                     answerOptions: [
@@ -11441,7 +11442,7 @@ Does this represent a function?`,
                     questionNumber: 2,
                     type: 'image',
                     imageUrl:
-                      'Images/A map of the Triangular Trade routes..jpg',
+                      'Images/Social Studies/A map of the Triangular Trade routes..jpg',
                     question:
                       'This map shows the Triangular Trade. The route that transported enslaved Africans from Africa to the Americas was known as the:',
                     answerOptions: [
@@ -11510,7 +11511,7 @@ Does this represent a function?`,
                     challenge_tags: ['social-1'],
                     type: 'image',
                     imageUrl:
-                      'Images/American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg',
+                      'Images/Social Studies/Social Studies/American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg',
                     question:
                       'This political cartoon by Benjamin Franklin, created in 1754, was used to promote the Albany Plan of Union. What was the primary goal of this plan?',
                     answerOptions: [
@@ -11942,7 +11943,8 @@ Does this represent a function?`,
                     questionNumber: 1,
                     challenge_tags: ['social-3', 'social-4'],
                     type: 'image',
-                    imageUrl: 'Images/join_or_die_cartoon.jpg',
+                    imageUrl:
+                      'Images/Social Studies/Social Studies/join_or_die_cartoon.jpg',
                     question:
                       'This 1754 political cartoon by Benjamin Franklin was originally created to encourage colonial unity during the French and Indian War. How was its message re-purposed during the American Revolution?',
                     answerOptions: [
@@ -12742,7 +12744,8 @@ Does this represent a function?`,
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/Louisiana_Purchase.png',
+                    imageUrl:
+                      'Images/Social Studies/Social Studies/Louisiana_Purchase.png',
                     question:
                       'This map illustrates the impact of the Louisiana Purchase in 1803. What was the most significant effect of this event?',
                     answerOptions: [
@@ -13058,7 +13061,8 @@ Does this represent a function?`,
               {
                 questionNumber: 2,
                 type: 'image',
-                imageUrl: 'Images/territorial-gains-by-the-us.jpg',
+                imageUrl:
+                  'Images/Social Studies/Social Studies/territorial-gains-by-the-us.jpg',
                 question:
                   'This map shows the territorial expansion of the United States. The belief that it was the divine destiny of the U.S. to expand across the continent, as depicted here, was known as:',
                 answerOptions: [
@@ -13567,7 +13571,7 @@ Does this represent a function?`,
                     challenge_tags: ['social-1'],
                     type: 'image',
                     imageUrl:
-                      'Images/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg',
+                      'Images/Social Studies/Social Studies/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg',
                     question:
                       "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
                     answerOptions: [
@@ -13606,7 +13610,8 @@ Does this represent a function?`,
                   {
                     questionNumber: 4,
                     type: 'image',
-                    imageUrl: 'Images/licensed-image (13).jpg',
+                    imageUrl:
+                      'Images/Social Studies/Social Studies/licensed-image (13).jpg',
                     question:
                       'This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:',
                     answerOptions: [
@@ -13632,7 +13637,7 @@ Does this represent a function?`,
                     questionNumber: 5,
                     type: 'image',
                     imageUrl:
-                      'Images/Questions-are-based-on-the-following-graph.-7.png',
+                      'Images/Social Studies/Social Studies/Questions-are-based-on-the-following-graph.-7.png',
                     question:
                       'This graph shows a significant trend of population growth, similar to the urbanization seen in the U.S. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?',
                     answerOptions: [
@@ -13661,7 +13666,8 @@ Does this represent a function?`,
                     questionNumber: 1,
                     challenge_tags: ['social-1', 'social-5', 'social-3'],
                     type: 'image',
-                    imageUrl: 'Images/Bosses-of-the-Senate.jpg',
+                    imageUrl:
+                      'Images/Social Studies/Social Studies/Bosses-of-the-Senate.jpg',
                     question:
                       "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
                     answerOptions: [
@@ -13960,7 +13966,8 @@ Does this represent a function?`,
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/licensed-image (9).jpg',
+                    imageUrl:
+                      'Images/Social Studies/Social Studies/licensed-image (9).jpg',
                     question:
                       'This map shows the new borders of Europe established by the Treaty of Versailles after World War I. Why did the U.S. Senate refuse to ratify this treaty?',
                     answerOptions: [
@@ -14062,7 +14069,8 @@ Does this represent a function?`,
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/licensed-image (14).jpg',
+                    imageUrl:
+                      'Images/Social Studies/Social Studies/licensed-image (14).jpg',
                     question:
                       "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
                     answerOptions: [
@@ -14168,7 +14176,7 @@ Does this represent a function?`,
                     questionNumber: 3,
                     type: 'image',
                     imageUrl:
-                      'Images/Questions-are-based-on-the-following-graph.-5.png',
+                      'Images/Social Studies/Social Studies/Questions-are-based-on-the-following-graph.-5.png',
                     question:
                       "This iconic 'Rosie the Riveter' poster from World War II became a symbol of what major change on the U.S. home front?",
                     answerOptions: [
@@ -14294,7 +14302,7 @@ Does this represent a function?`,
                     questionNumber: 4,
                     type: 'image',
                     imageUrl:
-                      'Images/The_Iron_Curtain_in_the_beginning_of_the_Cold_War.png',
+                      'Images/Social Studies/Social Studies/The_Iron_Curtain_in_the_beginning_of_the_Cold_War.png',
                     question:
                       "This map depicts the 'Iron Curtain,' a term famously used by Winston Churchill. What did the 'Iron Curtain' symbolize?",
                     answerOptions: [
@@ -14425,7 +14433,7 @@ Does this represent a function?`,
                     questionNumber: 4,
                     type: 'image',
                     imageUrl:
-                      'Images/Question-is-based-on-the-following-cartoon.-4.png',
+                      'Images/Social Studies/Social Studies/Question-is-based-on-the-following-cartoon.-4.png',
                     question:
                       'This political cartoon depicts Soviet Premier Nikita Khrushchev and U.S. President John F. Kennedy arm-wrestling while sitting on nuclear weapons. What Cold War concept does this cartoon best illustrate?',
                     answerOptions: [
@@ -14520,7 +14528,8 @@ Does this represent a function?`,
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/licensed-image (15).jpg',
+                    imageUrl:
+                      'Images/Social Studies/Social Studies/licensed-image (15).jpg',
                     question:
                       "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
                     answerOptions: [
@@ -17894,7 +17903,7 @@ Does this represent a function?`,
                 challenge_tags: ['social-5'],
                 type: 'image',
                 imageUrl:
-                  'Images/Questions-are-based-on-the-following-graph.-7 (1).png',
+                  'Images/Social Studies/Social Studies/Questions-are-based-on-the-following-graph.-7 (1).png',
                 question:
                   'This graph shows a standard supply and demand model. The point where the supply curve and the demand curve intersect is known as:',
                 answerOptions: [
@@ -18600,7 +18609,7 @@ Does this represent a function?`,
                 challenge_tags: ['social-5'],
                 type: 'image',
                 imageUrl:
-                  'Images/Questions-are-based-on-the-following-graph.-6 (1).png',
+                  'Images/Social Studies/Social Studies/Questions-are-based-on-the-following-graph.-6 (1).png',
                 question:
                   'This chart shows the unemployment rate in the U.S. over time. A sharp spike in the unemployment rate, like the ones seen around 2009 and 2020, is typically associated with which phase of the business cycle?',
                 answerOptions: [
@@ -18840,7 +18849,8 @@ Does this represent a function?`,
                 questionNumber: 4,
                 challenge_tags: ['social-2'],
                 type: 'image',
-                imageUrl: 'Images/political-map-of-world.jpg',
+                imageUrl:
+                  'Images/Social Studies/Social Studies/political-map-of-world.jpg',
                 question:
                   'This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?',
                 answerOptions: [
@@ -18872,7 +18882,8 @@ Does this represent a function?`,
               {
                 questionNumber: 5,
                 type: 'image',
-                imageUrl: 'Images/political-map-of-world.jpg',
+                imageUrl:
+                  'Images/Social Studies/Social Studies/political-map-of-world.jpg',
                 question:
                   "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
                 answerOptions: [
@@ -18906,7 +18917,7 @@ Does this represent a function?`,
                 questionNumber: 6,
                 challenge_tags: ['rla-7'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="Images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="Images/Social Studies/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the bar chart, which two toppings are the most popular?',
                 answerOptions: [
@@ -18938,7 +18949,7 @@ Does this represent a function?`,
                 questionNumber: 7,
                 challenge_tags: ['rla-4'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="Images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="Images/Social Studies/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
                   'How many more students chose Pepperoni than chose Sausage?',
                 answerOptions: [
@@ -18972,7 +18983,7 @@ Does this represent a function?`,
                 questionNumber: 8,
                 challenge_tags: ['math-6', 'science-1'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="Images/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="Images/Social Studies/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
                 question:
                   "According to the line graph, in which year did the company's profits decrease compared to the previous year?",
                 answerOptions: [
@@ -19005,7 +19016,7 @@ Does this represent a function?`,
               {
                 questionNumber: 9,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="Images/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="Images/Social Studies/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
                 question:
                   'What was the approximate total profit for the company over the 5-year period shown?',
                 answerOptions: [
@@ -19037,7 +19048,8 @@ Does this represent a function?`,
                 questionNumber: 10,
                 challenge_tags: ['social-1'],
                 type: 'image',
-                imageUrl: 'Images/licensed-image (16).jpg',
+                imageUrl:
+                  'Images/Social Studies/Social Studies/licensed-image (16).jpg',
                 question:
                   'This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?',
                 answerOptions: [
@@ -19070,7 +19082,8 @@ Does this represent a function?`,
               {
                 questionNumber: 11,
                 type: 'image',
-                imageUrl: 'Images/licensed-image (16).jpg',
+                imageUrl:
+                  'Images/Social Studies/Social Studies/licensed-image (16).jpg',
                 question:
                   "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotá) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
@@ -19190,7 +19203,7 @@ Does this represent a function?`,
                 questionNumber: 15,
                 challenge_tags: ['rla-7'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="Images/035fa172-2083-4c13-9485-a5f4bfa28340.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="Images/Social Studies/035fa172-2083-4c13-9485-a5f4bfa28340.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the pie chart, how much money is allocated to Housing each month?',
                 answerOptions: [
@@ -20581,7 +20594,7 @@ Does this represent a function?`,
                 questionNumber: 1,
                 challenge_tags: ['rla-7'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/Social Studies/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the pie chart, which two Allied nations suffered the highest number of military deaths in World War II?',
                 answerOptions: [
@@ -20615,7 +20628,7 @@ Does this represent a function?`,
                 questionNumber: 2,
                 challenge_tags: ['math-1'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/Social Studies/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'The combined military deaths of the United States and the United Kingdom make up approximately what percentage of the total Allied deaths shown?',
                 answerOptions: [
@@ -20648,7 +20661,7 @@ Does this represent a function?`,
               {
                 questionNumber: 3,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/Social Studies/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'What can be inferred from the pie chart about the human cost of World War II for the Soviet Union?',
                 answerOptions: [
@@ -20682,7 +20695,7 @@ Does this represent a function?`,
                 questionNumber: 4,
                 challenge_tags: ['rla-7'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="Images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="Images/Social Studies/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'Which sector is the largest consumer of electricity according to the bar chart?',
                 answerOptions: [
@@ -20695,7 +20708,7 @@ Does this represent a function?`,
               {
                 questionNumber: 5,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="Images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="Images/Social Studies/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'What is the combined percentage of electricity consumed by the Residential and Commercial sectors?',
                 answerOptions: [
@@ -20709,7 +20722,7 @@ Does this represent a function?`,
                 questionNumber: 6,
                 challenge_tags: ['rla-3'],
                 type: 'multi-source',
-                passage: `<div class="passage-text">Refer to both the article text and the "Electricity Consumption by Sector" bar chart.</div><img src="Images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded">`,
+                passage: `<div class="passage-text">Refer to both the article text and the "Electricity Consumption by Sector" bar chart.</div><img src="Images/Social Studies/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded">`,
                 question:
                   'The article states that electricity use for transportation is expected to grow. Based on the chart, why would this growth be significant?',
                 answerOptions: [
@@ -20759,7 +20772,7 @@ Does this represent a function?`,
                 questionNumber: 9,
                 challenge_tags: ['social-3'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="Images/Questions-are-based-on-the-following-graph.-7.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="Images/Social Studies/Questions-are-based-on-the-following-graph.-7.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
                 question:
                   'During which 5-year period is the population of City X projected to grow the most?',
                 answerOptions: [
@@ -20772,7 +20785,7 @@ Does this represent a function?`,
               {
                 questionNumber: 10,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="Images/Questions-are-based-on-the-following-graph.-7.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="Images/Social Studies/Questions-are-based-on-the-following-graph.-7.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
                 question: 'What is the overall trend shown in the graph?',
                 answerOptions: [
                   {
@@ -22152,7 +22165,18 @@ function resolveAssetUrl(src) {
   if (!src) return '';
   let s = String(src).trim();
 
-  // already absolute? keep it
+  // If it's one of our legacy quiz hosts, strip the host and treat it as an internal asset path
+  // Examples:
+  //   https://quiz.ez-ged.com/Images/Math/foo.png
+  //   http://quiz.ez-ged.net/Images/Science/bar.jpg
+  //   https://something.quiz.ez-ged.com/path/to/image.png
+  const legacyMatch = s.match(/^https?:\/\/([^\/]*quiz\.ez-ged[^\/]*)\/(.*)$/i);
+  if (legacyMatch) {
+    const pathAndRest = legacyMatch[2] || '';
+    s = pathAndRest;
+  }
+
+  // Already absolute and NOT one of our legacy hosts? keep it as-is
   if (
     /^https?:\/\//i.test(s) ||
     s.startsWith('data:') ||
@@ -30411,6 +30435,11 @@ function SuperAdminDashboard({ user, token, onLogout }) {
             </p>
           ) : summaryError ? (
             <div className="space-y-3">
+                            {isMultipleSelect && (
+                              <p className="text-sm font-semibold mb-2" style={{ color: scheme.mutedText }}>
+                                (Select ALL that apply)
+                              </p>
+                            )}
               <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
                 {summaryError}
               </div>
@@ -35032,9 +35061,33 @@ function QuizInterface({
     return () => clearInterval(timer);
   }, [onComplete, isPaused]);
 
+  // MULTIPLE-SELECT ENHANCEMENT: Support both single-select and multiple-select questions
   const handleSelect = (optionText) => {
+    const currentQ = questions[currentIndex];
+    const isMultipleSelect = currentQ.selectType === 'multiple' || currentQ.type === 'multiple-select';
+    
     const newAnswers = [...answers];
-    newAnswers[currentIndex] = optionText;
+    
+    if (isMultipleSelect) {
+      // Toggle selection for multiple-select questions
+      const currentSelections = Array.isArray(newAnswers[currentIndex]) 
+        ? newAnswers[currentIndex] 
+        : (newAnswers[currentIndex] ? [newAnswers[currentIndex]] : []);
+      
+      const index = currentSelections.indexOf(optionText);
+      if (index > -1) {
+        // Deselect: remove from array
+        currentSelections.splice(index, 1);
+      } else {
+        // Select: add to array
+        currentSelections.push(optionText);
+      }
+      newAnswers[currentIndex] = currentSelections.length > 0 ? currentSelections : null;
+    } else {
+      // Single-select: replace with new selection
+      newAnswers[currentIndex] = optionText;
+    }
+    
     setAnswers(newAnswers);
   };
 
@@ -35082,6 +35135,16 @@ function QuizInterface({
     currentQ.type === 'fill-in-the-blank' ||
     !currentQ.answerOptions ||
     currentQ.answerOptions.length === 0;
+
+  // NUMERIC ENTRY ENHANCEMENT: Detect numeric entry questions for Math
+  const isNumericEntry = currentQ.type === 'numeric' || currentQ.responseType === 'numeric';
+
+  // MULTIPLE-SELECT ENHANCEMENT: Determine if current question is multiple-select
+  const isMultipleSelect = currentQ.selectType === 'multiple' || currentQ.type === 'multiple-select';
+  const currentAnswer = answers[currentIndex];
+  const selectedOptions = isMultipleSelect 
+    ? (Array.isArray(currentAnswer) ? currentAnswer : (currentAnswer ? [currentAnswer] : []))
+    : [currentAnswer];
 
   // TEMPORARY: disable interactive math tool mounting entirely
   const TOOL_PANEL_ENABLED = false;
@@ -35585,18 +35648,19 @@ function QuizInterface({
             />
           )}
 
-          {isFillInTheBlank ? (
+          {(isFillInTheBlank || isNumericEntry) ? (
             <div>
               <label
                 htmlFor="fill-in-blank-answer"
                 className="mb-1 block text-sm font-medium"
                 style={{ color: scheme.mutedText }}
               >
-                Enter your answer:
+                {isNumericEntry ? 'Enter your numeric answer:' : 'Enter your answer:'}
               </label>
               <input
                 id="fill-in-blank-answer"
-                type="text"
+                type={isNumericEntry ? "text" : "text"}
+                inputMode={isNumericEntry ? "decimal" : "text"}
                 value={answers[currentIndex] || ''}
                 onChange={handleInputChange}
                 onKeyDown={(e) => {
@@ -35611,7 +35675,7 @@ function QuizInterface({
                     }
                   }
                 }}
-                placeholder="Type your answer here"
+                placeholder={isNumericEntry ? "Enter a number (e.g., 3.5 or 3/4)" : "Type your answer here"}
                 className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
                 style={{
                   border: `1px solid ${scheme.inputBorder}`,
@@ -35628,19 +35692,22 @@ function QuizInterface({
                   typeof optText === 'string'
                     ? optText.trim().replace(/^\$\$/, '$')
                     : '';
-                const isSelected = answers[currentIndex] === optText;
+                // MULTIPLE-SELECT ENHANCEMENT: Check if option is selected (works for both modes)
+                const isSelected = selectedOptions.includes(optText);
                 const optionStyles = {};
                 if (isSelected) {
                   optionStyles.backgroundColor = scheme.optionSelectedBg;
                   optionStyles.borderColor = scheme.optionSelectedBorder;
                   optionStyles.color = scheme.accentText;
                 }
+                // MULTIPLE-SELECT ENHANCEMENT: Add class for multiple-select mode
                 const optionClassNames = [
                   'option',
                   'answer-option',
                   'w-full',
                   'text-left',
                   'transition',
+                  isMultipleSelect ? 'multiple-select' : '',
                 ];
                 if (isSelected) {
                   optionClassNames.push('selected');
@@ -35651,6 +35718,21 @@ function QuizInterface({
                     onClick={() => handleSelect(optText)}
                     className={optionClassNames.join(' ')}
                     style={optionStyles}
+                                      {isMultipleSelect && (
+                                        <span className="inline-block w-5 h-5 mr-2 border-2 rounded align-middle" 
+                                              style={{ 
+                                                borderColor: isSelected ? scheme.accent : scheme.inputBorder,
+                                                backgroundColor: isSelected ? scheme.accent : 'transparent',
+                                                verticalAlign: 'middle',
+                                                display: 'inline-flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                              }}>
+                                          {isSelected && (
+                                            <span style={{ color: scheme.accentText, fontSize: '0.875rem', fontWeight: 'bold' }}>✓</span>
+                                          )}
+                                        </span>
+                                      )}
                   >
                     <span
                       className="flex-grow text-left"

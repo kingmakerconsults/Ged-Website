@@ -12,7 +12,7 @@ module.exports = [
     ],
     "calculator": false,
     "type": "image",
-    "imageUrl": "Images/math_geo_1.png",
+    "imageUrl": "Images/Math/math_geo_1.png",
     "question": "What is the area of the rectangle shown?",
     "answerOptions": [
       {
@@ -44,7 +44,7 @@ module.exports = [
     ],
     "calculator": false,
     "type": "image",
-    "imageUrl": "Images/math_geo_2.png",
+    "imageUrl": "Images/Math/math_geo_2.png",
     "question": "What is the area of the triangle shown?",
     "answerOptions": [
       {
@@ -76,7 +76,7 @@ module.exports = [
     ],
     "calculator": false,
     "type": "image",
-    "imageUrl": "Images/math_geo_3.png",
+    "imageUrl": "Images/Math/math_geo_3.png",
     "question": "What is the circumference of the circle shown? (Use $\\pi \\approx 3.14$)",
     "answerOptions": [
       {

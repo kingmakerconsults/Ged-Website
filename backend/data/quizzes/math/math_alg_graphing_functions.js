@@ -9,7 +9,7 @@ module.exports = [
     "questionNumber": 1,
     "calculator": false,
     "type": "image",
-    "imageUrl": "Images/math_graph_1.png",
+    "imageUrl": "Images/Math/math_graph_1.png",
     "question": "What is the slope of the line shown in the graph?",
     "answerOptions": [
       {
@@ -41,7 +41,7 @@ module.exports = [
     "questionNumber": 2,
     "calculator": false,
     "type": "image",
-    "imageUrl": "Images/math_graph_1.png",
+    "imageUrl": "Images/Math/math_graph_1.png",
     "question": "What is the y-intercept of the line shown in the graph?",
     "answerOptions": [
       {
@@ -193,7 +193,7 @@ module.exports = [
     "questionNumber": 7,
     "calculator": true,
     "type": "image",
-    "imageUrl": "Images/math_graph_2.png",
+    "imageUrl": "Images/Math/math_graph_2.png",
     "question": "Which point is located in Quadrant IV?",
     "answerOptions": [
       {
@@ -318,7 +318,7 @@ module.exports = [
     ],
     "calculator": true,
     "type": "image",
-    "imageUrl": "Images/math_graph_3.png",
+    "imageUrl": "Images/Math/math_graph_3.png",
     "question": "The graph shows the cost of renting a car based on the number of miles driven. What does the y-intercept of the graph represent?",
     "answerOptions": [
       {
@@ -437,7 +437,7 @@ module.exports = [
     "questionNumber": 15,
     "calculator": true,
     "type": "image",
-    "imageUrl": "Images/math_graph_4.png",
+    "imageUrl": "Images/Math/math_graph_4.png",
     "question": "The graph shows a parabola. What are the coordinates of the vertex?",
     "answerOptions": [
       {
