@@ -9552,13 +9552,15 @@ const AppData = {
         ],
       },
       'Functions & Relations': {
-        description: 'Identify and analyze functions using tables, graphs, and scenarios.',
+        description:
+          'Identify and analyze functions using tables, graphs, and scenarios.',
         icon: 'TableCellsIcon', // New Icon
         topics: [
           {
             id: 'math_functions_identify_tables',
             title: 'Identify Functions from Tables',
-            description: 'Determine if a table of x/y values represents a function.',
+            description:
+              'Determine if a table of x/y values represents a function.',
             type: 'quiz',
             questions: [
               {
@@ -9571,22 +9573,26 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each x-value maps to exactly one y-value. No x-value repeats with different y-values.',
+                    rationale:
+                      'Each x-value maps to exactly one y-value. No x-value repeats with different y-values.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: false,
-                    rationale: 'This table IS a function because each input has only one output.',
+                    rationale:
+                      'This table IS a function because each input has only one output.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'We can determine this is a function by checking if any x-value repeats.',
+                    rationale:
+                      'We can determine this is a function by checking if any x-value repeats.',
                   },
                   {
                     text: 'Only if x and y are positive',
                     isCorrect: false,
-                    rationale: 'Functions work with any real numbers, not just positive values.',
+                    rationale:
+                      'Functions work with any real numbers, not just positive values.',
                   },
                 ],
               },
@@ -9600,22 +9606,26 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: false,
-                    rationale: 'This is NOT a function because x=2 appears twice with different y-values (6 and 8).',
+                    rationale:
+                      'This is NOT a function because x=2 appears twice with different y-values (6 and 8).',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: true,
-                    rationale: 'The x-value 2 maps to both 6 and 8, violating the function rule (one input → one output).',
+                    rationale:
+                      'The x-value 2 maps to both 6 and 8, violating the function rule (one input → one output).',
                   },
                   {
                     text: 'Yes, because y-values are different',
                     isCorrect: false,
-                    rationale: 'Having different y-values does not make it a function if x-values repeat.',
+                    rationale:
+                      'Having different y-values does not make it a function if x-values repeat.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'We can clearly see x=2 repeats with different outputs.',
+                    rationale:
+                      'We can clearly see x=2 repeats with different outputs.',
                   },
                 ],
               },
@@ -9629,22 +9639,26 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each x-value appears only once. It does not matter that y-values repeat (e.g., y=1 and y=4 appear twice).',
+                    rationale:
+                      'Each x-value appears only once. It does not matter that y-values repeat (e.g., y=1 and y=4 appear twice).',
                   },
                   {
                     text: 'No, because y-values repeat',
                     isCorrect: false,
-                    rationale: 'Functions CAN have repeating y-values. Only repeating x-values with different y-values make it not a function.',
+                    rationale:
+                      'Functions CAN have repeating y-values. Only repeating x-values with different y-values make it not a function.',
                   },
                   {
                     text: 'No, because of negative x-values',
                     isCorrect: false,
-                    rationale: 'Functions can have any x-values, including negatives.',
+                    rationale:
+                      'Functions can have any x-values, including negatives.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'We can determine this is a function by checking x-values.',
+                    rationale:
+                      'We can determine this is a function by checking x-values.',
                   },
                 ],
               },
@@ -9658,22 +9672,26 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'This is a constant function where every x-value maps to y=3. Each x appears only once.',
+                    rationale:
+                      'This is a constant function where every x-value maps to y=3. Each x appears only once.',
                   },
                   {
                     text: 'No, because all y-values are the same',
                     isCorrect: false,
-                    rationale: 'A constant function is still a valid function. Same y-values are allowed.',
+                    rationale:
+                      'A constant function is still a valid function. Same y-values are allowed.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: false,
-                    rationale: 'This IS a function because no x-value repeats with different y-values.',
+                    rationale:
+                      'This IS a function because no x-value repeats with different y-values.',
                   },
                   {
                     text: 'Only if x increases',
                     isCorrect: false,
-                    rationale: 'Functions do not require x-values to be in order or increasing.',
+                    rationale:
+                      'Functions do not require x-values to be in order or increasing.',
                   },
                 ],
               },
@@ -9687,22 +9705,26 @@ const AppData = {
                   {
                     text: 'Yes, because y=4 appears twice',
                     isCorrect: false,
-                    rationale: 'Repeating y-values alone do not determine if it is a function. Check x-values.',
+                    rationale:
+                      'Repeating y-values alone do not determine if it is a function. Check x-values.',
                   },
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Even though x=3 appears twice, it maps to the same y-value (4) both times. This is allowed in functions.',
+                    rationale:
+                      'Even though x=3 appears twice, it maps to the same y-value (4) both times. This is allowed in functions.',
                   },
                   {
                     text: 'No, because x=3 appears twice',
                     isCorrect: false,
-                    rationale: 'If the same x maps to the SAME y, it is still a function. The issue is only when the same x maps to DIFFERENT y-values.',
+                    rationale:
+                      'If the same x maps to the SAME y, it is still a function. The issue is only when the same x maps to DIFFERENT y-values.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'We can determine this by checking if repeated x-values map to the same or different y-values.',
+                    rationale:
+                      'We can determine this by checking if repeated x-values map to the same or different y-values.',
                   },
                 ],
               },
@@ -9716,22 +9738,26 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: false,
-                    rationale: 'This is NOT a function because x=1 maps to both 20 and 25.',
+                    rationale:
+                      'This is NOT a function because x=1 maps to both 20 and 25.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: true,
-                    rationale: 'The x-value 1 appears twice with different y-values (20 and 25), violating the function definition.',
+                    rationale:
+                      'The x-value 1 appears twice with different y-values (20 and 25), violating the function definition.',
                   },
                   {
                     text: 'Yes, if we remove one x=1 entry',
                     isCorrect: false,
-                    rationale: 'We evaluate the table as given, not after modifications.',
+                    rationale:
+                      'We evaluate the table as given, not after modifications.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'We can clearly see x=1 maps to two different outputs.',
+                    rationale:
+                      'We can clearly see x=1 maps to two different outputs.',
                   },
                 ],
               },
@@ -9745,22 +9771,26 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each x-value appears exactly once. The fact that y=9 repeats does not affect the function status.',
+                    rationale:
+                      'Each x-value appears exactly once. The fact that y=9 repeats does not affect the function status.',
                   },
                   {
                     text: 'No, because y=9 appears twice',
                     isCorrect: false,
-                    rationale: 'Repeating y-values are allowed in functions. Only repeating x-values with different y-values matter.',
+                    rationale:
+                      'Repeating y-values are allowed in functions. Only repeating x-values with different y-values matter.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: false,
-                    rationale: 'This IS a function because every x maps to exactly one y.',
+                    rationale:
+                      'This IS a function because every x maps to exactly one y.',
                   },
                   {
                     text: 'Only if we ignore y=9',
                     isCorrect: false,
-                    rationale: 'We do not need to ignore anything. Repeating outputs are fine.',
+                    rationale:
+                      'We do not need to ignore anything. Repeating outputs are fine.',
                   },
                 ],
               },
@@ -9774,17 +9804,20 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: false,
-                    rationale: 'This is NOT a function because x=7 maps to four different y-values (1, 2, 3, 4).',
+                    rationale:
+                      'This is NOT a function because x=7 maps to four different y-values (1, 2, 3, 4).',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: true,
-                    rationale: 'The same input (x=7) cannot map to multiple outputs. This violates the function rule.',
+                    rationale:
+                      'The same input (x=7) cannot map to multiple outputs. This violates the function rule.',
                   },
                   {
                     text: 'Yes, because y-values are different',
                     isCorrect: false,
-                    rationale: 'Different y-values do not help if the same x produces them.',
+                    rationale:
+                      'Different y-values do not help if the same x produces them.',
                   },
                   {
                     text: 'Cannot be determined',
@@ -9803,12 +9836,14 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each x-value is unique and maps to exactly one y-value. This is a linear function.',
+                    rationale:
+                      'Each x-value is unique and maps to exactly one y-value. This is a linear function.',
                   },
                   {
                     text: 'No, because values increase',
                     isCorrect: false,
-                    rationale: 'Increasing values do not prevent something from being a function.',
+                    rationale:
+                      'Increasing values do not prevent something from being a function.',
                   },
                   {
                     text: 'No, it is not a function',
@@ -9818,7 +9853,8 @@ const AppData = {
                   {
                     text: 'Only if y = 0.5x',
                     isCorrect: false,
-                    rationale: 'We determine function status from the table, not the equation.',
+                    rationale:
+                      'We determine function status from the table, not the equation.',
                   },
                 ],
               },
@@ -9832,22 +9868,26 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: false,
-                    rationale: 'This is NOT a function because x=5 maps to both 25 and 30.',
+                    rationale:
+                      'This is NOT a function because x=5 maps to both 25 and 30.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: true,
-                    rationale: 'The input x=5 produces two different outputs (25 and 30), which violates the function definition.',
+                    rationale:
+                      'The input x=5 produces two different outputs (25 and 30), which violates the function definition.',
                   },
                   {
                     text: 'Yes, because most x-values are unique',
                     isCorrect: false,
-                    rationale: 'Even one repeated x-value with different y-values makes it not a function.',
+                    rationale:
+                      'Even one repeated x-value with different y-values makes it not a function.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'We can clearly identify that x=5 has two outputs.',
+                    rationale:
+                      'We can clearly identify that x=5 has two outputs.',
                   },
                 ],
               },
@@ -9861,22 +9901,26 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each x-value appears only once. Y-values can repeat (symmetry in this case).',
+                    rationale:
+                      'Each x-value appears only once. Y-values can repeat (symmetry in this case).',
                   },
                   {
                     text: 'No, because y-values repeat',
                     isCorrect: false,
-                    rationale: 'Repeating y-values do not matter. Only x-values must not repeat with different outputs.',
+                    rationale:
+                      'Repeating y-values do not matter. Only x-values must not repeat with different outputs.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: false,
-                    rationale: 'This IS a function. Every x has exactly one corresponding y.',
+                    rationale:
+                      'This IS a function. Every x has exactly one corresponding y.',
                   },
                   {
                     text: 'Only for positive x-values',
                     isCorrect: false,
-                    rationale: 'Functions work for all x-values in the domain, including negatives.',
+                    rationale:
+                      'Functions work for all x-values in the domain, including negatives.',
                   },
                 ],
               },
@@ -9890,22 +9934,26 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Even though x=8 appears twice, it maps to the same y-value (64) both times, which is allowed.',
+                    rationale:
+                      'Even though x=8 appears twice, it maps to the same y-value (64) both times, which is allowed.',
                   },
                   {
                     text: 'No, because x=8 appears twice',
                     isCorrect: false,
-                    rationale: 'Repeating x with the SAME y is acceptable. Only different y-values cause issues.',
+                    rationale:
+                      'Repeating x with the SAME y is acceptable. Only different y-values cause issues.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: false,
-                    rationale: 'This IS a function because x=8 consistently maps to y=64.',
+                    rationale:
+                      'This IS a function because x=8 consistently maps to y=64.',
                   },
                   {
                     text: 'Only if we remove duplicate entries',
                     isCorrect: false,
-                    rationale: 'No modification is needed. The table as-is represents a function.',
+                    rationale:
+                      'No modification is needed. The table as-is represents a function.',
                   },
                 ],
               },
@@ -9919,22 +9967,26 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: false,
-                    rationale: 'This is NOT a function because x=0 maps to both 5 and 10.',
+                    rationale:
+                      'This is NOT a function because x=0 maps to both 5 and 10.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: true,
-                    rationale: 'The input x=0 produces two different outputs (5 and 10), violating the function definition.',
+                    rationale:
+                      'The input x=0 produces two different outputs (5 and 10), violating the function definition.',
                   },
                   {
                     text: 'Yes, because x=0 is special',
                     isCorrect: false,
-                    rationale: 'No x-value is special. All inputs must map to exactly one output.',
+                    rationale:
+                      'No x-value is special. All inputs must map to exactly one output.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'We can clearly see x=0 has two different y-values.',
+                    rationale:
+                      'We can clearly see x=0 has two different y-values.',
                   },
                 ],
               },
@@ -9948,12 +10000,14 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each x-value is unique and maps to exactly one y-value. Negative outputs are perfectly valid.',
+                    rationale:
+                      'Each x-value is unique and maps to exactly one y-value. Negative outputs are perfectly valid.',
                   },
                   {
                     text: 'No, because y-values are negative',
                     isCorrect: false,
-                    rationale: 'Functions can have negative outputs. Sign does not affect function status.',
+                    rationale:
+                      'Functions can have negative outputs. Sign does not affect function status.',
                   },
                   {
                     text: 'No, it is not a function',
@@ -9963,7 +10017,8 @@ const AppData = {
                   {
                     text: 'Only if we use absolute values',
                     isCorrect: false,
-                    rationale: 'We evaluate the table as given. No transformations are needed.',
+                    rationale:
+                      'We evaluate the table as given. No transformations are needed.',
                   },
                 ],
               },
@@ -9977,22 +10032,26 @@ const AppData = {
                   {
                     text: 'Yes, it is a function',
                     isCorrect: false,
-                    rationale: 'This is NOT a function because x=12 maps to both 6 and 10.',
+                    rationale:
+                      'This is NOT a function because x=12 maps to both 6 and 10.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: true,
-                    rationale: 'The input x=12 produces two different outputs (6 and 10), which violates the function rule.',
+                    rationale:
+                      'The input x=12 produces two different outputs (6 and 10), which violates the function rule.',
                   },
                   {
                     text: 'Yes, if we average the y-values',
                     isCorrect: false,
-                    rationale: 'We cannot modify the table. It must be evaluated as given.',
+                    rationale:
+                      'We cannot modify the table. It must be evaluated as given.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'It is clear that x=12 has multiple different outputs.',
+                    rationale:
+                      'It is clear that x=12 has multiple different outputs.',
                   },
                 ],
               },
@@ -10001,7 +10060,8 @@ const AppData = {
           {
             id: 'math_functions_multiple_tables',
             title: 'Function or Not? (Multiple Tables)',
-            description: 'Compare multiple tables and identify which represent functions.',
+            description:
+              'Compare multiple tables and identify which represent functions.',
             type: 'quiz',
             questions: [
               {
@@ -10018,22 +10078,26 @@ const AppData = {
                   {
                     text: 'Only Table A',
                     isCorrect: false,
-                    rationale: 'Table A is NOT a function because x=2 maps to both 5 and 7.',
+                    rationale:
+                      'Table A is NOT a function because x=2 maps to both 5 and 7.',
                   },
                   {
                     text: 'Only Table B',
                     isCorrect: true,
-                    rationale: 'Table B is a function because each x-value is unique. Table A has x=2 appearing twice with different y-values.',
+                    rationale:
+                      'Table B is a function because each x-value is unique. Table A has x=2 appearing twice with different y-values.',
                   },
                   {
                     text: 'Both tables',
                     isCorrect: false,
-                    rationale: 'Table A violates the function rule due to x=2 appearing with two different outputs.',
+                    rationale:
+                      'Table A violates the function rule due to x=2 appearing with two different outputs.',
                   },
                   {
                     text: 'Neither table',
                     isCorrect: false,
-                    rationale: 'Table B is a valid function with unique x-values.',
+                    rationale:
+                      'Table B is a valid function with unique x-values.',
                   },
                 ],
               },
@@ -10051,17 +10115,20 @@ const AppData = {
                   {
                     text: 'Only Table A',
                     isCorrect: false,
-                    rationale: 'Table A is NOT a function because x=5 maps to four different y-values (1, 2, 3, 4).',
+                    rationale:
+                      'Table A is NOT a function because x=5 maps to four different y-values (1, 2, 3, 4).',
                   },
                   {
                     text: 'Only Table B',
                     isCorrect: true,
-                    rationale: 'Table B is a constant function where each unique x-value maps to y=5. This is a valid function.',
+                    rationale:
+                      'Table B is a constant function where each unique x-value maps to y=5. This is a valid function.',
                   },
                   {
                     text: 'Both tables',
                     isCorrect: false,
-                    rationale: 'Table A violates the function definition by having one input map to multiple outputs.',
+                    rationale:
+                      'Table A violates the function definition by having one input map to multiple outputs.',
                   },
                   {
                     text: 'Neither table',
@@ -10084,22 +10151,26 @@ const AppData = {
                   {
                     text: 'Only Table A',
                     isCorrect: true,
-                    rationale: 'Table A is a function with unique x-values. Table B has x=-1 appearing twice with the same y-value, but we should avoid ambiguity—actually both are functions if x=-1→1 consistently. However, Table A is clearer with no repeats.',
+                    rationale:
+                      'Table A is a function with unique x-values. Table B has x=-1 appearing twice with the same y-value, but we should avoid ambiguity—actually both are functions if x=-1→1 consistently. However, Table A is clearer with no repeats.',
                   },
                   {
                     text: 'Only Table B',
                     isCorrect: false,
-                    rationale: 'Table B has x=-1 appearing twice. Even though both map to y=1, Table A is the clearer function without any repeated x-values.',
+                    rationale:
+                      'Table B has x=-1 appearing twice. Even though both map to y=1, Table A is the clearer function without any repeated x-values.',
                   },
                   {
                     text: 'Both tables',
                     isCorrect: false,
-                    rationale: 'While Table B technically works if x=-1 consistently maps to 1, the question asks which represents "a function" and Table A is the unambiguous choice.',
+                    rationale:
+                      'While Table B technically works if x=-1 consistently maps to 1, the question asks which represents "a function" and Table A is the unambiguous choice.',
                   },
                   {
                     text: 'Neither table',
                     isCorrect: false,
-                    rationale: 'Table A is definitely a function with all unique x-values.',
+                    rationale:
+                      'Table A is definitely a function with all unique x-values.',
                   },
                 ],
               },
@@ -10117,12 +10188,14 @@ const AppData = {
                   {
                     text: 'Only Table A',
                     isCorrect: false,
-                    rationale: 'Table A IS a function because all x-values are unique.',
+                    rationale:
+                      'Table A IS a function because all x-values are unique.',
                   },
                   {
                     text: 'Only Table B',
                     isCorrect: true,
-                    rationale: 'Table B is NOT a function because x=3 maps to both 1 and 5.',
+                    rationale:
+                      'Table B is NOT a function because x=3 maps to both 1 and 5.',
                   },
                   {
                     text: 'Both tables',
@@ -10163,12 +10236,14 @@ const AppData = {
                   {
                     text: '2 tables',
                     isCorrect: true,
-                    rationale: 'Tables A and C are functions. Table B is NOT because both x=0 and x=1 appear twice with different y-values.',
+                    rationale:
+                      'Tables A and C are functions. Table B is NOT because both x=0 and x=1 appear twice with different y-values.',
                   },
                   {
                     text: '3 tables',
                     isCorrect: false,
-                    rationale: 'Table B is not a function due to repeated x-values with different outputs.',
+                    rationale:
+                      'Table B is not a function due to repeated x-values with different outputs.',
                   },
                 ],
               },
@@ -10191,12 +10266,14 @@ const AppData = {
                   {
                     text: 'Only Table B',
                     isCorrect: true,
-                    rationale: 'Table B is a function with all negative x-values (-8, -4, -2, -1).',
+                    rationale:
+                      'Table B is a function with all negative x-values (-8, -4, -2, -1).',
                   },
                   {
                     text: 'Both tables',
                     isCorrect: false,
-                    rationale: 'Table A has x=0, which is neither positive nor negative.',
+                    rationale:
+                      'Table A has x=0, which is neither positive nor negative.',
                   },
                   {
                     text: 'Neither table',
@@ -10219,17 +10296,20 @@ const AppData = {
                   {
                     text: 'Only Table A',
                     isCorrect: false,
-                    rationale: 'Both tables are actually functions. Table B has x=7 appearing twice, but it maps to the same y-value (1) both times.',
+                    rationale:
+                      'Both tables are actually functions. Table B has x=7 appearing twice, but it maps to the same y-value (1) both times.',
                   },
                   {
                     text: 'Only Table B',
                     isCorrect: false,
-                    rationale: 'Table A is definitely a function, and so is Table B.',
+                    rationale:
+                      'Table A is definitely a function, and so is Table B.',
                   },
                   {
                     text: 'Both tables',
                     isCorrect: true,
-                    rationale: 'Table A has unique x-values. Table B has x=7 twice, but both map to y=1 consistently, making it a valid function.',
+                    rationale:
+                      'Table A has unique x-values. Table B has x=7 twice, but both map to y=1 consistently, making it a valid function.',
                   },
                   {
                     text: 'Neither table',
@@ -10257,7 +10337,8 @@ const AppData = {
                   {
                     text: 'Only Table B',
                     isCorrect: true,
-                    rationale: 'Table B is NOT a function because x=4 maps to both 20 and 25.',
+                    rationale:
+                      'Table B is NOT a function because x=4 maps to both 20 and 25.',
                   },
                   {
                     text: 'Both tables',
@@ -10288,12 +10369,14 @@ const AppData = {
                   {
                     text: 'Table A',
                     isCorrect: false,
-                    rationale: 'Table A is a constant function, which is valid.',
+                    rationale:
+                      'Table A is a constant function, which is valid.',
                   },
                   {
                     text: 'Table B',
                     isCorrect: true,
-                    rationale: 'Table B is NOT a function because x=1 maps to both 5 and 10.',
+                    rationale:
+                      'Table B is NOT a function because x=1 maps to both 5 and 10.',
                   },
                   {
                     text: 'Table C',
@@ -10324,12 +10407,14 @@ const AppData = {
                   {
                     text: 'Tables A and B',
                     isCorrect: false,
-                    rationale: 'Table B is NOT a function because x=-2 maps to both 4 and 0.',
+                    rationale:
+                      'Table B is NOT a function because x=-2 maps to both 4 and 0.',
                   },
                   {
                     text: 'Tables A and C',
                     isCorrect: true,
-                    rationale: 'Both Tables A and C have unique x-values, making them valid functions.',
+                    rationale:
+                      'Both Tables A and C have unique x-values, making them valid functions.',
                   },
                   {
                     text: 'Tables B and C',
@@ -10357,17 +10442,20 @@ const AppData = {
                   {
                     text: 'Only Table A',
                     isCorrect: false,
-                    rationale: 'Table A is a quadratic function (y = x²), not linear.',
+                    rationale:
+                      'Table A is a quadratic function (y = x²), not linear.',
                   },
                   {
                     text: 'Only Table B',
                     isCorrect: true,
-                    rationale: 'Table B shows a constant rate of change (+3 each time), making it a linear function: y = 3x + 5.',
+                    rationale:
+                      'Table B shows a constant rate of change (+3 each time), making it a linear function: y = 3x + 5.',
                   },
                   {
                     text: 'Both tables',
                     isCorrect: false,
-                    rationale: 'Table A is not linear; its rate of change increases.',
+                    rationale:
+                      'Table A is not linear; its rate of change increases.',
                   },
                   {
                     text: 'Neither table',
@@ -10403,7 +10491,8 @@ const AppData = {
                   {
                     text: '2 tables',
                     isCorrect: true,
-                    rationale: 'Tables B and C are functions with repeated y-values. Table A has all unique y-values.',
+                    rationale:
+                      'Tables B and C are functions with repeated y-values. Table A has all unique y-values.',
                   },
                   {
                     text: '3 tables',
@@ -10417,7 +10506,8 @@ const AppData = {
           {
             id: 'math_functions_scenarios',
             title: 'Function Scenarios (Tables + Logic)',
-            description: 'Apply function concepts to real-world scenarios using tables.',
+            description:
+              'Apply function concepts to real-world scenarios using tables.',
             type: 'quiz',
             questions: [
               {
@@ -10432,17 +10522,20 @@ Does this table represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each item code (input) maps to exactly one price (output). This is a function.',
+                    rationale:
+                      'Each item code (input) maps to exactly one price (output). This is a function.',
                   },
                   {
                     text: 'No, because prices vary',
                     isCorrect: false,
-                    rationale: 'Varying outputs do not prevent something from being a function.',
+                    rationale:
+                      'Varying outputs do not prevent something from being a function.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: false,
-                    rationale: 'This IS a function because each code has one unique price.',
+                    rationale:
+                      'This IS a function because each code has one unique price.',
                   },
                   {
                     text: 'Only if prices are equal',
@@ -10463,22 +10556,26 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: false,
-                    rationale: 'This is NOT a function because 2 hours maps to both $8 and $9.',
+                    rationale:
+                      'This is NOT a function because 2 hours maps to both $8 and $9.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: true,
-                    rationale: 'The input of 2 hours produces two different costs ($8 and $9), violating the function rule.',
+                    rationale:
+                      'The input of 2 hours produces two different costs ($8 and $9), violating the function rule.',
                   },
                   {
                     text: 'Yes, because costs increase',
                     isCorrect: false,
-                    rationale: 'The issue is not about increasing costs, but about inconsistent outputs for the same input.',
+                    rationale:
+                      'The issue is not about increasing costs, but about inconsistent outputs for the same input.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'We can clearly see 2 hours has two different costs.',
+                    rationale:
+                      'We can clearly see 2 hours has two different costs.',
                   },
                 ],
               },
@@ -10494,22 +10591,26 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each zone (input) maps to exactly one fare (output). The fact that zones 2 and 3 both cost $15 does not matter.',
+                    rationale:
+                      'Each zone (input) maps to exactly one fare (output). The fact that zones 2 and 3 both cost $15 does not matter.',
                   },
                   {
                     text: 'No, because two zones have the same fare',
                     isCorrect: false,
-                    rationale: 'Repeated outputs (fares) are allowed in functions. Only repeated inputs with different outputs cause issues.',
+                    rationale:
+                      'Repeated outputs (fares) are allowed in functions. Only repeated inputs with different outputs cause issues.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: false,
-                    rationale: 'This IS a function. Each zone has one specific fare.',
+                    rationale:
+                      'This IS a function. Each zone has one specific fare.',
                   },
                   {
                     text: 'Only if all fares are different',
                     isCorrect: false,
-                    rationale: 'Functions do not require all outputs to be unique.',
+                    rationale:
+                      'Functions do not require all outputs to be unique.',
                   },
                 ],
               },
@@ -10525,12 +10626,14 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each age (input) maps to exactly one price (output). This is a valid function.',
+                    rationale:
+                      'Each age (input) maps to exactly one price (output). This is a valid function.',
                   },
                   {
                     text: 'No, because senior pricing is lower',
                     isCorrect: false,
-                    rationale: 'Pricing patterns do not affect whether something is a function.',
+                    rationale:
+                      'Pricing patterns do not affect whether something is a function.',
                   },
                   {
                     text: 'No, it is not a function',
@@ -10540,7 +10643,8 @@ Does this represent a function?`,
                   {
                     text: 'Only if prices increase with age',
                     isCorrect: false,
-                    rationale: 'Functions do not require outputs to follow any specific pattern.',
+                    rationale:
+                      'Functions do not require outputs to follow any specific pattern.',
                   },
                 ],
               },
@@ -10556,22 +10660,26 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'The 6-month commitment appears twice, but both times it maps to $40/month. Consistent repeated inputs are allowed.',
+                    rationale:
+                      'The 6-month commitment appears twice, but both times it maps to $40/month. Consistent repeated inputs are allowed.',
                   },
                   {
                     text: 'No, because 6 months appears twice',
                     isCorrect: false,
-                    rationale: 'If the repeated input maps to the SAME output, it is still a function.',
+                    rationale:
+                      'If the repeated input maps to the SAME output, it is still a function.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: false,
-                    rationale: 'This IS a function because the repeated value has a consistent output.',
+                    rationale:
+                      'This IS a function because the repeated value has a consistent output.',
                   },
                   {
                     text: 'Only if we remove duplicates',
                     isCorrect: false,
-                    rationale: 'No modification needed. The table already represents a function.',
+                    rationale:
+                      'No modification needed. The table already represents a function.',
                   },
                 ],
               },
@@ -10587,22 +10695,26 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: false,
-                    rationale: 'This is NOT a function because 10 lbs maps to both $12 and $15.',
+                    rationale:
+                      'This is NOT a function because 10 lbs maps to both $12 and $15.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: true,
-                    rationale: 'The weight of 10 lbs has two different costs ($12 and $15), violating the function definition.',
+                    rationale:
+                      'The weight of 10 lbs has two different costs ($12 and $15), violating the function definition.',
                   },
                   {
                     text: 'Yes, if we average the costs',
                     isCorrect: false,
-                    rationale: 'We cannot modify the table. It must be evaluated as given.',
+                    rationale:
+                      'We cannot modify the table. It must be evaluated as given.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'We can clearly see the inconsistent pricing for 10 lbs.',
+                    rationale:
+                      'We can clearly see the inconsistent pricing for 10 lbs.',
                   },
                 ],
               },
@@ -10618,17 +10730,20 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each section (input) maps to exactly one price (output). Sections B and C having the same price is allowed.',
+                    rationale:
+                      'Each section (input) maps to exactly one price (output). Sections B and C having the same price is allowed.',
                   },
                   {
                     text: 'No, because B and C cost the same',
                     isCorrect: false,
-                    rationale: 'Repeated outputs do not affect function status. Only repeated inputs with different outputs matter.',
+                    rationale:
+                      'Repeated outputs do not affect function status. Only repeated inputs with different outputs matter.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: false,
-                    rationale: 'This IS a function. Each section has one specific price.',
+                    rationale:
+                      'This IS a function. Each section has one specific price.',
                   },
                   {
                     text: 'Only if all sections are unique',
@@ -10649,17 +10764,20 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: false,
-                    rationale: 'This is NOT a function because Math appears twice with different rates ($30 and $32).',
+                    rationale:
+                      'This is NOT a function because Math appears twice with different rates ($30 and $32).',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: true,
-                    rationale: 'The subject Math has two different hourly rates ($30 and $32), violating the function rule.',
+                    rationale:
+                      'The subject Math has two different hourly rates ($30 and $32), violating the function rule.',
                   },
                   {
                     text: 'Yes, because different tutors charge different rates',
                     isCorrect: false,
-                    rationale: 'The table shows subject-to-rate mapping only. Inconsistent rates for the same subject make it not a function.',
+                    rationale:
+                      'The table shows subject-to-rate mapping only. Inconsistent rates for the same subject make it not a function.',
                   },
                   {
                     text: 'Cannot be determined',
@@ -10680,12 +10798,14 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each vehicle type (input) maps to exactly one daily rate (output). This is a valid function.',
+                    rationale:
+                      'Each vehicle type (input) maps to exactly one daily rate (output). This is a valid function.',
                   },
                   {
                     text: 'No, because rates vary by vehicle',
                     isCorrect: false,
-                    rationale: 'Varying rates are expected and do not prevent this from being a function.',
+                    rationale:
+                      'Varying rates are expected and do not prevent this from being a function.',
                   },
                   {
                     text: 'No, it is not a function',
@@ -10695,7 +10815,8 @@ Does this represent a function?`,
                   {
                     text: 'Only if all vehicles cost the same',
                     isCorrect: false,
-                    rationale: 'Functions do not require all outputs to be equal.',
+                    rationale:
+                      'Functions do not require all outputs to be equal.',
                   },
                 ],
               },
@@ -10711,17 +10832,20 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each GB amount (input) maps to exactly one charge (output). All inputs are unique.',
+                    rationale:
+                      'Each GB amount (input) maps to exactly one charge (output). All inputs are unique.',
                   },
                   {
                     text: 'No, because charges increase',
                     isCorrect: false,
-                    rationale: 'Increasing outputs do not prevent something from being a function.',
+                    rationale:
+                      'Increasing outputs do not prevent something from being a function.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: false,
-                    rationale: 'This IS a function. Each data amount has one specific charge.',
+                    rationale:
+                      'This IS a function. Each data amount has one specific charge.',
                   },
                   {
                     text: 'Only if charges are proportional',
@@ -10742,22 +10866,26 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'The value 20 purchases appears twice, but both times it maps to 2 free items. Consistent repeated inputs are allowed.',
+                    rationale:
+                      'The value 20 purchases appears twice, but both times it maps to 2 free items. Consistent repeated inputs are allowed.',
                   },
                   {
                     text: 'No, because 20 appears twice',
                     isCorrect: false,
-                    rationale: 'If the repeated input has the SAME output, it is still a function.',
+                    rationale:
+                      'If the repeated input has the SAME output, it is still a function.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: false,
-                    rationale: 'This IS a function because 20 consistently maps to 2.',
+                    rationale:
+                      'This IS a function because 20 consistently maps to 2.',
                   },
                   {
                     text: 'Only if we remove duplicates',
                     isCorrect: false,
-                    rationale: 'No modification needed. This already represents a function.',
+                    rationale:
+                      'No modification needed. This already represents a function.',
                   },
                 ],
               },
@@ -10773,22 +10901,26 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: false,
-                    rationale: 'This is NOT a function because 2 dozens maps to both $11 and $11.50.',
+                    rationale:
+                      'This is NOT a function because 2 dozens maps to both $11 and $11.50.',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: true,
-                    rationale: 'The input of 2 dozens produces two different prices ($11 and $11.50), violating the function rule.',
+                    rationale:
+                      'The input of 2 dozens produces two different prices ($11 and $11.50), violating the function rule.',
                   },
                   {
                     text: 'Yes, if prices are close',
                     isCorrect: false,
-                    rationale: 'Even small differences in outputs make it not a function if the input is the same.',
+                    rationale:
+                      'Even small differences in outputs make it not a function if the input is the same.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'We can clearly see 2 dozens has two different prices.',
+                    rationale:
+                      'We can clearly see 2 dozens has two different prices.',
                   },
                 ],
               },
@@ -10804,12 +10936,14 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each age (input) appears exactly once and maps to one price (output). Ages 18 and 25 having the same price is allowed.',
+                    rationale:
+                      'Each age (input) appears exactly once and maps to one price (output). Ages 18 and 25 having the same price is allowed.',
                   },
                   {
                     text: 'No, because 18 and 25 both cost $45',
                     isCorrect: false,
-                    rationale: 'Repeated outputs do not affect function status. Only repeated inputs with different outputs matter.',
+                    rationale:
+                      'Repeated outputs do not affect function status. Only repeated inputs with different outputs matter.',
                   },
                   {
                     text: 'No, it is not a function',
@@ -10819,7 +10953,8 @@ Does this represent a function?`,
                   {
                     text: 'Only if senior pricing is removed',
                     isCorrect: false,
-                    rationale: 'All ages have unique prices defined. No removal is needed.',
+                    rationale:
+                      'All ages have unique prices defined. No removal is needed.',
                   },
                 ],
               },
@@ -10835,22 +10970,26 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: false,
-                    rationale: 'This is NOT a function because Medium appears twice with different prices ($4.50 and $4.75).',
+                    rationale:
+                      'This is NOT a function because Medium appears twice with different prices ($4.50 and $4.75).',
                   },
                   {
                     text: 'No, it is not a function',
                     isCorrect: true,
-                    rationale: 'The input Medium produces two different prices ($4.50 and $4.75), violating the function definition.',
+                    rationale:
+                      'The input Medium produces two different prices ($4.50 and $4.75), violating the function definition.',
                   },
                   {
                     text: 'Yes, because prices are similar',
                     isCorrect: false,
-                    rationale: 'Any difference in outputs for the same input makes it not a function.',
+                    rationale:
+                      'Any difference in outputs for the same input makes it not a function.',
                   },
                   {
                     text: 'Cannot be determined',
                     isCorrect: false,
-                    rationale: 'It is clear that Medium has two different prices.',
+                    rationale:
+                      'It is clear that Medium has two different prices.',
                   },
                 ],
               },
@@ -10866,12 +11005,14 @@ Does this represent a function?`,
                   {
                     text: 'Yes, it is a function',
                     isCorrect: true,
-                    rationale: 'Each subscription tier (input) maps to exactly one monthly cost (output). This is a valid function.',
+                    rationale:
+                      'Each subscription tier (input) maps to exactly one monthly cost (output). This is a valid function.',
                   },
                   {
                     text: 'No, because costs vary',
                     isCorrect: false,
-                    rationale: 'Varying costs are expected and do not prevent this from being a function.',
+                    rationale:
+                      'Varying costs are expected and do not prevent this from being a function.',
                   },
                   {
                     text: 'No, it is not a function',
@@ -10881,7 +11022,8 @@ Does this represent a function?`,
                   {
                     text: 'Only if tiers are numbered',
                     isCorrect: false,
-                    rationale: 'Functions work with any type of input, including text labels.',
+                    rationale:
+                      'Functions work with any type of input, including text labels.',
                   },
                 ],
               },
