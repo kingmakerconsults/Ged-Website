@@ -1,0 +1,46 @@
+{
+  "templates": [
+    {
+      "id": "retail",
+      "label": "Retail / Customer Service",
+      "intro": "I am excited to apply for the [ROLE] position at [COMPANY]. With my strong customer service skills and passion for helping people, I am confident I can contribute to your team's success.",
+      "body": "In my previous experience, I have demonstrated the ability to:\n• Provide excellent customer service and resolve issues quickly\n• Work effectively in fast-paced retail environments\n• Maintain a positive attitude and collaborate with team members\n• Handle cash transactions accurately and responsibly\n\nI am eager to bring my dedication and enthusiasm to [COMPANY] and help create positive experiences for your customers.",
+      "closing": "Thank you for considering my application. I am available for an interview at your convenience and look forward to the opportunity to discuss how I can contribute to your team."
+    },
+    {
+      "id": "office",
+      "label": "Office / Administrative",
+      "intro": "I am writing to express my interest in the [ROLE] position at [COMPANY]. My organizational skills, attention to detail, and proficiency with office software make me an ideal candidate for this role.",
+      "body": "I have experience with:\n• Managing schedules, appointments, and office communications\n• Data entry and document management with high accuracy\n• Using Microsoft Office Suite (Word, Excel, Outlook)\n• Supporting team operations and maintaining efficient workflows\n\nI am committed to contributing to [COMPANY]'s success through reliable and professional administrative support.",
+      "closing": "I would welcome the opportunity to discuss how my skills align with your needs. Thank you for your time and consideration."
+    },
+    {
+      "id": "healthcare",
+      "label": "Healthcare Support / CNA",
+      "intro": "I am applying for the [ROLE] position at [COMPANY]. As a compassionate and certified healthcare professional, I am committed to providing high-quality patient care and support.",
+      "body": "My qualifications include:\n• Certified Nursing Assistant (CNA) certification and training\n• Experience providing personal care and assisting with daily living activities\n• Strong communication skills and empathy for patients and families\n• Ability to follow care plans and collaborate with medical staff\n\nI am passionate about making a positive difference in patients' lives and contributing to [COMPANY]'s mission of excellent care.",
+      "closing": "Thank you for considering my application. I am eager to bring my dedication and skills to your healthcare team and am available to discuss this opportunity further."
+    },
+    {
+      "id": "hospitality",
+      "label": "Hospitality / Food Service",
+      "intro": "I am excited to apply for the [ROLE] position at [COMPANY]. With my strong work ethic, friendly demeanor, and commitment to customer satisfaction, I am confident I can be a valuable member of your team.",
+      "body": "My experience includes:\n• Providing prompt and courteous service in high-volume settings\n• Working efficiently as part of a team to meet customer needs\n• Maintaining cleanliness and following food safety standards\n• Handling customer inquiries and ensuring positive dining experiences\n\nI am eager to contribute to [COMPANY]'s reputation for excellent hospitality and service.",
+      "closing": "I would appreciate the opportunity to discuss how I can support your team's success. Thank you for your time and consideration."
+    },
+    {
+      "id": "childcare",
+      "label": "Childcare / Youth Programs",
+      "intro": "I am writing to apply for the [ROLE] position at [COMPANY]. My passion for working with children, along with my patience and creativity, makes me an excellent fit for this role.",
+      "body": "I bring:\n• Experience supervising and engaging children in educational and recreational activities\n• Strong communication skills with children, parents, and staff\n• Commitment to maintaining a safe, nurturing, and positive environment\n• Ability to implement age-appropriate activities and learning experiences\n\nI am dedicated to supporting children's growth and development while contributing to [COMPANY]'s mission.",
+      "closing": "Thank you for considering my application. I look forward to the opportunity to discuss how I can contribute to your program's success."
+    },
+    {
+      "id": "general",
+      "label": "General Entry-Level",
+      "intro": "I am writing to express my interest in the [ROLE] position at [COMPANY]. I am eager to bring my strong work ethic, willingness to learn, and commitment to excellence to your team.",
+      "body": "I offer:\n• Reliability and punctuality\n• Quick learning ability and adaptability to new environments\n• Strong teamwork and communication skills\n• Dedication to meeting goals and contributing to organizational success\n\nI am excited about the opportunity to grow with [COMPANY] and contribute to your team's achievements.",
+      "closing": "I would welcome the chance to discuss how I can add value to your organization. Thank you for your consideration."
+    }
+  ]
+}
