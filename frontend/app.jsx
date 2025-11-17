@@ -43182,6 +43182,8 @@ const GED_TOPICS = {
     'Algebraic Expressions & Equations',
     'Inequalities & Linear Relationships',
     'Graphs & Data Interpretation',
+    'Graphs & Functions',
+    'Functions & Relations',
     'Geometry & Measurement',
     'Pythagorean Theorem & Distance',
     'Surface Area & Volume',
