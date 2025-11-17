@@ -786,6 +786,48 @@ button[data-role='secondary']:hover:not(:disabled) {
   color: #ffffff;
   font-weight: 600;
 }
+
+/* Function table styling for math questions */
+.function-table {
+  display: inline-block;
+  margin: 1rem 0;
+  border-collapse: collapse;
+  border: 2px solid #0284c7;
+  background-color: #ffffff;
+}
+.function-table tbody {
+  display: table;
+  width: 100%;
+}
+.function-table tr {
+  display: table-row;
+}
+.function-table th,
+.function-table td {
+  border: 1px solid #0ea5e9;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  font-weight: 500;
+}
+.function-table th {
+  background-color: #e0f2fe;
+  color: #0c4a6e;
+  font-weight: 700;
+}
+.dark .function-table {
+  background-color: rgba(15, 23, 42, 0.9);
+  border: 2px solid #38bdf8;
+}
+.dark .function-table th,
+.dark .function-table td {
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  color: #f8fafc;
+}
+.dark .function-table th {
+  background-color: rgba(14, 165, 233, 0.3);
+  color: #bae6fd;
+}
+
 h3 {
   overflow-wrap: break-word;
 }
