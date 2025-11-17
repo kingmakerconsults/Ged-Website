@@ -12260,7 +12260,7 @@ IMPORTANT
       if (!genAI) throw new Error('Google AI not configured');
 
       const model = genAI.getGenerativeModel({
-        model: 'gemini-1.5-flash',
+        model: 'gemini-2.5-flash',
       });
 
       const contents = chatHistory.map((h) => ({
@@ -12445,7 +12445,7 @@ Please score this resume and provide feedback.`;
     // Try Google AI first, fallback to OpenAI
     async function tryGoogle() {
       if (!genAI) throw new Error('Google AI not configured');
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
       const contents = chatHistory.map((h) => ({
         role:
           h.role === 'system'
@@ -12596,7 +12596,7 @@ Please review this cover letter and provide feedback.`;
     // Try Google AI first, fallback to OpenAI
     async function tryGoogle() {
       if (!genAI) throw new Error('Google AI not configured');
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
       const contents = chatHistory.map((h) => ({
         role:
           h.role === 'system'
@@ -12749,7 +12749,7 @@ Please review this networking response and provide feedback.`;
     // Try Google AI first, fallback to OpenAI
     async function tryGoogle() {
       if (!genAI) throw new Error('Google AI not configured');
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
       const contents = chatHistory.map((h) => ({
         role:
           h.role === 'system'
@@ -12903,7 +12903,7 @@ Please evaluate this response for soft skills effectiveness.`;
     // Try Google AI first, fallback to OpenAI
     async function tryGoogle() {
       if (!genAI) throw new Error('Google AI not configured');
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
       const contents = chatHistory.map((h) => ({
         role:
           h.role === 'system'
