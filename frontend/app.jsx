@@ -22783,8 +22783,11 @@ const QUIZ_GROUPING = {
         'Algebraic Expressions & Linear Equations',
         'Expressions & Equations',
         'Expressions and Equations',
-        'Functions & Relations',
       ],
+    },
+    {
+      label: 'Functions & Relations',
+      categories: ['Functions & Relations'],
     },
     {
       label: 'Quantitative & Data',
@@ -36858,6 +36861,29 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const finalBreakdown = categoryBreakdown.length
     ? categoryBreakdown
     : fallbackBreakdown;
+
+  // Normalize breakdown for UI rendering
+  const performanceByCategory = (
+    Array.isArray(finalBreakdown) ? finalBreakdown : []
+  ).reduce((acc, item) => {
+    const key = item?.category || 'Unknown';
+    acc[key] = {
+      correct: Number(item?.correct || 0),
+      total: Number(item?.total || 0),
+    };
+    return acc;
+  }, {});
+
+  const categoryNames = {
+    text: 'Text Analysis',
+    image: 'Image/Map Interpretation',
+    knowledge: 'Knowledge-Based',
+    quote: 'Quote Analysis',
+    'cause-effect': 'Cause & Effect',
+    'multi-source': 'Multi-Source Analysis',
+    analysis: 'Paired Passage Analysis',
+    chart: 'Chart/Data Analysis',
+  };
 
   return (
     <div
