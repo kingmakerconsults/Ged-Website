@@ -1,0 +1,32 @@
+[
+  {
+    "id": "retail",
+    "label": "Retail / Customer Service",
+    "sections": ["Contact Info", "Summary", "Experience", "Skills"]
+  },
+  {
+    "id": "office",
+    "label": "Office / Admin",
+    "sections": ["Contact Info", "Summary", "Experience", "Skills"]
+  },
+  {
+    "id": "childcare",
+    "label": "Childcare / Youth Programs",
+    "sections": ["Contact Info", "Summary", "Experience", "Skills"]
+  },
+  {
+    "id": "healthcare",
+    "label": "Home Health / CNA",
+    "sections": ["Contact Info", "Summary", "Experience", "Skills"]
+  },
+  {
+    "id": "hospitality",
+    "label": "Hospitality",
+    "sections": ["Contact Info", "Summary", "Experience", "Skills"]
+  },
+  {
+    "id": "tech",
+    "label": "Entry-Level Tech",
+    "sections": ["Contact Info", "Summary", "Experience", "Skills"]
+  }
+]

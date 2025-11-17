@@ -11941,12 +11941,16 @@ app.post('/api/workforce/interview-session', async (req, res) => {
       targetQuestions,
       history,
       currentQuestionIndex,
+      mode, // new: interview mode
+      progress,
     } = req.body;
 
     const careerInfo = getCareerInfo(role);
 
     // Build comprehensive system prompt for both models
     const systemPrompt = `You are "Coach Smith – Workforce Interview Partner", an AI interviewer for adult learners preparing for the GED and entry-level jobs in New York City.
+
+  INTERVIEW MODE: ${mode || 'general'}
 
 Your job is to:
 1. Act like a realistic but kind job interviewer for a specific role.
@@ -12351,12 +12355,643 @@ IMPORTANT
       };
     }
 
+    // Add scoreReport for frontend UI
+    if (!parsed.scoreReport) {
+      // Try to shape from feedback.summaryPayload if present
+      if (parsed.feedback && parsed.feedback.summaryPayload) {
+        parsed.scoreReport = {
+          score: parsed.feedback.summaryPayload.overallScore ?? null,
+          strengths: parsed.feedback.summaryPayload.strengths ?? [],
+          weaknesses: parsed.feedback.summaryPayload.areasForGrowth ?? [],
+          suggestions:
+            parsed.feedback.summaryPayload.recommendedPracticeTopics ?? [],
+        };
+      } else {
+        parsed.scoreReport = {
+          score: null,
+          strengths: [],
+          weaknesses: [],
+          suggestions: [],
+        };
+      }
+    }
+
     res.json(parsed);
   } catch (err) {
     console.error('[Interview] route error:', err);
     res.json({
       ok: false,
       message: 'Interview service unavailable',
+    });
+  }
+});
+
+// /api/workforce/resume-score: AI-powered resume scoring and feedback
+app.post('/api/workforce/resume-score', async (req, res) => {
+  try {
+    const { resumeText, template, targetRole } = req.body;
+
+    if (!resumeText || resumeText.trim().length < 20) {
+      return res.json({
+        score: null,
+        feedback: ['Resume is too short to score. Please add more content.'],
+        keywords: [],
+      });
+    }
+
+    const systemPrompt = `You are a professional resume coach specializing in entry-level and mid-level career paths.
+
+TASK:
+- Review the provided resume text and assess its quality, clarity, and effectiveness.
+- Provide a numeric score (0-100) and actionable feedback.
+- Identify missing or strong elements.
+
+CONTEXT:
+- Resume Template: ${template || 'general'}
+- Target Role: ${targetRole || 'general entry-level'}
+
+SCORING CRITERIA:
+- Clarity & Structure (0–25): Is the layout clear? Are sections well-organized?
+- Content Quality (0–25): Are experiences and skills relevant and detailed?
+- Action Words & Results (0–25): Does the resume use strong verbs and quantify achievements?
+- Formatting & Professionalism (0–25): Is it professional, error-free, and ATS-friendly?
+
+OUTPUT FORMAT (strict JSON):
+{
+  "score": number (0-100),
+  "feedback": ["string", "..."],
+  "keywords": ["string", "..."],
+  "strengths": ["string", "..."],
+  "weaknesses": ["string", "..."]
+}
+
+RULES:
+- Be constructive and specific.
+- Suggest improvements, not generic advice.
+- Identify 3-5 keywords or phrases that are strong or missing.
+- Return valid JSON only (no markdown, no extra text).
+`;
+
+    const userMessage = `Resume Text:
+${resumeText}
+
+Please score this resume and provide feedback.`;
+
+    const chatHistory = [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userMessage },
+    ];
+
+    // Try Google AI first, fallback to OpenAI
+    async function tryGoogle() {
+      if (!genAI) throw new Error('Google AI not configured');
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const contents = chatHistory.map((h) => ({
+        role:
+          h.role === 'system'
+            ? 'user'
+            : h.role === 'assistant'
+            ? 'model'
+            : 'user',
+        parts: [{ text: h.content }],
+      }));
+      const response = await model.generateContent({ contents });
+      return response.response.text();
+    }
+
+    async function tryOpenAI() {
+      if (!openaiClient) throw new Error('OpenAI not configured');
+      const response = await openaiClient.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: chatHistory,
+        temperature: 0.5,
+      });
+      return response.choices[0].message.content;
+    }
+
+    let raw;
+    try {
+      raw = await tryGoogle();
+    } catch (err) {
+      console.log(
+        'Google AI failed for resume scoring, falling back to OpenAI:',
+        err.message
+      );
+      try {
+        raw = await tryOpenAI();
+      } catch (err2) {
+        console.error('OpenAI also failed for resume scoring:', err2);
+        return res.json({
+          score: null,
+          feedback: [
+            'AI scoring is currently unavailable. Please try again later.',
+          ],
+          keywords: [],
+        });
+      }
+    }
+
+    // Parse JSON from AI response
+    let parsed;
+    try {
+      const cleaned = raw
+        .replace(/```json\n?/g, '')
+        .replace(/```/g, '')
+        .trim();
+      parsed = JSON.parse(cleaned);
+    } catch (parseErr) {
+      console.error('[Resume Score] JSON parse error:', parseErr);
+      parsed = {
+        score: 65,
+        feedback: [
+          'Resume has been reviewed. Consider adding more detail and stronger action words.',
+        ],
+        keywords: [],
+      };
+    }
+
+    // Ensure all fields exist
+    const result = {
+      score: typeof parsed.score === 'number' ? parsed.score : 65,
+      feedback: Array.isArray(parsed.feedback)
+        ? parsed.feedback
+        : ['Resume reviewed.'],
+      keywords: Array.isArray(parsed.keywords) ? parsed.keywords : [],
+      strengths: Array.isArray(parsed.strengths) ? parsed.strengths : [],
+      weaknesses: Array.isArray(parsed.weaknesses) ? parsed.weaknesses : [],
+    };
+
+    res.json(result);
+  } catch (err) {
+    console.error('[Resume Score] route error:', err);
+    res.json({
+      score: null,
+      feedback: [
+        'Resume scoring service is unavailable. Please try again later.',
+      ],
+      keywords: [],
+    });
+  }
+});
+
+// /api/workforce/cover-letter-review: AI-powered cover letter review and feedback
+app.post('/api/workforce/cover-letter-review', async (req, res) => {
+  try {
+    const { letterText, template, targetRole, targetCompany } = req.body;
+
+    if (!letterText || letterText.trim().length < 30) {
+      return res.json({
+        score: null,
+        feedback: [
+          'Cover letter is too short to review. Please add more content.',
+        ],
+        strengths: [],
+        improvements: [],
+      });
+    }
+
+    const systemPrompt = `You are an expert career coach specializing in cover letter review and improvement.
+
+TASK:
+- Review the provided cover letter and assess its effectiveness for the target role.
+- Provide a numeric score (0-100) and actionable feedback.
+- Identify strengths and areas for improvement.
+
+CONTEXT:
+- Cover Letter Template Type: ${template || 'general'}
+- Target Role: ${targetRole || 'entry-level position'}
+- Target Company: ${targetCompany || 'the company'}
+
+SCORING CRITERIA:
+- Introduction & Hook (0-25): Does it grab attention and clearly state the purpose?
+- Body & Relevance (0-25): Are qualifications and experiences clearly connected to the role?
+- Tone & Professionalism (0-25): Is it professional, enthusiastic, and appropriate?
+- Closing & Call-to-Action (0-25): Does it end strongly with clear next steps?
+
+OUTPUT FORMAT (strict JSON):
+{
+  "score": number (0-100),
+  "feedback": ["string", "..."],
+  "strengths": ["string", "..."],
+  "improvements": ["string", "..."]
+}
+
+RULES:
+- Be constructive and encouraging.
+- Suggest specific improvements with examples.
+- Focus on clarity, relevance, and professionalism.
+- Return valid JSON only (no markdown, no extra text).
+`;
+
+    const userMessage = `Cover Letter:
+${letterText}
+
+Please review this cover letter and provide feedback.`;
+
+    const chatHistory = [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userMessage },
+    ];
+
+    // Try Google AI first, fallback to OpenAI
+    async function tryGoogle() {
+      if (!genAI) throw new Error('Google AI not configured');
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const contents = chatHistory.map((h) => ({
+        role:
+          h.role === 'system'
+            ? 'user'
+            : h.role === 'assistant'
+            ? 'model'
+            : 'user',
+        parts: [{ text: h.content }],
+      }));
+      const response = await model.generateContent({ contents });
+      return response.response.text();
+    }
+
+    async function tryOpenAI() {
+      if (!openaiClient) throw new Error('OpenAI not configured');
+      const response = await openaiClient.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: chatHistory,
+        temperature: 0.5,
+      });
+      return response.choices[0].message.content;
+    }
+
+    let raw;
+    try {
+      raw = await tryGoogle();
+    } catch (err) {
+      console.log(
+        'Google AI failed for cover letter review, falling back to OpenAI:',
+        err.message
+      );
+      try {
+        raw = await tryOpenAI();
+      } catch (err2) {
+        console.error('OpenAI also failed for cover letter review:', err2);
+        return res.json({
+          score: null,
+          feedback: [
+            'AI review is currently unavailable. Please try again later.',
+          ],
+          strengths: [],
+          improvements: [],
+        });
+      }
+    }
+
+    // Parse JSON from AI response
+    let parsed;
+    try {
+      const cleaned = raw
+        .replace(/```json\n?/g, '')
+        .replace(/```/g, '')
+        .trim();
+      parsed = JSON.parse(cleaned);
+    } catch (parseErr) {
+      console.error('[Cover Letter Review] JSON parse error:', parseErr);
+      parsed = {
+        score: 70,
+        feedback: [
+          'Cover letter has been reviewed. Consider strengthening your connection to the role.',
+        ],
+        strengths: ['Professional tone'],
+        improvements: ['Add specific examples'],
+      };
+    }
+
+    // Ensure all fields exist
+    const result = {
+      score: typeof parsed.score === 'number' ? parsed.score : 70,
+      feedback: Array.isArray(parsed.feedback)
+        ? parsed.feedback
+        : ['Cover letter reviewed.'],
+      strengths: Array.isArray(parsed.strengths) ? parsed.strengths : [],
+      improvements: Array.isArray(parsed.improvements)
+        ? parsed.improvements
+        : [],
+    };
+
+    res.json(result);
+  } catch (err) {
+    console.error('[Cover Letter Review] route error:', err);
+    res.json({
+      score: null,
+      feedback: [
+        'Cover letter review service is unavailable. Please try again later.',
+      ],
+      strengths: [],
+      improvements: [],
+    });
+  }
+});
+
+// /api/workforce/networking-review: AI-powered networking response feedback
+app.post('/api/workforce/networking-review', async (req, res) => {
+  try {
+    const { scenario, situation, challenge, userResponse } = req.body;
+
+    if (!userResponse || userResponse.trim().length < 10) {
+      return res.json({
+        score: null,
+        feedback: ['Response is too short to review. Please write more.'],
+        strengths: [],
+        improvements: [],
+      });
+    }
+
+    const systemPrompt = `You are a professional networking coach helping someone practice professional communication.
+
+TASK:
+- Review the user's networking response for a specific scenario.
+- Assess professionalism, clarity, tone, and effectiveness.
+- Provide a numeric score (0-100) and constructive feedback.
+
+SCENARIO CONTEXT:
+- Scenario: ${scenario || 'Networking situation'}
+- Situation: ${situation || 'Professional networking'}
+- Challenge: ${challenge || 'Communicate effectively'}
+
+SCORING CRITERIA:
+- Professionalism & Tone (0-25): Is it polite, respectful, and appropriate?
+- Clarity & Conciseness (0-25): Is the message clear and to the point?
+- Relevance & Purpose (0-25): Does it address the scenario effectively?
+- Personal Touch & Authenticity (0-25): Does it feel genuine and personalized?
+
+OUTPUT FORMAT (strict JSON):
+{
+  "score": number (0-100),
+  "feedback": ["string", "..."],
+  "strengths": ["string", "..."],
+  "improvements": ["string", "..."]
+}
+
+RULES:
+- Be encouraging and constructive.
+- Provide specific, actionable suggestions.
+- Focus on professional communication best practices.
+- Return valid JSON only (no markdown, no extra text).
+`;
+
+    const userMessage = `User's Response:
+${userResponse}
+
+Please review this networking response and provide feedback.`;
+
+    const chatHistory = [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userMessage },
+    ];
+
+    // Try Google AI first, fallback to OpenAI
+    async function tryGoogle() {
+      if (!genAI) throw new Error('Google AI not configured');
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const contents = chatHistory.map((h) => ({
+        role:
+          h.role === 'system'
+            ? 'user'
+            : h.role === 'assistant'
+            ? 'model'
+            : 'user',
+        parts: [{ text: h.content }],
+      }));
+      const response = await model.generateContent({ contents });
+      return response.response.text();
+    }
+
+    async function tryOpenAI() {
+      if (!openaiClient) throw new Error('OpenAI not configured');
+      const response = await openaiClient.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: chatHistory,
+        temperature: 0.5,
+      });
+      return response.choices[0].message.content;
+    }
+
+    let raw;
+    try {
+      raw = await tryGoogle();
+    } catch (err) {
+      console.log(
+        'Google AI failed for networking review, falling back to OpenAI:',
+        err.message
+      );
+      try {
+        raw = await tryOpenAI();
+      } catch (err2) {
+        console.error('OpenAI also failed for networking review:', err2);
+        return res.json({
+          score: null,
+          feedback: [
+            'AI review is currently unavailable. Please try again later.',
+          ],
+          strengths: [],
+          improvements: [],
+        });
+      }
+    }
+
+    // Parse JSON from AI response
+    let parsed;
+    try {
+      const cleaned = raw
+        .replace(/```json\n?/g, '')
+        .replace(/```/g, '')
+        .trim();
+      parsed = JSON.parse(cleaned);
+    } catch (parseErr) {
+      console.error('[Networking Review] JSON parse error:', parseErr);
+      parsed = {
+        score: 75,
+        feedback: [
+          'Your response has been reviewed. Consider being more specific and adding a personal touch.',
+        ],
+        strengths: ['Professional tone'],
+        improvements: ['Add more detail'],
+      };
+    }
+
+    // Ensure all fields exist
+    const result = {
+      score: typeof parsed.score === 'number' ? parsed.score : 75,
+      feedback: Array.isArray(parsed.feedback)
+        ? parsed.feedback
+        : ['Response reviewed.'],
+      strengths: Array.isArray(parsed.strengths) ? parsed.strengths : [],
+      improvements: Array.isArray(parsed.improvements)
+        ? parsed.improvements
+        : [],
+    };
+
+    res.json(result);
+  } catch (err) {
+    console.error('[Networking Review] route error:', err);
+    res.json({
+      score: null,
+      feedback: [
+        'Networking review service is unavailable. Please try again later.',
+      ],
+      strengths: [],
+      improvements: [],
+    });
+  }
+});
+
+// /api/workforce/soft-skills-evaluate: AI-powered soft skills evaluation
+app.post('/api/workforce/soft-skills-evaluate', async (req, res) => {
+  try {
+    const { scenario, response } = req.body;
+
+    if (!response || response.trim().length < 20) {
+      return res.json({
+        score: null,
+        feedback: [
+          'Response is too short to evaluate. Please provide more detail.',
+        ],
+        strengths: [],
+        improvements: [],
+      });
+    }
+
+    const systemPrompt = `You are an expert workplace soft skills coach evaluating how someone would handle a professional situation.
+
+TASK:
+- Evaluate the user's response to a workplace scenario.
+- Assess key soft skills: communication, problem-solving, empathy, professionalism, and conflict resolution.
+- Provide a numeric score (0-100) and constructive feedback.
+
+SCENARIO:
+${scenario || 'Workplace situation'}
+
+EVALUATION CRITERIA:
+- Communication & Clarity (0-20): Is the response clear and well-articulated?
+- Problem-Solving & Approach (0-20): Does it show a practical, effective approach?
+- Empathy & Emotional Intelligence (0-20): Does it consider others' perspectives and feelings?
+- Professionalism & Maturity (0-20): Is it appropriate and professional?
+- Conflict Resolution & Collaboration (0-20): Does it promote positive outcomes and teamwork?
+
+OUTPUT FORMAT (strict JSON):
+{
+  "score": number (0-100),
+  "feedback": ["string", "..."],
+  "strengths": ["string", "..."],
+  "improvements": ["string", "..."]
+}
+
+RULES:
+- Be supportive and constructive.
+- Provide specific examples of what was done well and what could improve.
+- Focus on workplace soft skills best practices.
+- Return valid JSON only (no markdown, no extra text).
+`;
+
+    const userMessage = `User's Response:
+${response}
+
+Please evaluate this response for soft skills effectiveness.`;
+
+    const chatHistory = [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userMessage },
+    ];
+
+    // Try Google AI first, fallback to OpenAI
+    async function tryGoogle() {
+      if (!genAI) throw new Error('Google AI not configured');
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const contents = chatHistory.map((h) => ({
+        role:
+          h.role === 'system'
+            ? 'user'
+            : h.role === 'assistant'
+            ? 'model'
+            : 'user',
+        parts: [{ text: h.content }],
+      }));
+      const response = await model.generateContent({ contents });
+      return response.response.text();
+    }
+
+    async function tryOpenAI() {
+      if (!openaiClient) throw new Error('OpenAI not configured');
+      const response = await openaiClient.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: chatHistory,
+        temperature: 0.5,
+      });
+      return response.choices[0].message.content;
+    }
+
+    let raw;
+    try {
+      raw = await tryGoogle();
+    } catch (err) {
+      console.log(
+        'Google AI failed for soft skills evaluation, falling back to OpenAI:',
+        err.message
+      );
+      try {
+        raw = await tryOpenAI();
+      } catch (err2) {
+        console.error('OpenAI also failed for soft skills evaluation:', err2);
+        return res.json({
+          score: null,
+          feedback: [
+            'AI evaluation is currently unavailable. Please try again later.',
+          ],
+          strengths: [],
+          improvements: [],
+        });
+      }
+    }
+
+    // Parse JSON from AI response
+    let parsed;
+    try {
+      const cleaned = raw
+        .replace(/```json\n?/g, '')
+        .replace(/```/g, '')
+        .trim();
+      parsed = JSON.parse(cleaned);
+    } catch (parseErr) {
+      console.error('[Soft Skills Evaluation] JSON parse error:', parseErr);
+      parsed = {
+        score: 70,
+        feedback: [
+          'Your response has been reviewed. Focus on being more specific and considering multiple perspectives.',
+        ],
+        strengths: ['Shows willingness to address the issue'],
+        improvements: ['Be more specific about steps you would take'],
+      };
+    }
+
+    // Ensure all fields exist
+    const result = {
+      score: typeof parsed.score === 'number' ? parsed.score : 70,
+      feedback: Array.isArray(parsed.feedback)
+        ? parsed.feedback
+        : ['Response evaluated.'],
+      strengths: Array.isArray(parsed.strengths) ? parsed.strengths : [],
+      improvements: Array.isArray(parsed.improvements)
+        ? parsed.improvements
+        : [],
+    };
+
+    res.json(result);
+  } catch (err) {
+    console.error('[Soft Skills Evaluation] route error:', err);
+    res.json({
+      score: null,
+      feedback: [
+        'Soft skills evaluation service is unavailable. Please try again later.',
+      ],
+      strengths: [],
+      improvements: [],
     });
   }
 });

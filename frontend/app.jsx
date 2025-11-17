@@ -1,3 +1,63 @@
+// --- InterviewScoreReport component ---
+function InterviewScoreReport({ score, strengths, weaknesses, suggestions }) {
+  return (
+    <div className="p-4 border rounded-xl bg-blue-50 dark:bg-blue-900/30 mb-4 max-w-xl">
+      <div className="flex items-center gap-4 mb-2">
+        <span className="text-2xl font-bold text-blue-800 dark:text-blue-200">
+          Score: {score ?? '--'} / 100
+        </span>
+      </div>
+      <div className="mb-2">
+        <span className="font-semibold text-green-700 dark:text-green-300">
+          Strengths:
+        </span>
+        <ul className="list-disc ml-5">
+          {(strengths || []).length > 0 ? (
+            strengths.map((s, i) => (
+              <li key={i} className="text-slate-700 dark:text-slate-300">
+                {s}
+              </li>
+            ))
+          ) : (
+            <li className="text-slate-500">None listed</li>
+          )}
+        </ul>
+      </div>
+      <div className="mb-2">
+        <span className="font-semibold text-orange-700 dark:text-orange-300">
+          Weaknesses:
+        </span>
+        <ul className="list-disc ml-5">
+          {(weaknesses || []).length > 0 ? (
+            weaknesses.map((w, i) => (
+              <li key={i} className="text-slate-700 dark:text-slate-300">
+                {w}
+              </li>
+            ))
+          ) : (
+            <li className="text-slate-500">None listed</li>
+          )}
+        </ul>
+      </div>
+      <div>
+        <span className="font-semibold text-blue-700 dark:text-blue-300">
+          Suggestions:
+        </span>
+        <ul className="list-disc ml-5">
+          {(suggestions || []).length > 0 ? (
+            suggestions.map((s, i) => (
+              <li key={i} className="text-slate-700 dark:text-slate-300">
+                {s}
+              </li>
+            ))
+          ) : (
+            <li className="text-slate-500">None listed</li>
+          )}
+        </ul>
+      </div>
+    </div>
+  );
+}
 /* global React, ReactDOM */
 
 // pull hooks from the global React (because we're using CDN React, not imports)
@@ -23133,6 +23193,8 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     </div>
   );
 }
+
+// Icon components moved to top-level scope
 const HomeIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -38729,6 +38791,11 @@ function WorkforceHub({ onBack }) {
           desc="Email, files, safety, spreadsheets"
         />
         <ToolCard
+          id="networking"
+          title="Networking Tips"
+          desc="AI coach and practice scenarios"
+        />
+        <ToolCard
           id="budget"
           title="Budget & Salary"
           desc="Compare salary vs. monthly costs"
@@ -38760,6 +38827,7 @@ function WorkforceHub({ onBack }) {
         {tool === 'interview' && <WorkforceInterviewPractice />}
         {tool === 'softskills' && <WorkforceSoftSkillsTrainer />}
         {tool === 'digitallit' && <WorkforceDigitalLiteracyTrainer />}
+        {tool === 'networking' && <WorkforceNetworkingTips />}
         {tool === 'budget' && <WorkforceBudgetCalculator />}
         {tool === 'tracker' && <WorkforceApplicationTracker />}
         {tool === 'simulation' && (
@@ -39226,6 +39294,16 @@ function WorkforceCareerPathFinder() {
 }
 
 function WorkforceResumeBuilder() {
+  // Resume templates
+  const RESUME_TEMPLATES = [
+    { id: 'retail', label: 'Retail / Customer Service' },
+    { id: 'office', label: 'Office / Admin' },
+    { id: 'childcare', label: 'Childcare / Youth Programs' },
+    { id: 'healthcare', label: 'Home Health / CNA' },
+    { id: 'hospitality', label: 'Hospitality' },
+    { id: 'tech', label: 'Entry-Level Tech' },
+  ];
+
   const [form, setForm] = React.useState(() => {
     try {
       const raw = localStorage.getItem(WORKFORCE_RESUME_STORAGE_KEY);
@@ -39250,6 +39328,13 @@ function WorkforceResumeBuilder() {
       };
     }
   });
+  const [selectedTemplate, setSelectedTemplate] = React.useState(
+    RESUME_TEMPLATES[0].id
+  );
+  const [score, setScore] = React.useState(null);
+  const [scoreFeedback, setScoreFeedback] = React.useState([]);
+  const [scoreKeywords, setScoreKeywords] = React.useState([]);
+  const [scoring, setScoring] = React.useState(false);
 
   const save = () => {
     try {
@@ -39292,9 +39377,81 @@ function WorkforceResumeBuilder() {
       experiences: f.experiences.filter((_, idx) => idx !== i),
     }));
 
+  // Score resume via backend
+  async function scoreResume() {
+    setScoring(true);
+    setScore(null);
+    setScoreFeedback([]);
+    setScoreKeywords([]);
+    try {
+      // Construct plain text resume
+      const resumeText = `
+${form.name || 'Name not provided'}
+${[form.email, form.phone].filter(Boolean).join(' | ')}
+
+${form.summary ? 'SUMMARY:\n' + form.summary : ''}
+
+${form.skills ? 'SKILLS:\n' + form.skills : ''}
+
+${
+  form.experiences.length > 0
+    ? 'EXPERIENCE:\n' +
+      form.experiences
+        .map(
+          (e) =>
+            `${e.role || 'Role'} at ${e.company || 'Company'} (${[
+              e.start,
+              e.end,
+            ]
+              .filter(Boolean)
+              .join(' - ')})\n${e.details || ''}`
+        )
+        .join('\n\n')
+    : ''
+}
+      `.trim();
+
+      const res = await fetch('/api/workforce/resume-score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          resumeText,
+          template: selectedTemplate,
+          targetRole: form.experiences[0]?.role || 'entry-level position',
+        }),
+      });
+      const data = await res.json();
+      setScore(data.score ?? null);
+      setScoreFeedback(data.feedback ?? []);
+      setScoreKeywords(data.keywords ?? []);
+    } catch (err) {
+      setScore(null);
+      setScoreFeedback(['Could not score resume. Try again later.']);
+      setScoreKeywords([]);
+    } finally {
+      setScoring(false);
+    }
+  }
+
   return (
     <div className="grid md:grid-cols-2 gap-4">
       <div>
+        <div className="mb-2">
+          <label className="block text-sm font-semibold mb-1">
+            Resume Template
+          </label>
+          <select
+            value={selectedTemplate}
+            onChange={(e) => setSelectedTemplate(e.target.value)}
+            className="w-full border p-2 rounded-lg bg-white dark:bg-slate-800"
+          >
+            {RESUME_TEMPLATES.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.label}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <input
             className="px-3 py-2 border rounded-md"
@@ -39347,6 +39504,13 @@ function WorkforceResumeBuilder() {
           >
             Clear
           </button>
+          <button
+            onClick={scoreResume}
+            className="px-3 py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700"
+            disabled={scoring}
+          >
+            {scoring ? 'Scoring...' : 'Score Resume'}
+          </button>
         </div>
         <div className="mt-3 space-y-3">
           {form.experiences.map((exp, i) => (
@@ -39395,6 +39559,34 @@ function WorkforceResumeBuilder() {
             </div>
           ))}
         </div>
+        {/* Resume Score UI */}
+        {(score !== null || scoreFeedback.length > 0) && (
+          <div className="mt-4 p-4 border rounded-xl bg-blue-50 dark:bg-blue-900/30">
+            <div className="font-bold text-blue-800 dark:text-blue-200 text-lg mb-2">
+              Resume Score: {score !== null ? `${score}/100` : '--'}
+            </div>
+            {scoreFeedback.length > 0 && (
+              <div className="mb-2">
+                <span className="font-semibold">Feedback:</span>
+                <ul className="list-disc ml-5">
+                  {scoreFeedback.map((f, i) => (
+                    <li key={i} className="text-slate-700 dark:text-slate-300">
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {scoreKeywords.length > 0 && (
+              <div>
+                <span className="font-semibold">Keywords:</span>
+                <span className="ml-2 text-slate-700 dark:text-slate-300">
+                  {scoreKeywords.join(', ')}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <div>
         <h3 className="text-lg font-semibold mb-2">Preview</h3>
@@ -39438,16 +39630,28 @@ function WorkforceResumeBuilder() {
 }
 
 function WorkforceInterviewPractice() {
+  // Interview modes
+  const INTERVIEW_MODES = [
+    { id: 'retail', label: 'Retail / Customer Service' },
+    { id: 'office', label: 'Office / Admin' },
+    { id: 'healthcare', label: 'Healthcare Support' },
+    { id: 'childcare', label: 'Childcare / Youth Worker' },
+    { id: 'hospitality', label: 'Hospitality' },
+    { id: 'general', label: 'General Practice' },
+  ];
+
   const [role, setRole] = React.useState('');
   const [experienceLevel, setExperienceLevel] = React.useState('entry');
   const [interviewStyle, setInterviewStyle] = React.useState('general');
   const [sessionMode, setSessionMode] = React.useState('quick');
   const [targetQuestions, setTargetQuestions] = React.useState(5);
+  const [selectedMode, setSelectedMode] = React.useState('general');
 
   const [messages, setMessages] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
   const [summary, setSummary] = React.useState(null);
+  const [scoreReport, setScoreReport] = React.useState(null);
   const [sessionStarted, setSessionStarted] = React.useState(false);
 
   const [speechSupported, setSpeechSupported] = React.useState(false);
@@ -39532,8 +39736,8 @@ function WorkforceInterviewPractice() {
     setSessionStarted(true);
     setMessages([]);
     setSummary(null);
+    setScoreReport(null);
     setCurrentQuestionIndex(0);
-
     // Send initial request to get first question
     await sendAnswer('START_SESSION');
   }
@@ -39578,12 +39782,30 @@ function WorkforceInterviewPractice() {
             targetQuestions,
             history,
             currentQuestionIndex,
+            mode: selectedMode,
+            progress: { currentQuestionIndex, targetQuestions },
           }),
         }
       );
 
       const data = await res.json();
       console.log('[Interview] raw response from backend:', data);
+
+      // Score report UI
+      if (data && data.scoreReport) {
+        setScoreReport(data.scoreReport);
+      } else if (data && data.feedback && data.feedback.summaryPayload) {
+        // fallback for legacy shape
+        setScoreReport({
+          score: data.feedback.summaryPayload.overallScore ?? null,
+          strengths: data.feedback.summaryPayload.strengths ?? [],
+          weaknesses: data.feedback.summaryPayload.areasForGrowth ?? [],
+          suggestions:
+            data.feedback.summaryPayload.recommendedPracticeTopics ?? [],
+        });
+      } else {
+        setScoreReport(null);
+      }
 
       const hasQuestion =
         data &&
@@ -39645,6 +39867,7 @@ function WorkforceInterviewPractice() {
               setSessionStarted(false);
               setMessages([]);
               setSummary(null);
+              setScoreReport(null);
               setPendingText('');
             }}
             className="px-3 py-1 text-sm bg-slate-200 dark:bg-slate-700 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600"
@@ -39653,6 +39876,28 @@ function WorkforceInterviewPractice() {
           </button>
         )}
       </div>
+
+      {/* Interview Mode Dropdown */}
+      <div className="mb-2">
+        <label className="block text-sm font-semibold mb-1">
+          Interview Mode
+        </label>
+        <select
+          value={selectedMode}
+          onChange={(e) => setSelectedMode(e.target.value)}
+          className="w-full border p-2 rounded-lg bg-white dark:bg-slate-800 max-w-xs"
+          style={{ maxWidth: 320 }}
+        >
+          {INTERVIEW_MODES.map((mode) => (
+            <option key={mode.id} value={mode.id}>
+              {mode.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Score Report UI */}
+      {scoreReport && <InterviewScoreReport {...scoreReport} />}
 
       {!sessionStarted ? (
         <div className="space-y-4">
@@ -39897,6 +40142,16 @@ function WorkforceInterviewPractice() {
 }
 
 function WorkforceCoverLetterBuilder() {
+  // Cover letter templates
+  const COVER_LETTER_TEMPLATES = [
+    { id: 'retail', label: 'Retail / Customer Service' },
+    { id: 'office', label: 'Office / Administrative' },
+    { id: 'healthcare', label: 'Healthcare Support / CNA' },
+    { id: 'hospitality', label: 'Hospitality / Food Service' },
+    { id: 'childcare', label: 'Childcare / Youth Programs' },
+    { id: 'general', label: 'General Entry-Level' },
+  ];
+
   const [data, setData] = React.useState(() => {
     try {
       const raw = localStorage.getItem(WORKFORCE_COVER_LETTER_STORAGE_KEY);
@@ -39914,6 +40169,15 @@ function WorkforceCoverLetterBuilder() {
       };
     }
   });
+
+  const [selectedTemplate, setSelectedTemplate] = React.useState(
+    COVER_LETTER_TEMPLATES[0].id
+  );
+  const [score, setScore] = React.useState(null);
+  const [feedback, setFeedback] = React.useState([]);
+  const [strengths, setStrengths] = React.useState([]);
+  const [improvements, setImprovements] = React.useState([]);
+  const [reviewing, setReviewing] = React.useState(false);
   const save = () => {
     try {
       localStorage.setItem(
@@ -39936,9 +40200,105 @@ function WorkforceCoverLetterBuilder() {
       localStorage.removeItem(WORKFORCE_COVER_LETTER_STORAGE_KEY);
     } catch {}
   };
+
+  const loadTemplate = async (templateId) => {
+    try {
+      const res = await fetch('/data/cover-letter-templates.json');
+      const json = await res.json();
+      const template = json.templates.find((t) => t.id === templateId);
+      if (template) {
+        setData({
+          ...data,
+          intro: template.intro
+            .replace('[ROLE]', data.role || 'the position')
+            .replace('[COMPANY]', data.company || 'your company'),
+          body: template.body.replace(
+            '[COMPANY]',
+            data.company || 'your company'
+          ),
+          closing: template.closing,
+        });
+      }
+    } catch (err) {
+      console.error('Failed to load cover letter template:', err);
+    }
+  };
+
+  const reviewLetter = async () => {
+    setReviewing(true);
+    setScore(null);
+    setFeedback([]);
+    setStrengths([]);
+    setImprovements([]);
+    try {
+      const letterText = `
+Dear Hiring Manager at ${data.company || 'Company'},
+
+I am applying for the ${data.role || 'Position'} position.
+
+${data.intro}
+
+${data.body}
+
+${data.closing}
+
+Sincerely,
+${data.name || 'Your Name'}
+      `.trim();
+
+      const res = await fetch('/api/workforce/cover-letter-review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          letterText,
+          template: selectedTemplate,
+          targetRole: data.role || 'entry-level position',
+          targetCompany: data.company || 'the company',
+        }),
+      });
+      const result = await res.json();
+      setScore(result.score ?? null);
+      setFeedback(result.feedback ?? []);
+      setStrengths(result.strengths ?? []);
+      setImprovements(result.improvements ?? []);
+    } catch (err) {
+      setScore(null);
+      setFeedback(['Could not review cover letter. Try again later.']);
+      setStrengths([]);
+      setImprovements([]);
+    } finally {
+      setReviewing(false);
+    }
+  };
   return (
     <div className="grid md:grid-cols-2 gap-4">
       <div>
+        {/* Template Selection */}
+        <div className="mb-3">
+          <label className="block text-sm font-semibold mb-1">
+            Cover Letter Template
+          </label>
+          <div className="flex gap-2">
+            <select
+              value={selectedTemplate}
+              onChange={(e) => setSelectedTemplate(e.target.value)}
+              className="flex-1 border p-2 rounded-lg bg-white dark:bg-slate-800"
+            >
+              {COVER_LETTER_TEMPLATES.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.label}
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={() => loadTemplate(selectedTemplate)}
+              className="px-3 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700"
+            >
+              Load Template
+            </button>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <input
             className="px-3 py-2 border rounded-md"
@@ -39980,20 +40340,78 @@ function WorkforceCoverLetterBuilder() {
           value={data.closing}
           onChange={(e) => setData({ ...data, closing: e.target.value })}
         />
-        <div className="mt-3 flex items-center gap-2">
+        <div className="mt-3 flex items-center gap-2 flex-wrap">
           <button
             onClick={save}
-            className="px-3 py-2 rounded-md bg-teal-600 text-white font-semibold"
+            className="px-3 py-2 rounded-md bg-teal-600 text-white font-semibold hover:bg-teal-700"
           >
             Save
           </button>
           <button
             onClick={clear}
-            className="px-3 py-2 rounded-md bg-slate-100 hover:bg-slate-200 font-semibold"
+            className="px-3 py-2 rounded-md bg-slate-100 hover:bg-slate-200 font-semibold dark:bg-slate-700 dark:hover:bg-slate-600"
           >
             Clear
           </button>
+          <button
+            onClick={reviewLetter}
+            className="px-3 py-2 rounded-md bg-purple-600 text-white font-semibold hover:bg-purple-700"
+            disabled={reviewing || !data.intro.trim() || !data.body.trim()}
+          >
+            {reviewing ? 'Reviewing...' : 'AI Review'}
+          </button>
         </div>
+
+        {/* AI Review Results */}
+        {(score !== null || feedback.length > 0) && (
+          <div className="mt-4 p-4 border rounded-xl bg-purple-50 dark:bg-purple-900/30">
+            <div className="font-bold text-purple-800 dark:text-purple-200 text-lg mb-2">
+              Cover Letter Score: {score !== null ? `${score}/100` : '--'}
+            </div>
+            {feedback.length > 0 && (
+              <div className="mb-2">
+                <span className="font-semibold text-purple-900 dark:text-purple-100">
+                  Overall Feedback:
+                </span>
+                <ul className="list-disc ml-5 mt-1">
+                  {feedback.map((f, i) => (
+                    <li key={i} className="text-slate-700 dark:text-slate-300">
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {strengths.length > 0 && (
+              <div className="mb-2">
+                <span className="font-semibold text-green-700 dark:text-green-300">
+                  Strengths:
+                </span>
+                <ul className="list-disc ml-5 mt-1">
+                  {strengths.map((s, i) => (
+                    <li key={i} className="text-slate-700 dark:text-slate-300">
+                      {s}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {improvements.length > 0 && (
+              <div>
+                <span className="font-semibold text-orange-700 dark:text-orange-300">
+                  Suggested Improvements:
+                </span>
+                <ul className="list-disc ml-5 mt-1">
+                  {improvements.map((imp, i) => (
+                    <li key={i} className="text-slate-700 dark:text-slate-300">
+                      {imp}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <div>
         <h3 className="text-lg font-semibold mb-2">Preview</h3>
@@ -40029,6 +40447,12 @@ function WorkforceSoftSkillsTrainer() {
       return {};
     }
   });
+  const [customMode, setCustomMode] = React.useState(false);
+  const [customPrompt, setCustomPrompt] = React.useState('');
+  const [customResponse, setCustomResponse] = React.useState('');
+  const [aiEvaluation, setAiEvaluation] = React.useState(null);
+  const [evaluating, setEvaluating] = React.useState(false);
+
   const answer = (id, choice) => {
     if (answered[id]) return; // lock in first choice
     const scenario = WORKFORCE_SOFT_SKILLS_SCENARIOS.find((s) => s.id === id);
@@ -40047,47 +40471,199 @@ function WorkforceSoftSkillsTrainer() {
       localStorage.removeItem(STORAGE_KEY);
     } catch {}
   };
+
+  const evaluateCustomResponse = async () => {
+    if (!customPrompt.trim() || !customResponse.trim()) return;
+    setEvaluating(true);
+    setAiEvaluation(null);
+    try {
+      const res = await fetch('/api/workforce/soft-skills-evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scenario: customPrompt,
+          response: customResponse,
+        }),
+      });
+      const data = await res.json();
+      setAiEvaluation(data);
+    } catch (err) {
+      setAiEvaluation({
+        score: null,
+        feedback: ['Could not evaluate your response. Please try again later.'],
+        strengths: [],
+        improvements: [],
+      });
+    } finally {
+      setEvaluating(false);
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
         <div className="text-sm text-slate-600 dark:text-slate-300">
-          Score: {score}
+          Multiple Choice Score: {score}
         </div>
-        <button
-          onClick={reset}
-          className="px-3 py-1.5 rounded-md bg-slate-100 hover:bg-slate-200 text-sm font-semibold"
-        >
-          Reset
-        </button>
-      </div>
-      <div className="space-y-3">
-        {WORKFORCE_SOFT_SKILLS_SCENARIOS.map((s) => (
-          <div
-            key={s.id}
-            className="p-3 border rounded-xl bg-white dark:bg-slate-800/70"
+        <div className="flex gap-2">
+          <button
+            onClick={() => setCustomMode(!customMode)}
+            className={`px-3 py-1.5 rounded-md text-sm font-semibold ${
+              customMode
+                ? 'bg-blue-600 text-white'
+                : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600'
+            }`}
           >
-            <div className="font-semibold mb-2">{s.prompt}</div>
-            <div className="grid sm:grid-cols-3 gap-2">
-              {s.choices.map((c, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => answer(s.id, idx)}
-                  className={`px-3 py-2 rounded-md border text-left ${
-                    answered[s.id] === idx
-                      ? 'bg-teal-50 border-teal-300'
-                      : 'bg-white hover:bg-slate-50'
-                  }`}
-                >
-                  <div className="text-sm font-semibold">{c.a}</div>
-                  {answered[s.id] === idx && (
-                    <div className="text-xs text-slate-600 mt-1">{c.tip}</div>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
+            {customMode ? 'Multiple Choice' : 'AI Evaluation Mode'}
+          </button>
+          {!customMode && (
+            <button
+              onClick={reset}
+              className="px-3 py-1.5 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-sm font-semibold"
+            >
+              Reset
+            </button>
+          )}
+        </div>
       </div>
+
+      {!customMode ? (
+        <div className="space-y-3">
+          {WORKFORCE_SOFT_SKILLS_SCENARIOS.map((s) => (
+            <div
+              key={s.id}
+              className="p-3 border rounded-xl bg-white dark:bg-slate-800/70"
+            >
+              <div className="font-semibold mb-2">{s.prompt}</div>
+              <div className="grid sm:grid-cols-3 gap-2">
+                {s.choices.map((c, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => answer(s.id, idx)}
+                    className={`px-3 py-2 rounded-md border text-left ${
+                      answered[s.id] === idx
+                        ? 'bg-teal-50 border-teal-300 dark:bg-teal-900/30 dark:border-teal-500'
+                        : 'bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700'
+                    }`}
+                  >
+                    <div className="text-sm font-semibold">{c.a}</div>
+                    {answered[s.id] === idx && (
+                      <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                        {c.tip}
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="p-4 border rounded-xl bg-slate-50 dark:bg-slate-800/50">
+          <div className="font-bold text-lg mb-2">
+            AI-Powered Soft Skills Evaluation
+          </div>
+          <div className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+            Describe a workplace scenario and how you would handle it. Get AI
+            feedback on your soft skills.
+          </div>
+          <div className="mb-3">
+            <label className="block font-semibold text-sm mb-1">
+              Scenario or Question:
+            </label>
+            <textarea
+              className="w-full px-3 py-2 border rounded-md bg-white dark:bg-slate-800"
+              rows={3}
+              placeholder="Example: Your coworker consistently misses deadlines affecting your work. How do you address this?"
+              value={customPrompt}
+              onChange={(e) => setCustomPrompt(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="block font-semibold text-sm mb-1">
+              Your Response:
+            </label>
+            <textarea
+              className="w-full px-3 py-2 border rounded-md bg-white dark:bg-slate-800"
+              rows={5}
+              placeholder="Describe how you would handle this situation..."
+              value={customResponse}
+              onChange={(e) => setCustomResponse(e.target.value)}
+            />
+          </div>
+          <button
+            onClick={evaluateCustomResponse}
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700"
+            disabled={
+              evaluating || !customPrompt.trim() || !customResponse.trim()
+            }
+          >
+            {evaluating ? 'Evaluating...' : 'Get AI Evaluation'}
+          </button>
+
+          {aiEvaluation && (
+            <div className="mt-4 p-4 border rounded-xl bg-purple-50 dark:bg-purple-900/30">
+              <div className="font-bold text-purple-800 dark:text-purple-200 text-lg mb-2">
+                {aiEvaluation.score !== null
+                  ? `Soft Skills Score: ${aiEvaluation.score}/100`
+                  : 'Evaluation'}
+              </div>
+              {aiEvaluation.feedback && aiEvaluation.feedback.length > 0 && (
+                <div className="mb-2">
+                  <span className="font-semibold text-purple-900 dark:text-purple-100">
+                    Overall Feedback:
+                  </span>
+                  <ul className="list-disc ml-5 mt-1">
+                    {aiEvaluation.feedback.map((f, i) => (
+                      <li
+                        key={i}
+                        className="text-slate-700 dark:text-slate-300 text-sm"
+                      >
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {aiEvaluation.strengths && aiEvaluation.strengths.length > 0 && (
+                <div className="mb-2">
+                  <span className="font-semibold text-green-700 dark:text-green-300">
+                    Strengths:
+                  </span>
+                  <ul className="list-disc ml-5 mt-1">
+                    {aiEvaluation.strengths.map((s, i) => (
+                      <li
+                        key={i}
+                        className="text-slate-700 dark:text-slate-300 text-sm"
+                      >
+                        {s}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {aiEvaluation.improvements &&
+                aiEvaluation.improvements.length > 0 && (
+                  <div>
+                    <span className="font-semibold text-orange-700 dark:text-orange-300">
+                      Areas to Improve:
+                    </span>
+                    <ul className="list-disc ml-5 mt-1">
+                      {aiEvaluation.improvements.map((imp, i) => (
+                        <li
+                          key={i}
+                          className="text-slate-700 dark:text-slate-300 text-sm"
+                        >
+                          {imp}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -40145,6 +40721,262 @@ function WorkforceDigitalLiteracyTrainer() {
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+function WorkforceNetworkingTips() {
+  const NETWORKING_SCENARIOS = [
+    {
+      id: 1,
+      title: 'Professional Introduction',
+      situation:
+        "You're at a job fair and want to introduce yourself to a recruiter from a company you're interested in.",
+      challenge: 'How do you make a strong first impression in 30 seconds?',
+    },
+    {
+      id: 2,
+      title: 'LinkedIn Connection Request',
+      situation:
+        'You met someone briefly at an event and want to connect with them on LinkedIn.',
+      challenge: 'What message do you send with your connection request?',
+    },
+    {
+      id: 3,
+      title: 'Informational Interview',
+      situation:
+        'You want to learn more about a career path from someone working in that field.',
+      challenge:
+        'How do you request an informational interview without seeming pushy?',
+    },
+    {
+      id: 4,
+      title: 'Follow-Up After Meeting',
+      situation:
+        'You had a great conversation with a professional contact at a networking event.',
+      challenge:
+        'How do you follow up within 24-48 hours to stay on their radar?',
+    },
+    {
+      id: 5,
+      title: 'Asking for a Referral',
+      situation:
+        "You're applying for a job at a company where your contact works.",
+      challenge:
+        'How do you ask them to refer you without putting them on the spot?',
+    },
+  ];
+
+  const [selectedScenario, setSelectedScenario] = React.useState(null);
+  const [userResponse, setUserResponse] = React.useState('');
+  const [aiReview, setAiReview] = React.useState(null);
+  const [reviewing, setReviewing] = React.useState(false);
+  const [showTips, setShowTips] = React.useState(true);
+
+  const reviewResponse = async () => {
+    if (!userResponse.trim() || !selectedScenario) return;
+    setReviewing(true);
+    setAiReview(null);
+    try {
+      const res = await fetch('/api/workforce/networking-review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scenario: selectedScenario.title,
+          situation: selectedScenario.situation,
+          challenge: selectedScenario.challenge,
+          userResponse,
+        }),
+      });
+      const data = await res.json();
+      setAiReview(data);
+    } catch (err) {
+      setAiReview({
+        score: null,
+        feedback: ['Could not review your response. Please try again later.'],
+        strengths: [],
+        improvements: [],
+      });
+    } finally {
+      setReviewing(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold">Networking Tips & Practice</h2>
+        <button
+          onClick={() => setShowTips(!showTips)}
+          className="px-3 py-1 bg-slate-200 dark:bg-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-300 dark:hover:bg-slate-600"
+        >
+          {showTips ? 'Hide Tips' : 'Show Tips'}
+        </button>
+      </div>
+
+      {/* General Networking Tips */}
+      {showTips && (
+        <div className="p-4 border rounded-xl bg-blue-50 dark:bg-blue-900/30">
+          <div className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
+            📚 Networking Best Practices
+          </div>
+          <ul className="list-disc ml-5 space-y-1 text-sm text-slate-700 dark:text-slate-300">
+            <li>
+              <strong>Be authentic:</strong> Show genuine interest in others,
+              not just what they can do for you
+            </li>
+            <li>
+              <strong>Listen actively:</strong> Ask questions and remember
+              details about the people you meet
+            </li>
+            <li>
+              <strong>Follow up promptly:</strong> Send a thank-you or follow-up
+              message within 24-48 hours
+            </li>
+            <li>
+              <strong>Offer value:</strong> Share resources, make introductions,
+              or offer your help when possible
+            </li>
+            <li>
+              <strong>Stay professional online:</strong> Keep your LinkedIn and
+              social media profiles current and appropriate
+            </li>
+            <li>
+              <strong>Practice your elevator pitch:</strong> Have a clear,
+              concise introduction ready (30-60 seconds)
+            </li>
+          </ul>
+        </div>
+      )}
+
+      {/* Scenario Selection */}
+      <div>
+        <div className="font-semibold mb-2">
+          Choose a Networking Scenario to Practice:
+        </div>
+        <div className="grid sm:grid-cols-2 gap-3">
+          {NETWORKING_SCENARIOS.map((scenario) => (
+            <button
+              key={scenario.id}
+              onClick={() => {
+                setSelectedScenario(scenario);
+                setUserResponse('');
+                setAiReview(null);
+              }}
+              className={`p-3 border rounded-xl text-left transition ${
+                selectedScenario?.id === scenario.id
+                  ? 'bg-blue-100 border-blue-600 dark:bg-blue-900/30 dark:border-blue-400'
+                  : 'bg-white dark:bg-slate-800/70 hover:bg-slate-50 dark:hover:bg-slate-700'
+              }`}
+            >
+              <div className="font-semibold text-sm">{scenario.title}</div>
+              <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                {scenario.challenge}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Selected Scenario Practice */}
+      {selectedScenario && (
+        <div className="p-4 border rounded-xl bg-slate-50 dark:bg-slate-800/50">
+          <div className="font-bold text-lg mb-2">{selectedScenario.title}</div>
+          <div className="mb-3">
+            <div className="font-semibold text-sm">Situation:</div>
+            <div className="text-sm text-slate-700 dark:text-slate-300">
+              {selectedScenario.situation}
+            </div>
+          </div>
+          <div className="mb-3">
+            <div className="font-semibold text-sm">Your Challenge:</div>
+            <div className="text-sm text-slate-700 dark:text-slate-300">
+              {selectedScenario.challenge}
+            </div>
+          </div>
+          <div className="mb-3">
+            <label className="block font-semibold text-sm mb-1">
+              Your Response:
+            </label>
+            <textarea
+              className="w-full px-3 py-2 border rounded-md bg-white dark:bg-slate-800"
+              rows={5}
+              placeholder="Type your response here..."
+              value={userResponse}
+              onChange={(e) => setUserResponse(e.target.value)}
+            />
+          </div>
+          <button
+            onClick={reviewResponse}
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700"
+            disabled={reviewing || !userResponse.trim()}
+          >
+            {reviewing ? 'Reviewing...' : 'Get AI Feedback'}
+          </button>
+
+          {/* AI Review Results */}
+          {aiReview && (
+            <div className="mt-4 p-4 border rounded-xl bg-purple-50 dark:bg-purple-900/30">
+              <div className="font-bold text-purple-800 dark:text-purple-200 text-lg mb-2">
+                {aiReview.score !== null
+                  ? `Score: ${aiReview.score}/100`
+                  : 'Feedback'}
+              </div>
+              {aiReview.feedback && aiReview.feedback.length > 0 && (
+                <div className="mb-2">
+                  <span className="font-semibold text-purple-900 dark:text-purple-100">
+                    Overall:
+                  </span>
+                  <ul className="list-disc ml-5 mt-1">
+                    {aiReview.feedback.map((f, i) => (
+                      <li
+                        key={i}
+                        className="text-slate-700 dark:text-slate-300 text-sm"
+                      >
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {aiReview.strengths && aiReview.strengths.length > 0 && (
+                <div className="mb-2">
+                  <span className="font-semibold text-green-700 dark:text-green-300">
+                    Strengths:
+                  </span>
+                  <ul className="list-disc ml-5 mt-1">
+                    {aiReview.strengths.map((s, i) => (
+                      <li
+                        key={i}
+                        className="text-slate-700 dark:text-slate-300 text-sm"
+                      >
+                        {s}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {aiReview.improvements && aiReview.improvements.length > 0 && (
+                <div>
+                  <span className="font-semibold text-orange-700 dark:text-orange-300">
+                    Improvements:
+                  </span>
+                  <ul className="list-disc ml-5 mt-1">
+                    {aiReview.improvements.map((imp, i) => (
+                      <li
+                        key={i}
+                        className="text-slate-700 dark:text-slate-300 text-sm"
+                      >
+                        {imp}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -40211,6 +41043,19 @@ function WorkforceBudgetCalculator() {
 }
 
 function WorkforceApplicationTracker() {
+  const STATUS_OPTIONS = [
+    'Researching',
+    'Planned',
+    'Applied',
+    'Phone Screen',
+    'Interview',
+    'Offer',
+    'Accepted',
+    'Rejected',
+    'Withdrew',
+  ];
+  const PRIORITY_OPTIONS = ['Low', 'Medium', 'High'];
+
   const [apps, setApps] = React.useState(() => {
     try {
       const raw = localStorage.getItem(WORKFORCE_APPS_STORAGE_KEY);
@@ -40223,7 +41068,14 @@ function WorkforceApplicationTracker() {
     company: '',
     role: '',
     status: 'Planned',
+    priority: 'Medium',
+    dateApplied: '',
+    contact: '',
+    notes: '',
+    followUpDate: '',
   });
+  const [expandedId, setExpandedId] = React.useState(null);
+  const [viewMode, setViewMode] = React.useState('kanban'); // 'kanban' or 'list'
   const saveAll = (list) => {
     setApps(list);
     try {
@@ -40234,9 +41086,25 @@ function WorkforceApplicationTracker() {
     const c = draft.company.trim();
     const r = draft.role.trim();
     if (!c || !r) return;
-    const next = [{ id: Date.now(), ...draft }, ...apps];
+    const now = new Date().toISOString().split('T')[0];
+    const newApp = {
+      id: Date.now(),
+      ...draft,
+      dateAdded: now,
+      dateApplied: draft.dateApplied || (draft.status === 'Applied' ? now : ''),
+    };
+    const next = [newApp, ...apps];
     saveAll(next);
-    setDraft({ company: '', role: '', status: 'Planned' });
+    setDraft({
+      company: '',
+      role: '',
+      status: 'Planned',
+      priority: 'Medium',
+      dateApplied: '',
+      contact: '',
+      notes: '',
+      followUpDate: '',
+    });
   };
   const update = (id, field, value) => {
     const next = apps.map((a) => (a.id === id ? { ...a, [field]: value } : a));
@@ -40249,71 +41117,266 @@ function WorkforceApplicationTracker() {
 
   return (
     <div>
-      <div className="grid sm:grid-cols-3 gap-2 mb-3">
-        <input
-          className="px-3 py-2 border rounded-md"
-          placeholder="Company"
-          value={draft.company}
-          onChange={(e) => setDraft({ ...draft, company: e.target.value })}
-        />
-        <input
-          className="px-3 py-2 border rounded-md"
-          placeholder="Role"
-          value={draft.role}
-          onChange={(e) => setDraft({ ...draft, role: e.target.value })}
-        />
+      {/* View Toggle */}
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-xl font-bold">Application Tracker</h2>
         <div className="flex gap-2">
-          <select
-            className="px-3 py-2 border rounded-md flex-1"
-            value={draft.status}
-            onChange={(e) => setDraft({ ...draft, status: e.target.value })}
-          >
-            {['Planned', 'Applied', 'Interview', 'Offer', 'Rejected'].map(
-              (s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              )
-            )}
-          </select>
           <button
-            onClick={add}
-            className="px-3 py-2 rounded-md bg-teal-600 text-white font-semibold"
+            onClick={() => setViewMode('kanban')}
+            className={`px-3 py-1 rounded-md text-sm font-semibold ${
+              viewMode === 'kanban'
+                ? 'bg-blue-600 text-white'
+                : 'bg-slate-200 dark:bg-slate-700'
+            }`}
           >
-            Add
+            Kanban View
+          </button>
+          <button
+            onClick={() => setViewMode('list')}
+            className={`px-3 py-1 rounded-md text-sm font-semibold ${
+              viewMode === 'list'
+                ? 'bg-blue-600 text-white'
+                : 'bg-slate-200 dark:bg-slate-700'
+            }`}
+          >
+            List View
           </button>
         </div>
       </div>
 
-      <div className="grid md:grid-cols-5 gap-3 workforce-kanban">
-        {['Planned', 'Applied', 'Interview', 'Offer', 'Rejected'].map((col) => (
-          <div
-            key={col}
-            className="p-3 border rounded-xl bg-white dark:bg-slate-800/70"
+      {/* Add New Application Form */}
+      <div className="p-4 border rounded-xl bg-slate-50 dark:bg-slate-800/50 mb-4">
+        <div className="font-semibold mb-2">Add New Application</div>
+        <div className="grid sm:grid-cols-2 gap-2 mb-2">
+          <input
+            className="px-3 py-2 border rounded-md bg-white dark:bg-slate-800"
+            placeholder="Company *"
+            value={draft.company}
+            onChange={(e) => setDraft({ ...draft, company: e.target.value })}
+          />
+          <input
+            className="px-3 py-2 border rounded-md bg-white dark:bg-slate-800"
+            placeholder="Role / Position *"
+            value={draft.role}
+            onChange={(e) => setDraft({ ...draft, role: e.target.value })}
+          />
+        </div>
+        <div className="grid sm:grid-cols-4 gap-2 mb-2">
+          <select
+            className="px-3 py-2 border rounded-md bg-white dark:bg-slate-800"
+            value={draft.status}
+            onChange={(e) => setDraft({ ...draft, status: e.target.value })}
           >
-            <div className="font-bold mb-2">{col}</div>
-            <div className="space-y-2">
-              {apps
-                .filter((a) => a.status === col)
-                .map((a) => (
-                  <div key={a.id} className="p-2 border rounded-md">
-                    <div className="text-sm font-semibold">{a.role}</div>
-                    <div className="text-xs text-slate-600 dark:text-slate-300">
-                      {a.company}
+            {STATUS_OPTIONS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+          <select
+            className="px-3 py-2 border rounded-md bg-white dark:bg-slate-800"
+            value={draft.priority}
+            onChange={(e) => setDraft({ ...draft, priority: e.target.value })}
+          >
+            {PRIORITY_OPTIONS.map((p) => (
+              <option key={p} value={p}>
+                {p} Priority
+              </option>
+            ))}
+          </select>
+          <input
+            type="date"
+            className="px-3 py-2 border rounded-md bg-white dark:bg-slate-800"
+            placeholder="Date Applied"
+            value={draft.dateApplied}
+            onChange={(e) =>
+              setDraft({ ...draft, dateApplied: e.target.value })
+            }
+          />
+          <input
+            type="date"
+            className="px-3 py-2 border rounded-md bg-white dark:bg-slate-800"
+            placeholder="Follow-up Date"
+            value={draft.followUpDate}
+            onChange={(e) =>
+              setDraft({ ...draft, followUpDate: e.target.value })
+            }
+          />
+        </div>
+        <div className="grid sm:grid-cols-1 gap-2 mb-2">
+          <input
+            className="px-3 py-2 border rounded-md bg-white dark:bg-slate-800"
+            placeholder="Contact (email or phone)"
+            value={draft.contact}
+            onChange={(e) => setDraft({ ...draft, contact: e.target.value })}
+          />
+          <textarea
+            className="px-3 py-2 border rounded-md bg-white dark:bg-slate-800"
+            rows={2}
+            placeholder="Notes (optional)"
+            value={draft.notes}
+            onChange={(e) => setDraft({ ...draft, notes: e.target.value })}
+          />
+        </div>
+        <button
+          onClick={add}
+          className="px-4 py-2 rounded-md bg-teal-600 text-white font-semibold hover:bg-teal-700"
+          disabled={!draft.company.trim() || !draft.role.trim()}
+        >
+          Add Application
+        </button>
+      </div>
+
+      {/* Kanban View */}
+      {viewMode === 'kanban' && (
+        <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-3 workforce-kanban">
+          {STATUS_OPTIONS.map((col) => (
+            <div
+              key={col}
+              className="p-3 border rounded-xl bg-white dark:bg-slate-800/70"
+            >
+              <div className="font-bold mb-2 text-sm">
+                {col} ({apps.filter((a) => a.status === col).length})
+              </div>
+              <div className="space-y-2">
+                {apps
+                  .filter((a) => a.status === col)
+                  .map((a) => {
+                    const priorityColor =
+                      a.priority === 'High'
+                        ? 'border-l-red-500'
+                        : a.priority === 'Medium'
+                        ? 'border-l-yellow-500'
+                        : 'border-l-green-500';
+                    return (
+                      <div
+                        key={a.id}
+                        className={`p-2 border-l-4 border rounded-md bg-slate-50 dark:bg-slate-900/50 ${priorityColor}`}
+                      >
+                        <div className="text-sm font-semibold">{a.role}</div>
+                        <div className="text-xs text-slate-600 dark:text-slate-300 mb-1">
+                          {a.company}
+                        </div>
+                        {a.dateApplied && (
+                          <div className="text-xs text-slate-500">
+                            Applied: {a.dateApplied}
+                          </div>
+                        )}
+                        {a.followUpDate && (
+                          <div className="text-xs text-orange-600 dark:text-orange-400">
+                            Follow-up: {a.followUpDate}
+                          </div>
+                        )}
+                        <div className="flex items-center gap-1 mt-2">
+                          <button
+                            onClick={() =>
+                              setExpandedId(expandedId === a.id ? null : a.id)
+                            }
+                            className="px-2 py-1 rounded-md bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-xs"
+                          >
+                            {expandedId === a.id ? 'Hide' : 'Details'}
+                          </button>
+                          <button
+                            onClick={() => remove(a.id)}
+                            className="px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-xs"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                        {expandedId === a.id && (
+                          <div className="mt-2 pt-2 border-t space-y-1">
+                            <select
+                              className="w-full px-2 py-1 border rounded-md text-xs bg-white dark:bg-slate-800"
+                              value={a.status}
+                              onChange={(e) =>
+                                update(a.id, 'status', e.target.value)
+                              }
+                            >
+                              {STATUS_OPTIONS.map((s) => (
+                                <option key={s} value={s}>
+                                  {s}
+                                </option>
+                              ))}
+                            </select>
+                            {a.contact && (
+                              <div className="text-xs text-slate-600 dark:text-slate-400">
+                                Contact: {a.contact}
+                              </div>
+                            )}
+                            {a.notes && (
+                              <div className="text-xs text-slate-600 dark:text-slate-400 italic">
+                                Notes: {a.notes}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                {apps.filter((a) => a.status === col).length === 0 && (
+                  <div className="text-xs text-slate-500">No items</div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* List View */}
+      {viewMode === 'list' && (
+        <div className="space-y-2">
+          {apps.length === 0 ? (
+            <div className="text-center text-slate-500 py-8">
+              No applications yet. Add one above!
+            </div>
+          ) : (
+            apps.map((a) => {
+              const priorityBadge =
+                a.priority === 'High'
+                  ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                  : a.priority === 'Medium'
+                  ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                  : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+              return (
+                <div
+                  key={a.id}
+                  className="p-3 border rounded-xl bg-white dark:bg-slate-800/70"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="font-bold">{a.role}</div>
+                        <span
+                          className={`px-2 py-0.5 rounded-full text-xs font-semibold ${priorityBadge}`}
+                        >
+                          {a.priority}
+                        </span>
+                      </div>
+                      <div className="text-sm text-slate-600 dark:text-slate-300">
+                        {a.company}
+                      </div>
+                      <div className="flex gap-4 mt-2 text-xs text-slate-500">
+                        {a.dateApplied && <span>Applied: {a.dateApplied}</span>}
+                        {a.followUpDate && (
+                          <span className="text-orange-600 dark:text-orange-400">
+                            Follow-up: {a.followUpDate}
+                          </span>
+                        )}
+                        {a.contact && <span>Contact: {a.contact}</span>}
+                      </div>
+                      {a.notes && (
+                        <div className="mt-2 text-xs text-slate-600 dark:text-slate-400 italic">
+                          {a.notes}
+                        </div>
+                      )}
                     </div>
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-2">
                       <select
-                        className="px-2 py-1 border rounded-md text-sm"
+                        className="px-2 py-1 border rounded-md text-sm bg-white dark:bg-slate-800"
                         value={a.status}
                         onChange={(e) => update(a.id, 'status', e.target.value)}
                       >
-                        {[
-                          'Planned',
-                          'Applied',
-                          'Interview',
-                          'Offer',
-                          'Rejected',
-                        ].map((s) => (
+                        {STATUS_OPTIONS.map((s) => (
                           <option key={s} value={s}>
                             {s}
                           </option>
@@ -40321,20 +41384,18 @@ function WorkforceApplicationTracker() {
                       </select>
                       <button
                         onClick={() => remove(a.id)}
-                        className="px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-xs"
+                        className="px-3 py-1 rounded-md bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-sm font-semibold"
                       >
                         Remove
                       </button>
                     </div>
                   </div>
-                ))}
-              {apps.filter((a) => a.status === col).length === 0 && (
-                <div className="text-xs text-slate-500">No items</div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      )}
     </div>
   );
 }
