@@ -8283,6 +8283,188 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
       : [];
     console.log(`[Variety Pack] Found ${imgs.length} candidate images.`);
 
+    // --- SPECIAL HANDLING FOR SOCIAL STUDIES TOPIC-BASED ---
+    if (subject === 'Social Studies') {
+      console.log(
+        `[SS Topic] Using enhanced SS generation for topic: ${topic}`
+      );
+      try {
+        const timeoutMs = selectModelTimeoutMs({ examType: 'topic' });
+        const aiOptions = { timeoutMs };
+
+        // Load curated resources
+        const ssPassages = getCuratedSocialStudiesPassages(PASSAGE_DB);
+        const ssImages = getCuratedSocialStudiesImages(IMAGE_DB);
+
+        const usedPassageIds = new Set();
+        const usedImages = new Set();
+        const topicQuestions = [];
+
+        // Determine category from topic
+        const topicLower = topic.toLowerCase();
+        let category = 'Civics & Government'; // default
+        if (
+          topicLower.includes('history') ||
+          topicLower.includes('civil war') ||
+          topicLower.includes('revolution')
+        ) {
+          category = 'U.S. History';
+        } else if (
+          topicLower.includes('econom') ||
+          topicLower.includes('trade') ||
+          topicLower.includes('market')
+        ) {
+          category = 'Economics';
+        } else if (
+          topicLower.includes('geograph') ||
+          topicLower.includes('world') ||
+          topicLower.includes('region')
+        ) {
+          category = 'Geography & the World';
+        }
+
+        console.log(
+          `[SS Topic] Mapped topic "${topic}" to category: ${category}`
+        );
+
+        // Generate 1-2 passage-based clusters (4-6 questions)
+        const topicPassages = ssPassages.filter((p) => {
+          const pTopic = (p.topic || '').toLowerCase();
+          const pArea = (p.area || '').toLowerCase();
+          const pTitle = (p.title || '').toLowerCase();
+          return (
+            pTopic.includes(topicLower) ||
+            pArea.includes(topicLower) ||
+            pTitle.includes(topicLower)
+          );
+        });
+
+        const passagesToUse = topicPassages.slice(0, 2);
+        for (const passage of passagesToUse) {
+          if (usedPassageIds.has(passage.id)) continue;
+          usedPassageIds.add(passage.id);
+
+          try {
+            const qs = await generateSocialStudiesPassageSet({
+              category,
+              subject: 'Social Studies',
+              passageSource: passage,
+              numQuestions: 2,
+              aiOptions,
+            });
+            if (qs && qs.length) {
+              topicQuestions.push(...qs);
+              console.log(`[SS Topic] Added ${qs.length} passage questions`);
+            }
+          } catch (err) {
+            console.error('[SS Topic] Passage generation failed:', err.message);
+          }
+        }
+
+        // Generate 1 image-based cluster (2-3 questions)
+        const topicImages =
+          imgs.length > 0
+            ? imgs
+            : ssImages.filter((img) => {
+                const imgCat = (img.category || '').toLowerCase();
+                const imgAlt = (img.altText || '').toLowerCase();
+                return (
+                  imgCat.includes(topicLower) || imgAlt.includes(topicLower)
+                );
+              });
+
+        if (topicImages.length > 0) {
+          const image = topicImages[0];
+          try {
+            const qs = await generateSocialStudiesImageSet({
+              category,
+              subject: 'Social Studies',
+              image,
+              numQuestions: 2,
+              aiOptions,
+              usedImages,
+            });
+            if (qs && qs.length) {
+              topicQuestions.push(...qs);
+              console.log(`[SS Topic] Added ${qs.length} image questions`);
+            }
+          } catch (err) {
+            console.error('[SS Topic] Image generation failed:', err.message);
+          }
+        }
+
+        // Fill remaining with standalone questions
+        const remaining = QUIZ_COUNT - topicQuestions.length;
+        for (let i = 0; i < remaining; i++) {
+          try {
+            const allowNumeracy =
+              category === 'Economics' || category === 'Civics & Government';
+            const q = await generateSocialStudiesStandaloneQuestion({
+              category,
+              subject: 'Social Studies',
+              aiOptions,
+              allowNumeracy,
+            });
+            if (q) {
+              topicQuestions.push(q);
+            }
+          } catch (err) {
+            console.error(
+              '[SS Topic] Standalone generation failed:',
+              err.message
+            );
+          }
+        }
+
+        // Apply QA
+        let finalItems = shuffleQuestionsPreservingStimulus(topicQuestions);
+        finalItems = dedupeNearDuplicates(finalItems, 0.85);
+        finalItems = finalItems
+          .map(tagMissingItemType)
+          .map(tagMissingDifficulty);
+        finalItems = finalItems.slice(0, QUIZ_COUNT).map((item, idx) => ({
+          ...item,
+          questionNumber: idx + 1,
+          subject: 'Social Studies',
+          category,
+        }));
+
+        console.log(
+          `[SS Topic] Generated ${finalItems.length} total questions`
+        );
+
+        const quizId = `ss_topic_${topic.replace(/\s+/g, '_')}_${Date.now()}`;
+        const quizResult = {
+          id: quizId,
+          subject: 'Social Studies',
+          topic,
+          category,
+          questions: finalItems,
+          config: { formulaSheet: false },
+          source: 'aiGenerated',
+          model: 'gemini-enhanced-ss',
+        };
+
+        if (AI_QUESTION_BANK_ENABLED) {
+          await persistQuestionsToBank(finalItems, {
+            subject,
+            topic,
+            sourceModel: 'gemini-enhanced-ss',
+            generatedForUserId: req.user?.id || null,
+            originQuizId: quizId,
+          });
+        }
+
+        return res.json({ success: true, quiz: quizResult });
+      } catch (error) {
+        console.error(
+          '[SS Topic] Enhanced generation failed, falling back to standard:',
+          error
+        );
+        // Fall through to standard generation below
+      }
+    }
+
     // --- Economics prompt tightening for Social Studies ---
     let promptEconomicsTightening = '';
     if (subject === 'Social Studies') {
@@ -8940,6 +9122,366 @@ async function runMathTwoPassOnQuestions(questions, subject) {
       }
     }
   });
+}
+
+// ============================================================
+// SOCIAL STUDIES HELPERS
+// ============================================================
+
+function getCuratedSocialStudiesPassages(PASSAGE_DB) {
+  const node =
+    PASSAGE_DB && (PASSAGE_DB['Social Studies'] || PASSAGE_DB.social_studies);
+  if (!node) return [];
+
+  const items = Array.isArray(node) ? node : node.passages || [];
+  return items.filter(Boolean);
+}
+
+function getCuratedSocialStudiesImages(imageCatalog) {
+  if (!imageCatalog || typeof imageCatalog !== 'object') return [];
+  return Object.values(imageCatalog).filter((img) => {
+    const tags = Array.isArray(img.tags)
+      ? img.tags.map((t) => String(t).toLowerCase())
+      : [];
+    const subject = (img.subject || '').toLowerCase();
+    return (
+      subject.includes('social') ||
+      tags.includes('social_studies') ||
+      tags.includes('civics') ||
+      tags.includes('history') ||
+      tags.includes('economics') ||
+      tags.includes('geography') ||
+      tags.includes('political_cartoon')
+    );
+  });
+}
+
+async function generateSocialStudiesPassageSet({
+  category,
+  subject,
+  passageSource,
+  numQuestions,
+  aiOptions,
+}) {
+  // Use curated passage if provided, otherwise generate
+  const passageText = passageSource
+    ? passageSource.text || passageSource.content
+    : null;
+  const passageTitle = passageSource
+    ? passageSource.title || passageSource.name
+    : null;
+
+  if (!passageText) {
+    console.warn(
+      '[SS] No passage text provided, falling back to AI generation'
+    );
+    return [];
+  }
+
+  // Enforce word count limit
+  const words = passageText.split(/\s+/).length;
+  const limitedPassage =
+    words > 300
+      ? passageText.split(/\s+/).slice(0, 300).join(' ') + '...'
+      : passageText;
+
+  const prompt = `You are creating GED-level Social Studies questions using ONLY the passage below.
+
+PASSAGE TITLE: ${passageTitle || 'Historical Document'}
+CATEGORY: ${category}
+PASSAGE:
+${limitedPassage}
+
+Create EXACTLY ${numQuestions} multiple-choice questions that test:
+- Main idea and supporting details
+- Claims vs. evidence identification
+- Author's purpose and point of view
+- Source reliability and bias
+- Historical context and significance
+
+CRITICAL RULES:
+- Use ONLY information from the passage above
+- Do NOT invent additional facts or context
+- Questions must be multiple-choice with 4 answer options
+- Keep questions focused on ${category}
+- For any data/numbers in the passage, you may ask simple interpretation questions (e.g., "which year had more", "what was the difference") but NO complex algebra
+
+Return JSON with {"questions": [...]}, where each question has:
+- questionText (string)
+- answerOptions (array of {text, isCorrect, rationale})
+
+${TABLE_INTEGRITY_RULES}`;
+
+  const questionSchema = {
+    type: 'OBJECT',
+    properties: {
+      questionText: { type: 'STRING' },
+      answerOptions: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            text: { type: 'STRING' },
+            isCorrect: { type: 'BOOLEAN' },
+            rationale: { type: 'STRING' },
+          },
+          required: ['text', 'isCorrect', 'rationale'],
+        },
+      },
+    },
+    required: ['questionText', 'answerOptions'],
+  };
+
+  const wrapperSchema = {
+    type: 'OBJECT',
+    properties: {
+      questions: { type: 'ARRAY', items: questionSchema },
+    },
+    required: ['questions'],
+  };
+
+  try {
+    const result = await callAI(prompt, wrapperSchema, aiOptions);
+    const questions = Array.isArray(result.questions) ? result.questions : [];
+
+    return questions.map((q) =>
+      enforceWordCapsOnItem(
+        {
+          ...q,
+          passage: normalizeTables(limitedPassage),
+          type: 'passage',
+          subject: 'Social Studies',
+          category,
+          stimulusId: passageSource?.id || null,
+          groupId: `ss-pass-${passageSource?.id || Date.now()}`,
+        },
+        'Social Studies'
+      )
+    );
+  } catch (error) {
+    console.error('[SS] Passage set generation failed:', error.message);
+    return [];
+  }
+}
+
+async function generateSocialStudiesImageSet({
+  category,
+  subject,
+  image,
+  numQuestions,
+  aiOptions,
+  usedImages,
+}) {
+  if (!image) return [];
+
+  // Mark image as used
+  if (image.filePath && usedImages) {
+    usedImages.add(image.filePath);
+  }
+
+  const imageContext = {
+    category: image.category || category,
+    altText: image.altText || '',
+    description: image.detailedDescription || '',
+    keywords: Array.isArray(image.keywords) ? image.keywords.join(', ') : '',
+  };
+
+  const prompt = `You are creating GED-level Social Studies questions that require students to interpret an image.
+
+IMAGE CONTEXT:
+- Category: ${imageContext.category}
+- Description: ${imageContext.description}
+- Alt Text: ${imageContext.altText}
+- Keywords: ${imageContext.keywords}
+
+Create EXACTLY ${numQuestions} multiple-choice questions for ${category} that:
+- Require interpreting the visual message (for political cartoons: symbolism, satire, perspective)
+- For charts/graphs: identify trends, make comparisons, interpret data
+- For historical photos: analyze context, identify significance
+- May include simple numeracy (mean, median, mode, basic %, "which is greater") but NO algebra
+
+CRITICAL RULES:
+- Questions MUST rely on the image to answer
+- Keep data simple: 2-3 digit numbers for any calculations
+- Multiple-choice with 4 answer options
+- Focus on ${category} content
+
+Return JSON with array of questions, each having:
+- questionText (string)
+- answerOptions (array of {text, isCorrect, rationale})
+
+${TABLE_INTEGRITY_RULES}`;
+
+  const imageQuestionSchema = {
+    type: 'ARRAY',
+    items: {
+      type: 'OBJECT',
+      properties: {
+        questionText: { type: 'STRING' },
+        answerOptions: {
+          type: 'ARRAY',
+          items: {
+            type: 'OBJECT',
+            properties: {
+              text: { type: 'STRING' },
+              isCorrect: { type: 'BOOLEAN' },
+              rationale: { type: 'STRING' },
+            },
+            required: ['text', 'isCorrect', 'rationale'],
+          },
+        },
+      },
+      required: ['questionText', 'answerOptions'],
+    },
+  };
+
+  try {
+    const result = await callAI(prompt, imageQuestionSchema, aiOptions);
+    const questions = Array.isArray(result) ? result : [];
+
+    return questions.map((q) =>
+      enforceWordCapsOnItem(
+        {
+          ...q,
+          itemType: 'image',
+          subject: 'Social Studies',
+          category,
+          stimulusImage: {
+            src: image.filePath,
+            alt: image.altText || '',
+          },
+          groupId: `ss-img-${image.filePath?.split('/').pop() || Date.now()}`,
+        },
+        'Social Studies'
+      )
+    );
+  } catch (error) {
+    console.error('[SS] Image set generation failed:', error.message);
+    return [];
+  }
+}
+
+async function generateSocialStudiesStandaloneQuestion({
+  category,
+  subject,
+  aiOptions,
+  allowNumeracy = true,
+}) {
+  // Decide if this will be a numeracy question
+  const useNumeracy = allowNumeracy && Math.random() < 0.3; // 30% chance for numeracy
+
+  let prompt;
+  if (useNumeracy) {
+    prompt = `You are creating a GED-level Social Studies question with light numeracy for ${category}.
+
+Create a short scenario (3-6 data points) such as:
+- Population by decade
+- Votes for candidates
+- Unemployment rates by year
+- Budget allocations
+
+Then ask ONE multiple-choice question about:
+- Mean, median, or mode
+- "Which year/category had the highest/lowest?"
+- "What is the difference between X and Y?"
+- Simple percent comparison (whole numbers only)
+
+CRITICAL RULES:
+- Keep numbers simple (2-3 digits)
+- NO algebra, equations, or complex formulas
+- Multiple-choice with 4 answer options
+- Focus on ${category} context
+
+Return JSON with:
+- passage (optional, if including a data table)
+- questionText (string)
+- answerOptions (array of {text, isCorrect, rationale})
+
+${TABLE_INTEGRITY_RULES}`;
+  } else {
+    prompt = `You are creating a GED-level Social Studies question for ${category}.
+
+Create a short, self-contained scenario (2-3 sentences) about:
+- Civics: rights, government structure, voting, civic duties
+- History: cause/effect, historical significance, key events
+- Economics: supply/demand, trade, economic concepts
+- Geography: regions, resources, cultural geography
+
+Ask ONE multiple-choice question about:
+- Cause and effect
+- Claims vs. evidence
+- Historical significance
+- Rights and responsibilities
+- Economic principles
+
+CRITICAL RULES:
+- No external passage, chart, or image needed
+- Multiple-choice with 4 answer options
+- Focus on ${category}
+
+Return JSON with:
+- questionText (string, include scenario in the question)
+- answerOptions (array of {text, isCorrect, rationale})`;
+  }
+
+  const schema = useNumeracy
+    ? {
+        type: 'OBJECT',
+        properties: {
+          passage: { type: 'STRING' },
+          questionText: { type: 'STRING' },
+          answerOptions: {
+            type: 'ARRAY',
+            items: {
+              type: 'OBJECT',
+              properties: {
+                text: { type: 'STRING' },
+                isCorrect: { type: 'BOOLEAN' },
+                rationale: { type: 'STRING' },
+              },
+              required: ['text', 'isCorrect', 'rationale'],
+            },
+          },
+        },
+        required: ['questionText', 'answerOptions'],
+      }
+    : {
+        type: 'OBJECT',
+        properties: {
+          questionText: { type: 'STRING' },
+          answerOptions: {
+            type: 'ARRAY',
+            items: {
+              type: 'OBJECT',
+              properties: {
+                text: { type: 'STRING' },
+                isCorrect: { type: 'BOOLEAN' },
+                rationale: { type: 'STRING' },
+              },
+              required: ['text', 'isCorrect', 'rationale'],
+            },
+          },
+        },
+        required: ['questionText', 'answerOptions'],
+      };
+
+  try {
+    const result = await callAI(prompt, schema, aiOptions);
+
+    return enforceWordCapsOnItem(
+      {
+        ...result,
+        passage: result.passage ? normalizeTables(result.passage) : undefined,
+        subject: 'Social Studies',
+        category,
+        type: useNumeracy && result.passage ? 'passage' : 'standalone',
+      },
+      'Social Studies'
+    );
+  } catch (error) {
+    console.error('[SS] Standalone question generation failed:', error.message);
+    return null;
+  }
 }
 
 // Helper functions for generating different types of quiz content
@@ -9695,6 +10237,21 @@ Produce exactly 4 passages:
 - 1 literary passage that may be EITHER narrative fiction OR a short poem, but keep it 150–230 words.
 Use concise titles in <strong> tags and <p> tags for paragraphs. Each passage must be 150-230 words and NEVER above 250 words.
 For EACH passage, generate exactly 5 reading comprehension questions (total 20).
+
+CRITICAL ENHANCEMENTS FOR EACH QUESTION:
+1. Add a "skill" field indicating the reading skill being tested. Use one of: "main_idea", "detail", "inference", "argument", "vocab", "text_structure".
+2. Add an "itemType" field indicating the interaction type. Use one of: "single_select", "multi_select", "evidence_pair".
+3. Distribute skills approximately as follows across the 20 questions:
+   - 3-4 main_idea
+   - 4-6 detail / inference
+   - 3-4 argument
+   - 3-4 vocab
+   - 2-3 text_structure
+4. Include a mix of itemTypes: most should be "single_select", but include 2-3 "multi_select" questions (where multiple answers are correct) and 1-2 "evidence_pair" questions (where students select an answer and then select supporting evidence).
+
+For multi_select questions: set "itemType": "multi_select" and include multiple correct answers in the answerOptions (mark each with "isCorrect": true).
+For evidence_pair questions: set "itemType": "evidence_pair" and include two parts - first the main question, then the evidence selection question.
+
 Return the JSON array of question objects only.`;
   const schema = { type: 'ARRAY', items: singleQuestionSchema };
   const questions = await callAI(prompt, schema, options);
@@ -9731,7 +10288,29 @@ Return the JSON array of question objects only.`;
 }
 
 async function generateRlaPart2(options = {}) {
-  const prompt = `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two opposing passages that you create (exactly 3 substantial paragraphs each, 150-230 words and never above 250 words). Each passage MUST have: "title", "author" (a plausible human name), and "content". Output a JSON object with keys "passages" (an array of two objects, each with "title", "author", and "content") and "prompt" (the essay question, <= 250 words).`;
+  const prompt = `Generate one GED-style Extended Response (essay) prompt with two opposing passages.
+
+REQUIREMENTS:
+1. Create exactly TWO passages that present OPPOSING VIEWPOINTS on a single policy issue (e.g., conservation vs development, privacy vs security, renewable energy vs traditional energy, etc.).
+2. Each passage must be exactly 3 substantial paragraphs, 250-300 words total, and NEVER above 300 words.
+3. Each passage MUST include:
+   - "title": A clear, descriptive title
+   - "author": A plausible human name
+   - "content": The passage text with clear claims and 2-3 pieces of specific evidence
+4. The passages should be balanced in strength - neither should be obviously weaker.
+5. Each passage should contain:
+   - A clear position statement
+   - 2-3 pieces of specific evidence (statistics, examples, expert opinions, etc.)
+   - Logical reasoning connecting evidence to the position
+
+The essay prompt must ask students to:
+- Analyze both passages
+- Determine which position is BEST SUPPORTED by evidence
+- Use specific evidence from BOTH sources to support their response
+
+Output a JSON object with:
+- "passages": array of two objects, each with "title", "author", and "content"
+- "prompt": the essay question (should be similar to: "Analyze both passages. Determine which position is best supported by evidence. Use specific evidence from both sources to support your response.")`;
   const schema = {
     type: 'OBJECT',
     properties: {
@@ -9754,7 +10333,7 @@ async function generateRlaPart2(options = {}) {
   if (Array.isArray(result?.passages)) {
     result.passages = result.passages.map((p) => ({
       ...p,
-      content: limitWords(p?.content || '', 250),
+      content: limitWords(p?.content || '', 300),
     }));
   }
   if (typeof result?.prompt === 'string') {
@@ -9765,7 +10344,26 @@ async function generateRlaPart2(options = {}) {
 
 async function generateRlaPart3(options = {}) {
   const prompt = `${STRICT_JSON_HEADER_RLA}
-Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each, keep each passage <= 250 words). The passages should contain a mix of grammatical errors and/or awkward phrasing. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences and improving word choice. This should total 25 questions. Return only the JSON array of the 25 question objects.`;
+Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each, keep each passage <= 250 words). The passages should contain a mix of grammatical errors and/or awkward phrasing. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences and improving word choice. This should total 25 questions.
+
+CRITICAL ENHANCEMENTS FOR EACH QUESTION:
+1. Add a "skill" field indicating the language skill being tested. Use one of: "sentence_boundary", "usage_mechanics", "transitions", "organization", "word_choice".
+2. Add an "itemType" field indicating the interaction type. Use one of: "single_select", "inline_dropdown", "sentence_rewrite", "placement".
+
+SPECIAL FORMAT FOR INLINE DROPDOWN (CLOZE) PASSAGES:
+For 1-2 of the 7 passages, use the "inline_dropdown" format:
+- Provide a "passageWithPlaceholders" field: the passage text with numbered placeholders like [[1]], [[2]], [[3]], etc.
+- For each placeholder, create a question object with:
+  - "questionNumber": the placeholder number (1, 2, 3, etc.)
+  - "answerOptions": array of 3-4 strings representing dropdown choices
+  - "correctAnswer": the correct choice text
+  - "itemType": "inline_dropdown"
+  - "skill": appropriate language skill
+- Do NOT include the full passage text in each question object for inline_dropdown items - only in the "passageWithPlaceholders" field at the passage level.
+
+For regular (non-cloze) questions, maintain the existing format with passage text, question text, and answer options.
+
+Return only the JSON array of the 25 question objects. For passages using inline_dropdown, include a "passageWithPlaceholders" field in the first question of that passage group.`;
   const schema = { type: 'ARRAY', items: singleQuestionSchema };
   const questions = await callAI(prompt, schema, options);
   const cappedQuestions = Array.isArray(questions)
@@ -10068,168 +10666,264 @@ app.post('/generate-quiz', async (req, res) => {
     // --- COMPREHENSIVE EXAM LOGIC ---
     if (subject === 'Social Studies') {
       try {
+        console.log(
+          '[SS] Starting comprehensive Social Studies exam generation'
+        );
         const timeoutMs = selectModelTimeoutMs({ examType });
         const aiOptions = { timeoutMs };
-        const usedImages = new Set(); // Track used images to prevent reuse
 
-        const blueprint = {
+        // Load curated resources
+        const ssPassages = getCuratedSocialStudiesPassages(PASSAGE_DB);
+        const ssImages = getCuratedSocialStudiesImages(IMAGE_DB);
+        console.log(
+          `[SS] Loaded ${ssPassages.length} passages, ${ssImages.length} images`
+        );
+
+        // Track usage
+        const usedPassageIds = new Set();
+        const usedImages = new Set();
+        let groupCounter = 0;
+
+        // Define GED-aligned blueprint
+        const SS_CATEGORIES = [
+          'Civics & Government',
+          'U.S. History',
+          'Economics',
+          'Geography & the World',
+        ];
+
+        const socialStudiesBlueprint = {
           'Civics & Government': { passages: 3, images: 2, standalone: 3 },
-          'U.S. History': { passages: 3, images: 2, standalone: 1 },
+          'U.S. History': { passages: 3, images: 1, standalone: 1 },
           Economics: { passages: 1, images: 2, standalone: 1 },
-          'Geography & the World': { passages: 3, images: 1, standalone: 0 },
+          'Geography & the World': { passages: 2, images: 1, standalone: 1 },
         };
+
         const TOTAL_QUESTIONS = 35;
-        let promises = [];
+        const allQuestions = [];
 
-        // Try to guarantee exactly 1 political cartoon
-        const cartoonQs = await generateImageQuestion(
-          'political cartoon',
-          subject,
-          curatedImages,
-          1,
-          { ...aiOptions, usedImages, mustBeCartoon: true }
-        );
-        if (cartoonQs && cartoonQs.length) {
-          promises.push(cartoonQs);
-        }
+        // Helper to pick unused passage for category
+        const pickPassageForCategory = (cat) => {
+          const catLower = cat.toLowerCase();
+          const available = ssPassages.filter((p) => {
+            if (usedPassageIds.has(p.id)) return false;
+            const pTopic = (p.topic || '').toLowerCase();
+            const pArea = (p.area || '').toLowerCase();
+            const pTitle = (p.title || '').toLowerCase();
+            const combined = `${pTopic} ${pArea} ${pTitle}`;
 
-        // Inject founding document passage set first
-        const foundingPassage = pickPassageFor('Social Studies', {
-          topic: 'founding documents',
-        });
-        if (foundingPassage) {
-          console.log('[SS] Adding founding document passage set');
-          promises.push(
-            (async () => {
-              const passagePrompt = `You are creating GED-level Social Studies questions using ONLY the passage below. Vary question types. Return EXACTLY 3 questions.
-TITLE: ${foundingPassage.title}
-PASSAGE:\n${foundingPassage.text}\n`;
-              try {
-                const qSchema = {
-                  type: 'OBJECT',
-                  properties: {
-                    questionText: { type: 'STRING' },
-                    answerOptions: {
-                      type: 'ARRAY',
-                      items: {
-                        type: 'OBJECT',
-                        properties: {
-                          text: { type: 'STRING' },
-                          isCorrect: { type: 'BOOLEAN' },
-                          rationale: { type: 'STRING' },
-                        },
-                        required: ['text', 'isCorrect', 'rationale'],
-                      },
-                    },
-                  },
-                  required: ['questionText', 'answerOptions'],
-                };
-                const wrapperSchema = {
-                  type: 'OBJECT',
-                  properties: { questions: { type: 'ARRAY', items: qSchema } },
-                  required: ['questions'],
-                };
-                const aiRes = await callAI(
-                  passagePrompt + 'Output JSON with {"questions": [...]}',
-                  wrapperSchema,
-                  aiOptions
-                );
-                const qs = Array.isArray(aiRes.questions)
-                  ? aiRes.questions.slice(0, 3)
-                  : [];
-                return qs.map((q) => ({
-                  ...q,
-                  passage: foundingPassage.text,
-                  stimulusId: foundingPassage.id,
-                  type: 'passage',
-                }));
-              } catch (e) {
-                console.warn(
-                  '[SS] Founding doc question generation failed, skipping.',
-                  e.message
-                );
-                return [];
-              }
-            })()
-          );
-        }
-
-        for (const [category, counts] of Object.entries(blueprint)) {
-          for (let i = 0; i < counts.passages; i++)
-            promises.push(
-              generatePassageSet(
-                category,
-                subject,
-                Math.random() > 0.5 ? 2 : 1,
-                aiOptions
-              )
-            );
-          for (let i = 0; i < counts.images; i++)
-            promises.push(
-              (async () => {
-                const imgQs = await generateImageQuestion(
-                  category,
-                  subject,
-                  curatedImages,
-                  Math.random() > 0.5 ? 2 : 1,
-                  { ...aiOptions, usedImages }
-                );
-                if (imgQs && imgQs.length) return imgQs;
-                return await generateStandaloneQuestion(
-                  subject,
-                  category,
-                  aiOptions
-                );
-              })()
-            );
-          for (let i = 0; i < counts.standalone; i++)
-            promises.push(
-              generateStandaloneQuestion(subject, category, aiOptions)
-            );
-        }
-
-        const results = await Promise.all(promises);
-        let allQuestions = results.flat().filter((q) => q);
-
-        // Enforce 70% stimulus coverage for Social Studies
-        const stimulusItems = allQuestions.filter(
-          (q) => q.passage || q.image || q.table || q.stimulusId
-        );
-        const stimulusRatio = stimulusItems.length / allQuestions.length;
-        if (stimulusRatio < 0.7) {
-          const needed =
-            Math.ceil(allQuestions.length * 0.7) - stimulusItems.length;
-          console.log(
-            `[SS] Stimulus ratio ${(stimulusRatio * 100).toFixed(
-              1
-            )}% < 70%, adding ${needed} more stimulus questions`
-          );
-          for (let i = 0; i < needed && allQuestions.length < 50; i++) {
-            try {
-              const category = ['Civics & Government', 'U.S. History'][i % 2];
-              const stimQ = await generatePassageSet(
-                category,
-                subject,
-                1,
-                aiOptions
+            if (cat === 'Civics & Government') {
+              return (
+                combined.includes('civics') ||
+                combined.includes('government') ||
+                combined.includes('constitution') ||
+                combined.includes('rights') ||
+                combined.includes('voting')
               );
-              if (Array.isArray(stimQ) && stimQ.length)
-                allQuestions.push(...stimQ);
-            } catch (e) {
-              console.warn('[SS] Failed to add stimulus question:', e.message);
+            }
+            if (cat === 'U.S. History') {
+              return (
+                combined.includes('history') ||
+                combined.includes('civil war') ||
+                combined.includes('founding') ||
+                combined.includes('revolution')
+              );
+            }
+            if (cat === 'Economics') {
+              return (
+                combined.includes('econom') ||
+                combined.includes('trade') ||
+                combined.includes('market')
+              );
+            }
+            if (cat === 'Geography & the World') {
+              return (
+                combined.includes('geograph') ||
+                combined.includes('world') ||
+                combined.includes('region') ||
+                combined.includes('climate')
+              );
+            }
+            return false;
+          });
+
+          if (available.length === 0) return null;
+          const picked =
+            available[Math.floor(Math.random() * available.length)];
+          usedPassageIds.add(picked.id);
+          return picked;
+        };
+
+        // Helper to pick unused image for category
+        const pickImageForCategory = (cat) => {
+          const catLower = cat.toLowerCase();
+          const available = ssImages.filter((img) => {
+            if (img.filePath && usedImages.has(img.filePath)) return false;
+            const imgCat = (img.category || '').toLowerCase();
+            const imgAlt = (img.altText || '').toLowerCase();
+            const imgDesc = (img.detailedDescription || '').toLowerCase();
+            const combined = `${imgCat} ${imgAlt} ${imgDesc}`;
+
+            if (cat === 'Civics & Government') {
+              return (
+                combined.includes('civics') ||
+                combined.includes('government') ||
+                combined.includes('political') ||
+                combined.includes('election')
+              );
+            }
+            if (cat === 'U.S. History') {
+              return (
+                combined.includes('history') ||
+                combined.includes('historical') ||
+                combined.includes('war') ||
+                combined.includes('president')
+              );
+            }
+            if (cat === 'Economics') {
+              return (
+                combined.includes('econom') ||
+                combined.includes('trade') ||
+                combined.includes('business') ||
+                combined.includes('market')
+              );
+            }
+            if (cat === 'Geography & the World') {
+              return (
+                combined.includes('geograph') ||
+                combined.includes('world') ||
+                combined.includes('map') ||
+                combined.includes('region')
+              );
+            }
+            return false;
+          });
+
+          if (available.length === 0) return null;
+          const picked =
+            available[Math.floor(Math.random() * available.length)];
+          if (picked.filePath) usedImages.add(picked.filePath);
+          return picked;
+        };
+
+        // Generate questions for each category
+        for (const category of SS_CATEGORIES) {
+          const counts = socialStudiesBlueprint[category];
+          console.log(
+            `[SS] Generating for ${category}: ${JSON.stringify(counts)}`
+          );
+
+          // Passage-based clusters
+          for (let i = 0; i < counts.passages; i++) {
+            const passage = pickPassageForCategory(category);
+            if (passage) {
+              try {
+                const qs = await generateSocialStudiesPassageSet({
+                  category,
+                  subject: 'Social Studies',
+                  passageSource: passage,
+                  numQuestions: Math.random() > 0.5 ? 2 : 3,
+                  aiOptions,
+                });
+                if (qs && qs.length) {
+                  allQuestions.push(...qs);
+                  console.log(
+                    `[SS] Added ${qs.length} passage questions for ${category}`
+                  );
+                }
+              } catch (error) {
+                console.error(
+                  `[SS] Passage generation failed for ${category}:`,
+                  error.message
+                );
+              }
+            } else {
+              console.warn(`[SS] No unused passage found for ${category}`);
+            }
+          }
+
+          // Image-based clusters
+          for (let i = 0; i < counts.images; i++) {
+            const image = pickImageForCategory(category);
+            if (image) {
+              try {
+                const qs = await generateSocialStudiesImageSet({
+                  category,
+                  subject: 'Social Studies',
+                  image,
+                  numQuestions: Math.random() > 0.5 ? 2 : 1,
+                  aiOptions,
+                  usedImages,
+                });
+                if (qs && qs.length) {
+                  allQuestions.push(...qs);
+                  console.log(
+                    `[SS] Added ${qs.length} image questions for ${category}`
+                  );
+                }
+              } catch (error) {
+                console.error(
+                  `[SS] Image generation failed for ${category}:`,
+                  error.message
+                );
+              }
+            } else {
+              console.warn(`[SS] No unused image found for ${category}`);
+            }
+          }
+
+          // Standalone questions (with optional numeracy)
+          for (let i = 0; i < counts.standalone; i++) {
+            try {
+              const allowNumeracy =
+                category === 'Economics' || category === 'Civics & Government';
+              const q = await generateSocialStudiesStandaloneQuestion({
+                category,
+                subject: 'Social Studies',
+                aiOptions,
+                allowNumeracy,
+              });
+              if (q) {
+                allQuestions.push(q);
+                console.log(`[SS] Added standalone question for ${category}`);
+              }
+            } catch (error) {
+              console.error(
+                `[SS] Standalone generation failed for ${category}:`,
+                error.message
+              );
             }
           }
         }
 
-        // Shuffle at stimulus-group level (keeps passage/image clusters together)
-        allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
-        const draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
+        console.log(`[SS] Generated ${allQuestions.length} total questions`);
+
+        // Apply QA and enforcement
+        let finalQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
+        finalQuestions = dedupeNearDuplicates(finalQuestions, 0.85);
+        finalQuestions = finalQuestions
+          .map(tagMissingItemType)
+          .map(tagMissingDifficulty);
+        finalQuestions = enforceDifficultySpread(finalQuestions, {
+          easy: 0.3,
+          medium: 0.5,
+          hard: 0.2,
+        });
+        finalQuestions = enforceVarietyMix(finalQuestions, {
+          passage: 0.4,
+          image: 0.25,
+          standalone: 0.35,
+        });
+
+        // Trim to target count
+        const draftQuestionSet = finalQuestions.slice(0, TOTAL_QUESTIONS);
         draftQuestionSet.forEach((q, index) => {
           q.questionNumber = index + 1;
+          q.subject = 'Social Studies';
         });
 
         const draftQuiz = {
-          id: `ai_comp_ss_draft_${new Date().getTime()}`,
+          id: `ai_comp_ss_${new Date().getTime()}`,
           title: `Comprehensive Social Studies Exam`,
           subject: subject,
           source: 'aiGenerated',
@@ -10237,12 +10931,10 @@ PASSAGE:\n${foundingPassage.text}\n`;
           questions: draftQuestionSet,
         };
 
-        console.log(
-          'Social Studies draft complete. Sending for second pass review...'
-        );
+        console.log('[SS] Sending for review and correction pass...');
         const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
 
-        // Persist to AI question bank (capture-only)
+        // Persist to AI question bank
         if (AI_QUESTION_BANK_ENABLED) {
           await persistQuestionsToBank(finalQuiz.questions || [], {
             subject,
@@ -10254,14 +10946,10 @@ PASSAGE:\n${foundingPassage.text}\n`;
         }
 
         logGenerationDuration(examType, subject, generationStart);
-        // Attach formula sheet URL for Science comprehensive
-        try {
-          finalQuiz.formulaSheetUrl =
-            '/frontend/assets/formula-sheet/science-formulas.pdf';
-        } catch {}
+        console.log('[SS] Comprehensive Social Studies exam complete');
         res.json(finalQuiz);
       } catch (error) {
-        console.error('Error generating Social Studies exam:', error);
+        console.error('[SS] Error generating Social Studies exam:', error);
         logGenerationDuration(examType, subject, generationStart, 'failed');
         res
           .status(500)

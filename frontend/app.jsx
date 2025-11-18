@@ -37242,6 +37242,73 @@ function Stem({ item }) {
   );
 }
 
+// InlineDropdownPassage Component for RLA Part 3 Language/Grammar Cloze Questions
+function InlineDropdownPassage({
+  passageText,
+  questions,
+  answers,
+  onAnswerChange,
+}) {
+  // Split the passage by placeholders like [[1]], [[2]], etc.
+  const parts = passageText.split(/(\[\[\d+\]\])/g);
+
+  return (
+    <div className="leading-loose text-lg prose max-w-none">
+      {parts.map((part, index) => {
+        const match = part.match(/\[\[(\d+)\]\]/);
+        if (match) {
+          const qNum = parseInt(match[1], 10);
+          // Find the question for this placeholder
+          const question =
+            questions.find((q) => q.questionNumber === qNum) ||
+            questions[qNum - 1];
+
+          if (!question) {
+            return (
+              <span key={index} className="text-red-600 font-bold">
+                [Error: Question {qNum} not found]
+              </span>
+            );
+          }
+
+          const answerOptions = question.answerOptions || [];
+          const currentAnswer = answers[qNum - 1] || '';
+
+          return (
+            <select
+              key={index}
+              className="mx-1 border-2 border-blue-400 rounded px-2 py-1 bg-blue-50 cursor-pointer font-semibold text-blue-800 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={currentAnswer}
+              onChange={(e) => onAnswerChange(qNum - 1, e.target.value)}
+              aria-label={`Question ${qNum}`}
+            >
+              <option value="">Select...</option>
+              {answerOptions.map((opt, i) => {
+                const optionText =
+                  typeof opt === 'string' ? opt : opt.text || '';
+                return (
+                  <option key={i} value={optionText}>
+                    {optionText}
+                  </option>
+                );
+              })}
+            </select>
+          );
+        }
+        // Regular text part - render with HTML support
+        return (
+          <span
+            key={index}
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtmlContent(part, { normalizeSpacing: true }),
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
 function QuizInterface({
   questions,
   answers,
@@ -38088,8 +38155,48 @@ function QuizInterface({
                 }}
               />
             </div>
+          ) : currentQ.itemType === 'inline_dropdown' &&
+            currentQ.passageWithPlaceholders ? (
+            // RLA Part 3: Inline Dropdown (Cloze) passage
+            <div>
+              <p
+                className="mb-4 text-sm font-medium"
+                style={{ color: scheme.mutedText }}
+              >
+                Select the best option for each dropdown to complete the passage
+                correctly.
+              </p>
+              <InlineDropdownPassage
+                passageText={currentQ.passageWithPlaceholders}
+                questions={questions.filter(
+                  (q) =>
+                    q.itemType === 'inline_dropdown' &&
+                    q.passage === currentQ.passage
+                )}
+                answers={answers}
+                onAnswerChange={(index, value) => {
+                  const newAnswers = [...answers];
+                  newAnswers[index] = value;
+                  setAnswers(newAnswers);
+                }}
+              />
+            </div>
           ) : (
             <div className="space-y-3">
+              {/* Multi-select instruction */}
+              {isMultipleSelect && (
+                <p
+                  className="mb-3 text-sm font-medium px-3 py-2 rounded-lg"
+                  style={{
+                    color: scheme.accentText,
+                    backgroundColor: scheme.accentSoft,
+                    border: `1px solid ${scheme.accentBorder}`,
+                  }}
+                >
+                  ℹ️ Select ALL correct answers. Multiple answers may be
+                  correct.
+                </p>
+              )}
               {(currentQ.answerOptions || []).map((opt, i) => {
                 // Handle both string and object formats for answerOptions
                 const optText = typeof opt === 'string' ? opt : opt?.text || '';
@@ -38124,6 +38231,17 @@ function QuizInterface({
                     className={optionClassNames.join(' ')}
                     style={optionStyles}
                   >
+                    {/* MULTIPLE-SELECT: Show checkbox icon for multi-select questions */}
+                    {isMultipleSelect && (
+                      <span
+                        className="mr-2 text-lg"
+                        style={{
+                          color: isSelected ? scheme.accent : scheme.mutedText,
+                        }}
+                      >
+                        {isSelected ? '☑' : '☐'}
+                      </span>
+                    )}
                     <span
                       className="flex-grow text-left"
                       style={{ color: 'var(--text-primary)' }}
@@ -38774,6 +38892,282 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
   return null;
 }
 
+// RLA Reading Part 1 - Split Screen View
+function RlaReadingSplitView({
+  questions,
+  answers,
+  setAnswers,
+  onComplete,
+  buttonText,
+}) {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [marked, setMarked] = useState(Array(questions.length).fill(false));
+  const [confidence, setConfidence] = useState(
+    Array(questions.length).fill(null)
+  );
+
+  // Group questions by passage
+  const passageGroups = useMemo(() => {
+    const groups = [];
+    let currentPassage = null;
+    let currentGroup = { passage: '', questions: [] };
+
+    questions.forEach((q, idx) => {
+      const passageText = q.passage || '';
+      if (passageText !== currentPassage) {
+        if (currentGroup.questions.length > 0) {
+          groups.push(currentGroup);
+        }
+        currentPassage = passageText;
+        currentGroup = {
+          passage: passageText,
+          questions: [{ ...q, originalIndex: idx }],
+        };
+      } else {
+        currentGroup.questions.push({ ...q, originalIndex: idx });
+      }
+    });
+    if (currentGroup.questions.length > 0) {
+      groups.push(currentGroup);
+    }
+    return groups;
+  }, [questions]);
+
+  const currentGroup = useMemo(() => {
+    for (const group of passageGroups) {
+      for (const q of group.questions) {
+        if (q.originalIndex === currentQuestionIndex) {
+          return group;
+        }
+      }
+    }
+    return passageGroups[0] || { passage: '', questions: [] };
+  }, [currentQuestionIndex, passageGroups]);
+
+  const currentQuestion = questions[currentQuestionIndex];
+  const currentQuestionInGroup = currentGroup.questions.findIndex(
+    (q) => q.originalIndex === currentQuestionIndex
+  );
+
+  const handleSelect = (optionText) => {
+    const isMultipleSelect =
+      currentQuestion.itemType === 'multi_select' ||
+      currentQuestion.selectType === 'multiple';
+    const newAnswers = [...answers];
+
+    if (isMultipleSelect) {
+      const currentSelections = Array.isArray(newAnswers[currentQuestionIndex])
+        ? newAnswers[currentQuestionIndex]
+        : newAnswers[currentQuestionIndex]
+        ? [newAnswers[currentQuestionIndex]]
+        : [];
+      const index = currentSelections.indexOf(optionText);
+      if (index > -1) {
+        currentSelections.splice(index, 1);
+      } else {
+        currentSelections.push(optionText);
+      }
+      newAnswers[currentQuestionIndex] =
+        currentSelections.length > 0 ? currentSelections : null;
+    } else {
+      newAnswers[currentQuestionIndex] = optionText;
+    }
+    setAnswers(newAnswers);
+  };
+
+  const handleSubmit = () => {
+    onComplete({ answers, marked, confidence });
+  };
+
+  const isMultipleSelect =
+    currentQuestion.itemType === 'multi_select' ||
+    currentQuestion.selectType === 'multiple';
+  const currentAnswer = answers[currentQuestionIndex];
+  const selectedOptions = isMultipleSelect
+    ? Array.isArray(currentAnswer)
+      ? currentAnswer
+      : currentAnswer
+      ? [currentAnswer]
+      : []
+    : [currentAnswer];
+
+  return (
+    <div className="ged-split-view">
+      {/* LEFT PANE: Passage */}
+      <div className="ged-scroll-pane rla-passage-container">
+        <h4
+          className="rla-passage-title"
+          dangerouslySetInnerHTML={{
+            __html: sanitizeHtmlContent(
+              currentGroup.passage
+                ?.split('<p>')[0]
+                ?.replace('<strong>', '')
+                .replace('</strong>', '') || 'Passage',
+              { normalizeSpacing: true }
+            ),
+          }}
+        />
+        <div
+          className="rla-passage-content"
+          dangerouslySetInnerHTML={{
+            __html: sanitizeHtmlContent(currentGroup.passage || '', {
+              normalizeSpacing: true,
+            }),
+          }}
+        />
+      </div>
+
+      {/* RIGHT PANE: Questions */}
+      <div className="ged-scroll-pane">
+        <div className="space-y-4">
+          {/* Question navigation for this passage */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {currentGroup.questions.map((q, i) => {
+              const globalIdx = q.originalIndex;
+              const isActive = globalIdx === currentQuestionIndex;
+              const isAnswered = Boolean(answers[globalIdx]);
+              return (
+                <button
+                  key={globalIdx}
+                  onClick={() => setCurrentQuestionIndex(globalIdx)}
+                  className={`h-8 w-8 rounded-full text-sm font-bold transition ${
+                    isActive
+                      ? 'bg-purple-600 text-white'
+                      : isAnswered
+                      ? 'bg-green-500 text-white'
+                      : 'bg-slate-200 text-slate-800'
+                  }`}
+                  style={
+                    marked[globalIdx] ? { boxShadow: '0 0 0 2px gold' } : {}
+                  }
+                >
+                  {globalIdx + 1}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Current question */}
+          <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+            <div className="mb-4">
+              <span className="text-xl font-bold text-purple-700 dark:text-purple-400">
+                Question {currentQuestionIndex + 1}.
+              </span>
+              <div className="mt-2 text-lg">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeHtmlContent(
+                      currentQuestion.questionText ||
+                        currentQuestion.question ||
+                        '',
+                      { normalizeSpacing: true }
+                    ),
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Multi-select instruction */}
+            {isMultipleSelect && (
+              <p className="mb-3 text-sm font-medium px-3 py-2 rounded-lg bg-blue-50 text-blue-800 border border-blue-200">
+                ℹ️ Select ALL correct answers. Multiple answers may be correct.
+              </p>
+            )}
+
+            {/* Options */}
+            <div className="space-y-3">
+              {(currentQuestion.answerOptions || []).map((opt, i) => {
+                const optText = typeof opt === 'string' ? opt : opt?.text || '';
+                const isSelected = selectedOptions.includes(optText);
+                return (
+                  <button
+                    key={i}
+                    onClick={() => handleSelect(optText)}
+                    className={`w-full text-left p-4 rounded-lg border-2 transition ${
+                      isSelected
+                        ? 'bg-purple-50 border-purple-500 dark:bg-purple-900/30 dark:border-purple-400'
+                        : 'bg-slate-50 border-slate-200 hover:border-purple-300 dark:bg-slate-700 dark:border-slate-600'
+                    }`}
+                  >
+                    {isMultipleSelect && (
+                      <span className="mr-2 text-lg">
+                        {isSelected ? '☑' : '☐'}
+                      </span>
+                    )}
+                    <span className="font-bold mr-2">
+                      {String.fromCharCode(65 + i)}.
+                    </span>
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeHtmlContent(optText, {
+                          normalizeSpacing: true,
+                        }),
+                      }}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Mark for review */}
+            <div className="mt-4 flex items-center gap-2">
+              <input
+                type="checkbox"
+                id={`mark-${currentQuestionIndex}`}
+                checked={marked[currentQuestionIndex]}
+                onChange={(e) => {
+                  const newMarked = [...marked];
+                  newMarked[currentQuestionIndex] = e.target.checked;
+                  setMarked(newMarked);
+                }}
+                className="h-4 w-4"
+              />
+              <label
+                htmlFor={`mark-${currentQuestionIndex}`}
+                className="text-sm text-slate-600 dark:text-slate-400"
+              >
+                Mark for review
+              </label>
+            </div>
+          </div>
+
+          {/* Navigation buttons */}
+          <div className="flex justify-between items-center mt-6">
+            <button
+              onClick={() =>
+                setCurrentQuestionIndex(Math.max(0, currentQuestionIndex - 1))
+              }
+              disabled={currentQuestionIndex === 0}
+              className="px-4 py-2 rounded-lg bg-slate-200 text-slate-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-300"
+            >
+              ← Previous
+            </button>
+            {currentQuestionIndex === questions.length - 1 ? (
+              <button
+                onClick={handleSubmit}
+                className="px-6 py-2 rounded-lg bg-purple-600 text-white font-bold hover:bg-purple-700"
+              >
+                {buttonText || 'Continue'}
+              </button>
+            ) : (
+              <button
+                onClick={() =>
+                  setCurrentQuestionIndex(
+                    Math.min(questions.length - 1, currentQuestionIndex + 1)
+                  )
+                }
+                className="px-4 py-2 rounded-lg bg-purple-600 text-white font-semibold hover:bg-purple-700"
+              >
+                Next →
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function QuizRunner({ quiz, onComplete, onExit }) {
   console.log('QuizRunner received quiz:', quiz); // Debugging line
   if (!quiz) return <div className="text-center p-8">Loading quiz...</div>;
@@ -38812,6 +39206,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
   const [isPaused, setIsPaused] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
   const [pausesRemaining, setPausesRemaining] = useState(2);
+  const [showBreak, setShowBreak] = useState(false);
 
   const PART_TIMES = { 1: 35 * 60, 2: 45 * 60, 3: 70 * 60 };
 
@@ -38856,14 +39251,19 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 
   const handlePart1Complete = (result) => {
     setPart1Result(result);
-    setCurrentPart(2);
+    setShowBreak(true);
   };
 
   const handlePart2Complete = async () => {
     if (isScoring) return;
     const result = await handleScoreEssay();
     if (!result) return;
-    setCurrentPart(3);
+    setShowBreak(true);
+  };
+
+  const handleContinueFromBreak = () => {
+    setShowBreak(false);
+    setCurrentPart((prev) => prev + 1);
   };
 
   const handleFinalSubmit = (part3Result) => {
@@ -38922,6 +39322,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     const multipleChoicePercentage =
       totalQuestions > 0 ? (score / totalQuestions) * 100 : 0;
 
+    // Updated essay scoring: support 0-6 scale (2 points per trait * 3 traits)
     const essayOverallScore =
       typeof essayScore?.overallScore === 'number'
         ? essayScore.overallScore
@@ -38929,8 +39330,28 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     const essayPercentage =
       essayOverallScore !== null ? (essayOverallScore / 6) * 100 : 0;
 
+    // RLA Comprehensive Scoring Weights:
+    // Part 1 (Reading MC): 42%
+    // Part 3 (Language MC): 38%
+    // Part 2 (Essay): 20%
+    const part1Weight = 0.42;
+    const part3Weight = 0.38;
+    const essayWeight = 0.2;
+
+    const part1Percentage =
+      part1Questions.length > 0
+        ? (part1Correct / part1Questions.length) * 100
+        : 0;
+    const part3Percentage =
+      part3Questions.length > 0
+        ? (part3Correct / part3Questions.length) * 100
+        : 0;
+
     const finalPercentage =
-      multipleChoicePercentage * 0.6 + essayPercentage * 0.4;
+      part1Percentage * part1Weight +
+      part3Percentage * part3Weight +
+      essayPercentage * essayWeight;
+
     const scaledScore = Math.round(
       finalPercentage < 65
         ? 100 + (finalPercentage / 65) * 44
@@ -39040,19 +39461,15 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
       case 1:
         return (
           <div>
-            <h3 className="text-2xl font-bold mb-4">
+            <h3 className="text-2xl font-bold mb-4 subject-accent-heading">
               Part 1: Reading Comprehension
             </h3>
-            <QuizInterface
+            <RlaReadingSplitView
               questions={quiz.part1_reading}
               answers={part1Answers}
               setAnswers={setPart1Answers}
               onComplete={handlePart1Complete}
-              quizTitle="Part 1: Reading Comprehension"
               buttonText="Continue to Essay"
-              subject={quiz.subject}
-              showTimer={false}
-              quizConfig={quiz.config}
             />
           </div>
         );
@@ -39171,63 +39588,96 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 
   return (
     <div className="fade-in">
-      <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b">
-        <button
-          onClick={onExit}
-          className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"
-        >
-          <ArrowLeftIcon /> Back
-        </button>
-        <h2 className="text-xl font-bold text-center text-slate-800 flex-1 exam-title">
-          {quiz.title}
-        </h2>
-        <div className="flex flex-col sm:items-end gap-2">
-          <div
-            className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${
-              timeLeft <= 60
-                ? 'bg-red-100 text-red-700'
-                : 'bg-slate-100 text-slate-700'
-            }`}
-          >
-            <span role="img" aria-label="timer">
-              ⏱️
-            </span>
-            <span>{formatTime(timeLeft)}</span>
-            {isPaused && (
-              <span className="text-xs uppercase tracking-wide">Paused</span>
-            )}
+      {showBreak ? (
+        <div className="max-w-2xl mx-auto mt-12 p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-xl text-center">
+          <h2 className="text-3xl font-bold mb-4 text-purple-700 dark:text-purple-400">
+            Break Between Sections
+          </h2>
+          <p className="text-xl mb-6 text-slate-700 dark:text-slate-300">
+            You are about to begin Part {currentPart + 1} of the RLA test.
+          </p>
+          <div className="mb-6 p-4 bg-slate-50 dark:bg-slate-700 rounded-lg">
+            <p className="text-lg font-semibold mb-2">
+              {currentPart === 1
+                ? 'Next: Extended Response (Essay)'
+                : 'Next: Language & Grammar'}
+            </p>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              {currentPart === 1
+                ? 'You will analyze two passages and write an essay.'
+                : 'You will answer language and grammar questions.'}
+            </p>
           </div>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handlePauseToggle}
-              disabled={!isPaused && pausesRemaining === 0}
-              className={`px-3 py-1 rounded-md text-sm font-semibold transition-colors ${
-                isPaused
-                  ? 'bg-green-600 text-white hover:bg-green-700'
-                  : 'bg-sky-600 text-white hover:bg-sky-700 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed'
-              }`}
-            >
-              {isPaused ? 'Resume Timer' : 'Pause Timer'}
-            </button>
-            <span className="text-xs text-slate-500">
-              {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
-            </span>
-          </div>
-        </div>
-      </header>
-      {isPaused ? (
-        <div className="text-center p-12 bg-slate-100 rounded-lg">
-          <h2 className="text-3xl font-bold">Exam Paused</h2>
           <button
-            onClick={() => setIsPaused(false)}
-            className="mt-4 px-8 py-3 bg-sky-600 text-white font-bold rounded-lg"
+            onClick={handleContinueFromBreak}
+            className="px-8 py-3 bg-purple-600 text-white font-bold text-lg rounded-lg hover:bg-purple-700 transition"
           >
-            Resume
+            Continue to Part {currentPart + 1}
           </button>
         </div>
       ) : (
-        renderCurrentPart()
+        <>
+          <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b">
+            <button
+              onClick={onExit}
+              className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"
+            >
+              <ArrowLeftIcon /> Back
+            </button>
+            <h2 className="text-xl font-bold text-center text-slate-800 flex-1 exam-title">
+              {quiz.title}
+            </h2>
+            <div className="flex flex-col sm:items-end gap-2">
+              <div
+                className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${
+                  timeLeft <= 60
+                    ? 'bg-red-100 text-red-700'
+                    : 'bg-slate-100 text-slate-700'
+                }`}
+              >
+                <span role="img" aria-label="timer">
+                  ⏱️
+                </span>
+                <span>{formatTime(timeLeft)}</span>
+                {isPaused && (
+                  <span className="text-xs uppercase tracking-wide">
+                    Paused
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handlePauseToggle}
+                  disabled={!isPaused && pausesRemaining === 0}
+                  className={`px-3 py-1 rounded-md text-sm font-semibold transition-colors ${
+                    isPaused
+                      ? 'bg-green-600 text-white hover:bg-green-700'
+                      : 'bg-sky-600 text-white hover:bg-sky-700 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed'
+                  }`}
+                >
+                  {isPaused ? 'Resume Timer' : 'Pause Timer'}
+                </button>
+                <span className="text-xs text-slate-500">
+                  {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
+                </span>
+              </div>
+            </div>
+          </header>
+          {isPaused ? (
+            <div className="text-center p-12 bg-slate-100 rounded-lg">
+              <h2 className="text-3xl font-bold">Exam Paused</h2>
+              <button
+                onClick={() => setIsPaused(false)}
+                className="mt-4 px-8 py-3 bg-sky-600 text-white font-bold rounded-lg"
+              >
+                Resume
+              </button>
+            </div>
+          ) : (
+            renderCurrentPart()
+          )}
+        </>
       )}
     </div>
   );
