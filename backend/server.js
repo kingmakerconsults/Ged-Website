@@ -30,6 +30,11 @@ const { default: PQueue } = require('p-queue');
 const genAI = process.env.GOOGLE_AI_API_KEY
   ? new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY)
   : null;
+const {
+  getRandomScienceScenario,
+  getRandomScienceNumeracyItem,
+  getRandomScienceShortResponse,
+} = require('./data/scienceTemplates');
 
 // Shared prompt add-on to enforce strict table output that our frontend/backends can render reliably
 const TABLE_INTEGRITY_RULES = `
@@ -357,8 +362,19 @@ async function ensureScienceNumeracy(
   const toReplace = nonNumeric.slice(0, deficit);
   if (!toReplace.length) return items;
 
+  const slotsNeeded = toReplace.length;
   const replacements = [];
-  for (let i = 0; i < toReplace.length; i++) {
+
+  // Prefer curated templates before calling the model
+  const templatedExclude = new Set();
+  while (replacements.length < slotsNeeded) {
+    const templated = instantiateScienceNumeracyTemplate(templatedExclude);
+    if (!templated) break;
+    replacements.push(templated);
+  }
+
+  const remainingNeeded = slotsNeeded - replacements.length;
+  for (let i = 0; i < remainingNeeded; i++) {
     const cat = categories[i % categories.length];
     try {
       const q = await generateScienceNumeracyQuestion(cat, aiOptions);
@@ -1129,6 +1145,128 @@ PASSAGE:\n"""${passage.text}"""`;
     } catch {}
     return [];
   }
+}
+
+function buildScienceNumeracyTemplateItem(template) {
+  if (!template) return null;
+  const passageHtml = normalizeTables(
+    `${template.stem || ''}${template.passage || ''}`
+  );
+  const item = {
+    id: `science_numeracy_${template.id}_${Date.now()}`,
+    passage: passageHtml,
+    questionText: template.questionText,
+    questionType: 'short_constructed_response',
+    responseType: template.responseType || 'numeric',
+    correctAnswer: template.correctAnswer,
+    tolerance: template.tolerance,
+    qaProfileKey: template.qaProfileKey || 'numeracy',
+    source: 'scienceTemplate:numeracy',
+    difficulty: template.difficulty || 'medium',
+    topicTags: template.topicTags || [],
+    type: 'passage',
+    templateSourceId: template.id,
+  };
+  return enforceWordCapsOnItem(item, 'Science');
+}
+
+function buildScienceScenarioCluster(template) {
+  if (!template) return null;
+  const shared = normalizeTables(template.sharedPassage || '');
+  const base = {
+    passage: shared,
+    qaProfileKey: template.qaProfileKey || 'reasoning',
+    type: 'passage',
+    itemType: 'passage',
+    source: 'scienceTemplate:scenario',
+    groupId: template.groupId || template.id,
+    stimulusId: template.id,
+    clusterLabel: template.clusterLabel,
+    difficulty: template.difficulty || 'medium',
+    topicTags: template.topicTags || [],
+    questionType: 'multiple_choice_single',
+    templateSourceId: template.id,
+  };
+  return template.questions.map((q, idx) =>
+    enforceWordCapsOnItem(
+      {
+        ...base,
+        id: `science_scenario_${template.id}_${idx}_${Date.now()}`,
+        questionText: q.questionText,
+        answerOptions: Array.isArray(q.answerOptions) ? q.answerOptions : [],
+      },
+      'Science'
+    )
+  );
+}
+
+function buildScienceShortResponseItem(template) {
+  if (!template) return null;
+  const item = {
+    id: `science_short_${template.id}_${Date.now()}`,
+    questionText: template.questionText,
+    questionType: 'short_constructed_response',
+    responseType: 'short',
+    expectedFeatures: template.expectedFeatures || [],
+    sampleAnswer: template.sampleAnswer || '',
+    qaProfileKey: template.qaProfileKey || 'literacy',
+    source: 'scienceTemplate:short',
+    difficulty: template.difficulty || 'medium',
+    rubricHints: template.expectedFeatures || [],
+    type: 'freeResponse',
+    templateSourceId: template.id,
+  };
+  return enforceWordCapsOnItem(item, 'Science');
+}
+
+function instantiateScienceNumeracyTemplate(excludeIds = new Set()) {
+  const tpl = getRandomScienceNumeracyItem(excludeIds);
+  if (!tpl) return null;
+  excludeIds.add(tpl.id);
+  return buildScienceNumeracyTemplateItem(tpl);
+}
+
+function instantiateScienceScenarioCluster(excludeIds = new Set()) {
+  const tpl = getRandomScienceScenario(excludeIds);
+  if (!tpl) return null;
+  excludeIds.add(tpl.id);
+  return buildScienceScenarioCluster(tpl);
+}
+
+function instantiateScienceShortResponse(excludeIds = new Set()) {
+  const tpl = getRandomScienceShortResponse(excludeIds);
+  if (!tpl) return null;
+  excludeIds.add(tpl.id);
+  return buildScienceShortResponseItem(tpl);
+}
+
+function injectScienceTemplateItems(
+  items,
+  { scenarioSets = 0, shortResponses = 0, targetCount = 12 } = {}
+) {
+  if (!Array.isArray(items)) return [];
+  const templateItems = [];
+  if (scenarioSets > 0) {
+    const scenarioExclude = new Set();
+    for (let i = 0; i < scenarioSets; i++) {
+      const cluster = instantiateScienceScenarioCluster(scenarioExclude);
+      if (!cluster || !cluster.length) break;
+      templateItems.push(...cluster);
+    }
+  }
+  if (shortResponses > 0) {
+    const shortExclude = new Set();
+    for (let i = 0; i < shortResponses; i++) {
+      const sr = instantiateScienceShortResponse(shortExclude);
+      if (!sr) break;
+      templateItems.push(sr);
+    }
+  }
+  if (!templateItems.length) return items;
+  const cappedTemplates = templateItems.slice(0, targetCount);
+  const remainingSlots = Math.max(0, targetCount - cappedTemplates.length);
+  const trimmedBase = items.slice(0, remainingSlots);
+  return [...cappedTemplates, ...trimmedBase];
 }
 
 function pickMathWordProblemTemplate() {
@@ -7795,6 +7933,15 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
     // 6. Final cleanup and response
     // Normalize MC options to ensure exactly one correct and at least 4 options
     items = items.map((it) => normalizeAnswerOptions(it));
+
+    if (subject === 'Science' && !isScientificNumeracy) {
+      items = injectScienceTemplateItems(items, {
+        scenarioSets: 1,
+        shortResponses: 1,
+        targetCount: QUIZ_COUNT,
+      });
+    }
+
     items = dedupeNearDuplicates(items, 0.85);
     items = groupedShuffle(items);
 
@@ -9731,6 +9878,12 @@ PASSAGE:\n${foundingPassage.text}\n`;
           requiredFraction: 1 / 3,
           categories: categoryList,
           aiOptions,
+        });
+
+        draftQuestionSet = injectScienceTemplateItems(draftQuestionSet, {
+          scenarioSets: 2,
+          shortResponses: 2,
+          targetCount: TOTAL_QUESTIONS,
         });
 
         // Mix in a few readable science passages from the local passage bank so not all items are purely data-driven

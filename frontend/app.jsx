@@ -1089,6 +1089,32 @@ class ErrorBoundary extends React.Component {
             fontFamily: 'Inter, sans-serif',
           }}
         >
+          {hasPassage && passageContent && (
+            <div
+              className="mb-6 p-4 rounded-lg"
+              style={{
+                backgroundColor: scheme.surface,
+                border: `1px solid ${scheme.surfaceBorder}`,
+              }}
+            >
+              <h4
+                className="text-base font-bold mb-3"
+                style={{ color: scheme.text }}
+              >
+                Reading Passage
+              </h4>
+              <div
+                className="prose passage-section max-w-none text-sm"
+                style={{ color: scheme.text }}
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHtmlContent(passageContent, {
+                    normalizeSpacing: true,
+                  }),
+                }}
+              />
+            </div>
+          )}
+
           <h2 style={{ marginTop: 0 }}>Something went wrong.</h2>
           <pre style={{ whiteSpace: 'pre-wrap' }}>{String(this.state.err)}</pre>
         </div>
@@ -22281,6 +22307,35 @@ function findCorrectOption(answerOptions) {
     : null;
 }
 
+function isShortResponseQuestion(question) {
+  if (!question || typeof question !== 'object') return false;
+  const responseType =
+    typeof question.responseType === 'string'
+      ? question.responseType.toLowerCase()
+      : '';
+  if (responseType === 'short') return true;
+  if (
+    responseType === 'constructed-response' ||
+    responseType === 'constructed' ||
+    responseType === 'free-response'
+  ) {
+    return true;
+  }
+  const questionType =
+    typeof question.questionType === 'string'
+      ? question.questionType.toLowerCase()
+      : '';
+  if (
+    questionType === 'short_constructed_response' &&
+    responseType !== 'numeric' &&
+    (!Array.isArray(question.answerOptions) ||
+      question.answerOptions.length === 0)
+  ) {
+    return true;
+  }
+  return false;
+}
+
 function generateSubjectQuestion(subject, baseIndex = 1, template = {}) {
   const qn = template.questionNumber || baseIndex;
   if (subject === 'Math') {
@@ -30435,11 +30490,14 @@ function SuperAdminDashboard({ user, token, onLogout }) {
             </p>
           ) : summaryError ? (
             <div className="space-y-3">
-                            {isMultipleSelect && (
-                              <p className="text-sm font-semibold mb-2" style={{ color: scheme.mutedText }}>
-                                (Select ALL that apply)
-                              </p>
-                            )}
+              {isMultipleSelect && (
+                <p
+                  className="text-sm font-semibold mb-2"
+                  style={{ color: scheme.mutedText }}
+                >
+                  (Select ALL that apply)
+                </p>
+              )}
               <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
                 {summaryError}
               </div>
@@ -35064,16 +35122,19 @@ function QuizInterface({
   // MULTIPLE-SELECT ENHANCEMENT: Support both single-select and multiple-select questions
   const handleSelect = (optionText) => {
     const currentQ = questions[currentIndex];
-    const isMultipleSelect = currentQ.selectType === 'multiple' || currentQ.type === 'multiple-select';
-    
+    const isMultipleSelect =
+      currentQ.selectType === 'multiple' || currentQ.type === 'multiple-select';
+
     const newAnswers = [...answers];
-    
+
     if (isMultipleSelect) {
       // Toggle selection for multiple-select questions
-      const currentSelections = Array.isArray(newAnswers[currentIndex]) 
-        ? newAnswers[currentIndex] 
-        : (newAnswers[currentIndex] ? [newAnswers[currentIndex]] : []);
-      
+      const currentSelections = Array.isArray(newAnswers[currentIndex])
+        ? newAnswers[currentIndex]
+        : newAnswers[currentIndex]
+        ? [newAnswers[currentIndex]]
+        : [];
+
       const index = currentSelections.indexOf(optionText);
       if (index > -1) {
         // Deselect: remove from array
@@ -35082,12 +35143,13 @@ function QuizInterface({
         // Select: add to array
         currentSelections.push(optionText);
       }
-      newAnswers[currentIndex] = currentSelections.length > 0 ? currentSelections : null;
+      newAnswers[currentIndex] =
+        currentSelections.length > 0 ? currentSelections : null;
     } else {
       // Single-select: replace with new selection
       newAnswers[currentIndex] = optionText;
     }
-    
+
     setAnswers(newAnswers);
   };
 
@@ -35131,19 +35193,28 @@ function QuizInterface({
   const currentQ = questions[currentIndex];
   if (!currentQ) return <div>Loading question...</div>;
 
-  const isFillInTheBlank =
+  const baseFillIn =
     currentQ.type === 'fill-in-the-blank' ||
-    !currentQ.answerOptions ||
+    !Array.isArray(currentQ.answerOptions) ||
     currentQ.answerOptions.length === 0;
 
   // NUMERIC ENTRY ENHANCEMENT: Detect numeric entry questions for Math
-  const isNumericEntry = currentQ.type === 'numeric' || currentQ.responseType === 'numeric';
+  const isNumericEntry =
+    currentQ.type === 'numeric' || currentQ.responseType === 'numeric';
+
+  const isShortResponse = isShortResponseQuestion(currentQ);
+  const isFillInTheBlank = baseFillIn && !isNumericEntry && !isShortResponse;
 
   // MULTIPLE-SELECT ENHANCEMENT: Determine if current question is multiple-select
-  const isMultipleSelect = currentQ.selectType === 'multiple' || currentQ.type === 'multiple-select';
+  const isMultipleSelect =
+    currentQ.selectType === 'multiple' || currentQ.type === 'multiple-select';
   const currentAnswer = answers[currentIndex];
-  const selectedOptions = isMultipleSelect 
-    ? (Array.isArray(currentAnswer) ? currentAnswer : (currentAnswer ? [currentAnswer] : []))
+  const selectedOptions = isMultipleSelect
+    ? Array.isArray(currentAnswer)
+      ? currentAnswer
+      : currentAnswer
+      ? [currentAnswer]
+      : []
     : [currentAnswer];
 
   // TEMPORARY: disable interactive math tool mounting entirely
@@ -35178,6 +35249,10 @@ function QuizInterface({
           backgroundColor: scheme.timerDefaultBg,
           color: scheme.timerDefaultText,
         };
+
+  // PASSAGE LINKING ENHANCEMENT: Check if current question has an associated passage
+  const hasPassage = Boolean(currentQ.passage || currentQ.passageId);
+  const passageContent = currentQ.passage || '';
 
   // Interactive tool mounting lifecycle
   useEffect(() => {
@@ -35572,6 +35647,21 @@ function QuizInterface({
             backgroundColor: scheme.surfaceStrong || scheme.surface,
           }}
         >
+          {currentQ.clusterLabel && (
+            <div
+              className="mb-3 rounded-md border px-3 py-2 text-sm"
+              style={{
+                borderColor: scheme.surfaceBorder,
+                backgroundColor: scheme.surface,
+                color: scheme.mutedText,
+              }}
+            >
+              <span className="font-semibold" style={{ color: scheme.text }}>
+                Scenario:
+              </span>{' '}
+              {currentQ.clusterLabel}
+            </div>
+          )}
           <div className="mb-4">
             <div className="flex items-start gap-3">
               <span
@@ -35648,19 +35738,108 @@ function QuizInterface({
             />
           )}
 
-          {(isFillInTheBlank || isNumericEntry) ? (
+          {isShortResponse ? (
+            <div>
+              <label
+                htmlFor="short-response-answer"
+                className="mb-1 block text-sm font-medium"
+                style={{ color: scheme.mutedText }}
+              >
+                Enter a short constructed response (2–4 sentences):
+              </label>
+              <textarea
+                id="short-response-answer"
+                value={answers[currentIndex] || ''}
+                onChange={handleInputChange}
+                rows={5}
+                className="w-full rounded-lg p-3 text-base leading-relaxed focus:outline-none"
+                style={{
+                  border: `1px solid ${scheme.inputBorder}`,
+                  color: 'var(--text-primary)',
+                  backgroundColor: scheme.surface,
+                  resize: 'vertical',
+                }}
+                placeholder="Type your response and reference the passage or data when possible."
+              />
+              <p className="mt-2 text-xs" style={{ color: scheme.mutedText }}>
+                These items are scored manually. Focus on evidence and clear
+                reasoning.
+              </p>
+              {(() => {
+                const rubricHints = Array.isArray(currentQ.expectedFeatures)
+                  ? currentQ.expectedFeatures
+                  : Array.isArray(currentQ.rubricHints)
+                  ? currentQ.rubricHints
+                  : [];
+                const sampleAnswer =
+                  typeof currentQ.sampleAnswer === 'string'
+                    ? currentQ.sampleAnswer.trim()
+                    : '';
+                if (!rubricHints.length && !sampleAnswer) return null;
+                return (
+                  <div
+                    className="mt-4 rounded-lg border p-3 text-sm"
+                    style={{
+                      borderColor: scheme.surfaceBorder,
+                      backgroundColor: scheme.surface,
+                    }}
+                  >
+                    {rubricHints.length > 0 && (
+                      <div>
+                        <p
+                          className="font-semibold"
+                          style={{ color: scheme.text }}
+                        >
+                          Rubric checklist
+                        </p>
+                        <ul className="mt-2 list-disc pl-5 space-y-1">
+                          {rubricHints.map((hint, idx) => (
+                            <li
+                              key={idx}
+                              className="text-xs"
+                              style={{ color: scheme.mutedText }}
+                            >
+                              {hint}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {sampleAnswer && (
+                      <details
+                        className="mt-3 text-xs"
+                        style={{ color: scheme.mutedText }}
+                      >
+                        <summary className="cursor-pointer font-semibold">
+                          View sample answer
+                        </summary>
+                        <p
+                          className="mt-2 leading-relaxed"
+                          style={{ color: scheme.text }}
+                        >
+                          {sampleAnswer}
+                        </p>
+                      </details>
+                    )}
+                  </div>
+                );
+              })()}
+            </div>
+          ) : isFillInTheBlank || isNumericEntry ? (
             <div>
               <label
                 htmlFor="fill-in-blank-answer"
                 className="mb-1 block text-sm font-medium"
                 style={{ color: scheme.mutedText }}
               >
-                {isNumericEntry ? 'Enter your numeric answer:' : 'Enter your answer:'}
+                {isNumericEntry
+                  ? 'Enter your numeric answer:'
+                  : 'Enter your answer:'}
               </label>
               <input
                 id="fill-in-blank-answer"
-                type={isNumericEntry ? "text" : "text"}
-                inputMode={isNumericEntry ? "decimal" : "text"}
+                type={isNumericEntry ? 'text' : 'text'}
+                inputMode={isNumericEntry ? 'decimal' : 'text'}
                 value={answers[currentIndex] || ''}
                 onChange={handleInputChange}
                 onKeyDown={(e) => {
@@ -35675,7 +35854,11 @@ function QuizInterface({
                     }
                   }
                 }}
-                placeholder={isNumericEntry ? "Enter a number (e.g., 3.5 or 3/4)" : "Type your answer here"}
+                placeholder={
+                  isNumericEntry
+                    ? 'Enter a number (e.g., 3.5 or 3/4)'
+                    : 'Type your answer here'
+                }
                 className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
                 style={{
                   border: `1px solid ${scheme.inputBorder}`,
@@ -35718,21 +35901,6 @@ function QuizInterface({
                     onClick={() => handleSelect(optText)}
                     className={optionClassNames.join(' ')}
                     style={optionStyles}
-                                      {isMultipleSelect && (
-                                        <span className="inline-block w-5 h-5 mr-2 border-2 rounded align-middle" 
-                                              style={{ 
-                                                borderColor: isSelected ? scheme.accent : scheme.inputBorder,
-                                                backgroundColor: isSelected ? scheme.accent : 'transparent',
-                                                verticalAlign: 'middle',
-                                                display: 'inline-flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center'
-                                              }}>
-                                          {isSelected && (
-                                            <span style={{ color: scheme.accentText, fontSize: '0.875rem', fontWeight: 'bold' }}>✓</span>
-                                          )}
-                                        </span>
-                                      )}
                   >
                     <span
                       className="flex-grow text-left"
@@ -35958,6 +36126,22 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     return isEquivalentAnswer(q.correctAnswer, userAns);
   };
 
+  // NUMERIC ENTRY ENHANCEMENT: Check numeric questions with optional tolerance
+  const checkNumericQuestionCorrect = (q, userAns) => {
+    if (!q.correctAnswer || !userAns) return false;
+
+    const correctVal = numericValue(q.correctAnswer);
+    const userVal = numericValue(userAns);
+
+    if (correctVal === null || userVal === null) return false;
+
+    // Check if tolerance is specified
+    const tolerance =
+      typeof q.tolerance === 'number' && q.tolerance >= 0 ? q.tolerance : 0;
+
+    return Math.abs(userVal - correctVal) <= tolerance;
+  };
+
   const handleComplete = (result) => {
     // 1) helper: normalize text
     const normalizeText = (val) => (val ?? '').toString().trim().toLowerCase();
@@ -35965,8 +36149,13 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     // 2) compute earned/possible with weights, all-or-nothing
     let earnedPoints = 0;
     let possiblePoints = 0;
+    const manualShortResponseIndexes = [];
 
     (quiz.questions || []).forEach((q, idx) => {
+      if (isShortResponseQuestion(q)) {
+        manualShortResponseIndexes.push(idx);
+        return;
+      }
       const pts = typeof q.points === 'number' && q.points > 0 ? q.points : 1;
       possiblePoints += pts;
 
@@ -35974,7 +36163,10 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
 
       let isCorrect = false;
 
-      if (Array.isArray(q.answerOptions) && q.answerOptions.length > 0) {
+      // NUMERIC ENTRY ENHANCEMENT: Check numeric entry questions first
+      if (q.type === 'numeric' || q.responseType === 'numeric') {
+        isCorrect = checkNumericQuestionCorrect(q, userAns);
+      } else if (Array.isArray(q.answerOptions) && q.answerOptions.length > 0) {
         // multiple-choice / multi-select
         const correctOpts = q.answerOptions.filter((o) => o && o.isCorrect);
         if (correctOpts.length === 1) {
@@ -36043,6 +36235,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       answers: result.answers, // include user answers for results screen
       marked: result.marked,
       confidence: result.confidence,
+      manualShortResponseIndexes,
       quiz,
     });
   };
@@ -36832,6 +37025,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 
   const safeMarked = Array.isArray(results.marked) ? results.marked : [];
   const safeAnswers = Array.isArray(results.answers) ? results.answers : [];
+  const manualShortIndexes = Array.isArray(results.manualShortResponseIndexes)
+    ? results.manualShortResponseIndexes
+    : (quiz.questions || []).reduce((acc, question, idx) => {
+        if (isShortResponseQuestion(question)) acc.push(idx);
+        return acc;
+      }, []);
+  const manualShortSet = new Set(manualShortIndexes);
 
   const [suggestions, setSuggestions] = useState([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
@@ -36924,6 +37124,9 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   let fallbackBreakdown = [];
   if (!categoryBreakdown.length) {
     const perf = quiz.questions.reduce((acc, question, index) => {
+      if (isShortResponseQuestion(question)) {
+        return acc;
+      }
       const type = question.type || 'knowledge';
       if (!acc[type]) acc[type] = { correct: 0, total: 0 };
       acc[type].total++;
@@ -36987,6 +37190,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
           {results?.score ?? 0} /{' '}
           {results?.totalQuestions ?? (quiz?.questions?.length || 0)} Correct
         </p>
+        {manualShortIndexes.length > 0 && (
+          <p className="mt-2 text-sm text-slate-500">
+            {manualShortIndexes.length} short-response item
+            {manualShortIndexes.length === 1 ? '' : 's'} require manual review
+            and were not auto-scored.
+          </p>
+        )}
       </div>
 
       {(loadingSuggestions || (suggestions && suggestions.length)) && (
@@ -37057,7 +37267,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               <div className="w-full bg-slate-200 rounded-full h-2.5 mt-2">
                 <div
                   className="bg-sky-500 h-2.5 rounded-full"
-                  style={{ width: `${(data.correct / data.total) * 100}%` }}
+                  style={{
+                    width: `${
+                      data.total ? (data.correct / data.total) * 100 : 0
+                    }%`,
+                  }}
                 ></div>
               </div>
             </div>
@@ -37101,8 +37315,12 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               rawAnswers[index] !== undefined ? rawAnswers[index] : null;
             const correctOpt = findCorrectOption(question.answerOptions);
             // Use unified comparison logic for results display
+            const isManual =
+              manualShortSet.has(index) || isShortResponseQuestion(question);
             let isCorrect;
-            if (correctOpt) {
+            if (isManual) {
+              isCorrect = null;
+            } else if (correctOpt) {
               // Multiple choice - use compareAnswers with subject context
               isCorrect = compareAnswers(correctOpt.text, userAnswer, {
                 subject: quiz.subject,
@@ -37131,12 +37349,17 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               return 'bg-slate-100 text-slate-800';
             };
 
+            const borderClass =
+              isCorrect === true
+                ? 'border-green-200'
+                : isCorrect === false
+                ? 'border-red-200'
+                : 'border-slate-200';
+
             return (
               <div
                 key={index}
-                className={`p-4 rounded-lg panel-surface ${
-                  isCorrect ? 'border-green-200' : 'border-red-200'
-                } text-slate-900 dark:text-slate-100`}
+                className={`p-4 rounded-lg panel-surface ${borderClass} text-slate-900 dark:text-slate-100`}
               >
                 <div className="mb-2 flex items-start gap-3">
                   <span className="font-semibold question-stem leading-relaxed">
@@ -37190,7 +37413,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                 )}
                 <p
                   className={`mt-2 ${
-                    isCorrect ? 'text-green-700' : 'text-red-700'
+                    isCorrect === true
+                      ? 'text-green-700'
+                      : isCorrect === false
+                      ? 'text-red-700'
+                      : 'text-slate-600'
                   }`}
                 >
                   {(() => {
@@ -37204,13 +37431,17 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                     })();
                     return <>Your answer: {display} </>;
                   })()}
-                  {isCorrect ? (
+                  {isCorrect === true ? (
                     <CorrectIcon className="inline-block w-5 h-5 ml-1 text-green-600" />
-                  ) : (
+                  ) : isCorrect === false ? (
                     <WrongIcon className="inline-block w-5 h-5 ml-1 text-red-600" />
+                  ) : (
+                    <span className="ml-2 inline-flex items-center rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-semibold text-yellow-800">
+                      Manual review
+                    </span>
                   )}
                 </p>
-                {!isCorrect &&
+                {isCorrect === false &&
                   ((correctOpt && correctOpt.text) ||
                     question.correctAnswer) && (
                     <p className="text-green-700 question-stem">
@@ -37226,6 +37457,45 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       />
                     </p>
                   )}
+                {isManual &&
+                  (() => {
+                    const rubricHints = Array.isArray(question.expectedFeatures)
+                      ? question.expectedFeatures
+                      : Array.isArray(question.rubricHints)
+                      ? question.rubricHints
+                      : [];
+                    const sampleAnswer =
+                      typeof question.sampleAnswer === 'string'
+                        ? question.sampleAnswer.trim()
+                        : '';
+                    if (!rubricHints.length && !sampleAnswer) return null;
+                    return (
+                      <div className="mt-3 text-sm text-slate-600">
+                        {rubricHints.length > 0 && (
+                          <div>
+                            <p className="font-semibold text-slate-700">
+                              Self-check rubric
+                            </p>
+                            <ul className="mt-1 list-disc pl-5 space-y-1">
+                              {rubricHints.map((hint, idx) => (
+                                <li key={idx}>{hint}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        {sampleAnswer && (
+                          <div className="mt-2">
+                            <p className="font-semibold text-slate-700">
+                              Sample answer
+                            </p>
+                            <p className="mt-1 leading-relaxed">
+                              {sampleAnswer}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 {correctOpt && correctOpt.raw && correctOpt.raw.rationale && (
                   <div className="explanation">
                     <span className="font-semibold">Rationale:</span>{' '}
