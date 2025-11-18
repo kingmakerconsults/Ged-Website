@@ -2553,3 +2553,79 @@ select {
   font-size: 0.85rem;
   letter-spacing: 0.02em;
 }
+
+/* GED-Style Split-Screen Layout for RLA Comprehensive Exam */
+@media (min-width: 1024px) {
+  .ged-split-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    height: calc(100vh - 200px);
+    min-height: 500px;
+  }
+
+  .ged-scroll-pane {
+    overflow-y: auto;
+    padding-right: 1rem;
+    height: 100%;
+    border-right: 1px solid var(--border-subtle, rgba(148, 163, 184, 0.4));
+  }
+
+  .ged-scroll-pane:last-child {
+    border-right: none;
+  }
+}
+
+/* Mobile responsive: stack vertically */
+@media (max-width: 1023px) {
+  .ged-split-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .ged-scroll-pane {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-subtle, rgba(148, 163, 184, 0.4));
+  }
+
+  .ged-scroll-pane:last-child {
+    border-bottom: none;
+  }
+}
+
+/* RLA passage styling improvements */
+.rla-passage-container {
+  padding: 1.5rem;
+  background-color: var(--bg-surface);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.rla-passage-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--subject-rla-accent);
+}
+
+.rla-passage-content {
+  line-height: 1.8;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.rla-passage-content p {
+  margin-bottom: 1rem;
+}
+
+/* Dark mode adjustments for RLA passages */
+[data-theme='dark'] .rla-passage-container {
+  background-color: rgba(15, 23, 42, 0.6);
+}
+
+[data-theme='dark'] .rla-passage-title {
+  color: var(--subject-rla-text);
+}
