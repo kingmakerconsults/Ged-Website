@@ -28039,6 +28039,152 @@ function PracticeSessionModal({
   );
 }
 
+// --- StudentHomeRoom Component (Dashboard) ---
+function StudentHomeRoom({ user, onNavigate }) {
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
+  const [dashboardData, setDashboardData] = React.useState({
+    nextTask: null,
+    mastery: { rla: [], math: [], science: [], social: [] },
+    studyTime: { week: {}, month: {}, allTime: {}, bySubject: [] },
+    badges: { rla: {}, math: {}, science: {}, social: {} },
+    scoreHistory: { history: [], highestScores: {} },
+    studyEstimate: null,
+    careerRecommendations: { recommendations: [], interests: [] },
+  });
+
+  React.useEffect(() => {
+    loadDashboardData();
+  }, []);
+
+  const loadDashboardData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const token = localStorage.getItem('token');
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+
+      const [
+        nextTaskRes,
+        masteryRes,
+        studyTimeRes,
+        badgesRes,
+        scoreHistoryRes,
+        studyEstimateRes,
+        careerRes,
+      ] = await Promise.all([
+        fetch('/api/student/next-task', { headers }),
+        fetch('/api/student/mastery', { headers }),
+        fetch('/api/student/study-time', { headers }),
+        fetch('/api/student/badges', { headers }),
+        fetch('/api/student/score-history', { headers }),
+        fetch('/api/student/study-estimate', { headers }),
+        fetch('/api/student/career-recommendations', { headers }),
+      ]);
+
+      const data = {
+        nextTask: await nextTaskRes.json(),
+        mastery: await masteryRes.json(),
+        studyTime: await studyTimeRes.json(),
+        badges: await badgesRes.json(),
+        scoreHistory: await scoreHistoryRes.json(),
+        studyEstimate: await studyEstimateRes.json(),
+        careerRecommendations: await careerRes.json(),
+      };
+
+      setDashboardData(data);
+    } catch (err) {
+      console.error('[StudentHomeRoom] Load error:', err);
+      setError('Failed to load dashboard data. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">
+            Loading your dashboard...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 max-w-md">
+          <p className="text-red-700 dark:text-red-300 mb-4">{error}</p>
+          <button
+            onClick={loadDashboardData}
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const highestScore =
+    Object.values(dashboardData.scoreHistory.highestScores || {})[0] || 0;
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      {/* Header */}
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Welcome back, {user?.name || 'Student'}! 👋
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 mt-1">
+                Your learning dashboard
+              </p>
+            </div>
+            <button
+              onClick={loadDashboardData}
+              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+              title="Refresh dashboard"
+            >
+              🔄 Refresh
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Content - Coming Soon Placeholder */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 text-center">
+          <div className="text-6xl mb-4">🚧</div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            Student Dashboard Coming Soon
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            Your personalized learning dashboard with AI-powered insights,
+            mastery tracking, and career recommendations is under construction.
+          </p>
+          <button
+            onClick={() => onNavigate('/', {})}
+            className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
+          >
+            Return to Home
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // --- Main App Component ---
 function App({ externalTheme, onThemeChange }) {
   const SMITHING_PROMPTS = [
@@ -30549,24 +30695,18 @@ function App({ externalTheme, onThemeChange }) {
     if (!currentUser) {
       return <AuthScreen onLogin={handleLogin} />;
     }
-    if (currentUser.role === 'super_admin') {
+    // Use Enhanced Admin Shell for all admin roles
+    const adminRoles = ['super_admin', 'org_admin', 'teacher'];
+    if (adminRoles.includes(currentUser.role)) {
       return (
-        <SuperAdminDashboard
+        <EnhancedAdminShell
           user={currentUser}
           token={authToken}
           onLogout={handleLogout}
         />
       );
     }
-    if (currentUser.role === 'org_admin') {
-      return (
-        <OrgAdminDashboard
-          user={currentUser}
-          token={authToken}
-          onLogout={handleLogout}
-        />
-      );
-    }
+
     switch (view) {
       case 'quiz':
         return (
@@ -30739,6 +30879,32 @@ function App({ externalTheme, onThemeChange }) {
               status={settingsStatus}
               onBack={goToDashboard}
               loading={profileLoading}
+            />
+          );
+        }
+        if (activeView === 'homeroom') {
+          return (
+            <StudentHomeRoom
+              user={currentUser}
+              onNavigate={(path, params) => {
+                // Handle navigation from dashboard
+                if (path.startsWith('/quiz/')) {
+                  const quizId = path.split('/')[2];
+                  // Find and start the quiz
+                  // For now, navigate back to dashboard
+                  goToDashboard();
+                } else if (path.startsWith('/practice/')) {
+                  const subject = path.split('/')[2];
+                  selectSubject(subject);
+                  goToDashboard();
+                } else if (path === '/exam-history') {
+                  navigateTo('progress');
+                } else if (path === '/workforce') {
+                  navigateTo('workforce');
+                } else {
+                  goToDashboard();
+                }
+              }}
             />
           );
         }
@@ -32783,6 +32949,440 @@ function OrgAdminDashboard({ user, token, onLogout }) {
           )}
         </section>
       </div>
+    </div>
+  );
+}
+
+// ========================================
+// COMPREHENSIVE ADMIN SUITE COMPONENTS
+// ========================================
+
+// Admin Dashboard with analytics overview
+function AdminDashboard({ user, onNavigate }) {
+  const [readinessData, setReadinessData] = useState(null);
+  const [activityData, setActivityData] = useState(null);
+  const [gedResultsData, setGedResultsData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadDashboardData();
+  }, []);
+
+  const loadDashboardData = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem('authToken');
+      const headers = { Authorization: `Bearer ${token}` };
+
+      const [readiness, activity, gedResults] = await Promise.all([
+        fetchJSON(`${API_BASE_URL}/api/admin/reports/readiness`, { headers }),
+        fetchJSON(`${API_BASE_URL}/api/admin/reports/activity`, { headers }),
+        fetchJSON(`${API_BASE_URL}/api/admin/reports/ged-results`, { headers }),
+      ]);
+
+      setReadinessData(readiness);
+      setActivityData(activity);
+      setGedResultsData(gedResults);
+    } catch (error) {
+      console.error('Failed to load dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
+          <p className="text-slate-600 dark:text-slate-400">
+            Loading dashboard...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const subjectNames = {
+    rla: 'Reading/Language Arts',
+    math: 'Math',
+    science: 'Science',
+    social: 'Social Studies',
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto p-6">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+          Admin Dashboard
+        </h1>
+        <p className="text-slate-600 dark:text-slate-400">
+          Welcome back, {user?.name}
+        </p>
+      </div>
+
+      {/* Quick Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="bg-teal-100 dark:bg-teal-900/30 p-3 rounded-lg">
+              <UsersIcon className="w-6 h-6 text-teal-600 dark:text-teal-400" />
+            </div>
+            <span className="text-2xl font-bold text-slate-900 dark:text-white">
+              {activityData?.last30Days?.activeStudents || 0}
+            </span>
+          </div>
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">
+            Active Students
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-slate-500">
+            Last 30 days
+          </p>
+        </div>
+
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg">
+              <ClockIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            </div>
+            <span className="text-2xl font-bold text-slate-900 dark:text-white">
+              {Math.round((activityData?.last30Days?.totalMinutes || 0) / 60)}h
+            </span>
+          </div>
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">
+            Study Time
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-slate-500">
+            Last 30 days
+          </p>
+        </div>
+
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="bg-green-100 dark:bg-green-900/30 p-3 rounded-lg">
+              <TrophyIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
+            </div>
+            <span className="text-2xl font-bold text-slate-900 dark:text-white">
+              {readinessData?.overall?.ready || 0}
+            </span>
+          </div>
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">
+            Test Ready
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-slate-500">
+            GED pass-ready scores
+          </p>
+        </div>
+
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-lg">
+              <StarIcon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            </div>
+            <span className="text-2xl font-bold text-slate-900 dark:text-white">
+              {gedResultsData?.last3Months?.passed || 0}/
+              {gedResultsData?.last3Months?.total || 0}
+            </span>
+          </div>
+          <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">
+            GED Tests Passed
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-slate-500">
+            Last 3 months
+          </p>
+        </div>
+      </div>
+
+      {/* Readiness by Subject */}
+      <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-6 mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center">
+            <BarChartIcon className="w-5 h-5 mr-2" />
+            GED Readiness by Subject
+          </h2>
+          <button
+            onClick={() => onNavigate('admin-reports')}
+            className="text-sm text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-medium"
+          >
+            View Full Reports →
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {readinessData &&
+            Object.keys(readinessData.subjects || {}).map((key) => {
+              const subject = readinessData.subjects[key];
+              const total =
+                subject.ready + subject.almostReady + subject.needMoreStudy;
+
+              return (
+                <div
+                  key={key}
+                  className="border dark:border-slate-700 rounded-lg p-4"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="font-semibold text-slate-900 dark:text-white">
+                      {subjectNames[key]}
+                    </h3>
+                    <span className="text-sm text-slate-600 dark:text-slate-400">
+                      Avg: {subject.meanScore}
+                    </span>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-slate-600 dark:text-slate-400">
+                        Ready (145+)
+                      </span>
+                      <span className="font-medium text-green-600 dark:text-green-400">
+                        {subject.ready}
+                      </span>
+                    </div>
+                    <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                      <div
+                        className="bg-green-500 h-2 rounded-full"
+                        style={{
+                          width: `${
+                            total > 0 ? (subject.ready / total) * 100 : 0
+                          }%`,
+                        }}
+                      ></div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-slate-600 dark:text-slate-400">
+                        Almost Ready (135-144)
+                      </span>
+                      <span className="font-medium text-yellow-600 dark:text-yellow-400">
+                        {subject.almostReady}
+                      </span>
+                    </div>
+                    <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                      <div
+                        className="bg-yellow-500 h-2 rounded-full"
+                        style={{
+                          width: `${
+                            total > 0 ? (subject.almostReady / total) * 100 : 0
+                          }%`,
+                        }}
+                      ></div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-slate-600 dark:text-slate-400">
+                        Need Study (&lt;135)
+                      </span>
+                      <span className="font-medium text-red-600 dark:text-red-400">
+                        {subject.needMoreStudy}
+                      </span>
+                    </div>
+                    <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                      <div
+                        className="bg-red-500 h-2 rounded-full"
+                        style={{
+                          width: `${
+                            total > 0
+                              ? (subject.needMoreStudy / total) * 100
+                              : 0
+                          }%`,
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      </div>
+
+      {/* Quick Links */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <button
+          onClick={() => onNavigate('admin-classes')}
+          className="bg-white dark:bg-slate-800 rounded-lg shadow p-6 hover:shadow-lg transition-shadow text-left"
+        >
+          <div className="bg-teal-100 dark:bg-teal-900/30 p-3 rounded-lg w-fit mb-4">
+            <BookOpenIcon className="w-6 h-6 text-teal-600 dark:text-teal-400" />
+          </div>
+          <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
+            Manage Classes
+          </h3>
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            Create and edit classes, manage rosters
+          </p>
+        </button>
+
+        <button
+          onClick={() => onNavigate('admin-students')}
+          className="bg-white dark:bg-slate-800 rounded-lg shadow p-6 hover:shadow-lg transition-shadow text-left"
+        >
+          <div className="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg w-fit mb-4">
+            <UsersIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+          </div>
+          <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
+            Manage Students
+          </h3>
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            Search, create, and edit student profiles
+          </p>
+        </button>
+
+        <button
+          onClick={() => onNavigate('admin-reports')}
+          className="bg-white dark:bg-slate-800 rounded-lg shadow p-6 hover:shadow-lg transition-shadow text-left"
+        >
+          <div className="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-lg w-fit mb-4">
+            <BarChartIcon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+          </div>
+          <h3 className="font-semibold text-slate-900 dark:text-white mb-2">
+            View Reports
+          </h3>
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            Analytics, exports, and GED results
+          </p>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// Enhanced Admin Shell with full admin suite
+function EnhancedAdminShell({ user, token, onLogout }) {
+  const [adminView, setAdminView] = useState('dashboard');
+  // adminView can be: 'dashboard', 'classes', 'students', 'reports'
+
+  const isAdmin =
+    user?.role === 'super_admin' ||
+    user?.role === 'org_admin' ||
+    user?.role === 'teacher';
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+            Access Denied
+          </h1>
+          <p className="text-slate-600 dark:text-slate-400 mb-4">
+            You don't have permission to access this area.
+          </p>
+          <button
+            onClick={onLogout}
+            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+          >
+            Back to Login
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const renderAdminContent = () => {
+    // For now, we'll use external components loaded from /components/admin/
+    // In production, these would be imported, but since this is a monolithic file,
+    // we'll reference them dynamically
+    if (adminView === 'dashboard') {
+      return <AdminDashboard user={user} onNavigate={setAdminView} />;
+    }
+
+    // Placeholder for other views - these would need the full component implementations
+    return (
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+            {adminView === 'classes' && 'Classes Manager'}
+            {adminView === 'students' && 'Students Manager'}
+            {adminView === 'reports' && 'Reports & Analytics'}
+          </h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-4">
+            This view requires additional component implementations.
+          </p>
+          <button
+            onClick={() => setAdminView('dashboard')}
+            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+          >
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+      {/* Admin Navigation Header */}
+      <header className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-6">
+              <h1 className="text-xl font-bold text-slate-900 dark:text-white">
+                {user?.organization_name || 'Admin Portal'}
+              </h1>
+              <nav className="flex items-center gap-1">
+                <button
+                  onClick={() => setAdminView('dashboard')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    adminView === 'dashboard'
+                      ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                  }`}
+                >
+                  Dashboard
+                </button>
+                <button
+                  onClick={() => setAdminView('classes')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    adminView === 'classes'
+                      ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                  }`}
+                >
+                  Classes
+                </button>
+                <button
+                  onClick={() => setAdminView('students')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    adminView === 'students'
+                      ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                  }`}
+                >
+                  Students
+                </button>
+                <button
+                  onClick={() => setAdminView('reports')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    adminView === 'reports'
+                      ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                  }`}
+                >
+                  Reports
+                </button>
+              </nav>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="text-right">
+                <div className="text-sm font-medium text-slate-900 dark:text-white">
+                  {user?.name}
+                </div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 capitalize">
+                  {user?.role?.replace('_', ' ')}
+                </div>
+              </div>
+              <button
+                onClick={onLogout}
+                className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+              >
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Admin Content */}
+      <main className="py-8">{renderAdminContent()}</main>
     </div>
   );
 }
