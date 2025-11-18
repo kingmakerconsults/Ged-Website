@@ -1,0 +1,165 @@
+{
+  "title": "Test Exam: Enhanced Question Types",
+  "subject": "Math",
+  "type": "standard",
+  "timeLimit": 900,
+  "config": {
+    "formulaSheet": true
+  },
+  "questions": [
+    {
+      "questionNumber": 1,
+      "subject": "Math",
+      "type": "multiple-select",
+      "selectType": "multiple",
+      "text": "Which of the following numbers are prime? (Select ALL that apply)",
+      "answerOptions": [
+        {
+          "text": "2",
+          "isCorrect": true,
+          "rationale": "2 is the only even prime number."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "4 is divisible by 2, so it is not prime."
+        },
+        {
+          "text": "7",
+          "isCorrect": true,
+          "rationale": "7 is only divisible by 1 and 7."
+        },
+        {
+          "text": "9",
+          "isCorrect": false,
+          "rationale": "9 is divisible by 3, so it is not prime."
+        },
+        {
+          "text": "11",
+          "isCorrect": true,
+          "rationale": "11 is only divisible by 1 and 11."
+        }
+      ],
+      "isPremade": true
+    },
+    {
+      "questionNumber": 2,
+      "subject": "Math",
+      "type": "numeric",
+      "responseType": "numeric",
+      "text": "Calculate the area of a rectangle with length 5.5 meters and width 3 meters. Enter your answer in square meters.",
+      "correctAnswer": "16.5",
+      "tolerance": 0,
+      "rationale": "Area = length × width = 5.5 × 3 = 16.5 square meters.",
+      "isPremade": true
+    },
+    {
+      "questionNumber": 3,
+      "subject": "Math",
+      "type": "numeric",
+      "responseType": "numeric",
+      "text": "A recipe calls for 3/4 cup of sugar. If you want to make 1.5 times the recipe, how many cups of sugar do you need? (You may enter your answer as a decimal or fraction)",
+      "correctAnswer": "1.125",
+      "tolerance": 0.01,
+      "acceptFraction": true,
+      "rationale": "3/4 × 1.5 = 0.75 × 1.5 = 1.125 cups. This is also equal to 9/8 or 1 1/8 cups.",
+      "isPremade": true
+    },
+    {
+      "questionNumber": 4,
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "type": "multiple-select",
+      "selectType": "multiple",
+      "passageId": "passage_1",
+      "passage": "<p>Climate change refers to long-term shifts in global temperatures and weather patterns. While climate change is a natural phenomenon, scientific evidence shows that human activities—particularly the burning of fossil fuels—have been the main driver of climate change since the 1800s.</p><p>The primary greenhouse gases contributing to climate change include carbon dioxide (CO₂), methane (CH₄), and nitrous oxide (N₂O). These gases trap heat in the atmosphere, leading to global warming. The consequences include rising sea levels, more frequent extreme weather events, and disruptions to ecosystems.</p>",
+      "text": "According to the passage, which of the following are greenhouse gases that contribute to climate change? (Select ALL that apply)",
+      "answerOptions": [
+        {
+          "text": "Carbon dioxide (CO₂)",
+          "isCorrect": true,
+          "rationale": "The passage explicitly mentions CO₂ as a primary greenhouse gas."
+        },
+        {
+          "text": "Oxygen (O₂)",
+          "isCorrect": false,
+          "rationale": "Oxygen is not mentioned as a greenhouse gas in the passage."
+        },
+        {
+          "text": "Methane (CH₄)",
+          "isCorrect": true,
+          "rationale": "The passage explicitly mentions CH₄ as a primary greenhouse gas."
+        },
+        {
+          "text": "Nitrogen (N₂)",
+          "isCorrect": false,
+          "rationale": "While nitrous oxide (N₂O) is mentioned, plain nitrogen (N₂) is not a greenhouse gas."
+        },
+        {
+          "text": "Nitrous oxide (N₂O)",
+          "isCorrect": true,
+          "rationale": "The passage explicitly mentions N₂O as a primary greenhouse gas."
+        }
+      ],
+      "isPremade": true
+    },
+    {
+      "questionNumber": 5,
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "passageId": "passage_1",
+      "passage": "<p>Climate change refers to long-term shifts in global temperatures and weather patterns. While climate change is a natural phenomenon, scientific evidence shows that human activities—particularly the burning of fossil fuels—have been the main driver of climate change since the 1800s.</p><p>The primary greenhouse gases contributing to climate change include carbon dioxide (CO₂), methane (CH₄), and nitrous oxide (N₂O). These gases trap heat in the atmosphere, leading to global warming. The consequences include rising sea levels, more frequent extreme weather events, and disruptions to ecosystems.</p>",
+      "text": "What has been the main driver of climate change since the 1800s?",
+      "answerOptions": [
+        {
+          "text": "Natural climate cycles",
+          "isCorrect": false,
+          "rationale": "While climate change is natural, the passage states human activities have been the MAIN driver since the 1800s."
+        },
+        {
+          "text": "The burning of fossil fuels",
+          "isCorrect": true,
+          "rationale": "Correct. The passage explicitly states this is the main driver of climate change."
+        },
+        {
+          "text": "Solar radiation changes",
+          "isCorrect": false,
+          "rationale": "Solar radiation is not mentioned in the passage."
+        },
+        {
+          "text": "Volcanic eruptions",
+          "isCorrect": false,
+          "rationale": "Volcanic eruptions are not mentioned in the passage."
+        }
+      ],
+      "isPremade": true
+    },
+    {
+      "questionNumber": 6,
+      "subject": "Math",
+      "type": "single-select",
+      "text": "What is the value of x in the equation: 2x + 7 = 19?",
+      "answerOptions": [
+        {
+          "text": "6",
+          "isCorrect": true,
+          "rationale": "Correct. Subtract 7 from both sides: 2x = 12. Then divide by 2: x = 6."
+        },
+        {
+          "text": "12",
+          "isCorrect": false,
+          "rationale": "This is the value of 2x, not x."
+        },
+        {
+          "text": "13",
+          "isCorrect": false,
+          "rationale": "This would be the result of incorrectly subtracting."
+        },
+        {
+          "text": "26",
+          "isCorrect": false,
+          "rationale": "This appears to be 2 × 13, which is not the correct approach."
+        }
+      ],
+      "isPremade": true
+    }
+  ]
+}

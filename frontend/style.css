@@ -585,6 +585,14 @@ samp,
   animation: shakeWrong 0.22s linear;
   color: var(--danger-text);
   box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.1);
+
+/* MULTIPLE-SELECT ENHANCEMENT: Styling for multiple-select questions */
+.option.multiple-select {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 }
 .dark .option.correct {
   box-shadow: 0 0 0 1px var(--success-border);
