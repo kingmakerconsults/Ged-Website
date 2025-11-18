@@ -1345,6 +1345,456 @@ function instantiateMathWordProblem(template) {
   };
 }
 
+// ============================================================================
+// SCIENCE & MATH SANITIZER FUNCTIONS (Strict Enforcement)
+// ============================================================================
+
+/**
+ * Detects if a question requires written explanation/response
+ */
+function looksLikeWrittenExplanation(questionText) {
+  if (!questionText || typeof questionText !== 'string') return false;
+  const text = questionText.toLowerCase();
+  return /(explain|describe|why|in\s*\d+\s*(?:-|–|to)?\s*\d*\s*sentences|write\s+(?:a|an|your)|response|give\s+a\s+reason|justify|discuss)/i.test(
+    text
+  );
+}
+
+/**
+ * Checks if answer is numeric
+ */
+function isNumericAnswer(answer) {
+  if (typeof answer !== 'string') return false;
+  const trimmed = answer.trim();
+  // Allow numbers, decimals, negative signs, percent, fractions
+  return /^[\d\.\-\/%\s\(\)]+$/.test(trimmed) && /\d/.test(trimmed);
+}
+
+/**
+ * Generate multiple choice options from an explanatory question prompt
+ */
+function generateMultipleChoiceFromExplanatoryQuestion(q) {
+  const questionText = q.questionText || q.question || q.prompt || '';
+
+  // Extract the core concept/topic
+  const topic = questionText.slice(0, 100);
+
+  // Generate plausible distractors based on common patterns
+  const options = [];
+
+  if (/temperature|heat/i.test(questionText)) {
+    options.push(
+      {
+        text: 'Heat energy is transferred from cold to hot objects',
+        isCorrect: false,
+        rationale: 'Incorrect - heat flows from hot to cold',
+      },
+      {
+        text: 'Heat energy is transferred from hot to cold objects',
+        isCorrect: true,
+        rationale:
+          'Correct - heat naturally flows from higher to lower temperature',
+      },
+      {
+        text: 'Temperature and heat are the same thing',
+        isCorrect: false,
+        rationale:
+          'Incorrect - temperature measures average kinetic energy, heat is energy transfer',
+      },
+      {
+        text: 'Heat transfer does not occur in a vacuum',
+        isCorrect: false,
+        rationale: 'Incorrect - radiation can transfer heat through a vacuum',
+      }
+    );
+  } else if (/cell|organism|living/i.test(questionText)) {
+    options.push(
+      {
+        text: 'All cells have a nucleus',
+        isCorrect: false,
+        rationale: 'Incorrect - prokaryotic cells lack a nucleus',
+      },
+      {
+        text: 'Cells are the basic unit of life',
+        isCorrect: true,
+        rationale: 'Correct - all living things are made of cells',
+      },
+      {
+        text: 'Viruses are considered living cells',
+        isCorrect: false,
+        rationale: 'Incorrect - viruses are not cells and require hosts',
+      },
+      {
+        text: 'Only plants have cells',
+        isCorrect: false,
+        rationale: 'Incorrect - all organisms have cells',
+      }
+    );
+  } else if (/force|motion|velocity/i.test(questionText)) {
+    options.push(
+      {
+        text: 'An object at rest will remain at rest unless acted upon by a force',
+        isCorrect: true,
+        rationale: "Correct - Newton's first law of motion",
+      },
+      {
+        text: 'Objects naturally slow down without any force',
+        isCorrect: false,
+        rationale: 'Incorrect - friction is the force causing this',
+      },
+      {
+        text: 'Heavier objects always fall faster',
+        isCorrect: false,
+        rationale: 'Incorrect - in vacuum all objects fall at same rate',
+      },
+      {
+        text: 'Force and velocity are the same thing',
+        isCorrect: false,
+        rationale:
+          'Incorrect - force causes acceleration, not velocity directly',
+      }
+    );
+  } else {
+    // Generic options
+    options.push(
+      {
+        text: 'Option A: Based on scientific principles',
+        isCorrect: true,
+        rationale: 'Correct answer',
+      },
+      {
+        text: 'Option B: Common misconception',
+        isCorrect: false,
+        rationale: 'Plausible but incorrect',
+      },
+      {
+        text: 'Option C: Alternative theory',
+        isCorrect: false,
+        rationale: 'Not supported by evidence',
+      },
+      {
+        text: 'Option D: Incomplete understanding',
+        isCorrect: false,
+        rationale: 'Missing key factors',
+      }
+    );
+  }
+
+  return options;
+}
+
+/**
+ * Main sanitizer for Science and Math questions
+ * Converts written-response questions to multiple choice
+ */
+function sanitizeScienceAndMathQuestions(questions, subject = '') {
+  if (!Array.isArray(questions)) return questions;
+
+  const isScienceOrMath = /science|math/i.test(subject);
+  if (!isScienceOrMath) return questions;
+
+  return questions.map((q) => {
+    const questionText = q.questionText || q.question || q.prompt || '';
+
+    // Check if it looks like written explanation
+    if (looksLikeWrittenExplanation(questionText)) {
+      console.log(
+        `[Sanitizer][${subject}] Converting written-response question to multiple-choice`
+      );
+
+      // Convert to multiple choice
+      q.questionType = 'multiple_choice';
+      q.questionType = 'multiple_choice_single';
+      q.responseType = 'mc';
+      q.type = q.type === 'passage' ? 'passage' : 'standalone';
+
+      // Generate or ensure answer options exist
+      if (!Array.isArray(q.answerOptions) || q.answerOptions.length === 0) {
+        q.answerOptions = generateMultipleChoiceFromExplanatoryQuestion(q);
+      }
+
+      // Remove constructed response fields
+      delete q.expectedFeatures;
+      delete q.sampleAnswer;
+      delete q.rubricHints;
+    }
+
+    // For fill-in questions without options, ensure they are numeric only
+    if (!Array.isArray(q.answerOptions) || q.answerOptions.length === 0) {
+      if (q.correctAnswer && !isNumericAnswer(q.correctAnswer)) {
+        console.log(
+          `[Sanitizer][${subject}] Non-numeric fill-in detected, converting to multiple-choice`
+        );
+
+        // Convert to multiple choice
+        q.questionType = 'multiple_choice_single';
+        q.responseType = 'mc';
+        q.answerOptions = generateMultipleChoiceFromExplanatoryQuestion(q);
+      } else if (q.correctAnswer) {
+        // It's numeric, enforce numeric response type
+        q.responseType = 'numeric';
+        q.questionType = 'short_constructed_response';
+      }
+    }
+
+    return q;
+  });
+}
+
+/**
+ * Check if passage and chart/table mismatch (unrelated content)
+ */
+function passageChartMismatch(q) {
+  const hasPassage = !!(
+    q.passage &&
+    typeof q.passage === 'string' &&
+    q.passage.trim().length > 50
+  );
+  const hasTableOrChart =
+    /<table/i.test(q.questionText || '') ||
+    /chart|graph/i.test(q.questionText || '');
+
+  // If both exist, check if they're related
+  if (hasPassage && hasTableOrChart) {
+    const passage = (q.passage || '').toLowerCase();
+    const question = (q.questionText || '').toLowerCase();
+
+    // Look for data references in passage that match table content
+    const passageHasDataRef =
+      /(data|table|chart|graph|figure|shown|above|below)/i.test(passage);
+    const questionRefsPassage = /(passage|text|reading|according to)/i.test(
+      question
+    );
+
+    // If passage has no data reference AND question has table, likely mismatch
+    if (!passageHasDataRef && hasTableOrChart && !questionRefsPassage) {
+      console.log('[Sanitizer] Detected passage-chart mismatch');
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// ============================================================================
+// CHEMISTRY EQUATION BALANCING TEMPLATES
+// ============================================================================
+
+const CHEMISTRY_BALANCING_TEMPLATES = [
+  {
+    id: 'chem_balance_1',
+    questionText: 'Which chemical equation is properly balanced?',
+    answerOptions: [
+      {
+        text: 'C + O₂ → CO₂',
+        isCorrect: true,
+        rationale: 'Correctly balanced: 1 carbon and 2 oxygen on each side',
+      },
+      {
+        text: 'H₂ + O₂ → H₂O',
+        isCorrect: false,
+        rationale: 'Not balanced: 2 oxygen on left, 1 on right',
+      },
+      {
+        text: 'N₂ + H₂ → NH₃',
+        isCorrect: false,
+        rationale: 'Not balanced: 2 nitrogen on left, 1 on right',
+      },
+      {
+        text: 'Mg + O₂ → MgO',
+        isCorrect: false,
+        rationale: 'Not balanced: 2 oxygen on left, 1 on right',
+      },
+    ],
+    difficulty: 'medium',
+    topicTags: ['Chemistry', 'Chemical Reactions', 'Balancing Equations'],
+  },
+  {
+    id: 'chem_balance_2',
+    questionText:
+      'Select the correctly balanced equation for the reaction of sodium with chlorine gas.',
+    answerOptions: [
+      {
+        text: 'Na + Cl₂ → NaCl',
+        isCorrect: false,
+        rationale: 'Not balanced: 2 chlorine on left, 1 on right',
+      },
+      {
+        text: '2Na + Cl₂ → 2NaCl',
+        isCorrect: true,
+        rationale: 'Correctly balanced: 2 sodium and 2 chlorine on each side',
+      },
+      {
+        text: 'Na + Cl → NaCl',
+        isCorrect: false,
+        rationale: 'Chlorine exists as Cl₂, not Cl',
+      },
+      {
+        text: '2Na + 2Cl₂ → 2NaCl',
+        isCorrect: false,
+        rationale: 'Not balanced: 4 chlorine on left, 2 on right',
+      },
+    ],
+    difficulty: 'medium',
+    topicTags: ['Chemistry', 'Chemical Reactions', 'Balancing Equations'],
+  },
+  {
+    id: 'chem_balance_3',
+    questionText:
+      'What coefficient is needed to balance this equation: __H₂ + O₂ → 2H₂O?',
+    correctAnswer: '2',
+    responseType: 'numeric',
+    tolerance: 0,
+    rationale: 'Need 2H₂ to provide 4 hydrogen atoms for 2H₂O molecules',
+    difficulty: 'medium',
+    topicTags: ['Chemistry', 'Chemical Reactions', 'Balancing Equations'],
+    questionType: 'short_constructed_response',
+  },
+  {
+    id: 'chem_balance_4',
+    questionText:
+      'Which equation correctly represents the formation of rust (iron oxide)?',
+    answerOptions: [
+      {
+        text: 'Fe + O₂ → FeO',
+        isCorrect: false,
+        rationale: 'This forms iron(II) oxide, not rust',
+      },
+      {
+        text: '4Fe + 3O₂ → 2Fe₂O₃',
+        isCorrect: true,
+        rationale: 'Correctly balanced equation for rust formation',
+      },
+      {
+        text: '2Fe + O₂ → Fe₂O',
+        isCorrect: false,
+        rationale: 'Not a valid compound formula',
+      },
+      {
+        text: 'Fe + O → FeO',
+        isCorrect: false,
+        rationale: 'Oxygen exists as O₂, not O, and not balanced',
+      },
+    ],
+    difficulty: 'hard',
+    topicTags: [
+      'Chemistry',
+      'Chemical Reactions',
+      'Balancing Equations',
+      'Oxidation',
+    ],
+  },
+  {
+    id: 'chem_balance_5',
+    questionText:
+      'What coefficient is needed for O₂ in this equation: CH₄ + __O₂ → CO₂ + 2H₂O?',
+    correctAnswer: '2',
+    responseType: 'numeric',
+    tolerance: 0,
+    rationale: 'Need 2O₂ to provide 4 oxygen atoms (2 for CO₂ and 2 for 2H₂O)',
+    difficulty: 'hard',
+    topicTags: [
+      'Chemistry',
+      'Chemical Reactions',
+      'Balancing Equations',
+      'Combustion',
+    ],
+    questionType: 'short_constructed_response',
+  },
+  {
+    id: 'chem_balance_6',
+    questionText:
+      'Balance this equation: N₂ + __H₂ → 2NH₃. What coefficient is needed for H₂?',
+    correctAnswer: '3',
+    responseType: 'numeric',
+    tolerance: 0,
+    rationale: 'Need 3H₂ to provide 6 hydrogen atoms for 2NH₃ molecules',
+    difficulty: 'medium',
+    topicTags: ['Chemistry', 'Chemical Reactions', 'Balancing Equations'],
+    questionType: 'short_constructed_response',
+  },
+  {
+    id: 'chem_balance_7',
+    questionText: 'Which balanced equation represents photosynthesis?',
+    answerOptions: [
+      {
+        text: 'CO₂ + H₂O → C₆H₁₂O₆ + O₂',
+        isCorrect: false,
+        rationale: 'Not balanced - missing coefficients',
+      },
+      {
+        text: '6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂',
+        isCorrect: true,
+        rationale: 'Correctly balanced photosynthesis equation',
+      },
+      {
+        text: 'CO₂ + 2H₂O → CH₄ + 2O₂',
+        isCorrect: false,
+        rationale: 'This represents a different reaction',
+      },
+      {
+        text: '3CO₂ + 3H₂O → C₃H₆O₃ + 3O₂',
+        isCorrect: false,
+        rationale: 'Not the photosynthesis equation',
+      },
+    ],
+    difficulty: 'medium',
+    topicTags: [
+      'Chemistry',
+      'Biology',
+      'Chemical Reactions',
+      'Balancing Equations',
+      'Photosynthesis',
+    ],
+  },
+  {
+    id: 'chem_balance_8',
+    questionText:
+      'What coefficient is needed for Fe in: __Fe + 2HCl → FeCl₂ + H₂?',
+    correctAnswer: '1',
+    responseType: 'numeric',
+    tolerance: 0,
+    rationale: 'The equation is already balanced with coefficient 1 for Fe',
+    difficulty: 'easy',
+    topicTags: ['Chemistry', 'Chemical Reactions', 'Balancing Equations'],
+    questionType: 'short_constructed_response',
+  },
+];
+
+/**
+ * Get random chemistry balancing question
+ */
+function getChemistryBalancingQuestion() {
+  const template =
+    CHEMISTRY_BALANCING_TEMPLATES[
+      Math.floor(Math.random() * CHEMISTRY_BALANCING_TEMPLATES.length)
+    ];
+
+  const question = {
+    id: `${template.id}_${Date.now()}`,
+    questionText: template.questionText,
+    difficulty: template.difficulty || 'medium',
+    topicTags: template.topicTags || ['Chemistry'],
+    source: 'chemistryTemplate',
+    qaProfileKey: 'numeracy',
+  };
+
+  if (template.answerOptions) {
+    question.questionType = 'multiple_choice_single';
+    question.responseType = 'mc';
+    question.answerOptions = template.answerOptions;
+    question.type = 'standalone';
+  } else if (template.correctAnswer) {
+    question.questionType = 'short_constructed_response';
+    question.responseType = 'numeric';
+    question.correctAnswer = template.correctAnswer;
+    question.tolerance = template.tolerance || 0;
+    question.type = 'standalone';
+  }
+
+  return question;
+}
+
 // Load passages immediately after images so they are ready for quiz generation
 loadPassageBank();
 const cookieParser = require('cookie-parser');
@@ -9963,6 +10413,84 @@ PASSAGE:\n${foundingPassage.text}\n`;
             q.source || (isScienceNumeracyItem(q) ? 'numeracy' : 'literacy'),
         }));
 
+        // Add chemistry balancing questions (4-6 questions)
+        const chemCount = 4 + Math.floor(Math.random() * 3); // 4-6 questions
+        console.log(
+          `[Science][Chemistry] Adding ${chemCount} chemistry balancing questions.`
+        );
+        for (let i = 0; i < chemCount; i++) {
+          const chemQ = getChemistryBalancingQuestion();
+          draftQuestionSet.push(chemQ);
+        }
+
+        // Ensure at least 25-35% are formula-based questions
+        const totalQuestions = draftQuestionSet.length;
+        const formulaBasedCount = draftQuestionSet.filter((q) => {
+          const text = (q.questionText || '').toLowerCase();
+          return (
+            /formula|density|velocity|speed|distance|time|mass|volume|work|force|efficiency|concentration|pH|pressure|acceleration/i.test(
+              text
+            ) ||
+            q.source === 'numeracy' ||
+            q.qaProfileKey === 'numeracy'
+          );
+        }).length;
+        const formulaRatio = formulaBasedCount / totalQuestions;
+        const requiredFormulaRatio = 0.25 + Math.random() * 0.1; // 25-35%
+
+        if (formulaRatio < requiredFormulaRatio) {
+          const needed =
+            Math.ceil(totalQuestions * requiredFormulaRatio) -
+            formulaBasedCount;
+          console.log(
+            `[Science][Formulas] Need ${needed} more formula-based questions (current: ${(
+              formulaRatio * 100
+            ).toFixed(1)}%)`
+          );
+          for (let i = 0; i < needed; i++) {
+            const cat = [
+              'Physical Science',
+              'Life Science',
+              'Earth & Space Science',
+            ][i % 3];
+            try {
+              const numeracyQ = await generateScienceNumeracyQuestion(
+                cat,
+                aiOptions
+              );
+              if (numeracyQ) draftQuestionSet.push(numeracyQ);
+            } catch (e) {
+              console.warn(
+                '[Science][Formulas] Failed to add formula question:',
+                e.message
+              );
+            }
+          }
+        }
+
+        // Remove questions with passage-chart mismatches
+        const beforeMismatchCheck = draftQuestionSet.length;
+        draftQuestionSet = draftQuestionSet.filter(
+          (q) => !passageChartMismatch(q)
+        );
+        const removedMismatches = beforeMismatchCheck - draftQuestionSet.length;
+        if (removedMismatches > 0) {
+          console.log(
+            `[Science][Sanitizer] Removed ${removedMismatches} questions with passage-chart mismatches`
+          );
+        }
+
+        // Apply Science/Math sanitizer - NO WRITTEN RESPONSES
+        draftQuestionSet = sanitizeScienceAndMathQuestions(
+          draftQuestionSet,
+          'Science'
+        );
+
+        // Re-number after all modifications
+        draftQuestionSet.forEach((q, index) => {
+          q.questionNumber = index + 1;
+        });
+
         const draftQuiz = {
           id: `ai_comp_sci_draft_${new Date().getTime()}`,
           title: `Comprehensive Science Exam`,
@@ -10265,6 +10793,30 @@ PASSAGE:\n${foundingPassage.text}\n`;
         });
         // --- End of Second Pass Correction ---
 
+        // Remove questions with passage-chart mismatches
+        const beforeMismatchCheck = correctedAllQuestions.length;
+        correctedAllQuestions = correctedAllQuestions.filter(
+          (q) => !passageChartMismatch(q)
+        );
+        const removedMismatches =
+          beforeMismatchCheck - correctedAllQuestions.length;
+        if (removedMismatches > 0) {
+          console.log(
+            `[Math][Sanitizer] Removed ${removedMismatches} questions with passage-chart mismatches`
+          );
+        }
+
+        // Apply Math sanitizer - NO WRITTEN RESPONSES, NUMERIC ONLY FOR FILL-IN
+        correctedAllQuestions = sanitizeScienceAndMathQuestions(
+          correctedAllQuestions,
+          'Math'
+        );
+
+        // Re-number after sanitization
+        correctedAllQuestions.forEach((q, index) => {
+          q.questionNumber = index + 1;
+        });
+
         const draftQuiz = {
           id: `ai_comp_math_${new Date().getTime()}`,
           title: `Comprehensive Mathematical Reasoning Exam`,
@@ -10505,6 +11057,40 @@ PASSAGE:\n${picked.text}\n`;
       let finalQuestions = shuffleQuestionsPreservingStimulus(
         allQuestions
       ).slice(0, TOTAL_QUESTIONS);
+
+      // For Science quizzes: Add chemistry balancing questions if Chemistry-related topic
+      if (
+        subject === 'Science' &&
+        /chemistry|chemical|reaction|equation/i.test(topic)
+      ) {
+        const chemCount = 2; // Add 2 chemistry questions for chemistry topics
+        console.log(
+          `[Science][Chemistry] Adding ${chemCount} chemistry balancing questions to topic quiz.`
+        );
+        for (let i = 0; i < chemCount; i++) {
+          finalQuestions.push(getChemistryBalancingQuestion());
+        }
+      }
+
+      // Remove passage-chart mismatches for Science and Math
+      if (subject === 'Science' || subject === 'Math') {
+        const beforeMismatchCheck = finalQuestions.length;
+        finalQuestions = finalQuestions.filter((q) => !passageChartMismatch(q));
+        const removedMismatches = beforeMismatchCheck - finalQuestions.length;
+        if (removedMismatches > 0) {
+          console.log(
+            `[${subject}][Sanitizer] Removed ${removedMismatches} questions with passage-chart mismatches from topic quiz`
+          );
+        }
+      }
+
+      // Apply Science/Math sanitizer - NO WRITTEN RESPONSES
+      if (subject === 'Science' || subject === 'Math') {
+        finalQuestions = sanitizeScienceAndMathQuestions(
+          finalQuestions,
+          subject
+        );
+      }
 
       // Assign question numbers
       finalQuestions = finalQuestions.map((q, index) => ({
