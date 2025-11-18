@@ -59,148 +59,7 @@ function InterviewScoreReport({ score, strengths, weaknesses, suggestions }) {
   );
 }
 /* global React, ReactDOM */
-
-// pull hooks from the global React (because we're using CDN React, not imports)
-const {
-  useState,
-  useEffect,
-  useMemo,
-  useRef,
-  useCallback,
-  useContext,
-  useReducer,
-  createContext,
-} = React;
-
-// optional but helpful
-const { createRoot } = ReactDOM;
-
-console.log(
-  'React is',
-  typeof React,
-  'ReactDOM is',
-  typeof ReactDOM,
-  'useState is',
-  typeof useState
-);
-
-const SUBJECT_PROGRESS_KEYS = [
-  'Social Studies',
-  'Reasoning Through Language Arts (RLA)',
-  'Science',
-  'Math',
-  'Workforce',
-];
-
-const GED_PASSING_SCORE = 145;
-
-// global subject ids + badge paths so every component can share them
-const SUBJECT_ID_MAP = {
-  Math: 'math',
-  Science: 'science',
-  'Social Studies': 'social_studies',
-  'Reasoning Through Language Arts (RLA)': 'rla',
-  RLA: 'rla',
-  Workforce: 'workforce',
-};
-
-const BADGE_IMG_PATHS = {
-  math: '/badges/math.svg',
-  science: '/badges/science.svg',
-  social_studies: '/badges/social-studies.svg',
-  rla: '/badges/rla.svg',
-};
-
-// Global premade catalog; ensure it's on window to be shareable across late loaders
-let PREMADE_QUIZ_CATALOG =
-  typeof window !== 'undefined' && window.PREMADE_QUIZ_CATALOG
-    ? window.PREMADE_QUIZ_CATALOG
-    : {};
-if (typeof window !== 'undefined') {
-  window.PREMADE_QUIZ_CATALOG = PREMADE_QUIZ_CATALOG;
-}
-
-// Build PREMADE_QUIZ_CATALOG from window.ExpandedQuizData so totals render even if backend fails
-function hydratePremadeCatalogFromWindow() {
-  try {
-    const src =
-      typeof window !== 'undefined'
-        ? window.MergedExpandedQuizData ||
-          window.ExpandedQuizData ||
-          (window.Data && window.Data.expandedQuizData) ||
-          null
-        : null;
-    if (!src || typeof src !== 'object') return;
-    const out = {};
-    SUBJECT_PROGRESS_KEYS.forEach((subject) => {
-      const node = src[subject];
-      if (!node || !node.categories) {
-        out[subject] = [];
-        return;
-      }
-      const quizzes = [];
-      Object.values(node.categories).forEach((cat) => {
-        if (!cat) return;
-        const qlist = Array.isArray(cat.quizzes) ? cat.quizzes : [];
-        qlist.forEach((q) => quizzes.push(q));
-      });
-      out[subject] = quizzes;
-    });
-    PREMADE_QUIZ_CATALOG = out;
-    if (typeof window !== 'undefined') {
-      window.PREMADE_QUIZ_CATALOG = PREMADE_QUIZ_CATALOG;
-    }
-  } catch (e) {
-    // ignore but keep empty catalog
-  }
-}
-
-// Hydrate early so createEmptyProgress can pick up totals
-hydratePremadeCatalogFromWindow();
-// Regression guard: warn if catalog is empty
-try {
-  if (
-    !Array.isArray(PREMADE_QUIZ_CATALOG?.['Math']) ||
-    PREMADE_QUIZ_CATALOG['Math'].length === 0
-  ) {
-    console.warn(
-      '[progress] Math premade catalog is empty — progress bars will show 0/0'
-    );
-  }
-} catch {}
-
-const getPremadeQuizTotal = (subject) => {
-  try {
-    // Prefer hydrated catalog derived from ExpandedQuizData
-    const list = PREMADE_QUIZ_CATALOG?.[subject];
-    if (Array.isArray(list)) return list.length;
-    // Fallback: derive from AppData if available
-    const src =
-      typeof window !== 'undefined' && window.UnifiedQuizCatalog
-        ? window.UnifiedQuizCatalog
-        : typeof window !== 'undefined'
-        ? window.AppData
-        : AppData;
-    const subjectData = src?.[subject];
-    if (!subjectData) return 0;
-    let total = 0;
-    if (Array.isArray(subjectData.quizzes)) total += subjectData.quizzes.length;
-    const cats = subjectData.categories || {};
-    for (const catName of Object.keys(cats)) {
-      const topics = Array.isArray(cats[catName]?.topics)
-        ? cats[catName].topics
-        : [];
-      topics.forEach((t) => {
-        if (Array.isArray(t?.quizzes)) total += t.quizzes.length;
-        else if (Array.isArray(t?.questions)) total += 1;
-      });
-    }
-    return total;
-  } catch {
-    return 0;
-  }
-};
-
+// Reconstructed progress helpers after accidental corruption
 const createEmptyProgress = () =>
   SUBJECT_PROGRESS_KEYS.reduce((acc, subject) => {
     acc[subject] = {
@@ -227,9 +86,7 @@ const buildProgressFromAttempts = (attempts = []) => {
 
   normalizedAttempts.forEach((entry) => {
     const subjectKey = entry?.subject;
-    if (!subjectKey || !progress[subjectKey]) {
-      return;
-    }
+    if (!subjectKey || !progress[subjectKey]) return;
 
     const normalized = {
       id: entry?.id ?? null,
@@ -267,29 +124,23 @@ const buildProgressFromAttempts = (attempts = []) => {
     };
 
     const derivedPassed = (() => {
-      if (typeof entry?.passed === 'boolean') {
-        return entry.passed;
-      }
+      if (typeof entry?.passed === 'boolean') return entry.passed;
       if (typeof entry?.passed === 'string') {
         const lowered = entry.passed.trim().toLowerCase();
         if (lowered === 'true' || lowered === '1') return true;
         if (lowered === 'false' || lowered === '0') return false;
       }
-      if (normalized.scaledScore != null) {
+      if (normalized.scaledScore != null)
         return normalized.scaledScore >= GED_PASSING_SCORE;
-      }
       return null;
     })();
 
     normalized.passed = derivedPassed;
-
     progress[subjectKey].attempts.push(normalized);
-
     if (normalized.scaledScore != null) {
       subjectStats[subjectKey].scoreSum += normalized.scaledScore;
       subjectStats[subjectKey].count += 1;
     }
-
     if (normalized.passed && normalized.quizCode) {
       subjectStats[subjectKey].passed.add(normalized.quizCode);
     }
@@ -298,33 +149,29 @@ const buildProgressFromAttempts = (attempts = []) => {
   SUBJECT_PROGRESS_KEYS.forEach((subject) => {
     const stats = subjectStats[subject];
     const subjectProgress = progress[subject];
-    const totalPremade = getPremadeQuizTotal(subject);
-
-    subjectProgress.attempts.sort((a, b) => {
-      const aDate = a.attemptedAt ? new Date(a.attemptedAt).getTime() : 0;
-      const bDate = b.attemptedAt ? new Date(b.attemptedAt).getTime() : 0;
-      if (bDate === aDate) {
-        return (b.id ?? 0) - (a.id ?? 0);
-      }
-      return bDate - aDate;
-    });
-
     subjectProgress.attemptCount = subjectProgress.attempts.length;
-    subjectProgress.averageScaledScore = stats.count
-      ? Math.round(stats.scoreSum / stats.count)
-      : null;
-    subjectProgress.completedCount = stats.passed.size;
+    if (stats.count > 0) {
+      subjectProgress.averageScaledScore = Math.round(
+        stats.scoreSum / stats.count
+      );
+    }
+    subjectProgress.completedCount = stats.count;
     subjectProgress.passedExamCodes = Array.from(stats.passed);
-    subjectProgress.totalPremadeExams = totalPremade;
-    subjectProgress.completionPercentage =
-      totalPremade > 0
-        ? Math.min(100, Math.round((stats.passed.size / totalPremade) * 100))
-        : 0;
-    subjectProgress.lastAttempt = subjectProgress.attempts[0] || null;
+    const totalPremade = subjectProgress.totalPremadeExams || 0;
+    subjectProgress.completionPercentage = totalPremade
+      ? Math.round((subjectProgress.completedCount / totalPremade) * 100)
+      : 0;
+    subjectProgress.lastAttempt =
+      subjectProgress.attempts.slice().sort((a, b) => {
+        const atA = a?.attemptedAt ? new Date(a.attemptedAt).getTime() : 0;
+        const atB = b?.attemptedAt ? new Date(b.attemptedAt).getTime() : 0;
+        return atB - atA;
+      })[0] || null;
   });
 
   return progress;
 };
+// (Removed stray duplicated function & misplaced chemistry topic objects)
 
 const ensureUserProfile = (user) => {
   if (!user || typeof user !== 'object') {
@@ -4823,6 +4670,2147 @@ const AppData = {
                   {
                     text: 'Their chemical symbol.',
                     rationale: 'They both have the chemical symbol C.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'sci_chem_equations_balancing',
+            title: 'Chemical Equations & Balancing',
+            description: 'Law of conservation of mass and balancing equations.',
+            questions: [
+              {
+                questionNumber: 1,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage:
+                  'A chemical equation shows reactants and products. To satisfy the Law of Conservation of Mass, equations must be balanced so each element has the same number of atoms on both sides.',
+                question:
+                  'Balance: $\\text{H}_2 + \\text{O}_2 \\rightarrow \\text{H}_2\\text{O}$',
+                answerOptions: [
+                  {
+                    text: '$\\text{H}_2 + \\text{O}_2 \\rightarrow \\text{H}_2\\text{O}$',
+                    rationale: 'Unbalanced: oxygen atoms differ.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '$2\\text{H}_2 + \\text{O}_2 \\rightarrow 2 \\text{H}_2\\text{O}$',
+                    rationale: 'Correct. 4 H and 2 O on each side.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '$\\text{H}_2 + 2\\text{O}_2 \\rightarrow \\text{H}_2\\text{O}_2$',
+                    rationale: 'Changes product; still unbalanced.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '$4\\text{H}_2 + 2\\text{O}_2 \\rightarrow 4 \\text{H}_2\\text{O}$',
+                    rationale: 'Balanced but not simplest whole-number ratio.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 2,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question:
+                  'Coefficient in balanced: $2\\text{Na} + \\text{Cl}_2 \\rightarrow 2\\text{NaCl}$ for NaCl?',
+                answerOptions: [
+                  {
+                    text: '1',
+                    rationale: 'Equation shows 2.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '2',
+                    rationale: 'Correct. Two units of product.',
+                    isCorrect: true,
+                  },
+                  { text: '3', rationale: 'Not present.', isCorrect: false },
+                  { text: '4', rationale: 'Not present.', isCorrect: false },
+                ],
+              },
+              {
+                questionNumber: 3,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage:
+                  'Combustion of methane produces carbon dioxide and water.',
+                question:
+                  'Balance: $\\text{CH}_4 + \\text{O}_2 \\rightarrow \\text{CO}_2 + \\text{H}_2\\text{O}$',
+                answerOptions: [
+                  {
+                    text: '$\\text{CH}_4 + \\text{O}_2 \\rightarrow \\text{CO}_2 + \\text{H}_2\\text{O}$',
+                    rationale: 'Unbalanced H & O.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '$\\text{CH}_4 + 2\\text{O}_2 \rightarrow \\text{CO}_2 + 2\\text{H}_2\\text{O}$',
+                    rationale: 'Correct.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '$2\\text{CH}_4 + 3\\text{O}_2 \rightarrow 2\\text{CO}_2 + 4\\text{H}_2\\text{O}$',
+                    rationale: 'Balanced but not simplest ratio.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '$\\text{CH}_4 + 3\\text{O}_2 \rightarrow \\text{CO}_2 + 2\\text{H}_2\\text{O}$',
+                    rationale: 'O atoms mismatch.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 4,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question:
+                  'Reaction type: $\\text{AB} \rightarrow \\text{A} + \\text{B}$?',
+                answerOptions: [
+                  {
+                    text: 'Synthesis',
+                    rationale: 'Reverse pattern.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Decomposition',
+                    rationale: 'Correct.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Single replacement',
+                    rationale: 'Different pattern.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Double replacement',
+                    rationale: 'Requires two compounds.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 5,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage:
+                  'Synthesis combines simpler substances to make a compound.',
+                question:
+                  'Balance: $\\text{Al} + \\text{O}_2 \rightarrow \\text{Al}_2\\text{O}_3$',
+                answerOptions: [
+                  {
+                    text: '$\\text{Al} + \\text{O}_2 \rightarrow \\text{Al}_2\\text{O}_3$',
+                    rationale: 'Unbalanced Al & O.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '$2\\text{Al} + 3\\text{O}_2 \rightarrow \\text{Al}_2\\text{O}_3$',
+                    rationale: 'O mismatch.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '$4\\text{Al} + 3\\text{O}_2 \rightarrow 2\\text{Al}_2\\text{O}_3$',
+                    rationale: 'Correct.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '$2\\text{Al} + \\text{O}_2 \rightarrow 2\\text{Al}_2\\text{O}_3$',
+                    rationale: 'Al mismatch.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 6,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question:
+                  'Total atoms in reactants: $\\text{N}_2 + 3\\text{H}_2$ ?',
+                answerOptions: [
+                  {
+                    text: '4',
+                    rationale: 'Counts molecules not atoms.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '5',
+                    rationale: 'Incorrect count.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '8',
+                    rationale: 'Correct (2 N + 6 H).',
+                    isCorrect: true,
+                  },
+                  { text: '10', rationale: 'Overcount.', isCorrect: false },
+                ],
+              },
+              {
+                questionNumber: 7,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage:
+                  'Thermal decomposition: $\\text{CaCO}_3 \rightarrow \\text{CaO} + \\text{CO}_2$ releases CO₂.',
+                question:
+                  'Is $\\text{CaCO}_3 \rightarrow \\text{CaO} + \\text{CO}_2$ balanced?',
+                answerOptions: [
+                  {
+                    text: 'No, needs 2 CaO',
+                    rationale: 'Would miscount Ca.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'No, needs 2 CO₂',
+                    rationale: 'Would add excess carbon.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Yes, already balanced',
+                    rationale: 'Correct: 1 Ca, 1 C, 3 O both sides.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'No, needs 2 CaCO₃',
+                    rationale: 'Would unbalance products.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 8,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question: 'Single replacement reaction definition?',
+                answerOptions: [
+                  {
+                    text: 'Two compounds exchange parts',
+                    rationale: 'Double replacement.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'One element replaces another in a compound',
+                    rationale: 'Correct.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Compound breaks to elements',
+                    rationale: 'Decomposition.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Elements combine to form a compound',
+                    rationale: 'Synthesis.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 9,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage:
+                  'Photosynthesis equation: $6\\text{CO}_2 + 6\\text{H}_2\\text{O} \rightarrow \\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{O}_2$.',
+                question: 'O atoms on reactant side?',
+                answerOptions: [
+                  {
+                    text: '6',
+                    rationale: 'Counts only one reactant.',
+                    isCorrect: false,
+                  },
+                  { text: '12', rationale: 'Under-count.', isCorrect: false },
+                  {
+                    text: '18',
+                    rationale: 'Correct (12 + 6).',
+                    isCorrect: true,
+                  },
+                  { text: '24', rationale: 'Over-count.', isCorrect: false },
+                ],
+              },
+              {
+                questionNumber: 10,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question:
+                  'Balance: $\\text{Fe} + \\text{O}_2 \rightarrow \\text{Fe}_2\\text{O}_3$',
+                answerOptions: [
+                  {
+                    text: '$\\text{Fe} + \\text{O}_2 \rightarrow \\text{Fe}_2\\text{O}_3$',
+                    rationale: 'Unbalanced.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '$2\\text{Fe} + 3\\text{O}_2 \rightarrow \\text{Fe}_2\\text{O}_3$',
+                    rationale: 'O mismatch.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '$4\\text{Fe} + 3\\text{O}_2 \rightarrow 2\\text{Fe}_2\\text{O}_3$',
+                    rationale: 'Correct.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '$3\\text{Fe} + 2\\text{O}_2 \rightarrow \\text{Fe}_2\\text{O}_3$',
+                    rationale: 'Unbalanced.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 11,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage:
+                  'Cellular respiration: $\\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{O}_2 \rightarrow 6\\text{CO}_2 + 6\\text{H}_2\\text{O}$.',
+                question: 'Why add coefficient 6 before $\\text{O}_2$?',
+                answerOptions: [
+                  {
+                    text: 'To conserve total oxygen atoms',
+                    rationale: 'Correct. Balances 18 O each side.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'To increase reaction speed',
+                    rationale: 'Coefficients express stoichiometry, not rate.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'To form water only',
+                    rationale: 'Products include CO₂ and H₂O.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'To reduce hydrogen atoms',
+                    rationale: 'Hydrogen count comes from glucose.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 12,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question: 'Balanced equation means:',
+                answerOptions: [
+                  {
+                    text: 'Same number of molecules both sides',
+                    rationale: 'Molecule counts can differ.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Coefficients all equal',
+                    rationale: 'They can vary.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Same number of atoms of each element on both sides',
+                    rationale: 'Correct definition.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Reactants heavier than products',
+                    rationale: 'Mass conserved, not heavier.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'sci_chem_reaction_types_stoichiometry',
+            title: 'Reaction Types & Stoichiometry',
+            description:
+              'Classifying reactions, mole ratios, limiting reactants.',
+            questions: [
+              {
+                questionNumber: 1,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage:
+                  'Stoichiometry uses mole ratios from balanced equations to predict product amounts.',
+                question:
+                  'From $2\\text{H}_2 + \\text{O}_2 \rightarrow 2\\text{H}_2\\text{O}$, moles water from 4 moles $\\text{H}_2$?',
+                answerOptions: [
+                  {
+                    text: '2',
+                    rationale: 'That would be from 2 moles H₂.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '4',
+                    rationale: 'Correct 2:2 ratio doubles proportionally.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '6',
+                    rationale: 'Exceeds stoichiometric ratio.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '8',
+                    rationale: 'Not supported by equation.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 2,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question:
+                  'Classify: $\\text{Zn} + \\text{CuSO}_4 \rightarrow \\text{ZnSO}_4 + \\text{Cu}$',
+                answerOptions: [
+                  {
+                    text: 'Synthesis',
+                    rationale: 'Not combining into one.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Decomposition',
+                    rationale: 'Not breaking apart.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Single replacement',
+                    rationale: 'Correct; Zn displaces Cu.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Double replacement',
+                    rationale: 'Only one exchange.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 3,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage:
+                  'Neutralization: acid + base -> salt + water. Example $\\text{HCl} + \\text{NaOH} \rightarrow \\text{NaCl} + \\text{H}_2\\text{O}$.',
+                question:
+                  'Water produced from 2 moles HCl (complete reaction)?',
+                answerOptions: [
+                  {
+                    text: '1 mole',
+                    rationale: 'Ratio is 1:1.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '2 moles',
+                    rationale: 'Correct 1:1 ratio.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '3 moles',
+                    rationale: 'Exceeds ratio.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '4 moles',
+                    rationale: 'Exceeds ratio.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 4,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question:
+                  'Classify: $\\text{AgNO}_3 + \\text{NaCl} \rightarrow \\text{AgCl} + \\text{NaNO}_3$',
+                answerOptions: [
+                  {
+                    text: 'Synthesis',
+                    rationale: 'Not forming single product.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Decomposition',
+                    rationale: 'Not breaking down.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Single replacement',
+                    rationale: 'Two ions swap.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Double replacement',
+                    rationale: 'Correct.',
+                    isCorrect: true,
+                  },
+                ],
+              },
+              {
+                questionNumber: 5,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage:
+                  'Limiting reactant is consumed first, restricting product formation.',
+                question:
+                  'Max moles $\\text{NH}_3$ from 1 mol $\\text{N}_2$, 2 mol $\\text{H}_2$ ($\\text{N}_2 + 3\\text{H}_2 \rightarrow 2\\text{NH}_3$)?',
+                answerOptions: [
+                  {
+                    text: '1',
+                    rationale: 'More produced than 1.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '1.33',
+                    rationale: 'Correct via ratio (0.67 × 2).',
+                    isCorrect: true,
+                  },
+                  { text: '2', rationale: 'Needs 3 mol H₂.', isCorrect: false },
+                  {
+                    text: '3',
+                    rationale: 'Insufficient H₂.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 6,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question:
+                  'Reactant coefficient ratio in combustion: $\\text{C}_3\\text{H}_8 + 5\\text{O}_2$?',
+                answerOptions: [
+                  {
+                    text: '1:5',
+                    rationale: 'Correct propane:oxygen ratio.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '1:3',
+                    rationale: 'Not matching equation.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '3:4',
+                    rationale: 'These are product coefficients.',
+                    isCorrect: false,
+                  },
+                  { text: '5:8', rationale: 'Not present.', isCorrect: false },
+                ],
+              },
+              {
+                questionNumber: 7,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage: 'Percent yield = actual/theoretical × 100%.',
+                question: 'Percent yield: theoretical 25 g, actual 20 g?',
+                answerOptions: [
+                  {
+                    text: '75%',
+                    rationale: 'Miscalculation.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '80%',
+                    rationale: 'Correct (20/25 × 100).',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '85%',
+                    rationale: 'Miscalculation.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '125%',
+                    rationale: 'Exceeds possible ideal.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 8,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question: 'Endothermic reactions:',
+                answerOptions: [
+                  {
+                    text: 'Release energy',
+                    rationale: 'Exothermic property.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Absorb energy',
+                    rationale: 'Correct definition.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Have no energy change',
+                    rationale: 'All reactions exchange energy.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Only occur at high temperature',
+                    rationale: 'Can occur at varied temperatures.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 9,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage:
+                  'Reaction: $2\\text{Al} + 3\\text{Cl}_2 \rightarrow 2\\text{AlCl}_3$ mole ratio 2:3.',
+                question: 'Moles $\\text{Cl}_2$ needed for 6 moles Al?',
+                answerOptions: [
+                  {
+                    text: '4',
+                    rationale: 'Not following 2:3 ratio.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '6',
+                    rationale: 'Would imply 1:1 ratio.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '9',
+                    rationale: 'Correct (6 × 3/2).',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '12',
+                    rationale: 'Excess beyond ratio.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 10,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question: 'Exothermic reactions:',
+                answerOptions: [
+                  {
+                    text: 'Absorb heat',
+                    rationale: 'Endothermic.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Release heat',
+                    rationale: 'Correct.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Require continuous energy input',
+                    rationale: 'They produce energy.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Never spontaneous',
+                    rationale: 'Many are spontaneous.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 11,
+                challenge_tags: ['science-2', 'science-4'],
+                type: 'text',
+                passage:
+                  'Molar mass: sum of atomic masses. CO₂ has C=12, O=16 each.',
+                question: 'Molar mass CO₂?',
+                answerOptions: [
+                  {
+                    text: '28 g/mol',
+                    rationale: 'Misses second oxygen.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '32 g/mol',
+                    rationale: 'Only oxygen contribution.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '44 g/mol',
+                    rationale: 'Correct (12 + 32).',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '60 g/mol',
+                    rationale: 'Over-count.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 12,
+                challenge_tags: ['science-2'],
+                type: 'knowledge',
+                question: 'Catalyst definition:',
+                answerOptions: [
+                  {
+                    text: 'Consumed during reaction',
+                    rationale: 'Not consumed.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Speeds reaction without being consumed',
+                    rationale: 'Correct.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Slows reaction',
+                    rationale: 'That is an inhibitor.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Changes products formed',
+                    rationale: 'Affects rate, not product identity.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'sci_chem_acids_bases',
+            title: 'Acids, Bases & pH',
+            description:
+              'pH scale, neutralization, strong vs weak acids/bases.',
+            questions: [
+              {
+                questionNumber: 1,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'The pH scale ranges from 0 (strong acid) to 14 (strong base); 7 is neutral. Each unit represents a tenfold change in hydrogen ion concentration.',
+                question:
+                  'Compared to a solution at pH 5, a solution at pH 3 has:',
+                answerOptions: [
+                  {
+                    text: '10× more H⁺ ions',
+                    rationale:
+                      'One pH unit = 10× difference; two units = 100×.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '100× more H⁺ ions',
+                    rationale: 'Correct. Difference of 2 units = 10².',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '2× more H⁺ ions',
+                    rationale: 'Underestimates logarithmic scale.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Same [H⁺]',
+                    rationale: 'Different pH implies different concentrations.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 2,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Arrhenius acid produces:',
+                answerOptions: [
+                  {
+                    text: 'OH⁻ in water',
+                    rationale: 'Bases produce hydroxide.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'H⁺ in water',
+                    rationale: 'Correct definition.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Electrons in water',
+                    rationale:
+                      'Electrons are not released free in solution like this.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Salt directly',
+                    rationale:
+                      'Salt forms after reaction, not intrinsic definition.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 3,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Neutralization: acid + base → salt + water. Example: $\\text{HCl} + \\text{NaOH} \\rightarrow \\text{NaCl} + \\text{H}_2\\text{O}$.',
+                question: 'Products of neutralization?',
+                answerOptions: [
+                  {
+                    text: 'Acid only',
+                    rationale: 'Products differ from reactants.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Base only',
+                    rationale: 'Products differ from reactants.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Salt and water',
+                    rationale: 'Correct general products.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Oxygen gas',
+                    rationale: 'Not typical neutralization product.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 4,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Weak acid characteristic:',
+                answerOptions: [
+                  {
+                    text: 'Fully dissociates',
+                    rationale: 'That is strong acid behavior.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Partially dissociates',
+                    rationale:
+                      'Correct; equilibrium favors undissociated form.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Contains no hydrogen',
+                    rationale: 'Acids donate hydrogen ions.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Solid at room temperature always',
+                    rationale: 'Physical state not defining feature.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 5,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'For monoprotic acids: $pH = -\\log[H^+]$. If $[H^+] = 1.0 \\times 10^{-4}\\,M$, then pH = 4.',
+                question:
+                  'pH of solution with $[H^+] = 1.0 \\times 10^{-6}\\,M$?',
+                answerOptions: [
+                  {
+                    text: '2',
+                    rationale: 'Would require $1.0\\times10^{-2}$ M.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '4',
+                    rationale: 'Would require $1.0\\times10^{-4}$ M.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '6',
+                    rationale: 'Correct: exponent gives pH for powers of 10.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '8',
+                    rationale: 'Higher than hydrogen exponent.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 6,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'A buffer solution:',
+                answerOptions: [
+                  {
+                    text: 'Has no pH change when huge acid added',
+                    rationale: 'Buffer capacity limited.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Resists pH change upon small additions of acid or base',
+                    rationale: 'Correct definition.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Has pH = 7 always',
+                    rationale: 'Buffers can be acidic/basic.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Is always a strong acid plus strong base',
+                    rationale: 'Typically weak acid/base with conjugate.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 7,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Indicators change color over a narrow pH range (e.g., phenolphthalein: colorless below ~8.2, pink above).',
+                question: 'Pink phenolphthalein implies solution is:',
+                answerOptions: [
+                  {
+                    text: 'Strongly acidic',
+                    rationale: 'Colorless in acidic range.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Neutral exactly',
+                    rationale: 'Neutral may still be colorless.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Basic (pH above indicator transition)',
+                    rationale: 'Correct inference.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Unable to determine pH at all',
+                    rationale: 'Indicator gives qualitative range.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 8,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Conjugate base forms when an acid:',
+                answerOptions: [
+                  {
+                    text: 'Gains a proton',
+                    rationale: 'Gaining proton gives conjugate acid.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Loses a proton',
+                    rationale: 'Correct definition.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Loses electrons only',
+                    rationale: 'Proton transfer defines conjugates.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Combines with water forming gas',
+                    rationale: 'Irrelevant process.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 9,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Titration uses known concentration (standard) to determine unknown; equivalence point moles acid = moles base (adjusted for stoichiometry).',
+                question:
+                  'At equivalence point in strong acid–strong base titration:',
+                answerOptions: [
+                  {
+                    text: 'pH < 3',
+                    rationale:
+                      'Solution is not strongly acidic at equivalence.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'pH ≈ 7',
+                    rationale: 'Correct neutral products (salt + water).',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'pH ≈ 12',
+                    rationale: 'That would indicate excess base.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'No ions present',
+                    rationale: 'Salt ions remain in solution.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 10,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Pure water at 25°C has $[H^+]$:',
+                answerOptions: [
+                  {
+                    text: '1.0×10⁻¹ M',
+                    rationale: 'Too high for neutral water.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '1.0×10⁻⁷ M',
+                    rationale: 'Correct neutral concentration.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '1.0×10⁻¹⁴ M',
+                    rationale: 'Product of $[H^+][OH^-]$ equals 1e-14.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Zero',
+                    rationale: 'Autoionization supplies small concentration.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 11,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Strong acids (HCl, HNO₃) dissociate completely; weak acids (CH₃COOH) only partially—equilibrium arrows ($\\rightleftharpoons$).',
+                question:
+                  'Equation symbol for weak acid dissociation should be:',
+                answerOptions: [
+                  {
+                    text: 'Single arrow (→)',
+                    rationale: 'Implies completeness.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Double equilibrium arrows ($\\rightleftharpoons$)',
+                    rationale: 'Correct reversible process.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'No arrow',
+                    rationale: 'Reaction direction must be shown.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Dashed arrow only',
+                    rationale: 'Not standard chemical notation.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 12,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question:
+                  'If $[OH^-] = 1.0 \\times 10^{-4}$ M at 25°C, $[H^+]$ is:',
+                answerOptions: [
+                  {
+                    text: '1.0×10⁻⁴ M',
+                    rationale: 'Would give product 1e-8.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '1.0×10⁻¹⁰ M',
+                    rationale: 'Correct via $1e-14 / 1e-4$.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '1.0×10⁻⁷ M',
+                    rationale: 'Neutral only.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Cannot be found',
+                    rationale: 'Use $K_w = 1e-14$.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'sci_chem_gas_laws',
+            title: 'Gas Laws & Kinetic Theory',
+            description:
+              'Pressure, volume, temperature relationships; PV = nRT.',
+            questions: [
+              {
+                questionNumber: 1,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  "Boyle's Law: $P_1 V_1 = P_2 V_2$ (constant temperature, moles). Pressure inversely proportional to volume.",
+                question: 'If volume halves, pressure (ideal gas) will:',
+                answerOptions: [
+                  {
+                    text: 'Double',
+                    rationale: 'Correct inverse relationship.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Halve',
+                    rationale: 'Would require direct proportion.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Stay same',
+                    rationale: 'Change occurs when volume changes.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Drop to zero',
+                    rationale: 'Pressure remains finite.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 2,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: "Charles's Law relates:",
+                answerOptions: [
+                  {
+                    text: 'Pressure & moles',
+                    rationale: "That is not Charles's Law.",
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Volume & temperature',
+                    rationale: 'Correct: $V \\propto T$ at constant P, n.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Temperature & mass',
+                    rationale: 'Mass not in law expression.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Pressure & temperature only at constant volume',
+                    rationale: "That is Gay-Lussac's Law.",
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 3,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Ideal Gas Law: $PV = nRT$. $R = 0.0821$ L·atm·mol⁻¹·K⁻¹ (common units).',
+                question: 'Solve moles: $P=2.0$ atm, $V=4.10$ L, $T=300$ K.',
+                answerOptions: [
+                  {
+                    text: 'n ≈ 0.33 mol',
+                    rationale: 'Correct: n = (2×4.10)/(0.0821×300) ≈ 0.33.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'n ≈ 0.08 mol',
+                    rationale: 'Underestimates numerator.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'n ≈ 2.0 mol',
+                    rationale: 'Too large; misapplies formula.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'n ≈ 1.0 mol',
+                    rationale: 'Computation mismatch.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 4,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question:
+                  'At STP (standard temperature and pressure) one mole of ideal gas occupies:',
+                answerOptions: [
+                  {
+                    text: '11.2 L',
+                    rationale: 'Half the actual standard molar volume.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '22.4 L',
+                    rationale: 'Correct molar volume at 0°C, 1 atm.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '1.0 L',
+                    rationale: 'Far too small.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '44.8 L',
+                    rationale: 'Double the correct value.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 5,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  "Dalton's Law: total pressure equals sum of partial pressures of component gases (ideal mixture).",
+                question:
+                  'If $P_{total} = 1.00$ atm; $P_{O_2}=0.21$ atm & $P_{N_2}=0.78$ atm, remaining gas partial pressure is:',
+                answerOptions: [
+                  {
+                    text: '0.01 atm',
+                    rationale: 'Correct (1.00 - 0.99).',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '0.99 atm',
+                    rationale: 'That is combined O₂ + N₂.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '1.00 atm',
+                    rationale: 'That is total, not remainder.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '0 atm',
+                    rationale: 'There is a small remainder.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 6,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question:
+                  'Kinetic molecular theory: average kinetic energy depends on:',
+                answerOptions: [
+                  {
+                    text: 'Gas identity',
+                    rationale: 'Depends on temperature, not identity.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Temperature',
+                    rationale: 'Correct proportional relationship.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Volume only',
+                    rationale: 'Volume affects collisions, not KE directly.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Pressure only',
+                    rationale: 'Pressure emerges from motion, not driver.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 7,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  "Avogadro's Law: equal volumes of gases at same T and P contain equal numbers of molecules.",
+                question:
+                  'Two 1 L containers at same T & P, one CO₂ one He. Molecule counts:',
+                answerOptions: [
+                  {
+                    text: 'CO₂ has more',
+                    rationale: 'Counts are equal.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'He has more',
+                    rationale: 'Counts are equal.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Equal number',
+                    rationale: 'Correct per Avogadro.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Cannot be determined',
+                    rationale: 'Law provides determination.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 8,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Gas deviates from ideal behavior most under:',
+                answerOptions: [
+                  {
+                    text: 'High T, low P',
+                    rationale: 'These favor ideality.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Low T, high P',
+                    rationale:
+                      'Correct conditions (intermolecular forces matter).',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Moderate T & P',
+                    rationale: 'Less deviation.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Vacuum',
+                    rationale: 'Behaves ideally near zero pressure.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 9,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage: "Gay-Lussac's Law: $P \\propto T$ (constant volume).",
+                question:
+                  'If temperature (Kelvin) doubles at constant volume, pressure will:',
+                answerOptions: [
+                  {
+                    text: 'Double',
+                    rationale: 'Direct proportionality.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Halve',
+                    rationale: "Inverse would be Boyle's.",
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Stay same',
+                    rationale: 'Change expected.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Drop to zero',
+                    rationale: 'Not physical.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 10,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Symbol n in $PV=nRT$ stands for:',
+                answerOptions: [
+                  {
+                    text: 'Number of molecules',
+                    rationale: 'Moles, not raw count.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Moles of gas',
+                    rationale: 'Correct variable.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Mass of gas',
+                    rationale: 'Mass not directly inserted.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Density of gas',
+                    rationale: 'Density not variable here.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 11,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  "Diffusion: spread of gas; effusion: escape through small opening. Graham's Law: rate ∝ 1/√molar mass.",
+                question:
+                  'Which effuses faster: He (4 g/mol) or O₂ (32 g/mol)?',
+                answerOptions: [
+                  {
+                    text: 'He',
+                    rationale: 'Lower molar mass ⇒ faster.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'O₂',
+                    rationale: 'Higher molar mass ⇒ slower.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Same rate',
+                    rationale: 'Rates differ.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Cannot compare',
+                    rationale: 'Law enables comparison.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 12,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Standard temperature is:',
+                answerOptions: [
+                  {
+                    text: '0°C',
+                    rationale: 'Correct (273 K).',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '25°C',
+                    rationale: 'Room temperature.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '100°C',
+                    rationale: 'Boiling point of water.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '-273°C',
+                    rationale: 'Absolute zero approximately -273°C.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'sci_chem_thermochemistry',
+            title: 'Thermochemistry & Energy',
+            description:
+              'Enthalpy, endothermic/exothermic processes, calorimetry.',
+            questions: [
+              {
+                questionNumber: 1,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Enthalpy change (ΔH) negative for exothermic reactions; positive for endothermic.',
+                question: 'ΔH = -250 kJ indicates reaction is:',
+                answerOptions: [
+                  {
+                    text: 'Endothermic',
+                    rationale: 'Would be positive.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Exothermic',
+                    rationale: 'Correct negative sign.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'At equilibrium',
+                    rationale: 'ΔH sign not about equilibrium.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Impossible',
+                    rationale: 'Negative ΔH common.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 2,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Calorimetry measures:',
+                answerOptions: [
+                  {
+                    text: 'Mass directly',
+                    rationale: 'Measures heat change.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Heat (q) absorbed or released',
+                    rationale: 'Correct definition.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'pH change only',
+                    rationale: 'Different technique.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Electric current',
+                    rationale: 'That is ammeter use.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 3,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Specific heat (c): $q = mcΔT$. Higher c ⇒ resists temperature change.',
+                question: 'Substance with highest specific heat warms:',
+                answerOptions: [
+                  {
+                    text: 'Fastest',
+                    rationale: 'It warms more slowly.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Slowest',
+                    rationale: 'Correct—needs more energy per degree.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Unpredictably',
+                    rationale: 'Property defines behavior.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Instantly',
+                    rationale: 'Contradicts concept.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 4,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Heat vs temperature: temperature measures:',
+                answerOptions: [
+                  {
+                    text: 'Total energy',
+                    rationale: 'That is related to heat content.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Average kinetic energy of particles',
+                    rationale: 'Correct definition.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Potential energy only',
+                    rationale: 'Not solely.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Chemical composition',
+                    rationale: 'Different property.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 5,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Endothermic process: system absorbs heat from surroundings (e.g., dissolving ammonium nitrate).',
+                question: 'Feeling cold pack indicates:',
+                answerOptions: [
+                  {
+                    text: 'Heat released to skin',
+                    rationale: 'Pack absorbs heat.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Endothermic dissolution',
+                    rationale: 'Correct explanation.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'No energy transfer',
+                    rationale: 'Temperature drop implies transfer.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Exothermic neutralization',
+                    rationale: 'Different reaction type.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 6,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question:
+                  'Standard enthalpy of formation for elements in their standard state is:',
+                answerOptions: [
+                  {
+                    text: '1 kJ/mol',
+                    rationale: 'Defined as zero.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '0 kJ/mol',
+                    rationale: 'Correct definition.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Varies widely',
+                    rationale: 'Convention fixes it.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Negative always',
+                    rationale: 'Not required.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 7,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  "Hess's Law: overall ΔH is sum of steps; pathway independent.",
+                question: "Using Hess's Law helps calculate:",
+                answerOptions: [
+                  {
+                    text: 'Reaction rate',
+                    rationale: 'Kinetics, not enthalpy pathway.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Overall enthalpy change',
+                    rationale: 'Correct usage.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Equilibrium constant',
+                    rationale: 'Requires ΔG or K data.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Atomic number',
+                    rationale: 'Not related.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 8,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question:
+                  'Exothermic reaction surroundings temperature typically:',
+                answerOptions: [
+                  {
+                    text: 'Decrease',
+                    rationale: 'Heat released warms surroundings.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Increase',
+                    rationale: 'Correct effect.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Become absolute zero',
+                    rationale: 'Physical impossibility.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Stay constant always',
+                    rationale: 'Depends on system isolation.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 9,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Activation energy (E_a): minimum energy required for effective collisions.',
+                question: 'Catalyst effect on E_a:',
+                answerOptions: [
+                  {
+                    text: 'Raises it',
+                    rationale: 'Catalyst lowers E_a.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Lowers it',
+                    rationale: 'Correct—alternate pathway.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Eliminates need for collisions',
+                    rationale: 'Collisions still needed.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Converts potential energy to mass',
+                    rationale: 'Not valid description.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 10,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Symbol ΔH represents:',
+                answerOptions: [
+                  {
+                    text: 'Entropy change',
+                    rationale: 'Entropy is ΔS.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Enthalpy change',
+                    rationale: 'Correct parameter.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Internal energy exactly',
+                    rationale: 'Different symbol (ΔU).',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Rate constant',
+                    rationale: 'Rate uses k.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 11,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Calorimeter: insulated device limiting heat exchange.',
+                question: 'Purpose of insulation:',
+                answerOptions: [
+                  {
+                    text: 'Increase outside heat flow',
+                    rationale: 'Opposite effect.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Minimize heat loss for accurate q measurement',
+                    rationale: 'Correct reason.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Change reaction pathway',
+                    rationale: 'Pathway unaffected.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Neutralize acids',
+                    rationale: 'Different process.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 12,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question:
+                  'Exothermic graph shows products energy relative to reactants:',
+                answerOptions: [
+                  {
+                    text: 'Higher',
+                    rationale: 'That indicates endothermic.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Lower',
+                    rationale: 'Correct energy release.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Equal always',
+                    rationale: 'Energy change differentiates.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Cannot compare visually',
+                    rationale: 'Diagram depicts difference.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'sci_chem_solutions_concentration',
+            title: 'Solutions & Concentration',
+            description: 'Solubility, molarity, dilution, saturation.',
+            questions: [
+              {
+                questionNumber: 1,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Molarity (M) = moles solute / liters solution. 0.50 mol dissolved to make 2.0 L ⇒ 0.25 M.',
+                question: 'Molarity of 0.75 mol solute in 3.0 L?',
+                answerOptions: [
+                  {
+                    text: '0.25 M',
+                    rationale: 'Correct (0.75/3.0).',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '0.50 M',
+                    rationale: 'Would require 1.5 mol.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '2.25 M',
+                    rationale: 'Not division result.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '3.75 M',
+                    rationale: 'Not division result.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 2,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Solvent in saltwater (NaCl(aq)) is:',
+                answerOptions: [
+                  {
+                    text: 'Salt',
+                    rationale: 'Solute dissolves.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Water',
+                    rationale: 'Correct primary component.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Sodium only',
+                    rationale: 'Ion part of solute.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Chloride only',
+                    rationale: 'Ion part of solute.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 3,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Dilution formula: $M_1 V_1 = M_2 V_2$ (moles conserved).',
+                question:
+                  'From 2.0 M stock make 0.50 L of 0.40 M. $V_1$ needed?',
+                answerOptions: [
+                  {
+                    text: '0.10 L',
+                    rationale: 'Correct: (0.40×0.50)/2.0 = 0.10.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: '0.40 L',
+                    rationale: 'Uses final volume incorrectly.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '0.25 L',
+                    rationale: 'Miscalculated proportion.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: '2.0 L',
+                    rationale: 'Exceeds final volume.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 4,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Saturated solution:',
+                answerOptions: [
+                  {
+                    text: 'Cannot dissolve more solute at given conditions',
+                    rationale: 'Correct definition.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Contains no solute',
+                    rationale: 'That is pure solvent.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Always a gas',
+                    rationale: 'Applies to all phases.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Has variable pH only',
+                    rationale: 'Unrelated property.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 5,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Increasing temperature generally increases solubility of solids in liquids (exceptions exist).',
+                question: 'Heating solvent typically makes solid solute:',
+                answerOptions: [
+                  {
+                    text: 'More soluble',
+                    rationale: 'Correct general trend.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Less soluble',
+                    rationale: 'Opposite of common behavior.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Exactly insoluble',
+                    rationale: 'Not typical outcome.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'React chemically always',
+                    rationale: 'Dissolving is physical.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 6,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Unsaturated solution can:',
+                answerOptions: [
+                  {
+                    text: 'Precipitate immediately',
+                    rationale:
+                      'Precipitation indicates supersaturation/saturation.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Dissolve additional solute',
+                    rationale: 'Correct ability.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Hold no solvent',
+                    rationale: 'Solution includes solvent.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Contain only gases',
+                    rationale: 'Not a requirement.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 7,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Supersaturated solution holds more solute than equilibrium amount (metastable).',
+                question: 'Disturbing supersaturated solution often causes:',
+                answerOptions: [
+                  {
+                    text: 'Further dissolution',
+                    rationale: 'Excess tends to precipitate.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Rapid crystallization',
+                    rationale: 'Correct release of excess solute.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Permanent stability',
+                    rationale: 'Metastable only.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Change to pure solvent',
+                    rationale: 'Solute remains as solid.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 8,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Concentration unit mol/L is called:',
+                answerOptions: [
+                  {
+                    text: 'Molality',
+                    rationale: 'Molality is mol/kg solvent.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Molarity',
+                    rationale: 'Correct definition.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Normality',
+                    rationale: 'Different equivalent-based unit.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Titer',
+                    rationale: 'Not standard concentration unit.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 9,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Polar solvents dissolve polar/ionic solutes ("like dissolves like").',
+                question: 'Nonpolar solute dissolves best in:',
+                answerOptions: [
+                  {
+                    text: 'Nonpolar solvent',
+                    rationale: 'Correct compatibility.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Highly polar solvent',
+                    rationale: 'Energy cost too high.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Pure water always',
+                    rationale: 'Water is polar.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Acidic solution only',
+                    rationale: 'Acidity unrelated to polarity match.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 10,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question: 'Increasing surface area (crushing solid) generally:',
+                answerOptions: [
+                  {
+                    text: 'Speeds dissolution',
+                    rationale: 'Correct—greater contact area.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Stops dissolution',
+                    rationale: 'Does not halt process.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Makes solute insoluble',
+                    rationale: "Physical size doesn't remove solubility.",
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Reduces solvent volume',
+                    rationale: 'Volume unaffected.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 11,
+                type: 'text',
+                challenge_tags: ['science-2'],
+                passage:
+                  'Colligative properties depend on particle count, not identity (e.g., boiling point elevation).',
+                question: 'Adding nonvolatile solute to solvent boiling point:',
+                answerOptions: [
+                  {
+                    text: 'Decreases',
+                    rationale: 'Boiling point elevates.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Increases',
+                    rationale: 'Correct effect.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Becomes zero',
+                    rationale: 'Physical impossibility.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Unaffected',
+                    rationale: 'Property changes.',
+                    isCorrect: false,
+                  },
+                ],
+              },
+              {
+                questionNumber: 12,
+                type: 'knowledge',
+                challenge_tags: ['science-2'],
+                question:
+                  'Term for substance that dissolves uniformly forming single phase:',
+                answerOptions: [
+                  {
+                    text: 'Homogeneous solution',
+                    rationale: 'Correct descriptor.',
+                    isCorrect: true,
+                  },
+                  {
+                    text: 'Heterogeneous mixture',
+                    rationale: 'Components visibly distinct.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Suspension only',
+                    rationale: 'Suspension has settled particles.',
+                    isCorrect: false,
+                  },
+                  {
+                    text: 'Colloid only',
+                    rationale: 'Colloid intermediate particle size.',
                     isCorrect: false,
                   },
                 ],
@@ -19279,16 +21267,16 @@ Does this represent a function?`,
             quizzes: [
               {
                 id: 'rla_info_main_idea_set1',
-                label: 'Set 1',
+                label: 'Main Idea & Supporting Details',
                 questionSourceTopicId: 'rla_info_main_idea',
               },
               {
                 id: 'rla_informational_texts_informational_texts_quiz2',
-                label: 'Set 2',
+                label: "Author's Purpose & Point of View",
               },
               {
                 id: 'rla_informational_texts_informational_texts_quiz3',
-                label: 'Set 3',
+                label: 'Making Inferences from Context',
               },
             ],
             article: {
@@ -19631,15 +21619,15 @@ Does this represent a function?`,
             quizzes: [
               {
                 id: 'rla_informational_texts_structure_purpose_quiz1',
-                label: 'Set 1',
+                label: 'Text Structure & Organization',
               },
               {
                 id: 'rla_informational_texts_structure_purpose_quiz2',
-                label: 'Set 2',
+                label: 'Argumentative Claims & Evidence',
               },
               {
                 id: 'rla_informational_texts_structure_purpose_quiz3',
-                label: 'Set 3',
+                label: 'Comparing Multiple Texts',
               },
             ],
             type: 'reading',
@@ -21247,11 +23235,17 @@ Does this represent a function?`,
             quizzes: [
               {
                 id: 'rla_lit_theme_figurative_language_quiz1',
-                label: 'Set 1',
+                label: 'Theme & Central Message',
                 questionSourceTopicId: 'rla_lit_theme_figurative_language',
               },
-              { id: 'rla_lit_theme_figurative_language_quiz2', label: 'Set 2' },
-              { id: 'rla_lit_theme_figurative_language_quiz3', label: 'Set 3' },
+              {
+                id: 'rla_lit_theme_figurative_language_quiz2',
+                label: 'Figurative Language & Literary Devices',
+              },
+              {
+                id: 'rla_lit_theme_figurative_language_quiz3',
+                label: 'Symbolism & Deeper Meaning',
+              },
             ],
             type: 'reading',
             article: {
@@ -21573,9 +23567,18 @@ Does this represent a function?`,
             description:
               'Standard English conventions including sentence structure, usage, and mechanics.',
             quizzes: [
-              { id: 'rla_lang_conventions_quiz1', label: 'Set 1' },
-              { id: 'rla_lang_conventions_quiz2', label: 'Set 2' },
-              { id: 'rla_lang_conventions_quiz3', label: 'Set 3' },
+              {
+                id: 'rla_lang_conventions_quiz1',
+                label: 'Capitalization, Punctuation & Spelling',
+              },
+              {
+                id: 'rla_lang_conventions_quiz2',
+                label: 'Subject-Verb Agreement & Verb Tenses',
+              },
+              {
+                id: 'rla_lang_conventions_quiz3',
+                label: 'Sentence Structure & Fragments',
+              },
             ],
           },
           {
@@ -21584,9 +23587,18 @@ Does this represent a function?`,
             description:
               'Subject-verb agreement, pronoun usage, and correct word choice.',
             quizzes: [
-              { id: 'rla_lang_usage_quiz1', label: 'Set 1' },
-              { id: 'rla_lang_usage_quiz2', label: 'Set 2' },
-              { id: 'rla_lang_usage_quiz3', label: 'Set 3' },
+              {
+                id: 'rla_lang_usage_quiz1',
+                label: 'Pronoun Usage & Agreement',
+              },
+              {
+                id: 'rla_lang_usage_quiz2',
+                label: 'Modifier Placement & Clarity',
+              },
+              {
+                id: 'rla_lang_usage_quiz3',
+                label: 'Parallel Structure & Consistency',
+              },
             ],
           },
           {
@@ -21595,9 +23607,18 @@ Does this represent a function?`,
             description:
               'Practice constructing a well-supported argumentative essay.',
             quizzes: [
-              { id: 'rla_extended_response_quiz1', label: 'Set 1' },
-              { id: 'rla_extended_response_quiz2', label: 'Set 2' },
-              { id: 'rla_extended_response_quiz3', label: 'Set 3' },
+              {
+                id: 'rla_extended_response_quiz1',
+                label: 'Essay Planning & Organization',
+              },
+              {
+                id: 'rla_extended_response_quiz2',
+                label: 'Evidence-Based Arguments',
+              },
+              {
+                id: 'rla_extended_response_quiz3',
+                label: 'Revising & Editing Strategies',
+              },
             ],
           },
         ],
@@ -21915,6 +23936,159 @@ function getVariantDisplayName(subjectName, canonicalTopicTitle, index) {
   if (idx === 1) return 'Skill Builder';
   if (idx === 2) return 'Mixed Review';
   return `Challenge Set #${idx - 2}`;
+}
+
+/**
+ * CORE PRACTICE BUNDLE TITLES
+ * Maps topic keys to array of descriptive titles for bundled quiz sets.
+ * Each topic can have multiple sets, each with a specific, curated name.
+ */
+const CORE_PRACTICE_BUNDLE_TITLES = {
+  // MATH - Quantitative Reasoning
+  math_quant_basics: [
+    'Whole Number Operations & Order of Operations',
+    'Fractions, Mixed Numbers, and Decimals',
+    'Percent Applications in Real-World Contexts',
+  ],
+  // MATH - Algebra & Equations
+  math_alg_expressions: [
+    'Simplifying Expressions & Like Terms',
+    'One-Step and Two-Step Linear Equations',
+    'Multi-Step Equations & Inequalities',
+    'Word Problems with Linear Equations',
+  ],
+  // MATH - Geometry
+  math_geom_basics: [
+    'Perimeter and Area of 2-D Shapes',
+    'Surface Area & Volume of Prisms and Cylinders',
+    'Composite Shapes and Real-World Geometry',
+  ],
+  // RLA - Reading Comprehension: Informational
+  rla_info_main_idea: [
+    'Main Idea & Supporting Details',
+    "Author's Purpose & Point of View",
+    'Making Inferences from Context',
+  ],
+  rla_info_structure_purpose: [
+    'Text Structure & Organization',
+    'Argumentative Claims & Evidence',
+    'Comparing Multiple Texts',
+  ],
+  // RLA - Literature
+  rla_lit_plot_character: [
+    'Plot Development & Story Elements',
+    'Character Analysis & Motivation',
+    'Conflict & Resolution',
+  ],
+  rla_lit_theme_figurative_language: [
+    'Theme & Central Message',
+    'Figurative Language & Literary Devices',
+    'Symbolism & Deeper Meaning',
+  ],
+  // RLA - Language & Grammar
+  rla_lang_conventions: [
+    'Capitalization, Punctuation & Spelling',
+    'Subject-Verb Agreement & Verb Tenses',
+    'Sentence Structure & Fragments',
+  ],
+  rla_lang_usage: [
+    'Pronoun Usage & Agreement',
+    'Modifier Placement & Clarity',
+    'Parallel Structure & Consistency',
+  ],
+  rla_extended_response: [
+    'Essay Planning & Organization',
+    'Evidence-Based Arguments',
+    'Revising & Editing Strategies',
+  ],
+  // SCIENCE - Life Science
+  science_life_basics: [
+    'Cell Structure & Function',
+    'Genetics & Heredity',
+    'Ecosystems & Energy Flow',
+  ],
+  // SCIENCE - Physical Science
+  science_physical_basics: [
+    'Forces & Motion',
+    'Energy Transformations',
+    'Chemical Reactions & Properties',
+  ],
+  // SCIENCE - Chemistry (new detailed balancing & stoichiometry quizzes)
+  sci_chem_equations_balancing: [
+    'Balancing Basics & Conservation of Mass',
+    'Combustion, Synthesis & Decomposition',
+    'Replacement Reactions & Biological Equations',
+  ],
+  sci_chem_reaction_types_stoichiometry: [
+    'Reaction Classification & Patterns',
+    'Mole Ratios & Limiting Reactants',
+    'Percent Yield, Energy & Catalysts',
+  ],
+  // SCIENCE - Chemistry (advanced topics)
+  sci_chem_acids_bases: [
+    'pH Scale & Hydrogen Ion Concentration',
+    'Acid-Base Definitions & Properties',
+    'Neutralization, Buffers & Titration',
+    'Conjugate Pairs & Water Equilibrium',
+  ],
+  sci_chem_gas_laws: [
+    "Boyle's, Charles's & Gay-Lussac's Laws",
+    'Ideal Gas Law & STP Calculations',
+    "Dalton's Law & Kinetic Molecular Theory",
+    "Graham's Law & Real Gas Behavior",
+  ],
+  sci_chem_thermochemistry: [
+    'Enthalpy Changes & Exothermic/Endothermic Reactions',
+    'Calorimetry & Specific Heat',
+    "Hess's Law & Standard Enthalpies",
+    'Activation Energy & Catalysts',
+  ],
+  sci_chem_solutions_concentration: [
+    'Molarity Calculations & Dilution',
+    'Solubility & Saturated Solutions',
+    'Colligative Properties',
+    'Polar vs. Nonpolar Solutes',
+  ],
+  // SCIENCE - Earth & Space
+  science_earth_basics: [
+    "Earth's Systems & Processes",
+    'Weather & Climate Patterns',
+    'Solar System & Universe',
+  ],
+  // SOCIAL STUDIES - U.S. History
+  ss_us_hist_foundations: [
+    'Colonial Period & Revolutionary Era',
+    'Constitution & Bill of Rights',
+    'Civil War & Reconstruction',
+  ],
+  // SOCIAL STUDIES - Civics & Government
+  ss_civics_basics: [
+    'Three Branches of Government',
+    'Rights & Responsibilities of Citizens',
+    'Voting & Democratic Participation',
+  ],
+  // SOCIAL STUDIES - Economics
+  ss_econ_basics: [
+    'Supply & Demand Fundamentals',
+    'Economic Systems & Markets',
+    'Personal Finance & Budgeting',
+  ],
+};
+
+/**
+ * Get a curated bundle title for Core Practice sets.
+ * @param {string} topicKey - The topic identifier (e.g., 'math_quant_basics')
+ * @param {number} bundleIndex - Zero-based index of the bundle (0, 1, 2, ...)
+ * @param {string} fallbackTitle - Fallback title if no mapping exists
+ * @returns {string} - Human-friendly bundle title
+ */
+function getCorePracticeBundleTitle(topicKey, bundleIndex, fallbackTitle) {
+  const list = CORE_PRACTICE_BUNDLE_TITLES[topicKey];
+  if (Array.isArray(list) && list[bundleIndex]) {
+    return list[bundleIndex];
+  }
+  // Return improved fallback (not generic "Set N")
+  return fallbackTitle || `Core Practice Set ${bundleIndex + 1}`;
 }
 
 function sortVariantsStable(quizSets) {
@@ -24028,9 +26202,9 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     const groups = new Map();
     let sawVariantPattern = false;
 
-    const push = (baseTitle, topic) => {
+    const push = (baseTitle, topic, topicKey) => {
       const key = String(baseTitle || '').toLowerCase();
-      if (!groups.has(key)) groups.set(key, { baseTitle, items: [] });
+      if (!groups.has(key)) groups.set(key, { baseTitle, topicKey, items: [] });
       groups.get(key).items.push(topic);
     };
 
@@ -24043,16 +26217,17 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         /\b(quiz|set)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i.test(raw);
       const base = deriveCanonicalTopicTitle(raw);
       if (looksVariant || base !== raw) sawVariantPattern = true;
-      push(base || left || raw, t);
+      push(base || left || raw, t, t.id); // Pass topic.id as topicKey
     });
 
     // Create chunks of up to 3 in original order per base group
     const stackedSets = [];
-    groups.forEach(({ baseTitle, items }) => {
+    groups.forEach(({ baseTitle, topicKey, items }) => {
       for (let i = 0; i < items.length; i += 3) {
         const chunk = items.slice(i, i + 3);
         stackedSets.push({
           baseTitle,
+          topicKey, // Store topicKey for bundle title lookup
           setIndex: Math.floor(i / 3) + 1,
           quizzes: chunk,
         });
@@ -24236,7 +26411,11 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                   : { color: cardTextColor }
               }
             >
-              {`${set.baseTitle}: Set ${set.setIndex}`}
+              {getCorePracticeBundleTitle(
+                set.topicKey,
+                set.setIndex - 1,
+                `${set.baseTitle}: Set ${set.setIndex}`
+              )}
             </h3>
             <p
               className="mt-2"
@@ -35155,7 +37334,32 @@ function QuizInterface({
 
   const handleInputChange = (e) => {
     const newAnswers = [...answers];
-    newAnswers[currentIndex] = e.target.value;
+    const value = e.target.value;
+
+    // For Science and Math: enforce numeric-only for fill-in questions without answer options
+    const isScienceOrMath = /science|math/i.test(
+      subject || quiz?.subject || ''
+    );
+    const isNumericQuestion =
+      currentQ.type === 'numeric' || currentQ.responseType === 'numeric';
+    const isFillInNoOptions =
+      (!Array.isArray(currentQ.answerOptions) ||
+        currentQ.answerOptions.length === 0) &&
+      !isShortResponseQuestion(currentQ);
+
+    if (isScienceOrMath && (isNumericQuestion || isFillInNoOptions)) {
+      // Allow only numeric characters, decimal points, negative signs, fractions, percents
+      const numericPattern = /^[\d\.\-\/%\s\(\)]*$/;
+      if (!numericPattern.test(value)) {
+        // Show validation message briefly
+        console.log(
+          '[UI] Numeric answers only for Science/Math fill-in questions'
+        );
+        return; // Don't update answer if non-numeric input
+      }
+    }
+
+    newAnswers[currentIndex] = value;
     setAnswers(newAnswers);
   };
 
@@ -35836,6 +38040,24 @@ function QuizInterface({
                   ? 'Enter your numeric answer:'
                   : 'Enter your answer:'}
               </label>
+              {(isNumericEntry ||
+                (/science|math/i.test(subject || quiz?.subject || '') &&
+                  !Array.isArray(currentQ.answerOptions) &&
+                  !currentQ.answerOptions?.length)) && (
+                <p
+                  className="mb-2 text-xs"
+                  style={{
+                    color: 'var(--warning-text)',
+                    backgroundColor: 'var(--warning-bg)',
+                    padding: '0.5rem',
+                    borderRadius: '0.375rem',
+                    border: '1px solid var(--warning-border)',
+                  }}
+                >
+                  ⚠️ Numeric answers only. Enter numbers, decimals, or fractions
+                  (e.g., 42, 3.14, 1/2, 25%).
+                </p>
+              )}
               <input
                 id="fill-in-blank-answer"
                 type={isNumericEntry ? 'text' : 'text'}
@@ -39075,18 +41297,42 @@ function EssayGuide({ onExit }) {
                     <summary className="font-semibold cursor-pointer">
                       View Trait-by-Trait Breakdown
                     </summary>
-                    <div className="mt-2 pl-4 border-l-2 border-indigo-200">
-                      <p>
+                    <div className="mt-2 pl-4 border-l-2 border-indigo-200 space-y-2">
+                      <p
+                        className={`${
+                          scoreResult.trait1.score === 2
+                            ? 'text-green-700 font-medium'
+                            : scoreResult.trait1.score === 1
+                            ? 'text-yellow-700 font-medium'
+                            : 'text-red-700 font-medium'
+                        }`}
+                      >
                         <strong>Trait 1 (Analysis):</strong> Score{' '}
                         {scoreResult.trait1.score}/2.{' '}
                         {scoreResult.trait1.feedback}
                       </p>
-                      <p>
+                      <p
+                        className={`${
+                          scoreResult.trait2.score === 2
+                            ? 'text-green-700 font-medium'
+                            : scoreResult.trait2.score === 1
+                            ? 'text-yellow-700 font-medium'
+                            : 'text-red-700 font-medium'
+                        }`}
+                      >
                         <strong>Trait 2 (Evidence):</strong> Score{' '}
                         {scoreResult.trait2.score}/2.{' '}
                         {scoreResult.trait2.feedback}
                       </p>
-                      <p>
+                      <p
+                        className={`${
+                          scoreResult.trait3.score === 2
+                            ? 'text-green-700 font-medium'
+                            : scoreResult.trait3.score === 1
+                            ? 'text-yellow-700 font-medium'
+                            : 'text-red-700 font-medium'
+                        }`}
+                      >
                         <strong>Trait 3 (Clarity):</strong> Score{' '}
                         {scoreResult.trait3.score}/2.{' '}
                         {scoreResult.trait3.feedback}
@@ -41950,7 +44196,7 @@ function WorkforceInterviewPractice() {
                     {summary.strengths?.map((s, i) => (
                       <li
                         key={i}
-                        className="text-slate-700 dark:text-slate-300"
+                        className="text-green-700 dark:text-green-300 font-medium"
                       >
                         {s}
                       </li>
@@ -41959,14 +44205,14 @@ function WorkforceInterviewPractice() {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold text-lg mb-2 text-orange-800 dark:text-orange-200">
+                  <h3 className="font-semibold text-lg mb-2 text-red-800 dark:text-red-200">
                     📈 Areas for Growth:
                   </h3>
                   <ul className="list-disc ml-5 space-y-1">
                     {summary.areasForGrowth?.map((a, i) => (
                       <li
                         key={i}
-                        className="text-slate-700 dark:text-slate-300"
+                        className="text-red-700 dark:text-red-300 font-medium"
                       >
                         {a}
                       </li>

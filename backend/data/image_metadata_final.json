@@ -2673,19 +2673,56 @@
     "difficulty": "Medium"
   },
   {
-    "fileName": "ged-scince-fig-9.png",
-    "filePath": "/frontend/Images/Science/ged-scince-fig-9.png",
-    "altText": "This is an image related to: number.",
-    "detailedDescription": "This image is a bar graph titled \"MEDIAN AGE IN THE UNITED STATES.\" Its purpose is to illustrate the trend of the median age in the United States over several decades, including projections for future years. The x-axis represents years, specifically 1970, 1980, 1990, 2000, 2010, 2020, and 2030. The years 2010, 2020, and 2030 are marked with an asterisk, indicating they are projected values. The y-axis represents \"Age\" and ranges from 25 to 38 in increments of one year.\n\nThe bars show the median age for each corresponding year:\n- 1970: Approximately 27.9 years\n- 1980: Approximately 29.8 years\n- 1990: Approximately 32.3 years\n- 2000: Approximately 34.6 years\n- 2010 (projected): Approximately 35.3 years\n- 2020 (projected): Approximately 36.1 years\n- 2030 (projected): Approximately 37.2 years\n\nThe graph displays a clear upward trend, indicating a continuous increase in the median age of the United States population from 1970 through the projected year 2030.",
-    "subject": "Science",
-    "keywords": ["Meter"],
-    "analysisPoints": ["Manual review needed to add specific analysis points."],
+    "fileName": "ged-social-studies-fig-9.png",
+    "filePath": "/frontend/Images/Social Studies/ged-social-studies-fig-9.png",
+    "altText": "Bar graph showing the median age in the United States from 1970 to 2030, demonstrating demographic trends and population aging.",
+    "detailedDescription": "This image is a bar graph titled \"MEDIAN AGE IN THE UNITED STATES\" that illustrates demographic trends in the U.S. population over a 60-year period. The graph shows both historical data and future projections to demonstrate the aging of the American population.\n\nThe x-axis displays seven data points: 1970, 1980, 1990, 2000, 2010*, 2020*, and 2030* (asterisks indicate projected values). The y-axis represents age in years, ranging from 25 to 38 years.\n\nHistorical and projected median ages:\n- 1970: 27.9 years\n- 1980: 29.8 years (increase of 1.9 years)\n- 1990: 32.3 years (increase of 2.5 years)\n- 2000: 34.6 years (increase of 2.3 years)\n- 2010*: 35.3 years (projected increase of 0.7 years)\n- 2020*: 36.1 years (projected increase of 0.8 years)\n- 2030*: 37.2 years (projected increase of 1.1 years)\n\nThe graph clearly shows an upward trend with a total projected increase of 9.3 years in median age from 1970 to 2030. This demographic shift reflects several important social factors including declining birth rates, increased life expectancy, the aging of the Baby Boomer generation, and changes in immigration patterns. Understanding these demographic trends is crucial for policy planning related to healthcare, Social Security, workforce development, and elder care services.",
+    "subject": "Social Studies",
+    "keywords": [
+      "Demographics",
+      "Population",
+      "Census Data",
+      "Median Age",
+      "Aging Population",
+      "Population Trends",
+      "Statistical Analysis",
+      "Data Interpretation",
+      "Baby Boomers",
+      "Social Policy",
+      "Economics",
+      "Civics"
+    ],
+    "analysisPoints": [
+      "The median age increased by approximately 9.3 years from 1970 to 2030 (projected), representing a 33% increase.",
+      "The rate of increase slowed after 2000, with smaller incremental changes in recent decades.",
+      "The aging population trend has significant implications for Social Security and Medicare funding.",
+      "This demographic shift affects labor force participation rates and economic productivity.",
+      "The data reflects the impact of the Baby Boomer generation aging through the population.",
+      "Lower birth rates and increased life expectancy are primary drivers of the rising median age.",
+      "An aging population requires increased healthcare infrastructure and elder care services.",
+      "This trend influences political priorities, voting patterns, and public policy decisions.",
+      "The projected values help policymakers plan for future demographic challenges.",
+      "International comparisons would show the U.S. is not alone in experiencing population aging."
+    ],
     "commonMisconceptions": [
-      "Manual review needed to add common misconceptions."
+      "The median age is not the same as average (mean) age - half the population is younger and half is older than the median.",
+      "An increasing median age does not mean every individual is aging faster, but rather the population distribution is shifting.",
+      "The asterisks indicate projections, not confirmed data - actual values may vary based on birth rates, mortality, and immigration.",
+      "A higher median age does not necessarily indicate a declining population, only a shift in age distribution.",
+      "This data represents the entire U.S. population, not specific regions which may have different age distributions.",
+      "The trend is not linear - social policies, economic conditions, and cultural changes can affect future demographic patterns."
     ],
     "usageDirectives": [
-      "Generate a question that asks the user to determine the main idea of the image.",
-      "Create a question that requires interpreting the data or symbolism shown."
+      "Ask students to calculate the total change in median age over the entire period or specific decades.",
+      "Create questions about the social and economic implications of an aging population.",
+      "Have students identify which decade showed the greatest or smallest increase in median age.",
+      "Generate questions about the difference between historical data and projected values.",
+      "Ask students to explain possible causes of the demographic trend shown in the graph.",
+      "Create questions about how this demographic shift might affect government programs like Social Security or Medicare.",
+      "Have students compare the rate of change across different decades and explain potential reasons.",
+      "Ask about policy implications and what services or infrastructure might need to expand or change.",
+      "Generate questions requiring students to distinguish between median and mean.",
+      "Create questions about what additional data would be helpful to understand the full demographic picture."
     ],
     "difficulty": "Medium"
   },
