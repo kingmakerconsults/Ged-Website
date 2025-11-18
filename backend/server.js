@@ -3665,6 +3665,76 @@ function requireAuthInProd(req, res, next) {
   return next();
 }
 
+// ========================================
+// ADMIN ROLE MIDDLEWARE
+// ========================================
+
+function requireSuperAdmin(req, res, next) {
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({ error: 'Unauthorized - No user' });
+  }
+  const role = (req.user.role || '').toLowerCase();
+  if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+    return next();
+  }
+  return res
+    .status(403)
+    .json({ error: 'Forbidden - Super admin access required' });
+}
+
+function requireOrgAdminOrSuper(req, res, next) {
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({ error: 'Unauthorized - No user' });
+  }
+  const role = (req.user.role || '').toLowerCase();
+  if (
+    role === 'super_admin' ||
+    role === 'superadmin' ||
+    role === 'admin' ||
+    role === 'org_admin' ||
+    role === 'orgadmin'
+  ) {
+    return next();
+  }
+  return res
+    .status(403)
+    .json({ error: 'Forbidden - Organization admin access required' });
+}
+
+function requireTeacherOrOrgAdmin(req, res, next) {
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({ error: 'Unauthorized - No user' });
+  }
+  const role = (req.user.role || '').toLowerCase();
+  if (
+    role === 'super_admin' ||
+    role === 'superadmin' ||
+    role === 'admin' ||
+    role === 'org_admin' ||
+    role === 'orgadmin' ||
+    role === 'teacher' ||
+    role === 'instructor'
+  ) {
+    return next();
+  }
+  return res
+    .status(403)
+    .json({ error: 'Forbidden - Teacher or admin access required' });
+}
+
+// Helper to check if user can access a specific organization
+function canAccessOrganization(req, orgId) {
+  if (!req.user) return false;
+  const role = (req.user.role || '').toLowerCase();
+  // Super admins can access all orgs
+  if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+    return true;
+  }
+  // Org admins and teachers can only access their own org
+  if (!req.user.organization_id) return false;
+  return Number(req.user.organization_id) === Number(orgId);
+}
+
 let cachedTestPlanTableName = null;
 let cachedChallengeTables = null;
 let cachedProfileNameColumn = null;
@@ -14422,6 +14492,1952 @@ Please evaluate this response for soft skills effectiveness.`;
     });
   }
 });
+
+// ========================================
+// ADMIN API ENDPOINTS - CLASSES MANAGEMENT
+// ========================================
+
+// GET /api/admin/classes - List all classes
+app.get(
+  '/api/admin/classes',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const userId = req.user?.userId || req.user?.sub;
+      const role = (req.user?.role || '').toLowerCase();
+      const userOrgId = req.user?.organization_id;
+      const { orgId } = req.query;
+
+      // Determine which org to query
+      let targetOrgId;
+      if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+        targetOrgId = orgId ? Number(orgId) : null;
+      } else {
+        targetOrgId = userOrgId ? Number(userOrgId) : null;
+      }
+
+      let query = `
+      SELECT 
+        c.id, 
+        c.name, 
+        c.color, 
+        c.open_date, 
+        c.close_date, 
+        c.is_active,
+        c.created_at,
+        u.name as teacher_name,
+        u.id as teacher_id,
+        COUNT(DISTINCT p.user_id) as student_count
+      FROM classes c
+      LEFT JOIN users u ON c.teacher_id = u.id
+      LEFT JOIN profiles p ON p.class_id = c.id
+    `;
+
+      const params = [];
+      if (targetOrgId) {
+        query += ` WHERE c.organization_id = $1`;
+        params.push(targetOrgId);
+      }
+
+      query += ` GROUP BY c.id, u.name, u.id ORDER BY c.created_at DESC`;
+
+      const result = await pool.query(query, params);
+
+      res.json({
+        classes: result.rows.map((row) => ({
+          id: row.id,
+          name: row.name,
+          teacherName: row.teacher_name,
+          teacherId: row.teacher_id,
+          color: row.color,
+          openDate: row.open_date,
+          closeDate: row.close_date,
+          isActive: row.is_active,
+          studentCount: parseInt(row.student_count) || 0,
+          createdAt: row.created_at,
+        })),
+      });
+    } catch (error) {
+      console.error('[/api/admin/classes] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch classes' });
+    }
+  }
+);
+
+// GET /api/admin/classes/:id - Get specific class
+app.get(
+  '/api/admin/classes/:id',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const result = await pool.query(
+        `
+      SELECT 
+        c.*,
+        u.name as teacher_name,
+        o.name as organization_name,
+        COUNT(DISTINCT p.user_id) as student_count
+      FROM classes c
+      LEFT JOIN users u ON c.teacher_id = u.id
+      LEFT JOIN organizations o ON c.organization_id = o.id
+      LEFT JOIN profiles p ON p.class_id = c.id
+      WHERE c.id = $1
+      GROUP BY c.id, u.name, o.name
+    `,
+        [id]
+      );
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Class not found' });
+      }
+
+      // Check access
+      if (!canAccessOrganization(req, result.rows[0].organization_id)) {
+        return res
+          .status(403)
+          .json({ error: 'Forbidden - Cannot access this organization' });
+      }
+
+      const classData = result.rows[0];
+      res.json({
+        id: classData.id,
+        name: classData.name,
+        teacherName: classData.teacher_name,
+        teacherId: classData.teacher_id,
+        organizationName: classData.organization_name,
+        organizationId: classData.organization_id,
+        color: classData.color,
+        openDate: classData.open_date,
+        closeDate: classData.close_date,
+        isActive: classData.is_active,
+        studentCount: parseInt(classData.student_count) || 0,
+        createdAt: classData.created_at,
+      });
+    } catch (error) {
+      console.error('[/api/admin/classes/:id] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch class' });
+    }
+  }
+);
+
+// POST /api/admin/classes - Create new class
+app.post(
+  '/api/admin/classes',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const {
+        name,
+        teacherId,
+        color,
+        openDate,
+        closeDate,
+        isActive,
+        organizationId,
+      } = req.body;
+
+      if (!name) {
+        return res.status(400).json({ error: 'Class name is required' });
+      }
+
+      // Determine organization
+      const role = (req.user?.role || '').toLowerCase();
+      let targetOrgId;
+      if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+        targetOrgId = organizationId || req.user?.organization_id;
+      } else {
+        targetOrgId = req.user?.organization_id;
+      }
+
+      if (!targetOrgId) {
+        return res.status(400).json({ error: 'Organization is required' });
+      }
+
+      const result = await pool.query(
+        `
+      INSERT INTO classes (organization_id, teacher_id, name, color, open_date, close_date, is_active)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *
+    `,
+        [
+          targetOrgId,
+          teacherId || null,
+          name,
+          color || '#3b82f6',
+          openDate || null,
+          closeDate || null,
+          isActive !== false,
+        ]
+      );
+
+      res.json({
+        success: true,
+        class: {
+          id: result.rows[0].id,
+          name: result.rows[0].name,
+          teacherId: result.rows[0].teacher_id,
+          color: result.rows[0].color,
+          openDate: result.rows[0].open_date,
+          closeDate: result.rows[0].close_date,
+          isActive: result.rows[0].is_active,
+          organizationId: result.rows[0].organization_id,
+        },
+      });
+    } catch (error) {
+      console.error('[/api/admin/classes POST] Error:', error);
+      res.status(500).json({ error: 'Failed to create class' });
+    }
+  }
+);
+
+// PUT /api/admin/classes/:id - Update class
+app.put(
+  '/api/admin/classes/:id',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, teacherId, color, openDate, closeDate, isActive } =
+        req.body;
+
+      // Check class exists and user has access
+      const checkResult = await pool.query(
+        'SELECT organization_id FROM classes WHERE id = $1',
+        [id]
+      );
+      if (checkResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Class not found' });
+      }
+      if (!canAccessOrganization(req, checkResult.rows[0].organization_id)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      const updates = [];
+      const params = [];
+      let paramCount = 1;
+
+      if (name !== undefined) {
+        updates.push(`name = $${paramCount++}`);
+        params.push(name);
+      }
+      if (teacherId !== undefined) {
+        updates.push(`teacher_id = $${paramCount++}`);
+        params.push(teacherId);
+      }
+      if (color !== undefined) {
+        updates.push(`color = $${paramCount++}`);
+        params.push(color);
+      }
+      if (openDate !== undefined) {
+        updates.push(`open_date = $${paramCount++}`);
+        params.push(openDate);
+      }
+      if (closeDate !== undefined) {
+        updates.push(`close_date = $${paramCount++}`);
+        params.push(closeDate);
+      }
+      if (isActive !== undefined) {
+        updates.push(`is_active = $${paramCount++}`);
+        params.push(isActive);
+      }
+
+      if (updates.length === 0) {
+        return res.status(400).json({ error: 'No fields to update' });
+      }
+
+      params.push(id);
+      const result = await pool.query(
+        `
+      UPDATE classes SET ${updates.join(', ')}
+      WHERE id = $${paramCount}
+      RETURNING *
+    `,
+        params
+      );
+
+      res.json({
+        success: true,
+        class: result.rows[0],
+      });
+    } catch (error) {
+      console.error('[/api/admin/classes PUT] Error:', error);
+      res.status(500).json({ error: 'Failed to update class' });
+    }
+  }
+);
+
+// DELETE /api/admin/classes/:id - Delete/deactivate class
+app.delete(
+  '/api/admin/classes/:id',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      // Check access
+      const checkResult = await pool.query(
+        'SELECT organization_id FROM classes WHERE id = $1',
+        [id]
+      );
+      if (checkResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Class not found' });
+      }
+      if (!canAccessOrganization(req, checkResult.rows[0].organization_id)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      // Soft delete - just mark inactive
+      await pool.query('UPDATE classes SET is_active = false WHERE id = $1', [
+        id,
+      ]);
+
+      res.json({ success: true, message: 'Class deactivated' });
+    } catch (error) {
+      console.error('[/api/admin/classes DELETE] Error:', error);
+      res.status(500).json({ error: 'Failed to delete class' });
+    }
+  }
+);
+
+// GET /api/admin/classes/:id/roster - Get class roster
+app.get(
+  '/api/admin/classes/:id/roster',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { search } = req.query;
+
+      // Check access
+      const checkResult = await pool.query(
+        'SELECT organization_id FROM classes WHERE id = $1',
+        [id]
+      );
+      if (checkResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Class not found' });
+      }
+      const orgId = checkResult.rows[0].organization_id;
+      if (!canAccessOrganization(req, orgId)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      // Students in this class
+      let inClassQuery = `
+      SELECT u.id, u.name, u.email, p.phone
+      FROM users u
+      JOIN profiles p ON p.user_id = u.id
+      WHERE p.class_id = $1 AND u.role = 'student'
+    `;
+      const inClassParams = [id];
+
+      if (search) {
+        inClassQuery += ` AND (u.name ILIKE $2 OR u.email ILIKE $2)`;
+        inClassParams.push(`%${search}%`);
+      }
+
+      inClassQuery += ` ORDER BY u.name`;
+
+      const inClassResult = await pool.query(inClassQuery, inClassParams);
+
+      // Students in organization but not in this class
+      let notInClassQuery = `
+      SELECT u.id, u.name, u.email, p.phone
+      FROM users u
+      JOIN profiles p ON p.user_id = u.id
+      WHERE u.organization_id = $1 AND u.role = 'student'
+      AND (p.class_id IS NULL OR p.class_id != $2)
+    `;
+      const notInClassParams = [orgId, id];
+
+      if (search) {
+        notInClassQuery += ` AND (u.name ILIKE $3 OR u.email ILIKE $3)`;
+        notInClassParams.push(`%${search}%`);
+      }
+
+      notInClassQuery += ` ORDER BY u.name LIMIT 100`;
+
+      const notInClassResult = await pool.query(
+        notInClassQuery,
+        notInClassParams
+      );
+
+      res.json({
+        studentsInClass: inClassResult.rows,
+        studentsInOrg: notInClassResult.rows,
+      });
+    } catch (error) {
+      console.error('[/api/admin/classes/:id/roster] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch roster' });
+    }
+  }
+);
+
+// POST /api/admin/classes/:id/roster - Update roster
+app.post(
+  '/api/admin/classes/:id/roster',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { addStudentIds, removeStudentIds } = req.body;
+
+      // Check access
+      const checkResult = await pool.query(
+        'SELECT organization_id FROM classes WHERE id = $1',
+        [id]
+      );
+      if (checkResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Class not found' });
+      }
+      if (!canAccessOrganization(req, checkResult.rows[0].organization_id)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      // Add students
+      if (Array.isArray(addStudentIds) && addStudentIds.length > 0) {
+        for (const studentId of addStudentIds) {
+          await pool.query(
+            'UPDATE profiles SET class_id = $1 WHERE user_id = $2',
+            [id, studentId]
+          );
+        }
+      }
+
+      // Remove students
+      if (Array.isArray(removeStudentIds) && removeStudentIds.length > 0) {
+        for (const studentId of removeStudentIds) {
+          await pool.query(
+            'UPDATE profiles SET class_id = NULL WHERE user_id = $1 AND class_id = $2',
+            [studentId, id]
+          );
+        }
+      }
+
+      res.json({
+        success: true,
+        message: 'Roster updated',
+        added: addStudentIds?.length || 0,
+        removed: removeStudentIds?.length || 0,
+      });
+    } catch (error) {
+      console.error('[/api/admin/classes/:id/roster POST] Error:', error);
+      res.status(500).json({ error: 'Failed to update roster' });
+    }
+  }
+);
+
+// GET /api/admin/classes/:id/export - Export class roster as CSV
+app.get(
+  '/api/admin/classes/:id/export',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      // Check access
+      const checkResult = await pool.query(
+        'SELECT name, organization_id FROM classes WHERE id = $1',
+        [id]
+      );
+      if (checkResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Class not found' });
+      }
+      if (!canAccessOrganization(req, checkResult.rows[0].organization_id)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      const className = checkResult.rows[0].name;
+
+      // Get students with scores
+      const result = await pool.query(
+        `
+      SELECT 
+        u.name,
+        u.email,
+        p.phone,
+        p.test_date,
+        COALESCE(MAX(CASE WHEN qa.subject = 'Math' THEN qa.scaled_score END), 0) as math_score,
+        COALESCE(MAX(CASE WHEN qa.subject = 'Science' THEN qa.scaled_score END), 0) as science_score,
+        COALESCE(MAX(CASE WHEN qa.subject LIKE '%RLA%' THEN qa.scaled_score END), 0) as rla_score,
+        COALESCE(MAX(CASE WHEN qa.subject = 'Social Studies' THEN qa.scaled_score END), 0) as social_score
+      FROM users u
+      JOIN profiles p ON p.user_id = u.id
+      LEFT JOIN quiz_attempts qa ON qa.user_id = u.id
+      WHERE p.class_id = $1 AND u.role = 'student'
+      GROUP BY u.id, u.name, u.email, p.phone, p.test_date
+      ORDER BY u.name
+    `,
+        [id]
+      );
+
+      // Generate CSV
+      const csv = [
+        'Name,Email,Phone,Class,Test Date,Math Score,Science Score,RLA Score,Social Studies Score,Readiness',
+        ...result.rows.map((row) => {
+          const avgScore =
+            (parseInt(row.math_score) +
+              parseInt(row.science_score) +
+              parseInt(row.rla_score) +
+              parseInt(row.social_score)) /
+            4;
+          const readiness =
+            avgScore >= 145
+              ? 'Ready'
+              : avgScore >= 135
+              ? 'Almost Ready'
+              : 'Needs Study';
+          return `"${row.name}","${row.email}","${
+            row.phone || ''
+          }","${className}","${row.test_date || ''}",${row.math_score},${
+            row.science_score
+          },${row.rla_score},${row.social_score},"${readiness}"`;
+        }),
+      ].join('\n');
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename="class-${id}-roster.csv"`
+      );
+      res.send(csv);
+    } catch (error) {
+      console.error('[/api/admin/classes/:id/export] Error:', error);
+      res.status(500).json({ error: 'Failed to export roster' });
+    }
+  }
+);
+
+// ========================================
+// STUDENT DASHBOARD API ENDPOINTS
+// ========================================
+
+// GET /api/student/next-task
+// Returns the next recommended task from Coach Smith for today
+app.get('/api/student/next-task', authenticateBearerToken, async (req, res) => {
+  try {
+    const userId = req.user?.userId || req.user?.sub;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const today = new Date().toISOString().split('T')[0];
+
+    // Get today's Coach Smith tasks that aren't completed yet
+    const result = await pool.query(
+      `SELECT subject, expected_minutes, completed_minutes, coach_quiz_id, coach_quiz_source_id, coach_quiz_completed, notes
+       FROM coach_daily_progress
+       WHERE user_id = $1 AND plan_date = $2 AND coach_quiz_completed = false
+       ORDER BY subject
+       LIMIT 1`,
+      [userId, today]
+    );
+
+    if (result.rows.length === 0) {
+      // No tasks for today, check tomorrow
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+      const tomorrowResult = await pool.query(
+        `SELECT subject, expected_minutes, coach_quiz_id, notes
+         FROM coach_daily_progress
+         WHERE user_id = $1 AND plan_date = $2
+         ORDER BY subject
+         LIMIT 1`,
+        [userId, tomorrowStr]
+      );
+
+      if (tomorrowResult.rows.length > 0) {
+        const task = tomorrowResult.rows[0];
+        return res.json({
+          nextTask: {
+            title: `${task.subject} Practice`,
+            description:
+              task.notes ||
+              `Complete ${task.expected_minutes || 45} minutes of ${
+                task.subject
+              } study`,
+            subject: task.subject,
+            quizId: task.coach_quiz_id,
+            isForTomorrow: true,
+          },
+        });
+      }
+
+      return res.json({
+        nextTask: null,
+        message: 'All tasks complete! Great work!',
+      });
+    }
+
+    const task = result.rows[0];
+    res.json({
+      nextTask: {
+        title: `${task.subject} Practice`,
+        description:
+          task.notes ||
+          `Complete ${task.expected_minutes || 45} minutes of ${
+            task.subject
+          } study`,
+        subject: task.subject,
+        quizId: task.coach_quiz_id,
+        sourceId: task.coach_quiz_source_id,
+        completedMinutes: task.completed_minutes || 0,
+        expectedMinutes: task.expected_minutes || 45,
+        isForTomorrow: false,
+      },
+    });
+  } catch (error) {
+    console.error('[/api/student/next-task] Error:', error);
+    res.status(500).json({ error: 'Failed to fetch next task' });
+  }
+});
+
+// GET /api/student/mastery
+// Returns mastery levels by GED domain
+app.get('/api/student/mastery', authenticateBearerToken, async (req, res) => {
+  try {
+    const userId = req.user?.userId || req.user?.sub;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    // Get average scores by subject and subtopic from quiz attempts
+    const result = await pool.query(
+      `SELECT 
+        subject,
+        quiz_type as subtopic,
+        AVG(scaled_score) as avg_score,
+        COUNT(*) as attempt_count,
+        MAX(attempted_at) as last_attempt
+       FROM quiz_attempts
+       WHERE user_id = $1 AND scaled_score IS NOT NULL
+       GROUP BY subject, quiz_type
+       ORDER BY subject, quiz_type`,
+      [userId]
+    );
+
+    // Organize by subject with GED-aligned domains
+    const mastery = {
+      rla: [],
+      math: [],
+      science: [],
+      social: [],
+    };
+
+    // Map subjects to categories
+    const subjectMap = {
+      RLA: 'rla',
+      'Reasoning Through Language Arts (RLA)': 'rla',
+      Math: 'math',
+      Science: 'science',
+      'Social Studies': 'social',
+    };
+
+    result.rows.forEach((row) => {
+      const category = subjectMap[row.subject] || 'rla';
+      const score = parseFloat(row.avg_score);
+
+      // Convert score to mastery level (0-4)
+      let masteryLevel = 0;
+      if (score >= 200) masteryLevel = 4; // Honors
+      else if (score >= 170) masteryLevel = 3; // Advanced
+      else if (score >= 145) masteryLevel = 2; // Passing
+      else if (score >= 135) masteryLevel = 1; // Almost Ready
+
+      mastery[category].push({
+        skill: row.subtopic || 'General',
+        score: Math.round(score),
+        mastery: masteryLevel,
+        attempts: parseInt(row.attempt_count),
+        lastAttempt: row.last_attempt,
+      });
+    });
+
+    res.json(mastery);
+  } catch (error) {
+    console.error('[/api/student/mastery] Error:', error);
+    res.status(500).json({ error: 'Failed to fetch mastery data' });
+  }
+});
+
+// GET /api/student/study-time
+// Returns study time statistics
+app.get(
+  '/api/student/study-time',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = req.user?.userId || req.user?.sub;
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      const now = new Date();
+      const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+      // Get study time from coach_daily_progress
+      const weekResult = await pool.query(
+        `SELECT SUM(completed_minutes) as total_minutes, COUNT(DISTINCT plan_date) as days_active
+       FROM coach_daily_progress
+       WHERE user_id = $1 AND plan_date >= $2`,
+        [userId, weekAgo.toISOString().split('T')[0]]
+      );
+
+      const monthResult = await pool.query(
+        `SELECT SUM(completed_minutes) as total_minutes, COUNT(DISTINCT plan_date) as days_active
+       FROM coach_daily_progress
+       WHERE user_id = $1 AND plan_date >= $2`,
+        [userId, monthAgo.toISOString().split('T')[0]]
+      );
+
+      const allTimeResult = await pool.query(
+        `SELECT SUM(completed_minutes) as total_minutes, COUNT(DISTINCT plan_date) as days_active
+       FROM coach_daily_progress
+       WHERE user_id = $1`,
+        [userId]
+      );
+
+      // Get by-subject breakdown for current week
+      const subjectBreakdown = await pool.query(
+        `SELECT subject, SUM(completed_minutes) as total_minutes
+       FROM coach_daily_progress
+       WHERE user_id = $1 AND plan_date >= $2
+       GROUP BY subject
+       ORDER BY total_minutes DESC`,
+        [userId, weekAgo.toISOString().split('T')[0]]
+      );
+
+      res.json({
+        week: {
+          hours:
+            Math.round(
+              ((parseInt(weekResult.rows[0].total_minutes) || 0) / 60) * 10
+            ) / 10,
+          daysActive: parseInt(weekResult.rows[0].days_active) || 0,
+        },
+        month: {
+          hours:
+            Math.round(
+              ((parseInt(monthResult.rows[0].total_minutes) || 0) / 60) * 10
+            ) / 10,
+          daysActive: parseInt(monthResult.rows[0].days_active) || 0,
+        },
+        allTime: {
+          hours:
+            Math.round(
+              ((parseInt(allTimeResult.rows[0].total_minutes) || 0) / 60) * 10
+            ) / 10,
+          daysActive: parseInt(allTimeResult.rows[0].days_active) || 0,
+        },
+        bySubject: subjectBreakdown.rows.map((row) => ({
+          subject: row.subject,
+          hours: Math.round((parseInt(row.total_minutes) / 60) * 10) / 10,
+        })),
+      });
+    } catch (error) {
+      console.error('[/api/student/study-time] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch study time' });
+    }
+  }
+);
+
+// GET /api/student/badges
+// Returns earned badges by subject
+app.get('/api/student/badges', authenticateBearerToken, async (req, res) => {
+  try {
+    const userId = req.user?.userId || req.user?.sub;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    // Check user_subject_status for passed subjects
+    const statusResult = await pool.query(
+      `SELECT subject, passed, passed_at
+       FROM user_subject_status
+       WHERE user_id = $1`,
+      [userId]
+    );
+
+    const badges = {
+      rla: { earned: false, date: null },
+      math: { earned: false, date: null },
+      science: { earned: false, date: null },
+      social: { earned: false, date: null },
+    };
+
+    const subjectMap = {
+      RLA: 'rla',
+      'Reasoning Through Language Arts (RLA)': 'rla',
+      Math: 'math',
+      Science: 'science',
+      'Social Studies': 'social',
+    };
+
+    statusResult.rows.forEach((row) => {
+      const key = subjectMap[row.subject];
+      if (key && row.passed) {
+        badges[key] = {
+          earned: true,
+          date: row.passed_at,
+        };
+      }
+    });
+
+    // Also check for high scores in quiz attempts as alternate badge criteria
+    const scoreResult = await pool.query(
+      `SELECT subject, MAX(scaled_score) as best_score
+       FROM quiz_attempts
+       WHERE user_id = $1
+       GROUP BY subject`,
+      [userId]
+    );
+
+    scoreResult.rows.forEach((row) => {
+      const key = subjectMap[row.subject];
+      if (key && parseInt(row.best_score) >= 145 && !badges[key].earned) {
+        badges[key] = {
+          earned: true,
+          date: null,
+          score: parseInt(row.best_score),
+        };
+      }
+    });
+
+    res.json(badges);
+  } catch (error) {
+    console.error('[/api/student/badges] Error:', error);
+    res.status(500).json({ error: 'Failed to fetch badges' });
+  }
+});
+
+// GET /api/student/score-history
+// Returns practice exam score history
+app.get(
+  '/api/student/score-history',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = req.user?.userId || req.user?.sub;
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      const result = await pool.query(
+        `SELECT subject, scaled_score, attempted_at, passed
+       FROM quiz_attempts
+       WHERE user_id = $1 AND quiz_type = 'comprehensive'
+       ORDER BY attempted_at DESC
+       LIMIT 20`,
+        [userId]
+      );
+
+      const history = result.rows.map((row) => ({
+        subject: row.subject,
+        score: parseInt(row.scaled_score) || 0,
+        date: row.attempted_at,
+        passed: row.passed,
+      }));
+
+      // Calculate highest score per subject
+      const highestScores = {};
+      result.rows.forEach((row) => {
+        const score = parseInt(row.scaled_score) || 0;
+        if (!highestScores[row.subject] || score > highestScores[row.subject]) {
+          highestScores[row.subject] = score;
+        }
+      });
+
+      res.json({
+        history,
+        highestScores,
+      });
+    } catch (error) {
+      console.error('[/api/student/score-history] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch score history' });
+    }
+  }
+);
+
+// GET /api/student/study-estimate
+// Returns estimated study time needed to reach passing
+app.get(
+  '/api/student/study-estimate',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = req.user?.userId || req.user?.sub;
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      // Get last 3 scores to calculate improvement rate
+      const recentScores = await pool.query(
+        `SELECT scaled_score, attempted_at
+       FROM quiz_attempts
+       WHERE user_id = $1 AND scaled_score IS NOT NULL
+       ORDER BY attempted_at DESC
+       LIMIT 3`,
+        [userId]
+      );
+
+      if (recentScores.rows.length === 0) {
+        return res.json({
+          hoursRemaining: 120, // Default estimate for new students
+          basedOn: {
+            lastScores: [],
+            rate: 0,
+            coachGoalDate: null,
+          },
+        });
+      }
+
+      const scores = recentScores.rows.map((r) => parseInt(r.scaled_score));
+      const latestScore = scores[0] || 100;
+
+      // Calculate improvement rate (points per attempt)
+      let rate = 0;
+      if (scores.length >= 2) {
+        rate = (scores[0] - scores[scores.length - 1]) / (scores.length - 1);
+      }
+
+      // Estimate attempts needed to reach 145
+      const targetScore = 145;
+      let attemptsNeeded = 0;
+
+      if (latestScore >= targetScore) {
+        attemptsNeeded = 0;
+      } else if (rate > 0) {
+        attemptsNeeded = Math.ceil((targetScore - latestScore) / rate);
+      } else {
+        // If no improvement, use default estimate based on current score
+        attemptsNeeded = Math.ceil((targetScore - latestScore) / 5); // Assume 5 points per session
+      }
+
+      // Estimate hours (assume 1.5 hours per comprehensive practice)
+      const hoursRemaining = Math.max(3, Math.min(attemptsNeeded * 1.5, 200));
+
+      // Get coach goal date if available
+      const coachGoal = await pool.query(
+        `SELECT MAX(plan_date) as latest_date
+       FROM coach_daily_progress
+       WHERE user_id = $1`,
+        [userId]
+      );
+
+      res.json({
+        hoursRemaining: Math.round(hoursRemaining),
+        basedOn: {
+          lastScores: scores,
+          rate: Math.round(rate * 10) / 10,
+          currentScore: latestScore,
+          coachGoalDate: coachGoal.rows[0]?.latest_date || null,
+        },
+      });
+    } catch (error) {
+      console.error('[/api/student/study-estimate] Error:', error);
+      res.status(500).json({ error: 'Failed to calculate study estimate' });
+    }
+  }
+);
+
+// GET /api/student/career-recommendations
+// Returns recommended career paths based on performance
+app.get(
+  '/api/student/career-recommendations',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = req.user?.userId || req.user?.sub;
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      // Get subject strengths
+      const strengths = await pool.query(
+        `SELECT subject, AVG(scaled_score) as avg_score
+       FROM quiz_attempts
+       WHERE user_id = $1 AND scaled_score IS NOT NULL
+       GROUP BY subject
+       ORDER BY avg_score DESC
+       LIMIT 3`,
+        [userId]
+      );
+
+      // Get saved career interests if available
+      const interests = await pool.query(
+        `SELECT interests
+       FROM user_preferences
+       WHERE user_id = $1`,
+        [userId]
+      );
+
+      // Simple career recommendations based on strengths
+      const recommendations = [];
+
+      strengths.rows.forEach((row) => {
+        if (row.subject === 'Science' && parseFloat(row.avg_score) >= 140) {
+          recommendations.push({
+            title: 'Healthcare Technician',
+            reason: 'Strong science performance',
+            avgSalary: '$45,000 - $65,000',
+          });
+        } else if (row.subject === 'Math' && parseFloat(row.avg_score) >= 140) {
+          recommendations.push({
+            title: 'Accounting Clerk',
+            reason: 'Strong math skills',
+            avgSalary: '$40,000 - $55,000',
+          });
+        } else if (
+          (row.subject === 'RLA' || row.subject.includes('Language')) &&
+          parseFloat(row.avg_score) >= 140
+        ) {
+          recommendations.push({
+            title: 'Administrative Assistant',
+            reason: 'Strong communication skills',
+            avgSalary: '$38,000 - $50,000',
+          });
+        }
+      });
+
+      // Add default recommendations if none found
+      if (recommendations.length === 0) {
+        recommendations.push(
+          {
+            title: 'Customer Service Representative',
+            reason: 'Entry-level opportunity',
+            avgSalary: '$32,000 - $45,000',
+          },
+          {
+            title: 'Retail Manager',
+            reason: 'Growing field',
+            avgSalary: '$35,000 - $50,000',
+          }
+        );
+      }
+
+      res.json({
+        recommendations: recommendations.slice(0, 3),
+        interests: interests.rows[0]?.interests || [],
+      });
+    } catch (error) {
+      console.error('[/api/student/career-recommendations] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch career recommendations' });
+    }
+  }
+);
+
+// ========================================
+// ADMIN API ENDPOINTS - STUDENT MANAGEMENT
+// ========================================
+
+// GET /api/admin/students/search - Search and filter students
+app.get(
+  '/api/admin/students/search',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const {
+        orgId,
+        classId,
+        active,
+        name,
+        email,
+        phone,
+        limit = 25,
+        page = 1,
+      } = req.query;
+
+      const role = (req.user?.role || '').toLowerCase();
+      let targetOrgId;
+      if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+        targetOrgId = orgId ? Number(orgId) : null;
+      } else {
+        targetOrgId = req.user?.organization_id
+          ? Number(req.user.organization_id)
+          : null;
+      }
+
+      let query = `
+      SELECT 
+        u.id, 
+        u.name, 
+        u.email, 
+        u.last_login,
+        u.created_at,
+        p.phone,
+        p.active as profile_active,
+        c.name as class_name
+      FROM users u
+      LEFT JOIN profiles p ON p.user_id = u.id
+      LEFT JOIN classes c ON p.class_id = c.id
+      WHERE u.role = 'student'
+    `;
+
+      const params = [];
+      let paramCount = 1;
+
+      if (targetOrgId) {
+        query += ` AND u.organization_id = $${paramCount++}`;
+        params.push(targetOrgId);
+      }
+
+      if (classId) {
+        query += ` AND p.class_id = $${paramCount++}`;
+        params.push(classId);
+      }
+
+      if (active === 'true') {
+        query += ` AND p.active = true`;
+      } else if (active === 'false') {
+        query += ` AND p.active = false`;
+      }
+
+      if (name) {
+        query += ` AND u.name ILIKE $${paramCount++}`;
+        params.push(`%${name}%`);
+      }
+
+      if (email) {
+        query += ` AND u.email ILIKE $${paramCount++}`;
+        params.push(`%${email}%`);
+      }
+
+      if (phone) {
+        query += ` AND p.phone ILIKE $${paramCount++}`;
+        params.push(`%${phone}%`);
+      }
+
+      // Count total
+      const countQuery = query.replace(
+        'SELECT u.id, u.name, u.email, u.last_login, u.created_at, p.phone, p.active as profile_active, c.name as class_name',
+        'SELECT COUNT(*)'
+      );
+      const countResult = await pool.query(countQuery, params);
+      const total = parseInt(countResult.rows[0].count) || 0;
+
+      // Paginate
+      const limitNum = Math.min(parseInt(limit) || 25, 100);
+      const pageNum = Math.max(parseInt(page) || 1, 1);
+      const offset = (pageNum - 1) * limitNum;
+
+      query += ` ORDER BY u.name LIMIT $${paramCount++} OFFSET $${paramCount++}`;
+      params.push(limitNum, offset);
+
+      const result = await pool.query(query, params);
+
+      res.json({
+        results: result.rows.map((row) => ({
+          id: row.id,
+          name: row.name,
+          email: row.email,
+          phone: row.phone,
+          className: row.class_name,
+          active: row.profile_active !== false,
+          createdAt: row.created_at,
+          lastLoginAt: row.last_login,
+        })),
+        total,
+        page: pageNum,
+        totalPages: Math.ceil(total / limitNum),
+      });
+    } catch (error) {
+      console.error('[/api/admin/students/search] Error:', error);
+      res.status(500).json({ error: 'Failed to search students' });
+    }
+  }
+);
+
+// GET /api/admin/students/:id - Get full student profile
+app.get(
+  '/api/admin/students/:id',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const result = await pool.query(
+        `
+      SELECT 
+        u.*,
+        p.*,
+        c.name as class_name,
+        o.name as organization_name
+      FROM users u
+      LEFT JOIN profiles p ON p.user_id = u.id
+      LEFT JOIN classes c ON p.class_id = c.id
+      LEFT JOIN organizations o ON u.organization_id = o.id
+      WHERE u.id = $1 AND u.role = 'student'
+    `,
+        [id]
+      );
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Student not found' });
+      }
+
+      const student = result.rows[0];
+
+      // Check access
+      if (!canAccessOrganization(req, student.organization_id)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      // Get latest scores
+      const scoresResult = await pool.query(
+        `
+      SELECT subject, MAX(scaled_score) as highest_score
+      FROM quiz_attempts
+      WHERE user_id = $1
+      GROUP BY subject
+    `,
+        [id]
+      );
+
+      const scores = {};
+      scoresResult.rows.forEach((row) => {
+        scores[row.subject] = parseInt(row.highest_score);
+      });
+
+      res.json({
+        id: student.id,
+        name: student.name,
+        email: student.email,
+        phone: student.phone,
+        className: student.class_name,
+        classId: student.class_id,
+        organizationName: student.organization_name,
+        organizationId: student.organization_id,
+        active: student.active !== false,
+        testDate: student.test_date,
+        accommodations: student.accommodations || {},
+        courseFlags: student.course_flags || {},
+        highestScores: scores,
+        createdAt: student.created_at,
+        lastLogin: student.last_login,
+      });
+    } catch (error) {
+      console.error('[/api/admin/students/:id] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch student' });
+    }
+  }
+);
+
+// POST /api/admin/students - Create new student
+app.post(
+  '/api/admin/students',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const {
+        firstName,
+        lastName,
+        email,
+        phone,
+        classId,
+        label,
+        courseFlags,
+        accommodations,
+        passwordMode = 'invite',
+      } = req.body;
+
+      if (!firstName || !lastName || !email) {
+        return res
+          .status(400)
+          .json({ error: 'First name, last name, and email are required' });
+      }
+
+      // Determine organization
+      const role = (req.user?.role || '').toLowerCase();
+      let targetOrgId;
+      if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+        targetOrgId = req.body.organizationId || req.user?.organization_id;
+      } else {
+        targetOrgId = req.user?.organization_id;
+      }
+
+      if (!targetOrgId) {
+        return res.status(400).json({ error: 'Organization is required' });
+      }
+
+      // Check if email exists
+      const existingUser = await pool.query(
+        'SELECT id FROM users WHERE email = $1',
+        [email]
+      );
+      if (existingUser.rows.length > 0) {
+        return res.status(400).json({ error: 'Email already exists' });
+      }
+
+      // Create user
+      const name = `${firstName} ${lastName}`;
+      let passwordHash = null;
+      let tempPassword = null;
+
+      if (passwordMode === 'temp') {
+        tempPassword = Math.random().toString(36).slice(-8);
+        passwordHash = await bcrypt.hash(tempPassword, 10);
+      }
+
+      const userResult = await pool.query(
+        `
+      INSERT INTO users (name, email, password_hash, role, organization_id)
+      VALUES ($1, $2, $3, 'student', $4)
+      RETURNING id
+    `,
+        [name, email, passwordHash, targetOrgId]
+      );
+
+      const userId = userResult.rows[0].id;
+
+      // Create profile
+      await pool.query(
+        `
+      INSERT INTO profiles (user_id, phone, class_id, active, accommodations, course_flags)
+      VALUES ($1, $2, $3, true, $4, $5)
+    `,
+        [
+          userId,
+          phone || null,
+          classId || null,
+          JSON.stringify(accommodations || {}),
+          JSON.stringify(courseFlags || {}),
+        ]
+      );
+
+      res.json({
+        success: true,
+        student: {
+          id: userId,
+          name,
+          email,
+          tempPassword: passwordMode === 'temp' ? tempPassword : null,
+        },
+        message:
+          passwordMode === 'invite'
+            ? 'Invite email sent (feature pending)'
+            : 'Student created with temporary password',
+      });
+    } catch (error) {
+      console.error('[/api/admin/students POST] Error:', error);
+      res.status(500).json({ error: 'Failed to create student' });
+    }
+  }
+);
+
+// PUT /api/admin/students/:id - Update student
+app.put(
+  '/api/admin/students/:id',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const {
+        name,
+        email,
+        phone,
+        classId,
+        active,
+        testDate,
+        accommodations,
+        courseFlags,
+      } = req.body;
+
+      // Check access
+      const checkResult = await pool.query(
+        'SELECT organization_id FROM users WHERE id = $1',
+        [id]
+      );
+      if (checkResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Student not found' });
+      }
+      if (!canAccessOrganization(req, checkResult.rows[0].organization_id)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      // Update user
+      const userUpdates = [];
+      const userParams = [];
+      let userParamCount = 1;
+
+      if (name !== undefined) {
+        userUpdates.push(`name = $${userParamCount++}`);
+        userParams.push(name);
+      }
+      if (email !== undefined) {
+        userUpdates.push(`email = $${userParamCount++}`);
+        userParams.push(email);
+      }
+
+      if (userUpdates.length > 0) {
+        userParams.push(id);
+        await pool.query(
+          `UPDATE users SET ${userUpdates.join(
+            ', '
+          )} WHERE id = $${userParamCount}`,
+          userParams
+        );
+      }
+
+      // Update profile
+      const profileUpdates = [];
+      const profileParams = [];
+      let profileParamCount = 1;
+
+      if (phone !== undefined) {
+        profileUpdates.push(`phone = $${profileParamCount++}`);
+        profileParams.push(phone);
+      }
+      if (classId !== undefined) {
+        profileUpdates.push(`class_id = $${profileParamCount++}`);
+        profileParams.push(classId);
+      }
+      if (active !== undefined) {
+        profileUpdates.push(`active = $${profileParamCount++}`);
+        profileParams.push(active);
+      }
+      if (testDate !== undefined) {
+        profileUpdates.push(`test_date = $${profileParamCount++}`);
+        profileParams.push(testDate);
+      }
+      if (accommodations !== undefined) {
+        profileUpdates.push(`accommodations = $${profileParamCount++}`);
+        profileParams.push(JSON.stringify(accommodations));
+      }
+      if (courseFlags !== undefined) {
+        profileUpdates.push(`course_flags = $${profileParamCount++}`);
+        profileParams.push(JSON.stringify(courseFlags));
+      }
+
+      if (profileUpdates.length > 0) {
+        profileParams.push(id);
+        await pool.query(
+          `UPDATE profiles SET ${profileUpdates.join(
+            ', '
+          )} WHERE user_id = $${profileParamCount}`,
+          profileParams
+        );
+      }
+
+      res.json({ success: true, message: 'Student updated' });
+    } catch (error) {
+      console.error('[/api/admin/students PUT] Error:', error);
+      res.status(500).json({ error: 'Failed to update student' });
+    }
+  }
+);
+
+// GET /api/admin/students/export - Export students CSV
+app.get(
+  '/api/admin/students/export',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { orgId, classId, active } = req.query;
+
+      const role = (req.user?.role || '').toLowerCase();
+      let targetOrgId;
+      if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+        targetOrgId = orgId ? Number(orgId) : null;
+      } else {
+        targetOrgId = req.user?.organization_id
+          ? Number(req.user.organization_id)
+          : null;
+      }
+
+      let query = `
+      SELECT 
+        u.name, 
+        u.email, 
+        p.phone,
+        c.name as class_name,
+        p.test_date,
+        u.created_at,
+        u.last_login
+      FROM users u
+      LEFT JOIN profiles p ON p.user_id = u.id
+      LEFT JOIN classes c ON p.class_id = c.id
+      WHERE u.role = 'student'
+    `;
+
+      const params = [];
+      let paramCount = 1;
+
+      if (targetOrgId) {
+        query += ` AND u.organization_id = $${paramCount++}`;
+        params.push(targetOrgId);
+      }
+
+      if (classId) {
+        query += ` AND p.class_id = $${paramCount++}`;
+        params.push(classId);
+      }
+
+      if (active === 'true') {
+        query += ` AND p.active = true`;
+      } else if (active === 'false') {
+        query += ` AND p.active = false`;
+      }
+
+      query += ` ORDER BY u.name`;
+
+      const result = await pool.query(query, params);
+
+      const csv = [
+        'Name,Email,Phone,Class,Test Date,Created At,Last Login',
+        ...result.rows.map(
+          (row) =>
+            `"${row.name}","${row.email}","${row.phone || ''}","${
+              row.class_name || ''
+            }","${row.test_date || ''}","${row.created_at}","${
+              row.last_login || ''
+            }"`
+        ),
+      ].join('\n');
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader(
+        'Content-Disposition',
+        'attachment; filename="students-export.csv"'
+      );
+      res.send(csv);
+    } catch (error) {
+      console.error('[/api/admin/students/export] Error:', error);
+      res.status(500).json({ error: 'Failed to export students' });
+    }
+  }
+);
+
+// ========================================
+// ADMIN API ENDPOINTS - REPORTS & ANALYTICS
+// ========================================
+
+// GET /api/admin/reports/readiness - GED readiness summary
+app.get(
+  '/api/admin/reports/readiness',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { orgId, classId } = req.query;
+
+      const role = (req.user?.role || '').toLowerCase();
+      let targetOrgId;
+      if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+        targetOrgId = orgId ? Number(orgId) : null;
+      } else {
+        targetOrgId = req.user?.organization_id
+          ? Number(req.user.organization_id)
+          : null;
+      }
+
+      let query = `
+      SELECT 
+        qa.subject,
+        qa.user_id,
+        MAX(qa.scaled_score) as highest_score
+      FROM quiz_attempts qa
+      JOIN users u ON qa.user_id = u.id
+      LEFT JOIN profiles p ON p.user_id = u.id
+      WHERE u.role = 'student' AND qa.scaled_score IS NOT NULL
+    `;
+
+      const params = [];
+      let paramCount = 1;
+
+      if (targetOrgId) {
+        query += ` AND u.organization_id = $${paramCount++}`;
+        params.push(targetOrgId);
+      }
+
+      if (classId) {
+        query += ` AND p.class_id = $${paramCount++}`;
+        params.push(classId);
+      }
+
+      query += ` GROUP BY qa.subject, qa.user_id`;
+
+      const result = await pool.query(query, params);
+
+      const subjects = {
+        rla: { ready: 0, almostReady: 0, needMoreStudy: 0, scores: [] },
+        math: { ready: 0, almostReady: 0, needMoreStudy: 0, scores: [] },
+        science: { ready: 0, almostReady: 0, needMoreStudy: 0, scores: [] },
+        social: { ready: 0, almostReady: 0, needMoreStudy: 0, scores: [] },
+      };
+
+      result.rows.forEach((row) => {
+        const score = parseInt(row.highest_score);
+        let subjectKey = 'rla';
+
+        if (row.subject === 'Math') subjectKey = 'math';
+        else if (row.subject === 'Science') subjectKey = 'science';
+        else if (row.subject === 'Social Studies') subjectKey = 'social';
+        else if (
+          row.subject.includes('RLA') ||
+          row.subject.includes('Language')
+        )
+          subjectKey = 'rla';
+
+        if (subjects[subjectKey]) {
+          subjects[subjectKey].scores.push(score);
+
+          if (score >= 145) subjects[subjectKey].ready++;
+          else if (score >= 135) subjects[subjectKey].almostReady++;
+          else subjects[subjectKey].needMoreStudy++;
+        }
+      });
+
+      // Calculate mean scores
+      Object.keys(subjects).forEach((key) => {
+        const scores = subjects[key].scores;
+        subjects[key].meanScore =
+          scores.length > 0
+            ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+            : 0;
+        delete subjects[key].scores; // Don't send raw scores
+      });
+
+      // Overall summary
+      const allReady = Object.values(subjects).reduce(
+        (sum, s) => sum + s.ready,
+        0
+      );
+      const allAlmost = Object.values(subjects).reduce(
+        (sum, s) => sum + s.almostReady,
+        0
+      );
+      const allNeed = Object.values(subjects).reduce(
+        (sum, s) => sum + s.needMoreStudy,
+        0
+      );
+
+      res.json({
+        subjects,
+        overall: {
+          ready: allReady,
+          almostReady: allAlmost,
+          needMoreStudy: allNeed,
+        },
+      });
+    } catch (error) {
+      console.error('[/api/admin/reports/readiness] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch readiness data' });
+    }
+  }
+);
+
+// GET /api/admin/reports/activity - Student activity summary
+app.get(
+  '/api/admin/reports/activity',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { orgId, classId } = req.query;
+
+      const role = (req.user?.role || '').toLowerCase();
+      let targetOrgId;
+      if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+        targetOrgId = orgId ? Number(orgId) : null;
+      } else {
+        targetOrgId = req.user?.organization_id
+          ? Number(req.user.organization_id)
+          : null;
+      }
+
+      const now = new Date();
+      const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
+      const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+
+      const buildActivityQuery = (daysAgo) => {
+        let query = `
+        SELECT 
+          COUNT(DISTINCT cdp.user_id) as active_students,
+          COALESCE(SUM(cdp.completed_minutes), 0) as total_minutes
+        FROM coach_daily_progress cdp
+        JOIN users u ON cdp.user_id = u.id
+        LEFT JOIN profiles p ON p.user_id = u.id
+        WHERE cdp.plan_date >= $1 AND u.role = 'student'
+      `;
+
+        const params = [daysAgo.toISOString().split('T')[0]];
+        let paramCount = 2;
+
+        if (targetOrgId) {
+          query += ` AND u.organization_id = $${paramCount++}`;
+          params.push(targetOrgId);
+        }
+
+        if (classId) {
+          query += ` AND p.class_id = $${paramCount++}`;
+          params.push(classId);
+        }
+
+        return { query, params };
+      };
+
+      const { query: query30, params: params30 } =
+        buildActivityQuery(thirtyDaysAgo);
+      const { query: query60, params: params60 } =
+        buildActivityQuery(sixtyDaysAgo);
+      const { query: query90, params: params90 } =
+        buildActivityQuery(ninetyDaysAgo);
+
+      const [result30, result60, result90] = await Promise.all([
+        pool.query(query30, params30),
+        pool.query(query60, params60),
+        pool.query(query90, params90),
+      ]);
+
+      // All time
+      let allTimeQuery = `
+      SELECT 
+        COUNT(DISTINCT cdp.user_id) as active_students,
+        COALESCE(SUM(cdp.completed_minutes), 0) as total_minutes
+      FROM coach_daily_progress cdp
+      JOIN users u ON cdp.user_id = u.id
+      LEFT JOIN profiles p ON p.user_id = u.id
+      WHERE u.role = 'student'
+    `;
+
+      const allTimeParams = [];
+      let allTimeParamCount = 1;
+
+      if (targetOrgId) {
+        allTimeQuery += ` AND u.organization_id = $${allTimeParamCount++}`;
+        allTimeParams.push(targetOrgId);
+      }
+
+      if (classId) {
+        allTimeQuery += ` AND p.class_id = $${allTimeParamCount++}`;
+        allTimeParams.push(classId);
+      }
+
+      const allTimeResult = await pool.query(allTimeQuery, allTimeParams);
+
+      res.json({
+        last30Days: {
+          activeStudents: parseInt(result30.rows[0].active_students) || 0,
+          totalMinutes: parseInt(result30.rows[0].total_minutes) || 0,
+        },
+        last60Days: {
+          activeStudents: parseInt(result60.rows[0].active_students) || 0,
+          totalMinutes: parseInt(result60.rows[0].total_minutes) || 0,
+        },
+        last90Days: {
+          activeStudents: parseInt(result90.rows[0].active_students) || 0,
+          totalMinutes: parseInt(result90.rows[0].total_minutes) || 0,
+        },
+        allTime: {
+          activeStudents: parseInt(allTimeResult.rows[0].active_students) || 0,
+          totalMinutes: parseInt(allTimeResult.rows[0].total_minutes) || 0,
+        },
+      });
+    } catch (error) {
+      console.error('[/api/admin/reports/activity] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch activity data' });
+    }
+  }
+);
+
+// GET /api/admin/reports/ged-results - Official GED test results tracking
+app.get(
+  '/api/admin/reports/ged-results',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { orgId, classId } = req.query;
+
+      const role = (req.user?.role || '').toLowerCase();
+      let targetOrgId;
+      if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+        targetOrgId = orgId ? Number(orgId) : null;
+      } else {
+        targetOrgId = req.user?.organization_id
+          ? Number(req.user.organization_id)
+          : null;
+      }
+
+      const now = new Date();
+      const threeMonthsAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+      const sixMonthsAgo = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
+      const twelveMonthsAgo = new Date(
+        now.getTime() - 365 * 24 * 60 * 60 * 1000
+      );
+
+      let query = `
+      SELECT 
+        gr.subject,
+        gr.passed,
+        gr.score,
+        gr.test_date
+      FROM ged_results gr
+      JOIN users u ON gr.user_id = u.id
+      LEFT JOIN profiles p ON p.user_id = u.id
+      WHERE u.role = 'student'
+    `;
+
+      const params = [];
+      let paramCount = 1;
+
+      if (targetOrgId) {
+        query += ` AND u.organization_id = $${paramCount++}`;
+        params.push(targetOrgId);
+      }
+
+      if (classId) {
+        query += ` AND p.class_id = $${paramCount++}`;
+        params.push(classId);
+      }
+
+      const result = await pool.query(query, params);
+
+      const summary = {
+        last3Months: { total: 0, passed: 0, bySubject: {} },
+        last6Months: { total: 0, passed: 0, bySubject: {} },
+        last12Months: { total: 0, passed: 0, bySubject: {} },
+        allTime: { total: 0, passed: 0, bySubject: {} },
+      };
+
+      result.rows.forEach((row) => {
+        const testDate = new Date(row.test_date);
+        const isPassed = row.passed;
+        const subject = row.subject;
+
+        // All time
+        summary.allTime.total++;
+        if (isPassed) summary.allTime.passed++;
+        if (!summary.allTime.bySubject[subject]) {
+          summary.allTime.bySubject[subject] = {
+            total: 0,
+            passed: 0,
+            avgScore: 0,
+            scores: [],
+          };
+        }
+        summary.allTime.bySubject[subject].total++;
+        if (isPassed) summary.allTime.bySubject[subject].passed++;
+        summary.allTime.bySubject[subject].scores.push(row.score);
+
+        // Time-based windows
+        if (testDate >= twelveMonthsAgo) {
+          summary.last12Months.total++;
+          if (isPassed) summary.last12Months.passed++;
+          if (!summary.last12Months.bySubject[subject]) {
+            summary.last12Months.bySubject[subject] = { total: 0, passed: 0 };
+          }
+          summary.last12Months.bySubject[subject].total++;
+          if (isPassed) summary.last12Months.bySubject[subject].passed++;
+        }
+
+        if (testDate >= sixMonthsAgo) {
+          summary.last6Months.total++;
+          if (isPassed) summary.last6Months.passed++;
+          if (!summary.last6Months.bySubject[subject]) {
+            summary.last6Months.bySubject[subject] = { total: 0, passed: 0 };
+          }
+          summary.last6Months.bySubject[subject].total++;
+          if (isPassed) summary.last6Months.bySubject[subject].passed++;
+        }
+
+        if (testDate >= threeMonthsAgo) {
+          summary.last3Months.total++;
+          if (isPassed) summary.last3Months.passed++;
+          if (!summary.last3Months.bySubject[subject]) {
+            summary.last3Months.bySubject[subject] = { total: 0, passed: 0 };
+          }
+          summary.last3Months.bySubject[subject].total++;
+          if (isPassed) summary.last3Months.bySubject[subject].passed++;
+        }
+      });
+
+      // Calculate average scores
+      Object.keys(summary.allTime.bySubject).forEach((subject) => {
+        const scores = summary.allTime.bySubject[subject].scores;
+        summary.allTime.bySubject[subject].avgScore =
+          scores.length > 0
+            ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+            : 0;
+        delete summary.allTime.bySubject[subject].scores;
+      });
+
+      res.json(summary);
+    } catch (error) {
+      console.error('[/api/admin/reports/ged-results] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch GED results' });
+    }
+  }
+);
+
+// POST /api/admin/students/:id/ged-results - Add official GED result
+app.post(
+  '/api/admin/students/:id/ged-results',
+  authenticateBearerToken,
+  requireTeacherOrOrgAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { subject, score, passed, testDate } = req.body;
+
+      if (
+        !subject ||
+        score === undefined ||
+        passed === undefined ||
+        !testDate
+      ) {
+        return res
+          .status(400)
+          .json({
+            error: 'Subject, score, passed status, and test date are required',
+          });
+      }
+
+      // Check access
+      const checkResult = await pool.query(
+        'SELECT organization_id FROM users WHERE id = $1',
+        [id]
+      );
+      if (checkResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Student not found' });
+      }
+      if (!canAccessOrganization(req, checkResult.rows[0].organization_id)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      await pool.query(
+        `
+      INSERT INTO ged_results (user_id, subject, score, passed, test_date)
+      VALUES ($1, $2, $3, $4, $5)
+    `,
+        [id, subject, score, passed, testDate]
+      );
+
+      res.json({ success: true, message: 'GED result recorded' });
+    } catch (error) {
+      console.error('[/api/admin/students/:id/ged-results] Error:', error);
+      res.status(500).json({ error: 'Failed to record GED result' });
+    }
+  }
+);
 
 // The '0.0.0.0' is important for containerized environments like Render.
 if (require.main === module) {
