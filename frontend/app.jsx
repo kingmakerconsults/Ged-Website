@@ -47930,6 +47930,7 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
         break;
 
       case 'FRAC':
+      case 'FRAC_TEMPLATE':
         const fracEntry = currentEntry + '/';
         setCurrentEntry(fracEntry);
         setDisplay(fracEntry);
@@ -47983,6 +47984,7 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
         break;
 
       case '2ND':
+      case 'SECOND':
         setShowSecondFunctions(!showSecondFunctions);
         break;
 
@@ -47990,7 +47992,23 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
         setMode(mode === 'DEG' ? 'RAD' : 'DEG');
         break;
 
+      case 'SIN':
+      case 'COS':
+      case 'TAN':
+      case 'LOG':
+      case 'LN':
+      case 'EXP':
+        // Trig and log functions - insert function name with parenthesis
+        const funcName = keyId.toLowerCase();
+        const funcEntry = currentEntry + funcName + '(';
+        setCurrentEntry(funcEntry);
+        setDisplay(funcEntry);
+        if (onExpressionChange) onExpressionChange(funcEntry);
+        break;
+
       default:
+        // For unimplemented keys, append a placeholder or show brief feedback
+        console.log(`Key ${keyId} not yet implemented`);
         break;
     }
   };
@@ -48008,221 +48026,330 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
         </div>
       </div>
 
-      {/* Keypad - TI-30XS Layout */}
-      <div className="space-y-2">
-        {/* Row 1: Power and function keys */}
-        <div className="grid grid-cols-5 gap-1.5">
+      {/* Keypad - Full TI-30XS MultiView Layout */}
+      <div className="space-y-1.5">
+        {/* Row A: 2nd / quit / mode / delete + 4-way arrows */}
+        <div className="flex gap-1.5 items-start">
+          <div className="flex-1 grid grid-cols-4 gap-1.5">
+            <CalcButton
+              label="2nd"
+              onClick={() => handleKeyClick('SECOND')}
+              color="yellow"
+              small
+              active={showSecondFunctions}
+            />
+            <CalcButton
+              label="quit"
+              secondary="ins"
+              onClick={() => handleKeyClick('QUIT')}
+              color="gray"
+              small
+            />
+            <CalcButton
+              label="mode"
+              secondary="set up"
+              onClick={() => handleKeyClick('MODE')}
+              color="gray"
+              small
+            />
+            <CalcButton
+              label="delete"
+              onClick={() => handleKeyClick('DEL')}
+              color="gray"
+              small
+            />
+          </div>
+          {/* 4-way D-pad */}
+          <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-16">
+            <div />
+            <CalcButton
+              label="▲"
+              onClick={() => handleKeyClick('ARROW_UP')}
+              color="gray"
+              small
+            />
+            <div />
+            <CalcButton
+              label="◄"
+              onClick={() => handleKeyClick('ARROW_LEFT')}
+              color="gray"
+              small
+            />
+            <div />
+            <CalcButton
+              label="►"
+              onClick={() => handleKeyClick('ARROW_RIGHT')}
+              color="gray"
+              small
+            />
+            <div />
+            <CalcButton
+              label="▼"
+              onClick={() => handleKeyClick('ARROW_DOWN')}
+              color="gray"
+              small
+            />
+            <div />
+          </div>
+        </div>
+
+        {/* Row B: log / probability / stats row */}
+        <div className="grid grid-cols-6 gap-1.5">
           <CalcButton
-            label="ON"
-            secondary=""
-            onClick={() => handleKeyClick('ON')}
-            color="red"
-            small
+            label="10ˣ"
+            secondary="log"
+            onClick={() => handleKeyClick('TEN_POW_X')}
           />
           <CalcButton
-            label="2nd"
-            secondary=""
-            onClick={() => handleKeyClick('2ND')}
-            color="yellow"
-            small
-            active={showSecondFunctions}
+            label="log"
+            secondary="10ˣ"
+            onClick={() => handleKeyClick('LOG')}
           />
           <CalcButton
-            label="MODE"
-            secondary=""
-            onClick={() => handleKeyClick('MODE')}
-            color="gray"
-            small
+            label="∠"
+            secondary="DMS"
+            onClick={() => handleKeyClick('ANGLE')}
           />
           <CalcButton
-            label="DEL"
-            secondary=""
-            onClick={() => handleKeyClick('DEL')}
-            color="gray"
-            small
+            label="prb"
+            secondary="!"
+            onClick={() => handleKeyClick('PRB')}
           />
           <CalcButton
-            label="AC"
-            secondary=""
-            onClick={() => handleKeyClick('AC')}
-            color="gray"
-            small
+            label="stat"
+            secondary="list"
+            onClick={() => handleKeyClick('STAT')}
+          />
+          <CalcButton
+            label="data"
+            secondary="clr"
+            onClick={() => handleKeyClick('DATA')}
           />
         </div>
 
-        {/* Row 2: Advanced functions */}
-        <div className="grid grid-cols-5 gap-1.5">
+        {/* Row C: exponential / trig row */}
+        <div className="grid grid-cols-6 gap-1.5">
           <CalcButton
-            label="x²"
-            secondary="√x"
-            onClick={() => handleKeyClick('SQUARE')}
+            label="eˣ"
+            secondary="ln"
+            onClick={() => handleKeyClick('EXP')}
           />
           <CalcButton
-            label="^"
-            secondary="π"
-            onClick={() => handleKeyClick('POWER')}
-          />
-          <CalcButton
-            label="√"
-            secondary="∛"
-            onClick={() => handleKeyClick('SQRT')}
-          />
-          <CalcButton
-            label="("
-            secondary=""
-            onClick={() => handleKeyClick('LPAREN')}
-          />
-          <CalcButton
-            label=")"
-            secondary=""
-            onClick={() => handleKeyClick('RPAREN')}
-          />
-        </div>
-
-        {/* Row 3: Fraction and special functions */}
-        <div className="grid grid-cols-5 gap-1.5">
-          <CalcButton
-            label="n/d"
-            secondary="►d/c"
-            onClick={() => handleKeyClick('FRAC')}
-          />
-          <CalcButton
-            label="%"
-            secondary=""
-            onClick={() => handleKeyClick('PERCENT')}
+            label="ln"
+            secondary="eˣ"
+            onClick={() => handleKeyClick('LN')}
           />
           <CalcButton
             label="π"
-            secondary=""
+            secondary="hyp"
             onClick={() => handleKeyClick('PI')}
           />
           <CalcButton
-            label="(-)"
-            secondary=""
-            onClick={() => handleKeyClick('NEGATIVE')}
+            label="sin"
+            secondary="sin⁻¹"
+            onClick={() => handleKeyClick('SIN')}
           />
           <CalcButton
-            label="Ans"
-            secondary=""
-            onClick={() => handleKeyClick('ANS')}
-          />
-        </div>
-
-        {/* Row 4: Numbers 7-9 and divide */}
-        <div className="grid grid-cols-4 gap-1.5">
-          <CalcButton
-            label="7"
-            secondary=""
-            onClick={() => handleKeyClick('7')}
-            color="dark"
+            label="cos"
+            secondary="cos⁻¹"
+            onClick={() => handleKeyClick('COS')}
           />
           <CalcButton
-            label="8"
-            secondary=""
-            onClick={() => handleKeyClick('8')}
-            color="dark"
-          />
-          <CalcButton
-            label="9"
-            secondary=""
-            onClick={() => handleKeyClick('9')}
-            color="dark"
-          />
-          <CalcButton
-            label="÷"
-            secondary=""
-            onClick={() => handleKeyClick('DIVIDE')}
-            color="blue"
+            label="tan"
+            secondary="tan⁻¹"
+            onClick={() => handleKeyClick('TAN')}
           />
         </div>
 
-        {/* Row 5: Numbers 4-6 and multiply */}
-        <div className="grid grid-cols-4 gap-1.5">
+        {/* Row D: power / fraction / percent row */}
+        <div className="grid grid-cols-5 gap-1.5">
           <CalcButton
-            label="4"
-            secondary=""
-            onClick={() => handleKeyClick('4')}
-            color="dark"
+            label="xʸ"
+            secondary="ʸ√x"
+            onClick={() => handleKeyClick('POWER')}
           />
           <CalcButton
-            label="5"
-            secondary=""
-            onClick={() => handleKeyClick('5')}
-            color="dark"
+            label="x⁻¹"
+            secondary="log_"
+            onClick={() => handleKeyClick('INV')}
           />
           <CalcButton
-            label="6"
-            secondary=""
-            onClick={() => handleKeyClick('6')}
-            color="dark"
+            label="%("
+            secondary="sum("
+            onClick={() => handleKeyClick('PERC_LEFT')}
+          />
+          <CalcButton
+            label="%)"
+            secondary="prod("
+            onClick={() => handleKeyClick('PERC_RIGHT')}
           />
           <CalcButton
             label="×"
-            secondary=""
             onClick={() => handleKeyClick('MULTIPLY')}
             color="blue"
           />
         </div>
 
-        {/* Row 6: Numbers 1-3 and subtract */}
-        <div className="grid grid-cols-4 gap-1.5">
+        {/* Row E: roots / basic operations row */}
+        <div className="grid grid-cols-5 gap-1.5">
           <CalcButton
-            label="1"
-            secondary=""
-            onClick={() => handleKeyClick('1')}
+            label="√"
+            secondary="x²"
+            onClick={() => handleKeyClick('SQRT')}
+          />
+          <CalcButton
+            label="x²"
+            secondary="√"
+            onClick={() => handleKeyClick('SQUARE')}
+          />
+          <CalcButton
+            label="n/d"
+            secondary="Un+1"
+            onClick={() => handleKeyClick('FRAC_TEMPLATE')}
+          />
+          <CalcButton
+            label="⇄"
+            secondary="Fn"
+            onClick={() => handleKeyClick('FRAC_DEC_TOGGLE')}
+          />
+          <CalcButton
+            label="÷"
+            onClick={() => handleKeyClick('DIVIDE')}
+            color="blue"
+          />
+        </div>
+
+        {/* Row F: clear var + digits 7-9 + subtract */}
+        <div className="grid grid-cols-5 gap-1.5">
+          <CalcButton
+            label="cv"
+            secondary="fix"
+            onClick={() => handleKeyClick('CLEAR_VAR')}
+            small
+          />
+          <CalcButton
+            label="7"
+            secondary="u"
+            onClick={() => handleKeyClick('7')}
             color="dark"
           />
           <CalcButton
-            label="2"
-            secondary=""
-            onClick={() => handleKeyClick('2')}
+            label="8"
+            secondary="v"
+            onClick={() => handleKeyClick('8')}
             color="dark"
           />
           <CalcButton
-            label="3"
-            secondary=""
-            onClick={() => handleKeyClick('3')}
+            label="9"
+            secondary="w"
+            onClick={() => handleKeyClick('9')}
             color="dark"
           />
           <CalcButton
-            label="-"
-            secondary=""
+            label="−"
             onClick={() => handleKeyClick('SUBTRACT')}
             color="blue"
           />
         </div>
 
-        {/* Row 7: 0, decimal, equals, add */}
-        <div className="grid grid-cols-4 gap-1.5">
+        {/* Row G: recall + digits 4-6 + add */}
+        <div className="grid grid-cols-5 gap-1.5">
           <CalcButton
-            label="0"
-            secondary=""
-            onClick={() => handleKeyClick('0')}
-            color="dark"
-            wide
+            label="rcl"
+            secondary="sto→"
+            onClick={() => handleKeyClick('RECALL')}
+            small
           />
           <CalcButton
-            label="."
-            secondary=""
-            onClick={() => handleKeyClick('DOT')}
+            label="4"
+            secondary="n"
+            onClick={() => handleKeyClick('4')}
+            color="dark"
+          />
+          <CalcButton
+            label="5"
+            secondary="L₁"
+            onClick={() => handleKeyClick('5')}
+            color="dark"
+          />
+          <CalcButton
+            label="6"
+            secondary="L₂"
+            onClick={() => handleKeyClick('6')}
             color="dark"
           />
           <CalcButton
             label="+"
-            secondary=""
             onClick={() => handleKeyClick('ADD')}
             color="blue"
           />
         </div>
 
-        {/* Row 8: Equals button (full width) */}
-        <div className="grid grid-cols-1 gap-1.5">
+        {/* Row H: variables + digits 1-3 + toggle */}
+        <div className="grid grid-cols-5 gap-1.5">
           <CalcButton
-            label="="
-            secondary=""
+            label="var"
+            secondary="abc"
+            onClick={() => handleKeyClick('VARS')}
+            small
+          />
+          <CalcButton
+            label="1"
+            secondary="L₃"
+            onClick={() => handleKeyClick('1')}
+            color="dark"
+          />
+          <CalcButton
+            label="2"
+            secondary="("
+            onClick={() => handleKeyClick('2')}
+            color="dark"
+          />
+          <CalcButton
+            label="3"
+            secondary=")"
+            onClick={() => handleKeyClick('3')}
+            color="dark"
+          />
+          <CalcButton
+            label="↔"
+            secondary="frac"
+            onClick={() => handleKeyClick('ANSWER_TOGGLE')}
+            color="blue"
+            small
+          />
+        </div>
+
+        {/* Row I: bottom row - on/off, 0, comma, ans, enter */}
+        <div className="grid grid-cols-5 gap-1.5">
+          <CalcButton
+            label="on"
+            onClick={() => handleKeyClick('ON')}
+            color="red"
+            small
+          />
+          <CalcButton
+            label="0"
+            secondary="reset"
+            onClick={() => handleKeyClick('0')}
+            color="dark"
+          />
+          <CalcButton
+            label="."
+            secondary=","
+            onClick={() => handleKeyClick('DOT')}
+            color="dark"
+          />
+          <CalcButton
+            label="ans"
+            secondary="(−)"
+            onClick={() => handleKeyClick('ANS')}
+            color="dark"
+          />
+          <CalcButton
+            label="enter"
             onClick={() => handleKeyClick('EQUALS')}
             color="green"
-            fullWidth
           />
         </div>
       </div>
@@ -48269,15 +48396,17 @@ function CalcButton({
   return (
     <button
       onClick={onClick}
-      className={`${getColorClasses()} ${sizeClasses} ${widthClasses} px-2 rounded-lg border-2 shadow-md font-bold transition-all active:scale-95 relative`}
+      className={`${getColorClasses()} ${sizeClasses} ${widthClasses} px-2 rounded-lg border-2 shadow-md font-bold transition-all active:scale-95 relative min-h-[2.5rem] flex items-center justify-center`}
     >
-      <div className="flex flex-col items-center justify-center">
-        <span className={small ? 'text-[10px]' : 'text-sm'}>{label}</span>
+      <div className="flex flex-col items-center justify-center gap-0.5">
         {secondary && (
-          <span className="text-[8px] text-yellow-300 absolute top-0 right-1">
+          <div className="text-[8px] leading-none text-lime-300 font-normal">
             {secondary}
-          </span>
+          </div>
         )}
+        <div className="leading-none">
+          <span className={small ? 'text-[10px]' : 'text-sm'}>{label}</span>
+        </div>
       </div>
     </button>
   );
