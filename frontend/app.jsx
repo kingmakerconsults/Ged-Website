@@ -72,6 +72,26 @@ function InterviewScoreReport({ score, strengths, weaknesses, suggestions }) {
   );
 }
 /* global React, ReactDOM */
+
+// Core global constants used across the dashboard / progress helpers
+const SUBJECT_PROGRESS_KEYS = [
+  'Social Studies',
+  'Reasoning Through Language Arts (RLA)',
+  'Science',
+  'Math',
+];
+
+const GED_PASSING_SCORE = 145;
+
+// In-memory catalog for premade quizzes, populated when quiz data is loaded
+let PREMADE_QUIZ_CATALOG = {};
+
+const getPremadeQuizTotal = (subject) => {
+  return Array.isArray(PREMADE_QUIZ_CATALOG[subject])
+    ? PREMADE_QUIZ_CATALOG[subject].length
+    : 0;
+};
+
 // Reconstructed progress helpers after accidental corruption
 const createEmptyProgress = () =>
   SUBJECT_PROGRESS_KEYS.reduce((acc, subject) => {
