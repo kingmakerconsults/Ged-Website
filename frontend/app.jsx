@@ -91,6 +91,11 @@ const SUBJECT_ID_MAP = {
   Math: 'math',
 };
 
+// Ensure Admin Mode / legacy panels can always see this map
+if (typeof window !== 'undefined') {
+  window.SUBJECT_ID_MAP = SUBJECT_ID_MAP;
+}
+
 // Badge image paths by subject ID
 const BADGE_IMG_PATHS = {
   social_studies: '/badges/social-studies.svg',
@@ -33763,7 +33768,10 @@ function DashboardProgressSummary({
             lastTitle && lastTitle.length > 52
               ? `${lastTitle.slice(0, 49)}…`
               : lastTitle;
-          const subjectId = SUBJECT_ID_MAP[subject] || null;
+          const SUBJECT_ID_MAP_SAFE =
+            (typeof window !== 'undefined' && window.SUBJECT_ID_MAP) ||
+            SUBJECT_ID_MAP;
+          const subjectId = SUBJECT_ID_MAP_SAFE[subject] || null;
           const shortLabel =
             (SUBJECT_SHORT_LABELS && SUBJECT_SHORT_LABELS[subject]) ||
             (subjectId === 'rla' ? 'RLA' : subject);
@@ -35605,9 +35613,12 @@ function StartScreen({
     const plan = Array.isArray(profileData?.testPlan)
       ? profileData.testPlan
       : [];
+    const SUBJECT_ID_MAP_SAFE =
+      (typeof window !== 'undefined' && window.SUBJECT_ID_MAP) ||
+      SUBJECT_ID_MAP;
     plan.forEach((row) => {
       if (!row || !row.subject) return;
-      const id = SUBJECT_ID_MAP[row.subject] || null;
+      const id = SUBJECT_ID_MAP_SAFE[row.subject] || null;
       if (!id) return;
       if (row.passed === true) map[id] = true;
     });
@@ -35624,9 +35635,12 @@ function StartScreen({
   }, [profileData?.testPlan, profileData?.profile?.tests]);
   const progressPassedMap = useMemo(() => {
     const map = {};
-    const subjectNames = Object.keys(SUBJECT_ID_MAP);
+    const SUBJECT_ID_MAP_SAFE =
+      (typeof window !== 'undefined' && window.SUBJECT_ID_MAP) ||
+      SUBJECT_ID_MAP;
+    const subjectNames = Object.keys(SUBJECT_ID_MAP_SAFE);
     subjectNames.forEach((label) => {
-      const id = SUBJECT_ID_MAP[label];
+      const id = SUBJECT_ID_MAP_SAFE[label];
       const p = progress?.[label] || {};
       const passedCount = Array.isArray(p?.passedExamCodes)
         ? p.passedExamCodes.length
