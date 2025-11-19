@@ -939,7 +939,13 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
-    if (this.state.err) {
+    const { err } = this.state;
+
+    if (err) {
+      const message =
+        (err && err.message) ||
+        'An unexpected error occurred while loading this page.';
+
       return (
         <div
           style={{
@@ -949,34 +955,19 @@ class ErrorBoundary extends React.Component {
             fontFamily: 'Inter, sans-serif',
           }}
         >
-          {hasPassage && passageContent && (
-            <div
-              className="mb-6 p-4 rounded-lg"
-              style={{
-                backgroundColor: scheme.surface,
-                border: `1px solid ${scheme.surfaceBorder}`,
-              }}
-            >
-              <h4
-                className="text-base font-bold mb-3"
-                style={{ color: scheme.text }}
-              >
-                Reading Passage
-              </h4>
-              <div
-                className="prose passage-section max-w-none text-sm"
-                style={{ color: scheme.text }}
-                dangerouslySetInnerHTML={{
-                  __html: sanitizeHtmlContent(passageContent, {
-                    normalizeSpacing: true,
-                  }),
-                }}
-              />
-            </div>
-          )}
-
-          <h2 style={{ marginTop: 0 }}>Something went wrong.</h2>
-          <pre style={{ whiteSpace: 'pre-wrap' }}>{String(this.state.err)}</pre>
+          <h2 style={{ fontWeight: 700, marginTop: 0, marginBottom: '8px' }}>
+            Something went wrong.
+          </h2>
+          <p style={{ marginBottom: '8px', fontSize: '14px' }}>
+            Please try refreshing the page. If this keeps happening, let your
+            instructor or site admin know.
+          </p>
+          <details style={{ fontSize: '12px', opacity: 0.85 }}>
+            <summary>Error details</summary>
+            <pre style={{ whiteSpace: 'pre-wrap', marginTop: '4px' }}>
+              {String(message)}
+            </pre>
+          </details>
         </div>
       );
     }
