@@ -8,7 +8,7 @@ import {
   Clock,
 } from 'lucide-react';
 
-export default function AdminDashboard({ user, onNavigate }) {
+export default function AdminDashboard({ user, token, onNavigate }) {
   const [readinessData, setReadinessData] = useState(null);
   const [activityData, setActivityData] = useState(null);
   const [gedResultsData, setGedResultsData] = useState(null);
@@ -21,20 +21,21 @@ export default function AdminDashboard({ user, onNavigate }) {
   const loadDashboardData = async () => {
     try {
       setLoading(true);
-      const token =
-        typeof window !== 'undefined' && window.localStorage
+      const authToken =
+        token ||
+        (typeof window !== 'undefined' && window.localStorage
           ? window.localStorage.getItem('appToken')
-          : null;
+          : null);
 
-      if (!token) {
-        console.warn('No auth token available for admin dashboard');
+      if (!authToken) {
+        console.warn('[AdminDashboard] No token available for admin reports');
         setLoading(false);
         return;
       }
 
       const headers = {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${authToken}`,
       };
 
       const [readiness, activity, gedResults] = await Promise.all([

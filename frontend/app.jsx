@@ -30162,7 +30162,9 @@ function App({ externalTheme, onThemeChange }) {
         setCurrentUser(profile);
         setAuthToken(storedToken);
         const isStudent =
-          profile.role !== 'super_admin' && profile.role !== 'org_admin';
+          profile.role !== 'super_admin' &&
+          profile.role !== 'org_admin' &&
+          profile.role !== 'instructor';
         if (isStudent) {
           // Check if user needs to join an organization
           if (!profile.organization_id) {
@@ -30211,7 +30213,9 @@ function App({ externalTheme, onThemeChange }) {
 
     setAuthToken(token);
     const isAdminUser =
-      profile.role === 'super_admin' || profile.role === 'org_admin';
+      profile.role === 'super_admin' ||
+      profile.role === 'org_admin' ||
+      profile.role === 'instructor';
 
     if (welcomeTimeoutRef.current) {
       clearTimeout(welcomeTimeoutRef.current);
@@ -30354,7 +30358,9 @@ function App({ externalTheme, onThemeChange }) {
 
       // Now check if we need to show name prompt
       const isStudent =
-        profile.role !== 'super_admin' && profile.role !== 'org_admin';
+        profile.role !== 'super_admin' &&
+        profile.role !== 'org_admin' &&
+        profile.role !== 'instructor';
       if (isStudent) {
         const customNameSet = localStorage.getItem(
           `customNameSet_${profile.id}`
@@ -30945,7 +30951,7 @@ function App({ externalTheme, onThemeChange }) {
       return <AuthScreen onLogin={handleLogin} />;
     }
     // Use Enhanced Admin Shell for all admin roles
-    const adminRoles = ['super_admin', 'org_admin', 'teacher'];
+    const adminRoles = ['super_admin', 'org_admin', 'instructor', 'teacher'];
     if (adminRoles.includes(currentUser.role)) {
       return (
         <EnhancedAdminShell
@@ -32737,12 +32743,16 @@ function AdminRoleBadge({ role }) {
       ? 'Super Admin'
       : role === 'org_admin'
       ? 'Organization Admin'
+      : role === 'instructor'
+      ? 'Instructor'
       : 'Student';
   const palette =
     role === 'super_admin'
       ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-200'
       : role === 'org_admin'
       ? 'bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-200'
+      : role === 'instructor'
+      ? 'bg-teal-100 text-teal-700 dark:bg-teal-500/20 dark:text-teal-200'
       : 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200';
   return (
     <span
@@ -33207,7 +33217,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
 // ========================================
 
 // Admin Dashboard with analytics overview
-function AdminDashboard({ user, onNavigate }) {
+function AdminDashboard({ user, token, onNavigate }) {
   const [readinessData, setReadinessData] = useState(null);
   const [activityData, setActivityData] = useState(null);
   const [gedResultsData, setGedResultsData] = useState(null);
@@ -33220,20 +33230,21 @@ function AdminDashboard({ user, onNavigate }) {
   const loadDashboardData = async () => {
     try {
       setLoading(true);
-      const token =
-        typeof window !== 'undefined' && window.localStorage
+      const authToken =
+        token ||
+        (typeof window !== 'undefined' && window.localStorage
           ? window.localStorage.getItem('appToken')
-          : null;
+          : null);
 
-      if (!token) {
-        console.warn('No auth token available for admin dashboard');
+      if (!authToken) {
+        console.warn('[AdminDashboard] No token available for admin reports');
         setLoading(false);
         return;
       }
 
       const headers = {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${authToken}`,
       };
 
       const [readiness, activity, gedResults] = await Promise.all([
@@ -33516,6 +33527,7 @@ function EnhancedAdminShell({ user, token, onLogout }) {
   const isAdmin =
     user?.role === 'super_admin' ||
     user?.role === 'org_admin' ||
+    user?.role === 'instructor' ||
     user?.role === 'teacher';
 
   if (!isAdmin) {
@@ -33544,7 +33556,9 @@ function EnhancedAdminShell({ user, token, onLogout }) {
     // In production, these would be imported, but since this is a monolithic file,
     // we'll reference them dynamically
     if (adminView === 'dashboard') {
-      return <AdminDashboard user={user} onNavigate={setAdminView} />;
+      return (
+        <AdminDashboard user={user} token={token} onNavigate={setAdminView} />
+      );
     }
 
     // Placeholder for other views - these would need the full component implementations

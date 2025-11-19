@@ -458,6 +458,7 @@ function normalizeRole(role) {
   switch (role) {
     case 'super_admin':
     case 'org_admin':
+    case 'instructor':
     case 'student':
       return role;
     default:
@@ -3681,7 +3682,9 @@ function requireOrgAdminOrSuper(req, res, next) {
     role === 'superadmin' ||
     role === 'admin' ||
     role === 'org_admin' ||
-    role === 'orgadmin'
+    role === 'orgadmin' ||
+    role === 'instructor' ||
+    role === 'teacher'
   ) {
     return next();
   }
