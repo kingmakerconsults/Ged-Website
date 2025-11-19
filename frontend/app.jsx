@@ -28443,6 +28443,18 @@ function StudentHomeRoom({ user, onNavigate }) {
 
 // --- Main App Component ---
 function App({ externalTheme, onThemeChange }) {
+  // ========================================
+  // ROLE HIERARCHY HELPERS
+  // ========================================
+  const isSuperAdmin = (u) => u?.role === 'super_admin';
+  const isOrgAdmin = (u) => u?.role === 'org_admin';
+  const isInstructor = (u) => u?.role === 'instructor' || u?.role === 'teacher';
+  const isStudentUser = (u) =>
+    !isSuperAdmin(u) && !isOrgAdmin(u) && !isInstructor(u);
+
+  // ========================================
+  // STATE MANAGEMENT
+  // ========================================
   const SMITHING_PROMPTS = [
     'Heating the forge...',
     'The smith is at the anvil...',
@@ -32929,324 +32941,6 @@ function OrganizationSummaryView({ summary }) {
   );
 }
 
-function SuperAdminDashboard({ user, token, onLogout }) {
-  const [organizations, setOrganizations] = useState([]);
-  const [loadingOrgs, setLoadingOrgs] = useState(true);
-  const [orgError, setOrgError] = useState('');
-  const [selectedOrgId, setSelectedOrgId] = useState(null);
-  const [orgSummary, setOrgSummary] = useState(null);
-  const [summaryLoading, setSummaryLoading] = useState(false);
-  const [summaryError, setSummaryError] = useState('');
-
-  const loadOrganizations = useCallback(async () => {
-    setLoadingOrgs(true);
-    setOrgError('');
-    try {
-      const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
-      const data = await fetchJSON(`${API_BASE_URL}/api/admin/organizations`, {
-        headers,
-      });
-      const list = Array.isArray(data?.organizations)
-        ? data.organizations
-        : Array.isArray(data)
-        ? data
-        : [];
-      setOrganizations(list);
-    } catch (error) {
-      setOrgError(error?.message || 'Unable to load organizations');
-    } finally {
-      setLoadingOrgs(false);
-    }
-  }, [token]);
-
-  const loadOrgSummary = useCallback(
-    async (orgId) => {
-      if (!orgId) {
-        setOrgSummary(null);
-        setSelectedOrgId(null);
-        return;
-      }
-      setSelectedOrgId(orgId);
-      setSummaryLoading(true);
-      setSummaryError('');
-      try {
-        const headers = token
-          ? { Authorization: `Bearer ${token}` }
-          : undefined;
-        const data = await fetchJSON(
-          `${API_BASE_URL}/api/admin/org-summary?organization_id=${encodeURIComponent(
-            orgId
-          )}`,
-          { headers }
-        );
-        setOrgSummary(data);
-      } catch (error) {
-        setSummaryError(
-          error?.message || 'Unable to load organization summary'
-        );
-      } finally {
-        setSummaryLoading(false);
-      }
-    },
-    [token]
-  );
-
-  useEffect(() => {
-    loadOrganizations();
-  }, [loadOrganizations]);
-
-  useEffect(() => {
-    if (!organizations.length) {
-      return;
-    }
-    if (selectedOrgId != null) {
-      return;
-    }
-    loadOrgSummary(organizations[0].id);
-  }, [organizations, selectedOrgId, loadOrgSummary]);
-
-  return (
-    <div className="min-h-screen bg-slate-50 py-10 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4">
-        <header className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-              Welcome back, {user?.name || user?.email || 'Administrator'}
-            </h1>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-300">
-              <AdminRoleBadge role={user?.role} />
-              <span>Platform-wide access</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={loadOrganizations}
-              className="rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
-            >
-              Refresh Overview
-            </button>
-            <button
-              type="button"
-              onClick={onLogout}
-              className="rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-            >
-              Sign out
-            </button>
-          </div>
-        </header>
-
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100">
-                Partner organizations
-              </h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                Select an organization to view its roster and quiz activity.
-              </p>
-            </div>
-          </div>
-
-          {loadingOrgs ? (
-            <p className="py-4 text-sm text-slate-500 dark:text-slate-300">
-              Loading organizations…
-            </p>
-          ) : orgError ? (
-            <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
-              {orgError}
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-slate-200 text-sm dark:divide-slate-700">
-                <thead className="bg-slate-50 dark:bg-slate-800/60">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                      Organization
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                      Members
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                      Recent Activity
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 bg-white dark:divide-slate-800 dark:bg-slate-900/80">
-                  {organizations.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan={4}
-                        className="px-4 py-6 text-center text-slate-500 dark:text-slate-400"
-                      >
-                        No partner organizations found yet.
-                      </td>
-                    </tr>
-                  )}
-                  {organizations.map((org) => (
-                    <tr
-                      key={org.id}
-                      className={
-                        selectedOrgId === org.id
-                          ? 'bg-sky-50 dark:bg-sky-500/10'
-                          : 'hover:bg-slate-50 dark:hover:bg-slate-800/60'
-                      }
-                    >
-                      <td className="px-4 py-3 font-medium text-slate-700 dark:text-slate-100">
-                        {org.name}
-                      </td>
-                      <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
-                        {org.userCount ?? 0}
-                      </td>
-                      <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
-                        {formatDateTime(org.recentActivity)}
-                      </td>
-                      <td className="px-4 py-3">
-                        <button
-                          type="button"
-                          onClick={() => loadOrgSummary(org.id)}
-                          className="rounded-full bg-sky-600 px-3 py-1 text-xs font-semibold text-white shadow hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-                        >
-                          View Org
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </section>
-
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
-          {summaryLoading ? (
-            <p className="text-sm text-slate-500 dark:text-slate-300">
-              Loading organization summary…
-            </p>
-          ) : summaryError ? (
-            <div className="space-y-3">
-              {isMultipleSelect && (
-                <p
-                  className="text-sm font-semibold mb-2"
-                  style={{ color: scheme.mutedText }}
-                >
-                  (Select ALL that apply)
-                </p>
-              )}
-              <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
-                {summaryError}
-              </div>
-              <button
-                type="button"
-                onClick={() => loadOrgSummary(selectedOrgId)}
-                className="inline-flex items-center rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
-              >
-                Try again
-              </button>
-            </div>
-          ) : orgSummary ? (
-            <OrganizationSummaryView summary={orgSummary} />
-          ) : (
-            <p className="text-sm text-slate-500 dark:text-slate-300">
-              Select an organization to view details.
-            </p>
-          )}
-        </section>
-      </div>
-    </div>
-  );
-}
-
-function OrgAdminDashboard({ user, token, onLogout }) {
-  const [summary, setSummary] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  const loadSummary = useCallback(async () => {
-    setLoading(true);
-    setError('');
-    try {
-      const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
-      const data = await fetchJSON(`${API_BASE_URL}/api/admin/org-summary`, {
-        headers,
-      });
-      setSummary(data);
-    } catch (err) {
-      setError(err?.message || 'Unable to load organization data');
-    } finally {
-      setLoading(false);
-    }
-  }, [token]);
-
-  useEffect(() => {
-    loadSummary();
-  }, [loadSummary]);
-
-  const organizationName =
-    summary?.organization?.name ||
-    user?.organization_name ||
-    'Your organization';
-
-  return (
-    <div className="admin-shell min-h-screen bg-slate-50 py-10 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4">
-        <header className="admin-panel flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">{organizationName}</h1>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-admin-subtle admin-muted">
-              <AdminRoleBadge role={user?.role} />
-              <span>Organization dashboard</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={loadSummary}
-              className="rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
-            >
-              Refresh Data
-            </button>
-            <button
-              type="button"
-              onClick={onLogout}
-              className="rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-            >
-              Sign out
-            </button>
-          </div>
-        </header>
-
-        <section className="admin-panel rounded-3xl border bg-white/95 dark:bg-slate-950/70 dark:border-slate-700 p-6">
-          {loading ? (
-            <p className="text-sm text-admin-subtle admin-muted">
-              Loading organization summary…
-            </p>
-          ) : error ? (
-            <div className="space-y-3">
-              <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
-                {error}
-              </div>
-              <button
-                type="button"
-                onClick={loadSummary}
-                className="inline-flex items-center rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
-              >
-                Try again
-              </button>
-            </div>
-          ) : (
-            <OrganizationSummaryView summary={summary} />
-          )}
-        </section>
-      </div>
-    </div>
-  );
-}
-
-// ========================================
 // COMPREHENSIVE ADMIN SUITE COMPONENTS
 // ========================================
 
@@ -33967,6 +33661,378 @@ function AdminDashboard({ user, token, onNavigate }) {
   );
 }
 
+// ========================================
+// ROLE-SPECIFIC ADMIN DASHBOARDS
+// ========================================
+
+// Super Admin Dashboard - Full platform visibility
+function SuperAdminDashboard({ user, token }) {
+  const [selectedOrg, setSelectedOrg] = useState(null);
+  const [organizations, setOrganizations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [adminData, setAdminData] = useState(null);
+
+  useEffect(() => {
+    loadOrganizations();
+  }, []);
+
+  useEffect(() => {
+    if (selectedOrg) {
+      loadOrgData();
+    }
+  }, [selectedOrg]);
+
+  const loadOrganizations = async () => {
+    try {
+      const authToken = token || window.localStorage?.getItem('appToken');
+      if (!authToken) return;
+
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      };
+
+      const orgs = await fetchJSON(`${API_BASE_URL}/api/admin/organizations`, {
+        headers,
+      });
+      setOrganizations(orgs || []);
+      if (orgs && orgs.length > 0) {
+        setSelectedOrg(orgs[0].id);
+      }
+    } catch (error) {
+      console.error('Failed to load organizations:', error);
+    }
+  };
+
+  const loadOrgData = async () => {
+    try {
+      setLoading(true);
+      const authToken = token || window.localStorage?.getItem('appToken');
+      if (!authToken) return;
+
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      };
+
+      const [readiness, activity, gedResults] = await Promise.all([
+        fetchJSON(
+          `${API_BASE_URL}/api/admin/reports/readiness?orgId=${selectedOrg}`,
+          { headers }
+        ),
+        fetchJSON(
+          `${API_BASE_URL}/api/admin/reports/activity?orgId=${selectedOrg}`,
+          { headers }
+        ),
+        fetchJSON(
+          `${API_BASE_URL}/api/admin/reports/ged-results?orgId=${selectedOrg}`,
+          { headers }
+        ),
+      ]);
+
+      const studentStats = {
+        activeCount: activity?.last30Days?.activeStudents || 0,
+        studyTimeHours: Math.round(
+          (activity?.last30Days?.totalMinutes || 0) / 60
+        ),
+        testReadyCount: readiness?.overall?.ready || 0,
+        passedCount: gedResults?.last3Months?.passed || 0,
+        totalTests: gedResults?.last3Months?.total || 0,
+      };
+
+      const subjectStats = {};
+      const subjectNames = {
+        rla: 'RLA',
+        math: 'Math',
+        science: 'Science',
+        social: 'Social Studies',
+      };
+
+      if (readiness?.subjects) {
+        Object.keys(readiness.subjects).forEach((key) => {
+          const subject = readiness.subjects[key];
+          const displayName = subjectNames[key] || key;
+          subjectStats[displayName] = {
+            ready: subject.ready || 0,
+            almost: subject.almostReady || 0,
+            needStudy: subject.needMoreStudy || 0,
+            avg: Math.round(subject.averageScore || 0),
+          };
+        });
+      }
+
+      setAdminData({ studentStats, subjectStats });
+    } catch (error) {
+      console.error('Failed to load org data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <div className="mb-6 p-4 bg-white dark:bg-slate-800 rounded-lg shadow">
+        <label
+          className="block text-sm font-medium mb-2"
+          style={{ color: 'var(--text-primary)' }}
+        >
+          Select Organization
+        </label>
+        <select
+          value={selectedOrg || ''}
+          onChange={(e) => setSelectedOrg(Number(e.target.value))}
+          className="w-full px-4 py-2 rounded-lg border dark:bg-slate-700 dark:border-slate-600"
+        >
+          {organizations.map((org) => (
+            <option key={org.id} value={org.id}>
+              {org.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      {loading ? (
+        <div className="flex items-center justify-center min-h-96">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+        </div>
+      ) : (
+        <ModernAdminDashboard
+          user={user}
+          token={token}
+          studentStats={adminData?.studentStats}
+          subjectStats={adminData?.subjectStats}
+        />
+      )}
+    </div>
+  );
+}
+
+// Org Admin Dashboard - Organization-scoped visibility
+function OrgAdminDashboard({ user, token }) {
+  const [loading, setLoading] = useState(true);
+  const [adminData, setAdminData] = useState(null);
+
+  useEffect(() => {
+    loadOrgData();
+  }, []);
+
+  const loadOrgData = async () => {
+    try {
+      setLoading(true);
+      const authToken = token || window.localStorage?.getItem('appToken');
+      if (!authToken) return;
+
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      };
+
+      // Org admin is auto-scoped to their org on the backend
+      const [readiness, activity, gedResults] = await Promise.all([
+        fetchJSON(`${API_BASE_URL}/api/admin/reports/readiness`, { headers }),
+        fetchJSON(`${API_BASE_URL}/api/admin/reports/activity`, { headers }),
+        fetchJSON(`${API_BASE_URL}/api/admin/reports/ged-results`, { headers }),
+      ]);
+
+      const studentStats = {
+        activeCount: activity?.last30Days?.activeStudents || 0,
+        studyTimeHours: Math.round(
+          (activity?.last30Days?.totalMinutes || 0) / 60
+        ),
+        testReadyCount: readiness?.overall?.ready || 0,
+        passedCount: gedResults?.last3Months?.passed || 0,
+        totalTests: gedResults?.last3Months?.total || 0,
+      };
+
+      const subjectStats = {};
+      const subjectNames = {
+        rla: 'RLA',
+        math: 'Math',
+        science: 'Science',
+        social: 'Social Studies',
+      };
+
+      if (readiness?.subjects) {
+        Object.keys(readiness.subjects).forEach((key) => {
+          const subject = readiness.subjects[key];
+          const displayName = subjectNames[key] || key;
+          subjectStats[displayName] = {
+            ready: subject.ready || 0,
+            almost: subject.almostReady || 0,
+            needStudy: subject.needMoreStudy || 0,
+            avg: Math.round(subject.averageScore || 0),
+          };
+        });
+      }
+
+      setAdminData({ studentStats, subjectStats });
+    } catch (error) {
+      console.error('Failed to load org data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+      </div>
+    );
+  }
+
+  return (
+    <ModernAdminDashboard
+      user={user}
+      token={token}
+      studentStats={adminData?.studentStats}
+      subjectStats={adminData?.subjectStats}
+    />
+  );
+}
+
+// Instructor Dashboard - Class-scoped visibility
+function InstructorDashboard({ user, token }) {
+  const [loading, setLoading] = useState(true);
+  const [adminData, setAdminData] = useState(null);
+  const [selectedClass, setSelectedClass] = useState(null);
+  const [classes, setClasses] = useState([]);
+
+  useEffect(() => {
+    loadInstructorClasses();
+  }, []);
+
+  useEffect(() => {
+    if (selectedClass) {
+      loadClassData();
+    }
+  }, [selectedClass]);
+
+  const loadInstructorClasses = async () => {
+    try {
+      const authToken = token || window.localStorage?.getItem('appToken');
+      if (!authToken) return;
+
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      };
+
+      // Fetch classes where this user is the instructor
+      const classesData = await fetchJSON(
+        `${API_BASE_URL}/api/admin/classes?instructor_id=${user.id}`,
+        { headers }
+      );
+      setClasses(classesData || []);
+      if (classesData && classesData.length > 0) {
+        setSelectedClass(classesData[0].id);
+      }
+    } catch (error) {
+      console.error('Failed to load instructor classes:', error);
+    }
+  };
+
+  const loadClassData = async () => {
+    try {
+      setLoading(true);
+      const authToken = token || window.localStorage?.getItem('appToken');
+      if (!authToken) return;
+
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      };
+
+      const [readiness, activity, gedResults] = await Promise.all([
+        fetchJSON(
+          `${API_BASE_URL}/api/admin/reports/readiness?classId=${selectedClass}`,
+          { headers }
+        ),
+        fetchJSON(
+          `${API_BASE_URL}/api/admin/reports/activity?classId=${selectedClass}`,
+          { headers }
+        ),
+        fetchJSON(
+          `${API_BASE_URL}/api/admin/reports/ged-results?classId=${selectedClass}`,
+          { headers }
+        ),
+      ]);
+
+      const studentStats = {
+        activeCount: activity?.last30Days?.activeStudents || 0,
+        studyTimeHours: Math.round(
+          (activity?.last30Days?.totalMinutes || 0) / 60
+        ),
+        testReadyCount: readiness?.overall?.ready || 0,
+        passedCount: gedResults?.last3Months?.passed || 0,
+        totalTests: gedResults?.last3Months?.total || 0,
+      };
+
+      const subjectStats = {};
+      const subjectNames = {
+        rla: 'RLA',
+        math: 'Math',
+        science: 'Science',
+        social: 'Social Studies',
+      };
+
+      if (readiness?.subjects) {
+        Object.keys(readiness.subjects).forEach((key) => {
+          const subject = readiness.subjects[key];
+          const displayName = subjectNames[key] || key;
+          subjectStats[displayName] = {
+            ready: subject.ready || 0,
+            almost: subject.almostReady || 0,
+            needStudy: subject.needMoreStudy || 0,
+            avg: Math.round(subject.averageScore || 0),
+          };
+        });
+      }
+
+      setAdminData({ studentStats, subjectStats });
+    } catch (error) {
+      console.error('Failed to load class data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <div className="mb-6 p-4 bg-white dark:bg-slate-800 rounded-lg shadow">
+        <label
+          className="block text-sm font-medium mb-2"
+          style={{ color: 'var(--text-primary)' }}
+        >
+          Select Class
+        </label>
+        <select
+          value={selectedClass || ''}
+          onChange={(e) => setSelectedClass(Number(e.target.value))}
+          className="w-full px-4 py-2 rounded-lg border dark:bg-slate-700 dark:border-slate-600"
+        >
+          {classes.map((cls) => (
+            <option key={cls.id} value={cls.id}>
+              {cls.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      {loading ? (
+        <div className="flex items-center justify-center min-h-96">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+        </div>
+      ) : (
+        <ModernAdminDashboard
+          user={user}
+          token={token}
+          studentStats={adminData?.studentStats}
+          subjectStats={adminData?.subjectStats}
+        />
+      )}
+    </div>
+  );
+}
+
 // Enhanced Admin Shell with full admin suite
 function EnhancedAdminShell({ user, token, onLogout }) {
   const [adminView, setAdminView] = useState('dashboard');
@@ -34076,36 +34142,18 @@ function EnhancedAdminShell({ user, token, onLogout }) {
 
   const renderAdminContent = () => {
     if (adminView === 'dashboard') {
-      // Use ModernAdminDashboard for org_admin and super_admin
-      if (
-        user?.role === 'org_admin' ||
-        user?.role === 'super_admin' ||
-        user?.role === 'instructor'
-      ) {
-        if (loading) {
-          return (
-            <div className="flex items-center justify-center min-h-screen">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
-                <p className="text-slate-600 dark:text-slate-400">
-                  Loading dashboard...
-                </p>
-              </div>
-            </div>
-          );
-        }
-
-        return (
-          <ModernAdminDashboard
-            user={user}
-            token={token}
-            studentStats={adminData?.studentStats}
-            subjectStats={adminData?.subjectStats}
-          />
-        );
+      // Route to role-specific dashboard based on privilege hierarchy
+      if (isSuperAdmin(user)) {
+        return <SuperAdminDashboard user={user} token={token} />;
+      }
+      if (isOrgAdmin(user)) {
+        return <OrgAdminDashboard user={user} token={token} />;
+      }
+      if (isInstructor(user)) {
+        return <InstructorDashboard user={user} token={token} />;
       }
 
-      // Fallback to legacy dashboard for other roles
+      // Fallback to legacy dashboard for unknown roles
       return (
         <AdminDashboard user={user} token={token} onNavigate={setAdminView} />
       );
@@ -37266,6 +37314,24 @@ function StartScreen({
               theme={theme}
             />
           )}
+          {/* Science Formula Practice Tool */}
+          {selectedSubject === 'Science' &&
+            window.ScienceFormulaPracticeTool && (
+              <div className="mt-4">
+                <window.ScienceFormulaPracticeTool theme={theme} />
+              </div>
+            )}
+          {/* Math Practice Tools */}
+          {selectedSubject === 'Math' && (
+            <div className="mt-4 space-y-4">
+              {window.MathStepPracticeTool && (
+                <window.MathStepPracticeTool theme={theme} />
+              )}
+              {window.MathCentralTendencyTool && (
+                <window.MathCentralTendencyTool theme={theme} />
+              )}
+            </div>
+          )}
           {/* Daily Coach goals (across subjects) - COACH FEATURE DISABLED */}
           {window.__COACH_ENABLED__ && (
             <div
@@ -39560,35 +39626,54 @@ function QuizInterface({
                   (e.g., 42, 3.14, 1/2, 25%).
                 </p>
               )}
-              <input
-                id="fill-in-blank-answer"
-                type={isNumericEntry ? 'text' : 'text'}
-                inputMode={isNumericEntry ? 'decimal' : 'text'}
-                value={answers[currentIndex] || ''}
-                onChange={handleInputChange}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    if (currentIndex === questions.length - 1) {
-                      handleSubmit();
-                    } else {
-                      setCurrentIndex((p) =>
-                        Math.min(questions.length - 1, p + 1)
-                      );
-                    }
+              {/* Use MathInputWithPad for Math subjects */}
+              {/math/i.test(subject || quiz?.subject || '') &&
+              window.MathInputWithPad ? (
+                <window.MathInputWithPad
+                  value={answers[currentIndex] || ''}
+                  onChange={(newValue) => {
+                    const newAnswers = [...answers];
+                    newAnswers[currentIndex] = newValue;
+                    setAnswers(newAnswers);
+                  }}
+                  placeholder={
+                    isNumericEntry
+                      ? 'Enter a number (e.g., 3.5 or 3/4)'
+                      : 'Type your answer here'
                   }
-                }}
-                placeholder={
-                  isNumericEntry
-                    ? 'Enter a number (e.g., 3.5 or 3/4)'
-                    : 'Type your answer here'
-                }
-                className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
-                style={{
-                  border: `1px solid ${scheme.inputBorder}`,
-                  color: 'var(--text-primary)',
-                }}
-              />
+                  disabled={false}
+                />
+              ) : (
+                <input
+                  id="fill-in-blank-answer"
+                  type={isNumericEntry ? 'text' : 'text'}
+                  inputMode={isNumericEntry ? 'decimal' : 'text'}
+                  value={answers[currentIndex] || ''}
+                  onChange={handleInputChange}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      if (currentIndex === questions.length - 1) {
+                        handleSubmit();
+                      } else {
+                        setCurrentIndex((p) =>
+                          Math.min(questions.length - 1, p + 1)
+                        );
+                      }
+                    }
+                  }}
+                  placeholder={
+                    isNumericEntry
+                      ? 'Enter a number (e.g., 3.5 or 3/4)'
+                      : 'Type your answer here'
+                  }
+                  className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
+                  style={{
+                    border: `1px solid ${scheme.inputBorder}`,
+                    color: 'var(--text-primary)',
+                  }}
+                />
+              )}
             </div>
           ) : currentQ.itemType === 'inline_dropdown' &&
             currentQ.passageWithPlaceholders ? (
