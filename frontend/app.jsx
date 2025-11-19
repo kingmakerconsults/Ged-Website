@@ -47605,7 +47605,9 @@ function MathPracticeCollapsibleSuite({ theme }) {
 
   return (
     <div className="mt-4 space-y-4 p-4 rounded-lg border" style={sectionStyle}>
-      <h3 className="font-bold text-lg mb-2">Math Practice Tools</h3>
+      <h3 className="font-bold text-lg mb-2 text-slate-800 dark:text-slate-100">
+        Math Practice Tools
+      </h3>
       <div className="space-y-2">
         {headerBtn('TI-30XS Calculator Practice', 'calculator')}
         {panels.calculator && (
@@ -48230,6 +48232,219 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
   const [resultAsFraction, setResultAsFraction] = useState(false);
   const [activePanel, setActivePanel] = useState(null); // 'DATA' | 'STAT' | 'TABLE'
   const [lists, setLists] = useState({ L1: [], L2: [], L3: [] });
+  // --- New token-based model (initial scaffolding) ---
+  const [tokens, setTokens] = useState([]); // top-level tokens
+  const [cursor, setCursor] = useState({ scope: 'top', index: 0, part: null }); // scope: 'top' | 'fraction'; part for fractions
+  const [cursorIndex, setCursorIndex] = useState(0); // legacy linear cursor (will phase out)
+
+  // Simple tokenizer helpers (numbers & ops only for now)
+  const isDigit = (ch) => /[0-9]/.test(ch);
+  const isOpChar = (ch) => /[+\-×÷^%(),]/.test(ch);
+
+  const flattenTokensToEntry = (toks) => {
+    return toks
+      .map((t) => {
+        if (t.type === 'number') return t.value;
+        if (t.type === 'op') return t.value;
+        if (t.type === 'symbol') return t.value;
+        if (t.type === 'ans')
+          return '(' + (lastResult != null ? lastResult : 0) + ')';
+        if (t.type === 'func') return t.name + '(' + (t.argString || '') + ')';
+        if (t.type === 'fraction') {
+          const num = flattenTokensToEntry(t.numerator || []);
+          const den = flattenTokensToEntry(t.denominator || []);
+          if (t.isMixed) {
+            const whole = t.whole || '0';
+            return (
+              '(' + whole + '+(' + (num || '0') + ')/(' + (den || '1') + '))'
+            );
+          }
+          return '(' + (num || '0') + ')/(' + (den || '1') + ')';
+        }
+        return '';
+      })
+      .join('');
+  };
+
+  const rebuildCurrentEntryFromTokens = (nextTokens) => {
+    const flat = flattenTokensToEntry(nextTokens);
+    setCurrentEntry(flat);
+    setDisplay(flat || '0');
+    if (onExpressionChange) onExpressionChange(flat);
+  };
+
+  const insertTokenAtCursor = (newToken) => {
+    if (cursor.scope === 'top') {
+      const before = tokens.slice(0, cursor.index);
+      const after = tokens.slice(cursor.index);
+      const next = [...before, newToken, ...after];
+      setTokens(next);
+      setCursor({ scope: 'top', index: cursor.index + 1, part: null });
+      rebuildCurrentEntryFromTokens(next);
+      return;
+    }
+    if (cursor.scope === 'fraction') {
+      const fracTok = tokens[cursor.fractionIndex];
+      if (!fracTok || fracTok.type !== 'fraction') return;
+      const targetArr =
+        cursor.part === 'numerator' ? fracTok.numerator : fracTok.denominator;
+      const before = targetArr.slice(0, cursor.innerIndex);
+      const after = targetArr.slice(cursor.innerIndex);
+      const updatedArr = [...before, newToken, ...after];
+      const updatedFrac = { ...fracTok, [cursor.part]: updatedArr };
+      const nextTokens = tokens.slice();
+      nextTokens[cursor.fractionIndex] = updatedFrac;
+      setTokens(nextTokens);
+      setCursor({ ...cursor, innerIndex: cursor.innerIndex + 1 });
+      rebuildCurrentEntryFromTokens(nextTokens);
+    }
+  };
+
+  const tryMergeNumberToken = (ch) => {
+    if (!isDigit(ch) && ch !== '.') return false;
+    const idx = cursor.index - 1;
+    if (idx >= 0 && tokens[idx] && tokens[idx].type === 'number') {
+      const nextTokens = tokens.slice();
+      nextTokens[idx] = {
+        ...nextTokens[idx],
+        value: nextTokens[idx].value + ch,
+      };
+      setTokens(nextTokens);
+      rebuildCurrentEntryFromTokens(nextTokens);
+      return true;
+    }
+    return false;
+  };
+
+  // Legacy linear insertion; also mirror into tokens scaffolding
+  const insertAtCursor = (text) => {
+    // Linear model
+    const before = currentEntry.slice(0, cursorIndex);
+    const after = currentEntry.slice(cursorIndex);
+    const nextEntry = before + text + after;
+    const nextCursor = cursorIndex + text.length;
+    setCurrentEntry(nextEntry);
+    setCursorIndex(nextCursor);
+    setDisplay(nextEntry || '0');
+    if (onExpressionChange) onExpressionChange(nextEntry);
+    // Token mirror (character by character)
+    for (const ch of text) {
+      if (tryMergeNumberToken(ch) && cursor.scope === 'top') {
+        continue;
+      }
+      if ((isDigit(ch) || ch === '.') && cursor.scope === 'top') {
+        insertTokenAtCursor({ type: 'number', value: ch });
+      } else if (isOpChar(ch)) {
+        insertTokenAtCursor({ type: 'op', value: ch });
+      } else if (ch === 'π') {
+        insertTokenAtCursor({ type: 'symbol', value: 'π' });
+      } else if (ch === '√') {
+        insertTokenAtCursor({ type: 'func', name: 'sqrt', argString: '' });
+      } else {
+        insertTokenAtCursor({ type: 'symbol', value: ch });
+      }
+    }
+  };
+
+  const renderDisplayWithCursor = () => {
+    // If tokens exist, render token-based view (simplified – flat with caret between tokens)
+    if (tokens.length) {
+      const parts = [];
+      tokens.forEach((t, i) => {
+        if (cursor.scope === 'top' && cursor.index === i) {
+          parts.push(
+            <span
+              key={'cursor-' + i}
+              className="inline-block w-[2px] h-[1.1em] bg-slate-900 dark:bg-emerald-50 animate-pulse"
+            />
+          );
+        }
+        if (t.type === 'fraction') {
+          parts.push(
+            <span
+              key={'frac-' + i}
+              className="inline-flex flex-col items-center mx-1"
+            >
+              {t.isMixed && (
+                <span className="mb-0.5">{t.whole ? t.whole : '□'}</span>
+              )}
+              <span
+                className={
+                  cursor.scope === 'fraction' &&
+                  cursor.fractionIndex === i &&
+                  cursor.part === 'numerator'
+                    ? 'relative'
+                    : ''
+                }
+              >
+                {(t.numerator || []).map((nt, ni) => (
+                  <span key={'num' + i + '-' + ni}>
+                    {nt.value || nt.name || nt.type}
+                  </span>
+                ))}
+                {cursor.scope === 'fraction' &&
+                  cursor.fractionIndex === i &&
+                  cursor.part === 'numerator' &&
+                  cursor.innerIndex === (t.numerator || []).length && (
+                    <span className="inline-block w-[2px] h-[1.1em] bg-slate-900 dark:bg-emerald-50 animate-pulse" />
+                  )}
+              </span>
+              <span className="w-full border-t border-slate-900 dark:border-emerald-50 my-0.5" />
+              <span
+                className={
+                  cursor.scope === 'fraction' &&
+                  cursor.fractionIndex === i &&
+                  cursor.part === 'denominator'
+                    ? 'relative'
+                    : ''
+                }
+              >
+                {(t.denominator || []).map((dt, di) => (
+                  <span key={'den' + i + '-' + di}>
+                    {dt.value || dt.name || dt.type}
+                  </span>
+                ))}
+                {cursor.scope === 'fraction' &&
+                  cursor.fractionIndex === i &&
+                  cursor.part === 'denominator' &&
+                  cursor.innerIndex === (t.denominator || []).length && (
+                    <span className="inline-block w-[2px] h-[1.1em] bg-slate-900 dark:bg-emerald-50 animate-pulse" />
+                  )}
+              </span>
+            </span>
+          );
+        } else {
+          parts.push(
+            <span key={'tok-' + i} className="mx-0.5">
+              {t.type === 'func'
+                ? t.name + '(' + (t.argString || '') + ')'
+                : t.value}
+            </span>
+          );
+        }
+      });
+      if (cursor.scope === 'top' && cursor.index === tokens.length) {
+        parts.push(
+          <span
+            key={'cursor-end'}
+            className="inline-block w-[2px] h-[1.1em] bg-slate-900 dark:bg-emerald-50 animate-pulse"
+          />
+        );
+      }
+      return <span className="whitespace-pre-wrap break-all">{parts}</span>;
+    }
+    // Fallback to linear string model
+    const entry = currentEntry || '';
+    const before = entry.slice(0, cursorIndex);
+    const after = entry.slice(cursorIndex);
+    return (
+      <span className="whitespace-pre-wrap break-all">
+        {before}
+        <span className="inline-block w-[2px] h-[1.1em] bg-slate-900 dark:bg-emerald-50 animate-pulse"></span>
+        {after}
+      </span>
+    );
+  };
 
   // Helper to safely evaluate expressions
   const evaluateExpression = (exprStr) => {
@@ -48242,375 +48457,473 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
 
       return result;
     } catch (e) {
-      throw new Error('Math Error');
+      return NaN;
     }
   };
-
   const handleKeyClick = (keyId) => {
     setError(false);
-
-    // Notify parent of key press for mission tracking
-    if (onKeyPress) {
-      onKeyPress(keyId);
+    onKeyPress && onKeyPress(keyId);
+    // Full reset
+    if (keyId === 'ON' || keyId === 'AC') {
+      setTokens([]);
+      setCursor({ scope: 'top', index: 0, part: null });
+      setCurrentEntry('');
+      setCursorIndex(0);
+      setDisplay('0');
+      setLastResult(null);
+      setShowSecondFunctions(false);
+      setResultText('');
+      setActivePanel(null);
+      onExpressionChange && onExpressionChange('');
+      return;
+    }
+    // Clear line only
+    if (keyId === 'CLEAR_LINE') {
+      setTokens([]);
+      setCursor({ scope: 'top', index: 0, part: null });
+      setCurrentEntry('');
+      setCursorIndex(0);
+      setDisplay('0');
+      onExpressionChange && onExpressionChange('');
+      return;
+    }
+    // Second function toggle
+    if (keyId === 'SECOND' || keyId === '2ND') {
+      setShowSecondFunctions(!showSecondFunctions);
+      return;
+    }
+    // Mode toggle
+    if (keyId === 'MODE') {
+      setMode(mode === 'DEG' ? 'RAD' : 'DEG');
+      return;
+    }
+    // Panel toggles
+    if (['DATA', 'STAT', 'ANGLE', 'PRB'].includes(keyId)) {
+      const panel = keyId;
+      setActivePanel(activePanel === panel ? null : panel);
+      return;
     }
 
-    let newExpr = expr.clone();
-    switch (keyId) {
-      case 'ON':
-      case 'AC':
-        newExpr.clear();
-        setCurrentEntry('');
-        setDisplay('0');
-        setLastResult(null);
-        setShowSecondFunctions(false);
-        setResultText('');
-        setActivePanel(null);
-        if (onExpressionChange) onExpressionChange('');
-        break;
-
-      case 'DEL':
-        if (currentEntry.length > 0) {
-          const newEntry = currentEntry.slice(0, -1);
-          setCurrentEntry(newEntry);
-          setDisplay(newEntry || '0');
-          if (onExpressionChange) onExpressionChange(newEntry);
+    // Arrow navigation
+    if (keyId === 'ARROW_LEFT') {
+      if (cursor.scope === 'top') {
+        if (cursor.index > 0 && tokens[cursor.index - 1]?.type === 'fraction') {
+          const f = tokens[cursor.index - 1];
+          setCursor({
+            scope: 'fraction',
+            fractionIndex: cursor.index - 1,
+            part: 'denominator',
+            innerIndex: (f.denominator || []).length,
+          });
+        } else {
+          setCursor({
+            scope: 'top',
+            index: Math.max(0, cursor.index - 1),
+            part: null,
+          });
         }
-        break;
-
-      case 'DIGIT_0':
-      case '0':
-      case '1':
-      case 'DIGIT_1':
-      case '2':
-      case 'DIGIT_2':
-      case '3':
-      case 'DIGIT_3':
-      case '4':
-      case 'DIGIT_4':
-      case '5':
-      case 'DIGIT_5':
-      case '6':
-      case 'DIGIT_6':
-      case '7':
-      case 'DIGIT_7':
-      case '8':
-      case 'DIGIT_8':
-      case '9':
-      case 'DIGIT_9': {
-        const d = String(keyId).replace('DIGIT_', '');
-        newExpr.insertDigit(d);
-        const txt = newExpr.toPlainText();
-        setCurrentEntry(txt);
-        setDisplay(txt || '0');
-        if (onExpressionChange) onExpressionChange(txt);
-        break;
+      } else if (cursor.scope === 'fraction') {
+        if (cursor.innerIndex > 0) {
+          setCursor({ ...cursor, innerIndex: cursor.innerIndex - 1 });
+        } else if (cursor.part === 'denominator') {
+          const f = tokens[cursor.fractionIndex];
+          setCursor({
+            scope: 'fraction',
+            fractionIndex: cursor.fractionIndex,
+            part: 'numerator',
+            innerIndex: (f.numerator || []).length,
+          });
+        } else {
+          setCursor({ scope: 'top', index: cursor.fractionIndex, part: null });
+        }
       }
-
-      case 'DOT':
-        newExpr.insertDot();
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText() || '0');
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'ADD':
-        newExpr.insertOperator('+');
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'SUBTRACT':
-        newExpr.insertOperator('-');
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'MULTIPLY':
-        newExpr.insertOperator('×');
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'DIVIDE':
-        newExpr.insertOperator('÷');
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'LPAREN':
-        newExpr.insertParenLeft();
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'RPAREN':
-        newExpr.insertParenRight();
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'SQUARE':
-        newExpr.insertTemplatePower(2);
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'SQRT':
-        newExpr.insertTemplateRoot();
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'POWER':
-        newExpr.insertTemplatePower();
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'PI':
-        // insert numeric constant
-        newExpr.insertDigit(String(Math.PI));
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'FRAC':
-      case 'FRAC_TEMPLATE':
-        newExpr.insertTemplateFraction();
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'PERCENT':
-        newExpr.insertOperator('%');
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'COMMA':
-        newExpr.insertComma();
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'ANS':
-        if (lastResult !== null) {
-          newExpr.insertDigit(String(lastResult));
-          const t = newExpr.toPlainText();
-          setCurrentEntry(t);
-          setDisplay(t);
-          if (onExpressionChange) onExpressionChange(t);
-        }
-        break;
-
-      case 'NEGATIVE':
-        newExpr.insertOperator('-');
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText());
-        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
-        break;
-
-      case 'EQUALS':
-      case 'ENTER':
-        {
-          try {
-            const evalStr = newExpr.toEvalString(mode);
-            const result = evaluateExpression(evalStr);
-            const resultStrRaw = String(result);
-            setDisplay(resultStrRaw);
-            setLastResult(result);
-            if (resultAsFraction) {
-              const frac = decimalToFraction(result);
-              setResultText(frac ? `${frac.n}/${frac.d}` : resultStrRaw);
-            } else {
-              setResultText(resultStrRaw);
-            }
-            setHistory(
-              [
-                { expr: newExpr.toPlainText(), result: resultStr },
-                ...history,
-              ].slice(0, 10)
-            );
-            if (onResultChange) onResultChange(result);
-          } catch (e) {
-            setDisplay('Error');
-            setError(true);
-          }
-        }
-        break;
-
-      case '2ND':
-      case 'SECOND':
-        setShowSecondFunctions(!showSecondFunctions);
-        break;
-
-      case 'MODE':
-        setMode(mode === 'DEG' ? 'RAD' : 'DEG');
-        break;
-
-      case 'FRAC_DEC_TOGGLE':
-        setResultAsFraction(!resultAsFraction);
-        if (lastResult != null) {
-          if (!resultAsFraction) {
-            const frac = decimalToFraction(lastResult);
-            if (frac) setResultText(`${frac.n}/${frac.d}`);
-          } else {
-            setResultText(String(lastResult));
-          }
-        }
-        break;
-
-      case 'SIN':
-      case 'COS':
-      case 'TAN':
-      case 'LOG':
-      case 'LN':
-      case 'EXP':
-        // Trig and log functions - insert function name with parenthesis
-        {
-          const fnMap = {
-            SIN: 'sin',
-            COS: 'cos',
-            TAN: 'tan',
-            LOG: 'log',
-            LN: 'ln',
-            EXP: 'exp',
-          };
-          const funcName = fnMap[keyId] || keyId.toLowerCase();
-          newExpr.insertFunction(funcName);
-          const t = newExpr.toPlainText();
-          setCurrentEntry(t);
-          setDisplay(t);
-          if (onExpressionChange) onExpressionChange(t);
-        }
-        break;
-
-      default:
-        // Navigation and panels
-        if (keyId === 'ARROW_LEFT') newExpr.moveCursorLeft();
-        else if (keyId === 'ARROW_RIGHT') newExpr.moveCursorRight();
-        else if (keyId === 'ARROW_UP') newExpr.moveCursorUp();
-        else if (keyId === 'ARROW_DOWN') newExpr.moveCursorDown();
-        else if (keyId === 'DEL') newExpr.deleteBackward();
-        else if (keyId === 'DATA')
-          setActivePanel(activePanel === 'DATA' ? null : 'DATA');
-        else if (keyId === 'STAT')
-          setActivePanel(activePanel === 'STAT' ? null : 'STAT');
-        else if (keyId === 'ANGLE')
-          setActivePanel(activePanel === 'ANGLE' ? null : 'ANGLE');
-        else if (keyId === 'PRB')
-          setActivePanel(activePanel === 'PRB' ? null : 'PRB');
-        else console.log(`Key ${keyId} not yet implemented`);
-        setCurrentEntry(newExpr.toPlainText());
-        setDisplay(newExpr.toPlainText() || '0');
-        break;
+      return;
     }
-    setExpr(newExpr);
+    if (keyId === 'ARROW_RIGHT') {
+      if (cursor.scope === 'top') {
+        if (
+          cursor.index < tokens.length &&
+          tokens[cursor.index]?.type === 'fraction'
+        ) {
+          setCursor({
+            scope: 'fraction',
+            fractionIndex: cursor.index,
+            part: 'numerator',
+            innerIndex: 0,
+          });
+        } else {
+          setCursor({
+            scope: 'top',
+            index: Math.min(tokens.length, cursor.index + 1),
+            part: null,
+          });
+        }
+      } else if (cursor.scope === 'fraction') {
+        const f = tokens[cursor.fractionIndex];
+        const arr =
+          cursor.part === 'numerator' ? f.numerator || [] : f.denominator || [];
+        if (cursor.innerIndex < arr.length) {
+          setCursor({ ...cursor, innerIndex: cursor.innerIndex + 1 });
+        } else if (cursor.part === 'numerator') {
+          setCursor({
+            scope: 'fraction',
+            fractionIndex: cursor.fractionIndex,
+            part: 'denominator',
+            innerIndex: 0,
+          });
+        } else {
+          setCursor({
+            scope: 'top',
+            index: cursor.fractionIndex + 1,
+            part: null,
+          });
+        }
+      }
+      return;
+    }
+    if (keyId === 'ARROW_UP' || keyId === 'ARROW_DOWN') {
+      if (cursor.scope === 'fraction') {
+        const targetPart = keyId === 'ARROW_UP' ? 'numerator' : 'denominator';
+        const f = tokens[cursor.fractionIndex];
+        const targetArr =
+          targetPart === 'numerator' ? f.numerator || [] : f.denominator || [];
+        const desired = Math.min(cursor.innerIndex, targetArr.length);
+        setCursor({
+          scope: 'fraction',
+          fractionIndex: cursor.fractionIndex,
+          part: targetPart,
+          innerIndex: desired,
+        });
+      }
+      return;
+    }
+
+    // Token deletion
+    if (keyId === 'DEL') {
+      if (cursor.scope === 'top') {
+        if (cursor.index > 0) {
+          const next = tokens.slice();
+          next.splice(cursor.index - 1, 1);
+          setTokens(next);
+          setCursor({ scope: 'top', index: cursor.index - 1, part: null });
+          rebuildCurrentEntryFromTokens(next);
+        }
+      } else if (cursor.scope === 'fraction') {
+        const f = tokens[cursor.fractionIndex];
+        if (!f) return;
+        const arr =
+          cursor.part === 'numerator' ? f.numerator || [] : f.denominator || [];
+        if (cursor.innerIndex > 0) {
+          const updated = arr.slice();
+          updated.splice(cursor.innerIndex - 1, 1);
+          const newFrac = { ...f, [cursor.part]: updated };
+          const next = tokens.slice();
+          next[cursor.fractionIndex] = newFrac;
+          setTokens(next);
+          setCursor({ ...cursor, innerIndex: cursor.innerIndex - 1 });
+          rebuildCurrentEntryFromTokens(next);
+        } else if (cursor.part === 'denominator') {
+          setCursor({
+            scope: 'fraction',
+            fractionIndex: cursor.fractionIndex,
+            part: 'numerator',
+            innerIndex: 0,
+          });
+        } else {
+          // numerator start
+          if (
+            (f.numerator || []).length === 0 &&
+            (f.denominator || []).length === 0
+          ) {
+            const next = tokens.slice();
+            next.splice(cursor.fractionIndex, 1);
+            setTokens(next);
+            setCursor({
+              scope: 'top',
+              index: cursor.fractionIndex,
+              part: null,
+            });
+            rebuildCurrentEntryFromTokens(next);
+          } else {
+            setCursor({
+              scope: 'top',
+              index: cursor.fractionIndex,
+              part: null,
+            });
+          }
+        }
+      }
+      return;
+    }
+
+    // Fraction insertion
+    if (keyId === 'FRAC') {
+      let numerator = [];
+      let denominator = [];
+      if (cursor.scope === 'top' && cursor.index > 0) {
+        const prev = tokens[cursor.index - 1];
+        if (prev && prev.type === 'number') {
+          numerator = [prev];
+          const next = tokens.slice();
+          next.splice(cursor.index - 1, 1, {
+            type: 'fraction',
+            numerator,
+            denominator,
+          });
+          setTokens(next);
+          setCursor({
+            scope: 'fraction',
+            fractionIndex: cursor.index - 1,
+            part: 'denominator',
+            innerIndex: 0,
+          });
+          rebuildCurrentEntryFromTokens(next);
+          return;
+        }
+      }
+      const fracTok = { type: 'fraction', numerator, denominator };
+      insertTokenAtCursor(fracTok);
+      setCursor({
+        scope: 'fraction',
+        fractionIndex: cursor.index - 1,
+        part: 'numerator',
+        innerIndex: 0,
+      });
+      return;
+    }
+
+    // Mixed fraction placeholder
+    if (keyId === 'FRAC_TEMPLATE') {
+      // Mixed fraction: use previous number as whole if available
+      let whole = '';
+      if (cursor.scope === 'top' && cursor.index > 0) {
+        const prev = tokens[cursor.index - 1];
+        if (prev && prev.type === 'number') {
+          whole = prev.value;
+          const next = tokens.slice();
+          next.splice(cursor.index - 1, 1, {
+            type: 'fraction',
+            isMixed: true,
+            whole,
+            numerator: [],
+            denominator: [],
+          });
+          setTokens(next);
+          setCursor({
+            scope: 'fraction',
+            fractionIndex: cursor.index - 1,
+            part: 'numerator',
+            innerIndex: 0,
+          });
+          rebuildCurrentEntryFromTokens(next);
+          return;
+        }
+      }
+      const fracTok = {
+        type: 'fraction',
+        isMixed: true,
+        whole,
+        numerator: [],
+        denominator: [],
+      };
+      insertTokenAtCursor(fracTok);
+      setCursor({
+        scope: 'fraction',
+        fractionIndex: cursor.index - 1,
+        part: 'numerator',
+        innerIndex: 0,
+      });
+      return;
+    }
+
+    // Simple character insertions (digits & ops)
+    if (/^DIGIT_\d$/.test(keyId) || /^[0-9]$/.test(keyId)) {
+      const d = keyId.replace('DIGIT_', '');
+      insertAtCursor(d);
+      return;
+    }
+    if (keyId === 'DOT') {
+      insertAtCursor('.');
+      return;
+    }
+    if (keyId === 'ADD') {
+      insertAtCursor('+');
+      return;
+    }
+    if (keyId === 'SUBTRACT') {
+      insertAtCursor('-');
+      return;
+    }
+    if (keyId === 'MULTIPLY') {
+      insertAtCursor('×');
+      return;
+    }
+    if (keyId === 'DIVIDE') {
+      insertAtCursor('÷');
+      return;
+    }
+    if (keyId === 'LPAREN') {
+      insertAtCursor('(');
+      return;
+    }
+    if (keyId === 'RPAREN') {
+      insertAtCursor(')');
+      return;
+    }
+    if (keyId === 'PI') {
+      insertAtCursor('π');
+      return;
+    }
+    if (keyId === 'NEGATIVE') {
+      insertAtCursor('-');
+      return;
+    }
+    if (keyId === 'PERCENT') {
+      insertAtCursor('%');
+      return;
+    }
+    if (keyId === 'COMMA') {
+      insertAtCursor(',');
+      return;
+    }
+    if (keyId === 'SQUARE') {
+      insertAtCursor('^2');
+      return;
+    }
+    if (keyId === 'POWER') {
+      insertAtCursor('^');
+      return;
+    }
+    if (keyId === 'SQRT') {
+      insertAtCursor('√(');
+      return;
+    }
+    if (keyId === 'FRAC_DEC_TOGGLE') {
+      // Toggle result display fraction/decimal if lastResult exists
+      if (lastResult != null) {
+        const next = !resultAsFraction;
+        setResultAsFraction(next);
+        if (next) {
+          const frac = decimalToFraction(lastResult);
+          setResultText(frac ? `${frac.n}/${frac.d}` : String(lastResult));
+        } else {
+          setResultText(String(lastResult));
+        }
+      }
+      return;
+    }
+
+    // Functions
+    if (['SIN', 'COS', 'TAN', 'LOG', 'LN', 'EXP'].includes(keyId)) {
+      const fnMap = {
+        SIN: 'sin',
+        COS: 'cos',
+        TAN: 'tan',
+        LOG: 'log',
+        LN: 'ln',
+        EXP: 'exp',
+      };
+      insertAtCursor(fnMap[keyId] + '(');
+      return;
+    }
+
+    // Ans
+    if (keyId === 'ANS') {
+      if (lastResult !== null) {
+        insertTokenAtCursor({ type: 'ans' });
+        // rebuild handled in insertTokenAtCursor
+      }
+      return;
+    }
+
+    // Evaluate
+    if (keyId === 'EQUALS' || keyId === 'ENTER') {
+      try {
+        let jsExpr = flattenTokensToEntry(tokens)
+          .trim()
+          .replace(/×/g, '*')
+          .replace(/÷/g, '/')
+          .replace(/π/g, String(Math.PI))
+          .replace(/√\(/g, 'Math.sqrt(')
+          .replace(/\^/g, '**')
+          .replace(/(\d+\.?\d*)%/g, '($1/100)')
+          .replace(/sin\(/g, 'SIN_(')
+          .replace(/cos\(/g, 'COS_(')
+          .replace(/tan\(/g, 'TAN_(')
+          .replace(/log\(/g, 'LOG_(')
+          .replace(/ln\(/g, 'LN_(')
+          .replace(/exp\(/g, 'EXP_(');
+        const opens = (jsExpr.match(/\(/g) || []).length;
+        const closes = (jsExpr.match(/\)/g) || []).length;
+        if (opens > closes) jsExpr += ')'.repeat(opens - closes);
+        const result = Function(
+          '"use strict";' +
+            'const SIN_=(x)=>Math.sin(' +
+            (mode === 'DEG' ? '(x*Math.PI/180)' : 'x') +
+            ');' +
+            'const COS_=(x)=>Math.cos(' +
+            (mode === 'DEG' ? '(x*Math.PI/180)' : 'x') +
+            ');' +
+            'const TAN_=(x)=>Math.tan(' +
+            (mode === 'DEG' ? '(x*Math.PI/180)' : 'x') +
+            ');' +
+            'const LOG_=(x)=> (Math.log10?Math.log10(x):Math.log(x)/Math.log(10));' +
+            'const LN_=(x)=>Math.log(x);' +
+            'const EXP_=(x)=>Math.exp(x);' +
+            'return (' +
+            jsExpr +
+            ');'
+        )();
+        const raw = String(result);
+        setDisplay(raw);
+        setLastResult(result);
+        if (resultAsFraction) {
+          const frac = decimalToFraction(result);
+          setResultText(frac ? `${frac.n}/${frac.d}` : raw);
+        } else {
+          setResultText(raw);
+        }
+        setHistory(
+          [{ expr: currentEntry, result: raw }, ...history].slice(0, 10)
+        );
+        onResultChange && onResultChange(result);
+        // Replace tokens with single result token
+        setTokens([{ type: 'number', value: raw }]);
+        setCursor({ scope: 'top', index: 1, part: null });
+        setCurrentEntry(raw);
+        setCursorIndex(raw.length);
+      } catch (e) {
+        setDisplay('Error');
+        setError(true);
+      }
+      return;
+    }
+
+    console.log('Key not yet implemented:', keyId);
   };
 
   return (
     <div className="ti30xs-calculator bg-gradient-to-br from-slate-700 to-slate-900 p-6 rounded-2xl shadow-2xl max-w-md mx-auto border-4 border-slate-800">
-      {/* Screen - MultiView 4 lines */}
-      <div className="bg-green-100 border-4 border-slate-600 rounded-lg p-3 mb-3 shadow-inner min-h-[100px] font-mono">
-        <div className="flex justify-between text-[10px] text-slate-700 mb-1">
+      {/* Display */}
+      <div className="ti30xs-display bg-emerald-100 dark:bg-emerald-900 text-slate-900 dark:text-emerald-50 border-4 border-slate-600 rounded-lg p-3 mb-4 shadow-inner min-h-[110px] font-mono">
+        <div className="flex justify-between text-[10px] mb-1">
           <span>{mode}</span>
           <span>
             {showSecondFunctions ? '2nd' : ''}
-            {activePanel ? ` · ${activePanel}` : ''}
+            {activePanel ? ' • ' + activePanel : ''}
           </span>
         </div>
-        <div className="text-[11px] text-slate-700 truncate min-h-[1rem]">
+        <div className="text-[11px] truncate min-h-[1rem]">
           {history[0]?.expr || ''}
         </div>
-        <div className="text-base text-slate-900 min-h-[1.2rem] break-all">
-          {renderExprNode(expr.root, expr.cursor)}
+        <div className="text-base min-h-[1.2rem] break-all">
+          {renderDisplayWithCursor()}
         </div>
-        <div className="text-base text-slate-900 min-h-[1.2rem] text-right">
-          {resultText}
-        </div>
+        <div className="text-base min-h-[1.2rem] text-right">{resultText}</div>
       </div>
-
-      {/* Keypad - Full TI-30XS MultiView Layout */}
-      <div className="space-y-1.5">
-        {/* Row A: 2nd / quit / mode / delete + 4-way arrows */}
-        <div className="flex gap-1.5 items-start">
-          <div className="flex-1 grid grid-cols-4 gap-1.5">
-            <CalcButton
-              label="2nd"
-              onClick={() => handleKeyClick('SECOND')}
-              color="yellow"
-              small
-              active={showSecondFunctions}
-            />
-            <CalcButton
-              label="quit"
-              secondary="ins"
-              onClick={() => handleKeyClick('QUIT')}
-              color="gray"
-              small
-            />
-            <CalcButton
-              label="mode"
-              secondary="set up"
-              onClick={() => handleKeyClick('MODE')}
-              color="gray"
-              small
-            />
-            <CalcButton
-              label="delete"
-              onClick={() => handleKeyClick('DEL')}
-              color="gray"
-              small
-            />
-          </div>
-          {/* 4-way D-pad */}
-          <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-16">
-            <div />
-            <CalcButton
-              label="▲"
-              onClick={() => handleKeyClick('ARROW_UP')}
-              color="gray"
-              small
-            />
-            <div />
-            <CalcButton
-              label="◄"
-              onClick={() => handleKeyClick('ARROW_LEFT')}
-              color="gray"
-              small
-            />
-            <div />
-            <CalcButton
-              label="►"
-              onClick={() => handleKeyClick('ARROW_RIGHT')}
-              color="gray"
-              small
-            />
-            <div />
-            <CalcButton
-              label="▼"
-              onClick={() => handleKeyClick('ARROW_DOWN')}
-              color="gray"
-              small
-            />
-            <div />
-          </div>
-        </div>
-
-        {/* Row B: log / probability / stats row */}
+      {/* Keypad - Refactored TI-30XS MultiView Layout */}
+      <div className="space-y-2">
+        {/* Row A */}
         <div className="grid grid-cols-6 gap-1.5">
           <CalcButton
             label="10ˣ"
@@ -48643,8 +48956,7 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
             onClick={() => handleKeyClick('DATA')}
           />
         </div>
-
-        {/* Row C: exponential / trig row */}
+        {/* Row B */}
         <div className="grid grid-cols-6 gap-1.5">
           <CalcButton
             label="eˣ"
@@ -48657,9 +48969,9 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
             onClick={() => handleKeyClick('LN')}
           />
           <CalcButton
-            label="π"
-            secondary="hyp"
-            onClick={() => handleKeyClick('PI')}
+            label="x10ⁿ"
+            secondary="ENG"
+            onClick={() => handleKeyClick('SCI_NOTATION')}
           />
           <CalcButton
             label="sin"
@@ -48677,89 +48989,141 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
             onClick={() => handleKeyClick('TAN')}
           />
         </div>
-
-        {/* Row D: power / fraction / percent row */}
+        {/* Row C */}
         <div className="grid grid-cols-5 gap-1.5">
+          <CalcButton
+            label="x²"
+            secondary="√x"
+            onClick={() => handleKeyClick('SQUARE')}
+          />
           <CalcButton
             label="xʸ"
             secondary="ʸ√x"
             onClick={() => handleKeyClick('POWER')}
           />
           <CalcButton
-            label="x⁻¹"
-            secondary="log_"
-            onClick={() => handleKeyClick('INV')}
-          />
-          <CalcButton
-            label="%("
-            secondary="sum("
-            onClick={() => handleKeyClick('PERC_LEFT')}
-          />
-          <CalcButton
-            label="%)"
-            secondary="prod("
-            onClick={() => handleKeyClick('PERC_RIGHT')}
-          />
-          <CalcButton
-            label="×"
-            onClick={() => handleKeyClick('MULTIPLY')}
-            color="blue"
-          />
-        </div>
-
-        {/* Row E: roots / basic operations row */}
-        <div className="grid grid-cols-5 gap-1.5">
-          <CalcButton
             label="√"
-            secondary="x²"
+            secondary="∛"
             onClick={() => handleKeyClick('SQRT')}
           />
           <CalcButton
-            label="x²"
-            secondary="√"
-            onClick={() => handleKeyClick('SQUARE')}
-          />
-          <CalcButton
             label="n/d"
-            secondary="Un+1"
-            onClick={() => handleKeyClick('FRAC_TEMPLATE')}
+            secondary="U n/d"
+            onClick={() => handleKeyClick('FRAC')}
           />
           <CalcButton
-            label="⇄"
-            secondary="Fn"
+            label="f↔d"
+            secondary="table"
             onClick={() => handleKeyClick('FRAC_DEC_TOGGLE')}
+          />
+        </div>
+        {/* Row D */}
+        <div className="grid grid-cols-5 gap-1.5">
+          <CalcButton label="x⁻¹" onClick={() => handleKeyClick('INV')} />
+          <CalcButton label="%" onClick={() => handleKeyClick('PERCENT')} />
+          <CalcButton label="π" onClick={() => handleKeyClick('PI')} />
+          <CalcButton label="(-)" onClick={() => handleKeyClick('NEGATIVE')} />
+          <CalcButton label="Ans" onClick={() => handleKeyClick('ANS')} />
+        </div>
+        {/* Row E */}
+        <div className="grid grid-cols-5 gap-1.5">
+          <CalcButton
+            label="2nd"
+            onClick={() => handleKeyClick('SECOND')}
+            color="yellow"
+            active={showSecondFunctions}
+          />
+          <CalcButton label="quit" onClick={() => handleKeyClick('QUIT')} />
+          <CalcButton label="mode" onClick={() => handleKeyClick('MODE')} />
+          <CalcButton label="delete" onClick={() => handleKeyClick('DEL')} />
+          <CalcButton
+            label="clear"
+            onClick={() => handleKeyClick('CLEAR_LINE')}
+          />
+        </div>
+        {/* Arrow pad */}
+        <div className="grid grid-cols-3 grid-rows-3 gap-0.5 w-24 mx-auto">
+          <div />
+          <CalcButton
+            label="▲"
+            onClick={() => handleKeyClick('ARROW_UP')}
+            small
+          />
+          <div />
+          <CalcButton
+            label="◄"
+            onClick={() => handleKeyClick('ARROW_LEFT')}
+            small
+          />
+          <div />
+          <CalcButton
+            label="►"
+            onClick={() => handleKeyClick('ARROW_RIGHT')}
+            small
+          />
+          <div />
+          <CalcButton
+            label="▼"
+            onClick={() => handleKeyClick('ARROW_DOWN')}
+            small
+          />
+          <div />
+        </div>
+        {/* Numeric rows */}
+        <div className="grid grid-cols-4 gap-1.5">
+          <CalcButton
+            label="7"
+            onClick={() => handleKeyClick('7')}
+            color="dark"
+          />
+          <CalcButton
+            label="8"
+            onClick={() => handleKeyClick('8')}
+            color="dark"
+          />
+          <CalcButton
+            label="9"
+            onClick={() => handleKeyClick('9')}
+            color="dark"
           />
           <CalcButton
             label="÷"
             onClick={() => handleKeyClick('DIVIDE')}
             color="blue"
           />
-        </div>
-
-        {/* Row F: clear var + digits 7-9 + subtract */}
-        <div className="grid grid-cols-5 gap-1.5">
           <CalcButton
-            label="cv"
-            secondary="fix"
-            onClick={() => handleKeyClick('CLEAR_VAR')}
-            small
-          />
-          <CalcButton
-            label="7"
-            secondary="u"
-            onClick={() => handleKeyClick('7')}
+            label="4"
+            onClick={() => handleKeyClick('4')}
             color="dark"
           />
           <CalcButton
-            label="8"
-            secondary="v"
-            onClick={() => handleKeyClick('8')}
+            label="5"
+            onClick={() => handleKeyClick('5')}
             color="dark"
           />
           <CalcButton
-            label="9"
-            secondary="w"
-            onClick={() => handleKeyClick('9')}
+            label="6"
+            onClick={() => handleKeyClick('6')}
+            color="dark"
+          />
+          <CalcButton
+            label="×"
+            onClick={() => handleKeyClick('MULTIPLY')}
+            color="blue"
+          />
+          <CalcButton
+            label="1"
+            onClick={() => handleKeyClick('1')}
+            color="dark"
+          />
+          <CalcButton
+            label="2"
+            onClick={() => handleKeyClick('2')}
+            color="dark"
+          />
+          <CalcButton
+            label="3"
+            onClick={() => handleKeyClick('3')}
             color="dark"
           />
           <CalcButton
@@ -48767,32 +49131,14 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
             onClick={() => handleKeyClick('SUBTRACT')}
             color="blue"
           />
-        </div>
-
-        {/* Row G: recall + digits 4-6 + add */}
-        <div className="grid grid-cols-5 gap-1.5">
           <CalcButton
-            label="rcl"
-            secondary="sto→"
-            onClick={() => handleKeyClick('RECALL')}
-            small
-          />
-          <CalcButton
-            label="4"
-            secondary="n"
-            onClick={() => handleKeyClick('4')}
+            label="0"
+            onClick={() => handleKeyClick('0')}
             color="dark"
           />
           <CalcButton
-            label="5"
-            secondary="L₁"
-            onClick={() => handleKeyClick('5')}
-            color="dark"
-          />
-          <CalcButton
-            label="6"
-            secondary="L₂"
-            onClick={() => handleKeyClick('6')}
+            label="."
+            onClick={() => handleKeyClick('DOT')}
             color="dark"
           />
           <CalcButton
@@ -48800,124 +49146,26 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
             onClick={() => handleKeyClick('ADD')}
             color="blue"
           />
-        </div>
-
-        {/* Row H: variables + digits 1-3 + toggle */}
-        <div className="grid grid-cols-5 gap-1.5">
-          <CalcButton
-            label="var"
-            secondary="abc"
-            onClick={() => handleKeyClick('VARS')}
-            small
-          />
-          <CalcButton
-            label="1"
-            secondary="L₃"
-            onClick={() => handleKeyClick('1')}
-            color="dark"
-          />
-          <CalcButton
-            label="2"
-            secondary="("
-            onClick={() => handleKeyClick('2')}
-            color="dark"
-          />
-          <CalcButton
-            label="3"
-            secondary=")"
-            onClick={() => handleKeyClick('3')}
-            color="dark"
-          />
-          <CalcButton
-            label="↔"
-            secondary="frac"
-            onClick={() => handleKeyClick('ANSWER_TOGGLE')}
-            color="blue"
-            small
-          />
-        </div>
-
-        {/* Row I: bottom row - on/off, 0, comma, ans, enter */}
-        <div className="grid grid-cols-5 gap-1.5">
-          <CalcButton
-            label="on"
-            onClick={() => handleKeyClick('ON')}
-            color="red"
-            small
-          />
-          <CalcButton
-            label="0"
-            secondary="reset"
-            onClick={() => handleKeyClick('0')}
-            color="dark"
-          />
-          <CalcButton
-            label="."
-            secondary=","
-            onClick={() => handleKeyClick('DOT')}
-            color="dark"
-          />
-          <CalcButton
-            label="ans"
-            secondary="(−)"
-            onClick={() => handleKeyClick('ANS')}
-            color="dark"
-          />
           <CalcButton
             label="enter"
             onClick={() => handleKeyClick('EQUALS')}
             color="green"
           />
         </div>
-      </div>
-
-      {/* Panels: DATA / STAT / ANGLE / PRB */}
-      {activePanel === 'DATA' && (
-        <div className="mt-3 bg-white/70 dark:bg-slate-800/60 rounded-lg p-3 border border-slate-300 dark:border-slate-600">
-          <div className="font-semibold mb-2">List Editor</div>
-          <div className="overflow-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-left">
-                  <th className="pr-2">L1</th>
-                  <th className="pr-2">L2</th>
-                  <th>L3</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.from({
-                  length: Math.max(
-                    lists.L1.length,
-                    lists.L2.length,
-                    lists.L3.length,
-                    5
-                  ),
-                }).map((_, i) => (
-                  <tr key={i}>
-                    {['L1', 'L2', 'L3'].map((k) => (
-                      <td key={k} className="pr-2 py-0.5">
-                        <input
-                          className="w-full bg-slate-100 dark:bg-slate-700 rounded px-1 py-0.5"
-                          type="text"
-                          value={lists[k][i] ?? ''}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setLists((prev) => {
-                              const next = { ...prev, [k]: [...prev[k]] };
-                              next[k][i] = val === '' ? '' : Number(val);
-                              return next;
-                            });
-                          }}
-                        />
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        {/* Bottom row */}
+        <div className="grid grid-cols-2 gap-1.5">
+          <CalcButton
+            label="on"
+            onClick={() => handleKeyClick('ON')}
+            color="red"
+          />
+          <CalcButton
+            label="reset"
+            secondary="(AC)"
+            onClick={() => handleKeyClick('AC')}
+          />
         </div>
-      )}
+      </div>
 
       {activePanel === 'STAT' && (
         <div className="mt-3 bg-white/70 dark:bg-slate-800/60 rounded-lg p-3 border border-slate-300 dark:border-slate-600 space-y-2">
