@@ -3686,16 +3686,7 @@ function requireOrgAdminOrSuper(req, res, next) {
   return res.status(403).json({ error: 'Admins only' });
 }
 
-function requireInstructorOrOrgAdminOrSuper(req, res, next) {
-  if (!req.user || !req.user.id) {
-    return res.status(401).json({ error: 'Unauthorized - No user' });
-  }
-  const role = normalizeRole(req.user.role);
-  if (role === 'super_admin' || role === 'org_admin' || role === 'instructor') {
-    return next();
-  }
-  return res.status(403).json({ error: 'Instructor/Admin only' });
-}
+// requireInstructorOrOrgAdminOrSuper is imported from ./middleware/adminRoles
 
 function requireTeacherOrOrgAdmin(req, res, next) {
   if (!req.user || !req.user.id) {
