@@ -30,9 +30,21 @@ export default function StudentsPage({ user }) {
 
   const loadClasses = async () => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for loading classes');
+        return;
+      }
+
       const response = await fetch('/api/admin/classes', {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -47,7 +59,17 @@ export default function StudentsPage({ user }) {
   const loadStudents = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for loading students');
+        setLoading(false);
+        return;
+      }
+
       const params = new URLSearchParams();
 
       if (filters.name) params.append('name', filters.name);
@@ -57,7 +79,10 @@ export default function StudentsPage({ user }) {
       params.append('page', pagination.page);
 
       const response = await fetch(`/api/admin/students/search?${params}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -78,14 +103,27 @@ export default function StudentsPage({ user }) {
 
   const handleExport = async () => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for export');
+        alert('Authentication required for export');
+        return;
+      }
+
       const params = new URLSearchParams();
 
       if (filters.classId) params.append('classId', filters.classId);
       if (filters.active !== 'all') params.append('active', filters.active);
 
       const response = await fetch(`/api/admin/students/export?${params}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {

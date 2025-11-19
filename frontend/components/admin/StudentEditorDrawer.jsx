@@ -38,9 +38,22 @@ export default function StudentEditorDrawer({
   const loadStudent = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for loading student');
+        setLoading(false);
+        return;
+      }
+
       const response = await fetch(`/api/admin/students/${studentId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -91,7 +104,17 @@ export default function StudentEditorDrawer({
 
     try {
       setSaving(true);
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for saving student');
+        alert('Authentication required');
+        setSaving(false);
+        return;
+      }
 
       if (studentId) {
         // Update existing student

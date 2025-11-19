@@ -33,7 +33,18 @@ export default function ClassEditorModal({ classData, onClose, onSaved }) {
 
     try {
       setSaving(true);
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for saving class');
+        alert('Authentication required');
+        setSaving(false);
+        return;
+      }
+
       const url = classData
         ? `/api/admin/classes/${classData.id}`
         : '/api/admin/classes';

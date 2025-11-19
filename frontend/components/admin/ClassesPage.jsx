@@ -18,14 +18,27 @@ export default function ClassesPage({ user }) {
   const loadClasses = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for loading classes');
+        setLoading(false);
+        return;
+      }
+
       const params = new URLSearchParams();
 
       if (filter.search) params.append('search', filter.search);
       if (filter.active !== 'all') params.append('active', filter.active);
 
       const response = await fetch(`/api/admin/classes?${params}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -43,10 +56,23 @@ export default function ClassesPage({ user }) {
     if (!confirm('Are you sure you want to delete this class?')) return;
 
     try {
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for delete');
+        alert('Authentication required');
+        return;
+      }
+
       const response = await fetch(`/api/admin/classes/${classId}`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -62,9 +88,22 @@ export default function ClassesPage({ user }) {
 
   const handleExport = async (classId) => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for export');
+        alert('Authentication required for export');
+        return;
+      }
+
       const response = await fetch(`/api/admin/classes/${classId}/export`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
