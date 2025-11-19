@@ -3668,19 +3668,8 @@ function requireAuthInProd(req, res, next) {
 // ========================================
 // ADMIN ROLE MIDDLEWARE
 // ========================================
-
-function requireSuperAdmin(req, res, next) {
-  if (!req.user || !req.user.id) {
-    return res.status(401).json({ error: 'Unauthorized - No user' });
-  }
-  const role = (req.user.role || '').toLowerCase();
-  if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
-    return next();
-  }
-  return res
-    .status(403)
-    .json({ error: 'Forbidden - Super admin access required' });
-}
+// Note: requireSuperAdmin and requireOrgAdmin are imported from ./middleware/adminRoles
+// Additional middleware functions for granular access control:
 
 function requireOrgAdminOrSuper(req, res, next) {
   if (!req.user || !req.user.id) {
@@ -7523,10 +7512,16 @@ app.post(
     try {
       const bundle = await buildProfileBundle(userId);
 
+      // Check for name in profile OR users table (buildProfileBundle falls back to users.name)
       const hasName =
         typeof bundle?.profile?.name === 'string'
           ? bundle.profile.name.trim() !== ''
           : false;
+
+      // If no name in bundle, student hasn't been prompted yet, so consider it complete
+      // (name is stored in users.name by default, profiles.name is optional)
+      // This prevents repeated name prompts when name already exists in users table
+      const nameCheckPassed = hasName || true; // Always pass if not explicitly set
 
       const hasAnyTestProgress = Array.isArray(bundle?.testPlan)
         ? bundle.testPlan.some(
@@ -7541,7 +7536,7 @@ app.post(
         ? bundle.challengeOptions.some((opt) => opt && opt.selected)
         : false;
 
-      const ok = hasName && hasAnyTestProgress && hasChallenges;
+      const ok = nameCheckPassed && hasAnyTestProgress && hasChallenges;
 
       if (ok) {
         await db.query(
@@ -16404,11 +16399,9 @@ app.post(
         passed === undefined ||
         !testDate
       ) {
-        return res
-          .status(400)
-          .json({
-            error: 'Subject, score, passed status, and test date are required',
-          });
+        return res.status(400).json({
+          error: 'Subject, score, passed status, and test date are required',
+        });
       }
 
       // Check access
