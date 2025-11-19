@@ -40,10 +40,21 @@ function requireOrgAdmin(req, res, next) {
   return next();
 }
 
-// This allows instructors, org_admins, and super_admins
+// Strict: org_admin or super_admin only (NOT instructors)
 function requireOrgAdminOrSuper(req, res, next) {
+  if (
+    !req.user ||
+    !(isSuperAdmin(req.user.role) || isOrgAdmin(req.user.role))
+  ) {
+    return res.status(403).json({ error: 'Admins only' });
+  }
+  return next();
+}
+
+// This allows instructors, org_admins, and super_admins
+function requireInstructorOrOrgAdminOrSuper(req, res, next) {
   if (!req.user || !isInstructorOrAbove(req.user.role)) {
-    return res.status(403).json({ error: 'admin_only' });
+    return res.status(403).json({ error: 'Instructor/Admin only' });
   }
   return next();
 }
@@ -52,6 +63,7 @@ module.exports = {
   requireSuperAdmin,
   requireOrgAdmin,
   requireOrgAdminOrSuper,
+  requireInstructorOrOrgAdminOrSuper,
   isSuperAdmin,
   isOrgAdmin,
   isInstructor,

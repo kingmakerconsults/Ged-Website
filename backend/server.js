@@ -455,12 +455,14 @@ async function loadUserWithRole(userId) {
 }
 
 function normalizeRole(role) {
-  switch (role) {
+  switch (String(role).toLowerCase()) {
     case 'super_admin':
+      return 'super_admin';
     case 'org_admin':
+      return 'org_admin';
     case 'instructor':
-    case 'student':
-      return role;
+    case 'teacher':
+      return 'instructor';
     default:
       return 'student';
   }
@@ -1821,6 +1823,7 @@ const { requireAuth, setAuthCookie } = require('./src/middleware/auth');
 const {
   requireSuperAdmin,
   requireOrgAdmin,
+  requireInstructorOrOrgAdminOrSuper,
 } = require('./middleware/adminRoles');
 const { assertUserIsActive } = require('./utils/userPresence');
 const {
@@ -3676,21 +3679,22 @@ function requireOrgAdminOrSuper(req, res, next) {
   if (!req.user || !req.user.id) {
     return res.status(401).json({ error: 'Unauthorized - No user' });
   }
-  const role = (req.user.role || '').toLowerCase();
-  if (
-    role === 'super_admin' ||
-    role === 'superadmin' ||
-    role === 'admin' ||
-    role === 'org_admin' ||
-    role === 'orgadmin' ||
-    role === 'instructor' ||
-    role === 'teacher'
-  ) {
+  const role = normalizeRole(req.user.role);
+  if (role === 'super_admin' || role === 'org_admin') {
     return next();
   }
-  return res
-    .status(403)
-    .json({ error: 'Forbidden - Organization admin access required' });
+  return res.status(403).json({ error: 'Admins only' });
+}
+
+function requireInstructorOrOrgAdminOrSuper(req, res, next) {
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({ error: 'Unauthorized - No user' });
+  }
+  const role = normalizeRole(req.user.role);
+  if (role === 'super_admin' || role === 'org_admin' || role === 'instructor') {
+    return next();
+  }
+  return res.status(403).json({ error: 'Instructor/Admin only' });
 }
 
 function requireTeacherOrOrgAdmin(req, res, next) {
@@ -3715,16 +3719,16 @@ function requireTeacherOrOrgAdmin(req, res, next) {
 }
 
 // Helper to check if user can access a specific organization
-function canAccessOrganization(req, orgId) {
+function canAccessOrganization(req, targetOrgId) {
   if (!req.user) return false;
-  const role = (req.user.role || '').toLowerCase();
-  // Super admins can access all orgs
-  if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
-    return true;
-  }
-  // Org admins and teachers can only access their own org
-  if (!req.user.organization_id) return false;
-  return Number(req.user.organization_id) === Number(orgId);
+  const role = normalizeRole(req.user.role);
+
+  // Super admins can access ANY org
+  if (role === 'super_admin') return true;
+
+  // Org admins and instructors can only access their own org
+  const userOrg = Number(req.user.organization_id);
+  return userOrg === Number(targetOrgId);
 }
 
 let cachedTestPlanTableName = null;
@@ -16030,14 +16034,14 @@ app.get(
 app.get(
   '/api/admin/reports/readiness',
   authenticateBearerToken,
-  requireOrgAdminOrSuper,
+  requireInstructorOrOrgAdminOrSuper,
   async (req, res) => {
     try {
       const { orgId, classId } = req.query;
 
-      const role = (req.user?.role || '').toLowerCase();
+      const role = normalizeRole(req.user?.role);
       let targetOrgId;
-      if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+      if (role === 'super_admin') {
         targetOrgId = orgId ? Number(orgId) : null;
       } else {
         targetOrgId = req.user?.organization_id
@@ -16145,14 +16149,14 @@ app.get(
 app.get(
   '/api/admin/reports/activity',
   authenticateBearerToken,
-  requireOrgAdminOrSuper,
+  requireInstructorOrOrgAdminOrSuper,
   async (req, res) => {
     try {
       const { orgId, classId } = req.query;
 
-      const role = (req.user?.role || '').toLowerCase();
+      const role = normalizeRole(req.user?.role);
       let targetOrgId;
-      if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+      if (role === 'super_admin') {
         targetOrgId = orgId ? Number(orgId) : null;
       } else {
         targetOrgId = req.user?.organization_id
@@ -16260,14 +16264,14 @@ app.get(
 app.get(
   '/api/admin/reports/ged-results',
   authenticateBearerToken,
-  requireOrgAdminOrSuper,
+  requireInstructorOrOrgAdminOrSuper,
   async (req, res) => {
     try {
       const { orgId, classId } = req.query;
 
-      const role = (req.user?.role || '').toLowerCase();
+      const role = normalizeRole(req.user?.role);
       let targetOrgId;
-      if (role === 'super_admin' || role === 'superadmin' || role === 'admin') {
+      if (role === 'super_admin') {
         targetOrgId = orgId ? Number(orgId) : null;
       } else {
         targetOrgId = req.user?.organization_id
