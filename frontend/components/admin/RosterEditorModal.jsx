@@ -14,11 +14,24 @@ export default function RosterEditorModal({ classData, onClose, onSaved }) {
   const loadRoster = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for loading roster');
+        setLoading(false);
+        return;
+      }
+
       const response = await fetch(
         `/api/admin/classes/${classData.id}/roster`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -36,7 +49,18 @@ export default function RosterEditorModal({ classData, onClose, onSaved }) {
   const handleAddStudent = async (studentId) => {
     try {
       setSaving(true);
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for adding student');
+        alert('Authentication required');
+        setSaving(false);
+        return;
+      }
+
       const response = await fetch(
         `/api/admin/classes/${classData.id}/roster`,
         {
@@ -65,7 +89,18 @@ export default function RosterEditorModal({ classData, onClose, onSaved }) {
   const handleRemoveStudent = async (studentId) => {
     try {
       setSaving(true);
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for removing student');
+        alert('Authentication required');
+        setSaving(false);
+        return;
+      }
+
       const response = await fetch(
         `/api/admin/classes/${classData.id}/roster`,
         {

@@ -33220,8 +33220,21 @@ function AdminDashboard({ user, onNavigate }) {
   const loadDashboardData = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('authToken');
-      const headers = { Authorization: `Bearer ${token}` };
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for admin dashboard');
+        setLoading(false);
+        return;
+      }
+
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      };
 
       const [readiness, activity, gedResults] = await Promise.all([
         fetchJSON(`${API_BASE_URL}/api/admin/reports/readiness`, { headers }),

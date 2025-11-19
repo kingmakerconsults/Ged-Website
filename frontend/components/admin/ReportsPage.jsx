@@ -20,9 +20,21 @@ export default function ReportsPage({ user }) {
 
   const loadClasses = async () => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for loading classes');
+        return;
+      }
+
       const response = await fetch('/api/admin/classes', {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -37,20 +49,35 @@ export default function ReportsPage({ user }) {
   const loadReportsData = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('authToken');
+      const token =
+        typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null;
+
+      if (!token) {
+        console.warn('No auth token available for loading reports');
+        setLoading(false);
+        return;
+      }
+
       const params = new URLSearchParams();
       if (filters.classId) params.append('classId', filters.classId);
 
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      };
+
       const [readiness, activity, gedResults] = await Promise.all([
-        fetch(`/api/admin/reports/readiness?${params}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }).then((r) => r.json()),
-        fetch(`/api/admin/reports/activity?${params}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }).then((r) => r.json()),
-        fetch(`/api/admin/reports/ged-results?${params}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }).then((r) => r.json()),
+        fetch(`/api/admin/reports/readiness?${params}`, { headers }).then((r) =>
+          r.json()
+        ),
+        fetch(`/api/admin/reports/activity?${params}`, { headers }).then((r) =>
+          r.json()
+        ),
+        fetch(`/api/admin/reports/ged-results?${params}`, { headers }).then(
+          (r) => r.json()
+        ),
       ]);
 
       setReadinessData(readiness);
