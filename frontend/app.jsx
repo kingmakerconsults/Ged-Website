@@ -25339,6 +25339,12 @@ if (typeof window !== 'undefined') {
   window.ChartBarIcon = ChartBarIcon;
 }
 
+// Alias component for legacy Admin code expecting BarChartIcon name
+const BarChartIcon = (props = {}) => <ChartBarIcon {...props} />;
+if (typeof window !== 'undefined') {
+  window.BarChartIcon = BarChartIcon;
+}
+
 // Admin dashboard icons
 const UsersIcon = ({ className = '' }) => (
   <svg
