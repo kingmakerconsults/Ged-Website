@@ -28506,7 +28506,7 @@ function App({ externalTheme, onThemeChange }) {
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [showJoinOrgModal, setShowJoinOrgModal] = useState(false);
   const [showPracticeModal, setShowPracticeModal] = useState(false);
-  const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
+  const [mathToolsActiveTab, setMathToolsActiveTab] = useState('calculator');
   const [vocabulary, setVocabulary] = useState(FALLBACK_VOCABULARY);
   const [showWelcomeSplash, setShowWelcomeSplash] = useState(false);
   const [welcomeName, setWelcomeName] = useState('');
@@ -47642,6 +47642,860 @@ function MathPracticeCollapsibleSuite({ theme }) {
   );
 }
 
+// ==================== TI-30XS CALCULATOR PRACTICE TOOL ====================
+
+// Static missions for guided practice
+const TI30XS_MISSIONS = [
+  {
+    id: 'basic_arithmetic',
+    title: 'Basic Arithmetic',
+    goalDescription: 'Calculate 25 + 17',
+    targetExpression: '25+17',
+    targetResult: 42,
+    stepsHint: [
+      'Press 2, then 5',
+      'Press the + key',
+      'Press 1, then 7',
+      'Press = to see the result',
+    ],
+    tolerance: 0.001,
+  },
+  {
+    id: 'frac_add_1',
+    title: 'Add Two Fractions',
+    goalDescription: 'Use the fraction key to compute 3/4 + 1/2',
+    targetExpression: '3/4+1/2',
+    targetResult: 1.25,
+    stepsHint: [
+      'Press 3, then n/d, then 4',
+      'Press +',
+      'Press 1, then n/d, then 2',
+      'Press = to see the result',
+      'The result will show as 5/4 or 1.25',
+    ],
+    tolerance: 0.001,
+  },
+  {
+    id: 'square_root_1',
+    title: 'Square Root',
+    goalDescription: 'Find the square root of 144',
+    targetExpression: '√(144)',
+    targetResult: 12,
+    stepsHint: ['Press √', 'Enter 144', 'Press = to compute'],
+    tolerance: 0.001,
+  },
+  {
+    id: 'power_1',
+    title: 'Using the Power Key',
+    goalDescription: 'Compute 2^5 using the ^ key',
+    targetExpression: '2^5',
+    targetResult: 32,
+    stepsHint: ['Press 2', 'Press ^', 'Press 5', 'Press = to compute'],
+    tolerance: 0.001,
+  },
+  {
+    id: 'square_key',
+    title: 'Using x² Key',
+    goalDescription: 'Calculate 9 squared',
+    targetExpression: '9²',
+    targetResult: 81,
+    stepsHint: ['Press 9', 'Press x² key', 'Press = to see the result'],
+    tolerance: 0.001,
+  },
+  {
+    id: 'percent_1',
+    title: 'Percentage Calculation',
+    goalDescription: 'Convert 25% to decimal',
+    targetExpression: '25%',
+    targetResult: 0.25,
+    stepsHint: ['Press 2, then 5', 'Press % key', 'The result shows 0.25'],
+    tolerance: 0.001,
+  },
+  {
+    id: 'parentheses_1',
+    title: 'Using Parentheses',
+    goalDescription: 'Calculate (3 + 5) × 2',
+    targetExpression: '(3+5)*2',
+    targetResult: 16,
+    stepsHint: [
+      'Press (',
+      'Press 3, then +, then 5',
+      'Press )',
+      'Press ×, then 2',
+      'Press = to compute',
+    ],
+    tolerance: 0.001,
+  },
+  {
+    id: 'negative_num',
+    title: 'Negative Numbers',
+    goalDescription: 'Calculate -15 + 20',
+    targetExpression: '-15+20',
+    targetResult: 5,
+    stepsHint: [
+      'Press (−) key for negative',
+      'Press 1, then 5',
+      'Press +',
+      'Press 2, then 0',
+      'Press = to compute',
+    ],
+    tolerance: 0.001,
+  },
+  {
+    id: 'mixed_operations',
+    title: 'Order of Operations',
+    goalDescription: 'Calculate 10 + 2 × 5',
+    targetExpression: '10+2*5',
+    targetResult: 20,
+    stepsHint: [
+      'Press 1, then 0',
+      'Press +',
+      'Press 2, then ×, then 5',
+      'Press = (calculator follows order of operations)',
+      'Result should be 20, not 60',
+    ],
+    tolerance: 0.001,
+  },
+];
+
+// Core TI-30XS Calculator Component
+function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
+  const [display, setDisplay] = useState('0');
+  const [currentEntry, setCurrentEntry] = useState('');
+  const [lastResult, setLastResult] = useState(null);
+  const [mode, setMode] = useState('DEG'); // DEG or RAD
+  const [showSecondFunctions, setShowSecondFunctions] = useState(false);
+  const [error, setError] = useState(false);
+
+  // Helper to safely evaluate expressions
+  const evaluateExpression = (expr) => {
+    try {
+      // Replace calculator symbols with JS operators
+      let jsExpr = expr
+        .replace(/×/g, '*')
+        .replace(/÷/g, '/')
+        .replace(/π/g, String(Math.PI))
+        .replace(/√\(([^)]+)\)/g, 'Math.sqrt($1)')
+        .replace(/√(\d+\.?\d*)/g, 'Math.sqrt($1)')
+        .replace(/²/g, '**2')
+        .replace(/\^/g, '**');
+
+      // Handle percentage
+      jsExpr = jsExpr.replace(/(\d+\.?\d*)%/g, '($1/100)');
+
+      // Evaluate safely
+      const result = Function('"use strict"; return (' + jsExpr + ')')();
+
+      if (isNaN(result) || !isFinite(result)) {
+        throw new Error('Invalid result');
+      }
+
+      return result;
+    } catch (e) {
+      throw new Error('Math Error');
+    }
+  };
+
+  const handleKeyClick = (keyId) => {
+    setError(false);
+
+    // Notify parent of key press for mission tracking
+    if (onKeyPress) {
+      onKeyPress(keyId);
+    }
+
+    switch (keyId) {
+      case 'ON':
+      case 'AC':
+        setCurrentEntry('');
+        setDisplay('0');
+        setLastResult(null);
+        setShowSecondFunctions(false);
+        if (onExpressionChange) onExpressionChange('');
+        break;
+
+      case 'DEL':
+        if (currentEntry.length > 0) {
+          const newEntry = currentEntry.slice(0, -1);
+          setCurrentEntry(newEntry);
+          setDisplay(newEntry || '0');
+          if (onExpressionChange) onExpressionChange(newEntry);
+        }
+        break;
+
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+        const newEntry = currentEntry === '0' ? keyId : currentEntry + keyId;
+        setCurrentEntry(newEntry);
+        setDisplay(newEntry);
+        if (onExpressionChange) onExpressionChange(newEntry);
+        break;
+
+      case 'DOT':
+        if (
+          !currentEntry.includes('.') ||
+          /[+\-×÷^]/.test(currentEntry.slice(-1))
+        ) {
+          const updated = currentEntry + '.';
+          setCurrentEntry(updated);
+          setDisplay(updated);
+          if (onExpressionChange) onExpressionChange(updated);
+        }
+        break;
+
+      case 'ADD':
+        const addEntry = currentEntry + '+';
+        setCurrentEntry(addEntry);
+        setDisplay(addEntry);
+        if (onExpressionChange) onExpressionChange(addEntry);
+        break;
+
+      case 'SUBTRACT':
+        const subEntry = currentEntry + '-';
+        setCurrentEntry(subEntry);
+        setDisplay(subEntry);
+        if (onExpressionChange) onExpressionChange(subEntry);
+        break;
+
+      case 'MULTIPLY':
+        const mulEntry = currentEntry + '×';
+        setCurrentEntry(mulEntry);
+        setDisplay(mulEntry);
+        if (onExpressionChange) onExpressionChange(mulEntry);
+        break;
+
+      case 'DIVIDE':
+        const divEntry = currentEntry + '÷';
+        setCurrentEntry(divEntry);
+        setDisplay(divEntry);
+        if (onExpressionChange) onExpressionChange(divEntry);
+        break;
+
+      case 'LPAREN':
+        const lparenEntry = currentEntry + '(';
+        setCurrentEntry(lparenEntry);
+        setDisplay(lparenEntry);
+        if (onExpressionChange) onExpressionChange(lparenEntry);
+        break;
+
+      case 'RPAREN':
+        const rparenEntry = currentEntry + ')';
+        setCurrentEntry(rparenEntry);
+        setDisplay(rparenEntry);
+        if (onExpressionChange) onExpressionChange(rparenEntry);
+        break;
+
+      case 'SQUARE':
+        const sqEntry = currentEntry + '²';
+        setCurrentEntry(sqEntry);
+        setDisplay(sqEntry);
+        if (onExpressionChange) onExpressionChange(sqEntry);
+        break;
+
+      case 'SQRT':
+        const sqrtEntry = currentEntry + '√(';
+        setCurrentEntry(sqrtEntry);
+        setDisplay(sqrtEntry);
+        if (onExpressionChange) onExpressionChange(sqrtEntry);
+        break;
+
+      case 'POWER':
+        const powEntry = currentEntry + '^';
+        setCurrentEntry(powEntry);
+        setDisplay(powEntry);
+        if (onExpressionChange) onExpressionChange(powEntry);
+        break;
+
+      case 'PI':
+        const piEntry = currentEntry + 'π';
+        setCurrentEntry(piEntry);
+        setDisplay(piEntry);
+        if (onExpressionChange) onExpressionChange(piEntry);
+        break;
+
+      case 'FRAC':
+        const fracEntry = currentEntry + '/';
+        setCurrentEntry(fracEntry);
+        setDisplay(fracEntry);
+        if (onExpressionChange) onExpressionChange(fracEntry);
+        break;
+
+      case 'PERCENT':
+        const pctEntry = currentEntry + '%';
+        setCurrentEntry(pctEntry);
+        setDisplay(pctEntry);
+        if (onExpressionChange) onExpressionChange(pctEntry);
+        break;
+
+      case 'ANS':
+        if (lastResult !== null) {
+          const ansEntry = currentEntry + String(lastResult);
+          setCurrentEntry(ansEntry);
+          setDisplay(ansEntry);
+          if (onExpressionChange) onExpressionChange(ansEntry);
+        }
+        break;
+
+      case 'NEGATIVE':
+        if (currentEntry === '' || currentEntry === '0') {
+          setCurrentEntry('-');
+          setDisplay('-');
+          if (onExpressionChange) onExpressionChange('-');
+        } else {
+          const negEntry = currentEntry + '-';
+          setCurrentEntry(negEntry);
+          setDisplay(negEntry);
+          if (onExpressionChange) onExpressionChange(negEntry);
+        }
+        break;
+
+      case 'EQUALS':
+        if (currentEntry) {
+          try {
+            const result = evaluateExpression(currentEntry);
+            const resultStr = String(result);
+            setDisplay(resultStr);
+            setLastResult(result);
+            setCurrentEntry('');
+            if (onResultChange) onResultChange(result);
+          } catch (e) {
+            setDisplay('Error');
+            setError(true);
+            setCurrentEntry('');
+          }
+        }
+        break;
+
+      case '2ND':
+        setShowSecondFunctions(!showSecondFunctions);
+        break;
+
+      case 'MODE':
+        setMode(mode === 'DEG' ? 'RAD' : 'DEG');
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  return (
+    <div className="ti30xs-calculator bg-gradient-to-br from-slate-700 to-slate-900 p-6 rounded-2xl shadow-2xl max-w-md mx-auto border-4 border-slate-800">
+      {/* Screen */}
+      <div className="bg-green-100 border-4 border-slate-600 rounded-lg p-3 mb-6 shadow-inner min-h-[80px] font-mono">
+        <div className="flex justify-between text-[10px] text-slate-700 mb-1">
+          <span>{mode}</span>
+          <span>{showSecondFunctions ? '2nd' : ''}</span>
+        </div>
+        <div className="text-right text-lg text-slate-900 break-all leading-tight">
+          {display}
+        </div>
+      </div>
+
+      {/* Keypad - TI-30XS Layout */}
+      <div className="space-y-2">
+        {/* Row 1: Power and function keys */}
+        <div className="grid grid-cols-5 gap-1.5">
+          <CalcButton
+            label="ON"
+            secondary=""
+            onClick={() => handleKeyClick('ON')}
+            color="red"
+            small
+          />
+          <CalcButton
+            label="2nd"
+            secondary=""
+            onClick={() => handleKeyClick('2ND')}
+            color="yellow"
+            small
+            active={showSecondFunctions}
+          />
+          <CalcButton
+            label="MODE"
+            secondary=""
+            onClick={() => handleKeyClick('MODE')}
+            color="gray"
+            small
+          />
+          <CalcButton
+            label="DEL"
+            secondary=""
+            onClick={() => handleKeyClick('DEL')}
+            color="gray"
+            small
+          />
+          <CalcButton
+            label="AC"
+            secondary=""
+            onClick={() => handleKeyClick('AC')}
+            color="gray"
+            small
+          />
+        </div>
+
+        {/* Row 2: Advanced functions */}
+        <div className="grid grid-cols-5 gap-1.5">
+          <CalcButton
+            label="x²"
+            secondary="√x"
+            onClick={() => handleKeyClick('SQUARE')}
+          />
+          <CalcButton
+            label="^"
+            secondary="π"
+            onClick={() => handleKeyClick('POWER')}
+          />
+          <CalcButton
+            label="√"
+            secondary="∛"
+            onClick={() => handleKeyClick('SQRT')}
+          />
+          <CalcButton
+            label="("
+            secondary=""
+            onClick={() => handleKeyClick('LPAREN')}
+          />
+          <CalcButton
+            label=")"
+            secondary=""
+            onClick={() => handleKeyClick('RPAREN')}
+          />
+        </div>
+
+        {/* Row 3: Fraction and special functions */}
+        <div className="grid grid-cols-5 gap-1.5">
+          <CalcButton
+            label="n/d"
+            secondary="►d/c"
+            onClick={() => handleKeyClick('FRAC')}
+          />
+          <CalcButton
+            label="%"
+            secondary=""
+            onClick={() => handleKeyClick('PERCENT')}
+          />
+          <CalcButton
+            label="π"
+            secondary=""
+            onClick={() => handleKeyClick('PI')}
+          />
+          <CalcButton
+            label="(-)"
+            secondary=""
+            onClick={() => handleKeyClick('NEGATIVE')}
+          />
+          <CalcButton
+            label="Ans"
+            secondary=""
+            onClick={() => handleKeyClick('ANS')}
+          />
+        </div>
+
+        {/* Row 4: Numbers 7-9 and divide */}
+        <div className="grid grid-cols-4 gap-1.5">
+          <CalcButton
+            label="7"
+            secondary=""
+            onClick={() => handleKeyClick('7')}
+            color="dark"
+          />
+          <CalcButton
+            label="8"
+            secondary=""
+            onClick={() => handleKeyClick('8')}
+            color="dark"
+          />
+          <CalcButton
+            label="9"
+            secondary=""
+            onClick={() => handleKeyClick('9')}
+            color="dark"
+          />
+          <CalcButton
+            label="÷"
+            secondary=""
+            onClick={() => handleKeyClick('DIVIDE')}
+            color="blue"
+          />
+        </div>
+
+        {/* Row 5: Numbers 4-6 and multiply */}
+        <div className="grid grid-cols-4 gap-1.5">
+          <CalcButton
+            label="4"
+            secondary=""
+            onClick={() => handleKeyClick('4')}
+            color="dark"
+          />
+          <CalcButton
+            label="5"
+            secondary=""
+            onClick={() => handleKeyClick('5')}
+            color="dark"
+          />
+          <CalcButton
+            label="6"
+            secondary=""
+            onClick={() => handleKeyClick('6')}
+            color="dark"
+          />
+          <CalcButton
+            label="×"
+            secondary=""
+            onClick={() => handleKeyClick('MULTIPLY')}
+            color="blue"
+          />
+        </div>
+
+        {/* Row 6: Numbers 1-3 and subtract */}
+        <div className="grid grid-cols-4 gap-1.5">
+          <CalcButton
+            label="1"
+            secondary=""
+            onClick={() => handleKeyClick('1')}
+            color="dark"
+          />
+          <CalcButton
+            label="2"
+            secondary=""
+            onClick={() => handleKeyClick('2')}
+            color="dark"
+          />
+          <CalcButton
+            label="3"
+            secondary=""
+            onClick={() => handleKeyClick('3')}
+            color="dark"
+          />
+          <CalcButton
+            label="-"
+            secondary=""
+            onClick={() => handleKeyClick('SUBTRACT')}
+            color="blue"
+          />
+        </div>
+
+        {/* Row 7: 0, decimal, equals, add */}
+        <div className="grid grid-cols-4 gap-1.5">
+          <CalcButton
+            label="0"
+            secondary=""
+            onClick={() => handleKeyClick('0')}
+            color="dark"
+            wide
+          />
+          <CalcButton
+            label="."
+            secondary=""
+            onClick={() => handleKeyClick('DOT')}
+            color="dark"
+          />
+          <CalcButton
+            label="+"
+            secondary=""
+            onClick={() => handleKeyClick('ADD')}
+            color="blue"
+          />
+        </div>
+
+        {/* Row 8: Equals button (full width) */}
+        <div className="grid grid-cols-1 gap-1.5">
+          <CalcButton
+            label="="
+            secondary=""
+            onClick={() => handleKeyClick('EQUALS')}
+            color="green"
+            fullWidth
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Individual calculator button component
+function CalcButton({
+  label,
+  secondary,
+  onClick,
+  color = 'default',
+  small = false,
+  wide = false,
+  fullWidth = false,
+  active = false,
+}) {
+  const getColorClasses = () => {
+    if (active) {
+      return 'bg-yellow-400 text-black border-yellow-600';
+    }
+    switch (color) {
+      case 'red':
+        return 'bg-red-600 text-white border-red-800 hover:bg-red-500';
+      case 'yellow':
+        return 'bg-yellow-400 text-black border-yellow-600 hover:bg-yellow-300';
+      case 'gray':
+        return 'bg-slate-500 text-white border-slate-700 hover:bg-slate-400';
+      case 'dark':
+        return 'bg-slate-800 text-white border-slate-900 hover:bg-slate-700';
+      case 'blue':
+        return 'bg-sky-600 text-white border-sky-800 hover:bg-sky-500';
+      case 'green':
+        return 'bg-green-600 text-white border-green-800 hover:bg-green-500';
+      default:
+        return 'bg-slate-600 text-white border-slate-800 hover:bg-slate-500';
+    }
+  };
+
+  const sizeClasses = small ? 'text-xs py-1' : 'text-base py-3';
+  const widthClasses = fullWidth ? 'col-span-4' : wide ? 'col-span-2' : '';
+
+  return (
+    <button
+      onClick={onClick}
+      className={`${getColorClasses()} ${sizeClasses} ${widthClasses} px-2 rounded-lg border-2 shadow-md font-bold transition-all active:scale-95 relative`}
+    >
+      <div className="flex flex-col items-center justify-center">
+        <span className={small ? 'text-[10px]' : 'text-sm'}>{label}</span>
+        {secondary && (
+          <span className="text-[8px] text-yellow-300 absolute top-0 right-1">
+            {secondary}
+          </span>
+        )}
+      </div>
+    </button>
+  );
+}
+
+// Main TI-30XS Practice Tool Component
+function Ti30xsPracticeTool() {
+  const [mode, setMode] = useState('free'); // 'free' or 'guided'
+  const [selectedMission, setSelectedMission] = useState(null);
+  const [currentExpression, setCurrentExpression] = useState('');
+  const [lastResult, setLastResult] = useState(null);
+  const [missionComplete, setMissionComplete] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+  const [keySequence, setKeySequence] = useState([]);
+
+  const handleExpressionChange = (expr) => {
+    setCurrentExpression(expr);
+    setMissionComplete(false);
+  };
+
+  const handleResultChange = (result) => {
+    setLastResult(result);
+
+    // Check if mission is complete
+    if (selectedMission && mode === 'guided') {
+      const diff = Math.abs(result - selectedMission.targetResult);
+      if (diff <= selectedMission.tolerance) {
+        setMissionComplete(true);
+      }
+    }
+  };
+
+  const handleKeyPress = (keyId) => {
+    setKeySequence([...keySequence, keyId].slice(-20)); // Keep last 20 keys
+  };
+
+  const handleSelectMission = (mission) => {
+    setSelectedMission(mission);
+    setMissionComplete(false);
+    setShowHint(false);
+    setKeySequence([]);
+    setCurrentExpression('');
+    setLastResult(null);
+  };
+
+  const handleResetMission = () => {
+    setMissionComplete(false);
+    setShowHint(false);
+    setKeySequence([]);
+    setCurrentExpression('');
+    setLastResult(null);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Mode Toggle */}
+      <div className="flex gap-4 justify-center">
+        <button
+          onClick={() => setMode('free')}
+          className={`px-6 py-3 rounded-lg font-semibold transition ${
+            mode === 'free'
+              ? 'bg-sky-600 text-white shadow-lg'
+              : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200'
+          }`}
+        >
+          Free Calculator Mode
+        </button>
+        <button
+          onClick={() => setMode('guided')}
+          className={`px-6 py-3 rounded-lg font-semibold transition ${
+            mode === 'guided'
+              ? 'bg-sky-600 text-white shadow-lg'
+              : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200'
+          }`}
+        >
+          Guided Practice Mode
+        </button>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* Calculator */}
+        <div>
+          <Ti30xsCalculator
+            onExpressionChange={handleExpressionChange}
+            onResultChange={handleResultChange}
+            onKeyPress={handleKeyPress}
+          />
+        </div>
+
+        {/* Practice Panel */}
+        <div className="space-y-4">
+          {mode === 'free' ? (
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700">
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-3">
+                Free Calculator Mode
+              </h3>
+              <p className="text-slate-600 dark:text-slate-300 mb-4">
+                Practice using the TI-30XS calculator. Try out different
+                functions and operations to familiarize yourself with the key
+                layout and behavior.
+              </p>
+              <div className="bg-sky-50 dark:bg-sky-900/30 p-4 rounded-lg">
+                <h4 className="font-semibold text-sky-800 dark:text-sky-200 mb-2">
+                  Tips:
+                </h4>
+                <ul className="list-disc list-inside text-sm text-slate-700 dark:text-slate-300 space-y-1">
+                  <li>Use n/d for fractions (e.g., 3 n/d 4 for 3/4)</li>
+                  <li>x² squares the last number entered</li>
+                  <li>√ calculates square roots</li>
+                  <li>Use parentheses for order of operations</li>
+                  <li>AC clears everything, DEL removes last character</li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 space-y-4">
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100">
+                Guided Practice Missions
+              </h3>
+
+              {!selectedMission ? (
+                <div className="space-y-2">
+                  <p className="text-slate-600 dark:text-slate-300 mb-3">
+                    Select a mission to practice specific calculator skills:
+                  </p>
+                  {TI30XS_MISSIONS.map((mission) => (
+                    <button
+                      key={mission.id}
+                      onClick={() => handleSelectMission(mission)}
+                      className="w-full text-left px-4 py-3 bg-slate-100 dark:bg-slate-700 hover:bg-sky-100 dark:hover:bg-sky-900/50 rounded-lg transition border border-slate-200 dark:border-slate-600"
+                    >
+                      <div className="font-semibold text-slate-800 dark:text-slate-100">
+                        {mission.title}
+                      </div>
+                      <div className="text-sm text-slate-600 dark:text-slate-400">
+                        {mission.goalDescription}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="bg-sky-50 dark:bg-sky-900/30 p-4 rounded-lg">
+                    <h4 className="font-bold text-sky-800 dark:text-sky-200 mb-2">
+                      {selectedMission.title}
+                    </h4>
+                    <p className="text-slate-700 dark:text-slate-300">
+                      {selectedMission.goalDescription}
+                    </p>
+                    <div className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                      Target result: {selectedMission.targetResult}
+                    </div>
+                  </div>
+
+                  {missionComplete && (
+                    <div className="bg-green-50 dark:bg-green-900/30 p-4 rounded-lg border-2 border-green-500">
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">✓</span>
+                        <div>
+                          <div className="font-bold text-green-800 dark:text-green-200">
+                            Mission Complete!
+                          </div>
+                          <div className="text-sm text-green-700 dark:text-green-300">
+                            Great job! Your answer of {lastResult} is correct.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setShowHint(!showHint)}
+                      className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition font-semibold"
+                    >
+                      {showHint ? 'Hide' : 'Show'} Hint
+                    </button>
+                    <button
+                      onClick={handleResetMission}
+                      className="px-4 py-2 bg-slate-500 text-white rounded-lg hover:bg-slate-600 transition font-semibold"
+                    >
+                      Reset
+                    </button>
+                    <button
+                      onClick={() => setSelectedMission(null)}
+                      className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition font-semibold ml-auto"
+                    >
+                      Choose Different Mission
+                    </button>
+                  </div>
+
+                  {showHint && (
+                    <div className="bg-amber-50 dark:bg-amber-900/30 p-4 rounded-lg border border-amber-300 dark:border-amber-700">
+                      <h5 className="font-bold text-amber-800 dark:text-amber-200 mb-2">
+                        Step-by-Step Hint:
+                      </h5>
+                      <ol className="list-decimal list-inside space-y-1 text-sm text-slate-700 dark:text-slate-300">
+                        {selectedMission.stepsHint.map((step, idx) => (
+                          <li key={idx}>{step}</li>
+                        ))}
+                      </ol>
+                    </div>
+                  )}
+
+                  {currentExpression && (
+                    <div className="bg-slate-100 dark:bg-slate-700 p-3 rounded-lg">
+                      <div className="text-xs text-slate-600 dark:text-slate-400 mb-1">
+                        Current Expression:
+                      </div>
+                      <div className="font-mono text-slate-800 dark:text-slate-200">
+                        {currentExpression}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ==================== END TI-30XS CALCULATOR ====================
+
 function MathPracticeToolsPage({
   onExit,
   activeTab,
@@ -47650,6 +48504,7 @@ function MathPracticeToolsPage({
   geometryNode,
 }) {
   const tabs = [
+    { id: 'calculator', label: 'TI-30XS' },
     { id: 'graphing', label: 'Graphing' },
     { id: 'geometry', label: 'Geometry' },
     { id: 'stepSolver', label: 'Step Solver' },
@@ -47667,6 +48522,10 @@ function MathPracticeToolsPage({
   })();
 
   const renderContent = () => {
+    if (activeTab === 'calculator') {
+      return <Ti30xsPracticeTool />;
+    }
+
     if (activeTab === 'graphing') {
       return (
         graphingNode || (
