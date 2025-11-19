@@ -183,17 +183,50 @@
       })();
     </script>
     <script>
-      // Safe stub for legacy enhancement tools toggle to prevent ReferenceError
-      // Some deployed bundles still call window.showEnhancementsTools(); this preserves backward compatibility.
-      if (
-        typeof window !== 'undefined' &&
-        typeof window.showEnhancementsTools !== 'function'
-      ) {
-        window.showEnhancementsTools = function () {
-          console.info('[stub] showEnhancementsTools invoked (no-op)');
-          return false;
-        };
-      }
+      // Legacy global stubs to prevent ReferenceError for older bundles expecting global functions.
+      (function ensureLegacyToolStubs() {
+        if (typeof window === 'undefined') return;
+        // Enhancement tools toggle (older dashboard versions)
+        if (typeof window.showEnhancementsTools !== 'function') {
+          window.showEnhancementsTools = function () {
+            console.info('[stub] showEnhancementsTools invoked (no-op)');
+            return false;
+          };
+        }
+        // Math practice tools visibility (older StartScreen versions)
+        if (typeof window.showMathPracticeTools !== 'function') {
+          window.showMathPracticeTools = function (next) {
+            // store simple flag; newer code should manage React state instead
+            try {
+              window.__SHOW_MATH_PRACTICE__ =
+                !!next || !window.__SHOW_MATH_PRACTICE__;
+              console.info(
+                '[stub] showMathPracticeTools ->',
+                window.__SHOW_MATH_PRACTICE__
+              );
+              return window.__SHOW_MATH_PRACTICE__;
+            } catch (e) {
+              return false;
+            }
+          };
+        }
+        // Science practice tools visibility (parity with math)
+        if (typeof window.showSciencePracticeTools !== 'function') {
+          window.showSciencePracticeTools = function (next) {
+            try {
+              window.__SHOW_SCIENCE_PRACTICE__ =
+                !!next || !window.__SHOW_SCIENCE_PRACTICE__;
+              console.info(
+                '[stub] showSciencePracticeTools ->',
+                window.__SHOW_SCIENCE_PRACTICE__
+              );
+              return window.__SHOW_SCIENCE_PRACTICE__;
+            } catch (e) {
+              return false;
+            }
+          };
+        }
+      })();
     </script>
 
     <!-- Extracted large application styles to external stylesheet -->
