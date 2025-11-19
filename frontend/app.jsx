@@ -94,6 +94,8 @@ const SUBJECT_ID_MAP = {
 // Ensure Admin Mode / legacy panels can always see this map
 if (typeof window !== 'undefined') {
   window.SUBJECT_ID_MAP = SUBJECT_ID_MAP;
+  window.SUBJECT_PROGRESS_KEYS = SUBJECT_PROGRESS_KEYS;
+  window.GED_PASSING_SCORE = GED_PASSING_SCORE;
 }
 
 // Badge image paths by subject ID
@@ -104,6 +106,10 @@ const BADGE_IMG_PATHS = {
   math: '/badges/math.svg',
 };
 
+if (typeof window !== 'undefined') {
+  window.BADGE_IMG_PATHS = BADGE_IMG_PATHS;
+}
+
 // In-memory catalog for premade quizzes, populated when quiz data is loaded
 let PREMADE_QUIZ_CATALOG = {};
 
@@ -112,6 +118,10 @@ const getPremadeQuizTotal = (subject) => {
     ? PREMADE_QUIZ_CATALOG[subject].length
     : 0;
 };
+
+if (typeof window !== 'undefined') {
+  window.getPremadeQuizTotal = getPremadeQuizTotal;
+}
 
 // Reconstructed progress helpers after accidental corruption
 const createEmptyProgress = () =>
@@ -128,6 +138,10 @@ const createEmptyProgress = () =>
     };
     return acc;
   }, {});
+
+if (typeof window !== 'undefined') {
+  window.createEmptyProgress = createEmptyProgress;
+}
 
 const buildProgressFromAttempts = (attempts = []) => {
   const progress = createEmptyProgress();
@@ -225,6 +239,10 @@ const buildProgressFromAttempts = (attempts = []) => {
 
   return progress;
 };
+
+if (typeof window !== 'undefined') {
+  window.buildProgressFromAttempts = buildProgressFromAttempts;
+}
 // (Removed stray duplicated function & misplaced chemistry topic objects)
 
 const ensureUserProfile = (user) => {
@@ -258,6 +276,10 @@ const ensureUserProfile = (user) => {
   };
 };
 
+if (typeof window !== 'undefined') {
+  window.ensureUserProfile = ensureUserProfile;
+}
+
 const DEFAULT_COLOR_SCHEME = {
   background: 'var(--nav-active-bg)',
   onBackgroundText: 'var(--nav-active-text)',
@@ -287,6 +309,10 @@ const DEFAULT_COLOR_SCHEME = {
   timerDefaultBg: 'var(--timer-default-bg)',
   timerDefaultText: 'var(--timer-default-text)',
 };
+
+if (typeof window !== 'undefined') {
+  window.DEFAULT_COLOR_SCHEME = DEFAULT_COLOR_SCHEME;
+}
 
 const SUBJECT_COLORS = {
   Science: {
@@ -352,6 +378,10 @@ const SUBJECT_COLORS = {
   },
 };
 
+if (typeof window !== 'undefined') {
+  window.SUBJECT_COLORS = SUBJECT_COLORS;
+}
+
 const SUBJECT_BG_GRADIENTS = {
   Math: 'var(--subject-math-gradient)',
   Science: 'var(--subject-science-gradient)',
@@ -359,6 +389,10 @@ const SUBJECT_BG_GRADIENTS = {
   'Reasoning Through Language Arts (RLA)': 'var(--subject-rla-gradient)',
   Workforce: 'var(--subject-workforce-gradient)',
 };
+
+if (typeof window !== 'undefined') {
+  window.SUBJECT_BG_GRADIENTS = SUBJECT_BG_GRADIENTS;
+}
 
 const SUBJECT_LIGHT_SURFACE_GRADIENTS = {
   Math: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(2,132,199,0.12))',
@@ -380,6 +414,11 @@ const SUBJECT_LIGHT_TINTS = {
   Workforce: 'rgba(20,184,166,0.2)',
 };
 
+if (typeof window !== 'undefined') {
+  window.SUBJECT_LIGHT_SURFACE_GRADIENTS = SUBJECT_LIGHT_SURFACE_GRADIENTS;
+  window.SUBJECT_LIGHT_TINTS = SUBJECT_LIGHT_TINTS;
+}
+
 const SUBJECT_SHORT_LABELS = {
   Science: 'Science',
   Math: 'Math',
@@ -387,6 +426,10 @@ const SUBJECT_SHORT_LABELS = {
   'Reasoning Through Language Arts (RLA)': 'RLA',
   Workforce: 'Workforce',
 };
+
+if (typeof window !== 'undefined') {
+  window.SUBJECT_SHORT_LABELS = SUBJECT_SHORT_LABELS;
+}
 
 const VOCABULARY_SUBJECT_COLORS = {
   Science: '#dc2626',
@@ -1038,11 +1081,20 @@ const API_BASE_URL =
     ? `http://${window.location.hostname}:${window.location.port || 3002}`
     : 'https://ged-website.onrender.com';
 
+if (typeof window !== 'undefined') {
+  window.API_BASE_URL = API_BASE_URL;
+}
+
 // Fallback alias for API_BASE for legacy code safety
 const API_BASE =
   typeof window !== 'undefined' && window.__CLIENT_CONFIG__?.API_BASE_URL
     ? window.__CLIENT_CONFIG__.API_BASE_URL
     : API_BASE_URL;
+
+if (typeof window !== 'undefined') {
+  window.API_BASE = API_BASE;
+}
+
 const SCORE_FETCH_INTERVAL_MS = 45000;
 
 async function generateTopicQuiz(subjectParam, topic, difficulty) {
@@ -25282,6 +25334,75 @@ const ChartBarIcon = () => (
     />
   </svg>
 );
+
+if (typeof window !== 'undefined') {
+  window.ChartBarIcon = ChartBarIcon;
+}
+
+// Admin dashboard icons
+const UsersIcon = ({ className = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+    />
+  </svg>
+);
+
+if (typeof window !== 'undefined') {
+  window.UsersIcon = UsersIcon;
+}
+
+const ClockIcon = ({ className = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </svg>
+);
+
+if (typeof window !== 'undefined') {
+  window.ClockIcon = ClockIcon;
+}
+
+const TrophyIcon = ({ className = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+    />
+  </svg>
+);
+
+if (typeof window !== 'undefined') {
+  window.TrophyIcon = TrophyIcon;
+}
+
 const VariableIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -25646,6 +25767,10 @@ const CorrectIcon = ({ className = '' } = {}) => (
   </svg>
 );
 
+if (typeof window !== 'undefined') {
+  window.CorrectIcon = CorrectIcon;
+}
+
 const WrongIcon = ({ className = '' } = {}) => (
   <svg
     width="1em"
@@ -25659,6 +25784,10 @@ const WrongIcon = ({ className = '' } = {}) => (
   </svg>
 );
 
+if (typeof window !== 'undefined') {
+  window.WrongIcon = WrongIcon;
+}
+
 const PencilIcon = ({ className = '' } = {}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -25669,6 +25798,10 @@ const PencilIcon = ({ className = '' } = {}) => (
     <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z" />
   </svg>
 );
+
+if (typeof window !== 'undefined') {
+  window.PencilIcon = PencilIcon;
+}
 
 const UserIcon = () => (
   <svg
@@ -25684,6 +25817,11 @@ const UserIcon = () => (
     />
   </svg>
 );
+
+if (typeof window !== 'undefined') {
+  window.UserIcon = UserIcon;
+}
+
 const ArrowLeftIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -25698,6 +25836,10 @@ const ArrowLeftIcon = () => (
     />
   </svg>
 );
+
+if (typeof window !== 'undefined') {
+  window.ArrowLeftIcon = ArrowLeftIcon;
+}
 
 // --- SubjectQuizBrowser (clustered UI) ---
 function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
@@ -27300,6 +27442,10 @@ const normalizePreferences = (prefs = {}) => ({
 
 const SUBJECT_NAMES = ['Math', 'RLA', 'Science', 'Social Studies'];
 
+if (typeof window !== 'undefined') {
+  window.SUBJECT_NAMES = SUBJECT_NAMES;
+}
+
 function createEmptySubjectEdits() {
   return {
     Math: {
@@ -27434,6 +27580,10 @@ async function fetchJSON(url, options = {}) {
     console.warn('[fetchJSON] request failed', err?.message || err);
     return null; // never throw on startup critical fetches
   }
+}
+
+if (typeof window !== 'undefined') {
+  window.fetchJSON = fetchJSON;
 }
 
 // --- App Structure Components ---
@@ -29298,11 +29448,12 @@ function App({ externalTheme, onThemeChange }) {
               selected: !!opt?.selected,
             }))
           : [];
+        const serverProfileName = bundle?.profile?.name || '';
         setLocalProfile((prev) => ({
           ...prev,
           profile: {
             ...prev.profile,
-            name: bundle?.profile?.name || prev.profile.name || '',
+            name: serverProfileName || prev.profile.name || '',
             timezone: bundle?.profile?.timezone || prev.profile.timezone,
             reminderEnabled:
               typeof bundle?.profile?.reminderEnabled === 'boolean'
@@ -29318,6 +29469,26 @@ function App({ externalTheme, onThemeChange }) {
               ? bundle.recentScores
               : prev.recentScoresDashboard || {},
         }));
+
+        // CRITICAL FIX: Sync the profile name from server into currentUser
+        // This ensures navbar and profile page always show the same per-user name
+        if (serverProfileName) {
+          setCurrentUser((prev) => {
+            if (!prev) return prev;
+            const updated = { ...prev, name: serverProfileName };
+            try {
+              if (typeof window !== 'undefined' && window.localStorage) {
+                window.localStorage.setItem('appUser', JSON.stringify(updated));
+              }
+            } catch (error) {
+              console.warn(
+                'Unable to persist updated name to localStorage:',
+                error
+              );
+            }
+            return updated;
+          });
+        }
       }
       setProfileLoading(false);
       return bundle;
@@ -30062,6 +30233,12 @@ function App({ externalTheme, onThemeChange }) {
     setProfileError(null);
     setQuizAttempts([]);
     recalcProgress([]);
+
+    // CRITICAL FIX: Load fresh profile from server after login to ensure
+    // the display name and other profile data is current from the database
+    loadProfileOnce().catch((err) => {
+      console.warn('Failed to load profile after login:', err);
+    });
 
     if (!isAdminUser) {
       // Check if user needs to join an organization
