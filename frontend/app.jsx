@@ -35424,6 +35424,14 @@ function StartScreen({
   const [adviceText, setAdviceText] = useState('');
   const [adviceError, setAdviceError] = useState('');
 
+  // Collapsible practice tool internal panels (default collapsed)
+  const [practiceToolPanels, setPracticeToolPanels] = useState({
+    stepSolver: false,
+    centralTendency: false,
+    graphing: false,
+    geometry: false,
+  });
+
   // Weekly coach helpers (top-level)
   const canonicalSubjectId = (value) => {
     const str = (value || '').toString().toLowerCase();
@@ -37355,25 +37363,7 @@ function StartScreen({
           )}
           {/* Math Practice Tools Section */}
           {selectedSubject === 'Math' && showMathPracticeTools && (
-            <div
-              className="mt-4 space-y-4 p-4 rounded-lg border"
-              style={{
-                borderColor: isDarkMode
-                  ? 'rgba(255,255,255,0.25)'
-                  : 'rgba(148,163,184,0.35)',
-                background: isDarkMode ? 'rgba(30,41,59,0.4)' : '#ffffff',
-              }}
-            >
-              <h3 className="font-bold text-lg mb-2">Math Practice Tools</h3>
-              <div className="space-y-4">
-                {window.MathStepPracticeTool && (
-                  <window.MathStepPracticeTool theme={theme} />
-                )}
-                {window.MathCentralTendencyTool && (
-                  <window.MathCentralTendencyTool theme={theme} />
-                )}
-              </div>
-            </div>
+            <MathPracticeCollapsibleSuite theme={theme} />
           )}
           {/* Daily Coach goals (across subjects) - COACH FEATURE DISABLED */}
           {window.__COACH_ENABLED__ && (
@@ -47520,6 +47510,138 @@ function WorkforceApplicationTracker() {
 
 // ---------------- End Workforce Hub ----------------
 
+// Collapsible Math Practice Tools Suite (StartScreen embedded version)
+function MathPracticeCollapsibleSuite({ theme }) {
+  const { useState, useEffect, useRef } = React;
+  const isDarkMode = document.documentElement.classList.contains('dark');
+  const [panels, setPanels] = useState({
+    stepSolver: false,
+    centralTendency: false,
+    graphing: false,
+    geometry: false,
+  });
+  const graphRef = useRef(null);
+  const geometryRef = useRef(null);
+  const graphInstanceRef = useRef(null);
+  const geometryInstanceRef = useRef(null);
+
+  const toggle = (key) => setPanels((p) => ({ ...p, [key]: !p[key] }));
+
+  useEffect(() => {
+    if (!panels.graphing || !graphRef.current) return;
+    if (graphInstanceRef.current) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const mod = await import('/graphing/GraphCanvas.js');
+        if (cancelled) return;
+        const GraphCanvas = mod && (mod.default || mod.GraphCanvas);
+        if (typeof GraphCanvas === 'function') {
+          graphInstanceRef.current = new GraphCanvas(graphRef.current, {
+            theme: isDarkMode ? 'dark' : 'light',
+          });
+        }
+      } catch (e) {
+        console.warn('Graphing tool failed to load:', e);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [panels.graphing, isDarkMode]);
+
+  useEffect(() => {
+    if (!panels.geometry || !geometryRef.current) return;
+    if (geometryInstanceRef.current) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const mod = await import('/geometry/GeometryCanvas.js');
+        if (cancelled) return;
+        const GeometryCanvas = mod && (mod.default || mod.GeometryCanvas);
+        if (typeof GeometryCanvas === 'function') {
+          geometryInstanceRef.current = new GeometryCanvas(
+            geometryRef.current,
+            {
+              theme: isDarkMode ? 'dark' : 'light',
+            }
+          );
+        }
+      } catch (e) {
+        console.warn('Geometry tool failed to load:', e);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [panels.geometry, isDarkMode]);
+
+  const sectionStyle = {
+    borderColor: isDarkMode
+      ? 'rgba(255,255,255,0.25)'
+      : 'rgba(148,163,184,0.35)',
+    background: isDarkMode ? 'rgba(30,41,59,0.4)' : '#ffffff',
+  };
+
+  const headerBtn = (label, key) => (
+    <button
+      type="button"
+      onClick={() => toggle(key)}
+      className="flex w-full items-center justify-between px-4 py-3 font-semibold rounded-lg border transition hover:bg-sky-50 dark:hover:bg-slate-700"
+      style={{
+        borderColor: isDarkMode
+          ? 'rgba(255,255,255,0.25)'
+          : 'rgba(148,163,184,0.35)',
+        background: isDarkMode ? 'rgba(30,41,59,0.3)' : '#f8fafc',
+      }}
+      aria-expanded={panels[key]}
+    >
+      <span>{label}</span>
+      <span className="text-xs opacity-70">
+        {panels[key] ? 'Hide' : 'Show'}
+      </span>
+    </button>
+  );
+
+  return (
+    <div className="mt-4 space-y-4 p-4 rounded-lg border" style={sectionStyle}>
+      <h3 className="font-bold text-lg mb-2">Math Practice Tools</h3>
+      <div className="space-y-2">
+        {headerBtn('Step-by-Step Solver', 'stepSolver')}
+        {panels.stepSolver && window.MathStepPracticeTool && (
+          <div className="pt-2">
+            <window.MathStepPracticeTool theme={theme} />
+          </div>
+        )}
+      </div>
+      <div className="space-y-2">
+        {headerBtn('Mean / Median / Mode / Range Practice', 'centralTendency')}
+        {panels.centralTendency && window.MathCentralTendencyTool && (
+          <div className="pt-2">
+            <window.MathCentralTendencyTool theme={theme} />
+          </div>
+        )}
+      </div>
+      <div className="space-y-2">
+        {headerBtn('Graphing Workspace', 'graphing')}
+        {panels.graphing && (
+          <div className="pt-2 rounded-lg border p-3" style={sectionStyle}>
+            <div ref={graphRef} style={{ minHeight: 320 }} />
+          </div>
+        )}
+      </div>
+      <div className="space-y-2">
+        {headerBtn('Geometry Playground', 'geometry')}
+        {panels.geometry && (
+          <div className="pt-2 rounded-lg border p-3" style={sectionStyle}>
+            <div ref={geometryRef} style={{ minHeight: 320 }} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function MathPracticeToolsPage({
   onExit,
   activeTab,
@@ -47641,7 +47763,7 @@ function ScienceToolsTabs({ theme }) {
   const [active, setActive] = useState('formula');
   const tabs = [
     { id: 'formula', label: 'Formula Practice' },
-    // Future placeholders can be added here
+    { id: 'concept', label: 'Concept Practice' },
   ];
   const isDarkMode = theme === 'dark';
   return (
@@ -47664,9 +47786,14 @@ function ScienceToolsTabs({ theme }) {
         ))}
       </div>
       <div className="border rounded-xl p-4 bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-700">
-        {active === 'formula' && window.ScienceFormulaPracticeTool ? (
+        {active === 'formula' && window.ScienceFormulaPracticeTool && (
           <window.ScienceFormulaPracticeTool theme={theme} />
-        ) : (
+        )}
+        {active === 'concept' && window.ScienceConceptPracticeTool && (
+          <window.ScienceConceptPracticeTool theme={theme} />
+        )}
+        {((active === 'formula' && !window.ScienceFormulaPracticeTool) ||
+          (active === 'concept' && !window.ScienceConceptPracticeTool)) && (
           <div className="text-center text-slate-500 dark:text-slate-300 py-8">
             Loading tool...
           </div>

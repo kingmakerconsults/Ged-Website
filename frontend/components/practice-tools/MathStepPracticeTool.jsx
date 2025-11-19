@@ -28,7 +28,10 @@ const MathStepPracticeTool = ({ theme }) => {
   // Get unique difficulties
   const difficulties = useMemo(() => {
     const diffs = [...new Set(MATH_STEP_PROBLEMS.map((p) => p.difficulty))];
-    return ['all', ...diffs.sort()];
+    // Ensure stable ordering easy < medium < hard < challenge if present
+    const order = { easy: 1, medium: 2, hard: 3, challenge: 4 };
+    const sorted = diffs.sort((a, b) => (order[a] || 99) - (order[b] || 99));
+    return ['all', ...sorted];
   }, []);
 
   // Select random problem
@@ -43,9 +46,12 @@ const MathStepPracticeTool = ({ theme }) => {
     );
 
     if (selectedDifficulty !== 'all') {
-      filteredProblems = filteredProblems.filter(
-        (p) => p.difficulty === selectedDifficulty
-      );
+      // Allow challenge to include hard if challenge set is sparse (fallback)
+      filteredProblems = filteredProblems.filter((p) => {
+        if (p.difficulty === selectedDifficulty) return true;
+        if (selectedDifficulty === 'challenge') return p.difficulty === 'hard';
+        return false;
+      });
     }
 
     if (filteredProblems.length === 0) {

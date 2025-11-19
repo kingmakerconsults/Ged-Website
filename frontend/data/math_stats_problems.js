@@ -348,6 +348,58 @@ const MATH_STATS_PROBLEMS = [
       'So the range is 15.',
     ],
   },
+  // --- Extended Mean Problems ---
+  {
+    id: 'mean_7',
+    type: 'mean',
+    prompt: 'Find the mean of the data set.',
+    dataSet: [14, 18, 22, 26],
+    questionText: 'What is the mean of 14, 18, 22, 26?',
+    correctAnswer: 20,
+    tolerance: 0.01,
+    steps: [
+      'Add: 14 + 18 + 22 + 26 = 80.',
+      'Count numbers: 4.',
+      'Divide: 80 ÷ 4 = 20.',
+    ],
+  },
+  // --- Extended Median Problems ---
+  {
+    id: 'median_7',
+    type: 'median',
+    prompt: 'Find the median of the data set.',
+    dataSet: [2, 4, 6, 8, 10, 12, 14],
+    questionText: 'What is the median of 2,4,6,8,10,12,14?',
+    correctAnswer: 8,
+    tolerance: 0.01,
+    steps: [
+      'Odd count (7 numbers) so middle is 4th.',
+      '4th number is 8.',
+      'Median = 8.',
+    ],
+  },
+  // --- Extended Mode Problems ---
+  {
+    id: 'mode_7',
+    type: 'mode',
+    prompt: 'Find the mode of the data set.',
+    dataSet: [3, 5, 5, 5, 7, 9, 9],
+    questionText: 'What is the mode of 3,5,5,5,7,9,9?',
+    correctAnswer: 5,
+    tolerance: 0.01,
+    steps: ['5 appears 3 times.', '9 appears 2 times.', 'Mode = 5.'],
+  },
+  // --- Extended Range Problems ---
+  {
+    id: 'range_7',
+    type: 'range',
+    prompt: 'Find the range of the data set.',
+    dataSet: [12, 15, 19, 30],
+    questionText: 'What is the range of 12,15,19,30?',
+    correctAnswer: 18,
+    tolerance: 0.01,
+    steps: ['Smallest 12; Largest 30.', '30 − 12 = 18.', 'Range = 18.'],
+  },
 ];
 
 // Make available globally for components
