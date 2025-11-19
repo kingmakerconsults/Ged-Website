@@ -1,5 +1,6 @@
 // frontend/data/math_stats_problems.js
-export const MATH_STATS_PROBLEMS = [
+// Converted from module export to plain const + window assignment for UMD/Babel environment.
+const MATH_STATS_PROBLEMS = [
   // MEAN PROBLEMS
   {
     id: 'mean_1',
