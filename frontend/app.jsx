@@ -47607,6 +47607,14 @@ function MathPracticeCollapsibleSuite({ theme }) {
     <div className="mt-4 space-y-4 p-4 rounded-lg border" style={sectionStyle}>
       <h3 className="font-bold text-lg mb-2">Math Practice Tools</h3>
       <div className="space-y-2">
+        {headerBtn('TI-30XS Calculator Practice', 'calculator')}
+        {panels.calculator && (
+          <div className="pt-2">
+            <Ti30xsPracticeTool />
+          </div>
+        )}
+      </div>
+      <div className="space-y-2">
         {headerBtn('Step-by-Step Solver', 'stepSolver')}
         {panels.stepSolver && window.MathStepPracticeTool && (
           <div className="pt-2">
