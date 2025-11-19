@@ -25430,6 +25430,40 @@ if (typeof window !== 'undefined') {
   window.StarIcon = StarIcon;
 }
 
+const CheckCircleIcon = ({ className = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </svg>
+);
+
+const BarChart2Icon = ({ className = '' }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+    />
+  </svg>
+);
+
 const VariableIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -33216,7 +33250,421 @@ function OrgAdminDashboard({ user, token, onLogout }) {
 // COMPREHENSIVE ADMIN SUITE COMPONENTS
 // ========================================
 
-// Admin Dashboard with analytics overview
+// Modern Admin Dashboard Component - Grid-based, responsive, dark mode ready
+function ModernAdminDashboard({ user, token, studentStats, subjectStats }) {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    // Detect dark mode from HTML data-theme attribute
+    const checkTheme = () => {
+      const theme = document.documentElement.getAttribute('data-theme');
+      setIsDark(theme === 'dark');
+    };
+    checkTheme();
+
+    // Watch for theme changes
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Default stats if not provided
+  const stats = studentStats || {
+    activeCount: 0,
+    studyTimeHours: 0,
+    testReadyCount: 0,
+    passedCount: 0,
+    totalTests: 0,
+  };
+
+  const subjects = subjectStats || {
+    Math: { ready: 0, almost: 0, needStudy: 0, avg: 0 },
+    Science: { ready: 0, almost: 0, needStudy: 0, avg: 0 },
+    RLA: { ready: 0, almost: 0, needStudy: 0, avg: 0 },
+    'Social Studies': { ready: 0, almost: 0, needStudy: 0, avg: 0 },
+  };
+
+  // Render readiness bar
+  const ReadinessBar = ({ label, value, total, color }) => {
+    const percentage = total > 0 ? (value / total) * 100 : 0;
+    return (
+      <div className="mb-3">
+        <div className="flex justify-between mb-1">
+          <span
+            className="text-sm font-medium"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            {label}
+          </span>
+          <span
+            className="text-sm font-semibold"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            {value}
+          </span>
+        </div>
+        <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
+          <div
+            className="h-2.5 rounded-full transition-all duration-300"
+            style={{
+              width: `${percentage}%`,
+              backgroundColor: color,
+            }}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div
+      className="min-h-screen p-6"
+      style={{ backgroundColor: 'var(--bg-primary)' }}
+    >
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <h1
+            className="text-3xl font-bold mb-2"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            Admin Dashboard
+          </h1>
+          <p style={{ color: 'var(--text-secondary)' }}>
+            Welcome back, {user?.name || 'Admin'}
+          </p>
+        </div>
+
+        {/* Metric Cards - Top Row */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {/* Active Students Card */}
+          <div
+            className="rounded-xl p-6 transition-all duration-200 hover:shadow-lg"
+            style={{
+              backgroundColor: 'var(--bg-surface)',
+              boxShadow: 'var(--shadow-hover)',
+            }}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div
+                className="p-3 rounded-lg"
+                style={{ backgroundColor: 'rgba(20, 184, 166, 0.1)' }}
+              >
+                <UsersIcon className="w-6 h-6" style={{ color: '#14b8a6' }} />
+              </div>
+              <span
+                className="text-3xl font-bold"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                {stats.activeCount}
+              </span>
+            </div>
+            <h3
+              className="text-sm font-semibold mb-1"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              Active Students
+            </h3>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+              Last 30 days
+            </p>
+          </div>
+
+          {/* Study Time Card */}
+          <div
+            className="rounded-xl p-6 transition-all duration-200 hover:shadow-lg"
+            style={{
+              backgroundColor: 'var(--bg-surface)',
+              boxShadow: 'var(--shadow-hover)',
+            }}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div
+                className="p-3 rounded-lg"
+                style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)' }}
+              >
+                <ClockIcon className="w-6 h-6" style={{ color: '#3b82f6' }} />
+              </div>
+              <span
+                className="text-3xl font-bold"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                {stats.studyTimeHours}h
+              </span>
+            </div>
+            <h3
+              className="text-sm font-semibold mb-1"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              Study Time
+            </h3>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+              Last 30 days
+            </p>
+          </div>
+
+          {/* Test Ready Card */}
+          <div
+            className="rounded-xl p-6 transition-all duration-200 hover:shadow-lg"
+            style={{
+              backgroundColor: 'var(--bg-surface)',
+              boxShadow: 'var(--shadow-hover)',
+            }}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div
+                className="p-3 rounded-lg"
+                style={{ backgroundColor: 'rgba(34, 197, 94, 0.1)' }}
+              >
+                <CheckCircleIcon
+                  className="w-6 h-6"
+                  style={{ color: '#22c55e' }}
+                />
+              </div>
+              <span
+                className="text-3xl font-bold"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                {stats.testReadyCount}
+              </span>
+            </div>
+            <h3
+              className="text-sm font-semibold mb-1"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              Test Ready
+            </h3>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+              GED pass-ready
+            </p>
+          </div>
+
+          {/* GED Tests Passed Card */}
+          <div
+            className="rounded-xl p-6 transition-all duration-200 hover:shadow-lg"
+            style={{
+              backgroundColor: 'var(--bg-surface)',
+              boxShadow: 'var(--shadow-hover)',
+            }}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div
+                className="p-3 rounded-lg"
+                style={{ backgroundColor: 'rgba(168, 85, 247, 0.1)' }}
+              >
+                <StarIcon className="w-6 h-6" style={{ color: '#a855f7' }} />
+              </div>
+              <span
+                className="text-3xl font-bold"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                {stats.passedCount}/{stats.totalTests || 0}
+              </span>
+            </div>
+            <h3
+              className="text-sm font-semibold mb-1"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              GED Tests Passed
+            </h3>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+              Last 3 months
+            </p>
+          </div>
+        </div>
+
+        {/* Subject Readiness Section */}
+        <div className="mb-8">
+          <h2
+            className="text-xl font-bold mb-6"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            GED Readiness by Subject
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Object.entries(subjects).map(([subjectName, data]) => {
+              const total = data.ready + data.almost + data.needStudy;
+              return (
+                <div
+                  key={subjectName}
+                  className="rounded-xl p-5"
+                  style={{
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border-subtle)',
+                  }}
+                >
+                  <h3
+                    className="text-lg font-bold mb-4"
+                    style={{ color: 'var(--text-primary)' }}
+                  >
+                    {subjectName}
+                  </h3>
+                  <ReadinessBar
+                    label="Ready (≥145)"
+                    value={data.ready}
+                    total={total}
+                    color="#22c55e"
+                  />
+                  <ReadinessBar
+                    label="Almost Ready"
+                    value={data.almost}
+                    total={total}
+                    color="#eab308"
+                  />
+                  <ReadinessBar
+                    label="Need Study"
+                    value={data.needStudy}
+                    total={total}
+                    color="#ef4444"
+                  />
+                  {data.avg > 0 && (
+                    <div
+                      className="mt-3 pt-3 border-t"
+                      style={{ borderColor: 'var(--border-subtle)' }}
+                    >
+                      <p
+                        className="text-xs"
+                        style={{ color: 'var(--text-secondary)' }}
+                      >
+                        Average Score:{' '}
+                        <span className="font-semibold">{data.avg}</span>
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Bottom Tools Section */}
+        <div className="mb-8">
+          <h2
+            className="text-xl font-bold mb-6"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            Management Tools
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Manage Classes Card */}
+            <button
+              className="rounded-xl p-6 text-left transition-all duration-150 hover:-translate-y-1"
+              style={{
+                backgroundColor: 'var(--bg-surface)',
+                boxShadow: 'var(--shadow-hover)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow =
+                  '0 12px 24px rgba(0,0,0,0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'var(--shadow-hover)';
+              }}
+            >
+              <div
+                className="p-3 rounded-lg mb-4 inline-block"
+                style={{ backgroundColor: 'rgba(20, 184, 166, 0.1)' }}
+              >
+                <BookOpenIcon
+                  className="w-8 h-8"
+                  style={{ color: '#14b8a6' }}
+                />
+              </div>
+              <h3
+                className="text-lg font-bold mb-2"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                Manage Classes
+              </h3>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                Create and organize classes, assign students, and track progress
+              </p>
+            </button>
+
+            {/* Manage Students Card */}
+            <button
+              className="rounded-xl p-6 text-left transition-all duration-150 hover:-translate-y-1"
+              style={{
+                backgroundColor: 'var(--bg-surface)',
+                boxShadow: 'var(--shadow-hover)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow =
+                  '0 12px 24px rgba(0,0,0,0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'var(--shadow-hover)';
+              }}
+            >
+              <div
+                className="p-3 rounded-lg mb-4 inline-block"
+                style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)' }}
+              >
+                <UsersIcon className="w-8 h-8" style={{ color: '#3b82f6' }} />
+              </div>
+              <h3
+                className="text-lg font-bold mb-2"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                Manage Students
+              </h3>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                Add, edit, and monitor student profiles and performance
+              </p>
+            </button>
+
+            {/* View Reports Card */}
+            <button
+              className="rounded-xl p-6 text-left transition-all duration-150 hover:-translate-y-1"
+              style={{
+                backgroundColor: 'var(--bg-surface)',
+                boxShadow: 'var(--shadow-hover)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow =
+                  '0 12px 24px rgba(0,0,0,0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'var(--shadow-hover)';
+              }}
+            >
+              <div
+                className="p-3 rounded-lg mb-4 inline-block"
+                style={{ backgroundColor: 'rgba(168, 85, 247, 0.1)' }}
+              >
+                <BarChart2Icon
+                  className="w-8 h-8"
+                  style={{ color: '#a855f7' }}
+                />
+              </div>
+              <h3
+                className="text-lg font-bold mb-2"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                View Reports
+              </h3>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                Access detailed analytics and comprehensive reports
+              </p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Legacy Admin Dashboard with analytics overview
 function AdminDashboard({ user, token, onNavigate }) {
   const [readinessData, setReadinessData] = useState(null);
   const [activityData, setActivityData] = useState(null);
@@ -33522,6 +33970,8 @@ function AdminDashboard({ user, token, onNavigate }) {
 // Enhanced Admin Shell with full admin suite
 function EnhancedAdminShell({ user, token, onLogout }) {
   const [adminView, setAdminView] = useState('dashboard');
+  const [adminData, setAdminData] = useState(null);
+  const [loading, setLoading] = useState(true);
   // adminView can be: 'dashboard', 'classes', 'students', 'reports'
 
   const isAdmin =
@@ -33529,6 +33979,79 @@ function EnhancedAdminShell({ user, token, onLogout }) {
     user?.role === 'org_admin' ||
     user?.role === 'instructor' ||
     user?.role === 'teacher';
+
+  // Load admin dashboard data
+  useEffect(() => {
+    if (isAdmin && adminView === 'dashboard') {
+      loadAdminData();
+    }
+  }, [isAdmin, adminView]);
+
+  const loadAdminData = async () => {
+    try {
+      setLoading(true);
+      const authToken =
+        token ||
+        (typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null);
+
+      if (!authToken) {
+        console.warn('[EnhancedAdminShell] No token available for admin data');
+        setLoading(false);
+        return;
+      }
+
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      };
+
+      const [readiness, activity, gedResults] = await Promise.all([
+        fetchJSON(`${API_BASE_URL}/api/admin/reports/readiness`, { headers }),
+        fetchJSON(`${API_BASE_URL}/api/admin/reports/activity`, { headers }),
+        fetchJSON(`${API_BASE_URL}/api/admin/reports/ged-results`, { headers }),
+      ]);
+
+      // Transform data into format expected by ModernAdminDashboard
+      const studentStats = {
+        activeCount: activity?.last30Days?.activeStudents || 0,
+        studyTimeHours: Math.round(
+          (activity?.last30Days?.totalMinutes || 0) / 60
+        ),
+        testReadyCount: readiness?.overall?.ready || 0,
+        passedCount: gedResults?.last3Months?.passed || 0,
+        totalTests: gedResults?.last3Months?.total || 0,
+      };
+
+      const subjectStats = {};
+      const subjectNames = {
+        rla: 'RLA',
+        math: 'Math',
+        science: 'Science',
+        social: 'Social Studies',
+      };
+
+      if (readiness?.subjects) {
+        Object.keys(readiness.subjects).forEach((key) => {
+          const subject = readiness.subjects[key];
+          const displayName = subjectNames[key] || key;
+          subjectStats[displayName] = {
+            ready: subject.ready || 0,
+            almost: subject.almostReady || 0,
+            needStudy: subject.needMoreStudy || 0,
+            avg: Math.round(subject.averageScore || 0),
+          };
+        });
+      }
+
+      setAdminData({ studentStats, subjectStats });
+    } catch (error) {
+      console.error('Failed to load admin data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!isAdmin) {
     return (
@@ -33552,10 +34075,37 @@ function EnhancedAdminShell({ user, token, onLogout }) {
   }
 
   const renderAdminContent = () => {
-    // For now, we'll use external components loaded from /components/admin/
-    // In production, these would be imported, but since this is a monolithic file,
-    // we'll reference them dynamically
     if (adminView === 'dashboard') {
+      // Use ModernAdminDashboard for org_admin and super_admin
+      if (
+        user?.role === 'org_admin' ||
+        user?.role === 'super_admin' ||
+        user?.role === 'instructor'
+      ) {
+        if (loading) {
+          return (
+            <div className="flex items-center justify-center min-h-screen">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
+                <p className="text-slate-600 dark:text-slate-400">
+                  Loading dashboard...
+                </p>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <ModernAdminDashboard
+            user={user}
+            token={token}
+            studentStats={adminData?.studentStats}
+            subjectStats={adminData?.subjectStats}
+          />
+        );
+      }
+
+      // Fallback to legacy dashboard for other roles
       return (
         <AdminDashboard user={user} token={token} onNavigate={setAdminView} />
       );
