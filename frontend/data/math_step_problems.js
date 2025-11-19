@@ -1,5 +1,6 @@
 // frontend/data/math_step_problems.js
-export const MATH_STEP_PROBLEMS = [
+// Converted from module export to plain const + window assignment for UMD/Babel environment.
+const MATH_STEP_PROBLEMS = [
   // LINEAR EQUATIONS
   {
     id: 'linear_1',

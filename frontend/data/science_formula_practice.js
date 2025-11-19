@@ -1,5 +1,6 @@
 // frontend/data/science_formula_practice.js
-export const SCIENCE_FORMULA_PRACTICE = [
+// Converted from module export to plain const + window assignment for UMD/Babel environment.
+const SCIENCE_FORMULA_PRACTICE = [
   // DENSITY PROBLEMS
   {
     id: 'density_1',
@@ -123,8 +124,7 @@ export const SCIENCE_FORMULA_PRACTICE = [
       { symbol: 'd', meaning: 'distance', units: 'm' },
       { symbol: 't', meaning: 'time', units: 's' },
     ],
-    problemText:
-      'A runner covers 400 meters in 80 seconds. What is the runner's average speed?',
+    problemText: `A runner covers 400 meters in 80 seconds. What is the runner's average speed?`,
     given: { d: 400, t: 80 },
     answer: 5,
     answerUnits: 'm/s',
@@ -167,8 +167,7 @@ export const SCIENCE_FORMULA_PRACTICE = [
       { symbol: 'd', meaning: 'distance', units: 'm' },
       { symbol: 't', meaning: 'time', units: 's' },
     ],
-    problemText:
-      'A cyclist rides 1200 meters in 240 seconds. Find the cyclist's speed.',
+    problemText: `A cyclist rides 1200 meters in 240 seconds. Find the cyclist's speed.`,
     given: { d: 1200, t: 240 },
     answer: 5,
     answerUnits: 'm/s',
@@ -459,8 +458,7 @@ export const SCIENCE_FORMULA_PRACTICE = [
       { symbol: 'm', meaning: 'mass', units: 'kg' },
       { symbol: 'v', meaning: 'velocity', units: 'm/s' },
     ],
-    problemText:
-      'A 4 kg ball moves at 5 m/s. What is its kinetic energy?',
+    problemText: 'A 4 kg ball moves at 5 m/s. What is its kinetic energy?',
     given: { m: 4, v: 5 },
     answer: 50,
     answerUnits: 'J',
@@ -547,8 +545,7 @@ export const SCIENCE_FORMULA_PRACTICE = [
       { symbol: 'm', meaning: 'mass', units: 'kg' },
       { symbol: 'v', meaning: 'velocity', units: 'm/s' },
     ],
-    problemText:
-      'A 3 kg cart rolls at 4 m/s. Calculate its kinetic energy.',
+    problemText: 'A 3 kg cart rolls at 4 m/s. Calculate its kinetic energy.',
     given: { m: 3, v: 4 },
     answer: 24,
     answerUnits: 'J',

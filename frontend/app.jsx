@@ -28499,6 +28499,10 @@ function App({ externalTheme, onThemeChange }) {
   const [progress, setProgress] = useState(() => createEmptyProgress());
   const [quizAttempts, setQuizAttempts] = useState([]);
   const [showFormulaSheet, setShowFormulaSheet] = useState(false);
+  // Dedicated practice tools visibility toggles for subject-specific tool sections
+  const [showMathPracticeTools, setShowMathPracticeTools] = useState(false);
+  const [showSciencePracticeTools, setShowSciencePracticeTools] =
+    useState(false);
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [showJoinOrgModal, setShowJoinOrgModal] = useState(false);
   const [showPracticeModal, setShowPracticeModal] = useState(false);
@@ -37275,10 +37279,12 @@ function StartScreen({
                 {selectedSubject === 'Math' && (
                   <>
                     <button
-                      onClick={() => onOpenMathTools?.()}
+                      onClick={() => setShowMathPracticeTools((v) => !v)}
                       className="px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg shadow-sm hover:bg-sky-600 transition"
                     >
-                      Math Practice Tools
+                      {showMathPracticeTools
+                        ? 'Hide Practice Tools'
+                        : 'Math Practice Tools'}
                     </button>
                     <button
                       onClick={() => setShowFormulaSheet(true)}
@@ -37289,20 +37295,38 @@ function StartScreen({
                   </>
                 )}
                 {selectedSubject === 'Science' && (
-                  <button
-                    type="button"
-                    onClick={() => setViewScienceFormulas(true)}
-                    className="px-4 py-2 font-semibold rounded-lg border-2 transition hover:opacity-90"
-                    style={{
-                      borderColor: isDarkMode
-                        ? subjectColors.border || 'rgba(255,255,255,0.5)'
-                        : panelBorderColor,
-                      color: heroAccentColor,
-                      backgroundColor: isDarkMode ? 'transparent' : '#ffffff',
-                    }}
-                  >
-                    View Science Formula Sheet
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setViewScienceFormulas(true)}
+                      className="px-4 py-2 font-semibold rounded-lg border-2 transition hover:opacity-90"
+                      style={{
+                        borderColor: isDarkMode
+                          ? subjectColors.border || 'rgba(255,255,255,0.5)'
+                          : panelBorderColor,
+                        color: heroAccentColor,
+                        backgroundColor: isDarkMode ? 'transparent' : '#ffffff',
+                      }}
+                    >
+                      View Formula Sheet
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowSciencePracticeTools((v) => !v)}
+                      className="px-4 py-2 font-semibold rounded-lg border-2 transition hover:opacity-90"
+                      style={{
+                        borderColor: isDarkMode
+                          ? subjectColors.border || 'rgba(255,255,255,0.5)'
+                          : panelBorderColor,
+                        color: heroAccentColor,
+                        backgroundColor: isDarkMode ? 'transparent' : '#ffffff',
+                      }}
+                    >
+                      {showSciencePracticeTools
+                        ? 'Hide Practice Tools'
+                        : 'Science Practice Tools'}
+                    </button>
+                  </div>
                 )}
               </div>
             )}
@@ -37314,22 +37338,41 @@ function StartScreen({
               theme={theme}
             />
           )}
-          {/* Science Formula Practice Tool */}
-          {selectedSubject === 'Science' &&
-            window.ScienceFormulaPracticeTool && (
-              <div className="mt-4">
-                <window.ScienceFormulaPracticeTool theme={theme} />
+          {/* Science Practice Tools Section */}
+          {selectedSubject === 'Science' && showSciencePracticeTools && (
+            <div
+              className="mt-4 space-y-4 p-4 rounded-lg border"
+              style={{
+                borderColor: isDarkMode
+                  ? 'rgba(255,255,255,0.25)'
+                  : 'rgba(148,163,184,0.35)',
+                background: isDarkMode ? 'rgba(30,41,59,0.4)' : '#ffffff',
+              }}
+            >
+              <h3 className="font-bold text-lg mb-4">Science Practice Tools</h3>
+              <ScienceToolsTabs theme={theme} />
+            </div>
+          )}
+          {/* Math Practice Tools Section */}
+          {selectedSubject === 'Math' && showMathPracticeTools && (
+            <div
+              className="mt-4 space-y-4 p-4 rounded-lg border"
+              style={{
+                borderColor: isDarkMode
+                  ? 'rgba(255,255,255,0.25)'
+                  : 'rgba(148,163,184,0.35)',
+                background: isDarkMode ? 'rgba(30,41,59,0.4)' : '#ffffff',
+              }}
+            >
+              <h3 className="font-bold text-lg mb-2">Math Practice Tools</h3>
+              <div className="space-y-4">
+                {window.MathStepPracticeTool && (
+                  <window.MathStepPracticeTool theme={theme} />
+                )}
+                {window.MathCentralTendencyTool && (
+                  <window.MathCentralTendencyTool theme={theme} />
+                )}
               </div>
-            )}
-          {/* Math Practice Tools */}
-          {selectedSubject === 'Math' && (
-            <div className="mt-4 space-y-4">
-              {window.MathStepPracticeTool && (
-                <window.MathStepPracticeTool theme={theme} />
-              )}
-              {window.MathCentralTendencyTool && (
-                <window.MathCentralTendencyTool theme={theme} />
-              )}
             </div>
           )}
           {/* Daily Coach goals (across subjects) - COACH FEATURE DISABLED */}
@@ -39527,7 +39570,7 @@ function QuizInterface({
                 className="w-full rounded-lg p-3 text-base leading-relaxed focus:outline-none"
                 style={{
                   border: `1px solid ${scheme.inputBorder}`,
-                  color: 'var(--text-primary)',
+                  color: scheme.text,
                   backgroundColor: scheme.surface,
                   resize: 'vertical',
                 }}
@@ -39670,7 +39713,7 @@ function QuizInterface({
                   className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
                   style={{
                     border: `1px solid ${scheme.inputBorder}`,
-                    color: 'var(--text-primary)',
+                    color: scheme.text,
                   }}
                 />
               )}
@@ -39764,7 +39807,7 @@ function QuizInterface({
                     )}
                     <span
                       className="flex-grow text-left"
-                      style={{ color: 'var(--text-primary)' }}
+                      style={{ color: scheme.text }}
                     >
                       <span className="mr-2 font-bold">
                         {String.fromCharCode(65 + i)}.
@@ -47485,8 +47528,10 @@ function MathPracticeToolsPage({
   geometryNode,
 }) {
   const tabs = [
-    { id: 'graphing', label: 'Graphing Tool' },
-    { id: 'geometry', label: 'Geometry Tool' },
+    { id: 'graphing', label: 'Graphing' },
+    { id: 'geometry', label: 'Geometry' },
+    { id: 'stepSolver', label: 'Step Solver' },
+    { id: 'centralTendency', label: 'Central Tendency' },
   ];
   const isLightMode = (() => {
     if (typeof document === 'undefined') return true;
@@ -47517,6 +47562,34 @@ function MathPracticeToolsPage({
             Preparing the geometry playground...
           </div>
         )
+      );
+    }
+
+    if (activeTab === 'stepSolver') {
+      if (window.MathStepPracticeTool) {
+        return (
+          <window.MathStepPracticeTool theme={isLightMode ? 'light' : 'dark'} />
+        );
+      }
+      return (
+        <div className="py-12 text-center text-slate-500 dark:text-slate-300">
+          Loading Step Solver...
+        </div>
+      );
+    }
+
+    if (activeTab === 'centralTendency') {
+      if (window.MathCentralTendencyTool) {
+        return (
+          <window.MathCentralTendencyTool
+            theme={isLightMode ? 'light' : 'dark'}
+          />
+        );
+      }
+      return (
+        <div className="py-12 text-center text-slate-500 dark:text-slate-300">
+          Loading Central Tendency Practice...
+        </div>
       );
     }
 
@@ -47558,6 +47631,47 @@ function MathPracticeToolsPage({
       <section className="bg-white dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-700/70 rounded-2xl shadow-lg p-4 sm:p-6">
         {renderContent()}
       </section>
+    </div>
+  );
+}
+
+// Lightweight tab system for Science tools (currently only Formula Practice, easy to extend)
+function ScienceToolsTabs({ theme }) {
+  const { useState } = React;
+  const [active, setActive] = useState('formula');
+  const tabs = [
+    { id: 'formula', label: 'Formula Practice' },
+    // Future placeholders can be added here
+  ];
+  const isDarkMode = theme === 'dark';
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap gap-2">
+        {tabs.map((t) => (
+          <button
+            key={t.id}
+            onClick={() => setActive(t.id)}
+            className={`px-4 py-2 rounded-lg font-semibold transition ${
+              active === t.id
+                ? isDarkMode
+                  ? 'bg-emerald-600 text-white shadow'
+                  : 'bg-emerald-600 text-black shadow'
+                : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600'
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+      <div className="border rounded-xl p-4 bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-700">
+        {active === 'formula' && window.ScienceFormulaPracticeTool ? (
+          <window.ScienceFormulaPracticeTool theme={theme} />
+        ) : (
+          <div className="text-center text-slate-500 dark:text-slate-300 py-8">
+            Loading tool...
+          </div>
+        )}
+      </div>
     </div>
   );
 }
