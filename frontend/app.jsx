@@ -1,3 +1,16 @@
+// React hook aliases for UMD + Babel standalone environment
+// This allows bare useState/useEffect/etc. calls when React is loaded via UMD scripts.
+const {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+  useContext,
+  useReducer,
+  createContext,
+} = React;
+
 // --- InterviewScoreReport component ---
 function InterviewScoreReport({ score, strengths, weaknesses, suggestions }) {
   return (
