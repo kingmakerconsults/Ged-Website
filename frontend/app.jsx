@@ -47766,6 +47766,456 @@ const TI30XS_MISSIONS = [
   },
 ];
 
+// ---- Lightweight Expression Tree + Renderer for TI-30XS ----
+function uid() {
+  return Math.random().toString(36).slice(2, 9);
+}
+
+function clone(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+
+function makeNumberNode(value = '0') {
+  return { id: uid(), type: 'number', value: String(value) };
+}
+
+function makeSequence(children = []) {
+  return { id: uid(), type: 'seq', children };
+}
+
+function makeOp(op) {
+  return { id: uid(), type: 'op', value: op };
+}
+
+function makeFraction() {
+  return {
+    id: uid(),
+    type: 'fraction',
+    numerator: makeSequence([]),
+    denominator: makeSequence([]),
+  };
+}
+
+function makePower() {
+  return {
+    id: uid(),
+    type: 'power',
+    base: makeSequence([]),
+    exponent: makeSequence([]),
+  };
+}
+
+function makeRoot() {
+  return { id: uid(), type: 'root', index: null, radicand: makeSequence([]) };
+}
+
+function makeFunc(name) {
+  return {
+    id: uid(),
+    type: 'function',
+    value: name,
+    argument: makeSequence([]),
+  };
+}
+
+function makeVariable(name = 'x') {
+  return { id: uid(), type: 'variable', value: name };
+}
+
+function seqInsertAt(seqNode, index, node) {
+  seqNode.children.splice(index, 0, node);
+}
+
+class ExpressionTree {
+  constructor(existing) {
+    if (existing) {
+      this.root = existing.root;
+      this.cursor = existing.cursor;
+    } else {
+      this.root = makeSequence([]);
+      this.cursor = { nodePath: [], position: 'seq', index: 0 };
+    }
+  }
+
+  clone() {
+    const c = new ExpressionTree();
+    c.root = clone(this.root);
+    c.cursor = clone(this.cursor);
+    return c;
+  }
+
+  // Resolve a path of indexes to get a node reference
+  getNodeByPath(path) {
+    let node = this.root;
+    for (const step of path) {
+      if (!node) break;
+      if (node.type === 'seq') node = node.children[step];
+      else if (node.type === 'fraction')
+        node = step === 'n' ? node.numerator : node.denominator;
+      else if (node.type === 'power')
+        node = step === 'b' ? node.base : node.exponent;
+      else if (node.type === 'root') node = node.radicand;
+      else if (node.type === 'function') node = node.argument;
+    }
+    return node;
+  }
+
+  // Insert helpers
+  insertDigit(d) {
+    const cur = this.cursor;
+    const parent = this.getNodeByPath(cur.nodePath);
+    if (parent.type !== 'seq') return;
+    const left = parent.children[cur.index - 1];
+    if (left && left.type === 'number') {
+      left.value += String(d);
+    } else {
+      seqInsertAt(parent, cur.index, makeNumberNode(String(d)));
+      cur.index += 1;
+    }
+  }
+
+  insertDot() {
+    const cur = this.cursor;
+    const parent = this.getNodeByPath(cur.nodePath);
+    if (parent.type !== 'seq') return;
+    const left = parent.children[cur.index - 1];
+    if (left && left.type === 'number' && !left.value.includes('.')) {
+      left.value += '.';
+    } else {
+      seqInsertAt(parent, cur.index, makeNumberNode('0.'));
+      cur.index += 1;
+    }
+  }
+
+  insertOperator(op) {
+    const cur = this.cursor;
+    const parent = this.getNodeByPath(cur.nodePath);
+    if (parent.type !== 'seq') return;
+    seqInsertAt(parent, cur.index, makeOp(op));
+    cur.index += 1;
+  }
+
+  insertComma() {
+    this.insertOperator(',');
+  }
+
+  insertTemplateFraction() {
+    const cur = this.cursor;
+    const parent = this.getNodeByPath(cur.nodePath);
+    if (parent.type !== 'seq') return;
+    const frac = makeFraction();
+    seqInsertAt(parent, cur.index, frac);
+    // move cursor into numerator
+    cur.nodePath = [...cur.nodePath, cur.index, 'n'];
+    cur.index = 0;
+  }
+
+  insertTemplatePower(expVal = null) {
+    const cur = this.cursor;
+    const parent = this.getNodeByPath(cur.nodePath);
+    if (parent.type !== 'seq') return;
+    const pow = makePower();
+    seqInsertAt(parent, cur.index, pow);
+    // If last element is a number, move it into base
+    const left = parent.children[cur.index - 1];
+    if (left && left.type !== 'op') {
+      // pull left into base
+      parent.children.splice(cur.index - 1, 1);
+      pow.base.children.push(left);
+      cur.index -= 1;
+    }
+    if (expVal != null) {
+      pow.exponent.children.push(makeNumberNode(String(expVal)));
+      // place cursor after power
+      cur.index += 1;
+    } else {
+      // move cursor into exponent
+      cur.nodePath = [...cur.nodePath, cur.index, 'e'];
+      cur.index = 0;
+    }
+  }
+
+  insertTemplateRoot() {
+    const cur = this.cursor;
+    const parent = this.getNodeByPath(cur.nodePath);
+    if (parent.type !== 'seq') return;
+    const r = makeRoot();
+    seqInsertAt(parent, cur.index, r);
+    cur.nodePath = [...cur.nodePath, cur.index];
+    cur.index = 0;
+  }
+
+  insertParenLeft() {
+    this.insertOperator('(');
+  }
+  insertParenRight() {
+    this.insertOperator(')');
+  }
+
+  insertFunction(name) {
+    const cur = this.cursor;
+    const parent = this.getNodeByPath(cur.nodePath);
+    if (parent.type !== 'seq') return;
+    const f = makeFunc(name);
+    seqInsertAt(parent, cur.index, f);
+    cur.nodePath = [...cur.nodePath, cur.index];
+    cur.index = 0;
+  }
+
+  insertVariable(name = 'x') {
+    const cur = this.cursor;
+    const parent = this.getNodeByPath(cur.nodePath);
+    if (parent.type !== 'seq') return;
+    seqInsertAt(parent, cur.index, makeVariable(name));
+    cur.index += 1;
+  }
+
+  moveCursorLeft() {
+    const cur = this.cursor;
+    const parent = this.getNodeByPath(cur.nodePath);
+    if (parent.type !== 'seq') return;
+    cur.index = Math.max(0, cur.index - 1);
+  }
+  moveCursorRight() {
+    const cur = this.cursor;
+    const parent = this.getNodeByPath(cur.nodePath);
+    if (parent.type !== 'seq') return;
+    cur.index = Math.min(parent.children.length, cur.index + 1);
+  }
+  moveCursorUp() {
+    // If inside fraction denominator, go to numerator; if exponent, go to base end
+    const p = this.cursor.nodePath;
+    if (p.length >= 2 && p[p.length - 1] === 'd') {
+      p[p.length - 1] = 'n';
+      this.cursor.index = this.getNodeByPath(p).children.length;
+    }
+  }
+  moveCursorDown() {
+    const p = this.cursor.nodePath;
+    if (p.length >= 2 && p[p.length - 1] === 'n') {
+      p[p.length - 1] = 'd';
+      this.cursor.index = this.getNodeByPath(p).children.length;
+    }
+  }
+
+  deleteBackward() {
+    const cur = this.cursor;
+    const parent = this.getNodeByPath(cur.nodePath);
+    if (parent.type !== 'seq') return;
+    if (cur.index > 0) {
+      const left = parent.children[cur.index - 1];
+      if (left.type === 'number' && left.value.length > 1) {
+        left.value = left.value.slice(0, -1);
+      } else {
+        parent.children.splice(cur.index - 1, 1);
+        cur.index -= 1;
+      }
+    }
+  }
+
+  clear() {
+    this.root = makeSequence([]);
+    this.cursor = { nodePath: [], position: 'seq', index: 0 };
+  }
+
+  // Convert to JS eval string
+  toEvalString(angle = 'DEG') {
+    function splitArgs(seqNode) {
+      const args = [];
+      let cur = [];
+      for (const ch of seqNode.children || []) {
+        if (ch.type === 'op' && ch.value === ',') {
+          args.push(cur);
+          cur = [];
+        } else {
+          cur.push(ch);
+        }
+      }
+      args.push(cur);
+      return args;
+    }
+    function walk(node) {
+      if (!node) return '';
+      switch (node.type) {
+        case 'number':
+          return node.value;
+        case 'variable':
+          return node.value;
+        case 'op':
+          if (node.value === '×') return '*';
+          if (node.value === '÷') return '/';
+          if (node.value === '%') return '/100';
+          return node.value;
+        case 'seq':
+          return node.children.map(walk).join('');
+        case 'fraction':
+          return `(${walk(node.numerator)})/(${walk(node.denominator)})`;
+        case 'power':
+          return `(${walk(node.base)})**(${walk(node.exponent)})`;
+        case 'root':
+          return `Math.sqrt(${walk(node.radicand)})`;
+        case 'function': {
+          const arg = walk(node.argument);
+          if (
+            node.value === 'sin' ||
+            node.value === 'cos' ||
+            node.value === 'tan'
+          ) {
+            const x = angle === 'DEG' ? `((${arg})*Math.PI/180)` : `(${arg})`;
+            return `Math.${node.value}(${x})`;
+          }
+          if (node.value === 'ln') return `Math.log(${arg})`;
+          if (node.value === 'log') return `(Math.log(${arg})/Math.LN10)`;
+          if (node.value === 'exp') return `Math.exp(${arg})`;
+          if (node.value === 'fact') {
+            return `(()=>{const n=${arg}|0;let r=1;for(let i=2;i<=n;i++)r*=i;return r;})()`;
+          }
+          if (node.value === 'nCr' || node.value === 'nPr') {
+            const parts = splitArgs(node.argument).map((seq) =>
+              walk({ type: 'seq', children: seq })
+            );
+            const a = parts[0] || '0';
+            const b = parts[1] || '0';
+            const fact = `(n=>{n=n|0;let r=1;for(let i=2;i<=n;i++)r*=i;return r;})`;
+            if (node.value === 'nCr') {
+              return `(${fact})(${a})/(((${fact})(${b}))*(${fact})((${a})-(${b})))`;
+            } else {
+              return `(${fact})(${a})/((${fact})((${a})-(${b})))`;
+            }
+          }
+          return `${node.value}(${arg})`;
+        }
+        default:
+          return '';
+      }
+    }
+    return walk(this.root);
+  }
+
+  toPlainText() {
+    function walk(node) {
+      if (!node) return '';
+      switch (node.type) {
+        case 'number':
+        case 'variable':
+          return node.value;
+        case 'op':
+          return node.value;
+        case 'seq':
+          return node.children.map(walk).join('');
+        case 'fraction':
+          return `(${walk(node.numerator)})/(${walk(node.denominator)})`;
+        case 'power':
+          return `${walk(node.base)}^${walk(node.exponent)}`;
+        case 'root':
+          return `√(${walk(node.radicand)})`;
+        case 'function':
+          return `${node.value}(${walk(node.argument)})`;
+        default:
+          return '';
+      }
+    }
+    return walk(this.root);
+  }
+}
+
+function GCD(a, b) {
+  a = Math.abs(a);
+  b = Math.abs(b);
+  while (b) {
+    const t = b;
+    b = a % b;
+    a = t;
+  }
+  return a || 1;
+}
+
+function decimalToFraction(x, tol = 1e-10) {
+  if (!isFinite(x)) return null;
+  let sign = x < 0 ? -1 : 1;
+  x = Math.abs(x);
+  let numerator = 1,
+    denominator = 1,
+    best = x,
+    bestN = 1,
+    bestD = 1;
+  for (let d = 1; d <= 10000; d++) {
+    const n = Math.round(x * d);
+    const val = Math.abs(n / d - x);
+    if (val < best) {
+      best = val;
+      bestN = n;
+      bestD = d;
+    }
+    if (best < tol) break;
+  }
+  const g = GCD(bestN, bestD);
+  return { n: sign * (bestN / g), d: bestD / g };
+}
+
+function renderExprNode(node, cursor) {
+  if (!node) return null;
+  const isCursorHere = false; // simplified visual, cursor handled by caret elements below
+  switch (node.type) {
+    case 'number':
+    case 'op':
+    case 'variable':
+      return <span className="mx-0.5">{node.value}</span>;
+    case 'seq': {
+      return (
+        <span>
+          {node.children.map((ch, i) => (
+            <span key={ch.id} className="inline-flex items-center">
+              {renderExprNode(ch, cursor)}
+            </span>
+          ))}
+          {/* caret at end of sequence */}
+        </span>
+      );
+    }
+    case 'fraction':
+      return (
+        <span className="inline-flex flex-col items-center mx-0.5 align-middle">
+          <span className="border-b border-slate-900 px-0.5">
+            {renderExprNode(node.numerator, cursor)}
+          </span>
+          <span className="px-0.5">
+            {renderExprNode(node.denominator, cursor)}
+          </span>
+        </span>
+      );
+    case 'power':
+      return (
+        <span className="inline-flex items-start">
+          {renderExprNode(node.base, cursor)}
+          <sup className="align-super text-[0.6em] ml-0.5">
+            {renderExprNode(node.exponent, cursor)}
+          </sup>
+        </span>
+      );
+    case 'root':
+      return (
+        <span className="inline-flex items-center">
+          <span className="mr-0.5">√</span>
+          <span className="border-b border-transparent">
+            {renderExprNode(node.radicand, cursor)}
+          </span>
+        </span>
+      );
+    case 'function':
+      return (
+        <span>
+          <span className="mr-0.5">{node.value}</span>
+          <span>(</span>
+          {renderExprNode(node.argument, cursor)}
+          <span>)</span>
+        </span>
+      );
+    default:
+      return null;
+  }
+}
+
 // Core TI-30XS Calculator Component
 function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
   const [display, setDisplay] = useState('0');
@@ -47774,25 +48224,17 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
   const [mode, setMode] = useState('DEG'); // DEG or RAD
   const [showSecondFunctions, setShowSecondFunctions] = useState(false);
   const [error, setError] = useState(false);
+  const [expr, setExpr] = useState(() => new ExpressionTree());
+  const [history, setHistory] = useState([]);
+  const [resultText, setResultText] = useState('');
+  const [resultAsFraction, setResultAsFraction] = useState(false);
+  const [activePanel, setActivePanel] = useState(null); // 'DATA' | 'STAT' | 'TABLE'
+  const [lists, setLists] = useState({ L1: [], L2: [], L3: [] });
 
   // Helper to safely evaluate expressions
-  const evaluateExpression = (expr) => {
+  const evaluateExpression = (exprStr) => {
     try {
-      // Replace calculator symbols with JS operators
-      let jsExpr = expr
-        .replace(/×/g, '*')
-        .replace(/÷/g, '/')
-        .replace(/π/g, String(Math.PI))
-        .replace(/√\(([^)]+)\)/g, 'Math.sqrt($1)')
-        .replace(/√(\d+\.?\d*)/g, 'Math.sqrt($1)')
-        .replace(/²/g, '**2')
-        .replace(/\^/g, '**');
-
-      // Handle percentage
-      jsExpr = jsExpr.replace(/(\d+\.?\d*)%/g, '($1/100)');
-
-      // Evaluate safely
-      const result = Function('"use strict"; return (' + jsExpr + ')')();
+      const result = Function('"use strict"; return (' + exprStr + ')')();
 
       if (isNaN(result) || !isFinite(result)) {
         throw new Error('Invalid result');
@@ -47812,13 +48254,17 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
       onKeyPress(keyId);
     }
 
+    let newExpr = expr.clone();
     switch (keyId) {
       case 'ON':
       case 'AC':
+        newExpr.clear();
         setCurrentEntry('');
         setDisplay('0');
         setLastResult(null);
         setShowSecondFunctions(false);
+        setResultText('');
+        setActivePanel(null);
         if (onExpressionChange) onExpressionChange('');
         break;
 
@@ -47831,154 +48277,177 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
         }
         break;
 
+      case 'DIGIT_0':
       case '0':
       case '1':
+      case 'DIGIT_1':
       case '2':
+      case 'DIGIT_2':
       case '3':
+      case 'DIGIT_3':
       case '4':
+      case 'DIGIT_4':
       case '5':
+      case 'DIGIT_5':
       case '6':
+      case 'DIGIT_6':
       case '7':
+      case 'DIGIT_7':
       case '8':
+      case 'DIGIT_8':
       case '9':
-        const newEntry = currentEntry === '0' ? keyId : currentEntry + keyId;
-        setCurrentEntry(newEntry);
-        setDisplay(newEntry);
-        if (onExpressionChange) onExpressionChange(newEntry);
+      case 'DIGIT_9': {
+        const d = String(keyId).replace('DIGIT_', '');
+        newExpr.insertDigit(d);
+        const txt = newExpr.toPlainText();
+        setCurrentEntry(txt);
+        setDisplay(txt || '0');
+        if (onExpressionChange) onExpressionChange(txt);
         break;
+      }
 
       case 'DOT':
-        if (
-          !currentEntry.includes('.') ||
-          /[+\-×÷^]/.test(currentEntry.slice(-1))
-        ) {
-          const updated = currentEntry + '.';
-          setCurrentEntry(updated);
-          setDisplay(updated);
-          if (onExpressionChange) onExpressionChange(updated);
-        }
+        newExpr.insertDot();
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText() || '0');
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'ADD':
-        const addEntry = currentEntry + '+';
-        setCurrentEntry(addEntry);
-        setDisplay(addEntry);
-        if (onExpressionChange) onExpressionChange(addEntry);
+        newExpr.insertOperator('+');
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'SUBTRACT':
-        const subEntry = currentEntry + '-';
-        setCurrentEntry(subEntry);
-        setDisplay(subEntry);
-        if (onExpressionChange) onExpressionChange(subEntry);
+        newExpr.insertOperator('-');
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'MULTIPLY':
-        const mulEntry = currentEntry + '×';
-        setCurrentEntry(mulEntry);
-        setDisplay(mulEntry);
-        if (onExpressionChange) onExpressionChange(mulEntry);
+        newExpr.insertOperator('×');
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'DIVIDE':
-        const divEntry = currentEntry + '÷';
-        setCurrentEntry(divEntry);
-        setDisplay(divEntry);
-        if (onExpressionChange) onExpressionChange(divEntry);
+        newExpr.insertOperator('÷');
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'LPAREN':
-        const lparenEntry = currentEntry + '(';
-        setCurrentEntry(lparenEntry);
-        setDisplay(lparenEntry);
-        if (onExpressionChange) onExpressionChange(lparenEntry);
+        newExpr.insertParenLeft();
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'RPAREN':
-        const rparenEntry = currentEntry + ')';
-        setCurrentEntry(rparenEntry);
-        setDisplay(rparenEntry);
-        if (onExpressionChange) onExpressionChange(rparenEntry);
+        newExpr.insertParenRight();
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'SQUARE':
-        const sqEntry = currentEntry + '²';
-        setCurrentEntry(sqEntry);
-        setDisplay(sqEntry);
-        if (onExpressionChange) onExpressionChange(sqEntry);
+        newExpr.insertTemplatePower(2);
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'SQRT':
-        const sqrtEntry = currentEntry + '√(';
-        setCurrentEntry(sqrtEntry);
-        setDisplay(sqrtEntry);
-        if (onExpressionChange) onExpressionChange(sqrtEntry);
+        newExpr.insertTemplateRoot();
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'POWER':
-        const powEntry = currentEntry + '^';
-        setCurrentEntry(powEntry);
-        setDisplay(powEntry);
-        if (onExpressionChange) onExpressionChange(powEntry);
+        newExpr.insertTemplatePower();
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'PI':
-        const piEntry = currentEntry + 'π';
-        setCurrentEntry(piEntry);
-        setDisplay(piEntry);
-        if (onExpressionChange) onExpressionChange(piEntry);
+        // insert numeric constant
+        newExpr.insertDigit(String(Math.PI));
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'FRAC':
       case 'FRAC_TEMPLATE':
-        const fracEntry = currentEntry + '/';
-        setCurrentEntry(fracEntry);
-        setDisplay(fracEntry);
-        if (onExpressionChange) onExpressionChange(fracEntry);
+        newExpr.insertTemplateFraction();
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'PERCENT':
-        const pctEntry = currentEntry + '%';
-        setCurrentEntry(pctEntry);
-        setDisplay(pctEntry);
-        if (onExpressionChange) onExpressionChange(pctEntry);
+        newExpr.insertOperator('%');
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
+        break;
+
+      case 'COMMA':
+        newExpr.insertComma();
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'ANS':
         if (lastResult !== null) {
-          const ansEntry = currentEntry + String(lastResult);
-          setCurrentEntry(ansEntry);
-          setDisplay(ansEntry);
-          if (onExpressionChange) onExpressionChange(ansEntry);
+          newExpr.insertDigit(String(lastResult));
+          const t = newExpr.toPlainText();
+          setCurrentEntry(t);
+          setDisplay(t);
+          if (onExpressionChange) onExpressionChange(t);
         }
         break;
 
       case 'NEGATIVE':
-        if (currentEntry === '' || currentEntry === '0') {
-          setCurrentEntry('-');
-          setDisplay('-');
-          if (onExpressionChange) onExpressionChange('-');
-        } else {
-          const negEntry = currentEntry + '-';
-          setCurrentEntry(negEntry);
-          setDisplay(negEntry);
-          if (onExpressionChange) onExpressionChange(negEntry);
-        }
+        newExpr.insertOperator('-');
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText());
+        if (onExpressionChange) onExpressionChange(newExpr.toPlainText());
         break;
 
       case 'EQUALS':
-        if (currentEntry) {
+      case 'ENTER':
+        {
           try {
-            const result = evaluateExpression(currentEntry);
-            const resultStr = String(result);
-            setDisplay(resultStr);
+            const evalStr = newExpr.toEvalString(mode);
+            const result = evaluateExpression(evalStr);
+            const resultStrRaw = String(result);
+            setDisplay(resultStrRaw);
             setLastResult(result);
-            setCurrentEntry('');
+            if (resultAsFraction) {
+              const frac = decimalToFraction(result);
+              setResultText(frac ? `${frac.n}/${frac.d}` : resultStrRaw);
+            } else {
+              setResultText(resultStrRaw);
+            }
+            setHistory(
+              [
+                { expr: newExpr.toPlainText(), result: resultStr },
+                ...history,
+              ].slice(0, 10)
+            );
             if (onResultChange) onResultChange(result);
           } catch (e) {
             setDisplay('Error');
             setError(true);
-            setCurrentEntry('');
           }
         }
         break;
@@ -47992,6 +48461,18 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
         setMode(mode === 'DEG' ? 'RAD' : 'DEG');
         break;
 
+      case 'FRAC_DEC_TOGGLE':
+        setResultAsFraction(!resultAsFraction);
+        if (lastResult != null) {
+          if (!resultAsFraction) {
+            const frac = decimalToFraction(lastResult);
+            if (frac) setResultText(`${frac.n}/${frac.d}`);
+          } else {
+            setResultText(String(lastResult));
+          }
+        }
+        break;
+
       case 'SIN':
       case 'COS':
       case 'TAN':
@@ -47999,30 +48480,66 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
       case 'LN':
       case 'EXP':
         // Trig and log functions - insert function name with parenthesis
-        const funcName = keyId.toLowerCase();
-        const funcEntry = currentEntry + funcName + '(';
-        setCurrentEntry(funcEntry);
-        setDisplay(funcEntry);
-        if (onExpressionChange) onExpressionChange(funcEntry);
+        {
+          const fnMap = {
+            SIN: 'sin',
+            COS: 'cos',
+            TAN: 'tan',
+            LOG: 'log',
+            LN: 'ln',
+            EXP: 'exp',
+          };
+          const funcName = fnMap[keyId] || keyId.toLowerCase();
+          newExpr.insertFunction(funcName);
+          const t = newExpr.toPlainText();
+          setCurrentEntry(t);
+          setDisplay(t);
+          if (onExpressionChange) onExpressionChange(t);
+        }
         break;
 
       default:
-        // For unimplemented keys, append a placeholder or show brief feedback
-        console.log(`Key ${keyId} not yet implemented`);
+        // Navigation and panels
+        if (keyId === 'ARROW_LEFT') newExpr.moveCursorLeft();
+        else if (keyId === 'ARROW_RIGHT') newExpr.moveCursorRight();
+        else if (keyId === 'ARROW_UP') newExpr.moveCursorUp();
+        else if (keyId === 'ARROW_DOWN') newExpr.moveCursorDown();
+        else if (keyId === 'DEL') newExpr.deleteBackward();
+        else if (keyId === 'DATA')
+          setActivePanel(activePanel === 'DATA' ? null : 'DATA');
+        else if (keyId === 'STAT')
+          setActivePanel(activePanel === 'STAT' ? null : 'STAT');
+        else if (keyId === 'ANGLE')
+          setActivePanel(activePanel === 'ANGLE' ? null : 'ANGLE');
+        else if (keyId === 'PRB')
+          setActivePanel(activePanel === 'PRB' ? null : 'PRB');
+        else console.log(`Key ${keyId} not yet implemented`);
+        setCurrentEntry(newExpr.toPlainText());
+        setDisplay(newExpr.toPlainText() || '0');
         break;
     }
+    setExpr(newExpr);
   };
 
   return (
     <div className="ti30xs-calculator bg-gradient-to-br from-slate-700 to-slate-900 p-6 rounded-2xl shadow-2xl max-w-md mx-auto border-4 border-slate-800">
-      {/* Screen */}
-      <div className="bg-green-100 border-4 border-slate-600 rounded-lg p-3 mb-6 shadow-inner min-h-[80px] font-mono">
+      {/* Screen - MultiView 4 lines */}
+      <div className="bg-green-100 border-4 border-slate-600 rounded-lg p-3 mb-3 shadow-inner min-h-[100px] font-mono">
         <div className="flex justify-between text-[10px] text-slate-700 mb-1">
           <span>{mode}</span>
-          <span>{showSecondFunctions ? '2nd' : ''}</span>
+          <span>
+            {showSecondFunctions ? '2nd' : ''}
+            {activePanel ? ` · ${activePanel}` : ''}
+          </span>
         </div>
-        <div className="text-right text-lg text-slate-900 break-all leading-tight">
-          {display}
+        <div className="text-[11px] text-slate-700 truncate min-h-[1rem]">
+          {history[0]?.expr || ''}
+        </div>
+        <div className="text-base text-slate-900 min-h-[1.2rem] break-all">
+          {renderExprNode(expr.root, expr.cursor)}
+        </div>
+        <div className="text-base text-slate-900 min-h-[1.2rem] text-right">
+          {resultText}
         </div>
       </div>
 
@@ -48353,6 +48870,197 @@ function Ti30xsCalculator({ onExpressionChange, onResultChange, onKeyPress }) {
           />
         </div>
       </div>
+
+      {/* Panels: DATA / STAT / ANGLE / PRB */}
+      {activePanel === 'DATA' && (
+        <div className="mt-3 bg-white/70 dark:bg-slate-800/60 rounded-lg p-3 border border-slate-300 dark:border-slate-600">
+          <div className="font-semibold mb-2">List Editor</div>
+          <div className="overflow-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left">
+                  <th className="pr-2">L1</th>
+                  <th className="pr-2">L2</th>
+                  <th>L3</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.from({
+                  length: Math.max(
+                    lists.L1.length,
+                    lists.L2.length,
+                    lists.L3.length,
+                    5
+                  ),
+                }).map((_, i) => (
+                  <tr key={i}>
+                    {['L1', 'L2', 'L3'].map((k) => (
+                      <td key={k} className="pr-2 py-0.5">
+                        <input
+                          className="w-full bg-slate-100 dark:bg-slate-700 rounded px-1 py-0.5"
+                          type="text"
+                          value={lists[k][i] ?? ''}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setLists((prev) => {
+                              const next = { ...prev, [k]: [...prev[k]] };
+                              next[k][i] = val === '' ? '' : Number(val);
+                              return next;
+                            });
+                          }}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {activePanel === 'STAT' && (
+        <div className="mt-3 bg-white/70 dark:bg-slate-800/60 rounded-lg p-3 border border-slate-300 dark:border-slate-600 space-y-2">
+          <div className="font-semibold">STAT Menu</div>
+          <div className="flex gap-2 flex-wrap">
+            <button
+              className="px-3 py-1 rounded bg-slate-200 dark:bg-slate-700"
+              onClick={() => {
+                // 1-Var stats on L1
+                const arr = (lists.L1 || []).filter(
+                  (v) => v !== '' && !isNaN(v)
+                );
+                const n = arr.length;
+                const sum = arr.reduce((a, b) => a + Number(b), 0);
+                const mean = n ? sum / n : 0;
+                const variance = n
+                  ? arr.reduce((a, b) => a + Math.pow(Number(b) - mean, 2), 0) /
+                    n
+                  : 0;
+                const stdev = Math.sqrt(variance);
+                setResultText(
+                  `n=${n}  mean=${mean.toFixed(4)}  σ=${stdev.toFixed(4)}`
+                );
+              }}
+            >
+              1-Var Stats (L1)
+            </button>
+            <button
+              className="px-3 py-1 rounded bg-slate-200 dark:bg-slate-700"
+              onClick={() => {
+                const X = (lists.L1 || []).map(Number);
+                const Y = (lists.L2 || []).map(Number);
+                const n = Math.min(X.length, Y.length);
+                const xs = X.slice(0, n),
+                  ys = Y.slice(0, n);
+                const mean = (a) =>
+                  a.reduce((s, v) => s + v, 0) / Math.max(1, a.length);
+                const mx = mean(xs),
+                  my = mean(ys);
+                let num = 0,
+                  denx = 0,
+                  deny = 0;
+                for (let i = 0; i < n; i++) {
+                  const dx = xs[i] - mx,
+                    dy = ys[i] - my;
+                  num += dx * dy;
+                  denx += dx * dx;
+                  deny += dy * dy;
+                }
+                const r = n ? num / Math.sqrt(denx * deny) : 0;
+                setResultText(`n=${n}  r=${(r || 0).toFixed(4)}`);
+              }}
+            >
+              2-Var Stats (L1,L2)
+            </button>
+            <button
+              className="px-3 py-1 rounded bg-rose-500 text-white"
+              onClick={() => setLists({ L1: [], L2: [], L3: [] })}
+            >
+              Clear Lists
+            </button>
+            <button
+              className="px-3 py-1 rounded bg-sky-500 text-white"
+              onClick={() => setActivePanel('TABLE')}
+            >
+              Table Setup
+            </button>
+          </div>
+        </div>
+      )}
+
+      {activePanel === 'ANGLE' && (
+        <div className="mt-3 bg-white/70 dark:bg-slate-800/60 rounded-lg p-3 border border-slate-300 dark:border-slate-600 space-x-2">
+          <span className="font-semibold mr-2">ANGLE</span>
+          <button
+            className={`px-3 py-1 rounded ${
+              mode === 'DEG'
+                ? 'bg-emerald-500 text-white'
+                : 'bg-slate-200 dark:bg-slate-700'
+            }`}
+            onClick={() => setMode('DEG')}
+          >
+            DEG
+          </button>
+          <button
+            className={`px-3 py-1 rounded ${
+              mode === 'RAD'
+                ? 'bg-emerald-500 text-white'
+                : 'bg-slate-200 dark:bg-slate-700'
+            }`}
+            onClick={() => setMode('RAD')}
+          >
+            RAD
+          </button>
+        </div>
+      )}
+
+      {activePanel === 'PRB' && (
+        <div className="mt-3 bg-white/70 dark:bg-slate-800/60 rounded-lg p-3 border border-slate-300 dark:border-slate-600 space-x-2">
+          <span className="font-semibold mr-2">PRB</span>
+          <button
+            className="px-3 py-1 rounded bg-slate-200 dark:bg-slate-700"
+            onClick={() => {
+              const e = expr.clone();
+              e.insertFunction('fact');
+              setExpr(e);
+              setCurrentEntry(e.toPlainText());
+            }}
+          >
+            {'n!'}
+          </button>
+          <button
+            className="px-3 py-1 rounded bg-slate-200 dark:bg-slate-700"
+            onClick={() => {
+              const e = expr.clone();
+              e.insertFunction('nCr');
+              setExpr(e);
+              setCurrentEntry(e.toPlainText());
+            }}
+          >
+            nCr
+          </button>
+          <button
+            className="px-3 py-1 rounded bg-slate-200 dark:bg-slate-700"
+            onClick={() => {
+              const e = expr.clone();
+              e.insertFunction('nPr');
+              setExpr(e);
+              setCurrentEntry(e.toPlainText());
+            }}
+          >
+            nPr
+          </button>
+        </div>
+      )}
+
+      {activePanel === 'TABLE' && (
+        <TablePanel
+          expr={expr}
+          mode={mode}
+          onClose={() => setActivePanel(null)}
+        />
+      )}
     </div>
   );
 }
@@ -48409,6 +49117,103 @@ function CalcButton({
         </div>
       </div>
     </button>
+  );
+}
+
+// Simple Table Panel for f(x)
+function TablePanel({ expr, mode, onClose }) {
+  const [fnText, setFnText] = React.useState('x^2');
+  const [start, setStart] = React.useState(0);
+  const [step, setStep] = React.useState(1);
+  const [rows, setRows] = React.useState(10);
+
+  const compute = () => {
+    const safe = (s) =>
+      s.replace(/\^/g, '**').replace(/×/g, '*').replace(/÷/g, '/');
+    const angle = mode;
+    const res = [];
+    for (let i = 0; i < rows; i++) {
+      const x = Number(start) + i * Number(step);
+      const body = safe(fnText).replace(/\bx\b/g, `(${x})`);
+      try {
+        const y = Function('"use strict";return (' + body + ')')();
+        res.push({ x, y });
+      } catch {
+        res.push({ x, y: NaN });
+      }
+    }
+    return res;
+  };
+
+  const table = compute();
+
+  return (
+    <div className="mt-3 bg-white/70 dark:bg-slate-800/60 rounded-lg p-3 border border-slate-300 dark:border-slate-600">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="font-semibold">TABLE f(x)</span>
+        <button
+          className="ml-auto px-2 py-1 rounded bg-slate-200 dark:bg-slate-700"
+          onClick={onClose}
+        >
+          Close
+        </button>
+      </div>
+      <div className="grid grid-cols-2 gap-2 mb-2">
+        <label className="text-sm">
+          f(x):{' '}
+          <input
+            className="ml-2 px-2 py-1 rounded bg-slate-100 dark:bg-slate-700"
+            value={fnText}
+            onChange={(e) => setFnText(e.target.value)}
+          />
+        </label>
+        <label className="text-sm">
+          start x:{' '}
+          <input
+            type="number"
+            className="ml-2 px-2 py-1 rounded bg-slate-100 dark:bg-slate-700"
+            value={start}
+            onChange={(e) => setStart(e.target.value)}
+          />
+        </label>
+        <label className="text-sm">
+          step:{' '}
+          <input
+            type="number"
+            className="ml-2 px-2 py-1 rounded bg-slate-100 dark:bg-slate-700"
+            value={step}
+            onChange={(e) => setStep(e.target.value)}
+          />
+        </label>
+        <label className="text-sm">
+          rows:{' '}
+          <input
+            type="number"
+            className="ml-2 px-2 py-1 rounded bg-slate-100 dark:bg-slate-700"
+            value={rows}
+            onChange={(e) => setRows(e.target.value)}
+          />
+        </label>
+      </div>
+      <div className="overflow-auto max-h-48">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-left">
+              <th className="pr-4">x</th>
+              <th>f(x)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {table.map((r, i) => (
+              <tr key={i}>
+                <td className="pr-4">{r.x}</td>
+                <td>{String(r.y)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 
