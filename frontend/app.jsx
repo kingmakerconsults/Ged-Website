@@ -83,6 +83,22 @@ const SUBJECT_PROGRESS_KEYS = [
 
 const GED_PASSING_SCORE = 145;
 
+// Subject name to ID mapping for badge/icon lookups
+const SUBJECT_ID_MAP = {
+  'Social Studies': 'social_studies',
+  'Reasoning Through Language Arts (RLA)': 'rla',
+  Science: 'science',
+  Math: 'math',
+};
+
+// Badge image paths by subject ID
+const BADGE_IMG_PATHS = {
+  social_studies: '/badges/social-studies.svg',
+  rla: '/badges/rla.svg',
+  science: '/badges/science.svg',
+  math: '/badges/math.svg',
+};
+
 // In-memory catalog for premade quizzes, populated when quiz data is loaded
 let PREMADE_QUIZ_CATALOG = {};
 
