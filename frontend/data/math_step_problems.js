@@ -503,6 +503,216 @@ const MATH_STEP_PROBLEMS = [
     finalAnswerText: '16 notebooks with $2 left',
     numericAnswer: 16,
   },
+  // --- Additional Extended Problem Bank (Linear Equations) ---
+  {
+    id: 'linear_6',
+    topic: 'Linear Equations',
+    difficulty: 'easy',
+    problemText: 'Solve for x: x + 9 = 14',
+    formattedProblem: 'x + 9 = 14',
+    steps: [
+      { explanation: 'Subtract 9 from both sides.', expression: 'x = 5' },
+    ],
+    finalAnswerText: 'x = 5',
+    numericAnswer: 5,
+  },
+  {
+    id: 'linear_7',
+    topic: 'Linear Equations',
+    difficulty: 'easy',
+    problemText: 'Solve for x: 7 + x = 20',
+    formattedProblem: '7 + x = 20',
+    steps: [
+      { explanation: 'Subtract 7 from both sides.', expression: 'x = 13' },
+    ],
+    finalAnswerText: 'x = 13',
+    numericAnswer: 13,
+  },
+  {
+    id: 'linear_8',
+    topic: 'Linear Equations',
+    difficulty: 'medium',
+    problemText: 'Solve for x: 9x - 4 = 5x + 16',
+    formattedProblem: '9x - 4 = 5x + 16',
+    steps: [
+      {
+        explanation: 'Subtract 5x from both sides.',
+        expression: '4x - 4 = 16',
+      },
+      { explanation: 'Add 4 to both sides.', expression: '4x = 20' },
+      { explanation: 'Divide by 4.', expression: 'x = 5' },
+    ],
+    finalAnswerText: 'x = 5',
+    numericAnswer: 5,
+  },
+  {
+    id: 'linear_9',
+    topic: 'Linear Equations',
+    difficulty: 'medium',
+    problemText: 'Solve for x: 3(x + 2) = 2(x + 7)',
+    formattedProblem: '3(x + 2) = 2(x + 7)',
+    steps: [
+      { explanation: 'Distribute both sides.', expression: '3x + 6 = 2x + 14' },
+      { explanation: 'Subtract 2x from both sides.', expression: 'x + 6 = 14' },
+      { explanation: 'Subtract 6 from both sides.', expression: 'x = 8' },
+    ],
+    finalAnswerText: 'x = 8',
+    numericAnswer: 8,
+  },
+  {
+    id: 'linear_10',
+    topic: 'Linear Equations',
+    difficulty: 'hard',
+    problemText: 'Solve for x: 4(2x - 3) - 5 = 3(3x - 2)',
+    formattedProblem: '4(2x - 3) - 5 = 3(3x - 2)',
+    steps: [
+      {
+        explanation: 'Distribute on both sides.',
+        expression: '8x - 12 - 5 = 9x - 6',
+      },
+      { explanation: 'Combine like terms.', expression: '8x - 17 = 9x - 6' },
+      {
+        explanation: 'Subtract 8x from both sides.',
+        expression: '-17 = x - 6',
+      },
+      { explanation: 'Add 6 to both sides.', expression: '-11 = x' },
+    ],
+    finalAnswerText: 'x = -11',
+    numericAnswer: -11,
+  },
+  // --- Additional Fractions ---
+  {
+    id: 'fractions_5',
+    topic: 'Fractions',
+    difficulty: 'easy',
+    problemText: 'Compute: 1/2 + 1/3',
+    formattedProblem: '\\frac{1}{2} + \\frac{1}{3}',
+    steps: [
+      {
+        explanation: 'Common denominator is 6.',
+        expression: '\\frac{3}{6} + \\frac{2}{6}',
+      },
+      { explanation: 'Add: 3/6 + 2/6 = 5/6.', expression: '\\frac{5}{6}' },
+    ],
+    finalAnswerText: '5/6',
+    numericAnswer: null,
+  },
+  {
+    id: 'fractions_6',
+    topic: 'Fractions',
+    difficulty: 'hard',
+    problemText: 'Compute: (2/3 + 5/9) - 1/3',
+    formattedProblem: '( \\frac{2}{3} + \\frac{5}{9} ) - \\frac{1}{3}',
+    steps: [
+      {
+        explanation: 'Convert 2/3 and 1/3 to ninths.',
+        expression: '\\frac{6}{9} + \\frac{5}{9} - \\frac{3}{9}',
+      },
+      {
+        explanation: 'Add first two: 6/9 + 5/9 = 11/9.',
+        expression: '\\frac{11}{9} - \\frac{3}{9}',
+      },
+      {
+        explanation: 'Subtract: 11/9 - 3/9 = 8/9.',
+        expression: '\\frac{8}{9}',
+      },
+    ],
+    finalAnswerText: '8/9',
+    numericAnswer: null,
+  },
+  // --- Additional Decimals & Percents ---
+  {
+    id: 'decimals_5',
+    topic: 'Decimals & Percents',
+    difficulty: 'hard',
+    problemText:
+      'A $120 jacket is discounted 15% then taxed 8%. What is the final price (ignore cents rounding)?',
+    formattedProblem: '120 - 0.15(120) + 0.08(120 - 0.15(120))',
+    steps: [
+      {
+        explanation: 'Find discount: 15% of 120 = 18.',
+        expression: '120 - 18 = 102',
+      },
+      {
+        explanation: 'Tax base is 102. Compute 8% tax: 0.08 × 102 = 8.16.',
+        expression: '102 + 8.16',
+      },
+      { explanation: 'Add tax: 102 + 8.16 = 110.16.', expression: '110.16' },
+    ],
+    finalAnswerText: '$110.16',
+    numericAnswer: 110.16,
+  },
+  // --- Additional Exponents & Roots ---
+  {
+    id: 'exponents_6',
+    topic: 'Exponents & Roots',
+    difficulty: 'hard',
+    problemText: 'Simplify: 2^3 * 5^2 * 2^2',
+    formattedProblem: '2^3 \\cdot 5^2 \\cdot 2^2',
+    steps: [
+      {
+        explanation: 'Combine powers of 2: 2^(3+2) = 2^5.',
+        expression: '2^5 \\cdot 5^2',
+      },
+      {
+        explanation: 'Compute 2^5 = 32 and 5^2 = 25.',
+        expression: '32 \\cdot 25',
+      },
+      { explanation: 'Multiply: 32 × 25 = 800.', expression: '800' },
+    ],
+    finalAnswerText: '800',
+    numericAnswer: 800,
+  },
+  // --- Additional Word Problems ---
+  {
+    id: 'word_6',
+    topic: 'Word Problems',
+    difficulty: 'easy',
+    problemText: 'A book costs $9. You buy 4. How much do you spend?',
+    formattedProblem: '9 \\times 4',
+    steps: [
+      {
+        explanation: 'Multiply price by quantity.',
+        expression: '9 \\times 4 = 36',
+      },
+    ],
+    finalAnswerText: '$36',
+    numericAnswer: 36,
+  },
+  {
+    id: 'word_7',
+    topic: 'Word Problems',
+    difficulty: 'medium',
+    problemText:
+      'A car travels 180 miles in 3 hours. What is its average speed?',
+    formattedProblem: '\\frac{180}{3}',
+    steps: [
+      {
+        explanation: 'Use speed = distance ÷ time.',
+        expression: '180 \\div 3 = 60',
+      },
+    ],
+    finalAnswerText: '60 mph',
+    numericAnswer: 60,
+  },
+  {
+    id: 'word_8',
+    topic: 'Word Problems',
+    difficulty: 'hard',
+    problemText:
+      'A tank holds 250 liters. It leaks 12 liters per hour. How many hours until 1/5 of the tank remains?',
+    formattedProblem: '250 - 12h = 50',
+    steps: [
+      { explanation: '1/5 of 250 is 50.', expression: '250 - 12h = 50' },
+      {
+        explanation: 'Subtract 250 from both sides.',
+        expression: '-12h = -200',
+      },
+      { explanation: 'Divide by -12.', expression: 'h = 16.66...' },
+    ],
+    finalAnswerText: 'Approximately 16.7 hours',
+    numericAnswer: 16.67,
+  },
 ];
 
 // Make available globally for components
