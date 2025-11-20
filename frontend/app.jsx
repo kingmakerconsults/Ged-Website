@@ -2203,8 +2203,19 @@ const geometryRenderers = {
 };
 
 function GeometryFigure({ spec, className }) {
-  if (!GEOMETRY_FIGURES_ENABLED || !spec || typeof spec !== 'object') {
-    return null;
+  // Always render in development, or if enabled in prod
+  const enabled =
+    (typeof window !== 'undefined' &&
+      window.location &&
+      window.location.hostname === 'localhost') ||
+    GEOMETRY_FIGURES_ENABLED;
+  if (!enabled) {
+    return (
+      <div style={{ color: 'red' }}>Geometry tool is disabled by config.</div>
+    );
+  }
+  if (!spec || typeof spec !== 'object') {
+    return <div style={{ color: 'red' }}>Invalid geometry spec.</div>;
   }
 
   const style = {
@@ -2868,6 +2879,11 @@ function parseHtmlTable(htmlString) {
 function ChartDisplay({ chartData, html }) {
   // If the passage or question already contains a <table>, skip rendering the chart
   if (typeof html === 'string' && html.includes('<table')) return null;
+  if (!chartData || !chartData.labels || !chartData.datasets) {
+    return (
+      <div style={{ color: 'red' }}>No or invalid graph data provided.</div>
+    );
+  }
 
   const chartRef = React.useRef(null);
   const chartInstanceRef = React.useRef(null);
@@ -3300,6 +3316,135 @@ const SCI_NUMERACY_QUESTIONS = [
       },
     ],
   },
+  // Additional science practice questions
+  {
+    questionNumber: 13,
+    qaProfileKey: 'numeracy',
+    type: 'knowledge',
+    passage:
+      '<p>A beaker contains 250 mL of water. 50 mL evaporates. How much is left?</p>',
+    question: 'How much water remains in the beaker?',
+    answerOptions: [
+      {
+        text: '200 mL',
+        rationale: 'Correct. 250 - 50 = 200 mL.',
+        isCorrect: true,
+      },
+      {
+        text: '250 mL',
+        rationale: 'This is the starting amount.',
+        isCorrect: false,
+      },
+      {
+        text: '50 mL',
+        rationale: 'This is the amount that evaporated.',
+        isCorrect: false,
+      },
+      {
+        text: '300 mL',
+        rationale: 'This would be more than the starting amount.',
+        isCorrect: false,
+      },
+    ],
+  },
+  {
+    questionNumber: 14,
+    qaProfileKey: 'numeracy',
+    type: 'knowledge',
+    passage:
+      '<p>A student records temperatures: 10°C, 12°C, 15°C, 13°C, 10°C.</p>',
+    question: 'What is the mode of the temperatures?',
+    answerOptions: [
+      {
+        text: '10°C',
+        rationale: 'Correct. 10°C appears twice.',
+        isCorrect: true,
+      },
+      { text: '12°C', rationale: '12°C appears once.', isCorrect: false },
+      { text: '15°C', rationale: '15°C appears once.', isCorrect: false },
+      { text: '13°C', rationale: '13°C appears once.', isCorrect: false },
+    ],
+  },
+  {
+    questionNumber: 15,
+    qaProfileKey: 'numeracy',
+    type: 'knowledge',
+    passage:
+      '<p>A car uses 8 liters of fuel to travel 100 km. How many liters for 250 km?</p>',
+    question: 'How much fuel is needed for 250 km?',
+    answerOptions: [
+      {
+        text: '20 L',
+        rationale: 'Correct. 8/100 = 0.08 L/km; 0.08*250=20 L.',
+        isCorrect: true,
+      },
+      { text: '25 L', rationale: 'Incorrect calculation.', isCorrect: false },
+      { text: '32 L', rationale: 'Incorrect calculation.', isCorrect: false },
+      { text: '8 L', rationale: 'This is for 100 km.', isCorrect: false },
+    ],
+  },
+  {
+    questionNumber: 16,
+    qaProfileKey: 'numeracy',
+    type: 'knowledge',
+    passage:
+      '<p>A sample has masses: 2g, 4g, 6g, 8g, 10g. What is the mean?</p>',
+    question: 'What is the mean mass of the sample?',
+    answerOptions: [
+      { text: '6g', rationale: 'Correct. (2+4+6+8+10)/5=6g.', isCorrect: true },
+      { text: '5g', rationale: 'Incorrect calculation.', isCorrect: false },
+      { text: '8g', rationale: 'Incorrect calculation.', isCorrect: false },
+      {
+        text: '10g',
+        rationale: 'This is the largest value.',
+        isCorrect: false,
+      },
+    ],
+  },
+  {
+    questionNumber: 17,
+    qaProfileKey: 'numeracy',
+    type: 'knowledge',
+    passage:
+      '<p>A block is pulled with a force of 10 N for 5 m. How much work is done?</p>',
+    question: 'How much work is done on the block?',
+    answerOptions: [
+      {
+        text: '50 J',
+        rationale: 'Correct. 10 N × 5 m = 50 J.',
+        isCorrect: true,
+      },
+      { text: '15 J', rationale: 'Incorrect calculation.', isCorrect: false },
+      { text: '2 J', rationale: 'Incorrect calculation.', isCorrect: false },
+      { text: '5 J', rationale: 'Incorrect calculation.', isCorrect: false },
+    ],
+  },
+  {
+    questionNumber: 18,
+    qaProfileKey: 'numeracy',
+    type: 'knowledge',
+    passage:
+      '<p>A solution is made by mixing 100 mL of water and 50 mL of alcohol. What is the total volume?</p>',
+    question: 'What is the total volume of the solution?',
+    answerOptions: [
+      {
+        text: '150 mL',
+        rationale: 'Correct. 100 + 50 = 150 mL.',
+        isCorrect: true,
+      },
+      {
+        text: '100 mL',
+        rationale: 'This is just the water.',
+        isCorrect: false,
+      },
+      {
+        text: '50 mL',
+        rationale: 'This is just the alcohol.',
+        isCorrect: false,
+      },
+      { text: '200 mL', rationale: 'Incorrect calculation.', isCorrect: false },
+    ],
+  },
 ];
 
 const AppData = {
@@ -3335,147 +3480,7 @@ const AppData = {
                     rationale: 'This is a broader function of the nucleus.',
                     isCorrect: false,
                   },
-                  {
-                    text: 'Generating energy for the cell.',
-                    rationale:
-                      'Correct. The passage states mitochondria generate energy.',
-                    isCorrect: true,
-                  },
-                  {
-                    text: 'Creating new cells.',
-                    rationale:
-                      'New cells come from pre-existing cells, a process of the entire cell.',
-                    isCorrect: false,
-                  },
                 ],
-              },
-              {
-                questionNumber: 2,
-                type: 'knowledge',
-                challenge_tags: ['science-3'], // Cells and human body systems
-                question:
-                  'Which of the following is the correct order of organization in living things, from simplest to most complex?',
-                answerOptions: [
-                  {
-                    text: 'Organism, Organ System, Organ, Tissue, Cell',
-                    rationale: 'This order is reversed.',
-                    isCorrect: false,
-                  },
-                  {
-                    text: 'Cell, Tissue, Organ, Organ System, Organism',
-                    rationale:
-                      'Correct. Cells form tissues, tissues form organs, organs form organ systems, and organ systems make up an organism.',
-                    isCorrect: true,
-                  },
-                  {
-                    text: 'Tissue, Cell, Organ, Organism, Organ System',
-                    rationale: 'This order is incorrect.',
-                    isCorrect: false,
-                  },
-                  {
-                    text: 'Cell, Organ, Tissue, Organism, Organ System',
-                    rationale: 'This order is incorrect.',
-                    isCorrect: false,
-                  },
-                ],
-              },
-              {
-                questionNumber: 3,
-                challenge_tags: ['rla-6'],
-                type: 'text',
-                passage:
-                  'Photosynthesis is the process used by plants, algae, and some bacteria to convert light energy into chemical energy. The process uses sunlight, water, and carbon dioxide to create glucose (sugar for energy) and oxygen. This is why plants are called producers; they create their own food.',
-                question:
-                  'What are the three essential inputs for photosynthesis?',
-                answerOptions: [
-                  {
-                    text: 'Sunlight, oxygen, and water.',
-                    rationale: 'Oxygen is an output, not an input.',
-                    isCorrect: false,
-                  },
-                  {
-                    text: 'Sunlight, carbon dioxide, and glucose.',
-                    rationale: 'Glucose is an output.',
-                    isCorrect: false,
-                  },
-                  {
-                    text: 'Sunlight, water, and carbon dioxide.',
-                    rationale:
-                      'Correct. The passage lists these three as the necessary ingredients.',
-                    isCorrect: true,
-                  },
-                  {
-                    text: 'Water, oxygen, and glucose.',
-                    rationale: 'Oxygen and glucose are outputs.',
-                    isCorrect: false,
-                  },
-                ],
-              },
-              {
-                questionNumber: 4,
-                challenge_tags: ['science-3'],
-                type: 'knowledge',
-                question:
-                  'Which human body system is responsible for transporting oxygen, nutrients, and hormones to cells and removing waste products?',
-                answerOptions: [
-                  {
-                    text: 'Respiratory System',
-                    rationale:
-                      'The respiratory system is responsible for gas exchange (breathing).',
-                    isCorrect: false,
-                  },
-                  {
-                    text: 'Nervous System',
-                    rationale:
-                      "The nervous system is the body's command center, using electrical signals.",
-                    isCorrect: false,
-                  },
-                  {
-                    text: 'Digestive System',
-                    rationale: 'The digestive system breaks down food.',
-                    isCorrect: false,
-                  },
-                  {
-                    text: 'Circulatory System',
-                    rationale:
-                      "Correct. The circulatory system, including the heart, blood, and blood vessels, is the body's transport network.",
-                    isCorrect: true,
-                  },
-                ],
-              },
-              {
-                questionNumber: 5,
-                challenge_tags: ['science-3'],
-                type: 'text',
-                passage:
-                  'DNA (Deoxyribonucleic acid) is a molecule that carries the genetic instructions for the development, functioning, growth, and reproduction of all known organisms. A gene is a specific sequence of DNA that codes for a functional product, either RNA or a protein.',
-                question: 'What is the relationship between DNA and genes?',
-                answerOptions: [
-                  {
-                    text: 'A gene is a segment of DNA that codes for a specific product.',
-                    rationale:
-                      'Correct. The passage defines a gene as a specific sequence of DNA.',
-                    isCorrect: true,
-                  },
-                  {
-                    text: 'DNA is a type of gene.',
-                    rationale:
-                      'This is reversed. A gene is a type of DNA sequence.',
-                    isCorrect: false,
-                  },
-                  {
-                    text: 'DNA and genes are completely unrelated.',
-                    rationale: 'They are directly related.',
-                    isCorrect: false,
-                  },
-                  {
-                    text: 'A gene is larger than a DNA molecule.',
-                    rationale: 'A gene is a part of a larger DNA molecule.',
-                    isCorrect: false,
-                  },
-                ],
-              },
-              {
                 questionNumber: 6,
                 type: 'knowledge',
                 question: 'In genetics, what does a Punnett square predict?',
@@ -44815,6 +44820,149 @@ function WorkforceHub({ onBack }) {
     return attr !== 'dark' && !root.classList.contains('dark');
   })();
 
+  // --- Workforce Progress Strip ---
+  // Storage keys
+  const WORKFORCE_RESUME_STORAGE_KEY = 'WORKFORCE_RESUME_STORAGE_KEY';
+  const WORKFORCE_RESUME_VERSIONS_KEY = 'WORKFORCE_RESUME_VERSIONS_KEY';
+  const WORKFORCE_COVER_STORAGE_KEY = 'WORKFORCE_COVER_STORAGE_KEY';
+  const WORKFORCE_INTERVIEW_HISTORY_KEY = 'WORKFORCE_INTERVIEW_HISTORY_KEY';
+  const WORKFORCE_CAREER_STORAGE_KEY = 'WORKFORCE_CAREER_STORAGE_KEY';
+  const WORKFORCE_SOFT_SKILLS_PROGRESS_KEY =
+    'WORKFORCE_SOFT_SKILLS_PROGRESS_KEY';
+  const WORKFORCE_DIGLIT_PROGRESS_KEY = 'WORKFORCE_DIGLIT_PROGRESS_KEY';
+  const WORKFORCE_BUDGET_STORAGE_KEY = 'WORKFORCE_BUDGET_STORAGE_KEY';
+  const WORKFORCE_APPS_STORAGE_KEY = 'WORKFORCE_APPS_STORAGE_KEY';
+
+  // Helper functions to get status from localStorage
+  function getResumeStatus() {
+    try {
+      const versions = JSON.parse(
+        localStorage.getItem(WORKFORCE_RESUME_VERSIONS_KEY) || '[]'
+      );
+      if (versions.length > 0) return 'Draft saved';
+      const draft = localStorage.getItem(WORKFORCE_RESUME_STORAGE_KEY);
+      if (draft) return 'Draft saved';
+      return 'Not started';
+    } catch {
+      return 'Not started';
+    }
+  }
+  function getCoverLetterStatus() {
+    try {
+      const draft = localStorage.getItem(WORKFORCE_COVER_STORAGE_KEY);
+      if (draft) return 'Draft saved';
+      return 'Not started';
+    } catch {
+      return 'Not started';
+    }
+  }
+  function getInterviewStatus() {
+    try {
+      const hist = JSON.parse(
+        localStorage.getItem(WORKFORCE_INTERVIEW_HISTORY_KEY) || '[]'
+      );
+      if (hist.length > 0) return 'Session completed';
+      return 'Not started';
+    } catch {
+      return 'Not started';
+    }
+  }
+  function getCareerStatus() {
+    try {
+      const favs = JSON.parse(
+        localStorage.getItem(WORKFORCE_CAREER_STORAGE_KEY) || '[]'
+      );
+      return favs.length > 0
+        ? `${favs.length} careers saved`
+        : '0 careers saved';
+    } catch {
+      return '0 careers saved';
+    }
+  }
+  function getSoftSkillsStatus() {
+    try {
+      const prog = JSON.parse(
+        localStorage.getItem(WORKFORCE_SOFT_SKILLS_PROGRESS_KEY) || '{}'
+      );
+      const done = Array.isArray(prog.completedIds)
+        ? prog.completedIds.length
+        : 0;
+      return done > 0 ? `${done} scenarios done` : '0 scenarios done';
+    } catch {
+      return '0 scenarios done';
+    }
+  }
+  function getDigitalLitStatus() {
+    try {
+      const prog = JSON.parse(
+        localStorage.getItem(WORKFORCE_DIGLIT_PROGRESS_KEY) || '{}'
+      );
+      const done = prog.completedCount || 0;
+      return done > 0 ? `${done} quizzes done` : '0 quizzes done';
+    } catch {
+      return '0 quizzes done';
+    }
+  }
+  function getBudgetStatus() {
+    try {
+      const budget = localStorage.getItem(WORKFORCE_BUDGET_STORAGE_KEY);
+      if (budget) return 'Budget saved';
+      return 'No budget';
+    } catch {
+      return 'No budget';
+    }
+  }
+  function getAppTrackerStatus() {
+    try {
+      const apps = JSON.parse(
+        localStorage.getItem(WORKFORCE_APPS_STORAGE_KEY) || '[]'
+      );
+      return apps.length > 0
+        ? `${apps.length} applications tracked`
+        : '0 applications';
+    } catch {
+      return '0 applications';
+    }
+  }
+
+  // Progress chips config
+  const progressChips = [
+    { id: 'resume', label: 'Resume', status: getResumeStatus() },
+    { id: 'cover', label: 'Cover Letter', status: getCoverLetterStatus() },
+    { id: 'interview', label: 'Interview', status: getInterviewStatus() },
+    { id: 'career', label: 'Career', status: getCareerStatus() },
+    { id: 'softskills', label: 'Soft Skills', status: getSoftSkillsStatus() },
+    {
+      id: 'digitallit',
+      label: 'Digital Literacy',
+      status: getDigitalLitStatus(),
+    },
+    { id: 'budget', label: 'Budget', status: getBudgetStatus() },
+    {
+      id: 'tracker',
+      label: 'Application Tracker',
+      status: getAppTrackerStatus(),
+    },
+  ];
+
+  // Chip component
+  const ProgressChip = ({ id, label, status }) => (
+    <button
+      onClick={() => setTool(id)}
+      className="flex flex-col items-center px-3 py-1 mx-1 my-1 rounded-full border text-xs font-semibold bg-white/80 dark:bg-slate-800/70 hover:bg-blue-50 dark:hover:bg-slate-700 transition"
+      style={{
+        borderColor: 'var(--subject-workforce-border)',
+        color: 'var(--subject-workforce-text)',
+        minWidth: 80,
+      }}
+      title={label}
+      type="button"
+    >
+      <span className="font-bold">{label}</span>
+      <span className="opacity-80 text-[11px] whitespace-nowrap">{status}</span>
+    </button>
+  );
+
   const ToolCard = ({ id, title, desc }) => (
     <button
       onClick={() => setTool(id)}
@@ -44851,6 +44999,13 @@ function WorkforceHub({ onBack }) {
           </h2>
           <div className="flex-none min-w-[140px]" aria-hidden="true"></div>
         </header>
+      </div>
+
+      {/* Workforce Progress Strip */}
+      <div className="flex flex-wrap items-center justify-center gap-1 mb-4 px-2">
+        {progressChips.map((chip) => (
+          <ProgressChip key={chip.id} {...chip} />
+        ))}
       </div>
 
       <div
@@ -45412,6 +45567,47 @@ function WorkforceResumeBuilder() {
     { id: 'tech', label: 'Entry-Level Tech' },
   ];
 
+  // Template-specific bullet bank
+  const RESUME_BULLET_BANK = {
+    retail: [
+      'Assisted an average of 50+ customers per shift with purchases and returns.',
+      'Handled cash and card transactions with 100% accuracy.',
+      'Restocked shelves and maintained clean displays.',
+      'Resolved customer complaints with professionalism.',
+    ],
+    office: [
+      'Managed incoming calls and scheduled appointments using calendar software.',
+      'Maintained accurate digital and paper filing systems.',
+      'Prepared reports and presentations for team meetings.',
+      'Coordinated office supply orders and inventory.',
+    ],
+    childcare: [
+      'Supervised groups of 10+ children in daily activities.',
+      'Planned and led educational games and crafts.',
+      'Communicated with parents about child progress.',
+      'Ensured a safe and nurturing environment.',
+    ],
+    healthcare: [
+      'Assisted patients with daily living activities.',
+      'Recorded vital signs and reported changes to nurses.',
+      'Maintained clean and organized patient rooms.',
+      'Provided compassionate support to patients and families.',
+    ],
+    hospitality: [
+      'Greeted guests and ensured a welcoming atmosphere.',
+      'Managed reservations and handled guest inquiries.',
+      'Assisted with event setup and service.',
+      'Maintained cleanliness in dining and lobby areas.',
+    ],
+    tech: [
+      'Provided basic technical support for users.',
+      'Assisted with software installation and troubleshooting.',
+      'Documented issues and solutions in helpdesk system.',
+      'Collaborated with team to test new features.',
+    ],
+  };
+
+  // Multiple resume versions
   const [form, setForm] = React.useState(() => {
     try {
       const raw = localStorage.getItem(WORKFORCE_RESUME_STORAGE_KEY);
@@ -45436,6 +45632,17 @@ function WorkforceResumeBuilder() {
       };
     }
   });
+  const [resumeVersions, setResumeVersions] = React.useState(() => {
+    try {
+      return JSON.parse(
+        localStorage.getItem('WORKFORCE_RESUME_VERSIONS_KEY') || '[]'
+      );
+    } catch {
+      return [];
+    }
+  });
+  const [versionName, setVersionName] = React.useState('');
+  const [showVersionList, setShowVersionList] = React.useState(false);
   const [selectedTemplate, setSelectedTemplate] = React.useState(
     RESUME_TEMPLATES[0].id
   );
@@ -45448,6 +45655,91 @@ function WorkforceResumeBuilder() {
     try {
       localStorage.setItem(WORKFORCE_RESUME_STORAGE_KEY, JSON.stringify(form));
       alert('Resume saved locally.');
+    } catch {}
+  };
+  // Save as named version
+  const saveVersion = () => {
+    if (!versionName.trim()) return alert('Enter a version name.');
+    const newVersion = {
+      name: versionName.trim(),
+      data: form,
+      updatedAt: new Date().toISOString(),
+    };
+    const updated = resumeVersions
+      .filter((v) => v.name !== newVersion.name)
+      .concat(newVersion);
+    setResumeVersions(updated);
+    localStorage.setItem(
+      'WORKFORCE_RESUME_VERSIONS_KEY',
+      JSON.stringify(updated)
+    );
+    alert('Resume version saved.');
+    setVersionName('');
+  };
+  // Load version
+  const loadVersion = (name) => {
+    const v = resumeVersions.find((v) => v.name === name);
+    if (v) setForm(v.data);
+    setShowVersionList(false);
+  };
+  // Delete version
+  const deleteVersion = (name) => {
+    const updated = resumeVersions.filter((v) => v.name !== name);
+    setResumeVersions(updated);
+    localStorage.setItem(
+      'WORKFORCE_RESUME_VERSIONS_KEY',
+      JSON.stringify(updated)
+    );
+  };
+  // Export: Copy to Clipboard
+  const copyToClipboard = () => {
+    const text = renderResumeText(form);
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Copied to clipboard!');
+    });
+  };
+  // Export: Print/Save as PDF
+  const printResume = () => {
+    window.print();
+  };
+  // Print-friendly text
+  function renderResumeText(f) {
+    return [
+      f.name,
+      [f.email, f.phone].filter(Boolean).join(' | '),
+      '',
+      f.summary ? 'SUMMARY:\n' + f.summary : '',
+      f.skills ? 'SKILLS:\n' + f.skills : '',
+      f.experiences.length > 0
+        ? 'EXPERIENCE:\n' +
+          f.experiences
+            .map(
+              (e) =>
+                `${e.role || 'Role'} at ${e.company || 'Company'} (${[
+                  e.start,
+                  e.end,
+                ]
+                  .filter(Boolean)
+                  .join(' - ')})\n${e.details || ''}`
+            )
+            .join('\n\n')
+        : '',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  // Application Tracker integration
+  const useInAppTracker = () => {
+    try {
+      localStorage.setItem(
+        'WORKFORCE_LAST_RESUME_VERSION',
+        JSON.stringify({
+          versionName: versionName || 'Current',
+          updatedAt: new Date().toISOString(),
+        })
+      );
+      alert('Resume reference saved for Application Tracker.');
     } catch {}
   };
   const clear = () => {
@@ -45544,6 +45836,61 @@ ${
   return (
     <div className="grid md:grid-cols-2 gap-4">
       <div>
+        {/* Resume Versions UI */}
+        <div className="mb-2 flex flex-wrap gap-2 items-center">
+          <button
+            className="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300 text-xs font-semibold"
+            onClick={() => setShowVersionList((v) => !v)}
+          >
+            {showVersionList ? 'Hide' : 'Show'} Saved Versions
+          </button>
+          <input
+            className="px-2 py-1 border rounded text-xs"
+            placeholder="Version name"
+            value={versionName}
+            onChange={(e) => setVersionName(e.target.value)}
+            style={{ minWidth: 120 }}
+          />
+          <button
+            className="px-2 py-1 rounded bg-teal-600 text-white text-xs font-semibold"
+            onClick={saveVersion}
+          >
+            Save as Version
+          </button>
+          <button
+            className="px-2 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold"
+            onClick={useInAppTracker}
+          >
+            Use in Application Tracker
+          </button>
+        </div>
+        {showVersionList && (
+          <div className="mb-2 border rounded p-2 bg-slate-50 dark:bg-slate-800/40">
+            <div className="font-semibold text-xs mb-1">Saved Versions:</div>
+            {resumeVersions.length === 0 && (
+              <div className="text-xs text-slate-500">No versions saved.</div>
+            )}
+            {resumeVersions.map((v) => (
+              <div key={v.name} className="flex items-center gap-2 mb-1">
+                <button
+                  className="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300 text-xs font-semibold"
+                  onClick={() => loadVersion(v.name)}
+                >
+                  Load: {v.name}
+                </button>
+                <span className="text-xs text-slate-500">
+                  {new Date(v.updatedAt).toLocaleString()}
+                </span>
+                <button
+                  className="px-2 py-1 rounded bg-red-100 text-red-700 text-xs font-semibold"
+                  onClick={() => deleteVersion(v.name)}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
         <div className="mb-2">
           <label className="block text-sm font-semibold mb-1">
             Resume Template
@@ -45656,6 +46003,33 @@ ${
                   onChange={(e) => updExp(i, 'details', e.target.value)}
                 />
               </div>
+              {/* Bullet bank for this template */}
+              <div className="mt-2">
+                <div className="font-semibold text-xs mb-1">
+                  Suggested bullets for this template:
+                </div>
+                <ul className="list-disc ml-5 space-y-1">
+                  {(RESUME_BULLET_BANK[selectedTemplate] || []).map(
+                    (b, idx) => (
+                      <li key={idx} className="flex items-center gap-2 text-xs">
+                        <span>{b}</span>
+                        <button
+                          className="ml-2 px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-xs font-semibold hover:bg-blue-200"
+                          onClick={() => {
+                            const newDetails = exp.details
+                              ? exp.details + '\n' + b
+                              : b;
+                            updExp(i, 'details', newDetails);
+                          }}
+                          type="button"
+                        >
+                          Insert
+                        </button>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
               <div className="mt-2 text-right">
                 <button
                   onClick={() => delExp(i)}
@@ -45698,7 +46072,22 @@ ${
       </div>
       <div>
         <h3 className="text-lg font-semibold mb-2">Preview</h3>
-        <div className="workforce-resume-preview p-4 border rounded-xl bg-white dark:bg-slate-800/70">
+        {/* Export/Print controls */}
+        <div className="mb-2 flex gap-2">
+          <button
+            className="px-2 py-1 rounded bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700"
+            onClick={copyToClipboard}
+          >
+            Copy to Clipboard
+          </button>
+          <button
+            className="px-2 py-1 rounded bg-slate-700 text-white text-xs font-semibold hover:bg-slate-900"
+            onClick={printResume}
+          >
+            Print / Save as PDF
+          </button>
+        </div>
+        <div className="workforce-resume-preview p-4 border rounded-xl bg-white dark:bg-slate-800/70 print:bg-white print:text-black print:border-none print:shadow-none">
           <div className="text-xl font-bold">{form.name || 'Your Name'}</div>
           <div className="text-sm text-slate-600 dark:text-slate-300">
             {[form.email, form.phone].filter(Boolean).join(' • ')}
@@ -46265,261 +46654,303 @@ function WorkforceCoverLetterBuilder() {
       const raw = localStorage.getItem(WORKFORCE_COVER_LETTER_STORAGE_KEY);
       return raw
         ? JSON.parse(raw)
-        : { name: '', company: '', role: '', intro: '', body: '', closing: '' };
+        : {
+            name: '',
+            company: '',
+            role: '',
+            source: '',
+            jobDescription: '',
+            intro: '',
+            body: '',
+            closing: '',
+            tone: 'Professional',
+          };
     } catch {
       return {
         name: '',
         company: '',
         role: '',
+        source: '',
+        jobDescription: '',
         intro: '',
         body: '',
         closing: '',
+        tone: 'Professional',
       };
     }
   });
+  // For Application Tracker integration
+  const [coverVersionName, setCoverVersionName] = React.useState('');
+  // Tone presets
+  const TONE_PRESETS = [
+    {
+      id: 'Professional',
+      hint: 'Clear, direct, and formal. Focus on skills and fit.',
+      phrases: [
+        'I am confident my experience aligns with your needs.',
+        'I look forward to contributing to your team.',
+        'My background demonstrates strong attention to detail.',
+      ],
+    },
+    {
+      id: 'Warm',
+      hint: 'Friendly, approachable, and positive.',
+      phrases: [
+        'I am genuinely excited about this opportunity.',
+        'I value collaboration and a supportive work environment.',
+        'I enjoy helping others and learning new things.',
+      ],
+    },
+    {
+      id: 'Confident',
+      hint: 'Assertive, self-assured, and proactive.',
+      phrases: [
+        'I am eager to take on new challenges.',
+        'I am confident in my ability to learn quickly.',
+        'I am ready to contribute from day one.',
+      ],
+    },
+  ];
 
-  const [selectedTemplate, setSelectedTemplate] = React.useState(
-    COVER_LETTER_TEMPLATES[0].id
-  );
-  const [score, setScore] = React.useState(null);
-  const [feedback, setFeedback] = React.useState([]);
-  const [strengths, setStrengths] = React.useState([]);
-  const [improvements, setImprovements] = React.useState([]);
-  const [reviewing, setReviewing] = React.useState(false);
-  const save = () => {
-    try {
-      localStorage.setItem(
-        WORKFORCE_COVER_LETTER_STORAGE_KEY,
-        JSON.stringify(data)
-      );
-      alert('Cover letter saved locally.');
-    } catch {}
-  };
-  const clear = () => {
-    setData({
-      name: '',
-      company: '',
-      role: '',
-      intro: '',
-      body: '',
-      closing: '',
-    });
-    try {
-      localStorage.removeItem(WORKFORCE_COVER_LETTER_STORAGE_KEY);
-    } catch {}
-  };
-
-  const loadTemplate = async (templateId) => {
-    try {
-      const res = await fetch('/data/cover-letter-templates.json');
-      const json = await res.json();
-      const template = json.templates.find((t) => t.id === templateId);
-      if (template) {
-        setData({
-          ...data,
-          intro: template.intro
-            .replace('[ROLE]', data.role || 'the position')
-            .replace('[COMPANY]', data.company || 'your company'),
-          body: template.body.replace(
-            '[COMPANY]',
-            data.company || 'your company'
-          ),
-          closing: template.closing,
-        });
-      }
-    } catch (err) {
-      console.error('Failed to load cover letter template:', err);
-    }
-  };
-
-  const reviewLetter = async () => {
-    setReviewing(true);
-    setScore(null);
-    setFeedback([]);
-    setStrengths([]);
-    setImprovements([]);
-    try {
-      const letterText = `
-Dear Hiring Manager at ${data.company || 'Company'},
-
-I am applying for the ${data.role || 'Position'} position.
-
-${data.intro}
-
-${data.body}
-
-${data.closing}
-
-Sincerely,
-${data.name || 'Your Name'}
-      `.trim();
-
-      const res = await fetch('/api/workforce/cover-letter-review', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          letterText,
-          template: selectedTemplate,
-          targetRole: data.role || 'entry-level position',
-          targetCompany: data.company || 'the company',
-        }),
-      });
-      const result = await res.json();
-      setScore(result.score ?? null);
-      setFeedback(result.feedback ?? []);
-      setStrengths(result.strengths ?? []);
-      setImprovements(result.improvements ?? []);
-    } catch (err) {
-      setScore(null);
-      setFeedback(['Could not review cover letter. Try again later.']);
-      setStrengths([]);
-      setImprovements([]);
-    } finally {
-      setReviewing(false);
-    }
-  };
+  // Place the return block for the component here, not inside the array/object
   return (
     <div className="grid md:grid-cols-2 gap-4">
       <div>
-        {/* Template Selection */}
-        <div className="mb-3">
-          <label className="block text-sm font-semibold mb-1">
-            Cover Letter Template
-          </label>
-          <div className="flex gap-2">
-            <select
-              value={selectedTemplate}
-              onChange={(e) => setSelectedTemplate(e.target.value)}
-              className="flex-1 border p-2 rounded-lg bg-white dark:bg-slate-800"
-            >
-              {COVER_LETTER_TEMPLATES.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.label}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={() => loadTemplate(selectedTemplate)}
-              className="px-3 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700"
-            >
-              Load Template
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <input
-            className="px-3 py-2 border rounded-md"
-            placeholder="Your Name"
-            value={data.name}
-            onChange={(e) => setData({ ...data, name: e.target.value })}
-          />
-          <input
-            className="px-3 py-2 border rounded-md"
-            placeholder="Target Company"
-            value={data.company}
-            onChange={(e) => setData({ ...data, company: e.target.value })}
-          />
-          <input
-            className="px-3 py-2 border rounded-md sm:col-span-2"
-            placeholder="Role / Position"
-            value={data.role}
-            onChange={(e) => setData({ ...data, role: e.target.value })}
-          />
-        </div>
-        <textarea
-          className="mt-2 w-full px-3 py-2 border rounded-md"
-          rows={3}
-          placeholder="Intro: Why you're writing and how you fit"
-          value={data.intro}
-          onChange={(e) => setData({ ...data, intro: e.target.value })}
-        />
-        <textarea
-          className="mt-2 w-full px-3 py-2 border rounded-md"
-          rows={6}
-          placeholder="Body: Relevant achievements and examples"
-          value={data.body}
-          onChange={(e) => setData({ ...data, body: e.target.value })}
-        />
-        <textarea
-          className="mt-2 w-full px-3 py-2 border rounded-md"
-          rows={3}
-          placeholder="Closing: Thanks and availability"
-          value={data.closing}
-          onChange={(e) => setData({ ...data, closing: e.target.value })}
-        />
-        <div className="mt-3 flex items-center gap-2 flex-wrap">
-          <button
-            onClick={save}
-            className="px-3 py-2 rounded-md bg-teal-600 text-white font-semibold hover:bg-teal-700"
-          >
-            Save
-          </button>
-          <button
-            onClick={clear}
-            className="px-3 py-2 rounded-md bg-slate-100 hover:bg-slate-200 font-semibold dark:bg-slate-700 dark:hover:bg-slate-600"
-          >
-            Clear
-          </button>
-          <button
-            onClick={reviewLetter}
-            className="px-3 py-2 rounded-md bg-purple-600 text-white font-semibold hover:bg-purple-700"
-            disabled={reviewing || !data.intro.trim() || !data.body.trim()}
-          >
-            {reviewing ? 'Reviewing...' : 'AI Review'}
-          </button>
-        </div>
-
-        {/* AI Review Results */}
-        {(score !== null || feedback.length > 0) && (
-          <div className="mt-4 p-4 border rounded-xl bg-purple-50 dark:bg-purple-900/30">
-            <div className="font-bold text-purple-800 dark:text-purple-200 text-lg mb-2">
-              Cover Letter Score: {score !== null ? `${score}/100` : '--'}
+        <div className="mb-3 flex gap-4">
+          <div className="hidden md:block w-40 flex-shrink-0">
+            <div className="border rounded-lg p-2 bg-slate-50 dark:bg-slate-800/40">
+              <div className="font-semibold text-xs mb-1">Structure</div>
+              <ul className="space-y-1 text-xs">
+                <li>
+                  <span className="mr-1">
+                    {data.intro?.trim() ? '✅' : '⬜'}
+                  </span>{' '}
+                  Intro
+                </li>
+                <li>
+                  <span className="mr-1">
+                    {data.body?.trim() ? '✅' : '⬜'}
+                  </span>{' '}
+                  Skills/Experience
+                </li>
+                <li>
+                  <span className="mr-1">
+                    {data.closing?.trim() ? '✅' : '⬜'}
+                  </span>{' '}
+                  Closing
+                </li>
+              </ul>
             </div>
-            {feedback.length > 0 && (
-              <div className="mb-2">
-                <span className="font-semibold text-purple-900 dark:text-purple-100">
-                  Overall Feedback:
-                </span>
-                <ul className="list-disc ml-5 mt-1">
-                  {feedback.map((f, i) => (
-                    <li key={i} className="text-slate-700 dark:text-slate-300">
-                      {f}
-                    </li>
+          </div>
+          <div className="flex-1">
+            <div className="mb-3">
+              <label className="block text-sm font-semibold mb-1">
+                Cover Letter Template
+              </label>
+              <div className="flex gap-2">
+                <select
+                  value={selectedTemplate}
+                  onChange={(e) => setSelectedTemplate(e.target.value)}
+                  className="flex-1 border p-2 rounded-lg bg-white dark:bg-slate-800"
+                >
+                  {COVER_LETTER_TEMPLATES.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {t.label}
+                    </option>
                   ))}
-                </ul>
+                </select>
+                <button
+                  onClick={() => loadTemplate(selectedTemplate)}
+                  className="px-3 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700"
+                >
+                  Load Template
+                </button>
               </div>
-            )}
-            {strengths.length > 0 && (
-              <div className="mb-2">
-                <span className="font-semibold text-green-700 dark:text-green-300">
-                  Strengths:
-                </span>
-                <ul className="list-disc ml-5 mt-1">
-                  {strengths.map((s, i) => (
-                    <li key={i} className="text-slate-700 dark:text-slate-300">
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {improvements.length > 0 && (
-              <div>
-                <span className="font-semibold text-orange-700 dark:text-orange-300">
-                  Suggested Improvements:
-                </span>
-                <ul className="list-disc ml-5 mt-1">
-                  {improvements.map((imp, i) => (
-                    <li key={i} className="text-slate-700 dark:text-slate-300">
-                      {imp}
-                    </li>
-                  ))}
-                </ul>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <input
+                className="px-3 py-2 border rounded-md"
+                placeholder="Your Name"
+                value={data.name}
+                onChange={(e) => setData({ ...data, name: e.target.value })}
+              />
+              <input
+                className="px-3 py-2 border rounded-md"
+                placeholder="Target Company"
+                value={data.company}
+                onChange={(e) => setData({ ...data, company: e.target.value })}
+              />
+              <input
+                className="px-3 py-2 border rounded-md"
+                placeholder="Role / Position"
+                value={data.role}
+                onChange={(e) => setData({ ...data, role: e.target.value })}
+              />
+              <input
+                className="px-3 py-2 border rounded-md"
+                placeholder="Source (e.g. Indeed, Flyer)"
+                value={data.source || ''}
+                onChange={(e) => setData({ ...data, source: e.target.value })}
+              />
+            </div>
+            <textarea
+              className="mt-2 w-full px-3 py-2 border rounded-md"
+              rows={2}
+              placeholder="Paste job description here (optional)"
+              value={data.jobDescription || ''}
+              onChange={(e) =>
+                setData({ ...data, jobDescription: e.target.value })
+              }
+            />
+            <div className="flex gap-2 mt-2 items-center">
+              <label className="text-xs font-semibold">Tone:</label>
+              <select
+                className="border rounded px-2 py-1 text-xs"
+                value={data.tone || 'Professional'}
+                onChange={(e) => setData({ ...data, tone: e.target.value })}
+              >
+                {TONE_PRESETS.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.id}
+                  </option>
+                ))}
+              </select>
+              <span className="text-xs text-slate-500">
+                {selectedTone.hint}
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {selectedTone.phrases.map((p, idx) => (
+                <button
+                  key={idx}
+                  className="px-2 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold hover:bg-blue-200"
+                  type="button"
+                  onClick={() =>
+                    setData({
+                      ...data,
+                      body: (data.body ? data.body + '\n' : '') + p,
+                    })
+                  }
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+            <textarea
+              className="mt-2 w-full px-3 py-2 border rounded-md"
+              rows={3}
+              placeholder="Intro: Why you're writing and how you fit"
+              value={data.intro}
+              onChange={(e) => setData({ ...data, intro: e.target.value })}
+            />
+            <textarea
+              className="mt-2 w-full px-3 py-2 border rounded-md"
+              rows={6}
+              placeholder="Body: Relevant achievements and examples"
+              value={data.body}
+              onChange={(e) => setData({ ...data, body: e.target.value })}
+            />
+            <textarea
+              className="mt-2 w-full px-3 py-2 border rounded-md"
+              rows={3}
+              placeholder="Closing: Thanks and availability"
+              value={data.closing}
+              onChange={(e) => setData({ ...data, closing: e.target.value })}
+            />
+            <div className="mt-3 flex items-center gap-2 flex-wrap">
+              <button
+                onClick={save}
+                className="px-3 py-2 rounded-md bg-teal-600 text-white font-semibold hover:bg-teal-700"
+              >
+                Save
+              </button>
+              <button
+                onClick={clear}
+                className="px-3 py-2 rounded-md bg-slate-100 hover:bg-slate-200 font-semibold dark:bg-slate-700 dark:hover:bg-slate-600"
+              >
+                Clear
+              </button>
+              <button
+                onClick={reviewLetter}
+                className="px-3 py-2 rounded-md bg-purple-600 text-white font-semibold hover:bg-purple-700"
+                disabled={reviewing || !data.intro.trim() || !data.body.trim()}
+              >
+                {reviewing ? 'Reviewing...' : 'AI Review'}
+              </button>
+              <input
+                className="px-2 py-1 border rounded text-xs ml-2"
+                placeholder="Version name (for App Tracker)"
+                value={coverVersionName}
+                onChange={(e) => setCoverVersionName(e.target.value)}
+                style={{ minWidth: 120 }}
+              />
+              <button
+                className="px-2 py-1 rounded bg-blue-100 text-blue-800 text-xs font-semibold"
+                onClick={useInAppTracker}
+              >
+                Use in Application Tracker
+              </button>
+            </div>
+            {(score !== null || feedback.length > 0) && (
+              <div className="mt-4 p-4 border rounded-xl bg-purple-50 dark:bg-purple-900/30">
+                <div className="font-bold text-purple-800 dark:text-purple-200 text-lg mb-2">
+                  Cover Letter Score: {score !== null ? `${score}/100` : '--'}
+                </div>
+                {feedback.length > 0 && (
+                  <div className="mb-2">
+                    <span className="font-semibold text-purple-900 dark:text-purple-100">
+                      Overall Feedback:
+                    </span>
+                    <ul className="list-disc ml-5 mt-1">
+                      {feedback.map((f, i) => (
+                        <li
+                          key={i}
+                          className="text-slate-700 dark:text-slate-300"
+                        >
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {strengths.length > 0 && (
+                  <div className="mb-2">
+                    <span className="font-semibold text-green-700 dark:text-green-300">
+                      Strengths:
+                    </span>
+                    <ul className="list-disc ml-5 mt-1">
+                      {strengths.map((s, i) => (
+                        <li
+                          key={i}
+                          className="text-slate-700 dark:text-slate-300"
+                        >
+                          {s}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {improvements.length > 0 && (
+                  <div>
+                    <span className="font-semibold text-orange-700 dark:text-orange-300">
+                      Suggested Improvements:
+                    </span>
+                    <ul className="list-disc ml-5 mt-1">
+                      {improvements.map((imp, i) => (
+                        <li
+                          key={i}
+                          className="text-slate-700 dark:text-slate-300"
+                        >
+                          {imp}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
           </div>
-        )}
+        </div>
       </div>
       <div>
         <h3 className="text-lg font-semibold mb-2">Preview</h3>
@@ -46532,6 +46963,16 @@ ${data.name || 'Your Name'}
             <div className="mt-2">
               I am applying for the {data.role || 'Role'} position.
             </div>
+            {data.source && (
+              <div className="mt-2 text-xs text-slate-500">
+                Source: {data.source}
+              </div>
+            )}
+            {data.jobDescription && (
+              <div className="mt-2 text-xs text-slate-500">
+                Job Description: {data.jobDescription}
+              </div>
+            )}
             {data.intro && <div className="mt-2">{data.intro}</div>}
             {data.body && <div className="mt-2">{data.body}</div>}
             {data.closing && <div className="mt-2">{data.closing}</div>}
@@ -46911,52 +47352,7 @@ function WorkforceNetworkingTips() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold">Networking Tips & Practice</h2>
-        <button
-          onClick={() => setShowTips(!showTips)}
-          className="px-3 py-1 bg-slate-200 dark:bg-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-300 dark:hover:bg-slate-600"
-        >
-          {showTips ? 'Hide Tips' : 'Show Tips'}
-        </button>
-      </div>
-
-      {/* General Networking Tips */}
-      {showTips && (
-        <div className="p-4 border rounded-xl bg-blue-50 dark:bg-blue-900/30">
-          <div className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
-            📚 Networking Best Practices
-          </div>
-          <ul className="list-disc ml-5 space-y-1 text-sm text-slate-700 dark:text-slate-300">
-            <li>
-              <strong>Be authentic:</strong> Show genuine interest in others,
-              not just what they can do for you
-            </li>
-            <li>
-              <strong>Listen actively:</strong> Ask questions and remember
-              details about the people you meet
-            </li>
-            <li>
-              <strong>Follow up promptly:</strong> Send a thank-you or follow-up
-              message within 24-48 hours
-            </li>
-            <li>
-              <strong>Offer value:</strong> Share resources, make introductions,
-              or offer your help when possible
-            </li>
-            <li>
-              <strong>Stay professional online:</strong> Keep your LinkedIn and
-              social media profiles current and appropriate
-            </li>
-            <li>
-              <strong>Practice your elevator pitch:</strong> Have a clear,
-              concise introduction ready (30-60 seconds)
-            </li>
-          </ul>
-        </div>
-      )}
-
+    <div>
       {/* Scenario Selection */}
       <div>
         <div className="font-semibold mb-2">
@@ -47155,13 +47551,12 @@ function WorkforceApplicationTracker() {
     'Researching',
     'Planned',
     'Applied',
-    'Phone Screen',
     'Interview',
     'Offer',
-    'Accepted',
     'Rejected',
-    'Withdrew',
+    'Accepted',
   ];
+
   const PRIORITY_OPTIONS = ['Low', 'Medium', 'High'];
 
   const [apps, setApps] = React.useState(() => {
@@ -47172,6 +47567,7 @@ function WorkforceApplicationTracker() {
       return [];
     }
   });
+
   const [draft, setDraft] = React.useState({
     company: '',
     role: '',
@@ -47182,14 +47578,17 @@ function WorkforceApplicationTracker() {
     notes: '',
     followUpDate: '',
   });
+
   const [expandedId, setExpandedId] = React.useState(null);
-  const [viewMode, setViewMode] = React.useState('kanban'); // 'kanban' or 'list'
+  const [viewMode, setViewMode] = React.useState('kanban');
+
   const saveAll = (list) => {
     setApps(list);
     try {
       localStorage.setItem(WORKFORCE_APPS_STORAGE_KEY, JSON.stringify(list));
     } catch {}
   };
+
   const add = () => {
     const c = draft.company.trim();
     const r = draft.role.trim();
@@ -47214,10 +47613,12 @@ function WorkforceApplicationTracker() {
       followUpDate: '',
     });
   };
+
   const update = (id, field, value) => {
     const next = apps.map((a) => (a.id === id ? { ...a, [field]: value } : a));
     saveAll(next);
   };
+
   const remove = (id) => {
     const next = apps.filter((a) => a.id !== id);
     saveAll(next);
