@@ -944,6 +944,60 @@
           return expenses;
         }
 
+        // ========== SHARED BUDGET SYSTEM ==========
+        // Single source of truth for budget calculations
+        const DEFAULT_BUDGET = {
+          utilities: 138,
+          groceries: 275,
+          transport: 100,
+          health: 175,
+          phone: 45,
+          internet: 50,
+          misc: 100,
+          rent: 0, // updated when dwelling is chosen
+        };
+
+        let budget = { ...DEFAULT_BUDGET };
+
+        function getMonthlyExpenses(b) {
+          return Object.values(b).reduce(
+            (sum, value) => sum + Number(value || 0),
+            0
+          );
+        }
+
+        function getAnnualExpenses(b) {
+          return getMonthlyExpenses(b) * 12;
+        }
+
+        function updateBudgetFromExpenses(expenses) {
+          // Update budget object from computed expenses
+          budget = {
+            utilities: Math.round(expenses.utilities || 0),
+            groceries: Math.round(expenses.groceries || 0),
+            transport: Math.round(expenses.transport || 0),
+            health: Math.round(expenses.health || 0),
+            phone: Math.round(expenses.phone || 0),
+            internet: Math.round(expenses.internet || 0),
+            misc: Math.round(expenses.misc || 0),
+            rent: Math.round(expenses.rent || 0),
+          };
+        }
+
+        function syncExpenseBreakdownFromBudget() {
+          // Sync gameState.expenseBreakdown from the shared budget
+          gameState.expenseBreakdown = {};
+          for (const [key, value] of Object.entries(budget)) {
+            if (value > 0) {
+              const label = key.charAt(0).toUpperCase() + key.slice(1);
+              gameState.expenseBreakdown[key] = {
+                label: label,
+                amount: value * 12, // Convert monthly to annual
+              };
+            }
+          }
+        }
+
         // ========== LIFETIME MODE HELPERS ==========
         // Clock/Age tracking
         function initClock(
@@ -1321,8 +1375,11 @@
               costOfLiving.regions[region],
               regionMult
             );
+            // Update shared budget with computed expenses
+            updateBudgetFromExpenses(expenses);
+
             const lines = [];
-            for (const [k, v] of Object.entries(expenses)) {
+            for (const [k, v] of Object.entries(budget)) {
               if (k === 'rent' && !dwelling) continue; // badge covers rent when not selected
               lines.push(
                 `<span>${k.charAt(0).toUpperCase() + k.slice(1)}: $${Math.round(
@@ -1330,8 +1387,15 @@
                 )}</span>`
               );
             }
+            const monthlyTotal = getMonthlyExpenses(budget);
+            const annualTotal = getAnnualExpenses(budget);
             document.getElementById('budget-preview-content').innerHTML =
-              lines.join(' &bull; ');
+              lines.join(' &bull; ') +
+              `<br/><strong>Monthly: $${Math.round(
+                monthlyTotal
+              )} | Annual: $${Math.round(
+                annualTotal
+              ).toLocaleString()}</strong>`;
             const rentBadge = document.getElementById('rent-badge');
             rentBadge.textContent = 'Rent: $0 (choose a dwelling)';
             rentBadge.className =
@@ -2610,7 +2674,7 @@
           equity: 0,
           salaryBreakdown: {},
           expenseBreakdown: {
-            base: { label: 'Base Living Costs', amount: 40000 },
+            // Will be populated from budget after personality test
           },
           happiness: 50,
           stress: 20, // Add stress tracking
@@ -2785,6 +2849,9 @@
 
         const startMainGame = () => {
           personalityQuizScreen.classList.add('hidden');
+
+          // Sync expense breakdown from the shared budget
+          syncExpenseBreakdownFromBudget();
 
           // Check if we need to return to stage modal
           if (window.returnToStageAfterPersonality && currentStageModal) {
@@ -4001,6 +4068,23 @@
           if (e.dwelling) {
             player.dwelling = e.dwelling;
             addEventToLog(eventLog, clock, `Moved to: ${e.dwelling}`);
+
+            // Update shared budget with actual rent cost
+            if (costOfLiving && player.region) {
+              const regionCfg = costOfLiving.regions[player.region];
+              const regionMult = calcRegionMultiplier(player.region);
+              const basket = regionCfg.basket;
+              const rentKey = `rent_${e.dwelling}`; // e.g., "rent_studio", "rent_1br"
+              if (basket[rentKey]) {
+                budget.rent = basket[rentKey] * regionMult;
+                // Sync budget to gameState.expenseBreakdown for header display
+                syncExpenseBreakdownFromBudget();
+                // Update UI to reflect new expenses immediately
+                if (typeof updateFinancialsUI === 'function') {
+                  updateFinancialsUI();
+                }
+              }
+            }
           }
 
           // Shared expenses (partner)
@@ -4120,6 +4204,7 @@
           if (player.cash >= downPayment && player.creditScore >= 620) {
             player.cash -= downPayment;
             player.owns_home = true;
+            housing.owned = true; // Mark housing as owned
             housing.homeValue = homePrice;
             housing.mortgage = homePrice - downPayment;
             housing.mortgagePayment = calcMonthlyPayment(
@@ -4127,6 +4212,13 @@
               0.045,
               360
             );
+
+            // Clear rent from budget since home is now owned
+            budget.rent = 0;
+            syncExpenseBreakdownFromBudget();
+            if (typeof updateFinancialsUI === 'function') {
+              updateFinancialsUI();
+            }
 
             addEventToLog(
               eventLog,

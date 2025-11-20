@@ -1736,12 +1736,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "What is 50% of 200?",
-                  "answerOptions": [
-                    "50",
-                    "100",
-                    "150",
-                    "200"
-                  ],
+                  "answerOptions": ["50", "100", "150", "200"],
                   "correctAnswer": "100",
                   "difficulty": "easy"
                 },
@@ -1754,24 +1749,14 @@
                 {
                   "type": "multiple_choice",
                   "question": "A shirt that costs $40 is on sale for 25% off. What is the sale price?",
-                  "answerOptions": [
-                    "$10",
-                    "$20",
-                    "$30",
-                    "$35"
-                  ],
+                  "answerOptions": ["$10", "$20", "$30", "$35"],
                   "correctAnswer": "$30",
                   "difficulty": "easy"
                 },
                 {
                   "type": "multiple_choice",
                   "question": "If a population of a town grows from 5,000 to 6,000, what is the percent increase?",
-                  "answerOptions": [
-                    "10%",
-                    "15%",
-                    "20%",
-                    "25%"
-                  ],
+                  "answerOptions": ["10%", "15%", "20%", "25%"],
                   "correctAnswer": "20%",
                   "difficulty": "medium"
                 },
@@ -1784,24 +1769,14 @@
                 {
                   "type": "multiple_choice",
                   "question": "A recipe calls for 2 cups of flour. If you want to make a batch that is 150% of the original recipe, how many cups of flour do you need?",
-                  "answerOptions": [
-                    "2.5 cups",
-                    "3 cups",
-                    "3.5 cups",
-                    "4 cups"
-                  ],
+                  "answerOptions": ["2.5 cups", "3 cups", "3.5 cups", "4 cups"],
                   "correctAnswer": "3 cups",
                   "difficulty": "medium"
                 },
                 {
                   "type": "multiple_choice",
                   "question": "The price of a stock increased from $80 to $92. What was the percent increase?",
-                  "answerOptions": [
-                    "12%",
-                    "15%",
-                    "18%",
-                    "20%"
-                  ],
+                  "answerOptions": ["12%", "15%", "18%", "20%"],
                   "correctAnswer": "15%",
                   "difficulty": "medium"
                 },
@@ -1814,24 +1789,14 @@
                 {
                   "type": "multiple_choice",
                   "question": "Out of 500 students, 350 voted in a school election. What percentage of students voted?",
-                  "answerOptions": [
-                    "60%",
-                    "65%",
-                    "70%",
-                    "75%"
-                  ],
+                  "answerOptions": ["60%", "65%", "70%", "75%"],
                   "correctAnswer": "70%",
                   "difficulty": "medium"
                 },
                 {
                   "type": "multiple_choice",
                   "question": "A store buys a television for $500 and marks it up by 60%. If the store then offers a 20% discount on the marked-up price, what is the final selling price?",
-                  "answerOptions": [
-                    "$600",
-                    "$640",
-                    "$680",
-                    "$720"
-                  ],
+                  "answerOptions": ["$600", "$640", "$680", "$720"],
                   "correctAnswer": "$640",
                   "difficulty": "hard"
                 },
@@ -1863,12 +1828,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "What is 25% of 400?",
-                  "answerOptions": [
-                    "50",
-                    "100",
-                    "150",
-                    "200"
-                  ],
+                  "answerOptions": ["50", "100", "150", "200"],
                   "correctAnswer": "100",
                   "difficulty": "easy"
                 },
@@ -1881,24 +1841,14 @@
                 {
                   "type": "multiple_choice",
                   "question": "A hat that costs $20 is on sale for 10% off. What is the sale price?",
-                  "answerOptions": [
-                    "$2",
-                    "$10",
-                    "$18",
-                    "$19"
-                  ],
+                  "answerOptions": ["$2", "$10", "$18", "$19"],
                   "correctAnswer": "$18",
                   "difficulty": "easy"
                 },
                 {
                   "type": "multiple_choice",
                   "question": "If a number increases from 40 to 50, what is the percent increase?",
-                  "answerOptions": [
-                    "10%",
-                    "20%",
-                    "25%",
-                    "30%"
-                  ],
+                  "answerOptions": ["10%", "20%", "25%", "30%"],
                   "correctAnswer": "25%",
                   "difficulty": "medium"
                 },
@@ -1911,24 +1861,14 @@
                 {
                   "type": "multiple_choice",
                   "question": "A baker wants to make a cake that is 200% of the original recipe. If the original recipe calls for 3 cups of sugar, how many cups of sugar does the baker need?",
-                  "answerOptions": [
-                    "4 cups",
-                    "5 cups",
-                    "6 cups",
-                    "7 cups"
-                  ],
+                  "answerOptions": ["4 cups", "5 cups", "6 cups", "7 cups"],
                   "correctAnswer": "6 cups",
                   "difficulty": "medium"
                 },
                 {
                   "type": "multiple_choice",
                   "question": "The price of a gallon of gas decreased from $4.00 to $3.50. What was the percent decrease?",
-                  "answerOptions": [
-                    "10%",
-                    "12.5%",
-                    "15%",
-                    "17.5%"
-                  ],
+                  "answerOptions": ["10%", "12.5%", "15%", "17.5%"],
                   "correctAnswer": "12.5%",
                   "difficulty": "medium"
                 },
@@ -1941,24 +1881,14 @@
                 {
                   "type": "multiple_choice",
                   "question": "In a survey of 200 people, 80 said they prefer coffee over tea. What percentage of people prefer coffee?",
-                  "answerOptions": [
-                    "30%",
-                    "35%",
-                    "40%",
-                    "45%"
-                  ],
+                  "answerOptions": ["30%", "35%", "40%", "45%"],
                   "correctAnswer": "40%",
                   "difficulty": "medium"
                 },
                 {
                   "type": "multiple_choice",
                   "question": "A computer is priced at $1200. It is first discounted by 15% and then by an additional 10%. What is the final selling price?",
-                  "answerOptions": [
-                    "$918",
-                    "$924",
-                    "$936",
-                    "$948"
-                  ],
+                  "answerOptions": ["$918", "$924", "$936", "$948"],
                   "correctAnswer": "$918",
                   "difficulty": "hard"
                 },
@@ -1996,12 +1926,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "Simplify the ratio 10:15.",
-                  "answerOptions": [
-                    "1:2",
-                    "2:3",
-                    "3:4",
-                    "5:6"
-                  ],
+                  "answerOptions": ["1:2", "2:3", "3:4", "5:6"],
                   "correctAnswer": "2:3",
                   "difficulty": "easy"
                 },
@@ -2014,12 +1939,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "Solve for x in the proportion $\\frac{2}{3} = \\frac{x}{9}$",
-                  "answerOptions": [
-                    "4",
-                    "5",
-                    "6",
-                    "7"
-                  ],
+                  "answerOptions": ["4", "5", "6", "7"],
                   "correctAnswer": "6",
                   "difficulty": "easy"
                 },
@@ -2044,12 +1964,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "The ratio of boys to girls in a class is 4:5. If there are 36 students in the class, how many are boys?",
-                  "answerOptions": [
-                    "12",
-                    "16",
-                    "20",
-                    "24"
-                  ],
+                  "answerOptions": ["12", "16", "20", "24"],
                   "correctAnswer": "16",
                   "difficulty": "medium"
                 },
@@ -2074,24 +1989,14 @@
                 {
                   "type": "multiple_choice",
                   "question": "If it takes 2 hours to paint a room of 400 square feet, how long will it take to paint a room of 1000 square feet at the same rate?",
-                  "answerOptions": [
-                    "4 hours",
-                    "5 hours",
-                    "6 hours",
-                    "8 hours"
-                  ],
+                  "answerOptions": ["4 hours", "5 hours", "6 hours", "8 hours"],
                   "correctAnswer": "5 hours",
                   "difficulty": "medium"
                 },
                 {
                   "type": "multiple_choice",
                   "question": "In a bag of marbles, the ratio of red to blue marbles is 3:5. The ratio of blue to green marbles is 2:1. What is the ratio of red to green marbles?",
-                  "answerOptions": [
-                    "3:1",
-                    "6:5",
-                    "5:2",
-                    "3:2"
-                  ],
+                  "answerOptions": ["3:1", "6:5", "5:2", "3:2"],
                   "correctAnswer": "6:5",
                   "difficulty": "hard"
                 },
@@ -2104,12 +2009,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "A gear ratio is 8:3. If the larger gear makes 120 revolutions, how many revolutions does the smaller gear make?",
-                  "answerOptions": [
-                    "45",
-                    "160",
-                    "240",
-                    "320"
-                  ],
+                  "answerOptions": ["45", "160", "240", "320"],
                   "correctAnswer": "320",
                   "difficulty": "hard"
                 }
@@ -2123,12 +2023,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "Simplify the ratio 20:25.",
-                  "answerOptions": [
-                    "2:3",
-                    "3:4",
-                    "4:5",
-                    "5:6"
-                  ],
+                  "answerOptions": ["2:3", "3:4", "4:5", "5:6"],
                   "correctAnswer": "4:5",
                   "difficulty": "easy"
                 },
@@ -2141,12 +2036,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "Solve for x in the proportion $\\frac{3}{5} = \\frac{x}{15}$",
-                  "answerOptions": [
-                    "6",
-                    "9",
-                    "10",
-                    "12"
-                  ],
+                  "answerOptions": ["6", "9", "10", "12"],
                   "correctAnswer": "9",
                   "difficulty": "easy"
                 },
@@ -2171,12 +2061,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "In a group of 45 people, the ratio of men to women is 2:7. How many women are there?",
-                  "answerOptions": [
-                    "10",
-                    "15",
-                    "25",
-                    "35"
-                  ],
+                  "answerOptions": ["10", "15", "25", "35"],
                   "correctAnswer": "35",
                   "difficulty": "medium"
                 },
@@ -2201,12 +2086,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "If 3 pounds of apples cost $5, how much will 9 pounds of apples cost?",
-                  "answerOptions": [
-                    "$10",
-                    "$12",
-                    "$15",
-                    "$18"
-                  ],
+                  "answerOptions": ["$10", "$12", "$15", "$18"],
                   "correctAnswer": "$15",
                   "difficulty": "medium"
                 },
@@ -2231,12 +2111,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "A work crew of 6 people can complete a job in 8 days. How many fewer days would it take if the crew had 8 people?",
-                  "answerOptions": [
-                    "1 day",
-                    "2 days",
-                    "3 days",
-                    "4 days"
-                  ],
+                  "answerOptions": ["1 day", "2 days", "3 days", "4 days"],
                   "correctAnswer": "2 days",
                   "difficulty": "hard"
                 }
@@ -2256,12 +2131,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "What is the decimal equivalent of the fraction $\\frac{3}{4}$?",
-                  "answerOptions": [
-                    "0.25",
-                    "0.5",
-                    "0.75",
-                    "1.25"
-                  ],
+                  "answerOptions": ["0.25", "0.5", "0.75", "1.25"],
                   "correctAnswer": "0.75",
                   "difficulty": "easy"
                 },
@@ -2316,12 +2186,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "What is the result of 0.25 multiplied by 1.6?",
-                  "answerOptions": [
-                    "0.4",
-                    "0.04",
-                    "4",
-                    "0.32"
-                  ],
+                  "answerOptions": ["0.4", "0.04", "4", "0.32"],
                   "correctAnswer": "0.4",
                   "difficulty": "medium"
                 },
@@ -2473,12 +2338,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "A stock price dropped by $\\frac{1}{8}$ of its value. If the original price was $120, what is the new price?",
-                  "answerOptions": [
-                    "$100",
-                    "$105",
-                    "$110",
-                    "$115"
-                  ],
+                  "answerOptions": ["$100", "$105", "$110", "$115"],
                   "correctAnswer": "$105",
                   "difficulty": "hard"
                 },
@@ -2516,12 +2376,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "If f(x) = 2x + 5, what is the value of f(3)?",
-                  "answerOptions": [
-                    "8",
-                    "10",
-                    "11",
-                    "13"
-                  ],
+                  "answerOptions": ["8", "10", "11", "13"],
                   "correctAnswer": "11",
                   "difficulty": "easy"
                 },
@@ -2546,12 +2401,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "Find the slope of the line passing through the points (2, 3) and (4, 7).",
-                  "answerOptions": [
-                    "1",
-                    "2",
-                    "3",
-                    "4"
-                  ],
+                  "answerOptions": ["1", "2", "3", "4"],
                   "correctAnswer": "2",
                   "difficulty": "medium"
                 },
@@ -2564,12 +2414,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "The function h(t) = -16t^2 + 64t gives the height of a ball thrown upwards, in feet, after t seconds. What is the height of the ball after 2 seconds?",
-                  "answerOptions": [
-                    "32 feet",
-                    "48 feet",
-                    "64 feet",
-                    "80 feet"
-                  ],
+                  "answerOptions": ["32 feet", "48 feet", "64 feet", "80 feet"],
                   "correctAnswer": "64 feet",
                   "difficulty": "medium"
                 },
@@ -2594,12 +2439,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "John is 4 years older than his sister. If his sister is 's' years old, which expression represents John's age?",
-                  "answerOptions": [
-                    "s - 4",
-                    "4s",
-                    "4 - s",
-                    "s + 4"
-                  ],
+                  "answerOptions": ["s - 4", "4s", "4 - s", "s + 4"],
                   "correctAnswer": "s + 4",
                   "difficulty": "medium"
                 },
@@ -2643,12 +2483,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "If h(x) = 4x - 3, what is the value of h(2)?",
-                  "answerOptions": [
-                    "3",
-                    "5",
-                    "7",
-                    "9"
-                  ],
+                  "answerOptions": ["3", "5", "7", "9"],
                   "correctAnswer": "5",
                   "difficulty": "easy"
                 },
@@ -2673,12 +2508,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "Find the slope of the line passing through the points (1, 5) and (3, 1).",
-                  "answerOptions": [
-                    "-1",
-                    "-2",
-                    "-3",
-                    "-4"
-                  ],
+                  "answerOptions": ["-1", "-2", "-3", "-4"],
                   "correctAnswer": "-2",
                   "difficulty": "medium"
                 },
@@ -2691,12 +2521,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "The value of a car depreciates according to the function V(t) = 20000 * (0.85)^t, where t is the number of years since purchase. What is the value of the car after 2 years?",
-                  "answerOptions": [
-                    "$14450",
-                    "$15250",
-                    "$16150",
-                    "$17000"
-                  ],
+                  "answerOptions": ["$14450", "$15250", "$16150", "$17000"],
                   "correctAnswer": "$14450",
                   "difficulty": "medium"
                 },
@@ -2733,12 +2558,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "The sum of two numbers is 30, and their difference is 6. What is the larger number?",
-                  "answerOptions": [
-                    "12",
-                    "15",
-                    "18",
-                    "21"
-                  ],
+                  "answerOptions": ["12", "15", "18", "21"],
                   "correctAnswer": "18",
                   "difficulty": "hard"
                 },
@@ -2751,12 +2571,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "A boat travels upstream at 10 mph and downstream at 16 mph. What is the speed of the current?",
-                  "answerOptions": [
-                    "2 mph",
-                    "3 mph",
-                    "4 mph",
-                    "6 mph"
-                  ],
+                  "answerOptions": ["2 mph", "3 mph", "4 mph", "6 mph"],
                   "correctAnswer": "3 mph",
                   "difficulty": "hard"
                 }
@@ -2854,12 +2669,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "A right triangle has legs of length 6 cm and 8 cm. What is the length of the hypotenuse?",
-                  "answerOptions": [
-                    "10 cm",
-                    "12 cm",
-                    "14 cm",
-                    "16 cm"
-                  ],
+                  "answerOptions": ["10 cm", "12 cm", "14 cm", "16 cm"],
                   "correctAnswer": "10 cm",
                   "difficulty": "medium"
                 },
@@ -2921,12 +2731,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "A rectangular box has a volume of 60 in$^3$. If its length is 5 in and its width is 4 in, what is its height?",
-                  "answerOptions": [
-                    "2 in",
-                    "3 in",
-                    "4 in",
-                    "5 in"
-                  ],
+                  "answerOptions": ["2 in", "3 in", "4 in", "5 in"],
                   "correctAnswer": "3 in",
                   "difficulty": "easy"
                 },
@@ -2951,12 +2756,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "A cylindrical can has a volume of 314 cm$^3$ and a height of 10 cm. What is its radius to the nearest tenth of a centimeter? (Use 3.14 for pi)",
-                  "answerOptions": [
-                    "2.8 cm",
-                    "3.2 cm",
-                    "3.6 cm",
-                    "4.0 cm"
-                  ],
+                  "answerOptions": ["2.8 cm", "3.2 cm", "3.6 cm", "4.0 cm"],
                   "correctAnswer": "3.2 cm",
                   "difficulty": "medium"
                 },
@@ -4747,12 +4547,7 @@
               {
                 "type": "multiple_choice",
                 "question": "What is 50% of 200?",
-                "answerOptions": [
-                  "50",
-                  "100",
-                  "150",
-                  "200"
-                ],
+                "answerOptions": ["50", "100", "150", "200"],
                 "correctAnswer": "100",
                 "difficulty": "easy"
               },
@@ -4765,24 +4560,14 @@
               {
                 "type": "multiple_choice",
                 "question": "A shirt that costs $40 is on sale for 25% off. What is the sale price?",
-                "answerOptions": [
-                  "$10",
-                  "$20",
-                  "$30",
-                  "$35"
-                ],
+                "answerOptions": ["$10", "$20", "$30", "$35"],
                 "correctAnswer": "$30",
                 "difficulty": "easy"
               },
               {
                 "type": "multiple_choice",
                 "question": "If a population of a town grows from 5,000 to 6,000, what is the percent increase?",
-                "answerOptions": [
-                  "10%",
-                  "15%",
-                  "20%",
-                  "25%"
-                ],
+                "answerOptions": ["10%", "15%", "20%", "25%"],
                 "correctAnswer": "20%",
                 "difficulty": "medium"
               },
@@ -4795,24 +4580,14 @@
               {
                 "type": "multiple_choice",
                 "question": "A recipe calls for 2 cups of flour. If you want to make a batch that is 150% of the original recipe, how many cups of flour do you need?",
-                "answerOptions": [
-                  "2.5 cups",
-                  "3 cups",
-                  "3.5 cups",
-                  "4 cups"
-                ],
+                "answerOptions": ["2.5 cups", "3 cups", "3.5 cups", "4 cups"],
                 "correctAnswer": "3 cups",
                 "difficulty": "medium"
               },
               {
                 "type": "multiple_choice",
                 "question": "The price of a stock increased from $80 to $92. What was the percent increase?",
-                "answerOptions": [
-                  "12%",
-                  "15%",
-                  "18%",
-                  "20%"
-                ],
+                "answerOptions": ["12%", "15%", "18%", "20%"],
                 "correctAnswer": "15%",
                 "difficulty": "medium"
               },
@@ -4825,24 +4600,14 @@
               {
                 "type": "multiple_choice",
                 "question": "Out of 500 students, 350 voted in a school election. What percentage of students voted?",
-                "answerOptions": [
-                  "60%",
-                  "65%",
-                  "70%",
-                  "75%"
-                ],
+                "answerOptions": ["60%", "65%", "70%", "75%"],
                 "correctAnswer": "70%",
                 "difficulty": "medium"
               },
               {
                 "type": "multiple_choice",
                 "question": "A store buys a television for $500 and marks it up by 60%. If the store then offers a 20% discount on the marked-up price, what is the final selling price?",
-                "answerOptions": [
-                  "$600",
-                  "$640",
-                  "$680",
-                  "$720"
-                ],
+                "answerOptions": ["$600", "$640", "$680", "$720"],
                 "correctAnswer": "$640",
                 "difficulty": "hard"
               },
@@ -4876,12 +4641,7 @@
               {
                 "type": "multiple_choice",
                 "question": "What is 25% of 400?",
-                "answerOptions": [
-                  "50",
-                  "100",
-                  "150",
-                  "200"
-                ],
+                "answerOptions": ["50", "100", "150", "200"],
                 "correctAnswer": "100",
                 "difficulty": "easy"
               },
@@ -4894,24 +4654,14 @@
               {
                 "type": "multiple_choice",
                 "question": "A hat that costs $20 is on sale for 10% off. What is the sale price?",
-                "answerOptions": [
-                  "$2",
-                  "$10",
-                  "$18",
-                  "$19"
-                ],
+                "answerOptions": ["$2", "$10", "$18", "$19"],
                 "correctAnswer": "$18",
                 "difficulty": "easy"
               },
               {
                 "type": "multiple_choice",
                 "question": "If a number increases from 40 to 50, what is the percent increase?",
-                "answerOptions": [
-                  "10%",
-                  "20%",
-                  "25%",
-                  "30%"
-                ],
+                "answerOptions": ["10%", "20%", "25%", "30%"],
                 "correctAnswer": "25%",
                 "difficulty": "medium"
               },
@@ -4924,24 +4674,14 @@
               {
                 "type": "multiple_choice",
                 "question": "A baker wants to make a cake that is 200% of the original recipe. If the original recipe calls for 3 cups of sugar, how many cups of sugar does the baker need?",
-                "answerOptions": [
-                  "4 cups",
-                  "5 cups",
-                  "6 cups",
-                  "7 cups"
-                ],
+                "answerOptions": ["4 cups", "5 cups", "6 cups", "7 cups"],
                 "correctAnswer": "6 cups",
                 "difficulty": "medium"
               },
               {
                 "type": "multiple_choice",
                 "question": "The price of a gallon of gas decreased from $4.00 to $3.50. What was the percent decrease?",
-                "answerOptions": [
-                  "10%",
-                  "12.5%",
-                  "15%",
-                  "17.5%"
-                ],
+                "answerOptions": ["10%", "12.5%", "15%", "17.5%"],
                 "correctAnswer": "12.5%",
                 "difficulty": "medium"
               },
@@ -4954,24 +4694,14 @@
               {
                 "type": "multiple_choice",
                 "question": "In a survey of 200 people, 80 said they prefer coffee over tea. What percentage of people prefer coffee?",
-                "answerOptions": [
-                  "30%",
-                  "35%",
-                  "40%",
-                  "45%"
-                ],
+                "answerOptions": ["30%", "35%", "40%", "45%"],
                 "correctAnswer": "40%",
                 "difficulty": "medium"
               },
               {
                 "type": "multiple_choice",
                 "question": "A computer is priced at $1200. It is first discounted by 15% and then by an additional 10%. What is the final selling price?",
-                "answerOptions": [
-                  "$918",
-                  "$924",
-                  "$936",
-                  "$948"
-                ],
+                "answerOptions": ["$918", "$924", "$936", "$948"],
                 "correctAnswer": "$918",
                 "difficulty": "hard"
               },
@@ -5003,12 +4733,7 @@
               {
                 "type": "multiple_choice",
                 "question": "Simplify the ratio 10:15.",
-                "answerOptions": [
-                  "1:2",
-                  "2:3",
-                  "3:4",
-                  "5:6"
-                ],
+                "answerOptions": ["1:2", "2:3", "3:4", "5:6"],
                 "correctAnswer": "2:3",
                 "difficulty": "easy"
               },
@@ -5021,12 +4746,7 @@
               {
                 "type": "multiple_choice",
                 "question": "Solve for x in the proportion $\\frac{2}{3} = \\frac{x}{9}$",
-                "answerOptions": [
-                  "4",
-                  "5",
-                  "6",
-                  "7"
-                ],
+                "answerOptions": ["4", "5", "6", "7"],
                 "correctAnswer": "6",
                 "difficulty": "easy"
               },
@@ -5051,12 +4771,7 @@
               {
                 "type": "multiple_choice",
                 "question": "The ratio of boys to girls in a class is 4:5. If there are 36 students in the class, how many are boys?",
-                "answerOptions": [
-                  "12",
-                  "16",
-                  "20",
-                  "24"
-                ],
+                "answerOptions": ["12", "16", "20", "24"],
                 "correctAnswer": "16",
                 "difficulty": "medium"
               },
@@ -5081,24 +4796,14 @@
               {
                 "type": "multiple_choice",
                 "question": "If it takes 2 hours to paint a room of 400 square feet, how long will it take to paint a room of 1000 square feet at the same rate?",
-                "answerOptions": [
-                  "4 hours",
-                  "5 hours",
-                  "6 hours",
-                  "8 hours"
-                ],
+                "answerOptions": ["4 hours", "5 hours", "6 hours", "8 hours"],
                 "correctAnswer": "5 hours",
                 "difficulty": "medium"
               },
               {
                 "type": "multiple_choice",
                 "question": "In a bag of marbles, the ratio of red to blue marbles is 3:5. The ratio of blue to green marbles is 2:1. What is the ratio of red to green marbles?",
-                "answerOptions": [
-                  "3:1",
-                  "6:5",
-                  "5:2",
-                  "3:2"
-                ],
+                "answerOptions": ["3:1", "6:5", "5:2", "3:2"],
                 "correctAnswer": "6:5",
                 "difficulty": "hard"
               },
@@ -5111,12 +4816,7 @@
               {
                 "type": "multiple_choice",
                 "question": "A gear ratio is 8:3. If the larger gear makes 120 revolutions, how many revolutions does the smaller gear make?",
-                "answerOptions": [
-                  "45",
-                  "160",
-                  "240",
-                  "320"
-                ],
+                "answerOptions": ["45", "160", "240", "320"],
                 "correctAnswer": "320",
                 "difficulty": "hard"
               }
@@ -5130,12 +4830,7 @@
               {
                 "type": "multiple_choice",
                 "question": "Simplify the ratio 20:25.",
-                "answerOptions": [
-                  "2:3",
-                  "3:4",
-                  "4:5",
-                  "5:6"
-                ],
+                "answerOptions": ["2:3", "3:4", "4:5", "5:6"],
                 "correctAnswer": "4:5",
                 "difficulty": "easy"
               },
@@ -5148,12 +4843,7 @@
               {
                 "type": "multiple_choice",
                 "question": "Solve for x in the proportion $\\frac{3}{5} = \\frac{x}{15}$",
-                "answerOptions": [
-                  "6",
-                  "9",
-                  "10",
-                  "12"
-                ],
+                "answerOptions": ["6", "9", "10", "12"],
                 "correctAnswer": "9",
                 "difficulty": "easy"
               },
@@ -5178,12 +4868,7 @@
               {
                 "type": "multiple_choice",
                 "question": "In a group of 45 people, the ratio of men to women is 2:7. How many women are there?",
-                "answerOptions": [
-                  "10",
-                  "15",
-                  "25",
-                  "35"
-                ],
+                "answerOptions": ["10", "15", "25", "35"],
                 "correctAnswer": "35",
                 "difficulty": "medium"
               },
@@ -5208,12 +4893,7 @@
               {
                 "type": "multiple_choice",
                 "question": "If 3 pounds of apples cost $5, how much will 9 pounds of apples cost?",
-                "answerOptions": [
-                  "$10",
-                  "$12",
-                  "$15",
-                  "$18"
-                ],
+                "answerOptions": ["$10", "$12", "$15", "$18"],
                 "correctAnswer": "$15",
                 "difficulty": "medium"
               },
@@ -5238,12 +4918,7 @@
               {
                 "type": "multiple_choice",
                 "question": "A work crew of 6 people can complete a job in 8 days. How many fewer days would it take if the crew had 8 people?",
-                "answerOptions": [
-                  "1 day",
-                  "2 days",
-                  "3 days",
-                  "4 days"
-                ],
+                "answerOptions": ["1 day", "2 days", "3 days", "4 days"],
                 "correctAnswer": "2 days",
                 "difficulty": "hard"
               }
@@ -5259,12 +4934,7 @@
               {
                 "type": "multiple_choice",
                 "question": "What is the decimal equivalent of the fraction $\\frac{3}{4}$?",
-                "answerOptions": [
-                  "0.25",
-                  "0.5",
-                  "0.75",
-                  "1.25"
-                ],
+                "answerOptions": ["0.25", "0.5", "0.75", "1.25"],
                 "correctAnswer": "0.75",
                 "difficulty": "easy"
               },
@@ -5319,12 +4989,7 @@
               {
                 "type": "multiple_choice",
                 "question": "What is the result of 0.25 multiplied by 1.6?",
-                "answerOptions": [
-                  "0.4",
-                  "0.04",
-                  "4",
-                  "0.32"
-                ],
+                "answerOptions": ["0.4", "0.04", "4", "0.32"],
                 "correctAnswer": "0.4",
                 "difficulty": "medium"
               },
@@ -5476,12 +5141,7 @@
               {
                 "type": "multiple_choice",
                 "question": "A stock price dropped by $\\frac{1}{8}$ of its value. If the original price was $120, what is the new price?",
-                "answerOptions": [
-                  "$100",
-                  "$105",
-                  "$110",
-                  "$115"
-                ],
+                "answerOptions": ["$100", "$105", "$110", "$115"],
                 "correctAnswer": "$105",
                 "difficulty": "hard"
               },
@@ -5513,12 +5173,7 @@
               {
                 "type": "multiple_choice",
                 "question": "If f(x) = 2x + 5, what is the value of f(3)?",
-                "answerOptions": [
-                  "8",
-                  "10",
-                  "11",
-                  "13"
-                ],
+                "answerOptions": ["8", "10", "11", "13"],
                 "correctAnswer": "11",
                 "difficulty": "easy"
               },
@@ -5543,12 +5198,7 @@
               {
                 "type": "multiple_choice",
                 "question": "Find the slope of the line passing through the points (2, 3) and (4, 7).",
-                "answerOptions": [
-                  "1",
-                  "2",
-                  "3",
-                  "4"
-                ],
+                "answerOptions": ["1", "2", "3", "4"],
                 "correctAnswer": "2",
                 "difficulty": "medium"
               },
@@ -5561,12 +5211,7 @@
               {
                 "type": "multiple_choice",
                 "question": "The function h(t) = -16t^2 + 64t gives the height of a ball thrown upwards, in feet, after t seconds. What is the height of the ball after 2 seconds?",
-                "answerOptions": [
-                  "32 feet",
-                  "48 feet",
-                  "64 feet",
-                  "80 feet"
-                ],
+                "answerOptions": ["32 feet", "48 feet", "64 feet", "80 feet"],
                 "correctAnswer": "64 feet",
                 "difficulty": "medium"
               },
@@ -5591,12 +5236,7 @@
               {
                 "type": "multiple_choice",
                 "question": "John is 4 years older than his sister. If his sister is 's' years old, which expression represents John's age?",
-                "answerOptions": [
-                  "s - 4",
-                  "4s",
-                  "4 - s",
-                  "s + 4"
-                ],
+                "answerOptions": ["s - 4", "4s", "4 - s", "s + 4"],
                 "correctAnswer": "s + 4",
                 "difficulty": "medium"
               },
@@ -5642,12 +5282,7 @@
               {
                 "type": "multiple_choice",
                 "question": "If h(x) = 4x - 3, what is the value of h(2)?",
-                "answerOptions": [
-                  "3",
-                  "5",
-                  "7",
-                  "9"
-                ],
+                "answerOptions": ["3", "5", "7", "9"],
                 "correctAnswer": "5",
                 "difficulty": "easy"
               },
@@ -5672,12 +5307,7 @@
               {
                 "type": "multiple_choice",
                 "question": "Find the slope of the line passing through the points (1, 5) and (3, 1).",
-                "answerOptions": [
-                  "-1",
-                  "-2",
-                  "-3",
-                  "-4"
-                ],
+                "answerOptions": ["-1", "-2", "-3", "-4"],
                 "correctAnswer": "-2",
                 "difficulty": "medium"
               },
@@ -5690,12 +5320,7 @@
               {
                 "type": "multiple_choice",
                 "question": "The value of a car depreciates according to the function V(t) = 20000 * (0.85)^t, where t is the number of years since purchase. What is the value of the car after 2 years?",
-                "answerOptions": [
-                  "$14450",
-                  "$15250",
-                  "$16150",
-                  "$17000"
-                ],
+                "answerOptions": ["$14450", "$15250", "$16150", "$17000"],
                 "correctAnswer": "$14450",
                 "difficulty": "medium"
               },
@@ -5732,12 +5357,7 @@
               {
                 "type": "multiple_choice",
                 "question": "The sum of two numbers is 30, and their difference is 6. What is the larger number?",
-                "answerOptions": [
-                  "12",
-                  "15",
-                  "18",
-                  "21"
-                ],
+                "answerOptions": ["12", "15", "18", "21"],
                 "correctAnswer": "18",
                 "difficulty": "hard"
               },
@@ -5750,12 +5370,7 @@
               {
                 "type": "multiple_choice",
                 "question": "A boat travels upstream at 10 mph and downstream at 16 mph. What is the speed of the current?",
-                "answerOptions": [
-                  "2 mph",
-                  "3 mph",
-                  "4 mph",
-                  "6 mph"
-                ],
+                "answerOptions": ["2 mph", "3 mph", "4 mph", "6 mph"],
                 "correctAnswer": "3 mph",
                 "difficulty": "hard"
               }
@@ -5829,12 +5444,7 @@
               {
                 "type": "multiple_choice",
                 "question": "A rectangular garden is 20 feet long and 15 feet wide. How much fencing is needed to enclose the garden?",
-                "answerOptions": [
-                  "35 feet",
-                  "70 feet",
-                  "300 feet",
-                  "600 feet"
-                ],
+                "answerOptions": ["35 feet", "70 feet", "300 feet", "600 feet"],
                 "correctAnswer": "70 feet",
                 "difficulty": "medium"
               },
@@ -5847,12 +5457,7 @@
               {
                 "type": "multiple_choice",
                 "question": "A right triangle has legs of length 6 cm and 8 cm. What is the length of the hypotenuse?",
-                "answerOptions": [
-                  "10 cm",
-                  "12 cm",
-                  "14 cm",
-                  "16 cm"
-                ],
+                "answerOptions": ["10 cm", "12 cm", "14 cm", "16 cm"],
                 "correctAnswer": "10 cm",
                 "difficulty": "medium"
               },
@@ -5896,12 +5501,7 @@
               {
                 "type": "multiple_choice",
                 "question": "A rectangle has a length of 10 feet and a width of 4 feet. What is its perimeter?",
-                "answerOptions": [
-                  "14 feet",
-                  "28 feet",
-                  "40 feet",
-                  "100 feet"
-                ],
+                "answerOptions": ["14 feet", "28 feet", "40 feet", "100 feet"],
                 "correctAnswer": "28 feet",
                 "difficulty": "easy"
               },
@@ -5914,12 +5514,7 @@
               {
                 "type": "multiple_choice",
                 "question": "A rectangular box has a volume of 60 in$^3$. If its length is 5 in and its width is 4 in, what is its height?",
-                "answerOptions": [
-                  "2 in",
-                  "3 in",
-                  "4 in",
-                  "5 in"
-                ],
+                "answerOptions": ["2 in", "3 in", "4 in", "5 in"],
                 "correctAnswer": "3 in",
                 "difficulty": "easy"
               },
@@ -5944,12 +5539,7 @@
               {
                 "type": "multiple_choice",
                 "question": "A cylindrical can has a volume of 314 cm$^3$ and a height of 10 cm. What is its radius to the nearest tenth of a centimeter? (Use 3.14 for pi)",
-                "answerOptions": [
-                  "2.8 cm",
-                  "3.2 cm",
-                  "3.6 cm",
-                  "4.0 cm"
-                ],
+                "answerOptions": ["2.8 cm", "3.2 cm", "3.6 cm", "4.0 cm"],
                 "correctAnswer": "3.2 cm",
                 "difficulty": "medium"
               },
@@ -10195,12 +9785,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "What is the formula for the volume of a cube with side length 's'?",
-                  "answerOptions": [
-                    "V = s^2",
-                    "V = 3s",
-                    "V = 6s^2",
-                    "V = s^3"
-                  ],
+                  "answerOptions": ["V = s^2", "V = 3s", "V = 6s^2", "V = s^3"],
                   "correctAnswer": "V = s^3",
                   "difficulty": "easy"
                 },
@@ -10255,12 +9840,7 @@
                 {
                   "type": "multiple_choice",
                   "question": "Which formula correctly represents the relationship between the diameter (d) and radius (r) of a circle?",
-                  "answerOptions": [
-                    "d = 2r",
-                    "r = 2d",
-                    "d = pi*r",
-                    "r = pi*d"
-                  ],
+                  "answerOptions": ["d = 2r", "r = 2d", "d = pi*r", "r = pi*d"],
                   "correctAnswer": "d = 2r",
                   "difficulty": "medium"
                 },
@@ -11788,12 +11368,7 @@
               {
                 "type": "multiple_choice",
                 "question": "What is the formula for the volume of a cube with side length 's'?",
-                "answerOptions": [
-                  "V = s^2",
-                  "V = 3s",
-                  "V = 6s^2",
-                  "V = s^3"
-                ],
+                "answerOptions": ["V = s^2", "V = 3s", "V = 6s^2", "V = s^3"],
                 "correctAnswer": "V = s^3",
                 "difficulty": "easy"
               },
@@ -11848,12 +11423,7 @@
               {
                 "type": "multiple_choice",
                 "question": "Which formula correctly represents the relationship between the diameter (d) and radius (r) of a circle?",
-                "answerOptions": [
-                  "d = 2r",
-                  "r = 2d",
-                  "d = pi*r",
-                  "r = pi*d"
-                ],
+                "answerOptions": ["d = 2r", "r = 2d", "d = pi*r", "r = pi*d"],
                 "correctAnswer": "d = 2r",
                 "difficulty": "medium"
               },
@@ -12054,30 +11624,30 @@
                   "type": "multipleChoice",
                   "calculator": false,
                   "difficulty": "hard",
-                  "question": "Solve the inequality: $-3x + 4 leq 16$.",
+                  "question": "Solve the inequality: $-3x + 4 \\leq 16$.",
                   "answerOptions": [
                     {
-                      "text": "x leq -4",
+                      "text": "x \\leq -4",
                       "isCorrect": false,
                       "rationale": "The inequality sign should be reversed when dividing by a negative number."
                     },
                     {
-                      "text": "x geq -4",
+                      "text": "x \\geq -4",
                       "isCorrect": true,
                       "rationale": "Subtract 4: -3x <= 12. Divide by -3 and reverse the inequality sign: x >= -4."
                     },
                     {
-                      "text": "x leq 4",
+                      "text": "x \\leq 4",
                       "isCorrect": false,
                       "rationale": "This is an incorrect calculation."
                     },
                     {
-                      "text": "x geq 4",
+                      "text": "x \\geq 4",
                       "isCorrect": false,
                       "rationale": "This is an incorrect calculation."
                     }
                   ],
-                  "rationale": "First, subtract 4 from both sides: -3x leq 12. Then, divide by -3. Remember to reverse the inequality sign when dividing by a negative number: x geq -4."
+                  "rationale": "First, subtract 4 from both sides: -3x \\leq 12. Then, divide by -3. Remember to reverse the inequality sign when dividing by a negative number: x \\geq -4."
                 },
                 {
                   "questionNumber": 9,
@@ -15221,30 +14791,30 @@
                 "type": "multipleChoice",
                 "calculator": false,
                 "difficulty": "hard",
-                "question": "Solve the inequality: $-3x + 4 leq 16$.",
+                "question": "Solve the inequality: $-3x + 4 \\leq 16$.",
                 "answerOptions": [
                   {
-                    "text": "x leq -4",
+                    "text": "x \\leq -4",
                     "isCorrect": false,
                     "rationale": "The inequality sign should be reversed when dividing by a negative number."
                   },
                   {
-                    "text": "x geq -4",
+                    "text": "x \\geq -4",
                     "isCorrect": true,
                     "rationale": "Subtract 4: -3x <= 12. Divide by -3 and reverse the inequality sign: x >= -4."
                   },
                   {
-                    "text": "x leq 4",
+                    "text": "x \\leq 4",
                     "isCorrect": false,
                     "rationale": "This is an incorrect calculation."
                   },
                   {
-                    "text": "x geq 4",
+                    "text": "x \\geq 4",
                     "isCorrect": false,
                     "rationale": "This is an incorrect calculation."
                   }
                 ],
-                "rationale": "First, subtract 4 from both sides: -3x leq 12. Then, divide by -3. Remember to reverse the inequality sign when dividing by a negative number: x geq -4."
+                "rationale": "First, subtract 4 from both sides: -3x \\leq 12. Then, divide by -3. Remember to reverse the inequality sign when dividing by a negative number: x \\geq -4."
               },
               {
                 "questionNumber": 9,
