@@ -37,6 +37,13 @@ module.exports = {
     await pool.query(text, params);
     return undefined;
   },
+  one: async (text, params) => {
+    const r = await pool.query(text, params);
+    if (!r.rows[0]) {
+      throw new Error('Expected exactly one row, got zero');
+    }
+    return r.rows[0];
+  },
   oneOrNone: async (text, params) => {
     const r = await pool.query(text, params);
     return r.rows[0] || null;

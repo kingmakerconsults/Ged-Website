@@ -249,26 +249,40 @@ const ensureUserProfile = (user) => {
   if (!user || typeof user !== 'object') {
     return null;
   }
+
   const email = typeof user.email === 'string' ? user.email : '';
-  const baseName =
-    user.name && typeof user.name === 'string' && user.name.trim()
-      ? user.name.trim()
-      : email.includes('@')
-      ? email.split('@')[0]
-      : email || 'Learner';
+  const displayName =
+    (typeof user.display_name === 'string' && user.display_name.trim()) ||
+    (typeof user.name === 'string' && user.name.trim()) ||
+    (email && email.includes('@') ? email.split('@')[0] : 'Learner');
+
+  const firstName =
+    typeof user.first_name === 'string' && user.first_name.trim()
+      ? user.first_name.trim()
+      : null;
+
+  const lastName =
+    typeof user.last_name === 'string' && user.last_name.trim()
+      ? user.last_name.trim()
+      : null;
+
   const picture =
     user.picture && typeof user.picture === 'string' && user.picture.trim()
       ? user.picture.trim()
       : `https://ui-avatars.com/api/?background=0ea5e9&color=fff&name=${encodeURIComponent(
-          baseName
+          displayName
         )}`;
+
   const role = typeof user.role === 'string' ? user.role : 'student';
   const organizationId = user.organization_id ?? null;
   const organizationName = user.organization_name ?? null;
 
   return {
     ...user,
-    name: baseName,
+    name: displayName,
+    display_name: displayName,
+    first_name: firstName,
+    last_name: lastName,
     picture,
     role,
     organization_id: organizationId,
@@ -29408,6 +29422,11 @@ function App({ externalTheme, onThemeChange }) {
       const updated = { ...prev, name: trimmed };
       try {
         if (typeof window !== 'undefined' && window.localStorage) {
+          // Use per-user key to prevent cross-account bleeding
+          if (updated.id) {
+            const perUserKey = `appUser:${updated.id}`;
+            window.localStorage.setItem(perUserKey, JSON.stringify(updated));
+          }
           window.localStorage.setItem('appUser', JSON.stringify(updated));
         }
       } catch (error) {
@@ -29560,6 +29579,14 @@ function App({ externalTheme, onThemeChange }) {
             const updated = { ...prev, name: serverProfileName };
             try {
               if (typeof window !== 'undefined' && window.localStorage) {
+                // Use per-user key to prevent cross-account bleeding
+                if (updated.id) {
+                  const perUserKey = `appUser:${updated.id}`;
+                  window.localStorage.setItem(
+                    perUserKey,
+                    JSON.stringify(updated)
+                  );
+                }
                 window.localStorage.setItem('appUser', JSON.stringify(updated));
               }
             } catch (error) {
@@ -29649,24 +29676,45 @@ function App({ externalTheme, onThemeChange }) {
           : null);
       if (token) {
         try {
-          const resp = await fetchJSON(`${API_BASE_URL}/api/profile/name`, {
+          // Parse name into first/last for the new endpoint
+          const nameParts = trimmed.split(/\s+/);
+          const firstName = nameParts[0] || trimmed;
+          const lastName =
+            nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+
+          const resp = await fetchJSON(`${API_BASE_URL}/api/me/name`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({ name: trimmed }),
+            body: JSON.stringify({
+              firstName: firstName,
+              lastName: lastName,
+              displayName: trimmed,
+            }),
           });
-          const newName = resp?.name || trimmed;
-          setLocalProfile((prev) => ({
-            ...prev,
-            profile: { ...prev.profile, name: newName },
-          }));
-          setCurrentUser((prev) => (prev ? { ...prev, name: newName } : prev));
-          setNameDraft(newName);
-          setNameStatus('Name saved.');
-          setNameSaving(false);
-          return;
+
+          if (resp?.user) {
+            const updatedProfile = ensureUserProfile(resp.user);
+            setLocalProfile((prev) => ({
+              ...prev,
+              profile: { ...prev.profile, ...updatedProfile },
+            }));
+            setCurrentUser(updatedProfile);
+            setNameDraft(updatedProfile.display_name || updatedProfile.name);
+
+            // Update per-user localStorage
+            if (updatedProfile.id) {
+              const perUserKey = `appUser:${updatedProfile.id}`;
+              localStorage.setItem(perUserKey, JSON.stringify(updatedProfile));
+              localStorage.setItem('appUser', JSON.stringify(updatedProfile));
+            }
+
+            setNameStatus('Name saved.');
+            setNameSaving(false);
+            return;
+          }
         } catch (err) {
           console.warn('Server name save failed; falling back to local:', err);
         }
@@ -30202,16 +30250,41 @@ function App({ externalTheme, onThemeChange }) {
   );
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('appUser');
     const storedToken = localStorage.getItem('appToken');
+    if (!storedToken) {
+      return;
+    }
 
-    if (!storedUser || !storedToken) {
+    // Try to get user ID from token to load per-user cache
+    let cachedUser = null;
+    try {
+      // First, try to get any stored user to extract ID
+      const genericStoredUser = localStorage.getItem('appUser');
+      if (genericStoredUser) {
+        const parsedGeneric = JSON.parse(genericStoredUser);
+        if (parsedGeneric && parsedGeneric.id) {
+          // Now load from per-user key
+          const perUserKey = `appUser:${parsedGeneric.id}`;
+          const perUserData = localStorage.getItem(perUserKey);
+          if (perUserData) {
+            cachedUser = JSON.parse(perUserData);
+          } else {
+            // Migrate from generic to per-user key
+            cachedUser = parsedGeneric;
+            localStorage.setItem(perUserKey, JSON.stringify(cachedUser));
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load cached user:', error);
+    }
+
+    if (!cachedUser) {
       return;
     }
 
     try {
-      const parsedUser = JSON.parse(storedUser);
-      const profile = ensureUserProfile(parsedUser);
+      const profile = ensureUserProfile(cachedUser);
       if (profile) {
         currentUserRef.current = profile;
         setCurrentUser(profile);
@@ -30260,6 +30333,12 @@ function App({ externalTheme, onThemeChange }) {
     }
 
     try {
+      // Store in per-user key to prevent cross-account bleeding
+      const perUserKey = profile.id
+        ? `appUser:${profile.id}`
+        : `appUser:${profile.email || 'anonymous'}`;
+      localStorage.setItem(perUserKey, JSON.stringify(profile));
+      // Keep generic key for backwards compatibility and easy ID lookup
       localStorage.setItem('appUser', JSON.stringify(profile));
       localStorage.setItem('appToken', token);
     } catch (error) {
@@ -30362,23 +30441,42 @@ function App({ externalTheme, onThemeChange }) {
         : null);
     if (token) {
       try {
-        const resp = await fetchJSON(`${API_BASE_URL}/api/profile/name`, {
+        // Use new /api/me/name endpoint that updates first_name, last_name, display_name
+        const resp = await fetchJSON(`${API_BASE_URL}/api/me/name`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ name: newName }),
+          body: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+            displayName: newName,
+          }),
         });
-        const confirmed = resp?.name || newName;
-        setLocalProfile((prev) => ({
-          ...prev,
-          profile: { ...prev.profile, name: confirmed },
-        }));
-        setCurrentUser((prev) => (prev ? { ...prev, name: confirmed } : prev));
-        setNameDraft(confirmed);
-        setShowNamePrompt(false);
-        return;
+
+        if (resp?.user) {
+          const updatedProfile = ensureUserProfile(resp.user);
+
+          // Update local state
+          setLocalProfile((prev) => ({
+            ...prev,
+            profile: { ...prev.profile, ...updatedProfile },
+          }));
+          setCurrentUser(updatedProfile);
+          setNameDraft(updatedProfile.display_name || updatedProfile.name);
+
+          // Update per-user localStorage
+          if (updatedProfile.id) {
+            const perUserKey = `appUser:${updatedProfile.id}`;
+            localStorage.setItem(perUserKey, JSON.stringify(updatedProfile));
+            localStorage.setItem('appUser', JSON.stringify(updatedProfile));
+            localStorage.setItem(`customNameSet_${updatedProfile.id}`, 'true');
+          }
+
+          setShowNamePrompt(false);
+          return;
+        }
       } catch (err) {
         console.warn(
           'Server name save failed from modal; falling back to local:',
@@ -30402,6 +30500,11 @@ function App({ externalTheme, onThemeChange }) {
     const profile = ensureUserProfile(updatedUser);
     if (profile) {
       try {
+        // Store in per-user key
+        if (profile.id) {
+          const perUserKey = `appUser:${profile.id}`;
+          localStorage.setItem(perUserKey, JSON.stringify(profile));
+        }
         localStorage.setItem('appUser', JSON.stringify(profile));
       } catch (error) {
         console.warn('Unable to persist updated user locally:', error);
@@ -46679,8 +46782,15 @@ function WorkforceCoverLetterBuilder() {
       };
     }
   });
-  // For Application Tracker integration
+
+  const [selectedTemplate, setSelectedTemplate] = React.useState('general');
   const [coverVersionName, setCoverVersionName] = React.useState('');
+  const [score, setScore] = React.useState(null);
+  const [feedback, setFeedback] = React.useState([]);
+  const [strengths, setStrengths] = React.useState([]);
+  const [improvements, setImprovements] = React.useState([]);
+  const [reviewing, setReviewing] = React.useState(false);
+
   // Tone presets
   const TONE_PRESETS = [
     {
@@ -46711,6 +46821,160 @@ function WorkforceCoverLetterBuilder() {
       ],
     },
   ];
+
+  const selectedTone =
+    TONE_PRESETS.find((t) => t.id === data.tone) || TONE_PRESETS[0];
+
+  const save = () => {
+    try {
+      localStorage.setItem(
+        WORKFORCE_COVER_LETTER_STORAGE_KEY,
+        JSON.stringify(data)
+      );
+    } catch {}
+  };
+
+  const clear = () => {
+    setData({
+      name: '',
+      company: '',
+      role: '',
+      source: '',
+      jobDescription: '',
+      intro: '',
+      body: '',
+      closing: '',
+      tone: 'Professional',
+    });
+    setScore(null);
+    setFeedback([]);
+    setStrengths([]);
+    setImprovements([]);
+  };
+
+  const loadTemplate = (templateId) => {
+    const templates = {
+      retail: {
+        intro:
+          'I am writing to express my interest in the position at your store. With my customer service experience and positive attitude, I am confident I can contribute to your team.',
+        body: 'I have experience working with customers, handling transactions, and maintaining a clean, organized workspace. I am reliable, punctual, and eager to learn.',
+        closing:
+          'Thank you for considering my application. I look forward to the opportunity to discuss how I can support your team.',
+      },
+      office: {
+        intro:
+          'I am applying for the administrative position at your company. My organizational skills and attention to detail make me a strong candidate for this role.',
+        body: 'I have experience with data entry, scheduling, and office communication. I am proficient with Microsoft Office and comfortable learning new software.',
+        closing:
+          'I appreciate your time and consideration. I am excited about the possibility of contributing to your office.',
+      },
+      healthcare: {
+        intro:
+          'I am interested in the healthcare support position at your facility. My compassion and dedication to helping others drive my interest in this field.',
+        body: 'I have completed CNA training and understand the importance of patient care, hygiene, and safety protocols. I am committed to making a positive difference.',
+        closing:
+          'Thank you for reviewing my application. I would welcome the chance to discuss my qualifications further.',
+      },
+      hospitality: {
+        intro:
+          'I am applying for the position in your hospitality team. My friendly demeanor and work ethic make me well-suited for this role.',
+        body: 'I have experience in food service, including taking orders, serving customers, and maintaining cleanliness. I work well in fast-paced environments.',
+        closing:
+          'I appreciate your consideration and hope to bring my skills to your team.',
+      },
+      childcare: {
+        intro:
+          'I am writing to apply for the childcare position. My patience and genuine care for children motivate me to pursue this opportunity.',
+        body: 'I have experience supervising children, planning activities, and ensuring their safety. I am CPR certified and committed to creating a nurturing environment.',
+        closing:
+          'Thank you for considering my application. I look forward to contributing to your program.',
+      },
+      general: {
+        intro:
+          'I am excited to apply for this position. I believe my skills and enthusiasm make me a great fit for your team.',
+        body: 'I am a quick learner, reliable, and ready to take on new responsibilities. I am committed to doing quality work and contributing positively.',
+        closing:
+          'Thank you for your time. I hope to discuss this opportunity with you soon.',
+      },
+    };
+
+    const template = templates[templateId] || templates.general;
+    setData({ ...data, ...template });
+  };
+
+  const reviewLetter = async () => {
+    if (!data.intro.trim() || !data.body.trim()) return;
+    setReviewing(true);
+    setScore(null);
+    setFeedback([]);
+    setStrengths([]);
+    setImprovements([]);
+
+    try {
+      const res = await fetch('/api/workforce/cover-letter-review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.name,
+          company: data.company,
+          role: data.role,
+          intro: data.intro,
+          body: data.body,
+          closing: data.closing,
+          tone: data.tone,
+        }),
+      });
+      const result = await res.json();
+      setScore(result.score || null);
+      setFeedback(result.feedback || []);
+      setStrengths(result.strengths || []);
+      setImprovements(result.improvements || []);
+    } catch (err) {
+      setFeedback([
+        'Could not review your cover letter. Please try again later.',
+      ]);
+    } finally {
+      setReviewing(false);
+    }
+  };
+
+  const useInAppTracker = () => {
+    if (!data.company.trim() || !data.role.trim()) {
+      alert('Please fill in company and role fields first.');
+      return;
+    }
+
+    const versionLabel = coverVersionName.trim() || 'Cover Letter';
+    const trackerData = {
+      company: data.company,
+      role: data.role,
+      status: 'Planned',
+      priority: 'Medium',
+      dateApplied: '',
+      contact: '',
+      notes: `${versionLabel} created. Tone: ${data.tone}`,
+      followUpDate: '',
+    };
+
+    try {
+      const existingApps = JSON.parse(
+        localStorage.getItem(WORKFORCE_APPS_STORAGE_KEY) || '[]'
+      );
+      const newApp = {
+        id: Date.now(),
+        ...trackerData,
+        dateAdded: new Date().toISOString().split('T')[0],
+      };
+      existingApps.unshift(newApp);
+      localStorage.setItem(
+        WORKFORCE_APPS_STORAGE_KEY,
+        JSON.stringify(existingApps)
+      );
+      alert(`Added to Application Tracker: ${data.company} - ${data.role}`);
+    } catch (err) {
+      alert('Could not add to Application Tracker. Please try again.');
+    }
+  };
 
   // Place the return block for the component here, not inside the array/object
   return (

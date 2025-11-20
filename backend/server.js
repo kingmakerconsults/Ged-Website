@@ -17,6 +17,7 @@ const ensureProfilePreferenceColumns = require('./db/initProfilePrefs');
 const ensureQuizAttemptsTable = require('./db/initQuizAttempts');
 const ensureEssayScoresTable = require('./db/initEssayScores');
 const ensureQuestionBankTable = require('./db/initQuestionBank');
+const ensureUserNameColumns = require('./db/initUserNameColumns');
 const MODEL_HTTP_TIMEOUT_MS =
   Number(process.env.MODEL_HTTP_TIMEOUT_MS) || 90000;
 const COMPREHENSIVE_TIMEOUT_MS = 480000;
@@ -409,15 +410,35 @@ async function ensureScienceNumeracy(
 }
 
 async function findUserByEmail(email) {
-  return db.oneOrNone(`SELECT id, email, name FROM users WHERE email = $1`, [
-    email,
-  ]);
+  return db.oneOrNone(
+    `SELECT id, email, name, first_name, last_name, display_name FROM users WHERE email = $1`,
+    [email]
+  );
 }
 
-async function createUser(email, name) {
+async function createUser(email, rawName) {
+  const baseName =
+    rawName && rawName.trim()
+      ? rawName.trim()
+      : email && email.includes('@')
+      ? email.split('@')[0]
+      : 'Learner';
+
+  let firstName = null;
+  let lastName = null;
+  const parts = baseName.split(/\s+/);
+  if (parts.length === 1) {
+    firstName = parts[0];
+  } else if (parts.length > 1) {
+    firstName = parts[0];
+    lastName = parts.slice(1).join(' ');
+  }
+
   return db.oneOrNone(
-    `INSERT INTO users (email, name) VALUES ($1, $2) RETURNING id, email, name`,
-    [email, name]
+    `INSERT INTO users (email, name, first_name, last_name, display_name)
+     VALUES ($1, $2, $3, $4, $5)
+     RETURNING id, email, name, first_name, last_name, display_name`,
+    [email, baseName, firstName, lastName, baseName]
   );
 }
 
@@ -441,6 +462,9 @@ async function loadUserWithRole(userId) {
             u.id,
             u.email,
             u.name,
+            u.first_name,
+            u.last_name,
+            u.display_name,
             u.role,
             u.organization_id,
             u.organization_join_code,
@@ -473,13 +497,20 @@ function buildAuthPayloadFromUserRow(row) {
     throw new Error('User row is required');
   }
   const role = normalizeRole(row.role);
+  const displayName =
+    row.display_name ||
+    row.name ||
+    (row.email ? row.email.split('@')[0] : null);
   return {
     sub: row.id,
     userId: row.id,
     email: row.email,
     role,
     organization_id: row.organization_id ?? null,
-    name: row.name || null,
+    name: displayName,
+    first_name: row.first_name || null,
+    last_name: row.last_name || null,
+    display_name: displayName,
   };
 }
 
@@ -487,11 +518,22 @@ function buildUserResponse(row, fallbackPicture = null) {
   if (!row) {
     return null;
   }
+  const role = normalizeRole(row.role);
+  const firstName = row.first_name || null;
+  const lastName = row.last_name || null;
+  const displayName =
+    row.display_name ||
+    row.name ||
+    (row.email ? row.email.split('@')[0] : null);
+
   return {
     id: row.id,
     email: row.email,
-    name: row.name,
-    role: normalizeRole(row.role),
+    name: displayName, // legacy "name" for frontend
+    first_name: firstName,
+    last_name: lastName,
+    display_name: displayName,
+    role,
     organization_id: row.organization_id ?? null,
     organization_name: row.organization_name || null,
     organization_join_code: row.organization_join_code || null,
@@ -4577,6 +4619,9 @@ if (typeof ensureQuestionBankTable === 'function') {
     console.error('Question bank init error:', e?.message || e);
   });
 }
+ensureUserNameColumns().catch((e) =>
+  console.error('User name columns init error:', e)
+);
 ensureChallengeSystemTables().catch((e) =>
   console.error('Challenge system init error:', e)
 );
@@ -7261,10 +7306,22 @@ app.patch(
       }
 
       try {
-        await db.query('UPDATE users SET name = $2 WHERE id = $1', [
-          userId,
-          trimmed,
-        ]);
+        // Parse name into first/last components
+        const nameParts = trimmed.split(/\s+/);
+        const firstName = nameParts[0] || trimmed;
+        const lastName =
+          nameParts.length > 1 ? nameParts.slice(1).join(' ') : null;
+
+        // Update users table with all name fields
+        await db.query(
+          `UPDATE users 
+           SET name = $2, 
+               first_name = COALESCE($3, first_name),
+               last_name = COALESCE($4, last_name),
+               display_name = COALESCE($2, display_name)
+           WHERE id = $1`,
+          [userId, trimmed, firstName, lastName]
+        );
       } catch (err) {
         console.warn(
           'Unable to sync name into users table',
@@ -12358,14 +12415,40 @@ app.post('/api/auth/google', async (req, res) => {
     }
 
     const now = new Date();
-    const updateParams = [userId, name, email, picture, now];
+
+    // Parse name into components
+    const baseName = name || (email ? email.split('@')[0] : 'Learner');
+    let firstName = null;
+    let lastName = null;
+    if (baseName) {
+      const parts = baseName.trim().split(/\s+/);
+      if (parts.length === 1) {
+        firstName = parts[0];
+      } else if (parts.length > 1) {
+        firstName = parts[0];
+        lastName = parts.slice(1).join(' ');
+      }
+    }
+
+    const updateParams = [
+      userId,
+      baseName,
+      email,
+      picture,
+      now,
+      firstName,
+      lastName,
+    ];
     if (email === SUPER_ADMIN_EMAIL) {
       await pool.query(
         `UPDATE users
-                    SET name = $2,
+                    SET name = COALESCE($2, name),
                         email = $3,
                         picture_url = $4,
                         last_login = $5,
+                        first_name = COALESCE($6, first_name),
+                        last_name = COALESCE($7, last_name),
+                        display_name = COALESCE(display_name, $2, name),
                         role = 'super_admin',
                         organization_id = NULL
                   WHERE id = $1`,
@@ -12374,10 +12457,13 @@ app.post('/api/auth/google', async (req, res) => {
     } else {
       await pool.query(
         `UPDATE users
-                    SET name = $2,
+                    SET name = COALESCE($2, name),
                         email = $3,
                         picture_url = $4,
                         last_login = $5,
+                        first_name = COALESCE($6, first_name),
+                        last_name = COALESCE($7, last_name),
+                        display_name = COALESCE(display_name, $2, name),
                         role = COALESCE(role, 'student')
                   WHERE id = $1`,
         updateParams
@@ -12424,6 +12510,46 @@ app.post('/api/auth/google', async (req, res) => {
   } catch (error) {
     console.error('Google Auth or DB Error:', error);
     res.status(500).json({ error: 'Authentication or database error.' });
+  }
+});
+
+// --- PATCH /api/me/name: Update user's first name, last name, and display name ---
+app.patch('/api/me/name', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user && req.user.userId;
+    if (!userId) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    const { firstName, lastName, displayName } = req.body || {};
+
+    // Basic normalization
+    const fn = firstName && String(firstName).trim();
+    const ln = lastName && String(lastName).trim();
+    const dn = displayName && String(displayName).trim();
+
+    const row = await db.oneOrNone(
+      `UPDATE users
+         SET first_name = COALESCE($1, first_name),
+             last_name = COALESCE($2, last_name),
+             display_name = COALESCE($3, display_name)
+       WHERE id = $4
+       RETURNING id, email, name, first_name, last_name, display_name, role,
+                 organization_id, organization_join_code, picture_url`,
+      [fn || null, ln || null, dn || null, userId]
+    );
+
+    if (!row) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Load full user data with organization info
+    const userRow = await loadUserWithRole(userId);
+    const user = buildUserResponse(userRow);
+    return res.json({ success: true, user });
+  } catch (err) {
+    console.error('[PATCH /api/me/name] failed:', err.message || err);
+    return res.status(500).json({ error: 'Unable to update name' });
   }
 });
 
