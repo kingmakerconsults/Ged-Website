@@ -5624,7 +5624,7 @@
                 {
                   "questionNumber": 1,
                   "type": "knowledge",
-                  "question": "Combine like terms: 3x + 5x.",
+                  "question": "Combine like terms: $3x + 5x$.",
                   "answerOptions": [
                     {
                       "text": "8x",
@@ -5786,7 +5786,7 @@
                 {
                   "questionNumber": 7,
                   "type": "applied",
-                  "question": "Evaluate p(x) = x^2 - 2x + 1 for x = -3.",
+                  "question": "Evaluate $p(x) = x^{2} - 2x + 1$ for $x = -3$.",
                   "answerOptions": [
                     {
                       "text": "16",
@@ -6961,7 +6961,7 @@
               {
                 "questionNumber": 1,
                 "type": "knowledge",
-                "question": "Combine like terms: 3x + 5x.",
+                "question": "Combine like terms: $3x + 5x$.",
                 "answerOptions": [
                   {
                     "text": "8x",
@@ -7123,7 +7123,7 @@
               {
                 "questionNumber": 7,
                 "type": "applied",
-                "question": "Evaluate p(x) = x^2 - 2x + 1 for x = -3.",
+                "question": "Evaluate $p(x) = x^{2} - 2x + 1$ for $x = -3$.",
                 "answerOptions": [
                   {
                     "text": "16",
