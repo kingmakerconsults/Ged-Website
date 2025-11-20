@@ -1631,25 +1631,89 @@
             question: 'Stage 2 (Tech): Choose your profession.',
             answers: [
               {
-                text: 'AI/ML Specialist',
-                consequence: 'Loan: $80k. Salary: $90k/yr.',
+                text: 'Help Desk Support',
+                consequence: 'No loan. Salary: $32k/yr. Entry-level support.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Help Desk Support',
+                    amount: 32000,
+                  },
+                  avatar: { type: 'item', icon: 'briefcase' },
+                  happiness: 2,
+                  add_qualification: 'GED + CompTIA A+',
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Junior Web Developer',
+                consequence: 'Loan: $8k. Salary: $42k/yr. Build websites.',
                 effects: {
                   career_type: 'stable',
                   career_level: 1,
                   expense_add: {
                     id: 'student_loan',
                     label: 'Student Loan',
-                    amount: 8000,
+                    amount: 800,
                   },
                   salary_add: {
                     id: 'main_job',
-                    label: 'AI Specialist',
-                    amount: 90000,
+                    label: 'Jr Web Developer',
+                    amount: 42000,
                   },
                   avatar: { type: 'item', icon: 'briefcase' },
-                  creditScore_change: -30,
-                  add_qualification: 'B.S. CompSci',
+                  creditScore_change: -10,
+                  happiness: 3,
+                  add_qualification: 'Coding Bootcamp',
+                  personality_match: 'creative',
+                },
+              },
+              {
+                text: 'Data Analyst',
+                consequence: 'Loan: $40k. Salary: $60k/yr. Analyze data.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 4000,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Data Analyst',
+                    amount: 60000,
+                  },
+                  avatar: { type: 'item', icon: 'briefcase' },
+                  creditScore_change: -25,
+                  happiness: 2,
+                  add_qualification: 'B.S. Data Science',
                   personality_match: 'ambitious',
+                },
+              },
+              {
+                text: 'Network Administrator',
+                consequence: 'Loan: $30k. Salary: $58k/yr. Manage networks.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 3000,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Network Admin',
+                    amount: 58000,
+                  },
+                  avatar: { type: 'item', icon: 'briefcase' },
+                  creditScore_change: -20,
+                  happiness: 1,
+                  add_qualification: 'Associate IT',
+                  personality_match: 'guardian',
                 },
               },
               {
@@ -1670,13 +1734,59 @@
                   },
                   avatar: { type: 'item', icon: 'briefcase' },
                   creditScore_change: -30,
-                  add_qualification: 'B.S. IT',
+                  add_qualification: 'B.S. IT Security',
                   personality_match: 'guardian',
                 },
               },
               {
+                text: 'Software Engineer',
+                consequence:
+                  'Loan: $70k. Salary: $95k/yr. Build complex systems.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 7000,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Software Engineer',
+                    amount: 95000,
+                  },
+                  avatar: { type: 'item', icon: 'briefcase' },
+                  creditScore_change: -35,
+                  happiness: 3,
+                  add_qualification: 'B.S. CompSci',
+                  personality_match: 'ambitious',
+                },
+              },
+              {
+                text: 'AI/ML Specialist',
+                consequence: 'Loan: $80k. Salary: $90k/yr.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 8000,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'AI Specialist',
+                    amount: 90000,
+                  },
+                  avatar: { type: 'item', icon: 'briefcase' },
+                  creditScore_change: -30,
+                  add_qualification: 'B.S. CompSci + ML',
+                  personality_match: 'ambitious',
+                },
+              },
+              {
                 text: 'UX/UI Designer',
-                consequence: 'Loan: $50k. Salary: $85k/yr.',
+                consequence: 'Loan: $50k. Salary: $70k/yr.',
                 effects: {
                   career_type: 'stable',
                   career_level: 1,
@@ -1688,10 +1798,11 @@
                   salary_add: {
                     id: 'main_job',
                     label: 'UX/UI Designer',
-                    amount: 85000,
+                    amount: 70000,
                   },
                   avatar: { type: 'item', icon: 'palette' },
                   creditScore_change: -25,
+                  happiness: 4,
                   add_qualification: 'B.A. Design',
                   personality_match: 'creative',
                 },
@@ -1704,6 +1815,92 @@
             time_skip: 2,
             question: 'Stage 2 (Trades): Choose your profession.',
             answers: [
+              {
+                text: 'General Construction Worker',
+                consequence: 'No loan. Salary: $35k/yr. Entry-level labor.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Construction Worker',
+                    amount: 35000,
+                  },
+                  avatar: { type: 'item', icon: 'wrench' },
+                  happiness: 1,
+                  add_qualification: 'On-the-job training',
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Plumber',
+                consequence: 'Loan: $18k. Salary: $58k/yr. Steady demand.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 1800,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Plumber',
+                    amount: 58000,
+                  },
+                  avatar: { type: 'item', icon: 'wrench' },
+                  creditScore_change: -18,
+                  happiness: 2,
+                  add_qualification: 'Trade Certification',
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Carpenter',
+                consequence: 'Loan: $15k. Salary: $52k/yr. Build structures.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 1500,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Carpenter',
+                    amount: 52000,
+                  },
+                  avatar: { type: 'item', icon: 'wrench' },
+                  creditScore_change: -15,
+                  happiness: 3,
+                  add_qualification: 'Apprenticeship',
+                  personality_match: 'creative',
+                },
+              },
+              {
+                text: 'Welder',
+                consequence: 'Loan: $12k. Salary: $48k/yr. Metalwork.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 1200,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Welder',
+                    amount: 48000,
+                  },
+                  avatar: { type: 'item', icon: 'wrench' },
+                  creditScore_change: -12,
+                  happiness: 2,
+                  add_qualification: 'Welding Certificate',
+                  personality_match: 'guardian',
+                },
+              },
               {
                 text: 'Electrician',
                 consequence: 'Loan: $25k. Salary: $65k/yr.',
@@ -1748,6 +1945,29 @@
                   personality_match: 'guardian',
                 },
               },
+              {
+                text: 'Automotive Technician',
+                consequence: 'Loan: $22k. Salary: $50k/yr. Fix vehicles.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 2200,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Auto Mechanic',
+                    amount: 50000,
+                  },
+                  avatar: { type: 'item', icon: 'wrench' },
+                  creditScore_change: -18,
+                  happiness: 2,
+                  add_qualification: 'ASE Certification',
+                  personality_match: 'guardian',
+                },
+              },
             ],
           },
           {
@@ -1756,6 +1976,66 @@
             time_skip: 4,
             question: 'Stage 2 (Creative): Choose your profession.',
             answers: [
+              {
+                text: 'Freelance Artist',
+                consequence:
+                  'Cost: $3k. Salary: $28k/yr. Highly variable income.',
+                effects: {
+                  career_type: 'creator',
+                  career_level: 1,
+                  cash_change: -3000,
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Freelance Artist',
+                    amount: 28000,
+                  },
+                  happiness: 8,
+                  avatar: { type: 'item', icon: 'palette' },
+                  personality_match: 'adventurous',
+                },
+              },
+              {
+                text: 'Social Media Manager',
+                consequence:
+                  'Loan: $25k. Salary: $45k/yr. Manage brand presence.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 2500,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Social Media Mgr',
+                    amount: 45000,
+                  },
+                  avatar: { type: 'item', icon: 'palette' },
+                  creditScore_change: -20,
+                  happiness: 5,
+                  add_qualification: 'Marketing Cert',
+                  personality_match: 'creative',
+                },
+              },
+              {
+                text: 'Photographer',
+                consequence:
+                  'Cost: $8k. Salary: $38k/yr. Events and portraits.',
+                effects: {
+                  career_type: 'creator',
+                  career_level: 1,
+                  cash_change: -8000,
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Photographer',
+                    amount: 38000,
+                  },
+                  happiness: 7,
+                  avatar: { type: 'item', icon: 'palette' },
+                  personality_match: 'adventurous',
+                },
+              },
               {
                 text: 'Graphic Designer',
                 consequence: 'Loan: $40k. Salary: $50k/yr.',
@@ -1796,6 +2076,29 @@
                 },
               },
               {
+                text: 'Video Editor',
+                consequence: 'Loan: $30k. Salary: $48k/yr. Edit video content.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 3000,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Video Editor',
+                    amount: 48000,
+                  },
+                  avatar: { type: 'item', icon: 'palette' },
+                  creditScore_change: -22,
+                  happiness: 4,
+                  add_qualification: 'Film/Media Degree',
+                  personality_match: 'creative',
+                },
+              },
+              {
                 text: 'Writer/Journalist',
                 consequence: 'Loan: $35k. Salary: $48k/yr.',
                 effects: {
@@ -1817,6 +2120,30 @@
                   personality_match: 'creative',
                 },
               },
+              {
+                text: 'Music Teacher',
+                consequence:
+                  'Loan: $45k. Salary: $52k/yr. Teach music lessons.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 4500,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Music Teacher',
+                    amount: 52000,
+                  },
+                  avatar: { type: 'item', icon: 'palette' },
+                  creditScore_change: -28,
+                  happiness: 6,
+                  add_qualification: 'B.A. Music Ed',
+                  personality_match: 'guardian',
+                },
+              },
             ],
           },
           {
@@ -1825,6 +2152,98 @@
             time_skip: 4,
             question: 'Stage 2 (Health): Choose your profession.',
             answers: [
+              {
+                text: 'Home Health Aide',
+                consequence: 'Loan: $3k. Salary: $30k/yr. Care for elderly.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 300,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Home Health Aide',
+                    amount: 30000,
+                  },
+                  avatar: { type: 'item', icon: 'health' },
+                  creditScore_change: -5,
+                  happiness: 5,
+                  add_qualification: 'Basic Training',
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Medical Assistant',
+                consequence: 'Loan: $10k. Salary: $40k/yr.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 1000,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Medical Assistant',
+                    amount: 40000,
+                  },
+                  avatar: { type: 'item', icon: 'health' },
+                  creditScore_change: -10,
+                  add_qualification: 'Certificate',
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Dental Hygienist',
+                consequence: 'Loan: $35k. Salary: $68k/yr. Clean teeth.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 3500,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Dental Hygienist',
+                    amount: 68000,
+                  },
+                  avatar: { type: 'item', icon: 'health' },
+                  creditScore_change: -25,
+                  happiness: 3,
+                  add_qualification: 'Associate Degree',
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Radiology Technician',
+                consequence:
+                  'Loan: $40k. Salary: $62k/yr. Operate imaging equipment.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 4000,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Rad Tech',
+                    amount: 62000,
+                  },
+                  avatar: { type: 'item', icon: 'health' },
+                  creditScore_change: -28,
+                  happiness: 2,
+                  add_qualification: 'Associate + License',
+                  personality_match: 'guardian',
+                },
+              },
               {
                 text: 'Registered Nurse',
                 consequence: 'Loan: $60k. Salary: $75k/yr.',
@@ -1841,6 +2260,29 @@
                   creditScore_change: -30,
                   add_qualification: 'B.S.N.',
                   personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Physical Therapist',
+                consequence: 'Loan: $100k. Salary: $90k/yr. Rehab patients.',
+                effects: {
+                  career_type: 'stable',
+                  career_level: 1,
+                  expense_add: {
+                    id: 'student_loan',
+                    label: 'Student Loan',
+                    amount: 10000,
+                  },
+                  salary_add: {
+                    id: 'main_job',
+                    label: 'Physical Therapist',
+                    amount: 90000,
+                  },
+                  avatar: { type: 'item', icon: 'health' },
+                  creditScore_change: -45,
+                  happiness: 4,
+                  add_qualification: 'DPT',
+                  personality_match: 'ambitious',
                 },
               },
               {
@@ -1866,25 +2308,26 @@
                 },
               },
               {
-                text: 'Medical Assistant',
-                consequence: 'Loan: $10k. Salary: $40k/yr.',
+                text: 'Paramedic/EMT',
+                consequence: 'Loan: $15k. Salary: $45k/yr. Emergency response.',
                 effects: {
                   career_type: 'stable',
                   career_level: 1,
                   expense_add: {
                     id: 'student_loan',
                     label: 'Student Loan',
-                    amount: 1000,
+                    amount: 1500,
                   },
                   salary_add: {
                     id: 'main_job',
-                    label: 'Medical Assistant',
-                    amount: 40000,
+                    label: 'Paramedic',
+                    amount: 45000,
                   },
                   avatar: { type: 'item', icon: 'health' },
-                  creditScore_change: -10,
-                  add_qualification: 'Certificate',
-                  personality_match: 'guardian',
+                  creditScore_change: -12,
+                  happiness: 6,
+                  add_qualification: 'EMT/Paramedic Cert',
+                  personality_match: 'adventurous',
                 },
               },
             ],
@@ -1893,6 +2336,81 @@
             time_skip: 3,
             question: 'Stage 3: Where will you live for the next few years?',
             answers: [
+              {
+                text: 'Live with Family',
+                consequence:
+                  'Expenses: +$3.6k/yr. Low independence, save money.',
+                effects: {
+                  housing_type: 'family',
+                  expense_add: {
+                    id: 'housing',
+                    label: 'Housing',
+                    amount: 3600,
+                  },
+                  happiness: -2,
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Supportive Housing / Shelter',
+                consequence:
+                  'Expenses: +$4.8k/yr. Rules and curfews, very affordable.',
+                effects: {
+                  housing_type: 'supportive',
+                  expense_add: {
+                    id: 'housing',
+                    label: 'Housing',
+                    amount: 4800,
+                  },
+                  happiness: -3,
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Rent a Room in Shared Apartment',
+                consequence: 'Expenses: +$12k/yr. Split costs, less privacy.',
+                effects: {
+                  housing_type: 'rent',
+                  expense_add: {
+                    id: 'housing',
+                    label: 'Housing',
+                    amount: 12000,
+                  },
+                  happiness: 1,
+                  avatar: { type: 'bg', icon: 'apartment' },
+                  personality_match: 'ambitious',
+                },
+              },
+              {
+                text: 'Rent a Small Studio',
+                consequence: 'Expenses: +$21k/yr. Privacy, but expensive.',
+                effects: {
+                  housing_type: 'rent',
+                  expense_add: {
+                    id: 'housing',
+                    label: 'Housing',
+                    amount: 21000,
+                  },
+                  happiness: 4,
+                  avatar: { type: 'bg', icon: 'apartment' },
+                  personality_match: 'ambitious',
+                },
+              },
+              {
+                text: 'Rent a 1-Bedroom Apartment',
+                consequence: 'Expenses: +$28k/yr. Comfortable space.',
+                effects: {
+                  housing_type: 'rent',
+                  expense_add: {
+                    id: 'housing',
+                    label: 'Housing',
+                    amount: 28000,
+                  },
+                  happiness: 6,
+                  avatar: { type: 'bg', icon: 'apartment' },
+                  personality_match: 'creative',
+                },
+              },
               {
                 text: 'Rent a Downtown Apartment',
                 consequence: 'Expenses: +$36k/yr. Great social life.',
@@ -1909,32 +2427,108 @@
                 },
               },
               {
-                text: 'Live with Family',
-                consequence: 'Expenses: +$7.2k/yr. Saves money.',
+                text: 'Live in Your Car / Van',
+                consequence:
+                  'Expenses: +$1.2k/yr. Extreme savings, no stability.',
                 effects: {
-                  housing_type: 'family',
+                  housing_type: 'nomad',
                   expense_add: {
                     id: 'housing',
                     label: 'Housing',
-                    amount: 7200,
+                    amount: 1200,
                   },
                   happiness: -5,
+                  avatar: { type: 'bg', icon: 'nomad' },
+                  personality_match: 'adventurous',
+                },
+              },
+            ],
+          },
+          {
+            time_skip: 1,
+            question: 'Stage 3B: How will you get around?',
+            answers: [
+              {
+                text: 'Public Transit Pass',
+                consequence: 'Expenses: +$1.6k/yr. Affordable, eco-friendly.',
+                effects: {
+                  expense_add: {
+                    id: 'transport',
+                    label: 'Transportation',
+                    amount: 1600,
+                  },
+                  happiness: 0,
                   personality_match: 'guardian',
                 },
               },
               {
-                text: 'Rent a room',
-                consequence: 'Expenses: +$12k/yr. Cheapest option.',
+                text: 'Bike and Walking',
+                consequence:
+                  'Expenses: +$240/yr. Healthy, but weather-dependent.',
                 effects: {
-                  housing_type: 'rent',
                   expense_add: {
-                    id: 'housing',
-                    label: 'Housing',
-                    amount: 12000,
+                    id: 'transport',
+                    label: 'Transportation',
+                    amount: 240,
                   },
-                  happiness: -5,
-                  avatar: { type: 'bg', icon: 'apartment' },
+                  happiness: 3,
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Rideshare / Carpool',
+                consequence: 'Expenses: +$2.4k/yr. Flexible but unreliable.',
+                effects: {
+                  expense_add: {
+                    id: 'transport',
+                    label: 'Transportation',
+                    amount: 2400,
+                  },
+                  happiness: 1,
+                  personality_match: 'creative',
+                },
+              },
+              {
+                text: 'Buy a Used Car',
+                consequence:
+                  'Cost: $5k down. Expenses: +$4.2k/yr. Independence!',
+                effects: {
+                  cash_change: -5000,
+                  expense_add: {
+                    id: 'transport',
+                    label: 'Transportation',
+                    amount: 4200,
+                  },
+                  happiness: 5,
                   personality_match: 'ambitious',
+                },
+              },
+              {
+                text: 'Buy a New Car',
+                consequence: 'Cost: $8k down. Expenses: +$6k/yr. Reliable.',
+                effects: {
+                  cash_change: -8000,
+                  expense_add: {
+                    id: 'transport',
+                    label: 'Transportation',
+                    amount: 6000,
+                  },
+                  happiness: 8,
+                  creditScore_change: -15,
+                  personality_match: 'ambitious',
+                },
+              },
+              {
+                text: 'Lease a Car',
+                consequence: 'Expenses: +$5k/yr. New car, no ownership.',
+                effects: {
+                  expense_add: {
+                    id: 'transport',
+                    label: 'Transportation',
+                    amount: 5000,
+                  },
+                  happiness: 6,
+                  personality_match: 'adventurous',
                 },
               },
             ],
@@ -2013,7 +2607,15 @@
             question: 'Stage 6: What about relationships?',
             answers: [
               {
-                text: 'Get Married',
+                text: 'Stay Single and Independent',
+                consequence: 'No extra expenses. Maximum freedom.',
+                effects: {
+                  happiness: 3,
+                  personality_match: 'adventurous',
+                },
+              },
+              {
+                text: 'Get Married / Long-term Partner',
                 consequence: 'Expenses: +$5k/yr. Deep companionship.',
                 effects: {
                   expense_add: {
@@ -2024,6 +2626,19 @@
                   happiness: 20,
                   avatar: { type: 'accessory', icon: 'family' },
                   personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Date Casually',
+                consequence: 'Expenses: +$2k/yr. Social life boost.',
+                effects: {
+                  expense_add: {
+                    id: 'dating',
+                    label: 'Dating',
+                    amount: 2000,
+                  },
+                  happiness: 8,
+                  personality_match: 'adventurous',
                 },
               },
               {
@@ -2045,6 +2660,19 @@
                   career_level_change: 1,
                   burnout_change: 5,
                   personality_match: 'ambitious',
+                },
+              },
+              {
+                text: 'Build a Close Friend Group',
+                consequence: 'Expenses: +$1.5k/yr. Strong social support.',
+                effects: {
+                  expense_add: {
+                    id: 'social',
+                    label: 'Social Activities',
+                    amount: 1500,
+                  },
+                  happiness: 12,
+                  personality_match: 'creative',
                 },
               },
             ],
@@ -2190,6 +2818,31 @@
             question: 'Stage 11: How do you spend your free time?',
             answers: [
               {
+                text: 'Work Overtime for Extra Money',
+                consequence: 'Salary: +$8k/yr. Less free time, more burnout.',
+                effects: {
+                  salary_boost: { id: 'main_job', amount: 8000 },
+                  happiness: -8,
+                  burnout_change: 10,
+                  personality_match: 'ambitious',
+                },
+              },
+              {
+                text: 'Start a Side Hustle',
+                consequence:
+                  'Potential income: +$5k/yr. Takes time and energy.',
+                effects: {
+                  salary_add: {
+                    id: 'side_hustle',
+                    label: 'Side Hustle',
+                    amount: 5000,
+                  },
+                  happiness: 5,
+                  burnout_change: 5,
+                  personality_match: 'ambitious',
+                },
+              },
+              {
                 text: 'On expensive hobbies and travel',
                 consequence: 'Expenses: +$10k/yr. Live life to the fullest!',
                 effects: {
@@ -2204,8 +2857,8 @@
                 },
               },
               {
-                text: 'On cheap hobbies',
-                consequence: 'Low cost, high reward.',
+                text: 'On affordable hobbies (reading, gaming, hiking)',
+                consequence: 'Expenses: +$1k/yr. Low cost, high reward.',
                 effects: {
                   expense_add: {
                     id: 'hobbies',
@@ -2219,8 +2872,49 @@
               },
               {
                 text: 'Volunteering in your community',
-                consequence: 'Great for happiness, but takes time.',
-                effects: { happiness: 10, personality_match: 'guardian' },
+                consequence: 'Great for happiness, meaningful connections.',
+                effects: {
+                  happiness: 10,
+                  burnout_change: -3,
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Fitness and wellness activities',
+                consequence: 'Expenses: +$2k/yr. Better health and energy.',
+                effects: {
+                  expense_add: {
+                    id: 'fitness',
+                    label: 'Fitness',
+                    amount: 2000,
+                  },
+                  happiness: 12,
+                  burnout_change: -8,
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Spend time with family and friends',
+                consequence: 'Expenses: +$3k/yr. Strong relationships.',
+                effects: {
+                  expense_add: {
+                    id: 'social',
+                    label: 'Social',
+                    amount: 3000,
+                  },
+                  happiness: 14,
+                  burnout_change: -6,
+                  personality_match: 'guardian',
+                },
+              },
+              {
+                text: 'Just relax at home / do nothing',
+                consequence: 'No cost. Recharge, but might feel isolated.',
+                effects: {
+                  happiness: 2,
+                  burnout_change: -4,
+                  personality_match: 'creative',
+                },
               },
             ],
           },
@@ -2521,6 +3215,225 @@
               happiness: -5,
               creditScore_change: -15,
             },
+          },
+          {
+            description: 'You receive a tax refund!',
+            effects: { cash_change: 3500, happiness: 5 },
+          },
+          {
+            description: 'A friend asks you for a loan.',
+            effects: { cash_change: -2000, happiness: 2 },
+          },
+          {
+            description: 'Your employer offers free training courses.',
+            effects: {
+              happiness: 5,
+              career_level_change: 0.5,
+            },
+          },
+          {
+            description: 'You get a surprise medical bill.',
+            effects: {
+              cash_change: -4000,
+              happiness: -3,
+            },
+          },
+          {
+            description: 'Your landlord increases rent unexpectedly.',
+            effects: {
+              expense_boost: { id: 'housing', amount: 2400 },
+              happiness: -4,
+            },
+          },
+          {
+            description:
+              'You find a great deal on groceries and save money this year.',
+            effects: {
+              expense_boost: { id: 'groceries', amount: -1200 },
+              happiness: 2,
+            },
+          },
+          {
+            description: 'Your company gives everyone a one-time bonus!',
+            effects: { cash_change: 5000, happiness: 8 },
+          },
+          {
+            description: 'You have to replace your phone unexpectedly.',
+            effects: { cash_change: -800, happiness: -2 },
+          },
+          {
+            description: 'A friend invites you on an all-expenses-paid trip!',
+            effects: { happiness: 15 },
+          },
+          {
+            description:
+              'You get audited by the IRS. Nothing wrong, but stressful.',
+            effects: { happiness: -8, cash_change: -1500 },
+          },
+          {
+            description: 'You inherit a small amount from a distant relative.',
+            effects: { cash_change: 12000, happiness: 3 },
+          },
+          {
+            description:
+              'Your credit card gets stolen and there are fraudulent charges.',
+            effects: {
+              cash_change: -2500,
+              happiness: -5,
+              creditScore_change: -5,
+            },
+          },
+          {
+            description: 'You get a parking ticket.',
+            effects: { cash_change: -150, happiness: -1 },
+          },
+          {
+            description: 'Your pet needs expensive veterinary care.',
+            effects: { cash_change: -3000, happiness: -4 },
+          },
+          {
+            description: 'You land a lucrative freelance project!',
+            effects: {
+              cash_change: 7000,
+              happiness: 6,
+            },
+          },
+          {
+            description:
+              'Your utility bills are lower this year due to conservation.',
+            effects: {
+              expense_boost: { id: 'utilities', amount: -600 },
+              happiness: 2,
+            },
+          },
+          {
+            description: 'A family member needs financial help urgently.',
+            effects: { cash_change: -5000, happiness: 1 },
+          },
+          {
+            description: 'You get a free gym membership through work!',
+            effects: {
+              happiness: 6,
+              expense_boost: { id: 'fitness', amount: -2000 },
+            },
+          },
+          {
+            description: 'Your home appliance breaks and needs replacement.',
+            effects: { cash_change: -1200, happiness: -3 },
+          },
+          {
+            description: 'You win a raffle at a local event!',
+            effects: { cash_change: 500, happiness: 4 },
+          },
+          {
+            description: 'Your employer cuts hours across the board.',
+            effects: {
+              salary_boost: { id: 'main_job', amount: -8000 },
+              happiness: -10,
+            },
+          },
+          {
+            description:
+              'You get a generous gift from family for the holidays.',
+            effects: { cash_change: 2000, happiness: 7 },
+          },
+          {
+            description:
+              'Your student loan interest rate drops due to refinancing.',
+            effects: {
+              expense_boost: { id: 'student_loan', amount: -1000 },
+              happiness: 5,
+            },
+          },
+          {
+            description:
+              'You accidentally damage your apartment and lose your security deposit.',
+            effects: { cash_change: -1500, happiness: -4 },
+          },
+          {
+            description: 'Your skills become more valuable in the job market!',
+            effects: {
+              salary_boost: { id: 'main_job', amount: 10000 },
+              happiness: 8,
+            },
+          },
+          {
+            description: 'You have to attend a mandatory unpaid training.',
+            effects: { happiness: -3 },
+          },
+          {
+            description:
+              'A close friend helps you with a major life task for free.',
+            effects: { happiness: 10 },
+          },
+          {
+            description: 'Your neighborhood coffee shop closes down.',
+            effects: { happiness: -2 },
+          },
+          {
+            description: 'You discover a subscription you forgot to cancel.',
+            effects: { cash_change: -600, happiness: -3 },
+          },
+          {
+            description: 'Your company offers profit-sharing this year!',
+            effects: { cash_change: 8000, happiness: 10 },
+          },
+          {
+            description: 'You get jury duty and lose work time.',
+            effects: { cash_change: -800, happiness: -4 },
+          },
+          {
+            description: 'A mentor at work takes you under their wing.',
+            effects: {
+              happiness: 8,
+              career_level_change: 0.5,
+            },
+          },
+          {
+            description:
+              'Your favorite restaurant has a special promotion all year!',
+            effects: {
+              expense_boost: { id: 'groceries', amount: -800 },
+              happiness: 3,
+            },
+          },
+          {
+            description:
+              'You take a free online course that opens new opportunities.',
+            effects: { happiness: 5 },
+          },
+          {
+            description: 'Your internet provider raises prices.',
+            effects: {
+              expense_boost: { id: 'internet', amount: 240 },
+              happiness: -2,
+            },
+          },
+          {
+            description:
+              'You get recognized at work for excellent performance!',
+            effects: {
+              happiness: 12,
+              salary_boost: { id: 'main_job', amount: 5000 },
+            },
+          },
+          {
+            description: 'Your commute time increases due to traffic changes.',
+            effects: { happiness: -5 },
+          },
+          {
+            description:
+              "You volunteer for a cause you care about and it's deeply fulfilling.",
+            effects: { happiness: 15 },
+          },
+          {
+            description:
+              'Your building has a pest problem requiring treatment.',
+            effects: { cash_change: -800, happiness: -6 },
+          },
+          {
+            description: 'You sell some old items and make unexpected cash!',
+            effects: { cash_change: 1200, happiness: 3 },
           },
         ];
 
