@@ -3073,7 +3073,7 @@ const SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage: '<p>A car travels 150 km in 3 hours at a constant speed.</p>',
-    question: 'What is the car's average speed?',
+    question: 'What is the car\'s average speed?',
     answerOptions: [
       {
         text: '50 km/h',
