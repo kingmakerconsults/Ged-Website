@@ -3044,7 +3044,7 @@ const SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage: '<p>A rock has a mass of 60 g and displaces 20 cm³ of water.</p>',
-    question: 'What is the rock\'s density?',
+    question: "What is the rock's density?",
     answerOptions: [
       {
         text: '1 g/cm³',
@@ -3058,7 +3058,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '20 g/cm³',
-        rationale: 'That\'s just the volume, not density.',
+        rationale: "That's just the volume, not density.",
         isCorrect: false,
       },
       {
@@ -3073,7 +3073,7 @@ const SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage: '<p>A car travels 150 km in 3 hours at a constant speed.</p>',
-    question: 'What is the car\'s average speed?',
+    question: "What is the car's average speed?",
     answerOptions: [
       {
         text: '50 km/h',
@@ -3219,7 +3219,7 @@ const SCI_NUMERACY_QUESTIONS = [
     type: 'knowledge',
     passage:
       '<p>In the first 20 minutes of a run, a runner goes 10 km. After 10 minutes the runner had 5 km. Assume constant speed.</p>',
-    question: 'What is the runner\'s speed during this period (in km/min)?',
+    question: "What is the runner's speed during this period (in km/min)?",
     answerOptions: [
       {
         text: '0.25 km/min',
@@ -3289,7 +3289,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '24 L',
-        rationale: 'That\'s 12 L in 4 min scaled to 8 min, not 10.',
+        rationale: "That's 12 L in 4 min scaled to 8 min, not 10.",
         isCorrect: false,
       },
       {
@@ -3314,10 +3314,10 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: '$700',
-        rationale: 'That\'s 700 / 3000  23%. Too low.',
+        rationale: "That's 700 / 3000  23%. Too low.",
         isCorrect: false,
       },
-      { text: '$900', rationale: 'That\'s 30% of $3,000.', isCorrect: false },
+      { text: '$900', rationale: "That's 30% of $3,000.", isCorrect: false },
       {
         text: '$1,050',
         rationale: 'Correct. 35% of $3,000 = 0.35 × 3000 = $1,050.',
@@ -6101,7 +6101,8 @@ const AppData = {
                 questionNumber: 9,
                 type: 'text',
                 challenge_tags: ['science-2'],
-                passage: "Gay-Lussac\\'s Law: $P \\propto T$ (constant volume).",
+                passage:
+                  "Gay-Lussac\\'s Law: $P \\propto T$ (constant volume).",
                 question:
                   'If temperature (Kelvin) doubles at constant volume, pressure will:',
                 answerOptions: [
@@ -9374,7 +9375,7 @@ const AppData = {
                     text: '$\\frac{3}{8}$',
                     isCorrect: true,
                     rationale:
-                      "The numbers greater than 5 are 6, 7, and 8. That\'s 3 favorable outcomes out of 8 total possibilities.",
+                      "The numbers greater than 5 are 6, 7, and 8. That's 3 favorable outcomes out of 8 total possibilities.",
                   },
                   {
                     text: '$\\frac{5}{8}$',
@@ -23062,11 +23063,11 @@ Does this represent a function?`,
               title: "An Excerpt from 'The Gift of the Magi' by O. Henry",
               genre: 'Short Story',
               text: [
-                "One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies. Pennies saved one and two at a time by bulldozing the grocer and the vegetable man and the butcher until one\'s cheeks burned with the silent imputation of parsimony that such close dealing implied. Three times Della counted it. One dollar and eighty-seven cents. And the next day would be Christmas.",
+                "One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies. Pennies saved one and two at a time by bulldozing the grocer and the vegetable man and the butcher until one's cheeks burned with the silent imputation of parsimony that such close dealing implied. Three times Della counted it. One dollar and eighty-seven cents. And the next day would be Christmas.",
                 'There was clearly nothing to do but flop down on the shabby little couch and howl. So Della did it. Which instigates the moral reflection that life is made up of sobs, sniffles, and smiles, with sniffles predominating.',
-                'Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and looked out dully at a gray cat walking a gray fence in a gray backyard. Tomorrow would be Christmas Day, and she had only $1.87 with which to buy Jim a present. Her Jim. Many a happy hour she had spent planning for something nice for him. Something fine and rare and sterling—\'something just a little bit near to being worthy of the honor of being owned by Jim.',
+                "Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and looked out dully at a gray cat walking a gray fence in a gray backyard. Tomorrow would be Christmas Day, and she had only $1.87 with which to buy Jim a present. Her Jim. Many a happy hour she had spent planning for something nice for him. Something fine and rare and sterling—'something just a little bit near to being worthy of the honor of being owned by Jim.",
                 "Suddenly she whirled from the window and stood before the glass. Her eyes were shining brilliantly, but her face had lost its color within twenty seconds. Rapidly she pulled down her hair and let it fall to its full length. Now, there were two possessions of the James Dillingham Youngs in which they both took a mighty pride. One was Jim\\'s gold watch that had been his father\\'s and his grandfather\\'s. The other was Della\\'s hair. Had the queen of Sheba lived in the flat across the airshaft, Della would have let her hair hang out the window some day to dry just to depreciate Her Majesty\\'s jewels and gifts. Had King Solomon been the janitor, with all his treasures piled up in the basement, Jim would have pulled out his watch every time he passed, just to see him pluck at his beard from envy.",
-                "So now Della\'s beautiful hair fell about her, rippling and shining like a cascade of brown waters. It reached below her knee and made itself almost a garment for her. And then she did it up again nervously and quickly. Once she faltered for a minute and stood still while a tear or two splashed on the worn red carpet. On went her old brown jacket; on went her old brown hat. With a whirl of skirts and with the brilliant sparkle still in her eyes, she fluttered out the door and down the stairs to the street.",
+                "So now Della's beautiful hair fell about her, rippling and shining like a cascade of brown waters. It reached below her knee and made itself almost a garment for her. And then she did it up again nervously and quickly. Once she faltered for a minute and stood still while a tear or two splashed on the worn red carpet. On went her old brown jacket; on went her old brown hat. With a whirl of skirts and with the brilliant sparkle still in her eyes, she fluttered out the door and down the stairs to the street.",
               ],
             },
             questions: [
@@ -27326,7 +27327,7 @@ const DEFAULT_CHALLENGE_OPTIONS = [
     id: 'rla-2',
     subject: 'RLA',
     subtopic: 'Reading Comprehension',
-    label: 'Author's purpose & tone',
+    label: "Author's purpose & tone",
     selected: false,
   },
   {
@@ -30057,7 +30058,7 @@ function App({ externalTheme, onThemeChange }) {
                 ? bundle.recentScores
                 : prev.recentScoresDashboard || {},
           }));
-          window.alert('Great! You're all set.');
+          window.alert("Great! You're all set.");
           setFinishingOnboarding(false);
           setView('start');
           return;
@@ -30078,7 +30079,7 @@ function App({ externalTheme, onThemeChange }) {
         onboardingComplete: true,
       },
     }));
-    window.alert('Great! You're all set.');
+    window.alert("Great! You're all set.");
     setFinishingOnboarding(false);
     setView('start');
   }, [setView, localProfile, authToken]);
@@ -37737,7 +37738,9 @@ function StartScreen({
                       </span>
                     )}
                     {adviceError && (
-                      <span className="text-xs text-red-600">{adviceError}</span>
+                      <span className="text-xs text-red-600">
+                        {adviceError}
+                      </span>
                     )}
                   </div>
                   {adviceText && (
@@ -38327,7 +38330,7 @@ function StartScreen({
                             >
                               {item.formattedDate}
                               {item.location ? (
-                                <span>  {item.location}</span>
+                                <span> {item.location}</span>
                               ) : null}
                             </p>
                           </div>
@@ -45079,7 +45082,9 @@ function WorkforceHub({ onBack }) {
       className="workforce-tool-card p-4 rounded-2xl border text-left bg-white/90 dark:bg-slate-800/70 hover:shadow transition"
       style={{ borderColor: 'var(--subject-workforce-border)' }}
     >
-      <div className="text-base font-bold text-slate-900 dark:text-slate-100">{title}</div>
+      <div className="text-base font-bold text-slate-900 dark:text-slate-100">
+        {title}
+      </div>
       {desc ? (
         <div className="text-sm text-slate-700 dark:text-slate-300 mt-1">
           {desc}
