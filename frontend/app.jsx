@@ -3043,26 +3043,26 @@ const SCI_NUMERACY_QUESTIONS = [
     questionNumber: 3,
     qaProfileKey: 'numeracy',
     type: 'knowledge',
-    passage: '<p>A rock has a mass of 60 g and displaces 20 cm of water.</p>',
+    passage: '<p>A rock has a mass of 60 g and displaces 20 cm³ of water.</p>',
     question: 'What is the rock's density?',
     answerOptions: [
       {
-        text: '1 g/cm',
-        rationale: 'That would be 20 g ÷ 20 cm.',
+        text: '1 g/cm³',
+        rationale: 'That would be 20 g ÷ 20 cm³.',
         isCorrect: false,
       },
       {
-        text: '3 g/cm',
-        rationale: 'Correct. Density = mass ÷ volume = 60 ÷ 20 = 3 g/cm.',
+        text: '3 g/cm³',
+        rationale: 'Correct. Density = mass ÷ volume = 60 ÷ 20 = 3 g/cm³.',
         isCorrect: true,
       },
       {
-        text: '20 g/cm',
+        text: '20 g/cm³',
         rationale: 'That's just the volume, not density.',
         isCorrect: false,
       },
       {
-        text: '40 g/cm',
+        text: '40 g/cm³',
         rationale: 'Not based on 60 ÷ 20.',
         isCorrect: false,
       },
