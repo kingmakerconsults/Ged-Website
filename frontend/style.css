@@ -115,27 +115,28 @@
   --panel-text: #ffffff;
 }
 
-/* Global text safety guards - Light Mode */
-[data-theme='light'] body,
+/* Base theme text colors - Light Mode */
+[data-theme='light'] body {
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+}
+
 [data-theme='light'] .content-card,
 [data-theme='light'] .panel,
 [data-theme='light'] .glass,
 [data-theme='light'] .settings-card,
 [data-theme='light'] .vocab-shell,
-[data-theme='light'] .vocab-shell > div:first-child button,
 [data-theme='light'] .math-practice-header,
 [data-theme='light'] .coach-panel {
-  color: #0f172a !important;
+  color: var(--text-primary);
 }
 
-[data-theme='light'] .button,
-[data-theme='light'] .settings-section label,
-[data-theme='light'] .settings-section p {
-  color: #0f172a !important;
+/* Base theme text colors - Dark Mode */
+[data-theme='dark'] body {
+  color: var(--text-primary);
+  background-color: var(--bg-page);
 }
 
-/* Global text safety guards - Dark Mode */
-[data-theme='dark'] body,
 [data-theme='dark'] .content-card,
 [data-theme='dark'] .panel,
 [data-theme='dark'] .glass,
@@ -143,44 +144,38 @@
 [data-theme='dark'] .vocab-shell,
 [data-theme='dark'] .math-practice-header,
 [data-theme='dark'] .coach-panel {
-  color: #e2e8f0 !important;
+  color: var(--text-primary);
 }
 
-[data-theme='dark'] .button,
-[data-theme='dark'] .settings-section label,
-[data-theme='dark'] .settings-section p {
-  color: #e2e8f0 !important;
-}
-
-/* Fix panels using navigation colors inappropriately */
+/* Panel backgrounds */
 [data-theme='light'] .vocabulary-spotlight,
 [data-theme='light'] .coach-panel header {
-  background: var(--bg-surface) !important;
-  color: #0f172a !important;
+  background: var(--bg-surface);
+  color: var(--text-primary);
 }
 
 [data-theme='dark'] .vocabulary-spotlight,
 [data-theme='dark'] .coach-panel header {
-  background: var(--bg-surface) !important;
-  color: #e2e8f0 !important;
+  background: var(--bg-surface);
+  color: var(--text-primary);
 }
 
-/* Subject-themed exceptions - preserve accent colors */
+/* Subject-themed accent colors */
 [data-theme='light'] .subject-science .accent-text,
 [data-theme='light'] .subject-social .accent-text,
 [data-theme='light'] .subject-rla .accent-text,
 [data-theme='light'] .subject-math .accent-text {
-  color: var(--subject-accent) !important;
+  color: var(--subject-accent);
 }
 
 [data-theme='dark'] .subject-science .accent-text,
 [data-theme='dark'] .subject-social .accent-text,
 [data-theme='dark'] .subject-rla .accent-text,
 [data-theme='dark'] .subject-math .accent-text {
-  color: var(--subject-accent-text) !important;
+  color: var(--subject-accent-text);
 }
 
-/* Subject headers and card titles can keep their themed colors */
+/* Subject headers */
 [data-theme='light'] .subject-science h1,
 [data-theme='light'] .subject-science h2,
 [data-theme='light'] .subject-science h3,
@@ -193,22 +188,7 @@
 [data-theme='light'] .subject-math h1,
 [data-theme='light'] .subject-math h2,
 [data-theme='light'] .subject-math h3 {
-  color: var(--subject-accent) !important;
-}
-
-/* But body text in subject contexts must be readable */
-[data-theme='light'] .subject-science p,
-[data-theme='light'] .subject-social p,
-[data-theme='light'] .subject-rla p,
-[data-theme='light'] .subject-math p {
-  color: #0f172a !important;
-}
-
-[data-theme='dark'] .subject-science p,
-[data-theme='dark'] .subject-social p,
-[data-theme='dark'] .subject-rla p,
-[data-theme='dark'] .subject-math p {
-  color: #e2e8f0 !important;
+  color: var(--subject-accent);
 }
 
 .dark {
@@ -518,8 +498,8 @@ body::after {
 
 .break-all,
 [data-break='all'] {
-  word-break: normal !important;
-  overflow-wrap: break-word !important;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 .math,
@@ -758,7 +738,7 @@ button[data-role='secondary']:hover:not(:disabled) {
 }
 .question-stem,
 .question-stem * {
-  font-style: normal !important;
+  font-style: normal;
 }
 .question-stem {
   white-space: normal;
@@ -985,7 +965,7 @@ h3 {
 
 /* Text colors for specific views */
 [data-theme='light'] .content-card header.text-center p {
-  color: #000000 !important;
+  color: #000000;
 }
 
 /* Profile page: render text black in LIGHT mode except buttons */
@@ -997,7 +977,7 @@ h3 {
 [data-theme='light'] #profileView li,
 [data-theme='light'] #profileView dt,
 [data-theme='light'] #profileView dd {
-  color: #000000 !important;
+  color: #000000;
 }
 /* Do not alter button label colors in profile view */
 [data-theme='light'] #profileView button,
@@ -1014,7 +994,7 @@ h3 {
 [data-theme='light'] #settingsView li,
 [data-theme='light'] #settingsView dt,
 [data-theme='light'] #settingsView dd {
-  color: #000000 !important;
+  color: #000000;
 }
 [data-theme='light'] #settingsView button,
 [data-theme='light'] #settingsView button * {
@@ -1022,15 +1002,15 @@ h3 {
 }
 /* Settings Back to Dashboard (and other buttons) should have black text in light mode */
 [data-theme='light'] #settingsView .settings-header button {
-  color: #000000 !important;
-  background-color: #ffffff !important;
-  border: 1px solid #d1d5db !important;
+  color: #000000;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
 }
 [data-theme='light']
   #settingsView
   .settings-header
   button:hover:not(:disabled) {
-  background-color: #f0f0f0 !important;
+  background-color: #f0f0f0;
 }
 
 /* Settings page: force Font Size and Color Mode texts to black in LIGHT mode only */
@@ -1038,7 +1018,7 @@ h3 {
 [data-theme='light'] #settingsView fieldset > p,
 [data-theme='light'] #settingsView label span .font-semibold,
 [data-theme='light'] #settingsView label span .text-xs {
-  color: #000000 !important;
+  color: #000000;
 }
 
 /* C) Scope the flattening to the lower subject grid only (not progress cards) */
@@ -1046,13 +1026,13 @@ h3 {
 
 /* D) If any 'glass' overlays are applied inside the content card, keep them light */
 [data-theme='light'] .content-card .glass {
-  background-color: rgba(255, 255, 255, 0.75) !important;
-  border-color: rgba(148, 163, 184, 0.22) !important;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-color: rgba(148, 163, 184, 0.22);
 }
 
 /* E) Guard against accidental dark variants leaking in light mode */
 [data-theme='light'] .content-card [class*='dark:bg-'] {
-  background-color: inherit !important; /* neutralize dark:bg-* when not in dark */
+  background-color: inherit; /* neutralize dark:bg-* when not in dark */
 }
 
 /* ------------------------------ */
@@ -1151,26 +1131,26 @@ h3 {
 
 /* 7) Guard rails: also for settings container */
 [data-theme='light'] .settings-card [class*='dark:bg-'] {
-  background-color: transparent !important;
+  background-color: transparent;
 }
 
 /* Math Tools: ensure tab button text is black in LIGHT mode */
 [data-theme='light'] .math-tools-tabs button {
-  color: #000000 !important;
+  color: #000000;
 }
 
 /* Math Practice Tools title and graphing Equations label must be black in LIGHT mode */
 [data-theme='light'] .math-practice-header h1 {
-  color: #000000 !important;
+  color: #000000;
 }
 [data-theme='light'] .equations-label {
-  color: #000000 !important;
+  color: #000000;
 }
 
 /* Settings: force Save button text to black in LIGHT mode */
 [data-theme='light'] #settingsView button[type='submit'],
 [data-theme='light'] #settingsView button[type='submit'] * {
-  color: #000000 !important;
+  color: #000000;
 }
 
 /* Dashboard bottom cards: stronger distinction in LIGHT mode */
@@ -1189,29 +1169,29 @@ h3 {
 }
 /* Default subject heading color in light mode (fallback) */
 [data-theme='light'] .subject-accent-heading {
-  color: var(--accent) !important;
+  color: var(--accent);
 }
 /* Per-subject heading accents in light mode */
 [data-theme='light'] [data-subject='Math'] .subject-accent-heading {
-  color: var(--subject-math-accent) !important;
+  color: var(--subject-math-accent);
 }
 [data-theme='light'] [data-subject='Science'] .subject-accent-heading {
-  color: var(--subject-science-accent) !important;
+  color: var(--subject-science-accent);
 }
 [data-theme='light'] [data-subject='Social Studies'] .subject-accent-heading {
-  color: var(--subject-social-accent) !important;
+  color: var(--subject-social-accent);
 }
 [data-theme='light']
   [data-subject='Reasoning Through Language Arts (RLA)']
   .subject-accent-heading {
-  color: var(--subject-rla-accent) !important;
+  color: var(--subject-rla-accent);
 }
 /* Dark mode: always render these headers white for readability, except Social Studies gets a lighter green */
 [data-theme='dark'] .subject-accent-heading {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 [data-theme='dark'] [data-subject='Social Studies'] .subject-accent-heading {
-  color: #a7f3d0 !important; /* emerald-200 */
+  color: #a7f3d0; /* emerald-200 */
 }
 /* Settings: clearer selected state for Font Size and Theme bubbles */
 #settingsView label:has(input[type='radio'][name='fontSize']:checked) {
@@ -1248,11 +1228,11 @@ h3 {
 /* Ensure Profile refresh button text is black in light mode, overriding broader button color rules */
 [data-theme='light'] #profileView .refresh-button,
 [data-theme='light'] #profileView .refresh-button * {
-  color: #000000 !important;
+  color: #000000;
 }
 [data-theme='light'] #profileView .refresh-button {
-  background-color: #ffffff !important;
-  border: 1px solid #d1d5db !important;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
 }
 [data-theme='light'] .refresh-button:hover:not(:disabled) {
   background-color: #f0f0f0;
@@ -1565,8 +1545,8 @@ h3 {
 
 .break-all,
 [data-break='all'] {
-  word-break: normal !important;
-  overflow-wrap: break-word !important;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 .math,
@@ -1798,7 +1778,7 @@ button[data-role='secondary']:hover:not(:disabled) {
 }
 .question-stem,
 .question-stem * {
-  font-style: normal !important;
+  font-style: normal;
 }
 .question-stem {
   white-space: normal;
@@ -1883,7 +1863,7 @@ h3 {
   .two-col,
   .flex-row,
   .dashboard-row {
-    display: flex !important;
+    display: flex;
     flex-direction: column;
     gap: 1rem;
   }
@@ -2007,18 +1987,18 @@ h3 {
 [data-theme='light'] .workforce-hub .workforce-resume-preview,
 [data-theme='light'] .workforce-hub .workforce-budget-summary,
 [data-theme='light'] .workforce-hub .workforce-kanban {
-  color: #000000 !important;
+  color: #000000;
 }
 [data-theme='light'] .workforce-hub section *,
 [data-theme='light'] .workforce-hub .workforce-tool-card *,
 [data-theme='light'] .workforce-hub .workforce-resume-preview *,
 [data-theme='light'] .workforce-hub .workforce-budget-summary *,
 [data-theme='light'] .workforce-hub .workforce-kanban * {
-  color: inherit !important;
+  color: inherit;
 }
 /* Keep tool button text visible when active (white on teal) */
 [data-theme='light'] .workforce-hub .workforce-tool-card.bg-teal-600 {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 .dark .coach-panel,
 [data-theme='dark'] .coach-panel {
@@ -2060,7 +2040,7 @@ h3 {
 /* In light mode, force all text inside coach panel to pure black for maximum contrast */
 [data-theme='light'] .coach-panel,
 [data-theme='light'] .coach-panel * {
-  color: #000 !important;
+  color: #000;
 }
 
 /* light-mode gold for Coach Smith main panel override (slightly darker radial) */
@@ -2160,9 +2140,9 @@ h3 {
     135deg,
     rgba(56, 189, 248, 0.2),
     rgba(14, 165, 233, 0.25)
-  ) !important;
-  border-color: rgba(14, 165, 233, 0.5) !important;
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15) !important;
+  );
+  border-color: rgba(14, 165, 233, 0.5);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
 }
 
 [data-theme='light'] .coach-subject-card.subject-rla {
@@ -2170,9 +2150,9 @@ h3 {
     135deg,
     rgba(167, 139, 250, 0.2),
     rgba(124, 58, 237, 0.25)
-  ) !important;
-  border-color: rgba(124, 58, 237, 0.5) !important;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15) !important;
+  );
+  border-color: rgba(124, 58, 237, 0.5);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
 }
 
 [data-theme='light'] .coach-subject-card.subject-science {
@@ -2180,9 +2160,9 @@ h3 {
     135deg,
     rgba(252, 165, 165, 0.2),
     rgba(248, 113, 113, 0.25)
-  ) !important;
-  border-color: rgba(248, 113, 113, 0.5) !important;
-  box-shadow: 0 4px 12px rgba(248, 113, 113, 0.15) !important;
+  );
+  border-color: rgba(248, 113, 113, 0.5);
+  box-shadow: 0 4px 12px rgba(248, 113, 113, 0.15);
 }
 
 [data-theme='light'] .coach-subject-card.subject-social {
@@ -2190,108 +2170,107 @@ h3 {
     135deg,
     rgba(74, 222, 128, 0.2),
     rgba(22, 163, 74, 0.25)
-  ) !important;
-  border-color: rgba(22, 163, 74, 0.5) !important;
-  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15) !important;
+  );
+  border-color: rgba(22, 163, 74, 0.5);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15);
 }
 
 [data-theme='light'] .coach-subject-card .subject-pill {
-  background: rgba(255, 255, 255, 0.95) !important;
-  color: #0f172a !important;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
   font-weight: 600;
 }
 
 [data-theme='light'] .coach-subject-card .minutes-pill {
-  color: #1e293b !important;
+  color: #1e293b;
 }
 
 /* Strong themed Start buttons inside coach subject cards (light mode) */
 [data-theme='light'] .coach-subject-card button {
-  background: linear-gradient(135deg, #0f172a, #1e293b) !important;
-  color: #ffffff !important;
-  font-weight: 600 !important;
-  border: 1px solid rgba(15, 23, 42, 0.35) !important;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #ffffff;
+  font-weight: 600;
+  border: 1px solid rgba(15, 23, 42, 0.35);
   box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18),
-    0 0 0 1px rgba(255, 255, 255, 0.4) inset !important;
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
   transition: background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
 }
 [data-theme='light'] .coach-subject-card button:hover {
-  background: linear-gradient(135deg, #1e293b, #334155) !important;
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25) !important;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
   transform: translateY(-1px);
 }
 [data-theme='light'] .coach-subject-card button:active {
-  background: linear-gradient(135deg, #0f172a, #1e293b) !important;
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.28) !important;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.28);
   transform: translateY(0);
 }
 
 /* Per-subject accent variants (light mode) */
 [data-theme='light'] .coach-subject-card.subject-science button {
-  background: linear-gradient(135deg, #f87171, #dc2626) !important;
-  border-color: rgba(248, 113, 113, 0.55) !important;
+  background: linear-gradient(135deg, #f87171, #dc2626);
+  border-color: rgba(248, 113, 113, 0.55);
 }
 [data-theme='light'] .coach-subject-card.subject-rla button {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
-  border-color: rgba(139, 92, 246, 0.55) !important;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  border-color: rgba(139, 92, 246, 0.55);
 }
 [data-theme='light'] .coach-subject-card.subject-math button {
-  background: linear-gradient(135deg, #0ea5e9, #0369a1) !important;
-  border-color: rgba(14, 165, 233, 0.55) !important;
+  background: linear-gradient(135deg, #0ea5e9, #0369a1);
+  border-color: rgba(14, 165, 233, 0.55);
 }
 [data-theme='light'] .coach-subject-card.subject-social button {
-  background: linear-gradient(135deg, #22c55e, #15803d) !important;
-  border-color: rgba(34, 197, 94, 0.55) !important;
+  background: linear-gradient(135deg, #22c55e, #15803d);
+  border-color: rgba(34, 197, 94, 0.55);
 }
 
 /* Dark mode strong buttons with subtle elevation */
 [data-theme='dark'] .coach-subject-card button {
-  background: linear-gradient(135deg, #1e293b, #0f172a) !important;
-  color: #f8fafc !important;
-  font-weight: 600 !important;
-  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  color: #f8fafc;
+  font-weight: 600;
+  border: 1px solid rgba(148, 163, 184, 0.25);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
   transition: background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
 }
 [data-theme='dark'] .coach-subject-card button:hover {
-  background: linear-gradient(135deg, #334155, #1e293b) !important;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7) !important;
+  background: linear-gradient(135deg, #334155, #1e293b);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
   transform: translateY(-1px);
 }
 [data-theme='dark'] .coach-subject-card button:active {
-  background: linear-gradient(135deg, #1e293b, #0f172a) !important;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
   transform: translateY(0);
 }
 
 /* Dark per-subject accent rims (border only) */
 [data-theme='dark'] .coach-subject-card.subject-science button {
-  border-color: rgba(248, 113, 113, 0.55) !important;
+  border-color: rgba(248, 113, 113, 0.55);
 }
 [data-theme='dark'] .coach-subject-card.subject-rla button {
-  border-color: rgba(139, 92, 246, 0.55) !important;
+  border-color: rgba(139, 92, 246, 0.55);
 }
 [data-theme='dark'] .coach-subject-card.subject-math button {
-  border-color: rgba(14, 165, 233, 0.55) !important;
+  border-color: rgba(14, 165, 233, 0.55);
 }
 [data-theme='dark'] .coach-subject-card.subject-social button {
-  border-color: rgba(34, 197, 94, 0.55) !important;
+  border-color: rgba(34, 197, 94, 0.55);
 }
 
 /* Settings: force all text to white in DARK mode */
 [data-theme="dark"] #settingsView,
 
-                /* --- ADMIN PAGE LIGHT MODE FIX --- */
-                [data-theme="light"] .admin-shell,
-                [data-theme="light"] .admin-panel,
-                [data-theme="light"] .admin-header,
-                [data-theme="light"] .admin-table,
-                [data-theme="light"] .admin-card,
-                [data-theme="light"] .admin-summary {
-  background-color: #ffffff !important;
-  color: #0f172a !important;
+/* --- ADMIN PAGE LIGHT MODE FIX --- */
+[data-theme="light"] .admin-shell,
+[data-theme="light"] .admin-panel,
+[data-theme="light"] .admin-header,
+[data-theme="light"] .admin-table,
+[data-theme="light"] .admin-card,
+[data-theme="light"] .admin-summary {
+  background-color: #ffffff;
+  color: #0f172a;
 }
-
 [data-theme='light'] .admin-panel h1,
 [data-theme='light'] .admin-panel h2,
 [data-theme='light'] .admin-panel h3,
@@ -2300,37 +2279,37 @@ h3 {
 [data-theme='light'] .admin-panel td,
 [data-theme='light'] .admin-table th,
 [data-theme='light'] .admin-table td {
-  color: #0f172a !important;
+  color: #0f172a;
 }
 
 /* make the faint labels visible in light mode */
 [data-theme='light'] .admin-muted,
 [data-theme='light'] .text-admin-subtle {
-  color: #475569 !important;
+  color: #475569;
 }
 [data-theme='dark'] #settingsView * {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 /* force the actual settings containers to go fully black in dark mode */
 [data-theme='dark'] #settingsView .settings-panel,
 [data-theme='dark'] #settingsView .settings-card,
 [data-theme='dark'] #settingsView .settings-section {
-  background-color: #000000 !important;
-  border-color: rgba(148, 163, 184, 0.45) !important;
+  background-color: #000000;
+  border-color: rgba(148, 163, 184, 0.45);
 }
 
 /* radio/option “pills” in dark mode need the dark background too */
 [data-theme='dark'] #settingsView .option-pill,
 [data-theme='dark'] #settingsView label[for*='font'],
 [data-theme='dark'] #settingsView label[for*='theme'] {
-  background-color: rgba(15, 23, 42, 0.55) !important;
-  color: #ffffff !important;
+  background-color: rgba(15, 23, 42, 0.55);
+  color: #ffffff;
 }
 
 /* stop the white page from showing behind settings in dark mode */
 [data-theme='dark'] #settingsView {
-  background-color: #000000 !important;
+  background-color: #000000;
 }
 
 /* Profile: dark mode panels and text */
@@ -2338,13 +2317,13 @@ h3 {
 [data-theme='dark'] #profileView form,
 [data-theme='dark'] #profileView .panel,
 [data-theme='dark'] #profileView .card {
-  background-color: rgba(15, 23, 42, 0.9) !important; /* slate-900-ish */
-  border-color: rgba(148, 163, 184, 0.35) !important; /* subtle border */
-  color: #ffffff !important;
+  background-color: rgba(15, 23, 42, 0.9); /* slate-900-ish */
+  border-color: rgba(148, 163, 184, 0.35); /* subtle border */
+  color: #ffffff;
 }
 [data-theme='dark'] #profileView .pref-row {
-  background-color: rgba(30, 41, 59, 0.7) !important; /* slate-800-ish */
-  color: #ffffff !important;
+  background-color: rgba(30, 41, 59, 0.7); /* slate-800-ish */
+  color: #ffffff;
 }
 
 /* make the toggle (Show / Hide) consistent in both modes */
@@ -2354,24 +2333,24 @@ h3 {
 }
 /* light mode: keep it white with dark text */
 [data-theme='light'] #profileView .challenges-toggle-btn {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  border: 1px solid #d1d5db !important;
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #d1d5db;
 }
 /* ensure light-mode hide button text is dark even outside #profileView */
 [data-theme='light'] .challenges-toggle-btn {
-  background-color: #ffffff !important;
-  color: #111827 !important; /* slate-900 */
-  border: 1px solid #d1d5db !important;
+  background-color: #ffffff;
+  color: #111827; /* slate-900 */
+  border: 1px solid #d1d5db;
 }
 [data-theme='light'] .challenges-toggle-btn:hover {
-  background-color: #f3f4f6 !important; /* slate-100 */
+  background-color: #f3f4f6; /* slate-100 */
 }
 /* dark mode: dark button with white text */
 [data-theme='dark'] #profileView .challenges-toggle-btn {
-  background-color: rgba(15, 23, 42, 0.8) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(148, 163, 184, 0.45) !important;
+  background-color: rgba(15, 23, 42, 0.8);
+  color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.45);
 }
 
 /* FORM CONTROL NORMALIZATION */
@@ -2462,15 +2441,15 @@ select {
   #essayPracticeView
   .essay-practice-shell
   .essay-argument-column {
-  background: #ffffff !important;
-  color: #0f172a !important;
+  background: #ffffff;
+  color: #0f172a;
 }
 [data-theme='light']
   #essayPracticeView
   .essay-practice-shell
   .essay-argument-column
   :where(h1, h2, h3, h4, h5, h6, p, li, span, strong, em, a, blockquote) {
-  color: #0f172a !important;
+  color: #0f172a;
 }
 
 /* DARK MODE: dark box, white text */
@@ -2478,16 +2457,16 @@ select {
   #essayPracticeView
   .essay-practice-shell
   .essay-argument-column {
-  background: #0f172a !important;
-  color: #ffffff !important;
-  border-color: rgba(148, 163, 184, 0.4) !important;
+  background: #0f172a;
+  color: #ffffff;
+  border-color: rgba(148, 163, 184, 0.4);
 }
 [data-theme='dark']
   #essayPracticeView
   .essay-practice-shell
   .essay-argument-column
   :where(h1, h2, h3, h4, h5, h6, p, li, span, strong, em, a, blockquote) {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 /* Dark-mode controls for topic selector */
@@ -2500,21 +2479,21 @@ select {
 
 /* Passage section visibility fixes */
 [data-theme='light'] .passage-section {
-  background-color: #ffffff !important; /* solid white for light mode */
-  color: #000000 !important;
-  border: 1px solid #d1d5db !important;
+  background-color: #ffffff; /* solid white for light mode */
+  color: #000000;
+  border: 1px solid #d1d5db;
 }
 
 [data-theme='dark'] .passage-section {
-  background-color: #0f172a !important; /* deep navy for dark mode */
-  color: #ffffff !important;
-  border: 1px solid rgba(148, 163, 184, 0.4) !important;
+  background-color: #0f172a; /* deep navy for dark mode */
+  color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.4);
 }
 
 /* Ensure passage text inherits correctly */
 .passage-section .passage-text,
 .passage-section p {
-  color: inherit !important;
+  color: inherit;
 }
 
 /* Workforce Theme */
