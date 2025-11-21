@@ -313,12 +313,12 @@
               <span class="stat-label">Cash</span>
             </div>
             <div class="stat">
-              <span id="retirement-stat" class="stat-value">$0</span>
-              <span class="stat-label">Retirement</span>
+              <span id="savings-stat" class="stat-value">$0</span>
+              <span class="stat-label">Savings</span>
             </div>
             <div class="stat">
-              <span id="credit-stat-value" class="stat-value">650</span>
-              <span id="credit-stat-rank" class="stat-label">Fair</span>
+              <span id="debt-stat" class="stat-value">$0</span>
+              <span class="stat-label">Debt</span>
             </div>
             <div class="stat">
               <button id="salary-breakdown-button">
@@ -327,12 +327,151 @@
               </button>
             </div>
             <div class="stat">
-              <button id="expenses-breakdown-button">
-                <span id="expense-stat" class="stat-value text-red-600"
-                  >-$40k/yr</span
-                >
-                <span class="stat-label">Expenses</span>
-              </button>
+              <span id="happiness-stat-value" class="stat-value">50</span>
+              <span class="stat-label">Happiness</span>
+            </div>
+          </div>
+
+          <!-- Savings Rate Control -->
+          <div
+            id="savings-rate-control"
+            class="mt-4 p-4 bg-indigo-50 rounded-lg border border-indigo-200"
+          >
+            <label class="block text-sm font-semibold text-slate-700 mb-2"
+              >💰 Your Savings Rate (% of salary to save each year):</label
+            >
+            <div class="grid grid-cols-5 gap-2 text-xs">
+              <label
+                class="flex flex-col items-center p-2 bg-white rounded border border-slate-200 cursor-pointer hover:bg-indigo-50 transition"
+              >
+                <input
+                  type="radio"
+                  name="savingsRate"
+                  value="0.1"
+                  class="mb-1"
+                />
+                <span class="font-semibold">10%</span>
+                <span class="text-slate-500">Comfort</span>
+              </label>
+              <label
+                class="flex flex-col items-center p-2 bg-white rounded border-2 border-indigo-500 cursor-pointer hover:bg-indigo-50 transition"
+              >
+                <input
+                  type="radio"
+                  name="savingsRate"
+                  value="0.2"
+                  checked
+                  class="mb-1"
+                />
+                <span class="font-semibold">20%</span>
+                <span class="text-slate-500">Balanced</span>
+              </label>
+              <label
+                class="flex flex-col items-center p-2 bg-white rounded border border-slate-200 cursor-pointer hover:bg-indigo-50 transition"
+              >
+                <input
+                  type="radio"
+                  name="savingsRate"
+                  value="0.3"
+                  class="mb-1"
+                />
+                <span class="font-semibold">30%</span>
+                <span class="text-slate-500">Disciplined</span>
+              </label>
+              <label
+                class="flex flex-col items-center p-2 bg-white rounded border border-slate-200 cursor-pointer hover:bg-indigo-50 transition"
+              >
+                <input
+                  type="radio"
+                  name="savingsRate"
+                  value="0.4"
+                  class="mb-1"
+                />
+                <span class="font-semibold">40%</span>
+                <span class="text-slate-500">Aggressive</span>
+              </label>
+              <label
+                class="flex flex-col items-center p-2 bg-white rounded border border-slate-200 cursor-pointer hover:bg-indigo-50 transition"
+              >
+                <input
+                  type="radio"
+                  name="savingsRate"
+                  value="0.5"
+                  class="mb-1"
+                />
+                <span class="font-semibold">50%</span>
+                <span class="text-slate-500">Extreme</span>
+              </label>
+            </div>
+            <p class="text-xs text-slate-600 mt-2">
+              💡 Higher savings = more security but less lifestyle spending
+              (affects happiness)
+            </p>
+
+            <!-- Year Summary Panel -->
+            <div
+              id="year-summary"
+              class="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-300 text-sm"
+            >
+              <h3 class="font-bold text-slate-800 mb-3">
+                📊 Financial Overview
+              </h3>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="flex justify-between">
+                  <span class="text-slate-600">Age:</span>
+                  <span id="summary-age" class="font-semibold">18</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-600">Annual Salary:</span>
+                  <span id="summary-salary" class="font-semibold">$0</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-600">Savings Rate:</span>
+                  <span id="summary-savings-rate" class="font-semibold"
+                    >20%</span
+                  >
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-600">Saved This Year:</span>
+                  <span id="summary-saved" class="font-semibold text-green-700"
+                    >$0</span
+                  >
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-600">Essential Expenses:</span>
+                  <span
+                    id="summary-essentials"
+                    class="font-semibold text-orange-600"
+                    >$0</span
+                  >
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-600">Lifestyle Budget:</span>
+                  <span
+                    id="summary-lifestyle"
+                    class="font-semibold text-blue-600"
+                    >$0</span
+                  >
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-600">Current Debt:</span>
+                  <span id="summary-debt" class="font-semibold text-red-600"
+                    >$0</span
+                  >
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-600">Net Worth:</span>
+                  <span
+                    id="summary-net-worth"
+                    class="font-semibold text-indigo-700"
+                    >$0</span
+                  >
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-600">Happiness:</span>
+                  <span id="summary-happiness" class="font-semibold">50</span>
+                </div>
+              </div>
             </div>
           </div>
           <h2
@@ -957,6 +1096,75 @@
           rent: 0, // updated when dwelling is chosen
         };
 
+        // Phase 8: Update the year summary panel with detailed breakdown
+        const updateSummaryPanel = () => {
+          const totalSalary = Object.values(gameState.salaryBreakdown).reduce(
+            (sum, item) => sum + item.amount,
+            0
+          );
+          const savingsRate = readSavingsRateFromUI();
+          const savedAmount = Math.round(totalSalary * savingsRate);
+
+          // Calculate essentials and lifestyle based on current lifestyle level
+          let housingCostPercent = 0.3;
+          let foodTransportPercent = 0.18;
+          if (gameState.lifestyleLevel === 'high') {
+            housingCostPercent = 0.3;
+            foodTransportPercent = 0.18;
+          } else if (gameState.lifestyleLevel === 'normal') {
+            housingCostPercent = 0.22;
+            foodTransportPercent = 0.12;
+          } else if (gameState.lifestyleLevel === 'low') {
+            housingCostPercent = 0.22;
+            foodTransportPercent = 0.08;
+          } else if (gameState.lifestyleLevel === 'downgraded_home') {
+            housingCostPercent = 0.05;
+            foodTransportPercent = 0.08;
+          }
+
+          const essentials = Math.round(
+            totalSalary * (housingCostPercent + foodTransportPercent)
+          );
+          const afterSavingsAndEssentials =
+            totalSalary - savedAmount - essentials;
+          const lifestyleBudget = Math.max(0, afterSavingsAndEssentials);
+
+          const netWorth =
+            (gameState.cash || 0) +
+            (gameState.savingsBalance || 0) -
+            (gameState.debt || 0);
+
+          const ageEl = document.getElementById('summary-age');
+          if (ageEl)
+            ageEl.textContent = window.playerState?.age ?? gameState.currentAge;
+          document.getElementById(
+            'summary-salary'
+          ).textContent = `$${Math.round(totalSalary).toLocaleString()}`;
+          document.getElementById(
+            'summary-savings-rate'
+          ).textContent = `${Math.round(
+            savingsRate * 100
+          )}% ($${savedAmount.toLocaleString()})`;
+          document.getElementById(
+            'summary-saved'
+          ).textContent = `$${savedAmount.toLocaleString()}`;
+          document.getElementById(
+            'summary-essentials'
+          ).textContent = `$${essentials.toLocaleString()}`;
+          document.getElementById(
+            'summary-lifestyle'
+          ).textContent = `$${lifestyleBudget.toLocaleString()}`;
+          document.getElementById('summary-debt').textContent = `$${Math.round(
+            gameState.debt || 0
+          ).toLocaleString()}`;
+          document.getElementById(
+            'summary-net-worth'
+          ).textContent = `$${Math.round(netWorth).toLocaleString()}`;
+          document.getElementById('summary-happiness').textContent = Math.round(
+            gameState.happiness || 50
+          );
+        };
+
         let budget = { ...DEFAULT_BUDGET };
 
         function getMonthlyExpenses(b) {
@@ -1321,6 +1529,153 @@
             const data = await response.json();
             STAGES = data;
             console.log(`Loaded ${STAGES.stages.length} stages`);
+            // Inject expansion stages if not already present
+            const existingIds = new Set(STAGES.stages.map((s) => s.id));
+            const expansionStages = [
+              {
+                id: 'early_life_expansion',
+                order: 1.5,
+                question:
+                  'Early Life Expansion: How do you set your foundation?',
+                answers: [
+                  {
+                    text: 'Take a part-time job',
+                    consequence: 'Small income bump, slightly less free time.',
+                    effects: {
+                      special_effect: 'early_part_time_job',
+                      salary_boost: { id: 'main_job', amount: 0 },
+                    },
+                  },
+                  {
+                    text: 'Focus fully on school',
+                    consequence: 'No income now, slight happiness boost.',
+                    effects: { special_effect: 'early_focus_school' },
+                  },
+                  {
+                    text: 'Move out early',
+                    consequence: 'Lifestyle normal, happiness +4.',
+                    effects: {
+                      special_effect: 'move_out_family',
+                      set_lifestyle_level: 'normal',
+                      happiness: 4,
+                    },
+                  },
+                  {
+                    text: 'Stay with family to save',
+                    consequence: 'Lower expenses, slight happiness loss.',
+                    effects: {
+                      special_effect: 'stay_with_family',
+                      set_lifestyle_level: 'low',
+                      happiness: -3,
+                    },
+                  },
+                ],
+              },
+              {
+                id: 'mid_life_expansion',
+                order: 8.5,
+                question:
+                  'Mid Life Expansion: Adjust your lifestyle and work balance?',
+                answers: [
+                  {
+                    text: 'Upgrade apartment',
+                    consequence: 'Higher expenses, happiness +6.',
+                    effects: {
+                      special_effect: 'upgrade_apartment',
+                      set_lifestyle_level: 'high',
+                      happiness: 6,
+                    },
+                  },
+                  {
+                    text: 'Keep current place',
+                    consequence: 'Stable costs, minor comfort.',
+                    effects: { special_effect: 'keep_apartment', happiness: 1 },
+                  },
+                  {
+                    text: 'Buy a used car',
+                    consequence: 'Adds transport expense, happiness +4.',
+                    effects: {
+                      special_effect: 'buy_used_car',
+                      expense_add: {
+                        id: 'used_car',
+                        label: 'Used Car Costs',
+                        amount: 3500,
+                      },
+                      happiness: 4,
+                    },
+                  },
+                  {
+                    text: 'Stick with public transport',
+                    consequence: 'Lower cost, slight convenience loss.',
+                    effects: {
+                      special_effect: 'keep_public_transport',
+                      happiness: -2,
+                    },
+                  },
+                  {
+                    text: 'Start a side hustle',
+                    consequence: '+4% income, -3 happiness.',
+                    effects: {
+                      special_effect: 'side_hustle',
+                      salary_boost: { id: 'main_job', amount: 0 },
+                      happiness: -3,
+                    },
+                  },
+                  {
+                    text: 'Prioritize leisure time',
+                    consequence: 'No income bump, happiness +8.',
+                    effects: { special_effect: 'more_leisure', happiness: 8 },
+                  },
+                ],
+              },
+              {
+                id: 'later_life_expansion',
+                order: 13.5,
+                question: 'Later Life Expansion: Strategic financial choices?',
+                answers: [
+                  {
+                    text: 'Pay down debt aggressively',
+                    consequence: 'Use cash now, reduce future burden.',
+                    effects: {
+                      special_effect: 'pay_down_debt_aggressive',
+                      cash_change: -3000,
+                      debt_change: -3000,
+                      happiness: -2,
+                    },
+                  },
+                  {
+                    text: 'Help family financially',
+                    consequence: 'Cash -$4k, happiness +6.',
+                    effects: {
+                      special_effect: 'help_family_financially',
+                      cash_change: -4000,
+                      happiness: 6,
+                    },
+                  },
+                  {
+                    text: 'Take stressful promotion',
+                    consequence: '+6% income, happiness -10.',
+                    effects: {
+                      special_effect: 'major_promotion',
+                      salary_boost: { id: 'main_job', amount: 0 },
+                      happiness: -10,
+                    },
+                  },
+                  {
+                    text: 'Stay in current role',
+                    consequence: 'Stability, happiness +4.',
+                    effects: {
+                      special_effect: 'stay_in_role',
+                      happiness: 4,
+                      burnout_change: -5,
+                    },
+                  },
+                ],
+              },
+            ];
+            expansionStages.forEach((st) => {
+              if (!existingIds.has(st.id)) STAGES.stages.push(st);
+            });
           } catch (err) {
             console.error('Failed to load stages.json:', err);
             STAGES = { stages: [] };
@@ -2653,9 +3008,10 @@
               },
               {
                 text: 'Focus on your career for now',
-                consequence: 'More time for work, less for connection.',
+                consequence: 'Career boost +8%. Less social connection.',
                 effects: {
-                  salary_boost: { id: 'main_job', amount: 10000 },
+                  salary_boost: { id: 'main_job', amount: 0 },
+                  special_effect: 'career_focus',
                   happiness: -5,
                   career_level_change: 1,
                   burnout_change: 5,
@@ -2924,9 +3280,10 @@
             answers: [
               {
                 text: 'Adapt and learn the new skills',
-                consequence: 'Salary: +$20k/yr. Stay relevant.',
+                consequence: 'Salary: +6% raise. Stay relevant.',
                 effects: {
-                  salary_boost: { id: 'main_job', amount: 20000 },
+                  salary_boost: { id: 'main_job', amount: 0 },
+                  special_effect: 'tech_adaptation',
                   career_level_change: 1,
                   personality_match: 'ambitious',
                 },
@@ -2972,10 +3329,11 @@
             answers: [
               {
                 text: 'Push for a major promotion',
-                consequence: 'Salary: +$30k/yr. High stress.',
+                consequence: 'Salary: +6% raise. High stress.',
                 effects: {
                   career_level_change: 1,
-                  salary_boost: { id: 'main_job', amount: 30000 },
+                  salary_boost: { id: 'main_job', amount: 0 },
+                  special_effect: 'major_promotion',
                   happiness: -10,
                   burnout_change: 15,
                   personality_match: 'ambitious',
@@ -2983,10 +3341,11 @@
               },
               {
                 text: 'Switch to a less stressful job',
-                consequence: 'Salary: -$25k/yr. Better work-life balance.',
+                consequence: 'Salary: -15%. Better work-life balance.',
                 effects: {
                   career_level_change: -1,
-                  salary_boost: { id: 'main_job', amount: -25000 },
+                  salary_boost: { id: 'main_job', amount: 0 },
+                  special_effect: 'downshift_career',
                   happiness: 20,
                   burnout_change: -10,
                   personality_match: 'guardian',
@@ -3167,8 +3526,8 @@
             effects: { expense_boost_all: 0.1, happiness: -5 },
           },
           {
-            description: 'You win a small lottery prize!',
-            effects: { cash_change: 15000, happiness: 10 },
+            description: 'You win a small lottery prize! $5k windfall.',
+            effects: { cash_change: 5000, happiness: 10 },
           },
           {
             description: 'Your car breaks down, requiring an expensive repair.',
@@ -3179,9 +3538,10 @@
             },
           },
           {
-            description: 'You get an unexpected promotion and raise at work!',
+            description: 'Minor promotion at work! +5% raise.',
             effects: {
-              salary_boost: { id: 'main_job', amount: 15000 },
+              salary_boost: { id: 'main_job', amount: 0 },
+              special_effect: 'minor_promotion',
               happiness: 10,
               career_level_change: 1,
             },
@@ -3351,9 +3711,10 @@
             effects: { cash_change: -1500, happiness: -4 },
           },
           {
-            description: 'Your skills become more valuable in the job market!',
+            description: 'Your skills become more valuable! +7% raise.',
             effects: {
-              salary_boost: { id: 'main_job', amount: 10000 },
+              salary_boost: { id: 'main_job', amount: 0 },
+              special_effect: 'skill_premium',
               happiness: 8,
             },
           },
@@ -3456,9 +3817,9 @@
               },
               {
                 text: 'Delay retirement and start saving aggressively.',
-                consequence: 'A painful but practical solution.',
+                consequence: 'Work extra years. +$8k income boost.',
                 effects: {
-                  salary_boost: { id: 'main_job', amount: 20000 },
+                  salary_boost: { id: 'main_job', amount: 8000 },
                   happiness: -20,
                 },
               },
@@ -3471,9 +3832,9 @@
             choices: [
               {
                 text: 'Work insane hours to capitalize on the opportunity.',
-                consequence: 'Massive income boost, massive happiness cost.',
+                consequence: 'Extreme overtime. +$12k/yr, huge stress.',
                 effects: {
-                  salary_boost: { id: 'main_job', amount: 50000 },
+                  salary_boost: { id: 'main_job', amount: 12000 },
                   happiness: -30,
                   burnout_change: 20,
                 },
@@ -3489,11 +3850,11 @@
               },
               {
                 text: 'Negotiate for better conditions or hazard pay.',
-                consequence: 'A gamble, but could lead to a better outcome.',
+                consequence: 'Risky negotiation. 50% chance +$8k.',
                 effects: {
                   salary_boost: {
                     id: 'main_job',
-                    amount: Math.random() > 0.5 ? 25000 : 0,
+                    amount: Math.random() > 0.5 ? 8000 : 0,
                   },
                   happiness: 5,
                 },
@@ -3508,9 +3869,10 @@
             choices: [
               {
                 text: 'Prioritize health above all. Reduce work hours and stress.',
-                consequence: 'Less income, but more years to enjoy life.',
+                consequence: 'Part-time shift. -15% income.',
                 effects: {
-                  salary_boost: { id: 'main_job', amount: -30000 },
+                  salary_boost: { id: 'main_job', amount: 0 },
+                  special_effect: 'health_reduction',
                   happiness: 20,
                   burnout_change: -15,
                 },
@@ -3583,6 +3945,9 @@
         let currentQuestionIndex = 0;
         let gameState = {
           cash: 5000,
+          savingsRate: 0.2, // default 20% (Option B baseline)
+          savingsBalance: 0, // accumulated savings
+          debt: 0, // total debt
           retirement: 0,
           equity: 0,
           salaryBreakdown: {},
@@ -3591,6 +3956,11 @@
           },
           happiness: 50,
           stress: 20, // Add stress tracking
+          lifestyleLevel: 'normal', // 'high', 'normal', 'low', 'downgraded_home'
+          forcedDowngradeCount: 0, // how many times they've been downgraded
+          lostCar: false, // track if car was repossessed
+          rentIncrease: 0, // track rent increases from events
+          justDowngraded: false, // flag to prevent events after downgrade
           flags: new Set(), // Stage requirements tracking
           investment_multiplier: 1.0,
           investment_risk: 0,
@@ -3613,6 +3983,19 @@
             adventurous: 0,
           },
         };
+        // Player view model used for age-driven UI (age may start >18)
+        if (!window.playerState) {
+          const initialAgeEl = document.getElementById('startAge');
+          const initialAge = initialAgeEl
+            ? parseInt(initialAgeEl.value, 10)
+            : 18;
+          const ageSafe =
+            !isNaN(initialAge) && initialAge >= 16 && initialAge <= 65
+              ? initialAge
+              : 18;
+          window.playerState = { age: ageSafe };
+          gameState.currentAge = ageSafe; // sync game state with chosen age
+        }
         let filteredGameData = [];
         let currentEffects = {};
         let personalityQuizIndex = 0;
@@ -3708,6 +4091,14 @@
           window.lifeSimPlayer = player;
           window.lifeSimCareer = careerState;
           window.lifeSimScenarioGoal = scenario.goal ?? null;
+
+          // Sync chosen starting age into gameState & playerState
+          gameState.currentAge = startAge;
+          if (window.playerState) {
+            window.playerState.age = startAge;
+          } else {
+            window.playerState = { age: startAge };
+          }
 
           // Hide start screen and trigger Stage 1 immediately
           startScreen.classList.add('hidden');
@@ -3964,9 +4355,10 @@
         };
 
         const updateTimeline = () => {
+          const ageDisplay = window.playerState?.age ?? gameState.currentAge;
           document.getElementById(
             'current-age'
-          ).textContent = `Age: ${gameState.currentAge}`;
+          ).textContent = `Age: ${ageDisplay}`;
           document.getElementById(
             'current-year'
           ).textContent = `Year: ${gameState.currentYear}`;
@@ -3981,80 +4373,282 @@
             gameState.expenseBreakdown
           ).reduce((sum, item) => sum + item.amount, 0);
 
+          // Phase 8: Updated UI with new stats
           cashStat.textContent = `$${Math.round(
             gameState.cash
           ).toLocaleString()}`;
-          retirementStat.textContent = `$${Math.round(
-            gameState.retirement
-          ).toLocaleString()}`;
+
+          const savingsStat = document.getElementById('savings-stat');
+          if (savingsStat) {
+            savingsStat.textContent = `$${Math.round(
+              gameState.savingsBalance || 0
+            ).toLocaleString()}`;
+          }
+
+          const debtStat = document.getElementById('debt-stat');
+          if (debtStat) {
+            debtStat.textContent = `$${Math.round(
+              gameState.debt || 0
+            ).toLocaleString()}`;
+            debtStat.style.color = gameState.debt > 0 ? '#dc2626' : '#059669';
+          }
+
           salaryStat.textContent = `$${Math.round(totalSalary / 1000)}k/yr`;
-          expenseStat.textContent = `-$${Math.round(totalExpenses / 1000)}k/yr`;
 
-          creditScoreValue.textContent = gameState.creditScore;
-          if (gameState.creditScore >= 800)
-            creditScoreRank.textContent = 'Excellent';
-          else if (gameState.creditScore >= 740)
-            creditScoreRank.textContent = 'Very Good';
-          else if (gameState.creditScore >= 670)
-            creditScoreRank.textContent = 'Good';
-          else if (gameState.creditScore >= 580)
-            creditScoreRank.textContent = 'Fair';
-          else creditScoreRank.textContent = 'Poor';
+          const happinessStatValue = document.getElementById(
+            'happiness-stat-value'
+          );
+          if (happinessStatValue) {
+            happinessStatValue.textContent = Math.round(
+              gameState.happiness || 50
+            );
+          }
 
-          let happinessEmoji = '😐';
-          if (gameState.happiness >= 80) happinessEmoji = '😁';
-          else if (gameState.happiness >= 60) happinessEmoji = '😊';
-          else if (gameState.happiness < 40) happinessEmoji = '😒';
-          else if (gameState.happiness < 25) happinessEmoji = '😫';
-          happinessStat.textContent = happinessEmoji;
+          // Keep emoji display if it exists
+          if (happinessStat) {
+            let happinessEmoji = '😐';
+            if (gameState.happiness >= 80) happinessEmoji = '😁';
+            else if (gameState.happiness >= 60) happinessEmoji = '😊';
+            else if (gameState.happiness < 40) happinessEmoji = '😒';
+            else if (gameState.happiness < 25) happinessEmoji = '😫';
+            happinessStat.textContent = happinessEmoji;
+          }
         };
+
+        // Helper: clamp value between min and max
+        function clamp(val, min, max) {
+          return Math.min(max, Math.max(min, val));
+        }
+
+        // Helper: read starting age (supports multiple selectors)
+        function readStartingAgeFromUI() {
+          const el = document.querySelector(
+            '#startAge, #starting-age, select[name="startingAge"], input[name="startingAge"]:checked'
+          );
+          if (!el) return 18;
+          const val = parseInt(el.value, 10);
+          if (Number.isNaN(val) || val < 16 || val > 65) return 18;
+          return val;
+        }
+
+        // Helper: read savings rate from UI
+        function readSavingsRateFromUI() {
+          const radios = document.querySelectorAll('input[name="savingsRate"]');
+          for (const r of radios) {
+            if (r.checked) {
+              const val = parseFloat(r.value);
+              if (!isNaN(val)) {
+                return val;
+              }
+            }
+          }
+          return 0.2; // default 20%
+        }
+
+        // Phase 4: New money flow per year (Option B tuned)
+        function applyYearEconomy() {
+          const salary = Object.values(gameState.salaryBreakdown).reduce(
+            (sum, item) => sum + item.amount,
+            0
+          );
+          const savingsRate = gameState.savingsRate || 0.2;
+
+          // Step 1: calculate savings for the year
+          const yearSavings = Math.max(0, salary * savingsRate);
+          gameState.savingsBalance += yearSavings;
+
+          // Money left to cover everything else
+          let spendingMoney = Math.max(0, salary - yearSavings);
+
+          // Step 2: calculate essential expenses as % of salary
+          const housingPct =
+            gameState.lifestyleLevel === 'high'
+              ? 0.3
+              : gameState.lifestyleLevel === 'downgraded_home'
+              ? 0.05
+              : 0.22; // normal
+          const foodTransportPct =
+            gameState.lifestyleLevel === 'high'
+              ? 0.18
+              : gameState.lifestyleLevel === 'downgraded_home'
+              ? 0.08
+              : 0.12;
+
+          const housingCost =
+            salary * housingPct + (gameState.rentIncrease || 0);
+          const foodTransportCost = salary * foodTransportPct;
+          const essentialCosts = housingCost + foodTransportCost;
+
+          // Step 3: debt interest (4% annual for Option B)
+          const interestRate = 0.04;
+          const interest =
+            gameState.debt > 0 ? gameState.debt * interestRate : 0;
+          gameState.debt += interest;
+
+          // Step 4: pay essentials and interest from spendingMoney
+          let totalCosts = essentialCosts + interest;
+          spendingMoney -= totalCosts;
+
+          // Step 5: lifestyle budget = whatever is left after essentials + interest
+          const lifestyleBudget = Math.max(0, spendingMoney);
+
+          // Track cash as net liquid cash change
+          gameState.cash += lifestyleBudget;
+
+          // If spending money went negative, it becomes debt
+          if (spendingMoney < 0) {
+            gameState.debt += Math.abs(spendingMoney);
+          }
+
+          // Apply happiness adjustments based on savings and lifestyle
+          applyHappinessChanges(savingsRate, lifestyleBudget, salary);
+
+          // Check for potential lifestyle downgrade if things are too tight
+          enforceDowngradesIfNeeded(lifestyleBudget);
+        }
+
+        // Phase 5: Happiness system
+        function applyHappinessChanges(savingsRate, lifestyleBudget, salary) {
+          let delta = 0;
+
+          // Savings rate happiness
+          if (savingsRate <= 0.1) delta += 2; // comfort spender
+          else if (savingsRate <= 0.2) delta += 0; // balanced
+          else if (savingsRate <= 0.3) delta += 1; // disciplined
+          else if (savingsRate <= 0.4) delta -= 2; // feels restrictive
+          else delta -= 4; // extreme saver
+
+          // Lifestyle budget happiness, relative to salary
+          const budgetRatio = salary > 0 ? lifestyleBudget / salary : 0;
+          if (budgetRatio < 0.1) delta -= 4;
+          else if (budgetRatio > 0.25) delta += 3;
+
+          // Apply downgrade penalty (small ongoing stress if downgraded)
+          if (gameState.lifestyleLevel === 'downgraded_home') {
+            delta -= 1;
+          }
+
+          gameState.happiness = clamp(
+            (gameState.happiness || 70) + delta,
+            0,
+            100
+          );
+        }
+
+        // Phase 6: Forced lifestyle downgrades
+        function enforceDowngradesIfNeeded(lifestyleBudget) {
+          const debt = gameState.debt || 0;
+          const cash = gameState.cash || 0;
+
+          // Reset downgrade flag
+          gameState.justDowngraded = false;
+
+          // Lose car example
+          if (
+            !gameState.lostCar &&
+            gameState.lifestyleLevel !== 'downgraded_home' &&
+            lifestyleBudget < 1500 &&
+            debt > 8000 &&
+            cash < 1000
+          ) {
+            gameState.lostCar = true;
+            gameState.lifestyleLevel = 'low';
+            showGameMessage(
+              '🚗💔 Your car was repossessed because you fell behind on payments. Transportation just got harder.'
+            );
+            gameState.happiness = clamp(gameState.happiness - 6, 0, 100);
+            gameState.justDowngraded = true;
+            return;
+          }
+
+          // Move back home example (bigger downgrade)
+          if (
+            gameState.lifestyleLevel !== 'downgraded_home' &&
+            lifestyleBudget < 2000 &&
+            debt > 15000 &&
+            cash < 3000
+          ) {
+            gameState.lifestyleLevel = 'downgraded_home';
+            gameState.forcedDowngradeCount =
+              (gameState.forcedDowngradeCount || 0) + 1;
+            showGameMessage(
+              '🏠😔 Things got too tight. You moved back home with family to cut costs.'
+            );
+            gameState.happiness = clamp(gameState.happiness - 10, 0, 100);
+            gameState.justDowngraded = true;
+          }
+        }
+
+        // Helper: show game message
+        function showGameMessage(text) {
+          // Reuse existing event modal for messages
+          eventText.textContent = text;
+          eventModal.classList.remove('hidden');
+          eventModal.style.display = 'flex';
+          setTimeout(() => {
+            eventModal.classList.remove('opacity-0', 'scale-95');
+          }, 10);
+
+          setTimeout(() => {
+            eventModal.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+              eventModal.classList.add('hidden');
+              eventModal.style.display = 'none';
+            }, 300);
+          }, 3000);
+        }
 
         const runTimeSkipUpdate = (years) => {
           if (!years) return;
 
+          // Read savings rate from UI before processing years
+          gameState.savingsRate = readSavingsRateFromUI();
+
           for (let i = 0; i < years; i++) {
+            // Creator career volatility (reduced from extreme values)
             if (
               gameState.careerType === 'creator' &&
               gameState.salaryBreakdown.main_job
             ) {
-              gameState.salaryBreakdown.main_job.amount =
-                (Math.random() > 0.65 ? 120000 : 20000) +
-                gameState.careerLevel * 5000;
+              const baseAmount = 35000 + gameState.careerLevel * 4000;
+              const variance = Math.random() > 0.65 ? 1.4 : 0.7;
+              gameState.salaryBreakdown.main_job.amount = Math.round(
+                baseAmount * variance
+              );
             }
 
-            const inflationRate = gameState.currentYear < 2027 ? 0.03 : 0.02;
+            // Apply new economy system
+            applyYearEconomy();
+
+            // Modest inflation on fixed expenses
+            const inflationRate = 0.02;
             Object.keys(gameState.expenseBreakdown).forEach((key) => {
               if (key !== 'student_loan' && !key.startsWith('loan_'))
                 gameState.expenseBreakdown[key].amount *= 1 + inflationRate;
             });
 
-            const totalSalary = Object.values(gameState.salaryBreakdown).reduce(
-              (sum, item) => sum + item.amount,
-              0
-            );
-            const totalExpenses = Object.values(
-              gameState.expenseBreakdown
-            ).reduce((sum, item) => sum + item.amount, 0);
-            const netIncome = totalSalary - totalExpenses;
-            gameState.cash += netIncome;
-
-            const marketFluctuation = (Math.random() - 0.45) / 10;
+            // Market fluctuation for equity (smaller)
+            const marketFluctuation = (Math.random() - 0.48) / 12;
             gameState.equity *= 1 + marketFluctuation;
 
+            // Investment returns (more conservative)
             if (gameState.cash > 0 && gameState.investment_multiplier > 1.0) {
-              let investedAmount = gameState.cash * 0.5;
+              let investedAmount = gameState.cash * 0.3;
               let investmentReturn =
-                investedAmount * (gameState.investment_multiplier - 1);
+                investedAmount * (gameState.investment_multiplier - 1) * 0.5;
               if (Math.random() < gameState.investment_risk) {
-                gameState.cash -= investmentReturn * 2.5;
+                gameState.cash -= investmentReturn * 1.5;
               } else {
                 gameState.cash += investmentReturn;
               }
             }
+
+            // Retirement growth (more modest)
             if (gameState.retirement > 0) {
-              gameState.retirement *= 1.07;
+              gameState.retirement *= 1.06;
             }
 
+            // Credit score updates
             if (
               gameState.cash > 0 &&
               Object.keys(gameState.expenseBreakdown).some((k) =>
@@ -4063,10 +4657,12 @@
             ) {
               updateCreditScore(2);
             } else if (gameState.cash < 0) {
-              updateCreditScore(-5);
+              updateCreditScore(-3);
             }
 
             gameState.currentAge++;
+            if (window.playerState)
+              window.playerState.age = gameState.currentAge;
             gameState.currentYear++;
             gameState.children.forEach((child) => child.age++);
           }
@@ -4085,6 +4681,7 @@
           filterGameStages();
           updateAvatar();
           updateTimeline();
+          updateSummaryPanel();
           updateFinancialsUI();
 
           if (currentQuestionIndex < filteredGameData.length) {
@@ -4323,6 +4920,74 @@
               amount: contribution,
             };
             gameState.retirement += contribution;
+            if (effects.special_effect === 'tech_adaptation') {
+              // +6% salary raise for adapting to technology
+              if (gameState.salaryBreakdown['main_job']) {
+                const currentSalary =
+                  gameState.salaryBreakdown['main_job'].amount;
+                gameState.salaryBreakdown['main_job'].amount = Math.round(
+                  currentSalary * 1.06
+                );
+              }
+            }
+            if (effects.special_effect === 'major_promotion') {
+              // +6% salary raise for mid-career promotion
+              if (gameState.salaryBreakdown['main_job']) {
+                const currentSalary =
+                  gameState.salaryBreakdown['main_job'].amount;
+                gameState.salaryBreakdown['main_job'].amount = Math.round(
+                  currentSalary * 1.06
+                );
+              }
+            }
+            if (effects.special_effect === 'downshift_career') {
+              // -15% salary reduction for less stressful job
+              if (gameState.salaryBreakdown['main_job']) {
+                const currentSalary =
+                  gameState.salaryBreakdown['main_job'].amount;
+                gameState.salaryBreakdown['main_job'].amount = Math.round(
+                  currentSalary * 0.85
+                );
+                if (effects.special_effect === 'health_reduction') {
+                  // -15% salary reduction for health-related part-time shift
+                  if (effects.special_effect === 'minor_promotion') {
+                    // +5% salary raise for unexpected minor promotion
+                    if (gameState.salaryBreakdown['main_job']) {
+                      const currentSalary =
+                        gameState.salaryBreakdown['main_job'].amount;
+                      gameState.salaryBreakdown['main_job'].amount = Math.round(
+                        currentSalary * 1.05
+                      );
+                      if (effects.special_effect === 'career_focus') {
+                        // +8% salary raise for focusing on career over social life
+                        if (gameState.salaryBreakdown['main_job']) {
+                          const currentSalary =
+                            gameState.salaryBreakdown['main_job'].amount;
+                          gameState.salaryBreakdown['main_job'].amount =
+                            Math.round(currentSalary * 1.08);
+                        }
+                      }
+                      if (effects.special_effect === 'skill_premium') {
+                        // +7% salary raise when skills become more valuable
+                        if (gameState.salaryBreakdown['main_job']) {
+                          const currentSalary =
+                            gameState.salaryBreakdown['main_job'].amount;
+                          gameState.salaryBreakdown['main_job'].amount =
+                            Math.round(currentSalary * 1.07);
+                        }
+                      }
+                    }
+                  }
+                  if (gameState.salaryBreakdown['main_job']) {
+                    const currentSalary =
+                      gameState.salaryBreakdown['main_job'].amount;
+                    gameState.salaryBreakdown['main_job'].amount = Math.round(
+                      currentSalary * 0.85
+                    );
+                  }
+                }
+              }
+            }
           }
 
           if (effects.cash_change)
@@ -4398,6 +5063,74 @@
               gameState.children.push({ age: 0 });
             }
           }
+          // Economy extensions
+          if (effects.debt_change) {
+            gameState.debt += effects.debt_change;
+            if (gameState.debt < 0) gameState.debt = 0;
+          }
+          if (effects.set_lifestyle_level) {
+            gameState.lifestyleLevel = effects.set_lifestyle_level;
+          }
+          // New salary percentage special effects
+          const boostMainSalaryBy = (pct) => {
+            if (gameState.salaryBreakdown.main_job) {
+              const cur = gameState.salaryBreakdown.main_job.amount;
+              gameState.salaryBreakdown.main_job.amount = Math.round(
+                cur * (1 + pct)
+              );
+            }
+          };
+          switch (effects.special_effect) {
+            case 'early_part_time_job':
+              boostMainSalaryBy(0.02);
+              gameState.happiness = clamp(gameState.happiness - 2, 0, 100);
+              break;
+            case 'early_focus_school':
+              gameState.happiness = clamp(gameState.happiness + 5, 0, 100);
+              break;
+            case 'move_out_family':
+              gameState.lifestyleLevel = 'normal';
+              gameState.happiness = clamp(gameState.happiness + 4, 0, 100);
+              break;
+            case 'stay_with_family':
+              gameState.lifestyleLevel = 'low';
+              gameState.happiness = clamp(gameState.happiness - 3, 0, 100);
+              break;
+            case 'community_college':
+              boostMainSalaryBy(0.04);
+              gameState.happiness = clamp(gameState.happiness - 2, 0, 100);
+              break;
+            case 'four_year_college':
+              boostMainSalaryBy(0.06);
+              gameState.happiness = clamp(gameState.happiness - 4, 0, 100);
+              break;
+            case 'upgrade_apartment':
+              gameState.lifestyleLevel = 'high';
+              gameState.happiness = clamp(gameState.happiness + 6, 0, 100);
+              break;
+            case 'keep_apartment':
+              gameState.happiness = clamp(gameState.happiness + 1, 0, 100);
+              break;
+            case 'buy_used_car':
+              gameState.happiness = clamp(gameState.happiness + 4, 0, 100);
+              break;
+            case 'keep_public_transport':
+              gameState.happiness = clamp(gameState.happiness - 2, 0, 100);
+              break;
+            case 'side_hustle':
+              boostMainSalaryBy(0.04);
+              gameState.happiness = clamp(gameState.happiness - 3, 0, 100);
+              break;
+            case 'more_leisure':
+              gameState.happiness = clamp(gameState.happiness + 8, 0, 100);
+              break;
+            case 'pay_down_debt_aggressive':
+              gameState.happiness = clamp(gameState.happiness - 2, 0, 100);
+              break;
+            case 'help_family_financially':
+              gameState.happiness = clamp(gameState.happiness + 6, 0, 100);
+              break;
+          }
           if (effects.housing_type)
             gameState.housingType = effects.housing_type;
           if (effects.career_type) gameState.careerType = effects.career_type;
@@ -4412,12 +5145,16 @@
           applyEffects(effects);
           currentQuestionIndex++;
 
-          const majorEventChance = 0.15;
-          const minorEventChance = 0.2;
-          const childEventChance = 0.25;
+          // Phase 7: Rarer but meaningful events
+          const majorEventChance = 0.05; // reduced from 0.15
+          const minorEventChance = 0.1; // reduced from 0.2
+          const childEventChance = 0.15; // reduced from 0.25
 
           if (gameState.careerType) {
-            if (
+            // Skip events if just downgraded
+            if (gameState.justDowngraded) {
+              continueToNextQuestion();
+            } else if (
               gameState.children.length > 0 &&
               Math.random() < childEventChance
             ) {
@@ -4582,62 +5319,36 @@
         };
 
         const showResult = () => {
+          // Simplified final stats (Life Journey disabled)
           let finalNetWorth = Math.round(
             gameState.cash + gameState.equity + gameState.retirement
           );
           updateFinancialsUI();
-
           resultScreen.classList.remove('hidden');
           quizScreen.classList.add('hidden');
+          const finalHappiness = gameState.happiness;
+          const finalAge = window.playerState?.age ?? gameState.currentAge;
+          const totalSalary = Object.values(gameState.salaryBreakdown).reduce(
+            (s, i) => s + i.amount,
+            0
+          );
 
-          let finalHappiness = gameState.happiness;
-          let description = '';
-
-          if (finalNetWorth > 1000000 && finalHappiness >= 80) {
-            description = `A true master of life! You achieved incredible financial success, ending with a net worth of $${finalNetWorth.toLocaleString()}, while also cultivating deep happiness. Your journey is a testament to smart choices, resilience through unexpected events, and prioritizing what truly matters.`;
-          } else if (finalNetWorth > 1500000 && finalHappiness < 50) {
-            description = `Your ambition was boundless, and it paid off. You built a financial empire, ending with a staggering net worth of $${finalNetWorth.toLocaleString()}. This relentless pursuit of wealth, however, left little room for personal joy. You won the game, but at what cost?`;
-          } else if (finalNetWorth < 150000 && finalHappiness >= 95) {
-            description = `You defined success on your own terms. Though your final net worth is a modest $${finalNetWorth.toLocaleString()}, your life was overflowing with joy, relationships, and fulfillment. Your story is a powerful reminder that the richest life isn't always about money.`;
-          } else if (finalNetWorth < 0) {
-            description = `Life threw its toughest challenges at you. A series of difficult circumstances and major unforeseen events led to ending in debt with a net worth of $${finalNetWorth.toLocaleString()}. It's a tough outcome, but every journey has lessons, and yours is one of resilience in the face of hardship.`;
-          } else {
-            description = `You navigated life with a steady hand, weathering its storms and embracing its opportunities. You built a comfortable, stable life, ending with a net worth of $${finalNetWorth.toLocaleString()} and a content state of mind. Your journey was one of balance, security, and quiet satisfaction.`;
-          }
-
-          // Add Lifetime Mode transition option
-          description += `<div class="mt-6 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg border-2 border-indigo-200">
-            <h4 class="font-bold text-indigo-800 mb-2">Ready for the Full Journey?</h4>
-            <p class="text-slate-700 text-sm mb-3">Continue your story in <strong>Lifetime Mode</strong>: Experience 40-50 years of life with realistic events, retirement planning, and see how your choices compound over decades.</p>
-            <button id="start-lifetime-button" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-all">
-              Begin Lifetime Mode →
-            </button>
-          </div>`;
-
-          // Add Personality Summary
-          const personalityMap = {
-            ambitious: 'Ambitious – driven by goals, promotions, and growth.',
-            guardian: 'Guardian – values stability, family, and service.',
-            creative: 'Creative – expressive, craft-focused, and aesthetic.',
-            adventurous:
-              'Adventurous – novelty-seeking, risk-tolerant, experiential.',
-          };
-
-          const personalitySummary = `
-            <div class="mt-6 grid gap-6 md:grid-cols-2">
-              <div class="bg-white rounded-xl shadow p-4">
-                <h3 class="text-lg font-semibold mb-2">Your Personality</h3>
-                <p class="mb-2"><strong>Type:</strong> ${
-                  gameState.personality || '—'
-                }</p>
-                <p class="text-slate-600">${
-                  personalityMap[gameState.personality] || ''
-                }</p>
-              </div>
-            </div>
-          `;
-
-          // Add Stage Summary
+          const summaryHTML = `
+            <div class="text-left space-y-2">
+              <p><strong>Age:</strong> ${finalAge}</p>
+              <p><strong>Final Net Worth:</strong> $${finalNetWorth.toLocaleString()}</p>
+              <p><strong>Final Happiness:</strong> ${finalHappiness}</p>
+              <p><strong>Annual Salary:</strong> $${Math.round(
+                totalSalary
+              ).toLocaleString()}</p>
+              <p><strong>Savings Balance:</strong> $${Math.round(
+                gameState.savingsBalance || 0
+              ).toLocaleString()}</p>
+              <p><strong>Debt:</strong> $${Math.round(
+                gameState.debt || 0
+              ).toLocaleString()}</p>
+            </div>`;
+          document.getElementById('result-description').innerHTML = summaryHTML;
           const stageSummary = `
             <div class="mt-6 bg-white rounded-xl shadow p-4">
               <h3 class="text-lg font-semibold mb-2">Your Key Choices</h3>

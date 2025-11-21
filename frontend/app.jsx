@@ -623,7 +623,7 @@ const FALLBACK_VOCABULARY = {
     {
       term: 'Pythagorean Theorem',
       definition:
-        'A formula that relates the side lengths of a right triangle: a� + b� = c�.',
+        'A formula that relates the side lengths of a right triangle: a + b = c.',
     },
     {
       term: 'Mean',
@@ -1278,7 +1278,7 @@ function normalizeLatex(text) {
   normalized = normalized.replace(/\\dfrac/g, '\\frac');
 
   normalized = normalized
-    // repair /frac, ^rac, ��rac, stray spaces before 'rac'
+    // repair /frac, ^rac, rac, stray spaces before 'rac'
     .replace(/(?:\\|\/|[\u2191\^])\s*rac\s*\{/g, '\\frac{')
     .replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}')
     .replace(
@@ -1441,7 +1441,7 @@ function smartWrapLatex(input) {
   // equation \frac{x}{4} = \frac{15}{20}?
   // 1\frac{1}{2} cups
   // no more than \text{P500}, spent \text{P120}
-  // /frac{3}{4}, ^rac{2}{3}, ��rac{1}{2}
+  // /frac{3}{4}, ^rac{2}{3}, rac{1}{2}
 
   return result.replace(/@@M(\d+)@@/g, (_match, index) => slots[Number(index)]);
 }
@@ -3024,7 +3024,7 @@ const SCI_NUMERACY_QUESTIONS = [
       {
         text: '25%',
         rationale:
-          'Correct. The Punnett square gives PP, Pp, Pp, pp �� 1 of 4 is pp (white).',
+          'Correct. The Punnett square gives PP, Pp, Pp, pp  1 of 4 is pp (white).',
         isCorrect: true,
       },
       {
@@ -3043,26 +3043,26 @@ const SCI_NUMERACY_QUESTIONS = [
     questionNumber: 3,
     qaProfileKey: 'numeracy',
     type: 'knowledge',
-    passage: '<p>A rock has a mass of 60 g and displaces 20 cm� of water.</p>',
-    question: 'What is the rock�s density?',
+    passage: '<p>A rock has a mass of 60 g and displaces 20 cm of water.</p>',
+    question: 'What is the rock's density?',
     answerOptions: [
       {
-        text: '1 g/cm�',
-        rationale: 'That would be 20 g ÷ 20 cm�.',
+        text: '1 g/cm',
+        rationale: 'That would be 20 g ÷ 20 cm.',
         isCorrect: false,
       },
       {
-        text: '3 g/cm�',
-        rationale: 'Correct. Density = mass ÷ volume = 60 ÷ 20 = 3 g/cm�.',
+        text: '3 g/cm',
+        rationale: 'Correct. Density = mass ÷ volume = 60 ÷ 20 = 3 g/cm.',
         isCorrect: true,
       },
       {
-        text: '20 g/cm�',
-        rationale: 'That�s just the volume, not density.',
+        text: '20 g/cm',
+        rationale: 'That's just the volume, not density.',
         isCorrect: false,
       },
       {
-        text: '40 g/cm�',
+        text: '40 g/cm',
         rationale: 'Not based on 60 ÷ 20.',
         isCorrect: false,
       },
@@ -3073,7 +3073,7 @@ const SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage: '<p>A car travels 150 km in 3 hours at a constant speed.</p>',
-    question: 'What is the car�s average speed?',
+    question: 'What is the car's average speed?',
     answerOptions: [
       {
         text: '50 km/h',
@@ -3122,7 +3122,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '200 N',
-        rationale: 'Units are wrong �� work is in joules.',
+        rationale: 'Units are wrong  work is in joules.',
         isCorrect: false,
       },
     ],
@@ -3131,7 +3131,7 @@ const SCI_NUMERACY_QUESTIONS = [
     questionNumber: 6,
     qaProfileKey: 'numeracy',
     type: 'knowledge',
-    passage: '<p>A 2 kg cart accelerates at 3 m/s�.</p>',
+    passage: '<p>A 2 kg cart accelerates at 3 m/s.</p>',
     question: 'What net force is acting on the cart?',
     answerOptions: [
       {
@@ -3151,7 +3151,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '6 N',
-        rationale: 'Correct. F = m × a = 2 kg × 3 m/s� = 6 N.',
+        rationale: 'Correct. F = m × a = 2 kg × 3 m/s = 6 N.',
         isCorrect: true,
       },
     ],
@@ -3219,7 +3219,7 @@ const SCI_NUMERACY_QUESTIONS = [
     type: 'knowledge',
     passage:
       '<p>In the first 20 minutes of a run, a runner goes 10 km. After 10 minutes the runner had 5 km. Assume constant speed.</p>',
-    question: 'What is the runner�s speed during this period (in km/min)?',
+    question: 'What is the runner's speed during this period (in km/min)?',
     answerOptions: [
       {
         text: '0.25 km/min',
@@ -3289,7 +3289,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '24 L',
-        rationale: 'That�s 12 L in 4 min scaled to 8 min, not 10.',
+        rationale: 'That's 12 L in 4 min scaled to 8 min, not 10.',
         isCorrect: false,
       },
       {
@@ -3314,10 +3314,10 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: '$700',
-        rationale: 'That�s 700 / 3000 � 23%. Too low.',
+        rationale: 'That's 700 / 3000  23%. Too low.',
         isCorrect: false,
       },
-      { text: '$900', rationale: 'That�s 30% of $3,000.', isCorrect: false },
+      { text: '$900', rationale: 'That's 30% of $3,000.', isCorrect: false },
       {
         text: '$1,050',
         rationale: 'Correct. 35% of $3,000 = 0.35 × 3000 = $1,050.',
@@ -8167,7 +8167,7 @@ const AppData = {
                 questionNumber: 8,
                 calculator: true,
                 question:
-                  'The temperature was $-5�F$ in the morning and rose to $12�F$ in the afternoon. How many degrees did the temperature increase?',
+                  'The temperature was $-5F$ in the morning and rose to $12F$ in the afternoon. How many degrees did the temperature increase?',
                 answerOptions: [
                   {
                     text: '7 degrees',
@@ -8440,26 +8440,26 @@ const AppData = {
                 questionNumber: 17,
                 calculator: true,
                 question:
-                  "Sarah's temperature was 102.5�F. After taking some medicine, her temperature dropped by 3.8�F. What is her new temperature?",
+                  "Sarah's temperature was 102.5F. After taking some medicine, her temperature dropped by 3.8F. What is her new temperature?",
                 answerOptions: [
                   {
-                    text: '98.7�F',
+                    text: '98.7F',
                     isCorrect: true,
-                    rationale: '$102.5 - 3.8 = 98.7$�F.',
+                    rationale: '$102.5 - 3.8 = 98.7$F.',
                   },
                   {
-                    text: '99.7�F',
+                    text: '99.7F',
                     isCorrect: false,
                     rationale: 'This is a calculation error.',
                   },
                   {
-                    text: '106.3�F',
+                    text: '106.3F',
                     isCorrect: false,
                     rationale:
                       'This is the result of adding the numbers, not subtracting.',
                   },
                   {
-                    text: '98.2�F',
+                    text: '98.2F',
                     isCorrect: false,
                     rationale: 'This is a calculation error.',
                   },
@@ -8529,26 +8529,26 @@ const AppData = {
                 questionNumber: 20,
                 calculator: false,
                 question:
-                  'The temperature was -8�C in the morning and rose by 15�C. What is the new temperature?',
+                  'The temperature was -8C in the morning and rose by 15C. What is the new temperature?',
                 answerOptions: [
                   {
-                    text: '-23�C',
+                    text: '-23C',
                     isCorrect: false,
                     rationale:
                       'This would be the temperature if it dropped by 15 degrees.',
                   },
                   {
-                    text: '7�C',
+                    text: '7C',
                     isCorrect: true,
-                    rationale: '-8 + 15 = 7�C.',
+                    rationale: '-8 + 15 = 7C.',
                   },
                   {
-                    text: '23�C',
+                    text: '23C',
                     isCorrect: false,
                     rationale: 'Incorrect calculation.',
                   },
                   {
-                    text: '-7�C',
+                    text: '-7C',
                     isCorrect: false,
                     rationale: 'Incorrect calculation.',
                   },
@@ -9269,7 +9269,7 @@ const AppData = {
                 calculator: false,
                 type: 'chart',
                 passage:
-                  "<div class='passage-text'><b>Daily High Temperatures (�F): 65, 68, 72, 72, 75, 78, 81</b></div>",
+                  "<div class='passage-text'><b>Daily High Temperatures (F): 65, 68, 72, 72, 75, 78, 81</b></div>",
                 question: 'What is the range of the daily high temperatures?',
                 answerOptions: [
                   {
@@ -14208,7 +14208,7 @@ Does this represent a function?`,
                   {
                     questionNumber: 5,
                     type: 'analysis',
-                    passage: `<p class="passage-text mb-4"><b>Historian A:</b> The American Revolution was fundamentally an economic conflict. The British Empire's mercantilist policies, such as the Navigation Acts and various taxes, restricted colonial trade and manufacturing. The core of the dispute was the colonists' desire for economic freedom��the ability to trade with whomever they pleased and to develop their own industries without British interference.</p><p class="passage-text"><b>Historian B:</b> The Revolution was primarily a political and ideological struggle. Colonists saw themselves as freeborn Britons entitled to certain rights, most notably the right to be taxed only by their own elected representatives. When Parliament violated this principle, it was seen as an act of tyranny. The conflict was not about the amount of the tax, but the principle of self-government.</p>`,
+                    passage: `<p class="passage-text mb-4"><b>Historian A:</b> The American Revolution was fundamentally an economic conflict. The British Empire's mercantilist policies, such as the Navigation Acts and various taxes, restricted colonial trade and manufacturing. The core of the dispute was the colonists' desire for economic freedom—'the ability to trade with whomever they pleased and to develop their own industries without British interference.</p><p class="passage-text"><b>Historian B:</b> The Revolution was primarily a political and ideological struggle. Colonists saw themselves as freeborn Britons entitled to certain rights, most notably the right to be taxed only by their own elected representatives. When Parliament violated this principle, it was seen as an act of tyranny. The conflict was not about the amount of the tax, but the principle of self-government.</p>`,
                     question:
                       'What is the central point of disagreement between Historian A and Historian B?',
                     answerOptions: [
@@ -14573,7 +14573,7 @@ Does this represent a function?`,
                     challenge_tags: ['rla-7'],
                     type: 'text',
                     passage:
-                      "Frederick Jackson Turner's 'Frontier Thesis,' presented in 1893, was an influential idea in American history. Turner argued that the existence of a frontier��a line between 'civilization' and 'wilderness'��had been a defining characteristic of American culture, fostering individualism, democracy, and innovation. He declared that the frontier had closed, raising questions about the future of American identity.",
+                      "Frederick Jackson Turner's 'Frontier Thesis,' presented in 1893, was an influential idea in American history. Turner argued that the existence of a frontiera line between 'civilization' and 'wilderness'had been a defining characteristic of American culture, fostering individualism, democracy, and innovation. He declared that the frontier had closed, raising questions about the future of American identity.",
                     question:
                       "According to Frederick Jackson Turner's 'Frontier Thesis,' what role did the frontier play in American history?",
                     answerOptions: [
@@ -15226,7 +15226,7 @@ Does this represent a function?`,
                 questionNumber: 3,
                 type: 'text',
                 passage:
-                  "The Missouri Compromise of 1820 was an attempt to resolve the issue of slavery's expansion. It admitted Missouri to the Union as a slave state and Maine as a free state, maintaining the balance of power between free and slave states in the Senate. It also prohibited slavery in the rest of the Louisiana Purchase territory north of the 36�30' parallel.",
+                  "The Missouri Compromise of 1820 was an attempt to resolve the issue of slavery's expansion. It admitted Missouri to the Union as a slave state and Maine as a free state, maintaining the balance of power between free and slave states in the Senate. It also prohibited slavery in the rest of the Louisiana Purchase territory north of the 3630' parallel.",
                 question: 'What was the main goal of the Missouri Compromise?',
                 answerOptions: [
                   {
@@ -18028,7 +18028,7 @@ Does this represent a function?`,
                     questionNumber: 3,
                     type: 'text',
                     passage:
-                      "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powers��powers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
+                      "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powers—powers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
                     question:
                       "The 'Elastic Clause' is significant because it grants Congress:",
                     answerOptions: [
@@ -18906,7 +18906,7 @@ Does this represent a function?`,
                       {
                         text: 'To declare laws passed by Congress and signed by the President to be unconstitutional.',
                         rationale:
-                          'Correct. This is the core function of judicial review��ensuring that laws adhere to the Constitution.',
+                          'Correct. This is the core function of judicial reviewensuring that laws adhere to the Constitution.',
                         isCorrect: true,
                       },
                       {
@@ -18960,7 +18960,7 @@ Does this represent a function?`,
                     questionNumber: 5,
                     type: 'text',
                     passage:
-                      "The Supreme Court consists of a Chief Justice and eight Associate Justices. For a case to be heard by the Supreme Court, at least four of the nine justices must agree to grant a writ of certiorari��an order for a lower court to send up the records of a case for review. This is known as the 'rule of four.'",
+                      "The Supreme Court consists of a Chief Justice and eight Associate Justices. For a case to be heard by the Supreme Court, at least four of the nine justices must agree to grant a writ of certiorarian order for a lower court to send up the records of a case for review. This is known as the 'rule of four.'",
                     question: "What is the 'rule of four'?",
                     answerOptions: [
                       {
@@ -21752,8 +21752,8 @@ Does this represent a function?`,
                 'The Rise of Renewable Energy: Powering a Sustainable Future',
               genre: 'Informational Text (Expository Essay)',
               text: [
-                'For over a century, human civilization has been powered predominantly by fossil fuels��coal, oil, and natural gas. While these energy sources fueled industrial revolutions and unprecedented economic growth, their use has come at a significant environmental cost, most notably climate change driven by greenhouse gas emissions. In response to this mounting crisis, a global energy transition is underway, shifting focus toward renewable sources. These sources, which include solar, wind, hydropower, and geothermal energy, are naturally replenished and produce minimal to no carbon emissions. This transition is not merely an environmental imperative but also a technological and economic evolution, promising a more sustainable and resilient energy future.',
-                'At the forefront of this revolution is solar power, which harnesses the immense energy of the sun. The most common method involves photovoltaic (PV) cells, which directly convert sunlight into electricity. Another approach, concentrated solar power (CSP), uses mirrors to focus sunlight to heat a fluid, which then creates steam to power a turbine. The primary advantages of solar energy are its abundance and its clean nature. However, its main drawback is intermittency��it only generates power when the sun is shining. This necessitates the development of large-scale energy storage solutions, such as advanced batteries, to provide reliable power around the clock. Furthermore, large solar farms require significant land area, which can raise concerns about land use and ecosystem impact.',
+                'For over a century, human civilization has been powered predominantly by fossil fuels—coal, oil, and natural gas. While these energy sources fueled industrial revolutions and unprecedented economic growth, their use has come at a significant environmental cost, most notably climate change driven by greenhouse gas emissions. In response to this mounting crisis, a global energy transition is underway, shifting focus toward renewable sources. These sources, which include solar, wind, hydropower, and geothermal energy, are naturally replenished and produce minimal to no carbon emissions. This transition is not merely an environmental imperative but also a technological and economic evolution, promising a more sustainable and resilient energy future.',
+                'At the forefront of this revolution is solar power, which harnesses the immense energy of the sun. The most common method involves photovoltaic (PV) cells, which directly convert sunlight into electricity. Another approach, concentrated solar power (CSP), uses mirrors to focus sunlight to heat a fluid, which then creates steam to power a turbine. The primary advantages of solar energy are its abundance and its clean nature. However, its main drawback is intermittencyit only generates power when the sun is shining. This necessitates the development of large-scale energy storage solutions, such as advanced batteries, to provide reliable power around the clock. Furthermore, large solar farms require significant land area, which can raise concerns about land use and ecosystem impact.',
                 'Wind power offers another powerful alternative. Giant turbines, often grouped together in wind farms on land or offshore, capture kinetic energy from the wind and convert it into electricity. Like solar power, wind is a clean energy source, but it shares the same challenge of intermittency, as it is dependent on weather patterns. The visual impact of turbines on landscapes and potential harm to avian wildlife, such as birds and bats, are also significant concerns that require careful planning and mitigation.',
                 "Hydropower and geothermal energy provide more consistent, or baseload, power. Hydropower, generated by the force of flowing water turning turbines in dams, is one of the oldest and most established forms of renewable energy. It is highly reliable and can be dispatched on demand. The main limitation is its environmental impact; large dams can alter river ecosystems, disrupt fish migration, and displace communities. Geothermal energy taps into the Earth's internal heat, using steam from underground reservoirs to generate electricity. It is a highly reliable and clean source of energy with a small physical footprint. Its primary constraint is geographical, as it is only economically viable in regions with accessible geothermal activity, such as volcanic zones or areas with tectonic plate boundaries.",
                 "The complete transition to a renewable energy system presents formidable but surmountable challenges. Beyond the intermittency of solar and wind, modernizing the electrical grid to handle decentralized energy sources is a major hurdle. Smart grids, which use digital technology to manage electricity distribution more efficiently, are essential. Advances in battery technology are critical for storing excess energy for when the sun isn't shining or the wind isn't blowing. Furthermore, supportive government policies, such as carbon pricing and tax incentives for renewable installations, play a crucial role in accelerating this transition. While the path is complex, the collective push toward a renewable-powered world represents a fundamental rethinking of our relationship with energy, aiming for a future that is not only prosperous but also environmentally sustainable for generations to come.",
@@ -23064,7 +23064,7 @@ Does this represent a function?`,
               text: [
                 "One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies. Pennies saved one and two at a time by bulldozing the grocer and the vegetable man and the butcher until one's cheeks burned with the silent imputation of parsimony that such close dealing implied. Three times Della counted it. One dollar and eighty-seven cents. And the next day would be Christmas.",
                 'There was clearly nothing to do but flop down on the shabby little couch and howl. So Della did it. Which instigates the moral reflection that life is made up of sobs, sniffles, and smiles, with sniffles predominating.',
-                'Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and looked out dully at a gray cat walking a gray fence in a gray backyard. Tomorrow would be Christmas Day, and she had only $1.87 with which to buy Jim a present. Her Jim. Many a happy hour she had spent planning for something nice for him. Something fine and rare and sterling��something just a little bit near to being worthy of the honor of being owned by Jim.',
+                'Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and looked out dully at a gray cat walking a gray fence in a gray backyard. Tomorrow would be Christmas Day, and she had only $1.87 with which to buy Jim a present. Her Jim. Many a happy hour she had spent planning for something nice for him. Something fine and rare and sterling—'something just a little bit near to being worthy of the honor of being owned by Jim.',
                 "Suddenly she whirled from the window and stood before the glass. Her eyes were shining brilliantly, but her face had lost its color within twenty seconds. Rapidly she pulled down her hair and let it fall to its full length. Now, there were two possessions of the James Dillingham Youngs in which they both took a mighty pride. One was Jim's gold watch that had been his father's and his grandfather's. The other was Della's hair. Had the queen of Sheba lived in the flat across the airshaft, Della would have let her hair hang out the window some day to dry just to depreciate Her Majesty's jewels and gifts. Had King Solomon been the janitor, with all his treasures piled up in the basement, Jim would have pulled out his watch every time he passed, just to see him pluck at his beard from envy.",
                 "So now Della's beautiful hair fell about her, rippling and shining like a cascade of brown waters. It reached below her knee and made itself almost a garment for her. And then she did it up again nervously and quickly. Once she faltered for a minute and stood still while a tear or two splashed on the worn red carpet. On went her old brown jacket; on went her old brown hat. With a whirl of skirts and with the brilliant sparkle still in her eyes, she fluttered out the door and down the stairs to the street.",
               ],
@@ -23388,7 +23388,7 @@ Does this represent a function?`,
                 '<br/>',
                 'I shall be telling this with a sigh',
                 'Somewhere ages and ages hence:',
-                'Two roads diverged in a wood, and I��',
+                'Two roads diverged in a wood, and I',
                 'I took the one less traveled by,',
                 'And that has made all the difference.',
               ],
@@ -27326,7 +27326,7 @@ const DEFAULT_CHALLENGE_OPTIONS = [
     id: 'rla-2',
     subject: 'RLA',
     subtopic: 'Reading Comprehension',
-    label: 'Author�s purpose & tone',
+    label: 'Author's purpose & tone',
     selected: false,
   },
   {
@@ -30057,7 +30057,7 @@ function App({ externalTheme, onThemeChange }) {
                 ? bundle.recentScores
                 : prev.recentScoresDashboard || {},
           }));
-          window.alert('Great! You�re all set.');
+          window.alert('Great! You're all set.');
           setFinishingOnboarding(false);
           setView('start');
           return;
@@ -30078,7 +30078,7 @@ function App({ externalTheme, onThemeChange }) {
         onboardingComplete: true,
       },
     }));
-    window.alert('Great! You�re all set.');
+    window.alert('Great! You're all set.');
     setFinishingOnboarding(false);
     setView('start');
   }, [setView, localProfile, authToken]);
@@ -31551,7 +31551,7 @@ function App({ externalTheme, onThemeChange }) {
             alt="Kingmakerconsults logo"
             className="h-48 w-auto object-contain"
           />
-          <p>Kingmakerconsults Copyright �</p>
+          <p>Kingmakerconsults Copyright </p>
         </footer>
       </div>
     </>
@@ -32116,8 +32116,8 @@ function ProfileView({
               {totalChallenges ? ` (${totalChallenges})` : ''}
             </button>
           </div>
-          <p className="text-sm text-slate-600">
-            Select the areas you find tough. We�ll use this later to build a
+          <p className="text-sm text-slate-600 flex items-center">
+            Select the areas you find tough. We'll use this later to build a
             study plan for you.
           </p>
           <div
@@ -32600,7 +32600,7 @@ function SettingsView({
               Color Mode
             </legend>
             <p className="text-sm text-slate-500 dark:text-slate-200">
-              Choose between light and dark themes. We�ll remember your pick.
+              Choose between light and dark themes. We'll remember your pick.
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
               {themeOptions.map((option) => (
@@ -34753,7 +34753,7 @@ function DashboardProgressSummary({
                   <span className="subject-badge-pill">{shortLabel}</span>
                 ))}
               <p
-                className="text-sm font-semibold uppercase tracking-wider"
+                className="subject-card-title text-sm font-semibold uppercase tracking-wider"
                 style={{ color: titleColor }}
               >
                 {subject}
@@ -35061,10 +35061,10 @@ function SubjectVocabularySection({ subject, words, theme = 'light' }) {
   const termStyle = isDarkMode ? undefined : { color: textColor };
   const definitionStyle = isDarkMode
     ? undefined
-    : { color: textColor, opacity: 0.85 };
+    : { color: textColor, opacity: 0.95 };
   const exampleStyle = isDarkMode
     ? undefined
-    : { color: accentColor, opacity: 0.8 };
+    : { color: accentColor, opacity: 0.95 };
 
   return (
     <div
@@ -35827,7 +35827,7 @@ function StartScreen({
         return;
       }
 
-      // reload weekly + today's goals so the panel gets the day�s quiz links
+      // reload weekly + today's goals so the panel gets the day's quiz links
       await refreshCoachPanels();
     } catch (e) {
       setCoachError('Unable to generate weekly coach plan.');
@@ -37656,7 +37656,7 @@ function StartScreen({
                               {subjLabel}
                             </div>
                             <div className="text-xs" style={heroMutedTextStyle}>
-                              Today�s Coach Quiz is ready
+                              Today's Coach Quiz is ready
                             </div>
                           </div>
                           <button
@@ -37668,7 +37668,7 @@ function StartScreen({
                             }
                             className="px-3 py-1 bg-purple-600 text-white text-xs font-semibold rounded-md hover:bg-purple-700 transition"
                           >
-                            Open today�s quiz
+                            Open today's quiz
                           </button>
                         </div>
                       );
@@ -37684,73 +37684,75 @@ function StartScreen({
                 </div>
               )}
               {/* Ask Coach */}
-              <div
-                className="mt-4 border rounded-md p-3"
-                style={{
-                  borderColor: panelBorderColor,
-                  backgroundColor: isDarkMode
-                    ? 'rgba(15,23,42,0.5)'
-                    : 'rgba(255,255,255,0.7)',
-                }}
-              >
+              {window.__ASK_COACH_ENABLED__ && (
                 <div
-                  className="flex items-center gap-2 mb-2"
-                  style={{ color: heroTextColor }}
+                  className="mt-4 border rounded-md p-3"
+                  style={{
+                    borderColor: panelBorderColor,
+                    backgroundColor: isDarkMode
+                      ? 'rgba(15,23,42,0.5)'
+                      : 'rgba(255,255,255,0.7)',
+                  }}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-5 h-5"
-                  >
-                    <path d="M12 2a9 9 0 00-9 9c0 4.418 3.134 8.09 7.25 8.848V22l3.5-2H14a9 9 0 000-18z" />
-                  </svg>
-                  <span className="text-sm font-medium">
-                    Ask Coach for a{' '}
-                    {selectedSubject ? selectedSubject : 'subject'} tip
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() =>
-                      selectedSubject &&
-                      startDailyCompositeForSubject(selectedSubject)
-                    }
-                    disabled={
-                      !selectedSubject ||
-                      adviceLoading ||
-                      !window.__ASK_COACH_ENABLED__
-                    }
-                    className="px-3 py-2 text-sm font-semibold rounded-md transition hover:opacity-90"
-                    style={{
-                      backgroundColor: '#ffffff',
-                      color: '#0f172a',
-                      opacity: adviceLoading ? 0.6 : 1,
-                    }}
-                  >
-                    {adviceLoading ? 'Asking…' : 'Ask Coach'}
-                  </button>
-                  {!window.__ASK_COACH_ENABLED__ && (
-                    <span className="text-xs" style={heroMutedTextStyle}>
-                      Ask Coach is currently disabled.
-                    </span>
-                  )}
-                  {adviceError && (
-                    <span className="text-xs text-red-600">{adviceError}</span>
-                  )}
-                </div>
-                {adviceText && (
                   <div
-                    className="mt-2 text-sm whitespace-pre-wrap"
+                    className="flex items-center gap-2 mb-2"
                     style={{ color: heroTextColor }}
                   >
-                    {adviceText}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path d="M12 2a9 9 0 00-9 9c0 4.418 3.134 8.09 7.25 8.848V22l3.5-2H14a9 9 0 000-18z" />
+                    </svg>
+                    <span className="text-sm font-medium">
+                      Ask Coach for a{' '}
+                      {selectedSubject ? selectedSubject : 'subject'} tip
+                    </span>
                   </div>
-                )}
-                <p className="mt-2 text-xs" style={heroMutedTextStyle}>
-                  2 tips per week per student. Tester account is unlimited.
-                </p>
-              </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() =>
+                        selectedSubject &&
+                        startDailyCompositeForSubject(selectedSubject)
+                      }
+                      disabled={
+                        !selectedSubject ||
+                        adviceLoading ||
+                        !window.__ASK_COACH_ENABLED__
+                      }
+                      className="px-3 py-2 text-sm font-semibold rounded-md transition hover:opacity-90"
+                      style={{
+                        backgroundColor: '#ffffff',
+                        color: '#0f172a',
+                        opacity: adviceLoading ? 0.6 : 1,
+                      }}
+                    >
+                      {adviceLoading ? 'Asking…' : 'Ask Coach'}
+                    </button>
+                    {!window.__ASK_COACH_ENABLED__ && (
+                      <span className="text-xs" style={heroMutedTextStyle}>
+                        Ask Coach is currently disabled.
+                      </span>
+                    )}
+                    {adviceError && (
+                      <span className="text-xs text-red-600">{adviceError}</span>
+                    )}
+                  </div>
+                  {adviceText && (
+                    <div
+                      className="mt-2 text-sm whitespace-pre-wrap"
+                      style={{ color: heroTextColor }}
+                    >
+                      {adviceText}
+                    </div>
+                  )}
+                  <p className="mt-2 text-xs" style={heroMutedTextStyle}>
+                    2 tips per week per student. Tester account is unlimited.
+                  </p>
+                </div>
+              )}
             </div>
           )}
 
@@ -37886,7 +37888,7 @@ function StartScreen({
                                 ) || 0;
                               const titles = d.tasks
                                 .map((task) => task.title)
-                                .join(' � ');
+                                .join('  ');
                               return (
                                 <div
                                   key={`${d.day}-${idx}`}
@@ -38325,7 +38327,7 @@ function StartScreen({
                             >
                               {item.formattedDate}
                               {item.location ? (
-                                <span> � {item.location}</span>
+                                <span>  {item.location}</span>
                               ) : null}
                             </p>
                           </div>
@@ -39243,7 +39245,7 @@ function QuizInterface({
       try {
         if (!TOOL_PANEL_ENABLED) return;
         if (nextType === 'graph') {
-          const mod = await import('/graphing/GraphCanvas.js');
+          const mod = await import('./graphing/GraphCanvas.js');
           const mount = mod && mod.mount;
           const unmount = mod && mod.unmount;
           const GraphCanvas = mod && (mod.default || mod.GraphCanvas);
@@ -39272,7 +39274,7 @@ function QuizInterface({
             toolTypeRef.current = 'graph';
           }
         } else if (nextType === 'geometry') {
-          const mod = await import('/geometry/GeometryCanvas.js');
+          const mod = await import('./geometry/GeometryCanvas.js');
           const mount = mod && mod.mount;
           const unmount = mod && mod.unmount;
           const GeometryCanvas = mod && (mod.default || mod.GeometryCanvas);
@@ -41345,12 +41347,12 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 }
 
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
-  // Hard guard so we don�t crash
+  // Hard guard so we don't crash
   if (!quiz || !results || !Array.isArray(quiz.questions)) {
     return (
       <div className="results-screen error">
         <h2>Results Unavailable</h2>
-        <p>We saved your score, but couldn�t build the detailed breakdown.</p>
+        <p>We saved your score, but couldn't build the detailed breakdown.</p>
         <button onClick={onHome}>Back to Menu</button>
       </div>
     );
@@ -41501,6 +41503,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     'multi-source': 'Multi-Source Analysis',
     analysis: 'Paired Passage Analysis',
     chart: 'Chart/Data Analysis',
+    math: 'Mathematical Reasoning',
+    science: 'Science Reasoning',
+    social: 'Social Studies',
+    reading: 'Reading Comprehension',
+    writing: 'Writing & Language',
   };
 
   return (
@@ -41587,13 +41594,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
           {Object.entries(performanceByCategory).map(([type, data]) => (
             <div
               key={type}
-              className="bg-slate-100 p-3 rounded-lg panel-surface"
+              className="bg-slate-100 dark:bg-slate-800/60 p-3 rounded-lg panel-surface border border-slate-200 dark:border-slate-700"
             >
               <div className="flex justify-between items-center">
-                <span className="font-semibold text-slate-600">
+                <span className="font-semibold text-slate-700 dark:text-slate-300">
                   {categoryNames[type] || type}
                 </span>
-                <span className="font-bold text-slate-800">
+                <span className="font-bold text-slate-900 dark:text-slate-100">
                   {data.correct} / {data.total}
                 </span>
               </div>
@@ -42120,7 +42127,7 @@ function EssayGuide({ onExit }) {
     let text = html
       .replace(/<\s*br\s*\/?>/gi, '\n')
       .replace(/<\s*\/?p[^>]*>/gi, '\n\n')
-      .replace(/<\s*\/?li[^>]*>/gi, (m) => (m.startsWith('</') ? '\n' : ' � '))
+      .replace(/<\s*\/?li[^>]*>/gi, (m) => (m.startsWith('</') ? '\n' : '  '))
       .replace(
         /<\s*\/?(strong|em|b|i|u|span|div|h\d|section|article|blockquote)[^>]*>/gi,
         ''
@@ -42154,7 +42161,7 @@ function EssayGuide({ onExit }) {
       'In everyday terms, the effects show up in places that are not cherry-picked: large districts as well as small ones, urban areas as well as rural communities, and across diverse populations. ' +
       'This breadth matters because it demonstrates that the argument is not reliant on a single exceptional case.\n\n' +
       'Equally important is the internal logic of the claim. ' +
-      'A clear explanation of how inputs become outcomes��backed by credible studies or official records��builds reader confidence. ' +
+      'A clear explanation of how inputs become outcomes—backed by credible studies or official records—builds reader confidence. ' +
       'When authors acknowledge limitations, address counterarguments directly, and explain why competing explanations fall short, they further enhance credibility. ' +
       'The tone remains measured and analytic rather than speculative, and the supporting evidence goes beyond anecdotes to include trends, comparative data, or longitudinal results.\n\n' +
       'Finally, strong arguments connect evidence to implications. ' +
@@ -42165,7 +42172,7 @@ function EssayGuide({ onExit }) {
       'These reservations can be useful for surfacing potential risks or unintended consequences, but they are most convincing when paired with specific evidence and a clear explanation of scope. ' +
       'Without those anchors, caution can drift into conjecture, making it hard to weigh against concrete results reported elsewhere.\n\n' +
       'In addition, weaker arguments sometimes mistake correlation for causation or rely on assumptions about human behavior that are plausible but untested. ' +
-      'They may emphasize exceptional cases��outliers��while downplaying broader trends that move in the opposite direction. ' +
+      'They may emphasize exceptional cases—outliers—while downplaying broader trends that move in the opposite direction. ' +
       'A careful reader should ask whether the same claim holds across settings and whether competing explanations have been seriously considered. ' +
       'When key terms are left undefined or evidence is largely anecdotal, the overall force of the case diminishes.\n\n' +
       'That said, raising practical constraints and ethical considerations is valuable. ' +
@@ -42209,7 +42216,7 @@ function EssayGuide({ onExit }) {
       passage1: {
         title: 'Dr. Alisa Klein, Sociologist (Stronger Argument)',
         content: stripHtmlToPlain(
-          "<p>Lowering the voting age to 16 is a crucial step for a healthier democracy. At 16, many young people are employed, pay taxes on their earnings, and are subject to the laws of the land. It is a fundamental principle of democracy��'no taxation without representation'��that they should have a voice in shaping policies that directly affect them, from education funding to climate change.</p><p><span class='good-evidence'>Furthermore, research shows that voting is a habit; a 2020 study from Tufts University found that cities that allow 16-year-olds to vote in local elections see significantly higher youth turnout in subsequent national elections.</span> Enabling citizens to vote at an age when they are still living in a stable home and learning about civics in school increases the likelihood they will become lifelong voters.</p><p><span class='good-evidence'>As political scientist Dr. Mark Franklin notes, 'The earlier a citizen casts their first ballot, the more likely they are to become a consistent participant in our democracy.'</span> It is a vital step toward strengthening civic engagement for generations to come.</p>"
+          "<p>Lowering the voting age to 16 is a crucial step for a healthier democracy. At 16, many young people are employed, pay taxes on their earnings, and are subject to the laws of the land. It is a fundamental principle of democracy'no taxation without representation'—'that they should have a voice in shaping policies that directly affect them, from education funding to climate change.</p><p><span class='good-evidence'>Furthermore, research shows that voting is a habit; a 2020 study from Tufts University found that cities that allow 16-year-olds to vote in local elections see significantly higher youth turnout in subsequent national elections.</span> Enabling citizens to vote at an age when they are still living in a stable home and learning about civics in school increases the likelihood they will become lifelong voters.</p><p><span class='good-evidence'>As political scientist Dr. Mark Franklin notes, 'The earlier a citizen casts their first ballot, the more likely they are to become a consistent participant in our democracy.'</span> It is a vital step toward strengthening civic engagement for generations to come.</p>"
         ),
       },
       passage2: {
@@ -42242,7 +42249,7 @@ function EssayGuide({ onExit }) {
       passage2: {
         title: 'Institute for Energy Research (Weaker Argument)',
         content:
-          "<p>While renewable energy is a worthy goal, aggressive government subsidies create significant problems. The high upfront cost of technologies like solar panels and wind turbines are passed on to taxpayers, creating a massive financial burden. These systems also have geographic limitations��they are only effective in specific locations with consistent sun or wind.</p><p>Furthermore, energy production is often intermittent, requiring expensive battery storage solutions that are not yet advanced enough. <span class='bad-evidence'>Think of the poor families who will have their lights go out on a calm, cloudy day.</span> It's simply not reliable enough to power a modern economy without fossil fuel backup, which defeats the entire purpose.</p><p>A market-driven approach, rather than government intervention, would allow the most efficient and affordable technologies to emerge naturally. We shouldn't let the government pick winners and losers with taxpayer money; we should let innovation and competition determine the best path forward.</p>",
+          "<p>While renewable energy is a worthy goal, aggressive government subsidies create significant problems. The high upfront cost of technologies like solar panels and wind turbines are passed on to taxpayers, creating a massive financial burden. These systems also have geographic limitations'they are only effective in specific locations with consistent sun or wind.</p><p>Furthermore, energy production is often intermittent, requiring expensive battery storage solutions that are not yet advanced enough. <span class='bad-evidence'>Think of the poor families who will have their lights go out on a calm, cloudy day.</span> It's simply not reliable enough to power a modern economy without fossil fuel backup, which defeats the entire purpose.</p><p>A market-driven approach, rather than government intervention, would allow the most efficient and affordable technologies to emerge naturally. We shouldn't let the government pick winners and losers with taxpayer money; we should let innovation and competition determine the best path forward.</p>",
       },
     },
     {
@@ -42405,7 +42412,7 @@ function EssayGuide({ onExit }) {
       passage2: {
         title: 'Fiscal Prudence Council (Weaker Argument)',
         content:
-          "<p>Nothing is truly free��taxpayers foot the bill. <span class='bad-evidence'>If college is free, everyone will enroll and campuses will be chaotic.</span> Subsidizing degrees people may not use wastes money. Aid should remain merit-based and limited, not universal.</p>",
+          "<p>Nothing is truly free—'taxpayers foot the bill. <span class='bad-evidence'>If college is free, everyone will enroll and campuses will be chaotic.</span> Subsidizing degrees people may not use wastes money. Aid should remain merit-based and limited, not universal.</p>",
       },
     },
     {
@@ -45072,9 +45079,9 @@ function WorkforceHub({ onBack }) {
       className="workforce-tool-card p-4 rounded-2xl border text-left bg-white/90 dark:bg-slate-800/70 hover:shadow transition"
       style={{ borderColor: 'var(--subject-workforce-border)' }}
     >
-      <div className="text-base font-bold">{title}</div>
+      <div className="text-base font-bold text-slate-900 dark:text-slate-100">{title}</div>
       {desc ? (
-        <div className="text-sm text-slate-600 dark:text-slate-300 mt-1">
+        <div className="text-sm text-slate-700 dark:text-slate-300 mt-1">
           {desc}
         </div>
       ) : null}
@@ -45120,7 +45127,7 @@ function WorkforceHub({ onBack }) {
         }}
       >
         <h1 className="text-2xl font-extrabold">Workforce Readiness</h1>
-        <p className="opacity-90 mt-1">
+        <p className="opacity-90 mt-1 text-slate-100">
           Tools and simulations to prepare you for careers
         </p>
       </div>
@@ -50221,7 +50228,7 @@ function Ti30xsPracticeTool() {
               <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-3">
                 Free Calculator Mode
               </h3>
-              <p className="text-slate-600 dark:text-slate-300 mb-4">
+              <p className="text-slate-700 dark:text-slate-300 mb-4">
                 Practice using the TI-30XS calculator. Try out different
                 functions and operations to familiarize yourself with the key
                 layout and behavior.
