@@ -11,8 +11,55 @@ const {
   createContext,
 } = React;
 
-// Import theme hook
+// Import extracted modules
 import { useThemeController } from './hooks/useThemeController.js';
+import * as MathUtils from './utils/mathUtils.js';
+import * as TextUtils from './utils/textUtils.js';
+import AuthScreen from './components/auth/AuthScreen.jsx';
+import {
+  JoinOrganizationModal,
+  NamePromptModal,
+  PracticeSessionModal,
+} from './components/modals/index.jsx';
+import {
+  FormulaDisplay,
+  FormulaSheetModal,
+  ScienceFormulaSheet,
+} from './components/formula/FormulaSheets.jsx';
+import './components/quiz/QuizRunners.jsx';
+
+// Import view components
+import DashboardView from './components/views/DashboardView.jsx';
+import WorkforceView from './components/views/WorkforceView.jsx';
+import ProfileViewWrapper from './components/views/ProfileViewWrapper.jsx';
+import SettingsViewWrapper from './components/views/SettingsViewWrapper.jsx';
+import HomeroomView from './components/views/HomeroomView.jsx';
+import AdminView from './components/views/AdminView.jsx';
+
+// Extract utility functions for global scope (for compatibility with existing code)
+const {
+  applySafeMathFix,
+  normalizeLatex,
+  normalizeFormulaLatex,
+  renderLatexToHtml,
+  escapeHtml,
+  formatExponents,
+  normalizeMathText,
+} = MathUtils;
+
+const {
+  normalizeLineBreaks,
+  preprocessRawContent,
+  sanitizeCodeSegment,
+  normalizeImagePath,
+  resolveAssetUrl,
+  getOptionText,
+  getOptionIsCorrect,
+  findCorrectOption,
+  isShortResponseQuestion,
+  ALLOWED_HTML_TAGS,
+  ALLOWED_HTML_ATTR,
+} = TextUtils;
 
 // --- InterviewScoreReport component ---
 function InterviewScoreReport({ score, strengths, weaknesses, suggestions }) {
@@ -1186,50 +1233,7 @@ function applySafeMathFix(text) {
   return working;
 }
 
-const ALLOWED_HTML_TAGS = [
-  'a',
-  'b',
-  'strong',
-  'i',
-  'em',
-  'u',
-  's',
-  'span',
-  'p',
-  'br',
-  'ul',
-  'ol',
-  'li',
-  'table',
-  'thead',
-  'tbody',
-  'tfoot',
-  'tr',
-  'th',
-  'td',
-  'caption',
-  'colgroup',
-  'col',
-  'code',
-  'pre',
-  'sup',
-  'sub',
-  'div',
-  'img',
-];
-const ALLOWED_HTML_ATTR = [
-  'href',
-  'title',
-  'target',
-  'rel',
-  'colspan',
-  'rowspan',
-  'align',
-  'scope',
-  'src',
-  'alt',
-  'class',
-];
+// ALLOWED_HTML_TAGS and ALLOWED_HTML_ATTR now imported from textUtils
 const ENTITY_DECODER =
   typeof document !== 'undefined' ? document.createElement('textarea') : null;
 
@@ -31116,7 +31120,7 @@ function App({ externalTheme, onThemeChange }) {
     const adminRoles = ['superAdmin', 'orgAdmin', 'instructor', 'teacher'];
     if (adminRoles.includes(currentUser.role)) {
       return (
-        <EnhancedAdminShell
+        <AdminView
           user={currentUser}
           token={authToken}
           onLogout={handleLogout}
@@ -31259,7 +31263,7 @@ function App({ externalTheme, onThemeChange }) {
         // Route within the dashboard container based on activeView
         if (activeView === 'profile') {
           return (
-            <ProfileView
+            <ProfileViewWrapper
               loading={profileLoading}
               error={profileError}
               data={profileData}
@@ -31288,7 +31292,7 @@ function App({ externalTheme, onThemeChange }) {
         }
         if (activeView === 'settings') {
           return (
-            <SettingsView
+            <SettingsViewWrapper
               preferences={preferences}
               onApply={handleSettingsInstantChange}
               onSave={handlePersistPreferences}
@@ -31301,7 +31305,7 @@ function App({ externalTheme, onThemeChange }) {
         }
         if (activeView === 'homeroom') {
           return (
-            <StudentHomeRoom
+            <HomeroomView
               user={currentUser}
               onNavigate={(path, params) => {
                 // Handle navigation from dashboard
@@ -31326,11 +31330,11 @@ function App({ externalTheme, onThemeChange }) {
           );
         }
         if (activeView === 'workforce') {
-          return <WorkforceHub onBack={goToDashboard} />;
+          return <WorkforceView onBack={goToDashboard} />;
         }
         // Dashboard, Quizzes, Progress all use the StartScreen container; scrolling is handled by pendingScrollTarget
         return (
-          <StartScreen
+          <DashboardView
             currentUser={currentUser}
             onLogout={handleLogout}
             progress={progress}
@@ -31560,6 +31564,11 @@ function App({ externalTheme, onThemeChange }) {
       </div>
     </>
   );
+}
+
+// Expose view components to window globals for view wrappers
+if (typeof window !== 'undefined') {
+  // Components will be exposed after they're defined below
 }
 
 // --- VIEWS & COMPONENTS ---
@@ -50857,6 +50866,16 @@ function LifeChoicesSimulation({ srcPath }) {
 }
 
 // Theme hook extracted to frontend/hooks/useThemeController.js
+
+// Expose components to window globals for view wrappers to use
+if (typeof window !== 'undefined') {
+  window.ProfileView = ProfileView;
+  window.SettingsView = SettingsView;
+  window.WorkforceHub = WorkforceHub;
+  window.StartScreen = StartScreen;
+  window.StudentHomeRoom = StudentHomeRoom;
+  window.EnhancedAdminShell = EnhancedAdminShell;
+}
 
 function RootApp() {
   const { theme, applyTheme } = useThemeController();
