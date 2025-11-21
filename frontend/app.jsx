@@ -3058,7 +3058,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '20 g/cm³',
-        rationale: 'That's just the volume, not density.',
+        rationale: 'That\'s just the volume, not density.',
         isCorrect: false,
       },
       {
@@ -3289,7 +3289,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '24 L',
-        rationale: 'That's 12 L in 4 min scaled to 8 min, not 10.',
+        rationale: 'That\'s 12 L in 4 min scaled to 8 min, not 10.',
         isCorrect: false,
       },
       {
@@ -3314,10 +3314,10 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: '$700',
-        rationale: 'That's 700 / 3000  23%. Too low.',
+        rationale: 'That\'s 700 / 3000  23%. Too low.',
         isCorrect: false,
       },
-      { text: '$900', rationale: 'That's 30% of $3,000.', isCorrect: false },
+      { text: '$900', rationale: 'That\'s 30% of $3,000.', isCorrect: false },
       {
         text: '$1,050',
         rationale: 'Correct. 35% of $3,000 = 0.35 × 3000 = $1,050.',
@@ -9374,7 +9374,7 @@ const AppData = {
                     text: '$\\frac{3}{8}$',
                     isCorrect: true,
                     rationale:
-                      "The numbers greater than 5 are 6, 7, and 8. That's 3 favorable outcomes out of 8 total possibilities.",
+                      "The numbers greater than 5 are 6, 7, and 8. That\'s 3 favorable outcomes out of 8 total possibilities.",
                   },
                   {
                     text: '$\\frac{5}{8}$',
@@ -9702,7 +9702,7 @@ const AppData = {
                     text: '-4',
                     isCorrect: true,
                     rationale:
-                      "In the slope-intercept form $y = mx + b$, 'b' is the y-intercept. In this case, it's -4.",
+                      "In the slope-intercept form $y = mx + b$, 'b' is the y-intercept. In this case, it\\'s -4.",
                   },
                   {
                     text: '4',
