@@ -411,7 +411,7 @@ async function ensureScienceNumeracy(
 
 async function findUserByEmail(email) {
   return db.oneOrNone(
-    `SELECT id, email, name, first_name, last_name, display_name FROM users WHERE email = $1`,
+    `SELECT id, email, name, first_name, last_name, display_name, role FROM users WHERE email = $1`,
     [email]
   );
 }
@@ -3592,6 +3592,7 @@ function formatUserRow(row) {
     id: row.id,
     email,
     name: row.name || fallbackName,
+    role: row.role || 'student',
     createdAt: row.created_at || null,
     picture: row.picture || null,
   };
@@ -5546,10 +5547,15 @@ app.get('/api/organizations', async (req, res) => {
 
 // GET user's career interests
 app.get('/api/user/career-interests', requireAuthInProd, async (req, res) => {
+  const userId = req.user?.userId || req.user?.id;
+  if (!userId) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+
   try {
     const result = await db.query(
       'SELECT career_id, added_at FROM user_career_interests WHERE user_id = $1 ORDER BY added_at DESC',
-      [req.user.userId]
+      [userId]
     );
     res.json(result.rows.map((row) => row.career_id));
   } catch (error) {
@@ -5560,6 +5566,11 @@ app.get('/api/user/career-interests', requireAuthInProd, async (req, res) => {
 
 // POST add career interest
 app.post('/api/user/career-interests', requireAuthInProd, async (req, res) => {
+  const userId = req.user?.userId || req.user?.id;
+  if (!userId) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+
   const { career_id } = req.body;
 
   if (!career_id) {
@@ -5569,7 +5580,7 @@ app.post('/api/user/career-interests', requireAuthInProd, async (req, res) => {
   try {
     await db.query(
       'INSERT INTO user_career_interests (user_id, career_id) VALUES ($1, $2) ON CONFLICT (user_id, career_id) DO NOTHING',
-      [req.user.userId, career_id]
+      [userId, career_id]
     );
     res.json({ success: true });
   } catch (error) {
@@ -5583,12 +5594,17 @@ app.delete(
   '/api/user/career-interests/:career_id',
   requireAuthInProd,
   async (req, res) => {
+    const userId = req.user?.userId || req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+
     const { career_id } = req.params;
 
     try {
       await db.query(
         'DELETE FROM user_career_interests WHERE user_id = $1 AND career_id = $2',
-        [req.user.userId, career_id]
+        [userId, career_id]
       );
       res.json({ success: true });
     } catch (error) {
@@ -5603,12 +5619,17 @@ app.get(
   '/api/user/career-progress/:career_id',
   requireAuthInProd,
   async (req, res) => {
+    const userId = req.user?.userId || req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+
     const { career_id } = req.params;
 
     try {
       const result = await db.query(
         'SELECT * FROM user_career_progress WHERE user_id = $1 AND career_id = $2',
-        [req.user.userId, career_id]
+        [userId, career_id]
       );
 
       if (result.rows.length === 0) {
@@ -5628,6 +5649,11 @@ app.put(
   '/api/user/career-progress/:career_id',
   requireAuthInProd,
   async (req, res) => {
+    const userId = req.user?.userId || req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+
     const { career_id } = req.params;
     const {
       resume_drafted,
@@ -5658,7 +5684,7 @@ app.put(
          updated_at = NOW()
        RETURNING *`,
         [
-          req.user.userId,
+          userId,
           career_id,
           resume_drafted,
           cover_letter_drafted,
@@ -7687,7 +7713,7 @@ app.post('/api/login', async (req, res) => {
 
   try {
     const result = await pool.query(
-      'SELECT id, email, password_hash, created_at FROM users WHERE email = $1',
+      'SELECT id, email, password_hash, role, created_at FROM users WHERE email = $1',
       [normalizedEmail]
     );
 
