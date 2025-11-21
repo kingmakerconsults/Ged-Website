@@ -1209,29 +1209,7 @@ const resolveSubjectParam = (subject) => {
   return SUBJECT_PARAM_MAP[subject] || subject;
 };
 
-function applySafeMathFix(text) {
-  if (typeof text !== 'string') {
-    return text;
-  }
-  if (typeof fixAllMathInText === 'function') {
-    return fixAllMathInText(text);
-  }
-  let working = text;
-  if (typeof collapseUnderscoredLatexMacros === 'function') {
-    working = collapseUnderscoredLatexMacros(working);
-  }
-  if (typeof addMissingBackslashesInMath === 'function') {
-    return addMissingBackslashesInMath(working);
-  }
-  const legacy =
-    typeof window !== 'undefined' &&
-    window.TextSanitizer &&
-    window.TextSanitizer.addMissingBackslashesInMath;
-  if (typeof legacy === 'function') {
-    return legacy(working);
-  }
-  return working;
-}
+// applySafeMathFix is now imported from MathUtils to avoid duplicate definitions.
 
 // ALLOWED_HTML_TAGS and ALLOWED_HTML_ATTR now imported from textUtils
 const ENTITY_DECODER =
