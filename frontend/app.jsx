@@ -3044,7 +3044,7 @@ const SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage: '<p>A rock has a mass of 60 g and displaces 20 cm³ of water.</p>',
-    question: 'What is the rock's density?',
+    question: 'What is the rock\'s density?',
     answerOptions: [
       {
         text: '1 g/cm³',
