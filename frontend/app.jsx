@@ -3219,7 +3219,7 @@ const SCI_NUMERACY_QUESTIONS = [
     type: 'knowledge',
     passage:
       '<p>In the first 20 minutes of a run, a runner goes 10 km. After 10 minutes the runner had 5 km. Assume constant speed.</p>',
-    question: 'What is the runner's speed during this period (in km/min)?',
+    question: 'What is the runner\'s speed during this period (in km/min)?',
     answerOptions: [
       {
         text: '0.25 km/min',
@@ -6101,7 +6101,7 @@ const AppData = {
                 questionNumber: 9,
                 type: 'text',
                 challenge_tags: ['science-2'],
-                passage: "Gay-Lussac's Law: $P \\propto T$ (constant volume).",
+                passage: "Gay-Lussac\\'s Law: $P \\propto T$ (constant volume).",
                 question:
                   'If temperature (Kelvin) doubles at constant volume, pressure will:',
                 answerOptions: [
