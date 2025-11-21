@@ -12587,30 +12587,434 @@ app.get(
   requireSuperAdmin,
   async (req, res) => {
     try {
-      const rows = await db.many(
+      const rows = await db.any(
         `SELECT
-                o.id,
-                o.name,
-                COUNT(u.id) AS user_count,
-                MAX(qa.attempted_at) AS recent_activity
-             FROM organizations o
-             LEFT JOIN users u ON u.organization_id = o.id
-             LEFT JOIN quiz_attempts qa ON qa.user_id = u.id
-             GROUP BY o.id, o.name
-             ORDER BY o.name ASC`
+            o.id,
+            o.name,
+            COUNT(u.id) AS user_count,
+            SUM(CASE WHEN LOWER(u.role) IN ('student') THEN 1 ELSE 0 END) AS student_count,
+            SUM(CASE WHEN LOWER(u.role) IN ('instructor','teacher') THEN 1 ELSE 0 END) AS instructor_count,
+            SUM(CASE WHEN LOWER(u.role) = 'org_admin' THEN 1 ELSE 0 END) AS org_admin_count,
+            SUM(CASE WHEN LOWER(u.role) = 'super_admin' THEN 1 ELSE 0 END) AS super_admin_count,
+            MAX(qa.attempted_at) AS last_activity_at
+         FROM organizations o
+         LEFT JOIN users u ON u.organization_id = o.id
+         LEFT JOIN quiz_attempts qa ON qa.user_id = u.id
+         GROUP BY o.id, o.name
+         ORDER BY o.name ASC`
       );
 
       const organizations = rows.map((row) => ({
         id: row.id,
         name: row.name,
         userCount: Number(row.user_count) || 0,
-        recentActivity: row.recent_activity || null,
+        studentCount: Number(row.student_count) || 0,
+        instructorCount: Number(row.instructor_count) || 0,
+        orgAdminCount: Number(row.org_admin_count) || 0,
+        superAdminCount: Number(row.super_admin_count) || 0,
+        lastActivityAt: row.last_activity_at || null,
       }));
 
       return res.json({ organizations });
     } catch (error) {
       console.error('Failed to load organizations:', error);
       return res.status(500).json({ error: 'Unable to load organizations' });
+    }
+  }
+);
+
+// --- Super Admin: Full user listing with activity summary ---
+app.get(
+  '/api/admin/users',
+  logAdminAccess,
+  requireAuth,
+  requireSuperAdmin,
+  async (req, res) => {
+    try {
+      const rows = await db.any(
+        `SELECT
+            u.id,
+            u.email,
+            u.name,
+            u.role,
+            u.organization_id,
+            o.name AS organization_name,
+            u.created_at,
+            u.last_login,
+            COUNT(qa.id) AS quiz_attempt_count,
+            MAX(qa.attempted_at) AS last_quiz_attempt_at,
+            AVG(qa.scaled_score) AS average_scaled_score
+         FROM users u
+         LEFT JOIN organizations o ON o.id = u.organization_id
+         LEFT JOIN quiz_attempts qa ON qa.user_id = u.id
+         GROUP BY u.id, o.name
+         ORDER BY u.created_at DESC NULLS LAST, u.id DESC`
+      );
+
+      const users = rows.map((r) => ({
+        id: r.id,
+        name: r.name,
+        email: r.email,
+        role: normalizeRole(r.role),
+        organization_id: r.organization_id || null,
+        organization_name: r.organization_name || null,
+        created_at: r.created_at || null,
+        last_login_at: r.last_login || null,
+        quiz_attempt_count: Number(r.quiz_attempt_count) || 0,
+        last_quiz_attempt_at: r.last_quiz_attempt_at || null,
+        average_scaled_score:
+          r.average_scaled_score != null
+            ? Number(r.average_scaled_score)
+            : null,
+      }));
+
+      return res.json({ users });
+    } catch (error) {
+      console.error('Failed to load users for super admin:', error);
+      return res.status(500).json({ error: 'Unable to load users' });
+    }
+  }
+);
+
+// --- Super Admin: Recent activity feed ---
+app.get(
+  '/api/admin/activity/recent',
+  logAdminAccess,
+  requireAuth,
+  requireSuperAdmin,
+  async (req, res) => {
+    try {
+      const limit = Math.min(
+        Math.max(parseInt(String(req.query.limit || '50'), 10) || 50, 1),
+        200
+      );
+      const rows = await db.any(
+        `SELECT
+            qa.id,
+            qa.user_id,
+            u.name AS user_name,
+            u.email AS user_email,
+            u.organization_id,
+            o.name AS organization_name,
+            qa.subject,
+            qa.quiz_type,
+            qa.quiz_title,
+            qa.score,
+            qa.scaled_score,
+            qa.attempted_at
+         FROM quiz_attempts qa
+         JOIN users u ON u.id = qa.user_id
+         LEFT JOIN organizations o ON o.id = u.organization_id
+         ORDER BY qa.attempted_at DESC, qa.id DESC
+         LIMIT $1`,
+        [limit]
+      );
+      const activity = rows.map((r) => ({
+        id: r.id,
+        user_id: r.user_id,
+        user_name: r.user_name,
+        user_email: r.user_email,
+        organization_id: r.organization_id || null,
+        organization_name: r.organization_name || null,
+        subject: r.subject || null,
+        quiz_type: r.quiz_type || null,
+        quiz_title: r.quiz_title || null,
+        score: r.score != null ? Number(r.score) : null,
+        scaled_score: r.scaled_score != null ? Number(r.scaled_score) : null,
+        attempted_at: r.attempted_at,
+      }));
+      return res.json({ activity });
+    } catch (error) {
+      console.error('Failed to load recent activity (super admin):', error);
+      return res.status(500).json({ error: 'Unable to load recent activity' });
+    }
+  }
+);
+
+// --- Org Admin: Users within organization ---
+app.get(
+  '/api/org/users',
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) {
+        return res.status(400).json({ error: 'No organization scope' });
+      }
+      const rows = await db.any(
+        `SELECT
+            u.id,
+            u.name,
+            u.email,
+            u.role,
+            u.created_at,
+            u.last_login,
+            COUNT(qa.id) AS quiz_attempt_count,
+            MAX(qa.attempted_at) AS last_quiz_attempt_at,
+            AVG(qa.scaled_score) AS average_scaled_score
+         FROM users u
+         LEFT JOIN quiz_attempts qa ON qa.user_id = u.id
+         WHERE u.organization_id = $1
+         GROUP BY u.id
+         ORDER BY u.name NULLS LAST, u.email ASC`,
+        [orgId]
+      );
+      const users = rows.map((r) => ({
+        id: r.id,
+        name: r.name,
+        email: r.email,
+        role: normalizeRole(r.role),
+        created_at: r.created_at || null,
+        last_login_at: r.last_login || null,
+        quiz_attempt_count: Number(r.quiz_attempt_count) || 0,
+        last_quiz_attempt_at: r.last_quiz_attempt_at || null,
+        average_scaled_score:
+          r.average_scaled_score != null
+            ? Number(r.average_scaled_score)
+            : null,
+      }));
+      return res.json({ users });
+    } catch (error) {
+      console.error('Failed to load org users:', error);
+      return res.status(500).json({ error: 'Unable to load org users' });
+    }
+  }
+);
+
+// --- Org Admin: Recent activity feed (org scoped) ---
+app.get(
+  '/api/org/activity/recent',
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) {
+        return res.status(400).json({ error: 'No organization scope' });
+      }
+      const limit = Math.min(
+        Math.max(parseInt(String(req.query.limit || '50'), 10) || 50, 1),
+        200
+      );
+      const rows = await db.any(
+        `SELECT
+            qa.id,
+            qa.user_id,
+            u.name AS user_name,
+            u.email AS user_email,
+            qa.subject,
+            qa.quiz_type,
+            qa.quiz_title,
+            qa.score,
+            qa.scaled_score,
+            qa.attempted_at
+         FROM quiz_attempts qa
+         JOIN users u ON u.id = qa.user_id
+         WHERE u.organization_id = $1
+         ORDER BY qa.attempted_at DESC, qa.id DESC
+         LIMIT $2`,
+        [orgId, limit]
+      );
+      const activity = rows.map((r) => ({
+        id: r.id,
+        user_id: r.user_id,
+        user_name: r.user_name,
+        user_email: r.user_email,
+        subject: r.subject || null,
+        quiz_type: r.quiz_type || null,
+        quiz_title: r.quiz_title || null,
+        score: r.score != null ? Number(r.score) : null,
+        scaled_score: r.scaled_score != null ? Number(r.scaled_score) : null,
+        attempted_at: r.attempted_at,
+      }));
+      return res.json({ activity });
+    } catch (error) {
+      console.error('Failed to load org recent activity:', error);
+      return res.status(500).json({ error: 'Unable to load org activity' });
+    }
+  }
+);
+
+// --- Org Admin: Summary ---
+app.get(
+  '/api/org/summary',
+  logAdminAccess,
+  requireAuth,
+  requireOrgAdmin,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) {
+        return res.status(400).json({ error: 'No organization scope' });
+      }
+      const orgRow = await db.oneOrNone(
+        `SELECT id, name FROM organizations WHERE id = $1`,
+        [orgId]
+      );
+      if (!orgRow) {
+        return res.status(404).json({ error: 'Organization not found' });
+      }
+      const counts = await db.one(
+        `SELECT
+            COUNT(*) AS total_users,
+            SUM(CASE WHEN LOWER(role)='student' THEN 1 ELSE 0 END) AS students,
+            SUM(CASE WHEN LOWER(role) IN ('instructor','teacher') THEN 1 ELSE 0 END) AS instructors,
+            SUM(CASE WHEN LOWER(role)='org_admin' THEN 1 ELSE 0 END) AS org_admins
+         FROM users WHERE organization_id=$1`,
+        [orgId]
+      );
+      const activeWeek = await db.one(
+        `SELECT COUNT(DISTINCT qa.user_id) AS active_this_week
+           FROM quiz_attempts qa
+           JOIN users u ON u.id = qa.user_id
+          WHERE u.organization_id = $1
+            AND qa.attempted_at >= NOW() - INTERVAL '7 days'`,
+        [orgId]
+      );
+      const subjectBreakdown = await db.any(
+        `SELECT subject, COUNT(*) AS attempts
+           FROM quiz_attempts qa
+           JOIN users u ON u.id = qa.user_id
+          WHERE u.organization_id = $1
+          GROUP BY subject`,
+        [orgId]
+      );
+      return res.json({
+        organization: orgRow,
+        total_users: Number(counts.total_users) || 0,
+        students: Number(counts.students) || 0,
+        instructors: Number(counts.instructors) || 0,
+        org_admins: Number(counts.org_admins) || 0,
+        active_this_week: Number(activeWeek.active_this_week) || 0,
+        subject_breakdown: subjectBreakdown.map((r) => ({
+          subject: r.subject,
+          attempts: Number(r.attempts) || 0,
+        })),
+      });
+    } catch (error) {
+      console.error('Failed to load org summary:', error);
+      return res.status(500).json({ error: 'Unable to load org summary' });
+    }
+  }
+);
+
+// --- Instructor: Students list ---
+app.get(
+  '/api/instructor/students',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) {
+        return res.status(400).json({ error: 'No organization scope' });
+      }
+      const studentRows = await db.any(
+        `SELECT id, name, email
+           FROM users
+          WHERE organization_id = $1 AND LOWER(role) = 'student'
+          ORDER BY name NULLS LAST, email ASC`,
+        [orgId]
+      );
+      const attemptRows = await db.any(
+        `SELECT qa.user_id, qa.subject,
+                COUNT(*) AS attempt_count,
+                AVG(qa.scaled_score) AS avg_scaled_score,
+                MAX(qa.attempted_at) AS last_attempt_at
+           FROM quiz_attempts qa
+           JOIN users u ON u.id = qa.user_id
+          WHERE u.organization_id = $1 AND LOWER(u.role)='student'
+          GROUP BY qa.user_id, qa.subject`,
+        [orgId]
+      );
+      const byUser = new Map();
+      for (const row of attemptRows) {
+        const entry = byUser.get(row.user_id) || [];
+        entry.push({
+          subject: row.subject,
+          attempt_count: Number(row.attempt_count) || 0,
+          avg_scaled_score:
+            row.avg_scaled_score != null ? Number(row.avg_scaled_score) : null,
+          last_attempt_at: row.last_attempt_at,
+        });
+        byUser.set(row.user_id, entry);
+      }
+      const students = studentRows.map((s) => ({
+        id: s.id,
+        name: s.name,
+        email: s.email,
+        subjects: byUser.get(s.id) || [],
+        last_attempt_at:
+          (byUser.get(s.id) || [])
+            .map((x) => x.last_attempt_at)
+            .sort()
+            .pop() || null,
+      }));
+      return res.json({ students });
+    } catch (error) {
+      console.error('Failed to load instructor students:', error);
+      return res.status(500).json({ error: 'Unable to load students' });
+    }
+  }
+);
+
+// --- Instructor: Recent activity (scoped to org students) ---
+app.get(
+  '/api/instructor/activity/recent',
+  logAdminAccess,
+  requireAuth,
+  requireInstructorOrOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const orgId = req.user.organization_id;
+      if (!orgId) {
+        return res.status(400).json({ error: 'No organization scope' });
+      }
+      const limit = Math.min(
+        Math.max(parseInt(String(req.query.limit || '50'), 10) || 50, 1),
+        200
+      );
+      const rows = await db.any(
+        `SELECT
+            qa.id,
+            qa.user_id,
+            u.name AS user_name,
+            u.email AS user_email,
+            qa.subject,
+            qa.quiz_type,
+            qa.quiz_title,
+            qa.score,
+            qa.scaled_score,
+            qa.attempted_at
+         FROM quiz_attempts qa
+         JOIN users u ON u.id = qa.user_id
+         WHERE u.organization_id = $1 AND LOWER(u.role)='student'
+         ORDER BY qa.attempted_at DESC, qa.id DESC
+         LIMIT $2`,
+        [orgId, limit]
+      );
+      const activity = rows.map((r) => ({
+        id: r.id,
+        user_id: r.user_id,
+        user_name: r.user_name,
+        user_email: r.user_email,
+        subject: r.subject || null,
+        quiz_type: r.quiz_type || null,
+        quiz_title: r.quiz_title || null,
+        score: r.score != null ? Number(r.score) : null,
+        scaled_score: r.scaled_score != null ? Number(r.scaled_score) : null,
+        attempted_at: r.attempted_at,
+      }));
+      return res.json({ activity });
+    } catch (error) {
+      console.error('Failed to load instructor activity:', error);
+      return res
+        .status(500)
+        .json({ error: 'Unable to load instructor activity' });
     }
   }
 );

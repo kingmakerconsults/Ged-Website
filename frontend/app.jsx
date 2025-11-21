@@ -33780,141 +33780,313 @@ function AdminDashboard({ user, token, onNavigate }) {
 
 // Super Admin Dashboard - Full platform visibility
 function SuperAdminDashboard({ user, token }) {
-  const [selectedOrg, setSelectedOrg] = useState(null);
-  const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [adminData, setAdminData] = useState(null);
+  const [orgLoading, setOrgLoading] = useState(true);
+  const [usersLoading, setUsersLoading] = useState(true);
+  const [activityLoading, setActivityLoading] = useState(true);
+  const [organizations, setOrganizations] = useState([]); // enriched org list
+  const [allUsers, setAllUsers] = useState([]);
+  const [recentActivity, setRecentActivity] = useState([]);
+  const [roleFilter, setRoleFilter] = useState('');
+  const [orgFilter, setOrgFilter] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     loadOrganizations();
+    loadAllUsers();
+    loadRecentActivity();
   }, []);
 
-  useEffect(() => {
-    if (selectedOrg) {
-      loadOrgData();
-    }
-  }, [selectedOrg]);
+  const authHeaders = () => {
+    const authToken = token || window.localStorage?.getItem('appToken');
+    if (!authToken) return null;
+    return {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${authToken}`,
+    };
+  };
 
   const loadOrganizations = async () => {
     try {
-      const authToken = token || window.localStorage?.getItem('appToken');
-      if (!authToken) return;
-
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`,
-      };
-
-      const orgs = await fetchJSON(`${API_BASE_URL}/api/admin/organizations`, {
+      setOrgLoading(true);
+      const headers = authHeaders();
+      if (!headers) return;
+      const resp = await fetchJSON(`${API_BASE_URL}/api/admin/organizations`, {
         headers,
       });
-      setOrganizations(orgs || []);
-      if (orgs && orgs.length > 0) {
-        setSelectedOrg(orgs[0].id);
-      }
-    } catch (error) {
-      console.error('Failed to load organizations:', error);
-    }
-  };
-
-  const loadOrgData = async () => {
-    try {
-      setLoading(true);
-      const authToken = token || window.localStorage?.getItem('appToken');
-      if (!authToken) return;
-
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authToken}`,
-      };
-
-      const [readiness, activity, gedResults] = await Promise.all([
-        fetchJSON(
-          `${API_BASE_URL}/api/admin/reports/readiness?orgId=${selectedOrg}`,
-          { headers }
-        ),
-        fetchJSON(
-          `${API_BASE_URL}/api/admin/reports/activity?orgId=${selectedOrg}`,
-          { headers }
-        ),
-        fetchJSON(
-          `${API_BASE_URL}/api/admin/reports/ged-results?orgId=${selectedOrg}`,
-          { headers }
-        ),
-      ]);
-
-      const studentStats = {
-        activeCount: activity?.last30Days?.activeStudents || 0,
-        studyTimeHours: Math.round(
-          (activity?.last30Days?.totalMinutes || 0) / 60
-        ),
-        testReadyCount: readiness?.overall?.ready || 0,
-        passedCount: gedResults?.last3Months?.passed || 0,
-        totalTests: gedResults?.last3Months?.total || 0,
-      };
-
-      const subjectStats = {};
-      const subjectNames = {
-        rla: 'RLA',
-        math: 'Math',
-        science: 'Science',
-        social: 'Social Studies',
-      };
-
-      if (readiness?.subjects) {
-        Object.keys(readiness.subjects).forEach((key) => {
-          const subject = readiness.subjects[key];
-          const displayName = subjectNames[key] || key;
-          subjectStats[displayName] = {
-            ready: subject.ready || 0,
-            almost: subject.almostReady || 0,
-            needStudy: subject.needMoreStudy || 0,
-            avg: Math.round(subject.averageScore || 0),
-          };
-        });
-      }
-
-      setAdminData({ studentStats, subjectStats });
-    } catch (error) {
-      console.error('Failed to load org data:', error);
+      // Endpoint returns { organizations }
+      setOrganizations(resp?.organizations || []);
+    } catch (e) {
+      console.error('Super admin org load failed:', e);
     } finally {
-      setLoading(false);
+      setOrgLoading(false);
     }
   };
+
+  const loadAllUsers = async () => {
+    try {
+      setUsersLoading(true);
+      const headers = authHeaders();
+      if (!headers) return;
+      const resp = await fetchJSON(`${API_BASE_URL}/api/admin/users`, {
+        headers,
+      });
+      setAllUsers(resp?.users || []);
+    } catch (e) {
+      console.error('Super admin user load failed:', e);
+    } finally {
+      setUsersLoading(false);
+    }
+  };
+
+  const loadRecentActivity = async () => {
+    try {
+      setActivityLoading(true);
+      const headers = authHeaders();
+      if (!headers) return;
+      const resp = await fetchJSON(
+        `${API_BASE_URL}/api/admin/activity/recent?limit=50`,
+        { headers }
+      );
+      setRecentActivity(resp?.activity || []);
+    } catch (e) {
+      console.error('Super admin recent activity failed:', e);
+    } finally {
+      setActivityLoading(false);
+    }
+  };
+
+  const filteredUsers = allUsers.filter((u) => {
+    if (roleFilter && u.role !== roleFilter) return false;
+    if (orgFilter && String(u.organization_id || '') !== orgFilter)
+      return false;
+    if (searchTerm) {
+      const s = searchTerm.toLowerCase();
+      if (
+        !(
+          (u.name && u.name.toLowerCase().includes(s)) ||
+          (u.email && u.email.toLowerCase().includes(s))
+        )
+      ) {
+        return false;
+      }
+    }
+    return true;
+  });
+
+  const roleCounts = allUsers.reduce(
+    (acc, u) => {
+      acc.total++;
+      acc[u.role] = (acc[u.role] || 0) + 1;
+      return acc;
+    },
+    { total: 0 }
+  );
 
   return (
-    <div>
-      <div className="mb-6 p-4 bg-white dark:bg-slate-800 rounded-lg shadow">
-        <label
-          className="block text-sm font-medium mb-2"
-          style={{ color: 'var(--text-primary)' }}
-        >
-          Select Organization
-        </label>
-        <select
-          value={selectedOrg || ''}
-          onChange={(e) => setSelectedOrg(Number(e.target.value))}
-          className="w-full px-4 py-2 rounded-lg border dark:bg-slate-700 dark:border-slate-600"
-        >
-          {organizations.map((org) => (
-            <option key={org.id} value={org.id}>
-              {org.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      {loading ? (
-        <div className="flex items-center justify-center min-h-96">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+    <div className="space-y-8">
+      {/* Summary Cards */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="p-4 rounded-lg bg-white dark:bg-slate-800 shadow">
+          <p className="text-xs text-slate-500">Total Users</p>
+          <p className="text-2xl font-semibold">{roleCounts.total}</p>
         </div>
-      ) : (
-        <ModernAdminDashboard
-          user={user}
-          token={token}
-          studentStats={adminData?.studentStats}
-          subjectStats={adminData?.subjectStats}
-        />
-      )}
+        {['student', 'instructor', 'org_admin', 'super_admin'].map((r) => (
+          <div
+            key={r}
+            className="p-4 rounded-lg bg-white dark:bg-slate-800 shadow"
+          >
+            <p className="text-xs text-slate-500 capitalize">
+              {r.replace('_', ' ')}
+            </p>
+            <p className="text-xl font-medium">{roleCounts[r] || 0}</p>
+          </div>
+        ))}
+        <div className="p-4 rounded-lg bg-white dark:bg-slate-800 shadow col-span-full lg:col-span-2">
+          <p className="text-xs text-slate-500 mb-1">Organizations</p>
+          {orgLoading ? (
+            <p className="text-sm text-slate-400">Loading organizations…</p>
+          ) : (
+            <p className="text-xl font-medium">{organizations.length}</p>
+          )}
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-3 items-end">
+        <div>
+          <label className="block text-xs font-medium mb-1">Search</label>
+          <input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="px-3 py-2 rounded border dark:bg-slate-700 dark:border-slate-600"
+            placeholder="Name or email"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-medium mb-1">Role</label>
+          <select
+            value={roleFilter}
+            onChange={(e) => setRoleFilter(e.target.value)}
+            className="px-3 py-2 rounded border dark:bg-slate-700 dark:border-slate-600"
+          >
+            <option value="">All</option>
+            <option value="student">Student</option>
+            <option value="instructor">Instructor</option>
+            <option value="org_admin">Org Admin</option>
+            <option value="super_admin">Super Admin</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-xs font-medium mb-1">Organization</label>
+          <select
+            value={orgFilter}
+            onChange={(e) => setOrgFilter(e.target.value)}
+            className="px-3 py-2 rounded border dark:bg-slate-700 dark:border-slate-600"
+          >
+            <option value="">All</option>
+            {organizations.map((o) => (
+              <option key={o.id} value={String(o.id)}>
+                {o.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button
+          onClick={() => {
+            setSearchTerm('');
+            setRoleFilter('');
+            setOrgFilter('');
+          }}
+          className="px-3 py-2 rounded bg-slate-200 dark:bg-slate-700 text-sm"
+        >
+          Reset
+        </button>
+      </div>
+
+      {/* Users Table */}
+      <div className="rounded-lg bg-white dark:bg-slate-800 shadow overflow-auto">
+        <table className="min-w-full text-sm">
+          <thead>
+            <tr className="text-left border-b border-slate-200 dark:border-slate-700">
+              <th className="py-2 px-3">Name</th>
+              <th className="py-2 px-3">Email</th>
+              <th className="py-2 px-3">Role</th>
+              <th className="py-2 px-3">Organization</th>
+              <th className="py-2 px-3">Attempts</th>
+              <th className="py-2 px-3">Avg Scaled</th>
+              <th className="py-2 px-3">Last Activity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {usersLoading ? (
+              <tr>
+                <td colSpan={7} className="py-6 text-center text-slate-500">
+                  Loading users…
+                </td>
+              </tr>
+            ) : filteredUsers.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="py-6 text-center text-slate-500">
+                  No matching users
+                </td>
+              </tr>
+            ) : (
+              filteredUsers.map((u) => (
+                <tr
+                  key={u.id}
+                  className="border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/40"
+                >
+                  <td className="py-2 px-3">{u.name}</td>
+                  <td className="py-2 px-3 text-slate-600 dark:text-slate-300">
+                    {u.email}
+                  </td>
+                  <td className="py-2 px-3">
+                    <AdminRoleBadge role={u.role} />
+                  </td>
+                  <td className="py-2 px-3">{u.organization_name || '—'}</td>
+                  <td className="py-2 px-3">{u.quiz_attempt_count}</td>
+                  <td className="py-2 px-3">
+                    {u.average_scaled_score != null
+                      ? Math.round(u.average_scaled_score)
+                      : '—'}
+                  </td>
+                  <td className="py-2 px-3 text-xs text-slate-500">
+                    {u.last_quiz_attempt_at
+                      ? new Date(u.last_quiz_attempt_at).toLocaleString()
+                      : '—'}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Organizations Overview */}
+      <div className="rounded-lg bg-white dark:bg-slate-800 shadow p-4">
+        <h2 className="text-lg font-semibold mb-3">Organizations</h2>
+        {orgLoading ? (
+          <p className="text-sm text-slate-500">Loading…</p>
+        ) : organizations.length === 0 ? (
+          <p className="text-sm text-slate-500">No organizations</p>
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {organizations.map((o) => (
+              <div
+                key={o.id}
+                className="rounded border border-slate-200 dark:border-slate-700 p-3 text-sm"
+              >
+                <p className="font-medium mb-1">{o.name}</p>
+                <p className="text-xs text-slate-500 mb-1">
+                  Users: {o.userCount} | Students: {o.studentCount} |
+                  Instructors: {o.instructorCount}
+                </p>
+                <p className="text-xs text-slate-500">
+                  Last Activity:{' '}
+                  {o.lastActivityAt
+                    ? new Date(o.lastActivityAt).toLocaleDateString()
+                    : '—'}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Recent Activity */}
+      <div className="rounded-lg bg-white dark:bg-slate-800 shadow p-4">
+        <h2 className="text-lg font-semibold mb-3">Recent Activity</h2>
+        {activityLoading ? (
+          <p className="text-sm text-slate-500">Loading activity…</p>
+        ) : recentActivity.length === 0 ? (
+          <p className="text-sm text-slate-500">No recent attempts</p>
+        ) : (
+          <ul className="space-y-2 text-sm">
+            {recentActivity.map((a) => (
+              <li
+                key={a.id}
+                className="border border-slate-200 dark:border-slate-700 rounded p-2 flex flex-wrap gap-2"
+              >
+                <span className="font-medium">{a.user_name}</span>
+                <span className="text-xs text-slate-500">{a.user_email}</span>
+                <span className="text-xs">{a.organization_name || '—'}</span>
+                <span className="text-xs">{a.subject}</span>
+                <span className="text-xs italic">
+                  {a.quiz_title || a.quiz_type || 'Attempt'}
+                </span>
+                <span className="text-xs">
+                  Score: {a.score != null ? a.score : '—'} /{' '}
+                  {a.scaled_score != null ? a.scaled_score : '—'}
+                </span>
+                <span className="text-xs text-slate-500">
+                  {new Date(a.attempted_at).toLocaleString()}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
@@ -50857,3 +51029,4 @@ if (
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 root.render(<RootApp />);
+d;
