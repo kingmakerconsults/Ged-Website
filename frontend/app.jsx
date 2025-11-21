@@ -28466,8 +28466,8 @@ function App({ externalTheme, onThemeChange }) {
   // ========================================
   // ROLE HIERARCHY HELPERS
   // ========================================
-  const isSuperAdmin = (u) => u?.role === 'super_admin';
-  const isOrgAdmin = (u) => u?.role === 'org_admin';
+  const isSuperAdmin = (u) => u?.role === 'superAdmin';
+  const isOrgAdmin = (u) => u?.role === 'orgAdmin';
   const isInstructor = (u) => u?.role === 'instructor' || u?.role === 'teacher';
   const isStudentUser = (u) =>
     !isSuperAdmin(u) && !isOrgAdmin(u) && !isInstructor(u);
@@ -30291,8 +30291,8 @@ function App({ externalTheme, onThemeChange }) {
         setCurrentUser(profile);
         setAuthToken(storedToken);
         const isStudent =
-          profile.role !== 'super_admin' &&
-          profile.role !== 'org_admin' &&
+          profile.role !== 'superAdmin' &&
+          profile.role !== 'orgAdmin' &&
           profile.role !== 'instructor';
         if (isStudent) {
           // Check if user needs to join an organization
@@ -30348,8 +30348,8 @@ function App({ externalTheme, onThemeChange }) {
 
     setAuthToken(token);
     const isAdminUser =
-      profile.role === 'super_admin' ||
-      profile.role === 'org_admin' ||
+      profile.role === 'superAdmin' ||
+      profile.role === 'orgAdmin' ||
       profile.role === 'instructor';
 
     if (welcomeTimeoutRef.current) {
@@ -30517,8 +30517,8 @@ function App({ externalTheme, onThemeChange }) {
 
       // Now check if we need to show name prompt
       const isStudent =
-        profile.role !== 'super_admin' &&
-        profile.role !== 'org_admin' &&
+        profile.role !== 'superAdmin' &&
+        profile.role !== 'orgAdmin' &&
         profile.role !== 'instructor';
       if (isStudent) {
         const customNameSet = localStorage.getItem(
@@ -31110,7 +31110,7 @@ function App({ externalTheme, onThemeChange }) {
       return <AuthScreen onLogin={handleLogin} />;
     }
     // Use Enhanced Admin Shell for all admin roles
-    const adminRoles = ['super_admin', 'org_admin', 'instructor', 'teacher'];
+    const adminRoles = ['superAdmin', 'orgAdmin', 'instructor', 'teacher'];
     if (adminRoles.includes(currentUser.role)) {
       return (
         <EnhancedAdminShell
@@ -32898,17 +32898,17 @@ function AuthScreen({ onLogin }) {
 
 function AdminRoleBadge({ role }) {
   const label =
-    role === 'super_admin'
+    role === 'superAdmin'
       ? 'Super Admin'
-      : role === 'org_admin'
+      : role === 'orgAdmin'
       ? 'Organization Admin'
       : role === 'instructor'
       ? 'Instructor'
       : 'Student';
   const palette =
-    role === 'super_admin'
+    role === 'superAdmin'
       ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-200'
-      : role === 'org_admin'
+      : role === 'orgAdmin'
       ? 'bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-200'
       : role === 'instructor'
       ? 'bg-teal-100 text-teal-700 dark:bg-teal-500/20 dark:text-teal-200'
@@ -34153,11 +34153,14 @@ function EnhancedAdminShell({ user, token, onLogout }) {
   const [loading, setLoading] = useState(true);
   // adminView can be: 'dashboard', 'classes', 'students', 'reports'
 
-  const isAdmin =
-    user?.role === 'super_admin' ||
-    user?.role === 'org_admin' ||
-    user?.role === 'instructor' ||
-    user?.role === 'teacher';
+  // --- Role helpers ---
+  const role = user?.role;
+  const isSuperAdmin = role === 'superAdmin';
+  const isOrgAdmin = role === 'orgAdmin';
+  const isInstructor = role === 'instructor' || role === 'teacher';
+  const isStudent = !isSuperAdmin && !isOrgAdmin && !isInstructor;
+
+  const isAdmin = isSuperAdmin || isOrgAdmin || isInstructor;
 
   // Load admin dashboard data
   useEffect(() => {
@@ -34256,13 +34259,13 @@ function EnhancedAdminShell({ user, token, onLogout }) {
   const renderAdminContent = () => {
     if (adminView === 'dashboard') {
       // Route to role-specific dashboard based on privilege hierarchy
-      if (isSuperAdmin(user)) {
+      if (isSuperAdmin) {
         return <SuperAdminDashboard user={user} token={token} />;
       }
-      if (isOrgAdmin(user)) {
+      if (isOrgAdmin) {
         return <OrgAdminDashboard user={user} token={token} />;
       }
-      if (isInstructor(user)) {
+      if (isInstructor) {
         return <InstructorDashboard user={user} token={token} />;
       }
 
