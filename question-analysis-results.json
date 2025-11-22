@@ -1,0 +1,4210 @@
+[
+  {
+    "line": 308,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ": `https://ui-avatars.com/api/?background=0ea5e9&color=fff&name=${encodeURIComponent("
+  },
+  {
+    "line": 480,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "payload?.error || `Request failed with status ${response.status}`;"
+  },
+  {
+    "line": 529,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "renderedParts.push(`<span class=\"math-inline\">${pretty}</span>`);"
+  },
+  {
+    "line": 555,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const pureNumber = /^\\d+(?:\\.\\d{1,2})?$/; // 16 or 12.50"
+  },
+  {
+    "line": 586,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "parts.push(`<span class=\"math-inline\">${escaped}</span>`);"
+  },
+  {
+    "line": 590,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "// Also handle the rare case where the content itself starts with $digits ... within other delimiter"
+  },
+  {
+    "line": 593,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "parts.push(`<span class=\"math-inline\">${escaped}</span>`);"
+  },
+  {
+    "line": 615,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "parts.push(`<span class=\"math-inline\">${safe}</span>`);"
+  },
+  {
+    "line": 675,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "typeof itemIndex !== 'undefined' ? ` for item ${itemIndex}` : '';"
+  },
+  {
+    "line": 2224,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "sci_chem_equations_balancing"
+  },
+  {
+    "line": 2421,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "sci_chem_equations_balancing"
+  },
+  {
+    "line": 5412,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: 'A gain of \\\\$1.25',"
+  },
+  {
+    "line": 5415,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'The net change is $-1.25 + 2.50 = 1.25$, so the stock gained \\\\$1.25.',"
+  },
+  {
+    "line": 5418,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: 'A loss of \\\\$1.25',"
+  },
+  {
+    "line": 5424,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: 'A gain of \\\\$3.75',"
+  },
+  {
+    "line": 5430,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: 'A loss of \\\\$3.75',"
+  },
+  {
+    "line": 5433,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'Both days were not losses, so the total change cannot be negative \\\\$3.75.',"
+  },
+  {
+    "line": 5474,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '\\\\$15.44',"
+  },
+  {
+    "line": 5476,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "rationale: '\\\\$50.00 - \\\\$34.56 = \\\\$15.44.',"
+  },
+  {
+    "line": 5479,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '\\\\$16.44',"
+  },
+  {
+    "line": 5485,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '\\\\$15.54',"
+  },
+  {
+    "line": 5490,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '\\\\$25.44',"
+  },
+  {
+    "line": 5493,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'This would be the change if the bill were \\\\$24.56.',"
+  },
+  {
+    "line": 5683,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '\\\\$4,840',"
+  },
+  {
+    "line": 5689,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '\\\\$6,500',"
+  },
+  {
+    "line": 5692,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'The difference is \\\\$5,670 - (-\\\\$830) = \\\\$5,670 + \\\\$830 = \\\\$6,500.',"
+  },
+  {
+    "line": 5695,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '\\\\$5,500',"
+  },
+  {
+    "line": 5701,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '-\\\\$830',"
+  },
+  {
+    "line": 5988,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'A shirt that originally costs $40 is on sale for $25\\\\%$ off. What is the sale price of the shirt?'"
+  },
+  {
+    "line": 5991,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$10',"
+  },
+  {
+    "line": 5997,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$30',"
+  },
+  {
+    "line": 6000,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'The discount is $25\\\\%$ of $\\\\$40$, which is $0.25 \\\\times 40 = \\\\$10$. The sale price is $\\\\$40 - "
+  },
+  {
+    "line": 6003,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$50',"
+  },
+  {
+    "line": 6008,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$35',"
+  },
+  {
+    "line": 6080,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'A restaurant bill is $80. If you want to leave a $20\\\\%$ tip, how much should the tip be?',"
+  },
+  {
+    "line": 6083,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$8',"
+  },
+  {
+    "line": 6088,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$16',"
+  },
+  {
+    "line": 6094,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$20',"
+  },
+  {
+    "line": 6099,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$96',"
+  },
+  {
+    "line": 6151,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'The increase is $\\\\$100$. The percent increase is (increase / original price) * 100 = (100 / 500) *"
+  },
+  {
+    "line": 6230,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'If sales tax is $7\\\\%$, how much tax would you pay on a $150 purchase?',"
+  },
+  {
+    "line": 6233,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$7.00',"
+  },
+  {
+    "line": 6238,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$10.50',"
+  },
+  {
+    "line": 6244,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$15.00',"
+  },
+  {
+    "line": 6249,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$1.05',"
+  },
+  {
+    "line": 6288,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'A store buys a TV for $200 and marks it up by $60\\\\%$ to sell. What is the selling price?',"
+  },
+  {
+    "line": 6291,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$260',"
+  },
+  {
+    "line": 6296,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$320',"
+  },
+  {
+    "line": 6299,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'The markup is $60\\\\%$ of $\\\\$200$, which is $0.60 \\\\times 200 = \\\\$120$. The selling price is $\\\\$2"
+  },
+  {
+    "line": 6302,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$280',"
+  },
+  {
+    "line": 6307,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$120',"
+  },
+  {
+    "line": 6493,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'A pair of jeans originally priced at $75 is on sale for 40% off. What is the sale price?',"
+  },
+  {
+    "line": 6496,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$30',"
+  },
+  {
+    "line": 6502,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$45',"
+  },
+  {
+    "line": 6505,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'The discount is $40\\\\%$ of $\\\\$75$, which is $0.40 \\\\times 75 = \\\\$30$. The sale price is the origi"
+  },
+  {
+    "line": 6508,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$105',"
+  },
+  {
+    "line": 6514,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$55',"
+  },
+  {
+    "line": 6786,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "math_quant_stats_probability"
+  },
+  {
+    "line": 7048,
+    "type": "DUPLICATE_QUESTION_NUMBER",
+    "description": "Topic \"math_quant_stats_probability\" has duplicate questionNumber: 15",
+    "severity": "HIGH"
+  },
+  {
+    "line": 7079,
+    "type": "DUPLICATE_QUESTION_NUMBER",
+    "description": "Topic \"math_quant_stats_probability\" has duplicate questionNumber: 16",
+    "severity": "HIGH"
+  },
+  {
+    "line": 7108,
+    "type": "DUPLICATE_QUESTION_NUMBER",
+    "description": "Topic \"math_quant_stats_probability\" has duplicate questionNumber: 17",
+    "severity": "HIGH"
+  },
+  {
+    "line": 7139,
+    "type": "DUPLICATE_QUESTION_NUMBER",
+    "description": "Topic \"math_quant_stats_probability\" has duplicate questionNumber: 15",
+    "severity": "HIGH"
+  },
+  {
+    "line": 7170,
+    "type": "DUPLICATE_QUESTION_NUMBER",
+    "description": "Topic \"math_quant_stats_probability\" has duplicate questionNumber: 16",
+    "severity": "HIGH"
+  },
+  {
+    "line": 7199,
+    "type": "DUPLICATE_QUESTION_NUMBER",
+    "description": "Topic \"math_quant_stats_probability\" has duplicate questionNumber: 17",
+    "severity": "HIGH"
+  },
+  {
+    "line": 7277,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Simplify the expression: $3x + 2y - x + 5y$"
+  },
+  {
+    "line": 7394,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Simplify: $(x^2 + 4x + 5) - (x^2 - 2x - 1)$"
+  },
+  {
+    "line": 7506,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Factor the expression: $x^2 + 7x + 12$"
+  },
+  {
+    "line": 7534,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Simplify: $5(x - 2y) - 3(x + y)$"
+  },
+  {
+    "line": 7648,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Expand the expression: $(2x - 1)^2$"
+  },
+  {
+    "line": 7677,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Simplify the expression: $(8x^6) / (2x^3)$"
+  },
+  {
+    "line": 7716,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Solve for x: $3x + 7 = 19$"
+  },
+  {
+    "line": 7775,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Solve for y: $5y - 8 = 2y + 7$"
+  },
+  {
+    "line": 7832,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Solve for x: $x/4 + 2 = 5$"
+  },
+  {
+    "line": 7860,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Solve the inequality: $-3x + 4 \\\\le 16$"
+  },
+  {
+    "line": 7977,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Solve for x: $2(x + 3) = 14$"
+  },
+  {
+    "line": 8093,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "description": "Question/passage text may be incomplete or truncated",
+    "severity": "MEDIUM",
+    "preview": "Solve for x: $3(x - 4) = 2(x + 1)$"
+  },
+  {
+    "line": 8522,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$70',"
+  },
+  {
+    "line": 8527,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$110',"
+  },
+  {
+    "line": 8529,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "rationale: '$C(3) = 20(3) + 50 = 60 + 50 = \\\\$110$.',"
+  },
+  {
+    "line": 8532,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$60',"
+  },
+  {
+    "line": 8537,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$50',"
+  },
+  {
+    "line": 10037,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Code</th><td>A1</td><td>A2</td><td>B1</td><td>B2</td></"
+  },
+  {
+    "line": 10071,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Hours</th><td>1</td><td>2</td><td>3</td><td>2</td></tr>"
+  },
+  {
+    "line": 10106,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Zone</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5<"
+  },
+  {
+    "line": 10114,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'Each zone (input) maps to exactly one fare (output). The fact that zones 2 and 3 both cost $15 does"
+  },
+  {
+    "line": 10141,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Age</th><td>8</td><td>12</td><td>18</td><td>65</td></tr"
+  },
+  {
+    "line": 10175,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Months</th><td>1</td><td>6</td><td>12</td><td>6</td></t"
+  },
+  {
+    "line": 10183,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'The 6-month commitment appears twice, but both times it maps to $40/month. Consistent repeated inpu"
+  },
+  {
+    "line": 10210,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Weight (lbs)</th><td>5</td><td>10</td><td>15</td><td>10"
+  },
+  {
+    "line": 10245,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Section</th><td>A</td><td>B</td><td>C</td><td>D</td></t"
+  },
+  {
+    "line": 10279,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Subject</th><td>Math</td><td>Science</td><td>English</t"
+  },
+  {
+    "line": 10313,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Vehicle</th><td>Sedan</td><td>SUV</td><td>Truck</td><td"
+  },
+  {
+    "line": 10347,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>GB Used</th><td>2</td><td>5</td><td>10</td><td>15</td><"
+  },
+  {
+    "line": 10416,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Dozens</th><td>1</td><td>2</td><td>3</td><td>2</td></tr"
+  },
+  {
+    "line": 10451,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Age</th><td>5</td><td>12</td><td>18</td><td>25</td><td>"
+  },
+  {
+    "line": 10462,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: 'No, because 18 and 25 both cost $45',"
+  },
+  {
+    "line": 10485,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Size</th><td>Small</td><td>Medium</td><td>Large</td><td"
+  },
+  {
+    "line": 10520,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<table class=\"function-table\"><tbody><tr><th>Tier</th><td>Basic</td><td>Standard</td><td>Premium</td"
+  },
+  {
+    "line": 11723,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "ss_us_hist_westward_expansion_quiz1"
+  },
+  {
+    "line": 11902,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "ss_us_hist_westward_expansion_quiz3"
+  },
+  {
+    "line": 13095,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "ss_us_hist_industrial_america_quiz1"
+  },
+  {
+    "line": 13243,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "ss_us_hist_industrial_america_quiz2"
+  },
+  {
+    "line": 13339,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "ss_us_hist_industrial_america_quiz3"
+  },
+  {
+    "line": 13378,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "ss_us_hist_industrial_america_quiz3"
+  },
+  {
+    "line": 13397,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "ss_us_hist_industrial_america_quiz3"
+  },
+  {
+    "line": 13798,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'The Marshall Plan, officially the European Recovery Program, was a U.S. initiative to aid Western E"
+  },
+  {
+    "line": 13957,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 1 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "ss_us_hist_cold_war_quiz2"
+  },
+  {
+    "line": 14105,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "ss_us_hist_cold_war_quiz3"
+  },
+  {
+    "line": 17326,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "'Imagine you have $20. You can either buy a new video game or go to the movies with a friend. You ca"
+  },
+  {
+    "line": 17331,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: 'The $20 you spent.',"
+  },
+  {
+    "line": 18504,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "passage: `<div class=\"passage-text\"><b>Company Profits (in millions)</b><br><img src=\"Images/Social "
+  },
+  {
+    "line": 18537,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "passage: `<div class=\"passage-text\"><b>Company Profits (in millions)</b><br><img src=\"Images/Social "
+  },
+  {
+    "line": 18542,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$2.5 million',"
+  },
+  {
+    "line": 18547,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$5.3 million',"
+  },
+  {
+    "line": 18552,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$9.6 million',"
+  },
+  {
+    "line": 18558,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$1.92 million',"
+  },
+  {
+    "line": 18724,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "passage: `<div class=\"passage-text\"><b>Household Budget (Total: $3,000/month)</b><br><img src=\"Image"
+  },
+  {
+    "line": 18729,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$700',"
+  },
+  {
+    "line": 18734,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$1,050',"
+  },
+  {
+    "line": 18740,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$600',"
+  },
+  {
+    "line": 18746,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "text: '$300',"
+  },
+  {
+    "line": 19217,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 1 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_informational_texts_structure_purpose_quiz3"
+  },
+  {
+    "line": 19296,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 1 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_informational_texts_structure_purpose_quiz3"
+  },
+  {
+    "line": 19331,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_informational_texts_structure_purpose_quiz3"
+  },
+  {
+    "line": 19363,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_informational_texts_structure_purpose_quiz3"
+  },
+  {
+    "line": 19423,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 1 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_informational_texts_structure_purpose_quiz3"
+  },
+  {
+    "line": 19541,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_info_pov"
+  },
+  {
+    "line": 19844,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_info_arguments"
+  },
+  {
+    "line": 20219,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_info_graphics"
+  },
+  {
+    "line": 20232,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_info_graphics"
+  },
+  {
+    "line": 20270,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_info_graphics"
+  },
+  {
+    "line": 20282,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_info_graphics"
+  },
+  {
+    "line": 20296,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_info_graphics"
+  },
+  {
+    "line": 20331,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_info_graphics"
+  },
+  {
+    "line": 20350,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_info_graphics"
+  },
+  {
+    "line": 20368,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_info_graphics"
+  },
+  {
+    "line": 20455,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "\"Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and "
+  },
+  {
+    "line": 20486,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 1 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_lit_plot_character_quiz3"
+  },
+  {
+    "line": 20605,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_lit_plot_character_quiz3"
+  },
+  {
+    "line": 20621,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_lit_plot_character_quiz3"
+  },
+  {
+    "line": 20691,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_lit_plot_character_quiz3"
+  },
+  {
+    "line": 20719,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_lit_plot_character_quiz3"
+  },
+  {
+    "line": 20788,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_lit_theme_figurative_language_quiz3"
+  },
+  {
+    "line": 20816,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_lit_theme_figurative_language_quiz3"
+  },
+  {
+    "line": 20873,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_lit_theme_figurative_language_quiz3"
+  },
+  {
+    "line": 20977,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 1 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_lit_theme_figurative_language_quiz3"
+  },
+  {
+    "line": 21012,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "rla_lit_theme_figurative_language_quiz3"
+  },
+  {
+    "line": 21249,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "/\\b(quiz|set|version|form|variant|practice\\s*set|test)\\b\\s*([#:.-]?\\s*[a-z0-9ivxlcm]+)?\\s*$/.test("
+  },
+  {
+    "line": 21251,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ") || /\\b(v\\s*\\d+)\\s*$/.test(t)"
+  },
+  {
+    "line": 21283,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ".replace(/\\((?:\\s*(?:quiz|set|version|form|variant)[^)]*)\\)\\s*$/i, '')"
+  },
+  {
+    "line": 21293,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "/\\b(quiz|set|version|form|variant|practice\\s*set)\\b\\s*[#:.-]?\\s*[a-z0-9ivxlcm]+\\s*$/i,"
+  },
+  {
+    "line": 21321,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "variant.label = `Quiz ${String.fromCharCode(65 + (idx % 26))}`;"
+  },
+  {
+    "line": 21329,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const id = `canon__${sanitizeCodeSegment("
+  },
+  {
+    "line": 21435,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `High-Challenge #${idx - 2}`;"
+  },
+  {
+    "line": 21442,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `Challenge Set #${idx - 2}`;"
+  },
+  {
+    "line": 21595,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return fallbackTitle || `Core Practice Set ${bundleIndex + 1}`;"
+  },
+  {
+    "line": 21862,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 0 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "job_readiness"
+  },
+  {
+    "line": 21863,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{ id: 'A', text: `${qn}`, isCorrect: false },"
+  },
+  {
+    "line": 21864,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{ id: 'B', text: `${qn * 2}`, isCorrect: true },"
+  },
+  {
+    "line": 21865,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{ id: 'C', text: `${qn + 1}`, isCorrect: false },"
+  },
+  {
+    "line": 21866,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{ id: 'D', text: `${qn - 1}`, isCorrect: false },"
+  },
+  {
+    "line": 21869,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "rationale: `Adding ${qn} + ${qn} = ${qn * 2}.`,"
+  },
+  {
+    "line": 21878,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 2 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "D"
+  },
+  {
+    "line": 21902,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 1 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "D"
+  },
+  {
+    "line": 21922,
+    "type": "TOO_FEW_OPTIONS",
+    "description": "Question has only 1 answer options (expected at least 3, typically 4)",
+    "severity": "HIGH",
+    "context": "D"
+  },
+  {
+    "line": 22026,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`cat-${categoryIndex + 1}`"
+  },
+  {
+    "line": 22038,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "topicSlugFromId || `topic-${topicIndex + 1}`"
+  },
+  {
+    "line": 22077,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "quizIdSegment || labelSegment || `set-${quizIndex + 1}`;"
+  },
+  {
+    "line": 22102,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const m = String(quiz.label).match(/([A-Z])$/);"
+  },
+  {
+    "line": 22141,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "/\\b(quiz|set|practice)\\b\\s*[#:.-]?\\s*[a-z0-9ivxlcm]+\\s*$/i,"
+  },
+  {
+    "line": 22149,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "/\\b(quiz|set)\\b\\s*[#:.-]?\\s*[a-z0-9ivxlcm]+\\s*$/i,"
+  },
+  {
+    "line": 22168,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "quizTitle = `${canonCat}: ${shortTopic} (Set ${setNum})`;"
+  },
+  {
+    "line": 22174,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`;"
+  },
+  {
+    "line": 22176,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `${fallback}`"
+  },
+  {
+    "line": 22201,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "baseSegment || topicSlug || `topic-${topicIndex + 1}`,"
+  },
+  {
+    "line": 22205,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const quizTitle = topic.title || `Topic ${topicIndex + 1}`;"
+  },
+  {
+    "line": 22226,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "quizIdSegment || labelSegment || `set-${quizIndex + 1}`;"
+  },
+  {
+    "line": 22233,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`"
+  },
+  {
+    "line": 22261,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "quizIdSegment || labelSegment || `set-${quizIndex + 1}`;"
+  },
+  {
+    "line": 22266,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`"
+  },
+  {
+    "line": 22454,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const groupLabel = group?.label || `Cluster ${gIdx + 1}`;"
+  },
+  {
+    "line": 22477,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "id: sanitizeCodeSegment(groupLabel, `cluster-${gIdx + 1}`),"
+  },
+  {
+    "line": 22493,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`cluster-extra-${idx + 1}`"
+  },
+  {
+    "line": 22516,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const id = sanitizeCodeSegment(categoryName, `cluster-${idx + 1}`);"
+  },
+  {
+    "line": 23180,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const storageKey = `quizBrowserExpanded:${sanitizeCodeSegment(subjectName)}`;"
+  },
+  {
+    "line": 23204,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const progressKey = `quizBrowserProgress:${sanitizeCodeSegment(subjectName)}`;"
+  },
+  {
+    "line": 23334,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `Practice key concepts in ${title || 'this section'}.`;"
+  },
+  {
+    "line": 23421,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`Quiz ${String.fromCharCode(65 + index)}`;"
+  },
+  {
+    "line": 23479,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "/\\b(quiz|set|practice)\\b\\s*[#:.-]?\\s*[a-z0-9ivxlcm]+\\s*$/i,"
+  },
+  {
+    "line": 23496,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const m = String(quiz.label || '').match(/([A-Z])$/);"
+  },
+  {
+    "line": 23502,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "derivedTitle = `${canonCat}: ${shortTopic} (Set ${setNum})`;"
+  },
+  {
+    "line": 23532,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${sanitizeCodeSegment("
+  },
+  {
+    "line": 23565,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "key={topic.id || `topic_${idx}`}"
+  },
+  {
+    "line": 23615,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const expKey = `topic-variants:${sanitizeCodeSegment("
+  },
+  {
+    "line": 23617,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ")}:${topic.id || sanitizeCodeSegment(topic.title || 'topic')}`;"
+  },
+  {
+    "line": 23662,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${sanitizeCodeSegment("
+  },
+  {
+    "line": 23665,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ")}__${sanitizeCodeSegment("
+  },
+  {
+    "line": 23709,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "/\\b(quiz|set)\\b\\s*[#:.-]?\\s*[a-z0-9ivxlcm]+\\s*$/i.test(raw);"
+  },
+  {
+    "line": 23766,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const id = `${baseId}_set_${stackedSet.setIndex}_quiz_${quizIndex + 1}`;"
+  },
+  {
+    "line": 23771,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "title: `${stackedSet.baseTitle}: Set ${stackedSet.setIndex} – Quiz ${"
+  },
+  {
+    "line": 23887,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "key={`stack_${set.baseTitle}_${set.setIndex}_${idx}`}"
+  },
+  {
+    "line": 23988,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`whitespace-nowrap px-3 py-1.5 rounded-full border text-sm font-semibold transition ${"
+  },
+  {
+    "line": 24056,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "aria-label={`Learn more about ${"
+  },
+  {
+    "line": 24120,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const infoKey = `info:${key}`;"
+  },
+  {
+    "line": 24146,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "aria-label={`Learn more about ${title}`}"
+  },
+  {
+    "line": 24332,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${sanitizeCodeSegment("
+  },
+  {
+    "line": 24335,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ")}__${sanitizeCodeSegment(baseTitle)}`,"
+  },
+  {
+    "line": 24399,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-1.5 rounded-md border text-sm font-semibold ${"
+  },
+  {
+    "line": 24935,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `${organizationName} Learning Canvas`"
+  },
+  {
+    "line": 25018,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border transition ${"
+  },
+  {
+    "line": 25032,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border transition ${"
+  },
+  {
+    "line": 25070,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const response = await fetch(`${API_BASE_URL}/api/organizations`);"
+  },
+  {
+    "line": 25113,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${API_BASE_URL}/api/student/select-organization`,"
+  },
+  {
+    "line": 25118,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${authToken}`,"
+  },
+  {
+    "line": 25528,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-4 py-2 rounded-md font-semibold ${"
+  },
+  {
+    "line": 25567,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 25869,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "await fetch(`${API_BASE_URL}/presence/ping`, {"
+  },
+  {
+    "line": 25901,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "navigator.sendBeacon(`${API_BASE_URL}/presence/ping`, blob);"
+  },
+  {
+    "line": 25930,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const data = await fetchJSON(`${API_BASE_URL}/api/vocabulary/all`);"
+  },
+  {
+    "line": 26121,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "root.classList.add(`fs-${preferences.fontSize}`);"
+  },
+  {
+    "line": 26192,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const bundle = await fetchJSON(`${API_BASE_URL}/api/profile`, {"
+  },
+  {
+    "line": 26196,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 26589,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "...(token ? { Authorization: `Bearer ${token}` } : {}),"
+  },
+  {
+    "line": 26652,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const perUserKey = `appUser:${updated.id}`;"
+  },
+  {
+    "line": 26665,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "window.localStorage.setItem(`customNameSet_${profileId}`, 'true');"
+  },
+  {
+    "line": 26702,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const bundle = await fetchJSON(`${API_BASE_URL}/api/profile/me`, {"
+  },
+  {
+    "line": 26703,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "headers: { Authorization: `Bearer ${token}` },"
+  },
+  {
+    "line": 26724,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "if (/^\\d{4}-\\d{2}-\\d{2}$/.test(s)) return s;"
+  },
+  {
+    "line": 26726,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const m = s.match(/^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})$/);"
+  },
+  {
+    "line": 26731,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `${yyyy}-${mm}-${dd}`;"
+  },
+  {
+    "line": 26809,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const perUserKey = `appUser:${updated.id}`;"
+  },
+  {
+    "line": 26910,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const resp = await fetchJSON(`${API_BASE_URL}/api/me/name`, {"
+  },
+  {
+    "line": 26914,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 26934,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const perUserKey = `appUser:${updatedProfile.id}`;"
+  },
+  {
+    "line": 27041,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const bundle = await fetchJSON(`${API_BASE_URL}/api/profile/test`, {"
+  },
+  {
+    "line": 27045,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 27152,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${API_BASE_URL}/api/profile/challenges/tags`,"
+  },
+  {
+    "line": 27157,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 27243,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${API_BASE_URL}/api/profile/complete-onboarding`,"
+  },
+  {
+    "line": 27248,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 27347,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const response = await fetch(`${API_BASE_URL}/api/quiz-attempts`, {"
+  },
+  {
+    "line": 27349,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 27355,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`Failed to fetch quiz attempts: ${response.status}`"
+  },
+  {
+    "line": 27430,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const response = await fetch(`${API_BASE_URL}/api/quiz-attempts`, {"
+  },
+  {
+    "line": 27434,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 27440,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "throw new Error(`Failed to save quiz attempt: ${response.status}`);"
+  },
+  {
+    "line": 27492,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const perUserKey = `appUser:${parsedGeneric.id}`;"
+  },
+  {
+    "line": 27528,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`customNameSet_${profile.id}`"
+  },
+  {
+    "line": 27563,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `appUser:${profile.id}`"
+  },
+  {
+    "line": 27564,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ": `appUser:${profile.email || 'anonymous'}`;"
+  },
+  {
+    "line": 27641,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`customNameSet_${profile.id}`"
+  },
+  {
+    "line": 27670,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const resp = await fetchJSON(`${API_BASE_URL}/api/me/name`, {"
+  },
+  {
+    "line": 27674,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 27696,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const perUserKey = `appUser:${updatedProfile.id}`;"
+  },
+  {
+    "line": 27699,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "localStorage.setItem(`customNameSet_${updatedProfile.id}`, 'true');"
+  },
+  {
+    "line": 27730,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const perUserKey = `appUser:${profile.id}`;"
+  },
+  {
+    "line": 27749,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`customNameSet_${profile.id}`"
+  },
+  {
+    "line": 27796,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "setLoadingMessage(`Generating your comprehensive ${subject} exam...`);"
+  },
+  {
+    "line": 27800,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const response = await fetch(`${API_BASE_URL}/generate-quiz`, {"
+  },
+  {
+    "line": 27813,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "err.error || `Request failed with status ${response.status}`"
+  },
+  {
+    "line": 28170,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ".replace(/^\\$+|\\$+$/g, '')"
+  },
+  {
+    "line": 28213,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "await fetch(`${API_BASE_URL}/api/challenges/ingest-responses`, {"
+  },
+  {
+    "line": 28217,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 28283,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "await fetch(`${API_BASE_URL}/api/quiz-attempts`, {"
+  },
+  {
+    "line": 28287,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 28608,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "id: `ai_${Date.now()}`,"
+  },
+  {
+    "line": 28620,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "alert(`Sorry, something went wrong. ${err.message}`);"
+  },
+  {
+    "line": 28645,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`fixed inset-0 z-[60] flex flex-col items-center justify-center text-white transition-opa"
+  },
+  {
+    "line": 28656,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Welcome{welcomeName ? `, ${welcomeName}!` : '!'}"
+  },
+  {
+    "line": 28737,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${API_BASE_URL}/api/practice-session`,"
+  },
+  {
+    "line": 28888,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `Next test: ${nextUpcoming.subject} on ${nextUpcoming.testDate}${"
+  },
+  {
+    "line": 28889,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "nextUpcomingDaysText ? ` (${nextUpcomingDaysText})` : ''"
+  },
+  {
+    "line": 29048,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`rounded-2xl border bg-white/95 dark:bg-slate-950/70 dark:border-slate-700 p-5 shadow-sm "
+  },
+  {
+    "line": 29132,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`rounded-2xl border bg-white/95 dark:bg-slate-950 dark:border-slate-700 p-5 shadow-sm spa"
+  },
+  {
+    "line": 29263,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ": `Save ${entry.subject}`}"
+  },
+  {
+    "line": 29328,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`rounded-2xl border bg-white/95 dark:bg-slate-900/85 dark:text-slate-100 p-5 shadow-sm sp"
+  },
+  {
+    "line": 29346,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{totalChallenges ? ` (${totalChallenges})` : ''}"
+  },
+  {
+    "line": 29355,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`${"
+  },
+  {
+    "line": 29383,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`ml-8 mt-2 flex items-start gap-2 text-sm rounded-md border px-2 py-1 transition ${"
+  },
+  {
+    "line": 29416,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{totalChallenges ? ` / ${totalChallenges}` : ''}"
+  },
+  {
+    "line": 29470,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `${Math.round(value)}%`;"
+  },
+  {
+    "line": 29474,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `${Math.round(value.score)}%`;"
+  },
+  {
+    "line": 29477,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `${Math.round(value.value)}%`;"
+  },
+  {
+    "line": 29492,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`Item ${index + 1}`;"
+  },
+  {
+    "line": 29625,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{row.latest != null ? `${row.latest}%` : '–'}"
+  },
+  {
+    "line": 29628,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{row.avg != null ? `${row.avg}%` : '–'}"
+  },
+  {
+    "line": 29662,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<tr key={`${row.subject}-${row.subtopic}-${index}`}>"
+  },
+  {
+    "line": 29668,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{row.latest != null ? `${row.latest}%` : '–'}"
+  },
+  {
+    "line": 29671,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{row.avg != null ? `${row.avg}%` : '–'}"
+  },
+  {
+    "line": 29803,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`option-pill ${"
+  },
+  {
+    "line": 29839,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`option-pill ${"
+  },
+  {
+    "line": 29841,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "}flex items-center gap-3 rounded-lg border px-3 py-2 transition ${"
+  },
+  {
+    "line": 29921,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const res = await fetch(`${API_BASE_URL}/api/auth/google`, {"
+  },
+  {
+    "line": 29932,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "throw new Error(text || `Server responded with ${res.status}`);"
+  },
+  {
+    "line": 30147,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${palette}`}"
+  },
+  {
+    "line": 30350,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "width: `${percentage}%`,"
+  },
+  {
+    "line": 30731,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${authToken}`,"
+  },
+  {
+    "line": 30735,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "fetchJSON(`${API_BASE_URL}/api/admin/reports/readiness`, { headers }),"
+  },
+  {
+    "line": 30736,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "fetchJSON(`${API_BASE_URL}/api/admin/reports/activity`, { headers }),"
+  },
+  {
+    "line": 30737,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "fetchJSON(`${API_BASE_URL}/api/admin/reports/ged-results`, { headers }),"
+  },
+  {
+    "line": 30902,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "width: `${"
+  },
+  {
+    "line": 30921,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "width: `${"
+  },
+  {
+    "line": 30940,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "width: `${"
+  },
+  {
+    "line": 31034,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${authToken}`,"
+  },
+  {
+    "line": 31043,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const resp = await fetchJSON(`${API_BASE_URL}/api/admin/organizations`, {"
+  },
+  {
+    "line": 31060,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const resp = await fetchJSON(`${API_BASE_URL}/api/admin/users`, {"
+  },
+  {
+    "line": 31077,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${API_BASE_URL}/api/admin/activity/recent?limit=50`,"
+  },
+  {
+    "line": 31340,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${authToken}`,"
+  },
+  {
+    "line": 31345,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "fetchJSON(`${API_BASE_URL}/api/admin/reports/readiness`, { headers }),"
+  },
+  {
+    "line": 31346,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "fetchJSON(`${API_BASE_URL}/api/admin/reports/activity`, { headers }),"
+  },
+  {
+    "line": 31347,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "fetchJSON(`${API_BASE_URL}/api/admin/reports/ged-results`, { headers }),"
+  },
+  {
+    "line": 31431,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${authToken}`,"
+  },
+  {
+    "line": 31456,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${authToken}`,"
+  },
+  {
+    "line": 31590,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${authToken}`,"
+  },
+  {
+    "line": 31594,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "fetchJSON(`${API_BASE_URL}/api/admin/reports/readiness`, { headers }),"
+  },
+  {
+    "line": 31595,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "fetchJSON(`${API_BASE_URL}/api/admin/reports/activity`, { headers }),"
+  },
+  {
+    "line": 31596,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "fetchJSON(`${API_BASE_URL}/api/admin/reports/ged-results`, { headers }),"
+  },
+  {
+    "line": 31715,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${"
+  },
+  {
+    "line": 31725,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${"
+  },
+  {
+    "line": 31735,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${"
+  },
+  {
+    "line": 31745,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${"
+  },
+  {
+    "line": 31855,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "width: `${Math.min(100, Math.max(0, completionPercentage))}%`,"
+  },
+  {
+    "line": 31905,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`ml-3 text-sm font-semibold ${"
+  },
+  {
+    "line": 31948,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`Exam ${index + 1}`}"
+  },
+  {
+    "line": 32072,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `${(Math.round(card.value * 10) / 10).toFixed(1)} / 6`;"
+  },
+  {
+    "line": 32074,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `${(Math.round(card.latest * 10) / 10).toFixed(1)} / 6`;"
+  },
+  {
+    "line": 32115,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `${lastTitle.slice(0, 49)}…`"
+  },
+  {
+    "line": 32134,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "id={subjectId ? `subject-card-${subjectId}` : undefined}"
+  },
+  {
+    "line": 32144,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "alt={`${subject} GED badge`}"
+  },
+  {
+    "line": 32175,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "width: `${Math.max(0, Math.min(100, completionPercent))}%`,"
+  },
+  {
+    "line": 32202,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{lastScore != null && ` (${Math.round(lastScore)})`}"
+  },
+  {
+    "line": 32290,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "key={`${item.subject}-${item.term}-${index}`}"
+  },
+  {
+    "line": 32294,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "title={`View ${item.subject} vocabulary`}"
+  },
+  {
+    "line": 32437,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const containerClasses = `animate-floatIn rounded-2xl p-6 mb-6 border transition-colors duration-300"
+  },
+  {
+    "line": 32454,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const cardClasses = `rounded-xl p-4 shadow-sm border transition-all ${"
+  },
+  {
+    "line": 32462,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "borderLeft: `4px solid ${accentColor}`,"
+  },
+  {
+    "line": 32559,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const containerClasses = `animate-floatIn rounded-2xl border transition-all duration-300 ${"
+  },
+  {
+    "line": 32573,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const headerClasses = `flex items-center justify-between p-4 cursor-pointer rounded-t-2xl transition"
+  },
+  {
+    "line": 32580,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "borderBottom: `2px solid ${lightTint}`,"
+  },
+  {
+    "line": 32588,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const buttonClasses = `px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-sm ${"
+  },
+  {
+    "line": 32597,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "boxShadow: `0 4px 14px -6px ${accentColor}`,"
+  },
+  {
+    "line": 32600,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const cardClasses = `rounded-lg p-3 border transition-all ${"
+  },
+  {
+    "line": 32608,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "borderLeft: `3px solid ${accentColor}`,"
+  },
+  {
+    "line": 32983,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const base = new Date(`${iso}T00:00:00`);"
+  },
+  {
+    "line": 33012,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "id: task.id || `${subjectId || 'task'}-${dayIndex}-${taskIndex}`,"
+  },
+  {
+    "line": 33045,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const label = day.label || `Day ${resolvedIndex + 1}`;"
+  },
+  {
+    "line": 33105,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "headers: { Authorization: `Bearer ${token}` },"
+  },
+  {
+    "line": 33153,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "headers: { Authorization: `Bearer ${token}` },"
+  },
+  {
+    "line": 33224,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 33273,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 33279,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "results.push(`${subj}: already generated`);"
+  },
+  {
+    "line": 33286,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "results.push(`${subj}: ok`);"
+  },
+  {
+    "line": 33288,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "results.push(`${subj}: error`);"
+  },
+  {
+    "line": 33500,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "setLoadingMessage(`Loading your practice quiz for ${subject}…`);"
+  },
+  {
+    "line": 33515,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 33522,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "throw new Error(`premade-composite HTTP ${res.status}`);"
+  },
+  {
+    "line": 33589,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "setLoadingMessage(`Loading your practice quiz for ${subject}…`);"
+  },
+  {
+    "line": 33732,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `${mm}/${dd}/${yyyy}`;"
+  },
+  {
+    "line": 33755,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "if (/^\\d{4}-\\d{2}-\\d{2}$/.test(s)) return parseYMD(s);"
+  },
+  {
+    "line": 33756,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const m = s.match(/^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})$/);"
+  },
+  {
+    "line": 33770,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ")}-${String(dt.getDate()).padStart(2, '0')}`"
+  },
+  {
+    "line": 33807,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `${days} days left`;"
+  },
+  {
+    "line": 33827,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const storageKey = `seenTestReminder:${todayKey}`;"
+  },
+  {
+    "line": 33926,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "throw new Error(`Failed to fetch vocabulary quiz: ${res.statusText}`);"
+  },
+  {
+    "line": 34066,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `${(Math.round(card.value * 10) / 10).toFixed(1)} / 6`;"
+  },
+  {
+    "line": 34124,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `Back to ${selectedSubject}`"
+  },
+  {
+    "line": 34129,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`mb-4 text-lg font-semibold flex items-center gap-2 ${"
+  },
+  {
+    "line": 34137,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`flex items-center gap-2 ${"
+  },
+  {
+    "line": 34202,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${"
+  },
+  {
+    "line": 34218,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${"
+  },
+  {
+    "line": 34225,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${"
+  },
+  {
+    "line": 34240,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ": `Set ${Object.keys(acc).length + 1}`;"
+  },
+  {
+    "line": 34290,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const title = `${selectedSubject} – ${selectedCategory} Set ${setNumber}`;"
+  },
+  {
+    "line": 34293,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const quizCode = [subjectSlug, categorySlug, `set-${setNumber}`].join("
+  },
+  {
+    "line": 34304,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "description: `${selectedCategory} practice – combined set of 3 quizzes`,"
+  },
+  {
+    "line": 34365,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{`${selectedSubject} – ${selectedCategory} Set ${idx + 1}`}"
+  },
+  {
+    "line": 34416,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;"
+  },
+  {
+    "line": 34420,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const quizIdBase = topic.id || `topic_${topicIndex}`;"
+  },
+  {
+    "line": 34486,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "key={topic.id || `topic_${topicIndex}`}"
+  },
+  {
+    "line": 34537,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const expKey = `topic-variants:${sanitizeCodeSegment("
+  },
+  {
+    "line": 34554,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${"
+  },
+  {
+    "line": 34555,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "topic.id || `topic_${topicIndex}`"
+  },
+  {
+    "line": 34556,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "}_quiz_${index}`"
+  },
+  {
+    "line": 34585,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "topic.title || `topic-${topicIndex + 1}`,"
+  },
+  {
+    "line": 34586,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`topic-${topicIndex + 1}`"
+  },
+  {
+    "line": 34701,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${"
+  },
+  {
+    "line": 34733,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${"
+  },
+  {
+    "line": 34740,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${panelBorderColor}`,"
+  },
+  {
+    "line": 34748,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${"
+  },
+  {
+    "line": 34755,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${"
+  },
+  {
+    "line": 34770,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ": `${subjectPremadeTotal} premade quizzes ready`;"
+  },
+  {
+    "line": 34884,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`coach-panel rounded-lg p-4 mt-4 shadow-md ${"
+  },
+  {
+    "line": 34967,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `Focus: ${task.focus.join(', ')}`"
+  },
+  {
+    "line": 34973,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `Start ${"
+  },
+  {
+    "line": 35052,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "key={`daily-fallback-${entry.subject}`}"
+  },
+  {
+    "line": 35237,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`coach-panel ${"
+  },
+  {
+    "line": 35239,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "} coach-subject-card subject-${subjectKey} rounded-lg p-4 flex flex-col justify-between shadow-md ho"
+  },
+  {
+    "line": 35308,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{focus ? `${focus} – ` : ''}"
+  },
+  {
+    "line": 35337,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${primaryBtnColor}`,"
+  },
+  {
+    "line": 35389,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${primaryBtnColor}`,"
+  },
+  {
+    "line": 35460,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${primaryBtnColor}`,"
+  },
+  {
+    "line": 35494,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${primaryBtnColor}`,"
+  },
+  {
+    "line": 35593,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`grid gap-4 ${"
+  },
+  {
+    "line": 35624,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<p className={`text-sm ${homePanelPrimaryTextClass}`}>"
+  },
+  {
+    "line": 35632,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`text-sm ${homePanelPrimaryTextClass}`}"
+  },
+  {
+    "line": 35648,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`text-sm ${homePanelPrimaryTextClass}`}"
+  },
+  {
+    "line": 35662,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<p className={`text-sm ${homePanelPrimaryTextClass}`}>"
+  },
+  {
+    "line": 35669,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<p className={`text-sm ${homePanelPrimaryTextClass}`}>"
+  },
+  {
+    "line": 35676,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<p className={`text-sm ${homePanelPrimaryTextClass}`}>"
+  },
+  {
+    "line": 35681,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`text-xs ${"
+  },
+  {
+    "line": 35709,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<p className={`text-sm ${homePanelPrimaryTextClass}`}>"
+  },
+  {
+    "line": 35720,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "key={`${item.subject}-${item.dateISO}-${idx}`}"
+  },
+  {
+    "line": 35725,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`font-semibold ${homePanelPrimaryTextClass}`}"
+  },
+  {
+    "line": 35733,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`text-sm ${homePanelPrimaryTextClass}`}"
+  },
+  {
+    "line": 35751,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<p className={`text-sm ${homePanelPrimaryTextClass}`}>"
+  },
+  {
+    "line": 35755,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<p className={`text-sm ${homePanelPrimaryTextClass}`}>"
+  },
+  {
+    "line": 35760,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`text-xs ${"
+  },
+  {
+    "line": 35789,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`space-y-1 text-sm ${homePanelPrimaryTextClass}`}"
+  },
+  {
+    "line": 35799,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`text-xs ${"
+  },
+  {
+    "line": 35808,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<p className={`text-sm ${homePanelPrimaryTextClass}`}>"
+  },
+  {
+    "line": 35833,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md ${"
+  },
+  {
+    "line": 35839,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`text-lg font-semibold ${homePanelPrimaryTextClass}`}"
+  },
+  {
+    "line": 35854,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<p className={`text-sm ${homePanelPrimaryTextClass}`}>"
+  },
+  {
+    "line": 35898,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`coach-subject-card coach-gold-card rounded-lg border p-3 backdrop-blur-sm subject-${subj"
+  },
+  {
+    "line": 35937,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`text-base font-semibold ${homePanelPrimaryTextClass}`}"
+  },
+  {
+    "line": 36011,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ": `${premadeTotal} premade quizzes ready`;"
+  },
+  {
+    "line": 36055,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "data-testid={`subject-button-${subjectName"
+  },
+  {
+    "line": 36058,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ".replace(/-$/, '')}`}"
+  },
+  {
+    "line": 36109,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`w-full mt-3 coach-subject-card subject-${subjectKey} rounded-md border p-2 text-left`}"
+  },
+  {
+    "line": 36334,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "aria-label={`Question ${qNum}`}"
+  },
+  {
+    "line": 36470,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const numericPattern = /^[\\d\\.\\-\\/%\\s\\(\\)]*$/;"
+  },
+  {
+    "line": 36740,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${scheme.surfaceBorder}`,"
+  },
+  {
+    "line": 36746,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "style={{ borderBottom: `1px solid ${scheme.divider}` }}"
+  },
+  {
+    "line": 36797,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${scheme.accent}`,"
+  },
+  {
+    "line": 36869,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${scheme.accent}`,"
+  },
+  {
+    "line": 36880,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${scheme.surfaceBorder}`,"
+  },
+  {
+    "line": 36949,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;"
+  },
+  {
+    "line": 36968,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${scheme.surfaceBorder}`,"
+  },
+  {
+    "line": 37007,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "alt={`Visual for question ${currentQ.questionNumber}`}"
+  },
+  {
+    "line": 37009,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "style={{ border: `1px solid ${scheme.surfaceBorder}` }}"
+  },
+  {
+    "line": 37038,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "style={{ border: `1px solid ${scheme.surfaceBorder}` }}"
+  },
+  {
+    "line": 37057,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px dashed ${scheme.surfaceBorder}`,"
+  },
+  {
+    "line": 37079,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${scheme.inputBorder}`,"
+  },
+  {
+    "line": 37222,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${scheme.inputBorder}`,"
+  },
+  {
+    "line": 37263,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${scheme.accentBorder}`,"
+  },
+  {
+    "line": 37275,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? optText.trim().replace(/^\\$\\$/, '$')"
+  },
+  {
+    "line": 37366,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${scheme.navMarkedRing}`,"
+  },
+  {
+    "line": 37371,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "border: `1px solid ${scheme.navDefaultBg}`,"
+  },
+  {
+    "line": 37417,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "// Lightweight parser supporting: fractions (a/b), mixed numbers (a b/c), ratios (a:b), percents (50"
+  },
+  {
+    "line": 37423,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "PERCENT_RE: /^[-+]?\\d+(?:\\.\\d+)?%$/,"
+  },
+  {
+    "line": 37427,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "FRACTION_RE: /^[-+]?\\d+\\s*\\/\\s*\\d+$/,"
+  },
+  {
+    "line": 37429,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "MIXED_RE: /^[-+]?\\d+\\s+\\d+\\s*\\/\\s*\\d+$/,"
+  },
+  {
+    "line": 37431,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "RATIO_RE: /^[-+]?\\d+\\s*:\\s*[-+]?\\d+$/,"
+  },
+  {
+    "line": 37444,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const stripCurrency = (s) => s.replace(/^\\$/, '').replace(/,/g, '');"
+  },
+  {
+    "line": 37715,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "if (/^[-+]?\\d+(?:\\.\\d+)?%$/.test(s)) {"
+  },
+  {
+    "line": 37720,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const n = Number(s.replace(/^\\$/, '').replace(/,/g, ''));"
+  },
+  {
+    "line": 37723,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "if (/^[-+]?\\d+\\s+\\d+\\s*\\/\\s*\\d+$/.test(s)) {"
+  },
+  {
+    "line": 37739,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "if (/^[-+]?\\d+\\s*\\/\\s*\\d+$/.test(s)) {"
+  },
+  {
+    "line": 37747,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "if (/^[-+]?\\d+\\s*:\\s*[-+]?\\d+$/.test(s)) {"
+  },
+  {
+    "line": 37813,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`[grader] ${"
+  },
+  {
+    "line": 37815,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "} fill-in question(s) missing correctAnswer: #${missing.join(', ')}`"
+  },
+  {
+    "line": 38103,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`h-8 w-8 rounded-full text-sm font-bold transition ${"
+  },
+  {
+    "line": 38156,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`w-full text-left p-4 rounded-lg border-2 transition ${"
+  },
+  {
+    "line": 38186,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "id={`mark-${currentQuestionIndex}`}"
+  },
+  {
+    "line": 38196,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "htmlFor={`mark-${currentQuestionIndex}`}"
+  },
+  {
+    "line": 38466,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const response = await fetch(`${API_BASE_URL}/api/essay/score`, {"
+  },
+  {
+    "line": 38470,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "...(token ? { Authorization: `Bearer ${token}` } : {}),"
+  },
+  {
+    "line": 38503,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${API_BASE_URL}/api/challenges/suggestions`,"
+  },
+  {
+    "line": 38506,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "...(token ? { Authorization: `Bearer ${token}` } : {}),"
+  },
+  {
+    "line": 38566,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{p?.title || `Passage ${idx + 1}`}"
+  },
+  {
+    "line": 38702,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${"
+  },
+  {
+    "line": 38723,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-1 rounded-md text-sm font-semibold transition-colors ${"
+  },
+  {
+    "line": 38794,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const res = await fetch(`${API_BASE_URL}/api/challenges/suggestions`, {"
+  },
+  {
+    "line": 38795,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "headers: { Authorization: `Bearer ${token}` },"
+  },
+  {
+    "line": 38828,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const res = await fetch(`${API_BASE_URL}/api/challenges/resolve`, {"
+  },
+  {
+    "line": 38832,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 38930,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<p className={`text-6xl font-bold my-2 ${performance.color}`}>"
+  },
+  {
+    "line": 38933,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<p className={`text-2xl font-semibold mb-2 ${performance.color}`}>"
+  },
+  {
+    "line": 39018,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "width: `${"
+  },
+  {
+    "line": 39109,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`p-4 rounded-lg panel-surface ${borderClass} text-slate-900 dark:text-slate-100`}"
+  },
+  {
+    "line": 39126,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "alt={`Visual for question ${question.questionNumber}`}"
+  },
+  {
+    "line": 39162,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`mt-2 ${"
+  },
+  {
+    "line": 39265,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-2 py-0.5 text-xs font-bold rounded-full ${getConfidenceColor("
+  },
+  {
+    "line": 39377,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`question-container p-4 rounded-lg transition-colors ${"
+  },
+  {
+    "line": 39394,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "alt={`Visual for question ${i + 1}`}"
+  },
+  {
+    "line": 39461,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "name={`q${i}`}"
+  },
+  {
+    "line": 39468,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`${"
+  },
+  {
+    "line": 39472,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "} ${"
+  },
+  {
+    "line": 39686,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "\"<p>For too long, we have pushed a 'college-for-all' mentality that has left millions of young peopl"
+  },
+  {
+    "line": 39987,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const response = await fetch(`${API_BASE_URL}/api/essay/score`, {"
+  },
+  {
+    "line": 39991,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "...(token ? { Authorization: `Bearer ${token}` } : {}),"
+  },
+  {
+    "line": 39995,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "completion: `${completionCount}/5`,"
+  },
+  {
+    "line": 40028,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${API_BASE_URL}/api/challenges/suggestions`,"
+  },
+  {
+    "line": 40031,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "...(token ? { Authorization: `Bearer ${token}` } : {}),"
+  },
+  {
+    "line": 40056,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `${sign}${mm}:${ss}`;"
+  },
+  {
+    "line": 40060,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `After reading both passages about \"${selectedPassage.topic}\", write an essay in which you explain"
+  },
+  {
+    "line": 40142,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`tab-button text-lg font-semibold py-4 px-6 text-gray-600 capitalize ${"
+  },
+  {
+    "line": 40281,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`text-3xl font-mono font-bold ${"
+  },
+  {
+    "line": 40324,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-4 py-2 text-sm font-medium border ${"
+  },
+  {
+    "line": 40335,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-4 py-2 text-sm font-medium border -ml-px ${"
+  },
+  {
+    "line": 40827,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`${"
+  },
+  {
+    "line": 40840,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`${"
+  },
+  {
+    "line": 40853,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`${"
+  },
+  {
+    "line": 40925,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-1.5 text-sm font-semibold rounded-full border transition-colors ${"
+  },
+  {
+    "line": 41036,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "id: `ai_${Date.now()}`,"
+  },
+  {
+    "line": 41044,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "setError(`Sorry, something went wrong. ${err.message}`);"
+  },
+  {
+    "line": 41109,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "getPrompt: (shapeLabel) => `What is the area of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41115,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`What is the perimeter of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41123,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ")} and a width of ${formatNumber("
+  },
+  {
+    "line": 41172,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "getPrompt: (shapeLabel) => `What is the area of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41180,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ")} and a base of ${formatNumber("
+  },
+  {
+    "line": 41227,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "getPrompt: (shapeLabel) => `What is the area of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41233,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`What is the circumference of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41278,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41286,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ")}, a length of ${formatNumber("
+  },
+  {
+    "line": 41288,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ")}, and a width of ${formatNumber("
+  },
+  {
+    "line": 41308,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<path d={`M ${50 + w * 3},${50 - w * 3} H ${50 + w * 3 + l * 8}`} />"
+  },
+  {
+    "line": 41310,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "d={`M ${50 + w * 3 + l * 8},${50 - w * 3} V ${"
+  },
+  {
+    "line": 41347,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41353,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`What is the surface area of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41361,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ")} and a radius of ${formatNumber("
+  },
+  {
+    "line": 41377,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<path d={`M ${150 - r * 5},50 L ${150 - r * 5},${50 + h * 5}`} />"
+  },
+  {
+    "line": 41378,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<path d={`M ${150 + r * 5},50 L ${150 + r * 5},${50 + h * 5}`} />"
+  },
+  {
+    "line": 41405,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41411,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`What is the surface area of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41422,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ")} and a radius of ${formatNumber("
+  },
+  {
+    "line": 41484,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41490,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`What is the surface area of the ${shapeLabel}?`,"
+  },
+  {
+    "line": 41537,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ")} and b = ${formatNumber("
+  },
+  {
+    "line": 41571,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{hidden.includes('a') ? '?' : `a = ${a}`}"
+  },
+  {
+    "line": 41580,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{hidden.includes('b') ? '?' : `b = ${b}`}"
+  },
+  {
+    "line": 41647,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`Not quite. The correct answer is ${currentProblem.correctAnswer}.`"
+  },
+  {
+    "line": 41712,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`flex items-center gap-1 text-sm font-semibold transition-colors ${"
+  },
+  {
+    "line": 41772,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`p-2 font-semibold rounded-md transition capitalize border ${"
+  },
+  {
+    "line": 41809,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`mt-2 p-2 rounded-md text-center font-semibold ${"
+  },
+  {
+    "line": 41917,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const parts = preparedInput.match(/^(-?\\d*\\.?\\d*)x([+-]\\d+\\.?\\d*)?$/);"
+  },
+  {
+    "line": 42057,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`flex-1 p-2 font-semibold rounded-md transition ${"
+  },
+  {
+    "line": 42067,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`flex-1 p-2 font-semibold rounded-md transition ${"
+  },
+  {
+    "line": 42393,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `${favs.length} careers saved`"
+  },
+  {
+    "line": 42407,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return done > 0 ? `${done} scenarios done` : '0 scenarios done';"
+  },
+  {
+    "line": 42418,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return done > 0 ? `${done} quizzes done` : '0 quizzes done';"
+  },
+  {
+    "line": 42438,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `${apps.length} applications tracked`"
+  },
+  {
+    "line": 42661,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${API_BASE_URL}/api/user/career-interests`,"
+  },
+  {
+    "line": 42663,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "headers: { Authorization: `Bearer ${token}` },"
+  },
+  {
+    "line": 42775,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "await fetch(`${API_BASE_URL}/api/user/career-interests`, {"
+  },
+  {
+    "line": 42779,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Authorization: `Bearer ${token}`,"
+  },
+  {
+    "line": 42786,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "headers: { Authorization: `Bearer ${token}` },"
+  },
+  {
+    "line": 42816,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-1.5 rounded-md font-semibold text-sm transition ${"
+  },
+  {
+    "line": 43012,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{p.borough ? ` • ${p.borough}` : ''}"
+  },
+  {
+    "line": 43237,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${e.role || 'Role'} at ${e.company || 'Company'} (${["
+  },
+  {
+    "line": 43242,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ".join(' - ')})\\n${e.details || ''}`"
+  },
+  {
+    "line": 43308,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "${form.name || 'Name not provided'}"
+  },
+  {
+    "line": 43309,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "${[form.email, form.phone].filter(Boolean).join(' | ')}"
+  },
+  {
+    "line": 43311,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "${form.summary ? 'SUMMARY:\\n' + form.summary : ''}"
+  },
+  {
+    "line": 43313,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "${form.skills ? 'SKILLS:\\n' + form.skills : ''}"
+  },
+  {
+    "line": 43315,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "${"
+  },
+  {
+    "line": 43321,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${e.role || 'Role'} at ${e.company || 'Company'} (${["
+  },
+  {
+    "line": 43326,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ".join(' - ')})\\n${e.details || ''}`"
+  },
+  {
+    "line": 43567,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Resume Score: {score !== null ? `${score}/100` : '--'}"
+  },
+  {
+    "line": 43789,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`${API_BASE_URL}/api/workforce/interview-session`,"
+  },
+  {
+    "line": 44008,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`p-3 rounded-lg ${"
+  },
+  {
+    "line": 44067,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-4 py-3 rounded-lg font-semibold ${"
+  },
+  {
+    "line": 44577,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Cover Letter Score: {score !== null ? `${score}/100` : '--'}"
+  },
+  {
+    "line": 44740,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-1.5 rounded-md text-sm font-semibold ${"
+  },
+  {
+    "line": 44772,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-2 rounded-md border text-left ${"
+  },
+  {
+    "line": 44837,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `Soft Skills Score: ${aiEvaluation.score}/100`"
+  },
+  {
+    "line": 44937,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-2 rounded-md border text-left ${"
+  },
+  {
+    "line": 45050,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`p-3 border rounded-xl text-left transition ${"
+  },
+  {
+    "line": 45106,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "? `Score: ${aiReview.score}/100`"
+  },
+  {
+    "line": 45210,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "<div className=\"text-sm\">Expenses: ${total.toLocaleString()}</div>"
+  },
+  {
+    "line": 45212,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`text-sm ${"
+  },
+  {
+    "line": 45218,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "Savings: ${savings.toLocaleString()}"
+  },
+  {
+    "line": 45315,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-1 rounded-md text-sm font-semibold ${"
+  },
+  {
+    "line": 45325,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-1 rounded-md text-sm font-semibold ${"
+  },
+  {
+    "line": 45443,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`p-2 border-l-4 border rounded-md bg-slate-50 dark:bg-slate-900/50 ${priorityColor}`}"
+  },
+  {
+    "line": 45539,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-2 py-0.5 rounded-full text-xs font-semibold ${priorityBadge}`}"
+  },
+  {
+    "line": 46139,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `Math.sqrt(${walk(node.radicand)})`;"
+  },
+  {
+    "line": 46150,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "if (node.value === 'ln') return `Math.log(${arg})`;"
+  },
+  {
+    "line": 46151,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "if (node.value === 'log') return `(Math.log(${arg})/Math.LN10)`;"
+  },
+  {
+    "line": 46152,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "if (node.value === 'exp') return `Math.exp(${arg})`;"
+  },
+  {
+    "line": 46154,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `(()=>{const n=${arg}|0;let r=1;for(let i=2;i<=n;i++)r*=i;return r;})()`;"
+  },
+  {
+    "line": 46164,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `(${fact})(${a})/(((${fact})(${b}))*(${fact})((${a})-(${b})))`;"
+  },
+  {
+    "line": 46166,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `(${fact})(${a})/((${fact})((${a})-(${b})))`;"
+  },
+  {
+    "line": 46194,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "return `√(${walk(node.radicand)})`;"
+  },
+  {
+    "line": 46930,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": ".replace(/(\\d+\\.?\\d*)%/g, '($1/100)')"
+  },
+  {
+    "line": 47271,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "`n=${n}  mean=${mean.toFixed(4)}  σ=${stdev.toFixed(4)}`"
+  },
+  {
+    "line": 47325,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-1 rounded ${"
+  },
+  {
+    "line": 47335,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-3 py-1 rounded ${"
+  },
+  {
+    "line": 47436,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`${getColorClasses()} ${sizeClasses} ${widthClasses} px-2 rounded-lg border-2 shadow-md f"
+  },
+  {
+    "line": 47466,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const body = safe(fnText).replace(/\\bx\\b/g, `(${x})`);"
+  },
+  {
+    "line": 47603,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-6 py-3 rounded-lg font-semibold transition ${"
+  },
+  {
+    "line": 47613,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-6 py-3 rounded-lg font-semibold transition ${"
+  },
+  {
+    "line": 47871,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-4 py-2 rounded-lg font-semibold transition ${"
+  },
+  {
+    "line": 47906,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "className={`px-4 py-2 rounded-lg font-semibold transition ${"
+  },
+  {
+    "line": 47937,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "{ description: 'Trailing currency symbol', input: 'The price is 7$ today.' },"
+  },
+  {
+    "line": 47940,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "input: 'Please pay $30 before Friday.',"
+  },
+  {
+    "line": 47944,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "input: 'Escaped currency \\\\$18 should stay as dollars.',"
+  },
+  {
+    "line": 47965,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "input: '< table >< tr >< td >$10< /td ></tr></table>',"
+  },
+  {
+    "line": 47969,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "input: 'Sentence with stray $ sign in the middle.',"
+  },
+  {
+    "line": 47981,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "input: '<table><thead><tr><th>Revenue $ (USD)</th></tr></thead></table>',"
+  },
+  {
+    "line": 47997,
+    "type": "UNPAIRED_LATEX_BRACKET",
+    "description": "Unbalanced \\[ or \\] in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "if (textSegments.some((seg) => /(^|[^\\\\])\\$(?!\\$)/.test(seg.value))) {"
+  },
+  {
+    "line": 48011,
+    "type": "UNPAIRED_LATEX_DELIMITER",
+    "description": "Possible unpaired $ delimiter in LaTeX formula",
+    "severity": "MEDIUM",
+    "preview": "const inlineDelimiterMatches = inlineScope.match(/\\$/g) || [];"
+  }
+]

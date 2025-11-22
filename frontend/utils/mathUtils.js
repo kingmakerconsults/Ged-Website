@@ -246,18 +246,353 @@ export function escapeHtml(value) {
 
 export function formatExponents(input) {
   if (typeof input !== 'string') return input;
-  return input.replace(/\^(\d+)/g, '<sup>$1</sup>');
+  // Added data-source attribute to verify centralization wiring visually.
+  return input.replace(/\^(\d+)/g, '<sup data-source="mathUtils">$1</sup>');
 }
 
 export function normalizeMathText(text) {
   if (typeof text !== 'string') return text;
+  let t = text;
+  // Strip surrounding $...$ or $$...$$ once
+  t = t.replace(/^\$(.*)\$$/, '$1');
+  t = t.replace(/^\$\$(.*)\$\$$/, '$1');
+  // Safe macro fixes inside math
+  if (
+    typeof window !== 'undefined' &&
+    window.TextSanitizer &&
+    window.TextSanitizer.fixAllMathInText
+  ) {
+    t = window.TextSanitizer.fixAllMathInText(t);
+  }
+  // Replace \frac{a}{b} with (a/b)
+  t = t.replace(/\\frac\s*\{\s*([^}]+)\s*\}\s*\{\s*([^}]+)\s*\}/g, '($1/$2)');
+  return t.trim();
+}
+
+export function stripLeakedMathPlaceholders(text) {
+  if (typeof text !== 'string' || text.length === 0) {
+    return text;
+  }
   return text
-    .replace(/×/g, '\\times')
-    .replace(/÷/g, '\\div')
-    .replace(/≤/g, '\\le')
-    .replace(/≥/g, '\\ge')
-    .replace(/≠/g, '\\neq')
-    .replace(/≈/g, '\\approx')
-    .replace(/π/g, '\\pi')
-    .replace(/°/g, '^\\circ');
+    .replace(/(?:\f|\\f)\\?_?MATH_SEGMENT_[A-Z0-9]+/gi, '')
+    .replace(/MATH_SEGMENT_[A-Z0-9]+/gi, '');
+}
+
+// Extracted from app.jsx: upgradePlainMathForDisplay
+export function upgradePlainMathForDisplay(text) {
+  if (!text || typeof text !== 'string') return text;
+  let upgraded = text;
+  upgraded = upgraded.replace(
+    /\\frac\s*{\s*([^}]+)\s*}\s*{\s*([^}]+)\s*}/g,
+    (_m, num, den) => `${num}/${den}`
+  );
+  upgraded = upgraded.replace(
+    /\\sqrt\s*{\s*([^}]+)\s*}/g,
+    (_m, inner) => `sqrt(${inner})`
+  );
+  upgraded = upgraded.replace(
+    /(\S)\s*\^\s*{\s*([0-9]+)\s*}/g,
+    (_m, base, exp) => `${base}^${exp}`
+  );
+  upgraded = upgraded.replace(/([\w)\]])\s*\/\s*([\w(])/g, '$1/$2');
+  upgraded = upgraded.replace(/([\w)\]])\s*\^\s*([\d(])/g, '$1^$2');
+  return upgraded;
+}
+
+// Extracted: formatMathText (depends on formatFractions which is in textUtils; caller should import it separately)
+export function formatMathText(html) {
+  if (typeof html !== 'string' || html.length === 0) return html;
+  // Fractions formatting delegated to textUtils.formatFractions at call site
+  let out = html;
+  out = out.replace(
+    /([A-Za-z0-9\)])\^(\d+)/g,
+    (_m, base, exp) => `${base}<sup data-source="mathUtils">${exp}</sup>`
+  );
+  return out;
+}
+
+// Extracted: extractMathSegments
+export function extractMathSegments(input) {
+  const segments = [];
+  if (typeof input !== 'string' || !input.length) {
+    return segments;
+  }
+  const mathRegex =
+    /\$\$([\s\S]+?)\$\$|\\\[([\s\S]+?)\\\]|\$([\s\S]+?)\$|\\\(([\s\S]+?)\\\)/g;
+  let lastIndex = 0;
+  let match;
+  while ((match = mathRegex.exec(input)) !== null) {
+    if (match.index > lastIndex) {
+      segments.push({
+        type: 'text',
+        value: input.slice(lastIndex, match.index),
+      });
+    }
+    if (typeof match[1] !== 'undefined') {
+      segments.push({
+        type: 'math',
+        value: match[1],
+        displayMode: true,
+        raw: match[0],
+      });
+    } else if (typeof match[2] !== 'undefined') {
+      segments.push({
+        type: 'math',
+        value: match[2],
+        displayMode: true,
+        raw: match[0],
+      });
+    } else if (typeof match[3] !== 'undefined') {
+      segments.push({
+        type: 'math',
+        value: match[3],
+        displayMode: false,
+        raw: match[0],
+      });
+    } else {
+      segments.push({
+        type: 'math',
+        value: match[4],
+        displayMode: false,
+        raw: match[0],
+      });
+    }
+    lastIndex = mathRegex.lastIndex;
+  }
+  if (lastIndex < input.length) {
+    segments.push({ type: 'text', value: input.slice(lastIndex) });
+  }
+  return segments;
+}
+
+// Extracted: renderStem (processes text with math segments for dynamic content)
+export function renderStem(text) {
+  if (typeof text !== 'string') {
+    return '';
+  }
+
+  // Import preprocessRawContent from textUtils if needed, or use global
+  const preprocessFn =
+    typeof preprocessRawContent === 'function'
+      ? preprocessRawContent
+      : (t) => t;
+  const cleanedText = preprocessFn(text, { normalizeSpacing: true });
+  const segments = extractMathSegments(cleanedText);
+  const renderedParts = [];
+
+  for (const segment of segments) {
+    if (segment.type === 'math') {
+      const pretty = formatExponents(segment.value);
+      renderedParts.push(`<span class="math-inline">${pretty}</span>`);
+    } else {
+      renderedParts.push(segment.value);
+    }
+  }
+
+  const combinedHtml = renderedParts.join('');
+  const sanitizer =
+    typeof window !== 'undefined' &&
+    window.DOMPurify &&
+    window.DOMPurify.sanitize
+      ? window.DOMPurify.sanitize
+      : (v) => v;
+  const allowedTags =
+    typeof ALLOWED_HTML_TAGS !== 'undefined'
+      ? [...ALLOWED_HTML_TAGS, 'span', 'sup', 'path', 'svg']
+      : ['span', 'sup', 'path', 'svg'];
+  const allowedAttr =
+    typeof ALLOWED_HTML_ATTR !== 'undefined'
+      ? [...ALLOWED_HTML_ATTR, 'style', 'd', 'viewBox', 'xmlns']
+      : ['style', 'd', 'viewBox', 'xmlns'];
+  return sanitizer(combinedHtml, {
+    ALLOWED_TAGS: allowedTags,
+    ALLOWED_ATTR: allowedAttr,
+  });
+}
+
+// Extracted: renderStemWithKatex (premade/static content only)
+export function renderStemWithKatex(text) {
+  if (typeof text !== 'string') return '';
+  const segments = extractMathSegments(text);
+  const parts = [];
+  const moneyRegex = /^\$\d+(?:\.\d{1,2})?$/;
+  const pureNumber = /^\d+(?:\.\d{1,2})?$/;
+  for (const seg of segments.length
+    ? segments
+    : [{ type: 'text', value: text }]) {
+    if (seg.type !== 'math') {
+      const sanitizer =
+        typeof window !== 'undefined' &&
+        window.DOMPurify &&
+        window.DOMPurify.sanitize
+          ? window.DOMPurify.sanitize
+          : null;
+      const cleaned = sanitizer
+        ? sanitizer(seg.value, {
+            ALLOWED_TAGS:
+              typeof ALLOWED_HTML_TAGS !== 'undefined' ? ALLOWED_HTML_TAGS : [],
+            ALLOWED_ATTR:
+              typeof ALLOWED_HTML_ATTR !== 'undefined' ? ALLOWED_HTML_ATTR : [],
+          })
+        : escapeHtml(seg.value);
+      parts.push(cleaned);
+      continue;
+    }
+    const raw = seg.raw || '';
+    const body = (seg.value || '').trim();
+    const isSingleDollarWrapped =
+      /^\$[^$][\s\S]*\$$/.test(raw) && !/^\$\$[\s\S]*\$\$/.test(raw);
+    const isPlainMoney = isSingleDollarWrapped && pureNumber.test(body);
+    if (isPlainMoney) {
+      const escaped = `\\$${body}`;
+      parts.push(`<span class="math-inline">${escaped}</span>`);
+      continue;
+    }
+    if (moneyRegex.test(body)) {
+      const escaped = body.replace(/^\$/, '\\$');
+      parts.push(`<span class="math-inline">${escaped}</span>`);
+      continue;
+    }
+    try {
+      const html = katex.renderToString(body, {
+        throwOnError: false,
+        displayMode: Boolean(seg.displayMode),
+      });
+      parts.push(html);
+    } catch (e) {
+      const _san =
+        typeof window !== 'undefined' &&
+        window.DOMPurify &&
+        window.DOMPurify.sanitize
+          ? window.DOMPurify.sanitize
+          : null;
+      const safe = _san
+        ? _san(body, {
+            ALLOWED_TAGS:
+              typeof ALLOWED_HTML_TAGS !== 'undefined' ? ALLOWED_HTML_TAGS : [],
+            ALLOWED_ATTR:
+              typeof ALLOWED_HTML_ATTR !== 'undefined' ? ALLOWED_HTML_ATTR : [],
+          })
+        : escapeHtml(body);
+      parts.push(`<span class="math-inline">${safe}</span>`);
+    }
+  }
+  const combined = parts.join('');
+  const finalSan =
+    typeof window !== 'undefined' &&
+    window.DOMPurify &&
+    window.DOMPurify.sanitize
+      ? window.DOMPurify.sanitize
+      : null;
+  return finalSan
+    ? finalSan(combined, {
+        ALLOWED_TAGS:
+          typeof ALLOWED_HTML_TAGS !== 'undefined'
+            ? [...ALLOWED_HTML_TAGS, 'span', 'sup', 'svg', 'path']
+            : [],
+        ALLOWED_ATTR:
+          typeof ALLOWED_HTML_ATTR !== 'undefined'
+            ? [...ALLOWED_HTML_ATTR, 'style', 'd', 'viewBox', 'xmlns']
+            : [],
+      })
+    : combined;
+}
+
+// Extracted: renderQuestionTextForDisplay
+export function renderQuestionTextForDisplay(
+  text,
+  isPremade,
+  questionCtx = null
+) {
+  const useKatex = Boolean(
+    typeof window !== 'undefined' &&
+      window.__APP_CONFIG__ &&
+      window.__APP_CONFIG__.premadeUsesKatex === true &&
+      isPremade === true
+  );
+  if (useKatex) {
+    return { __html: renderStemWithKatex(text) };
+  }
+  const isMath =
+    questionCtx && typeof questionCtx.subject === 'string'
+      ? String(questionCtx.subject).toLowerCase() === 'math'
+      : false;
+  const isGenerated = !isPremade && !(questionCtx && questionCtx.isStatic);
+  const prepped =
+    isMath && isGenerated ? upgradePlainMathForDisplay(text) : text;
+  const html = renderStem(prepped);
+  const finalHtml = formatMathText(html);
+  return { __html: finalHtml };
+}
+
+export function smartWrapLatex(input) {
+  if (typeof input !== 'string' || input.length === 0) {
+    return input;
+  }
+
+  const slots = [];
+  const masked = input.replace(/\\\([^\)]*\\\)|\$[^$]+\$/g, (match) => {
+    slots.push(match);
+    return `@@M${slots.length - 1}@@`;
+  });
+
+  const MACRO_PATTERN =
+    /\\(?:frac|sqrt|text|pi|times|cdot|le|ge|lt|gt|neq|approx|sin|cos|tan|log|ln|pm|mp|theta|alpha|beta|gamma)\b/y;
+
+  const grabBraces = (source, start) => {
+    if (source[start] !== '{') {
+      return 0;
+    }
+    let depth = 0;
+    let index = start;
+    while (index < source.length) {
+      const ch = source[index++];
+      if (ch === '{') {
+        depth += 1;
+      } else if (ch === '}') {
+        depth -= 1;
+        if (depth === 0) {
+          return index - start;
+        }
+      }
+    }
+    return 0;
+  };
+
+  let result = '';
+  let cursor = 0;
+
+  while (cursor < masked.length) {
+    const char = masked[cursor];
+    if (char === '\\') {
+      MACRO_PATTERN.lastIndex = cursor;
+      const match = MACRO_PATTERN.exec(masked);
+      if (match) {
+        let end = MACRO_PATTERN.lastIndex;
+        if (match[0] === '\\frac') {
+          const first = grabBraces(masked, end);
+          if (first) {
+            end += first;
+            const second = grabBraces(masked, end);
+            if (second) {
+              end += second;
+            }
+          }
+        } else {
+          const groupLen = grabBraces(masked, end);
+          if (groupLen) {
+            end += groupLen;
+          }
+        }
+        const segment = masked.slice(cursor, end);
+        result += `\\(${segment}\\)`;
+        cursor = end;
+        continue;
+      }
+    }
+    result += char;
+    cursor += 1;
+  }
+
+  return result.replace(/@@M(\d+)@@/g, (_match, index) => slots[Number(index)]);
 }

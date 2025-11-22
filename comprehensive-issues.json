@@ -1,0 +1,60 @@
+[
+  {
+    "line": 7277,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "topicId": "math_alg_expressions",
+    "questionNumber": 1,
+    "severity": "MEDIUM",
+    "description": "Question/passage text may be incomplete or truncated",
+    "preview": "Simplify the expression: $3x + 2y - x + 5y$',"
+  },
+  {
+    "line": 7716,
+    "type": "POSSIBLY_TRUNCATED_TEXT",
+    "topicId": "math_alg_equations_inequalities",
+    "questionNumber": 1,
+    "severity": "MEDIUM",
+    "description": "Question/passage text may be incomplete or truncated",
+    "preview": "Solve for x: $3x + 7 = 19$',"
+  },
+  {
+    "line": 19151,
+    "type": "MISSING_QUESTION_NUMBER",
+    "topicId": "rla_informational_texts_structure_purpose_quiz3",
+    "topicLine": 19133,
+    "severity": "HIGH",
+    "description": "Question object starting at line 19151 is missing questionNumber field"
+  },
+  {
+    "line": 19451,
+    "type": "MISSING_QUESTION_NUMBER",
+    "topicId": "rla_info_pov",
+    "topicLine": 19436,
+    "severity": "HIGH",
+    "description": "Question object starting at line 19451 is missing questionNumber field"
+  },
+  {
+    "line": 19776,
+    "type": "MISSING_QUESTION_NUMBER",
+    "topicId": "rla_info_arguments",
+    "topicLine": 19760,
+    "severity": "HIGH",
+    "description": "Question object starting at line 19776 is missing questionNumber field"
+  },
+  {
+    "line": 20461,
+    "type": "MISSING_QUESTION_NUMBER",
+    "topicId": "rla_lit_plot_character_quiz3",
+    "topicLine": 20446,
+    "severity": "HIGH",
+    "description": "Question object starting at line 20461 is missing questionNumber field"
+  },
+  {
+    "line": 20785,
+    "type": "MISSING_QUESTION_NUMBER",
+    "topicId": "rla_lit_theme_figurative_language_quiz3",
+    "topicLine": 20750,
+    "severity": "HIGH",
+    "description": "Question object starting at line 20785 is missing questionNumber field"
+  }
+]

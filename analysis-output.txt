@@ -1,0 +1,2415 @@
+﻿
+=== QUESTION INTEGRITY ANALYSIS ===
+
+Total issues found: 602
+
+
+≡ƒö┤ HIGH SEVERITY ISSUES (47):
+
+Line 2224: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: sci_chem_equations_balancing
+
+Line 2421: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: sci_chem_equations_balancing
+
+Line 6786: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: math_quant_stats_probability
+
+Line 7048: [DUPLICATE_QUESTION_NUMBER]
+  Topic "math_quant_stats_probability" has duplicate questionNumber: 15
+
+Line 7079: [DUPLICATE_QUESTION_NUMBER]
+  Topic "math_quant_stats_probability" has duplicate questionNumber: 16
+
+Line 7108: [DUPLICATE_QUESTION_NUMBER]
+  Topic "math_quant_stats_probability" has duplicate questionNumber: 17
+
+Line 7139: [DUPLICATE_QUESTION_NUMBER]
+  Topic "math_quant_stats_probability" has duplicate questionNumber: 15
+
+Line 7170: [DUPLICATE_QUESTION_NUMBER]
+  Topic "math_quant_stats_probability" has duplicate questionNumber: 16
+
+Line 7199: [DUPLICATE_QUESTION_NUMBER]
+  Topic "math_quant_stats_probability" has duplicate questionNumber: 17
+
+Line 11723: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: ss_us_hist_westward_expansion_quiz1
+
+Line 11902: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: ss_us_hist_westward_expansion_quiz3
+
+Line 13095: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: ss_us_hist_industrial_america_quiz1
+
+Line 13243: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: ss_us_hist_industrial_america_quiz2
+
+Line 13339: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: ss_us_hist_industrial_america_quiz3
+
+Line 13378: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: ss_us_hist_industrial_america_quiz3
+
+Line 13397: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: ss_us_hist_industrial_america_quiz3
+
+Line 13957: [TOO_FEW_OPTIONS]
+  Question has only 1 answer options (expected at least 3, typically 4)
+  Context: ss_us_hist_cold_war_quiz2
+
+Line 14105: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: ss_us_hist_cold_war_quiz3
+
+Line 19217: [TOO_FEW_OPTIONS]
+  Question has only 1 answer options (expected at least 3, typically 4)
+  Context: rla_informational_texts_structure_purpose_quiz3
+
+Line 19296: [TOO_FEW_OPTIONS]
+  Question has only 1 answer options (expected at least 3, typically 4)
+  Context: rla_informational_texts_structure_purpose_quiz3
+
+Line 19331: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_informational_texts_structure_purpose_quiz3
+
+Line 19363: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: rla_informational_texts_structure_purpose_quiz3
+
+Line 19423: [TOO_FEW_OPTIONS]
+  Question has only 1 answer options (expected at least 3, typically 4)
+  Context: rla_informational_texts_structure_purpose_quiz3
+
+Line 19541: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_info_pov
+
+Line 19844: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_info_arguments
+
+Line 20219: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_info_graphics
+
+Line 20232: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_info_graphics
+
+Line 20270: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_info_graphics
+
+Line 20282: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_info_graphics
+
+Line 20296: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_info_graphics
+
+Line 20331: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: rla_info_graphics
+
+Line 20350: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: rla_info_graphics
+
+Line 20368: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: rla_info_graphics
+
+Line 20486: [TOO_FEW_OPTIONS]
+  Question has only 1 answer options (expected at least 3, typically 4)
+  Context: rla_lit_plot_character_quiz3
+
+Line 20605: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: rla_lit_plot_character_quiz3
+
+Line 20621: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_lit_plot_character_quiz3
+
+Line 20691: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_lit_plot_character_quiz3
+
+Line 20719: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: rla_lit_plot_character_quiz3
+
+Line 20788: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_lit_theme_figurative_language_quiz3
+
+Line 20816: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: rla_lit_theme_figurative_language_quiz3
+
+Line 20873: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: rla_lit_theme_figurative_language_quiz3
+
+Line 20977: [TOO_FEW_OPTIONS]
+  Question has only 1 answer options (expected at least 3, typically 4)
+  Context: rla_lit_theme_figurative_language_quiz3
+
+Line 21012: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: rla_lit_theme_figurative_language_quiz3
+
+Line 21862: [TOO_FEW_OPTIONS]
+  Question has only 0 answer options (expected at least 3, typically 4)
+  Context: job_readiness
+
+Line 21878: [TOO_FEW_OPTIONS]
+  Question has only 2 answer options (expected at least 3, typically 4)
+  Context: D
+
+Line 21902: [TOO_FEW_OPTIONS]
+  Question has only 1 answer options (expected at least 3, typically 4)
+  Context: D
+
+Line 21922: [TOO_FEW_OPTIONS]
+  Question has only 1 answer options (expected at least 3, typically 4)
+  Context: D
+
+
+≡ƒƒí MEDIUM SEVERITY ISSUES (555):
+
+Line 308: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: : `https://ui-avatars.com/api/?background=0ea5e9&color=fff&name=${encodeURIComponent(
+
+Line 480: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: payload?.error || `Request failed with status ${response.status}`;
+
+Line 529: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: renderedParts.push(`<span class="math-inline">${pretty}</span>`);
+
+Line 555: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const pureNumber = /^\d+(?:\.\d{1,2})?$/; // 16 or 12.50
+
+Line 586: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: parts.push(`<span class="math-inline">${escaped}</span>`);
+
+Line 590: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: // Also handle the rare case where the content itself starts with $digits ... within other delimiter
+
+Line 593: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: parts.push(`<span class="math-inline">${escaped}</span>`);
+
+Line 615: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: parts.push(`<span class="math-inline">${safe}</span>`);
+
+Line 675: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: typeof itemIndex !== 'undefined' ? ` for item ${itemIndex}` : '';
+
+Line 5412: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: 'A gain of \\$1.25',
+
+Line 5415: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'The net change is $-1.25 + 2.50 = 1.25$, so the stock gained \\$1.25.',
+
+Line 5418: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: 'A loss of \\$1.25',
+
+Line 5424: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: 'A gain of \\$3.75',
+
+Line 5430: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: 'A loss of \\$3.75',
+
+Line 5433: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'Both days were not losses, so the total change cannot be negative \\$3.75.',
+
+Line 5474: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '\\$15.44',
+
+Line 5476: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: rationale: '\\$50.00 - \\$34.56 = \\$15.44.',
+
+Line 5479: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '\\$16.44',
+
+Line 5485: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '\\$15.54',
+
+Line 5490: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '\\$25.44',
+
+Line 5493: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'This would be the change if the bill were \\$24.56.',
+
+Line 5683: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '\\$4,840',
+
+Line 5689: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '\\$6,500',
+
+Line 5692: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'The difference is \\$5,670 - (-\\$830) = \\$5,670 + \\$830 = \\$6,500.',
+
+Line 5695: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '\\$5,500',
+
+Line 5701: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '-\\$830',
+
+Line 5988: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'A shirt that originally costs $40 is on sale for $25\\%$ off. What is the sale price of the shirt?'
+
+Line 5991: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$10',
+
+Line 5997: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$30',
+
+Line 6000: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'The discount is $25\\%$ of $\\$40$, which is $0.25 \\times 40 = \\$10$. The sale price is $\\$40 - 
+
+Line 6003: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$50',
+
+Line 6008: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$35',
+
+Line 6080: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'A restaurant bill is $80. If you want to leave a $20\\%$ tip, how much should the tip be?',
+
+Line 6083: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$8',
+
+Line 6088: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$16',
+
+Line 6094: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$20',
+
+Line 6099: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$96',
+
+Line 6151: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'The increase is $\\$100$. The percent increase is (increase / original price) * 100 = (100 / 500) *
+
+Line 6230: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'If sales tax is $7\\%$, how much tax would you pay on a $150 purchase?',
+
+Line 6233: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$7.00',
+
+Line 6238: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$10.50',
+
+Line 6244: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$15.00',
+
+Line 6249: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$1.05',
+
+Line 6288: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'A store buys a TV for $200 and marks it up by $60\\%$ to sell. What is the selling price?',
+
+Line 6291: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$260',
+
+Line 6296: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$320',
+
+Line 6299: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'The markup is $60\\%$ of $\\$200$, which is $0.60 \\times 200 = \\$120$. The selling price is $\\$2
+
+Line 6302: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$280',
+
+Line 6307: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$120',
+
+Line 6493: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'A pair of jeans originally priced at $75 is on sale for 40% off. What is the sale price?',
+
+Line 6496: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$30',
+
+Line 6502: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$45',
+
+Line 6505: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'The discount is $40\\%$ of $\\$75$, which is $0.40 \\times 75 = \\$30$. The sale price is the origi
+
+Line 6508: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$105',
+
+Line 6514: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$55',
+
+Line 7277: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Simplify the expression: $3x + 2y - x + 5y$
+
+Line 7394: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Simplify: $(x^2 + 4x + 5) - (x^2 - 2x - 1)$
+
+Line 7506: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Factor the expression: $x^2 + 7x + 12$
+
+Line 7534: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Simplify: $5(x - 2y) - 3(x + y)$
+
+Line 7648: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Expand the expression: $(2x - 1)^2$
+
+Line 7677: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Simplify the expression: $(8x^6) / (2x^3)$
+
+Line 7716: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Solve for x: $3x + 7 = 19$
+
+Line 7775: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Solve for y: $5y - 8 = 2y + 7$
+
+Line 7832: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Solve for x: $x/4 + 2 = 5$
+
+Line 7860: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Solve the inequality: $-3x + 4 \\le 16$
+
+Line 7977: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Solve for x: $2(x + 3) = 14$
+
+Line 8093: [POSSIBLY_TRUNCATED_TEXT]
+  Question/passage text may be incomplete or truncated
+  Preview: Solve for x: $3(x - 4) = 2(x + 1)$
+
+Line 8522: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$70',
+
+Line 8527: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$110',
+
+Line 8529: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: rationale: '$C(3) = 20(3) + 50 = 60 + 50 = \\$110$.',
+
+Line 8532: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$60',
+
+Line 8537: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$50',
+
+Line 10037: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Code</th><td>A1</td><td>A2</td><td>B1</td><td>B2</td></
+
+Line 10071: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Hours</th><td>1</td><td>2</td><td>3</td><td>2</td></tr>
+
+Line 10106: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Zone</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5<
+
+Line 10114: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'Each zone (input) maps to exactly one fare (output). The fact that zones 2 and 3 both cost $15 does
+
+Line 10141: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Age</th><td>8</td><td>12</td><td>18</td><td>65</td></tr
+
+Line 10175: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Months</th><td>1</td><td>6</td><td>12</td><td>6</td></t
+
+Line 10183: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'The 6-month commitment appears twice, but both times it maps to $40/month. Consistent repeated inpu
+
+Line 10210: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Weight (lbs)</th><td>5</td><td>10</td><td>15</td><td>10
+
+Line 10245: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Section</th><td>A</td><td>B</td><td>C</td><td>D</td></t
+
+Line 10279: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Subject</th><td>Math</td><td>Science</td><td>English</t
+
+Line 10313: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Vehicle</th><td>Sedan</td><td>SUV</td><td>Truck</td><td
+
+Line 10347: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>GB Used</th><td>2</td><td>5</td><td>10</td><td>15</td><
+
+Line 10416: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Dozens</th><td>1</td><td>2</td><td>3</td><td>2</td></tr
+
+Line 10451: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Age</th><td>5</td><td>12</td><td>18</td><td>25</td><td>
+
+Line 10462: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: 'No, because 18 and 25 both cost $45',
+
+Line 10485: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Size</th><td>Small</td><td>Medium</td><td>Large</td><td
+
+Line 10520: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <table class="function-table"><tbody><tr><th>Tier</th><td>Basic</td><td>Standard</td><td>Premium</td
+
+Line 13798: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'The Marshall Plan, officially the European Recovery Program, was a U.S. initiative to aid Western E
+
+Line 17326: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: 'Imagine you have $20. You can either buy a new video game or go to the movies with a friend. You ca
+
+Line 17331: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: 'The $20 you spent.',
+
+Line 18504: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="Images/Social 
+
+Line 18537: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="Images/Social 
+
+Line 18542: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$2.5 million',
+
+Line 18547: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$5.3 million',
+
+Line 18552: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$9.6 million',
+
+Line 18558: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$1.92 million',
+
+Line 18724: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="Image
+
+Line 18729: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$700',
+
+Line 18734: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$1,050',
+
+Line 18740: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$600',
+
+Line 18746: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: text: '$300',
+
+Line 20455: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: "Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and 
+
+Line 21249: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: /\b(quiz|set|version|form|variant|practice\s*set|test)\b\s*([#:.-]?\s*[a-z0-9ivxlcm]+)?\s*$/.test(
+
+Line 21251: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ) || /\b(v\s*\d+)\s*$/.test(t)
+
+Line 21283: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: .replace(/\((?:\s*(?:quiz|set|version|form|variant)[^)]*)\)\s*$/i, '')
+
+Line 21293: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: /\b(quiz|set|version|form|variant|practice\s*set)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i,
+
+Line 21321: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: variant.label = `Quiz ${String.fromCharCode(65 + (idx % 26))}`;
+
+Line 21329: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const id = `canon__${sanitizeCodeSegment(
+
+Line 21435: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `High-Challenge #${idx - 2}`;
+
+Line 21442: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `Challenge Set #${idx - 2}`;
+
+Line 21595: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return fallbackTitle || `Core Practice Set ${bundleIndex + 1}`;
+
+Line 21863: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: { id: 'A', text: `${qn}`, isCorrect: false },
+
+Line 21864: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: { id: 'B', text: `${qn * 2}`, isCorrect: true },
+
+Line 21865: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: { id: 'C', text: `${qn + 1}`, isCorrect: false },
+
+Line 21866: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: { id: 'D', text: `${qn - 1}`, isCorrect: false },
+
+Line 21869: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: rationale: `Adding ${qn} + ${qn} = ${qn * 2}.`,
+
+Line 22026: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `cat-${categoryIndex + 1}`
+
+Line 22038: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: topicSlugFromId || `topic-${topicIndex + 1}`
+
+Line 22077: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: quizIdSegment || labelSegment || `set-${quizIndex + 1}`;
+
+Line 22102: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const m = String(quiz.label).match(/([A-Z])$/);
+
+Line 22141: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: /\b(quiz|set|practice)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i,
+
+Line 22149: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: /\b(quiz|set)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i,
+
+Line 22168: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: quizTitle = `${canonCat}: ${shortTopic} (Set ${setNum})`;
+
+Line 22174: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`;
+
+Line 22176: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `${fallback}`
+
+Line 22201: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: baseSegment || topicSlug || `topic-${topicIndex + 1}`,
+
+Line 22205: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const quizTitle = topic.title || `Topic ${topicIndex + 1}`;
+
+Line 22226: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: quizIdSegment || labelSegment || `set-${quizIndex + 1}`;
+
+Line 22233: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`
+
+Line 22261: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: quizIdSegment || labelSegment || `set-${quizIndex + 1}`;
+
+Line 22266: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`
+
+Line 22454: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const groupLabel = group?.label || `Cluster ${gIdx + 1}`;
+
+Line 22477: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: id: sanitizeCodeSegment(groupLabel, `cluster-${gIdx + 1}`),
+
+Line 22493: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `cluster-extra-${idx + 1}`
+
+Line 22516: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const id = sanitizeCodeSegment(categoryName, `cluster-${idx + 1}`);
+
+Line 23180: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const storageKey = `quizBrowserExpanded:${sanitizeCodeSegment(subjectName)}`;
+
+Line 23204: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const progressKey = `quizBrowserProgress:${sanitizeCodeSegment(subjectName)}`;
+
+Line 23334: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `Practice key concepts in ${title || 'this section'}.`;
+
+Line 23421: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `Quiz ${String.fromCharCode(65 + index)}`;
+
+Line 23479: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: /\b(quiz|set|practice)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i,
+
+Line 23496: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const m = String(quiz.label || '').match(/([A-Z])$/);
+
+Line 23502: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: derivedTitle = `${canonCat}: ${shortTopic} (Set ${setNum})`;
+
+Line 23532: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${sanitizeCodeSegment(
+
+Line 23565: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: key={topic.id || `topic_${idx}`}
+
+Line 23615: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const expKey = `topic-variants:${sanitizeCodeSegment(
+
+Line 23617: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: )}:${topic.id || sanitizeCodeSegment(topic.title || 'topic')}`;
+
+Line 23662: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${sanitizeCodeSegment(
+
+Line 23665: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: )}__${sanitizeCodeSegment(
+
+Line 23709: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: /\b(quiz|set)\b\s*[#:.-]?\s*[a-z0-9ivxlcm]+\s*$/i.test(raw);
+
+Line 23766: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const id = `${baseId}_set_${stackedSet.setIndex}_quiz_${quizIndex + 1}`;
+
+Line 23771: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: title: `${stackedSet.baseTitle}: Set ${stackedSet.setIndex} ΓÇô Quiz ${
+
+Line 23887: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: key={`stack_${set.baseTitle}_${set.setIndex}_${idx}`}
+
+Line 23988: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`whitespace-nowrap px-3 py-1.5 rounded-full border text-sm font-semibold transition ${
+
+Line 24056: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: aria-label={`Learn more about ${
+
+Line 24120: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const infoKey = `info:${key}`;
+
+Line 24146: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: aria-label={`Learn more about ${title}`}
+
+Line 24332: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${sanitizeCodeSegment(
+
+Line 24335: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: )}__${sanitizeCodeSegment(baseTitle)}`,
+
+Line 24399: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-1.5 rounded-md border text-sm font-semibold ${
+
+Line 24935: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `${organizationName} Learning Canvas`
+
+Line 25018: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border transition ${
+
+Line 25032: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border transition ${
+
+Line 25070: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const response = await fetch(`${API_BASE_URL}/api/organizations`);
+
+Line 25113: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${API_BASE_URL}/api/student/select-organization`,
+
+Line 25118: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${authToken}`,
+
+Line 25528: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-4 py-2 rounded-md font-semibold ${
+
+Line 25567: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 25869: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: await fetch(`${API_BASE_URL}/presence/ping`, {
+
+Line 25901: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: navigator.sendBeacon(`${API_BASE_URL}/presence/ping`, blob);
+
+Line 25930: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const data = await fetchJSON(`${API_BASE_URL}/api/vocabulary/all`);
+
+Line 26121: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: root.classList.add(`fs-${preferences.fontSize}`);
+
+Line 26192: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const bundle = await fetchJSON(`${API_BASE_URL}/api/profile`, {
+
+Line 26196: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 26589: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ...(token ? { Authorization: `Bearer ${token}` } : {}),
+
+Line 26652: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const perUserKey = `appUser:${updated.id}`;
+
+Line 26665: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: window.localStorage.setItem(`customNameSet_${profileId}`, 'true');
+
+Line 26702: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const bundle = await fetchJSON(`${API_BASE_URL}/api/profile/me`, {
+
+Line 26703: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: headers: { Authorization: `Bearer ${token}` },
+
+Line 26724: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+
+Line 26726: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+
+Line 26731: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `${yyyy}-${mm}-${dd}`;
+
+Line 26809: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const perUserKey = `appUser:${updated.id}`;
+
+Line 26910: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const resp = await fetchJSON(`${API_BASE_URL}/api/me/name`, {
+
+Line 26914: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 26934: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const perUserKey = `appUser:${updatedProfile.id}`;
+
+Line 27041: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const bundle = await fetchJSON(`${API_BASE_URL}/api/profile/test`, {
+
+Line 27045: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 27152: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${API_BASE_URL}/api/profile/challenges/tags`,
+
+Line 27157: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 27243: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${API_BASE_URL}/api/profile/complete-onboarding`,
+
+Line 27248: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 27347: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const response = await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
+
+Line 27349: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 27355: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `Failed to fetch quiz attempts: ${response.status}`
+
+Line 27430: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const response = await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
+
+Line 27434: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 27440: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: throw new Error(`Failed to save quiz attempt: ${response.status}`);
+
+Line 27492: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const perUserKey = `appUser:${parsedGeneric.id}`;
+
+Line 27528: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `customNameSet_${profile.id}`
+
+Line 27563: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `appUser:${profile.id}`
+
+Line 27564: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: : `appUser:${profile.email || 'anonymous'}`;
+
+Line 27641: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `customNameSet_${profile.id}`
+
+Line 27670: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const resp = await fetchJSON(`${API_BASE_URL}/api/me/name`, {
+
+Line 27674: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 27696: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const perUserKey = `appUser:${updatedProfile.id}`;
+
+Line 27699: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: localStorage.setItem(`customNameSet_${updatedProfile.id}`, 'true');
+
+Line 27730: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const perUserKey = `appUser:${profile.id}`;
+
+Line 27749: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `customNameSet_${profile.id}`
+
+Line 27796: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: setLoadingMessage(`Generating your comprehensive ${subject} exam...`);
+
+Line 27800: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const response = await fetch(`${API_BASE_URL}/generate-quiz`, {
+
+Line 27813: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: err.error || `Request failed with status ${response.status}`
+
+Line 28170: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: .replace(/^\$+|\$+$/g, '')
+
+Line 28213: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: await fetch(`${API_BASE_URL}/api/challenges/ingest-responses`, {
+
+Line 28217: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 28283: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
+
+Line 28287: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 28608: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: id: `ai_${Date.now()}`,
+
+Line 28620: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: alert(`Sorry, something went wrong. ${err.message}`);
+
+Line 28645: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`fixed inset-0 z-[60] flex flex-col items-center justify-center text-white transition-opa
+
+Line 28656: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Welcome{welcomeName ? `, ${welcomeName}!` : '!'}
+
+Line 28737: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${API_BASE_URL}/api/practice-session`,
+
+Line 28888: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `Next test: ${nextUpcoming.subject} on ${nextUpcoming.testDate}${
+
+Line 28889: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: nextUpcomingDaysText ? ` (${nextUpcomingDaysText})` : ''
+
+Line 29048: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`rounded-2xl border bg-white/95 dark:bg-slate-950/70 dark:border-slate-700 p-5 shadow-sm 
+
+Line 29132: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`rounded-2xl border bg-white/95 dark:bg-slate-950 dark:border-slate-700 p-5 shadow-sm spa
+
+Line 29263: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: : `Save ${entry.subject}`}
+
+Line 29328: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`rounded-2xl border bg-white/95 dark:bg-slate-900/85 dark:text-slate-100 p-5 shadow-sm sp
+
+Line 29346: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {totalChallenges ? ` (${totalChallenges})` : ''}
+
+Line 29355: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`${
+
+Line 29383: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`ml-8 mt-2 flex items-start gap-2 text-sm rounded-md border px-2 py-1 transition ${
+
+Line 29416: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {totalChallenges ? ` / ${totalChallenges}` : ''}
+
+Line 29470: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `${Math.round(value)}%`;
+
+Line 29474: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `${Math.round(value.score)}%`;
+
+Line 29477: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `${Math.round(value.value)}%`;
+
+Line 29492: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `Item ${index + 1}`;
+
+Line 29625: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {row.latest != null ? `${row.latest}%` : 'ΓÇô'}
+
+Line 29628: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {row.avg != null ? `${row.avg}%` : 'ΓÇô'}
+
+Line 29662: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <tr key={`${row.subject}-${row.subtopic}-${index}`}>
+
+Line 29668: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {row.latest != null ? `${row.latest}%` : 'ΓÇô'}
+
+Line 29671: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {row.avg != null ? `${row.avg}%` : 'ΓÇô'}
+
+Line 29803: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`option-pill ${
+
+Line 29839: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`option-pill ${
+
+Line 29841: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: }flex items-center gap-3 rounded-lg border px-3 py-2 transition ${
+
+Line 29921: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
+
+Line 29932: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: throw new Error(text || `Server responded with ${res.status}`);
+
+Line 30147: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${palette}`}
+
+Line 30350: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: width: `${percentage}%`,
+
+Line 30731: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${authToken}`,
+
+Line 30735: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: fetchJSON(`${API_BASE_URL}/api/admin/reports/readiness`, { headers }),
+
+Line 30736: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: fetchJSON(`${API_BASE_URL}/api/admin/reports/activity`, { headers }),
+
+Line 30737: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: fetchJSON(`${API_BASE_URL}/api/admin/reports/ged-results`, { headers }),
+
+Line 30902: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: width: `${
+
+Line 30921: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: width: `${
+
+Line 30940: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: width: `${
+
+Line 31034: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${authToken}`,
+
+Line 31043: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const resp = await fetchJSON(`${API_BASE_URL}/api/admin/organizations`, {
+
+Line 31060: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const resp = await fetchJSON(`${API_BASE_URL}/api/admin/users`, {
+
+Line 31077: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${API_BASE_URL}/api/admin/activity/recent?limit=50`,
+
+Line 31340: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${authToken}`,
+
+Line 31345: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: fetchJSON(`${API_BASE_URL}/api/admin/reports/readiness`, { headers }),
+
+Line 31346: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: fetchJSON(`${API_BASE_URL}/api/admin/reports/activity`, { headers }),
+
+Line 31347: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: fetchJSON(`${API_BASE_URL}/api/admin/reports/ged-results`, { headers }),
+
+Line 31431: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${authToken}`,
+
+Line 31456: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${authToken}`,
+
+Line 31590: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${authToken}`,
+
+Line 31594: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: fetchJSON(`${API_BASE_URL}/api/admin/reports/readiness`, { headers }),
+
+Line 31595: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: fetchJSON(`${API_BASE_URL}/api/admin/reports/activity`, { headers }),
+
+Line 31596: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: fetchJSON(`${API_BASE_URL}/api/admin/reports/ged-results`, { headers }),
+
+Line 31715: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+
+Line 31725: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+
+Line 31735: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+
+Line 31745: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+
+Line 31855: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: width: `${Math.min(100, Math.max(0, completionPercentage))}%`,
+
+Line 31905: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`ml-3 text-sm font-semibold ${
+
+Line 31948: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `Exam ${index + 1}`}
+
+Line 32072: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `${(Math.round(card.value * 10) / 10).toFixed(1)} / 6`;
+
+Line 32074: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `${(Math.round(card.latest * 10) / 10).toFixed(1)} / 6`;
+
+Line 32115: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `${lastTitle.slice(0, 49)}ΓÇª`
+
+Line 32134: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: id={subjectId ? `subject-card-${subjectId}` : undefined}
+
+Line 32144: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: alt={`${subject} GED badge`}
+
+Line 32175: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: width: `${Math.max(0, Math.min(100, completionPercent))}%`,
+
+Line 32202: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {lastScore != null && ` (${Math.round(lastScore)})`}
+
+Line 32290: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: key={`${item.subject}-${item.term}-${index}`}
+
+Line 32294: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: title={`View ${item.subject} vocabulary`}
+
+Line 32437: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const containerClasses = `animate-floatIn rounded-2xl p-6 mb-6 border transition-colors duration-300
+
+Line 32454: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const cardClasses = `rounded-xl p-4 shadow-sm border transition-all ${
+
+Line 32462: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: borderLeft: `4px solid ${accentColor}`,
+
+Line 32559: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const containerClasses = `animate-floatIn rounded-2xl border transition-all duration-300 ${
+
+Line 32573: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const headerClasses = `flex items-center justify-between p-4 cursor-pointer rounded-t-2xl transition
+
+Line 32580: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: borderBottom: `2px solid ${lightTint}`,
+
+Line 32588: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const buttonClasses = `px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-sm ${
+
+Line 32597: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: boxShadow: `0 4px 14px -6px ${accentColor}`,
+
+Line 32600: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const cardClasses = `rounded-lg p-3 border transition-all ${
+
+Line 32608: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: borderLeft: `3px solid ${accentColor}`,
+
+Line 32983: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const base = new Date(`${iso}T00:00:00`);
+
+Line 33012: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: id: task.id || `${subjectId || 'task'}-${dayIndex}-${taskIndex}`,
+
+Line 33045: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const label = day.label || `Day ${resolvedIndex + 1}`;
+
+Line 33105: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: headers: { Authorization: `Bearer ${token}` },
+
+Line 33153: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: headers: { Authorization: `Bearer ${token}` },
+
+Line 33224: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 33273: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 33279: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: results.push(`${subj}: already generated`);
+
+Line 33286: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: results.push(`${subj}: ok`);
+
+Line 33288: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: results.push(`${subj}: error`);
+
+Line 33500: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: setLoadingMessage(`Loading your practice quiz for ${subject}ΓÇª`);
+
+Line 33515: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 33522: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: throw new Error(`premade-composite HTTP ${res.status}`);
+
+Line 33589: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: setLoadingMessage(`Loading your practice quiz for ${subject}ΓÇª`);
+
+Line 33732: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `${mm}/${dd}/${yyyy}`;
+
+Line 33755: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return parseYMD(s);
+
+Line 33756: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+
+Line 33770: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: )}-${String(dt.getDate()).padStart(2, '0')}`
+
+Line 33807: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `${days} days left`;
+
+Line 33827: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const storageKey = `seenTestReminder:${todayKey}`;
+
+Line 33926: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: throw new Error(`Failed to fetch vocabulary quiz: ${res.statusText}`);
+
+Line 34066: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `${(Math.round(card.value * 10) / 10).toFixed(1)} / 6`;
+
+Line 34124: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `Back to ${selectedSubject}`
+
+Line 34129: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`mb-4 text-lg font-semibold flex items-center gap-2 ${
+
+Line 34137: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`flex items-center gap-2 ${
+
+Line 34202: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${
+
+Line 34218: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${
+
+Line 34225: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${
+
+Line 34240: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: : `Set ${Object.keys(acc).length + 1}`;
+
+Line 34290: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const title = `${selectedSubject} ΓÇô ${selectedCategory} Set ${setNumber}`;
+
+Line 34293: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const quizCode = [subjectSlug, categorySlug, `set-${setNumber}`].join(
+
+Line 34304: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: description: `${selectedCategory} practice ΓÇô combined set of 3 quizzes`,
+
+Line 34365: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {`${selectedSubject} ΓÇô ${selectedCategory} Set ${idx + 1}`}
+
+Line 34416: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
+
+Line 34420: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const quizIdBase = topic.id || `topic_${topicIndex}`;
+
+Line 34486: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: key={topic.id || `topic_${topicIndex}`}
+
+Line 34537: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const expKey = `topic-variants:${sanitizeCodeSegment(
+
+Line 34554: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${
+
+Line 34555: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: topic.id || `topic_${topicIndex}`
+
+Line 34556: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: }_quiz_${index}`
+
+Line 34585: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: topic.title || `topic-${topicIndex + 1}`,
+
+Line 34586: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `topic-${topicIndex + 1}`
+
+Line 34701: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${
+
+Line 34733: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${
+
+Line 34740: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${panelBorderColor}`,
+
+Line 34748: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${
+
+Line 34755: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${
+
+Line 34770: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: : `${subjectPremadeTotal} premade quizzes ready`;
+
+Line 34884: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`coach-panel rounded-lg p-4 mt-4 shadow-md ${
+
+Line 34967: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `Focus: ${task.focus.join(', ')}`
+
+Line 34973: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `Start ${
+
+Line 35052: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: key={`daily-fallback-${entry.subject}`}
+
+Line 35237: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`coach-panel ${
+
+Line 35239: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: } coach-subject-card subject-${subjectKey} rounded-lg p-4 flex flex-col justify-between shadow-md ho
+
+Line 35308: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {focus ? `${focus} ΓÇô ` : ''}
+
+Line 35337: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${primaryBtnColor}`,
+
+Line 35389: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${primaryBtnColor}`,
+
+Line 35460: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${primaryBtnColor}`,
+
+Line 35494: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${primaryBtnColor}`,
+
+Line 35593: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`grid gap-4 ${
+
+Line 35624: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+
+Line 35632: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`text-sm ${homePanelPrimaryTextClass}`}
+
+Line 35648: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`text-sm ${homePanelPrimaryTextClass}`}
+
+Line 35662: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+
+Line 35669: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+
+Line 35676: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+
+Line 35681: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`text-xs ${
+
+Line 35709: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+
+Line 35720: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: key={`${item.subject}-${item.dateISO}-${idx}`}
+
+Line 35725: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`font-semibold ${homePanelPrimaryTextClass}`}
+
+Line 35733: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`text-sm ${homePanelPrimaryTextClass}`}
+
+Line 35751: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+
+Line 35755: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+
+Line 35760: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`text-xs ${
+
+Line 35789: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`space-y-1 text-sm ${homePanelPrimaryTextClass}`}
+
+Line 35799: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`text-xs ${
+
+Line 35808: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+
+Line 35833: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md ${
+
+Line 35839: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`text-lg font-semibold ${homePanelPrimaryTextClass}`}
+
+Line 35854: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <p className={`text-sm ${homePanelPrimaryTextClass}`}>
+
+Line 35898: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`coach-subject-card coach-gold-card rounded-lg border p-3 backdrop-blur-sm subject-${subj
+
+Line 35937: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`text-base font-semibold ${homePanelPrimaryTextClass}`}
+
+Line 36011: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: : `${premadeTotal} premade quizzes ready`;
+
+Line 36055: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: data-testid={`subject-button-${subjectName
+
+Line 36058: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: .replace(/-$/, '')}`}
+
+Line 36109: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`w-full mt-3 coach-subject-card subject-${subjectKey} rounded-md border p-2 text-left`}
+
+Line 36334: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: aria-label={`Question ${qNum}`}
+
+Line 36470: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const numericPattern = /^[\d\.\-\/%\s\(\)]*$/;
+
+Line 36740: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${scheme.surfaceBorder}`,
+
+Line 36746: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: style={{ borderBottom: `1px solid ${scheme.divider}` }}
+
+Line 36797: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${scheme.accent}`,
+
+Line 36869: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${scheme.accent}`,
+
+Line 36880: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${scheme.surfaceBorder}`,
+
+Line 36949: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
+
+Line 36968: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${scheme.surfaceBorder}`,
+
+Line 37007: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: alt={`Visual for question ${currentQ.questionNumber}`}
+
+Line 37009: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: style={{ border: `1px solid ${scheme.surfaceBorder}` }}
+
+Line 37038: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: style={{ border: `1px solid ${scheme.surfaceBorder}` }}
+
+Line 37057: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px dashed ${scheme.surfaceBorder}`,
+
+Line 37079: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${scheme.inputBorder}`,
+
+Line 37222: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${scheme.inputBorder}`,
+
+Line 37263: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${scheme.accentBorder}`,
+
+Line 37275: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? optText.trim().replace(/^\$\$/, '$')
+
+Line 37366: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${scheme.navMarkedRing}`,
+
+Line 37371: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: border: `1px solid ${scheme.navDefaultBg}`,
+
+Line 37417: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: // Lightweight parser supporting: fractions (a/b), mixed numbers (a b/c), ratios (a:b), percents (50
+
+Line 37423: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: PERCENT_RE: /^[-+]?\d+(?:\.\d+)?%$/,
+
+Line 37427: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: FRACTION_RE: /^[-+]?\d+\s*\/\s*\d+$/,
+
+Line 37429: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: MIXED_RE: /^[-+]?\d+\s+\d+\s*\/\s*\d+$/,
+
+Line 37431: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: RATIO_RE: /^[-+]?\d+\s*:\s*[-+]?\d+$/,
+
+Line 37444: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const stripCurrency = (s) => s.replace(/^\$/, '').replace(/,/g, '');
+
+Line 37715: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: if (/^[-+]?\d+(?:\.\d+)?%$/.test(s)) {
+
+Line 37720: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const n = Number(s.replace(/^\$/, '').replace(/,/g, ''));
+
+Line 37723: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: if (/^[-+]?\d+\s+\d+\s*\/\s*\d+$/.test(s)) {
+
+Line 37739: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: if (/^[-+]?\d+\s*\/\s*\d+$/.test(s)) {
+
+Line 37747: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: if (/^[-+]?\d+\s*:\s*[-+]?\d+$/.test(s)) {
+
+Line 37813: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `[grader] ${
+
+Line 37815: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: } fill-in question(s) missing correctAnswer: #${missing.join(', ')}`
+
+Line 38103: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`h-8 w-8 rounded-full text-sm font-bold transition ${
+
+Line 38156: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`w-full text-left p-4 rounded-lg border-2 transition ${
+
+Line 38186: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: id={`mark-${currentQuestionIndex}`}
+
+Line 38196: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: htmlFor={`mark-${currentQuestionIndex}`}
+
+Line 38466: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const response = await fetch(`${API_BASE_URL}/api/essay/score`, {
+
+Line 38470: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ...(token ? { Authorization: `Bearer ${token}` } : {}),
+
+Line 38503: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${API_BASE_URL}/api/challenges/suggestions`,
+
+Line 38506: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ...(token ? { Authorization: `Bearer ${token}` } : {}),
+
+Line 38566: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {p?.title || `Passage ${idx + 1}`}
+
+Line 38702: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${
+
+Line 38723: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-1 rounded-md text-sm font-semibold transition-colors ${
+
+Line 38794: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const res = await fetch(`${API_BASE_URL}/api/challenges/suggestions`, {
+
+Line 38795: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: headers: { Authorization: `Bearer ${token}` },
+
+Line 38828: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const res = await fetch(`${API_BASE_URL}/api/challenges/resolve`, {
+
+Line 38832: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 38930: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <p className={`text-6xl font-bold my-2 ${performance.color}`}>
+
+Line 38933: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <p className={`text-2xl font-semibold mb-2 ${performance.color}`}>
+
+Line 39018: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: width: `${
+
+Line 39109: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`p-4 rounded-lg panel-surface ${borderClass} text-slate-900 dark:text-slate-100`}
+
+Line 39126: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: alt={`Visual for question ${question.questionNumber}`}
+
+Line 39162: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`mt-2 ${
+
+Line 39265: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-2 py-0.5 text-xs font-bold rounded-full ${getConfidenceColor(
+
+Line 39377: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`question-container p-4 rounded-lg transition-colors ${
+
+Line 39394: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: alt={`Visual for question ${i + 1}`}
+
+Line 39461: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: name={`q${i}`}
+
+Line 39468: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`${
+
+Line 39472: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: } ${
+
+Line 39686: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: "<p>For too long, we have pushed a 'college-for-all' mentality that has left millions of young peopl
+
+Line 39987: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const response = await fetch(`${API_BASE_URL}/api/essay/score`, {
+
+Line 39991: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ...(token ? { Authorization: `Bearer ${token}` } : {}),
+
+Line 39995: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: completion: `${completionCount}/5`,
+
+Line 40028: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${API_BASE_URL}/api/challenges/suggestions`,
+
+Line 40031: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ...(token ? { Authorization: `Bearer ${token}` } : {}),
+
+Line 40056: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `${sign}${mm}:${ss}`;
+
+Line 40060: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `After reading both passages about "${selectedPassage.topic}", write an essay in which you explain
+
+Line 40142: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`tab-button text-lg font-semibold py-4 px-6 text-gray-600 capitalize ${
+
+Line 40281: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`text-3xl font-mono font-bold ${
+
+Line 40324: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-4 py-2 text-sm font-medium border ${
+
+Line 40335: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-4 py-2 text-sm font-medium border -ml-px ${
+
+Line 40827: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`${
+
+Line 40840: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`${
+
+Line 40853: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`${
+
+Line 40925: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-1.5 text-sm font-semibold rounded-full border transition-colors ${
+
+Line 41036: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: id: `ai_${Date.now()}`,
+
+Line 41044: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: setError(`Sorry, something went wrong. ${err.message}`);
+
+Line 41109: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: getPrompt: (shapeLabel) => `What is the area of the ${shapeLabel}?`,
+
+Line 41115: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `What is the perimeter of the ${shapeLabel}?`,
+
+Line 41123: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: )} and a width of ${formatNumber(
+
+Line 41172: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: getPrompt: (shapeLabel) => `What is the area of the ${shapeLabel}?`,
+
+Line 41180: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: )} and a base of ${formatNumber(
+
+Line 41227: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: getPrompt: (shapeLabel) => `What is the area of the ${shapeLabel}?`,
+
+Line 41233: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `What is the circumference of the ${shapeLabel}?`,
+
+Line 41278: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,
+
+Line 41286: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: )}, a length of ${formatNumber(
+
+Line 41288: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: )}, and a width of ${formatNumber(
+
+Line 41308: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <path d={`M ${50 + w * 3},${50 - w * 3} H ${50 + w * 3 + l * 8}`} />
+
+Line 41310: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: d={`M ${50 + w * 3 + l * 8},${50 - w * 3} V ${
+
+Line 41347: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,
+
+Line 41353: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `What is the surface area of the ${shapeLabel}?`,
+
+Line 41361: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: )} and a radius of ${formatNumber(
+
+Line 41377: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <path d={`M ${150 - r * 5},50 L ${150 - r * 5},${50 + h * 5}`} />
+
+Line 41378: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <path d={`M ${150 + r * 5},50 L ${150 + r * 5},${50 + h * 5}`} />
+
+Line 41405: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,
+
+Line 41411: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `What is the surface area of the ${shapeLabel}?`,
+
+Line 41422: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: )} and a radius of ${formatNumber(
+
+Line 41484: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: getPrompt: (shapeLabel) => `What is the volume of the ${shapeLabel}?`,
+
+Line 41490: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `What is the surface area of the ${shapeLabel}?`,
+
+Line 41537: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: )} and b = ${formatNumber(
+
+Line 41571: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {hidden.includes('a') ? '?' : `a = ${a}`}
+
+Line 41580: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {hidden.includes('b') ? '?' : `b = ${b}`}
+
+Line 41647: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `Not quite. The correct answer is ${currentProblem.correctAnswer}.`
+
+Line 41712: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`flex items-center gap-1 text-sm font-semibold transition-colors ${
+
+Line 41772: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`p-2 font-semibold rounded-md transition capitalize border ${
+
+Line 41809: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`mt-2 p-2 rounded-md text-center font-semibold ${
+
+Line 41917: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const parts = preparedInput.match(/^(-?\d*\.?\d*)x([+-]\d+\.?\d*)?$/);
+
+Line 42057: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`flex-1 p-2 font-semibold rounded-md transition ${
+
+Line 42067: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`flex-1 p-2 font-semibold rounded-md transition ${
+
+Line 42393: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `${favs.length} careers saved`
+
+Line 42407: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return done > 0 ? `${done} scenarios done` : '0 scenarios done';
+
+Line 42418: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return done > 0 ? `${done} quizzes done` : '0 quizzes done';
+
+Line 42438: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `${apps.length} applications tracked`
+
+Line 42661: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${API_BASE_URL}/api/user/career-interests`,
+
+Line 42663: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: headers: { Authorization: `Bearer ${token}` },
+
+Line 42775: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: await fetch(`${API_BASE_URL}/api/user/career-interests`, {
+
+Line 42779: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Authorization: `Bearer ${token}`,
+
+Line 42786: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: headers: { Authorization: `Bearer ${token}` },
+
+Line 42816: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-1.5 rounded-md font-semibold text-sm transition ${
+
+Line 43012: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: {p.borough ? ` ΓÇó ${p.borough}` : ''}
+
+Line 43237: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${e.role || 'Role'} at ${e.company || 'Company'} (${[
+
+Line 43242: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: .join(' - ')})\n${e.details || ''}`
+
+Line 43308: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ${form.name || 'Name not provided'}
+
+Line 43309: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ${[form.email, form.phone].filter(Boolean).join(' | ')}
+
+Line 43311: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ${form.summary ? 'SUMMARY:\n' + form.summary : ''}
+
+Line 43313: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ${form.skills ? 'SKILLS:\n' + form.skills : ''}
+
+Line 43315: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ${
+
+Line 43321: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${e.role || 'Role'} at ${e.company || 'Company'} (${[
+
+Line 43326: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: .join(' - ')})\n${e.details || ''}`
+
+Line 43567: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Resume Score: {score !== null ? `${score}/100` : '--'}
+
+Line 43789: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `${API_BASE_URL}/api/workforce/interview-session`,
+
+Line 44008: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`p-3 rounded-lg ${
+
+Line 44067: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-4 py-3 rounded-lg font-semibold ${
+
+Line 44577: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Cover Letter Score: {score !== null ? `${score}/100` : '--'}
+
+Line 44740: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-1.5 rounded-md text-sm font-semibold ${
+
+Line 44772: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-2 rounded-md border text-left ${
+
+Line 44837: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `Soft Skills Score: ${aiEvaluation.score}/100`
+
+Line 44937: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-2 rounded-md border text-left ${
+
+Line 45050: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`p-3 border rounded-xl text-left transition ${
+
+Line 45106: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: ? `Score: ${aiReview.score}/100`
+
+Line 45210: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: <div className="text-sm">Expenses: ${total.toLocaleString()}</div>
+
+Line 45212: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`text-sm ${
+
+Line 45218: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: Savings: ${savings.toLocaleString()}
+
+Line 45315: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-1 rounded-md text-sm font-semibold ${
+
+Line 45325: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-1 rounded-md text-sm font-semibold ${
+
+Line 45443: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`p-2 border-l-4 border rounded-md bg-slate-50 dark:bg-slate-900/50 ${priorityColor}`}
+
+Line 45539: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-2 py-0.5 rounded-full text-xs font-semibold ${priorityBadge}`}
+
+Line 46139: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `Math.sqrt(${walk(node.radicand)})`;
+
+Line 46150: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: if (node.value === 'ln') return `Math.log(${arg})`;
+
+Line 46151: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: if (node.value === 'log') return `(Math.log(${arg})/Math.LN10)`;
+
+Line 46152: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: if (node.value === 'exp') return `Math.exp(${arg})`;
+
+Line 46154: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `(()=>{const n=${arg}|0;let r=1;for(let i=2;i<=n;i++)r*=i;return r;})()`;
+
+Line 46164: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `(${fact})(${a})/(((${fact})(${b}))*(${fact})((${a})-(${b})))`;
+
+Line 46166: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `(${fact})(${a})/((${fact})((${a})-(${b})))`;
+
+Line 46194: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: return `ΓêÜ(${walk(node.radicand)})`;
+
+Line 46930: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: .replace(/(\d+\.?\d*)%/g, '($1/100)')
+
+Line 47271: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: `n=${n}  mean=${mean.toFixed(4)}  ╧â=${stdev.toFixed(4)}`
+
+Line 47325: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-1 rounded ${
+
+Line 47335: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-3 py-1 rounded ${
+
+Line 47436: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`${getColorClasses()} ${sizeClasses} ${widthClasses} px-2 rounded-lg border-2 shadow-md f
+
+Line 47466: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const body = safe(fnText).replace(/\bx\b/g, `(${x})`);
+
+Line 47603: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-6 py-3 rounded-lg font-semibold transition ${
+
+Line 47613: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-6 py-3 rounded-lg font-semibold transition ${
+
+Line 47871: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-4 py-2 rounded-lg font-semibold transition ${
+
+Line 47906: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: className={`px-4 py-2 rounded-lg font-semibold transition ${
+
+Line 47937: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: { description: 'Trailing currency symbol', input: 'The price is 7$ today.' },
+
+Line 47940: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: input: 'Please pay $30 before Friday.',
+
+Line 47944: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: input: 'Escaped currency \\$18 should stay as dollars.',
+
+Line 47965: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: input: '< table >< tr >< td >$10< /td ></tr></table>',
+
+Line 47969: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: input: 'Sentence with stray $ sign in the middle.',
+
+Line 47981: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: input: '<table><thead><tr><th>Revenue $ (USD)</th></tr></thead></table>',
+
+Line 47997: [UNPAIRED_LATEX_BRACKET]
+  Unbalanced \[ or \] in LaTeX formula
+  Preview: if (textSegments.some((seg) => /(^|[^\\])\$(?!\$)/.test(seg.value))) {
+
+Line 48011: [UNPAIRED_LATEX_DELIMITER]
+  Possible unpaired $ delimiter in LaTeX formula
+  Preview: const inlineDelimiterMatches = inlineScope.match(/\$/g) || [];
+
+
+≡ƒô¥ Detailed results saved to: question-analysis-results.json

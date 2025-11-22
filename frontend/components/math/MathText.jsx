@@ -1,0 +1,37 @@
+import React from 'react';
+import { formatFractions } from '../../utils/textUtils.js';
+import { renderStem } from '../../utils/mathUtils.js';
+
+// Local safeHtml wrapper to preserve original behavior
+const safeHtml = (html) => ({ __html: typeof html === 'string' ? html : '' });
+
+function MathText({ text, className, subject }) {
+  if (typeof text !== 'string' || text.trim() === '') {
+    return <span className={className}></span>;
+  }
+
+  let renderedHtml;
+
+  if (subject === 'Math') {
+    renderedHtml = renderStem(text);
+  } else {
+    const san =
+      typeof window !== 'undefined' &&
+      window.DOMPurify &&
+      window.DOMPurify.sanitize
+        ? window.DOMPurify.sanitize
+        : (v) => v;
+    renderedHtml = san(text);
+  }
+
+  const formattedHtml = formatFractions(renderedHtml);
+
+  return (
+    <span
+      className={className}
+      dangerouslySetInnerHTML={safeHtml(formattedHtml)}
+    />
+  );
+}
+
+export default MathText;

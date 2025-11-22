@@ -1,0 +1,372 @@
+[
+  {
+    "line": 2224,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Science",
+    "topicId": "sci_chem_equations_balancing",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 2421,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Science",
+    "topicId": "sci_chem_equations_balancing",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 6786,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "math_quant_stats_probability",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 11723,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "ss_us_hist_westward_expansion_quiz1",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 11902,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "ss_us_hist_westward_expansion_quiz3",
+    "questionNumber": 1,
+    "optionCount": 0,
+    "description": "Question 1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 13095,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "ss_us_hist_industrial_america_quiz1",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 13243,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "ss_us_hist_industrial_america_quiz2",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 13339,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "ss_us_hist_industrial_america_quiz3",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 13378,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "ss_us_hist_industrial_america_quiz3",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 13397,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "ss_us_hist_industrial_america_quiz3",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 13957,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "ss_us_hist_cold_war_quiz2",
+    "questionNumber": -1,
+    "optionCount": 1,
+    "description": "Question -1 has only 1 answer options (expected 4)"
+  },
+  {
+    "line": 14105,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "ss_us_hist_cold_war_quiz3",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 19217,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_informational_texts_structure_purpose_quiz3",
+    "questionNumber": -1,
+    "optionCount": 1,
+    "description": "Question -1 has only 1 answer options (expected 4)"
+  },
+  {
+    "line": 19296,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_informational_texts_structure_purpose_quiz3",
+    "questionNumber": -1,
+    "optionCount": 1,
+    "description": "Question -1 has only 1 answer options (expected 4)"
+  },
+  {
+    "line": 19331,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_informational_texts_structure_purpose_quiz3",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 19363,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_informational_texts_structure_purpose_quiz3",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 19423,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_informational_texts_structure_purpose_quiz3",
+    "questionNumber": -1,
+    "optionCount": 1,
+    "description": "Question -1 has only 1 answer options (expected 4)"
+  },
+  {
+    "line": 19541,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_info_pov",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 19844,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_info_arguments",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 20219,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_info_graphics",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 20232,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_info_graphics",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 20270,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_info_graphics",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 20282,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_info_graphics",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 20296,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_info_graphics",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 20331,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_info_graphics",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 20350,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_info_graphics",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 20368,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_info_graphics",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 20486,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_lit_plot_character_quiz3",
+    "questionNumber": -1,
+    "optionCount": 1,
+    "description": "Question -1 has only 1 answer options (expected 4)"
+  },
+  {
+    "line": 20605,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_lit_plot_character_quiz3",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 20621,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_lit_plot_character_quiz3",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 20691,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_lit_plot_character_quiz3",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 20719,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_lit_plot_character_quiz3",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 20788,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_lit_theme_figurative_language_quiz3",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  },
+  {
+    "line": 20816,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_lit_theme_figurative_language_quiz3",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 20873,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_lit_theme_figurative_language_quiz3",
+    "questionNumber": -1,
+    "optionCount": 2,
+    "description": "Question -1 has only 2 answer options (expected 4)"
+  },
+  {
+    "line": 20977,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_lit_theme_figurative_language_quiz3",
+    "questionNumber": -1,
+    "optionCount": 1,
+    "description": "Question -1 has only 1 answer options (expected 4)"
+  },
+  {
+    "line": 21012,
+    "type": "TOO_FEW_ANSWER_OPTIONS",
+    "severity": "HIGH",
+    "subject": "Math",
+    "topicId": "rla_lit_theme_figurative_language_quiz3",
+    "questionNumber": -1,
+    "optionCount": 0,
+    "description": "Question -1 has only 0 answer options (expected 4)"
+  }
+]
