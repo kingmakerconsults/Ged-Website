@@ -3,60 +3,8 @@ import {
   renderLatexToHtml,
   escapeHtml,
   applySafeMathFix,
-} from '../utils/mathUtils.js';
-
-const ScienceFormulas = [
-  {
-    name: 'Distance',
-    formula: 'd = vt',
-    variables: 'd = distance, v = velocity, t = time',
-  },
-  {
-    name: 'Velocity',
-    formula: 'v = \\frac{d}{t}',
-    variables: 'v = velocity, d = distance, t = time',
-  },
-  {
-    name: 'Acceleration',
-    formula: 'a = \\frac{\\Delta v}{t}',
-    variables: 'a = acceleration, Δv = change in velocity, t = time',
-  },
-  {
-    name: 'Force',
-    formula: 'F = ma',
-    variables: 'F = force, m = mass, a = acceleration',
-  },
-  {
-    name: 'Work',
-    formula: 'W = Fd',
-    variables: 'W = work, F = force, d = distance',
-  },
-  {
-    name: 'Power',
-    formula: 'P = \\frac{W}{t}',
-    variables: 'P = power, W = work, t = time',
-  },
-  {
-    name: 'Kinetic Energy',
-    formula: 'KE = \\frac{1}{2}mv^2',
-    variables: 'KE = kinetic energy, m = mass, v = velocity',
-  },
-  {
-    name: 'Potential Energy',
-    formula: 'PE = mgh',
-    variables: 'PE = potential energy, m = mass, g = gravity, h = height',
-  },
-  {
-    name: 'Density',
-    formula: '\\rho = \\frac{m}{V}',
-    variables: 'ρ = density, m = mass, V = volume',
-  },
-  {
-    name: 'Pressure',
-    formula: 'P = \\frac{F}{A}',
-    variables: 'P = pressure, F = force, A = area',
-  },
-];
+} from '../../utils/mathUtils.js';
+import { ScienceFormulas } from '../../data/science/ScienceFormulas.js';
 
 export function FormulaDisplay({ latex, className = '' }) {
   const safeLatex = normalizeFormulaLatex(latex);

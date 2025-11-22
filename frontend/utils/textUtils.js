@@ -260,14 +260,102 @@ export function stripLeakedMathPlaceholders(text) {
   return text.replace(/@@MATH_\d+@@/g, '');
 }
 
+// Replaced with trusted implementation from app.jsx (wrap plain-text math fractions in span.frac)
 export function formatFractions(text) {
-  if (typeof text !== 'string') return text;
-  return text.replace(/(\d+)\/(\d+)/g, '<sup>$1</sup>⁄<sub>$2</sub>');
+  if (!text || typeof text !== 'string') return text;
+  const complexPattern = /\(([^(]+)\)\s*\/\s*\(([^(]+)\)/g;
+  const parenOverNumberPattern = /\(([^(]+)\)\s*\/\s*([0-9]+(\.[0-9]+)?)/g;
+  const simpleNumericPattern =
+    /\b([0-9]+(\.[0-9]+)?)\s*\/\s*([0-9]+(\.[0-9]+)?)\b/g;
+  let out = text;
+  out = out.replace(complexPattern, (m) => `<span class="frac">${m}</span>`);
+  out = out.replace(
+    parenOverNumberPattern,
+    (m) => `<span class="frac">${m}</span>`
+  );
+  out = out.replace(
+    simpleNumericPattern,
+    (m) => `<span class="frac">${m}</span>`
+  );
+  return out;
 }
 
+// Replaced with trusted implementation from app.jsx (remove duplicated halves of entire string)
 export function cleanRepeatedText(text) {
-  if (typeof text !== 'string') return text;
-  return text.replace(/\b(\w+)\s+\1\b/gi, '$1');
+  if (!text || typeof text !== 'string') return text;
+  const half = Math.floor(text.length / 2);
+  if (text.length % 2 === 0) {
+    const firstHalf = text.substring(0, half);
+    const secondHalf = text.substring(half);
+    if (firstHalf === secondHalf) {
+      return firstHalf;
+    }
+  }
+  return text;
+}
+
+// Extracted from app.jsx: normalizeInlineTablesFront
+export function normalizeInlineTablesFront(html) {
+  if (typeof html !== 'string' || !html.trim()) return html;
+  if (/<table/i.test(html)) return html;
+  if (!html.includes('|')) return html;
+  let rows;
+  if (html.includes('||')) {
+    rows = html
+      .split('||')
+      .map((r) => r.trim())
+      .filter(Boolean);
+  } else {
+    rows = html
+      .split(/\r?\n/)
+      .filter((l) => l.includes('|'))
+      .map((r) => r.trim())
+      .filter(Boolean);
+  }
+  if (!rows.length) return html;
+  const trs = [];
+  for (const r of rows) {
+    if (/^\|?\s*-{3,}/.test(r)) continue;
+    const cells = r
+      .replace(/^\|/, '')
+      .replace(/\|$/, '')
+      .split('|')
+      .map((c) => c.trim());
+    const tds = cells.map((c) => `<td>${c}</td>`).join('');
+    trs.push(`<tr>${tds}</tr>`);
+  }
+  if (!trs.length) return html;
+  return `<table class="data-table"><tbody>${trs.join('')}</tbody></table>`;
+}
+
+// Extracted from app.jsx: sanitizeHtmlContent
+export function sanitizeHtmlContent(
+  content,
+  { normalizeSpacing = false, skipPreprocess = false } = {}
+) {
+  if (typeof content !== 'string') return '';
+  let working = content;
+  if (!skipPreprocess) {
+    working = preprocessRawContent(working, { normalizeSpacing });
+  }
+  working = normalizeInlineTablesFront(working);
+  const sanitizer =
+    typeof window !== 'undefined' &&
+    window.DOMPurify &&
+    window.DOMPurify.sanitize
+      ? window.DOMPurify.sanitize
+      : null;
+  if (sanitizer) {
+    return formatFractions(
+      sanitizer(working, {
+        ALLOWED_TAGS: ALLOWED_HTML_TAGS,
+        ALLOWED_ATTR: ALLOWED_HTML_ATTR,
+      })
+    );
+  }
+  return formatFractions(
+    working.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  );
 }
 
 export function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
@@ -317,54 +405,153 @@ export function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
 }
 
 export function sanitizeCodeSegment(value, fallback = '') {
-  if (typeof value !== 'string') return fallback;
-  return value
-    .replace(/<script\b[\s\S]*?<\/script>/gi, '')
-    .replace(/on\w+\s*=/gi, '')
-    .replace(/javascript:/gi, '');
+  if (typeof value !== 'string') {
+    return fallback;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return fallback;
+  }
+  const normalized = trimmed
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return normalized || fallback;
 }
 
 export function normalizeImagePath(path) {
-  if (typeof path !== 'string') return path;
-  return path.replace(/\\/g, '/').replace(/\/+/g, '/');
+  if (!path) return '';
+  let p = String(path).trim().replace(/\\+/g, '/').replace(/\/+/g, '/');
+  p = p.replace(/\/+/g, '/');
+  // Remove leading/trailing whitespace and slashes
+  p = p.replace(/^\s+|\s+$/g, '').replace(/^\/+|\/+$/g, '');
+  // Lowercase /frontend/images and /frontend/images/subject segments only
+  p = p.replace(/^frontend\//i, 'frontend/');
+  p = p.replace(/^frontend\/images\//i, 'frontend/Images/');
+  // If path starts with /frontend/images (any case), normalize to /frontend/Images
+  p = p.replace(/^frontend\/images/i, 'frontend/Images');
+  // Always ensure /frontend/Images/Subject/FileName.png format
+  const parts = p.split('/');
+  if (
+    parts[0].toLowerCase() === 'frontend' &&
+    parts[1] &&
+    parts[1].toLowerCase() === 'images'
+  ) {
+    // Capitalize subject if present
+    if (parts[2]) {
+      parts[2] = parts[2].charAt(0).toUpperCase() + parts[2].slice(1);
+    }
+    p = '/frontend/Images/' + parts.slice(2).join('/');
+  } else if (p.toLowerCase().startsWith('images/')) {
+    // If path starts with images/subject/file, normalize
+    const subparts = p.split('/');
+    if (subparts[1]) {
+      subparts[1] = subparts[1].charAt(0).toUpperCase() + subparts[1].slice(1);
+    }
+    p = '/frontend/Images/' + subparts.slice(1).join('/');
+  } else if (!p.startsWith('/frontend/Images/')) {
+    // Fallback: just ensure it starts with /frontend/Images/
+    p = '/frontend/Images/' + p.replace(/^\/+/, '');
+  } else {
+    p = '/' + p.replace(/^\/+/, '');
+  }
+  // Remove duplicate slashes
+  p = p.replace(/\/+/g, '/');
+  return p;
 }
 
 export function resolveAssetUrl(src) {
-  if (!src || typeof src !== 'string') return '';
-  if (src.startsWith('http://') || src.startsWith('https://')) {
-    return src;
+  if (!src) return '';
+  let s = String(src).trim();
+
+  // If it's one of our legacy quiz hosts, strip the host and treat it as an internal asset path
+  // Examples:
+  //   https://quiz.ez-ged.com/Images/Math/foo.png
+  //   http://quiz.ez-ged.net/Images/Science/bar.jpg
+  //   https://something.quiz.ez-ged.com/path/to/image.png
+  const legacyMatch = s.match(/^https?:\/\/([^\/]*quiz\.ez-ged[^\/]*)\/(.*)$/i);
+  if (legacyMatch) {
+    const pathAndRest = legacyMatch[2] || '';
+    s = pathAndRest;
   }
-  if (src.startsWith('/')) {
-    return src;
+
+  // Already absolute and NOT one of our legacy hosts? keep it as-is
+  if (
+    /^https?:\/\//i.test(s) ||
+    s.startsWith('data:') ||
+    s.startsWith('blob:')
+  ) {
+    return s;
   }
-  return `/${normalizeImagePath(src)}`;
+
+  // normalize to our internal pattern first
+  const normalized = normalizeImagePath(s); // e.g. /frontend/Images/Social Studies/foo.png
+
+  // our working CDN / static host
+  const NETLIFY_ROOT = 'https://ezged.netlify.app';
+
+  // if it's one of our quiz images, serve it from Netlify, but Netlify doesn't use /frontend
+  if (normalized.startsWith('/frontend/Images/')) {
+    // turn /frontend/Images/... -> /Images/...
+    const netlifyPath = normalized.replace('/frontend/Images', '/Images');
+    return `${NETLIFY_ROOT}${netlifyPath}`;
+  }
+
+  // fallback: current origin
+  const origin =
+    (typeof window !== 'undefined' &&
+      window.location &&
+      window.location.origin) ||
+    '';
+  return origin + normalized;
 }
 
 export function getOptionText(opt) {
-  if (!opt) return '';
   if (typeof opt === 'string') return opt;
-  return opt.text || opt.option || opt.label || '';
+  if (opt && typeof opt === 'object' && typeof opt.text === 'string')
+    return opt.text;
+  return '';
 }
 
 export function getOptionIsCorrect(opt) {
-  if (!opt) return false;
-  if (typeof opt === 'object')
-    return opt.isCorrect === true || opt.correct === true;
+  if (typeof opt === 'string') return false;
+  if (opt && typeof opt === 'object') return opt.isCorrect || false;
   return false;
 }
 
 export function findCorrectOption(answerOptions) {
   if (!Array.isArray(answerOptions)) return null;
-  return answerOptions.find(getOptionIsCorrect);
+  const correctOpt = answerOptions.find((opt) => getOptionIsCorrect(opt));
+  return correctOpt
+    ? { text: getOptionText(correctOpt), raw: correctOpt }
+    : null;
 }
 
 export function isShortResponseQuestion(question) {
-  if (!question) return false;
-  return (
-    question.type === 'short-response' ||
-    question.type === 'short_response' ||
-    question.type === 'fillInTheBlank' ||
-    question.type === 'fill-in-the-blank' ||
-    (question.answerType && question.answerType.toLowerCase().includes('short'))
-  );
+  if (!question || typeof question !== 'object') return false;
+  const responseType =
+    typeof question.responseType === 'string'
+      ? question.responseType.toLowerCase()
+      : '';
+  if (responseType === 'short') return true;
+  if (
+    responseType === 'constructed-response' ||
+    responseType === 'constructed' ||
+    responseType === 'free-response'
+  ) {
+    return true;
+  }
+  const questionType =
+    typeof question.questionType === 'string'
+      ? question.questionType.toLowerCase()
+      : typeof question.type === 'string'
+      ? question.type.toLowerCase()
+      : '';
+  if (questionType.includes('short') || questionType.includes('constructed')) {
+    return true;
+  }
+  if (!Array.isArray(question.answerOptions)) {
+    return true;
+  }
+  return false;
 }
