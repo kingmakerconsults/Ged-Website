@@ -4526,18 +4526,26 @@ try {
       maxAge: '1h',
       setHeaders(res, filePath) {
         res.setHeader('Access-Control-Allow-Origin', '*');
-        // Force UTF-8 for text assets
+        // Force UTF-8 and correct MIME types for all text assets
         if (filePath.endsWith('.html')) {
           res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        } else if (filePath.endsWith('.js') || filePath.endsWith('.jsx')) {
+        } else if (
+          filePath.endsWith('.js') ||
+          filePath.endsWith('.jsx') ||
+          filePath.endsWith('.mjs')
+        ) {
           res.setHeader(
             'Content-Type',
             'application/javascript; charset=utf-8'
           );
         } else if (filePath.endsWith('.css')) {
           res.setHeader('Content-Type', 'text/css; charset=utf-8');
-        } else if (filePath.endsWith('.json') || filePath.endsWith('.txt')) {
+        } else if (filePath.endsWith('.json')) {
           res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        } else if (filePath.endsWith('.svg')) {
+          res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
+        } else if (filePath.endsWith('.wasm')) {
+          res.setHeader('Content-Type', 'application/wasm');
         }
       },
     })

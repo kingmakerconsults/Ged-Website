@@ -8,6 +8,7 @@
     "build:frontend": "vite build --config vite.config.mts",
     "preview:frontend": "vite preview --config vite.config.mts",
     "start": "node backend/server.js",
+    "start:prod": "cross-env NODE_ENV=production node backend/server.js",
     "harvest:science": "node tools/gov-image-harvester/index.mjs --subject Science",
     "harvest:socstud": "node tools/gov-image-harvester/index.mjs --subject \"Social Studies\"",
     "img:stats": "node tools/gov-image-harvester/inspect.mjs --stats",
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.0.0",
+    "cross-env": "^10.1.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
     "vite": "^5.0.0"
