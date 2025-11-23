@@ -8,11 +8,6 @@ export {
   PracticeSessionModal,
 } from './modals/index.jsx';
 
-// TODO: Add more component exports as they're converted:
-// export { QuizInterface } from './quiz/QuizInterface.jsx';
-// export { DashboardView } from './views/DashboardView.jsx';
-// export { ProfileView } from './profile/ProfileView.jsx';
-// etc.
 export {
   FormulaSheetModal,
   ScienceFormulaSheet,
