@@ -1117,6 +1117,51 @@
       console.log('=== END DIAGNOSTICS ===');
     </script>
 
-    <script type="text/babel" src="app.jsx" data-presets="env,react"></script>
+    <script>
+      // Wait for all Babel transformations to complete, then load app.jsx
+      // Babel Standalone processes type="text/babel" scripts asynchronously,
+      // so we need to ensure all dependencies are ready before loading app.jsx
+      (function loadAppWhenReady() {
+        const checkInterval = setInterval(function () {
+          // Check if key dependencies are loaded
+          const hasReact = typeof window.React !== 'undefined';
+          const hasComponents =
+            typeof window.Components !== 'undefined' &&
+            typeof window.Components.AuthScreen !== 'undefined';
+          const hasHooks = typeof window.Hooks !== 'undefined';
+          const hasMathUtils = typeof window.MathUtils !== 'undefined';
+          const hasTextUtils = typeof window.TextUtils !== 'undefined';
+          const hasData =
+            typeof window.SCIENCE_QUESTIONS !== 'undefined' &&
+            typeof window.MATH_QUESTIONS !== 'undefined' &&
+            typeof window.RLA_QUESTIONS !== 'undefined';
+
+          if (
+            hasReact &&
+            hasComponents &&
+            hasHooks &&
+            hasMathUtils &&
+            hasTextUtils &&
+            hasData
+          ) {
+            clearInterval(checkInterval);
+            console.log('=== All dependencies loaded, loading app.jsx ===');
+
+            // Dynamically load and transform app.jsx
+            const script = document.createElement('script');
+            script.type = 'text/babel';
+            script.src = 'app.jsx';
+            script.setAttribute('data-presets', 'env,react');
+            document.body.appendChild(script);
+          }
+        }, 50); // Check every 50ms
+
+        // Timeout after 10 seconds
+        setTimeout(function () {
+          clearInterval(checkInterval);
+          console.error('Timeout: Dependencies did not load within 10 seconds');
+        }, 10000);
+      })();
+    </script>
   </body>
 </html>
