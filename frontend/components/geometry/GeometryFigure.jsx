@@ -598,7 +598,7 @@ const rectPrismNetRenderer = (params = {}, style) => {
   return { elements, pointsForBounds };
 };
 
-export const geometryRenderers = {
+const geometryRenderers = {
   triangle: (params, style) =>
     polygonRenderer(params, style || DEFAULT_FIGURE_STYLE, {}),
   right_triangle: (params, style) =>

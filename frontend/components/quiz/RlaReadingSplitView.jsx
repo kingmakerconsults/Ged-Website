@@ -275,8 +275,6 @@ function RlaReadingSplitView({
   );
 }
 
-export default RlaReadingSplitView;
-
 if (typeof window !== 'undefined') {
   window.Components = window.Components || {};
   window.Components.RlaReadingSplitView = RlaReadingSplitView;

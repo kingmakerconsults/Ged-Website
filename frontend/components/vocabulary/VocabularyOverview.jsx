@@ -108,8 +108,6 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
   );
 }
 
-export default VocabularyOverview;
-
 if (typeof window !== 'undefined') {
   window.Components = window.Components || {};
   window.Components.VocabularyOverview = VocabularyOverview;
