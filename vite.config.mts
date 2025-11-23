@@ -10,6 +10,7 @@ export default defineConfig({
   build: {
     outDir: path.resolve(rootDir, 'dist'),
     emptyOutDir: true,
+    chunkSizeWarningLimit: 1000, // Suppress warning for large legacy app bundle
     rollupOptions: {
       output: {
         manualChunks: {
