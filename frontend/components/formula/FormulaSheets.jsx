@@ -1,13 +1,12 @@
-const MathUtils = window.MathUtils || {};
-const {
+import React, { useEffect, useState } from 'react';
+import {
   normalizeFormulaLatex,
   renderLatexToHtml,
   escapeHtml,
   applySafeMathFix,
-} = MathUtils;
-const ScienceFormulas = window.ScienceFormulas || [];
+} from '../../utils/mathUtils.js';
 
-function FormulaDisplay({ latex, className = '' }) {
+export function FormulaDisplay({ latex, className = '' }) {
   const safeLatex = normalizeFormulaLatex(latex);
   let html = '';
 
@@ -23,7 +22,22 @@ function FormulaDisplay({ latex, className = '' }) {
   );
 }
 
-function ScienceFormulaSheet({ onClose }) {
+export function ScienceFormulaSheet({ onClose }) {
+  const [formulas, setFormulas] = useState([]);
+  useEffect(() => {
+    let mounted = true;
+    import('../../data/science/ScienceFormulas.js')
+      .then((m) => {
+        if (!mounted) return;
+        const list = Array.isArray(m.ScienceFormulas) ? m.ScienceFormulas : [];
+        setFormulas(list);
+        if (typeof window !== 'undefined') window.ScienceFormulas = list;
+      })
+      .catch(() => setFormulas([]));
+    return () => {
+      mounted = false;
+    };
+  }, []);
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
@@ -45,32 +59,28 @@ function ScienceFormulaSheet({ onClose }) {
         </h2>
 
         <div className="formula-sheet-grid space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-          {(Array.isArray(ScienceFormulas) ? ScienceFormulas : []).map(
-            (item, idx) => (
-              <div
-                key={idx}
-                className="formula-sheet-card rounded-lg p-3 space-y-2"
-              >
-                <h3 className="formula-sheet-label font-semibold">
-                  {item.name}
-                </h3>
-                <FormulaDisplay
-                  latex={item.formula}
-                  className="formula-equation rounded text-center my-2 text-lg font-mono px-2 py-2"
-                />
-                <p className="formula-sheet-description text-xs leading-snug">
-                  {item.variables}
-                </p>
-              </div>
-            )
-          )}
+          {formulas.map((item, idx) => (
+            <div
+              key={idx}
+              className="formula-sheet-card rounded-lg p-3 space-y-2"
+            >
+              <h3 className="formula-sheet-label font-semibold">{item.name}</h3>
+              <FormulaDisplay
+                latex={item.formula}
+                className="formula-equation rounded text-center my-2 text-lg font-mono px-2 py-2"
+              />
+              <p className="formula-sheet-description text-xs leading-snug">
+                {item.variables}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function FormulaSheetModal({ onClose }) {
+export function FormulaSheetModal({ onClose }) {
   const Formula = ({ title, formula, description }) => {
     const sanitizedFormula =
       typeof formula === 'string'

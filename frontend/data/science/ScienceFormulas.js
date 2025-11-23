@@ -1,5 +1,4 @@
-// Extracted science formula sheet data from app.jsx
-window.ScienceFormulas = [
+﻿export const ScienceFormulas = [
   {
     name: 'Density',
     formula: 'd = \\frac{m}{V}',
@@ -35,3 +34,8 @@ window.ScienceFormulas = [
       'Describes the spread between the largest and smallest values in a data set.',
   },
 ];
+
+// Legacy window attachment
+if (typeof window !== 'undefined') {
+  window.ScienceFormulas = ScienceFormulas;
+}

@@ -1,10 +1,10 @@
-// Centralized fallback vocabulary data and normalization helpers
+﻿// Centralized fallback vocabulary data and normalization helpers
 // Extracted from app.jsx to reduce monolith size.
 
 /**
  * Fallback vocabulary terms used when no subject-specific vocabulary is provided.
  */
-const FALLBACK_VOCABULARY = {
+export const FALLBACK_VOCABULARY = {
   Science: [
     {
       term: 'Hypothesis',
@@ -164,7 +164,7 @@ const FALLBACK_VOCABULARY = {
     {
       term: 'Quadratic Equation',
       definition:
-        'An equation in the form ax² + bx + c = 0, where a, b, and c are constants and a ≠ 0.',
+        'An equation in the form axÂ² + bx + c = 0, where a, b, and c are constants and a â‰  0.',
     },
     {
       term: 'Linear Function',
@@ -504,7 +504,7 @@ const FALLBACK_VOCABULARY = {
  * @param {string|object} entry - The raw vocabulary entry.
  * @returns {object|null} Normalized entry with term, definition, and optional example.
  */
-function normalizeVocabularyEntry(entry) {
+export function normalizeVocabularyEntry(entry) {
   if (!entry) return null;
   if (typeof entry === 'string') {
     const trimmed = entry.trim();
@@ -529,7 +529,7 @@ function normalizeVocabularyEntry(entry) {
  * @param {object} override - Override vocabulary object keyed by subject.
  * @returns {object} Merged vocabulary data.
  */
-function mergeVocabularyData(base, override) {
+export function mergeVocabularyData(base, override) {
   const result = { ...base };
   if (!override || typeof override !== 'object') {
     return result;
@@ -555,4 +555,10 @@ if (typeof window !== 'undefined') {
     normalizeVocabularyEntry,
     mergeVocabularyData,
   });
+}
+
+
+// Legacy window attachment
+if (typeof window !== 'undefined') {
+  window.FallbackVocabulary = { FALLBACK_VOCABULARY, normalizeVocabularyEntry, mergeVocabularyData };
 }

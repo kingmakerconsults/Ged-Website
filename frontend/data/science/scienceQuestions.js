@@ -1,4 +1,4 @@
-window.SCIENCE_QUESTIONS = {
+﻿export const SCIENCE_QUESTIONS = {
   Science: {
     icon: 'BeakerIcon',
     categories: {
@@ -1128,7 +1128,7 @@ window.SCIENCE_QUESTIONS = {
                   {
                     text: 'An element consists of only one type of atom, while a compound consists of two or more different types of atoms chemically bonded together.',
                     rationale:
-                      'Correct. For example, oxygen (O) is an element, while water (H₂O) is a compound.',
+                      'Correct. For example, oxygen (O) is an element, while water (Hâ‚‚O) is a compound.',
                     isCorrect: true,
                   },
                   {
@@ -1200,7 +1200,7 @@ window.SCIENCE_QUESTIONS = {
                   {
                     text: 'Boiling water',
                     rationale:
-                      'Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically H₂O. This is a physical change.',
+                      'Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically Hâ‚‚O. This is a physical change.',
                     isCorrect: true,
                   },
                   {
@@ -1276,7 +1276,7 @@ window.SCIENCE_QUESTIONS = {
                 questionNumber: 10,
                 type: 'knowledge',
                 question:
-                  "In the chemical formula for water, H₂O, what does the subscript '2' indicate?",
+                  "In the chemical formula for water, Hâ‚‚O, what does the subscript '2' indicate?",
                 answerOptions: [
                   {
                     text: 'There are two water molecules.',
@@ -1338,7 +1338,7 @@ window.SCIENCE_QUESTIONS = {
                 challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
-                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ions—charged atoms that are then attracted to each other.',
+                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ionsâ€”charged atoms that are then attracted to each other.',
                 question:
                   'What is the key difference between a covalent bond and an ionic bond?',
                 answerOptions: [
@@ -1639,7 +1639,7 @@ window.SCIENCE_QUESTIONS = {
                 challenge_tags: ['science-2', 'science-4'],
                 type: 'text',
                 passage:
-                  'Thermal decomposition: $\\text{CaCO}_3 \rightarrow \\text{CaO} + \\text{CO}_2$ releases CO₂.',
+                  'Thermal decomposition: $\\text{CaCO}_3 \rightarrow \\text{CaO} + \\text{CO}_2$ releases COâ‚‚.',
                 question:
                   'Is $\\text{CaCO}_3 \rightarrow \\text{CaO} + \\text{CO}_2$ balanced?',
                 answerOptions: [
@@ -1649,7 +1649,7 @@ window.SCIENCE_QUESTIONS = {
                     isCorrect: false,
                   },
                   {
-                    text: 'No, needs 2 CO₂',
+                    text: 'No, needs 2 COâ‚‚',
                     rationale: 'Would add excess carbon.',
                     isCorrect: false,
                   },
@@ -1659,7 +1659,7 @@ window.SCIENCE_QUESTIONS = {
                     isCorrect: true,
                   },
                   {
-                    text: 'No, needs 2 CaCO₃',
+                    text: 'No, needs 2 CaCOâ‚ƒ',
                     rationale: 'Would unbalance products.',
                     isCorrect: false,
                   },
@@ -1764,7 +1764,7 @@ window.SCIENCE_QUESTIONS = {
                   },
                   {
                     text: 'To form water only',
-                    rationale: 'Products include CO₂ and H₂O.',
+                    rationale: 'Products include COâ‚‚ and Hâ‚‚O.',
                     isCorrect: false,
                   },
                   {
@@ -1821,7 +1821,7 @@ window.SCIENCE_QUESTIONS = {
                 answerOptions: [
                   {
                     text: '2',
-                    rationale: 'That would be from 2 moles H₂.',
+                    rationale: 'That would be from 2 moles Hâ‚‚.',
                     isCorrect: false,
                   },
                   {
@@ -1946,13 +1946,13 @@ window.SCIENCE_QUESTIONS = {
                   },
                   {
                     text: '1.33',
-                    rationale: 'Correct via ratio (0.67 × 2).',
+                    rationale: 'Correct via ratio (0.67 Ã— 2).',
                     isCorrect: true,
                   },
-                  { text: '2', rationale: 'Needs 3 mol H₂.', isCorrect: false },
+                  { text: '2', rationale: 'Needs 3 mol Hâ‚‚.', isCorrect: false },
                   {
                     text: '3',
-                    rationale: 'Insufficient H₂.',
+                    rationale: 'Insufficient Hâ‚‚.',
                     isCorrect: false,
                   },
                 ],
@@ -1986,7 +1986,7 @@ window.SCIENCE_QUESTIONS = {
                 questionNumber: 7,
                 challenge_tags: ['science-2', 'science-4'],
                 type: 'text',
-                passage: 'Percent yield = actual/theoretical × 100%.',
+                passage: 'Percent yield = actual/theoretical Ã— 100%.',
                 question: 'Percent yield: theoretical 25 g, actual 20 g?',
                 answerOptions: [
                   {
@@ -1996,7 +1996,7 @@ window.SCIENCE_QUESTIONS = {
                   },
                   {
                     text: '80%',
-                    rationale: 'Correct (20/25 × 100).',
+                    rationale: 'Correct (20/25 Ã— 100).',
                     isCorrect: true,
                   },
                   {
@@ -2059,7 +2059,7 @@ window.SCIENCE_QUESTIONS = {
                   },
                   {
                     text: '9',
-                    rationale: 'Correct (6 × 3/2).',
+                    rationale: 'Correct (6 Ã— 3/2).',
                     isCorrect: true,
                   },
                   {
@@ -2102,8 +2102,8 @@ window.SCIENCE_QUESTIONS = {
                 challenge_tags: ['science-2', 'science-4'],
                 type: 'text',
                 passage:
-                  'Molar mass: sum of atomic masses. CO₂ has C=12, O=16 each.',
-                question: 'Molar mass CO₂?',
+                  'Molar mass: sum of atomic masses. COâ‚‚ has C=12, O=16 each.',
+                question: 'Molar mass COâ‚‚?',
                 answerOptions: [
                   {
                     text: '28 g/mol',
@@ -2173,23 +2173,23 @@ window.SCIENCE_QUESTIONS = {
                   'Compared to a solution at pH 5, a solution at pH 3 has:',
                 answerOptions: [
                   {
-                    text: '10× more H⁺ ions',
+                    text: '10Ã— more Hâº ions',
                     rationale:
-                      'One pH unit = 10× difference; two units = 100×.',
+                      'One pH unit = 10Ã— difference; two units = 100Ã—.',
                     isCorrect: false,
                   },
                   {
-                    text: '100× more H⁺ ions',
-                    rationale: 'Correct. Difference of 2 units = 10².',
+                    text: '100Ã— more Hâº ions',
+                    rationale: 'Correct. Difference of 2 units = 10Â².',
                     isCorrect: true,
                   },
                   {
-                    text: '2× more H⁺ ions',
+                    text: '2Ã— more Hâº ions',
                     rationale: 'Underestimates logarithmic scale.',
                     isCorrect: false,
                   },
                   {
-                    text: 'Same [H⁺]',
+                    text: 'Same [Hâº]',
                     rationale: 'Different pH implies different concentrations.',
                     isCorrect: false,
                   },
@@ -2202,12 +2202,12 @@ window.SCIENCE_QUESTIONS = {
                 question: 'Arrhenius acid produces:',
                 answerOptions: [
                   {
-                    text: 'OH⁻ in water',
+                    text: 'OHâ» in water',
                     rationale: 'Bases produce hydroxide.',
                     isCorrect: false,
                   },
                   {
-                    text: 'H⁺ in water',
+                    text: 'Hâº in water',
                     rationale: 'Correct definition.',
                     isCorrect: true,
                   },
@@ -2230,7 +2230,7 @@ window.SCIENCE_QUESTIONS = {
                 type: 'text',
                 challenge_tags: ['science-2'],
                 passage:
-                  'Neutralization: acid + base → salt + water. Example: $\\text{HCl} + \\text{NaOH} \\rightarrow \\text{NaCl} + \\text{H}_2\\text{O}$.',
+                  'Neutralization: acid + base â†’ salt + water. Example: $\\text{HCl} + \\text{NaOH} \\rightarrow \\text{NaCl} + \\text{H}_2\\text{O}$.',
                 question: 'Products of neutralization?',
                 answerOptions: [
                   {
@@ -2408,7 +2408,7 @@ window.SCIENCE_QUESTIONS = {
                 passage:
                   'Titration uses known concentration (standard) to determine unknown; equivalence point moles acid = moles base (adjusted for stoichiometry).',
                 question:
-                  'At equivalence point in strong acid–strong base titration:',
+                  'At equivalence point in strong acidâ€“strong base titration:',
                 answerOptions: [
                   {
                     text: 'pH < 3',
@@ -2417,12 +2417,12 @@ window.SCIENCE_QUESTIONS = {
                     isCorrect: false,
                   },
                   {
-                    text: 'pH ≈ 7',
+                    text: 'pH â‰ˆ 7',
                     rationale: 'Correct neutral products (salt + water).',
                     isCorrect: true,
                   },
                   {
-                    text: 'pH ≈ 12',
+                    text: 'pH â‰ˆ 12',
                     rationale: 'That would indicate excess base.',
                     isCorrect: false,
                   },
@@ -2437,20 +2437,20 @@ window.SCIENCE_QUESTIONS = {
                 questionNumber: 10,
                 type: 'knowledge',
                 challenge_tags: ['science-2'],
-                question: 'Pure water at 25°C has $[H^+]$:',
+                question: 'Pure water at 25Â°C has $[H^+]$:',
                 answerOptions: [
                   {
-                    text: '1.0×10⁻¹ M',
+                    text: '1.0Ã—10â»Â¹ M',
                     rationale: 'Too high for neutral water.',
                     isCorrect: false,
                   },
                   {
-                    text: '1.0×10⁻⁷ M',
+                    text: '1.0Ã—10â»â· M',
                     rationale: 'Correct neutral concentration.',
                     isCorrect: true,
                   },
                   {
-                    text: '1.0×10⁻¹⁴ M',
+                    text: '1.0Ã—10â»Â¹â´ M',
                     rationale: 'Product of $[H^+][OH^-]$ equals 1e-14.',
                     isCorrect: false,
                   },
@@ -2466,12 +2466,12 @@ window.SCIENCE_QUESTIONS = {
                 type: 'text',
                 challenge_tags: ['science-2'],
                 passage:
-                  'Strong acids (HCl, HNO₃) dissociate completely; weak acids (CH₃COOH) only partially—equilibrium arrows ($\\rightleftharpoons$).',
+                  'Strong acids (HCl, HNOâ‚ƒ) dissociate completely; weak acids (CHâ‚ƒCOOH) only partiallyâ€”equilibrium arrows ($\\rightleftharpoons$).',
                 question:
                   'Equation symbol for weak acid dissociation should be:',
                 answerOptions: [
                   {
-                    text: 'Single arrow (→)',
+                    text: 'Single arrow (â†’)',
                     rationale: 'Implies completeness.',
                     isCorrect: false,
                   },
@@ -2497,20 +2497,20 @@ window.SCIENCE_QUESTIONS = {
                 type: 'knowledge',
                 challenge_tags: ['science-2'],
                 question:
-                  'If $[OH^-] = 1.0 \\times 10^{-4}$ M at 25°C, $[H^+]$ is:',
+                  'If $[OH^-] = 1.0 \\times 10^{-4}$ M at 25Â°C, $[H^+]$ is:',
                 answerOptions: [
                   {
-                    text: '1.0×10⁻⁴ M',
+                    text: '1.0Ã—10â»â´ M',
                     rationale: 'Would give product 1e-8.',
                     isCorrect: false,
                   },
                   {
-                    text: '1.0×10⁻¹⁰ M',
+                    text: '1.0Ã—10â»Â¹â° M',
                     rationale: 'Correct via $1e-14 / 1e-4$.',
                     isCorrect: true,
                   },
                   {
-                    text: '1.0×10⁻⁷ M',
+                    text: '1.0Ã—10â»â· M',
                     rationale: 'Neutral only.',
                     isCorrect: false,
                   },
@@ -2592,26 +2592,26 @@ window.SCIENCE_QUESTIONS = {
                 type: 'text',
                 challenge_tags: ['science-2'],
                 passage:
-                  'Ideal Gas Law: $PV = nRT$. $R = 0.0821$ L·atm·mol⁻¹·K⁻¹ (common units).',
+                  'Ideal Gas Law: $PV = nRT$. $R = 0.0821$ LÂ·atmÂ·molâ»Â¹Â·Kâ»Â¹ (common units).',
                 question: 'Solve moles: $P=2.0$ atm, $V=4.10$ L, $T=300$ K.',
                 answerOptions: [
                   {
-                    text: 'n ≈ 0.33 mol',
-                    rationale: 'Correct: n = (2×4.10)/(0.0821×300) ≈ 0.33.',
+                    text: 'n â‰ˆ 0.33 mol',
+                    rationale: 'Correct: n = (2Ã—4.10)/(0.0821Ã—300) â‰ˆ 0.33.',
                     isCorrect: true,
                   },
                   {
-                    text: 'n ≈ 0.08 mol',
+                    text: 'n â‰ˆ 0.08 mol',
                     rationale: 'Underestimates numerator.',
                     isCorrect: false,
                   },
                   {
-                    text: 'n ≈ 2.0 mol',
+                    text: 'n â‰ˆ 2.0 mol',
                     rationale: 'Too large; misapplies formula.',
                     isCorrect: false,
                   },
                   {
-                    text: 'n ≈ 1.0 mol',
+                    text: 'n â‰ˆ 1.0 mol',
                     rationale: 'Computation mismatch.',
                     isCorrect: false,
                   },
@@ -2631,7 +2631,7 @@ window.SCIENCE_QUESTIONS = {
                   },
                   {
                     text: '22.4 L',
-                    rationale: 'Correct molar volume at 0°C, 1 atm.',
+                    rationale: 'Correct molar volume at 0Â°C, 1 atm.',
                     isCorrect: true,
                   },
                   {
@@ -2662,7 +2662,7 @@ window.SCIENCE_QUESTIONS = {
                   },
                   {
                     text: '0.99 atm',
-                    rationale: 'That is combined O₂ + N₂.',
+                    rationale: 'That is combined Oâ‚‚ + Nâ‚‚.',
                     isCorrect: false,
                   },
                   {
@@ -2713,10 +2713,10 @@ window.SCIENCE_QUESTIONS = {
                 passage:
                   "Avogadro's Law: equal volumes of gases at same T and P contain equal numbers of molecules.",
                 question:
-                  'Two 1 L containers at same T & P, one CO₂ one He. Molecule counts:',
+                  'Two 1 L containers at same T & P, one COâ‚‚ one He. Molecule counts:',
                 answerOptions: [
                   {
-                    text: 'CO₂ has more',
+                    text: 'COâ‚‚ has more',
                     rationale: 'Counts are equal.',
                     isCorrect: false,
                   },
@@ -2830,18 +2830,18 @@ window.SCIENCE_QUESTIONS = {
                 type: 'text',
                 challenge_tags: ['science-2'],
                 passage:
-                  "Diffusion: spread of gas; effusion: escape through small opening. Graham's Law: rate ∝ 1/√molar mass.",
+                  "Diffusion: spread of gas; effusion: escape through small opening. Graham's Law: rate âˆ 1/âˆšmolar mass.",
                 question:
-                  'Which effuses faster: He (4 g/mol) or O₂ (32 g/mol)?',
+                  'Which effuses faster: He (4 g/mol) or Oâ‚‚ (32 g/mol)?',
                 answerOptions: [
                   {
                     text: 'He',
-                    rationale: 'Lower molar mass ⇒ faster.',
+                    rationale: 'Lower molar mass â‡’ faster.',
                     isCorrect: true,
                   },
                   {
-                    text: 'O₂',
-                    rationale: 'Higher molar mass ⇒ slower.',
+                    text: 'Oâ‚‚',
+                    rationale: 'Higher molar mass â‡’ slower.',
                     isCorrect: false,
                   },
                   {
@@ -2863,23 +2863,23 @@ window.SCIENCE_QUESTIONS = {
                 question: 'Standard temperature is:',
                 answerOptions: [
                   {
-                    text: '0°C',
+                    text: '0Â°C',
                     rationale: 'Correct (273 K).',
                     isCorrect: true,
                   },
                   {
-                    text: '25°C',
+                    text: '25Â°C',
                     rationale: 'Room temperature.',
                     isCorrect: false,
                   },
                   {
-                    text: '100°C',
+                    text: '100Â°C',
                     rationale: 'Boiling point of water.',
                     isCorrect: false,
                   },
                   {
-                    text: '-273°C',
-                    rationale: 'Absolute zero approximately -273°C.',
+                    text: '-273Â°C',
+                    rationale: 'Absolute zero approximately -273Â°C.',
                     isCorrect: false,
                   },
                 ],
@@ -2897,8 +2897,8 @@ window.SCIENCE_QUESTIONS = {
                 type: 'text',
                 challenge_tags: ['science-2'],
                 passage:
-                  'Enthalpy change (ΔH) negative for exothermic reactions; positive for endothermic.',
-                question: 'ΔH = -250 kJ indicates reaction is:',
+                  'Enthalpy change (Î”H) negative for exothermic reactions; positive for endothermic.',
+                question: 'Î”H = -250 kJ indicates reaction is:',
                 answerOptions: [
                   {
                     text: 'Endothermic',
@@ -2912,12 +2912,12 @@ window.SCIENCE_QUESTIONS = {
                   },
                   {
                     text: 'At equilibrium',
-                    rationale: 'ΔH sign not about equilibrium.',
+                    rationale: 'Î”H sign not about equilibrium.',
                     isCorrect: false,
                   },
                   {
                     text: 'Impossible',
-                    rationale: 'Negative ΔH common.',
+                    rationale: 'Negative Î”H common.',
                     isCorrect: false,
                   },
                 ],
@@ -2955,7 +2955,7 @@ window.SCIENCE_QUESTIONS = {
                 type: 'text',
                 challenge_tags: ['science-2'],
                 passage:
-                  'Specific heat (c): $q = mcΔT$. Higher c ⇒ resists temperature change.',
+                  'Specific heat (c): $q = mcÎ”T$. Higher c â‡’ resists temperature change.',
                 question: 'Substance with highest specific heat warms:',
                 answerOptions: [
                   {
@@ -2965,7 +2965,7 @@ window.SCIENCE_QUESTIONS = {
                   },
                   {
                     text: 'Slowest',
-                    rationale: 'Correct—needs more energy per degree.',
+                    rationale: 'Correctâ€”needs more energy per degree.',
                     isCorrect: true,
                   },
                   {
@@ -3072,7 +3072,7 @@ window.SCIENCE_QUESTIONS = {
                 type: 'text',
                 challenge_tags: ['science-2'],
                 passage:
-                  "Hess's Law: overall ΔH is sum of steps; pathway independent.",
+                  "Hess's Law: overall Î”H is sum of steps; pathway independent.",
                 question: "Using Hess's Law helps calculate:",
                 answerOptions: [
                   {
@@ -3087,7 +3087,7 @@ window.SCIENCE_QUESTIONS = {
                   },
                   {
                     text: 'Equilibrium constant',
-                    rationale: 'Requires ΔG or K data.',
+                    rationale: 'Requires Î”G or K data.',
                     isCorrect: false,
                   },
                   {
@@ -3141,7 +3141,7 @@ window.SCIENCE_QUESTIONS = {
                   },
                   {
                     text: 'Lowers it',
-                    rationale: 'Correct—alternate pathway.',
+                    rationale: 'Correctâ€”alternate pathway.',
                     isCorrect: true,
                   },
                   {
@@ -3160,11 +3160,11 @@ window.SCIENCE_QUESTIONS = {
                 questionNumber: 10,
                 type: 'knowledge',
                 challenge_tags: ['science-2'],
-                question: 'Symbol ΔH represents:',
+                question: 'Symbol Î”H represents:',
                 answerOptions: [
                   {
                     text: 'Entropy change',
-                    rationale: 'Entropy is ΔS.',
+                    rationale: 'Entropy is Î”S.',
                     isCorrect: false,
                   },
                   {
@@ -3174,7 +3174,7 @@ window.SCIENCE_QUESTIONS = {
                   },
                   {
                     text: 'Internal energy exactly',
-                    rationale: 'Different symbol (ΔU).',
+                    rationale: 'Different symbol (Î”U).',
                     isCorrect: false,
                   },
                   {
@@ -3255,7 +3255,7 @@ window.SCIENCE_QUESTIONS = {
                 type: 'text',
                 challenge_tags: ['science-2'],
                 passage:
-                  'Molarity (M) = moles solute / liters solution. 0.50 mol dissolved to make 2.0 L ⇒ 0.25 M.',
+                  'Molarity (M) = moles solute / liters solution. 0.50 mol dissolved to make 2.0 L â‡’ 0.25 M.',
                 question: 'Molarity of 0.75 mol solute in 3.0 L?',
                 answerOptions: [
                   {
@@ -3319,7 +3319,7 @@ window.SCIENCE_QUESTIONS = {
                 answerOptions: [
                   {
                     text: '0.10 L',
-                    rationale: 'Correct: (0.40×0.50)/2.0 = 0.10.',
+                    rationale: 'Correct: (0.40Ã—0.50)/2.0 = 0.10.',
                     isCorrect: true,
                   },
                   {
@@ -3522,7 +3522,7 @@ window.SCIENCE_QUESTIONS = {
                 answerOptions: [
                   {
                     text: 'Speeds dissolution',
-                    rationale: 'Correct—greater contact area.',
+                    rationale: 'Correctâ€”greater contact area.',
                     isCorrect: true,
                   },
                   {
@@ -3649,7 +3649,7 @@ window.SCIENCE_QUESTIONS = {
                 challenge_tags: ['science-2'],
                 type: 'text',
                 passage:
-                  "Newton's Second Law of Motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is often written as the formula F = ma (Force = mass × acceleration).",
+                  "Newton's Second Law of Motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is often written as the formula F = ma (Force = mass Ã— acceleration).",
                 question:
                   'If you push two objects with the same amount of force, which one will accelerate more?',
                 answerOptions: [
@@ -4608,3 +4608,10 @@ window.SCIENCE_QUESTIONS = {
     },
   },
 };
+
+
+// Legacy window attachment
+if (typeof window !== 'undefined') { window.SCIENCE_QUESTIONS = SCIENCE_QUESTIONS; }
+
+// Legacy window attachment
+if (typeof window !== 'undefined') { window.SCIENCE_QUESTIONS = SCIENCE_QUESTIONS; }

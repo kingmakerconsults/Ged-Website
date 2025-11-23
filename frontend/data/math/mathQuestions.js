@@ -1,4 +1,4 @@
-window.MATH_QUESTIONS = {
+﻿export const MATH_QUESTIONS = {
   Math: {
     icon: 'CalculatorIcon',
     categories: {
@@ -3806,7 +3806,7 @@ window.MATH_QUESTIONS = {
                     text: 'No, it is not a function',
                     isCorrect: true,
                     rationale:
-                      'The x-value 2 maps to both 6 and 8, violating the function rule (one input → one output).',
+                      'The x-value 2 maps to both 6 and 8, violating the function rule (one input â†’ one output).',
                   },
                   {
                     text: 'Yes, because y-values are different',
@@ -4345,7 +4345,7 @@ window.MATH_QUESTIONS = {
                     text: 'Only Table A',
                     isCorrect: true,
                     rationale:
-                      'Table A is a function with unique x-values. Table B has x=-1 appearing twice with the same y-value, but we should avoid ambiguity—actually both are functions if x=-1→1 consistently. However, Table A is clearer with no repeats.',
+                      'Table A is a function with unique x-values. Table B has x=-1 appearing twice with the same y-value, but we should avoid ambiguityâ€”actually both are functions if x=-1â†’1 consistently. However, Table A is clearer with no repeats.',
                   },
                   {
                     text: 'Only Table B',
@@ -4636,7 +4636,7 @@ window.MATH_QUESTIONS = {
                     text: 'Only Table A',
                     isCorrect: false,
                     rationale:
-                      'Table A is a quadratic function (y = x²), not linear.',
+                      'Table A is a quadratic function (y = xÂ²), not linear.',
                   },
                   {
                     text: 'Only Table B',
@@ -5227,3 +5227,10 @@ Does this represent a function?`,
     },
   },
 };
+
+
+// Legacy window attachment
+if (typeof window !== 'undefined') { window.MATH_QUESTIONS = MATH_QUESTIONS; }
+
+// Legacy window attachment
+if (typeof window !== 'undefined') { window.MATH_QUESTIONS = MATH_QUESTIONS; }

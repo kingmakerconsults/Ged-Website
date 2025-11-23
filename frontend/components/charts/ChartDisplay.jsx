@@ -1,4 +1,5 @@
-const Chart = window.Chart;
+import React from 'react';
+const Chart = typeof window !== 'undefined' ? window.Chart : undefined;
 
 function parseHtmlTable(htmlString) {
   const parser = new DOMParser();
@@ -24,7 +25,7 @@ function parseHtmlTable(htmlString) {
   return { labels, datasets };
 }
 
-function ChartDisplay({ chartData, html }) {
+export function ChartDisplay({ chartData, html }) {
   if (typeof html === 'string' && html.includes('<table')) return null;
   if (!chartData || !chartData.labels || !chartData.datasets) {
     return (

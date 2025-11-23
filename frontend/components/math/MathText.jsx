@@ -1,12 +1,11 @@
-const TextUtils = window.TextUtils || {};
-const MathUtils = window.MathUtils || {};
-const { formatFractions } = TextUtils;
-const { renderStem } = MathUtils;
+import React from 'react';
+import { formatFractions } from '../../utils/textUtils.js';
+import { renderStem } from '../../utils/mathUtils.js';
 
 // Local safeHtml wrapper to preserve original behavior
 const safeHtml = (html) => ({ __html: typeof html === 'string' ? html : '' });
 
-function MathText({ text, className, subject }) {
+export function MathText({ text, className, subject }) {
   if (typeof text !== 'string' || text.trim() === '') {
     return <span className={className}></span>;
   }

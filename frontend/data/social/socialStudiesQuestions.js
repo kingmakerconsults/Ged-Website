@@ -1,4 +1,4 @@
-window.SOCIAL_STUDIES_QUESTIONS = {
+﻿export const SOCIAL_STUDIES_QUESTIONS = {
   'Social Studies': {
     icon: 'GlobeIcon',
     categories: {
@@ -1043,7 +1043,7 @@ window.SOCIAL_STUDIES_QUESTIONS = {
                   {
                     questionNumber: 5,
                     type: 'analysis',
-                    passage: `<p class="passage-text mb-4"><b>Historian A:</b> The American Revolution was fundamentally an economic conflict. The British Empire's mercantilist policies, such as the Navigation Acts and various taxes, restricted colonial trade and manufacturing. The core of the dispute was the colonists' desire for economic freedom—'the ability to trade with whomever they pleased and to develop their own industries without British interference.</p><p class="passage-text"><b>Historian B:</b> The Revolution was primarily a political and ideological struggle. Colonists saw themselves as freeborn Britons entitled to certain rights, most notably the right to be taxed only by their own elected representatives. When Parliament violated this principle, it was seen as an act of tyranny. The conflict was not about the amount of the tax, but the principle of self-government.</p>`,
+                    passage: `<p class="passage-text mb-4"><b>Historian A:</b> The American Revolution was fundamentally an economic conflict. The British Empire's mercantilist policies, such as the Navigation Acts and various taxes, restricted colonial trade and manufacturing. The core of the dispute was the colonists' desire for economic freedomâ€”'the ability to trade with whomever they pleased and to develop their own industries without British interference.</p><p class="passage-text"><b>Historian B:</b> The Revolution was primarily a political and ideological struggle. Colonists saw themselves as freeborn Britons entitled to certain rights, most notably the right to be taxed only by their own elected representatives. When Parliament violated this principle, it was seen as an act of tyranny. The conflict was not about the amount of the tax, but the principle of self-government.</p>`,
                     question:
                       'What is the central point of disagreement between Historian A and Historian B?',
                     answerOptions: [
@@ -2079,7 +2079,7 @@ window.SOCIAL_STUDIES_QUESTIONS = {
                   {
                     text: 'To give all western territories the right to popular sovereignty.',
                     rationale:
-                      "The compromise established a specific line (36°30') to determine where slavery was allowed, rather than letting settlers decide everywhere.",
+                      "The compromise established a specific line (36Â°30') to determine where slavery was allowed, rather than letting settlers decide everywhere.",
                     isCorrect: false,
                   },
                   {
@@ -2698,7 +2698,7 @@ window.SOCIAL_STUDIES_QUESTIONS = {
                     questionNumber: 4,
                     type: 'text',
                     passage:
-                      "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking exposé of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
+                      "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking exposÃ© of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
                     question:
                       "What was the most direct consequence of the publication of Upton Sinclair's 'The Jungle'?",
                     answerOptions: [
@@ -4863,7 +4863,7 @@ window.SOCIAL_STUDIES_QUESTIONS = {
                     questionNumber: 3,
                     type: 'text',
                     passage:
-                      "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powers—powers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
+                      "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powersâ€”powers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
                     question:
                       "The 'Elastic Clause' is significant because it grants Congress:",
                     answerOptions: [
@@ -8050,7 +8050,7 @@ window.SOCIAL_STUDIES_QUESTIONS = {
                 imageUrl:
                   'Images/Social Studies/Social Studies/licensed-image (16).jpg',
                 question:
-                  "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotá) to the capital of Venezuela (Caracas) is:",
+                  "Using the map's scale of miles, the approximate distance from the capital of Colombia (BogotÃ¡) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
                   {
                     text: 'About 100 miles',
@@ -8204,3 +8204,10 @@ window.SOCIAL_STUDIES_QUESTIONS = {
     },
   },
 };
+
+
+// Legacy window attachment
+if (typeof window !== 'undefined') { window.SOCIAL_STUDIES_QUESTIONS = SOCIAL_STUDIES_QUESTIONS; }
+
+// Legacy window attachment
+if (typeof window !== 'undefined') { window.SOCIAL_STUDIES_QUESTIONS = SOCIAL_STUDIES_QUESTIONS; }
