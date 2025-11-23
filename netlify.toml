@@ -1,0 +1,20 @@
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "frontend/dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Redirect API calls to backend (adjust URL to your actual backend)
+[[redirects]]
+  from = "/api/*"
+  to = "https://ged-website.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback for client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
