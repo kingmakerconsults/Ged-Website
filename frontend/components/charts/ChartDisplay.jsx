@@ -1,4 +1,4 @@
-import Chart from 'chart.js/auto';
+const Chart = window.Chart;
 
 function parseHtmlTable(htmlString) {
   const parser = new DOMParser();
@@ -66,9 +66,6 @@ function ChartDisplay({ chartData, html }) {
 
   return <canvas ref={chartRef} />;
 }
-
-export { parseHtmlTable }; // If external use is needed
-export default ChartDisplay;
 
 if (typeof window !== 'undefined') {
   window.Components = window.Components || {};

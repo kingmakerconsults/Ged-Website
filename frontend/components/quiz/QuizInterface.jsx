@@ -1498,5 +1498,3 @@ if (typeof window !== 'undefined') {
   window.Components = window.Components || {};
   window.Components.QuizInterface = QuizInterface;
 }
-
-export default QuizInterface;

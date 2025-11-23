@@ -117,8 +117,6 @@ function OrganizationSummaryView({ summary }) {
 
 // Modern Admin Dashboard Component - Grid-based, responsive, dark mode ready
 
-export default OrganizationSummaryView;
-
 if (typeof window !== 'undefined') {
   window.Components = window.Components || {};
   window.Components.OrganizationSummaryView = OrganizationSummaryView;

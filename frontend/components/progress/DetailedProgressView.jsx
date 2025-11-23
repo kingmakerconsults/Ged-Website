@@ -190,8 +190,6 @@ function DetailedProgressView({
   );
 }
 
-export default DetailedProgressView;
-
 if (typeof window !== 'undefined') {
   window.Components = window.Components || {};
   window.Components.DetailedProgressView = DetailedProgressView;

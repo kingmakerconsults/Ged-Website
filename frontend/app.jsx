@@ -16,15 +16,14 @@ const { useThemeController } = window.Hooks || {};
 const { useInteractiveToolPanel } = window.Hooks || {};
 const MathUtils = window.MathUtils || {};
 const TextUtils = window.TextUtils || {};
-const {
-  SUBJECT_PROGRESS_KEYS,
-  GED_PASSING_SCORE,
-  PREMADE_QUIZ_CATALOG,
-  getPremadeQuizTotal,
-  createEmptyProgress,
-  buildProgressFromAttempts,
-  ensureUserProfile,
-} = window.QuizProgress || {};
+// Quiz progress utilities are exposed directly on window
+const SUBJECT_PROGRESS_KEYS = window.SUBJECT_PROGRESS_KEYS;
+const GED_PASSING_SCORE = window.GED_PASSING_SCORE;
+const PREMADE_QUIZ_CATALOG = window.PREMADE_QUIZ_CATALOG;
+const getPremadeQuizTotal = window.getPremadeQuizTotal;
+const createEmptyProgress = window.createEmptyProgress;
+const buildProgressFromAttempts = window.buildProgressFromAttempts;
+const ensureUserProfile = window.ensureUserProfile;
 const SCIENCE_QUESTIONS = window.SCIENCE_QUESTIONS;
 const MATH_QUESTIONS = window.MATH_QUESTIONS;
 const SOCIAL_STUDIES_QUESTIONS = window.SOCIAL_STUDIES_QUESTIONS;
