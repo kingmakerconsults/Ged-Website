@@ -6,14 +6,6 @@ const crypto = require('crypto');
 // Load local environment variables for development before any other imports that use them
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const express = require('express');
-
-// Configure Express static MIME types for ES modules
-express.static.mime.define({
-  'application/javascript': ['js', 'mjs', 'jsx'],
-  'text/css': ['css'],
-  'application/json': ['json'],
-});
-
 const cors = require('cors');
 const axios = require('axios');
 const db = require('./db');
@@ -4526,6 +4518,17 @@ try {
     } catch {}
     res.sendFile(path.join(__dirname, 'GeometryCanvas.js'));
   });
+  // Explicit MIME type middleware BEFORE static serving
+  app.use((req, res, next) => {
+    if (req.path.match(/\.(js|mjs|jsx)$/)) {
+      res.type('application/javascript; charset=utf-8');
+    } else if (req.path.match(/\.css$/)) {
+      res.type('text/css; charset=utf-8');
+    } else if (req.path.match(/\.json$/)) {
+      res.type('application/json; charset=utf-8');
+    }
+    next();
+  });
   // Serve frontend static assets at root (JS, images, etc.)
   app.use(
     '/',
@@ -4534,27 +4537,6 @@ try {
       maxAge: '1h',
       setHeaders(res, filePath) {
         res.setHeader('Access-Control-Allow-Origin', '*');
-        // Force UTF-8 and correct MIME types for all text assets
-        if (filePath.endsWith('.html')) {
-          res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        } else if (
-          filePath.endsWith('.js') ||
-          filePath.endsWith('.jsx') ||
-          filePath.endsWith('.mjs')
-        ) {
-          res.setHeader(
-            'Content-Type',
-            'application/javascript; charset=utf-8'
-          );
-        } else if (filePath.endsWith('.css')) {
-          res.setHeader('Content-Type', 'text/css; charset=utf-8');
-        } else if (filePath.endsWith('.json')) {
-          res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        } else if (filePath.endsWith('.svg')) {
-          res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
-        } else if (filePath.endsWith('.wasm')) {
-          res.setHeader('Content-Type', 'application/wasm');
-        }
       },
     })
   );
