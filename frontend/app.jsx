@@ -1,5 +1,9 @@
 ﻿// React hook aliases for UMD + Babel standalone environment
 // This allows bare useState/useEffect/etc. calls when React is loaded via UMD scripts.
+// In some browsers, React is only attached as window.React, so normalize that first.
+const ReactGlobal =
+  typeof window !== 'undefined' && window.React ? window.React : React;
+
 const {
   useState,
   useEffect,
@@ -9,7 +13,7 @@ const {
   useContext,
   useReducer,
   createContext,
-} = React;
+} = ReactGlobal;
 
 // Shims for global-based modules (no ES imports in Babel Standalone)
 const { useThemeController } = window.Hooks || {};
