@@ -4518,34 +4518,27 @@ try {
     } catch {}
     res.sendFile(path.join(__dirname, 'GeometryCanvas.js'));
   });
-  // Explicit handler for JavaScript files with correct MIME type
-  app.get(/\.(js|mjs)$/, (req, res, next) => {
-    console.log('[JS Handler] Request for:', req.path);
-    const filePath = path.join(frontendDir, req.path);
-    console.log('[JS Handler] Resolved path:', filePath);
-    if (fs.existsSync(filePath)) {
-      console.log(
-        '[JS Handler] File exists, serving with application/javascript'
-      );
-      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+
+  // Configure Express static file serving with explicit MIME types
+  const serveStatic = express.static(frontendDir, {
+    index: false,
+    maxAge: '1h',
+    setHeaders(res, filePath) {
+      // Force correct MIME types for JavaScript
+      const ext = path.extname(filePath).toLowerCase();
+      if (ext === '.js' || ext === '.mjs') {
+        res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+      } else if (ext === '.css') {
+        res.setHeader('Content-Type', 'text/css; charset=utf-8');
+      } else if (ext === '.json') {
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      }
       res.setHeader('Access-Control-Allow-Origin', '*');
-      res.sendFile(filePath);
-    } else {
-      console.log('[JS Handler] File not found, passing to next middleware');
-      next();
-    }
+    },
   });
-  // Serve frontend static assets at root (JS, images, etc.)
-  app.use(
-    '/',
-    express.static(frontendDir, {
-      index: false,
-      maxAge: '1h',
-      setHeaders(res, filePath) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-      },
-    })
-  );
+
+  // Serve frontend static assets at root
+  app.use('/', serveStatic);
   // SPA shell at '/' — send with no-store to avoid stale HTML caching during development
   app.get(['/', '/index.html'], (req, res) => {
     try {
