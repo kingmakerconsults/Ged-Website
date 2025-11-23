@@ -963,3 +963,16 @@ if (typeof window !== 'undefined') {
   window.MultiPartMathRunner = MultiPartMathRunner;
   window.MultiPartRlaRunner = MultiPartRlaRunner;
 }
+
+// Attach QuizRunner and internal runners to window for global access
+if (typeof window !== 'undefined') {
+  window.QuizRunners = window.QuizRunners || {};
+  Object.assign(window.QuizRunners, {
+    QuizRunner,
+    MultiPartMathRunner,
+    MultiPartRlaRunner,
+    MultiPartScienceRunner,
+    MultiPartSocialStudiesRunner,
+    WorkforceInterviewRunner
+  });
+}

@@ -11,12 +11,12 @@ const {
   createContext,
 } = React;
 
-// Import extracted modules
-import { useThemeController } from './hooks/useThemeController.js';
-import { useInteractiveToolPanel } from './hooks/useInteractiveToolPanel.js';
-import * as MathUtils from './utils/mathUtils.js';
-import * as TextUtils from './utils/textUtils.js';
-import {
+// Shims for global-based modules (no ES imports in Babel Standalone)
+const { useThemeController } = window.Hooks || {};
+const { useInteractiveToolPanel } = window.Hooks || {};
+const MathUtils = window.MathUtils || {};
+const TextUtils = window.TextUtils || {};
+const {
   SUBJECT_PROGRESS_KEYS,
   GED_PASSING_SCORE,
   PREMADE_QUIZ_CATALOG,
@@ -24,45 +24,45 @@ import {
   createEmptyProgress,
   buildProgressFromAttempts,
   ensureUserProfile,
-} from './utils/quizProgress.js';
-import { SCIENCE_QUESTIONS } from './data/science/scienceQuestions.js';
-import { MATH_QUESTIONS } from './data/math/mathQuestions.js';
-import { SOCIAL_STUDIES_QUESTIONS } from './data/social/socialStudiesQuestions.js';
-import { RLA_QUESTIONS } from './data/rla/rlaQuestions.js';
-import AuthScreen from './components/auth/AuthScreen.jsx';
-import {
+} = window.QuizProgress || {};
+const SCIENCE_QUESTIONS = window.SCIENCE_QUESTIONS;
+const MATH_QUESTIONS = window.MATH_QUESTIONS;
+const SOCIAL_STUDIES_QUESTIONS = window.SOCIAL_STUDIES_QUESTIONS;
+const RLA_QUESTIONS = window.RLA_QUESTIONS;
+const { ScienceFormulas, SCI_NUMERACY_QUESTIONS } = window;
+
+// Components exposed via window.Components
+const Components = window.Components || {};
+const {
   JoinOrganizationModal,
   NamePromptModal,
   PracticeSessionModal,
-} from './components/modals/index.jsx';
-import {
   FormulaDisplay,
   FormulaSheetModal,
   ScienceFormulaSheet,
-} from './components/formula/FormulaSheets.jsx';
-import './components/quiz/QuizRunners.jsx';
+  DashboardView,
+  WorkforceView,
+  ProfileViewWrapper,
+  SettingsViewWrapper,
+  HomeroomView,
+  AdminView,
+  QuizInterface,
+  ProfileView,
+  SettingsView,
+  OrganizationSummaryView,
+  DetailedProgressView,
+  VocabularyOverview,
+  RlaReadingSplitView,
+  InterviewScoreReport,
+  GeometryFigure,
+  ChartDisplay,
+  MathText,
+  AuthScreen,
+} = Components;
 
-// Import view components
-import DashboardView from './components/views/DashboardView.jsx';
-import WorkforceView from './components/views/WorkforceView.jsx';
-import ProfileViewWrapper from './components/views/ProfileViewWrapper.jsx';
-import SettingsViewWrapper from './components/views/SettingsViewWrapper.jsx';
-import HomeroomView from './components/views/HomeroomView.jsx';
-import AdminView from './components/views/AdminView.jsx';
-import QuizInterface from './components/quiz/QuizInterface.jsx';
-import ProfileView from './components/profile/ProfileView.jsx';
-import SettingsView from './components/profile/SettingsView.jsx';
-import OrganizationSummaryView from './components/admin/OrganizationSummaryView.jsx';
-import DetailedProgressView from './components/progress/DetailedProgressView.jsx';
-import VocabularyOverview from './components/vocabulary/VocabularyOverview.jsx';
-import RlaReadingSplitView from './components/quiz/RlaReadingSplitView.jsx';
-import InterviewScoreReport from './components/interview/InterviewScoreReport.jsx';
-import GeometryFigure from './components/geometry/GeometryFigure.jsx';
-import ChartDisplay from './components/charts/ChartDisplay.jsx';
-import MathText from './components/math/MathText.jsx';
-import { ScienceFormulas } from './data/science/ScienceFormulas.js';
-import { SCI_NUMERACY_QUESTIONS } from './data/science/SciNumeracyQuestions.js';
-import {
+// Subject visuals and fallback vocabulary from window
+const SubjectVisuals = window.SubjectVisuals || {};
+const {
   SUBJECT_NAMES,
   SUBJECT_COLORS,
   SUBJECT_BG_GRADIENTS,
@@ -71,12 +71,10 @@ import {
   SUBJECT_SHORT_LABELS,
   VOCABULARY_SUBJECT_COLORS,
   MAX_TICKER_WORDS_PER_SUBJECT,
-} from './config/subjectVisuals.js';
-import {
-  FALLBACK_VOCABULARY,
-  normalizeVocabularyEntry,
-  mergeVocabularyData,
-} from './config/fallbackVocabulary.js';
+} = SubjectVisuals;
+const FallbackVocabulary = window.FallbackVocabulary || {};
+const { FALLBACK_VOCABULARY, normalizeVocabularyEntry, mergeVocabularyData } =
+  FallbackVocabulary;
 
 // Extract utility functions for global scope (for compatibility with existing code)
 const {

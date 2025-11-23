@@ -1,13 +1,14 @@
 const { useState, useEffect, useMemo } = React;
 
-// Import necessary constants
-import {
+// Access constants from window.SubjectVisuals
+const SubjectVisuals = window.SubjectVisuals || {};
+const {
   SUBJECT_NAMES,
   SUBJECT_COLORS,
   SUBJECT_BG_GRADIENTS,
   SUBJECT_LIGHT_TINTS,
   SUBJECT_LIGHT_SURFACE_GRADIENTS,
-} from '../../config/subjectVisuals.js';
+} = SubjectVisuals;
 
 function ProfileView({
   loading,
@@ -656,4 +657,7 @@ function ProfileView({
   );
 }
 
-export default ProfileView;
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.ProfileView = ProfileView;
+}

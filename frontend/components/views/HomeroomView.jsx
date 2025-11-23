@@ -3,7 +3,7 @@
  * Wrapper for the student homeroom view
  */
 
-export default function HomeroomView(props) {
+function HomeroomView(props) {
   // StudentHomeRoom is already defined in app.jsx - use it via window global
   const StudentHomeRoom = window.StudentHomeRoom;
 
@@ -16,4 +16,9 @@ export default function HomeroomView(props) {
   }
 
   return <StudentHomeRoom {...props} />;
+}
+
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.HomeroomView = HomeroomView;
 }

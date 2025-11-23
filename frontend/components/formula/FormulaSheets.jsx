@@ -1,12 +1,13 @@
-import {
+const MathUtils = window.MathUtils || {};
+const {
   normalizeFormulaLatex,
   renderLatexToHtml,
   escapeHtml,
   applySafeMathFix,
-} from '../../utils/mathUtils.js';
-import { ScienceFormulas } from '../../data/science/ScienceFormulas.js';
+} = MathUtils;
+const ScienceFormulas = window.ScienceFormulas || [];
 
-export function FormulaDisplay({ latex, className = '' }) {
+function FormulaDisplay({ latex, className = '' }) {
   const safeLatex = normalizeFormulaLatex(latex);
   let html = '';
 
@@ -22,7 +23,7 @@ export function FormulaDisplay({ latex, className = '' }) {
   );
 }
 
-export function ScienceFormulaSheet({ onClose }) {
+function ScienceFormulaSheet({ onClose }) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
@@ -69,7 +70,7 @@ export function ScienceFormulaSheet({ onClose }) {
   );
 }
 
-export function FormulaSheetModal({ onClose }) {
+function FormulaSheetModal({ onClose }) {
   const Formula = ({ title, formula, description }) => {
     const sanitizedFormula =
       typeof formula === 'string'
@@ -180,4 +181,14 @@ export function FormulaSheetModal({ onClose }) {
       </div>
     </div>
   );
+}
+
+// Attach components to window.Components
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  Object.assign(window.Components, {
+    FormulaDisplay,
+    FormulaSheetModal,
+    ScienceFormulaSheet,
+  });
 }

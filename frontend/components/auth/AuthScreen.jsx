@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+const { useState, useEffect, useCallback, useRef } = React;
 
-const API_BASE_URL = '';
+const API_BASE_URL =
+  (typeof window !== 'undefined' && window.API_BASE_URL) || '';
 
-export default function AuthScreen({ onLogin }) {
+function AuthScreen({ onLogin }) {
   const googleButton = useRef(null);
   const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
@@ -219,4 +220,10 @@ export default function AuthScreen({ onLogin }) {
       </div>
     </>
   );
+}
+
+// Attach component to window.Components
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.AuthScreen = AuthScreen;
 }

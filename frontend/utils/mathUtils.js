@@ -3,7 +3,7 @@
  * Extracted from app.jsx for better organization
  */
 
-export function applySafeMathFix(text) {
+function applySafeMathFix(text) {
   if (typeof text !== 'string') {
     return text;
   }
@@ -27,7 +27,7 @@ export function applySafeMathFix(text) {
   return working;
 }
 
-export function collapseSplitLatexCommands(source) {
+function collapseSplitLatexCommands(source) {
   if (typeof source !== 'string' || source.length === 0) {
     return source;
   }
@@ -46,7 +46,7 @@ export function collapseSplitLatexCommands(source) {
   );
 }
 
-export function normalizeLatex(text) {
+function normalizeLatex(text) {
   if (typeof text !== 'string' || text.length === 0) {
     return text;
   }
@@ -107,7 +107,7 @@ export function normalizeLatex(text) {
   return normalized.replace(/\s{2,}/g, ' ').trim();
 }
 
-export function normalizeLatexForKaTeX(latex) {
+function normalizeLatexForKaTeX(latex) {
   if (typeof latex !== 'string') return latex;
   return latex
     .replace(/\\\\([A-Za-z]+)/g, '\\$1')
@@ -115,9 +115,9 @@ export function normalizeLatexForKaTeX(latex) {
     .replace(/\\right\s*/g, '');
 }
 
-export const KATEX_RENDER_OPTIONS = { throwOnError: false, strict: 'ignore' };
+const KATEX_RENDER_OPTIONS = { throwOnError: false, strict: 'ignore' };
 
-export function renderLatexToHtml(latexInput) {
+function renderLatexToHtml(latexInput) {
   if (typeof latexInput !== 'string') {
     return '';
   }
@@ -140,7 +140,7 @@ export function renderLatexToHtml(latexInput) {
   throw new Error('KaTeX render helpers missing');
 }
 
-export function normalizeFormulaLatex(latex) {
+function normalizeFormulaLatex(latex) {
   if (typeof latex !== 'string') {
     return '';
   }
@@ -162,7 +162,7 @@ export function normalizeFormulaLatex(latex) {
   return working;
 }
 
-export function smartWrapLatex(input) {
+function smartWrapLatex(input) {
   if (typeof input !== 'string' || input.length === 0) {
     return input;
   }
@@ -234,7 +234,7 @@ export function smartWrapLatex(input) {
   return result.replace(/@@M(\d+)@@/g, (_match, index) => slots[Number(index)]);
 }
 
-export function escapeHtml(value) {
+function escapeHtml(value) {
   if (typeof value !== 'string' || value.length === 0) {
     return '';
   }
@@ -244,13 +244,13 @@ export function escapeHtml(value) {
     .replace(/>/g, '&gt;');
 }
 
-export function formatExponents(input) {
+function formatExponents(input) {
   if (typeof input !== 'string') return input;
   // Added data-source attribute to verify centralization wiring visually.
   return input.replace(/\^(\d+)/g, '<sup data-source="mathUtils">$1</sup>');
 }
 
-export function normalizeMathText(text) {
+function normalizeMathText(text) {
   if (typeof text !== 'string') return text;
   let t = text;
   // Strip surrounding $...$ or $$...$$ once
@@ -269,7 +269,7 @@ export function normalizeMathText(text) {
   return t.trim();
 }
 
-export function stripLeakedMathPlaceholders(text) {
+function stripLeakedMathPlaceholders(text) {
   if (typeof text !== 'string' || text.length === 0) {
     return text;
   }
@@ -279,7 +279,7 @@ export function stripLeakedMathPlaceholders(text) {
 }
 
 // Extracted from app.jsx: upgradePlainMathForDisplay
-export function upgradePlainMathForDisplay(text) {
+function upgradePlainMathForDisplay(text) {
   if (!text || typeof text !== 'string') return text;
   let upgraded = text;
   upgraded = upgraded.replace(
@@ -300,7 +300,7 @@ export function upgradePlainMathForDisplay(text) {
 }
 
 // Extracted: formatMathText (depends on formatFractions which is in textUtils; caller should import it separately)
-export function formatMathText(html) {
+function formatMathText(html) {
   if (typeof html !== 'string' || html.length === 0) return html;
   // Fractions formatting delegated to textUtils.formatFractions at call site
   let out = html;
@@ -312,7 +312,7 @@ export function formatMathText(html) {
 }
 
 // Extracted: extractMathSegments
-export function extractMathSegments(input) {
+function extractMathSegments(input) {
   const segments = [];
   if (typeof input !== 'string' || !input.length) {
     return segments;
@@ -366,7 +366,7 @@ export function extractMathSegments(input) {
 }
 
 // Extracted: renderStem (processes text with math segments for dynamic content)
-export function renderStem(text) {
+function renderStem(text) {
   if (typeof text !== 'string') {
     return '';
   }
@@ -411,7 +411,7 @@ export function renderStem(text) {
 }
 
 // Extracted: renderStemWithKatex (premade/static content only)
-export function renderStemWithKatex(text) {
+function renderStemWithKatex(text) {
   if (typeof text !== 'string') return '';
   const segments = extractMathSegments(text);
   const parts = [];
@@ -499,11 +499,7 @@ export function renderStemWithKatex(text) {
 }
 
 // Extracted: renderQuestionTextForDisplay
-export function renderQuestionTextForDisplay(
-  text,
-  isPremade,
-  questionCtx = null
-) {
+function renderQuestionTextForDisplay(text, isPremade, questionCtx = null) {
   const useKatex = Boolean(
     typeof window !== 'undefined' &&
       window.__APP_CONFIG__ &&
@@ -525,74 +521,26 @@ export function renderQuestionTextForDisplay(
   return { __html: finalHtml };
 }
 
-export function smartWrapLatex(input) {
-  if (typeof input !== 'string' || input.length === 0) {
-    return input;
-  }
-
-  const slots = [];
-  const masked = input.replace(/\\\([^\)]*\\\)|\$[^$]+\$/g, (match) => {
-    slots.push(match);
-    return `@@M${slots.length - 1}@@`;
+// Attach to window for Babel Standalone (no modules)
+if (typeof window !== 'undefined') {
+  window.MathUtils = Object.assign(window.MathUtils || {}, {
+    applySafeMathFix,
+    collapseSplitLatexCommands,
+    normalizeLatex,
+    normalizeLatexForKaTeX,
+    KATEX_RENDER_OPTIONS,
+    renderLatexToHtml,
+    normalizeFormulaLatex,
+    smartWrapLatex,
+    escapeHtml,
+    formatExponents,
+    normalizeMathText,
+    stripLeakedMathPlaceholders,
+    upgradePlainMathForDisplay,
+    formatMathText,
+    extractMathSegments,
+    renderStem,
+    renderStemWithKatex,
+    renderQuestionTextForDisplay,
   });
-
-  const MACRO_PATTERN =
-    /\\(?:frac|sqrt|text|pi|times|cdot|le|ge|lt|gt|neq|approx|sin|cos|tan|log|ln|pm|mp|theta|alpha|beta|gamma)\b/y;
-
-  const grabBraces = (source, start) => {
-    if (source[start] !== '{') {
-      return 0;
-    }
-    let depth = 0;
-    let index = start;
-    while (index < source.length) {
-      const ch = source[index++];
-      if (ch === '{') {
-        depth += 1;
-      } else if (ch === '}') {
-        depth -= 1;
-        if (depth === 0) {
-          return index - start;
-        }
-      }
-    }
-    return 0;
-  };
-
-  let result = '';
-  let cursor = 0;
-
-  while (cursor < masked.length) {
-    const char = masked[cursor];
-    if (char === '\\') {
-      MACRO_PATTERN.lastIndex = cursor;
-      const match = MACRO_PATTERN.exec(masked);
-      if (match) {
-        let end = MACRO_PATTERN.lastIndex;
-        if (match[0] === '\\frac') {
-          const first = grabBraces(masked, end);
-          if (first) {
-            end += first;
-            const second = grabBraces(masked, end);
-            if (second) {
-              end += second;
-            }
-          }
-        } else {
-          const groupLen = grabBraces(masked, end);
-          if (groupLen) {
-            end += groupLen;
-          }
-        }
-        const segment = masked.slice(cursor, end);
-        result += `\\(${segment}\\)`;
-        cursor = end;
-        continue;
-      }
-    }
-    result += char;
-    cursor += 1;
-  }
-
-  return result.replace(/@@M(\d+)@@/g, (_match, index) => slots[Number(index)]);
 }

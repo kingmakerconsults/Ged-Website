@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react';
+const { useState, useCallback } = React;
 
-export function useThemeController() {
+function useThemeController() {
   const [theme, setTheme] = useState(() => {
     if (typeof window === 'undefined') {
       return 'light';
@@ -32,4 +32,9 @@ export function useThemeController() {
   }, [theme, applyTheme]);
 
   return { theme, toggleTheme, applyTheme };
+}
+
+// Attach to window.Hooks for global access
+if (typeof window !== 'undefined') {
+  window.Hooks = Object.assign(window.Hooks || {}, { useThemeController });
 }

@@ -1,16 +1,18 @@
 // React hooks from UMD environment
 const { useState, useEffect, useRef } = React;
 
-// Import necessary utilities and components
-import { useInteractiveToolPanel } from '../../hooks/useInteractiveToolPanel.js';
-import { SUBJECT_COLORS } from '../../config/subjectVisuals.js';
-import {
+// Access components and utilities from window globals
+const { useInteractiveToolPanel } = window.Hooks || {};
+const SubjectVisuals = window.SubjectVisuals || {};
+const { SUBJECT_COLORS } = SubjectVisuals;
+const Components = window.Components || {};
+const {
   FormulaSheetModal,
   ScienceFormulaSheet,
-} from '../formula/FormulaSheets.jsx';
-import MathText from '../math/MathText.jsx';
-import GeometryFigure from '../geometry/GeometryFigure.jsx';
-import ChartDisplay from '../charts/ChartDisplay.jsx';
+  MathText,
+  GeometryFigure,
+  ChartDisplay,
+} = Components;
 
 // Global utilities available from app.jsx
 // These are destructured from MathUtils and TextUtils in app.jsx
@@ -1492,5 +1494,9 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
   return null;
 }
 
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.QuizInterface = QuizInterface;
+}
 
 export default QuizInterface;

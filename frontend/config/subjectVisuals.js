@@ -1,9 +1,9 @@
 // Centralized subject visual + vocabulary meta constants
 // Extracted from app.jsx to reduce monolith size and prevent drift.
 
-export const SUBJECT_NAMES = ['Math', 'RLA', 'Science', 'Social Studies'];
+const SUBJECT_NAMES = ['Math', 'RLA', 'Science', 'Social Studies'];
 
-export const SUBJECT_COLORS = {
+const SUBJECT_COLORS = {
   Science: {
     background: 'var(--subject-science-accent)',
     text: 'var(--subject-science-surface-text)',
@@ -67,7 +67,7 @@ export const SUBJECT_COLORS = {
   },
 };
 
-export const SUBJECT_BG_GRADIENTS = {
+const SUBJECT_BG_GRADIENTS = {
   Math: 'var(--subject-math-gradient)',
   Science: 'var(--subject-science-gradient)',
   'Social Studies': 'var(--subject-social-gradient)',
@@ -75,7 +75,7 @@ export const SUBJECT_BG_GRADIENTS = {
   Workforce: 'var(--subject-workforce-gradient)',
 };
 
-export const SUBJECT_LIGHT_SURFACE_GRADIENTS = {
+const SUBJECT_LIGHT_SURFACE_GRADIENTS = {
   Math: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(2,132,199,0.12))',
   Science:
     'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(220,38,38,0.12))',
@@ -87,7 +87,7 @@ export const SUBJECT_LIGHT_SURFACE_GRADIENTS = {
     'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(20,184,166,0.12))',
 };
 
-export const SUBJECT_LIGHT_TINTS = {
+const SUBJECT_LIGHT_TINTS = {
   Math: 'rgba(2,132,199,0.2)',
   Science: 'rgba(220,38,38,0.2)',
   'Social Studies': 'rgba(22,163,74,0.2)',
@@ -95,7 +95,7 @@ export const SUBJECT_LIGHT_TINTS = {
   Workforce: 'rgba(20,184,166,0.2)',
 };
 
-export const SUBJECT_SHORT_LABELS = {
+const SUBJECT_SHORT_LABELS = {
   Science: 'Science',
   Math: 'Math',
   'Social Studies': 'Social Studies',
@@ -103,20 +103,21 @@ export const SUBJECT_SHORT_LABELS = {
   Workforce: 'Workforce',
 };
 
-export const VOCABULARY_SUBJECT_COLORS = {
+const VOCABULARY_SUBJECT_COLORS = {
   Science: '#dc2626',
   Math: '#0284c7',
   'Social Studies': '#16a34a',
   'Reasoning Through Language Arts (RLA)': '#7c3aed',
 };
 
-export const MAX_TICKER_WORDS_PER_SUBJECT = 10;
+const MAX_TICKER_WORDS_PER_SUBJECT = 10;
 
 // Fallback vocabulary remains in app.jsx for now to reduce diff size.
 // It can be moved here later once references are confirmed.
 
 if (typeof window !== 'undefined') {
-  Object.assign(window, {
+  window.SubjectVisuals = Object.assign(window.SubjectVisuals || {}, {
+    SUBJECT_NAMES,
     SUBJECT_COLORS,
     SUBJECT_BG_GRADIENTS,
     SUBJECT_LIGHT_SURFACE_GRADIENTS,

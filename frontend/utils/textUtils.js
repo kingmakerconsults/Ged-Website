@@ -3,7 +3,7 @@
  * Extracted from app.jsx for better organization
  */
 
-export const ALLOWED_HTML_TAGS = [
+const ALLOWED_HTML_TAGS = [
   'a',
   'b',
   'strong',
@@ -35,7 +35,7 @@ export const ALLOWED_HTML_TAGS = [
   'img',
 ];
 
-export const ALLOWED_HTML_ATTR = [
+const ALLOWED_HTML_ATTR = [
   'href',
   'title',
   'target',
@@ -52,7 +52,7 @@ export const ALLOWED_HTML_ATTR = [
 const ENTITY_DECODER =
   typeof document !== 'undefined' ? document.createElement('textarea') : null;
 
-export function normalizeLineBreaks(value) {
+function normalizeLineBreaks(value) {
   if (typeof value !== 'string') return value;
   return value
     .replace(/\r\n?/g, '\n')
@@ -60,7 +60,7 @@ export function normalizeLineBreaks(value) {
     .replace(/\n{3,}/g, '\n\n');
 }
 
-export function surroundOperatorWithSpaces(source, match, offset) {
+function surroundOperatorWithSpaces(source, match, offset) {
   const before = offset > 0 ? source[offset - 1] : '';
   const after =
     offset + match.length < source.length ? source[offset + match.length] : '';
@@ -75,7 +75,7 @@ export function surroundOperatorWithSpaces(source, match, offset) {
   return `${leading}${trimmed}${trailing}`;
 }
 
-export function normalizePunctuationSpacing(value) {
+function normalizePunctuationSpacing(value) {
   if (typeof value !== 'string') return value;
   let result = value.replace(
     /([.,;:!?])(?=\S)/g,
@@ -120,14 +120,14 @@ const LATEX_CONTROL_CHAR_ESCAPE = {
   '\v': 'v',
 };
 
-export function escapeLatexControlCharacters(input) {
+function escapeLatexControlCharacters(input) {
   return input.replace(/[\f\n\t\r\b\v]/g, (char) => {
     const replacement = LATEX_CONTROL_CHAR_ESCAPE[char];
     return replacement ? `\\${replacement}` : char;
   });
 }
 
-export function repairLatexCorruption(value) {
+function repairLatexCorruption(value) {
   if (typeof value !== 'string') return value;
   let working = value.replace(/(?:\^|\f)rac\{/gi, '\\frac{');
   working = working.replace(
@@ -145,14 +145,14 @@ export function repairLatexCorruption(value) {
   return working;
 }
 
-export function decodeHtmlEntities(value) {
+function decodeHtmlEntities(value) {
   if (typeof value !== 'string') return '';
   if (!ENTITY_DECODER) return value;
   ENTITY_DECODER.innerHTML = value;
   return ENTITY_DECODER.value;
 }
 
-export function neutralizeUnpairedDollarSigns(text) {
+function neutralizeUnpairedDollarSigns(text) {
   if (typeof text !== 'string' || text.indexOf('$') === -1) {
     return text;
   }
@@ -169,7 +169,7 @@ export function neutralizeUnpairedDollarSigns(text) {
   return restoreMathSegments(working, segments);
 }
 
-export function escapeCurrencyDollarsMathSafe(input) {
+function escapeCurrencyDollarsMathSafe(input) {
   if (typeof input !== 'string') return input;
 
   if (!(tokenizeMathSegments && restoreMathSegments)) {
@@ -191,7 +191,7 @@ export function escapeCurrencyDollarsMathSafe(input) {
   return restoreMathSegments(working, segments);
 }
 
-export function stripBackslashesOutsideMath(input) {
+function stripBackslashesOutsideMath(input) {
   if (typeof input !== 'string') return input;
 
   if (!(tokenizeMathSegments && restoreMathSegments)) {
@@ -203,7 +203,7 @@ export function stripBackslashesOutsideMath(input) {
   return restoreMathSegments(cleaned, segments);
 }
 
-export function deglueCommonBigrams(s) {
+function deglueCommonBigrams(s) {
   if (typeof s !== 'string') return s;
   const replacements = {
     inthe: 'in the',
@@ -228,14 +228,14 @@ export function deglueCommonBigrams(s) {
   });
 }
 
-export function addSpacesAroundInlineMath(s) {
+function addSpacesAroundInlineMath(s) {
   if (typeof s !== 'string') return s;
   return s
     .replace(/([A-Za-z])\$(?!\$)/g, '$1 $')
     .replace(/\$(?!\$)([A-Za-z])/g, ' $1');
 }
 
-export function repairSpacedTags(s) {
+function repairSpacedTags(s) {
   if (typeof s !== 'string') return s;
   return s
     .replace(/<\s*\/\s*([a-z]+)\s*>/gi, '</$1>')
@@ -245,7 +245,7 @@ export function repairSpacedTags(s) {
     });
 }
 
-export function protectTables(text) {
+function protectTables(text) {
   if (typeof text !== 'string' || text.toLowerCase().indexOf('<table') === -1) {
     return text;
   }
@@ -255,13 +255,13 @@ export function protectTables(text) {
   );
 }
 
-export function stripLeakedMathPlaceholders(text) {
+function stripLeakedMathPlaceholders(text) {
   if (typeof text !== 'string') return text;
   return text.replace(/@@MATH_\d+@@/g, '');
 }
 
 // Replaced with trusted implementation from app.jsx (wrap plain-text math fractions in span.frac)
-export function formatFractions(text) {
+function formatFractions(text) {
   if (!text || typeof text !== 'string') return text;
   const complexPattern = /\(([^(]+)\)\s*\/\s*\(([^(]+)\)/g;
   const parenOverNumberPattern = /\(([^(]+)\)\s*\/\s*([0-9]+(\.[0-9]+)?)/g;
@@ -281,7 +281,7 @@ export function formatFractions(text) {
 }
 
 // Replaced with trusted implementation from app.jsx (remove duplicated halves of entire string)
-export function cleanRepeatedText(text) {
+function cleanRepeatedText(text) {
   if (!text || typeof text !== 'string') return text;
   const half = Math.floor(text.length / 2);
   if (text.length % 2 === 0) {
@@ -295,7 +295,7 @@ export function cleanRepeatedText(text) {
 }
 
 // Extracted from app.jsx: normalizeInlineTablesFront
-export function normalizeInlineTablesFront(html) {
+function normalizeInlineTablesFront(html) {
   if (typeof html !== 'string' || !html.trim()) return html;
   if (/<table/i.test(html)) return html;
   if (!html.includes('|')) return html;
@@ -329,7 +329,7 @@ export function normalizeInlineTablesFront(html) {
 }
 
 // Extracted from app.jsx: sanitizeHtmlContent
-export function sanitizeHtmlContent(
+function sanitizeHtmlContent(
   content,
   { normalizeSpacing = false, skipPreprocess = false } = {}
 ) {
@@ -358,7 +358,7 @@ export function sanitizeHtmlContent(
   );
 }
 
-export function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
+function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
   if (typeof value !== 'string') return '';
   let working = normalizeLineBreaks(value);
   if (normalizeSpacing) {
@@ -404,7 +404,7 @@ export function preprocessRawContent(value, { normalizeSpacing = false } = {}) {
   return working;
 }
 
-export function sanitizeCodeSegment(value, fallback = '') {
+function sanitizeCodeSegment(value, fallback = '') {
   if (typeof value !== 'string') {
     return fallback;
   }
@@ -419,7 +419,7 @@ export function sanitizeCodeSegment(value, fallback = '') {
   return normalized || fallback;
 }
 
-export function normalizeImagePath(path) {
+function normalizeImagePath(path) {
   if (!path) return '';
   let p = String(path).trim().replace(/\\+/g, '/').replace(/\/+/g, '/');
   p = p.replace(/\/+/g, '/');
@@ -460,7 +460,7 @@ export function normalizeImagePath(path) {
   return p;
 }
 
-export function resolveAssetUrl(src) {
+function resolveAssetUrl(src) {
   if (!src) return '';
   let s = String(src).trim();
 
@@ -506,20 +506,20 @@ export function resolveAssetUrl(src) {
   return origin + normalized;
 }
 
-export function getOptionText(opt) {
+function getOptionText(opt) {
   if (typeof opt === 'string') return opt;
   if (opt && typeof opt === 'object' && typeof opt.text === 'string')
     return opt.text;
   return '';
 }
 
-export function getOptionIsCorrect(opt) {
+function getOptionIsCorrect(opt) {
   if (typeof opt === 'string') return false;
   if (opt && typeof opt === 'object') return opt.isCorrect || false;
   return false;
 }
 
-export function findCorrectOption(answerOptions) {
+function findCorrectOption(answerOptions) {
   if (!Array.isArray(answerOptions)) return null;
   const correctOpt = answerOptions.find((opt) => getOptionIsCorrect(opt));
   return correctOpt
@@ -527,7 +527,7 @@ export function findCorrectOption(answerOptions) {
     : null;
 }
 
-export function isShortResponseQuestion(question) {
+function isShortResponseQuestion(question) {
   if (!question || typeof question !== 'object') return false;
   const responseType =
     typeof question.responseType === 'string'
@@ -554,4 +554,38 @@ export function isShortResponseQuestion(question) {
     return true;
   }
   return false;
+}
+
+// Attach to window for Babel Standalone (no modules)
+if (typeof window !== 'undefined') {
+  window.TextUtils = Object.assign(window.TextUtils || {}, {
+    ALLOWED_HTML_TAGS,
+    ALLOWED_HTML_ATTR,
+    normalizeLineBreaks,
+    surroundOperatorWithSpaces,
+    normalizePunctuationSpacing,
+    escapeLatexControlCharacters,
+    repairLatexCorruption,
+    decodeHtmlEntities,
+    neutralizeUnpairedDollarSigns,
+    escapeCurrencyDollarsMathSafe,
+    stripBackslashesOutsideMath,
+    deglueCommonBigrams,
+    addSpacesAroundInlineMath,
+    repairSpacedTags,
+    protectTables,
+    stripLeakedMathPlaceholders,
+    formatFractions,
+    cleanRepeatedText,
+    normalizeInlineTablesFront,
+    sanitizeHtmlContent,
+    preprocessRawContent,
+    sanitizeCodeSegment,
+    normalizeImagePath,
+    resolveAssetUrl,
+    getOptionText,
+    getOptionIsCorrect,
+    findCorrectOption,
+    isShortResponseQuestion,
+  });
 }

@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+const { useState, useEffect } = React;
 
-const API_BASE_URL = '';
+const API_BASE_URL =
+  (typeof window !== 'undefined' && window.API_BASE_URL) || '';
 
-export function JoinOrganizationModal({ onJoin, authToken }) {
+function JoinOrganizationModal({ onJoin, authToken }) {
   const [organizations, setOrganizations] = useState([]);
   const [selectedOrgId, setSelectedOrgId] = useState('');
   const [accessCode, setAccessCode] = useState('');
@@ -230,7 +231,7 @@ export function JoinOrganizationModal({ onJoin, authToken }) {
   );
 }
 
-export function NamePromptModal({ user, onSave, onDismiss }) {
+function NamePromptModal({ user, onSave, onDismiss }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
@@ -379,7 +380,7 @@ export function NamePromptModal({ user, onSave, onDismiss }) {
   );
 }
 
-export function PracticeSessionModal({
+function PracticeSessionModal({
   defaultMode = 'balanced',
   defaultDuration = 10,
   onStart,
@@ -481,4 +482,14 @@ export function PracticeSessionModal({
       </div>
     </div>
   );
+}
+
+// Attach modal components to window.Components
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  Object.assign(window.Components, {
+    JoinOrganizationModal,
+    NamePromptModal,
+    PracticeSessionModal,
+  });
 }

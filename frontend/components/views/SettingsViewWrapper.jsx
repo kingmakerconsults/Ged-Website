@@ -3,7 +3,7 @@
  * Wrapper for the settings management view
  */
 
-export default function SettingsViewWrapper(props) {
+function SettingsViewWrapper(props) {
   // SettingsView is already defined in app.jsx - use it via window global
   const SettingsView = window.SettingsView;
 
@@ -16,4 +16,9 @@ export default function SettingsViewWrapper(props) {
   }
 
   return <SettingsView {...props} />;
+}
+
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.SettingsViewWrapper = SettingsViewWrapper;
 }

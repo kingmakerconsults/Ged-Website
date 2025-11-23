@@ -3,7 +3,7 @@
  * Wrapper for admin dashboard and admin functionality
  */
 
-export default function AdminView({ user, token, onLogout }) {
+function AdminView({ user, token, onLogout }) {
   // EnhancedAdminShell is already defined in app.jsx - use it via window global
   const EnhancedAdminShell = window.EnhancedAdminShell;
 
@@ -16,4 +16,9 @@ export default function AdminView({ user, token, onLogout }) {
   }
 
   return <EnhancedAdminShell user={user} token={token} onLogout={onLogout} />;
+}
+
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.AdminView = AdminView;
 }

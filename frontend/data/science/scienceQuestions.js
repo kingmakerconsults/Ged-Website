@@ -1,4 +1,4 @@
-export const SCIENCE_QUESTIONS = {
+window.SCIENCE_QUESTIONS = {
   Science: {
     icon: 'BeakerIcon',
     categories: {
