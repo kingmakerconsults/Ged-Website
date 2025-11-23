@@ -4518,6 +4518,21 @@ try {
     } catch {}
     res.sendFile(path.join(__dirname, 'GeometryCanvas.js'));
   });
+  // Explicit handler for JavaScript files with correct MIME type
+  app.get(/\.(js|mjs)$/, (req, res, next) => {
+    console.log('[JS Handler] Request for:', req.path);
+    const filePath = path.join(frontendDir, req.path);
+    console.log('[JS Handler] Resolved path:', filePath);
+    if (fs.existsSync(filePath)) {
+      console.log('[JS Handler] File exists, serving with application/javascript');
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.sendFile(filePath);
+    } else {
+      console.log('[JS Handler] File not found, passing to next middleware');
+      next();
+    }
+  });
   // Serve frontend static assets at root (JS, images, etc.)
   app.use(
     '/',
@@ -4525,17 +4540,6 @@ try {
       index: false,
       maxAge: '1h',
       setHeaders(res, filePath) {
-        // Set correct MIME types for all asset files
-        if (filePath.match(/\.(js|mjs|jsx)$/)) {
-          res.setHeader(
-            'Content-Type',
-            'application/javascript; charset=utf-8'
-          );
-        } else if (filePath.match(/\.css$/)) {
-          res.setHeader('Content-Type', 'text/css; charset=utf-8');
-        } else if (filePath.match(/\.json$/)) {
-          res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        }
         res.setHeader('Access-Control-Allow-Origin', '*');
       },
     })
@@ -4547,10 +4551,13 @@ try {
     } catch {}
     res.sendFile(path.join(frontendDir, 'index.html'));
   });
-  // SPA fallback for client-side routes (exclude API paths)
+  // SPA fallback for client-side routes (exclude API paths and static files)
   app.get('*', (req, res, next) => {
     try {
-      if (req.path.startsWith('/api')) return next();
+      // Don't intercept API routes or file requests (with extensions)
+      if (req.path.startsWith('/api') || req.path.match(/\.[a-zA-Z0-9]+$/)) {
+        return next();
+      }
       res.set('Cache-Control', 'no-store');
     } catch {}
     return res.sendFile(path.join(frontendDir, 'index.html'));
