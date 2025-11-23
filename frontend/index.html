@@ -1058,6 +1058,55 @@
       data-presets="env,react"
     ></script>
 
+    <script>
+      // Diagnostic: Check what's on window before app.jsx loads
+      console.log('=== WINDOW DIAGNOSTICS ===');
+      console.log('React:', typeof React);
+      console.log('ReactDOM:', typeof ReactDOM);
+      console.log(
+        'window.Components:',
+        typeof window.Components,
+        Object.keys(window.Components || {})
+      );
+      console.log(
+        'window.Hooks:',
+        typeof window.Hooks,
+        Object.keys(window.Hooks || {})
+      );
+      console.log(
+        'window.MathUtils:',
+        typeof window.MathUtils,
+        Object.keys(window.MathUtils || {})
+      );
+      console.log(
+        'window.TextUtils:',
+        typeof window.TextUtils,
+        Object.keys(window.TextUtils || {})
+      );
+      console.log(
+        'window.SubjectVisuals:',
+        typeof window.SubjectVisuals,
+        Object.keys(window.SubjectVisuals || {})
+      );
+      console.log(
+        'window.FallbackVocabulary:',
+        typeof window.FallbackVocabulary,
+        Object.keys(window.FallbackVocabulary || {})
+      );
+      console.log('window.SCIENCE_QUESTIONS:', typeof window.SCIENCE_QUESTIONS);
+      console.log('window.MATH_QUESTIONS:', typeof window.MATH_QUESTIONS);
+      console.log('window.RLA_QUESTIONS:', typeof window.RLA_QUESTIONS);
+      console.log(
+        'window.SOCIAL_STUDIES_QUESTIONS:',
+        typeof window.SOCIAL_STUDIES_QUESTIONS
+      );
+      console.log(
+        'window.buildProgressFromAttempts:',
+        typeof window.buildProgressFromAttempts
+      );
+      console.log('=== END DIAGNOSTICS ===');
+    </script>
+
     <script type="text/babel" src="app.jsx" data-presets="env,react"></script>
   </body>
 </html>
