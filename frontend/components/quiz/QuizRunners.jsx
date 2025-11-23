@@ -964,6 +964,19 @@ if (typeof window !== 'undefined') {
   window.MultiPartRlaRunner = MultiPartRlaRunner;
 }
 
+// Placeholder runners for subjects that use standard runner
+function MultiPartScienceRunner(props) {
+  return StandardQuizRunner(props);
+}
+
+function MultiPartSocialStudiesRunner(props) {
+  return StandardQuizRunner(props);
+}
+
+function WorkforceInterviewRunner(props) {
+  return StandardQuizRunner(props);
+}
+
 // Attach QuizRunner and internal runners to window for global access
 if (typeof window !== 'undefined') {
   window.QuizRunners = window.QuizRunners || {};
@@ -973,6 +986,6 @@ if (typeof window !== 'undefined') {
     MultiPartRlaRunner,
     MultiPartScienceRunner,
     MultiPartSocialStudiesRunner,
-    WorkforceInterviewRunner
+    WorkforceInterviewRunner,
   });
 }
