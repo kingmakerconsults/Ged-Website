@@ -4526,8 +4526,10 @@ try {
     setHeaders(res, filePath) {
       // Force correct MIME types for JavaScript
       const ext = path.extname(filePath).toLowerCase();
+      console.log(`[Static] Serving: ${filePath} (ext: ${ext})`);
       if (ext === '.js' || ext === '.mjs') {
         res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+        console.log('[Static] Set Content-Type: application/javascript');
       } else if (ext === '.css') {
         res.setHeader('Content-Type', 'text/css; charset=utf-8');
       } else if (ext === '.json') {
