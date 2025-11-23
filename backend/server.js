@@ -4518,17 +4518,6 @@ try {
     } catch {}
     res.sendFile(path.join(__dirname, 'GeometryCanvas.js'));
   });
-  // Explicit MIME type middleware BEFORE static serving
-  app.use((req, res, next) => {
-    if (req.path.match(/\.(js|mjs|jsx)$/)) {
-      res.type('application/javascript; charset=utf-8');
-    } else if (req.path.match(/\.css$/)) {
-      res.type('text/css; charset=utf-8');
-    } else if (req.path.match(/\.json$/)) {
-      res.type('application/json; charset=utf-8');
-    }
-    next();
-  });
   // Serve frontend static assets at root (JS, images, etc.)
   app.use(
     '/',
@@ -4536,6 +4525,17 @@ try {
       index: false,
       maxAge: '1h',
       setHeaders(res, filePath) {
+        // Set correct MIME types for all asset files
+        if (filePath.match(/\.(js|mjs|jsx)$/)) {
+          res.setHeader(
+            'Content-Type',
+            'application/javascript; charset=utf-8'
+          );
+        } else if (filePath.match(/\.css$/)) {
+          res.setHeader('Content-Type', 'text/css; charset=utf-8');
+        } else if (filePath.match(/\.json$/)) {
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        }
         res.setHeader('Access-Control-Allow-Origin', '*');
       },
     })
