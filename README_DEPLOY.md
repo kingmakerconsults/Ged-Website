@@ -27,19 +27,19 @@ This project has been **fully migrated to Vite + React**. The legacy UMD React +
 In your Netlify site dashboard, configure:
 
 ```
-Base directory:       frontend
-Build command:        npm run build
+Build command:        npm run build:frontend
 Publish directory:    frontend/dist
 ```
 
+**Note**: No base directory needed - build runs from repo root.
+
 ### Using `netlify.toml` (Recommended)
 
-Create `netlify.toml` in repo root:
+The included `netlify.toml` in repo root:
 
 ```toml
 [build]
-  base = "frontend"
-  command = "npm run build"
+  command = "npm run build:frontend"
   publish = "frontend/dist"
 
 [build.environment]
