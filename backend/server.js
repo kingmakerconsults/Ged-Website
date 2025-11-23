@@ -4420,12 +4420,8 @@ const net = require('net');
 try {
   const repoRoot = path.resolve(__dirname, '..');
   const publicDir = path.join(repoRoot, 'public');
-  const frontendBaseDir = path.join(repoRoot, 'frontend');
-  // In production serve built Vite assets from frontend/dist; in dev fall back to raw frontend for legacy paths.
-  const frontendDir =
-    process.env.NODE_ENV === 'production'
-      ? path.join(frontendBaseDir, 'dist')
-      : frontendBaseDir;
+  // Always serve built Vite assets from frontend/dist
+  const frontendDir = path.join(repoRoot, 'frontend', 'dist');
   app.use(
     '/public',
     express.static(publicDir, {
@@ -4524,12 +4520,10 @@ try {
     index: false,
     maxAge: '1h',
     setHeaders(res, filePath) {
-      // Force correct MIME types for JavaScript
+      // Force correct MIME types for JavaScript (including JSX as fallback)
       const ext = path.extname(filePath).toLowerCase();
-      console.log(`[Static] Serving: ${filePath} (ext: ${ext})`);
-      if (ext === '.js' || ext === '.mjs') {
+      if (ext === '.js' || ext === '.mjs' || ext === '.jsx') {
         res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-        console.log('[Static] Set Content-Type: application/javascript');
       } else if (ext === '.css') {
         res.setHeader('Content-Type', 'text/css; charset=utf-8');
       } else if (ext === '.json') {
