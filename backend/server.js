@@ -4524,7 +4524,9 @@ try {
     const filePath = path.join(frontendDir, req.path);
     console.log('[JS Handler] Resolved path:', filePath);
     if (fs.existsSync(filePath)) {
-      console.log('[JS Handler] File exists, serving with application/javascript');
+      console.log(
+        '[JS Handler] File exists, serving with application/javascript'
+      );
       res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.sendFile(filePath);
