@@ -4422,6 +4422,25 @@ try {
   const publicDir = path.join(repoRoot, 'public');
   // Always serve built Vite assets from frontend/dist
   const frontendDir = path.join(repoRoot, 'frontend', 'dist');
+  const frontendRoot = path.join(repoRoot, 'frontend');
+
+  // Serve quiz data bundles from frontend/Expanded (not copied to dist)
+  app.use(
+    '/Expanded',
+    express.static(path.join(frontendRoot, 'Expanded'), {
+      maxAge: '1h',
+      setHeaders(res, filePath) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        if (filePath.endsWith('.js')) {
+          res.setHeader(
+            'Content-Type',
+            'application/javascript; charset=utf-8'
+          );
+        }
+      },
+    })
+  );
+
   app.use(
     '/public',
     express.static(publicDir, {
