@@ -6,6 +6,14 @@ const crypto = require('crypto');
 // Load local environment variables for development before any other imports that use them
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 const express = require('express');
+
+// Configure Express static MIME types for ES modules
+express.static.mime.define({
+  'application/javascript': ['js', 'mjs', 'jsx'],
+  'text/css': ['css'],
+  'application/json': ['json'],
+});
+
 const cors = require('cors');
 const axios = require('axios');
 const db = require('./db');
