@@ -1,5 +1,4 @@
-// Extracted SCI_NUMERACY_QUESTIONS from app.jsx (questions 1-18)
-window.SCI_NUMERACY_QUESTIONS = [
+﻿export const SCI_NUMERACY_QUESTIONS = [
   {
     questionNumber: 1,
     qaProfileKey: 'numeracy',
@@ -16,7 +15,7 @@ window.SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '18 cm',
-        rationale: 'Correct. (15+18+15+22+20)=90; 90÷5=18.',
+        rationale: 'Correct. (15+18+15+22+20)=90; 90Ã·5=18.',
         isCorrect: true,
       },
       {
@@ -37,7 +36,7 @@ window.SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage:
-      '<p>In pea plants, purple flowers (P) are dominant over white flowers (p). Two heterozygous plants (Pp × Pp) are crossed.</p>',
+      '<p>In pea plants, purple flowers (P) are dominant over white flowers (p). Two heterozygous plants (Pp Ã— Pp) are crossed.</p>',
     question:
       'What percent of offspring are expected to have <strong>white</strong> flowers?',
     answerOptions: [
@@ -68,27 +67,27 @@ window.SCI_NUMERACY_QUESTIONS = [
     questionNumber: 3,
     qaProfileKey: 'numeracy',
     type: 'knowledge',
-    passage: '<p>A rock has a mass of 60 g and displaces 20 cm³ of water.</p>',
+    passage: '<p>A rock has a mass of 60 g and displaces 20 cmÂ³ of water.</p>',
     question: "What is the rock's density?",
     answerOptions: [
       {
-        text: '1 g/cm³',
-        rationale: 'That would be 20 g ÷ 20 cm³.',
+        text: '1 g/cmÂ³',
+        rationale: 'That would be 20 g Ã· 20 cmÂ³.',
         isCorrect: false,
       },
       {
-        text: '3 g/cm³',
-        rationale: 'Correct. Density = mass ÷ volume = 60 ÷ 20 = 3 g/cm³.',
+        text: '3 g/cmÂ³',
+        rationale: 'Correct. Density = mass Ã· volume = 60 Ã· 20 = 3 g/cmÂ³.',
         isCorrect: true,
       },
       {
-        text: '20 g/cm³',
+        text: '20 g/cmÂ³',
         rationale: "That's just the volume, not density.",
         isCorrect: false,
       },
       {
-        text: '40 g/cm³',
-        rationale: 'Not based on 60 ÷ 20.',
+        text: '40 g/cmÂ³',
+        rationale: 'Not based on 60 Ã· 20.',
         isCorrect: false,
       },
     ],
@@ -102,7 +101,7 @@ window.SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: '50 km/h',
-        rationale: 'Correct. 150 km ÷ 3 h = 50 km/h.',
+        rationale: 'Correct. 150 km Ã· 3 h = 50 km/h.',
         isCorrect: true,
       },
       {
@@ -142,7 +141,7 @@ window.SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '200 J',
-        rationale: 'Correct. Work W = F × d = 50 N × 4 m = 200 J.',
+        rationale: 'Correct. Work W = F Ã— d = 50 N Ã— 4 m = 200 J.',
         isCorrect: true,
       },
       {
@@ -171,12 +170,12 @@ window.SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '5 N',
-        rationale: 'Close, but 2 × 3 is 6, not 5.',
+        rationale: 'Close, but 2 Ã— 3 is 6, not 5.',
         isCorrect: false,
       },
       {
         text: '6 N',
-        rationale: 'Correct. F = m × a = 2 kg × 3 m/s = 6 N.',
+        rationale: 'Correct. F = m Ã— a = 2 kg Ã— 3 m/s = 6 N.',
         isCorrect: true,
       },
     ],
@@ -187,7 +186,7 @@ window.SCI_NUMERACY_QUESTIONS = [
     type: 'knowledge',
     passage: `<p>A student heats four samples of the same liquid:</p>
           <table class="min-w-full text-sm text-left">
-            <thead><tr><th>Trial</th><th>Start Temp (°C)</th><th>End Temp (°C)</th></tr></thead>
+            <thead><tr><th>Trial</th><th>Start Temp (Â°C)</th><th>End Temp (Â°C)</th></tr></thead>
             <tbody>
               <tr><td>A</td><td>22</td><td>30</td></tr>
               <tr><td>B</td><td>22</td><td>29</td></tr>
@@ -199,16 +198,16 @@ window.SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: 'Trial A',
-        rationale: 'Increase was 30 − 22 = 8°C.',
+        rationale: 'Increase was 30 âˆ’ 22 = 8Â°C.',
         isCorrect: false,
       },
-      { text: 'Trial B', rationale: 'Increase was 7°C.', isCorrect: false },
+      { text: 'Trial B', rationale: 'Increase was 7Â°C.', isCorrect: false },
       {
         text: 'Trial C',
-        rationale: 'Correct. Increase was 35 − 22 = 13°C, the largest.',
+        rationale: 'Correct. Increase was 35 âˆ’ 22 = 13Â°C, the largest.',
         isCorrect: true,
       },
-      { text: 'Trial D', rationale: 'Increase was 6°C.', isCorrect: false },
+      { text: 'Trial D', rationale: 'Increase was 6Â°C.', isCorrect: false },
     ],
   },
   {
@@ -225,7 +224,7 @@ window.SCI_NUMERACY_QUESTIONS = [
         rationale: '12 is just the smallest value.',
         isCorrect: false,
       },
-      { text: '18', rationale: '18 is not max − min.', isCorrect: false },
+      { text: '18', rationale: '18 is not max âˆ’ min.', isCorrect: false },
       {
         text: '30',
         rationale: '30 is just the largest value.',
@@ -233,7 +232,7 @@ window.SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '18 (thousand)',
-        rationale: 'Correct. Range = 30 − 12 = 18.',
+        rationale: 'Correct. Range = 30 âˆ’ 12 = 18.',
         isCorrect: true,
       },
     ],
@@ -253,7 +252,7 @@ window.SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '0.5 km/min',
-        rationale: 'Correct. 10 km ÷ 20 min = 0.5 km/min.',
+        rationale: 'Correct. 10 km Ã· 20 min = 0.5 km/min.',
         isCorrect: true,
       },
       {
@@ -319,7 +318,7 @@ window.SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '30 L',
-        rationale: 'Correct. 12 ÷ 4 = 3 L/min. 3 × 10 = 30 L.',
+        rationale: 'Correct. 12 Ã· 4 = 3 L/min. 3 Ã— 10 = 30 L.',
         isCorrect: true,
       },
       {
@@ -345,7 +344,7 @@ window.SCI_NUMERACY_QUESTIONS = [
       { text: '$900', rationale: "That's 30% of $3,000.", isCorrect: false },
       {
         text: '$1,050',
-        rationale: 'Correct. 35% of $3,000 = 0.35 × 3000 = $1,050.',
+        rationale: 'Correct. 35% of $3,000 = 0.35 Ã— 3000 = $1,050.',
         isCorrect: true,
       },
       {
@@ -390,17 +389,17 @@ window.SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage:
-      '<p>A student records temperatures: 10°C, 12°C, 15°C, 13°C, 10°C.</p>',
+      '<p>A student records temperatures: 10Â°C, 12Â°C, 15Â°C, 13Â°C, 10Â°C.</p>',
     question: 'What is the mode of the temperatures?',
     answerOptions: [
       {
-        text: '10°C',
-        rationale: 'Correct. 10°C appears twice.',
+        text: '10Â°C',
+        rationale: 'Correct. 10Â°C appears twice.',
         isCorrect: true,
       },
-      { text: '12°C', rationale: '12°C appears once.', isCorrect: false },
-      { text: '15°C', rationale: '15°C appears once.', isCorrect: false },
-      { text: '13°C', rationale: '13°C appears once.', isCorrect: false },
+      { text: '12Â°C', rationale: '12Â°C appears once.', isCorrect: false },
+      { text: '15Â°C', rationale: '15Â°C appears once.', isCorrect: false },
+      { text: '13Â°C', rationale: '13Â°C appears once.', isCorrect: false },
     ],
   },
   {
@@ -449,7 +448,7 @@ window.SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: '50 J',
-        rationale: 'Correct. 10 N × 5 m = 50 J.',
+        rationale: 'Correct. 10 N Ã— 5 m = 50 J.',
         isCorrect: true,
       },
       { text: '15 J', rationale: 'Incorrect calculation.', isCorrect: false },
@@ -484,3 +483,8 @@ window.SCI_NUMERACY_QUESTIONS = [
     ],
   },
 ];
+
+// Legacy window attachment
+if (typeof window !== 'undefined') {
+  window.SCI_NUMERACY_QUESTIONS = SCI_NUMERACY_QUESTIONS;
+}

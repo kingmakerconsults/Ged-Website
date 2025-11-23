@@ -1,3 +1,4 @@
+import React from 'react';
 // Geometry rendering utilities extracted from app.jsx
 
 const GEOMETRY_FIGURES_ENABLED = Boolean(
@@ -621,7 +622,7 @@ const geometryRenderers = {
     rectPrismNetRenderer(params, style || DEFAULT_FIGURE_STYLE),
 };
 
-function GeometryFigure({ spec, className }) {
+export function GeometryFigure({ spec, className }) {
   const enabled =
     (typeof window !== 'undefined' &&
       window.location &&

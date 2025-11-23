@@ -5,10 +5,9 @@
  * for quiz questions that require visual aids.
  */
 
-// React hooks are available globally via UMD
-const { useEffect, useRef } = React;
+import { useEffect, useRef } from 'react';
 
-function useInteractiveToolPanel({
+export function useInteractiveToolPanel({
   enabled,
   currentQuestion,
   toolPanelRef,
@@ -162,7 +161,7 @@ function useInteractiveToolPanel({
   return { needsToolPanel };
 }
 
-// Attach to window.Hooks for global access
+// Legacy window attachment (will be removed once all consumers use ES modules)
 if (typeof window !== 'undefined') {
   window.Hooks = Object.assign(window.Hooks || {}, { useInteractiveToolPanel });
 }

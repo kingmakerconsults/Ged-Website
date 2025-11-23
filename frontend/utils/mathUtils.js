@@ -3,7 +3,7 @@
  * Extracted from app.jsx for better organization
  */
 
-function applySafeMathFix(text) {
+export function applySafeMathFix(text) {
   if (typeof text !== 'string') {
     return text;
   }
@@ -27,7 +27,7 @@ function applySafeMathFix(text) {
   return working;
 }
 
-function collapseSplitLatexCommands(source) {
+export function collapseSplitLatexCommands(source) {
   if (typeof source !== 'string' || source.length === 0) {
     return source;
   }
@@ -46,7 +46,7 @@ function collapseSplitLatexCommands(source) {
   );
 }
 
-function normalizeLatex(text) {
+export function normalizeLatex(text) {
   if (typeof text !== 'string' || text.length === 0) {
     return text;
   }
@@ -107,7 +107,7 @@ function normalizeLatex(text) {
   return normalized.replace(/\s{2,}/g, ' ').trim();
 }
 
-function normalizeLatexForKaTeX(latex) {
+export function normalizeLatexForKaTeX(latex) {
   if (typeof latex !== 'string') return latex;
   return latex
     .replace(/\\\\([A-Za-z]+)/g, '\\$1')
@@ -115,9 +115,9 @@ function normalizeLatexForKaTeX(latex) {
     .replace(/\\right\s*/g, '');
 }
 
-const KATEX_RENDER_OPTIONS = { throwOnError: false, strict: 'ignore' };
+export const KATEX_RENDER_OPTIONS = { throwOnError: false, strict: 'ignore' };
 
-function renderLatexToHtml(latexInput) {
+export function renderLatexToHtml(latexInput) {
   if (typeof latexInput !== 'string') {
     return '';
   }
@@ -140,7 +140,7 @@ function renderLatexToHtml(latexInput) {
   throw new Error('KaTeX render helpers missing');
 }
 
-function normalizeFormulaLatex(latex) {
+export function normalizeFormulaLatex(latex) {
   if (typeof latex !== 'string') {
     return '';
   }
@@ -162,7 +162,7 @@ function normalizeFormulaLatex(latex) {
   return working;
 }
 
-function smartWrapLatex(input) {
+export function smartWrapLatex(input) {
   if (typeof input !== 'string' || input.length === 0) {
     return input;
   }
@@ -234,7 +234,7 @@ function smartWrapLatex(input) {
   return result.replace(/@@M(\d+)@@/g, (_match, index) => slots[Number(index)]);
 }
 
-function escapeHtml(value) {
+export function escapeHtml(value) {
   if (typeof value !== 'string' || value.length === 0) {
     return '';
   }
@@ -244,13 +244,13 @@ function escapeHtml(value) {
     .replace(/>/g, '&gt;');
 }
 
-function formatExponents(input) {
+export function formatExponents(input) {
   if (typeof input !== 'string') return input;
   // Added data-source attribute to verify centralization wiring visually.
   return input.replace(/\^(\d+)/g, '<sup data-source="mathUtils">$1</sup>');
 }
 
-function normalizeMathText(text) {
+export function normalizeMathText(text) {
   if (typeof text !== 'string') return text;
   let t = text;
   // Strip surrounding $...$ or $$...$$ once
@@ -269,7 +269,7 @@ function normalizeMathText(text) {
   return t.trim();
 }
 
-function stripLeakedMathPlaceholders(text) {
+export function stripLeakedMathPlaceholders(text) {
   if (typeof text !== 'string' || text.length === 0) {
     return text;
   }
@@ -279,7 +279,7 @@ function stripLeakedMathPlaceholders(text) {
 }
 
 // Extracted from app.jsx: upgradePlainMathForDisplay
-function upgradePlainMathForDisplay(text) {
+export function upgradePlainMathForDisplay(text) {
   if (!text || typeof text !== 'string') return text;
   let upgraded = text;
   upgraded = upgraded.replace(
@@ -300,7 +300,7 @@ function upgradePlainMathForDisplay(text) {
 }
 
 // Extracted: formatMathText (depends on formatFractions which is in textUtils; caller should import it separately)
-function formatMathText(html) {
+export function formatMathText(html) {
   if (typeof html !== 'string' || html.length === 0) return html;
   // Fractions formatting delegated to textUtils.formatFractions at call site
   let out = html;
@@ -312,7 +312,7 @@ function formatMathText(html) {
 }
 
 // Extracted: extractMathSegments
-function extractMathSegments(input) {
+export function extractMathSegments(input) {
   const segments = [];
   if (typeof input !== 'string' || !input.length) {
     return segments;
@@ -366,7 +366,7 @@ function extractMathSegments(input) {
 }
 
 // Extracted: renderStem (processes text with math segments for dynamic content)
-function renderStem(text) {
+export function renderStem(text) {
   if (typeof text !== 'string') {
     return '';
   }
@@ -411,7 +411,7 @@ function renderStem(text) {
 }
 
 // Extracted: renderStemWithKatex (premade/static content only)
-function renderStemWithKatex(text) {
+export function renderStemWithKatex(text) {
   if (typeof text !== 'string') return '';
   const segments = extractMathSegments(text);
   const parts = [];
@@ -499,7 +499,11 @@ function renderStemWithKatex(text) {
 }
 
 // Extracted: renderQuestionTextForDisplay
-function renderQuestionTextForDisplay(text, isPremade, questionCtx = null) {
+export function renderQuestionTextForDisplay(
+  text,
+  isPremade,
+  questionCtx = null
+) {
   const useKatex = Boolean(
     typeof window !== 'undefined' &&
       window.__APP_CONFIG__ &&

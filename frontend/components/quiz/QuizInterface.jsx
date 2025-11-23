@@ -1,27 +1,19 @@
-// React hooks from UMD environment
-const { useState, useEffect, useRef } = React;
-
-// Access components and utilities from window globals
-const { useInteractiveToolPanel } = window.Hooks || {};
-const SubjectVisuals = window.SubjectVisuals || {};
-const { SUBJECT_COLORS } = SubjectVisuals;
-const Components = window.Components || {};
-const {
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useInteractiveToolPanel } from '../../hooks/useInteractiveToolPanel.js';
+import { SUBJECT_COLORS } from '../../config/subjectVisuals.js';
+import {
   FormulaSheetModal,
   ScienceFormulaSheet,
-  MathText,
-  GeometryFigure,
-  ChartDisplay,
-} = Components;
-
-// Global utilities available from app.jsx
-// These are destructured from MathUtils and TextUtils in app.jsx
-const {
-  renderQuestionTextForDisplay,
+} from '../formula/FormulaSheets.jsx';
+import { MathText } from '../math/MathText.jsx';
+import { GeometryFigure } from '../geometry/GeometryFigure.jsx';
+import { ChartDisplay } from '../charts/ChartDisplay.jsx';
+import { renderQuestionTextForDisplay } from '../../utils/mathUtils.js';
+import {
   getOptionText,
   getOptionIsCorrect,
   isShortResponseQuestion,
-} = typeof window !== 'undefined' && window.TextUtils ? window.TextUtils : {};
+} from '../../utils/textUtils.js';
 
 const DEFAULT_COLOR_SCHEME = {
   background: 'var(--nav-active-bg)',
@@ -38,7 +30,7 @@ const DEFAULT_COLOR_SCHEME = {
   timerLowText: '#991b1b',
 };
 
-function QuizInterface({
+export function QuizInterface({
   questions,
   answers,
   setAnswers,

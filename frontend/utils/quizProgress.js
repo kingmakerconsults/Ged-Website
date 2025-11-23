@@ -6,7 +6,7 @@
  */
 
 // Subject progress keys used throughout the app
-const SUBJECT_PROGRESS_KEYS = [
+export const SUBJECT_PROGRESS_KEYS = [
   'Social Studies',
   'Reasoning Through Language Arts (RLA)',
   'Science',
@@ -14,15 +14,15 @@ const SUBJECT_PROGRESS_KEYS = [
 ];
 
 // GED passing score threshold
-const GED_PASSING_SCORE = 145;
+export const GED_PASSING_SCORE = 145;
 
 // In-memory catalog for premade quizzes, populated when quiz data is loaded
-const PREMADE_QUIZ_CATALOG = {};
+export const PREMADE_QUIZ_CATALOG = {};
 
 /**
  * Get the total number of premade quizzes available for a subject
  */
-function getPremadeQuizTotal(subject) {
+export function getPremadeQuizTotal(subject) {
   return Array.isArray(PREMADE_QUIZ_CATALOG[subject])
     ? PREMADE_QUIZ_CATALOG[subject].length
     : 0;
@@ -31,7 +31,7 @@ function getPremadeQuizTotal(subject) {
 /**
  * Create an empty progress object for all subjects
  */
-function createEmptyProgress() {
+export function createEmptyProgress() {
   return SUBJECT_PROGRESS_KEYS.reduce((acc, subject) => {
     acc[subject] = {
       attempts: [],
@@ -52,7 +52,7 @@ function createEmptyProgress() {
  * @param {Array} attempts - Array of quiz attempt objects
  * @returns {Object} Progress object with stats per subject
  */
-function buildProgressFromAttempts(attempts = []) {
+export function buildProgressFromAttempts(attempts = []) {
   const progress = createEmptyProgress();
   const subjectStats = SUBJECT_PROGRESS_KEYS.reduce((acc, subject) => {
     acc[subject] = { scoreSum: 0, count: 0, passed: new Set() };
@@ -154,7 +154,7 @@ function buildProgressFromAttempts(attempts = []) {
  * @param {Object} user - User object
  * @returns {Object} Validated user object
  */
-function ensureUserProfile(user) {
+export function ensureUserProfile(user) {
   if (!user || typeof user !== 'object') {
     return null;
   }
@@ -200,6 +200,7 @@ function ensureUserProfile(user) {
 }
 
 // Attach to window for legacy compatibility
+// Legacy global attachment (will be removed once all consumers use ES modules)
 if (typeof window !== 'undefined') {
   window.SUBJECT_PROGRESS_KEYS = SUBJECT_PROGRESS_KEYS;
   window.GED_PASSING_SCORE = GED_PASSING_SCORE;
@@ -208,4 +209,23 @@ if (typeof window !== 'undefined') {
   window.createEmptyProgress = createEmptyProgress;
   window.buildProgressFromAttempts = buildProgressFromAttempts;
   window.ensureUserProfile = ensureUserProfile;
+}
+
+export function assignPremadeQuizCodes(source) {
+  if (!source || typeof source !== 'object') return {};
+  const out = {};
+  Object.entries(source).forEach(([subject, arr]) => {
+    if (Array.isArray(arr)) {
+      out[subject] = arr
+        .filter(Boolean)
+        .map((item, idx) => ({
+          ...item,
+          quizCode:
+            item.quizCode ||
+            item.code ||
+            `${subject.replace(/\s+/g, '_')}_${idx}`,
+        }));
+    }
+  });
+  return out;
 }

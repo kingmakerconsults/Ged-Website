@@ -1,9 +1,9 @@
-const { useState, useEffect } = React;
+﻿import React, { useState, useEffect } from 'react';
 
 const API_BASE_URL =
   (typeof window !== 'undefined' && window.API_BASE_URL) || '';
 
-function JoinOrganizationModal({ onJoin, authToken }) {
+export function JoinOrganizationModal({ onJoin, authToken }) {
   const [organizations, setOrganizations] = useState([]);
   const [selectedOrgId, setSelectedOrgId] = useState('');
   const [accessCode, setAccessCode] = useState('');
@@ -231,7 +231,7 @@ function JoinOrganizationModal({ onJoin, authToken }) {
   );
 }
 
-function NamePromptModal({ user, onSave, onDismiss }) {
+export function NamePromptModal({ user, onSave, onDismiss }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
@@ -380,7 +380,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
   );
 }
 
-function PracticeSessionModal({
+export function PracticeSessionModal({
   defaultMode = 'balanced',
   defaultDuration = 10,
   onStart,
@@ -476,7 +476,7 @@ function PracticeSessionModal({
             style={{ backgroundColor: '#2563eb', color: 'white' }}
             disabled={submitting}
           >
-            {submitting ? 'Starting…' : 'Start'}
+            {submitting ? 'Startingâ€¦' : 'Start'}
           </button>
         </div>
       </div>

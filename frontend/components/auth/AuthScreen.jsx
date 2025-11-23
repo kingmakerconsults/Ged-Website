@@ -1,9 +1,9 @@
-const { useState, useEffect, useCallback, useRef } = React;
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 const API_BASE_URL =
   (typeof window !== 'undefined' && window.API_BASE_URL) || '';
 
-function AuthScreen({ onLogin }) {
+export function AuthScreen({ onLogin }) {
   const googleButton = useRef(null);
   const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');

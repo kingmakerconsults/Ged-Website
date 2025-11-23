@@ -4420,7 +4420,12 @@ const net = require('net');
 try {
   const repoRoot = path.resolve(__dirname, '..');
   const publicDir = path.join(repoRoot, 'public');
-  const frontendDir = path.join(repoRoot, 'frontend');
+  const frontendBaseDir = path.join(repoRoot, 'frontend');
+  // In production serve built Vite assets from frontend/dist; in dev fall back to raw frontend for legacy paths.
+  const frontendDir =
+    process.env.NODE_ENV === 'production'
+      ? path.join(frontendBaseDir, 'dist')
+      : frontendBaseDir;
   app.use(
     '/public',
     express.static(publicDir, {
@@ -4543,6 +4548,14 @@ try {
       res.set('Cache-Control', 'no-store');
     } catch {}
     res.sendFile(path.join(frontendDir, 'index.html'));
+  });
+  // SPA fallback for client-side routes (exclude API paths)
+  app.get('*', (req, res, next) => {
+    try {
+      if (req.path.startsWith('/api')) return next();
+      res.set('Cache-Control', 'no-store');
+    } catch {}
+    return res.sendFile(path.join(frontendDir, 'index.html'));
   });
   console.log('[static] Serving /public and /quizzes from', publicDir);
   console.log('[static] Serving SPA and assets from', frontendDir);
