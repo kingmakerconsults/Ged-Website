@@ -3,7 +3,7 @@
  * Wrapper for the profile management view
  */
 
-export default function ProfileViewWrapper(props) {
+function ProfileViewWrapper(props) {
   // ProfileView is already defined in app.jsx - use it via window global
   const ProfileView = window.ProfileView;
 
@@ -16,4 +16,9 @@ export default function ProfileViewWrapper(props) {
   }
 
   return <ProfileView {...props} />;
+}
+
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.ProfileViewWrapper = ProfileViewWrapper;
 }

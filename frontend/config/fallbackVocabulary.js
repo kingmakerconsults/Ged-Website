@@ -4,7 +4,7 @@
 /**
  * Fallback vocabulary terms used when no subject-specific vocabulary is provided.
  */
-export const FALLBACK_VOCABULARY = {
+const FALLBACK_VOCABULARY = {
   Science: [
     {
       term: 'Hypothesis',
@@ -504,7 +504,7 @@ export const FALLBACK_VOCABULARY = {
  * @param {string|object} entry - The raw vocabulary entry.
  * @returns {object|null} Normalized entry with term, definition, and optional example.
  */
-export function normalizeVocabularyEntry(entry) {
+function normalizeVocabularyEntry(entry) {
   if (!entry) return null;
   if (typeof entry === 'string') {
     const trimmed = entry.trim();
@@ -529,7 +529,7 @@ export function normalizeVocabularyEntry(entry) {
  * @param {object} override - Override vocabulary object keyed by subject.
  * @returns {object} Merged vocabulary data.
  */
-export function mergeVocabularyData(base, override) {
+function mergeVocabularyData(base, override) {
   const result = { ...base };
   if (!override || typeof override !== 'object') {
     return result;
@@ -546,4 +546,13 @@ export function mergeVocabularyData(base, override) {
     }
   });
   return result;
+}
+
+// Attach to window for Babel Standalone (no modules)
+if (typeof window !== 'undefined') {
+  window.FallbackVocabulary = Object.assign(window.FallbackVocabulary || {}, {
+    FALLBACK_VOCABULARY,
+    normalizeVocabularyEntry,
+    mergeVocabularyData,
+  });
 }

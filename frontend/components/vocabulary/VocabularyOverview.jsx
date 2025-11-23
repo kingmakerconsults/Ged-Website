@@ -1,7 +1,5 @@
-import {
-  SUBJECT_COLORS,
-  SUBJECT_BG_GRADIENTS,
-} from '../../config/subjectVisuals.js';
+const SubjectVisuals = window.SubjectVisuals || {};
+const { SUBJECT_COLORS, SUBJECT_BG_GRADIENTS } = SubjectVisuals;
 
 function VocabularyOverview({ vocabulary, onWordClick }) {
   const subjects = Object.entries(vocabulary || {}).filter(
@@ -111,3 +109,8 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
 }
 
 export default VocabularyOverview;
+
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.VocabularyOverview = VocabularyOverview;
+}

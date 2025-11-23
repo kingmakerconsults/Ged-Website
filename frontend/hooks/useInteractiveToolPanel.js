@@ -8,7 +8,7 @@
 // React hooks are available globally via UMD
 const { useEffect, useRef } = React;
 
-export function useInteractiveToolPanel({
+function useInteractiveToolPanel({
   enabled,
   currentQuestion,
   toolPanelRef,
@@ -160,4 +160,9 @@ export function useInteractiveToolPanel({
   ]);
 
   return { needsToolPanel };
+}
+
+// Attach to window.Hooks for global access
+if (typeof window !== 'undefined') {
+  window.Hooks = Object.assign(window.Hooks || {}, { useInteractiveToolPanel });
 }

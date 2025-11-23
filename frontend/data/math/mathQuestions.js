@@ -1,4 +1,4 @@
-export const MATH_QUESTIONS = {
+window.MATH_QUESTIONS = {
   Math: {
     icon: 'CalculatorIcon',
     categories: {

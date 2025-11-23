@@ -5,12 +5,7 @@
 
 const { default: React } = window.React || {};
 
-export default function InterviewScoreReport({
-  score,
-  strengths,
-  weaknesses,
-  suggestions,
-}) {
+function InterviewScoreReport({ score, strengths, weaknesses, suggestions }) {
   return (
     <div className="p-4 border rounded-xl bg-blue-50 dark:bg-blue-900/30 mb-4 max-w-xl">
       <div className="flex items-center gap-4 mb-2">
@@ -68,4 +63,9 @@ export default function InterviewScoreReport({
       </div>
     </div>
   );
+}
+
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.InterviewScoreReport = InterviewScoreReport;
 }

@@ -225,6 +225,7 @@ function SettingsView({
   );
 }
 
-
-
-export default SettingsView;
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.SettingsView = SettingsView;
+}

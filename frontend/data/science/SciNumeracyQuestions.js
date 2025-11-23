@@ -1,5 +1,5 @@
 // Extracted SCI_NUMERACY_QUESTIONS from app.jsx (questions 1-18)
-export const SCI_NUMERACY_QUESTIONS = [
+window.SCI_NUMERACY_QUESTIONS = [
   {
     questionNumber: 1,
     qaProfileKey: 'numeracy',

@@ -3,7 +3,7 @@
  * Top-level view for Workforce Hub and workforce tools
  */
 
-export default function WorkforceView({ onBack }) {
+function WorkforceView({ onBack }) {
   // WorkforceHub is already defined in app.jsx - use it via window global
   const WorkforceHub = window.WorkforceHub;
 
@@ -16,4 +16,9 @@ export default function WorkforceView({ onBack }) {
   }
 
   return <WorkforceHub onBack={onBack} />;
+}
+
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.WorkforceView = WorkforceView;
 }

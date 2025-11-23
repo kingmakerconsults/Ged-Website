@@ -1,4 +1,3 @@
-import React from 'react';
 import Chart from 'chart.js/auto';
 
 function parseHtmlTable(htmlString) {
@@ -70,3 +69,8 @@ function ChartDisplay({ chartData, html }) {
 
 export { parseHtmlTable }; // If external use is needed
 export default ChartDisplay;
+
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.ChartDisplay = ChartDisplay;
+}

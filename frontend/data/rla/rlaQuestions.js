@@ -1,4 +1,4 @@
-export const RLA_QUESTIONS = {
+window.RLA_QUESTIONS = {
   'Reasoning Through Language Arts (RLA)': {
     icon: 'BookOpenIcon',
     categories: {

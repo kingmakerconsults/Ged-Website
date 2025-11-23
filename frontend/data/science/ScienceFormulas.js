@@ -1,5 +1,5 @@
 // Extracted science formula sheet data from app.jsx
-export const ScienceFormulas = [
+window.ScienceFormulas = [
   {
     name: 'Density',
     formula: 'd = \\frac{m}{V}',

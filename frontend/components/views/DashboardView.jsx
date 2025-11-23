@@ -4,7 +4,7 @@
  * Updated: Refactored view structure for better organization
  */
 
-export default function DashboardView(props) {
+function DashboardView(props) {
   // StartScreen is already defined in app.jsx - use it via window global
   const StartScreen = window.StartScreen;
 
@@ -17,4 +17,9 @@ export default function DashboardView(props) {
   }
 
   return <StartScreen {...props} />;
+}
+
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.DashboardView = DashboardView;
 }

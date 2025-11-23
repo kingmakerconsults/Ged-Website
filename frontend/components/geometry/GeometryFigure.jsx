@@ -1,5 +1,3 @@
-import React from 'react';
-
 // Geometry rendering utilities extracted from app.jsx
 
 const GEOMETRY_FIGURES_ENABLED = Boolean(
@@ -698,4 +696,8 @@ function GeometryFigure({ spec, className }) {
   );
 }
 
-export default GeometryFigure;
+if (typeof window !== 'undefined') {
+  window.Components = window.Components || {};
+  window.Components.GeometryFigure = GeometryFigure;
+  window.Components.geometryRenderers = geometryRenderers;
+}

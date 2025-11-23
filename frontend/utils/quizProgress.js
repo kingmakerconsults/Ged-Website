@@ -6,7 +6,7 @@
  */
 
 // Subject progress keys used throughout the app
-export const SUBJECT_PROGRESS_KEYS = [
+const SUBJECT_PROGRESS_KEYS = [
   'Social Studies',
   'Reasoning Through Language Arts (RLA)',
   'Science',
@@ -14,15 +14,15 @@ export const SUBJECT_PROGRESS_KEYS = [
 ];
 
 // GED passing score threshold
-export const GED_PASSING_SCORE = 145;
+const GED_PASSING_SCORE = 145;
 
 // In-memory catalog for premade quizzes, populated when quiz data is loaded
-export const PREMADE_QUIZ_CATALOG = {};
+const PREMADE_QUIZ_CATALOG = {};
 
 /**
  * Get the total number of premade quizzes available for a subject
  */
-export function getPremadeQuizTotal(subject) {
+function getPremadeQuizTotal(subject) {
   return Array.isArray(PREMADE_QUIZ_CATALOG[subject])
     ? PREMADE_QUIZ_CATALOG[subject].length
     : 0;
@@ -31,7 +31,7 @@ export function getPremadeQuizTotal(subject) {
 /**
  * Create an empty progress object for all subjects
  */
-export function createEmptyProgress() {
+function createEmptyProgress() {
   return SUBJECT_PROGRESS_KEYS.reduce((acc, subject) => {
     acc[subject] = {
       attempts: [],
@@ -52,7 +52,7 @@ export function createEmptyProgress() {
  * @param {Array} attempts - Array of quiz attempt objects
  * @returns {Object} Progress object with stats per subject
  */
-export function buildProgressFromAttempts(attempts = []) {
+function buildProgressFromAttempts(attempts = []) {
   const progress = createEmptyProgress();
   const subjectStats = SUBJECT_PROGRESS_KEYS.reduce((acc, subject) => {
     acc[subject] = { scoreSum: 0, count: 0, passed: new Set() };
@@ -154,7 +154,7 @@ export function buildProgressFromAttempts(attempts = []) {
  * @param {Object} user - User object
  * @returns {Object} Validated user object
  */
-export function ensureUserProfile(user) {
+function ensureUserProfile(user) {
   if (!user || typeof user !== 'object') {
     return null;
   }

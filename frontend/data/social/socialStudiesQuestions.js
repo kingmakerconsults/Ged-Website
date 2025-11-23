@@ -1,4 +1,4 @@
-export const SOCIAL_STUDIES_QUESTIONS = {
+window.SOCIAL_STUDIES_QUESTIONS = {
   'Social Studies': {
     icon: 'GlobeIcon',
     categories: {
