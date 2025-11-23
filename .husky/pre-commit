@@ -1,5 +1,2 @@
-#!/usr/bin/env sh
-. "$(dirname "$0")/_/husky.sh"
-
-# Run quiz validator before committing
+# Run quiz validator before committing (Husky v9/v10 compatible)
 npm run validate-quizzes

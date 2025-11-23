@@ -9,6 +9,7 @@ import { AuthScreen } from '../components/index.js';
 import DashboardView from './views/DashboardView.jsx';
 import ProfileView from './views/ProfileView.jsx';
 import SettingsView from './views/SettingsView.jsx';
+import QuizDemo from './views/QuizDemo.jsx';
 const QuizInterface = React.lazy(() =>
   import('../components/quiz/QuizInterface.jsx').then((m) => ({
     default: m.QuizInterface,
@@ -80,7 +81,7 @@ export default function App() {
           <Link to="/">Dashboard</Link>
           <Link to="/profile">Profile</Link>
           <Link to="/settings">Settings</Link>
-          <Link to="/quiz">Quiz (demo)</Link>
+          <Link to="/demo/math">Math Quiz Demo</Link>
         </nav>
 
         <Suspense fallback={<div>Loading...</div>}>
@@ -88,16 +89,7 @@ export default function App() {
             <Route path="/" element={<DashboardView />} />
             <Route path="/profile" element={<ProfileView />} />
             <Route path="/settings" element={<SettingsView />} />
-            <Route
-              path="/quiz"
-              element={
-                <QuizInterface
-                  questions={[]}
-                  answers={[]}
-                  setAnswers={() => {}}
-                />
-              }
-            />
+            <Route path="/demo/math" element={<QuizDemo />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
