@@ -345,6 +345,42 @@
   </head>
   <body data-theme="light">
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Wait for quiz data before starting React app -->
+    <script type="module">
+      // Wait for quiz data to load, then start the React app
+      async function startApp() {
+        // Check if quiz data is already loaded
+        if (window.AppData && Object.keys(window.AppData).length > 0) {
+          console.log('[app] Quiz data already loaded, starting React app');
+          await import('/src/main.jsx');
+          return;
+        }
+
+        // Wait for the quizDataLoaded event
+        console.log('[app] Waiting for quiz data...');
+        await new Promise((resolve) => {
+          const timeout = setTimeout(() => {
+            console.warn('[app] Quiz data load timeout, starting app anyway');
+            resolve();
+          }, 10000); // 10 second timeout
+
+          window.addEventListener(
+            'quizDataLoaded',
+            () => {
+              clearTimeout(timeout);
+              console.log('[app] Quiz data loaded event received');
+              resolve();
+            },
+            { once: true }
+          );
+        });
+
+        // Now start the React app
+        await import('/src/main.jsx');
+      }
+
+      startApp();
+    </script>
   </body>
 </html>
