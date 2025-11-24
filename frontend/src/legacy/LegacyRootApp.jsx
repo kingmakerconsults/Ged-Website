@@ -83,9 +83,13 @@ function hydratePremadeCatalogFromWindow() {
         ? window.MergedExpandedQuizData ||
           window.ExpandedQuizData ||
           (window.Data && window.Data.expandedQuizData) ||
+          window.AppData ||
           null
         : null;
-    if (!src || typeof src !== 'object') return;
+    if (!src || typeof src !== 'object') {
+      console.warn('[hydrate] No quiz source data found');
+      return;
+    }
     const out = {};
     SUBJECT_PROGRESS_KEYS.forEach((subject) => {
       const node = src[subject];
@@ -105,9 +109,20 @@ function hydratePremadeCatalogFromWindow() {
     if (typeof window !== 'undefined') {
       window.PREMADE_QUIZ_CATALOG = PREMADE_QUIZ_CATALOG;
     }
+    console.log(
+      '[hydrate] Catalog updated:',
+      Object.keys(out)
+        .map((k) => `${k}: ${out[k].length}`)
+        .join(', ')
+    );
   } catch (e) {
-    // ignore but keep empty catalog
+    console.error('[hydrate] Failed:', e);
   }
+}
+
+// Export for event listener
+if (typeof window !== 'undefined') {
+  window.hydratePremadeCatalogFromWindow = hydratePremadeCatalogFromWindow;
 }
 
 // Hydrate early so createEmptyProgress can pick up totals
@@ -23462,19 +23477,43 @@ function App({ externalTheme, onThemeChange }) {
   // Listen for quiz data loaded event and re-hydrate catalog
   useEffect(() => {
     const handleQuizDataLoaded = () => {
-      console.log('[app] Quiz data loaded, re-hydrating catalog...');
-      if (typeof hydratePremadeCatalogFromWindow === 'function') {
-        hydratePremadeCatalogFromWindow();
+      console.log(
+        '[app] Quiz data loaded event received, re-hydrating catalog...'
+      );
+
+      // Use the globally exported hydration function
+      if (typeof window.hydratePremadeCatalogFromWindow === 'function') {
+        window.hydratePremadeCatalogFromWindow();
       }
-      if (typeof initPremades === 'function') {
-        initPremades(window.AppData || window.ExpandedQuizData);
+
+      // Also call initPremades if it exists
+      if (typeof window.initPremades === 'function') {
+        window.initPremades(window.AppData || window.ExpandedQuizData);
       }
+
+      // Force progress to recalculate by creating new empty progress
+      // This will pick up the updated catalog totals
+      setProgress((prev) => {
+        const newProgress = createEmptyProgress();
+        // Preserve attempt data
+        Object.keys(prev).forEach((subject) => {
+          if (newProgress[subject] && prev[subject]) {
+            newProgress[subject] = {
+              ...newProgress[subject],
+              ...prev[subject],
+            };
+          }
+        });
+        console.log('[app] Progress updated with new catalog totals');
+        return newProgress;
+      });
     };
 
     window.addEventListener('quizDataLoaded', handleQuizDataLoaded);
 
     // Also try hydration on mount in case data loaded before component
-    if (window.AppData || window.ExpandedQuizData) {
+    if (window.AppData && Object.keys(window.AppData).length > 0) {
+      console.log('[app] Quiz data already present, hydrating immediately');
       handleQuizDataLoaded();
     }
 

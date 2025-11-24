@@ -165,8 +165,11 @@
           // Determine API base URL
           const API_BASE =
             window.__CLIENT_CONFIG__?.API_BASE_URL ||
+            window.__APP_CONFIG__?.apiBaseUrl ||
             (typeof window.API_BASE_URL === 'string' && window.API_BASE_URL) ||
-            window.location.origin;
+            (window.location.hostname === 'localhost'
+              ? window.location.origin
+              : 'https://ged-website.onrender.com');
 
           console.log('[quiz-loader] Starting quiz data load from:', API_BASE);
 
