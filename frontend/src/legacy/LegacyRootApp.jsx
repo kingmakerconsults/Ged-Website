@@ -24003,6 +24003,144 @@ function App({ externalTheme, onThemeChange }) {
     });
   }, []);
 
+  // Helper: normalize nextUpcomingTest from server
+  const normalizeNextUpcoming = (raw) => {
+    if (!raw || typeof raw !== 'object') return null;
+    const subject = raw.subject || '';
+    const testDate = raw.testDate || '';
+    const daysUntil =
+      typeof raw.daysUntil === 'number' && Number.isFinite(raw.daysUntil)
+        ? raw.daysUntil
+        : null;
+    if (!subject || !testDate) return null;
+    return { subject, testDate, daysUntil };
+  };
+
+  const loadProfileOnce = useCallback(async () => {
+    setProfileLoading(true);
+    setProfileError(null);
+    const token =
+      (typeof window !== 'undefined' && window.localStorage
+        ? window.localStorage.getItem('appToken')
+        : null) ||
+      authToken ||
+      null;
+    if (!token) {
+      setProfileLoading(false);
+      return null;
+    }
+    try {
+      const bundle = await fetchJSON(`${API_BASE_URL}/api/profile/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (bundle && typeof bundle === 'object') {
+        // Apply server preferences to UI state (not stored inside localProfile)
+        const srvFont = bundle?.profile?.fontSize;
+        const srvTheme = bundle?.profile?.theme;
+        const prefUpdates = {};
+        if (srvFont && VALID_FONT_SIZES.has(srvFont))
+          prefUpdates.fontSize = srvFont;
+        if (srvTheme && VALID_THEMES.has(srvTheme) && srvTheme !== 'system') {
+          prefUpdates.theme = srvTheme;
+        }
+        if (Object.keys(prefUpdates).length) {
+          setPreferences((prev) => ({ ...prev, ...prefUpdates }));
+        }
+
+        // Normalize to localProfile shape
+        const coerceIso = (str) => {
+          if (!str || typeof str !== 'string') return '';
+          const s = str.trim();
+          // Accept YYYY-MM-DD
+          if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+          // Accept MM/DD/YYYY
+          const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+          if (m) {
+            const mm = String(m[1]).padStart(2, '0');
+            const dd = String(m[2]).padStart(2, '0');
+            const yyyy = m[3];
+            return `${yyyy}-${mm}-${dd}`;
+          }
+          return '';
+        };
+        const arrayFromPlan = (planArr) =>
+          Array.isArray(planArr)
+            ? planArr.map((row) => ({
+                subject: row?.subject || '',
+                testDate: coerceIso(row?.testDate || row?.date),
+                testLocation: row?.testLocation || row?.location || '',
+                passed: !!(row?.passed ?? row?.isPassed),
+                notScheduled: !!(row?.notScheduled ?? row?.not_scheduled),
+              }))
+            : [];
+        let serverTestPlan = arrayFromPlan(bundle.testPlan);
+        // Fallback: server might return profile.tests keyed by subject codes
+        if (
+          (!serverTestPlan || serverTestPlan.length === 0) &&
+          bundle?.profile &&
+          bundle.profile.tests &&
+          typeof bundle.profile.tests === 'object'
+        ) {
+          const tests = bundle.profile.tests;
+          const labelMap = {
+            math: 'Math',
+            rla: 'Reasoning Through Language Arts (RLA)',
+            science: 'Science',
+            social_studies: 'Social Studies',
+          };
+          serverTestPlan = Object.entries(tests).map(([key, val]) => ({
+            subject: labelMap[key] || key,
+            testDate: coerceIso(val?.testDate || val?.date),
+            testLocation: val?.testLocation || val?.location || '',
+            passed: !!(val?.passed ?? val?.isPassed),
+            notScheduled: !!(val?.notScheduled ?? val?.not_scheduled),
+          }));
+        }
+        const serverChallenges = Array.isArray(bundle.challengeOptions)
+          ? bundle.challengeOptions.map((opt, index) => ({
+              id: opt?.id ?? `${opt?.subject || 'challenge'}-${index}`,
+              subject: opt?.subject || '',
+              subtopic: opt?.subtopic || '',
+              label: opt?.label || '',
+              selected: !!opt?.selected,
+            }))
+          : [];
+        setLocalProfile((prev) => ({
+          ...prev,
+          profile: {
+            ...prev.profile,
+            name: bundle?.profile?.name || prev.profile.name || '',
+            timezone: bundle?.profile?.timezone || prev.profile.timezone,
+            reminderEnabled:
+              typeof bundle?.profile?.reminderEnabled === 'boolean'
+                ? bundle.profile.reminderEnabled
+                : prev.profile.reminderEnabled,
+            onboardingComplete: !!bundle?.profile?.onboardingComplete,
+          },
+          testPlan: serverTestPlan,
+          nextUpcomingTest: normalizeNextUpcoming(bundle?.nextUpcomingTest),
+          challengeOptions: serverChallenges,
+          recentScoresDashboard:
+            bundle?.recentScores && typeof bundle.recentScores === 'object'
+              ? bundle.recentScores
+              : prev.recentScoresDashboard || {},
+        }));
+      }
+      setProfileLoading(false);
+      return bundle;
+    } catch (error) {
+      console.warn(
+        'Failed to load profile from server, using local profile:',
+        error?.message || error
+      );
+      setProfileError(
+        'Unable to load latest profile. Working from local data.'
+      );
+      setProfileLoading(false);
+      return null;
+    }
+  }, []);
+
   // Top-level navigation shortcuts using hardJump (reset history and browser depth)
   const goToDashboard = useCallback(
     () => hardJump('dashboard', { scrollTarget: '__top' }),
@@ -24292,144 +24430,6 @@ function App({ externalTheme, onThemeChange }) {
 
     alert('Name saved locally.');
     return trimmed;
-  }, []);
-
-  // Helper: normalize nextUpcomingTest from server
-  const normalizeNextUpcoming = (raw) => {
-    if (!raw || typeof raw !== 'object') return null;
-    const subject = raw.subject || '';
-    const testDate = raw.testDate || '';
-    const daysUntil =
-      typeof raw.daysUntil === 'number' && Number.isFinite(raw.daysUntil)
-        ? raw.daysUntil
-        : null;
-    if (!subject || !testDate) return null;
-    return { subject, testDate, daysUntil };
-  };
-
-  const loadProfileOnce = useCallback(async () => {
-    setProfileLoading(true);
-    setProfileError(null);
-    const token =
-      (typeof window !== 'undefined' && window.localStorage
-        ? window.localStorage.getItem('appToken')
-        : null) ||
-      authToken ||
-      null;
-    if (!token) {
-      setProfileLoading(false);
-      return null;
-    }
-    try {
-      const bundle = await fetchJSON(`${API_BASE_URL}/api/profile/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (bundle && typeof bundle === 'object') {
-        // Apply server preferences to UI state (not stored inside localProfile)
-        const srvFont = bundle?.profile?.fontSize;
-        const srvTheme = bundle?.profile?.theme;
-        const prefUpdates = {};
-        if (srvFont && VALID_FONT_SIZES.has(srvFont))
-          prefUpdates.fontSize = srvFont;
-        if (srvTheme && VALID_THEMES.has(srvTheme) && srvTheme !== 'system') {
-          prefUpdates.theme = srvTheme;
-        }
-        if (Object.keys(prefUpdates).length) {
-          setPreferences((prev) => ({ ...prev, ...prefUpdates }));
-        }
-
-        // Normalize to localProfile shape
-        const coerceIso = (str) => {
-          if (!str || typeof str !== 'string') return '';
-          const s = str.trim();
-          // Accept YYYY-MM-DD
-          if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-          // Accept MM/DD/YYYY
-          const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-          if (m) {
-            const mm = String(m[1]).padStart(2, '0');
-            const dd = String(m[2]).padStart(2, '0');
-            const yyyy = m[3];
-            return `${yyyy}-${mm}-${dd}`;
-          }
-          return '';
-        };
-        const arrayFromPlan = (planArr) =>
-          Array.isArray(planArr)
-            ? planArr.map((row) => ({
-                subject: row?.subject || '',
-                testDate: coerceIso(row?.testDate || row?.date),
-                testLocation: row?.testLocation || row?.location || '',
-                passed: !!(row?.passed ?? row?.isPassed),
-                notScheduled: !!(row?.notScheduled ?? row?.not_scheduled),
-              }))
-            : [];
-        let serverTestPlan = arrayFromPlan(bundle.testPlan);
-        // Fallback: server might return profile.tests keyed by subject codes
-        if (
-          (!serverTestPlan || serverTestPlan.length === 0) &&
-          bundle?.profile &&
-          bundle.profile.tests &&
-          typeof bundle.profile.tests === 'object'
-        ) {
-          const tests = bundle.profile.tests;
-          const labelMap = {
-            math: 'Math',
-            rla: 'Reasoning Through Language Arts (RLA)',
-            science: 'Science',
-            social_studies: 'Social Studies',
-          };
-          serverTestPlan = Object.entries(tests).map(([key, val]) => ({
-            subject: labelMap[key] || key,
-            testDate: coerceIso(val?.testDate || val?.date),
-            testLocation: val?.testLocation || val?.location || '',
-            passed: !!(val?.passed ?? val?.isPassed),
-            notScheduled: !!(val?.notScheduled ?? val?.not_scheduled),
-          }));
-        }
-        const serverChallenges = Array.isArray(bundle.challengeOptions)
-          ? bundle.challengeOptions.map((opt, index) => ({
-              id: opt?.id ?? `${opt?.subject || 'challenge'}-${index}`,
-              subject: opt?.subject || '',
-              subtopic: opt?.subtopic || '',
-              label: opt?.label || '',
-              selected: !!opt?.selected,
-            }))
-          : [];
-        setLocalProfile((prev) => ({
-          ...prev,
-          profile: {
-            ...prev.profile,
-            name: bundle?.profile?.name || prev.profile.name || '',
-            timezone: bundle?.profile?.timezone || prev.profile.timezone,
-            reminderEnabled:
-              typeof bundle?.profile?.reminderEnabled === 'boolean'
-                ? bundle.profile.reminderEnabled
-                : prev.profile.reminderEnabled,
-            onboardingComplete: !!bundle?.profile?.onboardingComplete,
-          },
-          testPlan: serverTestPlan,
-          nextUpcomingTest: normalizeNextUpcoming(bundle?.nextUpcomingTest),
-          challengeOptions: serverChallenges,
-          recentScoresDashboard:
-            bundle?.recentScores && typeof bundle.recentScores === 'object'
-              ? bundle.recentScores
-              : prev.recentScoresDashboard || {},
-        }));
-      }
-      setProfileLoading(false);
-      return bundle;
-    } catch (error) {
-      console.warn(
-        'Failed to load profile from server, using local profile:',
-        error?.message || error
-      );
-      setProfileError(
-        'Unable to load latest profile. Working from local data.'
-      );
-      setProfileLoading(false);
-      return null;
-    }
   }, []);
 
   useEffect(() => {
