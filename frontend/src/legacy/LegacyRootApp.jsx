@@ -27964,6 +27964,9 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [summaryError, setSummaryError] = useState('');
   const [activeTab, setActiveTab] = useState('organizations'); // organizations, users, activity
+  // Prevent repeated fetch loops when API returns empty/500
+  const usersLoadAttempted = useRef(false);
+  const activityLoadAttempted = useRef(false);
 
   const loadOrganizations = useCallback(async () => {
     setLoadingOrgs(true);
@@ -28054,13 +28057,21 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   }, [loadOrganizations]);
 
   useEffect(() => {
-    if (activeTab === 'users' && users.length === 0 && !loadingUsers) {
+    if (
+      activeTab === 'users' &&
+      !usersLoadAttempted.current &&
+      users.length === 0 &&
+      !loadingUsers
+    ) {
+      usersLoadAttempted.current = true;
       loadUsers();
     } else if (
       activeTab === 'activity' &&
+      !activityLoadAttempted.current &&
       activity.length === 0 &&
       !loadingActivity
     ) {
+      activityLoadAttempted.current = true;
       loadActivity();
     }
   }, [
@@ -28104,6 +28115,30 @@ function SuperAdminDashboard({ user, token, onLogout }) {
             >
               Refresh Overview
             </button>
+            {activeTab === 'users' && (
+              <button
+                type="button"
+                onClick={() => {
+                  usersLoadAttempted.current = true; // stays true but allows manual refetch
+                  loadUsers();
+                }}
+                className="rounded-full btn-ghost px-4 py-2 text-sm font-semibold transition"
+              >
+                Refresh Users
+              </button>
+            )}
+            {activeTab === 'activity' && (
+              <button
+                type="button"
+                onClick={() => {
+                  activityLoadAttempted.current = true;
+                  loadActivity();
+                }}
+                className="rounded-full btn-ghost px-4 py-2 text-sm font-semibold transition"
+              >
+                Refresh Activity
+              </button>
+            )}
             <button
               type="button"
               onClick={onLogout}
@@ -28458,6 +28493,8 @@ function OrgAdminDashboard({ user, token, onLogout }) {
   const [loadingActivity, setLoadingActivity] = useState(false);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('overview'); // overview, users, activity
+  const usersLoadAttempted = useRef(false);
+  const activityLoadAttempted = useRef(false);
 
   const loadSummary = useCallback(async () => {
     setLoading(true);
@@ -28511,13 +28548,21 @@ function OrgAdminDashboard({ user, token, onLogout }) {
   }, [loadSummary]);
 
   useEffect(() => {
-    if (activeTab === 'users' && users.length === 0 && !loadingUsers) {
+    if (
+      activeTab === 'users' &&
+      !usersLoadAttempted.current &&
+      users.length === 0 &&
+      !loadingUsers
+    ) {
+      usersLoadAttempted.current = true;
       loadUsers();
     } else if (
       activeTab === 'activity' &&
+      !activityLoadAttempted.current &&
       activity.length === 0 &&
       !loadingActivity
     ) {
+      activityLoadAttempted.current = true;
       loadActivity();
     }
   }, [
