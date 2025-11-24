@@ -243,59 +243,59 @@
           // Process individual quiz files first
           quizData.forEach((data) => {
             if (data && typeof data === 'object') {
-              Object.entries(data).forEach(([subject, content]) => {
-                if (!merged[subject]) {
-                  merged[subject] = {
-                    icon: content.icon || null,
-                    categories: {},
-                  };
-                }
+              // Each quiz file has a "subject" field and "categories" field
+              const subjectName = data.subject;
+              if (!subjectName) return;
 
-                if (content?.categories) {
-                  Object.entries(content.categories).forEach(
-                    ([catName, catData]) => {
-                      const normKey = normalizeKey(catName);
+              if (!merged[subjectName]) {
+                merged[subjectName] = {
+                  icon: data.icon || null,
+                  categories: {},
+                };
+              }
 
-                      if (!merged[subject].categories[catName]) {
-                        merged[subject].categories[catName] = {
-                          description: catData.description || '',
-                          topics: [],
-                          quizzes: [],
-                        };
-                      }
-
-                      const targetCat = merged[subject].categories[catName];
-
-                      // Merge topics and extract quizzes from each topic
-                      if (Array.isArray(catData.topics)) {
-                        catData.topics.forEach((topic) => {
-                          if (topic && typeof topic === 'object') {
-                            targetCat.topics.push(topic);
-
-                            // Extract quizzes from topic into category-level quizzes array
-                            if (Array.isArray(topic.quizzes)) {
-                              topic.quizzes.forEach((quiz) => {
-                                if (quiz && typeof quiz === 'object') {
-                                  targetCat.quizzes.push(quiz);
-                                }
-                              });
-                            }
-                          }
-                        });
-                      }
-
-                      // Also merge category-level quizzes if present
-                      if (Array.isArray(catData.quizzes)) {
-                        catData.quizzes.forEach((quiz) => {
-                          if (quiz && typeof quiz === 'object') {
-                            targetCat.quizzes.push(quiz);
-                          }
-                        });
-                      }
+              if (data.categories) {
+                Object.entries(data.categories).forEach(
+                  ([catName, catData]) => {
+                    if (!merged[subjectName].categories[catName]) {
+                      merged[subjectName].categories[catName] = {
+                        description: catData.description || '',
+                        topics: [],
+                        quizzes: [],
+                      };
                     }
-                  );
-                }
-              });
+
+                    const targetCat = merged[subjectName].categories[catName];
+
+                    // Merge topics and extract quizzes from each topic
+                    if (Array.isArray(catData.topics)) {
+                      catData.topics.forEach((topic) => {
+                        if (topic && typeof topic === 'object') {
+                          targetCat.topics.push(topic);
+
+                          // Extract quizzes from topic into category-level quizzes array
+                          if (Array.isArray(topic.quizzes)) {
+                            topic.quizzes.forEach((quiz) => {
+                              if (quiz && typeof quiz === 'object') {
+                                targetCat.quizzes.push(quiz);
+                              }
+                            });
+                          }
+                        }
+                      });
+                    }
+
+                    // Also merge category-level quizzes if present
+                    if (Array.isArray(catData.quizzes)) {
+                      catData.quizzes.forEach((quiz) => {
+                        if (quiz && typeof quiz === 'object') {
+                          targetCat.quizzes.push(quiz);
+                        }
+                      });
+                    }
+                  }
+                );
+              }
             }
           });
 
