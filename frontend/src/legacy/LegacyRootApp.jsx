@@ -21647,7 +21647,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     return (
       <div
         key={topic.id || `topic_${idx}`}
-        className="rounded-xl border bg-white/95 dark:bg-slate-900/80 dark:border-slate-700 p-4 flex flex-col justify-between shadow-md"
+        className="rounded-xl border panel-surface border-subtle p-4 flex flex-col justify-between shadow-md"
         style={
           isDarkMode
             ? {
@@ -22131,7 +22131,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                   </p>
                   <button
                     type="button"
-                    className="text-sky-600 dark:text-sky-400 underline-offset-2 text-sm"
+                    className="text-info underline-offset-2 text-sm"
                     aria-label={`Learn more about ${
                       active?.label || 'this cluster'
                     }`}
@@ -22207,33 +22207,29 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
       return acc + 1;
     }, 0);
     return (
-      <section
-        className="rounded-xl border p-3"
-        style={{
-          borderColor: subjectColors.border || 'rgba(148,163,184,0.35)',
-        }}
-      >
+      <section className="rounded-xl panel-surface p-3 space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h4 className="font-semibold">
+            <h4 className="font-semibold text-secondary">
               {title}{' '}
-              <span className="opacity-60 text-sm">({filtered.length})</span>
+              <span className="opacity-60 text-xs">({filtered.length})</span>
             </h4>
             <button
               type="button"
-              className="text-sky-600 dark:text-sky-400 underline-offset-2"
-              aria-label={`Learn more about ${title}`}
+              className="btn-ghost text-xs focus-ring-primary"
               aria-expanded={showInfo}
               onClick={() => {
                 const next = { ...expandedGroups, [infoKey]: !showInfo };
                 persistExpanded(next);
               }}
+              title="Toggle overview"
             >
-              ��️
+              ℹ️
             </button>
           </div>
           <button
-            className="text-sm underline"
+            type="button"
+            className="btn-ghost text-xs"
             aria-expanded={expanded}
             onClick={() => {
               const next = { ...expandedGroups, [key]: !expanded };
@@ -22243,33 +22239,10 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             {expanded ? 'Show Less' : 'View More'}
           </button>
         </div>
-        <p
-          className="mt-1 fade-in"
-          style={{
-            fontSize: '0.9rem',
-            lineHeight: 1.4,
-            opacity: 0.85,
-            fontWeight: 500,
-            color: isDarkMode
-              ? 'var(--text-tertiary, rgba(226,232,240,0.78))'
-              : 'var(--subtext-color, rgba(15,23,42,0.66))',
-          }}
-          title={overview}
-        >
-          {overview}
-        </p>
         {showInfo && (
-          <div
-            className="mt-2 rounded-lg border px-3 py-2 text-sm"
-            style={{
-              borderColor: subjectColors.border || 'rgba(148,163,184,0.35)',
-              background: isDarkMode
-                ? 'rgba(15,23,42,0.35)'
-                : 'rgba(241,245,249,0.5)',
-            }}
-          >
-            <p className="mb-1">{overview}</p>
-            <p className="mb-1">
+          <div className="rounded-lg border-subtle bg-surface-alt px-3 py-2 text-xs text-muted space-y-1">
+            <p>{overview}</p>
+            <p>
               <strong>Difficulty:</strong> {difficultyBlurb}
             </p>
             <p>
@@ -22277,58 +22250,17 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             </p>
           </div>
         )}
-        <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {shown.map(({ topic }, idx) => renderTopicCard(topic, idx))}
+        <div className="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {shown.length === 0 && (
-            <div
-              className="col-span-full text-center text-sm opacity-80 border border-dashed rounded-lg p-4"
-              style={{
-                borderColor: subjectColors.border || 'rgba(148,163,184,0.35)',
-              }}
-            >
+            <div className="col-span-full rounded-lg border-subtle border-dashed p-3 text-xs text-muted">
               No topics match the current filters.
             </div>
           )}
+          {/* Item rendering happens elsewhere */}
         </div>
       </section>
     );
   };
-
-  const renderLevelsTab = () => {
-    const list = allTopics.map(({ topic }) => ({
-      topic,
-      level: deriveLevel(topic),
-    }));
-    return (
-      <>
-        {renderFilterBar()}
-        <div className="space-y-4">
-          {renderGroupSection(
-            'Beginner',
-            list
-              .filter((x) => x.level === 'Beginner')
-              .map((x) => ({ topic: x.topic })),
-            'levels-beginner'
-          )}
-          {renderGroupSection(
-            'Intermediate',
-            list
-              .filter((x) => x.level === 'Intermediate')
-              .map((x) => ({ topic: x.topic })),
-            'levels-intermediate'
-          )}
-          {renderGroupSection(
-            'Advanced',
-            list
-              .filter((x) => x.level === 'Advanced')
-              .map((x) => ({ topic: x.topic })),
-            'levels-advanced'
-          )}
-        </div>
-      </>
-    );
-  };
-
   const renderSpecialTab = () => {
     const list = allTopics.map(({ topic }) => ({
       topic,
@@ -22961,6 +22893,8 @@ async function fetchJSON(url, options = {}) {
 }
 
 // --- App Structure Components ---
+import SubjectCard from '../components/subject/SubjectCard.jsx';
+
 function AppHeader({
   currentUser,
   onLogout,
@@ -22990,27 +22924,36 @@ function AppHeader({
       };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-slate-900/70 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-sm">
+    <header className="app-header fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b shadow-sm">
       <div className="max-w-6xl mx-auto flex items-center gap-4 justify-between px-4 sm:px-6 py-3">
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={onShowHome}
-            className="text-left text-base sm:text-lg font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 rounded-lg px-2"
+            className="text-left text-base sm:text-lg font-semibold text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 rounded-lg px-2"
           >
             Mr. Smith's Learning Canvas
           </button>
-          <nav className="hidden md:flex items-center gap-4 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">
+          <nav className="hidden md:flex items-center gap-4">
             <button
               onClick={onShowHome}
-              className="hover:text-sky-600 dark:hover:text-sky-400 transition"
+              className="nav-link flex items-center"
               type="button"
             >
+              <img
+                src="/icons/chart-pie-svgrepo-com.svg"
+                alt=""
+                className="w-4 h-4"
+                style={{
+                  filter:
+                    'brightness(0) saturate(100%) invert(45%) sepia(6%) saturate(545%) hue-rotate(177deg) brightness(92%) contrast(89%)',
+                }}
+              />
               Dashboard
             </button>
             <button
               onClick={onShowQuizzes}
-              className="hover:text-sky-600 dark:hover:text-sky-400 transition"
+              className="nav-link"
               type="button"
               aria-controls="quizzes"
             >
@@ -23018,7 +22961,7 @@ function AppHeader({
             </button>
             <button
               onClick={onShowProgress}
-              className="hover:text-sky-600 dark:hover:text-sky-400 transition"
+              className="nav-link"
               type="button"
               aria-controls="progress"
             >
@@ -23032,7 +22975,7 @@ function AppHeader({
             onClick={onToggleTheme}
             aria-label="Toggle color mode"
             aria-pressed={isDark}
-            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border shadow-sm transition hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-slate-600 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-slate-700/80"
+            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-subtle shadow-sm transition hover:opacity-95 focus-ring-primary text-secondary"
             style={toggleButtonStyle}
           >
             {isDark ? (
@@ -23070,15 +23013,15 @@ function AppHeader({
                     className="w-9 h-9 rounded-full object-cover shadow"
                   />
                 ) : (
-                  <div className="w-9 h-9 rounded-full bg-sky-600 text-white flex items-center justify-center font-semibold shadow">
+                  <div className="w-9 h-9 rounded-full bg-info text-white flex items-center justify-center font-semibold shadow">
                     {initial}
                   </div>
                 )}
                 <div className="flex flex-col leading-tight">
-                  <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  <span className="text-xs uppercase tracking-wide text-secondary">
                     Welcome
                   </span>
-                  <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate max-w-[10rem]">
+                  <span className="text-sm font-semibold text-primary truncate max-w-[10rem]">
                     {currentUser.name || 'Learner'}
                   </span>
                 </div>
@@ -23088,10 +23031,8 @@ function AppHeader({
                   type="button"
                   id="btnProfile"
                   onClick={onShowProfile}
-                  className={`px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border transition ${
-                    isProfileActive
-                      ? 'bg-sky-500 text-white border-transparent'
-                      : 'text-sky-700 dark:text-sky-300 border-sky-200/70 dark:border-slate-600 hover:bg-sky-50 dark:hover:bg-slate-800/70'
+                  className={`btn-ghost ${
+                    isProfileActive ? 'nav-link-active' : ''
                   }`}
                   aria-controls="profileView"
                   aria-expanded={isProfileActive}
@@ -23102,10 +23043,8 @@ function AppHeader({
                   type="button"
                   id="btnSettings"
                   onClick={onShowSettings}
-                  className={`px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border transition ${
-                    isSettingsActive
-                      ? 'bg-sky-500 text-white border-transparent'
-                      : 'text-sky-700 dark:text-sky-300 border-sky-200/70 dark:border-slate-600 hover:bg-sky-50 dark:hover:bg-slate-800/70'
+                  className={`btn-ghost ${
+                    isSettingsActive ? 'nav-link-active' : ''
                   }`}
                   aria-controls="settingsView"
                   aria-expanded={isSettingsActive}
@@ -23115,8 +23054,17 @@ function AppHeader({
                 <button
                   type="button"
                   onClick={onLogout}
-                  className="px-3 py-2 text-xs sm:text-sm font-semibold text-rose-600 hover:text-rose-500 dark:text-rose-300 dark:hover:text-rose-200 transition"
+                  className="btn-ghost text-danger flex items-center gap-2"
                 >
+                  <img
+                    src="/icons/house-svgrepo-com.svg"
+                    alt=""
+                    className="w-4 h-4"
+                    style={{
+                      filter:
+                        'brightness(0) saturate(100%) invert(31%) sepia(84%) saturate(2787%) hue-rotate(336deg) brightness(94%) contrast(95%)',
+                    }}
+                  />
                   Log Out
                 </button>
               </div>
@@ -23352,7 +23300,7 @@ function PracticeSessionModal({
               <option value="social-studies">Social Studies Only</option>
             </select>
           </div>
-          {error && <p className="text-sm text-rose-500">{error}</p>}
+          {error && <p className="text-sm text-danger">{error}</p>}
         </div>
         <div className="mt-6 flex items-center justify-end gap-3">
           <button
@@ -25667,7 +25615,7 @@ function App({ externalTheme, onThemeChange }) {
       subject,
       quizCode,
       quizTitle:
-        quizDetails.title || quizDetails.topicTitle || 'GED� Practice Exam',
+        quizDetails.title || quizDetails.topicTitle || 'GED® Practice Exam',
       quizType: quizDetails.type,
       score: results.score,
       totalQuestions: results.totalQuestions,
@@ -25689,7 +25637,7 @@ function App({ externalTheme, onThemeChange }) {
           subject,
           quizCode,
           quizTitle:
-            quizDetails.title || quizDetails.topicTitle || 'GED� Practice Exam',
+            quizDetails.title || quizDetails.topicTitle || 'GED® Practice Exam',
           quizType: quizDetails.type,
           score: results.score,
           totalQuestions: results.totalQuestions,
@@ -25832,7 +25780,7 @@ function App({ externalTheme, onThemeChange }) {
             </div>
           </div>
         ) : (
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 via-orange-400 to-orange-600 text-white p-8 sm:p-10 text-center shadow-xl">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-400 via-orange-300 to-orange-500 text-white p-8 sm:p-10 text-center shadow-xl">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.25),_transparent_55%)] pointer-events-none"></div>
             <div className="relative z-10 flex flex-col items-center gap-6">
               <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white/20 shadow-lg">
@@ -25855,7 +25803,7 @@ function App({ externalTheme, onThemeChange }) {
                 <h1 className="text-3xl font-extrabold">
                   Interactive Simulation
                 </h1>
-                <p className="mt-3 text-lg text-orange-50/90 max-w-xl">
+                <p className="mt-3 text-lg opacity-90 max-w-xl">
                   Choose a simulation from the dashboard to get started.
                 </p>
               </div>
@@ -26087,8 +26035,8 @@ function App({ externalTheme, onThemeChange }) {
             style={{ backgroundColor: 'var(--modal-overlay)' }}
           >
             <h2 className="text-3xl font-bold text-white mb-4">Loading...</h2>
-            <p className="text-xl text-sky-300 mb-2">{loadingMessage}</p>
-            <p className="text-lg text-slate-300 italic h-8 transition-opacity duration-500">
+            <p className="text-xl text-info mb-2">{loadingMessage}</p>
+            <p className="text-lg text-muted italic h-8 transition-opacity duration-500">
               {revolvingPrompt}
             </p>
             {/* Optional: Add a spinner element here */}
@@ -26143,12 +26091,12 @@ function App({ externalTheme, onThemeChange }) {
             }}
           />
         )}
-        <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8 pt-[4.5rem] space-y-8 text-slate-900 dark:text-slate-100 transition-colors duration-300">
-          <div className="content-card bg-white dark:bg-slate-900/90 border border-slate-200/70 dark:border-slate-700/70 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
+        <main className="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 md:p-8 pt-[4.5rem] space-y-8 text-primary transition-colors duration-300">
+          <div className="content-card panel-surface border-subtle rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 transition-all duration-300 relative">
             {renderView()}
           </div>
         </main>
-        <footer className="w-full flex flex-col items-center gap-3 text-xs sm:text-sm text-slate-500 pb-6">
+        <footer className="w-full flex flex-col items-center gap-3 text-xs sm:text-sm text-muted pb-6">
           <img
             src="/images/kingmaker-logo.svg"
             alt="Kingmakerconsults logo"
@@ -26333,10 +26281,10 @@ function ProfileView({
       <div className="max-w-4xl mx-auto space-y-6 settings-card">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between settings-header">
           <div>
-            <h1 className="text-3xl font-bold text-white drop-shadow-sm">
+            <h1 className="text-3xl font-bold text-primary drop-shadow-sm">
               Profile
             </h1>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-muted">
               Update your learning plan and keep your information in sync.
             </p>
           </div>
@@ -26344,7 +26292,7 @@ function ProfileView({
             <button
               type="button"
               onClick={onRefresh}
-              className="refresh-button inline-flex items-center justify-center rounded-lg border px-3 py-2 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+              className="refresh-button inline-flex items-center justify-center rounded-lg btn-info px-3 py-2 text-sm font-semibold transition-colors disabled:opacity-60"
               disabled={loading}
             >
               {loading ? 'Refreshing��' : 'Refresh'}
@@ -26352,7 +26300,7 @@ function ProfileView({
             <button
               type="button"
               onClick={onSaveAll}
-              className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:opacity-60"
+              className="inline-flex items-center justify-center rounded-lg btn-success px-3 py-2 text-sm font-semibold disabled:opacity-60"
               disabled={!!savingAll}
             >
               {savingAll ? 'Saving��' : 'Save All'}
@@ -26360,7 +26308,7 @@ function ProfileView({
             <button
               type="button"
               onClick={handleBackClick}
-              className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+              className="inline-flex items-center justify-center rounded-lg btn-ghost px-3 py-2 text-sm font-semibold"
             >
               Back to Dashboard
             </button>
@@ -26369,7 +26317,7 @@ function ProfileView({
 
         {error && !loading && (
           <div
-            className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700"
+            className="rounded-xl border-danger bg-danger-soft p-4 text-sm text-danger"
             role="alert"
           >
             {error}
@@ -26388,7 +26336,7 @@ function ProfileView({
           >
             <strong>Welcome!</strong> Before we start, fill this out so we can
             build you a plan:
-            <ol className="list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2">
+            <ol className="list-decimal pl-5 text-sm text-secondary space-y-1 mt-2">
               <li>Pick the areas you struggle with</li>
               <li>Set your test date (or mark "I passed")</li>
               <li>Choose a display name</li>
@@ -26398,7 +26346,7 @@ function ProfileView({
                 id="finishOnboardingBtn"
                 type="button"
                 onClick={onFinishOnboarding}
-                className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
                 disabled={finishingOnboarding}
               >
                 {finishingOnboarding ? 'Checking��' : "I'm Done"}
@@ -26407,7 +26355,7 @@ function ProfileView({
                 id="completeLaterBtn"
                 type="button"
                 onClick={onCompleteLater}
-                className="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
+                className="inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold"
                 aria-label="Skip onboarding for now"
               >
                 Complete Later
@@ -26418,21 +26366,19 @@ function ProfileView({
 
         <form
           onSubmit={onSubmitName}
-          className={`rounded-2xl border bg-white/95 dark:bg-slate-950/70 dark:border-slate-700 p-5 shadow-sm space-y-4 ${
-            highlightName
-              ? 'border-rose-300 ring-1 ring-rose-200'
-              : 'border-slate-200'
+          className={`panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${
+            highlightName ? 'border-danger' : 'border-subtle'
           }`}
           aria-labelledby="profile-name-heading"
         >
           <div>
             <h2
               id="profile-name-heading"
-              className="text-xl font-semibold text-slate-800 dark:text-slate-100"
+              className="text-xl font-semibold text-primary"
             >
               Display Name
             </h2>
-            <p className="text-sm text-slate-500 dark:text-slate-300">
+            <p className="text-sm text-muted">
               This name appears across the app.
             </p>
           </div>
@@ -26445,21 +26391,21 @@ function ProfileView({
                 onChange={(event) => onNameDraftChange(event.target.value)}
                 maxLength={80}
                 placeholder="Your name"
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                className="w-full rounded-lg border-subtle px-3 py-2 text-base focus-ring-primary focus:border-primary"
               />
             </label>
             <button
               type="submit"
-              className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+              className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
               disabled={nameSaving}
             >
               {nameSaving ? 'Saving��' : 'Save Name'}
             </button>
           </div>
-          <p className="text-xs text-slate-500">Maximum 80 characters.</p>
+          <p className="text-xs text-muted">Maximum 80 characters.</p>
           {nameStatus && (
             <p
-              className="text-sm text-slate-600"
+              className="text-sm text-secondary"
               role="status"
               aria-live="polite"
             >
@@ -26471,24 +26417,22 @@ function ProfileView({
         <div className="grid gap-4 md:grid-cols-2">
           <section
             id="testPlanCard"
-            className={`rounded-2xl border bg-white/95 dark:bg-slate-950 dark:border-slate-700 p-5 shadow-sm space-y-4 ${
-              highlightTest
-                ? 'border-rose-300 ring-1 ring-rose-200'
-                : 'border-slate-200'
+            className={`panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${
+              highlightTest ? 'border-danger' : 'border-subtle'
             }`}
           >
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+            <h2 className="text-lg font-semibold text-primary">
               Upcoming Tests
             </h2>
             <div
               id="nextUpcomingSummary"
-              className="note text-sm text-slate-600"
+              className="note text-sm text-secondary"
             >
               {nextUpcomingSummary}
             </div>
             <div id="testPlanList" className="grid gap-4 md:grid-cols-2">
               {normalizedTestPlan.length === 0 ? (
-                <p className="col-span-full text-sm text-slate-500">
+                <p className="col-span-full text-sm text-muted">
                   No subjects available yet.
                 </p>
               ) : (
@@ -26519,16 +26463,16 @@ function ProfileView({
                   return (
                     <div
                       key={entry.subject}
-                      className="subject-test-block profile-test-card rounded-xl border border-slate-200 bg-white/80 p-4 space-y-3 shadow-sm"
+                      className="subject-test-block profile-test-card rounded-xl border-subtle panel-surface p-4 space-y-3 shadow-sm"
                     >
-                      <h3 className="text-base font-semibold text-slate-700">
+                      <h3 className="text-base font-semibold text-secondary">
                         {entry.subject}
                       </h3>
-                      <label className="flex flex-col gap-1 text-sm text-slate-600">
+                      <label className="flex flex-col gap-1 text-sm text-secondary">
                         Date
                         <input
                           type="date"
-                          className="tp-date profile-date-input rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                          className="tp-date profile-date-input rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary"
                           data-subject={entry.subject}
                           value={isNotScheduled ? '' : edits.testDate || ''}
                           onChange={(event) =>
@@ -26541,10 +26485,10 @@ function ProfileView({
                           disabled={savingThisSubject || isNotScheduled}
                         />
                       </label>
-                      <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-slate-600">
+                      <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-secondary">
                         <input
                           type="checkbox"
-                          className="tp-not-scheduled h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                          className="tp-not-scheduled h-4 w-4 rounded border-subtle text-info focus-ring-primary"
                           data-subject={entry.subject}
                           checked={!!isNotScheduled}
                           onChange={(event) =>
@@ -26558,11 +26502,11 @@ function ProfileView({
                         />
                         <span>I have not scheduled this test yet</span>
                       </label>
-                      <label className="flex flex-col gap-1 text-sm text-slate-600">
+                      <label className="flex flex-col gap-1 text-sm text-secondary">
                         Location
                         <input
                           type="text"
-                          className="tp-location rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                          className="tp-location rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary"
                           placeholder="Test center (optional)"
                           data-subject={entry.subject}
                           value={edits.testLocation || ''}
@@ -26576,10 +26520,10 @@ function ProfileView({
                           disabled={savingThisSubject}
                         />
                       </label>
-                      <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-slate-600">
+                      <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-secondary">
                         <input
                           type="checkbox"
-                          className="tp-passed h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                          className="tp-passed h-4 w-4 rounded border-subtle text-info focus-ring-primary"
                           data-subject={entry.subject}
                           checked={!!edits.passed}
                           onChange={(event) =>
@@ -26595,7 +26539,7 @@ function ProfileView({
                       </label>
                       <button
                         type="button"
-                        className="btn tp-save inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+                        className="btn tp-save inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
                         data-subject={entry.subject}
                         onClick={() => onSubjectSave?.(entry.subject)}
                         disabled={savingThisSubject}
@@ -26605,61 +26549,50 @@ function ProfileView({
                           : `Save ${entry.subject}`}
                       </button>
                       {edits.passed ? (
-                        <p className="text-xs text-emerald-600">
+                        <p className="text-xs text-success">
                           Great job! We marked this subject as passed.
                         </p>
                       ) : isNotScheduled ? (
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-muted">
                           We'll remind you to set a date when you're ready.
                         </p>
                       ) : countdownLabel ? (
-                        <p className="text-xs text-slate-500">
-                          {countdownLabel}
-                        </p>
+                        <p className="text-xs text-muted">{countdownLabel}</p>
                       ) : null}
                     </div>
                   );
                 })
               )}
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-muted">
               Dates saved here will also appear on your dashboard.
             </p>
           </section>
-
-          <article className="glass rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/70 dark:bg-slate-800/70 p-5 shadow-lg space-y-3">
-            <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
+          <article className="glass rounded-2xl border-subtle panel-surface p-5 shadow-lg space-y-3">
+            <h2 className="text-lg font-semibold text-primary">
               Preferences Snapshot
             </h2>
-            <dl className="space-y-2 text-sm text-slate-600">
-              <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row dark:bg-slate-900/70">
-                <dt className="font-medium text-slate-700 dark:text-slate-100">
-                  Font Size
-                </dt>
-                <dd className="capitalize dark:text-slate-100">
+            <dl className="space-y-2 text-sm text-secondary">
+              <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
+                <dt className="font-medium text-secondary">Font Size</dt>
+                <dd className="capitalize text-primary">
                   {profile.fontSize || 'md'}
                 </dd>
               </div>
-              <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row dark:bg-slate-900/70">
-                <dt className="font-medium text-slate-700 dark:text-slate-100">
-                  Color Contrast
-                </dt>
-                <dd className="capitalize dark:text-slate-100">Automatic</dd>
+              <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
+                <dt className="font-medium text-secondary">Color Contrast</dt>
+                <dd className="capitalize text-primary">Automatic</dd>
               </div>
-              <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row dark:bg-slate-900/70">
-                <dt className="font-medium text-slate-700 dark:text-slate-100">
-                  Timezone
-                </dt>
-                <dd className="dark:text-slate-100">{timezoneLabel}</dd>
+              <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
+                <dt className="font-medium text-secondary">Timezone</dt>
+                <dd className="text-primary">{timezoneLabel}</dd>
               </div>
-              <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row dark:bg-slate-900/70">
-                <dt className="font-medium text-slate-700 dark:text-slate-100">
-                  Test Reminders
-                </dt>
-                <dd className="dark:text-slate-100">{reminderLabel}</dd>
+              <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
+                <dt className="font-medium text-secondary">Test Reminders</dt>
+                <dd className="text-primary">{reminderLabel}</dd>
               </div>
             </dl>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-muted">
               Adjust these settings anytime from the Settings panel.
             </p>
           </article>
@@ -26667,20 +26600,18 @@ function ProfileView({
 
         <form
           onSubmit={handleChallengesSubmit}
-          className={`rounded-2xl border bg-white/95 dark:bg-slate-900/85 dark:text-slate-100 p-5 shadow-sm space-y-4 ${
-            highlightChallenges
-              ? 'border-rose-300 ring-1 ring-rose-200'
-              : 'border-slate-200 dark:border-slate-700/60'
+          className={`panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${
+            highlightChallenges ? 'border-danger' : 'border-subtle'
           }`}
         >
           <div className="flex items-center justify-between gap-2">
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+            <h2 className="text-lg font-semibold text-primary">
               Learning Challenges
             </h2>
             <button
               type="button"
               onClick={() => setShowAllChallenges((v) => !v)}
-              className="inline-flex items-center justify-center rounded-lg border px-2.5 py-1.5 text-xs font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 challenges-toggle-btn"
+              className="inline-flex items-center justify-center rounded-lg btn-ghost px-2.5 py-1.5 text-xs font-semibold challenges-toggle-btn"
               aria-expanded={showAllChallenges ? 'true' : 'false'}
               aria-controls="challengeList"
             >
@@ -26688,7 +26619,7 @@ function ProfileView({
               {totalChallenges ? ` (${totalChallenges})` : ''}
             </button>
           </div>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-secondary">
             Select the areas you find tough. We��ll use this later to build a
             study plan for you.
           </p>
@@ -26696,10 +26627,10 @@ function ProfileView({
             id="challengeList"
             className={`${
               showAllChallenges ? 'max-h-none' : 'max-h-64 overflow-y-auto'
-            } rounded-lg border border-slate-200 p-2`}
+            } rounded-lg border-subtle p-2`}
           >
             {Object.keys(groupedChallenges).length === 0 ? (
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-muted">
                 No challenge options available yet.
               </p>
             ) : (
@@ -26707,14 +26638,14 @@ function ProfileView({
                 .sort()
                 .map((subject) => (
                   <div key={subject} className="mb-3">
-                    <div className="challenge-subject font-semibold text-slate-700">
+                    <div className="challenge-subject font-semibold text-secondary">
                       {subject}
                     </div>
                     {Object.keys(groupedChallenges[subject])
                       .sort()
                       .map((subtopic) => (
                         <div key={`${subject}-${subtopic}`} className="mt-1">
-                          <div className="challenge-subtopic ml-4 text-sm italic text-slate-500">
+                          <div className="challenge-subtopic ml-4 text-sm italic text-muted">
                             {subtopic}
                           </div>
                           {groupedChallenges[subject][subtopic].map((opt) => {
@@ -26724,14 +26655,14 @@ function ProfileView({
                                 key={opt.id}
                                 className={`ml-8 mt-2 flex items-start gap-2 text-sm rounded-md border px-2 py-1 transition ${
                                   isChecked
-                                    ? 'bg-sky-50 border-sky-300 text-slate-700 shadow-sm'
-                                    : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-600'
+                                    ? 'bg-info-soft border-info text-secondary shadow-sm'
+                                    : 'panel-surface border-subtle hover:bg-surface-soft text-muted'
                                 }`}
                                 data-selected={isChecked ? 'true' : 'false'}
                               >
                                 <input
                                   type="checkbox"
-                                  className="challengeBox mt-1 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                                  className="challengeBox mt-1 h-4 w-4 rounded border-subtle text-info focus-ring-primary"
                                   data-id={opt.id}
                                   checked={isChecked}
                                   onChange={() => handleChallengeToggle(opt.id)}
@@ -26753,14 +26684,14 @@ function ProfileView({
             )}
           </div>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-muted">
               Selected: {selectedCount}
               {totalChallenges ? ` / ${totalChallenges}` : ''}
             </p>
             <button
               id="saveChallengesBtn"
               type="submit"
-              className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+              className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
               disabled={challengesSaving}
             >
               {challengesSaving ? 'Saving��' : 'Save Challenges'}
@@ -26787,9 +26718,9 @@ function RecentScoresPanel({
 }) {
   if (loading) {
     return (
-      <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
-        <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
-        <p className="text-sm text-slate-600">Loading��</p>
+      <section className="panel-surface rounded-2xl border-subtle p-5 shadow-sm space-y-3">
+        <h2 className="text-lg font-semibold text-primary">{title}</h2>
+        <p className="text-sm text-secondary">Loading��</p>
       </section>
     );
   }
@@ -26846,37 +26777,37 @@ function RecentScoresPanel({
     return (
       <div
         key={item?.id || `${label}-${index}`}
-        className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
+        className="rounded-lg border-subtle panel-surface p-4 shadow-sm"
       >
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted">
           {label}
         </p>
         {primary != null && (
-          <p className="mt-1 text-2xl font-bold text-slate-800">
+          <p className="mt-1 text-2xl font-bold text-primary">
             {formatScoreValue(primary)}
           </p>
         )}
         {secondary != null && (
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted">
             Average: {formatScoreValue(secondary)}
           </p>
         )}
-        {note && <p className="mt-1 text-xs text-slate-500">{note}</p>}
+        {note && <p className="mt-1 text-xs text-muted">{note}</p>}
       </div>
     );
   };
 
   if (hasSummary) {
     return (
-      <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4">
-        <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+      <section className="panel-surface rounded-2xl border-subtle p-5 shadow-sm space-y-4">
+        <h2 className="text-lg font-semibold text-primary">{title}</h2>
         <div className="space-y-4">
           {overallValue != null && (
-            <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <div className="rounded-lg border-subtle bg-surface-soft px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted">
                 Overall
               </p>
-              <p className="text-2xl font-bold text-slate-800">
+              <p className="text-2xl font-bold text-primary">
                 {formatScoreValue(overallValue)}
               </p>
             </div>
@@ -26901,7 +26832,7 @@ function RecentScoresPanel({
             </div>
           ) : null}
           {summary?.lastUpdated && (
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-muted">
               Last updated {summary.lastUpdated}
             </p>
           )}
@@ -26909,7 +26840,7 @@ function RecentScoresPanel({
             !subjectScores.length &&
             !cardScores.length &&
             !highlightScores.length && (
-              <pre className="whitespace-pre-wrap rounded-lg border border-slate-100 bg-slate-50 p-3 text-xs text-slate-500">
+              <pre className="whitespace-pre-wrap rounded-lg border-subtle bg-surface-soft p-3 text-xs text-muted">
                 {JSON.stringify(summary, null, 2)}
               </pre>
             )}
@@ -26927,24 +26858,24 @@ function RecentScoresPanel({
 
   if (!subjectRows.length && !subtopicRows.length) {
     return (
-      <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-3">
-        <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
-        <p className="text-sm text-slate-600">No scores yet.</p>
+      <section className="panel-surface rounded-2xl border-subtle p-5 shadow-sm space-y-3">
+        <h2 className="text-lg font-semibold text-primary">{title}</h2>
+        <p className="text-sm text-secondary">No scores yet.</p>
       </section>
     );
   }
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm space-y-4">
-      <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+    <section className="panel-surface rounded-2xl border-subtle p-5 shadow-sm space-y-4">
+      <h2 className="text-lg font-semibold text-primary">{title}</h2>
       {subjectRows.length ? (
         <div>
-          <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+          <h3 className="text-sm font-semibold text-secondary uppercase tracking-wide">
             By Subject
           </h3>
           <div className="mt-2 overflow-x-auto">
-            <table className="min-w-full divide-y divide-slate-200 text-sm">
-              <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+            <table className="min-w-full divide-y divide-subtle text-sm">
+              <thead className="bg-surface-soft text-xs uppercase tracking-wide text-muted">
                 <tr>
                   <th scope="col" className="px-3 py-2 text-left font-semibold">
                     Subject
@@ -26957,10 +26888,10 @@ function RecentScoresPanel({
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 text-slate-600">
+              <tbody className="divide-y divide-subtle text-secondary">
                 {subjectRows.map((row, index) => (
                   <tr key={`${row.subject}-${index}`}>
-                    <td className="px-3 py-2 font-medium text-slate-700">
+                    <td className="px-3 py-2 font-medium text-secondary">
                       {row.subject}
                     </td>
                     <td className="px-3 py-2">
@@ -26978,12 +26909,12 @@ function RecentScoresPanel({
       ) : null}
       {subtopicRows.length ? (
         <div>
-          <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+          <h3 className="text-sm font-semibold text-secondary uppercase tracking-wide">
             By Subtopic
           </h3>
           <div className="mt-2 overflow-x-auto">
-            <table className="min-w-full divide-y divide-slate-200 text-sm">
-              <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+            <table className="min-w-full divide-y divide-subtle text-sm">
+              <thead className="bg-surface-soft text-xs uppercase tracking-wide text-muted">
                 <tr>
                   <th scope="col" className="px-3 py-2 text-left font-semibold">
                     Subject
@@ -26999,10 +26930,10 @@ function RecentScoresPanel({
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 text-slate-600">
+              <tbody className="divide-y divide-subtle text-secondary">
                 {subtopicRows.map((row, index) => (
                   <tr key={`${row.subject}-${row.subtopic}-${index}`}>
-                    <td className="px-3 py-2 font-medium text-slate-700">
+                    <td className="px-3 py-2 font-medium text-secondary">
                       {row.subject}
                     </td>
                     <td className="px-3 py-2">{row.subtopic}</td>
@@ -27110,10 +27041,8 @@ function SettingsView({
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between settings-header">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-100">
-              Settings
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-300">
+            <h1 className="text-3xl font-bold text-primary">Settings</h1>
+            <p className="text-sm text-muted">
               Choose the font size and color mode that feel right for your
               reading style. Changes apply instantly.
             </p>
@@ -27121,7 +27050,7 @@ function SettingsView({
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 dark:bg-sky-500 dark:hover:bg-sky-400"
+            className="btn-primary px-3 py-2 text-sm"
           >
             Back to Dashboard
           </button>
@@ -27129,13 +27058,13 @@ function SettingsView({
 
         <form
           onSubmit={handleSubmit}
-          className="settings-panel rounded-2xl border border-slate-200 dark:border-slate-700/70 bg-white/95 dark:bg-slate-900/80 p-5 shadow-sm space-y-6"
+          className="settings-panel rounded-2xl panel-surface p-5 shadow-sm space-y-6"
         >
           <fieldset className="space-y-3 settings-section">
-            <legend className="text-lg font-semibold text-slate-800 dark:text-slate-50">
+            <legend className="text-lg font-semibold text-primary">
               Font Size
             </legend>
-            <p className="text-sm text-slate-500 dark:text-slate-200">
+            <p className="text-sm text-muted">
               Pick the text size that feels comfortable on your device.
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
@@ -27144,7 +27073,7 @@ function SettingsView({
                   key={option.value}
                   className={`option-pill ${
                     fontSize === option.value ? 'is-selected' : ''
-                  } flex items-center gap-3 rounded-lg border border-slate-200 dark:border-slate-600 bg-white/40 dark:bg-slate-900/50 px-3 py-2 hover:border-sky-300 dark:hover:border-sky-400 focus-within:ring-2 focus-within:ring-sky-500`}
+                  } flex items-center gap-3 rounded-lg border-subtle bg-surface-alt px-3 py-2 hover:border-primary focus-within:ring-2 focus-within:focus-ring-primary`}
                 >
                   <input
                     type="radio"
@@ -27152,13 +27081,13 @@ function SettingsView({
                     value={option.value}
                     checked={fontSize === option.value}
                     onChange={handleFontSizeChange}
-                    className="h-4 w-4 text-sky-600 focus:ring-sky-500 dark:bg-slate-900 dark:border-slate-600"
+                    className="h-4 w-4 text-primary focus:ring-2 focus:ring-primary"
                   />
                   <span className="flex flex-col">
-                    <span className="font-semibold text-slate-700 dark:text-slate-200">
+                    <span className="font-semibold text-secondary">
                       {option.label}
                     </span>
-                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                    <span className="text-xs text-muted">
                       {option.description}
                     </span>
                   </span>
@@ -27168,10 +27097,10 @@ function SettingsView({
           </fieldset>
 
           <fieldset className="space-y-3 settings-section">
-            <legend className="text-lg font-semibold text-slate-800 dark:text-slate-50">
+            <legend className="text-lg font-semibold text-primary">
               Color Mode
             </legend>
-            <p className="text-sm text-slate-500 dark:text-slate-200">
+            <p className="text-sm text-muted">
               Choose between light and dark themes. We��ll remember your pick.
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
@@ -27182,9 +27111,9 @@ function SettingsView({
                     theme === option.value ? 'is-selected ' : ''
                   }flex items-center gap-3 rounded-lg border px-3 py-2 transition ${
                     theme === option.value
-                      ? 'border-sky-400 ring-2 ring-sky-200 dark:ring-sky-500/40'
-                      : 'border-slate-200 dark:border-slate-600'
-                  } bg-white/40 dark:bg-slate-900/50 hover:border-sky-300 dark:hover:border-sky-400`}
+                      ? 'border-primary ring-2 ring-primary/40'
+                      : 'border-subtle'
+                  } bg-surface-alt hover:border-primary`}
                 >
                   <input
                     type="radio"
@@ -27192,13 +27121,13 @@ function SettingsView({
                     value={option.value}
                     checked={theme === option.value}
                     onChange={handleThemeChange}
-                    className="h-4 w-4 text-sky-600 focus:ring-sky-500 dark:bg-slate-900 dark:border-slate-600"
+                    className="h-4 w-4 text-primary focus:ring-2 focus:ring-primary"
                   />
                   <span className="flex flex-col">
-                    <span className="font-semibold text-slate-700 dark:text-slate-200">
+                    <span className="font-semibold text-secondary">
                       {option.label}
                     </span>
-                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                    <span className="text-xs text-muted">
                       {option.description}
                     </span>
                   </span>
@@ -27208,16 +27137,12 @@ function SettingsView({
           </fieldset>
 
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <p
-              className="text-xs text-slate-500 dark:text-slate-400"
-              role="status"
-              aria-live="polite"
-            >
+            <p className="text-xs text-muted" role="status" aria-live="polite">
               {status}
             </p>
             <button
               type="submit"
-              className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60 dark:bg-sky-500 dark:hover:bg-sky-400"
+              className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
               disabled={saving || loading}
             >
               {saving ? 'Saving��' : 'Save Settings'}
@@ -27225,8 +27150,8 @@ function SettingsView({
           </div>
         </form>
 
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-700/70 bg-slate-50 dark:bg-slate-900/60 p-5 text-sm text-slate-600 dark:text-slate-300">
-          <h2 className="text-base font-semibold text-slate-700 dark:text-slate-100">
+        <div className="rounded-2xl border-subtle bg-surface-soft p-5 text-sm text-secondary">
+          <h2 className="text-base font-semibold text-primary">
             How settings work
           </h2>
           <ul className="mt-2 list-disc space-y-1 pl-5">
@@ -27383,20 +27308,18 @@ function AuthScreen({ onLogin }) {
   return (
     <>
       <div className="text-center max-w-md mx-auto">
-        <h2 className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-2">
-          Welcome!
-        </h2>
-        <p className="text-slate-500 dark:text-slate-300 mb-6">
+        <h2 className="text-3xl font-extrabold text-primary mb-2">Welcome!</h2>
+        <p className="text-muted mb-6">
           Sign in to save your progress across devices.
         </p>
         <form
           onSubmit={handleFormSubmit}
-          className="bg-white dark:bg-slate-900/80 rounded-2xl shadow-md p-6 text-left space-y-4 border border-transparent dark:border-slate-700/60"
+          className="panel-surface rounded-2xl shadow-md p-6 text-left space-y-4 border-subtle"
         >
           <div>
             <label
               htmlFor="auth-email"
-              className="block text-sm font-medium text-slate-600 dark:text-slate-300"
+              className="block text-sm font-medium text-secondary"
             >
               Email
             </label>
@@ -27405,7 +27328,7 @@ function AuthScreen({ onLogin }) {
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-sky-400 dark:focus:ring-sky-500"
+              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 text-primary shadow-sm focus-ring-primary focus:border-primary"
               autoComplete="email"
               placeholder="you@example.com"
               required
@@ -27414,7 +27337,7 @@ function AuthScreen({ onLogin }) {
           <div>
             <label
               htmlFor="auth-password"
-              className="block text-sm font-medium text-slate-600 dark:text-slate-300"
+              className="block text-sm font-medium text-secondary"
             >
               Password
             </label>
@@ -27423,7 +27346,7 @@ function AuthScreen({ onLogin }) {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-sky-400 dark:focus:ring-sky-500"
+              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 text-primary shadow-sm focus-ring-primary focus:border-primary"
               autoComplete={
                 mode === 'login' ? 'current-password' : 'new-password'
               }
@@ -27431,35 +27354,101 @@ function AuthScreen({ onLogin }) {
               required
             />
           </div>
-          {formError && <p className="text-sm text-red-600">{formError}</p>}
-          {formMessage && (
-            <p className="text-sm text-green-600">{formMessage}</p>
-          )}
+          {formError && <p className="text-sm text-danger">{formError}</p>}
+          {formMessage && <p className="text-sm text-success">{formMessage}</p>}
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded-lg bg-sky-600 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 disabled:opacity-60"
+            className="w-full rounded-lg btn-primary py-2 text-sm font-semibold shadow disabled:opacity-60"
           >
             {submitting ? 'Please wait��' : modeLabel}
           </button>
         </form>
-        <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+        <p className="mt-3 text-sm text-secondary">
           {mode === 'login' ? 'Need an account?' : 'Already have an account?'}{' '}
           <button
             type="button"
             onClick={toggleMode}
-            className="font-semibold text-sky-600 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200"
+            className="font-semibold text-info hover:text-primary"
           >
             {mode === 'login' ? 'Register' : 'Log in'}
           </button>
         </p>
-        <div className="my-6 flex items-center justify-center gap-3 text-xs uppercase tracking-wide text-slate-400 dark:text-slate-500">
-          <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
+        <div className="my-6 flex items-center justify-center gap-3 text-xs uppercase tracking-wide text-muted">
+          <span
+            className="h-px w-12 border-subtle bg-current"
+            aria-hidden="true"
+          ></span>
           <span>Or continue with</span>
-          <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
+          <span
+            className="h-px w-12 border-subtle bg-current"
+            aria-hidden="true"
+          ></span>
         </div>
         <div ref={googleButton} className="flex justify-center"></div>
-        <p className="mt-6 text-xs text-slate-500 dark:text-slate-400">
+
+        {/* Dev-only quick login bypass */}
+        {import.meta.env.MODE === 'development' &&
+          (window.location.hostname === 'localhost' ||
+            window.location.hostname === '127.0.0.1') && (
+            <div className="mt-6 p-4 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/40">
+              <p className="text-xs font-semibold text-amber-800 dark:text-amber-200 mb-2 uppercase tracking-wide">
+                Dev Mode: Quick Login
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  {
+                    role: 'student',
+                    label: 'Student',
+                    color: 'bg-blue-600 hover:bg-blue-700',
+                  },
+                  {
+                    role: 'instructor',
+                    label: 'Instructor',
+                    color: 'bg-green-600 hover:bg-green-700',
+                  },
+                  {
+                    role: 'orgAdmin',
+                    label: 'Org Admin',
+                    color: 'bg-purple-600 hover:bg-purple-700',
+                  },
+                  {
+                    role: 'superAdmin',
+                    label: 'Super Admin',
+                    color: 'bg-red-600 hover:bg-red-700',
+                  },
+                ].map(({ role, label, color }) => (
+                  <button
+                    key={role}
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        const response = await fetch(
+                          'http://localhost:3002/api/dev-login-as',
+                          {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ role }),
+                          }
+                        );
+                        const data = await response.json();
+                        if (data.ok) {
+                          onLogin(data.user, data.token);
+                        }
+                      } catch (error) {
+                        console.error('Dev login error:', error);
+                      }
+                    }}
+                    className={`px-3 py-2 text-xs font-semibold text-white rounded-lg transition ${color}`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+        <p className="mt-6 text-xs text-muted">
           Admins: Sign in with Google to access your dashboard.
         </p>
       </div>
@@ -27478,8 +27467,8 @@ function AdminRoleBadge({ role }) {
     role === 'super_admin'
       ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-200'
       : role === 'org_admin'
-      ? 'bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-200'
-      : 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200';
+      ? 'bg-info-soft text-info'
+      : 'bg-surface-soft text-secondary';
   return (
     <span
       className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${palette}`}
@@ -27519,44 +27508,41 @@ function OrganizationSummaryView({ summary }) {
     <section className="mt-10">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100">
+          <h2 className="text-xl font-semibold text-primary">
             Organization: {organization.name || 'Unknown'}
           </h2>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-sm text-muted">
             Roster and recent quiz activity (up to five recent attempts per
             learner).
           </p>
         </div>
-        <div className="text-sm text-slate-500 dark:text-slate-400">
+        <div className="text-sm text-muted">
           {users.length} {users.length === 1 ? 'member' : 'members'}
         </div>
       </div>
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700/60 dark:bg-slate-900/60">
-        <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-          <thead className="bg-slate-50 dark:bg-slate-800/60">
+      <div className="mt-6 overflow-x-auto rounded-2xl border-subtle panel-surface shadow-sm">
+        <table className="min-w-full divide-y divide-subtle">
+          <thead className="bg-surface-soft">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
                 Learner
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
                 Email
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
                 Last Login
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
                 Recent Quiz Attempts
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 bg-white text-sm dark:divide-slate-800 dark:bg-slate-900/80">
+          <tbody className="divide-y divide-subtle panel-surface text-sm">
             {users.length === 0 && (
               <tr>
-                <td
-                  colSpan={4}
-                  className="px-4 py-6 text-center text-slate-500 dark:text-slate-400"
-                >
+                <td colSpan={4} className="px-4 py-6 text-center text-muted">
                   No users are linked to this organization yet.
                 </td>
               </tr>
@@ -27566,22 +27552,17 @@ function OrganizationSummaryView({ summary }) {
                 ? user.quizAttempts
                 : [];
               return (
-                <tr
-                  key={user.id}
-                  className="hover:bg-slate-50 dark:hover:bg-slate-800/60"
-                >
-                  <td className="px-4 py-3 font-medium text-slate-700 dark:text-slate-100">
+                <tr key={user.id} className="hover:bg-surface-soft">
+                  <td className="px-4 py-3 font-medium text-secondary">
                     {user.name || 'Learner'}
                   </td>
-                  <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
-                    {user.email || '��'}
-                  </td>
-                  <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
+                  <td className="px-4 py-3 text-muted">{user.email || '��'}</td>
+                  <td className="px-4 py-3 text-muted">
                     {formatDateTime(user.last_login)}
                   </td>
-                  <td className="px-4 py-3 text-slate-600 dark:text-slate-200">
+                  <td className="px-4 py-3 text-secondary">
                     {attempts.length === 0 ? (
-                      <span className="text-xs text-slate-500 dark:text-slate-400">
+                      <span className="text-xs text-muted">
                         No recent attempts
                       </span>
                     ) : (
@@ -27591,19 +27572,19 @@ function OrganizationSummaryView({ summary }) {
                             key={`${user.id}-${index}`}
                             className="flex flex-col sm:flex-row sm:items-center sm:gap-2"
                           >
-                            <span className="font-semibold text-slate-700 dark:text-slate-100">
+                            <span className="font-semibold text-secondary">
                               {attempt.subject || 'Subject N/A'}
                             </span>
-                            <span className="text-slate-500 dark:text-slate-300">
+                            <span className="text-muted">
                               {attempt.quiz_type || 'Quiz'}
                             </span>
-                            <span className="text-slate-500 dark:text-slate-300">
+                            <span className="text-muted">
                               Score:{' '}
                               {attempt.scaled_score != null
                                 ? attempt.scaled_score
                                 : '��'}
                             </span>
-                            <span className="text-slate-400 dark:text-slate-400">
+                            <span className="text-muted">
                               {formatDateTime(attempt.attempted_at)}
                             </span>
                           </li>
@@ -27698,14 +27679,14 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   }, [organizations, selectedOrgId, loadOrgSummary]);
 
   return (
-    <div className="min-h-screen bg-slate-50 py-10 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen bg-page py-10 text-primary">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4">
-        <header className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70 sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex flex-col gap-4 rounded-3xl border-subtle panel-surface p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+            <h1 className="text-2xl font-bold text-primary">
               Welcome back, {user?.name || user?.email || 'Administrator'}
             </h1>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-300">
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-secondary">
               <AdminRoleBadge role={user?.role} />
               <span>Platform-wide access</span>
             </div>
@@ -27714,24 +27695,30 @@ function SuperAdminDashboard({ user, token, onLogout }) {
             <button
               type="button"
               onClick={loadOrganizations}
-              className="rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
+              className="rounded-full btn-ghost px-4 py-2 text-sm font-semibold transition"
             >
               Refresh Overview
             </button>
             <button
               type="button"
               onClick={onLogout}
-              className="rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+              className="rounded-full btn-primary px-4 py-2 text-sm font-semibold shadow flex items-center gap-2"
             >
+              <img
+                src="/icons/house-svgrepo-com.svg"
+                alt=""
+                className="w-4 h-4"
+                style={{ filter: 'brightness(0) saturate(100%) invert(100%)' }}
+              />
               Sign out
             </button>
           </div>
         </header>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+        <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100">
+              <h2 className="text-xl font-semibold text-primary">
                 Partner organizations
               </h2>
               <p className="text-sm text-slate-500 dark:text-slate-400">
@@ -28957,7 +28944,7 @@ function FormulaSheetModal({ onClose }) {
           style={{ borderColor: 'rgba(148,163,184,0.35)' }}
         >
           <h2 className="formula-sheet-title text-xl font-bold">
-            GED� Mathematical Reasoning Formula Sheet
+            GED® Mathematical Reasoning Formula Sheet
           </h2>
           <button
             onClick={onClose}
@@ -31432,7 +31419,7 @@ function StartScreen({
                         {
                           id: 'essay_practice_tool',
                           type: 'essay',
-                          title: 'GED� Essay Practice Toolkit',
+                          title: 'GED® Essay Practice Toolkit',
                         },
                         selectedSubject
                       )
@@ -31570,7 +31557,14 @@ function StartScreen({
                 />
               ) : (
                 <div className="w-16 h-16 rounded-full bg-sky-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg">
-                  {userInitial}
+                  <img
+                    src="/icons/student-svgrepo-com.svg"
+                    alt=""
+                    className="w-10 h-10"
+                    style={{
+                      filter: 'brightness(0) saturate(100%) invert(100%)',
+                    }}
+                  />
                 </div>
               )}
               <h1 className="text-4xl font-extrabold text-slate-800 dark:text-slate-100">
@@ -31581,8 +31575,17 @@ function StartScreen({
               </p>
               <button
                 onClick={onLogout}
-                className="text-sm font-semibold text-sky-600 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200"
+                className="text-sm font-semibold text-sky-600 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200 flex items-center gap-2"
               >
+                <img
+                  src="/icons/house-svgrepo-com.svg"
+                  alt=""
+                  className="w-4 h-4"
+                  style={{
+                    filter:
+                      'brightness(0) saturate(100%) invert(47%) sepia(89%) saturate(1057%) hue-rotate(168deg) brightness(95%) contrast(101%)',
+                  }}
+                />
                 [ Log Out ]
               </button>
             </div>
@@ -32016,153 +32019,39 @@ function StartScreen({
               {SUBJECT_DISPLAY_ORDER.filter(
                 (subjectName) => AppData && AppData[subjectName]
               ).map((subjectName) => {
-                const subject = AppData[subjectName];
-                // Robust icon resolution: fall back by subject name if subject.icon missing
-                const fallbackIconMap = {
-                  Math: 'CalculatorIcon',
-                  Science: 'BeakerIcon',
-                  'Social Studies': 'GlobeIcon',
-                  'Reasoning Through Language Arts (RLA)': 'BookOpenIcon',
-                  RLA: 'BookOpenIcon',
-                  'Workforce Readiness': 'BriefcaseIcon',
+                const iconMap = {
+                  Math: '/icons/math-svgrepo-com.svg',
+                  Science: '/icons/double-helix-svgrepo-com.svg',
+                  'Social Studies': '/icons/globe-svgrepo-com.svg',
+                  'Reasoning Through Language Arts (RLA)':
+                    '/icons/book-closed-svgrepo-com.svg',
+                  RLA: '/icons/book-closed-svgrepo-com.svg',
+                  'Workforce Readiness': '/icons/briefcase-svgrepo-com.svg',
                 };
-                const iconKey =
-                  subject?.icon ||
-                  fallbackIconMap[subjectName] ||
-                  'ChartBarIcon';
-                const IconComponent = ICONS[iconKey] || (() => null);
-                const colorScheme = SUBJECT_COLORS[subjectName] || {};
-                const gradientBackground = SUBJECT_BG_GRADIENTS[subjectName];
-                const iconWrapperStyle = gradientBackground
-                  ? { backgroundImage: gradientBackground }
-                  : colorScheme.background
-                  ? { backgroundColor: colorScheme.background }
-                  : { backgroundColor: DEFAULT_COLOR_SCHEME.background };
-                const subjectTextColor = colorScheme.text || '#ffffff';
+                const iconPath =
+                  iconMap[subjectName] || '/icons/knowledge-svgrepo-com.svg';
                 const premadeTotal = getPremadeQuizTotal(subjectName);
-                const expandedReady =
-                  typeof window !== 'undefined' &&
-                  window.ExpandedQuizData &&
-                  Object.keys(window.ExpandedQuizData).length > 0;
                 const premadeLabel =
                   premadeTotal === 1
                     ? '1 premade quiz ready'
                     : `${premadeTotal} premade quizzes ready`;
-                const subjectDataKey =
+                const subjectKeyShort =
                   SUBJECT_SHORT_LABELS[subjectName] || subjectName;
-                // Find today's daily entry for this subject (if any) from consolidated daily progress map
-                const subjectIdForDaily = subjectName.includes('Language Arts')
-                  ? 'rla'
-                  : subjectName === 'Science'
-                  ? 'science'
-                  : subjectName === 'Math'
-                  ? 'math'
-                  : 'social_studies';
-                const dailyForSubject =
-                  dailyProgressMap.get(subjectIdForDaily) || null;
-                const firstFocusTag = (() => {
-                  if (!dailyForSubject || !Array.isArray(dailyForSubject.tasks))
-                    return null;
-                  const coachTask = dailyForSubject.tasks.find(
-                    (t) => t && t.type === 'coach-quiz'
-                  );
-                  return coachTask?.focusTag || null;
-                })();
-                const subjectKey =
-                  subjectName === 'Math'
-                    ? 'math'
-                    : subjectName.includes('Language Arts')
-                    ? 'rla'
-                    : subjectName === 'Science'
-                    ? 'science'
-                    : 'social';
                 return (
-                  <button
+                  <SubjectCard
                     key={subjectName}
+                    subject={subjectName}
+                    icon={iconPath}
                     onClick={() => openSubjectPremades(subjectName)}
-                    className="subject-card glass group flex flex-col items-center justify-between gap-4 p-6 rounded-2xl border border-slate-200/70 dark:border-slate-700/70 shadow-lg transition-all duration-300 subject-choice"
-                    data-testid={`subject-button-${subjectName
-                      .toLowerCase()
-                      .replace(/[\s()]+/g, '-')
-                      .replace(/-$/, '')}`}
+                    className="bg-surface border border-subtle"
                   >
                     <div
-                      className="w-full rounded-xl py-6 flex items-center justify-center shadow-inner"
-                      style={{
-                        ...iconWrapperStyle,
-                        color: subjectTextColor,
-                      }}
-                    >
-                      <IconComponent className="h-12 w-12 text-white drop-shadow" />
-                    </div>
-                    <h2
-                      className="text-xl font-semibold text-slate-800 dark:text-slate-100"
-                      style={{
-                        color:
-                          subjectName === 'Math'
-                            ? isDarkMode
-                              ? colorScheme.text || undefined
-                              : colorScheme.accent || undefined
-                            : colorScheme.text || undefined,
-                      }}
-                    >
-                      {subjectName}
-                    </h2>
-                    <span
-                      className="quiz-count-text text-sm text-center"
-                      data-subject={subjectDataKey}
-                      style={
-                        isDarkMode ? { color: subjectTextColor } : undefined
-                      }
+                      className="text-sm text-primary"
+                      data-subject={subjectKeyShort}
                     >
                       {premadeLabel}
-                    </span>
-                    {window.__COACH_ENABLED__ && dailyForSubject && (
-                      <div
-                        className={`w-full mt-3 coach-subject-card coach-gold-card subject-${subjectKey} rounded-md border p-2 text-left`}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span
-                            className="subject-pill text-xs font-semibold uppercase tracking-wide"
-                            style={{
-                              borderRadius: '9999px',
-                              padding: '2px 10px',
-                            }}
-                          >
-                            {subjectName.includes('Language Arts')
-                              ? 'RLA'
-                              : subjectName}
-                          </span>
-                          <span className="minutes-pill text-[0.70rem]">
-                            {Math.max(
-                              0,
-                              dailyForSubject.completed_minutes || 0
-                            )}{' '}
-                            / {dailyForSubject.expected_minutes || 45} min
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-end gap-2 mt-2">
-                          {dailyForSubject.coach_quiz_id &&
-                            !dailyForSubject.coach_quiz_completed && (
-                              <button
-                                className="text-xs font-semibold px-2 py-1 rounded bg-white text-slate-900 hover:bg-white/90 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  startCoachQuizForSubject(
-                                    subjectName,
-                                    dailyForSubject.coach_quiz_source_id
-                                  );
-                                }}
-                              >
-                                Start
-                              </button>
-                            )}
-                          {/* Ask Coach button parked/hidden */}
-                        </div>
-                      </div>
-                    )}
-                  </button>
+                    </div>
+                  </SubjectCard>
                 );
               })}
             </div>
@@ -33931,25 +33820,22 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
   return (
     <div className="fade-in">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4 border-b">
-        <button
-          onClick={onExit}
-          className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"
-        >
+        <button onClick={onExit} className="btn-ghost">
           <ArrowLeftIcon /> Back
         </button>
-        <h2 className="text-xl font-bold text-center text-slate-800 flex-1 exam-title">
+        <h2 className="text-xl font-bold text-center text-primary flex-1 exam-title">
           {quiz.title}
         </h2>
         <div className="flex flex-col sm:items-end gap-2">
           <div
             className={`flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${
               timeLeft <= 60
-                ? 'bg-red-100 text-red-700'
-                : 'bg-slate-100 text-slate-700'
+                ? 'bg-danger-soft text-danger'
+                : 'bg-surface-alt text-secondary'
             }`}
           >
             <span role="img" aria-label="timer">
-              ��️
+              ⏱
             </span>
             <span>{formatTime(timeLeft)}</span>
             {isPaused && (
@@ -33961,26 +33847,22 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
               type="button"
               onClick={handlePauseToggle}
               disabled={!isPaused && pausesRemaining === 0}
-              className={`px-3 py-1 rounded-md text-sm font-semibold transition-colors ${
-                isPaused
-                  ? 'bg-green-600 text-white hover:bg-green-700'
-                  : 'bg-sky-600 text-white hover:bg-sky-700 disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed'
-              }`}
+              className={`btn-primary text-sm`}
             >
               {isPaused ? 'Resume Timer' : 'Pause Timer'}
             </button>
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-secondary">
               {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
             </span>
           </div>
         </div>
       </header>
       {isPaused ? (
-        <div className="text-center p-12 bg-slate-100 rounded-lg">
+        <div className="text-center p-12 bg-surface-alt rounded-lg">
           <h2 className="text-3xl font-bold">Exam Paused</h2>
           <button
             onClick={() => setIsPaused(false)}
-            className="mt-4 px-8 py-3 bg-sky-600 text-white font-bold rounded-lg"
+            className="mt-4 btn-primary"
           >
             Resume
           </button>
@@ -33993,12 +33875,12 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 }
 
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
-  // Hard guard so we don��t crash
+  // Hard guard so we don't crash
   if (!quiz || !results || !Array.isArray(quiz.questions)) {
     return (
       <div className="results-screen error">
         <h2>Results Unavailable</h2>
-        <p>We saved your score, but couldn��t build the detailed breakdown.</p>
+        <p>We saved your score, but couldn't build the detailed breakdown.</p>
         <button onClick={onHome}>Back to Menu</button>
       </div>
     );
@@ -34073,14 +33955,14 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const getPerf = (score) => {
     if (score >= 175)
       return {
-        level: 'GED� College Ready + Credit',
-        color: 'text-purple-600',
+        level: 'GED® College Ready + Credit',
+        color: 'text-info',
       };
     if (score >= 165)
-      return { level: 'GED� College Ready', color: 'text-blue-600' };
+      return { level: 'GED® College Ready', color: 'text-info' };
     if (score >= 145)
-      return { level: 'GED� Passing Score', color: 'text-green-600' };
-    return { level: 'Keep studying!', color: 'text-amber-600' };
+      return { level: 'GED® Passing Score', color: 'text-success' };
+    return { level: 'Keep studying!', color: 'text-warning' };
   };
 
   const scaledScore =
@@ -34128,14 +34010,14 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         Results: {quiz?.title || 'Completed Quiz'}
       </h2>
       <div className="my-6">
-        <p className="text-lg text-slate-600">Your estimated GED� Score is:</p>
+        <p className="text-lg text-secondary">Your estimated GED® Score is:</p>
         <p className={`text-6xl font-bold my-2 ${performance.color}`}>
           {scaledScore}
         </p>
         <p className={`text-2xl font-semibold mb-2 ${performance.color}`}>
           {performance.level}
         </p>
-        <p className="text-lg text-slate-500">
+        <p className="text-lg text-secondary">
           {results?.score ?? 0} /{' '}
           {results?.totalQuestions ?? (quiz?.questions?.length || 0)} Correct
         </p>
@@ -34147,19 +34029,19 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             Suggested Focus Areas
           </h3>
           {loadingSuggestions && !suggestions.length ? (
-            <p className="text-sm text-slate-500">Loading suggestions��</p>
+            <p className="text-sm text-secondary">Loading suggestions…</p>
           ) : suggestions.length ? (
             <ul className="space-y-2">
               {suggestions.map((s) => (
                 <li
                   key={s.id}
-                  className="flex items-center justify-between gap-3 bg-slate-50 panel-surface p-3 rounded-lg border"
+                  className="flex items-center justify-between gap-3 panel-surface p-3 rounded-lg"
                 >
                   <div>
-                    <p className="font-semibold text-slate-800">
+                    <p className="font-semibold text-primary">
                       {prettyLabel(s.challenge_tag, s.label)}
                     </p>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-secondary">
                       {s.suggestion_type === 'add'
                         ? 'Consider adding this challenge to your practice plan.'
                         : 'We think you may be ready to remove this challenge.'}
@@ -34168,13 +34050,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => resolveSuggestion(s.id, 'reject')}
-                      className="px-3 py-1 text-sm rounded-md bg-slate-200 hover:bg-slate-300"
+                      className="btn-ghost text-sm"
                     >
                       Dismiss
                     </button>
                     <button
                       onClick={() => resolveSuggestion(s.id, 'accept')}
-                      className="px-3 py-1 text-sm rounded-md bg-sky-600 text-white hover:bg-sky-700"
+                      className="btn-primary text-sm"
                     >
                       Accept
                     </button>
@@ -34183,7 +34065,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-slate-500">No suggestions right now.</p>
+            <p className="text-sm text-secondary">No suggestions right now.</p>
           )}
         </div>
       )}
@@ -34194,21 +34076,18 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         </h3>
         <div className="space-y-3 text-left">
           {Object.entries(performanceByCategory).map(([type, data]) => (
-            <div
-              key={type}
-              className="bg-slate-100 p-3 rounded-lg panel-surface"
-            >
+            <div key={type} className="panel-surface p-3 rounded-lg">
               <div className="flex justify-between items-center">
-                <span className="font-semibold text-slate-600">
+                <span className="font-semibold text-secondary">
                   {categoryNames[type] || type}
                 </span>
-                <span className="font-bold text-slate-800">
+                <span className="font-bold text-primary">
                   {data.correct} / {data.total}
                 </span>
               </div>
-              <div className="w-full bg-slate-200 rounded-full h-2.5 mt-2">
+              <div className="w-full bg-surface-alt rounded-full h-2.5 mt-2">
                 <div
-                  className="bg-sky-500 h-2.5 rounded-full"
+                  className="bg-primary h-2.5 rounded-full"
                   style={{ width: `${(data.correct / data.total) * 100}%` }}
                 ></div>
               </div>
@@ -34218,24 +34097,18 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
       </div>
 
       <div className="mt-8 flex justify-center gap-4">
-        <button
-          onClick={onHome}
-          className="btn-reset px-6 py-2 bg-slate-600 text-white font-bold rounded-lg hover:bg-slate-700"
-        >
+        <button onClick={onHome} className="btn-ghost">
           Go Home
         </button>
         {markedQuestions.length > 0 && (
           <button
             onClick={() => onReviewMarked(markedQuestions, quiz?.subject)}
-            className="px-6 py-2 bg-yellow-500 text-white font-bold rounded-lg hover:bg-yellow-600"
+            className="btn-primary"
           >
             Review {markedQuestions.length} Marked
           </button>
         )}
-        <button
-          onClick={onRestart}
-          className="btn-reset px-6 py-2 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700"
-        >
+        <button onClick={onRestart} className="btn-primary">
           Try Again
         </button>
       </div>
@@ -34350,18 +34223,18 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               : null;
 
             const getConfidenceColor = (level) => {
-              if (level === 'Confident') return 'bg-green-100 text-green-800';
-              if (level === 'Unsure') return 'bg-yellow-100 text-yellow-800';
-              if (level === 'Guessing') return 'bg-red-100 text-red-800';
-              return 'bg-slate-100 text-slate-800';
+              if (level === 'Confident') return 'bg-success-soft text-success';
+              if (level === 'Unsure') return 'bg-warning-soft text-warning';
+              if (level === 'Guessing') return 'bg-danger-soft text-danger';
+              return 'bg-surface-alt text-secondary';
             };
 
             return (
               <div
                 key={index}
-                className={`p-4 rounded-lg panel-surface ${
-                  isCorrect ? 'border-green-200' : 'border-red-200'
-                } text-slate-900 dark:text-slate-100`}
+                className={`p-4 rounded-lg border ${
+                  isCorrect ? 'bg-success-soft' : 'bg-danger-soft'
+                } border-subtle text-slate-900 dark:text-slate-100`}
               >
                 <div className="mb-2 flex items-start gap-3">
                   <span className="font-semibold question-stem leading-relaxed">
@@ -34393,15 +34266,15 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                 )}
                 <p
                   className={`mt-2 ${
-                    isCorrect ? 'text-green-700' : 'text-red-700'
+                    isCorrect ? 'text-success' : 'text-danger'
                   }`}
                 >
                   Your answer: {userAnswer || 'No answer'}{' '}
-                  {isCorrect ? '��' : '��'}
+                  {isCorrect ? '✓' : '✗'}
                 </p>
                 {!isCorrect &&
                   ((correctMC && correctMC.text) || question.correctAnswer) && (
-                    <p className="text-green-700 question-stem">
+                    <p className="text-success question-stem">
                       Correct answer:{' '}
                       <span
                         className="question-stem"
@@ -34495,10 +34368,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
   return (
     <div className="fade-in" data-subject={quiz.subject}>
       <header className="flex justify-between items-center pb-4 mb-4 border-b">
-        <button
-          onClick={onExit}
-          className="flex items-center gap-1 text-sm text-slate-600 hover:text-sky-600 font-semibold"
-        >
+        <button onClick={onExit} className="btn-ghost">
           <ArrowLeftIcon /> Back
         </button>
         <h2 className="text-xl font-bold text-center subject-accent-heading">
@@ -34515,7 +34385,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
             }),
           }}
         ></h3>
-        <p className="text-sm italic text-slate-500">{quiz.article.genre}</p>
+        <p className="text-sm italic text-secondary">{quiz.article.genre}</p>
         {(() => {
           const imgSrc = resolveAssetUrl(quiz.imageUrl);
           return imgSrc ? (
@@ -34547,9 +34417,9 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                 isSubmitted
                   ? answers[i] ===
                     (q.answerOptions || []).find((o) => o.isCorrect)?.text
-                    ? 'bg-green-50'
-                    : 'bg-red-50'
-                  : 'bg-slate-50'
+                    ? 'bg-success-soft'
+                    : 'bg-danger-soft'
+                  : 'bg-surface-alt'
               }`}
             >
               {(() => {
@@ -34587,7 +34457,9 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                   const isSelectedOption = answers[i] === opt.text;
                   const optionClasses = [
                     'answer-option flex items-center p-2 rounded cursor-pointer',
-                    isSelectedOption ? 'bg-slate-200' : 'hover:bg-slate-100',
+                    isSelectedOption
+                      ? 'bg-surface-hover'
+                      : 'hover:bg-surface-hover',
                     isSubmitted && opt.isCorrect ? 'correct' : '',
                     isSubmitted && isSelectedOption && !opt.isCorrect
                       ? 'incorrect'
@@ -34608,11 +34480,11 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                       <span
                         className={`${
                           isSubmitted && opt.isCorrect
-                            ? 'font-bold text-green-700'
+                            ? 'font-bold text-success'
                             : ''
                         } ${
                           isSubmitted && isSelectedOption && !opt.isCorrect
-                            ? 'line-through text-red-700'
+                            ? 'line-through text-danger'
                             : ''
                         } question-stem`}
                       >
@@ -34632,10 +34504,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
           ))}
         </div>
         {!isSubmitted && (
-          <button
-            onClick={handleSubmit}
-            className="mt-6 w-full px-6 py-3 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700"
-          >
+          <button onClick={handleSubmit} className="btn-primary w-full mt-6">
             Submit Answers
           </button>
         )}
@@ -35199,7 +35068,7 @@ function EssayGuide({ onExit }) {
     ? `After reading both passages about "${selectedPassage.topic}", write an essay in which you explain which author presents the more convincing argument. Support your response with evidence from both passages and explain why the evidence you cite supports your evaluation.`
     : '';
   const overlayButtons = [
-    { id: 'prompt', label: 'Essay Prompt', title: 'GED� RLA Essay Prompt' },
+    { id: 'prompt', label: 'Essay Prompt', title: 'GED® RLA Essay Prompt' },
     {
       id: 'passage1',
       label: 'Passage A',
@@ -36913,12 +36782,26 @@ function GeometryPracticeTool({ onExit }) {
               </button>
               {feedback && (
                 <p
-                  className={`mt-2 p-2 rounded-md text-center font-semibold ${
+                  className={`mt-2 p-2 rounded-md text-center font-semibold flex items-center justify-center gap-2 ${
                     feedback.includes('Correct')
                       ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200'
                       : 'bg-red-100 text-red-800 dark:bg-red-900/60 dark:text-red-200'
                   }`}
                 >
+                  <img
+                    src={
+                      feedback.includes('Correct')
+                        ? '/icons/correct-success-tick-svgrepo-com.svg'
+                        : '/icons/wrong-delete-remove-trash-minus-cancel-close-2-svgrepo-com.svg'
+                    }
+                    alt=""
+                    className="w-5 h-5"
+                    style={{
+                      filter: feedback.includes('Correct')
+                        ? 'brightness(0) saturate(100%) invert(28%) sepia(63%) saturate(1527%) hue-rotate(88deg) brightness(96%) contrast(101%)'
+                        : 'brightness(0) saturate(100%) invert(25%) sepia(87%) saturate(2574%) hue-rotate(337deg) brightness(95%) contrast(93%)',
+                    }}
+                  />
                   {feedback}
                 </p>
               )}
