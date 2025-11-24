@@ -1,3 +1,6 @@
+/* Import design system tokens */
+@import './src/theme/designSystem.css';
+
 :root.fs-sm {
   font-size: 14px;
 }

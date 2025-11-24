@@ -7722,6 +7722,74 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+// ========================================
+// DEV-ONLY LOGIN BYPASS
+// ========================================
+if (process.env.NODE_ENV === 'development') {
+  app.post('/api/dev-login-as', async (req, res) => {
+    try {
+      // Only allow from localhost
+      const hostname = req.hostname || req.headers.host?.split(':')[0] || '';
+      if (!['localhost', '127.0.0.1'].includes(hostname)) {
+        return res.status(403).json({ error: 'Dev login only from localhost' });
+      }
+
+      const { role = 'student' } = req.body || {};
+
+      // Map role to test email
+      const emailMap = {
+        student: 'dev.student@test.local',
+        instructor: 'dev.instructor@test.local',
+        orgAdmin: 'dev.orgadmin@test.local',
+        superAdmin: 'dev.superadmin@test.local',
+      };
+
+      const email = emailMap[role] || emailMap.student;
+
+      // Find or create dev user
+      let result = await pool.query(
+        'SELECT id, email, role FROM users WHERE email = $1',
+        [email]
+      );
+
+      let user;
+      if (result.rowCount === 0) {
+        // Create dev user with no password
+        const insertResult = await pool.query(
+          `INSERT INTO users (email, name, role, password_hash)
+           VALUES ($1, $2, $3, $4)
+           RETURNING id, email, name, role, created_at`,
+          [
+            email,
+            `Dev ${role.charAt(0).toUpperCase() + role.slice(1)}`,
+            role,
+            await bcrypt.hash('dev', SALT_ROUNDS),
+          ]
+        );
+        user = formatUserRow(insertResult.rows[0]);
+      } else {
+        // Update role if needed
+        await pool.query('UPDATE users SET role = $1 WHERE email = $2', [
+          role,
+          email,
+        ]);
+        user = formatUserRow({ ...result.rows[0], role });
+      }
+
+      // Create token using existing auth system
+      const token = await createUserToken(user.id);
+
+      console.log(`[DEV] Login bypass as ${role}: ${email}`);
+      return res.json({ ok: true, user, token });
+    } catch (err) {
+      console.error('[DEV] Login bypass error:', err);
+      return res.status(500).json({ error: 'Dev login failed' });
+    }
+  });
+
+  console.log('✓ Dev login bypass enabled at POST /api/dev-login-as');
+}
+
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body || {};
 
