@@ -156,8 +156,28 @@
       })();
     </script>
 
-    <!-- Quiz data bundles - must load before React app -->
-    <script src="/Expanded/expanded.quizzes.bundle.js"></script>
+    <!-- Legacy compatibility shim: retire Expanded bundle; prefer JSON loader -->
+    <script>
+      (function () {
+        try {
+          if (typeof window === 'undefined') return;
+          // If legacy globals are missing but new catalogs exist, alias them.
+          const catalog =
+            window.UnifiedQuizCatalog ||
+            window.AppData ||
+            window.Data?.expandedQuizData ||
+            {};
+          if (!window.ExpandedQuizData && catalog) {
+            window.ExpandedQuizData = catalog;
+          }
+          if (!window.MergedExpandedQuizData && window.ExpandedQuizData) {
+            window.MergedExpandedQuizData = window.ExpandedQuizData;
+          }
+        } catch (e) {
+          // no-op
+        }
+      })();
+    </script>
   </head>
   <body data-theme="light">
     <div id="root"></div>

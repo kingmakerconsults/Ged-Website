@@ -155,10 +155,27 @@
         }
       })();
     </script>
-
-    <!-- Quiz data bundles - must load before React app -->
-    <script src="/Expanded/expanded.quizzes.bundle.js"></script>
-    <script type="module" crossorigin src="/assets/index-BBv4FAWR.js"></script>
+    
+    <!-- Legacy compatibility shim: retire Expanded bundle; prefer JSON loader -->
+    <script>
+      (function () {
+        try {
+          if (typeof window === 'undefined') return;
+          // If legacy globals are missing but new catalogs exist, alias them.
+          const catalog =
+            window.UnifiedQuizCatalog || window.AppData || window.Data?.expandedQuizData || {};
+          if (!window.ExpandedQuizData && catalog) {
+            window.ExpandedQuizData = catalog;
+          }
+          if (!window.MergedExpandedQuizData && window.ExpandedQuizData) {
+            window.MergedExpandedQuizData = window.ExpandedQuizData;
+          }
+        } catch (e) {
+          // no-op
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-tJfhR8wZ.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-react-wGySg1uH.js">
     <link rel="stylesheet" crossorigin href="/assets/index-Dk0We2nY.css">
   </head>
