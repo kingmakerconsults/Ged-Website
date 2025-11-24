@@ -119,7 +119,7 @@ try {
     PREMADE_QUIZ_CATALOG['Math'].length === 0
   ) {
     console.warn(
-      '[progress] Math premade catalog is empty �� progress bars will show 0/0'
+      '[progress] Math premade catalog is empty - progress bars will show 0/0'
     );
   }
 } catch {}
@@ -2891,7 +2891,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '18 cm',
-        rationale: 'Correct. (15+18+15+22+20)=90; 90÷5=18.',
+        rationale: 'Correct. (15+18+15+22+20)=90; 905=18.',
         isCorrect: true,
       },
       {
@@ -2947,12 +2947,12 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: '1 g/cm�',
-        rationale: 'That would be 20 g ÷ 20 cm�.',
+        rationale: 'That would be 20 g  20 cm�.',
         isCorrect: false,
       },
       {
         text: '3 g/cm�',
-        rationale: 'Correct. Density = mass ÷ volume = 60 ÷ 20 = 3 g/cm�.',
+        rationale: 'Correct. Density = mass  volume = 60  20 = 3 g/cm�.',
         isCorrect: true,
       },
       {
@@ -2962,7 +2962,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '40 g/cm�',
-        rationale: 'Not based on 60 ÷ 20.',
+        rationale: 'Not based on 60  20.',
         isCorrect: false,
       },
     ],
@@ -2976,7 +2976,7 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: '50 km/h',
-        rationale: 'Correct. 150 km ÷ 3 h = 50 km/h.',
+        rationale: 'Correct. 150 km  3 h = 50 km/h.',
         isCorrect: true,
       },
       {
@@ -3126,7 +3126,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '0.5 km/min',
-        rationale: 'Correct. 10 km ÷ 20 min = 0.5 km/min.',
+        rationale: 'Correct. 10 km  20 min = 0.5 km/min.',
         isCorrect: true,
       },
       {
@@ -3191,7 +3191,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '30 L',
-        rationale: 'Correct. 12 ÷ 4 = 3 L/min. 3 × 10 = 30 L.',
+        rationale: 'Correct. 12  4 = 3 L/min. 3 × 10 = 30 L.',
         isCorrect: true,
       },
       {
@@ -26085,7 +26085,7 @@ function App({ externalTheme, onThemeChange }) {
             alt="Kingmakerconsults logo"
             className="h-48 w-auto object-contain"
           />
-          <p>Kingmakerconsults Copyright �</p>
+          <p>Kingmakerconsults Copyright &copy;</p>
         </footer>
       </div>
     </>
