@@ -648,7 +648,7 @@ const FALLBACK_VOCABULARY = {
     {
       term: 'Quadratic Equation',
       definition:
-        'An equation in the form ax� + bx + c = 0, where a, b, and c are constants and a �� 0.',
+        'An equation in the form ax² + bx + c = 0, where a, b, and c are constants and a ≠ 0.',
     },
     {
       term: 'Linear Function',
@@ -1109,7 +1109,8 @@ const API_BASE_URL =
     ? window.__CLIENT_CONFIG__?.API_BASE_URL ||
       window.__APP_CONFIG__?.apiBaseUrl ||
       window.API_BASE_URL ||
-      (window.location.hostname === 'localhost'
+      (window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1'
         ? window.location.origin
         : 'https://ged-website.onrender.com')
     : 'https://ged-website.onrender.com';
@@ -2998,7 +2999,7 @@ const SCI_NUMERACY_QUESTIONS = [
       {
         text: '25%',
         rationale:
-          'Correct. The Punnett square gives PP, Pp, Pp, pp �� 1 of 4 is pp (white).',
+          'Correct. The Punnett square gives PP, Pp, Pp, pp — 1 of 4 is pp (white).',
         isCorrect: true,
       },
       {
@@ -3018,7 +3019,7 @@ const SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage: '<p>A rock has a mass of 60 g and displaces 20 cm� of water.</p>',
-    question: 'What is the rock��s density?',
+    question: "What is the rock's density?",
     answerOptions: [
       {
         text: '1 g/cm�',
@@ -3032,7 +3033,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '20 g/cm�',
-        rationale: 'That��s just the volume, not density.',
+        rationale: "That's just the volume, not density.",
         isCorrect: false,
       },
       {
@@ -3047,7 +3048,7 @@ const SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage: '<p>A car travels 150 km in 3 hours at a constant speed.</p>',
-    question: 'What is the car��s average speed?',
+    question: "What is the car's average speed?",
     answerOptions: [
       {
         text: '50 km/h',
@@ -3096,7 +3097,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '200 N',
-        rationale: 'Units are wrong �� work is in joules.',
+        rationale: 'Units are wrong — work is in joules.',
         isCorrect: false,
       },
     ],
@@ -3148,13 +3149,13 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: 'Trial A',
-        rationale: 'Increase was 30��22 = 8�C.',
+        rationale: 'Increase was 30−22 = 8°C.',
         isCorrect: false,
       },
       { text: 'Trial B', rationale: 'Increase was 7�C.', isCorrect: false },
       {
         text: 'Trial C',
-        rationale: 'Correct. Increase was 35��22 = 13�C, the largest.',
+        rationale: 'Correct. Increase was 35−22 = 13°C, the largest.',
         isCorrect: true,
       },
       { text: 'Trial D', rationale: 'Increase was 6�C.', isCorrect: false },
@@ -3173,7 +3174,7 @@ const SCI_NUMERACY_QUESTIONS = [
         rationale: '12 is just the smallest value.',
         isCorrect: false,
       },
-      { text: '18', rationale: '18 is not max �� min.', isCorrect: false },
+      { text: '18', rationale: '18 is not max − min.', isCorrect: false },
       {
         text: '30',
         rationale: '30 is just the largest value.',
@@ -3181,7 +3182,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '18 (thousand)',
-        rationale: 'Correct. Range = 30 �� 12 = 18.',
+        rationale: 'Correct. Range = 30 − 12 = 18.',
         isCorrect: true,
       },
     ],
@@ -3192,7 +3193,7 @@ const SCI_NUMERACY_QUESTIONS = [
     type: 'knowledge',
     passage:
       '<p>In the first 20 minutes of a run, a runner goes 10 km. After 10 minutes the runner had 5 km. Assume constant speed.</p>',
-    question: 'What is the runner��s speed during this period (in km/min)?',
+    question: "What is the runner's speed during this period (in km/min)?",
     answerOptions: [
       {
         text: '0.25 km/min',
@@ -3261,7 +3262,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '24 L',
-        rationale: 'That��s 12 L in 4 min scaled to 8 min, not 10.',
+        rationale: "That's 12 L in 4 min scaled to 8 min, not 10.",
         isCorrect: false,
       },
       {
@@ -3286,10 +3287,10 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: '$700',
-        rationale: 'That��s 700 / 3000 �� 23%. Too low.',
+        rationale: "That's 700 / 3000 ≈ 23%. Too low.",
         isCorrect: false,
       },
-      { text: '$900', rationale: 'That��s 30% of $3,000.', isCorrect: false },
+      { text: '$900', rationale: "That's 30% of $3,000.", isCorrect: false },
       {
         text: '$1,050',
         rationale: 'Correct. 35% of $3,000 = 0.35 × 3000 = $1,050.',
@@ -4415,7 +4416,7 @@ const AppData = {
                   {
                     text: 'An element consists of only one type of atom, while a compound consists of two or more different types of atoms chemically bonded together.',
                     rationale:
-                      'Correct. For example, oxygen (O) is an element, while water (H��O) is a compound.',
+                      'Correct. For example, oxygen (O) is an element, while water (H₂O) is a compound.',
                     isCorrect: true,
                   },
                   {
@@ -4486,7 +4487,7 @@ const AppData = {
                   {
                     text: 'Boiling water',
                     rationale:
-                      'Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically H��O. This is a physical change.',
+                      'Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically H₂O. This is a physical change.',
                     isCorrect: true,
                   },
                   {
@@ -4562,7 +4563,7 @@ const AppData = {
                 questionNumber: 10,
                 type: 'knowledge',
                 question:
-                  "In the chemical formula for water, H��O, what does the subscript '2' indicate?",
+                  "In the chemical formula for water, H₂O, what does the subscript '2' indicate?",
                 answerOptions: [
                   {
                     text: 'There are two water molecules.',
@@ -4622,7 +4623,7 @@ const AppData = {
                 questionNumber: 12,
                 type: 'text',
                 passage:
-                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ions��charged atoms that are then attracted to each other.',
+                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ions—charged atoms that are then attracted to each other.',
                 question:
                   'What is the key difference between a covalent bond and an ionic bond?',
                 answerOptions: [
@@ -26662,7 +26663,7 @@ function ProfileView({
             </button>
           </div>
           <p className="text-sm text-secondary">
-            Select the areas you find tough. We��ll use this later to build a
+            Select the areas you find tough. We'll use this later to build a
             study plan for you.
           </p>
           <div
