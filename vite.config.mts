@@ -11,6 +11,8 @@ export default defineConfig({
     outDir: path.resolve(rootDir, 'dist'),
     emptyOutDir: true,
     chunkSizeWarningLimit: 1000, // Suppress warning for large legacy app bundle
+    sourcemap: true, // Enable source maps to trace minified symbol 'lt'
+    minify: false, // Disable minification temporarily for debugging ReferenceError
     rollupOptions: {
       output: {
         manualChunks: {
