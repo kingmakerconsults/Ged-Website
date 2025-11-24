@@ -1111,7 +1111,7 @@ const API_BASE_URL =
       window.API_BASE_URL ||
       (window.location.hostname === 'localhost' ||
       window.location.hostname === '127.0.0.1'
-        ? window.location.origin
+        ? 'http://localhost:3002'
         : 'https://ged-website.onrender.com')
     : 'https://ged-website.onrender.com';
 
