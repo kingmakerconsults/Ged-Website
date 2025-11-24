@@ -186,6 +186,17 @@
             'workforce.quizzes.json',
           ];
 
+          // Helper: Normalize string keys for consistent merging
+          function normalizeKey(str) {
+            if (!str) return '';
+            return str
+              .toString()
+              .trim()
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, '-')
+              .replace(/^-+|-+$/g, '');
+          }
+
           // Fetch all quiz JSON files in parallel
           const quizPromises = QUIZ_FILENAMES.map((filename) =>
             fetch(`${API_BASE}/quizzes/${filename}`)
@@ -226,31 +237,60 @@
             ...quizPromises,
           ]);
 
-          // Merge quiz data from files
+          // Build merged structure with proper quiz extraction
           const merged = {};
+
+          // Process individual quiz files first
           quizData.forEach((data) => {
             if (data && typeof data === 'object') {
               Object.entries(data).forEach(([subject, content]) => {
                 if (!merged[subject]) {
-                  merged[subject] = { categories: {} };
+                  merged[subject] = {
+                    icon: content.icon || null,
+                    categories: {},
+                  };
                 }
+
                 if (content?.categories) {
                   Object.entries(content.categories).forEach(
                     ([catName, catData]) => {
+                      const normKey = normalizeKey(catName);
+
                       if (!merged[subject].categories[catName]) {
                         merged[subject].categories[catName] = {
+                          description: catData.description || '',
                           topics: [],
-                          ...catData,
+                          quizzes: [],
                         };
-                      } else {
-                        // Merge topics
-                        const existing = merged[subject].categories[catName];
-                        if (Array.isArray(catData.topics)) {
-                          existing.topics = [
-                            ...(existing.topics || []),
-                            ...catData.topics,
-                          ];
-                        }
+                      }
+
+                      const targetCat = merged[subject].categories[catName];
+
+                      // Merge topics and extract quizzes from each topic
+                      if (Array.isArray(catData.topics)) {
+                        catData.topics.forEach((topic) => {
+                          if (topic && typeof topic === 'object') {
+                            targetCat.topics.push(topic);
+
+                            // Extract quizzes from topic into category-level quizzes array
+                            if (Array.isArray(topic.quizzes)) {
+                              topic.quizzes.forEach((quiz) => {
+                                if (quiz && typeof quiz === 'object') {
+                                  targetCat.quizzes.push(quiz);
+                                }
+                              });
+                            }
+                          }
+                        });
+                      }
+
+                      // Also merge category-level quizzes if present
+                      if (Array.isArray(catData.quizzes)) {
+                        catData.quizzes.forEach((quiz) => {
+                          if (quiz && typeof quiz === 'object') {
+                            targetCat.quizzes.push(quiz);
+                          }
+                        });
                       }
                     }
                   );
@@ -259,32 +299,62 @@
             }
           });
 
-          // Merge with catalog from backend (prefer backend catalog structure)
+          // Merge with catalog from backend (supplement with any additional data)
           if (catalog && typeof catalog === 'object') {
             Object.entries(catalog).forEach(([subject, content]) => {
               if (!merged[subject]) {
-                merged[subject] = content;
-              } else {
-                // Deep merge categories
-                if (content?.categories) {
-                  Object.entries(content.categories).forEach(
-                    ([catName, catData]) => {
-                      if (!merged[subject].categories[catName]) {
-                        merged[subject].categories[catName] = catData;
-                      } else {
-                        // Merge topics array
-                        const existing = merged[subject].categories[catName];
-                        if (Array.isArray(catData.topics)) {
-                          const existingTopics = existing.topics || [];
-                          existing.topics = [
-                            ...existingTopics,
-                            ...catData.topics,
-                          ];
-                        }
-                      }
+                merged[subject] = {
+                  icon: content.icon || null,
+                  categories: {},
+                };
+              }
+
+              // Preserve icon from backend if not already set
+              if (content.icon && !merged[subject].icon) {
+                merged[subject].icon = content.icon;
+              }
+
+              if (content?.categories) {
+                Object.entries(content.categories).forEach(
+                  ([catName, catData]) => {
+                    if (!merged[subject].categories[catName]) {
+                      merged[subject].categories[catName] = {
+                        description: catData.description || '',
+                        topics: [],
+                        quizzes: [],
+                      };
                     }
-                  );
-                }
+
+                    const targetCat = merged[subject].categories[catName];
+
+                    // Merge topics from backend catalog
+                    if (Array.isArray(catData.topics)) {
+                      catData.topics.forEach((topic) => {
+                        if (topic && typeof topic === 'object') {
+                          targetCat.topics.push(topic);
+
+                          // Extract quizzes from backend topics
+                          if (Array.isArray(topic.quizzes)) {
+                            topic.quizzes.forEach((quiz) => {
+                              if (quiz && typeof quiz === 'object') {
+                                targetCat.quizzes.push(quiz);
+                              }
+                            });
+                          }
+                        }
+                      });
+                    }
+
+                    // Merge backend category-level quizzes
+                    if (Array.isArray(catData.quizzes)) {
+                      catData.quizzes.forEach((quiz) => {
+                        if (quiz && typeof quiz === 'object') {
+                          targetCat.quizzes.push(quiz);
+                        }
+                      });
+                    }
+                  }
+                );
               }
             });
           }
@@ -298,13 +368,18 @@
           if (!window.Data) window.Data = {};
           window.Data.expandedQuizData = merged;
 
-          console.log('[quiz-loader] Quiz data loaded successfully:', {
-            subjects: Object.keys(merged),
-            totalCategories: Object.values(merged).reduce(
-              (sum, subj) => sum + Object.keys(subj?.categories || {}).length,
+          // Log summary
+          const summary = Object.entries(merged).map(([subj, data]) => {
+            const catCount = Object.keys(data?.categories || {}).length;
+            const quizCount = Object.values(data?.categories || {}).reduce(
+              (sum, cat) => sum + (cat?.quizzes?.length || 0),
               0
-            ),
+            );
+            return `${subj}: ${catCount} categories, ${quizCount} quizzes`;
           });
+
+          console.log('[quiz-loader] Quiz data loaded successfully:');
+          summary.forEach((line) => console.log('  ' + line));
 
           // Dispatch event to notify app that quiz data is ready
           window.dispatchEvent(
