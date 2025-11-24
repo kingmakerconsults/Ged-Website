@@ -12675,11 +12675,12 @@ app.patch('/api/me/name', requireAuth, async (req, res) => {
   }
 });
 
-// --- API ENDPOINT TO SAVE A QUIZ ATTEMPT ---
+// --- Super Admin: All organizations with member counts ---
 app.get(
   '/api/admin/organizations',
   logAdminAccess,
-  requireAuth,
+  authenticateBearerToken,
+  requireAuthInProd,
   requireSuperAdmin,
   async (req, res) => {
     try {
@@ -12713,7 +12714,10 @@ app.get(
 
       return res.json({ organizations });
     } catch (error) {
-      console.error('Failed to load organizations:', error);
+      console.error(
+        '[/api/admin/organizations] Failed to load organizations for super admin:',
+        error.message || error
+      );
       return res.status(500).json({ error: 'Unable to load organizations' });
     }
   }
@@ -12723,7 +12727,8 @@ app.get(
 app.get(
   '/api/admin/users',
   logAdminAccess,
-  requireAuth,
+  authenticateBearerToken,
+  requireAuthInProd,
   requireSuperAdmin,
   async (req, res) => {
     try {
@@ -12766,7 +12771,10 @@ app.get(
 
       return res.json({ users });
     } catch (error) {
-      console.error('Failed to load users for super admin:', error);
+      console.error(
+        '[/api/admin/users] Failed to load users for super admin:',
+        error.message || error
+      );
       return res.status(500).json({ error: 'Unable to load users' });
     }
   }
@@ -12776,7 +12784,8 @@ app.get(
 app.get(
   '/api/admin/activity/recent',
   logAdminAccess,
-  requireAuth,
+  authenticateBearerToken,
+  requireAuthInProd,
   requireSuperAdmin,
   async (req, res) => {
     try {
@@ -12821,7 +12830,10 @@ app.get(
       }));
       return res.json({ activity });
     } catch (error) {
-      console.error('Failed to load recent activity (super admin):', error);
+      console.error(
+        '[/api/admin/activity/recent] Failed to load recent activity for super admin:',
+        error.message || error
+      );
       return res.status(500).json({ error: 'Unable to load recent activity' });
     }
   }
