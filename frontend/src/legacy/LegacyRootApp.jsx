@@ -2383,6 +2383,36 @@ function formatMathText(html) {
   return out;
 }
 
+// Safely fix common mojibake/unicode issues in displayed text only
+function sanitizeUnicode(s) {
+  if (typeof s !== 'string' || s.length === 0) return s;
+  try {
+    let t = s;
+    // Chemical formulas and units
+    t = t.replace(/H\uFFFD\uFFFDO/g, 'H₂O');
+    t = t.replace(/g\/cm\uFFFD/g, 'g/cm³');
+    t = t.replace(/cm\uFFFD/g, 'cm³');
+    // Degree symbol
+    t = t.replace(/\uFFFDC/g, '°C');
+    // Common math superscripts in text blocks
+    t = t.replace(/([abc])\uFFFD/g, '$1²');
+    // Ranges like 35–22
+    t = t.replace(/(\d)\s?\uFFFD\s?(\d)/g, '$1–$2');
+    // Not-equal patterns
+    t = t.replace(/\uFFFD\uFFFD 0/g, '≠ 0');
+    // Topic labels and ellipsis
+    t = t.replace(/Topic A\uFFFDZ/g, 'Topic A–Z');
+    t = t.replace(/More in this topic\uFFFD/g, 'More in this topic…');
+    // Arrow in genetics example
+    t = t.replace(/pp \uFFFD/g, 'pp →');
+    // Strip stray emoji diamonds
+    t = t.replace(/\uFFFD\uFFFD️?/g, '');
+    return t;
+  } catch (_e) {
+    return s;
+  }
+}
+
 function renderQuestionTextForDisplay(text, isPremade) {
   // Only allow KaTeX rendering for premade items; AI/dynamic stay plain text (fractions a/b, exponents a^b)
   const useKatex = Boolean(
@@ -2392,10 +2422,10 @@ function renderQuestionTextForDisplay(text, isPremade) {
   );
   // Premade path: keep original raw math delimiters and render with KaTeX
   if (useKatex) {
-    return { __html: renderStemWithKatex(text) };
+    return { __html: renderStemWithKatex(sanitizeUnicode(text)) };
   }
   // Non-premade path: basic math formatting only (plain text fractions & exponents)
-  const html = renderStem(text);
+  const html = renderStem(sanitizeUnicode(text));
   const finalHtml = formatMathText(html);
   return { __html: finalHtml };
 }
@@ -22978,30 +23008,20 @@ function AppHeader({
             className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-subtle shadow-sm transition hover:opacity-95 focus-ring-primary text-secondary"
             style={toggleButtonStyle}
           >
-            {isDark ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                role="img"
-                aria-hidden="true"
-              >
-                <path d="M17.293 13.293A8 8 0 016.707 2.707 6 6 0 1017.293 13.293z" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 drop-shadow"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                role="img"
-                aria-hidden="true"
-              >
-                <path d="M10 3a1 1 0 011 1v1a1 1 0 11-2 0V4a1 1 0 011-1zm4.22 1.78a1 1 0 011.415 1.414l-.708.708a1 1 0 11-1.414-1.414l.707-.708zM17 9a1 1 0 110 2h-1a1 1 0 110-2h1zm-2.072 5.657a1 1 0 011.414 1.414l-.707.707a1 1 0 11-1.415-1.414l.708-.707zM11 16a1 1 0 11-2 0v-1a1 1 0 112 0v1zm-5.657-.343a1 1 0 10-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM4 9a1 1 0 100 2H3a1 1 0 100-2h1zm2.343-3.657a1 1 0 10-1.414-1.414l-.707.707A1 1 0 105.636 6.05l.707-.707z" />
-                <path d="M10 5a5 5 0 100 10A5 5 0 0010 5z" />
-              </svg>
-            )}
+            <img
+              src={
+                isDark
+                  ? '/icons/moon-svgrepo-com.svg'
+                  : '/icons/sun-svgrepo-com.svg'
+              }
+              alt={isDark ? 'Dark mode' : 'Light mode'}
+              className="h-5 w-5"
+              style={{
+                filter: isDark
+                  ? 'brightness(0) saturate(100%) invert(100%)'
+                  : 'brightness(0) saturate(100%) invert(45%) sepia(90%) saturate(2000%) hue-rotate(10deg)',
+              }}
+            />
           </button>
           {currentUser && (
             <div className="flex items-center gap-4">
@@ -25143,8 +25163,13 @@ function App({ externalTheme, onThemeChange }) {
     }
 
     setAuthToken(token);
-    const isAdminUser =
-      profile.role === 'super_admin' || profile.role === 'org_admin';
+    const isAdminUser = [
+      'superAdmin',
+      'super_admin',
+      'orgAdmin',
+      'org_admin',
+      'instructor',
+    ].includes(profile.role);
 
     if (welcomeTimeoutRef.current) {
       clearTimeout(welcomeTimeoutRef.current);
@@ -25704,7 +25729,13 @@ function App({ externalTheme, onThemeChange }) {
     if (!currentUser) {
       return <AuthScreen onLogin={handleLogin} />;
     }
-    if (currentUser.role === 'super_admin') {
+
+    // Normalize role string (handle both super_admin and superAdmin formats)
+    const normalizedRole =
+      currentUser.role?.replace('_', '') || currentUser.role;
+
+    // Role-based dashboard routing (superAdmin, orgAdmin, instructor have separate dashboards)
+    if (normalizedRole === 'superAdmin' || normalizedRole === 'superadmin') {
       return (
         <SuperAdminDashboard
           user={currentUser}
@@ -25713,7 +25744,7 @@ function App({ externalTheme, onThemeChange }) {
         />
       );
     }
-    if (currentUser.role === 'org_admin') {
+    if (normalizedRole === 'orgAdmin' || normalizedRole === 'orgadmin') {
       return (
         <OrgAdminDashboard
           user={currentUser}
@@ -25722,6 +25753,17 @@ function App({ externalTheme, onThemeChange }) {
         />
       );
     }
+    if (normalizedRole === 'instructor') {
+      return (
+        <InstructorDashboard
+          user={currentUser}
+          token={authToken}
+          onLogout={handleLogout}
+        />
+      );
+    }
+
+    // Student view (default) - keep existing quiz/practice UI
     switch (view) {
       case 'quiz':
         return (
@@ -27457,17 +27499,22 @@ function AuthScreen({ onLogin }) {
 }
 
 function AdminRoleBadge({ role }) {
+  const normalizedRole = role?.replace('_', '') || role;
   const label =
-    role === 'super_admin'
+    normalizedRole === 'superAdmin' || normalizedRole === 'super_admin'
       ? 'Super Admin'
-      : role === 'org_admin'
+      : normalizedRole === 'orgAdmin' || normalizedRole === 'org_admin'
       ? 'Organization Admin'
+      : normalizedRole === 'instructor'
+      ? 'Instructor'
       : 'Student';
   const palette =
-    role === 'super_admin'
+    normalizedRole === 'superAdmin' || normalizedRole === 'super_admin'
       ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-200'
-      : role === 'org_admin'
+      : normalizedRole === 'orgAdmin' || normalizedRole === 'org_admin'
       ? 'bg-info-soft text-info'
+      : normalizedRole === 'instructor'
+      ? 'bg-success-soft text-success'
       : 'bg-surface-soft text-secondary';
   return (
     <span
@@ -27602,14 +27649,320 @@ function OrganizationSummaryView({ summary }) {
   );
 }
 
+// ========== INSTRUCTOR DASHBOARD ==========
+function InstructorDashboard({ user, token, onLogout }) {
+  const [students, setStudents] = useState([]);
+  const [activity, setActivity] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [selectedStudent, setSelectedStudent] = useState(null);
+
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+
+      // Load students list
+      const studentsData = await fetchJSON(
+        `${API_BASE_URL}/api/instructor/students`,
+        { headers }
+      );
+      setStudents(
+        Array.isArray(studentsData?.students) ? studentsData.students : []
+      );
+
+      // Load recent activity
+      const activityData = await fetchJSON(
+        `${API_BASE_URL}/api/instructor/activity/recent?limit=25`,
+        { headers }
+      );
+      setActivity(
+        Array.isArray(activityData?.activity) ? activityData.activity : []
+      );
+    } catch (err) {
+      setError(err?.message || 'Unable to load instructor data');
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const organizationName = user?.organization_name || 'Your organization';
+
+  if (selectedStudent) {
+    const student = students.find((s) => s.id === selectedStudent);
+    if (!student) {
+      setSelectedStudent(null);
+      return null;
+    }
+
+    return (
+      <div className="min-h-screen bg-page py-10 text-primary">
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4">
+          <header className="flex items-center gap-4 rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setSelectedStudent(null)}
+              className="flex items-center gap-2 text-sm font-semibold btn-ghost px-3 py-1.5 rounded-md"
+            >
+              <ArrowLeftIcon />
+              <span>Back to Roster</span>
+            </button>
+            <div className="flex-1">
+              <h1 className="text-2xl font-bold text-primary">
+                {student.name || student.email}
+              </h1>
+              <p className="text-sm text-secondary mt-1">{student.email}</p>
+            </div>
+          </header>
+
+          <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+            <h2 className="text-xl font-semibold text-primary mb-4">
+              Subject Performance
+            </h2>
+            {student.subjects && student.subjects.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {student.subjects.map((subj, idx) => (
+                  <div
+                    key={idx}
+                    className="rounded-lg border-subtle bg-surface-soft p-4"
+                  >
+                    <h3 className="font-semibold text-primary mb-2">
+                      {subj.subject}
+                    </h3>
+                    <div className="space-y-1 text-sm">
+                      <p className="text-secondary">
+                        <span className="text-muted">Attempts:</span>{' '}
+                        {subj.attempt_count || 0}
+                      </p>
+                      <p className="text-secondary">
+                        <span className="text-muted">Avg Score:</span>{' '}
+                        {subj.avg_scaled_score != null
+                          ? Math.round(subj.avg_scaled_score)
+                          : 'N/A'}
+                      </p>
+                      <p className="text-xs text-muted">
+                        Last: {formatDateTime(subj.last_attempt_at)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted">No quiz attempts yet.</p>
+            )}
+          </section>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-page py-10 text-primary">
+      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4">
+        <header className="flex flex-col gap-4 rounded-3xl border-subtle panel-surface p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-primary">
+              Welcome back, {user?.name || user?.email || 'Instructor'}
+            </h1>
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-secondary">
+              <AdminRoleBadge role={user?.role} />
+              <span>{organizationName}</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={loadData}
+              className="rounded-full btn-ghost px-4 py-2 text-sm font-semibold transition"
+            >
+              Refresh Data
+            </button>
+            <button
+              type="button"
+              onClick={onLogout}
+              className="rounded-full btn-primary px-4 py-2 text-sm font-semibold shadow"
+            >
+              Sign out
+            </button>
+          </div>
+        </header>
+
+        {loading ? (
+          <div className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+            <p className="text-sm text-muted">
+              Loading instructor dashboard...
+            </p>
+          </div>
+        ) : error ? (
+          <div className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+            <div className="space-y-3">
+              <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
+                {error}
+              </div>
+              <button
+                type="button"
+                onClick={loadData}
+                className="btn-ghost px-4 py-2 text-sm font-semibold rounded-full"
+              >
+                Try again
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="rounded-lg bg-surface-soft p-4">
+                  <div className="text-sm text-muted mb-1">Total Students</div>
+                  <div className="text-3xl font-bold text-primary">
+                    {students.length}
+                  </div>
+                </div>
+                <div className="rounded-lg bg-surface-soft p-4">
+                  <div className="text-sm text-muted mb-1">Active Students</div>
+                  <div className="text-3xl font-bold text-primary">
+                    {
+                      students.filter(
+                        (s) => s.subjects && s.subjects.length > 0
+                      ).length
+                    }
+                  </div>
+                </div>
+                <div className="rounded-lg bg-surface-soft p-4">
+                  <div className="text-sm text-muted mb-1">Recent Activity</div>
+                  <div className="text-3xl font-bold text-primary">
+                    {activity.length}
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="text-xl font-semibold text-primary mb-4">
+                Student Roster
+              </h2>
+              {students.length === 0 ? (
+                <p className="text-sm text-muted">No students assigned yet.</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-subtle text-sm">
+                    <thead className="bg-surface-soft">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                          Student
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                          Email
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                          Subjects Attempted
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                          Last Activity
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-subtle panel-surface">
+                      {students.map((student) => (
+                        <tr
+                          key={student.id}
+                          className="hover:bg-surface-soft transition"
+                        >
+                          <td className="px-4 py-3 font-medium text-primary">
+                            {student.name || 'Student'}
+                          </td>
+                          <td className="px-4 py-3 text-secondary">
+                            {student.email}
+                          </td>
+                          <td className="px-4 py-3 text-secondary">
+                            {student.subjects ? student.subjects.length : 0}{' '}
+                            subjects
+                          </td>
+                          <td className="px-4 py-3 text-muted text-xs">
+                            {formatDateTime(student.last_attempt_at)}
+                          </td>
+                          <td className="px-4 py-3">
+                            <button
+                              type="button"
+                              onClick={() => setSelectedStudent(student.id)}
+                              className="btn-primary px-3 py-1 text-xs font-semibold rounded-full shadow-sm"
+                            >
+                              View Details
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </section>
+
+            <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+              <h2 className="text-xl font-semibold text-primary mb-4">
+                Recent Student Activity
+              </h2>
+              {activity.length === 0 ? (
+                <p className="text-sm text-muted">No recent activity.</p>
+              ) : (
+                <div className="space-y-3">
+                  {activity.map((act) => (
+                    <div
+                      key={act.id}
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 rounded-lg bg-surface-soft"
+                    >
+                      <div className="flex-1">
+                        <div className="font-medium text-primary">
+                          {act.user_name || act.user_email}
+                        </div>
+                        <div className="text-sm text-secondary">
+                          {act.subject} - {act.quiz_title || act.quiz_type}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4 text-sm">
+                        <span className="text-secondary">
+                          Score:{' '}
+                          <span className="font-semibold">
+                            {act.scaled_score != null
+                              ? Math.round(act.scaled_score)
+                              : 'N/A'}
+                          </span>
+                        </span>
+                        <span className="text-muted text-xs">
+                          {formatDateTime(act.attempted_at)}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function SuperAdminDashboard({ user, token, onLogout }) {
   const [organizations, setOrganizations] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [activity, setActivity] = useState([]);
   const [loadingOrgs, setLoadingOrgs] = useState(true);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+  const [loadingActivity, setLoadingActivity] = useState(false);
   const [orgError, setOrgError] = useState('');
   const [selectedOrgId, setSelectedOrgId] = useState(null);
   const [orgSummary, setOrgSummary] = useState(null);
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [summaryError, setSummaryError] = useState('');
+  const [activeTab, setActiveTab] = useState('organizations'); // organizations, users, activity
 
   const loadOrganizations = useCallback(async () => {
     setLoadingOrgs(true);
@@ -27629,6 +27982,37 @@ function SuperAdminDashboard({ user, token, onLogout }) {
       setOrgError(error?.message || 'Unable to load organizations');
     } finally {
       setLoadingOrgs(false);
+    }
+  }, [token]);
+
+  const loadUsers = useCallback(async () => {
+    setLoadingUsers(true);
+    try {
+      const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+      const data = await fetchJSON(`${API_BASE_URL}/api/admin/users`, {
+        headers,
+      });
+      setUsers(Array.isArray(data?.users) ? data.users : []);
+    } catch (error) {
+      console.error('Failed to load users:', error);
+    } finally {
+      setLoadingUsers(false);
+    }
+  }, [token]);
+
+  const loadActivity = useCallback(async () => {
+    setLoadingActivity(true);
+    try {
+      const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+      const data = await fetchJSON(
+        `${API_BASE_URL}/api/admin/activity/recent?limit=50`,
+        { headers }
+      );
+      setActivity(Array.isArray(data?.activity) ? data.activity : []);
+    } catch (error) {
+      console.error('Failed to load activity:', error);
+    } finally {
+      setLoadingActivity(false);
     }
   }, [token]);
 
@@ -27667,6 +28051,26 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   useEffect(() => {
     loadOrganizations();
   }, [loadOrganizations]);
+
+  useEffect(() => {
+    if (activeTab === 'users' && users.length === 0 && !loadingUsers) {
+      loadUsers();
+    } else if (
+      activeTab === 'activity' &&
+      activity.length === 0 &&
+      !loadingActivity
+    ) {
+      loadActivity();
+    }
+  }, [
+    activeTab,
+    users.length,
+    activity.length,
+    loadingUsers,
+    loadingActivity,
+    loadUsers,
+    loadActivity,
+  ]);
 
   useEffect(() => {
     if (!organizations.length) {
@@ -27715,117 +28119,330 @@ function SuperAdminDashboard({ user, token, onLogout }) {
           </div>
         </header>
 
-        <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-semibold text-primary">
-                Partner organizations
-              </h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                Select an organization to view its roster and quiz activity.
-              </p>
+        {/* Platform Stats Overview */}
+        <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="rounded-lg bg-surface-soft p-4 border-subtle">
+            <div className="text-sm text-muted mb-1">Total Organizations</div>
+            <div className="text-3xl font-bold text-primary">
+              {organizations.length}
             </div>
           </div>
-
-          {loadingOrgs ? (
-            <p className="py-4 text-sm text-slate-500 dark:text-slate-300">
-              Loading organizations��
-            </p>
-          ) : orgError ? (
-            <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
-              {orgError}
+          <div className="rounded-lg bg-surface-soft p-4 border-subtle">
+            <div className="text-sm text-muted mb-1">Total Users</div>
+            <div className="text-3xl font-bold text-primary">
+              {organizations.reduce(
+                (sum, org) => sum + (org.userCount || 0),
+                0
+              )}
             </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-slate-200 text-sm dark:divide-slate-700">
-                <thead className="bg-slate-50 dark:bg-slate-800/60">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                      Organization
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                      Members
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                      Recent Activity
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 bg-white dark:divide-slate-800 dark:bg-slate-900/80">
-                  {organizations.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan={4}
-                        className="px-4 py-6 text-center text-slate-500 dark:text-slate-400"
-                      >
-                        No partner organizations found yet.
-                      </td>
-                    </tr>
-                  )}
-                  {organizations.map((org) => (
-                    <tr
-                      key={org.id}
-                      className={
-                        selectedOrgId === org.id
-                          ? 'bg-sky-50 dark:bg-sky-500/10'
-                          : 'hover:bg-slate-50 dark:hover:bg-slate-800/60'
-                      }
-                    >
-                      <td className="px-4 py-3 font-medium text-slate-700 dark:text-slate-100">
-                        {org.name}
-                      </td>
-                      <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
-                        {org.userCount ?? 0}
-                      </td>
-                      <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
-                        {formatDateTime(org.recentActivity)}
-                      </td>
-                      <td className="px-4 py-3">
-                        <button
-                          type="button"
-                          onClick={() => loadOrgSummary(org.id)}
-                          className="rounded-full bg-sky-600 px-3 py-1 text-xs font-semibold text-white shadow hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-                        >
-                          View Org
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          </div>
+          <div className="rounded-lg bg-surface-soft p-4 border-subtle">
+            <div className="text-sm text-muted mb-1">Total Students</div>
+            <div className="text-3xl font-bold text-primary">
+              {organizations.reduce(
+                (sum, org) => sum + (org.studentCount || 0),
+                0
+              )}
             </div>
-          )}
+          </div>
+          <div className="rounded-lg bg-surface-soft p-4 border-subtle">
+            <div className="text-sm text-muted mb-1">Total Instructors</div>
+            <div className="text-3xl font-bold text-primary">
+              {organizations.reduce(
+                (sum, org) => sum + (org.instructorCount || 0),
+                0
+              )}
+            </div>
+          </div>
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
-          {summaryLoading ? (
-            <p className="text-sm text-slate-500 dark:text-slate-300">
-              Loading organization summary��
-            </p>
-          ) : summaryError ? (
-            <div className="space-y-3">
-              <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
-                {summaryError}
+        {/* Tab Navigation */}
+        <div className="flex gap-2 border-b border-subtle">
+          <button
+            type="button"
+            onClick={() => setActiveTab('organizations')}
+            className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+              activeTab === 'organizations'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted hover:text-secondary'
+            }`}
+          >
+            Organizations
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('users')}
+            className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+              activeTab === 'users'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted hover:text-secondary'
+            }`}
+          >
+            All Users
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('activity')}
+            className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+              activeTab === 'activity'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted hover:text-secondary'
+            }`}
+          >
+            Recent Activity
+          </button>
+        </div>
+
+        {/* Organizations Tab */}
+        {activeTab === 'organizations' && (
+          <>
+            <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-semibold text-primary">
+                    Partner organizations
+                  </h2>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    Select an organization to view its roster and quiz activity.
+                  </p>
+                </div>
               </div>
-              <button
-                type="button"
-                onClick={() => loadOrgSummary(selectedOrgId)}
-                className="inline-flex items-center rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
-              >
-                Try again
-              </button>
+
+              {loadingOrgs ? (
+                <p className="py-4 text-sm text-slate-500 dark:text-slate-300">
+                  Loading organizations��
+                </p>
+              ) : orgError ? (
+                <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
+                  {orgError}
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-slate-200 text-sm dark:divide-slate-700">
+                    <thead className="bg-slate-50 dark:bg-slate-800/60">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                          Organization
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                          Members
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                          Recent Activity
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 bg-white dark:divide-slate-800 dark:bg-slate-900/80">
+                      {organizations.length === 0 && (
+                        <tr>
+                          <td
+                            colSpan={4}
+                            className="px-4 py-6 text-center text-slate-500 dark:text-slate-400"
+                          >
+                            No partner organizations found yet.
+                          </td>
+                        </tr>
+                      )}
+                      {organizations.map((org) => (
+                        <tr
+                          key={org.id}
+                          className={
+                            selectedOrgId === org.id
+                              ? 'bg-sky-50 dark:bg-sky-500/10'
+                              : 'hover:bg-slate-50 dark:hover:bg-slate-800/60'
+                          }
+                        >
+                          <td className="px-4 py-3 font-medium text-slate-700 dark:text-slate-100">
+                            {org.name}
+                          </td>
+                          <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
+                            {org.userCount ?? 0}
+                          </td>
+                          <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
+                            {formatDateTime(org.recentActivity)}
+                          </td>
+                          <td className="px-4 py-3">
+                            <button
+                              type="button"
+                              onClick={() => loadOrgSummary(org.id)}
+                              className="rounded-full bg-sky-600 px-3 py-1 text-xs font-semibold text-white shadow hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                            >
+                              View Org
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </section>
+
+            <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+              {summaryLoading ? (
+                <p className="text-sm text-muted">
+                  Loading organization summary...
+                </p>
+              ) : summaryError ? (
+                <div className="space-y-3">
+                  <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
+                    {summaryError}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => loadOrgSummary(selectedOrgId)}
+                    className="btn-ghost px-4 py-2 text-sm font-semibold rounded-full"
+                  >
+                    Try again
+                  </button>
+                </div>
+              ) : orgSummary ? (
+                <OrganizationSummaryView summary={orgSummary} />
+              ) : (
+                <p className="text-sm text-muted">
+                  Select an organization to view details.
+                </p>
+              )}
+            </section>
+          </>
+        )}
+
+        {/* Users Tab */}
+        {activeTab === 'users' && (
+          <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+            <div className="mb-4">
+              <h2 className="text-xl font-semibold text-primary">
+                All Platform Users
+              </h2>
+              <p className="text-sm text-muted mt-1">
+                Manage users across all organizations
+              </p>
             </div>
-          ) : orgSummary ? (
-            <OrganizationSummaryView summary={orgSummary} />
-          ) : (
-            <p className="text-sm text-slate-500 dark:text-slate-300">
-              Select an organization to view details.
-            </p>
-          )}
-        </section>
+
+            {loadingUsers ? (
+              <p className="text-sm text-muted">Loading users...</p>
+            ) : users.length === 0 ? (
+              <p className="text-sm text-muted">No users found.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-subtle text-sm">
+                  <thead className="bg-surface-soft">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                        Name
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                        Email
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                        Role
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                        Organization
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                        Attempts
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                        Avg Score
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                        Last Login
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-subtle panel-surface">
+                    {users.map((u) => (
+                      <tr
+                        key={u.id}
+                        className="hover:bg-surface-soft transition"
+                      >
+                        <td className="px-4 py-3 font-medium text-primary">
+                          {u.name || '—'}
+                        </td>
+                        <td className="px-4 py-3 text-secondary">{u.email}</td>
+                        <td className="px-4 py-3">
+                          <AdminRoleBadge role={u.role} />
+                        </td>
+                        <td className="px-4 py-3 text-secondary">
+                          {u.organization_name || '—'}
+                        </td>
+                        <td className="px-4 py-3 text-secondary">
+                          {u.quiz_attempt_count || 0}
+                        </td>
+                        <td className="px-4 py-3 text-secondary">
+                          {u.average_scaled_score != null
+                            ? Math.round(u.average_scaled_score)
+                            : '—'}
+                        </td>
+                        <td className="px-4 py-3 text-muted text-xs">
+                          {formatDateTime(u.last_login_at)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* Activity Tab */}
+        {activeTab === 'activity' && (
+          <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+            <div className="mb-4">
+              <h2 className="text-xl font-semibold text-primary">
+                Recent Platform Activity
+              </h2>
+              <p className="text-sm text-muted mt-1">
+                Latest quiz attempts across all organizations
+              </p>
+            </div>
+
+            {loadingActivity ? (
+              <p className="text-sm text-muted">Loading activity...</p>
+            ) : activity.length === 0 ? (
+              <p className="text-sm text-muted">No recent activity.</p>
+            ) : (
+              <div className="space-y-3">
+                {activity.map((act) => (
+                  <div
+                    key={act.id}
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 rounded-lg bg-surface-soft"
+                  >
+                    <div className="flex-1">
+                      <div className="font-medium text-primary">
+                        {act.user_name || act.user_email}
+                      </div>
+                      <div className="text-sm text-secondary">
+                        {act.organization_name || 'No org'}
+                      </div>
+                      <div className="text-sm text-secondary">
+                        {act.subject} - {act.quiz_title || act.quiz_type}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 text-sm">
+                      <span className="text-secondary">
+                        Score:{' '}
+                        <span className="font-semibold">
+                          {act.scaled_score != null
+                            ? Math.round(act.scaled_score)
+                            : 'N/A'}
+                        </span>
+                      </span>
+                      <span className="text-muted text-xs">
+                        {formatDateTime(act.attempted_at)}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
       </div>
     </div>
   );
@@ -27833,15 +28450,20 @@ function SuperAdminDashboard({ user, token, onLogout }) {
 
 function OrgAdminDashboard({ user, token, onLogout }) {
   const [summary, setSummary] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [activity, setActivity] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+  const [loadingActivity, setLoadingActivity] = useState(false);
   const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState('overview'); // overview, users, activity
 
   const loadSummary = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
       const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
-      const data = await fetchJSON(`${API_BASE_URL}/api/admin/org-summary`, {
+      const data = await fetchJSON(`${API_BASE_URL}/api/org/summary`, {
         headers,
       });
       setSummary(data);
@@ -27852,22 +28474,79 @@ function OrgAdminDashboard({ user, token, onLogout }) {
     }
   }, [token]);
 
+  const loadUsers = useCallback(async () => {
+    setLoadingUsers(true);
+    try {
+      const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+      const data = await fetchJSON(`${API_BASE_URL}/api/org/users`, {
+        headers,
+      });
+      setUsers(Array.isArray(data?.users) ? data.users : []);
+    } catch (err) {
+      console.error('Failed to load org users:', err);
+    } finally {
+      setLoadingUsers(false);
+    }
+  }, [token]);
+
+  const loadActivity = useCallback(async () => {
+    setLoadingActivity(true);
+    try {
+      const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+      const data = await fetchJSON(
+        `${API_BASE_URL}/api/org/activity/recent?limit=30`,
+        { headers }
+      );
+      setActivity(Array.isArray(data?.activity) ? data.activity : []);
+    } catch (err) {
+      console.error('Failed to load org activity:', err);
+    } finally {
+      setLoadingActivity(false);
+    }
+  }, [token]);
+
   useEffect(() => {
     loadSummary();
   }, [loadSummary]);
+
+  useEffect(() => {
+    if (activeTab === 'users' && users.length === 0 && !loadingUsers) {
+      loadUsers();
+    } else if (
+      activeTab === 'activity' &&
+      activity.length === 0 &&
+      !loadingActivity
+    ) {
+      loadActivity();
+    }
+  }, [
+    activeTab,
+    users.length,
+    activity.length,
+    loadingUsers,
+    loadingActivity,
+    loadUsers,
+    loadActivity,
+  ]);
 
   const organizationName =
     summary?.organization?.name ||
     user?.organization_name ||
     'Your organization';
 
+  const students = summary?.students || 0;
+  const instructors = summary?.instructors || 0;
+  const activeThisWeek = summary?.active_this_week || 0;
+
   return (
-    <div className="admin-shell min-h-screen bg-slate-50 py-10 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen bg-page py-10 text-primary">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4">
-        <header className="admin-panel flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/70 sm:flex-row sm:items-center sm:justify-between">
+        <header className="flex flex-col gap-4 rounded-3xl border-subtle panel-surface p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold">{organizationName}</h1>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-admin-subtle admin-muted">
+            <h1 className="text-2xl font-bold text-primary">
+              {organizationName}
+            </h1>
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-secondary">
               <AdminRoleBadge role={user?.role} />
               <span>Organization dashboard</span>
             </div>
@@ -27876,26 +28555,26 @@ function OrgAdminDashboard({ user, token, onLogout }) {
             <button
               type="button"
               onClick={loadSummary}
-              className="rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
+              className="rounded-full btn-ghost px-4 py-2 text-sm font-semibold transition"
             >
               Refresh Data
             </button>
             <button
               type="button"
               onClick={onLogout}
-              className="rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+              className="rounded-full btn-primary px-4 py-2 text-sm font-semibold shadow"
             >
               Sign out
             </button>
           </div>
         </header>
 
-        <section className="admin-panel rounded-3xl border bg-white/95 dark:bg-slate-950/70 dark:border-slate-700 p-6">
-          {loading ? (
-            <p className="text-sm text-admin-subtle admin-muted">
-              Loading organization summary��
-            </p>
-          ) : error ? (
+        {loading ? (
+          <div className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+            <p className="text-sm text-muted">Loading organization data...</p>
+          </div>
+        ) : error ? (
+          <div className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
             <div className="space-y-3">
               <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
                 {error}
@@ -27903,15 +28582,214 @@ function OrgAdminDashboard({ user, token, onLogout }) {
               <button
                 type="button"
                 onClick={loadSummary}
-                className="inline-flex items-center rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
+                className="btn-ghost px-4 py-2 text-sm font-semibold rounded-full"
               >
                 Try again
               </button>
             </div>
-          ) : (
-            <OrganizationSummaryView summary={summary} />
-          )}
-        </section>
+          </div>
+        ) : (
+          <>
+            {/* Organization Stats */}
+            <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="rounded-lg bg-surface-soft p-4 border-subtle">
+                <div className="text-sm text-muted mb-1">Total Students</div>
+                <div className="text-3xl font-bold text-primary">
+                  {students}
+                </div>
+              </div>
+              <div className="rounded-lg bg-surface-soft p-4 border-subtle">
+                <div className="text-sm text-muted mb-1">Instructors</div>
+                <div className="text-3xl font-bold text-primary">
+                  {instructors}
+                </div>
+              </div>
+              <div className="rounded-lg bg-surface-soft p-4 border-subtle">
+                <div className="text-sm text-muted mb-1">Active This Week</div>
+                <div className="text-3xl font-bold text-primary">
+                  {activeThisWeek}
+                </div>
+              </div>
+              <div className="rounded-lg bg-surface-soft p-4 border-subtle">
+                <div className="text-sm text-muted mb-1">Total Users</div>
+                <div className="text-3xl font-bold text-primary">
+                  {summary?.total_users || 0}
+                </div>
+              </div>
+            </section>
+
+            {/* Tab Navigation */}
+            <div className="flex gap-2 border-b border-subtle">
+              <button
+                type="button"
+                onClick={() => setActiveTab('overview')}
+                className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+                  activeTab === 'overview'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-muted hover:text-secondary'
+                }`}
+              >
+                Overview
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('users')}
+                className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+                  activeTab === 'users'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-muted hover:text-secondary'
+                }`}
+              >
+                Users
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('activity')}
+                className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+                  activeTab === 'activity'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-muted hover:text-secondary'
+                }`}
+              >
+                Activity
+              </button>
+            </div>
+
+            {/* Overview Tab */}
+            {activeTab === 'overview' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <OrganizationSummaryView summary={summary} />
+              </section>
+            )}
+
+            {/* Users Tab */}
+            {activeTab === 'users' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <div className="mb-4">
+                  <h2 className="text-xl font-semibold text-primary">
+                    Organization Users
+                  </h2>
+                  <p className="text-sm text-muted mt-1">
+                    Manage users within your organization
+                  </p>
+                </div>
+
+                {loadingUsers ? (
+                  <p className="text-sm text-muted">Loading users...</p>
+                ) : users.length === 0 ? (
+                  <p className="text-sm text-muted">No users found.</p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-subtle text-sm">
+                      <thead className="bg-surface-soft">
+                        <tr>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Name
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Email
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Role
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Attempts
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Avg Score
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-muted">
+                            Last Login
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-subtle panel-surface">
+                        {users.map((u) => (
+                          <tr
+                            key={u.id}
+                            className="hover:bg-surface-soft transition"
+                          >
+                            <td className="px-4 py-3 font-medium text-primary">
+                              {u.name || '—'}
+                            </td>
+                            <td className="px-4 py-3 text-secondary">
+                              {u.email}
+                            </td>
+                            <td className="px-4 py-3">
+                              <AdminRoleBadge role={u.role} />
+                            </td>
+                            <td className="px-4 py-3 text-secondary">
+                              {u.quiz_attempt_count || 0}
+                            </td>
+                            <td className="px-4 py-3 text-secondary">
+                              {u.average_scaled_score != null
+                                ? Math.round(u.average_scaled_score)
+                                : '—'}
+                            </td>
+                            <td className="px-4 py-3 text-muted text-xs">
+                              {formatDateTime(u.last_login_at)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </section>
+            )}
+
+            {/* Activity Tab */}
+            {activeTab === 'activity' && (
+              <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
+                <div className="mb-4">
+                  <h2 className="text-xl font-semibold text-primary">
+                    Recent Organization Activity
+                  </h2>
+                  <p className="text-sm text-muted mt-1">
+                    Latest quiz attempts within your organization
+                  </p>
+                </div>
+
+                {loadingActivity ? (
+                  <p className="text-sm text-muted">Loading activity...</p>
+                ) : activity.length === 0 ? (
+                  <p className="text-sm text-muted">No recent activity.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {activity.map((act) => (
+                      <div
+                        key={act.id}
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 rounded-lg bg-surface-soft"
+                      >
+                        <div className="flex-1">
+                          <div className="font-medium text-primary">
+                            {act.user_name || act.user_email}
+                          </div>
+                          <div className="text-sm text-secondary">
+                            {act.subject} - {act.quiz_title || act.quiz_type}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4 text-sm">
+                          <span className="text-secondary">
+                            Score:{' '}
+                            <span className="font-semibold">
+                              {act.scaled_score != null
+                                ? Math.round(act.scaled_score)
+                                : 'N/A'}
+                            </span>
+                          </span>
+                          <span className="text-muted text-xs">
+                            {formatDateTime(act.attempted_at)}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
@@ -28846,7 +29724,10 @@ function FormulaDisplay({ latex, className = '' }) {
   }
 
   return (
-    <span className={className} dangerouslySetInnerHTML={{ __html: html }} />
+    <span
+      className={className}
+      dangerouslySetInnerHTML={{ __html: sanitizeUnicode(html) }}
+    />
   );
 }
 
@@ -28864,7 +29745,7 @@ function ScienceFormulaSheet({ onClose }) {
           aria-label="Close science formula sheet"
           style={{ color: 'inherit' }}
         >
-          ��
+          ×
         </button>
 
         <h2 className="formula-sheet-title text-xl font-bold mb-4">
@@ -28924,7 +29805,9 @@ function FormulaSheetModal({ onClose }) {
       <div className="formula-sheet-card rounded-lg p-3 space-y-2 mb-4">
         <h4 className="formula-sheet-label font-bold text-md">{title}</h4>
         <div className="formula-equation rounded text-center text-lg font-mono px-2 py-2">
-          <span dangerouslySetInnerHTML={{ __html: html }}></span>
+          <span
+            dangerouslySetInnerHTML={{ __html: sanitizeUnicode(html) }}
+          ></span>
         </div>
         {description && (
           <p className="formula-sheet-description text-sm">{description}</p>
@@ -32009,7 +32892,7 @@ function StartScreen({
                 onClick={onStartPopQuiz}
                 className="px-8 py-4 bg-purple-600 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transition-transform transform hover:scale-105 quiz-start-btn"
               >
-                Start a Practice Session ��️
+                Start a Practice Session
               </button>
             </div>
             <div
