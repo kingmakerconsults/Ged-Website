@@ -156,7 +156,171 @@
       })();
     </script>
 
-    <!-- Legacy compatibility shim: retire Expanded bundle; prefer JSON loader -->
+    <!-- Quiz Data Loader: Fetch all premade quizzes and build unified catalog -->
+    <script>
+      (async function loadQuizData() {
+        try {
+          if (typeof window === 'undefined') return;
+
+          // Determine API base URL
+          const API_BASE =
+            window.__CLIENT_CONFIG__?.API_BASE_URL ||
+            (typeof window.API_BASE_URL === 'string' && window.API_BASE_URL) ||
+            window.location.origin;
+
+          console.log('[quiz-loader] Starting quiz data load from:', API_BASE);
+
+          // Define quiz files to fetch
+          const QUIZ_FILENAMES = [
+            'math.quizzes.part1.json',
+            'math.quizzes.part2.json',
+            'rla.quizzes.part1.json',
+            'rla.quizzes.part2.json',
+            'science.quizzes.part1.json',
+            'science.quizzes.part2.json',
+            'social-studies.quizzes.json',
+            'social-studies.extras.json',
+            'workforce.quizzes.json',
+          ];
+
+          // Fetch all quiz JSON files in parallel
+          const quizPromises = QUIZ_FILENAMES.map((filename) =>
+            fetch(`${API_BASE}/quizzes/${filename}`)
+              .then((res) => {
+                if (!res.ok) {
+                  console.warn(
+                    `[quiz-loader] Failed to fetch ${filename}: ${res.status}`
+                  );
+                  return null;
+                }
+                return res.json();
+              })
+              .catch((err) => {
+                console.warn(`[quiz-loader] Error fetching ${filename}:`, err);
+                return null;
+              })
+          );
+
+          // Fetch the unified catalog from backend
+          const catalogPromise = fetch(`${API_BASE}/api/all-quizzes`)
+            .then((res) => {
+              if (!res.ok) {
+                console.warn(
+                  `[quiz-loader] Failed to fetch all-quizzes: ${res.status}`
+                );
+                return null;
+              }
+              return res.json();
+            })
+            .catch((err) => {
+              console.warn('[quiz-loader] Error fetching all-quizzes:', err);
+              return null;
+            });
+
+          // Wait for all fetches
+          const [catalog, ...quizData] = await Promise.all([
+            catalogPromise,
+            ...quizPromises,
+          ]);
+
+          // Merge quiz data from files
+          const merged = {};
+          quizData.forEach((data) => {
+            if (data && typeof data === 'object') {
+              Object.entries(data).forEach(([subject, content]) => {
+                if (!merged[subject]) {
+                  merged[subject] = { categories: {} };
+                }
+                if (content?.categories) {
+                  Object.entries(content.categories).forEach(
+                    ([catName, catData]) => {
+                      if (!merged[subject].categories[catName]) {
+                        merged[subject].categories[catName] = {
+                          topics: [],
+                          ...catData,
+                        };
+                      } else {
+                        // Merge topics
+                        const existing = merged[subject].categories[catName];
+                        if (Array.isArray(catData.topics)) {
+                          existing.topics = [
+                            ...(existing.topics || []),
+                            ...catData.topics,
+                          ];
+                        }
+                      }
+                    }
+                  );
+                }
+              });
+            }
+          });
+
+          // Merge with catalog from backend (prefer backend catalog structure)
+          if (catalog && typeof catalog === 'object') {
+            Object.entries(catalog).forEach(([subject, content]) => {
+              if (!merged[subject]) {
+                merged[subject] = content;
+              } else {
+                // Deep merge categories
+                if (content?.categories) {
+                  Object.entries(content.categories).forEach(
+                    ([catName, catData]) => {
+                      if (!merged[subject].categories[catName]) {
+                        merged[subject].categories[catName] = catData;
+                      } else {
+                        // Merge topics array
+                        const existing = merged[subject].categories[catName];
+                        if (Array.isArray(catData.topics)) {
+                          const existingTopics = existing.topics || [];
+                          existing.topics = [
+                            ...existingTopics,
+                            ...catData.topics,
+                          ];
+                        }
+                      }
+                    }
+                  );
+                }
+              }
+            });
+          }
+
+          // Set global variables for legacy compatibility
+          window.UnifiedQuizCatalog = merged;
+          window.AppData = merged;
+          window.ExpandedQuizData = merged;
+          window.MergedExpandedQuizData = merged;
+
+          if (!window.Data) window.Data = {};
+          window.Data.expandedQuizData = merged;
+
+          console.log('[quiz-loader] Quiz data loaded successfully:', {
+            subjects: Object.keys(merged),
+            totalCategories: Object.values(merged).reduce(
+              (sum, subj) => sum + Object.keys(subj?.categories || {}).length,
+              0
+            ),
+          });
+
+          // Dispatch event to notify app that quiz data is ready
+          window.dispatchEvent(
+            new CustomEvent('quizDataLoaded', { detail: merged })
+          );
+        } catch (error) {
+          console.error('[quiz-loader] Fatal error loading quiz data:', error);
+          // Initialize empty structure to prevent crashes
+          window.UnifiedQuizCatalog = {};
+          window.AppData = {};
+          window.ExpandedQuizData = {};
+          window.MergedExpandedQuizData = {};
+          if (!window.Data) window.Data = {};
+          window.Data.expandedQuizData = {};
+        }
+      })();
+    </script>
+
+    <!-- Legacy compatibility shim: ensure aliases exist -->
     <script>
       (function () {
         try {

@@ -1,4 +1,4 @@
-import React, {
+﻿import React, {
   useState,
   useEffect,
   useMemo,
@@ -17103,7 +17103,7 @@ const AppData = {
               {
                 questionNumber: 6,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="Images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the bar chart, which two toppings are the most popular?',
                 answerOptions: [
@@ -17134,7 +17134,7 @@ const AppData = {
               {
                 questionNumber: 7,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="Images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
                   'How many more students chose Pepperoni than chose Sausage?',
                 answerOptions: [
@@ -17167,7 +17167,7 @@ const AppData = {
               {
                 questionNumber: 8,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="Images/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
                 question:
                   "According to the line graph, in which year did the company's profits decrease compared to the previous year?",
                 answerOptions: [
@@ -17200,7 +17200,7 @@ const AppData = {
               {
                 questionNumber: 9,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="Images/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
                 question:
                   'What was the approximate total profit for the company over the 5-year period shown?',
                 answerOptions: [
@@ -17383,7 +17383,7 @@ const AppData = {
               {
                 questionNumber: 15,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="Images/035fa172-2083-4c13-9485-a5f4bfa28340.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="/images/Social Studies/035fa172-2083-4c13-9485-a5f4bfa28340.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the pie chart, how much money is allocated to Housing each month?',
                 answerOptions: [
@@ -18766,7 +18766,7 @@ const AppData = {
               {
                 questionNumber: 1,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the pie chart, which two Allied nations suffered the highest number of military deaths in World War II?',
                 answerOptions: [
@@ -18799,7 +18799,7 @@ const AppData = {
               {
                 questionNumber: 2,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'The combined military deaths of the United States and the United Kingdom make up approximately what percentage of the total Allied deaths shown?',
                 answerOptions: [
@@ -18832,7 +18832,7 @@ const AppData = {
               {
                 questionNumber: 3,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'What can be inferred from the pie chart about the human cost of World War II for the Soviet Union?',
                 answerOptions: [
@@ -18865,7 +18865,7 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="Images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="/images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'Which sector is the largest consumer of electricity according to the bar chart?',
                 answerOptions: [
@@ -18878,7 +18878,7 @@ const AppData = {
               {
                 questionNumber: 5,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="Images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="/images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'What is the combined percentage of electricity consumed by the Residential and Commercial sectors?',
                 answerOptions: [
@@ -18891,7 +18891,7 @@ const AppData = {
               {
                 questionNumber: 6,
                 type: 'multi-source',
-                passage: `<div class="passage-text">Refer to both the article text and the "Electricity Consumption by Sector" bar chart.</div><img src="Images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded">`,
+                passage: `<div class="passage-text">Refer to both the article text and the "Electricity Consumption by Sector" bar chart.</div><img src="/images/Social Studies/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded">`,
                 question:
                   'The article states that electricity use for transportation is expected to grow. Based on the chart, why would this growth be significant?',
                 answerOptions: [
@@ -18940,7 +18940,7 @@ const AppData = {
               {
                 questionNumber: 9,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="Images/Questions-are-based-on-the-following-graph.-7.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="/images/Questions-are-based-on-the-following-graph.-7.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
                 question:
                   'During which 5-year period is the population of City X projected to grow the most?',
                 answerOptions: [
@@ -18953,7 +18953,7 @@ const AppData = {
               {
                 questionNumber: 10,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="Images/Questions-are-based-on-the-following-graph.-7.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="/images/Questions-are-based-on-the-following-graph.-7.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
                 question: 'What is the overall trend shown in the graph?',
                 answerOptions: [
                   {
@@ -23459,6 +23459,29 @@ function App({ externalTheme, onThemeChange }) {
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
+  // Listen for quiz data loaded event and re-hydrate catalog
+  useEffect(() => {
+    const handleQuizDataLoaded = () => {
+      console.log('[app] Quiz data loaded, re-hydrating catalog...');
+      if (typeof hydratePremadeCatalogFromWindow === 'function') {
+        hydratePremadeCatalogFromWindow();
+      }
+      if (typeof initPremades === 'function') {
+        initPremades(window.AppData || window.ExpandedQuizData);
+      }
+    };
+
+    window.addEventListener('quizDataLoaded', handleQuizDataLoaded);
+
+    // Also try hydration on mount in case data loaded before component
+    if (window.AppData || window.ExpandedQuizData) {
+      handleQuizDataLoaded();
+    }
+
+    return () =>
+      window.removeEventListener('quizDataLoaded', handleQuizDataLoaded);
+  }, []);
+
   // Push a new browser history entry whenever our top-level navigation state changes (unless restoring)
   useEffect(() => {
     if (
@@ -25955,7 +25978,7 @@ function App({ externalTheme, onThemeChange }) {
           style={{ backgroundColor: 'var(--modal-overlay)' }}
         >
           <img
-            src="Logo.svg"
+            src="/images/kingmaker-logo.svg"
             alt="Kingmakerconsults logo"
             className="w-4/5 max-w-4xl h-auto object-contain drop-shadow-2xl"
           />
@@ -26058,7 +26081,7 @@ function App({ externalTheme, onThemeChange }) {
         </main>
         <footer className="w-full flex flex-col items-center gap-3 text-xs sm:text-sm text-slate-500 pb-6">
           <img
-            src="Logo.svg"
+            src="/images/kingmaker-logo.svg"
             alt="Kingmakerconsults logo"
             className="h-48 w-auto object-contain"
           />
