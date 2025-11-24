@@ -155,7 +155,7 @@
         }
       })();
     </script>
-    
+
     <!-- Legacy compatibility shim: retire Expanded bundle; prefer JSON loader -->
     <script>
       (function () {
@@ -163,7 +163,10 @@
           if (typeof window === 'undefined') return;
           // If legacy globals are missing but new catalogs exist, alias them.
           const catalog =
-            window.UnifiedQuizCatalog || window.AppData || window.Data?.expandedQuizData || {};
+            window.UnifiedQuizCatalog ||
+            window.AppData ||
+            window.Data?.expandedQuizData ||
+            {};
           if (!window.ExpandedQuizData && catalog) {
             window.ExpandedQuizData = catalog;
           }
@@ -175,9 +178,9 @@
         }
       })();
     </script>
-    <script type="module" crossorigin src="/assets/index-tJfhR8wZ.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor-react-wGySg1uH.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-Dk0We2nY.css">
+    <script type="module" crossorigin src="/assets/index-CsgLw0ei.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-DS8qr_A4.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-B7V5HBBC.css">
   </head>
   <body data-theme="light">
     <div id="root"></div>
