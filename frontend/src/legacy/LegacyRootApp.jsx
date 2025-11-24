@@ -42,10 +42,20 @@ console.log(
 );
 
 const SUBJECT_PROGRESS_KEYS = [
-  'Social Studies',
+  'Math',
   'Reasoning Through Language Arts (RLA)',
   'Science',
+  'Social Studies',
+  'Workforce Readiness',
+];
+
+// Canonical order for rendering subject panels (display order)
+const SUBJECT_DISPLAY_ORDER = [
   'Math',
+  'Reasoning Through Language Arts (RLA)',
+  'Science',
+  'Social Studies',
+  'Workforce Readiness',
 ];
 
 const GED_PASSING_SCORE = 145;
@@ -57,6 +67,7 @@ const SUBJECT_ID_MAP = {
   'Social Studies': 'social_studies',
   'Reasoning Through Language Arts (RLA)': 'rla',
   RLA: 'rla',
+  'Workforce Readiness': 'workforce',
 };
 
 const BADGE_IMG_PATHS = {
@@ -419,6 +430,17 @@ const SUBJECT_COLORS = {
     accent: 'var(--subject-simulations-accent)',
     accentText: 'var(--subject-simulations-accent-text)',
   },
+  'Workforce Readiness': {
+    background: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)',
+    text: '#ffffff',
+    heroText: '#ffffff',
+    border: 'rgba(139, 92, 246, 0.5)',
+    scoreBackground: 'var(--bg-overlay)',
+    scoreText: '#8b5cf6',
+    scoreBorder: '#8b5cf6',
+    accent: '#8b5cf6',
+    accentText: '#ffffff',
+  },
 };
 
 const SUBJECT_BG_GRADIENTS = {
@@ -427,6 +449,7 @@ const SUBJECT_BG_GRADIENTS = {
   'Social Studies': 'var(--subject-social-gradient)',
   'Reasoning Through Language Arts (RLA)': 'var(--subject-rla-gradient)',
   Simulations: 'var(--subject-simulations-gradient)',
+  'Workforce Readiness': 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)',
 };
 
 const SUBJECT_LIGHT_SURFACE_GRADIENTS = {
@@ -31990,7 +32013,10 @@ function StartScreen({
               id="quizzes"
               className="grid grid-cols-1 md:grid-cols-3 gap-6 subject-bar"
             >
-              {Object.entries(AppData).map(([subjectName, subject]) => {
+              {SUBJECT_DISPLAY_ORDER.filter(
+                (subjectName) => AppData && AppData[subjectName]
+              ).map((subjectName) => {
+                const subject = AppData[subjectName];
                 // Robust icon resolution: fall back by subject name if subject.icon missing
                 const fallbackIconMap = {
                   Math: 'CalculatorIcon',
@@ -31998,6 +32024,7 @@ function StartScreen({
                   'Social Studies': 'GlobeIcon',
                   'Reasoning Through Language Arts (RLA)': 'BookOpenIcon',
                   RLA: 'BookOpenIcon',
+                  'Workforce Readiness': 'BriefcaseIcon',
                 };
                 const iconKey =
                   subject?.icon ||

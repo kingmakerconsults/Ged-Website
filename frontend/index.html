@@ -359,17 +359,33 @@
             });
           }
 
+          // Filter merged data to only include valid GED subject keys
+          const VALID_SUBJECTS = [
+            'Math',
+            'Reasoning Through Language Arts (RLA)',
+            'Science',
+            'Social Studies',
+            'Workforce Readiness',
+          ];
+
+          const filtered = {};
+          VALID_SUBJECTS.forEach((subject) => {
+            if (merged[subject]) {
+              filtered[subject] = merged[subject];
+            }
+          });
+
           // Set global variables for legacy compatibility
-          window.UnifiedQuizCatalog = merged;
-          window.AppData = merged;
-          window.ExpandedQuizData = merged;
-          window.MergedExpandedQuizData = merged;
+          window.UnifiedQuizCatalog = filtered;
+          window.AppData = filtered;
+          window.ExpandedQuizData = filtered;
+          window.MergedExpandedQuizData = filtered;
 
           if (!window.Data) window.Data = {};
-          window.Data.expandedQuizData = merged;
+          window.Data.expandedQuizData = filtered;
 
           // Log summary
-          const summary = Object.entries(merged).map(([subj, data]) => {
+          const summary = Object.entries(filtered).map(([subj, data]) => {
             const catCount = Object.keys(data?.categories || {}).length;
             const quizCount = Object.values(data?.categories || {}).reduce(
               (sum, cat) => sum + (cat?.quizzes?.length || 0),
@@ -383,7 +399,7 @@
 
           // Dispatch event to notify app that quiz data is ready
           window.dispatchEvent(
-            new CustomEvent('quizDataLoaded', { detail: merged })
+            new CustomEvent('quizDataLoaded', { detail: filtered })
           );
         } catch (error) {
           console.error('[quiz-loader] Fatal error loading quiz data:', error);
