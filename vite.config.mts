@@ -1,14 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import { resolve } from 'path';
 
-const rootDir = path.resolve(__dirname, 'frontend');
+const rootDir = resolve(process.cwd(), 'frontend');
 
 export default defineConfig({
   root: rootDir,
   plugins: [react()],
   build: {
-    outDir: path.resolve(rootDir, 'dist'),
+    outDir: resolve(rootDir, 'dist'),
     emptyOutDir: true,
     chunkSizeWarningLimit: 1000, // Suppress warning for large legacy app bundle
     sourcemap: true, // Enable source maps to trace minified symbol 'lt'
@@ -25,6 +25,10 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
+        target: 'http://localhost:3002',
+        changeOrigin: true,
+      },
+      '/quizzes': {
         target: 'http://localhost:3002',
         changeOrigin: true,
       },
