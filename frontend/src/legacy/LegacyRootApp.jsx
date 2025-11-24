@@ -1080,12 +1080,19 @@ const {
   collapseUnderscoredLatexMacros,
 } = window.TextSanitizer || {};
 
-const API_BASE_URL = 'https://ged-website.onrender.com';
+// Determine API base URL: use localhost for dev, production URL otherwise
+const API_BASE_URL =
+  typeof window !== 'undefined'
+    ? window.__CLIENT_CONFIG__?.API_BASE_URL ||
+      window.__APP_CONFIG__?.apiBaseUrl ||
+      window.API_BASE_URL ||
+      (window.location.hostname === 'localhost'
+        ? window.location.origin
+        : 'https://ged-website.onrender.com')
+    : 'https://ged-website.onrender.com';
+
 // Fallback alias for API_BASE for legacy code safety
-const API_BASE =
-  typeof window !== 'undefined' && window.__CLIENT_CONFIG__?.API_BASE_URL
-    ? window.__CLIENT_CONFIG__.API_BASE_URL
-    : API_BASE_URL;
+const API_BASE = API_BASE_URL;
 const SCORE_FETCH_INTERVAL_MS = 45000;
 
 async function generateTopicQuiz(subjectParam, topic, difficulty) {
