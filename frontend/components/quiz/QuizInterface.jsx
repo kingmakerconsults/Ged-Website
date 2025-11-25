@@ -514,7 +514,7 @@ export function QuizInterface({
                 className="text-xl font-semibold leading-relaxed"
                 style={{ color: scheme.text }}
               >
-                {currentQ.questionNumber}.
+                {currentIndex + 1}.
               </span>
               <Stem item={currentQ} />
             </div>
