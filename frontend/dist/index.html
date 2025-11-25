@@ -156,7 +156,265 @@
       })();
     </script>
 
-    <!-- Legacy compatibility shim: retire Expanded bundle; prefer JSON loader -->
+    <!-- Quiz Data Loader: Fetch all premade quizzes and build unified catalog -->
+    <script>
+      (async function loadQuizData() {
+        try {
+          if (typeof window === 'undefined') return;
+
+          // Determine API base URL
+          const API_BASE =
+            window.__CLIENT_CONFIG__?.API_BASE_URL ||
+            window.__APP_CONFIG__?.apiBaseUrl ||
+            (typeof window.API_BASE_URL === 'string' && window.API_BASE_URL) ||
+            (window.location.hostname === 'localhost'
+              ? window.location.origin
+              : 'https://ged-website.onrender.com');
+
+          console.log('[quiz-loader] Starting quiz data load from:', API_BASE);
+
+          // Define quiz files to fetch
+          const QUIZ_FILENAMES = [
+            'math.quizzes.part1.json',
+            'math.quizzes.part2.json',
+            'rla.quizzes.part1.json',
+            'rla.quizzes.part2.json',
+            'science.quizzes.part1.json',
+            'science.quizzes.part2.json',
+            'social-studies.quizzes.json',
+            'social-studies.extras.json',
+            'workforce.quizzes.json',
+          ];
+
+          // Helper: Normalize string keys for consistent merging
+          function normalizeKey(str) {
+            if (!str) return '';
+            return str
+              .toString()
+              .trim()
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, '-')
+              .replace(/^-+|-+$/g, '');
+          }
+
+          // Fetch all quiz JSON files in parallel
+          const quizPromises = QUIZ_FILENAMES.map((filename) =>
+            fetch(`${API_BASE}/quizzes/${filename}`)
+              .then((res) => {
+                if (!res.ok) {
+                  console.warn(
+                    `[quiz-loader] Failed to fetch ${filename}: ${res.status}`
+                  );
+                  return null;
+                }
+                return res.json();
+              })
+              .catch((err) => {
+                console.warn(`[quiz-loader] Error fetching ${filename}:`, err);
+                return null;
+              })
+          );
+
+          // Fetch the unified catalog from backend
+          const catalogPromise = fetch(`${API_BASE}/api/all-quizzes`)
+            .then((res) => {
+              if (!res.ok) {
+                console.warn(
+                  `[quiz-loader] Failed to fetch all-quizzes: ${res.status}`
+                );
+                return null;
+              }
+              return res.json();
+            })
+            .catch((err) => {
+              console.warn('[quiz-loader] Error fetching all-quizzes:', err);
+              return null;
+            });
+
+          // Wait for all fetches
+          const [catalog, ...quizData] = await Promise.all([
+            catalogPromise,
+            ...quizPromises,
+          ]);
+
+          // Build merged structure with proper quiz extraction
+          const merged = {};
+
+          // Process individual quiz files first
+          quizData.forEach((data) => {
+            if (data && typeof data === 'object') {
+              // Each quiz file has a "subject" field and "categories" field
+              const subjectName = data.subject;
+              if (!subjectName) return;
+
+              if (!merged[subjectName]) {
+                merged[subjectName] = {
+                  icon: data.icon || null,
+                  categories: {},
+                };
+              }
+
+              if (data.categories) {
+                Object.entries(data.categories).forEach(
+                  ([catName, catData]) => {
+                    if (!merged[subjectName].categories[catName]) {
+                      merged[subjectName].categories[catName] = {
+                        description: catData.description || '',
+                        topics: [],
+                        quizzes: [],
+                      };
+                    }
+
+                    const targetCat = merged[subjectName].categories[catName];
+
+                    // Merge topics and extract quizzes from each topic
+                    if (Array.isArray(catData.topics)) {
+                      catData.topics.forEach((topic) => {
+                        if (topic && typeof topic === 'object') {
+                          targetCat.topics.push(topic);
+
+                          // Extract quizzes from topic into category-level quizzes array
+                          if (Array.isArray(topic.quizzes)) {
+                            topic.quizzes.forEach((quiz) => {
+                              if (quiz && typeof quiz === 'object') {
+                                targetCat.quizzes.push(quiz);
+                              }
+                            });
+                          }
+                        }
+                      });
+                    }
+
+                    // Also merge category-level quizzes if present
+                    if (Array.isArray(catData.quizzes)) {
+                      catData.quizzes.forEach((quiz) => {
+                        if (quiz && typeof quiz === 'object') {
+                          targetCat.quizzes.push(quiz);
+                        }
+                      });
+                    }
+                  }
+                );
+              }
+            }
+          });
+
+          // Merge with catalog from backend (supplement with any additional data)
+          if (catalog && typeof catalog === 'object') {
+            Object.entries(catalog).forEach(([subject, content]) => {
+              if (!merged[subject]) {
+                merged[subject] = {
+                  icon: content.icon || null,
+                  categories: {},
+                };
+              }
+
+              // Preserve icon from backend if not already set
+              if (content.icon && !merged[subject].icon) {
+                merged[subject].icon = content.icon;
+              }
+
+              if (content?.categories) {
+                Object.entries(content.categories).forEach(
+                  ([catName, catData]) => {
+                    if (!merged[subject].categories[catName]) {
+                      merged[subject].categories[catName] = {
+                        description: catData.description || '',
+                        topics: [],
+                        quizzes: [],
+                      };
+                    }
+
+                    const targetCat = merged[subject].categories[catName];
+
+                    // Merge topics from backend catalog
+                    if (Array.isArray(catData.topics)) {
+                      catData.topics.forEach((topic) => {
+                        if (topic && typeof topic === 'object') {
+                          targetCat.topics.push(topic);
+
+                          // Extract quizzes from backend topics
+                          if (Array.isArray(topic.quizzes)) {
+                            topic.quizzes.forEach((quiz) => {
+                              if (quiz && typeof quiz === 'object') {
+                                targetCat.quizzes.push(quiz);
+                              }
+                            });
+                          }
+                        }
+                      });
+                    }
+
+                    // Merge backend category-level quizzes
+                    if (Array.isArray(catData.quizzes)) {
+                      catData.quizzes.forEach((quiz) => {
+                        if (quiz && typeof quiz === 'object') {
+                          targetCat.quizzes.push(quiz);
+                        }
+                      });
+                    }
+                  }
+                );
+              }
+            });
+          }
+
+          // Filter merged data to only include valid GED subject keys
+          const VALID_SUBJECTS = [
+            'Math',
+            'Reasoning Through Language Arts (RLA)',
+            'Science',
+            'Social Studies',
+            'Workforce Readiness',
+          ];
+
+          const filtered = {};
+          VALID_SUBJECTS.forEach((subject) => {
+            if (merged[subject]) {
+              filtered[subject] = merged[subject];
+            }
+          });
+
+          // Set global variables for legacy compatibility
+          window.UnifiedQuizCatalog = filtered;
+          window.AppData = filtered;
+          window.ExpandedQuizData = filtered;
+          window.MergedExpandedQuizData = filtered;
+
+          if (!window.Data) window.Data = {};
+          window.Data.expandedQuizData = filtered;
+
+          // Log summary
+          const summary = Object.entries(filtered).map(([subj, data]) => {
+            const catCount = Object.keys(data?.categories || {}).length;
+            const quizCount = Object.values(data?.categories || {}).reduce(
+              (sum, cat) => sum + (cat?.quizzes?.length || 0),
+              0
+            );
+            return `${subj}: ${catCount} categories, ${quizCount} quizzes`;
+          });
+
+          console.log('[quiz-loader] Quiz data loaded successfully:');
+          summary.forEach((line) => console.log('  ' + line));
+
+          // Dispatch event to notify app that quiz data is ready
+          window.dispatchEvent(
+            new CustomEvent('quizDataLoaded', { detail: filtered })
+          );
+        } catch (error) {
+          console.error('[quiz-loader] Fatal error loading quiz data:', error);
+          // Initialize empty structure to prevent crashes
+          window.UnifiedQuizCatalog = {};
+          window.AppData = {};
+          window.ExpandedQuizData = {};
+          window.MergedExpandedQuizData = {};
+          if (!window.Data) window.Data = {};
+          window.Data.expandedQuizData = {};
+        }
+      })();
+    </script>
+
+    <!-- Legacy compatibility shim: ensure aliases exist -->
     <script>
       (function () {
         try {
@@ -178,11 +436,11 @@
         }
       })();
     </script>
-    <script type="module" crossorigin src="/assets/index-CsgLw0ei.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor-react-DS8qr_A4.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-B7V5HBBC.css">
+    <script type="module" crossorigin src="/assets/index-DQ_F4669.js"></script>
   </head>
   <body data-theme="light">
     <div id="root"></div>
+
+    <!-- Wait for quiz data before starting React app -->
   </body>
 </html>

@@ -1,0 +1,3070 @@
+/* Import design system tokens */
+/**
+ * Design System CSS Variables
+ * Global color tokens that adapt to light/dark mode
+ */
+:root {
+  /* Base colors - Light mode */
+  --color-bg-page: #f5f7fb;
+  --color-bg-page-alt: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8fafc;
+  --color-surface-hover: #f1f5f9;
+
+  /* Borders */
+  --color-border-subtle: #e2e8f0;
+  --color-border: #cbd5e1;
+  --color-border-strong: #94a3b8;
+
+  /* Text */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-text-disabled: #94a3b8;
+
+  /* Interactive */
+  --color-primary: #0ea5e9;
+  --color-primary-hover: #0284c7;
+  --color-primary-active: #0369a1;
+
+  /* Semantic */
+  --color-success: #10b981;
+  --color-success-soft: #d1fae5;
+  --color-warning: #f59e0b;
+  --color-warning-soft: #fef3c7;
+  --color-danger: #ef4444;
+  --color-danger-soft: #fee2e2;
+  --color-info: #3b82f6;
+  --color-info-soft: #dbeafe;
+
+  /* Subject colors - Math */
+  --color-math-accent: #2563eb;
+  --color-math-bg: #eff6ff;
+  --color-math-bg-soft: #dbeafe;
+  --color-math-chip-bg: #bfdbfe;
+  --color-math-chip-text: #1e40af;
+
+  /* Subject colors - RLA */
+  --color-rla-accent: #7c3aed;
+  --color-rla-bg: #f5f3ff;
+  --color-rla-bg-soft: #ede9fe;
+  --color-rla-chip-bg: #ddd6fe;
+  --color-rla-chip-text: #5b21b6;
+
+  /* Subject colors - Science */
+  --color-science-accent: #059669;
+  --color-science-bg: #f0fdf4;
+  --color-science-bg-soft: #dcfce7;
+  --color-science-chip-bg: #bbf7d0;
+  --color-science-chip-text: #166534;
+
+  /* Subject colors - Social Studies */
+  --color-social-studies-accent: #dc2626;
+  --color-social-studies-bg: #fef2f2;
+  --color-social-studies-bg-soft: #fee2e2;
+  --color-social-studies-chip-bg: #fecaca;
+  --color-social-studies-chip-text: #991b1b;
+
+  /* Subject colors - Workforce */
+  --color-workforce-accent: #0891b2;
+  --color-workforce-bg: #f0fdfa;
+  --color-workforce-bg-soft: #ccfbf1;
+  --color-workforce-chip-bg: #99f6e4;
+  --color-workforce-chip-text: #115e59;
+
+  /* Subject colors - Coach */
+  --color-coach-accent: #ea580c;
+  --color-coach-bg: #fffbeb;
+  --color-coach-bg-soft: #fef3c7;
+  --color-coach-chip-bg: #fde68a;
+  --color-coach-chip-text: #92400e;
+
+  /* Subject colors - Admin */
+  --color-admin-accent: #6366f1;
+  --color-admin-bg: #eef2ff;
+  --color-admin-bg-soft: #e0e7ff;
+  --color-admin-chip-bg: #c7d2fe;
+  --color-admin-chip-text: #3730a3;
+}
+/* Dark mode overrides */
+[data-theme='dark'],
+.dark {
+  /* Base colors - Dark mode */
+  --color-bg-page: #020617;
+  --color-bg-page-alt: #0f172a;
+  --color-surface: #1e293b;
+  --color-surface-alt: #334155;
+  --color-surface-hover: #475569;
+
+  /* Borders */
+  --color-border-subtle: #334155;
+  --color-border: #475569;
+  --color-border-strong: #64748b;
+
+  /* Text */
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  --color-text-disabled: #64748b;
+
+  /* Interactive */
+  --color-primary: #38bdf8;
+  --color-primary-hover: #0ea5e9;
+  --color-primary-active: #0284c7;
+
+  /* Semantic */
+  --color-success: #34d399;
+  --color-success-soft: #064e3b;
+  --color-warning: #fbbf24;
+  --color-warning-soft: #78350f;
+  --color-danger: #f87171;
+  --color-danger-soft: #7f1d1d;
+  --color-info: #60a5fa;
+  --color-info-soft: #1e3a8a;
+
+  /* Subject colors - Math */
+  --color-math-accent: #60a5fa;
+  --color-math-bg: #1e3a8a;
+  --color-math-bg-soft: #1e40af;
+  --color-math-chip-bg: #1e40af;
+  --color-math-chip-text: #bfdbfe;
+
+  /* Subject colors - RLA */
+  --color-rla-accent: #a78bfa;
+  --color-rla-bg: #4c1d95;
+  --color-rla-bg-soft: #5b21b6;
+  --color-rla-chip-bg: #6d28d9;
+  --color-rla-chip-text: #ddd6fe;
+
+  /* Subject colors - Science */
+  --color-science-accent: #34d399;
+  --color-science-bg: #064e3b;
+  --color-science-bg-soft: #065f46;
+  --color-science-chip-bg: #047857;
+  --color-science-chip-text: #d1fae5;
+
+  /* Subject colors - Social Studies */
+  --color-social-studies-accent: #f87171;
+  --color-social-studies-bg: #7f1d1d;
+  --color-social-studies-bg-soft: #991b1b;
+  --color-social-studies-chip-bg: #b91c1c;
+  --color-social-studies-chip-text: #fee2e2;
+
+  /* Subject colors - Workforce */
+  --color-workforce-accent: #5eead4;
+  --color-workforce-bg: #134e4a;
+  --color-workforce-bg-soft: #115e59;
+  --color-workforce-chip-bg: #0f766e;
+  --color-workforce-chip-text: #ccfbf1;
+
+  /* Subject colors - Coach */
+  --color-coach-accent: #fbbf24;
+  --color-coach-bg: #78350f;
+  --color-coach-bg-soft: #92400e;
+  --color-coach-chip-bg: #b45309;
+  --color-coach-chip-text: #fef3c7;
+
+  /* Subject colors - Admin */
+  --color-admin-accent: #a5b4fc;
+  --color-admin-bg: #312e81;
+  --color-admin-bg-soft: #3730a3;
+  --color-admin-chip-bg: #4338ca;
+  --color-admin-chip-text: #e0e7ff;
+}
+/* Utility classes using design tokens */
+.bg-page {
+  background-color: var(--color-bg-page);
+}
+.bg-surface {
+  background-color: var(--color-surface);
+}
+.text-primary {
+  color: var(--color-text-primary);
+}
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+.text-muted {
+  color: var(--color-text-muted);
+}
+.border-subtle {
+  border-color: var(--color-border-subtle);
+}
+/* Panels */
+.panel-surface {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+}
+/* Subject-specific utility classes */
+.bg-math-accent {
+  background-color: var(--color-math-accent);
+}
+.text-math-accent {
+  color: var(--color-math-accent);
+}
+.border-math-accent {
+  border-color: var(--color-math-accent);
+}
+.bg-rla-accent {
+  background-color: var(--color-rla-accent);
+}
+.text-rla-accent {
+  color: var(--color-rla-accent);
+}
+.border-rla-accent {
+  border-color: var(--color-rla-accent);
+}
+.bg-science-accent {
+  background-color: var(--color-science-accent);
+}
+.text-science-accent {
+  color: var(--color-science-accent);
+}
+.border-science-accent {
+  border-color: var(--color-science-accent);
+}
+.bg-social-studies-accent {
+  background-color: var(--color-social-studies-accent);
+}
+.text-social-studies-accent {
+  color: var(--color-social-studies-accent);
+}
+.border-social-studies-accent {
+  border-color: var(--color-social-studies-accent);
+}
+.bg-workforce-accent {
+  background-color: var(--color-workforce-accent);
+}
+.text-workforce-accent {
+  color: var(--color-workforce-accent);
+}
+.border-workforce-accent {
+  border-color: var(--color-workforce-accent);
+}
+.bg-coach-accent {
+  background-color: var(--color-coach-accent);
+}
+.text-coach-accent {
+  color: var(--color-coach-accent);
+}
+.border-coach-accent {
+  border-color: var(--color-coach-accent);
+}
+/* Semantic solid backgrounds */
+.bg-success {
+  background-color: var(--color-success);
+}
+.bg-danger {
+  background-color: var(--color-danger);
+}
+.bg-warning {
+  background-color: var(--color-warning);
+}
+.bg-info {
+  background-color: var(--color-info);
+}
+/* Semantic borders */
+.border-success {
+  border-color: var(--color-success);
+}
+.border-danger {
+  border-color: var(--color-danger);
+}
+.border-warning {
+  border-color: var(--color-warning);
+}
+.border-info {
+  border-color: var(--color-info);
+}
+/* Primary soft background (translucent layer) */
+.bg-primary-soft {
+  background-color: var(--color-primary);
+  opacity: 0.08;
+}
+/* Button semantic variants (inherit base .btn-primary sizing) */
+.btn-danger {
+  background-color: var(--color-danger);
+  color: #fff;
+  border: 1px solid var(--color-danger);
+}
+.btn-danger:hover {
+  background-color: var(--color-danger);
+  filter: brightness(1.05);
+}
+.btn-danger:active {
+  filter: brightness(0.95);
+}
+.btn-success {
+  background-color: var(--color-success);
+  color: #fff;
+  border: 1px solid var(--color-success);
+}
+.btn-success:hover {
+  background-color: var(--color-success);
+  filter: brightness(1.05);
+}
+.btn-success:active {
+  filter: brightness(0.95);
+}
+.btn-warning {
+  background-color: var(--color-warning);
+  color: #fff;
+  border: 1px solid var(--color-warning);
+}
+.btn-warning:hover {
+  background-color: var(--color-warning);
+  filter: brightness(1.05);
+}
+.btn-warning:active {
+  filter: brightness(0.95);
+}
+.btn-info {
+  background-color: var(--color-info);
+  color: #fff;
+  border: 1px solid var(--color-info);
+}
+.btn-info:hover {
+  background-color: var(--color-info);
+  filter: brightness(1.05);
+}
+.btn-info:active {
+  filter: brightness(0.95);
+}
+/* Header & Navigation */
+.app-header {
+  background-color: var(--color-surface);
+  border-color: var(--color-border-subtle);
+  color: var(--color-text-primary);
+}
+.dark .app-header,
+[data-theme='dark'] .app-header {
+  background-color: rgba(30, 41, 59, 0.82); /* translucent dark surface */
+  border-color: var(--color-border-subtle);
+  color: var(--color-text-primary);
+}
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  padding: 0.25rem 0.5rem;
+  color: var(--color-text-secondary);
+  transition: color 0.15s ease;
+}
+@media (min-width: 640px) {
+  .nav-link {
+    font-size: 0.875rem;
+  }
+}
+.nav-link:hover,
+.nav-link:focus {
+  color: var(--color-primary);
+}
+.nav-link-active {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.dark .nav-link {
+  color: var(--color-text-muted);
+}
+.dark .nav-link:hover,
+.dark .nav-link:focus {
+  color: var(--color-primary);
+}
+/* Buttons (initial set) */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+  border: 1px solid var(--color-primary);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.875rem;
+  line-height: 1.1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.12),
+    0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+.btn-primary:active {
+  background-color: var(--color-primary-active);
+}
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.375rem 0.625rem;
+  line-height: 1.1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: background-color 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease;
+}
+@media (min-width: 640px) {
+  .btn-ghost {
+    font-size: 0.875rem;
+  }
+}
+.btn-ghost:hover {
+  background-color: var(--color-surface-hover);
+}
+.dark .btn-ghost {
+  color: var(--color-primary);
+  border-color: var(--color-border);
+}
+.dark .btn-ghost:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+/* Semantic utility helpers for quick adoption */
+.bg-success-soft {
+  background-color: var(--color-success-soft);
+}
+.text-success {
+  color: var(--color-success);
+}
+.bg-danger-soft {
+  background-color: var(--color-danger-soft);
+}
+.text-danger {
+  color: var(--color-danger);
+}
+.bg-info-soft {
+  background-color: var(--color-info-soft);
+}
+.text-info {
+  color: var(--color-info);
+}
+.bg-surface-alt {
+  background-color: var(--color-surface-alt);
+}
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+/* Additional helpers */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+.bg-surface-hover {
+  background-color: var(--color-surface-hover);
+}
+.text-warning {
+  color: var(--color-warning);
+}
+.bg-warning-soft {
+  background-color: var(--color-warning-soft);
+}
+/* Border strength utilities */
+.border-default {
+  border-color: var(--color-border);
+}
+.border-strong {
+  border-color: var(--color-border-strong);
+}
+.border-primary {
+  border-color: var(--color-primary);
+}
+/* Additional neutral surface variants */
+.bg-surface-soft {
+  background-color: var(--color-surface-hover);
+}
+/* Focus & ring helpers */
+.focus-ring-primary:focus,
+.focus-ring-primary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+.ring-primary {
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+/* Hover helpers */
+.hover\:border-primary:hover {
+  border-color: var(--color-primary);
+}
+:root.fs-sm {
+  font-size: 14px;
+}
+:root.fs-md {
+  font-size: 16px;
+}
+:root.fs-lg {
+  font-size: 18px;
+}
+:root.fs-xl {
+  font-size: 20px;
+}
+:root {
+  color-scheme: light;
+  --bg-page: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-overlay: rgba(255, 255, 255, 0.6);
+  --bg-muted: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #1e293b;
+  --text-tertiary: #334155;
+  --option-text: #334155;
+  --accent: #38bdf8;
+  --accent-hover: #0ea5e9;
+  --accent-border: #38bdf8;
+  --accent-soft: #e0f2fe;
+  --accent-ring: rgba(56, 189, 248, 0.4);
+  --accent-text: #0c4a6e;
+  --border-strong: rgba(255, 255, 255, 0.25);
+  --border-subtle: rgba(0, 0, 0, 0.03);
+  --border-focus: #38bdf8;
+  --shadow-strong: 0 18px 32px -24px rgba(15, 23, 42, 0.3);
+  --shadow-hover: 0 12px 20px -6px rgba(0, 0, 0, 0.1);
+  --option-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.08);
+  --option-hover-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.12);
+  --success-bg: #dcfce7;
+  --success-border: #22c55e;
+  --success-text: #065f46;
+  --danger-bg: #fee2e2;
+  --danger-border: #ef4444;
+  --danger-text: #7f1d1d;
+  --option-hover-bg: #f8fafc;
+  --explanation-bg: #f8fafc;
+  --explanation-border: #38bdf8;
+  --explanation-text: #1e293b;
+  --explanation-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  --selection-bg: #fef9c3;
+  --vocabulary-bg: #ffffff;
+  --quiz-scrollbar-track: #f1f1f1;
+  --quiz-scrollbar-thumb: #888;
+  --quiz-scrollbar-thumb-hover: #555;
+  --nav-active-bg: #1e293b;
+  --nav-active-text: #f8fafc;
+  --nav-answered-bg: #10b981;
+  --nav-answered-text: #ecfdf5;
+  --nav-default-bg: #e2e8f0;
+  --nav-default-text: #1e293b;
+  --nav-marked-ring: rgba(250, 204, 21, 0.75);
+  --timer-low-bg: #fee2e2;
+  --timer-low-text: #b91c1c;
+  --timer-default-bg: #e2e8f0;
+  --timer-default-text: #1e293b;
+  --modal-overlay: rgba(15, 23, 42, 0.55);
+  --modal-surface: #ffffff;
+  --modal-border: rgba(148, 163, 184, 0.35);
+  --modal-text: #0f172a;
+  --button-secondary-bg: #ffffff;
+  --button-secondary-border: rgba(148, 163, 184, 0.45);
+  --button-secondary-text: #1e293b;
+  --subject-science-accent: #dc2626;
+  --subject-science-text: #ffffff;
+  --subject-science-surface-text: #7f1d1d;
+  --subject-science-accent-text: #7f1d1d;
+  --subject-science-border: rgba(248, 113, 113, 0.8);
+  --subject-science-gradient: linear-gradient(135deg, #f87171, #facc15);
+  --subject-social-accent: #16a34a;
+  --subject-social-text: #f0fdf4;
+  --subject-social-surface-text: #14532d;
+  --subject-social-accent-text: #14532d;
+  --subject-social-border: rgba(74, 222, 128, 0.7);
+  --subject-social-gradient: linear-gradient(135deg, #16a34a, #a3e635);
+  --subject-rla-accent: #7c3aed;
+  --subject-rla-text: #f5f3ff;
+  --subject-rla-surface-text: #4c1d95;
+  --subject-rla-accent-text: #4c1d95;
+  --subject-rla-border: rgba(167, 139, 250, 0.7);
+  --subject-rla-gradient: linear-gradient(135deg, #7c3aed, #ec4899);
+  --subject-math-accent: #0284c7;
+  --subject-math-text: #e0f2fe;
+  --subject-math-surface-text: #0c4a6e;
+  --subject-math-accent-text: #0c4a6e;
+  --subject-math-border: rgba(56, 189, 248, 0.7);
+  --subject-math-gradient: linear-gradient(135deg, #0ea5e9, #22d3ee);
+  --subject-workforce-accent: #14b8a6;
+  --subject-workforce-text: #f0fdfa;
+  --subject-workforce-surface-text: #134e4a;
+  --subject-workforce-accent-text: #134e4a;
+  --subject-workforce-border: rgba(20, 184, 166, 0.7);
+  --subject-workforce-gradient: linear-gradient(135deg, #0f172a, #14b8a6);
+}
+/* Explicit theme text color blocks for safety */
+:root[data-theme='light'],
+[data-theme='light'] {
+  --text-primary: #0f172a;
+  --text-secondary: #1f2937;
+  --panel-text: #0f172a;
+}
+:root[data-theme='dark'],
+[data-theme='dark'] {
+  --text-primary: #e2e8f0;
+  --text-secondary: #cbd5e1;
+  --panel-text: #ffffff;
+}
+/* Base theme text colors - Light Mode */
+[data-theme='light'] body {
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+}
+[data-theme='light'] .content-card,
+[data-theme='light'] .panel,
+[data-theme='light'] .glass,
+[data-theme='light'] .settings-card,
+[data-theme='light'] .vocab-shell,
+[data-theme='light'] .math-practice-header,
+[data-theme='light'] .coach-panel {
+  color: var(--text-primary);
+}
+/* Base theme text colors - Dark Mode */
+[data-theme='dark'] body {
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+}
+[data-theme='dark'] .content-card,
+[data-theme='dark'] .panel,
+[data-theme='dark'] .glass,
+[data-theme='dark'] .settings-card,
+[data-theme='dark'] .vocab-shell,
+[data-theme='dark'] .math-practice-header,
+[data-theme='dark'] .coach-panel {
+  color: var(--text-primary);
+}
+/* Panel backgrounds */
+[data-theme='light'] .vocabulary-spotlight,
+[data-theme='light'] .coach-panel header {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+[data-theme='dark'] .vocabulary-spotlight,
+[data-theme='dark'] .coach-panel header {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+/* Subject-themed accent colors */
+[data-theme='light'] .subject-science .accent-text,
+[data-theme='light'] .subject-social .accent-text,
+[data-theme='light'] .subject-rla .accent-text,
+[data-theme='light'] .subject-math .accent-text {
+  color: var(--subject-accent);
+}
+[data-theme='dark'] .subject-science .accent-text,
+[data-theme='dark'] .subject-social .accent-text,
+[data-theme='dark'] .subject-rla .accent-text,
+[data-theme='dark'] .subject-math .accent-text {
+  color: var(--subject-accent-text);
+}
+/* Subject headers */
+[data-theme='light'] .subject-science h1,
+[data-theme='light'] .subject-science h2,
+[data-theme='light'] .subject-science h3,
+[data-theme='light'] .subject-social h1,
+[data-theme='light'] .subject-social h2,
+[data-theme='light'] .subject-social h3,
+[data-theme='light'] .subject-rla h1,
+[data-theme='light'] .subject-rla h2,
+[data-theme='light'] .subject-rla h3,
+[data-theme='light'] .subject-math h1,
+[data-theme='light'] .subject-math h2,
+[data-theme='light'] .subject-math h3 {
+  color: var(--subject-accent);
+}
+.dark {
+  color-scheme: dark;
+  --bg-page: #020617;
+  --bg-surface: rgba(15, 23, 42, 0.9);
+  --bg-overlay: rgba(30, 41, 59, 0.72);
+  --bg-muted: rgba(51, 65, 85, 0.6);
+  --text-primary: #e2e8f0;
+  --text-secondary: #f8fafc;
+  --text-tertiary: #cbd5f5;
+  --option-text: #f8fafc;
+  --accent: #38bdf8;
+  --accent-hover: #0ea5e9;
+  --accent-border: rgba(56, 189, 248, 0.8);
+  --accent-soft: rgba(56, 189, 248, 0.22);
+  --accent-ring: rgba(56, 189, 248, 0.5);
+  --accent-text: #eafeff;
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --border-subtle: rgba(226, 232, 240, 0.08);
+  --border-focus: rgba(56, 189, 248, 0.8);
+  --shadow-strong: 0 30px 60px -15px rgba(0, 0, 0, 0.9);
+  --shadow-hover: 0 20px 32px -8px rgba(0, 0, 0, 0.8);
+  --option-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.9);
+  --option-hover-shadow: 0 12px 22px -6px rgba(0, 0, 0, 0.6);
+  --success-bg: rgba(34, 197, 94, 0.28);
+  --success-border: rgba(34, 197, 94, 0.9);
+  --success-text: #ecfdf5;
+  --danger-bg: rgba(239, 68, 68, 0.28);
+  --danger-border: rgba(239, 68, 68, 0.85);
+  --danger-text: #fff1f2;
+  --option-hover-bg: rgba(51, 65, 85, 0.6);
+  --explanation-bg: rgba(2, 6, 23, 0.9);
+  --explanation-border: rgba(56, 189, 248, 0.9);
+  --explanation-text: #f8fafc;
+  --explanation-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.9);
+  --selection-bg: rgba(250, 204, 21, 0.18);
+  --vocabulary-bg: rgba(15, 23, 42, 0.9);
+  --quiz-scrollbar-track: rgba(15, 23, 42, 0.4);
+  --quiz-scrollbar-thumb: rgba(148, 163, 184, 0.5);
+  --quiz-scrollbar-thumb-hover: rgba(226, 232, 240, 0.65);
+  --nav-active-bg: rgba(51, 65, 85, 0.85);
+  --nav-active-text: #f8fafc;
+  --nav-answered-bg: rgba(34, 197, 94, 0.65);
+  --nav-answered-text: #ecfdf5;
+  --nav-default-bg: rgba(15, 23, 42, 0.8);
+  --nav-default-text: #e2e8f0;
+  --nav-marked-ring: rgba(253, 224, 71, 0.65);
+  --timer-low-bg: rgba(239, 68, 68, 0.25);
+  --timer-low-text: #fecdd3;
+  --timer-default-bg: rgba(30, 41, 59, 0.65);
+  --timer-default-text: #e2e8f0;
+  --modal-overlay: rgba(2, 6, 23, 0.82);
+  --modal-surface: rgba(15, 23, 42, 0.96);
+  --modal-border: rgba(148, 163, 184, 0.35);
+  --modal-text: #e2e8f0;
+  --button-secondary-bg: rgba(15, 23, 42, 0.85);
+  --button-secondary-border: rgba(148, 163, 184, 0.35);
+  --button-secondary-text: #e2e8f0;
+  --subject-science-accent: #f87171;
+  --subject-science-text: #fff5f5;
+  --subject-science-surface-text: #fff5f5;
+  --subject-science-accent-text: #fff5f5;
+  --subject-science-border: rgba(252, 165, 165, 0.8);
+  --subject-science-gradient: linear-gradient(
+    135deg,
+    rgba(248, 113, 113, 0.85),
+    rgba(250, 204, 21, 0.7)
+  );
+  --subject-social-accent: #22c55e;
+  --subject-social-text: #ecfdf5;
+  --subject-social-surface-text: #ecfdf5;
+  --subject-social-accent-text: #ecfdf5;
+  --subject-social-border: rgba(74, 222, 128, 0.75);
+  --subject-social-gradient: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.9),
+    rgba(163, 230, 53, 0.7)
+  );
+  --subject-rla-accent: #8b5cf6;
+  --subject-rla-text: #ede9fe;
+  --subject-rla-surface-text: #ede9fe;
+  --subject-rla-accent-text: #ede9fe;
+  --subject-rla-border: rgba(167, 139, 250, 0.7);
+  --subject-rla-gradient: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.9),
+    rgba(236, 72, 153, 0.65)
+  );
+  --subject-math-accent: #0ea5e9;
+  --subject-math-text: #e0f2fe;
+  --subject-math-surface-text: #e0f2fe;
+  --subject-math-accent-text: #e0f2fe;
+  --subject-math-border: rgba(56, 189, 248, 0.7);
+  --subject-math-gradient: linear-gradient(
+    135deg,
+    rgba(14, 165, 233, 0.9),
+    rgba(34, 211, 238, 0.7)
+  );
+  --subject-workforce-accent: #14b8a6;
+  --subject-workforce-text: #f0fdfa;
+  --subject-workforce-surface-text: #f0fdfa;
+  --subject-workforce-accent-text: #f0fdfa;
+  --subject-workforce-border: rgba(20, 184, 166, 0.7);
+  --subject-workforce-gradient: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.95),
+    rgba(20, 184, 166, 0.85)
+  );
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+}
+/* Offset content below fixed AppHeader */
+:root {
+  --app-header-height: 64px;
+}
+body {
+  padding-top: var(--app-header-height);
+}
+@media (max-width: 640px) {
+  :root {
+    --app-header-height: 56px;
+  }
+}
+h1 {
+  font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+h2 {
+  font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+h3 {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+  word-break: break-word;
+}
+p,
+li {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-tertiary);
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('/assets/Logo-DgDKSQVJ.svg') center/105vmin no-repeat;
+  opacity: 0.12;
+  z-index: -1;
+  pointer-events: none;
+  animation: floatLogo 12s ease-in-out infinite alternate;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+      circle at 25% 25%,
+      rgba(14, 165, 233, 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(236, 72, 153, 0.03) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+  z-index: -2;
+}
+@keyframes floatLogo {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translateY(-10px);
+    opacity: 0.15;
+  }
+}
+.glass {
+  background: var(--bg-overlay);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-strong);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-strong);
+  color: var(--text-primary);
+}
+.subject-card {
+  transition: all 0.3s ease;
+  transform: translateY(0);
+}
+.subject-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+.quiz-nav::-webkit-scrollbar {
+  height: 4px;
+}
+.quiz-nav::-webkit-scrollbar-track {
+  background: var(--quiz-scrollbar-track);
+}
+.quiz-nav::-webkit-scrollbar-thumb {
+  background: var(--quiz-scrollbar-thumb);
+  border-radius: 2px;
+}
+.quiz-nav::-webkit-scrollbar-thumb:hover {
+  background: var(--quiz-scrollbar-thumb-hover);
+}
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes floatIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-in-out;
+}
+.animate-floatIn {
+  animation: floatIn 0.5s ease;
+}
+.prose ::selection {
+  background-color: var(--selection-bg);
+}
+.prose {
+  max-width: 65ch;
+  margin: auto;
+}
+.prose p {
+  margin-bottom: 1em;
+}
+.exam-root,
+.exam-body,
+.passage,
+.question-stem,
+.choice-text,
+.explanation,
+.rubric {
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  white-space: normal;
+  line-height: 1.5;
+  text-align: left;
+  max-width: 75ch;
+}
+.passage-text {
+  color: #000000;
+}
+.dark .passage-text {
+  color: var(--text-primary);
+}
+/* Light mode: question stems use normal text color */
+.question-stem {
+  color: var(--text-primary);
+}
+.question-stem * {
+  color: inherit;
+}
+/* Dark mode: question stems use white for contrast */
+.dark .question-stem {
+  color: #ffffff;
+}
+.dark .question-stem * {
+  color: inherit;
+}
+.break-all,
+[data-break='all'] {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.math,
+code,
+pre,
+kbd,
+samp,
+.token {
+  overflow-wrap: anywhere;
+}
+#pong-canvas {
+  background-color: #1a202c;
+  border-radius: 0.5rem;
+  border: 2px solid #4a5568;
+}
+.option {
+  border: 2px solid var(--border-subtle);
+  border-radius: 0.75rem;
+  background-color: var(--bg-surface);
+  padding: 0.75rem 1rem;
+  box-shadow: var(--option-shadow);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  color: var(--option-text);
+}
+.option:hover:not(.selected):not(.correct):not(.incorrect) {
+  background-color: var(--option-hover-bg);
+  transform: scale(1.01);
+  box-shadow: var(--option-hover-shadow);
+}
+.option.selected {
+  background-color: var(--accent-soft);
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+.option.correct {
+  background-color: var(--success-bg);
+  border-color: var(--success-border);
+  color: var(--success-text);
+  animation: correctPop 0.28s ease-out;
+  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.15);
+}
+@keyframes correctPop {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  40% {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.25);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+.option.incorrect {
+  background-color: var(--danger-bg);
+  border-color: var(--danger-border);
+  position: relative;
+  animation: shakeWrong 0.22s linear;
+  color: var(--danger-text);
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.1);
+
+  /* MULTIPLE-SELECT ENHANCEMENT: Styling for multiple-select questions */
+  .option.multiple-select {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+.dark .option.correct {
+  box-shadow: 0 0 0 1px var(--success-border);
+}
+.dark .option.incorrect {
+  box-shadow: 0 0 0 1px var(--danger-border);
+}
+@keyframes shakeWrong {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.explanation {
+  background-color: var(--explanation-bg);
+  border-left: 4px solid var(--explanation-border);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--explanation-text);
+  animation: explainReveal 0.25s ease-out;
+  box-shadow: var(--explanation-shadow);
+}
+.option:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+button[data-role='primary'] {
+  background-color: var(--accent);
+  border: 1px solid var(--accent-border);
+  color: var(--accent-text);
+  font-weight: 600;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.2s ease;
+  box-shadow: 0 10px 20px -12px rgba(14, 116, 144, 0.6);
+}
+button[data-role='primary']:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px -10px rgba(14, 116, 144, 0.65);
+}
+button[data-role='primary']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+button[data-role='secondary'] {
+  background-color: var(--button-secondary-bg);
+  border: 1px solid var(--button-secondary-border);
+  color: var(--button-secondary-text);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+button[data-role='secondary']:hover:not(:disabled) {
+  background-color: var(--bg-muted);
+  border-color: var(--border-strong);
+}
+@keyframes explainReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.good-evidence {
+  background-color: #dcfce7; /* Tailwind green-100 */
+  color: #166534; /* Tailwind green-800 */
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.bad-evidence {
+  background-color: #fee2e2; /* Tailwind red-100 */
+  color: #991b1b; /* Tailwind red-800 */
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.vocabulary-ticker {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--vocabulary-bg);
+}
+.vocabulary-ticker-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  width: max-content;
+  padding: 0.75rem 1rem;
+  animation: vocabularyTickerScroll 70s linear infinite;
+}
+.vocabulary-ticker:hover .vocabulary-ticker-track {
+  animation-play-state: paused;
+}
+.vocabulary-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+  background-color: #f8fafc;
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.9),
+    rgba(248, 250, 252, 0.6)
+  );
+  color: #0f172a;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+  white-space: nowrap;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.dark .vocabulary-chip {
+  border-color: rgba(226, 232, 240, 0.18);
+  background-color: rgba(15, 23, 42, 0.8);
+  color: #f8fafc;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
+}
+.vocabulary-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 14px rgba(15, 23, 42, 0.15);
+}
+.dark .vocabulary-chip:hover {
+  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.6);
+}
+.vocabulary-chip-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 9999px;
+}
+.vocabulary-chip-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.dark .vocabulary-chip-label {
+  color: #f8fafc;
+}
+@keyframes vocabularyTickerScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.question-stem,
+.question-stem * {
+  font-style: normal;
+}
+.question-stem {
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.question-stem table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+}
+.question-stem th,
+.question-stem td {
+  border: 1px solid #e5e7eb;
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+}
+.question-stem thead th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+.dark .question-stem th,
+.dark .question-stem td {
+  border: 1px solid rgba(226, 232, 240, 0.18);
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  color: #f8fafc;
+  background-color: rgba(15, 23, 42, 0.6);
+}
+.dark .question-stem thead th {
+  background-color: rgba(30, 41, 59, 0.8);
+  color: #ffffff;
+  font-weight: 600;
+}
+/* Function table styling for math questions */
+.function-table {
+  display: inline-block;
+  margin: 1rem 0;
+  border-collapse: collapse;
+  border: 2px solid #0284c7;
+  background-color: #ffffff;
+}
+.function-table tbody {
+  display: table;
+  width: 100%;
+}
+.function-table tr {
+  display: table-row;
+}
+.function-table th,
+.function-table td {
+  border: 1px solid #0ea5e9;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  font-weight: 500;
+}
+.function-table th {
+  background-color: #e0f2fe;
+  color: #0c4a6e;
+  font-weight: 700;
+}
+.dark .function-table {
+  background-color: rgba(15, 23, 42, 0.9);
+  border: 2px solid #38bdf8;
+}
+.dark .function-table th,
+.dark .function-table td {
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  color: #f8fafc;
+}
+.dark .function-table th {
+  background-color: rgba(14, 165, 233, 0.3);
+  color: #bae6fd;
+}
+h3 {
+  overflow-wrap: break-word;
+}
+/* --- Premium dashboard skin (LIGHT) --- */
+/* Note: page background handled by html[data-theme="light"] above */
+/* Unified light-mode card/panel recipe: single canonical definition */
+[data-theme='light'] .content-card,
+[data-theme='light'] .panel,
+[data-theme='light'] .card,
+[data-theme='light'] .box,
+[data-theme='light'] .dashboard-sections,
+[data-theme='light'] .dashboard-row,
+[data-theme='light'] .section,
+[data-theme='light'] .section-container,
+[data-theme='light'] .quiz-section,
+[data-theme='light'] .vocabulary-ticker {
+  background-color: #ffffff;
+  background: linear-gradient(135deg, #ffffff, #f9fafb);
+  border: 1px solid rgba(2, 6, 23, 0.12);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  color: var(--text-color);
+}
+/* top bar / header strip */
+[data-theme='light'] .section-header,
+[data-theme='light'] header.dashboard-header,
+[data-theme='light'] .panel-header {
+  background: linear-gradient(
+    90deg,
+    rgba(14, 165, 233, 0.06),
+    rgba(236, 72, 153, 0.03)
+  );
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  backdrop-filter: blur(6px);
+}
+/* metric tiles on dashboard */
+[data-theme='light'] .panel,
+[data-theme='light'] .box,
+[data-theme='light'] .scores-shell,
+[data-theme='light'] .vocab-shell {
+  /* background handled by unified gradient / specific blocks */
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+[data-theme='light'] .panel:hover,
+[data-theme='light'] .box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
+}
+/* --- Premium dashboard skin (LIGHT) --- */
+/* Note: page background handled by html[data-theme="light"] above */
+/* Unified light-mode card/panel recipe: single canonical definition */
+[data-theme='light'] .content-card,
+[data-theme='light'] .panel,
+[data-theme='light'] .card,
+[data-theme='light'] .box,
+[data-theme='light'] .dashboard-sections,
+[data-theme='light'] .dashboard-row,
+[data-theme='light'] .section,
+[data-theme='light'] .section-container,
+[data-theme='light'] .quiz-section,
+[data-theme='light'] .vocabulary-ticker {
+  background-color: #ffffff;
+  background: linear-gradient(135deg, #ffffff, #f9fafb);
+  border: 1px solid rgba(2, 6, 23, 0.12);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  color: var(--text-color);
+}
+/* top bar / header strip */
+[data-theme='light'] .section-header,
+[data-theme='light'] header.dashboard-header,
+[data-theme='light'] .panel-header {
+  background: linear-gradient(
+    90deg,
+    rgba(14, 165, 233, 0.06),
+    rgba(236, 72, 153, 0.03)
+  );
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  backdrop-filter: blur(6px);
+}
+/* metric tiles on dashboard */
+[data-theme='light'] .panel,
+[data-theme='light'] .box,
+[data-theme='light'] .scores-shell,
+[data-theme='light'] .vocab-shell {
+  /* background handled by unified gradient / specific blocks */
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+[data-theme='light'] .panel:hover,
+[data-theme='light'] .box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
+}
+/* animated hero gradient title in light mode */
+[data-theme='light'] .dashboard-hero-title,
+[data-theme='light'] header.text-center h1 {
+  background: linear-gradient(90deg, #0ea5e9, #6366f1 40%, #f97316 80%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+/* tiny ambient motion for highlighted cards in light mode */
+@keyframes softFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1px);
+  }
+}
+[data-theme='light'] .dashboard-sections > .panel.featured,
+[data-theme='light'] .coach-panel {
+  animation: softFloat 6s ease-in-out infinite;
+}
+/* Section headers: distinct from cards */
+[data-theme='light'] .section-title,
+[data-theme='light'] .section-header,
+[data-theme='light'] .panel-header {
+  background-color: #ffffff;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
+}
+/* Keep ticker chips as they are */
+[data-theme='light'] .vocabulary-ticker-track,
+[data-theme='light'] .vocabulary-chip {
+  background-color: inherit;
+}
+/* Text colors for specific views */
+[data-theme='light'] .content-card header.text-center p {
+  color: #000000;
+}
+/* Profile page: render text black in LIGHT mode except buttons */
+[data-theme='light'] #profileView h1,
+[data-theme='light'] #profileView h2,
+[data-theme='light'] #profileView h3,
+[data-theme='light'] #profileView p,
+[data-theme='light'] #profileView label,
+[data-theme='light'] #profileView li,
+[data-theme='light'] #profileView dt,
+[data-theme='light'] #profileView dd {
+  color: #000000;
+}
+/* Do not alter button label colors in profile view */
+[data-theme='light'] #profileView button,
+[data-theme='light'] #profileView button * {
+  color: inherit;
+}
+/* Settings page: render text black in LIGHT mode except buttons */
+[data-theme='light'] #settingsView h1,
+[data-theme='light'] #settingsView h2,
+[data-theme='light'] #settingsView h3,
+[data-theme='light'] #settingsView p,
+[data-theme='light'] #settingsView label,
+[data-theme='light'] #settingsView li,
+[data-theme='light'] #settingsView dt,
+[data-theme='light'] #settingsView dd {
+  color: #000000;
+}
+[data-theme='light'] #settingsView button,
+[data-theme='light'] #settingsView button * {
+  color: inherit;
+}
+/* Settings Back to Dashboard (and other buttons) should have black text in light mode */
+[data-theme='light'] #settingsView .settings-header button {
+  color: #000000;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+}
+[data-theme='light']
+  #settingsView
+  .settings-header
+  button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+/* Settings page: force Font Size and Color Mode texts to black in LIGHT mode only */
+[data-theme='light'] #settingsView fieldset > legend,
+[data-theme='light'] #settingsView fieldset > p,
+[data-theme='light'] #settingsView label span .font-semibold,
+[data-theme='light'] #settingsView label span .text-xs {
+  color: #000000;
+}
+/* C) Scope the flattening to the lower subject grid only (not progress cards) */
+/* Duplicate of earlier [data-theme="light"] .content-card #quizzes .subject-card removed */
+/* D) If any 'glass' overlays are applied inside the content card, keep them light */
+[data-theme='light'] .content-card .glass {
+  background-color: rgba(255, 255, 255, 0.75);
+  border-color: rgba(148, 163, 184, 0.22);
+}
+/* E) Guard against accidental dark variants leaking in light mode */
+[data-theme='light'] .content-card [class*='dark:bg-'] {
+  background-color: inherit; /* neutralize dark:bg-* when not in dark */
+}
+/* ------------------------------ */
+/* Light-mode polish: Dashboard & Settings (scoped) */
+/* 1) Card surfaces & elevation (subtle, white on white) */
+[data-theme='light'] .profile-block,
+[data-theme='light'] .vocabulary-ticker,
+[data-theme='light'] .settings-card,
+[data-theme='light'] .settings-section {
+  position: relative;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 1rem;
+  box-shadow: 0 6px 14px rgba(2, 6, 23, 0.05);
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+/* keep settings hover; panel/box hover handled by premium skin */
+[data-theme='light'] .settings-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(2, 6, 23, 0.08);
+}
+/* Keep subject tiles/gradients managed by component styles; do not globally override here */
+/* 2) Section headers feel “distinct” without dark bars */
+/* section header skin handled by premium skin */
+/* 3) Typography upgrades (titles, labels; content stays black on white) */
+[data-theme='light'] .content-card,
+[data-theme='light'] .settings-card {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+[data-theme='light'] .section-title,
+[data-theme='light'] .panel-title,
+[data-theme='light'] .settings-title {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  color: #0f172a;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(148, 163, 184, 0.18);
+  padding-bottom: 0.4rem;
+}
+[data-theme='light'] .overline,
+[data-theme='light'] .label-lite {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #334155;
+  opacity: 0.9;
+}
+[data-theme='light'] .question-text,
+[data-theme='light'] .passage,
+[data-theme='light'] .answer-option,
+[data-theme='light'] .settings-description {
+  color: #0b1220; /* dark text for readability */
+  text-shadow: none;
+}
+/* 4) Pills/chips (Vocabulary, Settings options) look premium */
+[data-theme='light'] .content-card .chip,
+[data-theme='light'] .content-card .vocabulary-chip,
+[data-theme='light'] .content-card .option-pill,
+[data-theme='light'] .settings-card .chip,
+[data-theme='light'] .settings-card .option-pill {
+  background: linear-gradient(180deg, #ffffff, #f3f6fb);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(2, 6, 23, 0.06);
+}
+[data-theme='light'] .content-card .option-pill.is-selected,
+[data-theme='light'] .settings-card .option-pill.is-selected {
+  background: linear-gradient(180deg, #eef6ff, #e7f0ff);
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+}
+/* 6) Gentle separators & spacing rhythm */
+[data-theme='light'] .content-card .divider,
+[data-theme='light'] .content-card .rule,
+[data-theme='light'] .settings-card .divider,
+[data-theme='light'] .settings-card .rule {
+  border-color: rgba(148, 163, 184, 0.25);
+  opacity: 0.9;
+}
+[data-theme='light'] .content-card .section,
+[data-theme='light'] .settings-section {
+  padding: 1.1rem 1.25rem;
+}
+/* 7) Guard rails: also for settings container */
+[data-theme='light'] .settings-card [class*='dark:bg-'] {
+  background-color: transparent;
+}
+/* Math Tools: ensure tab button text is black in LIGHT mode */
+[data-theme='light'] .math-tools-tabs button {
+  color: #000000;
+}
+/* Math Practice Tools title and graphing Equations label must be black in LIGHT mode */
+[data-theme='light'] .math-practice-header h1 {
+  color: #000000;
+}
+[data-theme='light'] .equations-label {
+  color: #000000;
+}
+/* Settings: force Save button text to black in LIGHT mode */
+[data-theme='light'] #settingsView button[type='submit'],
+[data-theme='light'] #settingsView button[type='submit'] * {
+  color: #000000;
+}
+/* Dashboard bottom cards: stronger distinction in LIGHT mode */
+[data-theme='light'] .block-start-quiz .panel.card {
+  background: linear-gradient(135deg, #ffffff, #f9fafb);
+  border: 1px solid rgba(2, 6, 23, 0.12);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+[data-theme='light'] .scores-shell,
+[data-theme='light'] .vocab-shell {
+  background: linear-gradient(135deg, #ffffff, #f9fafb);
+  border: 1px solid rgba(2, 6, 23, 0.12);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+/* Default subject heading color in light mode (fallback) */
+[data-theme='light'] .subject-accent-heading {
+  color: var(--accent);
+}
+/* Per-subject heading accents in light mode */
+[data-theme='light'] [data-subject='Math'] .subject-accent-heading {
+  color: var(--subject-math-accent);
+}
+[data-theme='light'] [data-subject='Science'] .subject-accent-heading {
+  color: var(--subject-science-accent);
+}
+[data-theme='light'] [data-subject='Social Studies'] .subject-accent-heading {
+  color: var(--subject-social-accent);
+}
+[data-theme='light']
+  [data-subject='Reasoning Through Language Arts (RLA)']
+  .subject-accent-heading {
+  color: var(--subject-rla-accent);
+}
+/* Dark mode: always render these headers white for readability, except Social Studies gets a lighter green */
+[data-theme='dark'] .subject-accent-heading {
+  color: #ffffff;
+}
+[data-theme='dark'] [data-subject='Social Studies'] .subject-accent-heading {
+  color: #a7f3d0; /* emerald-200 */
+}
+/* Settings: clearer selected state for Font Size and Theme bubbles */
+#settingsView label:has(input[type='radio'][name='fontSize']:checked) {
+  border-color: var(--accent);
+  background-color: var(--accent-soft);
+  box-shadow: 0 0 0 2px var(--accent-ring);
+}
+#settingsView label:has(input[type='radio'][name='theme']:checked) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-ring);
+}
+/* Test Plan: clearer selected state for checkboxes (Not scheduled / Passed) */
+.subject-test-block label.inline-row:has(input:checked) {
+  background-color: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  border-radius: 0.5rem;
+  padding-inline: 0.5rem;
+  color: var(--text-primary);
+}
+.subject-test-block label:has(input:focus) {
+  outline: 2px solid var(--accent-ring);
+  outline-offset: 2px;
+}
+.refresh-button {
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, box-shadow 0.2s ease;
+}
+[data-theme='light'] .refresh-button {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #d1d5db;
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.12);
+}
+/* Ensure Profile refresh button text is black in light mode, overriding broader button color rules */
+[data-theme='light'] #profileView .refresh-button,
+[data-theme='light'] #profileView .refresh-button * {
+  color: #000000;
+}
+[data-theme='light'] #profileView .refresh-button {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+}
+[data-theme='light'] .refresh-button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+[data-theme='dark'] .refresh-button {
+  background-color: rgba(15, 23, 42, 0.85);
+  color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+}
+[data-theme='dark'] .refresh-button:hover:not(:disabled) {
+  background-color: rgba(30, 41, 59, 0.8);
+}
+.subject-description {
+  color: var(--text-secondary);
+}
+[data-theme='light'] .subject-description {
+  color: var(--text-primary);
+}
+[data-theme='dark'] .subject-description {
+  color: rgba(226, 232, 240, 0.95);
+}
+.formula-sheet {
+  background-color: #ffffff;
+  color: #000000;
+}
+.formula-sheet .formula-sheet-card {
+  background-color: #ffffff;
+  color: inherit;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+.formula-sheet .formula-equation {
+  background-color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  color: inherit;
+  display: block;
+}
+.formula-sheet .formula-sheet-description {
+  color: inherit;
+}
+[data-theme='dark'] .formula-sheet {
+  background-color: var(--modal-surface);
+  color: var(--modal-text);
+}
+[data-theme='dark'] .formula-sheet .formula-sheet-card {
+  background-color: rgba(15, 23, 42, 0.65);
+  border-color: rgba(148, 163, 184, 0.45);
+}
+[data-theme='dark'] .formula-sheet .formula-equation {
+  background-color: rgba(2, 6, 23, 0.65);
+  border-color: rgba(148, 163, 184, 0.45);
+  color: var(--modal-text);
+}
+[data-theme='dark'] .science-formula-sheet {
+  background-color: #000000;
+  color: #ffffff;
+}
+[data-theme='dark'] .science-formula-sheet .formula-sheet-card {
+  background-color: rgba(17, 24, 39, 0.85);
+  border-color: rgba(148, 163, 184, 0.55);
+}
+[data-theme='dark'] .science-formula-sheet .formula-equation {
+  background-color: #000000;
+  border-color: rgba(148, 163, 184, 0.55);
+  color: #ffffff;
+}
+[data-theme='light'] .science-formula-sheet .formula-sheet-card {
+  background-color: #f8fafc;
+}
+[data-theme='light'] .science-formula-sheet .formula-equation {
+  background-color: #ffffff;
+}
+.formula-sheet-header {
+  background-color: transparent;
+}
+[data-theme='light'] .formula-sheet-header {
+  background-color: #ffffff;
+}
+[data-theme='dark'] .formula-sheet-header {
+  background-color: rgba(0, 0, 0, 0.65);
+}
+.formula-sheet-title,
+.formula-sheet-close {
+  color: inherit;
+}
+.formula-sheet-section {
+  border-color: rgba(148, 163, 184, 0.35);
+  color: inherit;
+}
+[data-theme='dark'] .formula-sheet-section {
+  border-color: rgba(148, 163, 184, 0.45);
+}
+.quiz-count-text {
+  font-weight: 600;
+}
+[data-theme='light'] .quiz-count-text[data-subject='Science'] {
+  color: var(--subject-science-accent-text, #7f1d1d);
+}
+[data-theme='light'] .quiz-count-text[data-subject='Math'] {
+  color: var(--subject-math-accent-text, #0c4a6e);
+}
+[data-theme='light'] .quiz-count-text[data-subject='Social Studies'] {
+  color: var(--subject-social-accent-text, #14532d);
+}
+[data-theme='light'] .quiz-count-text[data-subject='RLA'] {
+  color: var(--subject-rla-accent-text, #4c1d95);
+}
+.subject-card {
+  transition: all 0.3s ease;
+  transform: translateY(0);
+  position: relative;
+  overflow: visible;
+}
+.subject-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+/* centered, pulsing badge for ANY subject that is reported as passed */
+.subject-badge-shell {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* make it big — adjust if too much */
+  width: 130%;
+  height: 130%;
+  max-width: 130%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+  animation: badgePulse 4s ease-in-out infinite;
+}
+/* the actual SVG/img */
+.subject-badge-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 32px rgba(15, 23, 42, 0.35));
+}
+/* Desktop: amplify presence on wider screens */
+@media (min-width: 1024px) {
+  .subject-badge-shell {
+    width: 300%;
+    height: 300%;
+    max-width: 300%;
+  }
+}
+/* Fallback pill if the SVG is missing — keep it in the corner */
+.subject-badge-pill {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  z-index: 25;
+  pointer-events: none;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #6d28d9;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+}
+/* 4 second “ebb” — full ➜ translucent ➜ full */
+@keyframes badgePulse {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.18;
+  }
+  75% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/* Requested explicit containers (structure only; we keep Tailwind grid too) */
+.dashboard-progress {
+  align-items: stretch;
+}
+.progress-card.total-attempts {
+  background: #ffffff;
+}
+/* Remove hard white background so component gradients/borders show */
+.progress-subjects .subject-card {
+  opacity: 1;
+  filter: none;
+}
+.quiz-nav {
+  scrollbar-width: thin;
+  scrollbar-color: var(--quiz-scrollbar-thumb) var(--quiz-scrollbar-track);
+}
+.quiz-nav::-webkit-scrollbar {
+  height: 4px;
+}
+.quiz-nav::-webkit-scrollbar-track {
+  background: var(--quiz-scrollbar-track);
+}
+.quiz-nav::-webkit-scrollbar-thumb {
+  background: var(--quiz-scrollbar-thumb);
+  border-radius: 2px;
+}
+.quiz-nav::-webkit-scrollbar-thumb:hover {
+  background: var(--quiz-scrollbar-thumb-hover);
+}
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes floatIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/* Dashboard badge pop-in animation */
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.badge-pop {
+  animation: popIn 0.5s ease-out forwards;
+}
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-in-out;
+}
+.animate-floatIn {
+  animation: floatIn 0.5s ease;
+}
+.prose ::selection {
+  background-color: var(--selection-bg);
+}
+.prose {
+  max-width: 65ch;
+  margin: auto;
+}
+.prose p {
+  margin-bottom: 1em;
+}
+.exam-root,
+.exam-body,
+.passage,
+.question-stem,
+.choice-text,
+.explanation,
+.rubric {
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  white-space: normal;
+  line-height: 1.5;
+  text-align: left;
+  max-width: 75ch;
+}
+.passage-text {
+  color: #000000;
+}
+.dark .passage-text {
+  color: var(--text-primary);
+}
+/* Light mode: question stems use normal text color */
+.question-stem {
+  color: var(--text-primary);
+}
+.question-stem * {
+  color: inherit;
+}
+/* Dark mode: question stems use white for contrast */
+.dark .question-stem {
+  color: #ffffff;
+}
+.dark .question-stem * {
+  color: inherit;
+}
+.break-all,
+[data-break='all'] {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.math,
+code,
+pre,
+kbd,
+samp,
+.token {
+  overflow-wrap: anywhere;
+}
+#pong-canvas {
+  background-color: #1a202c;
+  border-radius: 0.5rem;
+  border: 2px solid #4a5568;
+}
+.option {
+  border: 2px solid var(--border-subtle);
+  border-radius: 0.75rem;
+  background-color: var(--bg-surface);
+  padding: 0.75rem 1rem;
+  box-shadow: var(--option-shadow);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  color: var(--option-text);
+}
+.option:hover:not(.selected):not(.correct):not(.incorrect) {
+  background-color: var(--option-hover-bg);
+  transform: scale(1.01);
+  box-shadow: var(--option-hover-shadow);
+}
+.option.selected {
+  background-color: var(--accent-soft);
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+.option.correct {
+  background-color: var(--success-bg);
+  border-color: var(--success-border);
+  color: var(--success-text);
+  animation: correctPop 0.28s ease-out;
+  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.15);
+}
+@keyframes correctPop {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  40% {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.25);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+.option.incorrect {
+  background-color: var(--danger-bg);
+  border-color: var(--danger-border);
+  position: relative;
+  animation: shakeWrong 0.22s linear;
+  color: var(--danger-text);
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.1);
+}
+.dark .option.correct {
+  box-shadow: 0 0 0 1px var(--success-border);
+}
+.dark .option.incorrect {
+  box-shadow: 0 0 0 1px var(--danger-border);
+}
+@keyframes shakeWrong {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.explanation {
+  background-color: var(--explanation-bg);
+  border-left: 4px solid var(--explanation-border);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--explanation-text);
+  animation: explainReveal 0.25s ease-out;
+  box-shadow: var(--explanation-shadow);
+}
+.option:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+button[data-role='primary'] {
+  background-color: var(--accent);
+  border: 1px solid var(--accent-border);
+  color: var(--accent-text);
+  font-weight: 600;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.2s ease;
+  box-shadow: 0 10px 20px -12px rgba(14, 116, 144, 0.6);
+}
+button[data-role='primary']:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px -10px rgba(14, 116, 144, 0.65);
+}
+button[data-role='primary']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+button[data-role='secondary'] {
+  background-color: var(--button-secondary-bg);
+  border: 1px solid var(--button-secondary-border);
+  color: var(--button-secondary-text);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+button[data-role='secondary']:hover:not(:disabled) {
+  background-color: var(--bg-muted);
+  border-color: var(--border-strong);
+}
+@keyframes explainReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.good-evidence {
+  background-color: #dcfce7; /* Tailwind green-100 */
+  color: #166534; /* Tailwind green-800 */
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.bad-evidence {
+  background-color: #fee2e2; /* Tailwind red-100 */
+  color: #991b1b; /* Tailwind red-800 */
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.vocabulary-ticker {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--vocabulary-bg);
+}
+.vocabulary-ticker-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  width: max-content;
+  padding: 0.75rem 1rem;
+  animation: vocabularyTickerScroll 70s linear infinite;
+}
+.vocabulary-ticker:hover .vocabulary-ticker-track {
+  animation-play-state: paused;
+}
+.vocabulary-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+  background-color: #f8fafc;
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.9),
+    rgba(248, 250, 252, 0.6)
+  );
+  color: #0f172a;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+  white-space: nowrap;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.dark .vocabulary-chip {
+  border-color: rgba(226, 232, 240, 0.18);
+  background-color: rgba(15, 23, 42, 0.8);
+  color: #f8fafc;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
+}
+.vocabulary-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 14px rgba(15, 23, 42, 0.15);
+}
+.dark .vocabulary-chip:hover {
+  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.6);
+}
+.vocabulary-chip-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 9999px;
+}
+.vocabulary-chip-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.dark .vocabulary-chip-label {
+  color: #f8fafc;
+}
+@keyframes vocabularyTickerScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.question-stem,
+.question-stem * {
+  font-style: normal;
+}
+.question-stem {
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.question-stem table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+}
+.question-stem th,
+.question-stem td {
+  border: 1px solid #e5e7eb;
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+}
+.question-stem thead th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+.dark .question-stem th,
+.dark .question-stem td {
+  border: 1px solid rgba(226, 232, 240, 0.18);
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  color: #f8fafc;
+  background-color: rgba(15, 23, 42, 0.6);
+}
+.dark .question-stem thead th {
+  background-color: rgba(30, 41, 59, 0.8);
+  color: #ffffff;
+  font-weight: 600;
+}
+h3 {
+  overflow-wrap: break-word;
+}
+@media (max-width: 768px) {
+  body {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  h1,
+  .section-title,
+  .panel-title {
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+
+  .dashboard-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .block-start-quiz {
+    order: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .block-test-date {
+    order: 2;
+  }
+  .block-challenges {
+    order: 3;
+  }
+  .block-vocab {
+    order: 4;
+  }
+  .block-profile {
+    order: 5;
+  }
+  .block-adminStuff {
+    order: 6;
+  }
+
+  .two-col,
+  .flex-row,
+  .dashboard-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .dashboard-row {
+    order: 2;
+  }
+
+  .card,
+  .panel,
+  .box,
+  .quiz-section,
+  .quiz-block,
+  .profile-block {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  button,
+  .answerOption,
+  .subject-choice,
+  .mode-toggle,
+  .quiz-start-btn {
+    font-size: 1rem;
+    line-height: 1.4;
+    padding: 0.9rem 1rem;
+    border-radius: 0.6rem;
+  }
+
+  .card,
+  .panel,
+  .quiz-block,
+  .profile-block,
+  .question-area,
+  .passage-block {
+    padding: 1rem 1rem;
+    border-radius: 0.75rem;
+  }
+
+  /* Force high contrast for learning content on mobile */
+  .passage-block,
+  .question-area,
+  .quiz-block,
+  .card,
+  .panel {
+    background-color: var(--surface-mobile, #ffffff);
+    color: var(--text-mobile, #1a1a1a);
+  }
+
+  .passage-block p,
+  .question-area,
+  .quiz-block .questionText,
+  .quiz-block .passageText {
+    color: inherit;
+  }
+
+  .subject-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .subject-bar button,
+  .subject-choice,
+  .mode-toggle {
+    flex: 1 1 calc(50% - 0.5rem);
+    max-width: calc(50% - 0.5rem);
+    text-align: center;
+  }
+
+  .card,
+  .panel,
+  .quiz-block,
+  .passage-block,
+  .question-area {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+}
+/* Coach panel gold gradient styling */
+.coach-panel {
+  background-image: linear-gradient(
+    135deg,
+    #f8e7a1 0%,
+    #f1d17a 50%,
+    #d4af37 100%
+  );
+  color: #111827; /* slate-900 */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+/* Workforce Hub minimal styles */
+.workforce-hub {
+  --subject-accent: var(--subject-workforce-accent);
+  --subject-text: var(--subject-workforce-text);
+  --subject-surface-text: var(--subject-workforce-surface-text);
+  --subject-border: var(--subject-workforce-border);
+}
+.workforce-tool-card {
+  border-color: var(--subject-workforce-border);
+}
+.workforce-tool-grid {
+  align-items: stretch;
+}
+.workforce-resume-preview {
+  border-color: var(--subject-workforce-border);
+}
+.workforce-budget-summary {
+  border-color: var(--subject-workforce-border);
+}
+.workforce-kanban > div {
+  border-color: var(--subject-workforce-border);
+}
+/* Workforce Hub light mode: force black text except header */
+[data-theme='light'] .workforce-hub section,
+[data-theme='light'] .workforce-hub .workforce-tool-card,
+[data-theme='light'] .workforce-hub .workforce-resume-preview,
+[data-theme='light'] .workforce-hub .workforce-budget-summary,
+[data-theme='light'] .workforce-hub .workforce-kanban {
+  color: #000000;
+}
+[data-theme='light'] .workforce-hub section *,
+[data-theme='light'] .workforce-hub .workforce-tool-card *,
+[data-theme='light'] .workforce-hub .workforce-resume-preview *,
+[data-theme='light'] .workforce-hub .workforce-budget-summary *,
+[data-theme='light'] .workforce-hub .workforce-kanban * {
+  color: inherit;
+}
+/* Keep tool button text visible when active (white on teal) */
+[data-theme='light'] .workforce-hub .workforce-tool-card.bg-teal-600 {
+  color: #ffffff;
+}
+.dark .coach-panel,
+[data-theme='dark'] .coach-panel {
+  background-image: linear-gradient(
+    135deg,
+    #b8860b 0%,
+    #8b6b10 50%,
+    #6b4e0b 100%
+  );
+  color: #f8fafc; /* slate-50 */
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+/* Coach Smith gold panel – unified for light + dark (darker game-style gold) */
+.coach-panel {
+  background: linear-gradient(
+    135deg,
+    #2f2409 0%,
+    #4a370b 35%,
+    #705416 65%,
+    #b48f2a 100%
+  );
+  border: 1px solid rgba(180, 143, 42, 0.45);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.dark .coach-panel,
+[data-theme='dark'] .coach-panel {
+  background: linear-gradient(
+    135deg,
+    #2f2409 0%,
+    #4a370b 35%,
+    #705416 65%,
+    #b48f2a 100%
+  );
+  border: 1px solid rgba(180, 143, 42, 0.5);
+}
+/* In light mode, force all text inside coach panel to pure black for maximum contrast */
+[data-theme='light'] .coach-panel,
+[data-theme='light'] .coach-panel * {
+  color: #000;
+}
+/* light-mode gold for Coach Smith main panel override (slightly darker radial) */
+.coach-gold-light {
+  background: radial-gradient(
+    circle at top,
+    #f4c060 0%,
+    #d99b30 40%,
+    #b87b1c 100%
+  );
+  border: 1px solid rgba(184, 123, 28, 0.35);
+}
+/* readable text on light gold */
+.coach-gold-light h2,
+.coach-gold-light .coach-header,
+.coach-gold-light p {
+  color: #1f2937;
+}
+/* subject cards inside coach panel */
+.coach-subject-card.coach-gold-card {
+  background: linear-gradient(
+    135deg,
+    rgba(244, 192, 96, 0.85) 0%,
+    rgba(217, 155, 48, 0.95) 60%,
+    rgba(184, 123, 28, 1) 100%
+  );
+  border: 1px solid rgba(184, 123, 28, 0.25);
+  box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22);
+}
+/* subtle per-subject border glow on gold cards */
+.coach-subject-card.subject-math {
+  border-color: rgba(14, 165, 233, 0.45);
+  box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22),
+    0 0 0 1px rgba(14, 165, 233, 0.45) inset, 0 0 16px rgba(14, 165, 233, 0.2);
+}
+.coach-subject-card.subject-rla {
+  border-color: rgba(124, 58, 237, 0.45);
+  box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22),
+    0 0 0 1px rgba(124, 58, 237, 0.45) inset, 0 0 16px rgba(124, 58, 237, 0.2);
+}
+.coach-subject-card.subject-science {
+  border-color: rgba(248, 113, 113, 0.45);
+  box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22),
+    0 0 0 1px rgba(248, 113, 113, 0.45) inset, 0 0 16px rgba(248, 113, 113, 0.2);
+}
+.coach-subject-card.subject-social {
+  border-color: rgba(22, 163, 74, 0.45);
+  box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22),
+    0 0 0 1px rgba(22, 163, 74, 0.45) inset, 0 0 16px rgba(22, 163, 74, 0.2);
+}
+/* subject label chips and minutes badges stay visible */
+/* generic pill styles (used in subject and dashboard) */
+.subject-pill {
+  background: rgba(255, 255, 255, 0.8);
+  color: #1f2937;
+}
+.minutes-pill {
+  background: rgba(255, 255, 255, 0.55);
+  color: #1f2937;
+  border-radius: 9999px;
+  padding: 2px 8px;
+}
+/* tinted subject pills per subject for readability on gold */
+.coach-subject-card.subject-math .subject-pill {
+  background: rgba(14, 165, 233, 0.22);
+  color: #063a4a;
+  border: 1px solid rgba(14, 165, 233, 0.45);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35) inset;
+}
+.coach-subject-card.subject-rla .subject-pill {
+  background: rgba(124, 58, 237, 0.22);
+  color: #2e1065;
+  border: 1px solid rgba(124, 58, 237, 0.45);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35) inset;
+}
+.coach-subject-card.subject-science .subject-pill {
+  background: rgba(248, 113, 113, 0.22);
+  color: #7f1d1d;
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35) inset;
+}
+.coach-subject-card.subject-social .subject-pill {
+  background: rgba(22, 163, 74, 0.22);
+  color: #064e3b;
+  border: 1px solid rgba(22, 163, 74, 0.45);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35) inset;
+}
+/* Force coach cards to stay vibrant in light mode */
+[data-theme='light'] .coach-subject-card.subject-math {
+  background: linear-gradient(
+    135deg,
+    rgba(56, 189, 248, 0.2),
+    rgba(14, 165, 233, 0.25)
+  );
+  border-color: rgba(14, 165, 233, 0.5);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+}
+[data-theme='light'] .coach-subject-card.subject-rla {
+  background: linear-gradient(
+    135deg,
+    rgba(167, 139, 250, 0.2),
+    rgba(124, 58, 237, 0.25)
+  );
+  border-color: rgba(124, 58, 237, 0.5);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+[data-theme='light'] .coach-subject-card.subject-science {
+  background: linear-gradient(
+    135deg,
+    rgba(252, 165, 165, 0.2),
+    rgba(248, 113, 113, 0.25)
+  );
+  border-color: rgba(248, 113, 113, 0.5);
+  box-shadow: 0 4px 12px rgba(248, 113, 113, 0.15);
+}
+[data-theme='light'] .coach-subject-card.subject-social {
+  background: linear-gradient(
+    135deg,
+    rgba(74, 222, 128, 0.2),
+    rgba(22, 163, 74, 0.25)
+  );
+  border-color: rgba(22, 163, 74, 0.5);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.15);
+}
+[data-theme='light'] .coach-subject-card .subject-pill {
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  font-weight: 600;
+}
+[data-theme='light'] .coach-subject-card .minutes-pill {
+  color: #1e293b;
+}
+/* Strong themed Start buttons inside coach subject cards (light mode) */
+[data-theme='light'] .coach-subject-card button {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #ffffff;
+  font-weight: 600;
+  border: 1px solid rgba(15, 23, 42, 0.35);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+  transition: background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+[data-theme='light'] .coach-subject-card button:hover {
+  background: linear-gradient(135deg, #1e293b, #334155);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
+  transform: translateY(-1px);
+}
+[data-theme='light'] .coach-subject-card button:active {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.28);
+  transform: translateY(0);
+}
+/* Per-subject accent variants (light mode) */
+[data-theme='light'] .coach-subject-card.subject-science button {
+  background: linear-gradient(135deg, #f87171, #dc2626);
+  border-color: rgba(248, 113, 113, 0.55);
+}
+[data-theme='light'] .coach-subject-card.subject-rla button {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  border-color: rgba(139, 92, 246, 0.55);
+}
+[data-theme='light'] .coach-subject-card.subject-math button {
+  background: linear-gradient(135deg, #0ea5e9, #0369a1);
+  border-color: rgba(14, 165, 233, 0.55);
+}
+[data-theme='light'] .coach-subject-card.subject-social button {
+  background: linear-gradient(135deg, #22c55e, #15803d);
+  border-color: rgba(34, 197, 94, 0.55);
+}
+/* Dark mode strong buttons with subtle elevation */
+[data-theme='dark'] .coach-subject-card button {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  color: #f8fafc;
+  font-weight: 600;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  transition: background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+[data-theme='dark'] .coach-subject-card button:hover {
+  background: linear-gradient(135deg, #334155, #1e293b);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+  transform: translateY(-1px);
+}
+[data-theme='dark'] .coach-subject-card button:active {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  transform: translateY(0);
+}
+/* Dark per-subject accent rims (border only) */
+[data-theme='dark'] .coach-subject-card.subject-science button {
+  border-color: rgba(248, 113, 113, 0.55);
+}
+[data-theme='dark'] .coach-subject-card.subject-rla button {
+  border-color: rgba(139, 92, 246, 0.55);
+}
+[data-theme='dark'] .coach-subject-card.subject-math button {
+  border-color: rgba(14, 165, 233, 0.55);
+}
+[data-theme='dark'] .coach-subject-card.subject-social button {
+  border-color: rgba(34, 197, 94, 0.55);
+}
+/* Settings: force all text to white in DARK mode */
+[data-theme="dark"] #settingsView,
+
+/* --- ADMIN PAGE LIGHT MODE FIX --- */
+[data-theme="light"] .admin-shell,
+[data-theme="light"] .admin-panel,
+[data-theme="light"] .admin-header,
+[data-theme="light"] .admin-table,
+[data-theme="light"] .admin-card,
+[data-theme="light"] .admin-summary {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+[data-theme='light'] .admin-panel h1,
+[data-theme='light'] .admin-panel h2,
+[data-theme='light'] .admin-panel h3,
+[data-theme='light'] .admin-panel p,
+[data-theme='light'] .admin-panel th,
+[data-theme='light'] .admin-panel td,
+[data-theme='light'] .admin-table th,
+[data-theme='light'] .admin-table td {
+  color: #0f172a;
+}
+/* make the faint labels visible in light mode */
+[data-theme='light'] .admin-muted,
+[data-theme='light'] .text-admin-subtle {
+  color: #475569;
+}
+[data-theme='dark'] #settingsView * {
+  color: #ffffff;
+}
+/* force the actual settings containers to go fully black in dark mode */
+[data-theme='dark'] #settingsView .settings-panel,
+[data-theme='dark'] #settingsView .settings-card,
+[data-theme='dark'] #settingsView .settings-section {
+  background-color: #000000;
+  border-color: rgba(148, 163, 184, 0.45);
+}
+/* radio/option “pills” in dark mode need the dark background too */
+[data-theme='dark'] #settingsView .option-pill,
+[data-theme='dark'] #settingsView label[for*='font'],
+[data-theme='dark'] #settingsView label[for*='theme'] {
+  background-color: rgba(15, 23, 42, 0.55);
+  color: #ffffff;
+}
+/* stop the white page from showing behind settings in dark mode */
+[data-theme='dark'] #settingsView {
+  background-color: #000000;
+}
+/* Profile: dark mode panels and text */
+[data-theme='dark'] #profileView article,
+[data-theme='dark'] #profileView form,
+[data-theme='dark'] #profileView .panel,
+[data-theme='dark'] #profileView .card {
+  background-color: rgba(15, 23, 42, 0.9); /* slate-900-ish */
+  border-color: rgba(148, 163, 184, 0.35); /* subtle border */
+  color: #ffffff;
+}
+[data-theme='dark'] #profileView .pref-row {
+  background-color: rgba(30, 41, 59, 0.7); /* slate-800-ish */
+  color: #ffffff;
+}
+/* make the toggle (Show / Hide) consistent in both modes */
+#profileView .challenges-toggle-btn {
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
+}
+/* light mode: keep it white with dark text */
+[data-theme='light'] #profileView .challenges-toggle-btn {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #d1d5db;
+}
+/* ensure light-mode hide button text is dark even outside #profileView */
+[data-theme='light'] .challenges-toggle-btn {
+  background-color: #ffffff;
+  color: #111827; /* slate-900 */
+  border: 1px solid #d1d5db;
+}
+[data-theme='light'] .challenges-toggle-btn:hover {
+  background-color: #f3f4f6; /* slate-100 */
+}
+/* dark mode: dark button with white text */
+[data-theme='dark'] #profileView .challenges-toggle-btn {
+  background-color: rgba(15, 23, 42, 0.8);
+  color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+}
+/* FORM CONTROL NORMALIZATION */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--text-primary);
+  /* background-color: var(--bg-surface); <-- This line is removed */
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-subtle);
+  -webkit-appearance: none;
+  appearance: none;
+}
+input,
+select,
+textarea {
+  background-color: var(
+    --bg-surface
+  ); /* Apply background only to form fields */
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+input[type='date'],
+select {
+  color-scheme: light dark;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+/* Countdown chip for Upcoming Test UI */
+.countdown-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid var(--accent-border);
+  background: rgba(56, 189, 248, 0.14);
+  color: var(--accent-text);
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  user-select: none;
+}
+[data-theme='dark'] .countdown-chip {
+  background: rgba(56, 189, 248, 0.24);
+  border-color: rgba(56, 189, 248, 0.55);
+  color: var(--accent-text);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+.countdown-chip .dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.countdown-chip .label {
+  letter-spacing: 0.02em;
+}
+/* Essay practice: base */
+#essayPracticeView .essay-practice-shell .essay-argument-column {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  overflow-y: auto;
+}
+/* LIGHT MODE: white box, dark text */
+[data-theme='light']
+  #essayPracticeView
+  .essay-practice-shell
+  .essay-argument-column {
+  background: #ffffff;
+  color: #0f172a;
+}
+[data-theme='light']
+  #essayPracticeView
+  .essay-practice-shell
+  .essay-argument-column
+  :where(h1, h2, h3, h4, h5, h6, p, li, span, strong, em, a, blockquote) {
+  color: #0f172a;
+}
+/* DARK MODE: dark box, white text */
+[data-theme='dark']
+  #essayPracticeView
+  .essay-practice-shell
+  .essay-argument-column {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: rgba(148, 163, 184, 0.4);
+}
+[data-theme='dark']
+  #essayPracticeView
+  .essay-practice-shell
+  .essay-argument-column
+  :where(h1, h2, h3, h4, h5, h6, p, li, span, strong, em, a, blockquote) {
+  color: #ffffff;
+}
+/* Dark-mode controls for topic selector */
+[data-theme='dark'] #essayPracticeView .essay-practice-shell input,
+[data-theme='dark'] #essayPracticeView .essay-practice-shell select {
+  background: rgba(2, 6, 23, 0.9);
+  color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+}
+/* Passage section visibility fixes */
+[data-theme='light'] .passage-section {
+  background-color: #ffffff; /* solid white for light mode */
+  color: #000000;
+  border: 1px solid #d1d5db;
+}
+[data-theme='dark'] .passage-section {
+  background-color: #0f172a; /* deep navy for dark mode */
+  color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+/* Ensure passage text inherits correctly */
+.passage-section .passage-text,
+.passage-section p {
+  color: inherit;
+}
+/* Workforce Theme */
+.workforce-card {
+  background: linear-gradient(135deg, #0f172a, #14b8a6);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+.workforce-card:hover {
+  transform: translateY(-3px);
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+.workforce-card .subject-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+}
+.workforce-card .description {
+  opacity: 0.9;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+/* Base chip styling */
+.workforce-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  border-radius: 9999px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  border-width: 1px;
+  border-style: solid;
+  transition: background-color 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease, transform 0.15s ease;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  min-width: 80px;
+}
+/* Light mode: white pill on teal, dark text */
+:root[data-theme='light'] .workforce-hub .workforce-chip,
+[data-theme='light'] .workforce-hub .workforce-chip {
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  border-color: rgba(15, 23, 42, 0.2);
+}
+:root[data-theme='light'] .workforce-hub .workforce-chip:hover,
+[data-theme='light'] .workforce-hub .workforce-chip:hover {
+  background: rgba(240, 249, 255, 1);
+  border-color: rgba(15, 23, 42, 0.3);
+  transform: translateY(-1px);
+}
+/* Dark mode: dark pill, light teal text */
+:root[data-theme='dark'] .workforce-hub .workforce-chip,
+.dark .workforce-hub .workforce-chip {
+  background: rgba(15, 23, 42, 0.85);
+  color: #f0fdfa;
+  border-color: rgba(148, 163, 184, 0.6);
+}
+:root[data-theme='dark'] .workforce-hub .workforce-chip:hover,
+.dark .workforce-hub .workforce-chip:hover {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(148, 163, 184, 0.8);
+  transform: translateY(-1px);
+}
+/* Active state for both themes */
+.workforce-chip--active {
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.75);
+}
+:root[data-theme='light'] .workforce-hub .workforce-chip--active,
+[data-theme='light'] .workforce-hub .workforce-chip--active {
+  background: rgba(224, 242, 254, 1);
+  border-color: rgba(56, 189, 248, 0.8);
+}
+:root[data-theme='dark'] .workforce-hub .workforce-chip--active,
+.dark .workforce-hub .workforce-chip--active {
+  background: rgba(20, 184, 166, 0.25);
+  border-color: rgba(20, 184, 166, 0.8);
+}
+/* Status text styling */
+.workforce-chip .chip-status {
+  opacity: 0.75;
+  font-size: 0.7rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+:root[data-theme='light'] .workforce-hub .workforce-chip .chip-status,
+[data-theme='light'] .workforce-hub .workforce-chip .chip-status {
+  opacity: 0.65;
+}
+:root[data-theme='dark'] .workforce-hub .workforce-chip .chip-status,
+.dark .workforce-hub .workforce-chip .chip-status {
+  opacity: 0.8;
+}
+/* GED-Style Split-Screen Layout for RLA Comprehensive Exam */
+@media (min-width: 1024px) {
+  .ged-split-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    height: calc(100vh - 200px);
+    min-height: 500px;
+  }
+
+  .ged-scroll-pane {
+    overflow-y: auto;
+    padding-right: 1rem;
+    height: 100%;
+    border-right: 1px solid var(--border-subtle, rgba(148, 163, 184, 0.4));
+  }
+
+  .ged-scroll-pane:last-child {
+    border-right: none;
+  }
+}
+/* Mobile responsive: stack vertically */
+@media (max-width: 1023px) {
+  .ged-split-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .ged-scroll-pane {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-subtle, rgba(148, 163, 184, 0.4));
+  }
+
+  .ged-scroll-pane:last-child {
+    border-bottom: none;
+  }
+}
+/* RLA passage styling improvements */
+.rla-passage-container {
+  padding: 1.5rem;
+  background-color: var(--bg-surface);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+.rla-passage-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--subject-rla-accent);
+}
+.rla-passage-content {
+  line-height: 1.8;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+.rla-passage-content p {
+  margin-bottom: 1rem;
+}
+/* Dark mode adjustments for RLA passages */
+[data-theme='dark'] .rla-passage-container {
+  background-color: rgba(15, 23, 42, 0.6);
+}
+[data-theme='dark'] .rla-passage-title {
+  color: var(--subject-rla-text);
+}
+/* Light mode readability improvements for vocabulary, workforce, coach, results */
+:root:not(.dark) .vocab-definition,
+:root:not(.dark) .workforce-tool-description,
+:root:not(.dark) .coach-advice-text,
+:root:not(.dark) .quiz-result-description {
+  color: #334155;
+  opacity: 1;
+}
+/* Subject card improvements for light mode */
+:root:not(.dark) .subject-card-title {
+  color: #0f172a;
+  font-weight: 600;
+}
+:root:not(.dark) .subject-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}

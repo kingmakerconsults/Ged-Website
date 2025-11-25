@@ -11470,7 +11470,7 @@ const AppData = {
                 questionNumber: 3,
                 type: 'text',
                 passage:
-                  "The Missouri Compromise of 1820 was an attempt to resolve the issue of slavery's expansion. It admitted Missouri to the Union as a slave state and Maine as a free state, maintaining the balance of power between free and slave states in the Senate. It also prohibited slavery in the rest of the Louisiana Purchase territory north of the 36�30�� parallel.",
+                  "The Missouri Compromise of 1820 was an attempt to resolve the issue of slavery's expansion. It admitted Missouri to the Union as a slave state and Maine as a free state, maintaining the balance of power between free and slave states in the Senate. It also prohibited slavery in the rest of the Louisiana Purchase territory north of the 36�30parallel.",
                 question: 'What was the main goal of the Missouri Compromise?',
                 answerOptions: [
                   {
@@ -20791,7 +20791,7 @@ function assignPremadeQuizCodes(data) {
                     quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`;
                   quizTitle = fallback
                     ? `${fallback}`
-                    : `${topic.title || 'Quiz'} �� ${labelText}`;
+                    : `${topic.title || 'Quiz'} ${labelText}`;
                 }
               }
               registerQuiz(quiz, code, quizTitle);
@@ -20846,7 +20846,7 @@ function assignPremadeQuizCodes(data) {
               .join('__');
             const quizTitle =
               quiz.title ||
-              `${categoryName} �� ${
+              `${categoryName} ${
                 quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`
               }`;
             // Stamp code for potential resolution later
@@ -20879,7 +20879,7 @@ function assignPremadeQuizCodes(data) {
         const code = [subjectSlug, setSegment].filter(Boolean).join('__');
         const quizTitle =
           quiz.title ||
-          `${subjectName} �� ${
+          `${subjectName} ${
             quiz.label || `Quiz ${String.fromCharCode(65 + quizIndex)}`
           }`;
         quiz.quizCode = code;
@@ -20936,7 +20936,7 @@ function initPremades() {
       );
       if (!source)
         console.log(
-          '[premade] ExpandedQuizData not found �� using empty catalog'
+          '[premade] ExpandedQuizData not found using empty catalog'
         );
     }
   } catch (err) {
@@ -21598,7 +21598,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         if (!base) return 'Practice';
         return base;
       };
-      let derivedTitle = quiz.title || `${baseTitle} �� ${quizLabel}`;
+      let derivedTitle = quiz.title || `${baseTitle} ${quizLabel}`;
       if (looksAutoId(derivedTitle)) {
         if (String(subjectName).toLowerCase() === 'math') {
           const catRaw = getCategoryOfTopic(subjectName, topic.id);
@@ -21882,7 +21882,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     const preparedQuiz = {
       id,
       quizCode: id,
-      title: `${stackedSet.baseTitle}: Set ${stackedSet.setIndex} �� Quiz ${
+      title: `${stackedSet.baseTitle}: Set ${stackedSet.setIndex} Quiz ${
         quizIndex + 1
       }`,
       topicTitle: stackedSet.baseTitle,
@@ -22700,7 +22700,7 @@ const DEFAULT_CHALLENGE_OPTIONS = [
     id: 'social-4',
     subject: 'Social Studies',
     subtopic: 'US History',
-    label: 'Colonial �� Civil War sequence',
+    label: 'Colonial Civil War sequence',
     selected: false,
   },
   {
@@ -30932,7 +30932,7 @@ function StartScreen({
       }
     }
 
-    // NEW: Test-plan nextUpcomingTest �� also show when the next scheduled test is today
+    // NEW: Test-plan nextUpcomingTest also show when the next scheduled test is today
     if (nextUpcomingTest && nextUpcomingTest.testDate) {
       const daysFromPlan =
         typeof nextUpcomingTest.daysUntil === 'number'
@@ -31360,7 +31360,7 @@ function StartScreen({
 
       const setIndex = orderedSetNames.findIndex((n) => n === setName);
       const setNumber = setIndex >= 0 ? setIndex + 1 : 1;
-      const title = `${selectedSubject} �� ${selectedCategory} Set ${setNumber}`;
+      const title = `${selectedSubject} ${selectedCategory} Set ${setNumber}`;
       const subjectSlug = sanitizeCodeSegment(selectedSubject, 'subject');
       const categorySlug = sanitizeCodeSegment(selectedCategory, 'category');
       const quizCode = [subjectSlug, categorySlug, `set-${setNumber}`].join(
@@ -31374,7 +31374,7 @@ function StartScreen({
         topicId: null,
         topicTitle: selectedCategory,
         canonicalTopicTitle: selectedCategory,
-        description: `${selectedCategory} practice �� combined set of 3 quizzes`,
+        description: `${selectedCategory} practice combined set of 3 quizzes`,
         type: 'quiz',
         questions: prepared.questions,
       };
@@ -31435,7 +31435,7 @@ function StartScreen({
                     }}
                   >
                     Start{' '}
-                    {`${selectedSubject} �� ${selectedCategory} Set ${idx + 1}`}
+                    {`${selectedSubject} ${selectedCategory} Set ${idx + 1}`}
                   </button>
                 ))}
               </div>
@@ -31489,7 +31489,7 @@ function StartScreen({
                   quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
                 const baseTitle = topic.title || 'Quiz';
                 const derivedTitle =
-                  quiz.title || `${baseTitle} �� ${quizLabel}`;
+                  quiz.title || `${baseTitle} ${quizLabel}`;
                 const quizIdBase = topic.id || `topic_${topicIndex}`;
                 const resolvedQuestions = resolveQuizQuestions(
                   selectedSubject,
@@ -32316,7 +32316,7 @@ function StartScreen({
                                 ) || 0;
                               const titles = d.tasks
                                 .map((task) => task.title)
-                                .join(' �� ');
+                                .join(' ');
                               return (
                                 <div
                                   key={`${d.day}-${idx}`}
@@ -32326,7 +32326,7 @@ function StartScreen({
                                     Day {d.day}:
                                   </span>
                                   <span>
-                                    {focus ? `${focus} �� ` : ''}
+                                    {focus ? `${focus} ` : ''}
                                     {titles || 'Practice'} ({minutes}m)
                                   </span>
                                 </div>
@@ -32746,7 +32746,7 @@ function StartScreen({
                             >
                               {item.formattedDate}
                               {item.location ? (
-                                <span> �� {item.location}</span>
+                                <span> {item.location}</span>
                               ) : null}
                             </p>
                           </div>
@@ -32804,7 +32804,7 @@ function StartScreen({
                       <li key={challenge.id}>
                         ��{' '}
                         {challenge.label ||
-                          `${challenge.subject} �� ${challenge.subtopic}`}
+                          `${challenge.subject} ${challenge.subtopic}`}
                       </li>
                     ))}
                     {hiddenChallengeCount > 0 && (
@@ -32840,7 +32840,7 @@ function StartScreen({
               />
             </div>
           )}
-          {/* Coach Smith �� This Week (4 subject cards) */}
+          {/* Coach Smith This Week (4 subject cards) */}
           {window.__COACH_ENABLED__ && currentUser && (
             <div
               className={`mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md ${
@@ -32851,7 +32851,7 @@ function StartScreen({
                 <h2
                   className={`text-lg font-semibold ${homePanelPrimaryTextClass}`}
                 >
-                  Coach Smith �� This Week
+                  Coach Smith This Week
                 </h2>
                 <button
                   onClick={generateAllWeeklyPlans}
@@ -33878,7 +33878,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
   const MATH_EQUIV = {
     // Configurable numeric tolerance for float comparisons
     EPS: 1e-9,
-    // Percent �� decimal conversion regex
+    // Percent decimal conversion regex
     PERCENT_RE: /^[-+]?\d+(?:\.\d+)?%$/,
     // Currency detection
     CURRENCY_RE: /^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/,
@@ -35516,7 +35516,7 @@ function EssayGuide({ onExit }) {
     let text = html
       .replace(/<\s*br\s*\/?>/gi, '\n')
       .replace(/<\s*\/?p[^>]*>/gi, '\n\n')
-      .replace(/<\s*\/?li[^>]*>/gi, (m) => (m.startsWith('</') ? '\n' : ' �� '))
+      .replace(/<\s*\/?li[^>]*>/gi, (m) => (m.startsWith('</') ? '\n' : ' '))
       .replace(
         /<\s*\/?(strong|em|b|i|u|span|div|h\d|section|article|blockquote)[^>]*>/gi,
         ''
