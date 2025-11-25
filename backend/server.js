@@ -5422,58 +5422,13 @@ async function runPromotionDemotionRules(userId, tag) {
   }
 }
 
-// Minimal quiz attempts endpoints to satisfy frontend calls
-app.get(
-  '/api/quiz/attempts',
-  devAuth,
-  ensureTestUserForNow,
-  requireAuthInProd,
-  authRequired,
-  async (req, res) => {
-    // later: SELECT * FROM quiz_attempts WHERE user_id = $1 ORDER BY created_at DESC
-    return res.json({ ok: true, attempts: [] });
-  }
-);
+// Minimal quiz attempts endpoints REMOVED - using real DB-backed routes below at line ~13238
 
-app.post(
-  '/api/quiz/attempts',
-  devAuth,
-  ensureTestUserForNow,
-  requireAuthInProd,
-  authRequired,
-  express.json(),
-  async (req, res) => {
-    // for now just ACK
-    return res.json({ ok: true });
-  }
-);
+// Stub POST /api/quiz/attempts REMOVED - using real DB-backed route below
 
-// Alias routes with hyphenated path to match frontend's /api/quiz-attempts calls
-app.get(
-  '/api/quiz-attempts',
-  devAuth,
-  ensureTestUserForNow,
-  requireAuthInProd,
-  authRequired,
-  async (req, res) => {
-    // later: SELECT * FROM quiz_attempts WHERE user_id = $1 ORDER BY created_at DESC
-    return res.json({ ok: true, attempts: [] });
-  }
-);
+// Stub GET /api/quiz-attempts alias REMOVED - using real DB-backed route below
 
-app.post(
-  '/api/quiz-attempts',
-  devAuth,
-  ensureTestUserForNow,
-  requireAuthInProd,
-  authRequired,
-  express.json(),
-  async (req, res) => {
-    // for now just ACK
-    console.log('Quiz attempt submitted via /api/quiz-attempts:', req.body);
-    return res.json({ ok: true });
-  }
-);
+// Stub POST /api/quiz-attempts alias REMOVED - using real DB-backed route below at line ~13238
 
 // Simple endpoint to debug the resolved identity and profile presence
 app.get(
@@ -13239,6 +13194,7 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
   try {
     const userId = req.user?.userId || req.user?.sub;
     if (!userId) {
+      console.error('[quiz-attempts] ✗ Unauthorized access attempt');
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
@@ -13316,9 +13272,12 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
 
     const result = await pool.query(insertQuery, params);
 
-    console.log(
-      `Saved quiz attempt ${normalizedQuizCode} for user ${userId} in subject ${normalizedSubject}`
-    );
+    // Optional: log successful saves (can be removed in production)
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(
+        `[quiz-attempts] Saved ${normalizedQuizCode} for user ${userId} (ID: ${result.rows[0]?.id})`
+      );
+    }
     // Process optional per-question responses for challenge tags
     try {
       const { responses } = req.body || {};
@@ -13381,7 +13340,12 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
 
     res.status(201).json(formatQuizAttemptRow(result.rows[0]));
   } catch (error) {
-    console.error('Error saving quiz attempt:', error);
+    console.error(
+      '[quiz-attempts] ✗ Error saving quiz attempt:',
+      error?.message || error,
+      'SQL:',
+      error?.code
+    );
     res.status(500).json({ error: 'Failed to save quiz attempt.' });
   }
 });
