@@ -20935,9 +20935,7 @@ function initPremades() {
         summary
       );
       if (!source)
-        console.log(
-          '[premade] ExpandedQuizData not found using empty catalog'
-        );
+        console.log('[premade] ExpandedQuizData not found using empty catalog');
     }
   } catch (err) {
     if (typeof window !== 'undefined' && window.__DEBUG_QUIZZES) {
@@ -21583,11 +21581,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         if (canonCat && base.toLowerCase().startsWith(canonCat.toLowerCase())) {
           base = base.slice(canonCat.length).trim();
         }
-        if (
-          base.startsWith(':') ||
-          base.startsWith('') ||
-          base.startsWith('-')
-        )
+        if (base.startsWith(':') || base.startsWith('') || base.startsWith('-'))
           base = base.slice(1).trim();
         base = base
           .replace(
@@ -26587,9 +26581,7 @@ function ProfileView({
                         onClick={() => onSubjectSave?.(entry.subject)}
                         disabled={savingThisSubject}
                       >
-                        {savingThisSubject
-                          ? 'Saving'
-                          : `Save ${entry.subject}`}
+                        {savingThisSubject ? 'Saving' : `Save ${entry.subject}`}
                       </button>
                       {edits.passed ? (
                         <p className="text-xs text-success">
@@ -31013,7 +31005,8 @@ function StartScreen({
 
       // backend returns { subject, count, quiz: [...] }
       if (data && data.quiz) {
-        onStartQuiz(data.quiz);
+        // Use the standard quiz launcher
+        onSelectQuiz(data.quiz, subject);
       } else {
         console.error('Invalid vocabulary quiz response:', data);
         alert('Failed to generate vocabulary quiz. Please try again.');
@@ -31488,8 +31481,7 @@ function StartScreen({
                 const quizLabel =
                   quiz.label || `Quiz ${String.fromCharCode(65 + index)}`;
                 const baseTitle = topic.title || 'Quiz';
-                const derivedTitle =
-                  quiz.title || `${baseTitle} ${quizLabel}`;
+                const derivedTitle = quiz.title || `${baseTitle} ${quizLabel}`;
                 const quizIdBase = topic.id || `topic_${topicIndex}`;
                 const resolvedQuestions = resolveQuizQuestions(
                   selectedSubject,
@@ -31645,9 +31637,7 @@ function StartScreen({
                                 aria-expanded={expanded}
                                 onClick={() => setExpanded(!expanded)}
                               >
-                                {expanded
-                                  ? 'Show fewer'
-                                  : 'More in this topic'}
+                                {expanded ? 'Show fewer' : 'More in this topic'}
                               </button>
                             )}
                           </div>
@@ -34072,6 +34062,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       percentage,
       scaledScore,
       passed,
+      answers: result.answers, // include raw answers so ResultsScreen can display them
       subject: quiz.subject,
       marked: result.marked,
       confidence: result.confidence,
