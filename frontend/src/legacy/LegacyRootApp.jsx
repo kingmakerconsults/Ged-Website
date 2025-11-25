@@ -27818,26 +27818,37 @@ function InstructorDashboard({ user, token, onLogout }) {
           <>
             <section className="rounded-3xl border-subtle panel-surface p-6 shadow-sm">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div className="rounded-lg bg-surface-soft p-4">
-                  <div className="text-sm text-muted mb-1">Total Students</div>
-                  <div className="text-3xl font-bold text-primary">
-                    {students.length}
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-500 to-green-600 p-6 text-white shadow-lg">
+                  <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+                  <div className="relative">
+                    <div className="text-sm font-medium opacity-90 mb-2">
+                      Total Students
+                    </div>
+                    <div className="text-4xl font-bold">{students.length}</div>
                   </div>
                 </div>
-                <div className="rounded-lg bg-surface-soft p-4">
-                  <div className="text-sm text-muted mb-1">Active Students</div>
-                  <div className="text-3xl font-bold text-primary">
-                    {
-                      students.filter(
-                        (s) => s.subjects && s.subjects.length > 0
-                      ).length
-                    }
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 text-white shadow-lg">
+                  <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+                  <div className="relative">
+                    <div className="text-sm font-medium opacity-90 mb-2">
+                      Active Students
+                    </div>
+                    <div className="text-4xl font-bold">
+                      {
+                        students.filter(
+                          (s) => s.subjects && s.subjects.length > 0
+                        ).length
+                      }
+                    </div>
                   </div>
                 </div>
-                <div className="rounded-lg bg-surface-soft p-4">
-                  <div className="text-sm text-muted mb-1">Recent Activity</div>
-                  <div className="text-3xl font-bold text-primary">
-                    {activity.length}
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
+                  <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+                  <div className="relative">
+                    <div className="text-sm font-medium opacity-90 mb-2">
+                      Recent Activity
+                    </div>
+                    <div className="text-4xl font-bold">{activity.length}</div>
                   </div>
                 </div>
               </div>
@@ -28157,50 +28168,68 @@ function SuperAdminDashboard({ user, token, onLogout }) {
 
         {/* Platform Stats Overview */}
         <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="rounded-lg bg-surface-soft p-4 border-subtle">
-            <div className="text-sm text-muted mb-1">Total Organizations</div>
-            <div className="text-3xl font-bold text-primary">
-              {organizations.length}
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
+            <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+            <div className="relative">
+              <div className="text-sm font-medium opacity-90 mb-2">
+                Total Organizations
+              </div>
+              <div className="text-4xl font-bold">{organizations.length}</div>
             </div>
           </div>
-          <div className="rounded-lg bg-surface-soft p-4 border-subtle">
-            <div className="text-sm text-muted mb-1">Total Users</div>
-            <div className="text-3xl font-bold text-primary">
-              {organizations.reduce(
-                (sum, org) => sum + (org.userCount || 0),
-                0
-              )}
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 text-white shadow-lg">
+            <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+            <div className="relative">
+              <div className="text-sm font-medium opacity-90 mb-2">
+                Total Users
+              </div>
+              <div className="text-4xl font-bold">
+                {organizations.reduce(
+                  (sum, org) => sum + (org.userCount || 0),
+                  0
+                )}
+              </div>
             </div>
           </div>
-          <div className="rounded-lg bg-surface-soft p-4 border-subtle">
-            <div className="text-sm text-muted mb-1">Total Students</div>
-            <div className="text-3xl font-bold text-primary">
-              {organizations.reduce(
-                (sum, org) => sum + (org.studentCount || 0),
-                0
-              )}
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-500 to-green-600 p-6 text-white shadow-lg">
+            <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+            <div className="relative">
+              <div className="text-sm font-medium opacity-90 mb-2">
+                Total Students
+              </div>
+              <div className="text-4xl font-bold">
+                {organizations.reduce(
+                  (sum, org) => sum + (org.studentCount || 0),
+                  0
+                )}
+              </div>
             </div>
           </div>
-          <div className="rounded-lg bg-surface-soft p-4 border-subtle">
-            <div className="text-sm text-muted mb-1">Total Instructors</div>
-            <div className="text-3xl font-bold text-primary">
-              {organizations.reduce(
-                (sum, org) => sum + (org.instructorCount || 0),
-                0
-              )}
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 p-6 text-white shadow-lg">
+            <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+            <div className="relative">
+              <div className="text-sm font-medium opacity-90 mb-2">
+                Total Instructors
+              </div>
+              <div className="text-4xl font-bold">
+                {organizations.reduce(
+                  (sum, org) => sum + (org.instructorCount || 0),
+                  0
+                )}
+              </div>
             </div>
           </div>
         </section>
 
         {/* Tab Navigation */}
-        <div className="flex gap-2 border-b border-subtle">
+        <div className="flex gap-1 bg-slate-100 dark:bg-slate-800/50 rounded-xl p-1">
           <button
             type="button"
             onClick={() => setActiveTab('organizations')}
-            className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+            className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
               activeTab === 'organizations'
-                ? 'border-primary text-primary'
-                : 'border-transparent text-muted hover:text-secondary'
+                ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
             }`}
           >
             Organizations
@@ -28208,10 +28237,10 @@ function SuperAdminDashboard({ user, token, onLogout }) {
           <button
             type="button"
             onClick={() => setActiveTab('users')}
-            className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+            className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
               activeTab === 'users'
-                ? 'border-primary text-primary'
-                : 'border-transparent text-muted hover:text-secondary'
+                ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
             }`}
           >
             All Users
@@ -28219,10 +28248,10 @@ function SuperAdminDashboard({ user, token, onLogout }) {
           <button
             type="button"
             onClick={() => setActiveTab('activity')}
-            className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+            className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
               activeTab === 'activity'
-                ? 'border-primary text-primary'
-                : 'border-transparent text-muted hover:text-secondary'
+                ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
             }`}
           >
             Recent Activity
@@ -28253,25 +28282,25 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                   {orgError}
                 </div>
               ) : (
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700">
                   <table className="min-w-full divide-y divide-slate-200 text-sm dark:divide-slate-700">
-                    <thead className="bg-slate-50 dark:bg-slate-800/60">
+                    <thead className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-800/60">
                       <tr>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                        <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
                           Organization
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                        <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
                           Members
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                        <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
                           Recent Activity
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                        <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
                           Actions
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 bg-white dark:divide-slate-800 dark:bg-slate-900/80">
+                    <tbody className="divide-y divide-slate-100 bg-white dark:divide-slate-800 dark:bg-slate-900">
                       {organizations.length === 0 && (
                         <tr>
                           <td
@@ -28287,26 +28316,28 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                           key={org.id}
                           className={
                             selectedOrgId === org.id
-                              ? 'bg-sky-50 dark:bg-sky-500/10'
-                              : 'hover:bg-slate-50 dark:hover:bg-slate-800/60'
+                              ? 'bg-blue-50 dark:bg-blue-500/10 border-l-4 border-blue-500'
+                              : 'hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors'
                           }
                         >
-                          <td className="px-4 py-3 font-medium text-slate-700 dark:text-slate-100">
+                          <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">
                             {org.name}
                           </td>
-                          <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
-                            {org.userCount ?? 0}
+                          <td className="px-6 py-4">
+                            <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/30 px-3 py-1 text-sm font-medium text-blue-700 dark:text-blue-300">
+                              {org.userCount ?? 0}
+                            </span>
                           </td>
-                          <td className="px-4 py-3 text-slate-500 dark:text-slate-300">
+                          <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
                             {formatDateTime(org.recentActivity)}
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-6 py-4">
                             <button
                               type="button"
                               onClick={() => loadOrgSummary(org.id)}
-                              className="rounded-full bg-sky-600 px-3 py-1 text-xs font-semibold text-white shadow hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                              className="rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-blue-700 hover:shadow-md transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             >
-                              View Org
+                              View Details
                             </button>
                           </td>
                         </tr>
@@ -28638,41 +28669,55 @@ function OrgAdminDashboard({ user, token, onLogout }) {
           <>
             {/* Organization Stats */}
             <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="rounded-lg bg-surface-soft p-4 border-subtle">
-                <div className="text-sm text-muted mb-1">Total Students</div>
-                <div className="text-3xl font-bold text-primary">
-                  {students}
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-500 to-green-600 p-6 text-white shadow-lg">
+                <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+                <div className="relative">
+                  <div className="text-sm font-medium opacity-90 mb-2">
+                    Total Students
+                  </div>
+                  <div className="text-4xl font-bold">{students}</div>
                 </div>
               </div>
-              <div className="rounded-lg bg-surface-soft p-4 border-subtle">
-                <div className="text-sm text-muted mb-1">Instructors</div>
-                <div className="text-3xl font-bold text-primary">
-                  {instructors}
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 p-6 text-white shadow-lg">
+                <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+                <div className="relative">
+                  <div className="text-sm font-medium opacity-90 mb-2">
+                    Instructors
+                  </div>
+                  <div className="text-4xl font-bold">{instructors}</div>
                 </div>
               </div>
-              <div className="rounded-lg bg-surface-soft p-4 border-subtle">
-                <div className="text-sm text-muted mb-1">Active This Week</div>
-                <div className="text-3xl font-bold text-primary">
-                  {activeThisWeek}
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 p-6 text-white shadow-lg">
+                <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+                <div className="relative">
+                  <div className="text-sm font-medium opacity-90 mb-2">
+                    Active This Week
+                  </div>
+                  <div className="text-4xl font-bold">{activeThisWeek}</div>
                 </div>
               </div>
-              <div className="rounded-lg bg-surface-soft p-4 border-subtle">
-                <div className="text-sm text-muted mb-1">Total Users</div>
-                <div className="text-3xl font-bold text-primary">
-                  {summary?.total_users || 0}
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 text-white shadow-lg">
+                <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+                <div className="relative">
+                  <div className="text-sm font-medium opacity-90 mb-2">
+                    Total Users
+                  </div>
+                  <div className="text-4xl font-bold">
+                    {summary?.total_users || 0}
+                  </div>
                 </div>
               </div>
             </section>
 
             {/* Tab Navigation */}
-            <div className="flex gap-2 border-b border-subtle">
+            <div className="flex gap-1 bg-slate-100 dark:bg-slate-800/50 rounded-xl p-1">
               <button
                 type="button"
                 onClick={() => setActiveTab('overview')}
-                className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
                   activeTab === 'overview'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-muted hover:text-secondary'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
                 }`}
               >
                 Overview
@@ -28680,10 +28725,10 @@ function OrgAdminDashboard({ user, token, onLogout }) {
               <button
                 type="button"
                 onClick={() => setActiveTab('users')}
-                className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
                   activeTab === 'users'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-muted hover:text-secondary'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
                 }`}
               >
                 Users
@@ -28691,10 +28736,10 @@ function OrgAdminDashboard({ user, token, onLogout }) {
               <button
                 type="button"
                 onClick={() => setActiveTab('activity')}
-                className={`px-4 py-2 text-sm font-semibold transition border-b-2 ${
+                className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
                   activeTab === 'activity'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-muted hover:text-secondary'
+                    ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                    : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
                 }`}
               >
                 Activity
