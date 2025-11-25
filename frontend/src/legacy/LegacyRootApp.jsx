@@ -657,7 +657,7 @@ const FALLBACK_VOCABULARY = {
     {
       term: 'Pythagorean Theorem',
       definition:
-        'A formula that relates the side lengths of a right triangle: a� + b� = c�.',
+        'A formula that relates the side lengths of a right triangle: a + b = c.',
     },
     {
       term: 'Mean',
@@ -1285,7 +1285,7 @@ function normalizeLatex(text) {
   normalized = normalized.replace(/\\dfrac/g, '\\frac');
 
   normalized = normalized
-    // repair /frac, ^rac, ��rac, stray spaces before 'rac'
+    // repair /frac, ^rac, rac, stray spaces before 'rac'
     .replace(/(?:\\|\/|[\u2191\^])\s*rac\s*\{/g, '\\frac{')
     .replace(/\\frac\s+([^\s{}]+)\s+([^\s{}]+)/g, '\\frac{$1}{$2}')
     .replace(
@@ -1448,7 +1448,7 @@ function smartWrapLatex(input) {
   // equation \frac{x}{4} = \frac{15}{20}?
   // 1\frac{1}{2} cups
   // no more than \text{P500}, spent \text{P120}
-  // /frac{3}{4}, ^rac{2}{3}, ��rac{1}{2}
+  // /frac{3}{4}, ^rac{2}{3}, rac{1}{2}
 
   return result.replace(/@@M(\d+)@@/g, (_match, index) => slots[Number(index)]);
 }
@@ -3018,26 +3018,26 @@ const SCI_NUMERACY_QUESTIONS = [
     questionNumber: 3,
     qaProfileKey: 'numeracy',
     type: 'knowledge',
-    passage: '<p>A rock has a mass of 60 g and displaces 20 cm� of water.</p>',
+    passage: '<p>A rock has a mass of 60 g and displaces 20 cm of water.</p>',
     question: "What is the rock's density?",
     answerOptions: [
       {
-        text: '1 g/cm�',
-        rationale: 'That would be 20 g  20 cm�.',
+        text: '1 g/cm',
+        rationale: 'That would be 20 g  20 cm.',
         isCorrect: false,
       },
       {
-        text: '3 g/cm�',
-        rationale: 'Correct. Density = mass  volume = 60  20 = 3 g/cm�.',
+        text: '3 g/cm',
+        rationale: 'Correct. Density = mass  volume = 60  20 = 3 g/cm.',
         isCorrect: true,
       },
       {
-        text: '20 g/cm�',
+        text: '20 g/cm',
         rationale: "That's just the volume, not density.",
         isCorrect: false,
       },
       {
-        text: '40 g/cm�',
+        text: '40 g/cm',
         rationale: 'Not based on 60  20.',
         isCorrect: false,
       },
@@ -3106,7 +3106,7 @@ const SCI_NUMERACY_QUESTIONS = [
     questionNumber: 6,
     qaProfileKey: 'numeracy',
     type: 'knowledge',
-    passage: '<p>A 2 kg cart accelerates at 3 m/s�.</p>',
+    passage: '<p>A 2 kg cart accelerates at 3 m/s.</p>',
     question: 'What net force is acting on the cart?',
     answerOptions: [
       {
@@ -3126,7 +3126,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '6 N',
-        rationale: 'Correct. F = m × a = 2 kg × 3 m/s� = 6 N.',
+        rationale: 'Correct. F = m × a = 2 kg × 3 m/s = 6 N.',
         isCorrect: true,
       },
     ],
@@ -3137,7 +3137,7 @@ const SCI_NUMERACY_QUESTIONS = [
     type: 'knowledge',
     passage: `<p>A student heats four samples of the same liquid:</p>
           <table class="min-w-full text-sm text-left">
-            <thead><tr><th>Trial</th><th>Start Temp (�C)</th><th>End Temp (�C)</th></tr></thead>
+            <thead><tr><th>Trial</th><th>Start Temp (C)</th><th>End Temp (C)</th></tr></thead>
             <tbody>
               <tr><td>A</td><td>22</td><td>30</td></tr>
               <tr><td>B</td><td>22</td><td>29</td></tr>
@@ -3152,13 +3152,13 @@ const SCI_NUMERACY_QUESTIONS = [
         rationale: 'Increase was 30−22 = 8°C.',
         isCorrect: false,
       },
-      { text: 'Trial B', rationale: 'Increase was 7�C.', isCorrect: false },
+      { text: 'Trial B', rationale: 'Increase was 7C.', isCorrect: false },
       {
         text: 'Trial C',
         rationale: 'Correct. Increase was 35−22 = 13°C, the largest.',
         isCorrect: true,
       },
-      { text: 'Trial D', rationale: 'Increase was 6�C.', isCorrect: false },
+      { text: 'Trial D', rationale: 'Increase was 6C.', isCorrect: false },
     ],
   },
   {
@@ -5962,7 +5962,7 @@ const AppData = {
                 questionNumber: 8,
                 calculator: true,
                 question:
-                  'The temperature was $-5�F$ in the morning and rose to $12�F$ in the afternoon. How many degrees did the temperature increase?',
+                  'The temperature was $-5F$ in the morning and rose to $12F$ in the afternoon. How many degrees did the temperature increase?',
                 answerOptions: [
                   {
                     text: '7 degrees',
@@ -6233,26 +6233,26 @@ const AppData = {
                 questionNumber: 17,
                 calculator: true,
                 question:
-                  "Sarah's temperature was 102.5�F. After taking some medicine, her temperature dropped by 3.8�F. What is her new temperature?",
+                  "Sarah's temperature was 102.5F. After taking some medicine, her temperature dropped by 3.8F. What is her new temperature?",
                 answerOptions: [
                   {
-                    text: '98.7�F',
+                    text: '98.7F',
                     isCorrect: true,
-                    rationale: '$102.5 - 3.8 = 98.7$�F.',
+                    rationale: '$102.5 - 3.8 = 98.7$F.',
                   },
                   {
-                    text: '99.7�F',
+                    text: '99.7F',
                     isCorrect: false,
                     rationale: 'This is a calculation error.',
                   },
                   {
-                    text: '106.3�F',
+                    text: '106.3F',
                     isCorrect: false,
                     rationale:
                       'This is the result of adding the numbers, not subtracting.',
                   },
                   {
-                    text: '98.2�F',
+                    text: '98.2F',
                     isCorrect: false,
                     rationale: 'This is a calculation error.',
                   },
@@ -6322,26 +6322,26 @@ const AppData = {
                 questionNumber: 20,
                 calculator: false,
                 question:
-                  'The temperature was -8�C in the morning and rose by 15�C. What is the new temperature?',
+                  'The temperature was -8C in the morning and rose by 15C. What is the new temperature?',
                 answerOptions: [
                   {
-                    text: '-23�C',
+                    text: '-23C',
                     isCorrect: false,
                     rationale:
                       'This would be the temperature if it dropped by 15 degrees.',
                   },
                   {
-                    text: '7�C',
+                    text: '7C',
                     isCorrect: true,
-                    rationale: '-8 + 15 = 7�C.',
+                    rationale: '-8 + 15 = 7C.',
                   },
                   {
-                    text: '23�C',
+                    text: '23C',
                     isCorrect: false,
                     rationale: 'Incorrect calculation.',
                   },
                   {
-                    text: '-7�C',
+                    text: '-7C',
                     isCorrect: false,
                     rationale: 'Incorrect calculation.',
                   },
@@ -7054,7 +7054,7 @@ const AppData = {
                 calculator: false,
                 type: 'chart',
                 passage:
-                  "<div class='passage-text'><b>Daily High Temperatures (�F): 65, 68, 72, 72, 75, 78, 81</b></div>",
+                  "<div class='passage-text'><b>Daily High Temperatures (F): 65, 68, 72, 72, 75, 78, 81</b></div>",
                 question: 'What is the range of the daily high temperatures?',
                 answerOptions: [
                   {
@@ -10469,7 +10469,7 @@ const AppData = {
                   {
                     questionNumber: 5,
                     type: 'analysis',
-                    passage: `<p class="passage-text mb-4"><b>Historian A:</b> The American Revolution was fundamentally an economic conflict. The British Empire's mercantilist policies, such as the Navigation Acts and various taxes, restricted colonial trade and manufacturing. The core of the dispute was the colonists' desire for economic freedom��the ability to trade with whomever they pleased and to develop their own industries without British interference.</p><p class="passage-text"><b>Historian B:</b> The Revolution was primarily a political and ideological struggle. Colonists saw themselves as freeborn Britons entitled to certain rights, most notably the right to be taxed only by their own elected representatives. When Parliament violated this principle, it was seen as an act of tyranny. The conflict was not about the amount of the tax, but the principle of self-government.</p>`,
+                    passage: `<p class="passage-text mb-4"><b>Historian A:</b> The American Revolution was fundamentally an economic conflict. The British Empire's mercantilist policies, such as the Navigation Acts and various taxes, restricted colonial trade and manufacturing. The core of the dispute was the colonists' desire for economic freedomthe ability to trade with whomever they pleased and to develop their own industries without British interference.</p><p class="passage-text"><b>Historian B:</b> The Revolution was primarily a political and ideological struggle. Colonists saw themselves as freeborn Britons entitled to certain rights, most notably the right to be taxed only by their own elected representatives. When Parliament violated this principle, it was seen as an act of tyranny. The conflict was not about the amount of the tax, but the principle of self-government.</p>`,
                     question:
                       'What is the central point of disagreement between Historian A and Historian B?',
                     answerOptions: [
@@ -10825,7 +10825,7 @@ const AppData = {
                     questionNumber: 4,
                     type: 'text',
                     passage:
-                      "Frederick Jackson Turner's 'Frontier Thesis,' presented in 1893, was an influential idea in American history. Turner argued that the existence of a frontier��a line between 'civilization' and 'wilderness'��had been a defining characteristic of American culture, fostering individualism, democracy, and innovation. He declared that the frontier had closed, raising questions about the future of American identity.",
+                      "Frederick Jackson Turner's 'Frontier Thesis,' presented in 1893, was an influential idea in American history. Turner argued that the existence of a frontiera line between 'civilization' and 'wilderness'had been a defining characteristic of American culture, fostering individualism, democracy, and innovation. He declared that the frontier had closed, raising questions about the future of American identity.",
                     question:
                       "According to Frederick Jackson Turner's 'Frontier Thesis,' what role did the frontier play in American history?",
                     answerOptions: [
@@ -11470,7 +11470,7 @@ const AppData = {
                 questionNumber: 3,
                 type: 'text',
                 passage:
-                  "The Missouri Compromise of 1820 was an attempt to resolve the issue of slavery's expansion. It admitted Missouri to the Union as a slave state and Maine as a free state, maintaining the balance of power between free and slave states in the Senate. It also prohibited slavery in the rest of the Louisiana Purchase territory north of the 36�30parallel.",
+                  "The Missouri Compromise of 1820 was an attempt to resolve the issue of slavery's expansion. It admitted Missouri to the Union as a slave state and Maine as a free state, maintaining the balance of power between free and slave states in the Senate. It also prohibited slavery in the rest of the Louisiana Purchase territory north of the 3630parallel.",
                 question: 'What was the main goal of the Missouri Compromise?',
                 answerOptions: [
                   {
@@ -11488,7 +11488,7 @@ const AppData = {
                   {
                     text: 'To give all western territories the right to popular sovereignty.',
                     rationale:
-                      'The compromise established a specific line (36�30��) to determine where slavery was allowed, rather than letting settlers decide everywhere.',
+                      'The compromise established a specific line (3630) to determine where slavery was allowed, rather than letting settlers decide everywhere.',
                     isCorrect: false,
                   },
                   {
@@ -14221,7 +14221,7 @@ const AppData = {
                     questionNumber: 3,
                     type: 'text',
                     passage:
-                      "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powers��powers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
+                      "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powerspowers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
                     question:
                       "The 'Elastic Clause' is significant because it grants Congress:",
                     answerOptions: [
@@ -15083,7 +15083,7 @@ const AppData = {
                       {
                         text: 'To declare laws passed by Congress and signed by the President to be unconstitutional.',
                         rationale:
-                          'Correct. This is the core function of judicial review��ensuring that laws adhere to the Constitution.',
+                          'Correct. This is the core function of judicial reviewensuring that laws adhere to the Constitution.',
                         isCorrect: true,
                       },
                       {
@@ -15136,7 +15136,7 @@ const AppData = {
                     questionNumber: 5,
                     type: 'text',
                     passage:
-                      "The Supreme Court consists of a Chief Justice and eight Associate Justices. For a case to be heard by the Supreme Court, at least four of the nine justices must agree to grant a writ of certiorari��an order for a lower court to send up the records of a case for review. This is known as the 'rule of four.'",
+                      "The Supreme Court consists of a Chief Justice and eight Associate Justices. For a case to be heard by the Supreme Court, at least four of the nine justices must agree to grant a writ of certiorarian order for a lower court to send up the records of a case for review. This is known as the 'rule of four.'",
                     question: "What is the 'rule of four'?",
                     answerOptions: [
                       {
@@ -17871,8 +17871,8 @@ const AppData = {
                 'The Rise of Renewable Energy: Powering a Sustainable Future',
               genre: 'Informational Text (Expository Essay)',
               text: [
-                'For over a century, human civilization has been powered predominantly by fossil fuels��coal, oil, and natural gas. While these energy sources fueled industrial revolutions and unprecedented economic growth, their use has come at a significant environmental cost, most notably climate change driven by greenhouse gas emissions. In response to this mounting crisis, a global energy transition is underway, shifting focus toward renewable sources. These sources, which include solar, wind, hydropower, and geothermal energy, are naturally replenished and produce minimal to no carbon emissions. This transition is not merely an environmental imperative but also a technological and economic evolution, promising a more sustainable and resilient energy future.',
-                'At the forefront of this revolution is solar power, which harnesses the immense energy of the sun. The most common method involves photovoltaic (PV) cells, which directly convert sunlight into electricity. Another approach, concentrated solar power (CSP), uses mirrors to focus sunlight to heat a fluid, which then creates steam to power a turbine. The primary advantages of solar energy are its abundance and its clean nature. However, its main drawback is intermittency��it only generates power when the sun is shining. This necessitates the development of large-scale energy storage solutions, such as advanced batteries, to provide reliable power around the clock. Furthermore, large solar farms require significant land area, which can raise concerns about land use and ecosystem impact.',
+                'For over a century, human civilization has been powered predominantly by fossil fuelscoal, oil, and natural gas. While these energy sources fueled industrial revolutions and unprecedented economic growth, their use has come at a significant environmental cost, most notably climate change driven by greenhouse gas emissions. In response to this mounting crisis, a global energy transition is underway, shifting focus toward renewable sources. These sources, which include solar, wind, hydropower, and geothermal energy, are naturally replenished and produce minimal to no carbon emissions. This transition is not merely an environmental imperative but also a technological and economic evolution, promising a more sustainable and resilient energy future.',
+                'At the forefront of this revolution is solar power, which harnesses the immense energy of the sun. The most common method involves photovoltaic (PV) cells, which directly convert sunlight into electricity. Another approach, concentrated solar power (CSP), uses mirrors to focus sunlight to heat a fluid, which then creates steam to power a turbine. The primary advantages of solar energy are its abundance and its clean nature. However, its main drawback is intermittencyit only generates power when the sun is shining. This necessitates the development of large-scale energy storage solutions, such as advanced batteries, to provide reliable power around the clock. Furthermore, large solar farms require significant land area, which can raise concerns about land use and ecosystem impact.',
                 'Wind power offers another powerful alternative. Giant turbines, often grouped together in wind farms on land or offshore, capture kinetic energy from the wind and convert it into electricity. Like solar power, wind is a clean energy source, but it shares the same challenge of intermittency, as it is dependent on weather patterns. The visual impact of turbines on landscapes and potential harm to avian wildlife, such as birds and bats, are also significant concerns that require careful planning and mitigation.',
                 "Hydropower and geothermal energy provide more consistent, or baseload, power. Hydropower, generated by the force of flowing water turning turbines in dams, is one of the oldest and most established forms of renewable energy. It is highly reliable and can be dispatched on demand. The main limitation is its environmental impact; large dams can alter river ecosystems, disrupt fish migration, and displace communities. Geothermal energy taps into the Earth's internal heat, using steam from underground reservoirs to generate electricity. It is a highly reliable and clean source of energy with a small physical footprint. Its primary constraint is geographical, as it is only economically viable in regions with accessible geothermal activity, such as volcanic zones or areas with tectonic plate boundaries.",
                 "The complete transition to a renewable energy system presents formidable but surmountable challenges. Beyond the intermittency of solar and wind, modernizing the electrical grid to handle decentralized energy sources is a major hurdle. Smart grids, which use digital technology to manage electricity distribution more efficiently, are essential. Advances in battery technology are critical for storing excess energy for when the sun isn't shining or the wind isn't blowing. Furthermore, supportive government policies, such as carbon pricing and tax incentives for renewable installations, play a crucial role in accelerating this transition. While the path is complex, the collective push toward a renewable-powered world represents a fundamental rethinking of our relationship with energy, aiming for a future that is not only prosperous but also environmentally sustainable for generations to come.",
@@ -18173,7 +18173,7 @@ const AppData = {
               title: 'The Case for Year-Round Schooling',
               genre: 'Persuasive Essay',
               text: [
-                "The traditional ten-month school calendar, with its long summer break, is an outdated relic of an agrarian past that no longer serves the needs of modern students. It is time for a fundamental shift to a year-round schooling model. A balanced calendar, with shorter, more frequent breaks distributed throughout the year, offers a powerful solution to combat the well-documented 'summer slide'��the significant learning loss that occurs over the long summer vacation. This loss is particularly detrimental to students from low-income families, who often lack access to enriching summer activities, thus widening the achievement gap.",
+                "The traditional ten-month school calendar, with its long summer break, is an outdated relic of an agrarian past that no longer serves the needs of modern students. It is time for a fundamental shift to a year-round schooling model. A balanced calendar, with shorter, more frequent breaks distributed throughout the year, offers a powerful solution to combat the well-documented 'summer slide'the significant learning loss that occurs over the long summer vacation. This loss is particularly detrimental to students from low-income families, who often lack access to enriching summer activities, thus widening the achievement gap.",
                 "Opponents of year-round schooling often raise concerns about disrupting family traditions and the summer tourism industry. While these are valid considerations, they pale in comparison to the profound educational benefits. Shorter breaks mean that teachers spend less time re-teaching old material in the fall, allowing them to cover more ground and delve deeper into complex topics. Furthermore, a balanced calendar can reduce teacher and student burnout by providing more frequent opportunities for rest and rejuvenation. The argument that 'kids need a break' misunderstands the nature of modern learning; the goal is not to eliminate breaks, but to distribute them more effectively to create a continuous and more engaging learning environment.",
                 "Ultimately, the transition to year-round schooling is not merely a logistical change; it is an investment in our children's future. It is a commitment to closing the achievement gap, improving academic retention, and creating a more efficient and effective educational system. Clinging to a calendar designed for a bygone era is a disservice to our students. We must have the courage to embrace a model that is better suited to the demands of the 21st century.",
               ],
@@ -19177,7 +19177,7 @@ const AppData = {
               text: [
                 "One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies. Pennies saved one and two at a time by bulldozing the grocer and the vegetable man and the butcher until one's cheeks burned with the silent imputation of parsimony that such close dealing implied. Three times Della counted it. One dollar and eighty-seven cents. And the next day would be Christmas.",
                 'There was clearly nothing to do but flop down on the shabby little couch and howl. So Della did it. Which instigates the moral reflection that life is made up of sobs, sniffles, and smiles, with sniffles predominating.',
-                'Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and looked out dully at a gray cat walking a gray fence in a gray backyard. Tomorrow would be Christmas Day, and she had only $1.87 with which to buy Jim a present. Her Jim. Many a happy hour she had spent planning for something nice for him. Something fine and rare and sterling��something just a little bit near to being worthy of the honor of being owned by Jim.',
+                'Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and looked out dully at a gray cat walking a gray fence in a gray backyard. Tomorrow would be Christmas Day, and she had only $1.87 with which to buy Jim a present. Her Jim. Many a happy hour she had spent planning for something nice for him. Something fine and rare and sterlingsomething just a little bit near to being worthy of the honor of being owned by Jim.',
                 "Suddenly she whirled from the window and stood before the glass. Her eyes were shining brilliantly, but her face had lost its color within twenty seconds. Rapidly she pulled down her hair and let it fall to its full length. Now, there were two possessions of the James Dillingham Youngs in which they both took a mighty pride. One was Jim's gold watch that had been his father's and his grandfather's. The other was Della's hair. Had the queen of Sheba lived in the flat across the airshaft, Della would have let her hair hang out the window some day to dry just to depreciate Her Majesty's jewels and gifts. Had King Solomon been the janitor, with all his treasures piled up in the basement, Jim would have pulled out his watch every time he passed, just to see him pluck at his beard from envy.",
                 "So now Della's beautiful hair fell about her, rippling and shining like a cascade of brown waters. It reached below her knee and made itself almost a garment for her. And then she did it up again nervously and quickly. Once she faltered for a minute and stood still while a tear or two splashed on the worn red carpet. On went her old brown jacket; on went her old brown hat. With a whirl of skirts and with the brilliant sparkle still in her eyes, she fluttered out the door and down the stairs to the street.",
               ],
@@ -19495,7 +19495,7 @@ const AppData = {
                 '<br/>',
                 'I shall be telling this with a sigh',
                 'Somewhere ages and ages hence:',
-                'Two roads diverged in a wood, and I��',
+                'Two roads diverged in a wood, and I',
                 'I took the one less traveled by,',
                 'And that has made all the difference.',
               ],
@@ -19932,7 +19932,7 @@ function isVariantSuffix(text) {
 
 function splitOnDivider(title) {
   // Prefer colon or long dash as divider between base and variant
-  const dividers = [':', '��', '��', '-', '|'];
+  const dividers = [':', '', '', '-', '|'];
   for (const d of dividers) {
     const idx = title.indexOf(d);
     if (idx > -1) {
@@ -20579,11 +20579,11 @@ function ensureMinQuestions(quiz, subject, min = 12) {
     }
   } catch {}
   const current = quiz.questions.length;
-  // 0��4 => flush with new unique questions
+  // 04 => flush with new unique questions
   if (current < 5) {
     return flushShortQuizToTwelve(quiz, subject);
   }
-  // 5��11 => pad by cloning last
+  // 511 => pad by cloning last
   if (current > 4 && current < min) {
     const last = quiz.questions[current - 1];
     while (quiz.questions.length < min) {
@@ -20748,7 +20748,7 @@ function assignPremadeQuizCodes(data) {
                 }
                 if (
                   base.startsWith(':') ||
-                  base.startsWith('��') ||
+                  base.startsWith('') ||
                   base.startsWith('-')
                 )
                   base = base.slice(1).trim();
@@ -21399,7 +21399,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     if (!text) return '';
     const clean = String(text).trim();
     if (clean.length <= max) return clean;
-    return clean.slice(0, Math.max(0, max - 1)).trim() + '��';
+    return clean.slice(0, Math.max(0, max - 1)).trim() + '';
   };
   const topicOneLiner = (topic) => {
     const fromTopic = topic?.description?.trim();
@@ -21475,7 +21475,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             getAttemptMeta(b.topic.quizCode || b.topic.id || '').attempts -
             getAttemptMeta(a.topic.quizCode || a.topic.id || '').attempts
         );
-      case 'Topic A��Z':
+      case 'Topic AZ':
         return [...items].sort((a, b) =>
           (a.topic.title || '').localeCompare(b.topic.title || '')
         );
@@ -21585,7 +21585,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         }
         if (
           base.startsWith(':') ||
-          base.startsWith('��') ||
+          base.startsWith('') ||
           base.startsWith('-')
         )
           base = base.slice(1).trim();
@@ -21755,7 +21755,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                       persistExpanded(next);
                     }}
                   >
-                    {expanded ? 'Show fewer' : 'More in this topic��'}
+                    {expanded ? 'Show fewer' : 'More in this topic'}
                   </button>
                 )}
               </div>
@@ -21934,7 +21934,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
           value={filters.sort}
           onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
         >
-          {['Newest', 'Most Attempted', 'Highest Score', 'Topic A��Z'].map(
+          {['Newest', 'Most Attempted', 'Highest Score', 'Topic AZ'].map(
             (opt) => (
               <option key={opt} value={opt}>
                 {opt}
@@ -22175,7 +22175,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                       persistExpanded(next);
                     }}
                   >
-                    ��️
+                    ️
                   </button>
                 </div>
                 {coreInfoOpen && (
@@ -22591,7 +22591,7 @@ const DEFAULT_CHALLENGE_OPTIONS = [
     id: 'rla-2',
     subject: 'RLA',
     subtopic: 'Reading Comprehension',
-    label: 'Author��s purpose & tone',
+    label: 'Authors purpose & tone',
     selected: false,
   },
   {
@@ -23342,7 +23342,7 @@ function PracticeSessionModal({
             style={{ backgroundColor: '#2563eb', color: 'white' }}
             disabled={submitting}
           >
-            {submitting ? 'Starting��' : 'Start'}
+            {submitting ? 'Starting' : 'Start'}
           </button>
         </div>
       </div>
@@ -24915,7 +24915,7 @@ function App({ externalTheme, onThemeChange }) {
                 ? bundle.recentScores
                 : prev.recentScoresDashboard || {},
           }));
-          window.alert('Great! You��re all set.');
+          window.alert('Great! Youre all set.');
           setFinishingOnboarding(false);
           setView('start');
           return;
@@ -24936,7 +24936,7 @@ function App({ externalTheme, onThemeChange }) {
         onboardingComplete: true,
       },
     }));
-    window.alert('Great! You��re all set.');
+    window.alert('Great! Youre all set.');
     setFinishingOnboarding(false);
     setView('start');
   }, [setView, localProfile, authToken]);
@@ -26338,7 +26338,7 @@ function ProfileView({
               className="refresh-button inline-flex items-center justify-center rounded-lg btn-info px-3 py-2 text-sm font-semibold transition-colors disabled:opacity-60"
               disabled={loading}
             >
-              {loading ? 'Refreshing��' : 'Refresh'}
+              {loading ? 'Refreshing' : 'Refresh'}
             </button>
             <button
               type="button"
@@ -26346,7 +26346,7 @@ function ProfileView({
               className="inline-flex items-center justify-center rounded-lg btn-success px-3 py-2 text-sm font-semibold disabled:opacity-60"
               disabled={!!savingAll}
             >
-              {savingAll ? 'Saving��' : 'Save All'}
+              {savingAll ? 'Saving' : 'Save All'}
             </button>
             <button
               type="button"
@@ -26392,7 +26392,7 @@ function ProfileView({
                 className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
                 disabled={finishingOnboarding}
               >
-                {finishingOnboarding ? 'Checking��' : "I'm Done"}
+                {finishingOnboarding ? 'Checking' : "I'm Done"}
               </button>
               <button
                 id="completeLaterBtn"
@@ -26442,7 +26442,7 @@ function ProfileView({
               className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
               disabled={nameSaving}
             >
-              {nameSaving ? 'Saving��' : 'Save Name'}
+              {nameSaving ? 'Saving' : 'Save Name'}
             </button>
           </div>
           <p className="text-xs text-muted">Maximum 80 characters.</p>
@@ -26588,7 +26588,7 @@ function ProfileView({
                         disabled={savingThisSubject}
                       >
                         {savingThisSubject
-                          ? 'Saving��'
+                          ? 'Saving'
                           : `Save ${entry.subject}`}
                       </button>
                       {edits.passed ? (
@@ -26737,7 +26737,7 @@ function ProfileView({
               className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
               disabled={challengesSaving}
             >
-              {challengesSaving ? 'Saving��' : 'Save Challenges'}
+              {challengesSaving ? 'Saving' : 'Save Challenges'}
             </button>
           </div>
         </form>
@@ -26763,7 +26763,7 @@ function RecentScoresPanel({
     return (
       <section className="panel-surface rounded-2xl border-subtle p-5 shadow-sm space-y-3">
         <h2 className="text-lg font-semibold text-primary">{title}</h2>
-        <p className="text-sm text-secondary">Loading��</p>
+        <p className="text-sm text-secondary">Loading</p>
       </section>
     );
   }
@@ -26780,7 +26780,7 @@ function RecentScoresPanel({
 
   const formatScoreValue = (value) => {
     if (value == null) {
-      return '��';
+      return '';
     }
     if (typeof value === 'number' && Number.isFinite(value)) {
       return `${Math.round(value)}%`;
@@ -26938,10 +26938,10 @@ function RecentScoresPanel({
                       {row.subject}
                     </td>
                     <td className="px-3 py-2">
-                      {row.latest != null ? `${row.latest}%` : '��'}
+                      {row.latest != null ? `${row.latest}%` : ''}
                     </td>
                     <td className="px-3 py-2">
-                      {row.avg != null ? `${row.avg}%` : '��'}
+                      {row.avg != null ? `${row.avg}%` : ''}
                     </td>
                   </tr>
                 ))}
@@ -26981,10 +26981,10 @@ function RecentScoresPanel({
                     </td>
                     <td className="px-3 py-2">{row.subtopic}</td>
                     <td className="px-3 py-2">
-                      {row.latest != null ? `${row.latest}%` : '��'}
+                      {row.latest != null ? `${row.latest}%` : ''}
                     </td>
                     <td className="px-3 py-2">
-                      {row.avg != null ? `${row.avg}%` : '��'}
+                      {row.avg != null ? `${row.avg}%` : ''}
                     </td>
                   </tr>
                 ))}
@@ -27144,7 +27144,7 @@ function SettingsView({
               Color Mode
             </legend>
             <p className="text-sm text-muted">
-              Choose between light and dark themes. We��ll remember your pick.
+              Choose between light and dark themes. Well remember your pick.
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
               {themeOptions.map((option) => (
@@ -27188,7 +27188,7 @@ function SettingsView({
               className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
               disabled={saving || loading}
             >
-              {saving ? 'Saving��' : 'Save Settings'}
+              {saving ? 'Saving' : 'Save Settings'}
             </button>
           </div>
         </form>
@@ -27404,7 +27404,7 @@ function AuthScreen({ onLogin }) {
             disabled={submitting}
             className="w-full rounded-lg btn-primary py-2 text-sm font-semibold shadow disabled:opacity-60"
           >
-            {submitting ? 'Please wait��' : modeLabel}
+            {submitting ? 'Please wait' : modeLabel}
           </button>
         </form>
         <p className="mt-3 text-sm text-secondary">
@@ -27528,19 +27528,19 @@ function AdminRoleBadge({ role }) {
 
 function formatDateTime(value) {
   if (!value) {
-    return '��';
+    return '';
   }
   try {
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) {
-      return '��';
+      return '';
     }
     return date.toLocaleString(undefined, {
       dateStyle: 'medium',
       timeStyle: 'short',
     });
   } catch (error) {
-    return '��';
+    return '';
   }
 }
 
@@ -27604,7 +27604,7 @@ function OrganizationSummaryView({ summary }) {
                   <td className="px-4 py-3 font-medium text-secondary">
                     {user.name || 'Learner'}
                   </td>
-                  <td className="px-4 py-3 text-muted">{user.email || '��'}</td>
+                  <td className="px-4 py-3 text-muted">{user.email || ''}</td>
                   <td className="px-4 py-3 text-muted">
                     {formatDateTime(user.last_login)}
                   </td>
@@ -27630,7 +27630,7 @@ function OrganizationSummaryView({ summary }) {
                               Score:{' '}
                               {attempt.scaled_score != null
                                 ? attempt.scaled_score
-                                : '��'}
+                                : ''}
                             </span>
                             <span className="text-muted">
                               {formatDateTime(attempt.attempted_at)}
@@ -28275,7 +28275,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
 
               {loadingOrgs ? (
                 <p className="py-4 text-sm text-slate-500 dark:text-slate-300">
-                  Loading organizations��
+                  Loading organizations
                 </p>
               ) : orgError ? (
                 <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-200">
@@ -28915,10 +28915,10 @@ function DetailedProgressView({
       : null;
 
   const formatDate = (value) => {
-    if (!value) return '��';
+    if (!value) return '';
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) {
-      return '��';
+      return '';
     }
     return date.toLocaleString(undefined, {
       dateStyle: 'medium',
@@ -28932,7 +28932,7 @@ function DetailedProgressView({
       return { label: 'Passed', className: 'text-emerald-600' };
     if (passed === false)
       return { label: 'Keep Practicing', className: 'text-amber-600' };
-    return { label: '��', className: 'text-slate-500' };
+    return { label: '', className: 'text-slate-500' };
   };
 
   const recentAttempts = attempts.slice(0, 10);
@@ -28981,7 +28981,7 @@ function DetailedProgressView({
           {subject === 'Reasoning Through Language Arts (RLA)' &&
             rlaEssayAvgDisplay && (
               <p className="mt-1 text-sm text-slate-600">
-                Avg essay (0��6):{' '}
+                Avg essay (06):{' '}
                 <span className="font-semibold text-slate-800">
                   {rlaEssayAvgDisplay}
                 </span>
@@ -29001,7 +29001,7 @@ function DetailedProgressView({
               <p className="text-sm text-slate-600 break-words">
                 Code:{' '}
                 <span className="font-mono text-slate-700">
-                  {lastAttempt.quizCode || '��'}
+                  {lastAttempt.quizCode || ''}
                 </span>
               </p>
               <p className="text-lg font-semibold text-slate-800">
@@ -29056,7 +29056,7 @@ function DetailedProgressView({
                             `Exam ${index + 1}`}
                         </p>
                         <p className="text-xs text-slate-500">
-                          Code: {attempt.quizCode || '��'}
+                          Code: {attempt.quizCode || ''}
                         </p>
                       </div>
                       <div className="space-y-3">
@@ -29220,7 +29220,7 @@ function DashboardProgressSummary({
           const lastScore = data.lastAttempt?.scaledScore;
           const truncatedTitle =
             lastTitle && lastTitle.length > 52
-              ? `${lastTitle.slice(0, 49)}��`
+              ? `${lastTitle.slice(0, 49)}`
               : lastTitle;
           const subjectId = SUBJECT_ID_MAP[subject] || null;
           const shortLabel =
@@ -29756,7 +29756,7 @@ function VocabularyBySubject({ vocabulary, onStartQuiz, theme = 'light' }) {
                   📝 Vocabulary Quiz
                 </button>
                 <span className="text-slate-600 dark:text-slate-300 text-xl">
-                  {isExpanded ? '��' : '��'}
+                  {isExpanded ? '' : ''}
                 </span>
               </div>
             </div>
@@ -30316,7 +30316,7 @@ function StartScreen({
         return;
       }
 
-      // reload weekly + today's goals so the panel gets the day��s quiz links
+      // reload weekly + today's goals so the panel gets the days quiz links
       await refreshCoachPanels();
     } catch (e) {
       setCoachError('Unable to generate weekly coach plan.');
@@ -30657,7 +30657,7 @@ function StartScreen({
         return;
       }
       setIsLoading(true);
-      setLoadingMessage(`Asking Coach for a custom ${subject} mix��`);
+      setLoadingMessage(`Asking Coach for a custom ${subject} mix`);
       const res = await fetch(
         `${API_BASE_URL}/api/coach/${encodeURIComponent(
           practiceSubjectParam(subject)
@@ -31647,7 +31647,7 @@ function StartScreen({
                               >
                                 {expanded
                                   ? 'Show fewer'
-                                  : 'More in this topic��'}
+                                  : 'More in this topic'}
                               </button>
                             )}
                           </div>
@@ -31933,7 +31933,7 @@ function StartScreen({
                   className="text-center text-sm mt-2"
                   style={heroMutedTextStyle}
                 >
-                  Loading��
+                  Loading
                 </p>
               ) : dailyError ? (
                 <p className="text-center text-sm mt-2 text-red-600">
@@ -32092,7 +32092,7 @@ function StartScreen({
                               {subjLabel}
                             </div>
                             <div className="text-xs" style={heroMutedTextStyle}>
-                              Today��s Coach Quiz is ready
+                              Todays Coach Quiz is ready
                             </div>
                           </div>
                           <button
@@ -32104,7 +32104,7 @@ function StartScreen({
                             }
                             className="px-3 py-1 bg-purple-600 text-white text-xs font-semibold rounded-md hover:bg-purple-700 transition"
                           >
-                            Open today��s quiz
+                            Open todays quiz
                           </button>
                         </div>
                       );
@@ -32164,7 +32164,7 @@ function StartScreen({
                       opacity: adviceLoading ? 0.6 : 1,
                     }}
                   >
-                    {adviceLoading ? 'Asking��' : 'Ask Coach'}
+                    {adviceLoading ? 'Asking' : 'Ask Coach'}
                   </button>
                   {!window.__ASK_COACH_ENABLED__ && (
                     <span className="text-xs" style={heroMutedTextStyle}>
@@ -32297,7 +32297,7 @@ function StartScreen({
                             className="text-center text-sm"
                             style={heroMutedTextStyle}
                           >
-                            Loading��
+                            Loading
                           </p>
                         ) : hasPlan ? (
                           <div className="mt-2 max-h-48 overflow-y-auto space-y-1">
@@ -32802,7 +32802,7 @@ function StartScreen({
                   >
                     {displayedChallenges.map((challenge) => (
                       <li key={challenge.id}>
-                        ��{' '}
+                        {' '}
                         {challenge.label ||
                           `${challenge.subject} ${challenge.subtopic}`}
                       </li>
@@ -32813,7 +32813,7 @@ function StartScreen({
                           isDarkMode ? 'text-slate-400' : 'text-slate-800'
                         }`}
                       >
-                        and {hiddenChallengeCount} more��
+                        and {hiddenChallengeCount} more
                       </li>
                     )}
                   </ul>
@@ -32859,7 +32859,7 @@ function StartScreen({
                   className="text-sm font-semibold px-3 py-1 rounded-md bg-white text-slate-900 hover:bg-white/90 disabled:opacity-60 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
                   title="Generate weekly plans for Math, RLA, Science, and Social Studies"
                 >
-                  {generatingAll ? 'Generating��' : 'Generate all'}
+                  {generatingAll ? 'Generating' : 'Generate all'}
                 </button>
               </div>
 
@@ -33465,7 +33465,7 @@ function QuizInterface({
                 style={timerStyle}
               >
                 <span role="img" aria-label="timer">
-                  ��️
+                  ️
                 </span>
                 <span>{formatTime(timeLeft)}</span>
                 {isPaused && (
@@ -34051,13 +34051,13 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     // 4) GED-ish scaling: 3 segments
     let scaledScore;
     if (percentage <= 40) {
-      // 0��40% => 100��135
+      // 040% => 100135
       scaledScore = 100 + (percentage / 40) * 35;
     } else if (percentage <= 65) {
-      // 40��65% => 135��145
+      // 4065% => 135145
       scaledScore = 135 + ((percentage - 40) / 25) * 10;
     } else {
-      // 65��100% => 145��200
+      // 65100% => 145200
       scaledScore = 145 + ((percentage - 65) / 35) * 55;
     }
     scaledScore = Math.round(scaledScore);
@@ -34308,13 +34308,13 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
     // 4) GED-ish scaling: 3 segments
     let scaledScore;
     if (percentage <= 40) {
-      // 0��40% => 100��135
+      // 040% => 100135
       scaledScore = 100 + (percentage / 40) * 35;
     } else if (percentage <= 65) {
-      // 40��65% => 135��145
+      // 4065% => 135145
       scaledScore = 135 + ((percentage - 40) / 25) * 10;
     } else {
-      // 65��100% => 145��200
+      // 65100% => 145200
       scaledScore = 145 + ((percentage - 65) / 35) * 55;
     }
     scaledScore = Math.round(scaledScore);
@@ -35550,7 +35550,7 @@ function EssayGuide({ onExit }) {
       'In everyday terms, the effects show up in places that are not cherry-picked: large districts as well as small ones, urban areas as well as rural communities, and across diverse populations. ' +
       'This breadth matters because it demonstrates that the argument is not reliant on a single exceptional case.\n\n' +
       'Equally important is the internal logic of the claim. ' +
-      'A clear explanation of how inputs become outcomes��backed by credible studies or official records��builds reader confidence. ' +
+      'A clear explanation of how inputs become outcomesbacked by credible studies or official recordsbuilds reader confidence. ' +
       'When authors acknowledge limitations, address counterarguments directly, and explain why competing explanations fall short, they further enhance credibility. ' +
       'The tone remains measured and analytic rather than speculative, and the supporting evidence goes beyond anecdotes to include trends, comparative data, or longitudinal results.\n\n' +
       'Finally, strong arguments connect evidence to implications. ' +
@@ -35561,7 +35561,7 @@ function EssayGuide({ onExit }) {
       'These reservations can be useful for surfacing potential risks or unintended consequences, but they are most convincing when paired with specific evidence and a clear explanation of scope. ' +
       'Without those anchors, caution can drift into conjecture, making it hard to weigh against concrete results reported elsewhere.\n\n' +
       'In addition, weaker arguments sometimes mistake correlation for causation or rely on assumptions about human behavior that are plausible but untested. ' +
-      'They may emphasize exceptional cases��outliers��while downplaying broader trends that move in the opposite direction. ' +
+      'They may emphasize exceptional casesoutlierswhile downplaying broader trends that move in the opposite direction. ' +
       'A careful reader should ask whether the same claim holds across settings and whether competing explanations have been seriously considered. ' +
       'When key terms are left undefined or evidence is largely anecdotal, the overall force of the case diminishes.\n\n' +
       'That said, raising practical constraints and ethical considerations is valuable. ' +
@@ -35605,7 +35605,7 @@ function EssayGuide({ onExit }) {
       passage1: {
         title: 'Dr. Alisa Klein, Sociologist (Stronger Argument)',
         content: stripHtmlToPlain(
-          "<p>Lowering the voting age to 16 is a crucial step for a healthier democracy. At 16, many young people are employed, pay taxes on their earnings, and are subject to the laws of the land. It is a fundamental principle of democracy��'no taxation without representation'��that they should have a voice in shaping policies that directly affect them, from education funding to climate change.</p><p><span class='good-evidence'>Furthermore, research shows that voting is a habit; a 2020 study from Tufts University found that cities that allow 16-year-olds to vote in local elections see significantly higher youth turnout in subsequent national elections.</span> Enabling citizens to vote at an age when they are still living in a stable home and learning about civics in school increases the likelihood they will become lifelong voters.</p><p><span class='good-evidence'>As political scientist Dr. Mark Franklin notes, 'The earlier a citizen casts their first ballot, the more likely they are to become a consistent participant in our democracy.'</span> It is a vital step toward strengthening civic engagement for generations to come.</p>"
+          "<p>Lowering the voting age to 16 is a crucial step for a healthier democracy. At 16, many young people are employed, pay taxes on their earnings, and are subject to the laws of the land. It is a fundamental principle of democracy'no taxation without representation'that they should have a voice in shaping policies that directly affect them, from education funding to climate change.</p><p><span class='good-evidence'>Furthermore, research shows that voting is a habit; a 2020 study from Tufts University found that cities that allow 16-year-olds to vote in local elections see significantly higher youth turnout in subsequent national elections.</span> Enabling citizens to vote at an age when they are still living in a stable home and learning about civics in school increases the likelihood they will become lifelong voters.</p><p><span class='good-evidence'>As political scientist Dr. Mark Franklin notes, 'The earlier a citizen casts their first ballot, the more likely they are to become a consistent participant in our democracy.'</span> It is a vital step toward strengthening civic engagement for generations to come.</p>"
         ),
       },
       passage2: {
@@ -35638,7 +35638,7 @@ function EssayGuide({ onExit }) {
       passage2: {
         title: 'Institute for Energy Research (Weaker Argument)',
         content:
-          "<p>While renewable energy is a worthy goal, aggressive government subsidies create significant problems. The high upfront cost of technologies like solar panels and wind turbines are passed on to taxpayers, creating a massive financial burden. These systems also have geographic limitations��they are only effective in specific locations with consistent sun or wind.</p><p>Furthermore, energy production is often intermittent, requiring expensive battery storage solutions that are not yet advanced enough. <span class='bad-evidence'>Think of the poor families who will have their lights go out on a calm, cloudy day.</span> It's simply not reliable enough to power a modern economy without fossil fuel backup, which defeats the entire purpose.</p><p>A market-driven approach, rather than government intervention, would allow the most efficient and affordable technologies to emerge naturally. We shouldn't let the government pick winners and losers with taxpayer money; we should let innovation and competition determine the best path forward.</p>",
+          "<p>While renewable energy is a worthy goal, aggressive government subsidies create significant problems. The high upfront cost of technologies like solar panels and wind turbines are passed on to taxpayers, creating a massive financial burden. These systems also have geographic limitationsthey are only effective in specific locations with consistent sun or wind.</p><p>Furthermore, energy production is often intermittent, requiring expensive battery storage solutions that are not yet advanced enough. <span class='bad-evidence'>Think of the poor families who will have their lights go out on a calm, cloudy day.</span> It's simply not reliable enough to power a modern economy without fossil fuel backup, which defeats the entire purpose.</p><p>A market-driven approach, rather than government intervention, would allow the most efficient and affordable technologies to emerge naturally. We shouldn't let the government pick winners and losers with taxpayer money; we should let innovation and competition determine the best path forward.</p>",
       },
     },
     {
@@ -35801,7 +35801,7 @@ function EssayGuide({ onExit }) {
       passage2: {
         title: 'Fiscal Prudence Council (Weaker Argument)',
         content:
-          "<p>Nothing is truly free��taxpayers foot the bill. <span class='bad-evidence'>If college is free, everyone will enroll and campuses will be chaotic.</span> Subsidizing degrees people may not use wastes money. Aid should remain merit-based and limited, not universal.</p>",
+          "<p>Nothing is truly freetaxpayers foot the bill. <span class='bad-evidence'>If college is free, everyone will enroll and campuses will be chaotic.</span> Subsidizing degrees people may not use wastes money. Aid should remain merit-based and limited, not universal.</p>",
       },
     },
     {
