@@ -209,8 +209,8 @@ export function QuizInterface({
       : []
     : [currentAnswer];
 
-  // TEMPORARY: disable interactive math tool mounting entirely
-  const TOOL_PANEL_ENABLED = false;
+  // Enable interactive tool panel only for Math questions (was hard-disabled)
+  const TOOL_PANEL_ENABLED = /math/i.test(subjectForRender || subject || '');
 
   // Precompute if the question would need a tool (ignored when flag is false)
   const hasGraphDataForRender = Boolean(
