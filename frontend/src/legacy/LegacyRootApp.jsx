@@ -33109,10 +33109,11 @@ function Stem({ item }) {
       {passageContent && (
         <div
           className="question-stem block"
-          dangerouslySetInnerHTML={renderQuestionTextForDisplay(
-            passageContent,
-            item.isPremade === true
-          )}
+          dangerouslySetInnerHTML={{
+            __html: sanitizeHtmlContent(passageContent, {
+              normalizeSpacing: true,
+            }),
+          }}
         />
       )}
 
@@ -35212,7 +35213,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               >
                 <div className="mb-2 flex items-start gap-3">
                   <span className="font-semibold question-stem leading-relaxed">
-                    {question.questionNumber}.
+                    {index + 1}.
                   </span>
                   <Stem item={question} />
                 </div>

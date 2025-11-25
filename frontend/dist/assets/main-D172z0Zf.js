@@ -35077,10 +35077,11 @@ function Stem({ item }) {
       "div",
       {
         className: "question-stem block",
-        dangerouslySetInnerHTML: renderQuestionTextForDisplay(
-          passageContent,
-          item.isPremade === true
-        )
+        dangerouslySetInnerHTML: {
+          __html: sanitizeHtmlContent(passageContent, {
+            normalizeSpacing: true
+          })
+        }
       },
       void 0,
       false,
@@ -35104,13 +35105,13 @@ function Stem({ item }) {
       false,
       {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 33121,
+        lineNumber: 33122,
         columnNumber: 11
       },
       this
     ) }, void 0, false, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 33120,
+      lineNumber: 33121,
       columnNumber: 9
     }, this),
     displaySource && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mt-2 text-xs opacity-70", children: [
@@ -35118,7 +35119,7 @@ function Stem({ item }) {
       displaySource
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 33132,
+      lineNumber: 33133,
       columnNumber: 9
     }, this)
   ] }, void 0, true, {
@@ -35214,7 +35215,7 @@ function QuizInterface({
   const currentQ = questions[currentIndex];
   if (!currentQ) return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: "Loading question..." }, void 0, false, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 33238,
+    lineNumber: 33239,
     columnNumber: 25
   }, this);
   const isFillInTheBlank = currentQ.type === "fill-in-the-blank" || !currentQ.answerOptions || currentQ.answerOptions.length === 0;
@@ -35268,12 +35269,12 @@ function QuizInterface({
   return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "fade-in", children: [
     canShowMathFormulas && showMathFormulas && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(FormulaSheetModal, { onClose: () => setShowMathFormulas(false) }, void 0, false, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 33429,
+      lineNumber: 33430,
       columnNumber: 9
     }, this),
     canShowScienceFormulas && showScienceFormulas && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ScienceFormulaSheet, { onClose: () => setShowScienceFormulas(false) }, void 0, false, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 33432,
+      lineNumber: 33433,
       columnNumber: 9
     }, this),
     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -35301,7 +35302,7 @@ function QuizInterface({
                     children: [
                       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ArrowLeftIcon, {}, void 0, false, {
                         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                        lineNumber: 33453,
+                        lineNumber: 33454,
                         columnNumber: 17
                       }, this),
                       " Back"
@@ -35311,7 +35312,7 @@ function QuizInterface({
                   true,
                   {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 33448,
+                    lineNumber: 33449,
                     columnNumber: 15
                   },
                   this
@@ -35327,7 +35328,7 @@ function QuizInterface({
                   false,
                   {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 33456,
+                    lineNumber: 33457,
                     columnNumber: 13
                   },
                   this
@@ -35341,12 +35342,12 @@ function QuizInterface({
                       children: [
                         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { role: "img", "aria-label": "timer", children: "️" }, void 0, false, {
                           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                          lineNumber: 33467,
+                          lineNumber: 33468,
                           columnNumber: 17
                         }, this),
                         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { children: formatTime(timeLeft) }, void 0, false, {
                           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                          lineNumber: 33470,
+                          lineNumber: 33471,
                           columnNumber: 17
                         }, this),
                         isPaused && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -35360,7 +35361,7 @@ function QuizInterface({
                           false,
                           {
                             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                            lineNumber: 33472,
+                            lineNumber: 33473,
                             columnNumber: 19
                           },
                           this
@@ -35371,7 +35372,7 @@ function QuizInterface({
                     true,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 33463,
+                      lineNumber: 33464,
                       columnNumber: 15
                     },
                     this
@@ -35399,7 +35400,7 @@ function QuizInterface({
                       false,
                       {
                         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                        lineNumber: 33481,
+                        lineNumber: 33482,
                         columnNumber: 17
                       },
                       this
@@ -35411,12 +35412,12 @@ function QuizInterface({
                       " left"
                     ] }, void 0, true, {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 33502,
+                      lineNumber: 33503,
                       columnNumber: 17
                     }, this)
                   ] }, void 0, true, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 33480,
+                    lineNumber: 33481,
                     columnNumber: 15
                   }, this),
                   formulaSheetEnabled && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-wrap justify-end gap-2", children: [
@@ -35437,7 +35438,7 @@ function QuizInterface({
                       false,
                       {
                         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                        lineNumber: 33509,
+                        lineNumber: 33510,
                         columnNumber: 21
                       },
                       this
@@ -35459,19 +35460,19 @@ function QuizInterface({
                       false,
                       {
                         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                        lineNumber: 33523,
+                        lineNumber: 33524,
                         columnNumber: 21
                       },
                       this
                     )
                   ] }, void 0, true, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 33507,
+                    lineNumber: 33508,
                     columnNumber: 17
                   }, this)
                 ] }, void 0, true, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 33462,
+                  lineNumber: 33463,
                   columnNumber: 13
                 }, this)
               ]
@@ -35480,7 +35481,7 @@ function QuizInterface({
             true,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 33443,
+              lineNumber: 33444,
               columnNumber: 11
             },
             this
@@ -35499,7 +35500,7 @@ function QuizInterface({
                   false,
                   {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 33546,
+                    lineNumber: 33547,
                     columnNumber: 17
                   },
                   this
@@ -35515,14 +35516,14 @@ function QuizInterface({
                   false,
                   {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 33553,
+                    lineNumber: 33554,
                     columnNumber: 19
                   },
                   this
                 )
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 33545,
+                lineNumber: 33546,
                 columnNumber: 15
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -35542,14 +35543,14 @@ function QuizInterface({
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 33561,
+                  lineNumber: 33562,
                   columnNumber: 15
                 },
                 this
               )
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 33544,
+              lineNumber: 33545,
               columnNumber: 13
             }, this),
             showArticle && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -35578,7 +35579,7 @@ function QuizInterface({
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 33585,
+                      lineNumber: 33586,
                       columnNumber: 19
                     },
                     this
@@ -35598,7 +35599,7 @@ function QuizInterface({
                       false,
                       {
                         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                        lineNumber: 33600,
+                        lineNumber: 33601,
                         columnNumber: 23
                       },
                       this
@@ -35619,7 +35620,7 @@ function QuizInterface({
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 33613,
+                      lineNumber: 33614,
                       columnNumber: 19
                     },
                     this
@@ -35630,14 +35631,14 @@ function QuizInterface({
               true,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 33575,
+                lineNumber: 33576,
                 columnNumber: 15
               },
               this
             )
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 33543,
+            lineNumber: 33544,
             columnNumber: 11
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mb-4 flex flex-wrap gap-2 quiz-nav", children: questions.map((_, i) => {
@@ -35668,14 +35669,14 @@ function QuizInterface({
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 33651,
+                lineNumber: 33652,
                 columnNumber: 15
               },
               this
             );
           }) }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 33629,
+            lineNumber: 33630,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -35703,23 +35704,23 @@ function QuizInterface({
                     true,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 33673,
+                      lineNumber: 33674,
                       columnNumber: 15
                     },
                     this
                   ),
                   /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Stem, { item: currentQ }, void 0, false, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 33679,
+                    lineNumber: 33680,
                     columnNumber: 15
                   }, this)
                 ] }, void 0, true, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 33672,
+                  lineNumber: 33673,
                   columnNumber: 13
                 }, this) }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 33671,
+                  lineNumber: 33672,
                   columnNumber: 11
                 }, this),
                 (() => {
@@ -35738,7 +35739,7 @@ function QuizInterface({
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 33689,
+                      lineNumber: 33690,
                       columnNumber: 15
                     },
                     this
@@ -35759,7 +35760,7 @@ function QuizInterface({
                       false,
                       {
                         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                        lineNumber: 33702,
+                        lineNumber: 33703,
                         columnNumber: 15
                       },
                       this
@@ -35769,7 +35770,7 @@ function QuizInterface({
                   false,
                   {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 33698,
+                    lineNumber: 33699,
                     columnNumber: 13
                   },
                   this
@@ -35788,7 +35789,7 @@ function QuizInterface({
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 33727,
+                      lineNumber: 33728,
                       columnNumber: 15
                     },
                     this
@@ -35811,14 +35812,14 @@ function QuizInterface({
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 33734,
+                      lineNumber: 33735,
                       columnNumber: 15
                     },
                     this
                   )
                 ] }, void 0, true, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 33726,
+                  lineNumber: 33727,
                   columnNumber: 13
                 }, this) : /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3", children: (currentQ.answerOptions || []).map((opt, i) => {
                   const cleanedOptionText = opt.text.trim().replace(/^\$\$/, "$");
@@ -35856,7 +35857,7 @@ function QuizInterface({
                               "."
                             ] }, void 0, true, {
                               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                              lineNumber: 33779,
+                              lineNumber: 33780,
                               columnNumber: 23
                             }, this),
                             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -35872,7 +35873,7 @@ function QuizInterface({
                               false,
                               {
                                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                                lineNumber: 33782,
+                                lineNumber: 33783,
                                 columnNumber: 23
                               },
                               this
@@ -35883,7 +35884,7 @@ function QuizInterface({
                         true,
                         {
                           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                          lineNumber: 33775,
+                          lineNumber: 33776,
                           columnNumber: 21
                         },
                         this
@@ -35893,14 +35894,14 @@ function QuizInterface({
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 33769,
+                      lineNumber: 33770,
                       columnNumber: 19
                     },
                     this
                   );
                 }) }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 33748,
+                  lineNumber: 33749,
                   columnNumber: 13
                 }, this)
               ]
@@ -35909,7 +35910,7 @@ function QuizInterface({
             true,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 33663,
+              lineNumber: 33664,
               columnNumber: 9
             },
             this
@@ -35933,7 +35934,7 @@ function QuizInterface({
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 33798,
+                lineNumber: 33799,
                 columnNumber: 11
               },
               this
@@ -35965,7 +35966,7 @@ function QuizInterface({
               true,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 33811,
+                lineNumber: 33812,
                 columnNumber: 11
               },
               this
@@ -35987,7 +35988,7 @@ function QuizInterface({
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 33837,
+                lineNumber: 33838,
                 columnNumber: 13
               },
               this
@@ -36008,14 +36009,14 @@ function QuizInterface({
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 33850,
+                lineNumber: 33851,
                 columnNumber: 13
               },
               this
             )
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 33797,
+            lineNumber: 33798,
             columnNumber: 9
           }, this)
         ]
@@ -36024,14 +36025,14 @@ function QuizInterface({
       true,
       {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 33434,
+        lineNumber: 33435,
         columnNumber: 7
       },
       this
     )
   ] }, void 0, true, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 33427,
+    lineNumber: 33428,
     columnNumber: 5
   }, this);
 }
@@ -36208,7 +36209,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     false,
     {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 34082,
+      lineNumber: 34083,
       columnNumber: 5
     },
     this
@@ -36398,7 +36399,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
       false,
       {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 34341,
+        lineNumber: 34342,
         columnNumber: 7
       },
       this
@@ -36408,12 +36409,12 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
     return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "text-center p-8 fade-in", children: [
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-2xl font-bold mb-4", children: "You have completed the non-calculator section." }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 34358,
+        lineNumber: 34359,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-lg mb-6", children: "You may now use a calculator for the remainder of the test." }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 34361,
+        lineNumber: 34362,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -36427,14 +36428,14 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
         false,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34364,
+          lineNumber: 34365,
           columnNumber: 9
         },
         this
       )
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 34357,
+      lineNumber: 34358,
       columnNumber: 7
     }, this);
   }
@@ -36456,7 +36457,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
       false,
       {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 34376,
+        lineNumber: 34377,
         columnNumber: 7
       },
       this
@@ -36468,7 +36469,7 @@ function QuizRunner({ quiz, onComplete, onExit }) {
   console.log("QuizRunner received quiz:", quiz);
   if (!quiz) return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "text-center p-8", children: "Loading quiz..." }, void 0, false, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 34395,
+    lineNumber: 34396,
     columnNumber: 21
   }, this);
   switch (quiz.type) {
@@ -36484,7 +36485,7 @@ function QuizRunner({ quiz, onComplete, onExit }) {
         false,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34400,
+          lineNumber: 34401,
           columnNumber: 9
         },
         this
@@ -36501,7 +36502,7 @@ function QuizRunner({ quiz, onComplete, onExit }) {
         false,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34409,
+          lineNumber: 34410,
           columnNumber: 9
         },
         this
@@ -36518,7 +36519,7 @@ function QuizRunner({ quiz, onComplete, onExit }) {
         false,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34417,
+          lineNumber: 34418,
           columnNumber: 9
         },
         this
@@ -36703,7 +36704,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
         return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-2xl font-bold mb-4", children: "Part 1: Reading Comprehension" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 34665,
+            lineNumber: 34666,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -36723,21 +36724,21 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 34668,
+              lineNumber: 34669,
               columnNumber: 13
             },
             this
           )
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34664,
+          lineNumber: 34665,
           columnNumber: 11
         }, this);
       case 2:
         return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "essay-wrapper", children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-2xl font-bold mb-4 subject-accent-heading", children: "Part 2: Extended Response (Essay)" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 34684,
+            lineNumber: 34685,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col lg:flex-row gap-4 essay-section", children: [
@@ -36748,7 +36749,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                 children: [
                   /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "question-stem", children: (p == null ? void 0 : p.title) || `Passage ${idx + 1}` }, void 0, false, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 34700,
+                    lineNumber: 34701,
                     columnNumber: 23
                   }, this),
                   (p == null ? void 0 : p.author) ? /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-slate-500 mb-2 essay-author", children: [
@@ -36756,7 +36757,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     p.author
                   ] }, void 0, true, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 34704,
+                    lineNumber: 34705,
                     columnNumber: 25
                   }, this) : null,
                   /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -36772,7 +36773,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 34708,
+                      lineNumber: 34709,
                       columnNumber: 23
                     },
                     this
@@ -36783,24 +36784,24 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
               true,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 34696,
+                lineNumber: 34697,
                 columnNumber: 21
               },
               this
             )) }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 34689,
+              lineNumber: 34690,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "lg:w-1/2 flex flex-col essay-right-panel", children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "font-bold mb-2 essay-prompt-title", children: "Essay Prompt:" }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 34720,
+                lineNumber: 34721,
                 columnNumber: 17
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "mb-2", children: quiz.part2_essay.prompt }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 34723,
+                lineNumber: 34724,
                 columnNumber: 17
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -36833,7 +36834,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 34724,
+                  lineNumber: 34725,
                   columnNumber: 17
                 },
                 this
@@ -36851,40 +36852,40 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 34750,
+                  lineNumber: 34751,
                   columnNumber: 19
                 },
                 this
               ) }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 34749,
+                lineNumber: 34750,
                 columnNumber: 17
               }, this),
               isScoring && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "mt-2 text-sm text-slate-500", children: "Scoring your essay with AI feedback. Please hold tight..." }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 34762,
+                lineNumber: 34763,
                 columnNumber: 19
               }, this)
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 34719,
+              lineNumber: 34720,
               columnNumber: 15
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 34687,
+            lineNumber: 34688,
             columnNumber: 13
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34683,
+          lineNumber: 34684,
           columnNumber: 11
         }, this);
       case 3:
         return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-2xl font-bold mb-4", children: "Part 3: Language & Grammar" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 34773,
+            lineNumber: 34774,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -36904,14 +36905,14 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 34776,
+              lineNumber: 34777,
               columnNumber: 13
             },
             this
           )
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34772,
+          lineNumber: 34773,
           columnNumber: 11
         }, this);
       default:
@@ -36923,18 +36924,18 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: onExit, className: "btn-ghost", children: [
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ArrowLeftIcon, {}, void 0, false, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34798,
+          lineNumber: 34799,
           columnNumber: 11
         }, this),
         " Back"
       ] }, void 0, true, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 34797,
+        lineNumber: 34798,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-xl font-bold text-center text-primary flex-1 exam-title", children: quiz.title }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 34800,
+        lineNumber: 34801,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col sm:items-end gap-2", children: [
@@ -36945,17 +36946,17 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
             children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { role: "img", "aria-label": "timer", children: "⏱" }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 34811,
+                lineNumber: 34812,
                 columnNumber: 13
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { children: formatTime(timeLeft) }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 34814,
+                lineNumber: 34815,
                 columnNumber: 13
               }, this),
               isPaused && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-xs uppercase tracking-wide", children: "Paused" }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 34816,
+                lineNumber: 34817,
                 columnNumber: 15
               }, this)
             ]
@@ -36964,7 +36965,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
           true,
           {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 34804,
+            lineNumber: 34805,
             columnNumber: 11
           },
           this
@@ -36983,7 +36984,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 34820,
+              lineNumber: 34821,
               columnNumber: 13
             },
             this
@@ -36995,28 +36996,28 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
             " left"
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 34828,
+            lineNumber: 34829,
             columnNumber: 13
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34819,
+          lineNumber: 34820,
           columnNumber: 11
         }, this)
       ] }, void 0, true, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 34803,
+        lineNumber: 34804,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 34796,
+      lineNumber: 34797,
       columnNumber: 7
     }, this),
     isPaused ? /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "text-center p-12 bg-surface-alt rounded-lg", children: [
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-3xl font-bold", children: "Exam Paused" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 34836,
+        lineNumber: 34837,
         columnNumber: 11
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -37030,19 +37031,19 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
         false,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34837,
+          lineNumber: 34838,
           columnNumber: 11
         },
         this
       )
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 34835,
+      lineNumber: 34836,
       columnNumber: 9
     }, this) : renderCurrentPart()
   ] }, void 0, true, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 34795,
+    lineNumber: 34796,
     columnNumber: 5
   }, this);
 }
@@ -37052,22 +37053,22 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "results-screen error", children: [
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { children: "Results Unavailable" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 34856,
+        lineNumber: 34857,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { children: "We saved your score, but couldn't build the detailed breakdown." }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 34857,
+        lineNumber: 34858,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: onHome, children: "Back to Menu" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 34858,
+        lineNumber: 34859,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 34855,
+      lineNumber: 34856,
       columnNumber: 7
     }, this);
   }
@@ -37183,23 +37184,23 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
           (quiz == null ? void 0 : quiz.title) || "Completed Quiz"
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34983,
+          lineNumber: 34984,
           columnNumber: 7
         }, this),
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "my-6", children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-lg text-secondary", children: "Your estimated GED® Score is:" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 34987,
+            lineNumber: 34988,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: `text-6xl font-bold my-2 ${performance.color}`, children: scaledScore }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 34988,
+            lineNumber: 34989,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: `text-2xl font-semibold mb-2 ${performance.color}`, children: performance.level }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 34991,
+            lineNumber: 34992,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-lg text-secondary", children: [
@@ -37210,23 +37211,23 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             " Correct"
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 34994,
+            lineNumber: 34995,
             columnNumber: 9
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 34986,
+          lineNumber: 34987,
           columnNumber: 7
         }, this),
         (loadingSuggestions || suggestions && suggestions.length) && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mt-6 pt-4 border-t max-w-2xl mx-auto text-left", children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-xl font-bold subject-accent-heading mb-3", children: "Suggested Focus Areas" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35002,
+            lineNumber: 35003,
             columnNumber: 11
           }, this),
           loadingSuggestions && !suggestions.length ? /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-secondary", children: "Loading suggestions…" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35006,
+            lineNumber: 35007,
             columnNumber: 13
           }, this) : suggestions.length ? /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("ul", { className: "space-y-2", children: suggestions.map((s) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
             "li",
@@ -37236,17 +37237,17 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
                   /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-semibold text-primary", children: prettyLabel(s.challenge_tag, s.label) }, void 0, false, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 35015,
+                    lineNumber: 35016,
                     columnNumber: 21
                   }, this),
                   /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-secondary", children: s.suggestion_type === "add" ? "Consider adding this challenge to your practice plan." : "We think you may be ready to remove this challenge." }, void 0, false, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 35018,
+                    lineNumber: 35019,
                     columnNumber: 21
                   }, this)
                 ] }, void 0, true, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 35014,
+                  lineNumber: 35015,
                   columnNumber: 19
                 }, this),
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
@@ -37261,7 +37262,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 35025,
+                      lineNumber: 35026,
                       columnNumber: 21
                     },
                     this
@@ -37277,14 +37278,14 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 35031,
+                      lineNumber: 35032,
                       columnNumber: 21
                     },
                     this
                   )
                 ] }, void 0, true, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 35024,
+                  lineNumber: 35025,
                   columnNumber: 19
                 }, this)
               ]
@@ -37293,35 +37294,35 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             true,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 35010,
+              lineNumber: 35011,
               columnNumber: 17
             },
             this
           )) }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35008,
+            lineNumber: 35009,
             columnNumber: 13
           }, this) : /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-secondary", children: "No suggestions right now." }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35042,
+            lineNumber: 35043,
             columnNumber: 13
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 35001,
+          lineNumber: 35002,
           columnNumber: 9
         }, this),
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mt-8 pt-6 border-t max-w-lg mx-auto", children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-xl font-bold subject-accent-heading mb-4", children: "Performance by Category" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35048,
+            lineNumber: 35049,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3 text-left", children: Object.entries(performanceByCategory).map(([type, data]) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "panel-surface p-3 rounded-lg", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex justify-between items-center", children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "font-semibold text-secondary", children: categoryNames[type] || type }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 35055,
+                lineNumber: 35056,
                 columnNumber: 17
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "font-bold text-primary", children: [
@@ -37330,12 +37331,12 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                 data.total
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 35058,
+                lineNumber: 35059,
                 columnNumber: 17
               }, this)
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 35054,
+              lineNumber: 35055,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "w-full bg-surface-alt rounded-full h-2.5 mt-2", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -37348,33 +37349,33 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 35063,
+                lineNumber: 35064,
                 columnNumber: 17
               },
               this
             ) }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 35062,
+              lineNumber: 35063,
               columnNumber: 15
             }, this)
           ] }, type, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35053,
+            lineNumber: 35054,
             columnNumber: 13
           }, this)) }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35051,
+            lineNumber: 35052,
             columnNumber: 9
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 35047,
+          lineNumber: 35048,
           columnNumber: 7
         }, this),
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mt-8 flex justify-center gap-4", children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: onHome, className: "btn-ghost", children: "Go Home" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35074,
+            lineNumber: 35075,
             columnNumber: 9
           }, this),
           markedQuestions.length > 0 && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -37392,25 +37393,25 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             true,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 35078,
+              lineNumber: 35079,
               columnNumber: 11
             },
             this
           ),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: onRestart, className: "btn-primary", children: "Try Again" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35085,
+            lineNumber: 35086,
             columnNumber: 9
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 35073,
+          lineNumber: 35074,
           columnNumber: 7
         }, this),
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mt-8 pt-6 border-t", children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-xl font-bold subject-accent-heading mb-4", children: "Detailed Question Review" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35091,
+            lineNumber: 35092,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-4 text-left", children: (quiz.questions || []).map((question, index) => {
@@ -37504,21 +37505,21 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                 children: [
                   /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mb-2 flex items-start gap-3", children: [
                     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "font-semibold question-stem leading-relaxed", children: [
-                      question.questionNumber,
+                      index + 1,
                       "."
                     ] }, void 0, true, {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 35214,
+                      lineNumber: 35215,
                       columnNumber: 19
                     }, this),
                     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(Stem, { item: question }, void 0, false, {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 35217,
+                      lineNumber: 35218,
                       columnNumber: 19
                     }, this)
                   ] }, void 0, true, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 35213,
+                    lineNumber: 35214,
                     columnNumber: 17
                   }, this),
                   (() => {
@@ -37536,7 +37537,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       false,
                       {
                         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                        lineNumber: 35226,
+                        lineNumber: 35227,
                         columnNumber: 21
                       },
                       this
@@ -37552,13 +37553,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 35235,
+                      lineNumber: 35236,
                       columnNumber: 21
                     },
                     this
                   ) }, void 0, false, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 35234,
+                    lineNumber: 35235,
                     columnNumber: 19
                   }, this),
                   /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -37576,7 +37577,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                     true,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 35241,
+                      lineNumber: 35242,
                       columnNumber: 17
                     },
                     this
@@ -37597,20 +37598,20 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       false,
                       {
                         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                        lineNumber: 35253,
+                        lineNumber: 35254,
                         columnNumber: 23
                       },
                       this
                     )
                   ] }, void 0, true, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 35251,
+                    lineNumber: 35252,
                     columnNumber: 21
                   }, this),
                   correctMC && correctMC.rationale && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "explanation", children: [
                     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "font-semibold", children: "Rationale:" }, void 0, false, {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 35265,
+                      lineNumber: 35266,
                       columnNumber: 21
                     }, this),
                     " ",
@@ -37627,14 +37628,14 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       false,
                       {
                         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                        lineNumber: 35266,
+                        lineNumber: 35267,
                         columnNumber: 21
                       },
                       this
                     )
                   ] }, void 0, true, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 35264,
+                    lineNumber: 35265,
                     columnNumber: 19
                   }, this),
                   confidenceLevel && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mt-2", children: [
@@ -37643,7 +37644,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       " "
                     ] }, void 0, true, {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 35277,
+                      lineNumber: 35278,
                       columnNumber: 21
                     }, this),
                     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -37658,14 +37659,14 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       false,
                       {
                         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                        lineNumber: 35280,
+                        lineNumber: 35281,
                         columnNumber: 21
                       },
                       this
                     )
                   ] }, void 0, true, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 35276,
+                    lineNumber: 35277,
                     columnNumber: 19
                   }, this)
                 ]
@@ -37674,19 +37675,19 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               true,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 35207,
+                lineNumber: 35208,
                 columnNumber: 15
               },
               this
             );
           }) }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35094,
+            lineNumber: 35095,
             columnNumber: 9
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 35090,
+          lineNumber: 35091,
           columnNumber: 7
         }, this)
       ]
@@ -37695,7 +37696,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     true,
     {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 34979,
+      lineNumber: 34980,
       columnNumber: 5
     },
     this
@@ -37743,28 +37744,28 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: onExit, className: "btn-ghost", children: [
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ArrowLeftIcon, {}, void 0, false, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 35346,
+          lineNumber: 35347,
           columnNumber: 11
         }, this),
         " Back"
       ] }, void 0, true, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 35345,
+        lineNumber: 35346,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-xl font-bold text-center subject-accent-heading", children: quiz.title }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 35348,
+        lineNumber: 35349,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", {}, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 35351,
+        lineNumber: 35352,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 35344,
+      lineNumber: 35345,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("article", { className: "prose passage-section max-w-none", children: [
@@ -37782,14 +37783,14 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
         false,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 35354,
+          lineNumber: 35355,
           columnNumber: 9
         },
         this
       ),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm italic text-secondary", children: quiz.article.genre }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 35362,
+        lineNumber: 35363,
         columnNumber: 9
       }, this),
       (() => {
@@ -37805,7 +37806,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
           false,
           {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35366,
+            lineNumber: 35367,
             columnNumber: 13
           },
           this
@@ -37822,20 +37823,20 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
         false,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 35374,
+          lineNumber: 35375,
           columnNumber: 11
         },
         this
       ))
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 35353,
+      lineNumber: 35354,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("section", { className: "mt-8 pt-6 border-t", children: [
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-2xl font-bold mb-4 subject-accent-heading", children: "Questions" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 35383,
+        lineNumber: 35384,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-6", children: quiz.questions.map((q, i) => {
@@ -37859,7 +37860,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                   false,
                   {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 35406,
+                    lineNumber: 35407,
                     columnNumber: 19
                   },
                   this
@@ -37875,13 +37876,13 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 35415,
+                  lineNumber: 35416,
                   columnNumber: 19
                 },
                 this
               ) }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 35414,
+                lineNumber: 35415,
                 columnNumber: 17
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mb-2 flex items-start gap-3", children: [
@@ -37890,7 +37891,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                   "."
                 ] }, void 0, true, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 35422,
+                  lineNumber: 35423,
                   columnNumber: 17
                 }, this),
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -37902,14 +37903,14 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                   false,
                   {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 35425,
+                    lineNumber: 35426,
                     columnNumber: 17
                   },
                   this
                 )
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 35421,
+                lineNumber: 35422,
                 columnNumber: 15
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mt-2 space-y-1", children: (q.answerOptions || []).map((opt, j) => {
@@ -37935,7 +37936,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 35446,
+                      lineNumber: 35447,
                       columnNumber: 23
                     },
                     this
@@ -37957,7 +37958,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                         false,
                         {
                           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                          lineNumber: 35465,
+                          lineNumber: 35466,
                           columnNumber: 25
                         },
                         this
@@ -37967,19 +37968,19 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 35454,
+                      lineNumber: 35455,
                       columnNumber: 23
                     },
                     this
                   )
                 ] }, j, true, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 35445,
+                  lineNumber: 35446,
                   columnNumber: 21
                 }, this);
               }) }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 35429,
+                lineNumber: 35430,
                 columnNumber: 15
               }, this)
             ]
@@ -37988,29 +37989,29 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
           true,
           {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 35388,
+            lineNumber: 35389,
             columnNumber: 13
           },
           this
         );
       }) }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 35386,
+        lineNumber: 35387,
         columnNumber: 9
       }, this),
       !isSubmitted && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("button", { onClick: handleSubmit, className: "btn-primary w-full mt-6", children: "Submit Answers" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 35481,
+        lineNumber: 35482,
         columnNumber: 11
       }, this)
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 35382,
+      lineNumber: 35383,
       columnNumber: 7
     }, this)
   ] }, void 0, true, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 35343,
+    lineNumber: 35344,
     columnNumber: 5
   }, this);
 }
@@ -38464,7 +38465,7 @@ function EssayGuide({ onExit }) {
           false,
           {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36068,
+            lineNumber: 36069,
             columnNumber: 11
           },
           this
@@ -38487,7 +38488,7 @@ function EssayGuide({ onExit }) {
           false,
           {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36083,
+            lineNumber: 36084,
             columnNumber: 11
           },
           this
@@ -38497,38 +38498,38 @@ function EssayGuide({ onExit }) {
         return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3 text-sm leading-relaxed text-slate-700", children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { children: promptSummary }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36094,
+            lineNumber: 36095,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("ul", { className: "list-disc pl-5 space-y-2", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("li", { children: "Clearly state which author presents the stronger argument on the topic." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36096,
+              lineNumber: 36097,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("li", { children: "Use at least two specific pieces of evidence from the passages to support your evaluation." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36100,
+              lineNumber: 36101,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("li", { children: "Explain why the evidence you cite strengthens one argument or weakens the other." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36104,
+              lineNumber: 36105,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("li", { children: "Organize your ideas with an introduction, body paragraphs, and a conclusion." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36108,
+              lineNumber: 36109,
               columnNumber: 15
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36095,
+            lineNumber: 36096,
             columnNumber: 13
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36093,
+          lineNumber: 36094,
           columnNumber: 11
         }, this);
     }
@@ -38544,13 +38545,13 @@ function EssayGuide({ onExit }) {
     false,
     {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 36121,
+      lineNumber: 36122,
       columnNumber: 9
     },
     this
   )) }, void 0, false, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 36119,
+    lineNumber: 36120,
     columnNumber: 5
   }, this);
   const renderContent = () => {
@@ -38569,7 +38570,7 @@ function EssayGuide({ onExit }) {
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36140,
+                lineNumber: 36141,
                 columnNumber: 15
               },
               this
@@ -38594,7 +38595,7 @@ function EssayGuide({ onExit }) {
                 },
                 children: passagesData.map((p, i) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: i, children: p.topic }, i, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36164,
+                  lineNumber: 36165,
                   columnNumber: 19
                 }, this))
               },
@@ -38602,7 +38603,7 @@ function EssayGuide({ onExit }) {
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36146,
+                lineNumber: 36147,
                 columnNumber: 15
               },
               this
@@ -38623,25 +38624,25 @@ function EssayGuide({ onExit }) {
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36170,
+                lineNumber: 36171,
                 columnNumber: 17
               },
               this
             ) : /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "mt-3 text-sm text-green-700", children: "Topic locked. You can start typing and open the prompt overlay." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36182,
+              lineNumber: 36183,
               columnNumber: 17
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36139,
+            lineNumber: 36140,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "relative", children: [
             lockedTopic === null && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "absolute inset-0 z-10 flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-lg", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "text-center p-6 bg-white border rounded-lg shadow", children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "mb-3 font-semibold", children: 'Press "Start/Lock this topic" to reveal passages and begin.' }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36192,
+                lineNumber: 36193,
                 columnNumber: 21
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -38660,18 +38661,18 @@ function EssayGuide({ onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36196,
+                  lineNumber: 36197,
                   columnNumber: 21
                 },
                 this
               )
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36191,
+              lineNumber: 36192,
               columnNumber: 19
             }, this) }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36190,
+              lineNumber: 36191,
               columnNumber: 17
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -38683,7 +38684,7 @@ function EssayGuide({ onExit }) {
                   /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("article", { className: "bg-white p-6 rounded-lg shadow-md essay-argument-column", children: [
                     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem", children: selectedPassage.passage1.title }, void 0, false, {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 36215,
+                      lineNumber: 36216,
                       columnNumber: 19
                     }, this),
                     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { style: { whiteSpace: "pre-wrap" }, children: expandIfShort(
@@ -38692,18 +38693,18 @@ function EssayGuide({ onExit }) {
                       selectedPassage.passage1.content
                     ) }, void 0, false, {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 36218,
+                      lineNumber: 36219,
                       columnNumber: 19
                     }, this)
                   ] }, void 0, true, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 36214,
+                    lineNumber: 36215,
                     columnNumber: 17
                   }, this),
                   /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("article", { className: "bg-white p-6 rounded-lg shadow-md essay-argument-column", children: [
                     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem", children: selectedPassage.passage2.title }, void 0, false, {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 36227,
+                      lineNumber: 36228,
                       columnNumber: 19
                     }, this),
                     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { style: { whiteSpace: "pre-wrap" }, children: expandIfShort(
@@ -38712,12 +38713,12 @@ function EssayGuide({ onExit }) {
                       selectedPassage.passage2.content
                     ) }, void 0, false, {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 36230,
+                      lineNumber: 36231,
                       columnNumber: 19
                     }, this)
                   ] }, void 0, true, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 36226,
+                    lineNumber: 36227,
                     columnNumber: 17
                   }, this)
                 ]
@@ -38726,19 +38727,19 @@ function EssayGuide({ onExit }) {
               true,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36210,
+                lineNumber: 36211,
                 columnNumber: 15
               },
               this
             )
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36188,
+            lineNumber: 36189,
             columnNumber: 13
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36138,
+          lineNumber: 36139,
           columnNumber: 11
         }, this);
       case "structure":
@@ -38747,17 +38748,17 @@ function EssayGuide({ onExit }) {
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "text-center sm:text-left", children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-xl font-bold text-gray-800", children: "Typing Practice Mode" }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36247,
+                lineNumber: 36248,
                 columnNumber: 17
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-gray-600", children: "Click Start to begin a 45-minute timed session." }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36250,
+                lineNumber: 36251,
                 columnNumber: 17
               }, this)
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36246,
+              lineNumber: 36247,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center space-x-2 sm:space-x-4", children: [
@@ -38773,7 +38774,7 @@ function EssayGuide({ onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36255,
+                  lineNumber: 36256,
                   columnNumber: 17
                 },
                 this
@@ -38788,7 +38789,7 @@ function EssayGuide({ onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36262,
+                  lineNumber: 36263,
                   columnNumber: 17
                 },
                 this
@@ -38804,7 +38805,7 @@ function EssayGuide({ onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36273,
+                  lineNumber: 36274,
                   columnNumber: 17
                 },
                 this
@@ -38820,30 +38821,30 @@ function EssayGuide({ onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36279,
+                  lineNumber: 36280,
                   columnNumber: 17
                 },
                 this
               )
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36254,
+              lineNumber: 36255,
               columnNumber: 15
             }, this),
             overtimeNotified && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mt-3 w-full sm:w-auto bg-amber-50 border border-amber-200 text-amber-800 text-sm px-3 py-2 rounded", children: "Time is up, but you can still finish your work. The timer now shows overtime." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36287,
+              lineNumber: 36288,
               columnNumber: 17
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36245,
+            lineNumber: 36246,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-white p-3 rounded-lg shadow-sm border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "text-sm text-slate-700 font-semibold", children: "Editor Mode" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36295,
+              lineNumber: 36296,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -38865,7 +38866,7 @@ function EssayGuide({ onExit }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 36303,
+                      lineNumber: 36304,
                       columnNumber: 17
                     },
                     this
@@ -38882,7 +38883,7 @@ function EssayGuide({ onExit }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 36314,
+                      lineNumber: 36315,
                       columnNumber: 17
                     },
                     this
@@ -38893,31 +38894,31 @@ function EssayGuide({ onExit }) {
               true,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36298,
+                lineNumber: 36299,
                 columnNumber: 15
               },
               this
             )
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36294,
+            lineNumber: 36295,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "text-lg font-semibold text-blue-900", children: "Need the prompt while you type?" }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36330,
+                lineNumber: 36331,
                 columnNumber: 17
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-sm text-blue-800", children: "Open the overlay to view the essay prompt or either passage without leaving the practice screen." }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36333,
+                lineNumber: 36334,
                 columnNumber: 17
               }, this)
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36329,
+              lineNumber: 36330,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -38931,21 +38932,21 @@ function EssayGuide({ onExit }) {
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36338,
+                lineNumber: 36339,
                 columnNumber: 15
               },
               this
             )
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36328,
+            lineNumber: 36329,
             columnNumber: 13
           }, this),
           essayMode === "guided" ? /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(jsxDevRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Introduction Paragraph" }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36352,
+                lineNumber: 36353,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700 leading-relaxed mb-4", children: [
@@ -38953,14 +38954,14 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[topic of both articles]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36357,
+                  lineNumber: 36358,
                   columnNumber: 21
                 }, this),
                 ". In the first passage,",
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[Author 1's Last Name]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36361,
+                  lineNumber: 36362,
                   columnNumber: 21
                 }, this),
                 " ",
@@ -38968,14 +38969,14 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[explain Author 1's main claim]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36365,
+                  lineNumber: 36366,
                   columnNumber: 21
                 }, this),
                 ". Conversely, in the second passage,",
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[Author 2's Last Name]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36369,
+                  lineNumber: 36370,
                   columnNumber: 21
                 }, this),
                 " ",
@@ -38983,14 +38984,14 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[explain Author 2's main claim]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36373,
+                  lineNumber: 36374,
                   columnNumber: 21
                 }, this),
                 ". After analyzing both arguments, it is clear that",
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[Author's Last Name]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36377,
+                  lineNumber: 36378,
                   columnNumber: 21
                 }, this),
                 " ",
@@ -38998,13 +38999,13 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[list key evidence types]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36381,
+                  lineNumber: 36382,
                   columnNumber: 21
                 }, this),
                 "."
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36355,
+                lineNumber: 36356,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -39042,20 +39043,20 @@ function EssayGuide({ onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36386,
+                  lineNumber: 36387,
                   columnNumber: 19
                 },
                 this
               )
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36351,
+              lineNumber: 36352,
               columnNumber: 17
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #1: Analyze Strong Evidence" }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36416,
+                lineNumber: 36417,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700 leading-relaxed mb-4", children: [
@@ -39063,7 +39064,7 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[Stronger Author's Last Name]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36421,
+                  lineNumber: 36422,
                   columnNumber: 21
                 }, this),
                 " ",
@@ -39071,27 +39072,27 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[type of evidence]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36425,
+                  lineNumber: 36426,
                   columnNumber: 21
                 }, this),
                 ". The author states,",
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: '["quote or paraphrase"]' }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36429,
+                  lineNumber: 36430,
                   columnNumber: 21
                 }, this),
                 ". This evidence is highly convincing because",
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[explain why]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36433,
+                  lineNumber: 36434,
                   columnNumber: 21
                 }, this),
                 "."
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36419,
+                lineNumber: 36420,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -39129,20 +39130,20 @@ function EssayGuide({ onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36438,
+                  lineNumber: 36439,
                   columnNumber: 19
                 },
                 this
               )
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36415,
+              lineNumber: 36416,
               columnNumber: 17
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #2: Analyze More Strong Evidence" }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36468,
+                lineNumber: 36469,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700 leading-relaxed mb-4", children: [
@@ -39150,7 +39151,7 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[Stronger Author's Last Name]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36473,
+                  lineNumber: 36474,
                   columnNumber: 21
                 }, this),
                 " ",
@@ -39158,27 +39159,27 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[another type of evidence]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36477,
+                  lineNumber: 36478,
                   columnNumber: 21
                 }, this),
                 ". For example, the author points out that",
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: '["quote or paraphrase"]' }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36481,
+                  lineNumber: 36482,
                   columnNumber: 21
                 }, this),
                 ". This is a logical and persuasive point because",
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[explain why]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36485,
+                  lineNumber: 36486,
                   columnNumber: 21
                 }, this),
                 "."
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36471,
+                lineNumber: 36472,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -39216,20 +39217,20 @@ function EssayGuide({ onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36490,
+                  lineNumber: 36491,
                   columnNumber: 19
                 },
                 this
               )
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36467,
+              lineNumber: 36468,
               columnNumber: 17
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #3: Analyze the Weaker Argument" }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36520,
+                lineNumber: 36521,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700 leading-relaxed mb-4", children: [
@@ -39237,7 +39238,7 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[Weaker Author's Last Name]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36525,
+                  lineNumber: 36526,
                   columnNumber: 21
                 }, this),
                 " ",
@@ -39245,27 +39246,27 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[identify a weakness]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36530,
+                  lineNumber: 36531,
                   columnNumber: 21
                 }, this),
                 ". For instance, the author claims that",
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: '["quote or paraphrase"]' }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36534,
+                  lineNumber: 36535,
                   columnNumber: 21
                 }, this),
                 ". This argument is unconvincing because",
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[explain why]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36538,
+                  lineNumber: 36539,
                   columnNumber: 21
                 }, this),
                 "."
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36523,
+                lineNumber: 36524,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -39303,20 +39304,20 @@ function EssayGuide({ onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36543,
+                  lineNumber: 36544,
                   columnNumber: 19
                 },
                 this
               )
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36519,
+              lineNumber: 36520,
               columnNumber: 17
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Conclusion Paragraph" }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36573,
+                lineNumber: 36574,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700 leading-relaxed mb-4", children: [
@@ -39324,7 +39325,7 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[Stronger Author's Last Name]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36578,
+                  lineNumber: 36579,
                   columnNumber: 21
                 }, this),
                 " ",
@@ -39332,20 +39333,20 @@ function EssayGuide({ onExit }) {
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[restate evidence types]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36582,
+                  lineNumber: 36583,
                   columnNumber: 21
                 }, this),
                 ", the author builds a case that is more persuasive than the weakly supported claims by",
                 " ",
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "text-blue-600 font-semibold", children: "[Weaker Author's Last Name]" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36587,
+                  lineNumber: 36588,
                   columnNumber: 21
                 }, this),
                 "."
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36576,
+                lineNumber: 36577,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -39383,29 +39384,29 @@ function EssayGuide({ onExit }) {
                 false,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36592,
+                  lineNumber: 36593,
                   columnNumber: 19
                 },
                 this
               )
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36572,
+              lineNumber: 36573,
               columnNumber: 17
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36350,
+            lineNumber: 36351,
             columnNumber: 15
           }, this) : /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Freeform Essay" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36624,
+              lineNumber: 36625,
               columnNumber: 17
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700 leading-relaxed mb-4", children: "Write your essay in one place. You can still open the prompt overlay to reference the passages." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36627,
+              lineNumber: 36628,
               columnNumber: 17
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -39443,19 +39444,19 @@ function EssayGuide({ onExit }) {
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36631,
+                lineNumber: 36632,
                 columnNumber: 17
               },
               this
             )
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36623,
+            lineNumber: 36624,
             columnNumber: 15
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36244,
+          lineNumber: 36245,
           columnNumber: 11
         }, this);
       case "strengths":
@@ -39463,70 +39464,70 @@ function EssayGuide({ onExit }) {
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-6 rounded-lg bg-green-50 border border-green-200", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "text-xl font-bold mb-2 text-green-800", children: "Statistical Data" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36667,
+              lineNumber: 36668,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700", children: "Using numbers, percentages, or data from credible sources (e.g., studies, reports). This provides objective proof for a claim." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36670,
+              lineNumber: 36671,
               columnNumber: 15
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36666,
+            lineNumber: 36667,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-6 rounded-lg bg-green-50 border border-green-200", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "text-xl font-bold mb-2 text-green-800", children: "Expert Testimony" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36676,
+              lineNumber: 36677,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700", children: "Quoting a recognized expert or authority in a relevant field. This adds credibility to the argument." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36679,
+              lineNumber: 36680,
               columnNumber: 15
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36675,
+            lineNumber: 36676,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-6 rounded-lg bg-green-50 border border-green-200", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "text-xl font-bold mb-2 text-green-800", children: "Logical Reasoning" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36685,
+              lineNumber: 36686,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700", children: "Connecting ideas in a clear, cause-and-effect manner that shows the author has thought through their position." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36688,
+              lineNumber: 36689,
               columnNumber: 15
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36684,
+            lineNumber: 36685,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-6 rounded-lg bg-green-50 border border-green-200", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "text-xl font-bold mb-2 text-green-800", children: "Historical Precedent" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36694,
+              lineNumber: 36695,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700", children: "Using a past event to support a claim about a present or future situation. This shows a pattern of results." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36697,
+              lineNumber: 36698,
               columnNumber: 15
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36693,
+            lineNumber: 36694,
             columnNumber: 13
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36665,
+          lineNumber: 36666,
           columnNumber: 11
         }, this);
       case "weaknesses":
@@ -39534,70 +39535,70 @@ function EssayGuide({ onExit }) {
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-6 rounded-lg bg-red-50 border border-red-200", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "text-xl font-bold mb-2 text-red-800", children: "Unsupported Claims" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36708,
+              lineNumber: 36709,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700", children: "Making a statement of fact without providing any evidence to back it up. It's an opinion disguised as a fact." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36711,
+              lineNumber: 36712,
               columnNumber: 15
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36707,
+            lineNumber: 36708,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-6 rounded-lg bg-red-50 border border-red-200", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "text-xl font-bold mb-2 text-red-800", children: "Overgeneralization" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36717,
+              lineNumber: 36718,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700", children: "Drawing a broad conclusion from a very small or unrepresentative sample of evidence." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36720,
+              lineNumber: 36721,
               columnNumber: 15
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36716,
+            lineNumber: 36717,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-6 rounded-lg bg-red-50 border border-red-200", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "text-xl font-bold mb-2 text-red-800", children: "Anecdotal Evidence" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36726,
+              lineNumber: 36727,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700", children: "Using a personal story or a single, isolated example as proof for a major claim, instead of broader data." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36729,
+              lineNumber: 36730,
               columnNumber: 15
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36725,
+            lineNumber: 36726,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-6 rounded-lg bg-red-50 border border-red-200", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "text-xl font-bold mb-2 text-red-800", children: "Emotional Appeal" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36735,
+              lineNumber: 36736,
               columnNumber: 15
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-gray-700", children: "Trying to persuade the reader by appealing to their feelings (fear, pity, anger) instead of using logic and facts." }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36738,
+              lineNumber: 36739,
               columnNumber: 15
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36734,
+            lineNumber: 36735,
             columnNumber: 13
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36706,
+          lineNumber: 36707,
           columnNumber: 11
         }, this);
       default:
@@ -39626,21 +39627,21 @@ function EssayGuide({ onExit }) {
         false,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36767,
+          lineNumber: 36768,
           columnNumber: 13
         },
         this
       ) : /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("em", { children: "You did not write anything in the practice area." }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 36776,
+        lineNumber: 36777,
         columnNumber: 15
       }, this) }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 36775,
+        lineNumber: 36776,
         columnNumber: 13
       }, this) }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 36765,
+        lineNumber: 36766,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-6 border-t bg-gray-50 space-y-4", children: [
@@ -39656,25 +39657,25 @@ function EssayGuide({ onExit }) {
           false,
           {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36781,
+            lineNumber: 36782,
             columnNumber: 11
           },
           this
         ),
         scoreResult && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mt-4 p-4 bg-indigo-50 rounded-lg text-left", children: scoreResult.error ? /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-red-600", children: scoreResult.error }, void 0, false, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36791,
+          lineNumber: 36792,
           columnNumber: 17
         }, this) : /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h4", { className: "text-xl font-bold text-indigo-800", children: "AI Feedback" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36794,
+            lineNumber: 36795,
             columnNumber: 19
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "mt-2", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("strong", { children: "Overall Score:" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36798,
+              lineNumber: 36799,
               columnNumber: 21
             }, this),
             " ",
@@ -39682,33 +39683,33 @@ function EssayGuide({ onExit }) {
             "/6"
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36797,
+            lineNumber: 36798,
             columnNumber: 19
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "mt-1", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("strong", { children: "Feedback:" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36801,
+              lineNumber: 36802,
               columnNumber: 21
             }, this),
             " ",
             scoreResult.overallFeedback
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36800,
+            lineNumber: 36801,
             columnNumber: 19
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("details", { className: "mt-2", children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("summary", { className: "font-semibold cursor-pointer", children: "View Trait-by-Trait Breakdown" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36804,
+              lineNumber: 36805,
               columnNumber: 21
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mt-2 pl-4 border-l-2 border-indigo-200", children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { children: [
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("strong", { children: "Trait 1 (Analysis):" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36809,
+                  lineNumber: 36810,
                   columnNumber: 25
                 }, this),
                 " Score",
@@ -39719,13 +39720,13 @@ function EssayGuide({ onExit }) {
                 scoreResult.trait1.feedback
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36808,
+                lineNumber: 36809,
                 columnNumber: 23
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { children: [
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("strong", { children: "Trait 2 (Evidence):" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36814,
+                  lineNumber: 36815,
                   columnNumber: 25
                 }, this),
                 " Score",
@@ -39736,13 +39737,13 @@ function EssayGuide({ onExit }) {
                 scoreResult.trait2.feedback
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36813,
+                lineNumber: 36814,
                 columnNumber: 23
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { children: [
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("strong", { children: "Trait 3 (Clarity):" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36819,
+                  lineNumber: 36820,
                   columnNumber: 25
                 }, this),
                 " Score",
@@ -39753,36 +39754,36 @@ function EssayGuide({ onExit }) {
                 scoreResult.trait3.feedback
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36818,
+                lineNumber: 36819,
                 columnNumber: 23
               }, this)
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36807,
+              lineNumber: 36808,
               columnNumber: 21
             }, this)
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36803,
+            lineNumber: 36804,
             columnNumber: 19
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36793,
+          lineNumber: 36794,
           columnNumber: 17
         }, this) }, void 0, false, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36789,
+          lineNumber: 36790,
           columnNumber: 13
         }, this)
       ] }, void 0, true, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 36780,
+        lineNumber: 36781,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 36764,
+      lineNumber: 36765,
       columnNumber: 7
     }, this);
   };
@@ -39801,7 +39802,7 @@ function EssayGuide({ onExit }) {
               children: [
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ArrowLeftIcon, {}, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36844,
+                  lineNumber: 36845,
                   columnNumber: 11
                 }, this),
                 " Back"
@@ -39811,30 +39812,30 @@ function EssayGuide({ onExit }) {
             true,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36840,
+              lineNumber: 36841,
               columnNumber: 9
             },
             this
           ),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-xl font-bold text-center subject-accent-heading", children: "Interactive Essay Guide" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36846,
+            lineNumber: 36847,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", {}, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36849,
+            lineNumber: 36850,
             columnNumber: 9
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36839,
+          lineNumber: 36840,
           columnNumber: 7
         }, this),
         renderTabs(),
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("main", { children: renderContent() }, void 0, false, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36853,
+          lineNumber: 36854,
           columnNumber: 7
         }, this),
         activeTab === "structure" && showPromptOverlay && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "fixed bottom-4 right-4 w-full max-w-xl sm:w-[28rem] md:w-[32rem] bg-white border border-slate-200 rounded-xl shadow-2xl z-40", children: [
@@ -39842,17 +39843,17 @@ function EssayGuide({ onExit }) {
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-base font-semibold text-slate-900", children: "Prompt Reference Overlay" }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36859,
+                lineNumber: 36860,
                 columnNumber: 15
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-xs text-slate-500", children: "Switch views to revisit the essay prompt or source passages while you write." }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36862,
+                lineNumber: 36863,
                 columnNumber: 15
               }, this)
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36858,
+              lineNumber: 36859,
               columnNumber: 13
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -39867,14 +39868,14 @@ function EssayGuide({ onExit }) {
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36867,
+                lineNumber: 36868,
                 columnNumber: 13
               },
               this
             )
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36857,
+            lineNumber: 36858,
             columnNumber: 11
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "px-4 py-3 border-b bg-slate-50", children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-wrap gap-2", children: overlayButtons.map(({ id, label, title }) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -39889,27 +39890,27 @@ function EssayGuide({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36878,
+              lineNumber: 36879,
               columnNumber: 17
             },
             this
           )) }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36876,
+            lineNumber: 36877,
             columnNumber: 13
           }, this) }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36875,
+            lineNumber: 36876,
             columnNumber: 11
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "px-4 py-4 max-h-[60vh] overflow-y-auto", children: renderOverlayBody() }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36893,
+            lineNumber: 36894,
             columnNumber: 11
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 36856,
+          lineNumber: 36857,
           columnNumber: 9
         }, this),
         showModal && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -39921,7 +39922,7 @@ function EssayGuide({ onExit }) {
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "p-6 border-b flex justify-between items-center sticky top-0 bg-white", children: [
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-2xl font-bold", children: "Your Completed Essay" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 36906,
+                  lineNumber: 36907,
                   columnNumber: 15
                 }, this),
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -39938,20 +39939,20 @@ function EssayGuide({ onExit }) {
                   false,
                   {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 36907,
+                    lineNumber: 36908,
                     columnNumber: 15
                   },
                   this
                 )
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 36905,
+                lineNumber: 36906,
                 columnNumber: 13
               }, this),
               renderModalContent()
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 36904,
+              lineNumber: 36905,
               columnNumber: 11
             }, this)
           },
@@ -39959,7 +39960,7 @@ function EssayGuide({ onExit }) {
           false,
           {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 36900,
+            lineNumber: 36901,
             columnNumber: 9
           },
           this
@@ -39970,7 +39971,7 @@ function EssayGuide({ onExit }) {
     true,
     {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 36835,
+      lineNumber: 36836,
       columnNumber: 5
     },
     this
@@ -40054,7 +40055,7 @@ function AIQuizGenerator({
           children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ArrowLeftIcon, {}, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37014,
+              lineNumber: 37015,
               columnNumber: 11
             }, this),
             " Back"
@@ -40064,30 +40065,30 @@ function AIQuizGenerator({
         true,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37010,
+          lineNumber: 37011,
           columnNumber: 9
         },
         this
       ),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-xl font-bold text-center text-slate-800", children: "Smith a Quiz" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 37016,
+        lineNumber: 37017,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", {}, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 37019,
+        lineNumber: 37020,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 37009,
+      lineNumber: 37010,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "max-w-md mx-auto", children: [
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-2xl font-bold text-slate-800", children: "Create a New Quiz" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 37022,
+        lineNumber: 37023,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-slate-500 mt-2 mb-6", children: [
@@ -40096,7 +40097,7 @@ function AIQuizGenerator({
         " to generate a unique 15-question practice exam."
       ] }, void 0, true, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 37023,
+        lineNumber: 37024,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -40108,12 +40109,12 @@ function AIQuizGenerator({
           children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: "", children: "-- Select a Topic --" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37033,
+              lineNumber: 37034,
               columnNumber: 11
             }, this),
             availableTopics.map((topic, idx) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("option", { value: topic, children: topic }, `${topic}-${idx}`, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37035,
+              lineNumber: 37036,
               columnNumber: 13
             }, this))
           ]
@@ -40122,7 +40123,7 @@ function AIQuizGenerator({
         true,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37028,
+          lineNumber: 37029,
           columnNumber: 9
         },
         this
@@ -40139,24 +40140,24 @@ function AIQuizGenerator({
         false,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37041,
+          lineNumber: 37042,
           columnNumber: 9
         },
         this
       ),
       error && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-red-500 mt-4", children: error }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 37048,
+        lineNumber: 37049,
         columnNumber: 19
       }, this)
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 37021,
+      lineNumber: 37022,
       columnNumber: 7
     }, this)
   ] }, void 0, true, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 37008,
+    lineNumber: 37009,
     columnNumber: 5
   }, this);
 }
@@ -40212,7 +40213,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37095,
+              lineNumber: 37096,
               columnNumber: 13
             },
             this
@@ -40230,7 +40231,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37104,
+              lineNumber: 37105,
               columnNumber: 13
             },
             this
@@ -40249,14 +40250,14 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37112,
+              lineNumber: 37113,
               columnNumber: 13
             },
             this
           )
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37094,
+          lineNumber: 37095,
           columnNumber: 11
         }, this);
       }
@@ -40298,7 +40299,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37152,
+              lineNumber: 37153,
               columnNumber: 13
             },
             this
@@ -40316,7 +40317,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37160,
+              lineNumber: 37161,
               columnNumber: 13
             },
             this
@@ -40334,14 +40335,14 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37168,
+              lineNumber: 37169,
               columnNumber: 13
             },
             this
           )
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37151,
+          lineNumber: 37152,
           columnNumber: 11
         }, this);
       }
@@ -40385,7 +40386,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37208,
+              lineNumber: 37209,
               columnNumber: 13
             },
             this
@@ -40404,19 +40405,19 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37216,
+              lineNumber: 37217,
               columnNumber: 13
             },
             this
           ),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("text", { x: 150 + r * 8 / 2, y: "140", fill: "currentColor", children: hidden.includes("r") ? "?" : r }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37224,
+            lineNumber: 37225,
             columnNumber: 13
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37207,
+          lineNumber: 37208,
           columnNumber: 11
         }, this);
       }
@@ -40451,27 +40452,27 @@ function GeometryPracticeTool({ onExit }) {
         return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("g", { stroke: "currentColor", fill: "none", strokeWidth: "2", children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("rect", { x: 50, y: 50, width: l * 8, height: h * 8 }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37261,
+            lineNumber: 37262,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("path", { d: `M ${50},${50} l ${w * 3},-${w * 3}` }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37262,
+            lineNumber: 37263,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("path", { d: `M ${50 + l * 8},${50} l ${w * 3},-${w * 3}` }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37263,
+            lineNumber: 37264,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("path", { d: `M ${50 + l * 8},${50 + h * 8} l ${w * 3},-${w * 3}` }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37264,
+            lineNumber: 37265,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("path", { d: `M ${50 + w * 3},${50 - w * 3} H ${50 + w * 3 + l * 8}` }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37265,
+            lineNumber: 37266,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -40483,7 +40484,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37266,
+              lineNumber: 37267,
               columnNumber: 13
             },
             this
@@ -40501,7 +40502,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37271,
+              lineNumber: 37272,
               columnNumber: 13
             },
             this
@@ -40519,7 +40520,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37279,
+              lineNumber: 37280,
               columnNumber: 13
             },
             this
@@ -40538,14 +40539,14 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37287,
+              lineNumber: 37288,
               columnNumber: 13
             },
             this
           )
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37260,
+          lineNumber: 37261,
           columnNumber: 11
         }, this);
       }
@@ -40582,22 +40583,22 @@ function GeometryPracticeTool({ onExit }) {
         return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("g", { stroke: "currentColor", fill: "none", strokeWidth: "2", children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("ellipse", { cx: "150", cy: "50", rx: r * 5, ry: r * 2 }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37333,
+            lineNumber: 37334,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("path", { d: `M ${150 - r * 5},50 L ${150 - r * 5},${50 + h * 5}` }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37334,
+            lineNumber: 37335,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("path", { d: `M ${150 + r * 5},50 L ${150 + r * 5},${50 + h * 5}` }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37335,
+            lineNumber: 37336,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("ellipse", { cx: "150", cy: 50 + h * 5, rx: r * 5, ry: r * 2 }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37336,
+            lineNumber: 37337,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -40614,7 +40615,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37337,
+              lineNumber: 37338,
               columnNumber: 13
             },
             this
@@ -40632,14 +40633,14 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37346,
+              lineNumber: 37347,
               columnNumber: 13
             },
             this
           )
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37332,
+          lineNumber: 37333,
           columnNumber: 11
         }, this);
       }
@@ -40690,7 +40691,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37398,
+              lineNumber: 37399,
               columnNumber: 13
             },
             this
@@ -40707,7 +40708,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37404,
+              lineNumber: 37405,
               columnNumber: 13
             },
             this
@@ -40724,7 +40725,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37410,
+              lineNumber: 37411,
               columnNumber: 13
             },
             this
@@ -40743,7 +40744,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37416,
+              lineNumber: 37417,
               columnNumber: 13
             },
             this
@@ -40761,14 +40762,14 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37425,
+              lineNumber: 37426,
               columnNumber: 13
             },
             this
           )
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37397,
+          lineNumber: 37398,
           columnNumber: 11
         }, this);
       }
@@ -40800,7 +40801,7 @@ function GeometryPracticeTool({ onExit }) {
         return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("g", { stroke: "currentColor", fill: "none", strokeWidth: "2", children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("circle", { cx: "150", cy: "130", r: r * 8 }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37465,
+            lineNumber: 37466,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -40816,7 +40817,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37466,
+              lineNumber: 37467,
               columnNumber: 13
             },
             this
@@ -40834,19 +40835,19 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37473,
+              lineNumber: 37474,
               columnNumber: 13
             },
             this
           ),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("text", { x: 150 + r * 8 / 2, y: "115", fill: "currentColor", children: hidden.includes("r") ? "?" : r }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37480,
+            lineNumber: 37481,
             columnNumber: 13
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37464,
+          lineNumber: 37465,
           columnNumber: 11
         }, this);
       }
@@ -40884,7 +40885,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37513,
+              lineNumber: 37514,
               columnNumber: 13
             },
             this
@@ -40899,7 +40900,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37516,
+              lineNumber: 37517,
               columnNumber: 13
             },
             this
@@ -40917,7 +40918,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37522,
+              lineNumber: 37523,
               columnNumber: 13
             },
             this
@@ -40936,7 +40937,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37530,
+              lineNumber: 37531,
               columnNumber: 13
             },
             this
@@ -40954,14 +40955,14 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37539,
+              lineNumber: 37540,
               columnNumber: 13
             },
             this
           )
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37512,
+          lineNumber: 37513,
           columnNumber: 11
         }, this);
       }
@@ -41058,7 +41059,7 @@ function GeometryPracticeTool({ onExit }) {
               children: [
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ArrowLeftIcon, {}, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 37668,
+                  lineNumber: 37669,
                   columnNumber: 15
                 }, this),
                 " Back"
@@ -41068,28 +41069,28 @@ function GeometryPracticeTool({ onExit }) {
             true,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37660,
+              lineNumber: 37661,
               columnNumber: 13
             },
             this
           ) }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37658,
+            lineNumber: 37659,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-2xl font-bold text-center flex-1", children: "Geometry Practice Tool" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37672,
+            lineNumber: 37673,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex-none min-w-[140px]", "aria-hidden": "true" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 37675,
+            lineNumber: 37676,
             columnNumber: 9
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37657,
+          lineNumber: 37658,
           columnNumber: 7
         }, this),
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid gap-6 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]", children: [
@@ -41115,7 +41116,7 @@ function GeometryPracticeTool({ onExit }) {
                   false,
                   {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 37684,
+                    lineNumber: 37685,
                     columnNumber: 15
                   },
                   this
@@ -41131,18 +41132,18 @@ function GeometryPracticeTool({ onExit }) {
                   false,
                   {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 37695,
+                    lineNumber: 37696,
                     columnNumber: 15
                   },
                   this
                 )
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 37683,
+                lineNumber: 37684,
                 columnNumber: 13
               }, this) : /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-base", children: "Select a shape to begin." }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 37703,
+                lineNumber: 37704,
                 columnNumber: 13
               }, this)
             },
@@ -41150,7 +41151,7 @@ function GeometryPracticeTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37678,
+              lineNumber: 37679,
               columnNumber: 9
             },
             this
@@ -41173,7 +41174,7 @@ function GeometryPracticeTool({ onExit }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 37711,
+                      lineNumber: 37712,
                       columnNumber: 13
                     },
                     this
@@ -41189,18 +41190,18 @@ function GeometryPracticeTool({ onExit }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 37719,
+                      lineNumber: 37720,
                       columnNumber: 17
                     },
                     this
                   )) }, void 0, false, {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 37717,
+                    lineNumber: 37718,
                     columnNumber: 13
                   }, this)
                 ] }, void 0, true, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 37710,
+                  lineNumber: 37711,
                   columnNumber: 11
                 }, this),
                 currentProblem && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3", children: [
@@ -41216,7 +41217,7 @@ function GeometryPracticeTool({ onExit }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 37737,
+                      lineNumber: 37738,
                       columnNumber: 15
                     },
                     this
@@ -41234,7 +41235,7 @@ function GeometryPracticeTool({ onExit }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 37744,
+                      lineNumber: 37745,
                       columnNumber: 15
                     },
                     this
@@ -41250,7 +41251,7 @@ function GeometryPracticeTool({ onExit }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 37751,
+                      lineNumber: 37752,
                       columnNumber: 15
                     },
                     this
@@ -41274,7 +41275,7 @@ function GeometryPracticeTool({ onExit }) {
                           false,
                           {
                             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                            lineNumber: 37765,
+                            lineNumber: 37766,
                             columnNumber: 19
                           },
                           this
@@ -41286,7 +41287,7 @@ function GeometryPracticeTool({ onExit }) {
                     true,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 37758,
+                      lineNumber: 37759,
                       columnNumber: 17
                     },
                     this
@@ -41302,14 +41303,14 @@ function GeometryPracticeTool({ onExit }) {
                     false,
                     {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 37782,
+                      lineNumber: 37783,
                       columnNumber: 15
                     },
                     this
                   )
                 ] }, void 0, true, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 37736,
+                  lineNumber: 37737,
                   columnNumber: 13
                 }, this)
               ]
@@ -41318,14 +41319,14 @@ function GeometryPracticeTool({ onExit }) {
             true,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37706,
+              lineNumber: 37707,
               columnNumber: 9
             },
             this
           )
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37677,
+          lineNumber: 37678,
           columnNumber: 7
         }, this)
       ]
@@ -41334,7 +41335,7 @@ function GeometryPracticeTool({ onExit }) {
     true,
     {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 37653,
+      lineNumber: 37654,
       columnNumber: 5
     },
     this
@@ -41511,7 +41512,7 @@ function GraphingTool({ onExit }) {
           children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ArrowLeftIcon, {}, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 37996,
+              lineNumber: 37997,
               columnNumber: 15
             }, this),
             " Back"
@@ -41521,28 +41522,28 @@ function GraphingTool({ onExit }) {
         true,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 37992,
+          lineNumber: 37993,
           columnNumber: 13
         },
         this
       ) }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 37990,
+        lineNumber: 37991,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h2", { className: "text-xl font-bold text-center text-white flex-1", children: "Interactive Graphing Tool" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38e3,
+        lineNumber: 38001,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex-none min-w-[120px]", "aria-hidden": "true" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38003,
+        lineNumber: 38004,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 37989,
+      lineNumber: 37990,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-col md:flex-row gap-6", children: [
@@ -41558,19 +41559,19 @@ function GraphingTool({ onExit }) {
         false,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 38007,
+          lineNumber: 38008,
           columnNumber: 11
         },
         this
       ) }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38006,
+        lineNumber: 38007,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "md:w-72 flex-shrink-0 text-black dark:text-white", children: [
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-lg font-semibold text-black dark:text-white mb-2", children: "Tools" }, void 0, false, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 38015,
+          lineNumber: 38016,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex gap-2 mb-4", children: [
@@ -41585,7 +41586,7 @@ function GraphingTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 38019,
+              lineNumber: 38020,
               columnNumber: 13
             },
             this
@@ -41601,20 +41602,20 @@ function GraphingTool({ onExit }) {
             false,
             {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 38029,
+              lineNumber: 38030,
               columnNumber: 13
             },
             this
           )
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 38018,
+          lineNumber: 38019,
           columnNumber: 11
         }, this),
         toolMode === "plotLine" ? /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: [
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "font-semibold text-black dark:text-slate-200 mb-2 equations-label", children: "Equations (y = )" }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 38043,
+            lineNumber: 38044,
             columnNumber: 15
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "space-y-3", children: equationInputs.map((value, index) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex items-center gap-2", children: [
@@ -41631,7 +41632,7 @@ function GraphingTool({ onExit }) {
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 38049,
+                lineNumber: 38050,
                 columnNumber: 21
               },
               this
@@ -41649,18 +41650,18 @@ function GraphingTool({ onExit }) {
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 38058,
+                lineNumber: 38059,
                 columnNumber: 21
               },
               this
             )
           ] }, index, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 38048,
+            lineNumber: 38049,
             columnNumber: 19
           }, this)) }, void 0, false, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 38046,
+            lineNumber: 38047,
             columnNumber: 15
           }, this),
           /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex gap-2 mt-3", children: [
@@ -41675,7 +41676,7 @@ function GraphingTool({ onExit }) {
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 38070,
+                lineNumber: 38071,
                 columnNumber: 17
               },
               this
@@ -41691,27 +41692,27 @@ function GraphingTool({ onExit }) {
               false,
               {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 38076,
+                lineNumber: 38077,
                 columnNumber: 17
               },
               this
             )
           ] }, void 0, true, {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 38069,
+            lineNumber: 38070,
             columnNumber: 15
           }, this)
         ] }, void 0, true, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 38042,
+          lineNumber: 38043,
           columnNumber: 13
         }, this) : /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "p-2 bg-sky-50 text-sky-800 rounded-md text-center", children: "Click anywhere on the graph to plot a point." }, void 0, false, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 38086,
+          lineNumber: 38087,
           columnNumber: 15
         }, this) }, void 0, false, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 38085,
+          lineNumber: 38086,
           columnNumber: 13
         }, this),
         /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -41725,35 +41726,35 @@ function GraphingTool({ onExit }) {
           false,
           {
             fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-            lineNumber: 38091,
+            lineNumber: 38092,
             columnNumber: 11
           },
           this
         ),
         error && /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-red-500 text-sm mt-3", children: error }, void 0, false, {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 38097,
+          lineNumber: 38098,
           columnNumber: 21
         }, this)
       ] }, void 0, true, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38014,
+        lineNumber: 38015,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 38005,
+      lineNumber: 38006,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "mt-6 bg-white shadow-sm rounded-lg p-4", children: [
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h3", { className: "text-lg font-semibold text-slate-700 mb-3", children: "Table of Values" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38101,
+        lineNumber: 38102,
         columnNumber: 9
       }, this),
       tableData.length === 0 ? /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("p", { className: "text-slate-500 text-sm", children: "Plot at least one equation to see table values from x = -5 to x = 5." }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38105,
+        lineNumber: 38106,
         columnNumber: 11
       }, this) : /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "grid md:grid-cols-2 gap-4", children: tableData.map(({ equation, color, values }, index) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
         "div",
@@ -41766,7 +41767,7 @@ function GraphingTool({ onExit }) {
                 equation
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 38116,
+                lineNumber: 38117,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "inline-flex items-center gap-2 text-xs text-slate-500", children: [
@@ -41780,7 +41781,7 @@ function GraphingTool({ onExit }) {
                   false,
                   {
                     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                    lineNumber: 38120,
+                    lineNumber: 38121,
                     columnNumber: 21
                   },
                   this
@@ -41788,33 +41789,33 @@ function GraphingTool({ onExit }) {
                 "Graph Color"
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 38119,
+                lineNumber: 38120,
                 columnNumber: 19
               }, this)
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 38115,
+              lineNumber: 38116,
               columnNumber: 17
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("table", { className: "w-full text-sm", children: [
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("thead", { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tr", { className: "bg-slate-50 text-slate-600", children: [
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-3 py-2 text-left", children: "x" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 38130,
+                  lineNumber: 38131,
                   columnNumber: 23
                 }, this),
                 /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("th", { className: "px-3 py-2 text-left", children: "y" }, void 0, false, {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 38131,
+                  lineNumber: 38132,
                   columnNumber: 23
                 }, this)
               ] }, void 0, true, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 38129,
+                lineNumber: 38130,
                 columnNumber: 21
               }, this) }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 38128,
+                lineNumber: 38129,
                 columnNumber: 19
               }, this),
               /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("tbody", { children: values.map(({ x, y }) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -41824,12 +41825,12 @@ function GraphingTool({ onExit }) {
                   children: [
                     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-3 py-1", children: x }, void 0, false, {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 38140,
+                      lineNumber: 38141,
                       columnNumber: 25
                     }, this),
                     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("td", { className: "px-3 py-1", children: Number.isFinite(y) ? y.toFixed(2) : "N/A" }, void 0, false, {
                       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                      lineNumber: 38141,
+                      lineNumber: 38142,
                       columnNumber: 25
                     }, this)
                   ]
@@ -41838,18 +41839,18 @@ function GraphingTool({ onExit }) {
                 true,
                 {
                   fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                  lineNumber: 38136,
+                  lineNumber: 38137,
                   columnNumber: 23
                 },
                 this
               )) }, void 0, false, {
                 fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-                lineNumber: 38134,
+                lineNumber: 38135,
                 columnNumber: 19
               }, this)
             ] }, void 0, true, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 38127,
+              lineNumber: 38128,
               columnNumber: 17
             }, this)
           ]
@@ -41858,23 +41859,23 @@ function GraphingTool({ onExit }) {
         true,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 38111,
+          lineNumber: 38112,
           columnNumber: 15
         },
         this
       )) }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38109,
+        lineNumber: 38110,
         columnNumber: 11
       }, this)
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 38100,
+      lineNumber: 38101,
       columnNumber: 7
     }, this)
   ] }, void 0, true, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 37988,
+    lineNumber: 37989,
     columnNumber: 5
   }, this);
 }
@@ -41901,14 +41902,14 @@ function MathPracticeToolsPage({
     if (activeTab === "graphing") {
       return graphingNode || /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "py-16 text-center text-slate-500 dark:text-slate-300", children: "Preparing the graphing workspace..." }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38183,
+        lineNumber: 38184,
         columnNumber: 11
       }, this);
     }
     if (activeTab === "geometry") {
       return geometryNode || /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "py-16 text-center text-slate-500 dark:text-slate-300", children: "Preparing the geometry playground..." }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38193,
+        lineNumber: 38194,
         columnNumber: 11
       }, this);
     }
@@ -41924,12 +41925,12 @@ function MathPracticeToolsPage({
           children: [
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ArrowLeftIcon, {}, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 38210,
+              lineNumber: 38211,
               columnNumber: 11
             }, this),
             /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { children: "Back to Dashboard" }, void 0, false, {
               fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-              lineNumber: 38211,
+              lineNumber: 38212,
               columnNumber: 11
             }, this)
           ]
@@ -41938,24 +41939,24 @@ function MathPracticeToolsPage({
         true,
         {
           fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-          lineNumber: 38206,
+          lineNumber: 38207,
           columnNumber: 9
         },
         this
       ),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("h1", { className: "text-3xl font-bold text-slate-800 dark:text-slate-100 text-center flex-1", children: "Math Practice Tools" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38213,
+        lineNumber: 38214,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("span", { className: "hidden sm:block sm:w-40" }, void 0, false, {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38216,
+        lineNumber: 38217,
         columnNumber: 9
       }, this)
     ] }, void 0, true, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 38205,
+      lineNumber: 38206,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("div", { className: "flex flex-wrap gap-3 math-tools-tabs", children: tabs.map((tab) => /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(
@@ -41969,23 +41970,23 @@ function MathPracticeToolsPage({
       false,
       {
         fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-        lineNumber: 38220,
+        lineNumber: 38221,
         columnNumber: 11
       },
       this
     )) }, void 0, false, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 38218,
+      lineNumber: 38219,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV("section", { className: "bg-white dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-700/70 rounded-2xl shadow-lg p-4 sm:p-6", children: renderContent() }, void 0, false, {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 38235,
+      lineNumber: 38236,
       columnNumber: 7
     }, this)
   ] }, void 0, true, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 38204,
+    lineNumber: 38205,
     columnNumber: 5
   }, this);
 }
@@ -42122,7 +42123,7 @@ function LifeChoicesSimulation({ srcPath }) {
     false,
     {
       fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-      lineNumber: 38376,
+      lineNumber: 38377,
       columnNumber: 5
     },
     this
@@ -42168,15 +42169,15 @@ function RootApp() {
   );
   return /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(jsxDevRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(ErrorBoundary, { children: /* @__PURE__ */ jsxDevRuntimeExports.jsxDEV(App, { externalTheme: theme, onThemeChange: handleThemeChange }, void 0, false, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 38438,
+    lineNumber: 38439,
     columnNumber: 9
   }, this) }, void 0, false, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 38437,
+    lineNumber: 38438,
     columnNumber: 7
   }, this) }, void 0, false, {
     fileName: "C:/Users/Zacha/Ged-Website/frontend/src/legacy/LegacyRootApp.jsx",
-    lineNumber: 38436,
+    lineNumber: 38437,
     columnNumber: 5
   }, this);
 }
@@ -42246,4 +42247,4 @@ client.createRoot(document.getElementById("root")).render(
     columnNumber: 3
   }, void 0)
 );
-//# sourceMappingURL=main-CqGbHGYk.js.map
+//# sourceMappingURL=main-D172z0Zf.js.map
