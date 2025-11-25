@@ -12263,7 +12263,6 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
       0,
       Math.min(6, Math.round(Number(normalized.overallScore)))
     );
-
     try {
       await pool.query(
         `INSERT INTO essay_scores (user_id, total_score, prompt_id) VALUES ($1, $2, $3)`,
@@ -12684,7 +12683,7 @@ app.get(
   requireSuperAdmin,
   async (req, res) => {
     try {
-      const rows = await db.any(
+      const { rows } = await db.query(
         `SELECT
             o.id,
             o.name,
@@ -12732,7 +12731,7 @@ app.get(
   requireSuperAdmin,
   async (req, res) => {
     try {
-      const rows = await db.any(
+      const { rows } = await db.query(
         `SELECT
             u.id,
             u.email,
@@ -12793,7 +12792,7 @@ app.get(
         Math.max(parseInt(String(req.query.limit || '50'), 10) || 50, 1),
         200
       );
-      const rows = await db.any(
+      const { rows } = await db.query(
         `SELECT
             qa.id,
             qa.user_id,
@@ -12851,7 +12850,7 @@ app.get(
       if (!orgId) {
         return res.status(400).json({ error: 'No organization scope' });
       }
-      const rows = await db.any(
+      const { rows } = await db.query(
         `SELECT
             u.id,
             u.name,
@@ -12907,7 +12906,7 @@ app.get(
         Math.max(parseInt(String(req.query.limit || '50'), 10) || 50, 1),
         200
       );
-      const rows = await db.any(
+      const { rows } = await db.query(
         `SELECT
             qa.id,
             qa.user_id,
@@ -12982,7 +12981,7 @@ app.get(
             AND qa.attempted_at >= NOW() - INTERVAL '7 days'`,
         [orgId]
       );
-      const subjectBreakdown = await db.any(
+      const { rows: subjectBreakdown } = await db.query(
         `SELECT subject, COUNT(*) AS attempts
            FROM quiz_attempts qa
            JOIN users u ON u.id = qa.user_id
@@ -13021,14 +13020,14 @@ app.get(
       if (!orgId) {
         return res.status(400).json({ error: 'No organization scope' });
       }
-      const studentRows = await db.any(
+      const { rows: studentRows } = await db.query(
         `SELECT id, name, email
            FROM users
           WHERE organization_id = $1 AND LOWER(role) = 'student'
           ORDER BY name NULLS LAST, email ASC`,
         [orgId]
       );
-      const attemptRows = await db.any(
+      const { rows: attemptRows } = await db.query(
         `SELECT qa.user_id, qa.subject,
                 COUNT(*) AS attempt_count,
                 AVG(qa.scaled_score) AS avg_scaled_score,
@@ -13086,7 +13085,7 @@ app.get(
         Math.max(parseInt(String(req.query.limit || '50'), 10) || 50, 1),
         200
       );
-      const rows = await db.any(
+      const { rows } = await db.query(
         `SELECT
             qa.id,
             qa.user_id,
