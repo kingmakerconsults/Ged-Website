@@ -13855,7 +13855,7 @@ app.post(
   express.json(),
   (req, res) => {
     try {
-      let { durationMinutes, mode, subject } = req.body || {};
+      let { durationMinutes, mode, subject, practiceMode } = req.body || {};
 
       // Normalize inputs
       const VALID_MINUTES = [10, 20, 30, 40, 50, 60];
@@ -13864,7 +13864,9 @@ app.post(
         durationMinutes = 10;
       }
 
-      const questionsNeeded = Math.max(
+      // Olympics mode uses unlimited questions from premade only
+      const isOlympicsMode = practiceMode === 'olympics';
+      const questionsNeeded = isOlympicsMode ? 100 : Math.max(
         1,
         Math.round((durationMinutes / 10) * 5)
       );
@@ -13959,6 +13961,9 @@ app.post(
             pool.push({
               ...q,
               subject: q.subject || subj,
+              // Add origin metadata for Olympics mode
+              originQuizId: q.quizId || q.id || null,
+              originQuizTitle: q.quizTitle || q.title || null,
             });
           });
         }
@@ -13966,9 +13971,10 @@ app.post(
 
       if (!pool.length) {
         return res.json({
-          title: 'Practice Session',
+          title: isOlympicsMode ? 'Olympics Practice' : 'Practice Session',
           durationMinutes,
           mode,
+          practiceMode: practiceMode || 'standard',
           questionCount: 0,
           questions: [],
         });
@@ -13984,9 +13990,10 @@ app.post(
         .slice(0, questionsNeeded)
         .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
       return res.json({
-        title: 'Practice Session',
+        title: isOlympicsMode ? 'Olympics Practice' : 'Practice Session',
         durationMinutes,
         mode,
+        practiceMode: practiceMode || 'standard',
         questionCount: questions.length,
         questions,
       });

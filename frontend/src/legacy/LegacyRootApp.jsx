@@ -26094,8 +26094,8 @@ function App({ externalTheme, onThemeChange }) {
             defaultMode="balanced"
             defaultDuration={10}
             onDismiss={() => setShowPracticeModal(false)}
-            onStart={async ({ mode, durationMinutes }) => {
-              const payload = { mode, durationMinutes };
+            onStart={async ({ mode, durationMinutes, practiceMode }) => {
+              const payload = { mode, durationMinutes, practiceMode };
               const resp = await fetchJSON(
                 `${API_BASE_URL}/api/practice-session`,
                 {
@@ -26113,17 +26113,18 @@ function App({ externalTheme, onThemeChange }) {
               }
               const practiceQuiz = {
                 id: 'practice_' + Date.now(),
-                title: 'Practice Session',
+                title: practiceMode === 'olympics' ? 'Olympics Practice' : 'Practice Session',
                 // Mark practice session questions as premade so sanitized math renders with KaTeX
                 isPremade: true,
+                practiceMode: practiceMode || 'standard',
                 questions: resp.questions.map((q, i) => ({
                   ...q,
                   isPremade: true,
                   questionNumber: i + 1,
                 })),
-                timeLimit: Number(resp.durationMinutes || durationMinutes) * 60,
+                timeLimit: practiceMode === 'olympics' ? 0 : Number(resp.durationMinutes || durationMinutes) * 60,
               };
-              startQuiz(practiceQuiz, 'Practice Session');
+              startQuiz(practiceQuiz, practiceMode === 'olympics' ? 'Olympics Practice' : 'Practice Session');
               setShowPracticeModal(false);
             }}
           />
@@ -33140,6 +33141,7 @@ function QuizInterface({
   quizConfig,
   article = null,
   articleImage = null,
+  practiceMode = null, // 'standard' | 'timed' | 'olympics'
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [marked, setMarked] = useState(Array(questions.length).fill(false));
@@ -33157,6 +33159,17 @@ function QuizInterface({
   const toolInstanceRef = useRef(null);
   const toolTypeRef = useRef(null); // 'graph' | 'geometry' | null
 
+  // Olympics mode state
+  const isOlympicsMode = practiceMode === 'olympics';
+  const [livesRemaining, setLivesRemaining] = useState(3);
+  const [olympicsHistory, setOlympicsHistory] = useState([]);
+  const [totalAnswered, setTotalAnswered] = useState(0);
+  const [totalCorrect, setTotalCorrect] = useState(0);
+  const [totalWrong, setTotalWrong] = useState(0);
+  const [olympicsFinished, setOlympicsFinished] = useState(false);
+  const [showingExplanation, setShowingExplanation] = useState(false);
+  const [lastAnswerCorrect, setLastAnswerCorrect] = useState(null);
+
   useEffect(() => {
     setTimeLeft(timeLimit || questions.length * 90);
     setIsPaused(false);
@@ -33168,6 +33181,7 @@ function QuizInterface({
   }, [article]);
 
   useEffect(() => {
+    if (isOlympicsMode) return; // No timer for Olympics mode
     if (!onComplete || isPaused) return; // Don't run timer if there's no completion action (e.g., in a part of a larger quiz)
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -33180,7 +33194,7 @@ function QuizInterface({
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, [onComplete, isPaused]);
+  }, [onComplete, isPaused, isOlympicsMode]);
 
   const handleSelect = (optionText) => {
     const newAnswers = [...answers];
@@ -33201,8 +33215,95 @@ function QuizInterface({
   };
 
   const handleSubmit = useCallback(() => {
-    onComplete({ answers, marked, confidence });
-  }, [answers, marked, onComplete, confidence]);
+    if (isOlympicsMode) {
+      // Olympics mode: finish and show summary
+      onComplete({ 
+        answers, 
+        marked, 
+        confidence,
+        olympicsMode: true,
+        olympicsHistory,
+        totalAnswered,
+        totalCorrect,
+        totalWrong,
+        livesRemaining,
+      });
+    } else {
+      onComplete({ answers, marked, confidence });
+    }
+  }, [answers, marked, onComplete, confidence, isOlympicsMode, olympicsHistory, totalAnswered, totalCorrect, totalWrong, livesRemaining]);
+
+  // Olympics mode: check answer correctness
+  const checkOlympicsAnswer = useCallback((questionIndex) => {
+    const q = questions[questionIndex];
+    const userAnswer = answers[questionIndex];
+    
+    if (!q || userAnswer === null || userAnswer === undefined || userAnswer === '') {
+      return false;
+    }
+
+    // Check if multiple choice
+    if (Array.isArray(q.answerOptions) && q.answerOptions.length > 0) {
+      const correctOption = q.answerOptions.find(opt => opt.isCorrect);
+      return correctOption && correctOption.text === userAnswer;
+    } else {
+      // Fill-in-the-blank: simple string comparison for now
+      const normalize = (val) => (val ?? '').toString().trim().toLowerCase();
+      return normalize(q.correctAnswer) === normalize(userAnswer);
+    }
+  }, [questions, answers]);
+
+  // Olympics mode: handle submitting current question
+  const handleOlympicsQuestionSubmit = useCallback(() => {
+    if (!isOlympicsMode) return;
+    if (showingExplanation) {
+      // Move to next question after viewing explanation
+      setShowingExplanation(false);
+      setLastAnswerCorrect(null);
+      
+      if (currentIndex < questions.length - 1) {
+        setCurrentIndex(prev => prev + 1);
+      } else {
+        // No more questions, end session
+        handleSubmit();
+      }
+      return;
+    }
+
+    const isCorrect = checkOlympicsAnswer(currentIndex);
+    const currentQ = questions[currentIndex];
+    
+    // Record in history
+    const historyEntry = {
+      questionId: currentQ.id || currentIndex,
+      subject: currentQ.subject || subject || 'Unknown',
+      topic: currentQ.topic || currentQ.area || null,
+      premadeQuizId: currentQ.originQuizId || currentQ.quizId || null,
+      premadeQuizTitle: currentQ.originQuizTitle || currentQ.quizTitle || null,
+      correct: isCorrect,
+    };
+    
+    setOlympicsHistory(prev => [...prev, historyEntry]);
+    setTotalAnswered(prev => prev + 1);
+    
+    if (isCorrect) {
+      setTotalCorrect(prev => prev + 1);
+    } else {
+      setTotalWrong(prev => prev + 1);
+      setLivesRemaining(prev => prev - 1);
+    }
+    
+    setLastAnswerCorrect(isCorrect);
+    setShowingExplanation(true);
+    
+    // Check if lives ran out
+    if (!isCorrect && livesRemaining <= 1) {
+      // Will end after showing explanation
+      setTimeout(() => {
+        handleSubmit();
+      }, 100);
+    }
+  }, [isOlympicsMode, showingExplanation, currentIndex, questions, checkOlympicsAnswer, livesRemaining, handleSubmit, subject]);
 
   useEffect(() => {
     handleSubmitRef.current = handleSubmit;
@@ -33430,7 +33531,7 @@ function QuizInterface({
           border: `1px solid ${scheme.surfaceBorder}`,
         }}
       >
-        {showTimer && (
+        {(showTimer || isOlympicsMode) && (
           <header
             className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4"
             style={{ borderBottom: `1px solid ${scheme.divider}` }}
@@ -33451,49 +33552,77 @@ function QuizInterface({
               {quizTitle}
             </h2>
             <div className="flex flex-col sm:items-end gap-2">
-              <div
-                className="flex items-center gap-2 rounded-full px-3 py-1 font-mono text-lg font-semibold"
-                style={timerStyle}
-              >
-                <span role="img" aria-label="timer">
-                  ️
-                </span>
-                <span>{formatTime(timeLeft)}</span>
-                {isPaused && (
-                  <span
-                    className="text-xs uppercase tracking-wide"
-                    style={{ color: scheme.mutedText }}
+              {isOlympicsMode ? (
+                <>
+                  {/* Olympics mode display */}
+                  <div className="flex items-center gap-3 text-sm font-medium">
+                    <span style={{ color: scheme.text }}>Olympics</span>
+                    <span className="text-base">
+                      {'♥'.repeat(livesRemaining)}{'♡'.repeat(3 - livesRemaining)}
+                    </span>
+                    <span style={{ color: scheme.mutedText }} className="opacity-80">
+                      Questions: {totalAnswered}
+                    </span>
+                  </div>
+                  {showingExplanation && lastAnswerCorrect !== null && (
+                    <div className={`mt-2 px-4 py-2 rounded-lg text-sm font-medium ${
+                      lastAnswerCorrect 
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-300 dark:border-green-700'
+                        : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700'
+                    }`}>
+                      {lastAnswerCorrect ? '✓ Correct!' : '✗ Incorrect'}
+                      {!lastAnswerCorrect && livesRemaining > 0 && ' • Lives remaining: ' + livesRemaining}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* Standard/Timed mode timer */}
+                  <div
+                    className="flex items-center gap-2 rounded-full px-3 py-1 font-mono text-lg font-semibold"
+                    style={timerStyle}
                   >
-                    Paused
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handlePauseToggle}
-                  disabled={!isPaused && pausesRemaining === 0}
-                  className="rounded-md px-3 py-1 text-sm font-semibold transition-colors"
-                  style={
-                    isPaused
-                      ? {
-                          backgroundColor: 'var(--success-bg)',
-                          color: 'var(--success-text)',
-                          border: '1px solid var(--success-border)',
-                        }
-                      : {
-                          backgroundColor: scheme.accent,
-                          color: scheme.accentText,
-                          border: `1px solid ${scheme.accent}`,
-                        }
-                  }
-                >
-                  {isPaused ? 'Resume Timer' : 'Pause Timer'}
-                </button>
-                <span className="text-xs" style={{ color: scheme.mutedText }}>
-                  {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
-                </span>
-              </div>
+                    <span role="img" aria-label="timer">
+                      ⏱️
+                    </span>
+                    <span>{formatTime(timeLeft)}</span>
+                    {isPaused && (
+                      <span
+                        className="text-xs uppercase tracking-wide"
+                        style={{ color: scheme.mutedText }}
+                      >
+                        Paused
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handlePauseToggle}
+                      disabled={!isPaused && pausesRemaining === 0}
+                      className="rounded-md px-3 py-1 text-sm font-semibold transition-colors"
+                      style={
+                        isPaused
+                          ? {
+                              backgroundColor: 'var(--success-bg)',
+                              color: 'var(--success-text)',
+                              border: '1px solid var(--success-border)',
+                            }
+                          : {
+                              backgroundColor: scheme.accent,
+                              color: scheme.accentText,
+                              border: `1px solid ${scheme.accent}`,
+                            }
+                      }
+                    >
+                      {isPaused ? 'Resume Timer' : 'Pause Timer'}
+                    </button>
+                    <span className="text-xs" style={{ color: scheme.mutedText }}>
+                      {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
+                    </span>
+                  </div>
+                </>
+              )}
               {formulaSheetEnabled && (
                 <div className="flex flex-wrap justify-end gap-2">
                   {canShowMathFormulas && (
@@ -33618,7 +33747,7 @@ function QuizInterface({
         )}
 
         <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
-          {questions.map((_, i) => {
+          {!isOlympicsMode && questions.map((_, i) => {
             const isActive = i === currentIndex;
             const isAnswered = Boolean(answers[i]);
             const navStyle = isActive
@@ -33728,10 +33857,12 @@ function QuizInterface({
                 value={answers[currentIndex] || ''}
                 onChange={handleInputChange}
                 placeholder="Type your answer here"
+                disabled={isOlympicsMode && showingExplanation}
                 className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
                 style={{
                   border: `1px solid ${scheme.inputBorder}`,
                   color: 'var(--text-primary)',
+                  opacity: (isOlympicsMode && showingExplanation) ? 0.6 : 1,
                 }}
               />
             </div>
@@ -33760,8 +33891,13 @@ function QuizInterface({
                   <button
                     key={i}
                     onClick={() => handleSelect(opt.text)}
+                    disabled={isOlympicsMode && showingExplanation}
                     className={optionClassNames.join(' ')}
-                    style={optionStyles}
+                    style={{
+                      ...optionStyles,
+                      opacity: (isOlympicsMode && showingExplanation) ? 0.6 : 1,
+                      cursor: (isOlympicsMode && showingExplanation) ? 'not-allowed' : 'pointer',
+                    }}
                   >
                     <span
                       className="flex-grow text-left"
@@ -33786,72 +33922,118 @@ function QuizInterface({
         </div>
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <button
-            onClick={() => setCurrentIndex((p) => Math.max(0, p - 1))}
-            disabled={currentIndex === 0}
-            className="rounded-md px-4 py-2 font-semibold transition"
-            data-role="secondary"
-            style={{
-              borderColor: scheme.surfaceBorder,
-              color: scheme.mutedText,
-              opacity: currentIndex === 0 ? 0.6 : 1,
-            }}
-          >
-            Previous
-          </button>
-          <button
-            onClick={() =>
-              setMarked((m) => {
-                const newM = [...m];
-                newM[currentIndex] = !newM[currentIndex];
-                return newM;
-              })
-            }
-            className="rounded-md px-4 py-2 font-semibold transition"
-            style={
-              marked[currentIndex]
-                ? {
-                    backgroundColor: scheme.navMarkedRing,
-                    color: scheme.onBackgroundText,
-                    border: `1px solid ${scheme.navMarkedRing}`,
-                  }
-                : {
-                    backgroundColor: scheme.navDefaultBg,
-                    color: scheme.navDefaultText,
-                    border: `1px solid ${scheme.navDefaultBg}`,
-                  }
-            }
-          >
-            {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
-          </button>
-          {currentIndex === questions.length - 1 ? (
-            <button
-              onClick={handleSubmit}
-              className="rounded-md px-4 py-2 font-semibold"
-              data-role="primary"
-              style={{
-                backgroundColor: scheme.accent,
-                color: scheme.accentText,
-                borderColor: scheme.accent,
-              }}
-            >
-              {buttonText || 'Finish'}
-            </button>
+          {isOlympicsMode ? (
+            <>
+              {/* Olympics mode controls */}
+              <button
+                onClick={handleSubmit}
+                className="rounded-md px-4 py-2 font-semibold transition bg-amber-100 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-amber-900/50"
+              >
+                End Olympics Session
+              </button>
+              <div className="flex-1"></div>
+              {showingExplanation ? (
+                <button
+                  onClick={handleOlympicsQuestionSubmit}
+                  className="rounded-md px-6 py-2 font-semibold"
+                  data-role="primary"
+                  style={{
+                    backgroundColor: scheme.accent,
+                    color: scheme.accentText,
+                    borderColor: scheme.accent,
+                  }}
+                >
+                  {currentIndex === questions.length - 1 || livesRemaining === 0 ? 'View Summary' : 'Next Question'}
+                </button>
+              ) : (
+                <button
+                  onClick={handleOlympicsQuestionSubmit}
+                  disabled={!answers[currentIndex]}
+                  className="rounded-md px-6 py-2 font-semibold transition"
+                  data-role="primary"
+                  style={{
+                    backgroundColor: answers[currentIndex] ? scheme.accent : '#9ca3af',
+                    color: scheme.accentText,
+                    borderColor: answers[currentIndex] ? scheme.accent : '#9ca3af',
+                    opacity: answers[currentIndex] ? 1 : 0.6,
+                    cursor: answers[currentIndex] ? 'pointer' : 'not-allowed',
+                  }}
+                >
+                  Submit Answer
+                </button>
+              )}
+            </>
           ) : (
-            <button
-              onClick={() =>
-                setCurrentIndex((p) => Math.min(questions.length - 1, p + 1))
-              }
-              className="rounded-md px-4 py-2 font-semibold"
-              data-role="primary"
-              style={{
-                backgroundColor: scheme.accent,
-                color: scheme.accentText,
-                borderColor: scheme.accent,
-              }}
-            >
-              Next
-            </button>
+            <>
+              {/* Standard mode controls */}
+              <button
+                onClick={() => setCurrentIndex((p) => Math.max(0, p - 1))}
+                disabled={currentIndex === 0}
+                className="rounded-md px-4 py-2 font-semibold transition"
+                data-role="secondary"
+                style={{
+                  borderColor: scheme.surfaceBorder,
+                  color: scheme.mutedText,
+                  opacity: currentIndex === 0 ? 0.6 : 1,
+                }}
+              >
+                Previous
+              </button>
+              <button
+                onClick={() =>
+                  setMarked((m) => {
+                    const newM = [...m];
+                    newM[currentIndex] = !newM[currentIndex];
+                    return newM;
+                  })
+                }
+                className="rounded-md px-4 py-2 font-semibold transition"
+                style={
+                  marked[currentIndex]
+                    ? {
+                        backgroundColor: scheme.navMarkedRing,
+                        color: scheme.onBackgroundText,
+                        border: `1px solid ${scheme.navMarkedRing}`,
+                      }
+                    : {
+                        backgroundColor: scheme.navDefaultBg,
+                        color: scheme.navDefaultText,
+                        border: `1px solid ${scheme.navDefaultBg}`,
+                      }
+                }
+              >
+                {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
+              </button>
+              {currentIndex === questions.length - 1 ? (
+                <button
+                  onClick={handleSubmit}
+                  className="rounded-md px-4 py-2 font-semibold"
+                  data-role="primary"
+                  style={{
+                    backgroundColor: scheme.accent,
+                    color: scheme.accentText,
+                    borderColor: scheme.accent,
+                  }}
+                >
+                  {buttonText || 'Finish'}
+                </button>
+              ) : (
+                <button
+                  onClick={() =>
+                    setCurrentIndex((p) => Math.min(questions.length - 1, p + 1))
+                  }
+                  className="rounded-md px-4 py-2 font-semibold"
+                  data-role="primary"
+                  style={{
+                    backgroundColor: scheme.accent,
+                    color: scheme.accentText,
+                    borderColor: scheme.accent,
+                  }}
+                >
+                  Next
+                </button>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -34083,6 +34265,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       quizConfig={quiz.config}
       article={quiz.article}
       articleImage={quiz.imageUrl}
+      practiceMode={quiz.practiceMode}
     />
   );
 }
@@ -34848,6 +35031,106 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         <h2>Results Unavailable</h2>
         <p>We saved your score, but couldn't build the detailed breakdown.</p>
         <button onClick={onHome}>Back to Menu</button>
+      </div>
+    );
+  }
+
+  // Olympics mode summary screen
+  if (results.olympicsMode && results.olympicsHistory) {
+    return (
+      <div className="text-center fade-in results-screen olympics-summary">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2">
+            🏅 Olympics Session Complete
+          </h2>
+          {results.livesRemaining === 0 ? (
+            <p className="text-lg text-gray-700 dark:text-gray-300">
+              You used all 3 lives.
+            </p>
+          ) : (
+            <p className="text-lg text-gray-700 dark:text-gray-300">
+              You ended the session with {results.livesRemaining} {results.livesRemaining === 1 ? 'life' : 'lives'} remaining.
+            </p>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto">
+          <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700">
+            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+              {results.totalAnswered}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Questions Completed
+            </div>
+          </div>
+          <div className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700">
+            <div className="text-3xl font-bold text-green-600 dark:text-green-400">
+              {results.totalCorrect}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Correct Answers
+            </div>
+          </div>
+          <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700">
+            <div className="text-3xl font-bold text-red-600 dark:text-red-400">
+              {results.totalWrong}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Incorrect Answers
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8 max-w-4xl mx-auto">
+          <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">
+            Question History
+          </h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow">
+              <thead>
+                <tr className="bg-gray-100 dark:bg-gray-700">
+                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">#</th>
+                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">Result</th>
+                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">Subject</th>
+                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">Topic</th>
+                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">Source Quiz</th>
+                </tr>
+              </thead>
+              <tbody>
+                {results.olympicsHistory.map((entry, index) => (
+                  <tr key={index} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                    <td className="px-4 py-2">{index + 1}</td>
+                    <td className="px-4 py-2">
+                      <span className={entry.correct ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
+                        {entry.correct ? '✅' : '❌'}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2">{entry.subject}</td>
+                    <td className="px-4 py-2">{entry.topic || '—'}</td>
+                    <td className="px-4 py-2 text-sm">{entry.premadeQuizTitle || 'Premade Quiz'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            onClick={onHome}
+            className="px-6 py-3 rounded-lg font-semibold bg-gray-600 hover:bg-gray-700 text-white transition"
+          >
+            Return to Practice Menu
+          </button>
+          {onRestart && (
+            <button
+              onClick={onRestart}
+              className="px-6 py-3 rounded-lg font-semibold bg-amber-600 hover:bg-amber-700 text-white transition"
+            >
+              Start New Olympics Session
+            </button>
+          )}
+        </div>
       </div>
     );
   }

@@ -388,6 +388,7 @@ export function PracticeSessionModal({
 }) {
   const [mode, setMode] = useState(defaultMode);
   const [duration, setDuration] = useState(defaultDuration);
+  const [practiceMode, setPracticeMode] = useState('standard'); // 'standard', 'timed', 'olympics'
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -396,7 +397,11 @@ export function PracticeSessionModal({
     setError('');
     setSubmitting(true);
     try {
-      await onStart({ mode, durationMinutes: Number(duration) });
+      await onStart({
+        mode,
+        durationMinutes: Number(duration),
+        practiceMode,
+      });
     } catch (e) {
       const msg =
         e && e.message ? e.message : 'Failed to start practice session.';
@@ -424,6 +429,63 @@ export function PracticeSessionModal({
         <h2 className="text-xl font-bold mb-4">Start a Practice Session</h2>
         <div className="space-y-4">
           <div>
+            <label className="block text-sm font-medium mb-2">
+              Practice Type
+            </label>
+            <div className="flex gap-2 mb-4">
+              <button
+                type="button"
+                onClick={() => setPracticeMode('standard')}
+                className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  practiceMode === 'standard'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+                disabled={submitting}
+              >
+                Standard
+              </button>
+              <button
+                type="button"
+                onClick={() => setPracticeMode('timed')}
+                className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  practiceMode === 'timed'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+                disabled={submitting}
+              >
+                Timed
+              </button>
+              <button
+                type="button"
+                onClick={() => setPracticeMode('olympics')}
+                className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  practiceMode === 'olympics'
+                    ? 'bg-amber-600 text-white'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+                disabled={submitting}
+              >
+                Olympics ⭐
+              </button>
+            </div>
+            {practiceMode === 'olympics' && (
+              <div className="mb-3 p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700">
+                <p className="text-sm text-amber-800 dark:text-amber-200">
+                  <strong>Olympics Mode:</strong> No timer • 3 lives • Stop
+                  anytime
+                </p>
+                <p className="text-xs text-amber-700 dark:text-amber-300 mt-1">
+                  You lose a life for each wrong answer. Session ends when you
+                  run out of lives or choose to stop.
+                </p>
+              </div>
+            )}
+          </div>
+          <div
+            style={{ display: practiceMode === 'olympics' ? 'none' : 'block' }}
+          >
             <label className="block text-sm font-medium mb-1">Duration</label>
             <select
               className="w-full rounded-md border px-3 py-2 bg-transparent"
@@ -476,7 +538,11 @@ export function PracticeSessionModal({
             style={{ backgroundColor: '#2563eb', color: 'white' }}
             disabled={submitting}
           >
-            {submitting ? 'Startingâ€¦' : 'Start'}
+            {submitting
+              ? 'Starting…'
+              : practiceMode === 'olympics'
+              ? 'Start Olympics'
+              : 'Start'}
           </button>
         </div>
       </div>
