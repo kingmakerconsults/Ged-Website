@@ -23345,6 +23345,35 @@ function PracticeSessionModal({
 }
 
 // --- Main App Component ---
+// TypewriterText Component for Coach Smith Effect
+const TypewriterText = ({ text, speed = 20 }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (!text) {
+      setDisplayedText('');
+      setCurrentIndex(0);
+      return;
+    }
+
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText((prev) => prev + text[currentIndex]);
+        setCurrentIndex((prev) => prev + 1);
+      }, speed);
+      return () => clearTimeout(timeout);
+    }
+  }, [text, currentIndex, speed]);
+
+  useEffect(() => {
+    setDisplayedText('');
+    setCurrentIndex(0);
+  }, [text]);
+
+  return <span>{displayedText}</span>;
+};
+
 function App({ externalTheme, onThemeChange }) {
   const SMITHING_PROMPTS = [
     'Heating the forge...',
@@ -25583,7 +25612,11 @@ function App({ externalTheme, onThemeChange }) {
             correct = !!correctOption && userAns === correctOption.text;
           }
           const tags = Array.isArray(q.challenge_tags) ? q.challenge_tags : [];
-          return { correct, challenge_tags: tags };
+          return {
+            correct,
+            challenge_tags: tags,
+            originalSubject: q.originalSubject || q.subject, // Pass subject for diagnostic analysis
+          };
         });
       }
     } catch (e) {
@@ -26113,7 +26146,10 @@ function App({ externalTheme, onThemeChange }) {
               }
               const practiceQuiz = {
                 id: 'practice_' + Date.now(),
-                title: practiceMode === 'olympics' ? 'Olympics Practice' : 'Practice Session',
+                title:
+                  practiceMode === 'olympics'
+                    ? 'Olympics Practice'
+                    : 'Practice Session',
                 // Mark practice session questions as premade so sanitized math renders with KaTeX
                 isPremade: true,
                 practiceMode: practiceMode || 'standard',
@@ -26122,9 +26158,17 @@ function App({ externalTheme, onThemeChange }) {
                   isPremade: true,
                   questionNumber: i + 1,
                 })),
-                timeLimit: practiceMode === 'olympics' ? 0 : Number(resp.durationMinutes || durationMinutes) * 60,
+                timeLimit:
+                  practiceMode === 'olympics'
+                    ? 0
+                    : Number(resp.durationMinutes || durationMinutes) * 60,
               };
-              startQuiz(practiceQuiz, practiceMode === 'olympics' ? 'Olympics Practice' : 'Practice Session');
+              startQuiz(
+                practiceQuiz,
+                practiceMode === 'olympics'
+                  ? 'Olympics Practice'
+                  : 'Practice Session'
+              );
               setShowPracticeModal(false);
             }}
           />
@@ -30027,6 +30071,35 @@ function StartScreen({
   const [adviceText, setAdviceText] = useState('');
   const [adviceError, setAdviceError] = useState('');
 
+  // Diagnostic Test Handler
+  const handleStartDiagnostic = async () => {
+    try {
+      setIsLoading(true);
+      setLoadingMessage('Preparing your diagnostic test...');
+
+      const token = localStorage.getItem('appToken');
+      const res = await fetch('/api/diagnostic-test', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error('Failed to start diagnostic');
+
+      const quiz = await res.json();
+
+      // Use onSelectQuiz to launch it
+      onSelectQuiz(quiz, 'Diagnostic');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to start diagnostic test. Please try again.');
+    } finally {
+      setIsLoading(false);
+      setLoadingMessage('');
+    }
+  };
+
   // Weekly coach helpers (top-level)
   const canonicalSubjectId = (value) => {
     const str = (value || '').toString().toLowerCase();
@@ -32171,7 +32244,7 @@ function StartScreen({
                     className="mt-2 text-sm whitespace-pre-wrap"
                     style={{ color: heroTextColor }}
                   >
-                    {adviceText}
+                    <TypewriterText text={adviceText} speed={15} />
                   </div>
                 )}
                 <p className="mt-2 text-xs" style={heroMutedTextStyle}>
@@ -32596,6 +32669,40 @@ function StartScreen({
           </div>
         )}
         <div className="dashboard-sections">
+          {/* Day 0 Diagnostic Card */}
+          <div className="mb-6 rounded-xl border border-indigo-200 bg-white p-6 shadow-lg dark:bg-slate-800 dark:border-indigo-900 relative overflow-hidden group hover:shadow-xl transition-all">
+            <div className="absolute top-0 right-0 p-4 opacity-10 text-indigo-600 dark:text-indigo-400 transform group-hover:scale-110 transition-transform">
+              <svg
+                className="w-32 h-32"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21 1.01.33 2.05.33 3.1 0 4.41-3.59 8-8 8z" />
+              </svg>
+            </div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">
+                  Recommended
+                </span>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                  Day 0 Diagnostic
+                </h2>
+              </div>
+              <p className="text-slate-600 dark:text-slate-300 mb-4 max-w-2xl">
+                Start your journey with a comprehensive 40-question assessment
+                covering all 4 subjects. This sets your baseline and helps Coach
+                Smith build your personalized learning plan.
+              </p>
+              <button
+                onClick={handleStartDiagnostic}
+                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+              >
+                Start Diagnostic Test
+              </button>
+            </div>
+          </div>
+
           {currentUser && (
             <div
               className={`grid gap-4 ${
@@ -33217,9 +33324,9 @@ function QuizInterface({
   const handleSubmit = useCallback(() => {
     if (isOlympicsMode) {
       // Olympics mode: finish and show summary
-      onComplete({ 
-        answers, 
-        marked, 
+      onComplete({
+        answers,
+        marked,
         confidence,
         olympicsMode: true,
         olympicsHistory,
@@ -33231,27 +33338,46 @@ function QuizInterface({
     } else {
       onComplete({ answers, marked, confidence });
     }
-  }, [answers, marked, onComplete, confidence, isOlympicsMode, olympicsHistory, totalAnswered, totalCorrect, totalWrong, livesRemaining]);
+  }, [
+    answers,
+    marked,
+    onComplete,
+    confidence,
+    isOlympicsMode,
+    olympicsHistory,
+    totalAnswered,
+    totalCorrect,
+    totalWrong,
+    livesRemaining,
+  ]);
 
   // Olympics mode: check answer correctness
-  const checkOlympicsAnswer = useCallback((questionIndex) => {
-    const q = questions[questionIndex];
-    const userAnswer = answers[questionIndex];
-    
-    if (!q || userAnswer === null || userAnswer === undefined || userAnswer === '') {
-      return false;
-    }
+  const checkOlympicsAnswer = useCallback(
+    (questionIndex) => {
+      const q = questions[questionIndex];
+      const userAnswer = answers[questionIndex];
 
-    // Check if multiple choice
-    if (Array.isArray(q.answerOptions) && q.answerOptions.length > 0) {
-      const correctOption = q.answerOptions.find(opt => opt.isCorrect);
-      return correctOption && correctOption.text === userAnswer;
-    } else {
-      // Fill-in-the-blank: simple string comparison for now
-      const normalize = (val) => (val ?? '').toString().trim().toLowerCase();
-      return normalize(q.correctAnswer) === normalize(userAnswer);
-    }
-  }, [questions, answers]);
+      if (
+        !q ||
+        userAnswer === null ||
+        userAnswer === undefined ||
+        userAnswer === ''
+      ) {
+        return false;
+      }
+
+      // Check if multiple choice
+      if (Array.isArray(q.answerOptions) && q.answerOptions.length > 0) {
+        const correctOption = q.answerOptions.find((opt) => opt.isCorrect);
+        return correctOption && correctOption.text === userAnswer;
+      } else {
+        // Fill-in-the-blank: simple string comparison for now
+        const normalize = (val) => (val ?? '').toString().trim().toLowerCase();
+        return normalize(q.correctAnswer) === normalize(userAnswer);
+      }
+    },
+    [questions, answers]
+  );
 
   // Olympics mode: handle submitting current question
   const handleOlympicsQuestionSubmit = useCallback(() => {
@@ -33260,9 +33386,9 @@ function QuizInterface({
       // Move to next question after viewing explanation
       setShowingExplanation(false);
       setLastAnswerCorrect(null);
-      
+
       if (currentIndex < questions.length - 1) {
-        setCurrentIndex(prev => prev + 1);
+        setCurrentIndex((prev) => prev + 1);
       } else {
         // No more questions, end session
         handleSubmit();
@@ -33272,7 +33398,7 @@ function QuizInterface({
 
     const isCorrect = checkOlympicsAnswer(currentIndex);
     const currentQ = questions[currentIndex];
-    
+
     // Record in history
     const historyEntry = {
       questionId: currentQ.id || currentIndex,
@@ -33282,20 +33408,20 @@ function QuizInterface({
       premadeQuizTitle: currentQ.originQuizTitle || currentQ.quizTitle || null,
       correct: isCorrect,
     };
-    
-    setOlympicsHistory(prev => [...prev, historyEntry]);
-    setTotalAnswered(prev => prev + 1);
-    
+
+    setOlympicsHistory((prev) => [...prev, historyEntry]);
+    setTotalAnswered((prev) => prev + 1);
+
     if (isCorrect) {
-      setTotalCorrect(prev => prev + 1);
+      setTotalCorrect((prev) => prev + 1);
     } else {
-      setTotalWrong(prev => prev + 1);
-      setLivesRemaining(prev => prev - 1);
+      setTotalWrong((prev) => prev + 1);
+      setLivesRemaining((prev) => prev - 1);
     }
-    
+
     setLastAnswerCorrect(isCorrect);
     setShowingExplanation(true);
-    
+
     // Check if lives ran out
     if (!isCorrect && livesRemaining <= 1) {
       // Will end after showing explanation
@@ -33303,7 +33429,16 @@ function QuizInterface({
         handleSubmit();
       }, 100);
     }
-  }, [isOlympicsMode, showingExplanation, currentIndex, questions, checkOlympicsAnswer, livesRemaining, handleSubmit, subject]);
+  }, [
+    isOlympicsMode,
+    showingExplanation,
+    currentIndex,
+    questions,
+    checkOlympicsAnswer,
+    livesRemaining,
+    handleSubmit,
+    subject,
+  ]);
 
   useEffect(() => {
     handleSubmitRef.current = handleSubmit;
@@ -33558,20 +33693,28 @@ function QuizInterface({
                   <div className="flex items-center gap-3 text-sm font-medium">
                     <span style={{ color: scheme.text }}>Olympics</span>
                     <span className="text-base">
-                      {'♥'.repeat(livesRemaining)}{'♡'.repeat(3 - livesRemaining)}
+                      {'♥'.repeat(livesRemaining)}
+                      {'♡'.repeat(3 - livesRemaining)}
                     </span>
-                    <span style={{ color: scheme.mutedText }} className="opacity-80">
+                    <span
+                      style={{ color: scheme.mutedText }}
+                      className="opacity-80"
+                    >
                       Questions: {totalAnswered}
                     </span>
                   </div>
                   {showingExplanation && lastAnswerCorrect !== null && (
-                    <div className={`mt-2 px-4 py-2 rounded-lg text-sm font-medium ${
-                      lastAnswerCorrect 
-                        ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-300 dark:border-green-700'
-                        : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700'
-                    }`}>
+                    <div
+                      className={`mt-2 px-4 py-2 rounded-lg text-sm font-medium ${
+                        lastAnswerCorrect
+                          ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-300 dark:border-green-700'
+                          : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700'
+                      }`}
+                    >
                       {lastAnswerCorrect ? '✓ Correct!' : '✗ Incorrect'}
-                      {!lastAnswerCorrect && livesRemaining > 0 && ' • Lives remaining: ' + livesRemaining}
+                      {!lastAnswerCorrect &&
+                        livesRemaining > 0 &&
+                        ' • Lives remaining: ' + livesRemaining}
                     </div>
                   )}
                 </>
@@ -33617,8 +33760,12 @@ function QuizInterface({
                     >
                       {isPaused ? 'Resume Timer' : 'Pause Timer'}
                     </button>
-                    <span className="text-xs" style={{ color: scheme.mutedText }}>
-                      {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
+                    <span
+                      className="text-xs"
+                      style={{ color: scheme.mutedText }}
+                    >
+                      {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'}{' '}
+                      left
                     </span>
                   </div>
                 </>
@@ -33747,37 +33894,38 @@ function QuizInterface({
         )}
 
         <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
-          {!isOlympicsMode && questions.map((_, i) => {
-            const isActive = i === currentIndex;
-            const isAnswered = Boolean(answers[i]);
-            const navStyle = isActive
-              ? {
-                  backgroundColor: scheme.background,
-                  color: scheme.onBackgroundText,
-                }
-              : isAnswered
-              ? {
-                  backgroundColor: scheme.navAnsweredBg,
-                  color: scheme.navAnsweredText,
-                }
-              : {
-                  backgroundColor: scheme.navDefaultBg,
-                  color: scheme.navDefaultText,
-                };
-            if (marked[i]) {
-              navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
-            }
-            return (
-              <button
-                key={i}
-                onClick={() => setCurrentIndex(i)}
-                className="h-8 w-8 rounded-full text-sm font-bold transition"
-                style={navStyle}
-              >
-                {i + 1}
-              </button>
-            );
-          })}
+          {!isOlympicsMode &&
+            questions.map((_, i) => {
+              const isActive = i === currentIndex;
+              const isAnswered = Boolean(answers[i]);
+              const navStyle = isActive
+                ? {
+                    backgroundColor: scheme.background,
+                    color: scheme.onBackgroundText,
+                  }
+                : isAnswered
+                ? {
+                    backgroundColor: scheme.navAnsweredBg,
+                    color: scheme.navAnsweredText,
+                  }
+                : {
+                    backgroundColor: scheme.navDefaultBg,
+                    color: scheme.navDefaultText,
+                  };
+              if (marked[i]) {
+                navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
+              }
+              return (
+                <button
+                  key={i}
+                  onClick={() => setCurrentIndex(i)}
+                  className="h-8 w-8 rounded-full text-sm font-bold transition"
+                  style={navStyle}
+                >
+                  {i + 1}
+                </button>
+              );
+            })}
         </div>
 
         <div
@@ -33862,7 +34010,7 @@ function QuizInterface({
                 style={{
                   border: `1px solid ${scheme.inputBorder}`,
                   color: 'var(--text-primary)',
-                  opacity: (isOlympicsMode && showingExplanation) ? 0.6 : 1,
+                  opacity: isOlympicsMode && showingExplanation ? 0.6 : 1,
                 }}
               />
             </div>
@@ -33895,8 +34043,11 @@ function QuizInterface({
                     className={optionClassNames.join(' ')}
                     style={{
                       ...optionStyles,
-                      opacity: (isOlympicsMode && showingExplanation) ? 0.6 : 1,
-                      cursor: (isOlympicsMode && showingExplanation) ? 'not-allowed' : 'pointer',
+                      opacity: isOlympicsMode && showingExplanation ? 0.6 : 1,
+                      cursor:
+                        isOlympicsMode && showingExplanation
+                          ? 'not-allowed'
+                          : 'pointer',
                     }}
                   >
                     <span
@@ -33943,7 +34094,9 @@ function QuizInterface({
                     borderColor: scheme.accent,
                   }}
                 >
-                  {currentIndex === questions.length - 1 || livesRemaining === 0 ? 'View Summary' : 'Next Question'}
+                  {currentIndex === questions.length - 1 || livesRemaining === 0
+                    ? 'View Summary'
+                    : 'Next Question'}
                 </button>
               ) : (
                 <button
@@ -33952,9 +34105,13 @@ function QuizInterface({
                   className="rounded-md px-6 py-2 font-semibold transition"
                   data-role="primary"
                   style={{
-                    backgroundColor: answers[currentIndex] ? scheme.accent : '#9ca3af',
+                    backgroundColor: answers[currentIndex]
+                      ? scheme.accent
+                      : '#9ca3af',
                     color: scheme.accentText,
-                    borderColor: answers[currentIndex] ? scheme.accent : '#9ca3af',
+                    borderColor: answers[currentIndex]
+                      ? scheme.accent
+                      : '#9ca3af',
                     opacity: answers[currentIndex] ? 1 : 0.6,
                     cursor: answers[currentIndex] ? 'pointer' : 'not-allowed',
                   }}
@@ -34020,7 +34177,9 @@ function QuizInterface({
               ) : (
                 <button
                   onClick={() =>
-                    setCurrentIndex((p) => Math.min(questions.length - 1, p + 1))
+                    setCurrentIndex((p) =>
+                      Math.min(questions.length - 1, p + 1)
+                    )
                   }
                   className="rounded-md px-4 py-2 font-semibold"
                   data-role="primary"
@@ -35024,6 +35183,29 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 }
 
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
+  // Confetti celebration effect
+  useEffect(() => {
+    const passed =
+      results?.passed === true ||
+      (results?.scaledScore && results.scaledScore >= 145);
+    if (passed) {
+      // Check if confetti is available (from CDN or npm)
+      const triggerConfetti = () => {
+        if (typeof window !== 'undefined' && window.confetti) {
+          window.confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#22c55e', '#38bdf8', '#fbbf24', '#f472b6', '#a78bfa'],
+          });
+        }
+      };
+      // Delay slightly so user sees the results first
+      const timeout = setTimeout(triggerConfetti, 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [results]);
+
   // Hard guard so we don't crash
   if (!quiz || !results || !Array.isArray(quiz.questions)) {
     return (
@@ -35049,7 +35231,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             </p>
           ) : (
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              You ended the session with {results.livesRemaining} {results.livesRemaining === 1 ? 'life' : 'lives'} remaining.
+              You ended the session with {results.livesRemaining}{' '}
+              {results.livesRemaining === 1 ? 'life' : 'lives'} remaining.
             </p>
           )}
         </div>
@@ -35089,25 +35272,46 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             <table className="w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow">
               <thead>
                 <tr className="bg-gray-100 dark:bg-gray-700">
-                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">#</th>
-                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">Result</th>
-                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">Subject</th>
-                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">Topic</th>
-                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">Source Quiz</th>
+                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">
+                    #
+                  </th>
+                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">
+                    Result
+                  </th>
+                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">
+                    Subject
+                  </th>
+                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">
+                    Topic
+                  </th>
+                  <th className="px-4 py-2 text-left border-b dark:border-gray-600">
+                    Source Quiz
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {results.olympicsHistory.map((entry, index) => (
-                  <tr key={index} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                  <tr
+                    key={index}
+                    className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                  >
                     <td className="px-4 py-2">{index + 1}</td>
                     <td className="px-4 py-2">
-                      <span className={entry.correct ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
+                      <span
+                        className={
+                          entry.correct
+                            ? 'text-green-600 dark:text-green-400'
+                            : 'text-red-600 dark:text-red-400'
+                        }
+                      >
                         {entry.correct ? '✅' : '❌'}
                       </span>
                     </td>
                     <td className="px-4 py-2">{entry.subject}</td>
                     <td className="px-4 py-2">{entry.topic || '—'}</td>
-                    <td className="px-4 py-2 text-sm">{entry.premadeQuizTitle || 'Premade Quiz'}</td>
+                    <td className="px-4 py-2 text-sm">
+                      {entry.premadeQuizTitle || 'Premade Quiz'}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -36686,6 +36890,30 @@ function EssayGuide({ onExit }) {
                       }
                     }}
                   ></textarea>
+
+                  {/* PREMIUM: Word Count & Heuristic Check */}
+                  <div className="mt-2 flex justify-between items-center text-sm">
+                    <div className="text-gray-600">
+                      <span className="font-semibold">
+                        {wordCount(essayText.intro)}
+                      </span>{' '}
+                      words
+                      {' | '}
+                      <span className="font-semibold">
+                        {(essayText.intro.match(/\n\n/g) || []).length + 1}
+                      </span>{' '}
+                      paragraphs
+                    </div>
+                    {essayText.intro &&
+                      essayText.intro.length > 20 &&
+                      !/thesis|argue|believe|claim|position|support|evidence/i.test(
+                        essayText.intro
+                      ) && (
+                        <div className="text-yellow-700 bg-yellow-50 px-3 py-1 rounded-md border border-yellow-300">
+                          💡 Tip: Ensure you state your main argument
+                        </div>
+                      )}
+                  </div>
                 </div>
                 <div className="practice-section bg-white p-6 rounded-lg shadow-md">
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">

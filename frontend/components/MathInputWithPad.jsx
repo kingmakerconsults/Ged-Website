@@ -267,3 +267,5 @@ const MathInputWithPad = ({
 if (typeof window !== 'undefined') {
   window.MathInputWithPad = MathInputWithPad;
 }
+
+export default MathInputWithPad;

@@ -793,6 +793,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                   className="w-full min-h-[24rem] p-2 border rounded flex-1 essay-response-box"
                   value={essayText}
                   onChange={(e) => setEssayText(e.target.value)}
+                  spellCheck="false"
                   onKeyDown={(e) => {
                     if (e.key === 'Tab') {
                       e.preventDefault();

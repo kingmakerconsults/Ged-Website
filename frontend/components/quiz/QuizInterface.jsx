@@ -14,6 +14,8 @@ import {
   getOptionIsCorrect,
   isShortResponseQuestion,
 } from '../../utils/textUtils.js';
+import MathInputWithPad from '../MathInputWithPad.jsx';
+import { TI30XSCalculator } from '../TI30XSCalculator.jsx';
 
 const DEFAULT_COLOR_SCHEME = {
   background: 'var(--nav-active-bg)',
@@ -60,6 +62,8 @@ export function QuizInterface({
   const toolPanelRef = useRef(null);
   const toolInstanceRef = useRef(null);
   const toolTypeRef = useRef(null); // 'graph' | 'geometry' | null
+  const [showCalculator, setShowCalculator] = useState(false);
+  const [zenMode, setZenMode] = useState(false);
 
   useEffect(() => {
     setTimeLeft(timeLimit || questions.length * 90);
@@ -256,6 +260,9 @@ export function QuizInterface({
       {canShowScienceFormulas && showScienceFormulas && (
         <ScienceFormulaSheet onClose={() => setShowScienceFormulas(false)} />
       )}
+      {showCalculator && (
+        <TI30XSCalculator onClose={() => setShowCalculator(false)} />
+      )}
       <div
         className="quiz-panel rounded-2xl p-4 sm:p-6 shadow-lg"
         data-subject={quizSubject}
@@ -267,7 +274,17 @@ export function QuizInterface({
         {showTimer && (
           <header
             className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4"
-            style={{ borderBottom: `1px solid ${scheme.divider}` }}
+            style={{
+              borderBottom: `1px solid ${scheme.divider}`,
+              opacity: zenMode ? 0.2 : 1,
+              transition: 'opacity 0.3s ease',
+            }}
+            onMouseEnter={(e) =>
+              zenMode && (e.currentTarget.style.opacity = '1')
+            }
+            onMouseLeave={(e) =>
+              zenMode && (e.currentTarget.style.opacity = '0.2')
+            }
           >
             {onExit && (
               <button
@@ -358,575 +375,658 @@ export function QuizInterface({
                       View Science Formula Sheet
                     </button>
                   )}
+                  {quizConfig?.calculator && (
+                    <button
+                      type="button"
+                      onClick={() => setShowCalculator(true)}
+                      className="rounded-md px-3 py-1.5 text-sm font-semibold shadow-sm transition"
+                      data-role="secondary"
+                      style={{
+                        color: scheme.accentText,
+                        borderColor: scheme.accent,
+                      }}
+                    >
+                      Calculator
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setZenMode((prev) => !prev)}
+                    className="rounded-md px-3 py-1.5 text-sm font-semibold shadow-sm transition"
+                    data-role="secondary"
+                    style={{
+                      color: zenMode ? scheme.accent : scheme.text,
+                      borderColor: scheme.accent,
+                      backgroundColor: zenMode
+                        ? `${scheme.accent}22`
+                        : 'transparent',
+                    }}
+                    title={
+                      zenMode ? 'Exit Zen Mode' : 'Zen Mode: Hide distractions'
+                    }
+                  >
+                    ⦿ {zenMode ? 'Exit Zen' : 'Zen'}
+                  </button>
                 </div>
               )}
             </div>
           </header>
         )}
 
-        {article && (
-          <section className="mb-6">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h3
-                  className="text-lg font-semibold"
-                  style={{ color: scheme.text }}
-                >
-                  Reading Passage
-                </h3>
-                {article.genre && (
-                  <p
-                    className="text-xs uppercase tracking-wide"
-                    style={{ color: scheme.mutedText }}
-                  >
-                    {article.genre}
-                  </p>
-                )}
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowArticle((prev) => !prev)}
-                className="inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold transition-colors"
-                style={{
-                  color: scheme.accentText,
-                  backgroundColor: scheme.accent,
-                  border: `1px solid ${scheme.accent}`,
-                }}
-              >
-                {showArticle ? 'Hide Passage' : 'Show Passage'}
-              </button>
-            </div>
-            {showArticle && (
-              <div
-                className="mt-3 space-y-3 rounded-xl p-4 text-sm leading-relaxed"
-                style={{
-                  backgroundColor: scheme.surfaceStrong,
-                  border: `1px solid ${scheme.surfaceBorder}`,
-                  maxHeight: '18rem',
-                  overflowY: 'auto',
-                }}
-              >
-                {article.title && (
-                  <h4
-                    className="text-base font-bold"
-                    style={{ color: scheme.text }}
-                    dangerouslySetInnerHTML={{
-                      __html: sanitizeHtmlContent(article.title, {
-                        normalizeSpacing: true,
-                      }),
-                    }}
-                  />
-                )}
-                {(article.imageUrl || articleImage) &&
-                  (() => {
-                    const rawImg = article.imageUrl || articleImage;
-                    const imgSrc = resolveAssetUrl(rawImg);
-                    return imgSrc ? (
-                      <img
-                        src={imgSrc}
-                        alt={
-                          article.imageAlt ||
-                          article.title ||
-                          'Reading passage illustration'
-                        }
-                        className="max-h-40 w-full rounded-lg object-cover"
-                        style={{ border: '1px solid var(--border-subtle)' }}
-                      />
-                    ) : null;
-                  })()}
-                {(article.text || []).map((paragraph, index) => (
-                  <p
-                    key={index}
-                    className="text-sm"
-                    style={{ color: scheme.text }}
-                    dangerouslySetInnerHTML={{
-                      __html: sanitizeHtmlContent(paragraph, {
-                        normalizeSpacing: true,
-                      }),
-                    }}
-                  />
-                ))}
-              </div>
-            )}
-          </section>
-        )}
-
-        <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
-          {questions.map((_, i) => {
-            const isActive = i === currentIndex;
-            const isAnswered = Boolean(answers[i]);
-            const navStyle = isActive
-              ? {
-                  backgroundColor: scheme.background,
-                  color: scheme.onBackgroundText,
-                }
-              : isAnswered
-              ? {
-                  backgroundColor: scheme.navAnsweredBg,
-                  color: scheme.navAnsweredText,
-                }
-              : {
-                  backgroundColor: scheme.navDefaultBg,
-                  color: scheme.navDefaultText,
-                };
-            if (marked[i]) {
-              navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
-            }
-            return (
-              <button
-                key={i}
-                onClick={() => setCurrentIndex(i)}
-                className="h-8 w-8 rounded-full text-sm font-bold transition"
-                style={navStyle}
-              >
-                {i + 1}
-              </button>
-            );
-          })}
-        </div>
-
         <div
-          className="question-container rounded-xl p-4 sm:p-6 shadow-inner"
-          data-subject={quizSubject}
+          className={article || hasPassage ? 'ged-split-view' : ''}
           style={{
-            border: `1px solid ${scheme.surfaceBorder}`,
-            backgroundColor: scheme.surfaceStrong || scheme.surface,
+            backgroundColor: zenMode ? '#1a1a1a' : 'transparent',
+            borderRadius: zenMode ? '1rem' : '0',
+            padding: zenMode ? '2rem' : '0',
+            transition: 'all 0.3s ease',
           }}
         >
-          {currentQ.clusterLabel && (
+          {(article || hasPassage) && (
             <div
-              className="mb-3 rounded-md border px-3 py-2 text-sm"
+              className="passage-pane mb-6 lg:mb-0"
               style={{
-                borderColor: scheme.surfaceBorder,
-                backgroundColor: scheme.surface,
-                color: scheme.mutedText,
+                backgroundColor: scheme.surfaceStrong,
+                border: `1px solid ${scheme.surfaceBorder}`,
+                borderRadius: '0.75rem',
+                padding: '1rem',
               }}
             >
-              <span className="font-semibold" style={{ color: scheme.text }}>
-                Scenario:
-              </span>{' '}
-              {currentQ.clusterLabel}
-            </div>
-          )}
-          <div className="mb-4">
-            <div className="flex items-start gap-3">
-              <span
-                className="text-xl font-semibold leading-relaxed"
-                style={{ color: scheme.text }}
-              >
-                {currentIndex + 1}.
-              </span>
-              <Stem item={currentQ} />
-            </div>
-          </div>
-          {(() => {
-            const rawImgSrc =
-              !currentQ.stimulusImage?.src && currentQ.imageUrl
-                ? currentQ.imageUrl
-                : null;
-            const imgSrc = resolveAssetUrl(rawImgSrc);
-            return imgSrc ? (
-              <img
-                src={imgSrc}
-                alt={`Visual for question ${currentQ.questionNumber}`}
-                className="my-4 h-auto max-w-full rounded-md"
-                style={{ border: `1px solid ${scheme.surfaceBorder}` }}
-                onError={(e) => {
-                  if (e.target.dataset.fallbackApplied) {
-                    e.target.style.display = 'none';
-                    return;
-                  }
-                  e.target.dataset.fallbackApplied = '1';
-                  const src = e.target.getAttribute('src') || '';
-                  const origin =
-                    (typeof window !== 'undefined' &&
-                      window.location &&
-                      window.location.origin) ||
-                    '';
-                  const idx = src.indexOf('/Images/');
-                  if (idx !== -1) {
-                    const rel = src
-                      .substring(idx)
-                      .replace('/Images/', '/frontend/Images/');
-                    e.target.src = origin + rel;
-                  } else {
-                    e.target.style.display = 'none';
-                  }
-                }}
-              />
-            ) : null;
-          })()}
-          {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
-            <div
-              className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100"
-              style={{ border: `1px solid ${scheme.surfaceBorder}` }}
-            >
-              <GeometryFigure
-                spec={currentQ.geometrySpec}
-                className="w-full h-auto"
-              />
-            </div>
-          )}
-
-          {/* Interactive tool panel (conditionally rendered; disabled via flag) */}
-          {TOOL_PANEL_ENABLED && needsToolPanel && (
-            <div
-              id="interactive-tool-panel"
-              ref={toolPanelRef}
-              className="quiz-tool-panel my-4 rounded-lg"
-              role="region"
-              aria-label="Interactive math tool"
-              style={{
-                backgroundColor: scheme.surface,
-                border: `1px dashed ${scheme.surfaceBorder}`,
-                padding: '0.75rem',
-              }}
-            />
-          )}
-
-          {isShortResponse ? (
-            <div>
-              <label
-                htmlFor="short-response-answer"
-                className="mb-1 block text-sm font-medium"
-                style={{ color: scheme.mutedText }}
-              >
-                Enter a short constructed response (2–4 sentences):
-              </label>
-              <textarea
-                id="short-response-answer"
-                value={answers[currentIndex] || ''}
-                onChange={handleInputChange}
-                rows={5}
-                className="w-full rounded-lg p-3 text-base leading-relaxed focus:outline-none"
-                style={{
-                  border: `1px solid ${scheme.inputBorder}`,
-                  color: scheme.text,
-                  backgroundColor: scheme.surface,
-                  resize: 'vertical',
-                }}
-                placeholder="Type your response and reference the passage or data when possible."
-              />
-              <p className="mt-2 text-xs" style={{ color: scheme.mutedText }}>
-                These items are scored manually. Focus on evidence and clear
-                reasoning.
-              </p>
-              {(() => {
-                const rubricHints = Array.isArray(currentQ.expectedFeatures)
-                  ? currentQ.expectedFeatures
-                  : Array.isArray(currentQ.rubricHints)
-                  ? currentQ.rubricHints
-                  : [];
-                const sampleAnswer =
-                  typeof currentQ.sampleAnswer === 'string'
-                    ? currentQ.sampleAnswer.trim()
-                    : '';
-                if (!rubricHints.length && !sampleAnswer) return null;
-                return (
-                  <div
-                    className="mt-4 rounded-lg border p-3 text-sm"
-                    style={{
-                      borderColor: scheme.surfaceBorder,
-                      backgroundColor: scheme.surface,
-                    }}
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between lg:hidden">
+                <div>
+                  <h3
+                    className="text-lg font-semibold"
+                    style={{ color: scheme.text }}
                   >
-                    {rubricHints.length > 0 && (
-                      <div>
-                        <p
-                          className="font-semibold"
-                          style={{ color: scheme.text }}
-                        >
-                          Rubric checklist
-                        </p>
-                        <ul className="mt-2 list-disc pl-5 space-y-1">
-                          {rubricHints.map((hint, idx) => (
-                            <li
-                              key={idx}
-                              className="text-xs"
-                              style={{ color: scheme.mutedText }}
-                            >
-                              {hint}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    {sampleAnswer && (
-                      <details
-                        className="mt-3 text-xs"
-                        style={{ color: scheme.mutedText }}
-                      >
-                        <summary className="cursor-pointer font-semibold">
-                          View sample answer
-                        </summary>
-                        <p
-                          className="mt-2 leading-relaxed"
-                          style={{ color: scheme.text }}
-                        >
-                          {sampleAnswer}
-                        </p>
-                      </details>
-                    )}
-                  </div>
-                );
-              })()}
-            </div>
-          ) : isFillInTheBlank || isNumericEntry ? (
-            <div>
-              <label
-                htmlFor="fill-in-blank-answer"
-                className="mb-1 block text-sm font-medium"
-                style={{ color: scheme.mutedText }}
-              >
-                {isNumericEntry
-                  ? 'Enter your numeric answer:'
-                  : 'Enter your answer:'}
-              </label>
-              {(isNumericEntry ||
-                (/science|math/i.test(subject || quiz?.subject || '') &&
-                  !Array.isArray(currentQ.answerOptions) &&
-                  !currentQ.answerOptions?.length)) && (
-                <p
-                  className="mb-2 text-xs"
-                  style={{
-                    color: 'var(--warning-text)',
-                    backgroundColor: 'var(--warning-bg)',
-                    padding: '0.5rem',
-                    borderRadius: '0.375rem',
-                    border: '1px solid var(--warning-border)',
-                  }}
-                >
-                  ⚠️ Numeric answers only. Enter numbers, decimals, or fractions
-                  (e.g., 42, 3.14, 1/2, 25%).
-                </p>
-              )}
-              {/* Use MathInputWithPad for Math subjects */}
-              {/math/i.test(subject || quiz?.subject || '') &&
-              window.MathInputWithPad ? (
-                <window.MathInputWithPad
-                  value={answers[currentIndex] || ''}
-                  onChange={(newValue) => {
-                    const newAnswers = [...answers];
-                    newAnswers[currentIndex] = newValue;
-                    setAnswers(newAnswers);
-                  }}
-                  placeholder={
-                    isNumericEntry
-                      ? 'Enter a number (e.g., 3.5 or 3/4)'
-                      : 'Type your answer here'
-                  }
-                  disabled={false}
-                />
-              ) : (
-                <input
-                  id="fill-in-blank-answer"
-                  type={isNumericEntry ? 'text' : 'text'}
-                  inputMode={isNumericEntry ? 'decimal' : 'text'}
-                  value={answers[currentIndex] || ''}
-                  onChange={handleInputChange}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      if (currentIndex === questions.length - 1) {
-                        handleSubmit();
-                      } else {
-                        setCurrentIndex((p) =>
-                          Math.min(questions.length - 1, p + 1)
-                        );
-                      }
-                    }
-                  }}
-                  placeholder={
-                    isNumericEntry
-                      ? 'Enter a number (e.g., 3.5 or 3/4)'
-                      : 'Type your answer here'
-                  }
-                  className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
-                  style={{
-                    border: `1px solid ${scheme.inputBorder}`,
-                    color: scheme.text,
-                  }}
-                />
-              )}
-            </div>
-          ) : currentQ.itemType === 'inline_dropdown' &&
-            currentQ.passageWithPlaceholders ? (
-            // RLA Part 3: Inline Dropdown (Cloze) passage
-            <div>
-              <p
-                className="mb-4 text-sm font-medium"
-                style={{ color: scheme.mutedText }}
-              >
-                Select the best option for each dropdown to complete the passage
-                correctly.
-              </p>
-              <InlineDropdownPassage
-                passageText={currentQ.passageWithPlaceholders}
-                questions={questions.filter(
-                  (q) =>
-                    q.itemType === 'inline_dropdown' &&
-                    q.passage === currentQ.passage
-                )}
-                answers={answers}
-                onAnswerChange={(index, value) => {
-                  const newAnswers = [...answers];
-                  newAnswers[index] = value;
-                  setAnswers(newAnswers);
-                }}
-              />
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {/* Multi-select instruction */}
-              {isMultipleSelect && (
-                <p
-                  className="mb-3 text-sm font-medium px-3 py-2 rounded-lg"
+                    {article ? 'Reading Passage' : 'Passage'}
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowArticle((prev) => !prev)}
+                  className="inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold transition-colors"
                   style={{
                     color: scheme.accentText,
-                    backgroundColor: scheme.accentSoft,
-                    border: `1px solid ${scheme.accentBorder}`,
+                    backgroundColor: scheme.accent,
+                    border: `1px solid ${scheme.accent}`,
                   }}
                 >
-                  ℹ️ Select ALL correct answers. Multiple answers may be
-                  correct.
-                </p>
-              )}
-              {(currentQ.answerOptions || []).map((opt, i) => {
-                // Handle both string and object formats for answerOptions
-                const optText = typeof opt === 'string' ? opt : opt?.text || '';
-                const cleanedOptionText =
-                  typeof optText === 'string'
-                    ? optText.trim().replace(/^\$\$/, '$')
-                    : '';
-                // MULTIPLE-SELECT ENHANCEMENT: Check if option is selected (works for both modes)
-                const isSelected = selectedOptions.includes(optText);
-                const optionStyles = {};
-                if (isSelected) {
-                  optionStyles.backgroundColor = scheme.optionSelectedBg;
-                  optionStyles.borderColor = scheme.optionSelectedBorder;
-                  optionStyles.color = scheme.accentText;
-                }
-                // MULTIPLE-SELECT ENHANCEMENT: Add class for multiple-select mode
-                const optionClassNames = [
-                  'option',
-                  'answer-option',
-                  'w-full',
-                  'text-left',
-                  'transition',
-                  isMultipleSelect ? 'multiple-select' : '',
-                ];
-                if (isSelected) {
-                  optionClassNames.push('selected');
+                  {showArticle ? 'Hide Passage' : 'Show Passage'}
+                </button>
+              </div>
+
+              {/* Always show on desktop (split view), toggle on mobile */}
+              <div className={showArticle ? 'block' : 'hidden lg:block'}>
+                <div className="mt-3 space-y-3 text-sm leading-relaxed">
+                  {article ? (
+                    <>
+                      {article.title && (
+                        <h4
+                          className="text-base font-bold"
+                          style={{ color: scheme.text }}
+                          dangerouslySetInnerHTML={{
+                            __html: sanitizeHtmlContent(article.title, {
+                              normalizeSpacing: true,
+                            }),
+                          }}
+                        />
+                      )}
+                      {(article.imageUrl || articleImage) &&
+                        (() => {
+                          const rawImg = article.imageUrl || articleImage;
+                          const imgSrc = resolveAssetUrl(rawImg);
+                          return imgSrc ? (
+                            <img
+                              src={imgSrc}
+                              alt={
+                                article.imageAlt ||
+                                article.title ||
+                                'Reading passage illustration'
+                              }
+                              className="max-h-40 w-full rounded-lg object-cover"
+                              style={{
+                                border: '1px solid var(--border-subtle)',
+                              }}
+                            />
+                          ) : null;
+                        })()}
+                      {(article.text || []).map((paragraph, index) => (
+                        <p
+                          key={index}
+                          className="text-sm"
+                          style={{ color: scheme.text }}
+                          dangerouslySetInnerHTML={{
+                            __html: sanitizeHtmlContent(paragraph, {
+                              normalizeSpacing: true,
+                            }),
+                          }}
+                        />
+                      ))}
+                    </>
+                  ) : hasPassage ? (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeHtmlContent(passageContent, {
+                          normalizeSpacing: true,
+                        }),
+                      }}
+                      style={{ color: scheme.text }}
+                    />
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="question-pane">
+            <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
+              {questions.map((_, i) => {
+                const isActive = i === currentIndex;
+                const isAnswered = Boolean(answers[i]);
+                const navStyle = isActive
+                  ? {
+                      backgroundColor: scheme.background,
+                      color: scheme.onBackgroundText,
+                    }
+                  : isAnswered
+                  ? {
+                      backgroundColor: scheme.navAnsweredBg,
+                      color: scheme.navAnsweredText,
+                    }
+                  : {
+                      backgroundColor: scheme.navDefaultBg,
+                      color: scheme.navDefaultText,
+                    };
+                if (marked[i]) {
+                  navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
                 }
                 return (
                   <button
                     key={i}
-                    onClick={() => handleSelect(optText)}
-                    className={optionClassNames.join(' ')}
-                    style={optionStyles}
+                    onClick={() => setCurrentIndex(i)}
+                    className="h-8 w-8 rounded-full text-sm font-bold transition"
+                    style={navStyle}
                   >
-                    {/* MULTIPLE-SELECT: Show checkbox icon for multi-select questions */}
-                    {isMultipleSelect && (
-                      <span
-                        className="mr-2 text-lg"
-                        style={{
-                          color: isSelected ? scheme.accent : scheme.mutedText,
-                        }}
-                      >
-                        {isSelected ? '☑' : '☐'}
-                      </span>
-                    )}
-                    <span
-                      className="flex-grow text-left"
-                      style={{ color: scheme.text }}
-                    >
-                      <span className="mr-2 font-bold">
-                        {String.fromCharCode(65 + i)}.
-                      </span>
-                      <span
-                        className="question-stem"
-                        dangerouslySetInnerHTML={renderQuestionTextForDisplay(
-                          cleanedOptionText,
-                          currentQ.isPremade === true,
-                          currentQ
-                        )}
-                      />
-                    </span>
+                    {i + 1}
                   </button>
                 );
               })}
             </div>
-          )}
-        </div>
 
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <button
-            onClick={() => setCurrentIndex((p) => Math.max(0, p - 1))}
-            disabled={currentIndex === 0}
-            className="rounded-md px-4 py-2 font-semibold transition"
-            data-role="secondary"
-            style={{
-              borderColor: scheme.surfaceBorder,
-              color: scheme.mutedText,
-              opacity: currentIndex === 0 ? 0.6 : 1,
-            }}
-          >
-            Previous
-          </button>
-          <button
-            onClick={() =>
-              setMarked((m) => {
-                const newM = [...m];
-                newM[currentIndex] = !newM[currentIndex];
-                return newM;
-              })
-            }
-            className="rounded-md px-4 py-2 font-semibold transition"
-            style={
-              marked[currentIndex]
-                ? {
-                    backgroundColor: scheme.navMarkedRing,
-                    color: scheme.onBackgroundText,
-                    border: `1px solid ${scheme.navMarkedRing}`,
-                  }
-                : {
-                    backgroundColor: scheme.navDefaultBg,
-                    color: scheme.navDefaultText,
-                    border: `1px solid ${scheme.navDefaultBg}`,
-                  }
-            }
-          >
-            {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
-          </button>
-          {currentIndex === questions.length - 1 ? (
-            <button
-              onClick={handleSubmit}
-              className="rounded-md px-4 py-2 font-semibold"
-              data-role="primary"
+            <div
+              className="question-container rounded-xl p-4 sm:p-6 shadow-inner"
+              data-subject={quizSubject}
               style={{
-                backgroundColor: scheme.accent,
-                color: scheme.accentText,
-                borderColor: scheme.accent,
+                border: `1px solid ${scheme.surfaceBorder}`,
+                backgroundColor: scheme.surfaceStrong || scheme.surface,
               }}
             >
-              {buttonText || 'Finish'}
-            </button>
-          ) : (
-            <button
-              onClick={() =>
-                setCurrentIndex((p) => Math.min(questions.length - 1, p + 1))
-              }
-              className="rounded-md px-4 py-2 font-semibold"
-              data-role="primary"
-              style={{
-                backgroundColor: scheme.accent,
-                color: scheme.accentText,
-                borderColor: scheme.accent,
-              }}
-            >
-              Next
-            </button>
-          )}
+              {currentQ.clusterLabel && (
+                <div
+                  className="mb-3 rounded-md border px-3 py-2 text-sm"
+                  style={{
+                    borderColor: scheme.surfaceBorder,
+                    backgroundColor: scheme.surface,
+                    color: scheme.mutedText,
+                  }}
+                >
+                  <span
+                    className="font-semibold"
+                    style={{ color: scheme.text }}
+                  >
+                    Scenario:
+                  </span>{' '}
+                  {currentQ.clusterLabel}
+                </div>
+              )}
+              <div className="mb-4">
+                <div className="flex items-start gap-3">
+                  <span
+                    className="text-xl font-semibold leading-relaxed"
+                    style={{ color: scheme.text }}
+                  >
+                    {currentIndex + 1}.
+                  </span>
+                  <Stem item={currentQ} />
+                </div>
+              </div>
+              {(() => {
+                const rawImgSrc =
+                  !currentQ.stimulusImage?.src && currentQ.imageUrl
+                    ? currentQ.imageUrl
+                    : null;
+                const imgSrc = resolveAssetUrl(rawImgSrc);
+                return imgSrc ? (
+                  <img
+                    src={imgSrc}
+                    alt={`Visual for question ${currentQ.questionNumber}`}
+                    className="my-4 h-auto max-w-full rounded-md"
+                    style={{ border: `1px solid ${scheme.surfaceBorder}` }}
+                    onError={(e) => {
+                      if (e.target.dataset.fallbackApplied) {
+                        e.target.style.display = 'none';
+                        return;
+                      }
+                      e.target.dataset.fallbackApplied = '1';
+                      const src = e.target.getAttribute('src') || '';
+                      const origin =
+                        (typeof window !== 'undefined' &&
+                          window.location &&
+                          window.location.origin) ||
+                        '';
+                      const idx = src.indexOf('/Images/');
+                      if (idx !== -1) {
+                        const rel = src
+                          .substring(idx)
+                          .replace('/Images/', '/frontend/Images/');
+                        e.target.src = origin + rel;
+                      } else {
+                        e.target.style.display = 'none';
+                      }
+                    }}
+                  />
+                ) : null;
+              })()}
+              {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
+                <div
+                  className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100"
+                  style={{ border: `1px solid ${scheme.surfaceBorder}` }}
+                >
+                  <GeometryFigure
+                    spec={currentQ.geometrySpec}
+                    className="w-full h-auto"
+                  />
+                </div>
+              )}
+
+              {/* Interactive tool panel (conditionally rendered; disabled via flag) */}
+              {TOOL_PANEL_ENABLED && needsToolPanel && (
+                <div
+                  id="interactive-tool-panel"
+                  ref={toolPanelRef}
+                  className="quiz-tool-panel my-4 rounded-lg"
+                  role="region"
+                  aria-label="Interactive math tool"
+                  style={{
+                    backgroundColor: scheme.surface,
+                    border: `1px dashed ${scheme.surfaceBorder}`,
+                    padding: '0.75rem',
+                  }}
+                />
+              )}
+
+              {isShortResponse ? (
+                <div>
+                  <label
+                    htmlFor="short-response-answer"
+                    className="mb-1 block text-sm font-medium"
+                    style={{ color: scheme.mutedText }}
+                  >
+                    Enter a short constructed response (2–4 sentences):
+                  </label>
+                  <textarea
+                    id="short-response-answer"
+                    value={answers[currentIndex] || ''}
+                    onChange={handleInputChange}
+                    rows={5}
+                    className="w-full rounded-lg p-3 text-base leading-relaxed focus:outline-none"
+                    style={{
+                      border: `1px solid ${scheme.inputBorder}`,
+                      color: scheme.text,
+                      backgroundColor: scheme.surface,
+                      resize: 'vertical',
+                    }}
+                    placeholder="Type your response and reference the passage or data when possible."
+                  />
+                  <p
+                    className="mt-2 text-xs"
+                    style={{ color: scheme.mutedText }}
+                  >
+                    These items are scored manually. Focus on evidence and clear
+                    reasoning.
+                  </p>
+                  {(() => {
+                    const rubricHints = Array.isArray(currentQ.expectedFeatures)
+                      ? currentQ.expectedFeatures
+                      : Array.isArray(currentQ.rubricHints)
+                      ? currentQ.rubricHints
+                      : [];
+                    const sampleAnswer =
+                      typeof currentQ.sampleAnswer === 'string'
+                        ? currentQ.sampleAnswer.trim()
+                        : '';
+                    if (!rubricHints.length && !sampleAnswer) return null;
+                    return (
+                      <div
+                        className="mt-4 rounded-lg border p-3 text-sm"
+                        style={{
+                          borderColor: scheme.surfaceBorder,
+                          backgroundColor: scheme.surface,
+                        }}
+                      >
+                        {rubricHints.length > 0 && (
+                          <div>
+                            <p
+                              className="font-semibold"
+                              style={{ color: scheme.text }}
+                            >
+                              Rubric checklist
+                            </p>
+                            <ul className="mt-2 list-disc pl-5 space-y-1">
+                              {rubricHints.map((hint, idx) => (
+                                <li
+                                  key={idx}
+                                  className="text-xs"
+                                  style={{ color: scheme.mutedText }}
+                                >
+                                  {hint}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        {sampleAnswer && (
+                          <details
+                            className="mt-3 text-xs"
+                            style={{ color: scheme.mutedText }}
+                          >
+                            <summary className="cursor-pointer font-semibold">
+                              View sample answer
+                            </summary>
+                            <p
+                              className="mt-2 leading-relaxed"
+                              style={{ color: scheme.text }}
+                            >
+                              {sampleAnswer}
+                            </p>
+                          </details>
+                        )}
+                      </div>
+                    );
+                  })()}
+                </div>
+              ) : isFillInTheBlank || isNumericEntry ? (
+                <div>
+                  <label
+                    htmlFor="fill-in-blank-answer"
+                    className="mb-1 block text-sm font-medium"
+                    style={{ color: scheme.mutedText }}
+                  >
+                    {isNumericEntry
+                      ? 'Enter your numeric answer:'
+                      : 'Enter your answer:'}
+                  </label>
+                  {(isNumericEntry ||
+                    (/science|math/i.test(subject || quiz?.subject || '') &&
+                      !Array.isArray(currentQ.answerOptions) &&
+                      !currentQ.answerOptions?.length)) && (
+                    <p
+                      className="mb-2 text-xs"
+                      style={{
+                        color: 'var(--warning-text)',
+                        backgroundColor: 'var(--warning-bg)',
+                        padding: '0.5rem',
+                        borderRadius: '0.375rem',
+                        border: '1px solid var(--warning-border)',
+                      }}
+                    >
+                      ⚠️ Numeric answers only. Enter numbers, decimals, or
+                      fractions (e.g., 42, 3.14, 1/2, 25%).
+                    </p>
+                  )}
+                  {/* Use MathInputWithPad for Math subjects */}
+                  {/math/i.test(subject || quiz?.subject || '') ? (
+                    <MathInputWithPad
+                      value={answers[currentIndex] || ''}
+                      onChange={(newValue) => {
+                        const newAnswers = [...answers];
+                        newAnswers[currentIndex] = newValue;
+                        setAnswers(newAnswers);
+                      }}
+                      placeholder={
+                        isNumericEntry
+                          ? 'Enter a number (e.g., 3.5 or 3/4)'
+                          : 'Type your answer here'
+                      }
+                      disabled={false}
+                    />
+                  ) : (
+                    <input
+                      id="fill-in-blank-answer"
+                      type={isNumericEntry ? 'text' : 'text'}
+                      inputMode={isNumericEntry ? 'decimal' : 'text'}
+                      value={answers[currentIndex] || ''}
+                      onChange={handleInputChange}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          if (currentIndex === questions.length - 1) {
+                            handleSubmit();
+                          } else {
+                            setCurrentIndex((p) =>
+                              Math.min(questions.length - 1, p + 1)
+                            );
+                          }
+                        }
+                      }}
+                      placeholder={
+                        isNumericEntry
+                          ? 'Enter a number (e.g., 3.5 or 3/4)'
+                          : 'Type your answer here'
+                      }
+                      className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
+                      style={{
+                        border: `1px solid ${scheme.inputBorder}`,
+                        color: scheme.text,
+                      }}
+                    />
+                  )}
+                </div>
+              ) : currentQ.itemType === 'inline_dropdown' &&
+                currentQ.passageWithPlaceholders ? (
+                // RLA Part 3: Inline Dropdown (Cloze) passage
+                <div>
+                  <p
+                    className="mb-4 text-sm font-medium"
+                    style={{ color: scheme.mutedText }}
+                  >
+                    Select the best option for each dropdown to complete the
+                    passage correctly.
+                  </p>
+                  <InlineDropdownPassage
+                    passageText={currentQ.passageWithPlaceholders}
+                    questions={questions.filter(
+                      (q) =>
+                        q.itemType === 'inline_dropdown' &&
+                        q.passage === currentQ.passage
+                    )}
+                    answers={answers}
+                    onAnswerChange={(index, value) => {
+                      const newAnswers = [...answers];
+                      newAnswers[index] = value;
+                      setAnswers(newAnswers);
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {/* Multi-select instruction */}
+                  {isMultipleSelect && (
+                    <p
+                      className="mb-3 text-sm font-medium px-3 py-2 rounded-lg"
+                      style={{
+                        color: scheme.accentText,
+                        backgroundColor: scheme.accentSoft,
+                        border: `1px solid ${scheme.accentBorder}`,
+                      }}
+                    >
+                      ℹ️ Select ALL correct answers. Multiple answers may be
+                      correct.
+                    </p>
+                  )}
+                  {(currentQ.answerOptions || []).map((opt, i) => {
+                    // Handle both string and object formats for answerOptions
+                    const optText =
+                      typeof opt === 'string' ? opt : opt?.text || '';
+                    const cleanedOptionText =
+                      typeof optText === 'string'
+                        ? optText.trim().replace(/^\$\$/, '$')
+                        : '';
+                    // MULTIPLE-SELECT ENHANCEMENT: Check if option is selected (works for both modes)
+                    const isSelected = selectedOptions.includes(optText);
+                    const optionStyles = {};
+                    if (isSelected) {
+                      optionStyles.backgroundColor = scheme.optionSelectedBg;
+                      optionStyles.borderColor = scheme.optionSelectedBorder;
+                      optionStyles.color = scheme.accentText;
+                    }
+                    // MULTIPLE-SELECT ENHANCEMENT: Add class for multiple-select mode
+                    const optionClassNames = [
+                      'option',
+                      'answer-option',
+                      'w-full',
+                      'text-left',
+                      'transition',
+                      isMultipleSelect ? 'multiple-select' : '',
+                    ];
+                    if (isSelected) {
+                      optionClassNames.push('selected');
+                    }
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => handleSelect(optText)}
+                        className={optionClassNames.join(' ')}
+                        style={optionStyles}
+                      >
+                        {/* MULTIPLE-SELECT: Show checkbox icon for multi-select questions */}
+                        {isMultipleSelect && (
+                          <span
+                            className="mr-2 text-lg"
+                            style={{
+                              color: isSelected
+                                ? scheme.accent
+                                : scheme.mutedText,
+                            }}
+                          >
+                            {isSelected ? '☑' : '☐'}
+                          </span>
+                        )}
+                        <span
+                          className="flex-grow text-left"
+                          style={{ color: scheme.text }}
+                        >
+                          <span className="mr-2 font-bold">
+                            {String.fromCharCode(65 + i)}.
+                          </span>
+                          <span
+                            className="question-stem"
+                            dangerouslySetInnerHTML={renderQuestionTextForDisplay(
+                              cleanedOptionText,
+                              currentQ.isPremade === true,
+                              currentQ
+                            )}
+                          />
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* CONFIDENCE TRACKING */}
+            <div className="confidence-toggle mt-4">
+              <button
+                onClick={() => handleConfidenceSelect('sure')}
+                className={`confidence-btn sure ${
+                  confidence[currentIndex] === 'sure' ? 'active' : ''
+                }`}
+              >
+                ✓ I'm Sure
+              </button>
+              <button
+                onClick={() => handleConfidenceSelect('guessing')}
+                className={`confidence-btn guessing ${
+                  confidence[currentIndex] === 'guessing' ? 'active' : ''
+                }`}
+              >
+                ? I'm Guessing
+              </button>
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <button
+                onClick={() => setCurrentIndex((p) => Math.max(0, p - 1))}
+                disabled={currentIndex === 0}
+                className="rounded-md px-4 py-2 font-semibold transition"
+                data-role="secondary"
+                style={{
+                  borderColor: scheme.surfaceBorder,
+                  color: scheme.mutedText,
+                  opacity: currentIndex === 0 ? 0.6 : 1,
+                }}
+              >
+                Previous
+              </button>
+              <button
+                onClick={() =>
+                  setMarked((m) => {
+                    const newM = [...m];
+                    newM[currentIndex] = !newM[currentIndex];
+                    return newM;
+                  })
+                }
+                className="rounded-md px-4 py-2 font-semibold transition"
+                style={
+                  marked[currentIndex]
+                    ? {
+                        backgroundColor: scheme.navMarkedRing,
+                        color: scheme.onBackgroundText,
+                        border: `1px solid ${scheme.navMarkedRing}`,
+                      }
+                    : {
+                        backgroundColor: scheme.navDefaultBg,
+                        color: scheme.navDefaultText,
+                        border: `1px solid ${scheme.navDefaultBg}`,
+                      }
+                }
+              >
+                {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
+              </button>
+              {currentIndex === questions.length - 1 ? (
+                <button
+                  onClick={handleSubmit}
+                  className="rounded-md px-4 py-2 font-semibold"
+                  data-role="primary"
+                  style={{
+                    backgroundColor: scheme.accent,
+                    color: scheme.accentText,
+                    borderColor: scheme.accent,
+                  }}
+                >
+                  {buttonText || 'Finish'}
+                </button>
+              ) : (
+                <button
+                  onClick={() =>
+                    setCurrentIndex((p) =>
+                      Math.min(questions.length - 1, p + 1)
+                    )
+                  }
+                  className="rounded-md px-4 py-2 font-semibold"
+                  data-role="primary"
+                  style={{
+                    backgroundColor: scheme.accent,
+                    color: scheme.accentText,
+                    borderColor: scheme.accent,
+                  }}
+                >
+                  Next
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
