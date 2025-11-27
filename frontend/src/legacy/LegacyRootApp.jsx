@@ -2425,8 +2425,14 @@ function renderQuestionTextForDisplay(text, isPremade) {
   if (useKatex) {
     return { __html: renderStemWithKatex(sanitizeUnicode(text)) };
   }
-  // Non-premade path: basic math formatting only (plain text fractions & exponents)
-  const html = renderStem(sanitizeUnicode(text));
+  // Non-premade path: wrap math expressions with ^ in LaTeX delimiters for KaTeX rendering
+  let processedText = sanitizeUnicode(text);
+  // Wrap expressions with carets (e.g., 3x^2 -> \(3x^2\)) for KaTeX
+  processedText = processedText.replace(
+    /([a-zA-Z0-9]+\^[a-zA-Z0-9]+)/g,
+    '\\($1\\)'
+  );
+  const html = renderStem(processedText);
   const finalHtml = formatMathText(html);
   return { __html: finalHtml };
 }
@@ -33262,6 +33268,7 @@ function QuizInterface({
   const [showMathFormulas, setShowMathFormulas] = useState(false);
   const [showScienceFormulas, setShowScienceFormulas] = useState(false);
   const [showArticle, setShowArticle] = useState(Boolean(article));
+  const [showCalculator, setShowCalculator] = useState(false);
   const toolPanelRef = useRef(null);
   const toolInstanceRef = useRef(null);
   const toolTypeRef = useRef(null); // 'graph' | 'geometry' | null
@@ -33470,7 +33477,7 @@ function QuizInterface({
     currentQ.answerOptions.length === 0;
 
   // TEMPORARY: disable interactive math tool mounting entirely
-  const TOOL_PANEL_ENABLED = false;
+  const TOOL_PANEL_ENABLED = true;
 
   // Precompute if the question would need a tool (ignored when flag is false)
   const hasGraphDataForRender = Boolean(
@@ -33800,21 +33807,41 @@ function QuizInterface({
                       View Science Formula Sheet
                     </button>
                   )}
+                  <button
+                    type="button"
+                    onClick={() => setShowCalculator(!showCalculator)}
+                    className="btn-secondary text-xs"
+                    style={{
+                      color: scheme.accentText,
+                      borderColor: scheme.accent,
+                    }}
+                  >
+                    🖩 Calculator
+                  </button>
                 </div>
               )}
             </div>
           </header>
         )}
 
+        {showCalculator && (
+          <div style={{ position: 'fixed', zIndex: 9999 }}>
+            {React.createElement(
+              require('../components/TI30XSCalculator.jsx').TI30XSCalculator,
+              { onClose: () => setShowCalculator(false) }
+            )}
+          </div>
+        )}
+
         {article && (
-          <section className="mb-6">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <div>
+          <div className="ged-split-view h-[calc(100vh-140px)] overflow-hidden mb-6">
+            <div className="passage-pane overflow-y-auto p-6 border-r border-subtle bg-white dark:bg-slate-900">
+              <div className="flex flex-col gap-2 mb-4">
                 <h3
                   className="text-lg font-semibold"
                   style={{ color: scheme.text }}
                 >
-                  Reading Passage
+                  📖 Reading Passage
                 </h3>
                 {article.genre && (
                   <p
@@ -33825,29 +33852,7 @@ function QuizInterface({
                   </p>
                 )}
               </div>
-              <button
-                type="button"
-                onClick={() => setShowArticle((prev) => !prev)}
-                className="inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold transition-colors"
-                style={{
-                  color: scheme.accentText,
-                  backgroundColor: scheme.accent,
-                  border: `1px solid ${scheme.accent}`,
-                }}
-              >
-                {showArticle ? 'Hide Passage' : 'Show Passage'}
-              </button>
-            </div>
-            {showArticle && (
-              <div
-                className="mt-3 space-y-3 rounded-xl p-4 text-sm leading-relaxed"
-                style={{
-                  backgroundColor: scheme.surfaceStrong,
-                  border: `1px solid ${scheme.surfaceBorder}`,
-                  maxHeight: '18rem',
-                  overflowY: 'auto',
-                }}
-              >
+              <div className="space-y-3 text-sm leading-relaxed">
                 {article.title && (
                   <h4
                     className="text-base font-bold"
@@ -33889,312 +33894,617 @@ function QuizInterface({
                   />
                 ))}
               </div>
-            )}
-          </section>
-        )}
+            </div>
+            <div className="question-pane overflow-y-auto p-6">
+              <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
+                {!isOlympicsMode &&
+                  questions.map((_, i) => {
+                    const isActive = i === currentIndex;
+                    const isAnswered = Boolean(answers[i]);
+                    const navStyle = isActive
+                      ? {
+                          backgroundColor: scheme.background,
+                          color: scheme.onBackgroundText,
+                        }
+                      : isAnswered
+                      ? {
+                          backgroundColor: scheme.navAnsweredBg,
+                          color: scheme.navAnsweredText,
+                        }
+                      : {
+                          backgroundColor: scheme.navDefaultBg,
+                          color: scheme.navDefaultText,
+                        };
+                    if (marked[i]) {
+                      navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
+                    }
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => setCurrentIndex(i)}
+                        className="h-8 w-8 rounded-full text-sm font-bold transition"
+                        style={navStyle}
+                      >
+                        {i + 1}
+                      </button>
+                    );
+                  })}
+              </div>
 
-        <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
-          {!isOlympicsMode &&
-            questions.map((_, i) => {
-              const isActive = i === currentIndex;
-              const isAnswered = Boolean(answers[i]);
-              const navStyle = isActive
-                ? {
-                    backgroundColor: scheme.background,
-                    color: scheme.onBackgroundText,
-                  }
-                : isAnswered
-                ? {
-                    backgroundColor: scheme.navAnsweredBg,
-                    color: scheme.navAnsweredText,
-                  }
-                : {
-                    backgroundColor: scheme.navDefaultBg,
-                    color: scheme.navDefaultText,
-                  };
-              if (marked[i]) {
-                navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
-              }
-              return (
-                <button
-                  key={i}
-                  onClick={() => setCurrentIndex(i)}
-                  className="h-8 w-8 rounded-full text-sm font-bold transition"
-                  style={navStyle}
-                >
-                  {i + 1}
-                </button>
-              );
-            })}
-        </div>
-
-        <div
-          className="question-container rounded-xl p-4 sm:p-6 shadow-inner"
-          data-subject={quizSubject}
-          style={{
-            border: `1px solid ${scheme.surfaceBorder}`,
-            backgroundColor: scheme.surfaceStrong || scheme.surface,
-          }}
-        >
-          <div className="mb-4">
-            <div className="flex items-start gap-3">
-              <span
-                className="text-xl font-semibold leading-relaxed"
-                style={{ color: scheme.text }}
+              <div
+                className="question-container rounded-xl p-4 sm:p-6 shadow-inner"
+                data-subject={quizSubject}
+                style={{
+                  border: `1px solid ${scheme.surfaceBorder}`,
+                  backgroundColor: scheme.surfaceStrong || scheme.surface,
+                }}
               >
-                {currentQ.questionNumber}.
-              </span>
-              <Stem item={currentQ} />
+                <div className="mb-4">
+                  <div className="flex items-start gap-3">
+                    <span
+                      className="text-xl font-semibold leading-relaxed"
+                      style={{ color: scheme.text }}
+                    >
+                      {currentQ.questionNumber}.
+                    </span>
+                    <Stem item={currentQ} />
+                  </div>
+                </div>
+                {(() => {
+                  const rawImgSrc =
+                    !currentQ.stimulusImage?.src && currentQ.imageUrl
+                      ? currentQ.imageUrl
+                      : null;
+                  const imgSrc = resolveAssetUrl(rawImgSrc);
+                  return imgSrc ? (
+                    <img
+                      src={imgSrc}
+                      alt={`Visual for question ${currentQ.questionNumber}`}
+                      className="my-4 h-auto max-w-full rounded-md"
+                      style={{ border: `1px solid ${scheme.surfaceBorder}` }}
+                    />
+                  ) : null;
+                })()}
+                {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
+                  <div
+                    className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100"
+                    style={{ border: `1px solid ${scheme.surfaceBorder}` }}
+                  >
+                    <GeometryFigure
+                      spec={currentQ.geometrySpec}
+                      className="w-full h-auto"
+                    />
+                  </div>
+                )}
+
+                {/* Interactive tool panel (conditionally rendered; disabled via flag) */}
+                {TOOL_PANEL_ENABLED && needsToolPanel && (
+                  <div
+                    id="interactive-tool-panel"
+                    ref={toolPanelRef}
+                    className="quiz-tool-panel my-4 rounded-lg"
+                    role="region"
+                    aria-label="Interactive math tool"
+                    style={{
+                      backgroundColor: scheme.surface,
+                      border: `1px dashed ${scheme.surfaceBorder}`,
+                      padding: '0.75rem',
+                    }}
+                  />
+                )}
+
+                {isFillInTheBlank ? (
+                  <div>
+                    <label
+                      htmlFor="fill-in-blank-answer"
+                      className="mb-1 block text-sm font-medium"
+                      style={{ color: scheme.mutedText }}
+                    >
+                      Enter your answer:
+                    </label>
+                    <input
+                      id="fill-in-blank-answer"
+                      type="text"
+                      value={answers[currentIndex] || ''}
+                      onChange={handleInputChange}
+                      placeholder="Type your answer here"
+                      disabled={isOlympicsMode && showingExplanation}
+                      className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
+                      style={{
+                        border: `1px solid ${scheme.inputBorder}`,
+                        color: 'var(--text-primary)',
+                        opacity: isOlympicsMode && showingExplanation ? 0.6 : 1,
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {(currentQ.answerOptions || []).map((opt, i) => {
+                      const cleanedOptionText = opt.text
+                        .trim()
+                        .replace(/^\$\$/, '$');
+                      const isSelected = answers[currentIndex] === opt.text;
+                      const optionStyles = {};
+                      if (isSelected) {
+                        optionStyles.backgroundColor = scheme.optionSelectedBg;
+                        optionStyles.borderColor = scheme.optionSelectedBorder;
+                        optionStyles.color = scheme.accentText;
+                      }
+                      const optionClassNames = [
+                        'option',
+                        'answer-option',
+                        'w-full',
+                        'text-left',
+                        'transition',
+                      ];
+                      if (isSelected) {
+                        optionClassNames.push('selected');
+                      }
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => handleSelect(opt.text)}
+                          disabled={isOlympicsMode && showingExplanation}
+                          className={optionClassNames.join(' ')}
+                          style={{
+                            ...optionStyles,
+                            opacity:
+                              isOlympicsMode && showingExplanation ? 0.6 : 1,
+                            cursor:
+                              isOlympicsMode && showingExplanation
+                                ? 'not-allowed'
+                                : 'pointer',
+                          }}
+                        >
+                          <span
+                            className="flex-grow text-left"
+                            style={{ color: 'var(--text-primary)' }}
+                          >
+                            <span className="mr-2 font-bold">
+                              {String.fromCharCode(65 + i)}.
+                            </span>
+                            <span
+                              className="question-stem"
+                              dangerouslySetInnerHTML={renderQuestionTextForDisplay(
+                                cleanedOptionText,
+                                currentQ.isPremade === true
+                              )}
+                            />
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                {isOlympicsMode ? (
+                  <>
+                    {/* Olympics mode controls */}
+                    <button
+                      onClick={handleSubmit}
+                      className="rounded-md px-4 py-2 font-semibold transition bg-amber-100 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-amber-900/50"
+                    >
+                      End Olympics Session
+                    </button>
+                    <div className="flex-1"></div>
+                    {showingExplanation ? (
+                      <button
+                        onClick={handleOlympicsQuestionSubmit}
+                        className="rounded-md px-6 py-2 font-semibold"
+                        data-role="primary"
+                        style={{
+                          backgroundColor: scheme.accent,
+                          color: scheme.accentText,
+                          borderColor: scheme.accent,
+                        }}
+                      >
+                        {currentIndex === questions.length - 1 ||
+                        livesRemaining === 0
+                          ? 'View Summary'
+                          : 'Next Question'}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleOlympicsQuestionSubmit}
+                        disabled={!answers[currentIndex]}
+                        className="rounded-md px-6 py-2 font-semibold transition"
+                        data-role="primary"
+                        style={{
+                          backgroundColor: answers[currentIndex]
+                            ? scheme.accent
+                            : '#9ca3af',
+                          color: scheme.accentText,
+                          borderColor: answers[currentIndex]
+                            ? scheme.accent
+                            : '#9ca3af',
+                          opacity: answers[currentIndex] ? 1 : 0.6,
+                          cursor: answers[currentIndex]
+                            ? 'pointer'
+                            : 'not-allowed',
+                        }}
+                      >
+                        Submit Answer
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {/* Standard mode controls */}
+                    <button
+                      onClick={() => setCurrentIndex((p) => Math.max(0, p - 1))}
+                      disabled={currentIndex === 0}
+                      className="rounded-md px-4 py-2 font-semibold transition"
+                      data-role="secondary"
+                      style={{
+                        borderColor: scheme.surfaceBorder,
+                        color: scheme.mutedText,
+                        opacity: currentIndex === 0 ? 0.6 : 1,
+                      }}
+                    >
+                      Previous
+                    </button>
+                    <button
+                      onClick={() =>
+                        setMarked((m) => {
+                          const newM = [...m];
+                          newM[currentIndex] = !newM[currentIndex];
+                          return newM;
+                        })
+                      }
+                      className="rounded-md px-4 py-2 font-semibold transition"
+                      style={
+                        marked[currentIndex]
+                          ? {
+                              backgroundColor: scheme.navMarkedRing,
+                              color: scheme.onBackgroundText,
+                              border: `1px solid ${scheme.navMarkedRing}`,
+                            }
+                          : {
+                              backgroundColor: scheme.navDefaultBg,
+                              color: scheme.navDefaultText,
+                              border: `1px solid ${scheme.navDefaultBg}`,
+                            }
+                      }
+                    >
+                      {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
+                    </button>
+                    {currentIndex === questions.length - 1 ? (
+                      <button
+                        onClick={handleSubmit}
+                        className="rounded-md px-4 py-2 font-semibold"
+                        data-role="primary"
+                        style={{
+                          backgroundColor: scheme.accent,
+                          color: scheme.accentText,
+                          borderColor: scheme.accent,
+                        }}
+                      >
+                        {buttonText || 'Finish'}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() =>
+                          setCurrentIndex((p) =>
+                            Math.min(questions.length - 1, p + 1)
+                          )
+                        }
+                        className="rounded-md px-4 py-2 font-semibold"
+                        data-role="primary"
+                        style={{
+                          backgroundColor: scheme.accent,
+                          color: scheme.accentText,
+                          borderColor: scheme.accent,
+                        }}
+                      >
+                        Next
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
-          {(() => {
-            const rawImgSrc =
-              !currentQ.stimulusImage?.src && currentQ.imageUrl
-                ? currentQ.imageUrl
-                : null;
-            const imgSrc = resolveAssetUrl(rawImgSrc);
-            return imgSrc ? (
-              <img
-                src={imgSrc}
-                alt={`Visual for question ${currentQ.questionNumber}`}
-                className="my-4 h-auto max-w-full rounded-md"
-                style={{ border: `1px solid ${scheme.surfaceBorder}` }}
-              />
-            ) : null;
-          })()}
-          {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
-            <div
-              className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100"
-              style={{ border: `1px solid ${scheme.surfaceBorder}` }}
-            >
-              <GeometryFigure
-                spec={currentQ.geometrySpec}
-                className="w-full h-auto"
-              />
-            </div>
-          )}
+        )}
 
-          {/* Interactive tool panel (conditionally rendered; disabled via flag) */}
-          {TOOL_PANEL_ENABLED && needsToolPanel && (
-            <div
-              id="interactive-tool-panel"
-              ref={toolPanelRef}
-              className="quiz-tool-panel my-4 rounded-lg"
-              role="region"
-              aria-label="Interactive math tool"
-              style={{
-                backgroundColor: scheme.surface,
-                border: `1px dashed ${scheme.surfaceBorder}`,
-                padding: '0.75rem',
-              }}
-            />
-          )}
-
-          {isFillInTheBlank ? (
-            <div>
-              <label
-                htmlFor="fill-in-blank-answer"
-                className="mb-1 block text-sm font-medium"
-                style={{ color: scheme.mutedText }}
-              >
-                Enter your answer:
-              </label>
-              <input
-                id="fill-in-blank-answer"
-                type="text"
-                value={answers[currentIndex] || ''}
-                onChange={handleInputChange}
-                placeholder="Type your answer here"
-                disabled={isOlympicsMode && showingExplanation}
-                className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
-                style={{
-                  border: `1px solid ${scheme.inputBorder}`,
-                  color: 'var(--text-primary)',
-                  opacity: isOlympicsMode && showingExplanation ? 0.6 : 1,
-                }}
-              />
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {(currentQ.answerOptions || []).map((opt, i) => {
-                const cleanedOptionText = opt.text.trim().replace(/^\$\$/, '$');
-                const isSelected = answers[currentIndex] === opt.text;
-                const optionStyles = {};
-                if (isSelected) {
-                  optionStyles.backgroundColor = scheme.optionSelectedBg;
-                  optionStyles.borderColor = scheme.optionSelectedBorder;
-                  optionStyles.color = scheme.accentText;
-                }
-                const optionClassNames = [
-                  'option',
-                  'answer-option',
-                  'w-full',
-                  'text-left',
-                  'transition',
-                ];
-                if (isSelected) {
-                  optionClassNames.push('selected');
-                }
-                return (
-                  <button
-                    key={i}
-                    onClick={() => handleSelect(opt.text)}
-                    disabled={isOlympicsMode && showingExplanation}
-                    className={optionClassNames.join(' ')}
-                    style={{
-                      ...optionStyles,
-                      opacity: isOlympicsMode && showingExplanation ? 0.6 : 1,
-                      cursor:
-                        isOlympicsMode && showingExplanation
-                          ? 'not-allowed'
-                          : 'pointer',
-                    }}
-                  >
-                    <span
-                      className="flex-grow text-left"
-                      style={{ color: 'var(--text-primary)' }}
-                    >
-                      <span className="mr-2 font-bold">
-                        {String.fromCharCode(65 + i)}.
-                      </span>
-                      <span
-                        className="question-stem"
-                        dangerouslySetInnerHTML={renderQuestionTextForDisplay(
-                          cleanedOptionText,
-                          currentQ.isPremade === true
-                        )}
-                      />
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          {isOlympicsMode ? (
-            <>
-              {/* Olympics mode controls */}
-              <button
-                onClick={handleSubmit}
-                className="rounded-md px-4 py-2 font-semibold transition bg-amber-100 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-amber-900/50"
-              >
-                End Olympics Session
-              </button>
-              <div className="flex-1"></div>
-              {showingExplanation ? (
-                <button
-                  onClick={handleOlympicsQuestionSubmit}
-                  className="rounded-md px-6 py-2 font-semibold"
-                  data-role="primary"
-                  style={{
-                    backgroundColor: scheme.accent,
-                    color: scheme.accentText,
-                    borderColor: scheme.accent,
-                  }}
-                >
-                  {currentIndex === questions.length - 1 || livesRemaining === 0
-                    ? 'View Summary'
-                    : 'Next Question'}
-                </button>
-              ) : (
-                <button
-                  onClick={handleOlympicsQuestionSubmit}
-                  disabled={!answers[currentIndex]}
-                  className="rounded-md px-6 py-2 font-semibold transition"
-                  data-role="primary"
-                  style={{
-                    backgroundColor: answers[currentIndex]
-                      ? scheme.accent
-                      : '#9ca3af',
-                    color: scheme.accentText,
-                    borderColor: answers[currentIndex]
-                      ? scheme.accent
-                      : '#9ca3af',
-                    opacity: answers[currentIndex] ? 1 : 0.6,
-                    cursor: answers[currentIndex] ? 'pointer' : 'not-allowed',
-                  }}
-                >
-                  Submit Answer
-                </button>
-              )}
-            </>
-          ) : (
-            <>
-              {/* Standard mode controls */}
-              <button
-                onClick={() => setCurrentIndex((p) => Math.max(0, p - 1))}
-                disabled={currentIndex === 0}
-                className="rounded-md px-4 py-2 font-semibold transition"
-                data-role="secondary"
-                style={{
-                  borderColor: scheme.surfaceBorder,
-                  color: scheme.mutedText,
-                  opacity: currentIndex === 0 ? 0.6 : 1,
-                }}
-              >
-                Previous
-              </button>
-              <button
-                onClick={() =>
-                  setMarked((m) => {
-                    const newM = [...m];
-                    newM[currentIndex] = !newM[currentIndex];
-                    return newM;
-                  })
-                }
-                className="rounded-md px-4 py-2 font-semibold transition"
-                style={
-                  marked[currentIndex]
+        {!article && (
+          <div>
+            <div className="mb-4 flex flex-wrap gap-2 quiz-nav">
+              {!isOlympicsMode &&
+                questions.map((_, i) => {
+                  const isActive = i === currentIndex;
+                  const isAnswered = Boolean(answers[i]);
+                  const navStyle = isActive
                     ? {
-                        backgroundColor: scheme.navMarkedRing,
+                        backgroundColor: scheme.background,
                         color: scheme.onBackgroundText,
-                        border: `1px solid ${scheme.navMarkedRing}`,
+                      }
+                    : isAnswered
+                    ? {
+                        backgroundColor: scheme.navAnsweredBg,
+                        color: scheme.navAnsweredText,
                       }
                     : {
                         backgroundColor: scheme.navDefaultBg,
                         color: scheme.navDefaultText,
-                        border: `1px solid ${scheme.navDefaultBg}`,
-                      }
-                }
-              >
-                {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
-              </button>
-              {currentIndex === questions.length - 1 ? (
-                <button
-                  onClick={handleSubmit}
-                  className="rounded-md px-4 py-2 font-semibold"
-                  data-role="primary"
-                  style={{
-                    backgroundColor: scheme.accent,
-                    color: scheme.accentText,
-                    borderColor: scheme.accent,
-                  }}
-                >
-                  {buttonText || 'Finish'}
-                </button>
-              ) : (
-                <button
-                  onClick={() =>
-                    setCurrentIndex((p) =>
-                      Math.min(questions.length - 1, p + 1)
-                    )
+                      };
+                  if (marked[i]) {
+                    navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
                   }
-                  className="rounded-md px-4 py-2 font-semibold"
-                  data-role="primary"
-                  style={{
-                    backgroundColor: scheme.accent,
-                    color: scheme.accentText,
-                    borderColor: scheme.accent,
-                  }}
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentIndex(i)}
+                      className="h-8 w-8 rounded-full text-sm font-bold transition"
+                      style={navStyle}
+                    >
+                      {i + 1}
+                    </button>
+                  );
+                })}
+            </div>
+
+            <div
+              className="question-container rounded-xl p-4 sm:p-6 shadow-inner"
+              data-subject={quizSubject}
+              style={{
+                border: `1px solid ${scheme.surfaceBorder}`,
+                backgroundColor: scheme.surfaceStrong || scheme.surface,
+              }}
+            >
+              <div className="mb-4">
+                <div className="flex items-start gap-3">
+                  <span
+                    className="text-xl font-semibold leading-relaxed"
+                    style={{ color: scheme.text }}
+                  >
+                    {currentQ.questionNumber}.
+                  </span>
+                  <Stem item={currentQ} />
+                </div>
+              </div>
+              {(() => {
+                const rawImgSrc =
+                  !currentQ.stimulusImage?.src && currentQ.imageUrl
+                    ? currentQ.imageUrl
+                    : null;
+                const imgSrc = resolveAssetUrl(rawImgSrc);
+                return imgSrc ? (
+                  <img
+                    src={imgSrc}
+                    alt={`Visual for question ${currentQ.questionNumber}`}
+                    className="my-4 h-auto max-w-full rounded-md"
+                    style={{ border: `1px solid ${scheme.surfaceBorder}` }}
+                  />
+                ) : null;
+              })()}
+              {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
+                <div
+                  className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100"
+                  style={{ border: `1px solid ${scheme.surfaceBorder}` }}
                 >
-                  Next
-                </button>
+                  <GeometryFigure
+                    spec={currentQ.geometrySpec}
+                    className="w-full h-auto"
+                  />
+                </div>
               )}
-            </>
-          )}
-        </div>
+
+              {/* Interactive tool panel (conditionally rendered; disabled via flag) */}
+              {TOOL_PANEL_ENABLED && needsToolPanel && (
+                <div
+                  id="interactive-tool-panel"
+                  ref={toolPanelRef}
+                  className="quiz-tool-panel my-4 rounded-lg"
+                  role="region"
+                  aria-label="Interactive math tool"
+                  style={{
+                    backgroundColor: scheme.surface,
+                    border: `1px dashed ${scheme.surfaceBorder}`,
+                    padding: '0.75rem',
+                  }}
+                />
+              )}
+
+              {isFillInTheBlank ? (
+                <div>
+                  <label
+                    htmlFor="fill-in-blank-answer"
+                    className="mb-1 block text-sm font-medium"
+                    style={{ color: scheme.mutedText }}
+                  >
+                    Enter your answer:
+                  </label>
+                  <input
+                    id="fill-in-blank-answer"
+                    type="text"
+                    value={answers[currentIndex] || ''}
+                    onChange={handleInputChange}
+                    placeholder="Type your answer here"
+                    disabled={isOlympicsMode && showingExplanation}
+                    className="w-full max-w-sm rounded-lg p-3 focus:outline-none"
+                    style={{
+                      border: `1px solid ${scheme.inputBorder}`,
+                      color: 'var(--text-primary)',
+                      opacity: isOlympicsMode && showingExplanation ? 0.6 : 1,
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {(currentQ.answerOptions || []).map((opt, i) => {
+                    const cleanedOptionText = stripHtmlTag(opt.text || '');
+                    const isSelected = answers[currentIndex] === i;
+                    const optionStyle = isSelected
+                      ? {
+                          backgroundColor: scheme.optionSelectedBg,
+                          border: `2px solid ${scheme.optionSelectedBorder}`,
+                          color: scheme.optionSelectedText,
+                        }
+                      : {
+                          backgroundColor: scheme.optionDefaultBg,
+                          border: `1px solid ${scheme.optionDefaultBorder}`,
+                          color: scheme.optionDefaultText,
+                        };
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => handleOptionChange(i)}
+                        disabled={isOlympicsMode && showingExplanation}
+                        className="flex w-full items-center gap-2 rounded-lg p-3 text-left transition"
+                        style={{
+                          ...optionStyle,
+                          cursor:
+                            isOlympicsMode && showingExplanation
+                              ? 'not-allowed'
+                              : 'pointer',
+                        }}
+                      >
+                        <span
+                          className="flex-grow text-left"
+                          style={{ color: 'var(--text-primary)' }}
+                        >
+                          <span className="mr-2 font-bold">
+                            {String.fromCharCode(65 + i)}.
+                          </span>
+                          <span
+                            className="question-stem"
+                            dangerouslySetInnerHTML={renderQuestionTextForDisplay(
+                              cleanedOptionText,
+                              currentQ.isPremade === true
+                            )}
+                          />
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              {isOlympicsMode ? (
+                <>
+                  {/* Olympics mode controls */}
+                  <button
+                    onClick={handleSubmit}
+                    className="rounded-md px-4 py-2 font-semibold transition bg-amber-100 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-amber-900/50"
+                  >
+                    End Olympics Session
+                  </button>
+                  <div className="flex-1"></div>
+                  {showingExplanation ? (
+                    <button
+                      onClick={handleOlympicsQuestionSubmit}
+                      className="rounded-md px-6 py-2 font-semibold"
+                      data-role="primary"
+                      style={{
+                        backgroundColor: scheme.accent,
+                        color: scheme.accentText,
+                        borderColor: scheme.accent,
+                      }}
+                    >
+                      {currentIndex === questions.length - 1 ||
+                      livesRemaining === 0
+                        ? 'View Summary'
+                        : 'Next Question'}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleOlympicsQuestionSubmit}
+                      disabled={!answers[currentIndex] && !hasNoOptions}
+                      className="rounded-md px-6 py-2 font-semibold"
+                      data-role="primary"
+                      style={{
+                        backgroundColor: scheme.accent,
+                        color: scheme.accentText,
+                        borderColor: scheme.accent,
+                        opacity:
+                          !answers[currentIndex] && !hasNoOptions ? 0.6 : 1,
+                      }}
+                    >
+                      Submit Answer
+                    </button>
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* Standard mode controls */}
+                  <button
+                    onClick={() => setCurrentIndex((p) => Math.max(0, p - 1))}
+                    disabled={currentIndex === 0}
+                    className="rounded-md px-4 py-2 font-semibold transition"
+                    data-role="secondary"
+                    style={{
+                      borderColor: scheme.surfaceBorder,
+                      color: scheme.mutedText,
+                      opacity: currentIndex === 0 ? 0.6 : 1,
+                    }}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    onClick={() =>
+                      setMarked((m) => {
+                        const newM = [...m];
+                        newM[currentIndex] = !newM[currentIndex];
+                        return newM;
+                      })
+                    }
+                    className="rounded-md px-4 py-2 font-semibold transition"
+                    style={
+                      marked[currentIndex]
+                        ? {
+                            backgroundColor: scheme.navMarkedRing,
+                            color: scheme.onBackgroundText,
+                            border: `1px solid ${scheme.navMarkedRing}`,
+                          }
+                        : {
+                            backgroundColor: scheme.navDefaultBg,
+                            color: scheme.navDefaultText,
+                            border: `1px solid ${scheme.navDefaultBg}`,
+                          }
+                    }
+                  >
+                    {marked[currentIndex] ? 'Unmark' : 'Mark'} for Review
+                  </button>
+                  {currentIndex === questions.length - 1 ? (
+                    <button
+                      onClick={handleSubmit}
+                      className="rounded-md px-4 py-2 font-semibold"
+                      data-role="primary"
+                      style={{
+                        backgroundColor: scheme.accent,
+                        color: scheme.accentText,
+                        borderColor: scheme.accent,
+                      }}
+                    >
+                      {buttonText || 'Finish'}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        setCurrentIndex((p) =>
+                          Math.min(questions.length - 1, p + 1)
+                        )
+                      }
+                      className="rounded-md px-4 py-2 font-semibold"
+                      data-role="primary"
+                      style={{
+                        backgroundColor: scheme.accent,
+                        color: scheme.accentText,
+                        borderColor: scheme.accent,
+                      }}
+                    >
+                      Next
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

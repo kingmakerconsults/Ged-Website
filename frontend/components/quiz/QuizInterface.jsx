@@ -292,7 +292,7 @@ export function QuizInterface({
                 className="flex items-center gap-1 text-sm font-semibold hover:underline"
                 style={{ color: scheme.mutedText }}
               >
-                <ArrowLeftIcon /> Back
+                <ArrowLeftIcon /> ← Back
               </button>
             )}
             <h2
@@ -339,10 +339,11 @@ export function QuizInterface({
                         }
                   }
                 >
-                  {isPaused ? 'Resume Timer' : 'Pause Timer'}
+                  {isPaused ? '▶️ Resume Timer' : '⏸️ Pause Timer'}
                 </button>
                 <span className="text-xs" style={{ color: scheme.mutedText }}>
-                  {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'} left
+                  ⏯️ {pausesRemaining} pause{pausesRemaining === 1 ? '' : 's'}{' '}
+                  left
                 </span>
               </div>
               {formulaSheetEnabled && (
@@ -358,7 +359,7 @@ export function QuizInterface({
                         borderColor: scheme.accent,
                       }}
                     >
-                      View Formula Sheet
+                      📐 Formula Sheet
                     </button>
                   )}
                   {canShowScienceFormulas && (
@@ -372,7 +373,7 @@ export function QuizInterface({
                         borderColor: 'var(--danger-border)',
                       }}
                     >
-                      View Science Formula Sheet
+                      🧪 Science Formulas
                     </button>
                   )}
                   {quizConfig?.calculator && (
@@ -386,7 +387,7 @@ export function QuizInterface({
                         borderColor: scheme.accent,
                       }}
                     >
-                      Calculator
+                      🧮 Calculator
                     </button>
                   )}
                   <button
@@ -405,7 +406,7 @@ export function QuizInterface({
                       zenMode ? 'Exit Zen Mode' : 'Zen Mode: Hide distractions'
                     }
                   >
-                    ⦿ {zenMode ? 'Exit Zen' : 'Zen'}
+                    {zenMode ? '👁️ Exit Zen' : '🧘 Zen Mode'}
                   </button>
                 </div>
               )}
