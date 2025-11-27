@@ -1,6 +1,5 @@
 import React from 'react';
 import { formatFractions } from '../../utils/textUtils.js';
-import { renderStem } from '../../utils/mathUtils.js';
 
 // Local safeHtml wrapper to preserve original behavior
 const safeHtml = (html) => ({ __html: typeof html === 'string' ? html : '' });
@@ -10,27 +9,55 @@ export function MathText({ text, className, subject }) {
     return <span className={className}></span>;
   }
 
-  let renderedHtml;
+  // 1. Sanitize currency to prevent KaTeX conflicts
+  // Replace $50.00 with <span class="currency">$50.00</span>
+  let processedText = text.replace(
+    /(\$[\d,]+(\.\d{2})?)/g,
+    '<span class="currency">$1</span>'
+  );
 
-  if (subject === 'Math') {
-    renderedHtml = renderStem(text);
-  } else {
-    const san =
-      typeof window !== 'undefined' &&
-      window.DOMPurify &&
-      window.DOMPurify.sanitize
-        ? window.DOMPurify.sanitize
-        : (v) => v;
-    renderedHtml = san(text);
-  }
+  // 2. Split by LaTeX delimiters \( ... \)
+  const parts = processedText.split(/\\\(|\\\)/);
 
-  const formattedHtml = formatFractions(renderedHtml);
+  const renderedParts = parts.map((part, index) => {
+    // Odd indices are math (content between \( and \))
+    if (index % 2 === 1) {
+      try {
+        if (window.katex) {
+          return window.katex.renderToString(part, {
+            throwOnError: false,
+            displayMode: false,
+          });
+        } else {
+          return `<span class="math-fallback">${part}</span>`;
+        }
+      } catch (e) {
+        console.error('KaTeX error:', e);
+        return part;
+      }
+    } else {
+      // Text part
+      let html = part;
+
+      // Use DOMPurify if available
+      const san =
+        typeof window !== 'undefined' &&
+        window.DOMPurify &&
+        window.DOMPurify.sanitize
+          ? window.DOMPurify.sanitize
+          : (v) => v;
+
+      html = san(html);
+
+      // Apply fraction formatting (e.g. 1/2 -> ½) if it's not LaTeX
+      return formatFractions(html);
+    }
+  });
+
+  const finalHtml = renderedParts.join('');
 
   return (
-    <span
-      className={className}
-      dangerouslySetInnerHTML={safeHtml(formattedHtml)}
-    />
+    <span className={className} dangerouslySetInnerHTML={safeHtml(finalHtml)} />
   );
 }
 

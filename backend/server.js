@@ -36,6 +36,22 @@ const {
   getRandomScienceNumeracyItem,
   getRandomScienceShortResponse,
 } = require('./data/scienceTemplates');
+const { ALL_QUIZZES } = require('./data/quizzes/index.js');
+
+// MATH FORMATTING SYSTEM (PREMIUM UPGRADE)
+// Enforces strict LaTeX delimiters for consistent frontend rendering
+const MATH_FORMATTING_SYSTEM = `
+MATH FORMATTING RULES (STRICT):
+1. Wrap ALL math expressions, variables, and equations in LaTeX delimiters: \\( ... \\)
+   - Example: "Solve for \\(x\\) in the equation \\(2x + 5 = 15\\)."
+   - Example: "The area is \\(A = \\pi r^2\\)."
+2. Use \\frac{a}{b} for fractions.
+   - Example: "What is \\(\\frac{3}{4}\\) of 20?"
+3. Do NOT use LaTeX for currency. Use standard text.
+   - Correct: "$50.00"
+   - Incorrect: "\\($50.00\\)"
+4. Do NOT use code blocks for math.
+`;
 
 // Shared prompt add-on to enforce strict table output that our frontend/backends can render reliably
 const TABLE_INTEGRITY_RULES = `
@@ -3498,7 +3514,8 @@ function normalizeAnswerOptions(item) {
 }
 
 async function generateExam(subject, promptBuilder, counts, options = {}) {
-  const prompt = promptBuilder(counts, options);
+  const prompt =
+    MATH_FORMATTING_SYSTEM + '\n\n' + promptBuilder(counts, options);
 
   const { items: generatedItems } = await generateQuizItemsWithFallback(
     subject,
@@ -5353,6 +5370,52 @@ async function upsertChallengeStat(userId, challengeTag, gotCorrect, source) {
   );
 }
 
+// PREMIUM FEATURE: Confidence-based stat tracking
+async function upsertChallengeStatWithConfidence(
+  userId,
+  challengeTag,
+  gotCorrect,
+  source,
+  isLuckyGuess,
+  isMisconception
+) {
+  if (!userId || !challengeTag) return;
+  const now = new Date();
+  const incCorrect = gotCorrect ? 1 : 0;
+  const incWrong = gotCorrect ? 0 : 1;
+  const lastWrong = gotCorrect ? null : now;
+  const incLucky = isLuckyGuess ? 1 : 0;
+  const incMisconception = isMisconception ? 1 : 0;
+
+  await pool.query(
+    `
+        INSERT INTO user_challenge_stats
+          (user_id, challenge_tag, correct_count, wrong_count, lucky_guesses, misconceptions, last_seen, last_wrong_at, source)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, COALESCE($9, 'quiz'))
+        ON CONFLICT (user_id, challenge_tag)
+        DO UPDATE SET
+          correct_count = user_challenge_stats.correct_count + EXCLUDED.correct_count,
+          wrong_count = user_challenge_stats.wrong_count + EXCLUDED.wrong_count,
+          lucky_guesses = COALESCE(user_challenge_stats.lucky_guesses, 0) + EXCLUDED.lucky_guesses,
+          misconceptions = COALESCE(user_challenge_stats.misconceptions, 0) + EXCLUDED.misconceptions,
+          last_seen = EXCLUDED.last_seen,
+          last_wrong_at = CASE WHEN EXCLUDED.last_wrong_at IS NOT NULL THEN EXCLUDED.last_wrong_at ELSE user_challenge_stats.last_wrong_at END,
+          source = COALESCE(user_challenge_stats.source, EXCLUDED.source);
+    `,
+    [
+      userId,
+      challengeTag,
+      incCorrect,
+      incWrong,
+      incLucky,
+      incMisconception,
+      now,
+      lastWrong,
+      source || null,
+    ]
+  );
+}
+
 async function userHasActiveChallenge(userId, challengeTag) {
   const { selectionTable } = await getChallengeTables();
   try {
@@ -6045,6 +6108,34 @@ function pickCoachQuizSourceId(subject, dayIndex = 0) {
   return list[idx];
 }
 
+async function getAdaptiveQuizForUser(userId, subject) {
+  try {
+    // 1. Get user's active challenge tags
+    const challengeRes = await pool.query(
+      `SELECT challenge_tag as tag FROM essay_challenge_log WHERE user_id = $1
+       UNION
+       SELECT challenge_type as tag FROM challenges WHERE user_id = $1 AND status = 'active'`,
+      [userId]
+    );
+    const userTags = challengeRes.rows.map((r) => r.tag).filter(Boolean);
+
+    if (userTags.length === 0) return null;
+
+    // 2. Get all available quizzes for subject
+    const allQuizzes = loadPremadeQuizzesForSubjectSync(subject);
+    if (allQuizzes.length === 0) return null;
+
+    // 3. Prioritize
+    const prioritized = prioritizeQuizzesByChallenges(allQuizzes, userTags);
+
+    // 4. Return top pick if available
+    return prioritized.length > 0 ? prioritized[0].id : null;
+  } catch (err) {
+    console.error('Error in getAdaptiveQuizForUser:', err);
+    return null;
+  }
+}
+
 async function findOrCreateDailyRow(userId, subject, planDateISO) {
   // Try existing row
   const sel = await pool.query(
@@ -6097,7 +6188,15 @@ async function findOrCreateDailyRow(userId, subject, planDateISO) {
   }
 
   const expected = 20;
-  const coachQuizSource = planSource || pickCoachQuizSourceId(subject, dayIdx);
+
+  // Try to find an adaptive quiz based on user's challenges if no specific plan source
+  let adaptiveSource = null;
+  if (!planSource) {
+    adaptiveSource = await getAdaptiveQuizForUser(userId, subject);
+  }
+
+  const coachQuizSource =
+    planSource || adaptiveSource || pickCoachQuizSourceId(subject, dayIdx);
   const coachQuizId = coachQuizSource
     ? `${COACH_ASSIGNED_BY}:${subject}:${planDateISO}`
     : null;
@@ -8701,15 +8800,18 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         subject,
         topic
       );
-      const prompt = buildSubjectPrompt({
-        subject,
-        topic,
-        examType: 'topic',
-        context: ctx,
-        images: imgs,
-        questionCount: QUIZ_COUNT,
-        approvedPassagesSection: approvedSection,
-      });
+      const prompt =
+        MATH_FORMATTING_SYSTEM +
+        '\n\n' +
+        buildSubjectPrompt({
+          subject,
+          topic,
+          examType: 'topic',
+          context: ctx,
+          images: imgs,
+          questionCount: QUIZ_COUNT,
+          approvedPassagesSection: approvedSection,
+        });
 
       const result = await generateQuizItemsWithFallback(
         subject,
@@ -10494,11 +10596,12 @@ REQUIREMENTS:
    - "title": A clear, descriptive title
    - "author": A plausible human name
    - "content": The passage text with clear claims and 2-3 pieces of specific evidence
-4. The passages should be balanced in strength - neither should be obviously weaker.
+4. The passages should be balanced but one must be INHERENTLY STRONGER in its use of evidence and logical reasoning.
 5. Each passage should contain:
    - A clear position statement
    - 2-3 pieces of specific evidence (statistics, examples, expert opinions, etc.)
    - Logical reasoning connecting evidence to the position
+6. Include a "strengths_and_weaknesses" field for each passage, listing 2-3 bullet points about the quality of its argument.
 
 The essay prompt must ask students to:
 - Analyze both passages
@@ -10506,7 +10609,7 @@ The essay prompt must ask students to:
 - Use specific evidence from BOTH sources to support their response
 
 Output a JSON object with:
-- "passages": array of two objects, each with "title", "author", and "content"
+- "passages": array of two objects, each with "title", "author", "content", and "strengths_and_weaknesses" (array of strings)
 - "prompt": the essay question (should be similar to: "Analyze both passages. Determine which position is best supported by evidence. Use specific evidence from both sources to support your response.")`;
   const schema = {
     type: 'OBJECT',
@@ -10519,6 +10622,10 @@ Output a JSON object with:
             title: { type: 'STRING' },
             author: { type: 'STRING' },
             content: { type: 'STRING' },
+            strengths_and_weaknesses: {
+              type: 'ARRAY',
+              items: { type: 'STRING' },
+            },
           },
         },
       },
@@ -12035,6 +12142,92 @@ PASSAGE:\n${picked.text}\n`;
   }
 });
 
+// --- DIAGNOSTIC TEST ENDPOINT (PREMIUM UPGRADE) ---
+app.post('/api/diagnostic-test', authenticateBearerToken, async (req, res) => {
+  try {
+    console.log('[Diagnostic] Generating full diagnostic test...');
+    const subjects = ['Math', 'Science', 'Social Studies', 'Language Arts'];
+    const diagnosticQuestions = [];
+
+    // Helper to shuffle array
+    const shuffle = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    };
+
+    for (const subject of subjects) {
+      // Filter quizzes by subject (handle naming variations if any)
+      // In ALL_QUIZZES, subjects are usually 'Math', 'Science', 'Social Studies', 'Language Arts' or 'RLA'
+      const subjectQuizzes = ALL_QUIZZES.filter((q) => {
+        if (subject === 'Language Arts')
+          return q.subject === 'Language Arts' || q.subject === 'RLA';
+        return q.subject === subject;
+      });
+
+      // Collect all questions
+      let allQuestions = [];
+      subjectQuizzes.forEach((q) => {
+        if (q.questions && Array.isArray(q.questions)) {
+          // Add source quiz ID for tracking
+          const questionsWithMeta = q.questions.map((item) => ({
+            ...item,
+            originalSubject: subject,
+            originQuizId: q.id,
+          }));
+          allQuestions = allQuestions.concat(questionsWithMeta);
+        }
+      });
+
+      if (allQuestions.length === 0) {
+        console.warn(`[Diagnostic] No questions found for subject: ${subject}`);
+        continue;
+      }
+
+      // Shuffle and pick 10
+      const shuffled = shuffle(allQuestions);
+      const selected = shuffled.slice(0, 10);
+
+      console.log(
+        `[Diagnostic] Selected ${selected.length} questions for ${subject}`
+      );
+      diagnosticQuestions.push(...selected);
+    }
+
+    // Final shuffle of all questions so subjects are mixed?
+    // Or keep them grouped? GED usually groups them.
+    // Let's keep them grouped by subject for now, or maybe mix them?
+    // User said "assesses all 4 subjects in a shortened format".
+    // Usually diagnostics are sectioned. But for a single quiz runner, maybe mixed is okay?
+    // Let's keep them in order: Math -> Science -> Social Studies -> RLA
+    // But the user might want to stop in between.
+    // For now, return them as a single list.
+
+    const diagnosticQuiz = {
+      id: `diagnostic_${new Date().getTime()}`,
+      title: 'Full GED Diagnostic Test',
+      subject: 'Mixed',
+      description:
+        'A comprehensive assessment covering Math, Science, Social Studies, and RLA to determine your baseline readiness.',
+      questions: diagnosticQuestions,
+      isDiagnostic: true,
+      quizType: 'diagnostic',
+      timeLimit: 90 * 60, // 90 minutes for 40 questions (generous)
+      config: {
+        formulaSheet: true, // Enable formula sheet globally (will default to Math/Science logic in frontend if smart)
+        calculator: true,
+      },
+    };
+
+    res.json(diagnosticQuiz);
+  } catch (error) {
+    console.error('Error generating diagnostic test:', error);
+    res.status(500).json({ error: 'Failed to generate diagnostic test' });
+  }
+});
+
 app.post('/score-essay', async (req, res) => {
   const { essayText, completion } = req.body; // Get completion data
   if (!essayText) {
@@ -12140,8 +12333,12 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
     `For each trait, provide a "score" from 0 to 2 and "feedback" explaining the score. The "overallScore" is the sum of the trait scores (0..6). ` +
     `"overallFeedback" should be a short summary. ` +
     `After scoring the essay, also output a field \"challenge_tags\" which is an array of zero or more of the following strings: ` +
-    `\"writing:thesis\", \"writing:evidence\", \"writing:organization\", \"writing:grammar-mechanics\", \"writing:addressing-prompt\". ` +
-    `Only include a tag if the essay showed that specific weakness. Return JSON.`;
+    `\"writing:thesis\", \"writing:evidence\", \"writing:organization\", \"writing:grammar-mechanics\", \"writing:addressing-prompt\", \"writing:analysis\", \"writing:clarity\", \"writing:vocabulary\". ` +
+    `Only include a tag if the essay showed that specific weakness. ` +
+    `CRITICAL GRADING RULE: If the student gives their own opinion instead of analyzing how the author supported their argument, the score MUST be under 2. ` +
+    `Check specifically for phrases like "The author states..." or "The evidence suggests..." ` +
+    `Finally, include a "model_response" field with a brief (300 word) example of a perfect 6/6 essay for this specific prompt. ` +
+    `Return JSON.`;
 
   const schema = {
     type: 'OBJECT',
@@ -12160,9 +12357,17 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
       },
       overallScore: { type: 'NUMBER' },
       overallFeedback: { type: 'STRING' },
+      model_response: { type: 'STRING' },
       challenge_tags: { type: 'ARRAY', items: { type: 'STRING' } },
     },
-    required: ['trait1', 'trait2', 'trait3', 'overallScore', 'overallFeedback'],
+    required: [
+      'trait1',
+      'trait2',
+      'trait3',
+      'overallScore',
+      'overallFeedback',
+      'model_response',
+    ],
   };
 
   const payload = {
@@ -13285,6 +13490,12 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
         for (const item of responses) {
           if (!item || !Array.isArray(item.challenge_tags)) continue;
           const gotCorrect = !!item.correct;
+          const userConfidence = item.confidence || 'unknown'; // 'sure', 'guessing', or 'unknown'
+
+          // PREMIUM FEATURE: Detect lucky guesses and misconceptions
+          const isLuckyGuess = gotCorrect && userConfidence === 'guessing';
+          const isMisconception = !gotCorrect && userConfidence === 'sure';
+
           for (const tag of item.challenge_tags) {
             if (!tag || typeof tag !== 'string') continue;
             const clean = tag.trim().toLowerCase();
@@ -13299,9 +13510,33 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
                 console.warn('[challenge-tag] Missing in catalog:', clean);
               }
             } catch (_) {}
-            await upsertChallengeStat(userId, clean, gotCorrect, 'quiz');
+
+            // Update stats with confidence metrics
+            await upsertChallengeStatWithConfidence(
+              userId,
+              clean,
+              gotCorrect,
+              'quiz',
+              isLuckyGuess,
+              isMisconception
+            );
             await runPromotionDemotionRules(userId, clean);
           }
+        }
+
+        // Save detailed quiz data including confidence levels
+        const attemptId = result.rows[0]?.id;
+        if (attemptId && responses.length > 0) {
+          await pool.query(
+            `UPDATE quiz_attempts SET quiz_data = $2 WHERE id = $1`,
+            [
+              attemptId,
+              JSON.stringify({
+                responses,
+                timestamp: new Date().toISOString(),
+              }),
+            ]
+          );
         }
       }
     } catch (e) {
@@ -13331,9 +13566,78 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
           [userId, subj, dateISO, COACH_QUIZ_MINUTES]
         );
       }
+
+      // --- DIAGNOSTIC PROCESSING (PREMIUM UPGRADE) ---
+      // If this was a diagnostic test, we need to seed the user's profile with initial strengths/weaknesses
+      if (quizType === 'diagnostic') {
+        console.log(`[Diagnostic] Processing results for user ${userId}`);
+        const { responses } = req.body || {};
+
+        if (Array.isArray(responses)) {
+          const subjectStats = {};
+          const tagsToSeed = new Set();
+
+          for (const r of responses) {
+            const subj = r.originalSubject || r.subject || 'Unknown';
+            if (!subjectStats[subj])
+              subjectStats[subj] = { correct: 0, total: 0 };
+            subjectStats[subj].total++;
+
+            if (r.correct) {
+              subjectStats[subj].correct++;
+              // Optionally: Mark tags as "mastered" or reduce their priority?
+              // For now, we focus on seeding weaknesses.
+            } else {
+              // User got it wrong. Collect tags.
+              const tags = Array.isArray(r.challenge_tags)
+                ? r.challenge_tags
+                : [];
+              tags.forEach((t) => tagsToSeed.add(t));
+            }
+          }
+
+          // Log stats
+          for (const [subj, stats] of Object.entries(subjectStats)) {
+            const pct =
+              stats.total > 0 ? (stats.correct / stats.total) * 100 : 0;
+            console.log(
+              `[Diagnostic] ${subj}: ${pct.toFixed(1)}% (${stats.correct}/${
+                stats.total
+              })`
+            );
+          }
+
+          // Seed challenges from wrong answers
+          if (tagsToSeed.size > 0) {
+            console.log(
+              `[Diagnostic] Seeding ${tagsToSeed.size} challenge tags:`,
+              [...tagsToSeed]
+            );
+            for (const tag of tagsToSeed) {
+              // Add to stats (marks as wrong)
+              await upsertChallengeStat(userId, tag, false, 'diagnostic');
+
+              // Force add to active challenges table so Coach picks it up immediately
+              await pool.query(
+                `INSERT INTO challenges (user_id, challenge_type, status, created_at, updated_at)
+                     VALUES ($1, $2, 'active', NOW(), NOW())
+                     ON CONFLICT (user_id, challenge_type) DO UPDATE SET status = 'active', updated_at = NOW()`,
+                [userId, tag]
+              );
+            }
+          } else {
+            console.log(
+              '[Diagnostic] No specific tags to seed (perfect score or no tags on questions).'
+            );
+          }
+
+          // Mark diagnostic as complete in a user preference or just rely on quiz_attempts history.
+          // We might want to trigger a "Coach Plan Refresh" if one exists, but the daily row logic handles it lazily.
+        }
+      }
     } catch (e) {
       console.warn(
-        '[quiz-attempts] coach completion credit failed:',
+        '[quiz-attempts] coach completion/diagnostic credit failed:',
         e?.message || e
       );
     }
@@ -13462,7 +13766,8 @@ app.get('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
 });
 
 // Load quizzes from dynamic index which merges legacy and supplemental topics
-const { ALL_QUIZZES } = require('./data/quizzes/index.js');
+// Moved to top of file to ensure availability for adaptive logic
+// const { ALL_QUIZZES } = require('./data/quizzes/index.js');
 
 // Subtopic → challenge tag mapping for auto-derivation when questions lack explicit tags
 const SUBTOPIC_TO_CHALLENGE = {
@@ -13866,10 +14171,9 @@ app.post(
 
       // Olympics mode uses unlimited questions from premade only
       const isOlympicsMode = practiceMode === 'olympics';
-      const questionsNeeded = isOlympicsMode ? 100 : Math.max(
-        1,
-        Math.round((durationMinutes / 10) * 5)
-      );
+      const questionsNeeded = isOlympicsMode
+        ? 100
+        : Math.max(1, Math.round((durationMinutes / 10) * 5));
 
       const SUBJECT_LABELS = {
         math: 'Math',
@@ -15797,6 +16101,79 @@ app.get('/api/student/mastery', authenticateBearerToken, async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch mastery data' });
   }
 });
+
+// GET /api/student/skill-heatmap
+// PREMIUM FEATURE: Returns skill performance data with confidence metrics
+app.get(
+  '/api/student/skill-heatmap',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = req.user?.userId || req.user?.sub;
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      // Get challenge stats with confidence metrics
+      const result = await pool.query(
+        `SELECT 
+        challenge_tag,
+        correct_count,
+        wrong_count,
+        COALESCE(lucky_guesses, 0) as lucky_guesses,
+        COALESCE(misconceptions, 0) as misconceptions,
+        last_seen,
+        last_wrong_at
+       FROM user_challenge_stats
+       WHERE user_id = $1 AND (correct_count > 0 OR wrong_count > 0)
+       ORDER BY last_seen DESC
+       LIMIT 50`,
+        [userId]
+      );
+
+      const skills = result.rows.map((row) => {
+        const total = row.correct_count + row.wrong_count;
+        const accuracy = total > 0 ? (row.correct_count / total) * 100 : 0;
+        const luckyRate =
+          row.correct_count > 0
+            ? (row.lucky_guesses / row.correct_count) * 100
+            : 0;
+        const misconceptionRate =
+          row.wrong_count > 0
+            ? (row.misconceptions / row.wrong_count) * 100
+            : 0;
+
+        // Determine status
+        let status = 'learning';
+        if (accuracy >= 70 && luckyRate < 30 && misconceptionRate < 30) {
+          status = 'mastered';
+        } else if (luckyRate >= 30) {
+          status = 'lucky';
+        } else if (misconceptionRate >= 30) {
+          status = 'misconception';
+        }
+
+        return {
+          tag: row.challenge_tag,
+          correct: row.correct_count,
+          wrong: row.wrong_count,
+          luckyGuesses: row.lucky_guesses,
+          misconceptions: row.misconceptions,
+          accuracy: Math.round(accuracy),
+          luckyRate: Math.round(luckyRate),
+          misconceptionRate: Math.round(misconceptionRate),
+          status,
+          lastSeen: row.last_seen,
+        };
+      });
+
+      res.json({ skills });
+    } catch (error) {
+      console.error('[/api/student/skill-heatmap] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch skill heatmap' });
+    }
+  }
+);
 
 // GET /api/student/study-time
 // Returns study time statistics
