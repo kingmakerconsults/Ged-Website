@@ -33495,7 +33495,7 @@ function QuizInterface({
 
   const subjectForRender = currentQ.subject || subject || 'Default';
   const quizSubject = subject || 'Default';
-  const formulaSheetEnabled = Boolean(quizConfig?.formulaSheet);
+  const formulaSheetEnabled = true;
   const canShowMathFormulas = formulaSheetEnabled && quizSubject === 'Math';
   const canShowScienceFormulas =
     formulaSheetEnabled && quizSubject === 'Science';

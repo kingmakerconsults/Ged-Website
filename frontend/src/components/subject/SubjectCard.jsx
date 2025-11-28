@@ -17,17 +17,18 @@ export function SubjectCard({
     <button
       type="button"
       onClick={onClick}
-      className={`group relative rounded-2xl p-5 text-left shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 transition ${className}`.trim()}
+      className={`group relative rounded-2xl p-6 md:p-7 text-left shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 transition ${className}`.trim()}
       style={{
         background: theme.bg,
         border: `1px solid ${theme.bgSoft}`,
         color: theme.accent,
+        minHeight: '128px',
       }}
     >
       <div className="flex items-center gap-4">
         {icon && (
           <span
-            className="w-12 h-12 rounded-xl flex items-center justify-center shadow-inner"
+            className="w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center shadow-inner"
             style={{
               background: theme.gradient,
               color: '#fff',
@@ -35,7 +36,7 @@ export function SubjectCard({
             }}
           >
             {typeof icon === 'string' ? (
-              <img src={icon} alt="" className="w-8 h-8" />
+              <img src={icon} alt="" className="w-9 h-9 md:w-10 md:h-10" />
             ) : (
               icon
             )}
@@ -43,12 +44,14 @@ export function SubjectCard({
         )}
         <div className="flex-1">
           <h3
-            className="font-extrabold text-lg mb-1"
+            className="font-extrabold text-xl md:text-2xl mb-1"
             style={{ color: theme.accent }}
           >
             {subject}
           </h3>
-          <div className="text-sm leading-snug text-primary">{children}</div>
+          <div className="text-sm md:text-base leading-snug text-primary">
+            {children}
+          </div>
         </div>
       </div>
     </button>
