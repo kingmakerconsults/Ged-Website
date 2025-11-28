@@ -1471,6 +1471,9 @@ h3 {
 .progress-subjects .subject-card {
   opacity: 1;
   filter: none;
+  min-height: 120px;
+  padding: 1.25rem;
+  border-radius: 1rem;
 }
 .quiz-nav {
   scrollbar-width: thin;
