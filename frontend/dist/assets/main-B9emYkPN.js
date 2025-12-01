@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-BNQxwfGw.js";
+import { _ as __vitePreload } from "./index-DWFbl8kh.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -21646,8 +21646,8 @@ function App({ externalTheme, onThemeChange }) {
   const [progress, setProgress] = reactExports.useState(() => createEmptyProgress());
   const [quizAttempts, setQuizAttempts] = reactExports.useState([]);
   const [showFormulaSheet, setShowFormulaSheet] = reactExports.useState(false);
-  const [showToolsModal, setShowToolsModal2] = reactExports.useState(false);
-  const [toolsModalSubject, setToolsModalSubject2] = reactExports.useState(null);
+  const [showToolsModal, setShowToolsModal] = reactExports.useState(false);
+  const [toolsModalSubject, setToolsModalSubject] = reactExports.useState(null);
   const [activeSocialTool, setActiveSocialTool] = reactExports.useState(null);
   const [showNamePrompt, setShowNamePrompt] = reactExports.useState(false);
   const [showPracticeModal, setShowPracticeModal] = reactExports.useState(false);
@@ -23810,6 +23810,8 @@ function App({ externalTheme, onThemeChange }) {
             setShowFormulaSheet,
             onOpenMathTools: openMathTools,
             setActiveSocialTool,
+            setToolsModalSubject,
+            setShowToolsModal,
             theme: preferences.theme,
             selectedSubject,
             selectedCategory,
@@ -23933,8 +23935,8 @@ function App({ externalTheme, onThemeChange }) {
               subject: toolsModalSubject,
               dark: theme === "dark",
               onClose: () => {
-                setShowToolsModal2(false);
-                setToolsModalSubject2(null);
+                setShowToolsModal(false);
+                setToolsModalSubject(null);
               }
             }
           ),
@@ -27032,6 +27034,8 @@ function StartScreen({
   setShowFormulaSheet,
   onOpenMathTools,
   setActiveSocialTool,
+  setToolsModalSubject,
+  setShowToolsModal,
   theme: theme2 = "light",
   onRefreshProfile,
   selectedSubject,
@@ -34975,4 +34979,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-CAVIBnOj.js.map
+//# sourceMappingURL=main-B9emYkPN.js.map

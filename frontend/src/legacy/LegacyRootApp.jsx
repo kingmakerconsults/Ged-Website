@@ -26008,6 +26008,8 @@ function App({ externalTheme, onThemeChange }) {
             setShowFormulaSheet={setShowFormulaSheet}
             onOpenMathTools={openMathTools}
             setActiveSocialTool={setActiveSocialTool}
+            setToolsModalSubject={setToolsModalSubject}
+            setShowToolsModal={setShowToolsModal}
             theme={preferences.theme}
             selectedSubject={selectedSubject}
             selectedCategory={selectedCategory}
@@ -30074,6 +30076,8 @@ function StartScreen({
   setShowFormulaSheet,
   onOpenMathTools,
   setActiveSocialTool,
+  setToolsModalSubject,
+  setShowToolsModal,
   theme = 'light',
   onRefreshProfile,
   selectedSubject,
