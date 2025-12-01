@@ -86,6 +86,9 @@ export const designSystem = {
         chipBg: '#bfdbfe',
         chipText: '#1e40af',
         gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+        primary: '#2563eb',
+        secondary: '#3b82f6',
+        text: '#ffffff',
       },
       dark: {
         accent: '#60a5fa',
@@ -94,6 +97,9 @@ export const designSystem = {
         chipBg: '#1e40af',
         chipText: '#bfdbfe',
         gradient: 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)',
+        primary: '#60a5fa',
+        secondary: '#3b82f6',
+        text: '#ffffff',
       },
     },
 
@@ -105,6 +111,9 @@ export const designSystem = {
         chipBg: '#ddd6fe',
         chipText: '#5b21b6',
         gradient: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+        primary: '#7c3aed',
+        secondary: '#8b5cf6',
+        text: '#ffffff',
       },
       dark: {
         accent: '#a78bfa',
@@ -113,29 +122,13 @@ export const designSystem = {
         chipBg: '#6d28d9',
         chipText: '#ddd6fe',
         gradient: 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)',
+        primary: '#a78bfa',
+        secondary: '#8b5cf6',
+        text: '#ffffff',
       },
     },
 
     science: {
-      light: {
-        accent: '#059669',
-        bg: '#f0fdf4',
-        bgSoft: '#dcfce7',
-        chipBg: '#bbf7d0',
-        chipText: '#166534',
-        gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-      },
-      dark: {
-        accent: '#34d399',
-        bg: '#064e3b',
-        bgSoft: '#065f46',
-        chipBg: '#047857',
-        chipText: '#d1fae5',
-        gradient: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
-      },
-    },
-
-    socialStudies: {
       light: {
         accent: '#dc2626',
         bg: '#fef2f2',
@@ -143,6 +136,9 @@ export const designSystem = {
         chipBg: '#fecaca',
         chipText: '#991b1b',
         gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+        primary: '#dc2626',
+        secondary: '#ef4444',
+        text: '#ffffff',
       },
       dark: {
         accent: '#f87171',
@@ -151,6 +147,34 @@ export const designSystem = {
         chipBg: '#b91c1c',
         chipText: '#fee2e2',
         gradient: 'linear-gradient(135deg, #f87171 0%, #ef4444 100%)',
+        primary: '#f87171',
+        secondary: '#ef4444',
+        text: '#ffffff',
+      },
+    },
+
+    socialStudies: {
+      light: {
+        accent: '#059669',
+        bg: '#f0fdf4',
+        bgSoft: '#dcfce7',
+        chipBg: '#bbf7d0',
+        chipText: '#166534',
+        gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+        primary: '#059669',
+        secondary: '#10b981',
+        text: '#ffffff',
+      },
+      dark: {
+        accent: '#34d399',
+        bg: '#064e3b',
+        bgSoft: '#065f46',
+        chipBg: '#047857',
+        chipText: '#d1fae5',
+        gradient: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
+        primary: '#34d399',
+        secondary: '#10b981',
+        text: '#ffffff',
       },
     },
 

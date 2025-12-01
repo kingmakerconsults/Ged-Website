@@ -1,5 +1,6 @@
 var _a, _b;
-import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
+import { r as reactExports, a as reactDomExports, u as useNavigate, R as React, B as BrowserRouter, b as Routes, c as Route } from "./vendor-react-Cc_s67Lc.js";
+import { _ as __vitePreload } from "./index-DIFJx1Uq.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -44,7 +45,10 @@ const designSystem = {
         bgSoft: "#dbeafe",
         chipBg: "#bfdbfe",
         chipText: "#1e40af",
-        gradient: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)"
+        gradient: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
+        primary: "#2563eb",
+        secondary: "#3b82f6",
+        text: "#ffffff"
       },
       dark: {
         accent: "#60a5fa",
@@ -52,7 +56,10 @@ const designSystem = {
         bgSoft: "#1e40af",
         chipBg: "#1e40af",
         chipText: "#bfdbfe",
-        gradient: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)"
+        gradient: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)",
+        primary: "#60a5fa",
+        secondary: "#3b82f6",
+        text: "#ffffff"
       }
     },
     rla: {
@@ -62,7 +69,10 @@ const designSystem = {
         bgSoft: "#ede9fe",
         chipBg: "#ddd6fe",
         chipText: "#5b21b6",
-        gradient: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)"
+        gradient: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)",
+        primary: "#7c3aed",
+        secondary: "#8b5cf6",
+        text: "#ffffff"
       },
       dark: {
         accent: "#a78bfa",
@@ -70,35 +80,23 @@ const designSystem = {
         bgSoft: "#5b21b6",
         chipBg: "#6d28d9",
         chipText: "#ddd6fe",
-        gradient: "linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)"
+        gradient: "linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)",
+        primary: "#a78bfa",
+        secondary: "#8b5cf6",
+        text: "#ffffff"
       }
     },
     science: {
-      light: {
-        accent: "#059669",
-        bg: "#f0fdf4",
-        bgSoft: "#dcfce7",
-        chipBg: "#bbf7d0",
-        chipText: "#166534",
-        gradient: "linear-gradient(135deg, #10b981 0%, #059669 100%)"
-      },
-      dark: {
-        accent: "#34d399",
-        bg: "#064e3b",
-        bgSoft: "#065f46",
-        chipBg: "#047857",
-        chipText: "#d1fae5",
-        gradient: "linear-gradient(135deg, #34d399 0%, #10b981 100%)"
-      }
-    },
-    socialStudies: {
       light: {
         accent: "#dc2626",
         bg: "#fef2f2",
         bgSoft: "#fee2e2",
         chipBg: "#fecaca",
         chipText: "#991b1b",
-        gradient: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)"
+        gradient: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+        primary: "#dc2626",
+        secondary: "#ef4444",
+        text: "#ffffff"
       },
       dark: {
         accent: "#f87171",
@@ -106,7 +104,34 @@ const designSystem = {
         bgSoft: "#991b1b",
         chipBg: "#b91c1c",
         chipText: "#fee2e2",
-        gradient: "linear-gradient(135deg, #f87171 0%, #ef4444 100%)"
+        gradient: "linear-gradient(135deg, #f87171 0%, #ef4444 100%)",
+        primary: "#f87171",
+        secondary: "#ef4444",
+        text: "#ffffff"
+      }
+    },
+    socialStudies: {
+      light: {
+        accent: "#059669",
+        bg: "#f0fdf4",
+        bgSoft: "#dcfce7",
+        chipBg: "#bbf7d0",
+        chipText: "#166534",
+        gradient: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+        primary: "#059669",
+        secondary: "#10b981",
+        text: "#ffffff"
+      },
+      dark: {
+        accent: "#34d399",
+        bg: "#064e3b",
+        bgSoft: "#065f46",
+        chipBg: "#047857",
+        chipText: "#d1fae5",
+        gradient: "linear-gradient(135deg, #34d399 0%, #10b981 100%)",
+        primary: "#34d399",
+        secondary: "#10b981",
+        text: "#ffffff"
       }
     },
     workforce: {
@@ -177,44 +202,66 @@ function SubjectCard({
   dark = false,
   icon = null,
   onClick,
+  enableNavigation = false,
   children,
   className = ""
 }) {
   const theme = getSubjectTheme(subject, dark);
+  const navigate = useNavigate();
+  const handleClick = () => {
+    if (enableNavigation) {
+      const routes = {
+        "Math": "/math",
+        "Science": "/science",
+        "Reasoning Through Language Arts (RLA)": "/rla",
+        "RLA": "/rla",
+        "Social Studies": "/social-studies"
+      };
+      const route = routes[subject];
+      if (route) {
+        navigate(route);
+        return;
+      }
+    }
+    if (onClick) {
+      onClick();
+    }
+  };
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "button",
     {
       type: "button",
-      onClick,
-      className: `group relative rounded-2xl p-5 text-left shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 transition ${className}`.trim(),
+      onClick: handleClick,
+      className: `group relative rounded-2xl p-6 md:p-7 text-left shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 transition ${className}`.trim(),
       style: {
         background: theme.bg,
         border: `1px solid ${theme.bgSoft}`,
-        color: theme.accent
+        color: theme.accent,
+        minHeight: "128px"
       },
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-4", children: [
         icon && /* @__PURE__ */ jsxRuntimeExports.jsx(
           "span",
           {
-            className: "w-12 h-12 rounded-xl flex items-center justify-center shadow-inner",
+            className: "w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center shadow-inner",
             style: {
               background: theme.gradient,
               color: "#fff",
               filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.25))"
             },
-            children: typeof icon === "string" ? /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: icon, alt: "", className: "w-8 h-8" }) : icon
+            children: typeof icon === "string" ? /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: icon, alt: "", className: "w-9 h-9 md:w-10 md:h-10" }) : icon
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "h3",
             {
-              className: "font-extrabold text-lg mb-1",
+              className: "font-extrabold text-xl md:text-2xl mb-1",
               style: { color: theme.accent },
               children: subject
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm leading-snug text-primary", children })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm md:text-base leading-snug text-primary", children })
         ] })
       ] })
     }
@@ -1151,7 +1198,7 @@ const resolveSubjectParam = (subject) => {
   }
   return SUBJECT_PARAM_MAP[subject] || subject;
 };
-function applySafeMathFix(text) {
+function applySafeMathFix$1(text) {
   if (typeof text !== "string") {
     return text;
   }
@@ -1271,26 +1318,26 @@ function normalizeLatex(text) {
   });
   return normalized.replace(/\s{2,}/g, " ").trim();
 }
-function normalizeLatexForKaTeX(latex) {
+function normalizeLatexForKaTeX$1(latex) {
   if (typeof latex !== "string") return latex;
   return latex.replace(/\\\\([A-Za-z]+)/g, "\\$1").replace(/\\left\s*/g, "").replace(/\\right\s*/g, "");
 }
-const KATEX_RENDER_OPTIONS = { throwOnError: false, strict: "ignore" };
-function renderLatexToHtml(latexInput) {
+const KATEX_RENDER_OPTIONS$1 = { throwOnError: false, strict: "ignore" };
+function renderLatexToHtml$1(latexInput) {
   if (typeof latexInput !== "string") {
     return "";
   }
   if (typeof katex === "undefined") {
     throw new Error("KaTeX not available");
   }
-  const latex = normalizeLatexForKaTeX(latexInput);
+  const latex = normalizeLatexForKaTeX$1(latexInput);
   if (typeof document !== "undefined" && typeof document.createElement === "function" && typeof katex.render === "function") {
     const container = document.createElement("span");
-    katex.render(latex, container, KATEX_RENDER_OPTIONS);
+    katex.render(latex, container, KATEX_RENDER_OPTIONS$1);
     return container.innerHTML;
   }
   if (typeof katex.renderToString === "function") {
-    return katex.renderToString(latex, KATEX_RENDER_OPTIONS);
+    return katex.renderToString(latex, KATEX_RENDER_OPTIONS$1);
   }
   throw new Error("KaTeX render helpers missing");
 }
@@ -1300,7 +1347,7 @@ function normalizeFormulaLatex(latex) {
   }
   let working = latex;
   try {
-    working = applySafeMathFix(working);
+    working = applySafeMathFix$1(working);
   } catch (error) {
     console.warn("Failed to sanitize formula latex:", (error == null ? void 0 : error.message) || error);
   }
@@ -1399,10 +1446,10 @@ function renderStemWithKatex(text) {
     ALLOWED_ATTR: [...ALLOWED_HTML_ATTR, "style", "d", "viewBox", "xmlns"]
   }) : combined;
 }
-const GEOMETRY_FIGURES_ENABLED = Boolean(
+const GEOMETRY_FIGURES_ENABLED$1 = Boolean(
   typeof window !== "undefined" && window.__APP_CONFIG__ && window.__APP_CONFIG__.geometryFiguresEnabled
 );
-const DEFAULT_FIGURE_STYLE = {
+const DEFAULT_FIGURE_STYLE$1 = {
   stroke: "#000000",
   fill: "rgba(96, 165, 250, 0.12)",
   labelColor: "#000000",
@@ -1977,28 +2024,28 @@ const rectPrismNetRenderer = (params = {}, style) => {
   elements.push(...renderAdditionalLabels(params.labels, style));
   return { elements, pointsForBounds };
 };
-const geometryRenderers = {
-  triangle: (params, style) => polygonRenderer(params, style || DEFAULT_FIGURE_STYLE, {}),
-  right_triangle: (params, style) => polygonRenderer(params, style || DEFAULT_FIGURE_STYLE, {
+const geometryRenderers$1 = {
+  triangle: (params, style) => polygonRenderer(params, style || DEFAULT_FIGURE_STYLE$1, {}),
+  right_triangle: (params, style) => polygonRenderer(params, style || DEFAULT_FIGURE_STYLE$1, {
     includeRightAngle: true
   }),
-  rectangle: (params, style) => rectangleRenderer(params, style || DEFAULT_FIGURE_STYLE),
-  circle: (params, style) => circleRenderer(params, style || DEFAULT_FIGURE_STYLE),
-  polygon: (params, style) => polygonRenderer(params, style || DEFAULT_FIGURE_STYLE, {}),
-  regular_polygon: (params, style) => regularPolygonRenderer(params, style || DEFAULT_FIGURE_STYLE),
-  line_angle: (params, style) => angleRenderer(params, style || DEFAULT_FIGURE_STYLE),
-  cylinder_net: (params, style) => cylinderNetRenderer(params, style || DEFAULT_FIGURE_STYLE),
-  rect_prism_net: (params, style) => rectPrismNetRenderer(params, style || DEFAULT_FIGURE_STYLE)
+  rectangle: (params, style) => rectangleRenderer(params, style || DEFAULT_FIGURE_STYLE$1),
+  circle: (params, style) => circleRenderer(params, style || DEFAULT_FIGURE_STYLE$1),
+  polygon: (params, style) => polygonRenderer(params, style || DEFAULT_FIGURE_STYLE$1, {}),
+  regular_polygon: (params, style) => regularPolygonRenderer(params, style || DEFAULT_FIGURE_STYLE$1),
+  line_angle: (params, style) => angleRenderer(params, style || DEFAULT_FIGURE_STYLE$1),
+  cylinder_net: (params, style) => cylinderNetRenderer(params, style || DEFAULT_FIGURE_STYLE$1),
+  rect_prism_net: (params, style) => rectPrismNetRenderer(params, style || DEFAULT_FIGURE_STYLE$1)
 };
-function GeometryFigure({ spec, className }) {
-  if (!GEOMETRY_FIGURES_ENABLED || !spec || typeof spec !== "object") {
+function GeometryFigure$1({ spec, className }) {
+  if (!GEOMETRY_FIGURES_ENABLED$1 || !spec || typeof spec !== "object") {
     return null;
   }
   const style = {
-    ...DEFAULT_FIGURE_STYLE,
+    ...DEFAULT_FIGURE_STYLE$1,
     ...spec.style || {}
   };
-  const renderer = geometryRenderers[spec.shape];
+  const renderer = geometryRenderers$1[spec.shape];
   if (!renderer) {
     console.warn("Unsupported geometry shape:", spec.shape);
     return null;
@@ -2048,7 +2095,7 @@ function formatMathText(html) {
   );
   return out;
 }
-function sanitizeUnicode(s) {
+function sanitizeUnicode$1(s) {
   if (typeof s !== "string" || s.length === 0) return s;
   try {
     let t = s;
@@ -2073,9 +2120,14 @@ function renderQuestionTextForDisplay(text, isPremade) {
     window.__APP_CONFIG__ && window.__APP_CONFIG__.premadeUsesKatex === true && isPremade === true
   );
   if (useKatex) {
-    return { __html: renderStemWithKatex(sanitizeUnicode(text)) };
+    return { __html: renderStemWithKatex(sanitizeUnicode$1(text)) };
   }
-  const html = renderStem(sanitizeUnicode(text));
+  let processedText = sanitizeUnicode$1(text);
+  processedText = processedText.replace(
+    /([a-zA-Z0-9]+\^[a-zA-Z0-9]+)/g,
+    "\\($1\\)"
+  );
+  const html = renderStem(processedText);
   const finalHtml = formatMathText(html);
   return { __html: finalHtml };
 }
@@ -20285,6 +20337,29 @@ function PracticeSessionModal({
     }
   );
 }
+const TypewriterText = ({ text, speed = 20 }) => {
+  const [displayedText, setDisplayedText] = reactExports.useState("");
+  const [currentIndex, setCurrentIndex] = reactExports.useState(0);
+  reactExports.useEffect(() => {
+    if (!text) {
+      setDisplayedText("");
+      setCurrentIndex(0);
+      return;
+    }
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText((prev) => prev + text[currentIndex]);
+        setCurrentIndex((prev) => prev + 1);
+      }, speed);
+      return () => clearTimeout(timeout);
+    }
+  }, [text, currentIndex, speed]);
+  reactExports.useEffect(() => {
+    setDisplayedText("");
+    setCurrentIndex(0);
+  }, [text]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: displayedText });
+};
 function App({ externalTheme, onThemeChange }) {
   var _a2, _b2, _c, _d, _e, _f, _g, _h;
   const SMITHING_PROMPTS = [
@@ -22131,7 +22206,12 @@ function App({ externalTheme, onThemeChange }) {
             correct = !!correctOption && userAns === correctOption.text;
           }
           const tags = Array.isArray(q2.challenge_tags) ? q2.challenge_tags : [];
-          return { correct, challenge_tags: tags };
+          return {
+            correct,
+            challenge_tags: tags,
+            originalSubject: q2.originalSubject || q2.subject
+            // Pass subject for diagnostic analysis
+          };
         });
       }
     } catch (e) {
@@ -22588,7 +22668,7 @@ function App({ externalTheme, onThemeChange }) {
               ]
             }
           ),
-          showFormulaSheet && /* @__PURE__ */ jsxRuntimeExports.jsx(FormulaSheetModal, { onClose: () => setShowFormulaSheet(false) }),
+          showFormulaSheet && /* @__PURE__ */ jsxRuntimeExports.jsx(FormulaSheetModal$1, { onClose: () => setShowFormulaSheet(false) }),
           showNamePrompt && /* @__PURE__ */ jsxRuntimeExports.jsx(
             NamePromptModal,
             {
@@ -22603,8 +22683,8 @@ function App({ externalTheme, onThemeChange }) {
               defaultMode: "balanced",
               defaultDuration: 10,
               onDismiss: () => setShowPracticeModal(false),
-              onStart: async ({ mode, durationMinutes }) => {
-                const payload = { mode, durationMinutes };
+              onStart: async ({ mode, durationMinutes, practiceMode }) => {
+                const payload = { mode, durationMinutes, practiceMode };
                 const resp = await fetchJSON(
                   `${API_BASE_URL}/api/practice-session`,
                   {
@@ -22618,17 +22698,21 @@ function App({ externalTheme, onThemeChange }) {
                 }
                 const practiceQuiz = {
                   id: "practice_" + Date.now(),
-                  title: "Practice Session",
+                  title: practiceMode === "olympics" ? "Olympics Practice" : "Practice Session",
                   // Mark practice session questions as premade so sanitized math renders with KaTeX
                   isPremade: true,
+                  practiceMode: practiceMode || "standard",
                   questions: resp.questions.map((q2, i) => ({
                     ...q2,
                     isPremade: true,
                     questionNumber: i + 1
                   })),
-                  timeLimit: Number(resp.durationMinutes || durationMinutes) * 60
+                  timeLimit: practiceMode === "olympics" ? 0 : Number(resp.durationMinutes || durationMinutes) * 60
                 };
-                startQuiz2(practiceQuiz, "Practice Session");
+                startQuiz2(
+                  practiceQuiz,
+                  practiceMode === "olympics" ? "Olympics Practice" : "Practice Session"
+                );
                 setShowPracticeModal(false);
               }
             }
@@ -25483,11 +25567,11 @@ function VocabularyBySubject({ vocabulary, onStartQuiz, theme = "light" }) {
     );
   }) });
 }
-function FormulaDisplay({ latex, className = "" }) {
+function FormulaDisplay$1({ latex, className = "" }) {
   const safeLatex = normalizeFormulaLatex(latex);
   let html = "";
   try {
-    html = renderLatexToHtml(safeLatex);
+    html = renderLatexToHtml$1(safeLatex);
   } catch (error) {
     console.warn("Formula render failed:", (error == null ? void 0 : error.message) || error);
     html = escapeHtml(typeof safeLatex === "string" ? safeLatex : "");
@@ -25496,11 +25580,11 @@ function FormulaDisplay({ latex, className = "" }) {
     "span",
     {
       className,
-      dangerouslySetInnerHTML: { __html: sanitizeUnicode(html) }
+      dangerouslySetInnerHTML: { __html: sanitizeUnicode$1(html) }
     }
   );
 }
-function ScienceFormulaSheet({ onClose }) {
+function ScienceFormulaSheet$1({ onClose }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
@@ -25527,7 +25611,7 @@ function ScienceFormulaSheet({ onClose }) {
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "formula-sheet-label font-semibold", children: item.name }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  FormulaDisplay,
+                  FormulaDisplay$1,
                   {
                     latex: item.formula,
                     className: "formula-equation rounded text-center my-2 text-lg font-mono px-2 py-2"
@@ -25543,11 +25627,11 @@ function ScienceFormulaSheet({ onClose }) {
     }
   );
 }
-function FormulaSheetModal({ onClose }) {
+function FormulaSheetModal$1({ onClose }) {
   const Formula = ({ title, formula, description }) => {
     const sanitizedFormula = typeof formula === "string" ? (() => {
       let working = formula;
-      working = applySafeMathFix(working);
+      working = applySafeMathFix$1(working);
       if (typeof normalizeLatexMacrosInMath === "function") {
         working = normalizeLatexMacrosInMath(working);
       }
@@ -25555,7 +25639,7 @@ function FormulaSheetModal({ onClose }) {
     })() : formula;
     let html = "";
     try {
-      html = renderLatexToHtml(sanitizedFormula);
+      html = renderLatexToHtml$1(sanitizedFormula);
     } catch (err) {
       console.warn("KaTeX render fallback triggered:", (err == null ? void 0 : err.message) || err);
       html = escapeHtml(
@@ -25567,7 +25651,7 @@ function FormulaSheetModal({ onClose }) {
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "formula-equation rounded text-center text-lg font-mono px-2 py-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         "span",
         {
-          dangerouslySetInnerHTML: { __html: sanitizeUnicode(html) }
+          dangerouslySetInnerHTML: { __html: sanitizeUnicode$1(html) }
         }
       ) }),
       description && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "formula-sheet-description text-sm", children: description })
@@ -25701,6 +25785,28 @@ function StartScreen({
   const [adviceLoading, setAdviceLoading] = reactExports.useState(false);
   const [adviceText, setAdviceText] = reactExports.useState("");
   const [adviceError, setAdviceError] = reactExports.useState("");
+  const handleStartDiagnostic = async () => {
+    try {
+      setIsLoading(true);
+      setLoadingMessage("Preparing your diagnostic test...");
+      const token = localStorage.getItem("appToken");
+      const res = await fetch("/api/diagnostic-test", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if (!res.ok) throw new Error("Failed to start diagnostic");
+      const quiz = await res.json();
+      onSelectQuiz(quiz, "Diagnostic");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to start diagnostic test. Please try again.");
+    } finally {
+      setIsLoading(false);
+      setLoadingMessage("");
+    }
+  };
   const canonicalSubjectId = (value) => {
     const str = (value || "").toString().toLowerCase();
     if (!str) return "";
@@ -27074,7 +27180,7 @@ function StartScreen({
     typeof window !== "undefined" && window.ExpandedQuizData && Object.keys(window.ExpandedQuizData).length > 0;
     const subjectPremadeLabel = subjectPremadeTotal === 1 ? "1 premade quiz ready" : `${subjectPremadeTotal} premade quizzes ready`;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-      viewScienceFormulas && /* @__PURE__ */ jsxRuntimeExports.jsx(ScienceFormulaSheet, { onClose: () => setViewScienceFormulas(false) }),
+      viewScienceFormulas && /* @__PURE__ */ jsxRuntimeExports.jsx(ScienceFormulaSheet$1, { onClose: () => setViewScienceFormulas(false) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
@@ -27390,7 +27496,7 @@ function StartScreen({
                           {
                             className: "mt-2 text-sm whitespace-pre-wrap",
                             style: { color: heroTextColor },
-                            children: adviceText
+                            children: /* @__PURE__ */ jsxRuntimeExports.jsx(TypewriterText, { text: adviceText, speed: 15 })
                           }
                         ),
                         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-xs", style: heroMutedTextStyle, children: "2 tips per week per student. Tester account is unlimited." })
@@ -27826,6 +27932,32 @@ function StartScreen({
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "dashboard-sections", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-6 rounded-xl border border-indigo-200 bg-white p-6 shadow-lg dark:bg-slate-800 dark:border-indigo-900 relative overflow-hidden group hover:shadow-xl transition-all", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 right-0 p-4 opacity-10 text-indigo-600 dark:text-indigo-400 transform group-hover:scale-110 transition-transform", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "svg",
+            {
+              className: "w-32 h-32",
+              fill: "currentColor",
+              viewBox: "0 0 24 24",
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21 1.01.33 2.05.33 3.1 0 4.41-3.59 8-8 8z" })
+            }
+          ) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-10", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 mb-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300", children: "Recommended" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-slate-900 dark:text-white", children: "Day 0 Diagnostic" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-600 dark:text-slate-300 mb-4 max-w-2xl", children: "Start your journey with a comprehensive 40-question assessment covering all 4 subjects. This sets your baseline and helps Coach Smith build your personalized learning plan." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: handleStartDiagnostic,
+                className: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors",
+                children: "Start Diagnostic Test"
+              }
+            )
+          ] })
+        ] }),
         currentUser && /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "div",
           {
@@ -28205,6 +28337,7 @@ function StartScreen({
                     subject: subjectName2,
                     icon: iconPath,
                     onClick: () => openSubjectPremades(subjectName2),
+                    enableNavigation: true,
                     className: "bg-surface border border-subtle",
                     children: /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "div",
@@ -28328,7 +28461,9 @@ function QuizInterface({
   showTimer = true,
   quizConfig,
   article = null,
-  articleImage = null
+  articleImage = null,
+  practiceMode = null
+  // 'standard' | 'timed' | 'olympics'
 }) {
   const [currentIndex, setCurrentIndex] = reactExports.useState(0);
   const [marked, setMarked] = reactExports.useState(Array(questions.length).fill(false));
@@ -28343,9 +28478,19 @@ function QuizInterface({
   const [showMathFormulas, setShowMathFormulas] = reactExports.useState(false);
   const [showScienceFormulas, setShowScienceFormulas] = reactExports.useState(false);
   const [showArticle, setShowArticle] = reactExports.useState(Boolean(article));
+  const [showCalculator, setShowCalculator] = reactExports.useState(false);
   const toolPanelRef = reactExports.useRef(null);
   const toolInstanceRef = reactExports.useRef(null);
   const toolTypeRef = reactExports.useRef(null);
+  const isOlympicsMode = practiceMode === "olympics";
+  const [livesRemaining, setLivesRemaining] = reactExports.useState(3);
+  const [olympicsHistory, setOlympicsHistory] = reactExports.useState([]);
+  const [totalAnswered, setTotalAnswered] = reactExports.useState(0);
+  const [totalCorrect, setTotalCorrect] = reactExports.useState(0);
+  const [totalWrong, setTotalWrong] = reactExports.useState(0);
+  const [olympicsFinished, setOlympicsFinished] = reactExports.useState(false);
+  const [showingExplanation, setShowingExplanation] = reactExports.useState(false);
+  const [lastAnswerCorrect, setLastAnswerCorrect] = reactExports.useState(null);
   reactExports.useEffect(() => {
     setTimeLeft(timeLimit || questions.length * 90);
     setIsPaused(false);
@@ -28355,6 +28500,7 @@ function QuizInterface({
     setShowArticle(Boolean(article));
   }, [article]);
   reactExports.useEffect(() => {
+    if (isOlympicsMode) return;
     if (!onComplete || isPaused) return;
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -28368,7 +28514,7 @@ function QuizInterface({
       });
     }, 1e3);
     return () => clearInterval(timer);
-  }, [onComplete, isPaused]);
+  }, [onComplete, isPaused, isOlympicsMode]);
   const handleSelect = (optionText) => {
     const newAnswers = [...answers];
     newAnswers[currentIndex] = optionText;
@@ -28380,8 +28526,97 @@ function QuizInterface({
     setAnswers(newAnswers);
   };
   const handleSubmit = reactExports.useCallback(() => {
-    onComplete({ answers, marked, confidence });
-  }, [answers, marked, onComplete, confidence]);
+    if (isOlympicsMode) {
+      onComplete({
+        answers,
+        marked,
+        confidence,
+        olympicsMode: true,
+        olympicsHistory,
+        totalAnswered,
+        totalCorrect,
+        totalWrong,
+        livesRemaining
+      });
+    } else {
+      onComplete({ answers, marked, confidence });
+    }
+  }, [
+    answers,
+    marked,
+    onComplete,
+    confidence,
+    isOlympicsMode,
+    olympicsHistory,
+    totalAnswered,
+    totalCorrect,
+    totalWrong,
+    livesRemaining
+  ]);
+  const checkOlympicsAnswer = reactExports.useCallback(
+    (questionIndex) => {
+      const q2 = questions[questionIndex];
+      const userAnswer = answers[questionIndex];
+      if (!q2 || userAnswer === null || userAnswer === void 0 || userAnswer === "") {
+        return false;
+      }
+      if (Array.isArray(q2.answerOptions) && q2.answerOptions.length > 0) {
+        const correctOption = q2.answerOptions.find((opt) => opt.isCorrect);
+        return correctOption && correctOption.text === userAnswer;
+      } else {
+        const normalize = (val) => (val ?? "").toString().trim().toLowerCase();
+        return normalize(q2.correctAnswer) === normalize(userAnswer);
+      }
+    },
+    [questions, answers]
+  );
+  const handleOlympicsQuestionSubmit = reactExports.useCallback(() => {
+    if (!isOlympicsMode) return;
+    if (showingExplanation) {
+      setShowingExplanation(false);
+      setLastAnswerCorrect(null);
+      if (currentIndex < questions.length - 1) {
+        setCurrentIndex((prev) => prev + 1);
+      } else {
+        handleSubmit();
+      }
+      return;
+    }
+    const isCorrect = checkOlympicsAnswer(currentIndex);
+    const currentQ2 = questions[currentIndex];
+    const historyEntry = {
+      questionId: currentQ2.id || currentIndex,
+      subject: currentQ2.subject || subject || "Unknown",
+      topic: currentQ2.topic || currentQ2.area || null,
+      premadeQuizId: currentQ2.originQuizId || currentQ2.quizId || null,
+      premadeQuizTitle: currentQ2.originQuizTitle || currentQ2.quizTitle || null,
+      correct: isCorrect
+    };
+    setOlympicsHistory((prev) => [...prev, historyEntry]);
+    setTotalAnswered((prev) => prev + 1);
+    if (isCorrect) {
+      setTotalCorrect((prev) => prev + 1);
+    } else {
+      setTotalWrong((prev) => prev + 1);
+      setLivesRemaining((prev) => prev - 1);
+    }
+    setLastAnswerCorrect(isCorrect);
+    setShowingExplanation(true);
+    if (!isCorrect && livesRemaining <= 1) {
+      setTimeout(() => {
+        handleSubmit();
+      }, 100);
+    }
+  }, [
+    isOlympicsMode,
+    showingExplanation,
+    currentIndex,
+    questions,
+    checkOlympicsAnswer,
+    livesRemaining,
+    handleSubmit,
+    subject
+  ]);
   reactExports.useEffect(() => {
     handleSubmitRef.current = handleSubmit;
   }, [handleSubmit]);
@@ -28402,19 +28637,18 @@ function QuizInterface({
   const currentQ = questions[currentIndex];
   if (!currentQ) return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Loading question..." });
   const isFillInTheBlank = currentQ.type === "fill-in-the-blank" || !currentQ.answerOptions || currentQ.answerOptions.length === 0;
-  const TOOL_PANEL_ENABLED = false;
+  const TOOL_PANEL_ENABLED = true;
   const hasGraphDataForRender = Boolean(
     currentQ && (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane)
   );
   const hasGeometryDataForRender = Boolean(currentQ && currentQ.geometrySpec);
-  Boolean(
+  const needsToolPanel = Boolean(
     currentQ && (currentQ.useGraphTool || currentQ.useGeometryTool || hasGraphDataForRender || hasGeometryDataForRender)
   );
   const subjectForRender = currentQ.subject || subject || "Default";
   const quizSubject = subject || "Default";
-  const formulaSheetEnabled = Boolean(quizConfig == null ? void 0 : quizConfig.formulaSheet);
-  const canShowMathFormulas = formulaSheetEnabled && quizSubject === "Math";
-  const canShowScienceFormulas = formulaSheetEnabled && quizSubject === "Science";
+  const canShowMathFormulas = quizSubject === "Math";
+  const canShowScienceFormulas = quizSubject === "Science";
   const subjectColors = SUBJECT_COLORS[subjectForRender] || {};
   const scheme = { ...DEFAULT_COLOR_SCHEME, ...subjectColors };
   const timerStyle = timeLeft <= 60 ? { backgroundColor: scheme.timerLowBg, color: scheme.timerLowText } : {
@@ -28433,25 +28667,108 @@ function QuizInterface({
       toolTypeRef.current = null;
       if (panel) panel.innerHTML = "";
     };
-    {
+    if (!panel || !currentQ) {
       destroyTool();
-      if (panel) {
-        try {
-          panel.style.display = "none";
-          panel.setAttribute("aria-hidden", "true");
-        } catch {
-        }
+      return;
+    }
+    const hasGraphData = currentQ && (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane);
+    const hasGeometryData = currentQ && currentQ.geometrySpec;
+    const wantsGraph = Boolean(currentQ && currentQ.useGraphTool) || Boolean(hasGraphData);
+    const wantsGeometry = !wantsGraph && (Boolean(currentQ && currentQ.useGeometryTool) || Boolean(hasGeometryData));
+    const nextType = wantsGraph ? "graph" : wantsGeometry ? "geometry" : null;
+    if (!nextType) {
+      destroyTool();
+      try {
+        panel.style.display = "none";
+        panel.setAttribute("aria-hidden", "true");
+      } catch {
       }
       return;
     }
+    if (toolInstanceRef.current && toolTypeRef.current === nextType) {
+      return;
+    }
+    destroyTool();
+    panel.innerHTML = "";
+    try {
+      panel.style.display = "";
+      panel.removeAttribute("aria-hidden");
+    } catch {
+    }
+    panel.style.minHeight = "320px";
+    (async () => {
+      try {
+        if (!TOOL_PANEL_ENABLED) ;
+        if (nextType === "graph") {
+          const mod = await __vitePreload(() => import("./GraphCanvas-BkYFk9Ia.js"), true ? [] : void 0);
+          const mount = mod && mod.mount;
+          const unmount = mod && mod.unmount;
+          const GraphCanvas = mod && (mod.default || mod.GraphCanvas);
+          const payload = {
+            graphSpec: currentQ && (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane) || null
+          };
+          if (typeof mount === "function") {
+            mount(panel, payload);
+            toolInstanceRef.current = {
+              destroy: () => {
+                try {
+                  unmount && unmount(panel);
+                } catch {
+                }
+              }
+            };
+            toolTypeRef.current = "graph";
+          } else if (typeof GraphCanvas === "function") {
+            toolInstanceRef.current = new GraphCanvas(panel, {
+              spec: payload.graphSpec
+            });
+            toolTypeRef.current = "graph";
+          }
+        } else if (nextType === "geometry") {
+          const mod = await __vitePreload(() => import("./GeometryCanvas-BwX2FERW.js"), true ? [] : void 0);
+          const mount = mod && mod.mount;
+          const unmount = mod && mod.unmount;
+          const GeometryCanvas = mod && (mod.default || mod.GeometryCanvas);
+          const payload = {
+            geometrySpec: currentQ && currentQ.geometrySpec || null
+          };
+          if (typeof mount === "function") {
+            mount(panel, payload);
+            toolInstanceRef.current = {
+              destroy: () => {
+                try {
+                  unmount && unmount(panel);
+                } catch {
+                }
+              }
+            };
+            toolTypeRef.current = "geometry";
+          } else if (typeof GeometryCanvas === "function") {
+            toolInstanceRef.current = new GeometryCanvas(panel, {
+              spec: payload.geometrySpec
+            });
+            toolTypeRef.current = "geometry";
+          }
+        }
+      } catch (e) {
+        console.warn(
+          "[tool-panel] failed to mount tool:",
+          nextType,
+          (e == null ? void 0 : e.message) || e
+        );
+      }
+    })();
+    return () => {
+      destroyTool();
+    };
   }, [
     currentIndex,
     currentQ && currentQ.useGraphTool,
     currentQ && currentQ.useGeometryTool
   ]);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fade-in", children: [
-    canShowMathFormulas && showMathFormulas && /* @__PURE__ */ jsxRuntimeExports.jsx(FormulaSheetModal, { onClose: () => setShowMathFormulas(false) }),
-    canShowScienceFormulas && showScienceFormulas && /* @__PURE__ */ jsxRuntimeExports.jsx(ScienceFormulaSheet, { onClose: () => setShowScienceFormulas(false) }),
+    canShowMathFormulas && showMathFormulas && /* @__PURE__ */ jsxRuntimeExports.jsx(FormulaSheetModal$1, { onClose: () => setShowMathFormulas(false) }),
+    canShowScienceFormulas && showScienceFormulas && /* @__PURE__ */ jsxRuntimeExports.jsx(ScienceFormulaSheet$1, { onClose: () => setShowScienceFormulas(false) }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
@@ -28462,7 +28779,7 @@ function QuizInterface({
           border: `1px solid ${scheme.surfaceBorder}`
         },
         children: [
-          showTimer && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          (showTimer || isOlympicsMode) && /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "header",
             {
               className: "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pb-4 mb-4",
@@ -28489,53 +28806,92 @@ function QuizInterface({
                   }
                 ),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col sm:items-end gap-2", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                    "div",
-                    {
-                      className: "flex items-center gap-2 rounded-full px-3 py-1 font-mono text-lg font-semibold",
-                      style: timerStyle,
-                      children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { role: "img", "aria-label": "timer", children: "️" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: formatTime(timeLeft) }),
-                        isPaused && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                          "span",
-                          {
-                            className: "text-xs uppercase tracking-wide",
-                            style: { color: scheme.mutedText },
-                            children: "Paused"
-                          }
-                        )
-                      ]
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      "button",
+                  isOlympicsMode ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 text-sm font-medium", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: scheme.text }, children: "Olympics" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-base", children: [
+                        "♥".repeat(livesRemaining),
+                        "♡".repeat(3 - livesRemaining)
+                      ] }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "span",
+                        {
+                          style: { color: scheme.mutedText },
+                          className: "opacity-80",
+                          children: [
+                            "Questions: ",
+                            totalAnswered
+                          ]
+                        }
+                      )
+                    ] }),
+                    showingExplanation && lastAnswerCorrect !== null && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "div",
                       {
-                        type: "button",
-                        onClick: handlePauseToggle,
-                        disabled: !isPaused && pausesRemaining === 0,
-                        className: "rounded-md px-3 py-1 text-sm font-semibold transition-colors",
-                        style: isPaused ? {
-                          backgroundColor: "var(--success-bg)",
-                          color: "var(--success-text)",
-                          border: "1px solid var(--success-border)"
-                        } : {
-                          backgroundColor: scheme.accent,
-                          color: scheme.accentText,
-                          border: `1px solid ${scheme.accent}`
-                        },
-                        children: isPaused ? "Resume Timer" : "Pause Timer"
+                        className: `mt-2 px-4 py-2 rounded-lg text-sm font-medium ${lastAnswerCorrect ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-300 dark:border-green-700" : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700"}`,
+                        children: [
+                          lastAnswerCorrect ? "✓ Correct!" : "✗ Incorrect",
+                          !lastAnswerCorrect && livesRemaining > 0 && " • Lives remaining: " + livesRemaining
+                        ]
+                      }
+                    )
+                  ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "div",
+                      {
+                        className: "flex items-center gap-2 rounded-full px-3 py-1 font-mono text-lg font-semibold",
+                        style: timerStyle,
+                        children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { role: "img", "aria-label": "timer", children: "⏱️" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: formatTime(timeLeft) }),
+                          isPaused && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            "span",
+                            {
+                              className: "text-xs uppercase tracking-wide",
+                              style: { color: scheme.mutedText },
+                              children: "Paused"
+                            }
+                          )
+                        ]
                       }
                     ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs", style: { color: scheme.mutedText }, children: [
-                      pausesRemaining,
-                      " pause",
-                      pausesRemaining === 1 ? "" : "s",
-                      " left"
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          type: "button",
+                          onClick: handlePauseToggle,
+                          disabled: !isPaused && pausesRemaining === 0,
+                          className: "rounded-md px-3 py-1 text-sm font-semibold transition-colors",
+                          style: isPaused ? {
+                            backgroundColor: "var(--success-bg)",
+                            color: "var(--success-text)",
+                            border: "1px solid var(--success-border)"
+                          } : {
+                            backgroundColor: scheme.accent,
+                            color: scheme.accentText,
+                            border: `1px solid ${scheme.accent}`
+                          },
+                          children: isPaused ? "Resume Timer" : "Pause Timer"
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "span",
+                        {
+                          className: "text-xs",
+                          style: { color: scheme.mutedText },
+                          children: [
+                            pausesRemaining,
+                            " pause",
+                            pausesRemaining === 1 ? "" : "s",
+                            " ",
+                            "left"
+                          ]
+                        }
+                      )
                     ] })
                   ] }),
-                  formulaSheetEnabled && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap justify-end gap-2", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap justify-end gap-2", children: [
                     canShowMathFormulas && /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "button",
                       {
@@ -28563,21 +28919,38 @@ function QuizInterface({
                         },
                         children: "View Science Formula Sheet"
                       }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "button",
+                      {
+                        type: "button",
+                        onClick: () => setShowCalculator(!showCalculator),
+                        className: "btn-secondary text-xs",
+                        style: {
+                          color: scheme.accentText,
+                          borderColor: scheme.accent
+                        },
+                        children: "🖩 Calculator"
+                      }
                     )
                   ] })
                 ] })
               ]
             }
           ),
-          article && /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "mb-6", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          showCalculator && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { position: "fixed", zIndex: 9999 }, children: React.createElement(
+            require("../components/TI30XSCalculator.jsx").TI30XSCalculator,
+            { onClose: () => setShowCalculator(false) }
+          ) }),
+          article && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ged-split-view h-[calc(100vh-140px)] overflow-hidden mb-6", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "passage-pane overflow-y-auto p-6 border-r border-subtle bg-white dark:bg-slate-900", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2 mb-4", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "h3",
                   {
                     className: "text-lg font-semibold",
                     style: { color: scheme.text },
-                    children: "Reading Passage"
+                    children: "📖 Reading Passage"
                   }
                 ),
                 article.genre && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -28589,301 +28962,624 @@ function QuizInterface({
                   }
                 )
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  type: "button",
-                  onClick: () => setShowArticle((prev) => !prev),
-                  className: "inline-flex items-center gap-2 rounded-md px-3 py-1 text-sm font-semibold transition-colors",
-                  style: {
-                    color: scheme.accentText,
-                    backgroundColor: scheme.accent,
-                    border: `1px solid ${scheme.accent}`
-                  },
-                  children: showArticle ? "Hide Passage" : "Show Passage"
-                }
-              )
-            ] }),
-            showArticle && /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "div",
-              {
-                className: "mt-3 space-y-3 rounded-xl p-4 text-sm leading-relaxed",
-                style: {
-                  backgroundColor: scheme.surfaceStrong,
-                  border: `1px solid ${scheme.surfaceBorder}`,
-                  maxHeight: "18rem",
-                  overflowY: "auto"
-                },
-                children: [
-                  article.title && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "h4",
-                    {
-                      className: "text-base font-bold",
-                      style: { color: scheme.text },
-                      dangerouslySetInnerHTML: {
-                        __html: sanitizeHtmlContent(article.title, {
-                          normalizeSpacing: true
-                        })
-                      }
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3 text-sm leading-relaxed", children: [
+                article.title && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "h4",
+                  {
+                    className: "text-base font-bold",
+                    style: { color: scheme.text },
+                    dangerouslySetInnerHTML: {
+                      __html: sanitizeHtmlContent(article.title, {
+                        normalizeSpacing: true
+                      })
                     }
-                  ),
-                  (article.imageUrl || articleImage) && (() => {
-                    const rawImg = article.imageUrl || articleImage;
-                    const imgSrc = resolveAssetUrl(rawImg);
-                    return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      "img",
-                      {
-                        src: imgSrc,
-                        alt: article.imageAlt || article.title || "Reading passage illustration",
-                        className: "max-h-40 w-full rounded-lg object-cover",
-                        style: { border: "1px solid var(--border-subtle)" }
-                      }
-                    ) : null;
-                  })(),
-                  (article.text || []).map((paragraph, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "p",
-                    {
-                      className: "text-sm",
-                      style: { color: scheme.text },
-                      dangerouslySetInnerHTML: {
-                        __html: sanitizeHtmlContent(paragraph, {
-                          normalizeSpacing: true
-                        })
-                      }
-                    },
-                    index
-                  ))
-                ]
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 flex flex-wrap gap-2 quiz-nav", children: questions.map((_, i) => {
-            const isActive = i === currentIndex;
-            const isAnswered = Boolean(answers[i]);
-            const navStyle = isActive ? {
-              backgroundColor: scheme.background,
-              color: scheme.onBackgroundText
-            } : isAnswered ? {
-              backgroundColor: scheme.navAnsweredBg,
-              color: scheme.navAnsweredText
-            } : {
-              backgroundColor: scheme.navDefaultBg,
-              color: scheme.navDefaultText
-            };
-            if (marked[i]) {
-              navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
-            }
-            return /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => setCurrentIndex(i),
-                className: "h-8 w-8 rounded-full text-sm font-bold transition",
-                style: navStyle,
-                children: i + 1
-              },
-              i
-            );
-          }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "div",
-            {
-              className: "question-container rounded-xl p-4 sm:p-6 shadow-inner",
-              "data-subject": quizSubject,
-              style: {
-                border: `1px solid ${scheme.surfaceBorder}`,
-                backgroundColor: scheme.surfaceStrong || scheme.surface
-              },
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-3", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                    "span",
-                    {
-                      className: "text-xl font-semibold leading-relaxed",
-                      style: { color: scheme.text },
-                      children: [
-                        currentQ.questionNumber,
-                        "."
-                      ]
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: currentQ })
-                ] }) }),
-                (() => {
-                  var _a2;
-                  const rawImgSrc = !((_a2 = currentQ.stimulusImage) == null ? void 0 : _a2.src) && currentQ.imageUrl ? currentQ.imageUrl : null;
-                  const imgSrc = resolveAssetUrl(rawImgSrc);
+                  }
+                ),
+                (article.imageUrl || articleImage) && (() => {
+                  const rawImg = article.imageUrl || articleImage;
+                  const imgSrc = resolveAssetUrl(rawImg);
                   return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                     "img",
                     {
                       src: imgSrc,
-                      alt: `Visual for question ${currentQ.questionNumber}`,
-                      className: "my-4 h-auto max-w-full rounded-md",
-                      style: { border: `1px solid ${scheme.surfaceBorder}` }
+                      alt: article.imageAlt || article.title || "Reading passage illustration",
+                      className: "max-h-40 w-full rounded-lg object-cover",
+                      style: { border: "1px solid var(--border-subtle)" }
                     }
                   ) : null;
                 })(),
-                GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "div",
+                (article.text || []).map((paragraph, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "p",
                   {
-                    className: "my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100",
-                    style: { border: `1px solid ${scheme.surfaceBorder}` },
-                    children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      GeometryFigure,
-                      {
-                        spec: currentQ.geometrySpec,
-                        className: "w-full h-auto"
-                      }
-                    )
-                  }
-                ),
-                TOOL_PANEL_ENABLED,
-                isFillInTheBlank ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "label",
-                    {
-                      htmlFor: "fill-in-blank-answer",
-                      className: "mb-1 block text-sm font-medium",
-                      style: { color: scheme.mutedText },
-                      children: "Enter your answer:"
+                    className: "text-sm",
+                    style: { color: scheme.text },
+                    dangerouslySetInnerHTML: {
+                      __html: sanitizeHtmlContent(paragraph, {
+                        normalizeSpacing: true
+                      })
                     }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "input",
-                    {
-                      id: "fill-in-blank-answer",
-                      type: "text",
-                      value: answers[currentIndex] || "",
-                      onChange: handleInputChange,
-                      placeholder: "Type your answer here",
-                      className: "w-full max-w-sm rounded-lg p-3 focus:outline-none",
-                      style: {
-                        border: `1px solid ${scheme.inputBorder}`,
-                        color: "var(--text-primary)"
-                      }
-                    }
-                  )
-                ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-3", children: (currentQ.answerOptions || []).map((opt, i) => {
-                  const cleanedOptionText = opt.text.trim().replace(/^\$\$/, "$");
-                  const isSelected = answers[currentIndex] === opt.text;
-                  const optionStyles = {};
-                  if (isSelected) {
-                    optionStyles.backgroundColor = scheme.optionSelectedBg;
-                    optionStyles.borderColor = scheme.optionSelectedBorder;
-                    optionStyles.color = scheme.accentText;
-                  }
-                  const optionClassNames = [
-                    "option",
-                    "answer-option",
-                    "w-full",
-                    "text-left",
-                    "transition"
-                  ];
-                  if (isSelected) {
-                    optionClassNames.push("selected");
-                  }
-                  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      onClick: () => handleSelect(opt.text),
-                      className: optionClassNames.join(" "),
-                      style: optionStyles,
-                      children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                        "span",
-                        {
-                          className: "flex-grow text-left",
-                          style: { color: "var(--text-primary)" },
-                          children: [
-                            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "mr-2 font-bold", children: [
-                              String.fromCharCode(65 + i),
-                              "."
-                            ] }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx(
-                              "span",
-                              {
-                                className: "question-stem",
-                                dangerouslySetInnerHTML: renderQuestionTextForDisplay(
-                                  cleanedOptionText,
-                                  currentQ.isPremade === true
-                                )
-                              }
-                            )
-                          ]
-                        }
-                      )
-                    },
-                    i
-                  );
-                }) })
-              ]
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => setCurrentIndex((p2) => Math.max(0, p2 - 1)),
-                disabled: currentIndex === 0,
-                className: "rounded-md px-4 py-2 font-semibold transition",
-                "data-role": "secondary",
-                style: {
-                  borderColor: scheme.surfaceBorder,
-                  color: scheme.mutedText,
-                  opacity: currentIndex === 0 ? 0.6 : 1
-                },
-                children: "Previous"
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "button",
-              {
-                onClick: () => setMarked((m2) => {
-                  const newM = [...m2];
-                  newM[currentIndex] = !newM[currentIndex];
-                  return newM;
-                }),
-                className: "rounded-md px-4 py-2 font-semibold transition",
-                style: marked[currentIndex] ? {
-                  backgroundColor: scheme.navMarkedRing,
-                  color: scheme.onBackgroundText,
-                  border: `1px solid ${scheme.navMarkedRing}`
+                  },
+                  index
+                ))
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "question-pane overflow-y-auto p-6", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 flex flex-wrap gap-2 quiz-nav", children: !isOlympicsMode && questions.map((_, i) => {
+                const isActive = i === currentIndex;
+                const isAnswered = Boolean(answers[i]);
+                const navStyle = isActive ? {
+                  backgroundColor: scheme.background,
+                  color: scheme.onBackgroundText
+                } : isAnswered ? {
+                  backgroundColor: scheme.navAnsweredBg,
+                  color: scheme.navAnsweredText
                 } : {
                   backgroundColor: scheme.navDefaultBg,
-                  color: scheme.navDefaultText,
-                  border: `1px solid ${scheme.navDefaultBg}`
+                  color: scheme.navDefaultText
+                };
+                if (marked[i]) {
+                  navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
+                }
+                return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: () => setCurrentIndex(i),
+                    className: "h-8 w-8 rounded-full text-sm font-bold transition",
+                    style: navStyle,
+                    children: i + 1
+                  },
+                  i
+                );
+              }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: "question-container rounded-xl p-4 sm:p-6 shadow-inner",
+                  "data-subject": quizSubject,
+                  style: {
+                    border: `1px solid ${scheme.surfaceBorder}`,
+                    backgroundColor: scheme.surfaceStrong || scheme.surface
+                  },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-3", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "span",
+                        {
+                          className: "text-xl font-semibold leading-relaxed",
+                          style: { color: scheme.text },
+                          children: [
+                            currentQ.questionNumber,
+                            "."
+                          ]
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: currentQ })
+                    ] }) }),
+                    (() => {
+                      var _a2;
+                      const rawImgSrc = !((_a2 = currentQ.stimulusImage) == null ? void 0 : _a2.src) && currentQ.imageUrl ? currentQ.imageUrl : null;
+                      const imgSrc = resolveAssetUrl(rawImgSrc);
+                      return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "img",
+                        {
+                          src: imgSrc,
+                          alt: `Visual for question ${currentQ.questionNumber}`,
+                          className: "my-4 h-auto max-w-full rounded-md",
+                          style: { border: `1px solid ${scheme.surfaceBorder}` }
+                        }
+                      ) : null;
+                    })(),
+                    GEOMETRY_FIGURES_ENABLED$1 && currentQ.geometrySpec && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        className: "my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100",
+                        style: { border: `1px solid ${scheme.surfaceBorder}` },
+                        children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                          GeometryFigure$1,
+                          {
+                            spec: currentQ.geometrySpec,
+                            className: "w-full h-auto"
+                          }
+                        )
+                      }
+                    ),
+                    needsToolPanel && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        id: "interactive-tool-panel",
+                        ref: toolPanelRef,
+                        className: "quiz-tool-panel my-4 rounded-lg",
+                        role: "region",
+                        "aria-label": "Interactive math tool",
+                        style: {
+                          backgroundColor: scheme.surface,
+                          border: `1px dashed ${scheme.surfaceBorder}`,
+                          padding: "0.75rem"
+                        }
+                      }
+                    ),
+                    isFillInTheBlank ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "label",
+                        {
+                          htmlFor: "fill-in-blank-answer",
+                          className: "mb-1 block text-sm font-medium",
+                          style: { color: scheme.mutedText },
+                          children: "Enter your answer:"
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "input",
+                        {
+                          id: "fill-in-blank-answer",
+                          type: "text",
+                          value: answers[currentIndex] || "",
+                          onChange: handleInputChange,
+                          placeholder: "Type your answer here",
+                          disabled: isOlympicsMode && showingExplanation,
+                          className: "w-full max-w-sm rounded-lg p-3 focus:outline-none",
+                          style: {
+                            border: `1px solid ${scheme.inputBorder}`,
+                            color: "var(--text-primary)",
+                            opacity: isOlympicsMode && showingExplanation ? 0.6 : 1
+                          }
+                        }
+                      )
+                    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-3", children: (currentQ.answerOptions || []).map((opt, i) => {
+                      const cleanedOptionText = opt.text.trim().replace(/^\$\$/, "$");
+                      const isSelected = answers[currentIndex] === opt.text;
+                      const optionStyles = {};
+                      if (isSelected) {
+                        optionStyles.backgroundColor = scheme.optionSelectedBg;
+                        optionStyles.borderColor = scheme.optionSelectedBorder;
+                        optionStyles.color = scheme.accentText;
+                      }
+                      const optionClassNames = [
+                        "option",
+                        "answer-option",
+                        "w-full",
+                        "text-left",
+                        "transition"
+                      ];
+                      if (isSelected) {
+                        optionClassNames.push("selected");
+                      }
+                      return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          onClick: () => handleSelect(opt.text),
+                          disabled: isOlympicsMode && showingExplanation,
+                          className: optionClassNames.join(" "),
+                          style: {
+                            ...optionStyles,
+                            opacity: isOlympicsMode && showingExplanation ? 0.6 : 1,
+                            cursor: isOlympicsMode && showingExplanation ? "not-allowed" : "pointer"
+                          },
+                          children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                            "span",
+                            {
+                              className: "flex-grow text-left",
+                              style: { color: "var(--text-primary)" },
+                              children: [
+                                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "mr-2 font-bold", children: [
+                                  String.fromCharCode(65 + i),
+                                  "."
+                                ] }),
+                                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                                  "span",
+                                  {
+                                    className: "question-stem",
+                                    dangerouslySetInnerHTML: renderQuestionTextForDisplay(
+                                      cleanedOptionText,
+                                      currentQ.isPremade === true
+                                    )
+                                  }
+                                )
+                              ]
+                            }
+                          )
+                        },
+                        i
+                      );
+                    }) })
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between", children: isOlympicsMode ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: handleSubmit,
+                    className: "rounded-md px-4 py-2 font-semibold transition bg-amber-100 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-amber-900/50",
+                    children: "End Olympics Session"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1" }),
+                showingExplanation ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: handleOlympicsQuestionSubmit,
+                    className: "rounded-md px-6 py-2 font-semibold",
+                    "data-role": "primary",
+                    style: {
+                      backgroundColor: scheme.accent,
+                      color: scheme.accentText,
+                      borderColor: scheme.accent
+                    },
+                    children: currentIndex === questions.length - 1 || livesRemaining === 0 ? "View Summary" : "Next Question"
+                  }
+                ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: handleOlympicsQuestionSubmit,
+                    disabled: !answers[currentIndex],
+                    className: "rounded-md px-6 py-2 font-semibold transition",
+                    "data-role": "primary",
+                    style: {
+                      backgroundColor: answers[currentIndex] ? scheme.accent : "#9ca3af",
+                      color: scheme.accentText,
+                      borderColor: answers[currentIndex] ? scheme.accent : "#9ca3af",
+                      opacity: answers[currentIndex] ? 1 : 0.6,
+                      cursor: answers[currentIndex] ? "pointer" : "not-allowed"
+                    },
+                    children: "Submit Answer"
+                  }
+                )
+              ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: () => setCurrentIndex((p2) => Math.max(0, p2 - 1)),
+                    disabled: currentIndex === 0,
+                    className: "rounded-md px-4 py-2 font-semibold transition",
+                    "data-role": "secondary",
+                    style: {
+                      borderColor: scheme.surfaceBorder,
+                      color: scheme.mutedText,
+                      opacity: currentIndex === 0 ? 0.6 : 1
+                    },
+                    children: "Previous"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    onClick: () => setMarked((m2) => {
+                      const newM = [...m2];
+                      newM[currentIndex] = !newM[currentIndex];
+                      return newM;
+                    }),
+                    className: "rounded-md px-4 py-2 font-semibold transition",
+                    style: marked[currentIndex] ? {
+                      backgroundColor: scheme.navMarkedRing,
+                      color: scheme.onBackgroundText,
+                      border: `1px solid ${scheme.navMarkedRing}`
+                    } : {
+                      backgroundColor: scheme.navDefaultBg,
+                      color: scheme.navDefaultText,
+                      border: `1px solid ${scheme.navDefaultBg}`
+                    },
+                    children: [
+                      marked[currentIndex] ? "Unmark" : "Mark",
+                      " for Review"
+                    ]
+                  }
+                ),
+                currentIndex === questions.length - 1 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: handleSubmit,
+                    className: "rounded-md px-4 py-2 font-semibold",
+                    "data-role": "primary",
+                    style: {
+                      backgroundColor: scheme.accent,
+                      color: scheme.accentText,
+                      borderColor: scheme.accent
+                    },
+                    children: buttonText || "Finish"
+                  }
+                ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: () => setCurrentIndex(
+                      (p2) => Math.min(questions.length - 1, p2 + 1)
+                    ),
+                    className: "rounded-md px-4 py-2 font-semibold",
+                    "data-role": "primary",
+                    style: {
+                      backgroundColor: scheme.accent,
+                      color: scheme.accentText,
+                      borderColor: scheme.accent
+                    },
+                    children: "Next"
+                  }
+                )
+              ] }) })
+            ] })
+          ] }),
+          !article && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 flex flex-wrap gap-2 quiz-nav", children: !isOlympicsMode && questions.map((_, i) => {
+              const isActive = i === currentIndex;
+              const isAnswered = Boolean(answers[i]);
+              const navStyle = isActive ? {
+                backgroundColor: scheme.background,
+                color: scheme.onBackgroundText
+              } : isAnswered ? {
+                backgroundColor: scheme.navAnsweredBg,
+                color: scheme.navAnsweredText
+              } : {
+                backgroundColor: scheme.navDefaultBg,
+                color: scheme.navDefaultText
+              };
+              if (marked[i]) {
+                navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
+              }
+              return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => setCurrentIndex(i),
+                  className: "h-8 w-8 rounded-full text-sm font-bold transition",
+                  style: navStyle,
+                  children: i + 1
+                },
+                i
+              );
+            }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "question-container rounded-xl p-4 sm:p-6 shadow-inner",
+                "data-subject": quizSubject,
+                style: {
+                  border: `1px solid ${scheme.surfaceBorder}`,
+                  backgroundColor: scheme.surfaceStrong || scheme.surface
                 },
                 children: [
-                  marked[currentIndex] ? "Unmark" : "Mark",
-                  " for Review"
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-3", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "span",
+                      {
+                        className: "text-xl font-semibold leading-relaxed",
+                        style: { color: scheme.text },
+                        children: [
+                          currentQ.questionNumber,
+                          "."
+                        ]
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: currentQ })
+                  ] }) }),
+                  (() => {
+                    var _a2;
+                    const rawImgSrc = !((_a2 = currentQ.stimulusImage) == null ? void 0 : _a2.src) && currentQ.imageUrl ? currentQ.imageUrl : null;
+                    const imgSrc = resolveAssetUrl(rawImgSrc);
+                    return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "img",
+                      {
+                        src: imgSrc,
+                        alt: `Visual for question ${currentQ.questionNumber}`,
+                        className: "my-4 h-auto max-w-full rounded-md",
+                        style: { border: `1px solid ${scheme.surfaceBorder}` }
+                      }
+                    ) : null;
+                  })(),
+                  GEOMETRY_FIGURES_ENABLED$1 && currentQ.geometrySpec && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "div",
+                    {
+                      className: "my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100",
+                      style: { border: `1px solid ${scheme.surfaceBorder}` },
+                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        GeometryFigure$1,
+                        {
+                          spec: currentQ.geometrySpec,
+                          className: "w-full h-auto"
+                        }
+                      )
+                    }
+                  ),
+                  needsToolPanel && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "div",
+                    {
+                      id: "interactive-tool-panel",
+                      ref: toolPanelRef,
+                      className: "quiz-tool-panel my-4 rounded-lg",
+                      role: "region",
+                      "aria-label": "Interactive math tool",
+                      style: {
+                        backgroundColor: scheme.surface,
+                        border: `1px dashed ${scheme.surfaceBorder}`,
+                        padding: "0.75rem"
+                      }
+                    }
+                  ),
+                  isFillInTheBlank ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "label",
+                      {
+                        htmlFor: "fill-in-blank-answer",
+                        className: "mb-1 block text-sm font-medium",
+                        style: { color: scheme.mutedText },
+                        children: "Enter your answer:"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "input",
+                      {
+                        id: "fill-in-blank-answer",
+                        type: "text",
+                        value: answers[currentIndex] || "",
+                        onChange: handleInputChange,
+                        placeholder: "Type your answer here",
+                        disabled: isOlympicsMode && showingExplanation,
+                        className: "w-full max-w-sm rounded-lg p-3 focus:outline-none",
+                        style: {
+                          border: `1px solid ${scheme.inputBorder}`,
+                          color: "var(--text-primary)",
+                          opacity: isOlympicsMode && showingExplanation ? 0.6 : 1
+                        }
+                      }
+                    )
+                  ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-3", children: (currentQ.answerOptions || []).map((opt, i) => {
+                    const cleanedOptionText = stripHtmlTag(opt.text || "");
+                    const isSelected = answers[currentIndex] === i;
+                    const optionStyle = isSelected ? {
+                      backgroundColor: scheme.optionSelectedBg,
+                      border: `2px solid ${scheme.optionSelectedBorder}`,
+                      color: scheme.optionSelectedText
+                    } : {
+                      backgroundColor: scheme.optionDefaultBg,
+                      border: `1px solid ${scheme.optionDefaultBorder}`,
+                      color: scheme.optionDefaultText
+                    };
+                    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "button",
+                      {
+                        onClick: () => handleOptionChange(i),
+                        disabled: isOlympicsMode && showingExplanation,
+                        className: "flex w-full items-center gap-2 rounded-lg p-3 text-left transition",
+                        style: {
+                          ...optionStyle,
+                          cursor: isOlympicsMode && showingExplanation ? "not-allowed" : "pointer"
+                        },
+                        children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                          "span",
+                          {
+                            className: "flex-grow text-left",
+                            style: { color: "var(--text-primary)" },
+                            children: [
+                              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "mr-2 font-bold", children: [
+                                String.fromCharCode(65 + i),
+                                "."
+                              ] }),
+                              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                                "span",
+                                {
+                                  className: "question-stem",
+                                  dangerouslySetInnerHTML: renderQuestionTextForDisplay(
+                                    cleanedOptionText,
+                                    currentQ.isPremade === true
+                                  )
+                                }
+                              )
+                            ]
+                          }
+                        )
+                      },
+                      i
+                    );
+                  }) })
                 ]
               }
             ),
-            currentIndex === questions.length - 1 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: handleSubmit,
-                className: "rounded-md px-4 py-2 font-semibold",
-                "data-role": "primary",
-                style: {
-                  backgroundColor: scheme.accent,
-                  color: scheme.accentText,
-                  borderColor: scheme.accent
-                },
-                children: buttonText || "Finish"
-              }
-            ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => setCurrentIndex((p2) => Math.min(questions.length - 1, p2 + 1)),
-                className: "rounded-md px-4 py-2 font-semibold",
-                "data-role": "primary",
-                style: {
-                  backgroundColor: scheme.accent,
-                  color: scheme.accentText,
-                  borderColor: scheme.accent
-                },
-                children: "Next"
-              }
-            )
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between", children: isOlympicsMode ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: handleSubmit,
+                  className: "rounded-md px-4 py-2 font-semibold transition bg-amber-100 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-amber-900/50",
+                  children: "End Olympics Session"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1" }),
+              showingExplanation ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: handleOlympicsQuestionSubmit,
+                  className: "rounded-md px-6 py-2 font-semibold",
+                  "data-role": "primary",
+                  style: {
+                    backgroundColor: scheme.accent,
+                    color: scheme.accentText,
+                    borderColor: scheme.accent
+                  },
+                  children: currentIndex === questions.length - 1 || livesRemaining === 0 ? "View Summary" : "Next Question"
+                }
+              ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: handleOlympicsQuestionSubmit,
+                  disabled: !answers[currentIndex] && !hasNoOptions,
+                  className: "rounded-md px-6 py-2 font-semibold",
+                  "data-role": "primary",
+                  style: {
+                    backgroundColor: scheme.accent,
+                    color: scheme.accentText,
+                    borderColor: scheme.accent,
+                    opacity: !answers[currentIndex] && !hasNoOptions ? 0.6 : 1
+                  },
+                  children: "Submit Answer"
+                }
+              )
+            ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => setCurrentIndex((p2) => Math.max(0, p2 - 1)),
+                  disabled: currentIndex === 0,
+                  className: "rounded-md px-4 py-2 font-semibold transition",
+                  "data-role": "secondary",
+                  style: {
+                    borderColor: scheme.surfaceBorder,
+                    color: scheme.mutedText,
+                    opacity: currentIndex === 0 ? 0.6 : 1
+                  },
+                  children: "Previous"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  onClick: () => setMarked((m2) => {
+                    const newM = [...m2];
+                    newM[currentIndex] = !newM[currentIndex];
+                    return newM;
+                  }),
+                  className: "rounded-md px-4 py-2 font-semibold transition",
+                  style: marked[currentIndex] ? {
+                    backgroundColor: scheme.navMarkedRing,
+                    color: scheme.onBackgroundText,
+                    border: `1px solid ${scheme.navMarkedRing}`
+                  } : {
+                    backgroundColor: scheme.navDefaultBg,
+                    color: scheme.navDefaultText,
+                    border: `1px solid ${scheme.navDefaultBg}`
+                  },
+                  children: [
+                    marked[currentIndex] ? "Unmark" : "Mark",
+                    " for Review"
+                  ]
+                }
+              ),
+              currentIndex === questions.length - 1 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: handleSubmit,
+                  className: "rounded-md px-4 py-2 font-semibold",
+                  "data-role": "primary",
+                  style: {
+                    backgroundColor: scheme.accent,
+                    color: scheme.accentText,
+                    borderColor: scheme.accent
+                  },
+                  children: buttonText || "Finish"
+                }
+              ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => setCurrentIndex(
+                    (p2) => Math.min(questions.length - 1, p2 + 1)
+                  ),
+                  className: "rounded-md px-4 py-2 font-semibold",
+                  "data-role": "primary",
+                  style: {
+                    backgroundColor: scheme.accent,
+                    color: scheme.accentText,
+                    borderColor: scheme.accent
+                  },
+                  children: "Next"
+                }
+              )
+            ] }) })
           ] })
         ]
       }
@@ -29059,7 +29755,8 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       subject: quiz.subject,
       quizConfig: quiz.config,
       article: quiz.article,
-      articleImage: quiz.imageUrl
+      articleImage: quiz.imageUrl,
+      practiceMode: quiz.practiceMode
     }
   );
 }
@@ -29650,11 +30347,106 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 }
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   var _a2;
+  reactExports.useEffect(() => {
+    const passed = (results == null ? void 0 : results.passed) === true || (results == null ? void 0 : results.scaledScore) && results.scaledScore >= 145;
+    if (passed) {
+      const triggerConfetti = () => {
+        if (typeof window !== "undefined" && window.confetti) {
+          window.confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ["#22c55e", "#38bdf8", "#fbbf24", "#f472b6", "#a78bfa"]
+          });
+        }
+      };
+      const timeout = setTimeout(triggerConfetti, 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [results]);
   if (!quiz || !results || !Array.isArray(quiz.questions)) {
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "results-screen error", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "Results Unavailable" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "We saved your score, but couldn't build the detailed breakdown." }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onHome, children: "Back to Menu" })
+    ] });
+  }
+  if (results.olympicsMode && results.olympicsHistory) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center fade-in results-screen olympics-summary", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-8", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2", children: "🏅 Olympics Session Complete" }),
+        results.livesRemaining === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg text-gray-700 dark:text-gray-300", children: "You used all 3 lives." }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-lg text-gray-700 dark:text-gray-300", children: [
+          "You ended the session with ",
+          results.livesRemaining,
+          " ",
+          results.livesRemaining === 1 ? "life" : "lives",
+          " remaining."
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-3xl font-bold text-blue-600 dark:text-blue-400", children: results.totalAnswered }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Questions Completed" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-3xl font-bold text-green-600 dark:text-green-400", children: results.totalCorrect }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Correct Answers" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-3xl font-bold text-red-600 dark:text-red-400", children: results.totalWrong }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Incorrect Answers" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-8 max-w-4xl mx-auto", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-gray-800 dark:text-gray-200", children: "Question History" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { className: "bg-gray-100 dark:bg-gray-700", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-4 py-2 text-left border-b dark:border-gray-600", children: "#" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-4 py-2 text-left border-b dark:border-gray-600", children: "Result" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-4 py-2 text-left border-b dark:border-gray-600", children: "Subject" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-4 py-2 text-left border-b dark:border-gray-600", children: "Topic" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-4 py-2 text-left border-b dark:border-gray-600", children: "Source Quiz" })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: results.olympicsHistory.map((entry, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "tr",
+            {
+              className: "border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2", children: index + 1 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "span",
+                  {
+                    className: entry.correct ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400",
+                    children: entry.correct ? "✅" : "❌"
+                  }
+                ) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2", children: entry.subject }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2", children: entry.topic || "—" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2 text-sm", children: entry.premadeQuizTitle || "Premade Quiz" })
+              ]
+            },
+            index
+          )) })
+        ] }) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-center", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: onHome,
+            className: "px-6 py-3 rounded-lg font-semibold bg-gray-600 hover:bg-gray-700 text-white transition",
+            children: "Return to Practice Menu"
+          }
+        ),
+        onRestart && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: onRestart,
+            className: "px-6 py-3 rounded-lg font-semibold bg-amber-600 hover:bg-amber-700 text-white transition",
+            children: "Start New Olympics Session"
+          }
+        )
+      ] })
     ] });
   }
   const safeMarked = Array.isArray(results.marked) ? results.marked : [];
@@ -29961,8 +30753,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       }
                     ) : null;
                   })(),
-                  GEOMETRY_FIGURES_ENABLED && question.geometrySpec && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "my-3 max-w-md", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    GeometryFigure,
+                  GEOMETRY_FIGURES_ENABLED$1 && question.geometrySpec && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "my-3 max-w-md", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    GeometryFigure$1,
                     {
                       spec: question.geometrySpec,
                       className: "w-full h-auto"
@@ -30134,8 +30926,8 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                   }
                 ) : null;
               })(),
-              GEOMETRY_FIGURES_ENABLED && q2.geometrySpec && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "my-3 max-w-md", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-                GeometryFigure,
+              GEOMETRY_FIGURES_ENABLED$1 && q2.geometrySpec && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "my-3 max-w-md", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                GeometryFigure$1,
                 {
                   spec: q2.geometrySpec,
                   className: "w-full h-auto"
@@ -30925,7 +31717,21 @@ function EssayGuide({ onExit }) {
                     }
                   }
                 }
-              )
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 flex justify-between items-center text-sm", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-gray-600", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: wordCount(essayText.intro) }),
+                  " ",
+                  "words",
+                  " | ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: (essayText.intro.match(/\n\n/g) || []).length + 1 }),
+                  " ",
+                  "paragraphs"
+                ] }),
+                essayText.intro && essayText.intro.length > 20 && !/thesis|argue|believe|claim|position|support|evidence/i.test(
+                  essayText.intro
+                ) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-yellow-700 bg-yellow-50 px-3 py-1 rounded-md border border-yellow-300", children: "💡 Tip: Ensure you state your main argument" })
+              ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #1: Analyze Strong Evidence" }),
@@ -32807,7 +33613,1565 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
     return MAP[key] || [];
   };
 }
+const GEOMETRY_FIGURES_ENABLED = (() => {
+  try {
+    return window.__APP_CONFIG__ && window.__APP_CONFIG__.geometryFiguresEnabled === true;
+  } catch {
+    return false;
+  }
+})();
+const DEFAULT_FIGURE_STYLE = {
+  stroke: "#1e293b",
+  strokeWidth: 2,
+  fill: "none"
+};
+const geometryRenderers = {
+  circle: (params, style) => {
+    const cx = params.cx || 50;
+    const cy = params.cy || 50;
+    const r = params.r || 30;
+    return {
+      elements: /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx, cy, r, ...style }),
+      pointsForBounds: [
+        { x: cx - r, y: cy - r },
+        { x: cx + r, y: cy + r }
+      ]
+    };
+  },
+  rectangle: (params, style) => {
+    const x = params.x || 20;
+    const y = params.y || 20;
+    const width = params.width || 60;
+    const height = params.height || 40;
+    return {
+      elements: /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x, y, width, height, ...style }),
+      pointsForBounds: [
+        { x, y },
+        { x: x + width, y: y + height }
+      ]
+    };
+  },
+  line: (params, style) => {
+    const x1 = params.x1 || 10;
+    const y1 = params.y1 || 10;
+    const x2 = params.x2 || 90;
+    const y2 = params.y2 || 90;
+    return {
+      elements: /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1, y1, x2, y2, ...style }),
+      pointsForBounds: [
+        { x: x1, y: y1 },
+        { x: x2, y: y2 }
+      ]
+    };
+  },
+  triangle: (params, style) => {
+    const points = params.points || "50,10 90,90 10,90";
+    const coords = points.split(" ").map((p2) => {
+      const [x, y] = p2.split(",").map(Number);
+      return { x, y };
+    });
+    return {
+      elements: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points, ...style }),
+      pointsForBounds: coords
+    };
+  }
+};
+function GeometryFigure({ spec, className }) {
+  if (!GEOMETRY_FIGURES_ENABLED || !spec || typeof spec !== "object") {
+    return null;
+  }
+  const style = {
+    ...DEFAULT_FIGURE_STYLE,
+    ...spec.style || {}
+  };
+  const renderer = geometryRenderers[spec.shape];
+  if (!renderer) {
+    console.warn("Unsupported geometry shape:", spec.shape);
+    return null;
+  }
+  const renderResult = renderer(spec.params || {}, style);
+  if (!renderResult) {
+    return null;
+  }
+  const points = renderResult.pointsForBounds && renderResult.pointsForBounds.length > 0 ? renderResult.pointsForBounds : [
+    { x: 0, y: 0 },
+    { x: 100, y: 100 }
+  ];
+  let minX = Math.min(...points.map((pt) => pt.x));
+  let maxX = Math.max(...points.map((pt) => pt.x));
+  let minY = Math.min(...points.map((pt) => pt.y));
+  let maxY = Math.max(...points.map((pt) => pt.y));
+  if (spec.view) {
+    const { xMin, xMax, yMin, yMax } = spec.view;
+    if (typeof xMin === "number") minX = Math.min(minX, xMin);
+    if (typeof xMax === "number") maxX = Math.max(maxX, xMax);
+    if (typeof yMin === "number") minY = Math.min(minY, yMin);
+    if (typeof yMax === "number") maxY = Math.max(maxY, yMax);
+  }
+  const padding = spec.view && typeof spec.view.padding === "number" ? spec.view.padding : 8;
+  const width = Math.max(maxX - minX, 20);
+  const height = Math.max(maxY - minY, 20);
+  const viewBox = `${minX - padding} ${minY - padding} ${width + padding * 2} ${height + padding * 2}`;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "svg",
+    {
+      className,
+      viewBox,
+      xmlns: "http://www.w3.org/2000/svg",
+      role: "img",
+      "aria-label": "Geometry figure",
+      preserveAspectRatio: "xMidYMid meet",
+      children: renderResult.elements
+    }
+  );
+}
+function GraphTool({
+  boardId = "jxgbox",
+  config = {},
+  onBoardReady = null
+}) {
+  const boardRef = reactExports.useRef(null);
+  const containerRef = reactExports.useRef(null);
+  reactExports.useEffect(() => {
+    if (typeof window.JXG === "undefined") {
+      console.warn(
+        "JSXGraph library not loaded. Please include JSXGraph script."
+      );
+      return;
+    }
+    const defaultConfig = {
+      boundingbox: [-10, 10, 10, -10],
+      axis: true,
+      showNavigation: true,
+      showCopyright: false,
+      keepaspectratio: true,
+      ...config
+    };
+    try {
+      const board = window.JXG.JSXGraph.initBoard(boardId, defaultConfig);
+      boardRef.current = board;
+      if (onBoardReady && typeof onBoardReady === "function") {
+        onBoardReady(board);
+      }
+    } catch (error) {
+      console.error("Failed to initialize JSXGraph board:", error);
+    }
+    return () => {
+      if (boardRef.current) {
+        try {
+          window.JXG.JSXGraph.freeBoard(boardRef.current);
+        } catch (e) {
+          console.warn("Error freeing JSXGraph board:", e);
+        }
+      }
+    };
+  }, [boardId, config, onBoardReady]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "graph-tool-container w-full h-full bg-white dark:bg-slate-800 rounded-lg p-4", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      id: boardId,
+      ref: containerRef,
+      className: "jxgbox w-full h-full min-h-[400px] rounded border border-slate-300 dark:border-slate-600",
+      role: "img",
+      "aria-label": "Interactive graph for plotting mathematical objects"
+    }
+  ) });
+}
+function StepByStepSolver({
+  problemType = "equation",
+  onSolutionFound = null
+}) {
+  const [input, setInput] = reactExports.useState("");
+  const [steps, setSteps] = reactExports.useState([]);
+  const [isLoading2, setIsLoading] = reactExports.useState(false);
+  const handleSolve = async () => {
+    if (!input.trim()) return;
+    setIsLoading(true);
+    setTimeout(() => {
+      const exampleSteps = [
+        {
+          step: 1,
+          description: "Parse the problem",
+          equation: input
+        },
+        {
+          step: 2,
+          description: "Identify problem type",
+          equation: `Type: ${problemType}`
+        },
+        {
+          step: 3,
+          description: "Solution steps will appear here",
+          equation: "Implementation pending"
+        }
+      ];
+      setSteps(exampleSteps);
+      setIsLoading(false);
+      if (onSolutionFound) {
+        onSolutionFound(exampleSteps);
+      }
+    }, 1e3);
+  };
+  const handleClear = () => {
+    setInput("");
+    setSteps([]);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "step-by-step-solver w-full bg-white dark:bg-slate-800 rounded-lg p-6 shadow-lg", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-blue-700 dark:text-blue-400", children: "📐 Step-by-Step Math Solver" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "input-section mb-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "label",
+        {
+          htmlFor: "math-input",
+          className: "block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300",
+          children: "Enter your problem:"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          id: "math-input",
+          type: "text",
+          value: input,
+          onChange: (e) => setInput(e.target.value),
+          onKeyPress: (e) => e.key === "Enter" && handleSolve(),
+          placeholder: "e.g., 2x + 5 = 13",
+          className: "w-full px-4 py-2 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100",
+          "aria-label": "Math problem input"
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-group flex gap-2 mb-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleSolve,
+          disabled: !input.trim() || isLoading2,
+          className: "px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded font-medium transition-colors",
+          children: isLoading2 ? "Solving..." : "Solve"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleClear,
+          disabled: !input && steps.length === 0,
+          className: "px-6 py-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-900 dark:text-slate-100 rounded font-medium transition-colors",
+          children: "Clear"
+        }
+      )
+    ] }),
+    steps.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "solution-steps space-y-3", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-semibold text-lg text-slate-900 dark:text-slate-100 mb-3", children: "Solution Steps:" }),
+      steps.map((step) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "step-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "step-header flex items-center gap-2 mb-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "step-number inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold", children: step.step }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "step-description font-medium text-slate-800 dark:text-slate-200", children: step.description })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "step-equation font-mono text-base text-slate-700 dark:text-slate-300 ml-10", children: step.equation })
+          ]
+        },
+        step.step
+      ))
+    ] }),
+    steps.length === 0 && !isLoading2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state text-center py-8 text-slate-500 dark:text-slate-400", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg", children: "Enter a math problem above to see step-by-step solutions" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-2", children: "Supports equations, inequalities, and more" })
+    ] })
+  ] });
+}
+function StatisticsTool({ onCalculate = null }) {
+  const [input, setInput] = reactExports.useState("");
+  const [results, setResults] = reactExports.useState(null);
+  const [error, setError] = reactExports.useState("");
+  const parseNumbers = (text) => {
+    const numbers = text.split(/[,\s]+/).map((s) => s.trim()).filter((s) => s.length > 0).map((s) => parseFloat(s)).filter((n2) => !isNaN(n2));
+    return numbers;
+  };
+  const calculateMean = (numbers) => {
+    if (numbers.length === 0) return null;
+    const sum = numbers.reduce((acc, n2) => acc + n2, 0);
+    return sum / numbers.length;
+  };
+  const calculateMedian = (numbers) => {
+    if (numbers.length === 0) return null;
+    const sorted = [...numbers].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    if (sorted.length % 2 === 0) {
+      return (sorted[mid - 1] + sorted[mid]) / 2;
+    } else {
+      return sorted[mid];
+    }
+  };
+  const calculateMode = (numbers) => {
+    if (numbers.length === 0) return null;
+    const frequency = {};
+    numbers.forEach((n2) => {
+      frequency[n2] = (frequency[n2] || 0) + 1;
+    });
+    const maxFreq = Math.max(...Object.values(frequency));
+    const modes = Object.keys(frequency).filter((key) => frequency[key] === maxFreq).map((key) => parseFloat(key));
+    if (maxFreq === 1) return null;
+    return modes;
+  };
+  const calculateRange = (numbers) => {
+    if (numbers.length === 0) return null;
+    return Math.max(...numbers) - Math.min(...numbers);
+  };
+  const handleCalculate = () => {
+    setError("");
+    setResults(null);
+    const numbers = parseNumbers(input);
+    if (numbers.length === 0) {
+      setError("Please enter at least one valid number");
+      return;
+    }
+    const stats = {
+      count: numbers.length,
+      values: numbers,
+      mean: calculateMean(numbers),
+      median: calculateMedian(numbers),
+      mode: calculateMode(numbers),
+      range: calculateRange(numbers),
+      min: Math.min(...numbers),
+      max: Math.max(...numbers)
+    };
+    setResults(stats);
+    if (onCalculate) {
+      onCalculate(stats);
+    }
+  };
+  const handleClear = () => {
+    setInput("");
+    setResults(null);
+    setError("");
+  };
+  const formatNumber = (num) => {
+    if (num === null || num === void 0) return "N/A";
+    return typeof num === "number" ? num.toFixed(2) : num.toString();
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "statistics-tool w-full bg-white dark:bg-slate-800 rounded-lg p-6 shadow-lg", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-blue-700 dark:text-blue-400", children: "📊 Statistics Calculator" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "input-section mb-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "label",
+        {
+          htmlFor: "stats-input",
+          className: "block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300",
+          children: "Enter numbers (comma or space-separated):"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          id: "stats-input",
+          type: "text",
+          value: input,
+          onChange: (e) => setInput(e.target.value),
+          onKeyPress: (e) => e.key === "Enter" && handleCalculate(),
+          placeholder: "e.g., 5, 10, 15, 20, 15",
+          className: "w-full px-4 py-2 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100",
+          "aria-label": "Number input for statistics"
+        }
+      )
+    ] }),
+    error && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "error-message mb-4 p-3 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded", children: error }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-group flex gap-2 mb-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleCalculate,
+          disabled: !input.trim(),
+          className: "px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded font-medium transition-colors",
+          children: "Calculate"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleClear,
+          disabled: !input && !results,
+          className: "px-6 py-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-900 dark:text-slate-100 rounded font-medium transition-colors",
+          children: "Clear"
+        }
+      )
+    ] }),
+    results && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "results-section space-y-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-semibold text-lg text-slate-900 dark:text-slate-100 mb-3", children: "Results:" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-grid grid grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Count" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-slate-900 dark:text-slate-100", children: results.count })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Mean (Average)" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-blue-600 dark:text-blue-400", children: formatNumber(results.mean) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Median" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-blue-600 dark:text-blue-400", children: formatNumber(results.median) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Mode" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-blue-600 dark:text-blue-400", children: results.mode === null ? "None" : Array.isArray(results.mode) ? results.mode.map(formatNumber).join(", ") : formatNumber(results.mode) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Range" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-slate-900 dark:text-slate-100", children: formatNumber(results.range) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Min / Max" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-value text-xl font-bold text-slate-900 dark:text-slate-100", children: [
+            formatNumber(results.min),
+            " / ",
+            formatNumber(results.max)
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "values-display mt-4 p-3 rounded bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-600", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm font-medium text-slate-600 dark:text-slate-400 mb-2", children: "Sorted Values:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-slate-900 dark:text-slate-100 font-mono", children: [...results.values].sort((a, b) => a - b).join(", ") })
+      ] })
+    ] }),
+    !results && !error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state text-center py-8 text-slate-500 dark:text-slate-400", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg", children: "Enter numbers above to calculate statistics" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-2", children: "Calculates mean, median, mode, and range" })
+    ] })
+  ] });
+}
+const MATH_FORMULAS = [
+  {
+    name: "Pythagorean Theorem",
+    formula: "a^2 + b^2 = c^2",
+    description: "In a right triangle, the square of the hypotenuse equals the sum of squares of the other two sides"
+  },
+  {
+    name: "Slope",
+    formula: "m = (y_2 - y_1) / (x_2 - x_1)",
+    description: "The slope of a line through two points"
+  },
+  {
+    name: "Distance Formula",
+    formula: "d = √[(x_2-x_1)² + (y_2-y_1)²]",
+    description: "Distance between two points in a coordinate plane"
+  },
+  {
+    name: "Quadratic Formula",
+    formula: "x = [-b ± √(b²-4ac)] / 2a",
+    description: "Solutions to ax² + bx + c = 0"
+  },
+  {
+    name: "Area of Rectangle",
+    formula: "A = l × w",
+    description: "Length times width"
+  },
+  {
+    name: "Area of Circle",
+    formula: "A = πr²",
+    description: "Pi times radius squared"
+  },
+  {
+    name: "Volume of Cylinder",
+    formula: "V = πr²h",
+    description: "Pi times radius squared times height"
+  },
+  {
+    name: "Mean (Average)",
+    formula: "x̄ = Σx / n",
+    description: "Sum of all values divided by count"
+  }
+];
+function FormulaSheetModal({ onClose }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+      style: { backgroundColor: "rgba(0,0,0,0.7)" },
+      onClick: onClose,
+      children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "bg-white dark:bg-slate-800 rounded-xl shadow-2xl max-w-3xl w-full max-h-[80vh] overflow-y-auto",
+          onClick: (e) => e.stopPropagation(),
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sticky top-0 bg-blue-600 dark:bg-blue-700 text-white px-6 py-4 flex items-center justify-between rounded-t-xl", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold", children: "📐 Math Formula Sheet" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: onClose,
+                  className: "text-white hover:text-gray-200 text-2xl font-bold",
+                  "aria-label": "Close formula sheet",
+                  children: "×"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-6 space-y-4", children: MATH_FORMULAS.map((item, idx) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "p-4 border border-slate-200 dark:border-slate-700 rounded-lg",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-bold text-blue-700 dark:text-blue-400 mb-2", children: item.name }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xl font-mono text-slate-900 dark:text-slate-100 mb-2", children: item.formula }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-slate-600 dark:text-slate-400", children: item.description })
+                ]
+              },
+              idx
+            )) })
+          ]
+        }
+      )
+    }
+  );
+}
+function MathView({ dark = false }) {
+  var _a2;
+  const [showFormulaSheet, setShowFormulaSheet] = reactExports.useState(false);
+  const [selectedTool, setSelectedTool] = reactExports.useState("geometry");
+  const theme = getSubjectTheme("math", dark);
+  const tools = [
+    { id: "geometry", name: "📐 Geometry Figures", component: GeometryFigure },
+    { id: "graph", name: "📊 Graphing Tool", component: GraphTool },
+    {
+      id: "solver",
+      name: "🧮 Step-by-Step Solver",
+      component: StepByStepSolver
+    },
+    {
+      id: "statistics",
+      name: "📈 Statistics Calculator",
+      component: StatisticsTool
+    }
+  ];
+  const ActiveToolComponent = (_a2 = tools.find(
+    (t) => t.id === selectedTool
+  )) == null ? void 0 : _a2.component;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      className: "math-view min-h-screen p-6",
+      style: {
+        backgroundColor: dark ? "#0f172a" : "#f8fafc",
+        color: dark ? "#e2e8f0" : "#1e293b"
+      },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "header-section mb-8 p-6 rounded-xl shadow-lg",
+            style: {
+              background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-2", style: { color: theme.text }, children: "🔢 Mathematical Reasoning" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg opacity-90", style: { color: theme.text }, children: "Practice with GED-aligned math tools and formulas" })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-6 flex gap-4", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setShowFormulaSheet(true),
+            className: "px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all",
+            style: {
+              backgroundColor: theme.primary,
+              color: theme.text
+            },
+            children: "📋 Open Formula Sheet"
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tool-selector mb-6", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-semibold mb-3", children: "Select a Tool:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-3", children: tools.map((tool) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setSelectedTool(tool.id),
+              className: `p-4 rounded-lg font-medium transition-all ${selectedTool === tool.id ? "ring-4 shadow-lg" : "shadow hover:shadow-md"}`,
+              style: {
+                backgroundColor: selectedTool === tool.id ? dark ? "#1e3a8a" : "#dbeafe" : dark ? "#334155" : "#ffffff",
+                color: selectedTool === tool.id ? dark ? "#93c5fd" : "#1e40af" : dark ? "#e2e8f0" : "#1e293b",
+                borderColor: selectedTool === tool.id ? theme.primary : "transparent"
+              },
+              children: tool.name
+            },
+            tool.id
+          )) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tool-display-area", children: ActiveToolComponent ? /* @__PURE__ */ jsxRuntimeExports.jsx(ActiveToolComponent, {}) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-center py-12 text-slate-500", children: "Select a tool above to get started" }) }),
+        showFormulaSheet && /* @__PURE__ */ jsxRuntimeExports.jsx(FormulaSheetModal, { onClose: () => setShowFormulaSheet(false) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "info-section mt-8 p-6 rounded-lg",
+            style: {
+              backgroundColor: dark ? "#1e293b" : "#ffffff",
+              border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-semibold mb-3", children: "About Math Tools" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "space-y-2 text-sm", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "📐 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Geometry Figures:" }),
+                  " Visualize shapes and measurements"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "📊 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Graphing Tool:" }),
+                  " Plot points and analyze functions"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "🧮 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Step-by-Step Solver:" }),
+                  " Solve equations with explanations"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "📈 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Statistics Calculator:" }),
+                  " Calculate mean, median, mode, range"
+                ] })
+              ] })
+            ]
+          }
+        )
+      ]
+    }
+  );
+}
+const KATEX_RENDER_OPTIONS = {
+  throwOnError: false,
+  strict: false,
+  trust: false,
+  displayMode: false
+};
+function renderLatexToHtml(latexInput) {
+  if (typeof latexInput !== "string") {
+    return "";
+  }
+  if (typeof katex === "undefined") {
+    console.warn("KaTeX not loaded");
+    return latexInput;
+  }
+  try {
+    const latex = normalizeLatexForKaTeX(latexInput);
+    if (typeof document !== "undefined" && typeof document.createElement === "function" && typeof katex.render === "function") {
+      const container = document.createElement("span");
+      katex.render(latex, container, KATEX_RENDER_OPTIONS);
+      return container.innerHTML;
+    }
+    if (typeof katex.renderToString === "function") {
+      return katex.renderToString(latex, KATEX_RENDER_OPTIONS);
+    }
+  } catch (error) {
+    console.warn("KaTeX render error:", (error == null ? void 0 : error.message) || error);
+  }
+  return latexInput;
+}
+function normalizeLatexForKaTeX(latex) {
+  if (typeof latex !== "string") {
+    return "";
+  }
+  let working = latex;
+  working = working.replace(/\\text\{([^}]+)\}/g, "\\mathrm{$1}");
+  working = working.replace(/\s+/g, " ").trim();
+  return working;
+}
+function applySafeMathFix(text) {
+  if (typeof text !== "string") {
+    return text;
+  }
+  let working = text;
+  working = working.replace(/\\frac([^{])/g, "\\frac{$1}");
+  working = working.replace(/\\sqrt([^{])/g, "\\sqrt{$1}");
+  working = working.replace(
+    /\\(bar|hat|tilde|vec|dot)_([a-zA-Z])/g,
+    "\\$1{$2}"
+  );
+  return working;
+}
+function sanitizeUnicode(s) {
+  if (typeof s !== "string" || s.length === 0) return s;
+  try {
+    let t = s;
+    t = t.replace(/H\uFFFD\uFFFDO/g, "H₂O");
+    t = t.replace(/g\/cm\uFFFD/g, "g/cm³");
+    t = t.replace(/cm\uFFFD/g, "cm³");
+    t = t.replace(/\uFFFDC/g, "°C");
+    t = t.replace(/\uFFFDF/g, "°F");
+    t = t.replace(/([abc])\uFFFD/g, "$1²");
+    t = t.replace(/x\uFFFD/g, "x²");
+    t = t.replace(/(\d)\s?\uFFFD\s?(\d)/g, "$1–$2");
+    t = t.replace(/\uFFFD\uFFFD 0/g, "≠ 0");
+    t = t.replace(/Topic A\uFFFDZ/g, "Topic A–Z");
+    t = t.replace(/More in this topic\uFFFD/g, "More in this topic…");
+    t = t.replace(/pp \uFFFD/g, "pp →");
+    t = t.replace(/\uFFFD\uFFFD️?/g, "");
+    t = t.replace(/\uFFFD/g, "");
+    return t;
+  } catch (error) {
+    console.warn("Unicode sanitization error:", error);
+    return s;
+  }
+}
+const SCIENCE_FORMULAS = [
+  {
+    name: "Density",
+    formula: "d = \\frac{m}{V}",
+    variables: "d = density (mass per unit volume), m = mass, V = volume"
+  },
+  {
+    name: "Average Speed",
+    formula: "v = \\frac{d}{t}",
+    variables: "v = average speed, d = distance traveled, t = elapsed time"
+  },
+  {
+    name: "Force",
+    formula: "F = ma",
+    variables: "F = net force, m = mass, a = acceleration"
+  },
+  {
+    name: "Work",
+    formula: "W = F \\times d",
+    variables: "W = work, F = applied force, d = displacement in the direction of the force"
+  },
+  {
+    name: "Mean (Average)",
+    formula: "\\bar{x} = \\frac{\\text{Total of all data values}}{\\text{How many values there are}}",
+    variables: "\\bar{x} = mean (average) of the data set: add all values together and divide by how many values there are"
+  },
+  {
+    name: "Range",
+    formula: "\\text{Range} = \\text{Maximum value} - \\text{Minimum value}",
+    variables: "Describes the spread between the largest and smallest values in a data set."
+  }
+];
+function FormulaDisplay({ latex, className = "" }) {
+  const sanitizedFormula = typeof latex === "string" ? (() => {
+    let working = latex;
+    working = applySafeMathFix(working);
+    if (typeof window.normalizeLatexMacrosInMath === "function") {
+      working = window.normalizeLatexMacrosInMath(working);
+    }
+    return working;
+  })() : latex;
+  let html = "";
+  try {
+    html = renderLatexToHtml(sanitizedFormula);
+  } catch (err) {
+    console.warn("KaTeX render fallback triggered:", (err == null ? void 0 : err.message) || err);
+    html = (sanitizedFormula || "").replace(
+      /[&<>"']/g,
+      (m2) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[m2]
+    );
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      className,
+      dangerouslySetInnerHTML: { __html: sanitizeUnicode(html) }
+    }
+  );
+}
+function ScienceFormulaSheet({ onClose }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      className: "fixed inset-0 z-50 flex items-center justify-center",
+      style: { backgroundColor: "var(--modal-overlay)" },
+      role: "dialog",
+      "aria-labelledby": "science-formula-title",
+      "aria-modal": "true",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "formula-sheet science-formula-sheet rounded-xl shadow-2xl max-w-lg w-11/12 p-6 relative bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            className: "formula-sheet-close absolute top-3 right-3 text-2xl font-bold hover:opacity-80 transition-opacity text-slate-600 dark:text-slate-300",
+            onClick: onClose,
+            type: "button",
+            "aria-label": "Close science formula sheet",
+            children: "×"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "h2",
+          {
+            id: "science-formula-title",
+            className: "formula-sheet-title text-xl font-bold mb-4 text-emerald-700 dark:text-emerald-400",
+            children: "🧪 Science Formula Sheet"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "formula-sheet-grid space-y-4 max-h-[60vh] overflow-y-auto pr-2", children: SCIENCE_FORMULAS.map((item, idx) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "formula-sheet-card rounded-lg p-3 space-y-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "formula-sheet-label font-semibold text-emerald-800 dark:text-emerald-300", children: item.name }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                FormulaDisplay,
+                {
+                  latex: item.formula,
+                  className: "formula-equation rounded text-center my-2 text-lg font-mono px-2 py-2 bg-white dark:bg-slate-800"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "formula-sheet-description text-xs leading-snug text-slate-600 dark:text-slate-400", children: item.variables })
+            ]
+          },
+          idx
+        )) })
+      ] })
+    }
+  );
+}
+function ScienceView({ dark = false }) {
+  const [showFormulaSheet, setShowFormulaSheet] = reactExports.useState(false);
+  const theme = getSubjectTheme("science", dark);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      className: "science-view min-h-screen p-6",
+      style: {
+        backgroundColor: dark ? "#0f172a" : "#f8fafc",
+        color: dark ? "#e2e8f0" : "#1e293b"
+      },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "header-section mb-8 p-6 rounded-xl shadow-lg",
+            style: {
+              background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-2", style: { color: theme.text }, children: "🧪 Science" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg opacity-90", style: { color: theme.text }, children: "Practice with GED-aligned science formulas and concepts" })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setShowFormulaSheet(true),
+            className: "px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all",
+            style: {
+              backgroundColor: theme.primary,
+              color: theme.text
+            },
+            children: "🧪 Open Science Formula Sheet"
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "content-section p-6 rounded-lg",
+            style: {
+              backgroundColor: dark ? "#1e293b" : "#ffffff",
+              border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold mb-4", children: "Science Practice Tools" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tools-grid grid md:grid-cols-2 gap-6", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${theme.primary}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🧪" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Formula Sheet" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Access key science formulas including density, speed, force, work, and statistical measures."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          onClick: () => setShowFormulaSheet(true),
+                          className: "px-4 py-2 rounded font-medium",
+                          style: {
+                            backgroundColor: theme.primary,
+                            color: theme.text
+                          },
+                          children: "Open"
+                        }
+                      )
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🔬" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Practice Questions" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Coming soon: Interactive science questions covering life science, physical science, and earth/space science."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          disabled: true,
+                          className: "px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed",
+                          style: {
+                            backgroundColor: dark ? "#475569" : "#cbd5e1",
+                            color: dark ? "#94a3b8" : "#64748b"
+                          },
+                          children: "Coming Soon"
+                        }
+                      )
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🌍" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Interactive Diagrams" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Coming soon: Label diagrams, explore systems, and visualize scientific concepts."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          disabled: true,
+                          className: "px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed",
+                          style: {
+                            backgroundColor: dark ? "#475569" : "#cbd5e1",
+                            color: dark ? "#94a3b8" : "#64748b"
+                          },
+                          children: "Coming Soon"
+                        }
+                      )
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📊" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Data Analysis" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Coming soon: Analyze scientific data, interpret graphs, and draw evidence-based conclusions."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          disabled: true,
+                          className: "px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed",
+                          style: {
+                            backgroundColor: dark ? "#475569" : "#cbd5e1",
+                            color: dark ? "#94a3b8" : "#64748b"
+                          },
+                          children: "Coming Soon"
+                        }
+                      )
+                    ]
+                  }
+                )
+              ] })
+            ]
+          }
+        ),
+        showFormulaSheet && /* @__PURE__ */ jsxRuntimeExports.jsx(ScienceFormulaSheet, { onClose: () => setShowFormulaSheet(false) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "info-section mt-8 p-6 rounded-lg",
+            style: {
+              backgroundColor: dark ? "#1e293b" : "#ffffff",
+              border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-semibold mb-3", children: "GED Science Topics" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "space-y-2 text-sm", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "🧬 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Life Science:" }),
+                  " Cells, genetics, evolution, ecology"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "⚛️ ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Physical Science:" }),
+                  " Physics, chemistry, energy, matter"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "🌎 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Earth & Space Science:" }),
+                  " Geology, weather, astronomy"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "🔬 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Scientific Practices:" }),
+                  " Data analysis, experimental design"
+                ] })
+              ] })
+            ]
+          }
+        )
+      ]
+    }
+  );
+}
+function RLAView({ dark = false }) {
+  const theme = getSubjectTheme("rla", dark);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      className: "rla-view min-h-screen p-6",
+      style: {
+        backgroundColor: dark ? "#0f172a" : "#f8fafc",
+        color: dark ? "#e2e8f0" : "#1e293b"
+      },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "header-section mb-8 p-6 rounded-xl shadow-lg",
+            style: {
+              background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-2", style: { color: theme.text }, children: "📚 Reasoning Through Language Arts" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg opacity-90", style: { color: theme.text }, children: "Practice reading comprehension, writing, and language skills" })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "content-section p-6 rounded-lg mb-6",
+            style: {
+              backgroundColor: dark ? "#1e293b" : "#ffffff",
+              border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold mb-4", children: "RLA Practice Tools" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tools-grid grid md:grid-cols-2 gap-6", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${theme.primary}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📖" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Reading Passages" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Practice with fiction, nonfiction, and informational texts. Analyze themes, main ideas, and supporting details."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          disabled: true,
+                          className: "px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed",
+                          style: {
+                            backgroundColor: dark ? "#475569" : "#cbd5e1",
+                            color: dark ? "#94a3b8" : "#64748b"
+                          },
+                          children: "Coming Soon"
+                        }
+                      )
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "✍️" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Writing Practice" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Coming soon: Practice extended response essays with guided prompts and scoring rubrics."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          disabled: true,
+                          className: "px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed",
+                          style: {
+                            backgroundColor: dark ? "#475569" : "#cbd5e1",
+                            color: dark ? "#94a3b8" : "#64748b"
+                          },
+                          children: "Coming Soon"
+                        }
+                      )
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📝" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Grammar & Mechanics" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Coming soon: Master grammar rules, punctuation, capitalization, and sentence structure."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          disabled: true,
+                          className: "px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed",
+                          style: {
+                            backgroundColor: dark ? "#475569" : "#cbd5e1",
+                            color: dark ? "#94a3b8" : "#64748b"
+                          },
+                          children: "Coming Soon"
+                        }
+                      )
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🔍" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Critical Analysis" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Coming soon: Analyze arguments, evaluate evidence, and make inferences from complex texts."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          disabled: true,
+                          className: "px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed",
+                          style: {
+                            backgroundColor: dark ? "#475569" : "#cbd5e1",
+                            color: dark ? "#94a3b8" : "#64748b"
+                          },
+                          children: "Coming Soon"
+                        }
+                      )
+                    ]
+                  }
+                )
+              ] })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "info-section p-6 rounded-lg",
+            style: {
+              backgroundColor: dark ? "#1e293b" : "#ffffff",
+              border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-semibold mb-3", children: "GED RLA Topics" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "space-y-2 text-sm", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "📖 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Reading Comprehension:" }),
+                  " Fiction, nonfiction, informational texts"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "✍️ ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Extended Response:" }),
+                  " Essay writing with evidence-based arguments"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "📝 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Language Conventions:" }),
+                  " Grammar, usage, and mechanics"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "🔍 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Critical Thinking:" }),
+                  " Analysis, inference, and evaluation"
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: "mt-6 p-4 rounded-lg",
+                  style: {
+                    backgroundColor: dark ? "#334155" : "#f1f5f9",
+                    borderLeft: `4px solid ${theme.primary}`
+                  },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-semibold mb-2", children: "💡 Study Tip" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm", children: "Focus on active reading strategies: annotate passages, identify main ideas, and practice summarizing information in your own words." })
+                  ]
+                }
+              )
+            ]
+          }
+        )
+      ]
+    }
+  );
+}
+function SocialStudiesView({ dark = false }) {
+  const theme = getSubjectTheme("social-studies", dark);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      className: "social-studies-view min-h-screen p-6",
+      style: {
+        backgroundColor: dark ? "#0f172a" : "#f8fafc",
+        color: dark ? "#e2e8f0" : "#1e293b"
+      },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "header-section mb-8 p-6 rounded-xl shadow-lg",
+            style: {
+              background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-2", style: { color: theme.text }, children: "🌍 Social Studies" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg opacity-90", style: { color: theme.text }, children: "Explore civics, history, geography, and economics" })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "content-section p-6 rounded-lg mb-6",
+            style: {
+              backgroundColor: dark ? "#1e293b" : "#ffffff",
+              border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold mb-4", children: "Social Studies Practice Tools" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tools-grid grid md:grid-cols-2 gap-6", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${theme.primary}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🏛️" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Civics & Government" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Study the U.S. Constitution, branches of government, voting rights, and civic participation."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          disabled: true,
+                          className: "px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed",
+                          style: {
+                            backgroundColor: dark ? "#475569" : "#cbd5e1",
+                            color: dark ? "#94a3b8" : "#64748b"
+                          },
+                          children: "Coming Soon"
+                        }
+                      )
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📜" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "U.S. History" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Coming soon: Explore key events, movements, and figures that shaped American history."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          disabled: true,
+                          className: "px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed",
+                          style: {
+                            backgroundColor: dark ? "#475569" : "#cbd5e1",
+                            color: dark ? "#94a3b8" : "#64748b"
+                          },
+                          children: "Coming Soon"
+                        }
+                      )
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🗺️" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Geography" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Coming soon: Master map reading, regions, natural resources, and human-environment interactions."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          disabled: true,
+                          className: "px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed",
+                          style: {
+                            backgroundColor: dark ? "#475569" : "#cbd5e1",
+                            color: dark ? "#94a3b8" : "#64748b"
+                          },
+                          children: "Coming Soon"
+                        }
+                      )
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "tool-card p-6 rounded-lg",
+                    style: {
+                      backgroundColor: dark ? "#334155" : "#f1f5f9",
+                      border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "💰" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Economics" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm mb-4",
+                          style: { color: dark ? "#94a3b8" : "#64748b" },
+                          children: "Coming soon: Understand supply and demand, market systems, financial literacy, and economic principles."
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          disabled: true,
+                          className: "px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed",
+                          style: {
+                            backgroundColor: dark ? "#475569" : "#cbd5e1",
+                            color: dark ? "#94a3b8" : "#64748b"
+                          },
+                          children: "Coming Soon"
+                        }
+                      )
+                    ]
+                  }
+                )
+              ] })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "info-section p-6 rounded-lg",
+            style: {
+              backgroundColor: dark ? "#1e293b" : "#ffffff",
+              border: `2px solid ${dark ? "#334155" : "#e2e8f0"}`
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-semibold mb-3", children: "GED Social Studies Topics" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "space-y-2 text-sm", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "🏛️ ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Civics & Government (50%):" }),
+                  " Constitution, rights, political systems"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "📜 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "U.S. History (20%):" }),
+                  " Key events and movements in American history"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "🗺️ ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Geography (15%):" }),
+                  " Maps, regions, and human-environment interaction"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+                  "💰 ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Economics (15%):" }),
+                  " Market systems, supply and demand, financial literacy"
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: "mt-6 p-4 rounded-lg",
+                  style: {
+                    backgroundColor: dark ? "#334155" : "#f1f5f9",
+                    borderLeft: `4px solid ${theme.primary}`
+                  },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-semibold mb-2", children: "💡 Study Tip" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm", children: "Focus on understanding cause-and-effect relationships in historical events and practice analyzing primary source documents like speeches, letters, and political cartoons." })
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: "mt-4 p-4 rounded-lg",
+                  style: {
+                    backgroundColor: dark ? "#1e3a5f" : "#dbeafe",
+                    borderLeft: `4px solid ${theme.primary}`
+                  },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-semibold mb-2", children: "📊 Test Focus" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm", children: "The GED Social Studies test emphasizes reading comprehension and analysis over memorization. Practice interpreting charts, graphs, maps, and political cartoons." })
+                  ]
+                }
+              )
+            ]
+          }
+        )
+      ]
+    }
+  );
+}
+function ThemeAwareView({ children, ViewComponent }) {
+  const [dark, setDark] = reactExports.useState(() => {
+    if (typeof document === "undefined") return false;
+    return document.documentElement.classList.contains("dark") || document.documentElement.getAttribute("data-theme") === "dark";
+  });
+  const navigate = useNavigate();
+  reactExports.useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains("dark") || document.documentElement.getAttribute("data-theme") === "dark";
+      setDark(isDark);
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class", "data-theme"]
+    });
+    return () => observer.disconnect();
+  }, []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "theme-aware-view", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "button",
+      {
+        onClick: () => navigate("/"),
+        className: "fixed top-4 left-4 z-50 px-4 py-2 rounded-lg shadow-lg font-medium transition-all hover:shadow-xl",
+        style: {
+          backgroundColor: dark ? "#334155" : "#ffffff",
+          color: dark ? "#e2e8f0" : "#1e293b",
+          border: `2px solid ${dark ? "#475569" : "#e2e8f0"}`
+        },
+        children: "← Back to Dashboard"
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ViewComponent, { dark })
+  ] });
+}
 client.createRoot(document.getElementById("root")).render(
-  /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
+  /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(BrowserRouter, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Routes, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/", element: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/math", element: /* @__PURE__ */ jsxRuntimeExports.jsx(ThemeAwareView, { ViewComponent: MathView }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/science", element: /* @__PURE__ */ jsxRuntimeExports.jsx(ThemeAwareView, { ViewComponent: ScienceView }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/rla", element: /* @__PURE__ */ jsxRuntimeExports.jsx(ThemeAwareView, { ViewComponent: RLAView }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "/social-studies", element: /* @__PURE__ */ jsxRuntimeExports.jsx(ThemeAwareView, { ViewComponent: SocialStudiesView }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Route, { path: "*", element: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
+  ] }) }) })
 );
-//# sourceMappingURL=main-Ctb1zOMn.js.map
+//# sourceMappingURL=main-BU_igL3P.js.map

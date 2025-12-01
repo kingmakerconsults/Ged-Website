@@ -33121,6 +33121,7 @@ function StartScreen({
                     subject={subjectName}
                     icon={iconPath}
                     onClick={() => openSubjectPremades(subjectName)}
+                    enableNavigation={true}
                     className="bg-surface border border-subtle"
                   >
                     <div
