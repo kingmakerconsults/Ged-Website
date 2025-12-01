@@ -22925,6 +22925,7 @@ async function fetchJSON(url, options = {}) {
 
 // --- App Structure Components ---
 import SubjectCard from '../components/subject/SubjectCard.jsx';
+import SubjectToolsModal from '../components/SubjectToolsModal.jsx';
 
 function AppHeader({
   currentUser,
@@ -23423,6 +23424,8 @@ function App({ externalTheme, onThemeChange }) {
   const [progress, setProgress] = useState(() => createEmptyProgress());
   const [quizAttempts, setQuizAttempts] = useState([]);
   const [showFormulaSheet, setShowFormulaSheet] = useState(false);
+  const [showToolsModal, setShowToolsModal] = useState(false);
+  const [toolsModalSubject, setToolsModalSubject] = useState(null);
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [showPracticeModal, setShowPracticeModal] = useState(false);
   const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
@@ -26120,6 +26123,16 @@ function App({ externalTheme, onThemeChange }) {
         )}
         {showFormulaSheet && (
           <FormulaSheetModal onClose={() => setShowFormulaSheet(false)} />
+        )}
+        {showToolsModal && (
+          <SubjectToolsModal
+            subject={toolsModalSubject}
+            dark={theme === 'dark'}
+            onClose={() => {
+              setShowToolsModal(false);
+              setToolsModalSubject(null);
+            }}
+          />
         )}
         {showNamePrompt && (
           <NamePromptModal
@@ -31937,21 +31950,26 @@ function StartScreen({
             </div>
             {(selectedSubject === 'Math' || selectedSubject === 'Science') && (
               <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => {
+                    setToolsModalSubject(selectedSubject);
+                    setShowToolsModal(true);
+                  }}
+                  className="px-4 py-2 font-semibold rounded-lg shadow-sm transition"
+                  style={{
+                    backgroundColor: heroTextColor,
+                    color: heroAccentColor,
+                  }}
+                >
+                  🛠️ {selectedSubject} Tools
+                </button>
                 {selectedSubject === 'Math' && (
-                  <>
-                    <button
-                      onClick={() => onOpenMathTools?.()}
-                      className="px-4 py-2 bg-sky-500 text-white font-semibold rounded-lg shadow-sm hover:bg-sky-600 transition"
-                    >
-                      Math Practice Tools
-                    </button>
-                    <button
-                      onClick={() => setShowFormulaSheet(true)}
-                      className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white transition"
-                    >
-                      Formula Sheet
-                    </button>
-                  </>
+                  <button
+                    onClick={() => setShowFormulaSheet(true)}
+                    className="px-4 py-2 bg-white/90 text-sky-700 font-semibold rounded-lg hover:bg-white transition"
+                  >
+                    Formula Sheet
+                  </button>
                 )}
                 {selectedSubject === 'Science' && (
                   <button
@@ -33121,7 +33139,6 @@ function StartScreen({
                     subject={subjectName}
                     icon={iconPath}
                     onClick={() => openSubjectPremades(subjectName)}
-                    enableNavigation={true}
                     className="bg-surface border border-subtle"
                   >
                     <div
