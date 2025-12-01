@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-DMA4KsWS.js";
+import { _ as __vitePreload } from "./index-BNQxwfGw.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -1147,15 +1147,60 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
   );
 }
 const AMENDMENTS_DB = [
-  { id: "1st", topic: "Freedoms", simple: "Freedom of speech, religion, press, assembly, and petition.", original: "Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances." },
-  { id: "2nd", topic: "Arms", simple: "Right to keep and bear arms (own guns).", original: "A well regulated Militia, being necessary to the security of a free State, the right of the people to keep and bear Arms, shall not be infringed." },
-  { id: "4th", topic: "Privacy", simple: "Protection against unreasonable searches and seizures (need a warrant).", original: "The right of the people to be secure in their persons, houses, papers, and effects, against unreasonable searches and seizures, shall not be violated, and no Warrants shall issue, but upon probable cause, supported by Oath or affirmation, and particularly describing the place to be searched, and the persons or things to be seized." },
-  { id: "5th", topic: "Due Process", simple: "Right to remain silent; no double jeopardy; due process required.", original: "No person shall be held to answer for a capital, or otherwise infamous crime, unless on a presentment or indictment of a Grand Jury... nor shall be compelled in any criminal case to be a witness against himself, nor be deprived of life, liberty, or property, without due process of law; nor shall private property be taken for public use, without just compensation." },
-  { id: "6th", topic: "Trial", simple: "Right to a speedy, public trial and a lawyer.", original: "In all criminal prosecutions, the accused shall enjoy the right to a speedy and public trial, by an impartial jury of the State and district wherein the crime shall have been committed... and to have the Assistance of Counsel for his defence." },
-  { id: "8th", topic: "Punishment", simple: "No cruel or unusual punishment; no excessive bail.", original: "Excessive bail shall not be required, nor excessive fines imposed, nor cruel and unusual punishments inflicted." },
-  { id: "13th", topic: "Slavery", simple: "Abolished slavery in the United States.", original: "Neither slavery nor involuntary servitude, except as a punishment for crime whereof the party shall have been duly convicted, shall exist within the United States, or any place subject to their jurisdiction." },
-  { id: "14th", topic: "Equality", simple: "Grants citizenship to anyone born in the US; guarantees equal protection under the law.", original: "All persons born or naturalized in the United States, and subject to the jurisdiction thereof, are citizens of the United States and of the State wherein they reside. No State shall make or enforce any law which shall abridge the privileges or immunities of citizens of the United States; nor shall any State deprive any person of life, liberty, or property, without due process of law; nor deny to any person within its jurisdiction the equal protection of the laws." },
-  { id: "19th", topic: "Voting (Sex)", simple: "Women's right to vote.", original: "The right of citizens of the United States to vote shall not be denied or abridged by the United States or by any State on account of sex." }
+  {
+    id: "1st",
+    topic: "Freedoms",
+    simple: "Freedom of speech, religion, press, assembly, and petition.",
+    original: "Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances."
+  },
+  {
+    id: "2nd",
+    topic: "Arms",
+    simple: "Right to keep and bear arms (own guns).",
+    original: "A well regulated Militia, being necessary to the security of a free State, the right of the people to keep and bear Arms, shall not be infringed."
+  },
+  {
+    id: "4th",
+    topic: "Privacy",
+    simple: "Protection against unreasonable searches and seizures (need a warrant).",
+    original: "The right of the people to be secure in their persons, houses, papers, and effects, against unreasonable searches and seizures, shall not be violated, and no Warrants shall issue, but upon probable cause, supported by Oath or affirmation, and particularly describing the place to be searched, and the persons or things to be seized."
+  },
+  {
+    id: "5th",
+    topic: "Due Process",
+    simple: "Right to remain silent; no double jeopardy; due process required.",
+    original: "No person shall be held to answer for a capital, or otherwise infamous crime, unless on a presentment or indictment of a Grand Jury... nor shall be compelled in any criminal case to be a witness against himself, nor be deprived of life, liberty, or property, without due process of law; nor shall private property be taken for public use, without just compensation."
+  },
+  {
+    id: "6th",
+    topic: "Trial",
+    simple: "Right to a speedy, public trial and a lawyer.",
+    original: "In all criminal prosecutions, the accused shall enjoy the right to a speedy and public trial, by an impartial jury of the State and district wherein the crime shall have been committed... and to have the Assistance of Counsel for his defence."
+  },
+  {
+    id: "8th",
+    topic: "Punishment",
+    simple: "No cruel or unusual punishment; no excessive bail.",
+    original: "Excessive bail shall not be required, nor excessive fines imposed, nor cruel and unusual punishments inflicted."
+  },
+  {
+    id: "13th",
+    topic: "Slavery",
+    simple: "Abolished slavery in the United States.",
+    original: "Neither slavery nor involuntary servitude, except as a punishment for crime whereof the party shall have been duly convicted, shall exist within the United States, or any place subject to their jurisdiction."
+  },
+  {
+    id: "14th",
+    topic: "Equality",
+    simple: "Grants citizenship to anyone born in the US; guarantees equal protection under the law.",
+    original: "All persons born or naturalized in the United States, and subject to the jurisdiction thereof, are citizens of the United States and of the State wherein they reside. No State shall make or enforce any law which shall abridge the privileges or immunities of citizens of the United States; nor shall any State deprive any person of life, liberty, or property, without due process of law; nor deny to any person within its jurisdiction the equal protection of the laws."
+  },
+  {
+    id: "19th",
+    topic: "Voting (Sex)",
+    simple: "Women's right to vote.",
+    original: "The right of citizens of the United States to vote shall not be denied or abridged by the United States or by any State on account of sex."
+  }
 ];
 function ConstitutionExplorer({ onExit }) {
   const [mode, setMode] = reactExports.useState("simple");
@@ -1208,16 +1253,29 @@ function ConstitutionExplorer({ onExit }) {
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: [
-      filtered.map((amendment) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-start mb-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider", children: [
-            amendment.id,
-            " Amendment"
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-medium text-sky-600 dark:text-sky-400", children: amendment.topic })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: `text-base leading-relaxed flex-grow ${mode === "original" ? "font-serif italic text-slate-700 dark:text-slate-300" : "font-sans text-slate-900 dark:text-white"}`, children: mode === "original" ? `"${amendment.original}"` : amendment.simple })
-      ] }, amendment.id)),
+      filtered.map((amendment) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "flex flex-col p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-start mb-3", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider", children: [
+                amendment.id,
+                " Amendment"
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-medium text-sky-600 dark:text-sky-400", children: amendment.topic })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "p",
+              {
+                className: `text-base leading-relaxed flex-grow ${mode === "original" ? "font-serif italic text-slate-700 dark:text-slate-300" : "font-sans text-slate-900 dark:text-white"}`,
+                children: mode === "original" ? `"${amendment.original}"` : amendment.simple
+              }
+            )
+          ]
+        },
+        amendment.id
+      )),
       filtered.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12 text-slate-500", children: [
         'No amendments found matching "',
         search,
@@ -1240,16 +1298,30 @@ function EconomicsGraphTool({ onExit }) {
       showCopyright: false,
       showNavigation: false
     });
-    board.create("axis", [[0, 0], [1, 0]], {
-      name: "Quantity",
-      withLabel: true,
-      label: { position: "rt", offset: [-10, 10] }
-    });
-    board.create("axis", [[0, 0], [0, 1]], {
-      name: "Price",
-      withLabel: true,
-      label: { position: "rt", offset: [-20, 0] }
-    });
+    board.create(
+      "axis",
+      [
+        [0, 0],
+        [1, 0]
+      ],
+      {
+        name: "Quantity",
+        withLabel: true,
+        label: { position: "rt", offset: [-10, 10] }
+      }
+    );
+    board.create(
+      "axis",
+      [
+        [0, 0],
+        [0, 1]
+      ],
+      {
+        name: "Price",
+        withLabel: true,
+        label: { position: "rt", offset: [-20, 0] }
+      }
+    );
     boardInstance.current = board;
     return () => {
       if (boardInstance.current) {
@@ -1275,20 +1347,34 @@ function EconomicsGraphTool({ onExit }) {
       });
       board.removeObject(idsToRemove);
     }
-    board.create("line", [[0, d_intercept], [10, d_intercept - 10]], {
-      strokeColor: "#2563eb",
-      strokeWidth: 3,
-      name: "Demand",
-      withLabel: true,
-      label: { position: "top", offset: [10, 10] }
-    });
-    board.create("line", [[0, s_intercept], [10, 10 + s_intercept]], {
-      strokeColor: "#dc2626",
-      strokeWidth: 3,
-      name: "Supply",
-      withLabel: true,
-      label: { position: "top", offset: [10, -10] }
-    });
+    board.create(
+      "line",
+      [
+        [0, d_intercept],
+        [10, d_intercept - 10]
+      ],
+      {
+        strokeColor: "#2563eb",
+        strokeWidth: 3,
+        name: "Demand",
+        withLabel: true,
+        label: { position: "top", offset: [10, 10] }
+      }
+    );
+    board.create(
+      "line",
+      [
+        [0, s_intercept],
+        [10, 10 + s_intercept]
+      ],
+      {
+        strokeColor: "#dc2626",
+        strokeWidth: 3,
+        name: "Supply",
+        withLabel: true,
+        label: { position: "top", offset: [10, -10] }
+      }
+    );
     board.create("point", [eq_Q, eq_P], {
       name: "",
       face: "o",
@@ -1297,21 +1383,42 @@ function EconomicsGraphTool({ onExit }) {
       fillColor: "#16a34a",
       fixed: true
     });
-    board.create("segment", [[eq_Q, 0], [eq_Q, eq_P]], {
-      strokeColor: "#666",
-      dash: 2,
-      strokeWidth: 1
-    });
-    board.create("segment", [[0, eq_P], [eq_Q, eq_P]], {
-      strokeColor: "#666",
-      dash: 2,
-      strokeWidth: 1
-    });
+    board.create(
+      "segment",
+      [
+        [eq_Q, 0],
+        [eq_Q, eq_P]
+      ],
+      {
+        strokeColor: "#666",
+        dash: 2,
+        strokeWidth: 1
+      }
+    );
+    board.create(
+      "segment",
+      [
+        [0, eq_P],
+        [eq_Q, eq_P]
+      ],
+      {
+        strokeColor: "#666",
+        dash: 2,
+        strokeWidth: 1
+      }
+    );
     board.unsuspendUpdate();
   }, [demandShift, supplyShift]);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-6", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4 mb-6", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onExit, className: "text-sm font-semibold text-sky-600 hover:text-sky-700", children: "← Back to Dashboard" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onExit,
+          className: "text-sm font-semibold text-sky-600 hover:text-sky-700",
+          children: "← Back to Dashboard"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold", children: "Economics Simulator: Supply & Demand" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-16" })
     ] }),
@@ -28367,8 +28474,8 @@ function StartScreen({
                 /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "hero-title text-3xl font-extrabold", children: selectedSubject }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold", style: heroMutedTextStyle, children: subjectPremadeLabel })
               ] }),
-              (selectedSubject === "Math" || selectedSubject === "Science") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap gap-2", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              (selectedSubject === "Math" || selectedSubject === "Science" || selectedSubject === "Social Studies") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap gap-2", children: [
+                (selectedSubject === "Math" || selectedSubject === "Science") && /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "button",
                   {
                     onClick: () => {
@@ -28408,7 +28515,33 @@ function StartScreen({
                     },
                     children: "View Science Formula Sheet"
                   }
-                )
+                ),
+                selectedSubject === "Social Studies" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      onClick: () => setActiveSocialTool("constitution"),
+                      className: "px-4 py-2 font-semibold rounded-lg shadow-sm transition",
+                      style: {
+                        backgroundColor: heroTextColor,
+                        color: heroAccentColor
+                      },
+                      children: "📜 Constitution Explorer"
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      onClick: () => setActiveSocialTool("economics"),
+                      className: "px-4 py-2 font-semibold rounded-lg shadow-sm transition",
+                      style: {
+                        backgroundColor: heroTextColor,
+                        color: heroAccentColor
+                      },
+                      children: "📊 Economics Graphing"
+                    }
+                  )
+                ] })
               ] })
             ] }),
             subjectVocabulary.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -34842,4 +34975,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-DQilYBnf.js.map
+//# sourceMappingURL=main-CAVIBnOj.js.map
