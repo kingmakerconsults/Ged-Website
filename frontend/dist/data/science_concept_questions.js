@@ -1,0 +1,273 @@
+// frontend/data/science_concept_questions.js
+// Multiple-choice conceptual practice questions for Science.
+(function loadScienceConceptQuestions() {
+  if (typeof window === 'undefined') return;
+  const SCIENCE_CONCEPT_QUESTIONS = [
+    // Physics
+    {
+      id: 'phys_1',
+      category: 'Physics',
+      difficulty: 'easy',
+      question: 'What is the unit of force in the SI system?',
+      choices: [
+        { text: 'Newton (N)', correct: true },
+        { text: 'Joule (J)', correct: false },
+        { text: 'Watt (W)', correct: false },
+        { text: 'Pascal (Pa)', correct: false },
+      ],
+      explanation: 'Force is measured in newtons (N).',
+    },
+    {
+      id: 'phys_2',
+      category: 'Physics',
+      difficulty: 'easy',
+      question: 'Which quantity is conserved in an isolated system?',
+      choices: [
+        { text: 'Energy', correct: true },
+        { text: 'Velocity', correct: false },
+        { text: 'Force', correct: false },
+        { text: 'Power', correct: false },
+      ],
+      explanation: 'Total energy remains constant in an isolated system.',
+    },
+    {
+      id: 'phys_3',
+      category: 'Physics',
+      difficulty: 'medium',
+      question: 'An object moves at constant velocity. What is the net force?',
+      choices: [
+        { text: 'Zero', correct: true },
+        { text: 'Equal to its weight', correct: false },
+        { text: 'Increasing', correct: false },
+        { text: 'Opposite its velocity', correct: false },
+      ],
+      explanation:
+        "Newton's First Law: constant velocity implies zero net force.",
+    },
+    {
+      id: 'phys_4',
+      category: 'Physics',
+      difficulty: 'medium',
+      question: 'Kinetic energy formula is?',
+      choices: [
+        { text: 'KE = 1/2 m v^2', correct: true },
+        { text: 'KE = m g h', correct: false },
+        { text: 'KE = F d', correct: false },
+        { text: 'KE = p v', correct: false },
+      ],
+      explanation: 'Kinetic energy is one half mass times velocity squared.',
+    },
+    {
+      id: 'phys_5',
+      category: 'Physics',
+      difficulty: 'hard',
+      question: 'Momentum is defined as:',
+      choices: [
+        { text: 'Mass × Velocity', correct: true },
+        { text: 'Force ÷ Time', correct: false },
+        { text: 'Energy × Time', correct: false },
+        { text: 'Power × Area', correct: false },
+      ],
+      explanation: 'Momentum p = m v.',
+    },
+    // Biology
+    {
+      id: 'bio_1',
+      category: 'Biology',
+      difficulty: 'easy',
+      question: 'Basic unit of life is the:',
+      choices: [
+        { text: 'Cell', correct: true },
+        { text: 'Atom', correct: false },
+        { text: 'Organ', correct: false },
+        { text: 'Tissue', correct: false },
+      ],
+      explanation: 'Cells are the basic living units.',
+    },
+    {
+      id: 'bio_2',
+      category: 'Biology',
+      difficulty: 'easy',
+      question: 'Organelle responsible for energy production:',
+      choices: [
+        { text: 'Mitochondrion', correct: true },
+        { text: 'Ribosome', correct: false },
+        { text: 'Golgi apparatus', correct: false },
+        { text: 'Nucleolus', correct: false },
+      ],
+      explanation: 'Mitochondria produce ATP.',
+    },
+    {
+      id: 'bio_3',
+      category: 'Biology',
+      difficulty: 'medium',
+      question: 'DNA replicates during which cell cycle phase?',
+      choices: [
+        { text: 'S phase', correct: true },
+        { text: 'G1 phase', correct: false },
+        { text: 'G2 phase', correct: false },
+        { text: 'M phase', correct: false },
+      ],
+      explanation: 'DNA synthesis occurs in S phase.',
+    },
+    {
+      id: 'bio_4',
+      category: 'Biology',
+      difficulty: 'medium',
+      question: 'Photosynthesis occurs in which organelle?',
+      choices: [
+        { text: 'Chloroplast', correct: true },
+        { text: 'Mitochondrion', correct: false },
+        { text: 'Lysosome', correct: false },
+        { text: 'Ribosome', correct: false },
+      ],
+      explanation: 'Chloroplasts contain chlorophyll for photosynthesis.',
+    },
+    {
+      id: 'bio_5',
+      category: 'Biology',
+      difficulty: 'hard',
+      question: 'Transcription produces:',
+      choices: [
+        { text: 'mRNA from DNA template', correct: true },
+        { text: 'DNA from mRNA template', correct: false },
+        { text: 'Protein from mRNA', correct: false },
+        { text: 'ATP from ADP', correct: false },
+      ],
+      explanation: 'Transcription produces messenger RNA.',
+    },
+    // Chemistry
+    {
+      id: 'chem_1',
+      category: 'Chemistry',
+      difficulty: 'easy',
+      question: 'Atomic number equals number of:',
+      choices: [
+        { text: 'Protons', correct: true },
+        { text: 'Neutrons', correct: false },
+        { text: 'Electrons only', correct: false },
+        { text: 'Protons + Neutrons', correct: false },
+      ],
+      explanation: 'Atomic number is proton count.',
+    },
+    {
+      id: 'chem_2',
+      category: 'Chemistry',
+      difficulty: 'easy',
+      question: 'NaCl is held together by:',
+      choices: [
+        { text: 'Ionic bond', correct: true },
+        { text: 'Covalent bond', correct: false },
+        { text: 'Hydrogen bond', correct: false },
+        { text: 'Metallic bond', correct: false },
+      ],
+      explanation: 'Ionic bond between Na+ and Cl-.',
+    },
+    {
+      id: 'chem_3',
+      category: 'Chemistry',
+      difficulty: 'medium',
+      question: 'pH of a neutral aqueous solution at 25°C is:',
+      choices: [
+        { text: '7', correct: true },
+        { text: '0', correct: false },
+        { text: '1', correct: false },
+        { text: '14', correct: false },
+      ],
+      explanation: 'Neutral water has pH 7.',
+    },
+    {
+      id: 'chem_4',
+      category: 'Chemistry',
+      difficulty: 'medium',
+      question: "Avogadro's number is approximately:",
+      choices: [
+        { text: '6.02 × 10^23', correct: true },
+        { text: '3.14 × 10^8', correct: false },
+        { text: '9.81 × 10^2', correct: false },
+        { text: '1.60 × 10^-19', correct: false },
+      ],
+      explanation: 'Number of particles in one mole.',
+    },
+    {
+      id: 'chem_5',
+      category: 'Chemistry',
+      difficulty: 'hard',
+      question: 'STP reference temperature is:',
+      choices: [
+        { text: '273 K', correct: true },
+        { text: '298 K', correct: false },
+        { text: '310 K', correct: false },
+        { text: '220 K', correct: false },
+      ],
+      explanation: 'Standard temperature is 0°C = 273 K.',
+    },
+    // Earth Science
+    {
+      id: 'earth_1',
+      category: 'Earth Science',
+      difficulty: 'easy',
+      question: "Layer directly below Earth's crust is:",
+      choices: [
+        { text: 'Mantle', correct: true },
+        { text: 'Outer core', correct: false },
+        { text: 'Inner core', correct: false },
+        { text: 'Asthenosphere only', correct: false },
+      ],
+      explanation: 'Mantle lies beneath crust.',
+    },
+    {
+      id: 'earth_2',
+      category: 'Earth Science',
+      difficulty: 'easy',
+      question: 'Plate tectonics describes movement of:',
+      choices: [
+        { text: 'Lithospheric plates', correct: true },
+        { text: 'Ocean tides', correct: false },
+        { text: 'Weather fronts', correct: false },
+        { text: 'Constellations', correct: false },
+      ],
+      explanation: 'Tectonic plates move slowly.',
+    },
+    {
+      id: 'earth_3',
+      category: 'Earth Science',
+      difficulty: 'medium',
+      question: 'Rock formed from cooling magma is:',
+      choices: [
+        { text: 'Igneous', correct: true },
+        { text: 'Sedimentary', correct: false },
+        { text: 'Metamorphic', correct: false },
+        { text: 'Fossil', correct: false },
+      ],
+      explanation: 'Igneous rocks form from solidified magma.',
+    },
+    {
+      id: 'earth_4',
+      category: 'Earth Science',
+      difficulty: 'medium',
+      question: "Main driver of Earth's weather patterns:",
+      choices: [
+        { text: 'Solar energy', correct: true },
+        { text: "Earth's rotation alone", correct: false },
+        { text: 'Moon phases', correct: false },
+        { text: 'Cosmic rays', correct: false },
+      ],
+      explanation: 'Sun provides energy causing atmospheric circulation.',
+    },
+    {
+      id: 'earth_5',
+      category: 'Earth Science',
+      difficulty: 'hard',
+      question: 'The Richter scale measures:',
+      choices: [
+        { text: 'Earthquake magnitude', correct: true },
+        { text: 'Wind speed', correct: false },
+        { text: 'Volcanic temperature', correct: false },
+        { text: 'Ocean salinity', correct: false },
+      ],
+      explanation: 'Richter is a logarithmic earthquake magnitude scale.',
+    },
+  ];
+  window.SCIENCE_CONCEPT_QUESTIONS = SCIENCE_CONCEPT_QUESTIONS;
+})();

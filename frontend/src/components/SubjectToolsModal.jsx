@@ -6,6 +6,9 @@ import StepByStepSolver from './tools/StepByStepSolver';
 import StatisticsTool from './tools/StatisticsTool';
 import FormulaSheetModal from './tools/FormulaSheetModal';
 import ScienceFormulaSheet from './tools/ScienceFormulaSheet';
+import ScienceFormulaPractice from './tools/ScienceFormulaPractice';
+import ScienceConceptPractice from './tools/ScienceConceptPractice';
+import Calculator from './tools/Calculator';
 
 /**
  * SubjectToolsModal - Centralized tools panel for each subject
@@ -18,6 +21,12 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
   // Define tools per subject
   const toolsConfig = {
     Math: [
+      {
+        id: 'calculator',
+        name: 'TI-30XS Calculator',
+        icon: '🖩',
+        component: Calculator,
+      },
       {
         id: 'geometry',
         name: 'Geometry Figures',
@@ -50,6 +59,18 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
         name: 'Formula Sheet',
         icon: '🧪',
         component: ScienceFormulaSheet,
+      },
+      {
+        id: 'formula-practice',
+        name: 'Formula Practice',
+        icon: '⚗️',
+        component: ScienceFormulaPractice,
+      },
+      {
+        id: 'concept-practice',
+        name: 'Concept Practice',
+        icon: '🔬',
+        component: ScienceConceptPractice,
       },
     ],
     'Reasoning Through Language Arts (RLA)': [
