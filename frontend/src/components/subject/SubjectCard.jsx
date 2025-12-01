@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getSubjectTheme } from '../../theme/designSystem.js';
 
 /**
@@ -10,39 +9,14 @@ export function SubjectCard({
   dark = false,
   icon = null,
   onClick,
-  enableNavigation = false,
   children,
   className = '',
 }) {
   const theme = getSubjectTheme(subject, dark);
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    // If navigation is enabled, route to subject view
-    if (enableNavigation) {
-      const routes = {
-        Math: '/math',
-        Science: '/science',
-        'Reasoning Through Language Arts (RLA)': '/rla',
-        RLA: '/rla',
-        'Social Studies': '/social-studies',
-      };
-      const route = routes[subject];
-      if (route) {
-        navigate(route);
-        return;
-      }
-    }
-    // Otherwise use provided onClick
-    if (onClick) {
-      onClick();
-    }
-  };
-
   return (
     <button
       type="button"
-      onClick={handleClick}
+      onClick={onClick}
       className={`group relative rounded-2xl p-6 md:p-7 text-left shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 transition ${className}`.trim()}
       style={{
         background: theme.bg,
