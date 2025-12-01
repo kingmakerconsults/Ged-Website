@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-DWFbl8kh.js";
+import { _ as __vitePreload } from "./index-BBxd_tc5.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -205,7 +205,7 @@ function SubjectCard({
   children,
   className = ""
 }) {
-  const theme2 = getSubjectTheme(subject, dark);
+  const theme = getSubjectTheme(subject, dark);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "button",
     {
@@ -213,9 +213,9 @@ function SubjectCard({
       onClick,
       className: `group relative rounded-2xl p-6 md:p-7 text-left shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 transition ${className}`.trim(),
       style: {
-        background: theme2.bg,
-        border: `1px solid ${theme2.bgSoft}`,
-        color: theme2.accent,
+        background: theme.bg,
+        border: `1px solid ${theme.bgSoft}`,
+        color: theme.accent,
         minHeight: "128px"
       },
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-4", children: [
@@ -224,7 +224,7 @@ function SubjectCard({
           {
             className: "w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center shadow-inner",
             style: {
-              background: theme2.gradient,
+              background: theme.gradient,
               color: "#fff",
               filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.25))"
             },
@@ -236,7 +236,7 @@ function SubjectCard({
             "h3",
             {
               className: "font-extrabold text-xl md:text-2xl mb-1",
-              style: { color: theme2.accent },
+              style: { color: theme.accent },
               children: subject
             }
           ),
@@ -954,7 +954,7 @@ function ScienceFormulaSheet$1({ onClose }) {
 function SubjectToolsModal({ subject, dark = false, onClose }) {
   var _a2;
   const [selectedTool, setSelectedTool] = reactExports.useState(null);
-  const theme2 = getSubjectTheme(subject == null ? void 0 : subject.toLowerCase(), dark);
+  const theme = getSubjectTheme(subject == null ? void 0 : subject.toLowerCase(), dark);
   const toolsConfig = {
     Math: [
       {
@@ -1015,7 +1015,7 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
           className: "w-full max-w-6xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col",
           style: {
             backgroundColor: dark ? "#1e293b" : "#ffffff",
-            border: `2px solid ${(theme2 == null ? void 0 : theme2.accent) || "#64748b"}`
+            border: `2px solid ${(theme == null ? void 0 : theme.accent) || "#64748b"}`
           },
           onClick: (e) => e.stopPropagation(),
           children: [
@@ -1024,7 +1024,7 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
               {
                 className: "p-6 flex items-center justify-between",
                 style: {
-                  background: (theme2 == null ? void 0 : theme2.gradient) || "linear-gradient(135deg, #64748b 0%, #475569 100%)",
+                  background: (theme == null ? void 0 : theme.gradient) || "linear-gradient(135deg, #64748b 0%, #475569 100%)",
                   color: "#ffffff"
                 },
                 children: [
@@ -1056,7 +1056,7 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
                   className: "p-6 rounded-xl border-2 text-left transition-all hover:scale-105 hover:shadow-lg",
                   style: {
                     backgroundColor: dark ? "#334155" : "#f8fafc",
-                    borderColor: (theme2 == null ? void 0 : theme2.accent) || "#64748b",
+                    borderColor: (theme == null ? void 0 : theme.accent) || "#64748b",
                     color: dark ? "#e2e8f0" : "#1e293b"
                   },
                   children: [
@@ -1131,7 +1131,7 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
                       onClick: onClose,
                       className: "px-4 py-2 rounded-lg font-medium transition-colors",
                       style: {
-                        backgroundColor: (theme2 == null ? void 0 : theme2.accent) || "#64748b",
+                        backgroundColor: (theme == null ? void 0 : theme.accent) || "#64748b",
                         color: "#ffffff"
                       },
                       children: "Close"
@@ -19827,9 +19827,9 @@ const ArrowLeftIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsx(
     )
   }
 );
-function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme: theme2 = "light" }) {
+function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "light" }) {
   var _a2;
-  const isDarkMode = theme2 === "dark";
+  const isDarkMode = theme === "dark";
   try {
     const cat = typeof window !== "undefined" && window.PREMADE_QUIZ_CATALOG ? window.PREMADE_QUIZ_CATALOG : {};
     if (!cat || typeof cat === "object" && Object.keys(cat).length === 0) {
@@ -21149,14 +21149,14 @@ function AppHeader({
   onShowQuizzes,
   onShowProgress,
   activePanel,
-  theme: theme2,
+  theme,
   onToggleTheme
 }) {
   const displayName = (currentUser == null ? void 0 : currentUser.name) || (currentUser == null ? void 0 : currentUser.email) || "Learner";
   const initial = displayName.trim().charAt(0).toUpperCase();
   const isProfileActive = activePanel === "profile";
   const isSettingsActive = activePanel === "settings";
-  const isDark = theme2 === "dark";
+  const isDark = theme === "dark";
   const toggleButtonStyle = isDark ? void 0 : {
     background: "#ffffff",
     color: "#0f172a",
@@ -22455,8 +22455,8 @@ function App({ externalTheme, onThemeChange }) {
     applyPreferenceUpdate({ theme: nextTheme }, { markLocal: true });
   }, [applyPreferenceUpdate, preferences.theme]);
   const handlePersistPreferences = reactExports.useCallback(
-    async ({ fontSize = preferences.fontSize, theme: theme2 = preferences.theme }) => {
-      const nextPrefs = normalizePreferences({ fontSize, theme: theme2 });
+    async ({ fontSize = preferences.fontSize, theme = preferences.theme }) => {
+      const nextPrefs = normalizePreferences({ fontSize, theme });
       applyPreferenceUpdate(nextPrefs, { markLocal: true });
       setSettingsSaving(true);
       setSettingsStatus("");
@@ -23933,7 +23933,7 @@ function App({ externalTheme, onThemeChange }) {
             SubjectToolsModal,
             {
               subject: toolsModalSubject,
-              dark: theme === "dark",
+              dark: preferences.theme === "dark",
               onClose: () => {
                 setShowToolsModal(false);
                 setToolsModalSubject(null);
@@ -24700,7 +24700,7 @@ function SettingsView({
   loading
 }) {
   const [fontSize, setFontSize] = reactExports.useState(preferences.fontSize);
-  const [theme2, setTheme] = reactExports.useState(preferences.theme);
+  const [theme, setTheme] = reactExports.useState(preferences.theme);
   reactExports.useEffect(() => {
     setFontSize(preferences.fontSize);
   }, [preferences.fontSize]);
@@ -24757,7 +24757,7 @@ function SettingsView({
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await onSave({ fontSize, theme: theme2 });
+    await onSave({ fontSize, theme });
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "section",
@@ -24822,7 +24822,7 @@ function SettingsView({
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid gap-2 sm:grid-cols-2", children: themeOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "label",
                   {
-                    className: `option-pill ${theme2 === option.value ? "is-selected " : ""}flex items-center gap-3 rounded-lg border px-3 py-2 transition ${theme2 === option.value ? "border-primary ring-2 ring-primary/40" : "border-subtle"} bg-surface-alt hover:border-primary`,
+                    className: `option-pill ${theme === option.value ? "is-selected " : ""}flex items-center gap-3 rounded-lg border px-3 py-2 transition ${theme === option.value ? "border-primary ring-2 ring-primary/40" : "border-subtle"} bg-surface-alt hover:border-primary`,
                     children: [
                       /* @__PURE__ */ jsxRuntimeExports.jsx(
                         "input",
@@ -24830,7 +24830,7 @@ function SettingsView({
                           type: "radio",
                           name: "theme",
                           value: option.value,
-                          checked: theme2 === option.value,
+                          checked: theme === option.value,
                           onChange: handleThemeChange,
                           className: "h-4 w-4 text-primary focus:ring-2 focus:ring-primary"
                         }
@@ -26218,12 +26218,12 @@ function DashboardProgressSummary({
   const subjects = SUBJECT_PROGRESS_KEYS;
   const getScoreTheme = (subject) => SUBJECT_COLORS[subject] || {};
   const getCardStyles = (subject) => {
-    const theme2 = getScoreTheme(subject);
+    const theme = getScoreTheme(subject);
     const gradient = SUBJECT_BG_GRADIENTS[subject];
     const style = {
-      borderColor: theme2.scoreBorder || "var(--border-subtle)",
-      color: theme2.scoreText || theme2.text || "#ffffff",
-      backgroundColor: theme2.scoreBackground || theme2.background || "var(--bg-overlay)"
+      borderColor: theme.scoreBorder || "var(--border-subtle)",
+      color: theme.scoreText || theme.text || "#ffffff",
+      backgroundColor: theme.scoreBackground || theme.background || "var(--bg-overlay)"
     };
     if (gradient) {
       style.backgroundImage = gradient;
@@ -26611,11 +26611,11 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
     );
   }) });
 }
-function SubjectVocabularySection({ subject, words, theme: theme2 = "light" }) {
+function SubjectVocabularySection({ subject, words, theme = "light" }) {
   if (!Array.isArray(words) || !words.length) {
     return null;
   }
-  const isDarkMode = theme2 === "dark";
+  const isDarkMode = theme === "dark";
   const colorScheme = SUBJECT_COLORS[subject] || {};
   const accentColor = colorScheme.accent || colorScheme.text || "#0f172a";
   const textColor = colorScheme.text || "#0f172a";
@@ -26702,9 +26702,9 @@ function SubjectVocabularySection({ subject, words, theme: theme2 = "light" }) {
     }
   );
 }
-function VocabularyBySubject({ vocabulary, onStartQuiz, theme: theme2 = "light" }) {
+function VocabularyBySubject({ vocabulary, onStartQuiz, theme = "light" }) {
   const [expandedSubjects, setExpandedSubjects] = React.useState({});
-  const isDarkMode = theme2 === "dark";
+  const isDarkMode = theme === "dark";
   const subjects = Object.entries(vocabulary || {}).filter(
     ([, words]) => Array.isArray(words) && words.length > 0
   );
@@ -27036,7 +27036,7 @@ function StartScreen({
   setActiveSocialTool,
   setToolsModalSubject,
   setShowToolsModal,
-  theme: theme2 = "light",
+  theme = "light",
   onRefreshProfile,
   selectedSubject,
   selectedCategory,
@@ -27615,7 +27615,7 @@ function StartScreen({
       return false;
     }
   });
-  const isDarkMode = theme2 === "dark";
+  const isDarkMode = theme === "dark";
   const homePanelStyle = isDarkMode ? void 0 : {
     backgroundColor: "#ffffff",
     color: "#0f172a",
@@ -28553,7 +28553,7 @@ function StartScreen({
               {
                 subject: selectedSubject,
                 words: subjectVocabulary,
-                theme: theme2
+                theme
               }
             ),
             window.__COACH_ENABLED__ && /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -28820,7 +28820,7 @@ function StartScreen({
               {
                 subjectName: selectedSubject,
                 onSelectQuiz,
-                theme: theme2
+                theme
               }
             ),
             (selectedSubject === "Social Studies" || selectedSubject === "Reasoning Through Language Arts (RLA)" || selectedSubject === "Science" || selectedSubject === "Math") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4", children: [
@@ -28855,7 +28855,7 @@ function StartScreen({
                 return window.__COACH_ENABLED__ && /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "div",
                   {
-                    className: `coach-panel ${theme2 === "dark" ? "" : "coach-gold-light"} coach-subject-card subject-${subjectKey} rounded-lg p-4 flex flex-col justify-between shadow-md hover:shadow-lg transition-all`,
+                    className: `coach-panel ${theme === "dark" ? "" : "coach-gold-light"} coach-subject-card subject-${subjectKey} rounded-lg p-4 flex flex-col justify-between shadow-md hover:shadow-lg transition-all`,
                     children: [
                       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-2", children: [
@@ -29550,7 +29550,7 @@ function StartScreen({
         window.__COACH_ENABLED__ && currentUser && /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "div",
           {
-            className: `mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md ${theme2 === "dark" ? "" : "coach-gold-light"}`,
+            className: `mb-6 block-profile panel coach-smith-shell coach-panel rounded-xl p-4 shadow-md ${theme === "dark" ? "" : "coach-gold-light"}`,
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-3", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -29661,7 +29661,7 @@ function StartScreen({
               {
                 vocabulary: vocabularyData,
                 onStartQuiz: handleStartVocabularyQuiz,
-                theme: theme2
+                theme
               }
             )
           ] })
@@ -34882,7 +34882,7 @@ function LifeChoicesSimulation({ srcPath }) {
   );
 }
 function useThemeController() {
-  const [theme2, setTheme] = reactExports.useState(() => {
+  const [theme, setTheme] = reactExports.useState(() => {
     if (typeof window === "undefined") {
       return "light";
     }
@@ -34907,19 +34907,19 @@ function useThemeController() {
     setTheme((current) => current === normalized ? current : normalized);
   }, []);
   const toggleTheme = reactExports.useCallback(() => {
-    applyTheme(theme2 === "dark" ? "light" : "dark");
-  }, [theme2, applyTheme]);
-  return { theme: theme2, toggleTheme, applyTheme };
+    applyTheme(theme === "dark" ? "light" : "dark");
+  }, [theme, applyTheme]);
+  return { theme, toggleTheme, applyTheme };
 }
 function RootApp() {
-  const { theme: theme2, applyTheme } = useThemeController();
+  const { theme, applyTheme } = useThemeController();
   const handleThemeChange = reactExports.useCallback(
     (nextTheme) => {
       applyTheme(nextTheme);
     },
     [applyTheme]
   );
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(ErrorBoundary, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(App, { externalTheme: theme2, onThemeChange: handleThemeChange }) }) });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(ErrorBoundary, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(App, { externalTheme: theme, onThemeChange: handleThemeChange }) }) });
 }
 if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "function") {
   window.getSmithAQuizTopics = function(subject) {
@@ -34979,4 +34979,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-B9emYkPN.js.map
+//# sourceMappingURL=main-285QTblu.js.map

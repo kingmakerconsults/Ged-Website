@@ -26142,7 +26142,7 @@ function App({ externalTheme, onThemeChange }) {
         {showToolsModal && (
           <SubjectToolsModal
             subject={toolsModalSubject}
-            dark={theme === 'dark'}
+            dark={preferences.theme === 'dark'}
             onClose={() => {
               setShowToolsModal(false);
               setToolsModalSubject(null);
