@@ -31962,21 +31962,26 @@ function StartScreen({
                 {subjectPremadeLabel}
               </p>
             </div>
-            {(selectedSubject === 'Math' || selectedSubject === 'Science') && (
+            {(selectedSubject === 'Math' ||
+              selectedSubject === 'Science' ||
+              selectedSubject === 'Social Studies') && (
               <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => {
-                    setToolsModalSubject(selectedSubject);
-                    setShowToolsModal(true);
-                  }}
-                  className="px-4 py-2 font-semibold rounded-lg shadow-sm transition"
-                  style={{
-                    backgroundColor: heroTextColor,
-                    color: heroAccentColor,
-                  }}
-                >
-                  🛠️ {selectedSubject} Tools
-                </button>
+                {(selectedSubject === 'Math' ||
+                  selectedSubject === 'Science') && (
+                  <button
+                    onClick={() => {
+                      setToolsModalSubject(selectedSubject);
+                      setShowToolsModal(true);
+                    }}
+                    className="px-4 py-2 font-semibold rounded-lg shadow-sm transition"
+                    style={{
+                      backgroundColor: heroTextColor,
+                      color: heroAccentColor,
+                    }}
+                  >
+                    🛠️ {selectedSubject} Tools
+                  </button>
+                )}
                 {selectedSubject === 'Math' && (
                   <button
                     onClick={() => setShowFormulaSheet(true)}
@@ -32000,6 +32005,30 @@ function StartScreen({
                   >
                     View Science Formula Sheet
                   </button>
+                )}
+                {selectedSubject === 'Social Studies' && (
+                  <>
+                    <button
+                      onClick={() => setActiveSocialTool('constitution')}
+                      className="px-4 py-2 font-semibold rounded-lg shadow-sm transition"
+                      style={{
+                        backgroundColor: heroTextColor,
+                        color: heroAccentColor,
+                      }}
+                    >
+                      📜 Constitution Explorer
+                    </button>
+                    <button
+                      onClick={() => setActiveSocialTool('economics')}
+                      className="px-4 py-2 font-semibold rounded-lg shadow-sm transition"
+                      style={{
+                        backgroundColor: heroTextColor,
+                        color: heroAccentColor,
+                      }}
+                    >
+                      📊 Economics Graphing
+                    </button>
+                  </>
                 )}
               </div>
             )}
