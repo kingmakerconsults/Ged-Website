@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-BBxd_tc5.js";
+import { _ as __vitePreload } from "./index-Bf6rHtf7.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -718,13 +718,13 @@ const MATH_FORMULAS = [
     description: "Sum of all values divided by count"
   }
 ];
-function FormulaSheetModal$1({ onClose }) {
+function FormulaSheetModal$1({ onClose: onClose2 }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
       className: "fixed inset-0 z-50 flex items-center justify-center p-4",
       style: { backgroundColor: "rgba(0,0,0,0.7)" },
-      onClick: onClose,
+      onClick: onClose2,
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
@@ -736,7 +736,7 @@ function FormulaSheetModal$1({ onClose }) {
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
-                  onClick: onClose,
+                  onClick: onClose2,
                   className: "text-white hover:text-gray-200 text-2xl font-bold",
                   "aria-label": "Close formula sheet",
                   children: "×"
@@ -901,7 +901,7 @@ function FormulaDisplay$1({ latex, className = "" }) {
     }
   );
 }
-function ScienceFormulaSheet$1({ onClose }) {
+function ScienceFormulaSheet$1({ onClose: onClose2 }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
@@ -915,7 +915,7 @@ function ScienceFormulaSheet$1({ onClose }) {
           "button",
           {
             className: "formula-sheet-close absolute top-3 right-3 text-2xl font-bold hover:opacity-80 transition-opacity text-slate-600 dark:text-slate-300",
-            onClick: onClose,
+            onClick: onClose2,
             type: "button",
             "aria-label": "Close science formula sheet",
             children: "×"
@@ -951,12 +951,422 @@ function ScienceFormulaSheet$1({ onClose }) {
     }
   );
 }
-function SubjectToolsModal({ subject, dark = false, onClose }) {
+function ScienceFormulaPractice({ onClose: onClose2, dark = false }) {
+  const ScienceFormulaPracticeTool = window.ScienceFormulaPracticeTool;
+  if (!ScienceFormulaPracticeTool) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-red-600 font-semibold", children: "Formula Practice Tool is not loaded" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onClose2,
+          className: "mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg",
+          children: "Close"
+        }
+      )
+    ] });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(ScienceFormulaPracticeTool, { theme: dark ? "dark" : "light" });
+}
+function ScienceConceptPractice({ onClose: onClose2, dark = false }) {
+  const ScienceConceptPracticeTool = window.ScienceConceptPracticeTool;
+  if (!ScienceConceptPracticeTool) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-red-600 font-semibold", children: "Concept Practice Tool is not loaded" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onClose2,
+          className: "mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg",
+          children: "Close"
+        }
+      )
+    ] });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(ScienceConceptPracticeTool, { theme: dark ? "dark" : "light" });
+}
+function TI30XSCalculator({ onClose }) {
+  const [display, setDisplay] = reactExports.useState("0");
+  const [cursor, setCursor] = reactExports.useState(0);
+  const [inFraction, setInFraction] = reactExports.useState(false);
+  const [fractionPart, setFractionPart] = reactExports.useState("numerator");
+  const [memory, setMemory] = reactExports.useState(null);
+  const [isRadians, setIsRadians] = reactExports.useState(false);
+  const [opacity, setOpacity] = reactExports.useState(1);
+  const [position, setPosition] = reactExports.useState({ x: 100, y: 100 });
+  const [isDragging, setIsDragging] = reactExports.useState(false);
+  const dragRef = reactExports.useRef({ startX: 0, startY: 0 });
+  const calcRef = reactExports.useRef(null);
+  const moveCursor = (direction) => {
+    if (direction === "left") {
+      setCursor((prev) => Math.max(0, prev - 1));
+    } else if (direction === "right") {
+      setCursor((prev) => Math.min(display.length, prev + 1));
+    }
+  };
+  const insertAtCursor = (val2) => {
+    setDisplay((prev) => {
+      if (prev === "0" || prev === "Error") {
+        setCursor(val2.length);
+        return val2;
+      }
+      const before = prev.slice(0, cursor);
+      const after = prev.slice(cursor);
+      setCursor(cursor + val2.length);
+      return before + val2 + after;
+    });
+  };
+  const handlePress = (val2) => {
+    insertAtCursor(val2);
+  };
+  const handleClearAll = () => {
+    setDisplay("0");
+    setCursor(0);
+    setInFraction(false);
+    setFractionPart("numerator");
+  };
+  const handleDelete = () => {
+    if (cursor === 0) return;
+    setDisplay((prev) => {
+      if (prev.length <= 1 || prev === "Error") {
+        setCursor(0);
+        return "0";
+      }
+      const before = prev.slice(0, cursor - 1);
+      const after = prev.slice(cursor);
+      setCursor(cursor - 1);
+      return before + after;
+    });
+  };
+  const handleFraction = () => {
+    if (inFraction) {
+      insertAtCursor(")");
+      setInFraction(false);
+      setFractionPart("numerator");
+    } else {
+      insertAtCursor("(");
+      setInFraction(true);
+      setFractionPart("numerator");
+    }
+  };
+  const handleFractionBar = () => {
+    if (inFraction && fractionPart === "numerator") {
+      insertAtCursor("/");
+      setFractionPart("denominator");
+    }
+  };
+  const handleEval = () => {
+    try {
+      let expr = display.replace(/×/g, "*").replace(/÷/g, "/").replace(/π/g, "Math.PI").replace(/√\(/g, "Math.sqrt(").replace(/\^/g, "**");
+      const result = eval(expr);
+      const resultStr = String(result).slice(0, 12);
+      setDisplay(resultStr);
+      setCursor(resultStr.length);
+      setInFraction(false);
+      setFractionPart("numerator");
+    } catch (e) {
+      setDisplay("Error");
+      setCursor(5);
+    }
+  };
+  const handleSqrt = () => {
+    insertAtCursor("√(");
+  };
+  const handleMemoryAdd = () => {
+    try {
+      let expr = display.replace(/×/g, "*").replace(/÷/g, "/").replace(/π/g, "Math.PI").replace(/\^/g, "**");
+      const val = eval(expr);
+      setMemory((prev) => (prev || 0) + val);
+    } catch (e) {
+    }
+  };
+  const handleMemoryRecall = () => {
+    if (memory !== null) {
+      const memStr = String(memory);
+      insertAtCursor(memStr);
+    }
+  };
+  const handleMemoryClear = () => {
+    setMemory(null);
+  };
+  reactExports.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        moveCursor("left");
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        moveCursor("right");
+      } else if (e.key === "Backspace") {
+        e.preventDefault();
+        handleDelete();
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        handleEval();
+      } else if (e.key === "Delete") {
+        e.preventDefault();
+        handleDelete();
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+      } else if (/^[0-9]$/.test(e.key)) {
+        e.preventDefault();
+        handlePress(e.key);
+      } else if (["+", "-", "*", "/", "(", ")", "."].includes(e.key)) {
+        e.preventDefault();
+        if (e.key === "*") handlePress("×");
+        else if (e.key === "/") handlePress("÷");
+        else handlePress(e.key);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [cursor, display, inFraction]);
+  const handleMouseDown = (e) => {
+    if (e.target.closest(".calc-opacity-control, .calc-btn")) return;
+    setIsDragging(true);
+    dragRef.current = {
+      startX: e.clientX - position.x,
+      startY: e.clientY - position.y
+    };
+  };
+  reactExports.useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isDragging) return;
+      setPosition({
+        x: e.clientX - dragRef.current.startX,
+        y: e.clientY - dragRef.current.startY
+      });
+    };
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+    if (isDragging) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging]);
+  const renderDisplay = () => {
+    if (display === "0" || display === "Error") {
+      return display;
+    }
+    const before = display.slice(0, cursor);
+    const after = display.slice(cursor);
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      before,
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block w-0.5 h-6 bg-slate-900 animate-pulse", children: "|" }),
+      after
+    ] });
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ti-30xs-shell fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-30 p-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      ref: calcRef,
+      className: `calc-draggable relative w-80 rounded-xl shadow-2xl border-2 border-slate-600 bg-slate-800 p-4 font-sans ${isDragging ? "dragging" : ""}`,
+      style: {
+        left: position.x,
+        top: position.y,
+        opacity,
+        cursor: isDragging ? "grabbing" : "move"
+      },
+      onMouseDown: handleMouseDown,
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-center mb-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-400 font-bold tracking-widest", children: "TI-30XS MultiView™" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "w-16 h-4 bg-slate-700 rounded-sm border border-slate-600 opacity-80",
+              title: "Solar Panel"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: onClose,
+              className: "text-slate-400 hover:text-white text-xl font-bold",
+              title: "Close (Esc)",
+              children: "✕"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "calc-opacity-control mb-3 flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-xs text-slate-300", children: "Opacity:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "range",
+              min: "0.5",
+              max: "1",
+              step: "0.05",
+              value: opacity,
+              onChange: (e) => setOpacity(parseFloat(e.target.value)),
+              className: "calc-opacity-slider flex-1"
+            }
+          )
+        ] }),
+        memory !== null && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-slate-300 mb-1", children: [
+          "Memory: ",
+          memory.toFixed(4)
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "calc-screen mb-4 p-2 rounded bg-[#c8dcc8] font-mono text-right text-xl text-slate-900 shadow-inner h-20 flex items-end justify-end overflow-x-auto overflow-y-hidden border-4 border-slate-700", children: renderDisplay() }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between text-xs text-slate-400 mb-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: isRadians ? "RAD" : "DEG" }),
+          inFraction && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-blue-400", children: [
+            "FRAC: ",
+            fractionPart === "numerator" ? "NUM" : "DEN"
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-5 gap-1.5", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "calc-btn gray text-xs",
+              onClick: () => setIsRadians(!isRadians),
+              title: "Toggle Radians/Degrees",
+              children: isRadians ? "RAD" : "DEG"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "calc-btn gray text-xs",
+              onClick: handleFraction,
+              title: "Fraction Mode",
+              children: "n/d"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "calc-btn gray text-xs",
+              onClick: () => moveCursor("left"),
+              title: "Move Cursor Left",
+              children: "←"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "calc-btn gray text-xs",
+              onClick: () => moveCursor("right"),
+              title: "Move Cursor Right",
+              children: "→"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "calc-btn red text-xs font-bold",
+              onClick: handleClearAll,
+              title: "Clear All",
+              children: "clear"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "calc-btn gray text-xs",
+              onClick: handleMemoryAdd,
+              title: "Memory Add (M+)",
+              children: "M+"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "calc-btn gray text-xs",
+              onClick: handleMemoryRecall,
+              title: "Memory Recall (MR)",
+              children: "MR"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "calc-btn gray text-xs",
+              onClick: handleMemoryClear,
+              title: "Memory Clear (MC)",
+              children: "MC"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "calc-btn gray text-xs",
+              onClick: handleDelete,
+              title: "Delete (Backspace)",
+              children: "DEL"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "calc-btn gray",
+              onClick: () => handlePress("^"),
+              title: "Exponent",
+              children: "x^y"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("("), children: "(" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress(")"), children: ")" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: handleSqrt, children: "√" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "calc-btn gray",
+              onClick: handleFractionBar,
+              title: "Fraction Bar",
+              children: "─"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("π"), children: "π" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("7"), children: "7" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("8"), children: "8" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("9"), children: "9" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("÷"), children: "÷" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray row-span-2", onClick: handleEval, children: "enter" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("4"), children: "4" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("5"), children: "5" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("6"), children: "6" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("×"), children: "×" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("1"), children: "1" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("2"), children: "2" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("3"), children: "3" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("-"), children: "−" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray row-span-2", onClick: () => handlePress("+"), children: "+" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white col-span-2", onClick: () => handlePress("0"), children: "0" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("."), children: "." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("(-)"), children: "(−)" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-3 text-xs text-slate-400 text-center", children: "Use arrow keys ←→ to move cursor • Esc to close" })
+      ]
+    }
+  ) });
+}
+if (typeof window !== "undefined") {
+  window.Components = window.Components || {};
+  window.Components.TI30XSCalculator = TI30XSCalculator;
+}
+function Calculator({ onClose: onClose2, dark = false }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(TI30XSCalculator, { onClose: onClose2 });
+}
+function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
   var _a2;
   const [selectedTool, setSelectedTool] = reactExports.useState(null);
   const theme = getSubjectTheme(subject == null ? void 0 : subject.toLowerCase(), dark);
   const toolsConfig = {
     Math: [
+      {
+        id: "calculator",
+        name: "TI-30XS Calculator",
+        icon: "🖩",
+        component: Calculator
+      },
       {
         id: "geometry",
         name: "Geometry Figures",
@@ -989,6 +1399,18 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
         name: "Formula Sheet",
         icon: "🧪",
         component: ScienceFormulaSheet$1
+      },
+      {
+        id: "formula-practice",
+        name: "Formula Practice",
+        icon: "⚗️",
+        component: ScienceFormulaPractice
+      },
+      {
+        id: "concept-practice",
+        name: "Concept Practice",
+        icon: "🔬",
+        component: ScienceConceptPractice
       }
     ],
     "Reasoning Through Language Arts (RLA)": [
@@ -1008,7 +1430,7 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
     {
       className: "fixed inset-0 z-50 flex items-center justify-center p-4",
       style: { backgroundColor: "rgba(0, 0, 0, 0.75)" },
-      onClick: onClose,
+      onClick: onClose2,
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
@@ -1038,7 +1460,7 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
                   /* @__PURE__ */ jsxRuntimeExports.jsx(
                     "button",
                     {
-                      onClick: onClose,
+                      onClick: onClose2,
                       className: "text-3xl font-bold hover:opacity-80 transition-opacity w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/20",
                       "aria-label": "Close tools panel",
                       children: "×"
@@ -1128,7 +1550,7 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
                   /* @__PURE__ */ jsxRuntimeExports.jsx(
                     "button",
                     {
-                      onClick: onClose,
+                      onClick: onClose2,
                       className: "px-4 py-2 rounded-lg font-medium transition-colors",
                       style: {
                         backgroundColor: (theme == null ? void 0 : theme.accent) || "#64748b",
@@ -2339,9 +2761,9 @@ function normalizeVocabularyEntry(entry) {
   return normalized;
 }
 function mergeVocabularyData(base, override) {
-  const result = { ...base };
+  const result2 = { ...base };
   if (!override || typeof override !== "object") {
-    return result;
+    return result2;
   }
   Object.entries(override).forEach(([subject, entries]) => {
     if (!Array.isArray(entries)) {
@@ -2349,10 +2771,10 @@ function mergeVocabularyData(base, override) {
     }
     const normalizedEntries = entries.map(normalizeVocabularyEntry).filter(Boolean);
     if (normalizedEntries.length) {
-      result[subject] = normalizedEntries;
+      result2[subject] = normalizedEntries;
     }
   });
-  return result;
+  return result2;
 }
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -3391,7 +3813,7 @@ function surroundOperatorWithSpaces(source, match, offset) {
 }
 function normalizePunctuationSpacing(value) {
   if (typeof value !== "string") return value;
-  let result = value.replace(
+  let result2 = value.replace(
     /([.,;:!?])(?=\S)/g,
     (match, punct, offset, string) => {
       const nextChar = string[offset + match.length];
@@ -3409,19 +3831,19 @@ function normalizePunctuationSpacing(value) {
   const wordOperators = ["plus", "minus", "times"];
   wordOperators.forEach((op) => {
     const regex = new RegExp(op, "gi");
-    result = result.replace(
+    result2 = result2.replace(
       regex,
       (match, offset, string) => surroundOperatorWithSpaces(string, match, offset)
     );
   });
   const dividedRegex = /divided\s+by/gi;
-  result = result.replace(
+  result2 = result2.replace(
     dividedRegex,
     (match, offset, string) => surroundOperatorWithSpaces(string, match, offset)
   );
-  result = result.replace(/[^\S\r\n]+([.,;:!?])/g, "$1");
-  result = result.replace(/[^\S\r\n]{2,}/g, " ");
-  return result;
+  result2 = result2.replace(/[^\S\r\n]+([.,;:!?])/g, "$1");
+  result2 = result2.replace(/[^\S\r\n]{2,}/g, " ");
+  return result2;
 }
 const LATEX_CONTROL_CHAR_ESCAPE = {
   "\f": "f",
@@ -19704,9 +20126,9 @@ const QUIZ_GROUPING = {
   // Social Studies: categories are already tidy; no grouping needed
 };
 function buildQuizLibraryFromAppData(data) {
-  const result = {};
+  const result2 = {};
   if (!data || typeof data !== "object") {
-    return result;
+    return result2;
   }
   Object.entries(data).forEach(([subjectName2, subject]) => {
     if (!subject || typeof subject !== "object" || !subject.categories) {
@@ -19781,9 +20203,9 @@ function buildQuizLibraryFromAppData(data) {
         }
       );
     }
-    result[subjectName2] = { clusters };
+    result2[subjectName2] = { clusters };
   });
-  return result;
+  return result2;
 }
 const QUIZ_LIBRARY = buildQuizLibraryFromAppData(AppData);
 if (typeof window !== "undefined") {
@@ -22243,12 +22665,12 @@ function App({ externalTheme, onThemeChange }) {
             science: "Science",
             social_studies: "Social Studies"
           };
-          serverTestPlan = Object.entries(tests).map(([key, val]) => ({
+          serverTestPlan = Object.entries(tests).map(([key, val2]) => ({
             subject: labelMap[key] || key,
-            testDate: coerceIso((val == null ? void 0 : val.testDate) || (val == null ? void 0 : val.date)),
-            testLocation: (val == null ? void 0 : val.testLocation) || (val == null ? void 0 : val.location) || "",
-            passed: !!((val == null ? void 0 : val.passed) ?? (val == null ? void 0 : val.isPassed)),
-            notScheduled: !!((val == null ? void 0 : val.notScheduled) ?? (val == null ? void 0 : val.not_scheduled))
+            testDate: coerceIso((val2 == null ? void 0 : val2.testDate) || (val2 == null ? void 0 : val2.date)),
+            testLocation: (val2 == null ? void 0 : val2.testLocation) || (val2 == null ? void 0 : val2.location) || "",
+            passed: !!((val2 == null ? void 0 : val2.passed) ?? (val2 == null ? void 0 : val2.isPassed)),
+            notScheduled: !!((val2 == null ? void 0 : val2.notScheduled) ?? (val2 == null ? void 0 : val2.not_scheduled))
           }));
         }
         const serverChallenges = Array.isArray(bundle.challengeOptions) ? bundle.challengeOptions.map((opt, index) => ({
@@ -23433,9 +23855,9 @@ function App({ externalTheme, onThemeChange }) {
       const questions = Array.isArray(quizObj == null ? void 0 : quizObj.questions) ? quizObj.questions : [];
       const answers = Array.isArray(results == null ? void 0 : results.answers) ? results.answers : [];
       if (questions.length && answers.length && questions.length === answers.length) {
-        const normalizeAnswer = (val) => {
-          if (val === null || val === void 0) return "";
-          return String(val).replace(/^\$+|\$+$/g, "").replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+        const normalizeAnswer = (val2) => {
+          if (val2 === null || val2 === void 0) return "";
+          return String(val2).replace(/^\$+|\$+$/g, "").replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
         };
         const isNumericEqual = (a, b) => {
           const na = Number(a);
@@ -24072,19 +24494,19 @@ function ProfileView({
       )
     ];
     const seen = /* @__PURE__ */ new Set();
-    const result = [];
+    const result2 = [];
     orderedSubjects.forEach((subject) => {
       if (!seen.has(subject) && map.has(subject)) {
-        result.push(map.get(subject));
+        result2.push(map.get(subject));
         seen.add(subject);
       }
     });
     map.forEach((value, subject) => {
       if (!seen.has(subject)) {
-        result.push(value);
+        result2.push(value);
       }
     });
-    return result;
+    return result2;
   }, [rawTestPlan, SUBJECT_ORDER]);
   const nextUpcoming = (data == null ? void 0 : data.nextUpcomingTest) || null;
   const formatDayCount = (value) => {
@@ -26855,7 +27277,7 @@ function FormulaDisplay({ latex, className = "" }) {
     }
   );
 }
-function ScienceFormulaSheet({ onClose }) {
+function ScienceFormulaSheet({ onClose: onClose2 }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
@@ -26866,7 +27288,7 @@ function ScienceFormulaSheet({ onClose }) {
           "button",
           {
             className: "formula-sheet-close absolute top-3 right-3 font-bold hover:opacity-80 transition-opacity",
-            onClick: onClose,
+            onClick: onClose2,
             type: "button",
             "aria-label": "Close science formula sheet",
             style: { color: "inherit" },
@@ -26898,7 +27320,7 @@ function ScienceFormulaSheet({ onClose }) {
     }
   );
 }
-function FormulaSheetModal({ onClose }) {
+function FormulaSheetModal({ onClose: onClose2 }) {
   const Formula = ({ title, formula, description }) => {
     const sanitizedFormula = typeof formula === "string" ? (() => {
       let working = formula;
@@ -26944,7 +27366,7 @@ function FormulaSheetModal({ onClose }) {
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
-                  onClick: onClose,
+                  onClick: onClose2,
                   className: "formula-sheet-close text-3xl hover:opacity-80 transition-opacity",
                   style: { color: "inherit" },
                   children: "×"
@@ -27882,10 +28304,10 @@ function StartScreen({
     });
     const pt = (_a3 = profileData == null ? void 0 : profileData.profile) == null ? void 0 : _a3.tests;
     if (pt && typeof pt === "object") {
-      Object.entries(pt).forEach(([key, val]) => {
-        if (!val) return;
+      Object.entries(pt).forEach(([key, val2]) => {
+        if (!val2) return;
         const id = key;
-        if (val.passed === true || val.isPassed === true) map[id] = true;
+        if (val2.passed === true || val2.isPassed === true) map[id] = true;
       });
     }
     return map;
@@ -27917,11 +28339,11 @@ function StartScreen({
   }, [profilePassedMap]);
   reactExports.useMemo(() => {
     const ids = /* @__PURE__ */ new Set();
-    Object.entries(profilePassedMap).forEach(([id, val]) => {
-      if (val) ids.add(id);
+    Object.entries(profilePassedMap).forEach(([id, val2]) => {
+      if (val2) ids.add(id);
     });
-    Object.entries(progressPassedMap).forEach(([id, val]) => {
-      if (val) ids.add(id);
+    Object.entries(progressPassedMap).forEach(([id, val2]) => {
+      if (val2) ids.add(id);
     });
     const order = ["math", "rla", "science", "social_studies"];
     return order.filter((id) => ids.has(id)).map((id) => ({
@@ -28287,9 +28709,9 @@ function StartScreen({
                         selectedSubject
                       )}:${topic.id || `topic_${topicIndex}`}`;
                       const expanded = !!variantExpanded[expKey];
-                      const setExpanded = (val) => setVariantExpanded((prev) => ({
+                      const setExpanded = (val2) => setVariantExpanded((prev) => ({
                         ...prev,
-                        [expKey]: val
+                        [expKey]: val2
                       }));
                       const shown = expanded ? list : list.slice(0, 3);
                       return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 space-y-3 w-full", children: [
@@ -29927,7 +30349,7 @@ function QuizInterface({
         const correctOption = q2.answerOptions.find((opt) => opt.isCorrect);
         return correctOption && correctOption.text === userAnswer;
       } else {
-        const normalize = (val) => (val ?? "").toString().trim().toLowerCase();
+        const normalize = (val2) => (val2 ?? "").toString().trim().toLowerCase();
         return normalize(q2.correctAnswer) === normalize(userAnswer);
       }
     },
@@ -30968,9 +31390,9 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     // Multi-answer list separated by comma
     MULTI_SPLIT_RE: /\s*,\s*/
   };
-  const normalizeRaw = (val) => {
-    if (val === null || val === void 0) return "";
-    return String(val).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+  const normalizeRaw = (val2) => {
+    if (val2 === null || val2 === void 0) return "";
+    return String(val2).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
   };
   const stripCurrency = (s) => s.replace(/^\$/, "").replace(/,/g, "");
   const parseFraction = (s) => {
@@ -31048,14 +31470,14 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
   const checkFillInQuestionCorrect = (q2, userAns) => {
     return isEquivalentAnswer(q2.correctAnswer, userAns);
   };
-  const handleComplete = (result) => {
-    const normalizeText = (val) => (val ?? "").toString().trim().toLowerCase();
+  const handleComplete = (result2) => {
+    const normalizeText = (val2) => (val2 ?? "").toString().trim().toLowerCase();
     let earnedPoints = 0;
     let possiblePoints = 0;
     (quiz.questions || []).forEach((q2, idx) => {
       const pts = typeof q2.points === "number" && q2.points > 0 ? q2.points : 1;
       possiblePoints += pts;
-      const userAns = result.answers[idx];
+      const userAns = result2.answers[idx];
       let isCorrect = false;
       if (Array.isArray(q2.answerOptions) && q2.answerOptions.length > 0) {
         const correctOpts = q2.answerOptions.filter((o) => o && o.isCorrect);
@@ -31067,7 +31489,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
           const correctSet = correctOpts.map((o) => normalizeText(o.text)).sort();
           const userSet = (Array.isArray(userAns) ? userAns : [userAns]).map((v) => normalizeText(v)).filter(Boolean).sort();
           if (userSet.length === correctSet.length) {
-            isCorrect = userSet.every((val, i) => val === correctSet[i]);
+            isCorrect = userSet.every((val2, i) => val2 === correctSet[i]);
           } else {
             isCorrect = false;
           }
@@ -31097,11 +31519,11 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       percentage,
       scaledScore,
       passed,
-      answers: result.answers,
+      answers: result2.answers,
       // include raw answers so ResultsScreen can display them
       subject: quiz.subject,
-      marked: result.marked,
-      confidence: result.confidence,
+      marked: result2.marked,
+      confidence: result2.confidence,
       quiz
     });
   };
@@ -31134,25 +31556,25 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
   const [part2Answers, setPart2Answers] = reactExports.useState(
     Array(part2Questions.length).fill(null)
   );
-  const handlePart1Complete = (result) => {
-    setPart1Result(result);
+  const handlePart1Complete = (result2) => {
+    setPart1Result(result2);
     setPart("interstitial");
   };
-  const handlePart2Complete = (result) => {
+  const handlePart2Complete = (result2) => {
     const p1 = part1Result || {
       answers: Array(part1Questions.length).fill(null),
       marked: Array(part1Questions.length).fill(false),
       confidence: Array(part1Questions.length).fill(null)
     };
-    const finalAnswers = [...p1.answers || [], ...result.answers || []];
-    const finalMarked = [...p1.marked || [], ...result.marked || []];
+    const finalAnswers = [...p1.answers || [], ...result2.answers || []];
+    const finalMarked = [...p1.marked || [], ...result2.marked || []];
     const finalConfidence = [
       ...p1.confidence || [],
-      ...result.confidence || []
+      ...result2.confidence || []
     ];
-    const normalizeRaw = (val) => {
-      if (val === null || val === void 0) return "";
-      return String(val).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+    const normalizeRaw = (val2) => {
+      if (val2 === null || val2 === void 0) return "";
+      return String(val2).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
     };
     const numericValue = (raw) => {
       const s = normalizeRaw(raw);
@@ -31232,7 +31654,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
         `[grader] ${missing.length} fill-in question(s) missing correctAnswer: #${missing.join(", ")}`
       );
     }
-    const normalizeText = (val) => (val ?? "").toString().trim().toLowerCase();
+    const normalizeText = (val2) => (val2 ?? "").toString().trim().toLowerCase();
     let earnedPoints = 0;
     let possiblePoints = 0;
     quiz.questions.forEach((q2, idx) => {
@@ -31251,7 +31673,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
           const correctSet = correctOpts.map((o) => normalizeText(o.text)).sort();
           const userSet = (Array.isArray(userAns) ? userAns : [userAns]).map((v) => normalizeText(v)).filter(Boolean).sort();
           if (userSet.length === correctSet.length) {
-            isCorrect = userSet.every((val, i) => val === correctSet[i]);
+            isCorrect = userSet.every((val2, i) => val2 === correctSet[i]);
           }
         }
       } else {
@@ -31407,14 +31829,14 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     }
   };
   const formatTime = (seconds) => `${Math.floor(Math.max(0, seconds) / 60)}:${(Math.max(0, seconds) % 60).toString().padStart(2, "0")}`;
-  const handlePart1Complete = (result) => {
-    setPart1Result(result);
+  const handlePart1Complete = (result2) => {
+    setPart1Result(result2);
     setCurrentPart(2);
   };
   const handlePart2Complete = async () => {
     if (isScoring) return;
-    const result = await handleScoreEssay();
-    if (!result) return;
+    const result2 = await handleScoreEssay();
+    if (!result2) return;
     setCurrentPart(3);
   };
   const handleFinalSubmit = (part3Result) => {
@@ -31503,12 +31925,12 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
         body: JSON.stringify({ essayText, completion: "5/5" })
       });
       if (!response.ok) throw new Error("Failed to score essay.");
-      const result = await response.json();
+      const result2 = await response.json();
       let parsedScore = null;
-      if (result && result.trait1 && result.trait2 && result.trait3 && typeof result.overallScore === "number") {
-        parsedScore = result;
-      } else if (result && result.candidates && ((_d = (_c = (_b2 = (_a2 = result.candidates[0]) == null ? void 0 : _a2.content) == null ? void 0 : _b2.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
-        let jsonText = result.candidates[0].content.parts[0].text.replace(/```json/g, "").replace(/```/g, "").trim();
+      if (result2 && result2.trait1 && result2.trait2 && result2.trait3 && typeof result2.overallScore === "number") {
+        parsedScore = result2;
+      } else if (result2 && result2.candidates && ((_d = (_c = (_b2 = (_a2 = result2.candidates[0]) == null ? void 0 : _a2.content) == null ? void 0 : _b2.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
+        let jsonText = result2.candidates[0].content.parts[0].text.replace(/```json/g, "").replace(/```/g, "").trim();
         parsedScore = JSON.parse(jsonText);
       } else {
         throw new Error("Unexpected essay score format");
@@ -32012,9 +32434,9 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             const correctMC = (question.answerOptions || []).find(
               (opt) => opt.isCorrect
             );
-            const normalizeRaw = (val) => {
-              if (val === null || val === void 0) return "";
-              return String(val).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+            const normalizeRaw = (val2) => {
+              if (val2 === null || val2 === void 0) return "";
+              return String(val2).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
             };
             const numericValue = (raw) => {
               const s = normalizeRaw(raw);
@@ -32727,12 +33149,12 @@ function EssayGuide({ onExit }) {
         })
       });
       if (!response.ok) throw new Error("Failed to get score from the server.");
-      const result = await response.json();
+      const result2 = await response.json();
       let parsedScore = null;
-      if (result && result.trait1 && result.trait2 && result.trait3 && typeof result.overallScore === "number") {
-        parsedScore = result;
-      } else if (result && result.candidates && ((_d = (_c = (_b3 = (_a3 = result.candidates[0]) == null ? void 0 : _a3.content) == null ? void 0 : _b3.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
-        let jsonText = result.candidates[0].content.parts[0].text;
+      if (result2 && result2.trait1 && result2.trait2 && result2.trait3 && typeof result2.overallScore === "number") {
+        parsedScore = result2;
+      } else if (result2 && result2.candidates && ((_d = (_c = (_b3 = (_a3 = result2.candidates[0]) == null ? void 0 : _a3.content) == null ? void 0 : _b3.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
+        let jsonText = result2.candidates[0].content.parts[0].text;
         jsonText = jsonText.replace(/```json/g, "").replace(/```/g, "").trim();
         parsedScore = JSON.parse(jsonText);
       } else {
@@ -34979,4 +35401,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-285QTblu.js.map
+//# sourceMappingURL=main-DPA7Wvwh.js.map
