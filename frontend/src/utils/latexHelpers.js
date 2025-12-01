@@ -27,7 +27,7 @@ export function renderLatexToHtml(latexInput) {
 
   try {
     const latex = normalizeLatexForKaTeX(latexInput);
-    
+
     if (
       typeof document !== 'undefined' &&
       typeof document.createElement === 'function' &&
@@ -37,7 +37,7 @@ export function renderLatexToHtml(latexInput) {
       katex.render(latex, container, KATEX_RENDER_OPTIONS);
       return container.innerHTML;
     }
-    
+
     if (typeof katex.renderToString === 'function') {
       return katex.renderToString(latex, KATEX_RENDER_OPTIONS);
     }
@@ -62,7 +62,7 @@ function normalizeLatexForKaTeX(latex) {
 
   // Replace common text-mode constructs
   working = working.replace(/\\text\{([^}]+)\}/g, '\\mathrm{$1}');
-  
+
   // Normalize spacing
   working = working.replace(/\s+/g, ' ').trim();
 
@@ -84,9 +84,12 @@ export function applySafeMathFix(text) {
   // Fix common LaTeX macro issues
   working = working.replace(/\\frac([^{])/g, '\\frac{$1}');
   working = working.replace(/\\sqrt([^{])/g, '\\sqrt{$1}');
-  
+
   // Normalize underscored macros (e.g., \\bar_x -> \\bar{x})
-  working = working.replace(/\\(bar|hat|tilde|vec|dot)_([a-zA-Z])/g, '\\$1{$2}');
+  working = working.replace(
+    /\\(bar|hat|tilde|vec|dot)_([a-zA-Z])/g,
+    '\\$1{$2}'
+  );
 
   return working;
 }
@@ -98,40 +101,40 @@ export function applySafeMathFix(text) {
  */
 export function sanitizeUnicode(s) {
   if (typeof s !== 'string' || s.length === 0) return s;
-  
+
   try {
     let t = s;
-    
+
     // Chemical formulas and units
     t = t.replace(/H\uFFFD\uFFFDO/g, 'H₂O');
     t = t.replace(/g\/cm\uFFFD/g, 'g/cm³');
     t = t.replace(/cm\uFFFD/g, 'cm³');
-    
+
     // Degree symbol
     t = t.replace(/\uFFFDC/g, '°C');
     t = t.replace(/\uFFFDF/g, '°F');
-    
+
     // Common math superscripts
     t = t.replace(/([abc])\uFFFD/g, '$1²');
     t = t.replace(/x\uFFFD/g, 'x²');
-    
+
     // Ranges (e.g., 35–22)
     t = t.replace(/(\d)\s?\uFFFD\s?(\d)/g, '$1–$2');
-    
+
     // Not-equal patterns
     t = t.replace(/\uFFFD\uFFFD 0/g, '≠ 0');
-    
+
     // Topic labels and ellipsis
     t = t.replace(/Topic A\uFFFDZ/g, 'Topic A–Z');
     t = t.replace(/More in this topic\uFFFD/g, 'More in this topic…');
-    
+
     // Arrow in genetics
     t = t.replace(/pp \uFFFD/g, 'pp →');
-    
+
     // Strip stray replacement characters
     t = t.replace(/\uFFFD\uFFFD️?/g, '');
     t = t.replace(/\uFFFD/g, '');
-    
+
     return t;
   } catch (error) {
     console.warn('Unicode sanitization error:', error);
@@ -148,7 +151,7 @@ export function escapeHtml(str) {
   if (typeof str !== 'string') {
     return '';
   }
-  
+
   const map = {
     '&': '&amp;',
     '<': '&lt;',
@@ -156,7 +159,7 @@ export function escapeHtml(str) {
     '"': '&quot;',
     "'": '&#39;',
   };
-  
+
   return str.replace(/[&<>"']/g, (m) => map[m]);
 }
 
@@ -165,5 +168,7 @@ export function escapeHtml(str) {
  * @returns {boolean}
  */
 export function isKatexAvailable() {
-  return typeof katex !== 'undefined' && typeof katex.renderToString === 'function';
+  return (
+    typeof katex !== 'undefined' && typeof katex.renderToString === 'function'
+  );
 }

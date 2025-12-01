@@ -4,25 +4,25 @@ import ScienceFormulaSheet from '../components/tools/ScienceFormulaSheet';
 
 /**
  * ScienceView - Science subject view
- * 
+ *
  * Displays science-specific tools and provides a practice environment
  * for GED Science content.
  */
 export default function ScienceView({ dark = false }) {
   const [showFormulaSheet, setShowFormulaSheet] = useState(false);
-  
+
   const theme = getSubjectTheme('science', dark);
 
   return (
-    <div 
+    <div
       className="science-view min-h-screen p-6"
-      style={{ 
+      style={{
         backgroundColor: dark ? '#0f172a' : '#f8fafc',
-        color: dark ? '#e2e8f0' : '#1e293b'
+        color: dark ? '#e2e8f0' : '#1e293b',
       }}
     >
       {/* Header */}
-      <div 
+      <div
         className="header-section mb-8 p-6 rounded-xl shadow-lg"
         style={{
           background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
@@ -51,7 +51,7 @@ export default function ScienceView({ dark = false }) {
       </div>
 
       {/* Content Area */}
-      <div 
+      <div
         className="content-section p-6 rounded-lg"
         style={{
           backgroundColor: dark ? '#1e293b' : '#ffffff',
@@ -59,9 +59,9 @@ export default function ScienceView({ dark = false }) {
         }}
       >
         <h2 className="text-2xl font-bold mb-4">Science Practice Tools</h2>
-        
+
         <div className="tools-grid grid md:grid-cols-2 gap-6">
-          <div 
+          <div
             className="tool-card p-6 rounded-lg"
             style={{
               backgroundColor: dark ? '#334155' : '#f1f5f9',
@@ -70,8 +70,12 @@ export default function ScienceView({ dark = false }) {
           >
             <div className="text-4xl mb-3">🧪</div>
             <h3 className="text-xl font-semibold mb-2">Formula Sheet</h3>
-            <p className="text-sm mb-4" style={{ color: dark ? '#94a3b8' : '#64748b' }}>
-              Access key science formulas including density, speed, force, work, and statistical measures.
+            <p
+              className="text-sm mb-4"
+              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+            >
+              Access key science formulas including density, speed, force, work,
+              and statistical measures.
             </p>
             <button
               onClick={() => setShowFormulaSheet(true)}
@@ -85,7 +89,7 @@ export default function ScienceView({ dark = false }) {
             </button>
           </div>
 
-          <div 
+          <div
             className="tool-card p-6 rounded-lg"
             style={{
               backgroundColor: dark ? '#334155' : '#f1f5f9',
@@ -94,8 +98,12 @@ export default function ScienceView({ dark = false }) {
           >
             <div className="text-4xl mb-3">🔬</div>
             <h3 className="text-xl font-semibold mb-2">Practice Questions</h3>
-            <p className="text-sm mb-4" style={{ color: dark ? '#94a3b8' : '#64748b' }}>
-              Coming soon: Interactive science questions covering life science, physical science, and earth/space science.
+            <p
+              className="text-sm mb-4"
+              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+            >
+              Coming soon: Interactive science questions covering life science,
+              physical science, and earth/space science.
             </p>
             <button
               disabled
@@ -109,7 +117,7 @@ export default function ScienceView({ dark = false }) {
             </button>
           </div>
 
-          <div 
+          <div
             className="tool-card p-6 rounded-lg"
             style={{
               backgroundColor: dark ? '#334155' : '#f1f5f9',
@@ -118,8 +126,12 @@ export default function ScienceView({ dark = false }) {
           >
             <div className="text-4xl mb-3">🌍</div>
             <h3 className="text-xl font-semibold mb-2">Interactive Diagrams</h3>
-            <p className="text-sm mb-4" style={{ color: dark ? '#94a3b8' : '#64748b' }}>
-              Coming soon: Label diagrams, explore systems, and visualize scientific concepts.
+            <p
+              className="text-sm mb-4"
+              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+            >
+              Coming soon: Label diagrams, explore systems, and visualize
+              scientific concepts.
             </p>
             <button
               disabled
@@ -133,7 +145,7 @@ export default function ScienceView({ dark = false }) {
             </button>
           </div>
 
-          <div 
+          <div
             className="tool-card p-6 rounded-lg"
             style={{
               backgroundColor: dark ? '#334155' : '#f1f5f9',
@@ -142,8 +154,12 @@ export default function ScienceView({ dark = false }) {
           >
             <div className="text-4xl mb-3">📊</div>
             <h3 className="text-xl font-semibold mb-2">Data Analysis</h3>
-            <p className="text-sm mb-4" style={{ color: dark ? '#94a3b8' : '#64748b' }}>
-              Coming soon: Analyze scientific data, interpret graphs, and draw evidence-based conclusions.
+            <p
+              className="text-sm mb-4"
+              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+            >
+              Coming soon: Analyze scientific data, interpret graphs, and draw
+              evidence-based conclusions.
             </p>
             <button
               disabled
@@ -165,7 +181,7 @@ export default function ScienceView({ dark = false }) {
       )}
 
       {/* Info Section */}
-      <div 
+      <div
         className="info-section mt-8 p-6 rounded-lg"
         style={{
           backgroundColor: dark ? '#1e293b' : '#ffffff',
@@ -174,10 +190,22 @@ export default function ScienceView({ dark = false }) {
       >
         <h3 className="text-lg font-semibold mb-3">GED Science Topics</h3>
         <ul className="space-y-2 text-sm">
-          <li>🧬 <strong>Life Science:</strong> Cells, genetics, evolution, ecology</li>
-          <li>⚛️ <strong>Physical Science:</strong> Physics, chemistry, energy, matter</li>
-          <li>🌎 <strong>Earth & Space Science:</strong> Geology, weather, astronomy</li>
-          <li>🔬 <strong>Scientific Practices:</strong> Data analysis, experimental design</li>
+          <li>
+            🧬 <strong>Life Science:</strong> Cells, genetics, evolution,
+            ecology
+          </li>
+          <li>
+            ⚛️ <strong>Physical Science:</strong> Physics, chemistry, energy,
+            matter
+          </li>
+          <li>
+            🌎 <strong>Earth & Space Science:</strong> Geology, weather,
+            astronomy
+          </li>
+          <li>
+            🔬 <strong>Scientific Practices:</strong> Data analysis,
+            experimental design
+          </li>
         </ul>
       </div>
     </div>

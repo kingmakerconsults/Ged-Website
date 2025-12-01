@@ -3,7 +3,7 @@ import { getSubjectTheme } from '../theme/designSystem';
 
 /**
  * RLAView - Reasoning Through Language Arts subject view
- * 
+ *
  * Displays RLA-specific content and provides a practice environment
  * for GED Reasoning Through Language Arts.
  */
@@ -11,15 +11,15 @@ export default function RLAView({ dark = false }) {
   const theme = getSubjectTheme('rla', dark);
 
   return (
-    <div 
+    <div
       className="rla-view min-h-screen p-6"
-      style={{ 
+      style={{
         backgroundColor: dark ? '#0f172a' : '#f8fafc',
-        color: dark ? '#e2e8f0' : '#1e293b'
+        color: dark ? '#e2e8f0' : '#1e293b',
       }}
     >
       {/* Header */}
-      <div 
+      <div
         className="header-section mb-8 p-6 rounded-xl shadow-lg"
         style={{
           background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
@@ -34,7 +34,7 @@ export default function RLAView({ dark = false }) {
       </div>
 
       {/* Content Area */}
-      <div 
+      <div
         className="content-section p-6 rounded-lg mb-6"
         style={{
           backgroundColor: dark ? '#1e293b' : '#ffffff',
@@ -42,9 +42,9 @@ export default function RLAView({ dark = false }) {
         }}
       >
         <h2 className="text-2xl font-bold mb-4">RLA Practice Tools</h2>
-        
+
         <div className="tools-grid grid md:grid-cols-2 gap-6">
-          <div 
+          <div
             className="tool-card p-6 rounded-lg"
             style={{
               backgroundColor: dark ? '#334155' : '#f1f5f9',
@@ -53,8 +53,12 @@ export default function RLAView({ dark = false }) {
           >
             <div className="text-4xl mb-3">📖</div>
             <h3 className="text-xl font-semibold mb-2">Reading Passages</h3>
-            <p className="text-sm mb-4" style={{ color: dark ? '#94a3b8' : '#64748b' }}>
-              Practice with fiction, nonfiction, and informational texts. Analyze themes, main ideas, and supporting details.
+            <p
+              className="text-sm mb-4"
+              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+            >
+              Practice with fiction, nonfiction, and informational texts.
+              Analyze themes, main ideas, and supporting details.
             </p>
             <button
               disabled
@@ -68,7 +72,7 @@ export default function RLAView({ dark = false }) {
             </button>
           </div>
 
-          <div 
+          <div
             className="tool-card p-6 rounded-lg"
             style={{
               backgroundColor: dark ? '#334155' : '#f1f5f9',
@@ -77,8 +81,12 @@ export default function RLAView({ dark = false }) {
           >
             <div className="text-4xl mb-3">✍️</div>
             <h3 className="text-xl font-semibold mb-2">Writing Practice</h3>
-            <p className="text-sm mb-4" style={{ color: dark ? '#94a3b8' : '#64748b' }}>
-              Coming soon: Practice extended response essays with guided prompts and scoring rubrics.
+            <p
+              className="text-sm mb-4"
+              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+            >
+              Coming soon: Practice extended response essays with guided prompts
+              and scoring rubrics.
             </p>
             <button
               disabled
@@ -92,7 +100,7 @@ export default function RLAView({ dark = false }) {
             </button>
           </div>
 
-          <div 
+          <div
             className="tool-card p-6 rounded-lg"
             style={{
               backgroundColor: dark ? '#334155' : '#f1f5f9',
@@ -101,8 +109,12 @@ export default function RLAView({ dark = false }) {
           >
             <div className="text-4xl mb-3">📝</div>
             <h3 className="text-xl font-semibold mb-2">Grammar & Mechanics</h3>
-            <p className="text-sm mb-4" style={{ color: dark ? '#94a3b8' : '#64748b' }}>
-              Coming soon: Master grammar rules, punctuation, capitalization, and sentence structure.
+            <p
+              className="text-sm mb-4"
+              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+            >
+              Coming soon: Master grammar rules, punctuation, capitalization,
+              and sentence structure.
             </p>
             <button
               disabled
@@ -116,7 +128,7 @@ export default function RLAView({ dark = false }) {
             </button>
           </div>
 
-          <div 
+          <div
             className="tool-card p-6 rounded-lg"
             style={{
               backgroundColor: dark ? '#334155' : '#f1f5f9',
@@ -125,8 +137,12 @@ export default function RLAView({ dark = false }) {
           >
             <div className="text-4xl mb-3">🔍</div>
             <h3 className="text-xl font-semibold mb-2">Critical Analysis</h3>
-            <p className="text-sm mb-4" style={{ color: dark ? '#94a3b8' : '#64748b' }}>
-              Coming soon: Analyze arguments, evaluate evidence, and make inferences from complex texts.
+            <p
+              className="text-sm mb-4"
+              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+            >
+              Coming soon: Analyze arguments, evaluate evidence, and make
+              inferences from complex texts.
             </p>
             <button
               disabled
@@ -143,7 +159,7 @@ export default function RLAView({ dark = false }) {
       </div>
 
       {/* Info Section */}
-      <div 
+      <div
         className="info-section p-6 rounded-lg"
         style={{
           backgroundColor: dark ? '#1e293b' : '#ffffff',
@@ -152,13 +168,25 @@ export default function RLAView({ dark = false }) {
       >
         <h3 className="text-lg font-semibold mb-3">GED RLA Topics</h3>
         <ul className="space-y-2 text-sm">
-          <li>📖 <strong>Reading Comprehension:</strong> Fiction, nonfiction, informational texts</li>
-          <li>✍️ <strong>Extended Response:</strong> Essay writing with evidence-based arguments</li>
-          <li>📝 <strong>Language Conventions:</strong> Grammar, usage, and mechanics</li>
-          <li>🔍 <strong>Critical Thinking:</strong> Analysis, inference, and evaluation</li>
+          <li>
+            📖 <strong>Reading Comprehension:</strong> Fiction, nonfiction,
+            informational texts
+          </li>
+          <li>
+            ✍️ <strong>Extended Response:</strong> Essay writing with
+            evidence-based arguments
+          </li>
+          <li>
+            📝 <strong>Language Conventions:</strong> Grammar, usage, and
+            mechanics
+          </li>
+          <li>
+            🔍 <strong>Critical Thinking:</strong> Analysis, inference, and
+            evaluation
+          </li>
         </ul>
-        
-        <div 
+
+        <div
           className="mt-6 p-4 rounded-lg"
           style={{
             backgroundColor: dark ? '#334155' : '#f1f5f9',
@@ -167,8 +195,8 @@ export default function RLAView({ dark = false }) {
         >
           <h4 className="font-semibold mb-2">💡 Study Tip</h4>
           <p className="text-sm">
-            Focus on active reading strategies: annotate passages, identify main ideas, 
-            and practice summarizing information in your own words.
+            Focus on active reading strategies: annotate passages, identify main
+            ideas, and practice summarizing information in your own words.
           </p>
         </div>
       </div>

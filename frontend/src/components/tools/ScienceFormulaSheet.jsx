@@ -1,5 +1,9 @@
 import React from 'react';
-import { renderLatexToHtml, applySafeMathFix, sanitizeUnicode } from '../../utils/latexHelpers';
+import {
+  renderLatexToHtml,
+  applySafeMathFix,
+  sanitizeUnicode,
+} from '../../utils/latexHelpers';
 
 // Science Formulas Data
 const SCIENCE_FORMULAS = [
@@ -60,13 +64,17 @@ function FormulaDisplay({ latex, className = '' }) {
   } catch (err) {
     console.warn('KaTeX render fallback triggered:', err?.message || err);
     // Fallback: escape and display as plain text
-    html = (sanitizedFormula || '').replace(/[&<>"']/g, (m) => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;',
-    }[m]));
+    html = (sanitizedFormula || '').replace(
+      /[&<>"']/g,
+      (m) =>
+        ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;',
+        }[m])
+    );
   }
 
   return (

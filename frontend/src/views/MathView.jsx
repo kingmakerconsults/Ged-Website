@@ -8,35 +8,45 @@ import FormulaSheetModal from '../components/tools/FormulaSheetModal';
 
 /**
  * MathView - Mathematical Reasoning subject view
- * 
+ *
  * Displays all math-specific tools and provides a practice environment
  * for GED Mathematical Reasoning content.
  */
 export default function MathView({ dark = false }) {
   const [showFormulaSheet, setShowFormulaSheet] = useState(false);
   const [selectedTool, setSelectedTool] = useState('geometry');
-  
+
   const theme = getSubjectTheme('math', dark);
 
   const tools = [
     { id: 'geometry', name: '📐 Geometry Figures', component: GeometryFigure },
     { id: 'graph', name: '📊 Graphing Tool', component: GraphTool },
-    { id: 'solver', name: '🧮 Step-by-Step Solver', component: StepByStepSolver },
-    { id: 'statistics', name: '📈 Statistics Calculator', component: StatisticsTool },
+    {
+      id: 'solver',
+      name: '🧮 Step-by-Step Solver',
+      component: StepByStepSolver,
+    },
+    {
+      id: 'statistics',
+      name: '📈 Statistics Calculator',
+      component: StatisticsTool,
+    },
   ];
 
-  const ActiveToolComponent = tools.find(t => t.id === selectedTool)?.component;
+  const ActiveToolComponent = tools.find(
+    (t) => t.id === selectedTool
+  )?.component;
 
   return (
-    <div 
+    <div
       className="math-view min-h-screen p-6"
-      style={{ 
+      style={{
         backgroundColor: dark ? '#0f172a' : '#f8fafc',
-        color: dark ? '#e2e8f0' : '#1e293b'
+        color: dark ? '#e2e8f0' : '#1e293b',
       }}
     >
       {/* Header */}
-      <div 
+      <div
         className="header-section mb-8 p-6 rounded-xl shadow-lg"
         style={{
           background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.secondary} 100%)`,
@@ -68,7 +78,7 @@ export default function MathView({ dark = false }) {
       <div className="tool-selector mb-6">
         <h2 className="text-xl font-semibold mb-3">Select a Tool:</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {tools.map(tool => (
+          {tools.map((tool) => (
             <button
               key={tool.id}
               onClick={() => setSelectedTool(tool.id)}
@@ -78,13 +88,24 @@ export default function MathView({ dark = false }) {
                   : 'shadow hover:shadow-md'
               }`}
               style={{
-                backgroundColor: selectedTool === tool.id 
-                  ? (dark ? '#1e3a8a' : '#dbeafe')
-                  : (dark ? '#334155' : '#ffffff'),
-                color: selectedTool === tool.id
-                  ? (dark ? '#93c5fd' : '#1e40af')
-                  : (dark ? '#e2e8f0' : '#1e293b'),
-                borderColor: selectedTool === tool.id ? theme.primary : 'transparent',
+                backgroundColor:
+                  selectedTool === tool.id
+                    ? dark
+                      ? '#1e3a8a'
+                      : '#dbeafe'
+                    : dark
+                    ? '#334155'
+                    : '#ffffff',
+                color:
+                  selectedTool === tool.id
+                    ? dark
+                      ? '#93c5fd'
+                      : '#1e40af'
+                    : dark
+                    ? '#e2e8f0'
+                    : '#1e293b',
+                borderColor:
+                  selectedTool === tool.id ? theme.primary : 'transparent',
               }}
             >
               {tool.name}
@@ -110,7 +131,7 @@ export default function MathView({ dark = false }) {
       )}
 
       {/* Info Section */}
-      <div 
+      <div
         className="info-section mt-8 p-6 rounded-lg"
         style={{
           backgroundColor: dark ? '#1e293b' : '#ffffff',
@@ -119,10 +140,21 @@ export default function MathView({ dark = false }) {
       >
         <h3 className="text-lg font-semibold mb-3">About Math Tools</h3>
         <ul className="space-y-2 text-sm">
-          <li>📐 <strong>Geometry Figures:</strong> Visualize shapes and measurements</li>
-          <li>📊 <strong>Graphing Tool:</strong> Plot points and analyze functions</li>
-          <li>🧮 <strong>Step-by-Step Solver:</strong> Solve equations with explanations</li>
-          <li>📈 <strong>Statistics Calculator:</strong> Calculate mean, median, mode, range</li>
+          <li>
+            📐 <strong>Geometry Figures:</strong> Visualize shapes and
+            measurements
+          </li>
+          <li>
+            📊 <strong>Graphing Tool:</strong> Plot points and analyze functions
+          </li>
+          <li>
+            🧮 <strong>Step-by-Step Solver:</strong> Solve equations with
+            explanations
+          </li>
+          <li>
+            📈 <strong>Statistics Calculator:</strong> Calculate mean, median,
+            mode, range
+          </li>
         </ul>
       </div>
     </div>
