@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 
 /**
  * StepByStepSolver - Math problem solver with step-by-step explanations
- * 
+ *
  * This component provides a UI for solving math problems with detailed
  * step-by-step breakdowns. Currently a placeholder for future implementation.
- * 
+ *
  * @param {Object} props
  * @param {string} props.problemType - Type of problem (equation, inequality, etc.)
  * @param {Function} props.onSolutionFound - Callback when solution is generated
  */
-export default function StepByStepSolver({ 
-  problemType = 'equation', 
-  onSolutionFound = null 
+export default function StepByStepSolver({
+  problemType = 'equation',
+  onSolutionFound = null,
 }) {
   const [input, setInput] = useState('');
   const [steps, setSteps] = useState([]);
@@ -22,7 +22,7 @@ export default function StepByStepSolver({
     if (!input.trim()) return;
 
     setIsLoading(true);
-    
+
     // TODO: Implement actual solver logic
     // For now, this is a placeholder that demonstrates the UI structure
     setTimeout(() => {
@@ -65,8 +65,8 @@ export default function StepByStepSolver({
       </h3>
 
       <div className="input-section mb-4">
-        <label 
-          htmlFor="math-input" 
+        <label
+          htmlFor="math-input"
           className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300"
         >
           Enter your problem:
@@ -128,8 +128,12 @@ export default function StepByStepSolver({
 
       {steps.length === 0 && !isLoading && (
         <div className="empty-state text-center py-8 text-slate-500 dark:text-slate-400">
-          <p className="text-lg">Enter a math problem above to see step-by-step solutions</p>
-          <p className="text-sm mt-2">Supports equations, inequalities, and more</p>
+          <p className="text-lg">
+            Enter a math problem above to see step-by-step solutions
+          </p>
+          <p className="text-sm mt-2">
+            Supports equations, inequalities, and more
+          </p>
         </div>
       )}
     </div>

@@ -2,19 +2,19 @@ import React, { useEffect, useRef } from 'react';
 
 /**
  * GraphTool - JSXGraph wrapper component for interactive graphing
- * 
+ *
  * This component initializes a JSXGraph board for plotting points,
  * lines, and other mathematical objects.
- * 
+ *
  * @param {Object} props
  * @param {string} props.boardId - Unique ID for the JSXGraph board element
  * @param {Object} props.config - JSXGraph board configuration
  * @param {Function} props.onBoardReady - Callback when board is initialized
  */
-export default function GraphTool({ 
-  boardId = 'jxgbox', 
-  config = {}, 
-  onBoardReady = null 
+export default function GraphTool({
+  boardId = 'jxgbox',
+  config = {},
+  onBoardReady = null,
 }) {
   const boardRef = useRef(null);
   const containerRef = useRef(null);
@@ -22,7 +22,9 @@ export default function GraphTool({
   useEffect(() => {
     // Check if JSXGraph is loaded
     if (typeof window.JXG === 'undefined') {
-      console.warn('JSXGraph library not loaded. Please include JSXGraph script.');
+      console.warn(
+        'JSXGraph library not loaded. Please include JSXGraph script.'
+      );
       return;
     }
 

@@ -1,6 +1,7 @@
 # Tool Restoration Complete - Subject Views Created
 
 ## Overview
+
 Successfully extracted all subject-specific tools from the 39k-line LegacyRootApp.jsx monolith and created dedicated subject view pages with proper tool organization. All tools are now modular, reusable, and properly themed with GED colors.
 
 ---
@@ -8,9 +9,11 @@ Successfully extracted all subject-specific tools from the 39k-line LegacyRootAp
 ## ✅ Completed Tasks
 
 ### 1. Tool Component Extraction
+
 Created 6 modular tool components in `frontend/src/components/tools/`:
 
 #### **GeometryFigure.jsx** (147 lines)
+
 - SVG-based geometry rendering
 - Shape renderers: circle, rectangle, line, triangle
 - Automatic viewBox calculation
@@ -19,6 +22,7 @@ Created 6 modular tool components in `frontend/src/components/tools/`:
 - Config flag: `GEOMETRY_FIGURES_ENABLED`
 
 #### **FormulaSheetModal.jsx** (88 lines)
+
 - Math formula reference sheet
 - 8 core GED formulas:
   - Pythagorean Theorem
@@ -34,6 +38,7 @@ Created 6 modular tool components in `frontend/src/components/tools/`:
 - GED blue theme styling
 
 #### **ScienceFormulaSheet.jsx** (137 lines)
+
 - Science formula reference modal
 - 6 essential formulas:
   - Density (d = m/V)
@@ -47,6 +52,7 @@ Created 6 modular tool components in `frontend/src/components/tools/`:
 - Dark mode compatible
 
 #### **GraphTool.jsx** (71 lines)
+
 - JSXGraph wrapper component
 - Interactive graphing for points, lines, functions
 - Configurable board settings
@@ -55,6 +61,7 @@ Created 6 modular tool components in `frontend/src/components/tools/`:
 - Default boundingbox: [-10, 10, 10, -10]
 
 #### **StepByStepSolver.jsx** (138 lines)
+
 - Math problem solver UI
 - Step-by-step explanation display
 - Input validation
@@ -63,6 +70,7 @@ Created 6 modular tool components in `frontend/src/components/tools/`:
 - Placeholder for future solver logic implementation
 
 #### **StatisticsTool.jsx** (206 lines)
+
 - **Fully functional statistics calculator**
 - Calculates: Mean, Median, Mode, Range, Min, Max
 - Comma or space-separated input parsing
@@ -76,9 +84,11 @@ Created 6 modular tool components in `frontend/src/components/tools/`:
 ### 2. Utility File Creation
 
 #### **latexHelpers.js** (173 lines)
+
 Created in `frontend/src/utils/`
 
 **Exports:**
+
 - `renderLatexToHtml(latexInput)` - KaTeX rendering
 - `applySafeMathFix(text)` - LaTeX macro normalization
 - `sanitizeUnicode(s)` - Fix encoding issues (°C, H₂O, cm³, etc.)
@@ -86,6 +96,7 @@ Created in `frontend/src/utils/`
 - `isKatexAvailable()` - Check KaTeX library presence
 
 **Features:**
+
 - Handles missing KaTeX gracefully
 - Normalizes LaTeX for KaTeX compatibility
 - Fixes common encoding artifacts (�)
@@ -98,7 +109,9 @@ Created in `frontend/src/utils/`
 Created 4 comprehensive subject views in `frontend/src/views/`:
 
 #### **MathView.jsx** (104 lines)
+
 **Features:**
+
 - Tool selector with 4 options
 - Active tool display area
 - Formula sheet button
@@ -107,6 +120,7 @@ Created 4 comprehensive subject views in `frontend/src/views/`:
 - Dark mode support
 
 **Imported Tools:**
+
 - GeometryFigure ✅
 - GraphTool ✅
 - StepByStepSolver ✅
@@ -114,11 +128,14 @@ Created 4 comprehensive subject views in `frontend/src/views/`:
 - FormulaSheetModal ✅
 
 **Info Section:**
+
 - Tool descriptions
 - Usage tips
 
 #### **ScienceView.jsx** (119 lines)
+
 **Features:**
+
 - Science formula sheet button
 - 4 placeholder tool cards (coming soon):
   - 🔬 Practice Questions
@@ -128,9 +145,11 @@ Created 4 comprehensive subject views in `frontend/src/views/`:
 - Dark mode support
 
 **Imported Tools:**
+
 - ScienceFormulaSheet ✅
 
 **Info Section:**
+
 - GED Science topics breakdown:
   - 🧬 Life Science
   - ⚛️ Physical Science
@@ -138,7 +157,9 @@ Created 4 comprehensive subject views in `frontend/src/views/`:
   - 🔬 Scientific Practices
 
 #### **RLAView.jsx** (122 lines)
+
 **Features:**
+
 - 4 placeholder tool cards (coming soon):
   - 📖 Reading Passages
   - ✍️ Writing Practice
@@ -148,9 +169,11 @@ Created 4 comprehensive subject views in `frontend/src/views/`:
 - Study tips section
 
 **Imported Tools:**
+
 - None (RLA uses standard quiz interface)
 
 **Info Section:**
+
 - GED RLA topics:
   - 📖 Reading Comprehension
   - ✍️ Extended Response
@@ -159,7 +182,9 @@ Created 4 comprehensive subject views in `frontend/src/views/`:
 - Active reading strategy tips
 
 #### **SocialStudiesView.jsx** (142 lines)
+
 **Features:**
+
 - 4 placeholder tool cards (coming soon):
   - 🏛️ Civics & Government
   - 📜 U.S. History
@@ -169,9 +194,11 @@ Created 4 comprehensive subject views in `frontend/src/views/`:
 - Test focus tips
 
 **Imported Tools:**
+
 - None (Social Studies uses standard quiz interface)
 
 **Info Section:**
+
 - Topic distribution:
   - 50% Civics & Government
   - 20% U.S. History
@@ -185,13 +212,16 @@ Created 4 comprehensive subject views in `frontend/src/views/`:
 ## 🎨 Theming & Styling
 
 ### Color Scheme (from designSystem.js)
+
 - **Math:** Blue (#2563eb light, #60a5fa dark)
 - **Science:** Emerald (#059669 light, #34d399 dark)
 - **RLA:** Purple (#7c3aed light, #a78bfa dark)
 - **Social Studies:** Red (#dc2626 light, #f87171 dark)
 
 ### Dark Mode Support
+
 All components include:
+
 - `dark:` Tailwind classes
 - Theme-aware background colors
 - Proper text contrast
@@ -227,9 +257,11 @@ frontend/src/
 ## ⏳ Next Steps (Not Yet Implemented)
 
 ### 1. Routing Setup
+
 **File:** `frontend/src/main.jsx`
 
 Need to add React Router:
+
 ```jsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MathView from './views/MathView';
@@ -253,15 +285,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 ```
 
 ### 2. Dashboard Navigation
+
 **File:** `frontend/src/components/subject/SubjectCard.jsx`
 
 Update click handler to navigate to subject views:
+
 ```jsx
 import { useNavigate } from 'react-router-dom';
 
 const SubjectCard = ({ subject, ...props }) => {
   const navigate = useNavigate();
-  
+
   const handleClick = () => {
     const routes = {
       'math': '/math',
@@ -271,7 +305,7 @@ const SubjectCard = ({ subject, ...props }) => {
     };
     navigate(routes[subject] || '/');
   };
-  
+
   return (
     <div onClick={handleClick} ...>
       {/* existing card content */}
@@ -281,16 +315,19 @@ const SubjectCard = ({ subject, ...props }) => {
 ```
 
 ### 3. Dark Mode Context
+
 Pass dark mode state from parent app to views:
+
 ```jsx
 const [dark, setDark] = useState(false);
 
-<Route path="/math" element={<MathView dark={dark} />} />
+<Route path="/math" element={<MathView dark={dark} />} />;
 ```
 
 ### 4. Tool Implementation TODOs
 
 #### StepByStepSolver.jsx
+
 - Implement actual equation parsing
 - Add support for:
   - Linear equations (2x + 5 = 13)
@@ -301,12 +338,14 @@ const [dark, setDark] = useState(false);
 - Show work visually
 
 #### GraphTool.jsx
+
 - Add example graphs on load
 - Pre-configure common functions (y = mx + b, parabolas)
 - Add point plotting UI
 - Add coordinate display on hover
 
 #### GeometryFigure.jsx
+
 - Add more shapes:
   - Trapezoid
   - Pentagon
@@ -336,21 +375,25 @@ const [dark, setDark] = useState(false);
 ## 🎯 Design Philosophy
 
 ### Modular Architecture
+
 - **Before:** 39k-line monolith with embedded tools
 - **After:** Modular components, reusable across subjects
 
 ### Progressive Enhancement
+
 - Tools work without JSXGraph/KaTeX (graceful degradation)
 - "Coming Soon" placeholders for unimplemented features
 - Incremental feature rollout possible
 
 ### Accessibility First
+
 - ARIA labels on interactive elements
 - Semantic HTML (role="img", role="dialog")
 - Keyboard navigation support
 - High contrast ratios
 
 ### Maintainability
+
 - Single responsibility per component
 - Clear prop interfaces
 - Error boundaries (try-catch)
@@ -372,16 +415,19 @@ const [dark, setDark] = useState(false);
 ## 🚀 How to Use
 
 ### Access Math Tools
+
 1. Navigate to `/math` (once routing is set up)
 2. Click tool selector to choose tool
 3. Use "Open Formula Sheet" for reference
 
 ### Access Science Tools
+
 1. Navigate to `/science`
 2. Click "Open Science Formula Sheet"
 3. Browse formulas with LaTeX rendering
 
 ### Statistics Calculator Example
+
 ```
 Input: 5, 10, 15, 20, 15
 Output:
@@ -414,24 +460,29 @@ Output:
 ✅ **Formula sheets functional** - Math & Science sheets working  
 ✅ **Statistics tool working** - Fully functional calculator  
 ✅ **Dark mode compatible** - All components styled for both modes  
-✅ **Zero import errors** - All paths correct, no compilation issues  
+✅ **Zero import errors** - All paths correct, no compilation issues
 
 ---
 
 ## 📝 Developer Notes
 
 ### Why latexHelpers.js?
+
 Originally, all LaTeX functions were embedded in LegacyRootApp. Extracting them allows:
+
 - Reuse across tool components
 - Easier testing
 - Cleaner component code
 - Single source of truth for LaTeX rendering
 
 ### Why designSystem.js Path Fix?
+
 The theme utilities live in `frontend/src/theme/`, not `frontend/src/utils/`. Using correct import paths prevents runtime errors and follows project structure conventions.
 
 ### Why Placeholder Components?
+
 StepByStepSolver and parts of GraphTool are placeholders because:
+
 - Full implementation requires equation parsing libraries
 - Allows incremental development
 - UI structure is ready for backend logic
@@ -442,12 +493,14 @@ StepByStepSolver and parts of GraphTool are placeholders because:
 ## 🔗 Related Files
 
 **Modified in Previous Sessions:**
+
 - `frontend/src/legacy/LegacyRootApp.jsx` - Set `TOOL_PANEL_ENABLED = true`, `formulaSheetEnabled = true`
 - `frontend/src/components/subject/SubjectCard.jsx` - Enlarged cards
 - `frontend/style.css` - Added subject card sizing
 - `frontend/components/quiz/QuizInterface.jsx` - Added emoji icons
 
 **Ready for Routing Integration:**
+
 - `frontend/src/main.jsx` - Needs React Router setup
 
 ---
@@ -455,6 +508,7 @@ StepByStepSolver and parts of GraphTool are placeholders because:
 ## 🎓 Learning Outcomes
 
 This refactor demonstrates:
+
 1. **Component extraction** from monolithic codebases
 2. **Modular design patterns** for React
 3. **Theme system integration** with design tokens

@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 
 /**
  * StatisticsTool - Calculator for mean, median, mode, and range
- * 
+ *
  * This component provides a UI for calculating common statistical measures
  * from a set of numeric values.
- * 
+ *
  * @param {Object} props
  * @param {Function} props.onCalculate - Callback when statistics are calculated
  */
@@ -18,11 +18,11 @@ export default function StatisticsTool({ onCalculate = null }) {
     // Parse numbers from comma or space-separated input
     const numbers = text
       .split(/[,\s]+/)
-      .map(s => s.trim())
-      .filter(s => s.length > 0)
-      .map(s => parseFloat(s))
-      .filter(n => !isNaN(n));
-    
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0)
+      .map((s) => parseFloat(s))
+      .filter((n) => !isNaN(n));
+
     return numbers;
   };
 
@@ -36,7 +36,7 @@ export default function StatisticsTool({ onCalculate = null }) {
     if (numbers.length === 0) return null;
     const sorted = [...numbers].sort((a, b) => a - b);
     const mid = Math.floor(sorted.length / 2);
-    
+
     if (sorted.length % 2 === 0) {
       return (sorted[mid - 1] + sorted[mid]) / 2;
     } else {
@@ -46,20 +46,20 @@ export default function StatisticsTool({ onCalculate = null }) {
 
   const calculateMode = (numbers) => {
     if (numbers.length === 0) return null;
-    
+
     const frequency = {};
-    numbers.forEach(n => {
+    numbers.forEach((n) => {
       frequency[n] = (frequency[n] || 0) + 1;
     });
-    
+
     const maxFreq = Math.max(...Object.values(frequency));
     const modes = Object.keys(frequency)
-      .filter(key => frequency[key] === maxFreq)
-      .map(key => parseFloat(key));
-    
+      .filter((key) => frequency[key] === maxFreq)
+      .map((key) => parseFloat(key));
+
     // Return null if all values appear once (no mode)
     if (maxFreq === 1) return null;
-    
+
     return modes;
   };
 
@@ -73,7 +73,7 @@ export default function StatisticsTool({ onCalculate = null }) {
     setResults(null);
 
     const numbers = parseNumbers(input);
-    
+
     if (numbers.length === 0) {
       setError('Please enter at least one valid number');
       return;
@@ -115,8 +115,8 @@ export default function StatisticsTool({ onCalculate = null }) {
       </h3>
 
       <div className="input-section mb-4">
-        <label 
-          htmlFor="stats-input" 
+        <label
+          htmlFor="stats-input"
           className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300"
         >
           Enter numbers (comma or space-separated):
@@ -195,12 +195,11 @@ export default function StatisticsTool({ onCalculate = null }) {
                 Mode
               </div>
               <div className="result-value text-2xl font-bold text-blue-600 dark:text-blue-400">
-                {results.mode === null 
-                  ? 'None' 
+                {results.mode === null
+                  ? 'None'
                   : Array.isArray(results.mode)
-                    ? results.mode.map(formatNumber).join(', ')
-                    : formatNumber(results.mode)
-                }
+                  ? results.mode.map(formatNumber).join(', ')
+                  : formatNumber(results.mode)}
               </div>
             </div>
 
@@ -237,7 +236,9 @@ export default function StatisticsTool({ onCalculate = null }) {
       {!results && !error && (
         <div className="empty-state text-center py-8 text-slate-500 dark:text-slate-400">
           <p className="text-lg">Enter numbers above to calculate statistics</p>
-          <p className="text-sm mt-2">Calculates mean, median, mode, and range</p>
+          <p className="text-sm mt-2">
+            Calculates mean, median, mode, and range
+          </p>
         </div>
       )}
     </div>

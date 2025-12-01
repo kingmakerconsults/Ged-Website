@@ -4,7 +4,8 @@ const MATH_FORMULAS = [
   {
     name: 'Pythagorean Theorem',
     formula: 'a^2 + b^2 = c^2',
-    description: 'In a right triangle, the square of the hypotenuse equals the sum of squares of the other two sides',
+    description:
+      'In a right triangle, the square of the hypotenuse equals the sum of squares of the other two sides',
   },
   {
     name: 'Slope',
