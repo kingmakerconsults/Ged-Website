@@ -17,15 +17,40 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
 
   // Define tools per subject
   const toolsConfig = {
-    'Math': [
-      { id: 'geometry', name: 'Geometry Figures', icon: '📐', component: GeometryFigure },
+    Math: [
+      {
+        id: 'geometry',
+        name: 'Geometry Figures',
+        icon: '📐',
+        component: GeometryFigure,
+      },
       { id: 'graph', name: 'Graphing Tool', icon: '📊', component: GraphTool },
-      { id: 'solver', name: 'Step-by-Step Solver', icon: '🧮', component: StepByStepSolver },
-      { id: 'statistics', name: 'Statistics Calculator', icon: '📈', component: StatisticsTool },
-      { id: 'formulas', name: 'Formula Sheet', icon: '📋', component: FormulaSheetModal },
+      {
+        id: 'solver',
+        name: 'Step-by-Step Solver',
+        icon: '🧮',
+        component: StepByStepSolver,
+      },
+      {
+        id: 'statistics',
+        name: 'Statistics Calculator',
+        icon: '📈',
+        component: StatisticsTool,
+      },
+      {
+        id: 'formulas',
+        name: 'Formula Sheet',
+        icon: '📋',
+        component: FormulaSheetModal,
+      },
     ],
-    'Science': [
-      { id: 'formulas', name: 'Formula Sheet', icon: '🧪', component: ScienceFormulaSheet },
+    Science: [
+      {
+        id: 'formulas',
+        name: 'Formula Sheet',
+        icon: '🧪',
+        component: ScienceFormulaSheet,
+      },
     ],
     'Reasoning Through Language Arts (RLA)': [
       // Future: Reading comprehension tools, grammar checkers, etc.
@@ -36,7 +61,9 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
   };
 
   const tools = toolsConfig[subject] || [];
-  const ActiveToolComponent = tools.find(t => t.id === selectedTool)?.component;
+  const ActiveToolComponent = tools.find(
+    (t) => t.id === selectedTool
+  )?.component;
 
   if (!subject) return null;
 
@@ -58,7 +85,9 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
         <div
           className="p-6 flex items-center justify-between"
           style={{
-            background: theme?.gradient || 'linear-gradient(135deg, #64748b 0%, #475569 100%)',
+            background:
+              theme?.gradient ||
+              'linear-gradient(135deg, #64748b 0%, #475569 100%)',
             color: '#ffffff',
           }}
         >
@@ -96,18 +125,22 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
                   >
                     <div className="text-5xl mb-3">{tool.icon}</div>
                     <h3 className="text-lg font-bold mb-2">{tool.name}</h3>
-                    <p className="text-sm opacity-75">
-                      Click to open
-                    </p>
+                    <p className="text-sm opacity-75">Click to open</p>
                   </button>
                 ))
               ) : (
                 <div className="col-span-full text-center py-12">
                   <div className="text-6xl mb-4">🚧</div>
-                  <h3 className="text-xl font-semibold mb-2" style={{ color: dark ? '#e2e8f0' : '#1e293b' }}>
+                  <h3
+                    className="text-xl font-semibold mb-2"
+                    style={{ color: dark ? '#e2e8f0' : '#1e293b' }}
+                  >
                     Tools Coming Soon
                   </h3>
-                  <p className="text-sm opacity-75" style={{ color: dark ? '#94a3b8' : '#64748b' }}>
+                  <p
+                    className="text-sm opacity-75"
+                    style={{ color: dark ? '#94a3b8' : '#64748b' }}
+                  >
                     Subject-specific tools are being developed
                   </p>
                 </div>
@@ -126,9 +159,9 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
               >
                 ← Back to Tools
               </button>
-              
+
               {ActiveToolComponent && (
-                <ActiveToolComponent 
+                <ActiveToolComponent
                   onClose={() => setSelectedTool(null)}
                   dark={dark}
                 />
