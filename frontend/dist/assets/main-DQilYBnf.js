@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-C2A5072H.js";
+import { _ as __vitePreload } from "./index-DMA4KsWS.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -956,15 +956,40 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
   const [selectedTool, setSelectedTool] = reactExports.useState(null);
   const theme2 = getSubjectTheme(subject == null ? void 0 : subject.toLowerCase(), dark);
   const toolsConfig = {
-    "Math": [
-      { id: "geometry", name: "Geometry Figures", icon: "📐", component: GeometryFigure$1 },
+    Math: [
+      {
+        id: "geometry",
+        name: "Geometry Figures",
+        icon: "📐",
+        component: GeometryFigure$1
+      },
       { id: "graph", name: "Graphing Tool", icon: "📊", component: GraphTool },
-      { id: "solver", name: "Step-by-Step Solver", icon: "🧮", component: StepByStepSolver },
-      { id: "statistics", name: "Statistics Calculator", icon: "📈", component: StatisticsTool },
-      { id: "formulas", name: "Formula Sheet", icon: "📋", component: FormulaSheetModal$1 }
+      {
+        id: "solver",
+        name: "Step-by-Step Solver",
+        icon: "🧮",
+        component: StepByStepSolver
+      },
+      {
+        id: "statistics",
+        name: "Statistics Calculator",
+        icon: "📈",
+        component: StatisticsTool
+      },
+      {
+        id: "formulas",
+        name: "Formula Sheet",
+        icon: "📋",
+        component: FormulaSheetModal$1
+      }
     ],
-    "Science": [
-      { id: "formulas", name: "Formula Sheet", icon: "🧪", component: ScienceFormulaSheet$1 }
+    Science: [
+      {
+        id: "formulas",
+        name: "Formula Sheet",
+        icon: "🧪",
+        component: ScienceFormulaSheet$1
+      }
     ],
     "Reasoning Through Language Arts (RLA)": [
       // Future: Reading comprehension tools, grammar checkers, etc.
@@ -974,7 +999,9 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
     ]
   };
   const tools = toolsConfig[subject] || [];
-  const ActiveToolComponent = (_a2 = tools.find((t) => t.id === selectedTool)) == null ? void 0 : _a2.component;
+  const ActiveToolComponent = (_a2 = tools.find(
+    (t) => t.id === selectedTool
+  )) == null ? void 0 : _a2.component;
   if (!subject) return null;
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
@@ -1041,8 +1068,22 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
                 tool.id
               )) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-6xl mb-4", children: "🚧" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", style: { color: dark ? "#e2e8f0" : "#1e293b" }, children: "Tools Coming Soon" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-75", style: { color: dark ? "#94a3b8" : "#64748b" }, children: "Subject-specific tools are being developed" })
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "h3",
+                  {
+                    className: "text-xl font-semibold mb-2",
+                    style: { color: dark ? "#e2e8f0" : "#1e293b" },
+                    children: "Tools Coming Soon"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "p",
+                  {
+                    className: "text-sm opacity-75",
+                    style: { color: dark ? "#94a3b8" : "#64748b" },
+                    children: "Subject-specific tools are being developed"
+                  }
+                )
               ] }) })
             ) : (
               // Tool Display - Active Tool View
@@ -1104,6 +1145,261 @@ function SubjectToolsModal({ subject, dark = false, onClose }) {
       )
     }
   );
+}
+const AMENDMENTS_DB = [
+  { id: "1st", topic: "Freedoms", simple: "Freedom of speech, religion, press, assembly, and petition.", original: "Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances." },
+  { id: "2nd", topic: "Arms", simple: "Right to keep and bear arms (own guns).", original: "A well regulated Militia, being necessary to the security of a free State, the right of the people to keep and bear Arms, shall not be infringed." },
+  { id: "4th", topic: "Privacy", simple: "Protection against unreasonable searches and seizures (need a warrant).", original: "The right of the people to be secure in their persons, houses, papers, and effects, against unreasonable searches and seizures, shall not be violated, and no Warrants shall issue, but upon probable cause, supported by Oath or affirmation, and particularly describing the place to be searched, and the persons or things to be seized." },
+  { id: "5th", topic: "Due Process", simple: "Right to remain silent; no double jeopardy; due process required.", original: "No person shall be held to answer for a capital, or otherwise infamous crime, unless on a presentment or indictment of a Grand Jury... nor shall be compelled in any criminal case to be a witness against himself, nor be deprived of life, liberty, or property, without due process of law; nor shall private property be taken for public use, without just compensation." },
+  { id: "6th", topic: "Trial", simple: "Right to a speedy, public trial and a lawyer.", original: "In all criminal prosecutions, the accused shall enjoy the right to a speedy and public trial, by an impartial jury of the State and district wherein the crime shall have been committed... and to have the Assistance of Counsel for his defence." },
+  { id: "8th", topic: "Punishment", simple: "No cruel or unusual punishment; no excessive bail.", original: "Excessive bail shall not be required, nor excessive fines imposed, nor cruel and unusual punishments inflicted." },
+  { id: "13th", topic: "Slavery", simple: "Abolished slavery in the United States.", original: "Neither slavery nor involuntary servitude, except as a punishment for crime whereof the party shall have been duly convicted, shall exist within the United States, or any place subject to their jurisdiction." },
+  { id: "14th", topic: "Equality", simple: "Grants citizenship to anyone born in the US; guarantees equal protection under the law.", original: "All persons born or naturalized in the United States, and subject to the jurisdiction thereof, are citizens of the United States and of the State wherein they reside. No State shall make or enforce any law which shall abridge the privileges or immunities of citizens of the United States; nor shall any State deprive any person of life, liberty, or property, without due process of law; nor deny to any person within its jurisdiction the equal protection of the laws." },
+  { id: "19th", topic: "Voting (Sex)", simple: "Women's right to vote.", original: "The right of citizens of the United States to vote shall not be denied or abridged by the United States or by any State on account of sex." }
+];
+function ConstitutionExplorer({ onExit }) {
+  const [mode, setMode] = reactExports.useState("simple");
+  const [search, setSearch] = reactExports.useState("");
+  const filtered = AMENDMENTS_DB.filter(
+    (item) => item.simple.toLowerCase().includes(search.toLowerCase()) || item.topic.toLowerCase().includes(search.toLowerCase()) || item.id.toLowerCase().includes(search.toLowerCase())
+  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-5xl mx-auto p-6 space-y-6", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onExit,
+          className: "flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold", children: "Constitution Explorer" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-12" }),
+      " "
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "text",
+          placeholder: "Search (e.g. 'speech', 'voting', '14th')",
+          className: "w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-sky-500 outline-none transition",
+          value: search,
+          onChange: (e) => setSearch(e.target.value)
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex bg-white dark:bg-slate-900 rounded-lg p-1 border border-slate-200 dark:border-slate-700", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setMode("simple"),
+            className: `px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === "simple" ? "bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`,
+            children: "Plain English"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setMode("original"),
+            className: `px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === "original" ? "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`,
+            children: "Original Text"
+          }
+        )
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: [
+      filtered.map((amendment) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-start mb-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider", children: [
+            amendment.id,
+            " Amendment"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-medium text-sky-600 dark:text-sky-400", children: amendment.topic })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: `text-base leading-relaxed flex-grow ${mode === "original" ? "font-serif italic text-slate-700 dark:text-slate-300" : "font-sans text-slate-900 dark:text-white"}`, children: mode === "original" ? `"${amendment.original}"` : amendment.simple })
+      ] }, amendment.id)),
+      filtered.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12 text-slate-500", children: [
+        'No amendments found matching "',
+        search,
+        '".'
+      ] })
+    ] })
+  ] }) });
+}
+function EconomicsGraphTool({ onExit }) {
+  const boardRef = reactExports.useRef(null);
+  const boardInstance = reactExports.useRef(null);
+  const [demandShift, setDemandShift] = reactExports.useState(0);
+  const [supplyShift, setSupplyShift] = reactExports.useState(0);
+  const [equilibrium, setEquilibrium] = reactExports.useState({ p: 5, q: 5 });
+  reactExports.useEffect(() => {
+    if (!boardRef.current || !window.JXG) return;
+    const board = window.JXG.JSXGraph.initBoard(boardRef.current.id, {
+      boundingbox: [-1, 12, 12, -1],
+      axis: true,
+      showCopyright: false,
+      showNavigation: false
+    });
+    board.create("axis", [[0, 0], [1, 0]], {
+      name: "Quantity",
+      withLabel: true,
+      label: { position: "rt", offset: [-10, 10] }
+    });
+    board.create("axis", [[0, 0], [0, 1]], {
+      name: "Price",
+      withLabel: true,
+      label: { position: "rt", offset: [-20, 0] }
+    });
+    boardInstance.current = board;
+    return () => {
+      if (boardInstance.current) {
+        window.JXG.JSXGraph.freeBoard(boardInstance.current);
+      }
+    };
+  }, []);
+  reactExports.useEffect(() => {
+    const board = boardInstance.current;
+    if (!board) return;
+    board.suspendUpdate();
+    const d_intercept = 10 + demandShift;
+    const s_intercept = 0 + supplyShift;
+    const eq_Q = (d_intercept - s_intercept) / 2;
+    const eq_P = eq_Q + s_intercept;
+    setEquilibrium({ p: eq_P, q: eq_Q });
+    if (board.objectsList) {
+      const idsToRemove = [];
+      board.objectsList.forEach((el) => {
+        if ((el.elType === "line" || el.elType === "point" || el.elType === "text") && el.name !== "Quantity" && el.name !== "Price") {
+          idsToRemove.push(el);
+        }
+      });
+      board.removeObject(idsToRemove);
+    }
+    board.create("line", [[0, d_intercept], [10, d_intercept - 10]], {
+      strokeColor: "#2563eb",
+      strokeWidth: 3,
+      name: "Demand",
+      withLabel: true,
+      label: { position: "top", offset: [10, 10] }
+    });
+    board.create("line", [[0, s_intercept], [10, 10 + s_intercept]], {
+      strokeColor: "#dc2626",
+      strokeWidth: 3,
+      name: "Supply",
+      withLabel: true,
+      label: { position: "top", offset: [10, -10] }
+    });
+    board.create("point", [eq_Q, eq_P], {
+      name: "",
+      face: "o",
+      size: 5,
+      strokeColor: "#16a34a",
+      fillColor: "#16a34a",
+      fixed: true
+    });
+    board.create("segment", [[eq_Q, 0], [eq_Q, eq_P]], {
+      strokeColor: "#666",
+      dash: 2,
+      strokeWidth: 1
+    });
+    board.create("segment", [[0, eq_P], [eq_Q, eq_P]], {
+      strokeColor: "#666",
+      dash: 2,
+      strokeWidth: 1
+    });
+    board.unsuspendUpdate();
+  }, [demandShift, supplyShift]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-6", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4 mb-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onExit, className: "text-sm font-semibold text-sky-600 hover:text-sky-700", children: "← Back to Dashboard" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold", children: "Economics Simulator: Supply & Demand" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-16" })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col lg:flex-row gap-8", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden h-[500px] relative", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "econ-board", ref: boardRef, className: "w-full h-full" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 p-3 rounded-lg border border-slate-200 dark:border-slate-600 shadow text-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-slate-500 uppercase text-xs", children: "Equilibrium" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-emerald-600 font-mono text-lg", children: [
+            "Price: $",
+            equilibrium.p.toFixed(2)
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-emerald-600 font-mono text-lg", children: [
+            "Quantity: ",
+            equilibrium.q.toFixed(0),
+            " units"
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full lg:w-80 space-y-6", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-blue-800 dark:text-blue-300 mb-1", children: "Demand Factors" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-blue-600 dark:text-blue-400 mb-4", children: "Examples: Consumer income, trends, population." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-2", children: "Shift Demand Curve" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "range",
+              min: "-4",
+              max: "4",
+              step: "1",
+              value: demandShift,
+              onChange: (e) => setDemandShift(Number(e.target.value)),
+              className: "w-full accent-blue-600 cursor-pointer"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between text-xs text-slate-500 mt-1", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Decrease" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Increase" })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 rounded-xl", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-red-800 dark:text-red-300 mb-1", children: "Supply Factors" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-red-600 dark:text-red-400 mb-4", children: "Examples: Technology, cost of inputs, taxes." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-2", children: "Shift Supply Curve" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "range",
+              min: "-4",
+              max: "4",
+              step: "1",
+              value: supplyShift,
+              onChange: (e) => setSupplyShift(Number(e.target.value)),
+              className: "w-full accent-red-600 cursor-pointer"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between text-xs text-slate-500 mt-1", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              "Increase Supply",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+              "(Lower Cost)"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              "Decrease Supply",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+              "(Higher Cost)"
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm text-slate-600 dark:text-slate-300", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Try this:" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "list-disc pl-4 space-y-1", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+              "Increase ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Demand" }),
+              " (right) to see Price and Quantity both go up."
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
+              "Increase ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Supply" }),
+              " (left slider) to see Price go down while Quantity goes up."
+            ] })
+          ] })
+        ] })
+      ] })
+    ] })
+  ] });
 }
 (function() {
   try {
@@ -19400,6 +19696,13 @@ const CalendarIcon = ({ className = "" } = {}) => /* @__PURE__ */ jsxRuntimeExpo
     "aria-hidden": "true"
   }
 );
+const GlobeIcon = ({ className = "" } = {}) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+  "i",
+  {
+    className: ["fas fa-landmark", className].filter(Boolean).join(" "),
+    "aria-hidden": "true"
+  }
+);
 const ArrowLeftIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsx(
   "svg",
   {
@@ -21238,6 +21541,7 @@ function App({ externalTheme, onThemeChange }) {
   const [showFormulaSheet, setShowFormulaSheet] = reactExports.useState(false);
   const [showToolsModal, setShowToolsModal2] = reactExports.useState(false);
   const [toolsModalSubject, setToolsModalSubject2] = reactExports.useState(null);
+  const [activeSocialTool, setActiveSocialTool] = reactExports.useState(null);
   const [showNamePrompt, setShowNamePrompt] = reactExports.useState(false);
   const [showPracticeModal, setShowPracticeModal] = reactExports.useState(false);
   const [mathToolsActiveTab, setMathToolsActiveTab] = reactExports.useState("graphing");
@@ -23161,6 +23465,12 @@ function App({ externalTheme, onThemeChange }) {
     if (!currentUser) {
       return /* @__PURE__ */ jsxRuntimeExports.jsx(AuthScreen, { onLogin: handleLogin });
     }
+    if (activeSocialTool === "constitution") {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(ConstitutionExplorer, { onExit: () => setActiveSocialTool(null) });
+    }
+    if (activeSocialTool === "economics") {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(EconomicsGraphTool, { onExit: () => setActiveSocialTool(null) });
+    }
     const normalizedRole = ((_a3 = currentUser.role) == null ? void 0 : _a3.replace("_", "")) || currentUser.role;
     if (normalizedRole === "superAdmin" || normalizedRole === "superadmin") {
       return /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -23392,6 +23702,7 @@ function App({ externalTheme, onThemeChange }) {
             setLoadingMessage,
             setShowFormulaSheet,
             onOpenMathTools: openMathTools,
+            setActiveSocialTool,
             theme: preferences.theme,
             selectedSubject,
             selectedCategory,
@@ -26613,6 +26924,7 @@ function StartScreen({
   setLoadingMessage,
   setShowFormulaSheet,
   onOpenMathTools,
+  setActiveSocialTool,
   theme: theme2 = "light",
   onRefreshProfile,
   selectedSubject,
@@ -28564,6 +28876,61 @@ function StartScreen({
                         children: "Launch Essay Practice"
                       }
                     )
+                  ]
+                }
+              ),
+              selectedSubject === "Social Studies" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: "border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all",
+                  style: { ...panelBaseStyle, borderStyle: "dashed" },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "div",
+                        {
+                          className: "flex items-center justify-center gap-2",
+                          style: { color: heroAccentColor },
+                          children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx(GlobeIcon, { className: "h-8 w-8" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx(
+                              "h3",
+                              {
+                                className: "text-xl font-bold",
+                                style: { color: heroTextColor },
+                                children: "Social Studies Tools"
+                              }
+                            )
+                          ]
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "p",
+                        {
+                          className: "text-sm my-2 text-center",
+                          style: heroMutedTextStyle,
+                          children: "Interactive tools to master Civics and Economics."
+                        }
+                      )
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2 mt-2", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          onClick: () => setActiveSocialTool("constitution"),
+                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
+                          children: "📜 Constitution Explorer"
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          onClick: () => setActiveSocialTool("economics"),
+                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
+                          children: "📊 Economics Graphing"
+                        }
+                      )
+                    ] })
                   ]
                 }
               ),
@@ -34475,4 +34842,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-76zSMj9Q.js.map
+//# sourceMappingURL=main-DQilYBnf.js.map

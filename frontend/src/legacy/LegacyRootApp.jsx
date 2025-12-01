@@ -22926,6 +22926,8 @@ async function fetchJSON(url, options = {}) {
 // --- App Structure Components ---
 import SubjectCard from '../components/subject/SubjectCard.jsx';
 import SubjectToolsModal from '../components/SubjectToolsModal.jsx';
+import ConstitutionExplorer from '../components/social/ConstitutionExplorer.jsx';
+import EconomicsGraphTool from '../components/social/EconomicsGraphTool.jsx';
 
 function AppHeader({
   currentUser,
@@ -23426,6 +23428,7 @@ function App({ externalTheme, onThemeChange }) {
   const [showFormulaSheet, setShowFormulaSheet] = useState(false);
   const [showToolsModal, setShowToolsModal] = useState(false);
   const [toolsModalSubject, setToolsModalSubject] = useState(null);
+  const [activeSocialTool, setActiveSocialTool] = useState(null); // 'constitution' | 'economics' | null
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [showPracticeModal, setShowPracticeModal] = useState(false);
   const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
@@ -25767,6 +25770,15 @@ function App({ externalTheme, onThemeChange }) {
       return <AuthScreen onLogin={handleLogin} />;
     }
 
+    // Check for active social studies tools
+    if (activeSocialTool === 'constitution') {
+      return <ConstitutionExplorer onExit={() => setActiveSocialTool(null)} />;
+    }
+
+    if (activeSocialTool === 'economics') {
+      return <EconomicsGraphTool onExit={() => setActiveSocialTool(null)} />;
+    }
+
     // Normalize role string (handle both super_admin and superAdmin formats)
     const normalizedRole =
       currentUser.role?.replace('_', '') || currentUser.role;
@@ -25995,6 +26007,7 @@ function App({ externalTheme, onThemeChange }) {
             setLoadingMessage={setLoadingMessage}
             setShowFormulaSheet={setShowFormulaSheet}
             onOpenMathTools={openMathTools}
+            setActiveSocialTool={setActiveSocialTool}
             theme={preferences.theme}
             selectedSubject={selectedSubject}
             selectedCategory={selectedCategory}
@@ -30060,6 +30073,7 @@ function StartScreen({
   setLoadingMessage,
   setShowFormulaSheet,
   onOpenMathTools,
+  setActiveSocialTool,
   theme = 'light',
   onRefreshProfile,
   selectedSubject,
@@ -32490,6 +32504,47 @@ function StartScreen({
                   >
                     Launch Essay Practice
                   </button>
+                </div>
+              )}
+              {selectedSubject === 'Social Studies' && (
+                <div
+                  className="border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all"
+                  style={{ ...panelBaseStyle, borderStyle: 'dashed' }}
+                >
+                  <div>
+                    <div
+                      className="flex items-center justify-center gap-2"
+                      style={{ color: heroAccentColor }}
+                    >
+                      <GlobeIcon className="h-8 w-8" />
+                      <h3
+                        className="text-xl font-bold"
+                        style={{ color: heroTextColor }}
+                      >
+                        Social Studies Tools
+                      </h3>
+                    </div>
+                    <p
+                      className="text-sm my-2 text-center"
+                      style={heroMutedTextStyle}
+                    >
+                      Interactive tools to master Civics and Economics.
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2 mt-2">
+                    <button
+                      onClick={() => setActiveSocialTool('constitution')}
+                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
+                    >
+                      📜 Constitution Explorer
+                    </button>
+                    <button
+                      onClick={() => setActiveSocialTool('economics')}
+                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
+                    >
+                      📊 Economics Graphing
+                    </button>
+                  </div>
                 </div>
               )}
               <div
