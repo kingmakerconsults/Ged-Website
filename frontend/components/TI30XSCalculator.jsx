@@ -218,7 +218,10 @@ export function TI30XSCalculator({ onClose }) {
             style={{ left: position.x, top: position.y, position: 'fixed', opacity: opacity, pointerEvents: 'auto', cursor: isDragging ? 'grabbing' : 'grab' }}
             onMouseDown={handleMouseDown}
           >
-            <div className="relative bg-[#3b4c5f] shadow-2xl rounded-[30px] p-5" style={{ width: '340px', height: '680px' }}>
+            <div
+              className="relative bg-[#3b4c5f] shadow-2xl rounded-[30px] p-5"
+              style={{ width: '340px', height: '680px', transform: 'scale(2)', transformOrigin: 'top left' }}
+            >
               {/* Branding */}
               <div className="mb-3">
                 <div className="text-center mb-2">
