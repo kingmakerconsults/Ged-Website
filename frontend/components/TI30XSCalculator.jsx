@@ -15,7 +15,11 @@ export function TI30XSCalculator({ onClose }) {
   // --- Drag Logic ---
   const handleMouseDown = (e) => {
     // Only drag if clicking the shell, not buttons or controls
-    if (e.target.tagName === 'BUTTON' || e.target.closest('.calc-opacity-control')) return;
+    if (
+      e.target.tagName === 'BUTTON' ||
+      e.target.closest('.calc-opacity-control')
+    )
+      return;
     setIsDragging(true);
     dragStart.current = {
       x: e.clientX - position.x,
@@ -106,7 +110,10 @@ export function TI30XSCalculator({ onClose }) {
           : String(evalResult);
 
       // Add to MultiView History (Max 3 lines)
-      setHistory((prev) => [...prev.slice(-2), { exp: currentInput, ans: formattedResult }]);
+      setHistory((prev) => [
+        ...prev.slice(-2),
+        { exp: currentInput, ans: formattedResult },
+      ]);
       setResult(formattedResult);
       setCurrentInput('');
     } catch (e) {
@@ -155,15 +162,24 @@ export function TI30XSCalculator({ onClose }) {
   }, [currentInput, result]);
 
   // --- Button Component ---
-  const CalcBtn = ({ label, color = 'black', onClick, className = '', span = 1 }) => {
+  const CalcBtn = ({
+    label,
+    color = 'black',
+    onClick,
+    className = '',
+    span = 1,
+  }) => {
     const baseStyle =
-      'h-10 text-sm font-bold rounded shadow-md active:scale-95 transition-transform flex items-center justify-center calc-btn';
+      'h-11 text-sm font-semibold rounded-lg shadow-md active:scale-95 active:shadow-sm transition-all flex flex-col items-center justify-center calc-btn leading-tight py-1';
     const colorStyles = {
-      green: 'bg-[#4a8b73] text-white border-b-4 border-[#2f594a] hover:bg-[#5a9b83]',
-      black: 'bg-slate-900 text-white border-b-4 border-black hover:bg-slate-800',
-      white: 'bg-white text-slate-900 border-b-4 border-slate-300 hover:bg-slate-50',
-      red: 'bg-red-800 text-white border-b-4 border-red-950 hover:bg-red-700',
-      gray: 'bg-slate-700 text-white border-b-4 border-slate-900 hover:bg-slate-600',
+      green:
+        'bg-gradient-to-b from-[#4a8b73] to-[#3a7563] text-white border-b-[3px] border-[#2f594a] hover:from-[#5a9b83] hover:to-[#4a8b73]',
+      black:
+        'bg-gradient-to-b from-slate-800 to-slate-900 text-white border-b-[3px] border-black hover:from-slate-700 hover:to-slate-800',
+      white:
+        'bg-gradient-to-b from-white to-slate-100 text-slate-900 border-b-[3px] border-slate-300 hover:from-slate-50 hover:to-slate-200 font-bold',
+      red: 'bg-gradient-to-b from-red-700 to-red-800 text-white border-b-[3px] border-red-950 hover:from-red-600 hover:to-red-700',
+      gray: 'bg-gradient-to-b from-slate-600 to-slate-700 text-white border-b-[3px] border-slate-800 hover:from-slate-500 hover:to-slate-600',
     };
 
     const colSpan = span > 1 ? `col-span-${span}` : '';
@@ -195,46 +211,76 @@ export function TI30XSCalculator({ onClose }) {
         }}
         onMouseDown={handleMouseDown}
       >
-        {/* CALCULATOR SHELL */}
-        <div className="w-[340px] bg-[#2c3e50] rounded-[32px] p-6 pb-8 shadow-2xl border-4 border-[#1a252f]">
-          {/* BRANDING & SOLAR PANEL */}
-          <div className="flex justify-between items-start mb-4 px-1">
-            <div className="text-slate-300 text-[10px] font-bold tracking-widest leading-tight">
-              <div>TEXAS INSTRUMENTS</div>
-              <div className="text-slate-400 text-[9px] mt-0.5">TI-30XS MultiView™</div>
+        {/* CALCULATOR SHELL - Hourglass shape with curved edges */}
+        <div
+          className="relative bg-[#3b4c5f] shadow-2xl"
+          style={{
+            width: '320px',
+            borderRadius: '40px 40px 60px 60px',
+            padding: '20px',
+            paddingBottom: '40px',
+            clipPath:
+              'polygon(8% 0%, 92% 0%, 100% 5%, 100% 45%, 95% 50%, 100% 55%, 100% 95%, 100% 100%, 0% 100%, 0% 95%, 0% 55%, 5% 50%, 0% 45%, 0% 5%)',
+          }}
+        >
+          {/* Top Section */}
+          <div className="mb-3">
+            {/* TI-30XS Branding */}
+            <div className="text-center mb-2">
+              <div className="text-white text-2xl font-bold tracking-wider">
+                TI-30XS
+              </div>
+              <div className="text-slate-300 text-xs tracking-widest">
+                MultiView
+              </div>
             </div>
+
             {/* Solar Panel */}
-            <div className="w-20 h-5 bg-[#1a1410] rounded border border-slate-700 shadow-inner"></div>
+            <div className="w-full h-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded-sm border border-slate-700 shadow-inner mb-2"></div>
+
+            {/* Texas Instruments Logo Area */}
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <div className="text-red-600 text-lg font-bold">★</div>
+              <div className="text-white text-[10px] font-bold tracking-widest">
+                TEXAS INSTRUMENTS
+              </div>
+            </div>
           </div>
 
-          {/* SCREEN (MultiView Display) */}
-          <div className="bg-[#c8dcc8] h-44 rounded-lg mb-5 border-4 border-slate-700 p-3 font-mono text-slate-900 flex flex-col relative shadow-inner">
-            {/* Status Indicators */}
-            <div className="text-[9px] flex gap-3 opacity-70 border-b border-slate-400/40 pb-1 mb-2">
-              <span className={isDegrees ? 'font-bold' : ''}>{isDegrees ? 'DEG' : 'RAD'}</span>
-              <span>NORM</span>
-              <span>FLOAT</span>
+          {/* SCREEN (MultiView Display) - Larger and more prominent */}
+          <div className="bg-[#c8dcb6] h-48 rounded-xl mb-4 border-4 border-slate-600 p-4 font-mono text-slate-900 flex flex-col relative shadow-2xl">
+            {/* Status Indicators - Top right corner */}
+            <div className="absolute top-2 right-3 text-[8px] flex gap-2 opacity-60">
+              <span className={isDegrees ? 'font-bold' : ''}>
+                {isDegrees ? 'DEG' : 'RAD'}
+              </span>
+              <span>FLO</span>
             </div>
 
             {/* History Lines (shows last 3 calculations) */}
             <div className="flex-1 flex flex-col justify-end overflow-hidden">
               {history.map((item, i) => (
-                <div key={i} className="text-xs opacity-60 leading-tight mb-1">
-                  <div className="text-right">{item.exp}</div>
-                  <div className="text-right font-bold">= {item.ans}</div>
+                <div
+                  key={i}
+                  className="text-[11px] opacity-50 leading-tight mb-1"
+                >
+                  <div className="text-left">{item.exp}</div>
+                  <div className="text-right font-bold mb-1">={item.ans}</div>
                 </div>
               ))}
             </div>
 
-            {/* Current Input/Result Line */}
-            <div className="text-right text-2xl font-bold mt-2 truncate min-h-[32px]">
+            {/* Current Input/Result Line - Main display */}
+            <div className="text-left text-2xl font-bold mt-2 min-h-[36px] border-t border-slate-400/30 pt-2">
               {result !== '' ? (
-                <span>{result}</span>
+                <div className="text-right">{result}</div>
               ) : (
-                <>
+                <div className="flex items-center">
                   {currentInput || '0'}
-                  <span className="inline-block w-0.5 h-6 bg-slate-900 animate-pulse ml-0.5">|</span>
-                </>
+                  <span className="inline-block w-1 h-6 bg-slate-900 animate-pulse ml-1">
+                    |
+                  </span>
+                </div>
               )}
             </div>
           </div>
@@ -259,70 +305,386 @@ export function TI30XSCalculator({ onClose }) {
             </button>
           </div>
 
-          {/* KEYPAD GRID */}
-          <div className="grid grid-cols-5 gap-2">
-            {/* Row 1 */}
+          {/* KEYPAD GRID - Exact TI-30XS Layout */}
+          <div className="grid grid-cols-5 gap-1.5">
+            {/* Row 1: Control Keys */}
             <CalcBtn
-              label="2nd"
+              label={
+                <>
+                  <span className="text-yellow-300 text-[9px]">quit</span>
+                  <br />
+                  2nd
+                </>
+              }
               color="green"
               onClick={() => setIsSecond(!isSecond)}
-              className={isSecond ? 'ring-2 ring-yellow-400' : ''}
+              className={`text-[11px] ${
+                isSecond ? 'ring-2 ring-yellow-300' : ''
+              }`}
             />
-            <CalcBtn label="mode" color="black" onClick={toggleMode} />
-            <CalcBtn label="del" color="black" onClick={handleDelete} />
-            <CalcBtn label="on" color="black" onClick={handleClear} span={2} />
-
-            {/* Row 2 */}
-            <CalcBtn label="π" color="gray" onClick={() => handlePress('π')} />
-            <CalcBtn label="sin" color="gray" onClick={() => handleFunction('sin')} />
-            <CalcBtn label="cos" color="gray" onClick={() => handleFunction('cos')} />
-            <CalcBtn label="tan" color="gray" onClick={() => handleFunction('tan')} />
-            <CalcBtn label="÷" color="black" onClick={() => handlePress('÷')} />
-
-            {/* Row 3 */}
-            <CalcBtn label="n/d" color="gray" onClick={() => handlePress('/')} />
-            <CalcBtn label="√" color="gray" onClick={() => handlePress('√(')} />
-            <CalcBtn label="x²" color="gray" onClick={() => handlePress('^2')} />
-            <CalcBtn label="^" color="gray" onClick={() => handlePress('^')} />
-            <CalcBtn label="×" color="black" onClick={() => handlePress('×')} />
-
-            {/* Row 4 with D-Pad */}
-            <CalcBtn label="(" color="gray" onClick={() => handlePress('(')} />
-            <CalcBtn label=")" color="gray" onClick={() => handlePress(')')} />
-            {/* D-Pad - Decorative */}
-            <div className="col-span-2 row-span-2 flex items-center justify-center relative h-full bg-slate-800 rounded-full border-2 border-slate-900 shadow-inner">
-              <div className="w-8 h-8 bg-slate-700 rounded-full shadow-md"></div>
-              <div className="absolute top-1 text-[10px] text-slate-400 font-bold">▲</div>
-              <div className="absolute bottom-1 text-[10px] text-slate-400 font-bold">▼</div>
-              <div className="absolute left-2 text-[10px] text-slate-400 font-bold">◀</div>
-              <div className="absolute right-2 text-[10px] text-slate-400 font-bold">▶</div>
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-yellow-300 text-[9px]">insert</span>
+                  <br />
+                  mode
+                </>
+              }
+              color="gray"
+              onClick={toggleMode}
+              className="text-[10px]"
+            />
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-yellow-300 text-[9px]">angle</span>
+                  <br />
+                  delete
+                </>
+              }
+              color="gray"
+              onClick={handleDelete}
+              className="text-[10px]"
+            />
+            <div className="col-span-2 relative">
+              <CalcBtn
+                label="clear"
+                color="black"
+                onClick={handleClear}
+                className="text-sm absolute inset-0"
+              />
+              <div className="absolute top-1 right-2 text-[8px] text-slate-400">
+                on
+              </div>
             </div>
-            <CalcBtn label="-" color="black" onClick={() => handlePress('-')} />
 
-            {/* Row 5 */}
-            <CalcBtn label="log" color="gray" />
-            <CalcBtn label="7" color="white" />
-            <CalcBtn label="8" color="white" />
-            <CalcBtn label="9" color="white" />
+            {/* Row 2: Functions */}
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[8px]">e^x</span>
+                  <br />
+                  log
+                </>
+              }
+              color="gray"
+              className="text-[10px]"
+            />
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[8px]">LRN</span>
+                  <br />
+                  prb
+                </>
+              }
+              color="gray"
+              className="text-[9px]"
+            />
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[8px]">stat</span>
+                  <br />
+                  data
+                </>
+              }
+              color="gray"
+              className="text-[9px]"
+            />
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[8px]">fx⟷d</span>
+                  <br />
+                  table
+                </>
+              }
+              color="gray"
+              className="text-[9px]"
+            />
+            <CalcBtn
+              label="÷"
+              color="black"
+              onClick={() => handlePress('÷')}
+              className="text-lg"
+            />
 
-            {/* Row 6 */}
-            <CalcBtn label="ln" color="gray" />
-            <CalcBtn label="4" color="white" />
-            <CalcBtn label="5" color="white" />
-            <CalcBtn label="6" color="white" />
-            <CalcBtn label="+" color="black" onClick={() => handlePress('+')} />
+            {/* Row 3: Scientific functions */}
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[8px]">10^x</span>
+                  <br />
+                  ln
+                </>
+              }
+              color="gray"
+              className="text-[10px]"
+            />
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[8px]">n/d</span>
+                  <br />
+                  <span className="text-sm">□</span>
+                  <sub className="text-[8px]">d</sub>
+                </>
+              }
+              color="gray"
+              className="text-[10px]"
+            />
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[8px]">÷10^n</span>
+                  <br />
+                  ×10<sup className="text-[8px]">n</sup>
+                </>
+              }
+              color="gray"
+              className="text-[9px]"
+            />
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[8px]">cos⁻¹</span>
+                  <br />
+                  table
+                </>
+              }
+              color="gray"
+              className="text-[9px]"
+            />
+            <CalcBtn
+              label="×"
+              color="black"
+              onClick={() => handlePress('×')}
+              className="text-lg font-bold"
+            />
 
-            {/* Row 7 */}
-            <CalcBtn label="sto>" color="gray" />
-            <CalcBtn label="1" color="white" />
-            <CalcBtn label="2" color="white" />
-            <CalcBtn label="3" color="white" />
-            <CalcBtn label="enter" color="black" onClick={handleEnter} className="row-span-2 !h-[84px]" />
+            {/* Row 4: More functions */}
+            <CalcBtn
+              label={
+                <>
+                  π<br />
+                  <span className="text-green-400 text-[7px]">
+                    x<sup className="text-[7px]">π</sup>
+                  </span>
+                </>
+              }
+              color="gray"
+              onClick={() => handlePress('π')}
+              className="text-base"
+            />
+            <CalcBtn
+              label={
+                <>
+                  sin
+                  <br />
+                  <span className="text-green-400 text-[7px]">sin⁻¹</span>
+                </>
+              }
+              color="gray"
+              onClick={() => handleFunction('sin')}
+              className="text-[11px]"
+            />
+            <CalcBtn
+              label={
+                <>
+                  cos
+                  <br />
+                  <span className="text-green-400 text-[7px]">cos⁻¹</span>
+                </>
+              }
+              color="gray"
+              onClick={() => handleFunction('cos')}
+              className="text-[11px]"
+            />
+            <CalcBtn
+              label={
+                <>
+                  tan
+                  <br />
+                  <span className="text-green-400 text-[7px]">tan⁻¹</span>
+                </>
+              }
+              color="gray"
+              onClick={() => handleFunction('tan')}
+              className="text-[11px]"
+            />
+            <CalcBtn
+              label="−"
+              color="black"
+              onClick={() => handlePress('-')}
+              className="text-xl"
+            />
 
-            {/* Row 8 */}
-            <CalcBtn label="rcl" color="gray" />
-            <CalcBtn label="0" color="white" span={2} />
-            <CalcBtn label="." color="white" />
+            {/* Row 5: Powers and roots with D-Pad */}
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[8px]">√</span>
+                  <br />^
+                </>
+              }
+              color="gray"
+              onClick={() => handlePress('^')}
+              className="text-base"
+            />
+            <CalcBtn
+              label={
+                <>
+                  x<sup className="text-[8px]">-1</sup>
+                  <br />
+                  <span className="text-green-400 text-[7px]">nCr/nPr</span>
+                </>
+              }
+              color="gray"
+              className="text-[11px]"
+            />
+            <CalcBtn
+              label="("
+              color="gray"
+              onClick={() => handlePress('(')}
+              className="text-xl"
+            />
+            <CalcBtn
+              label=")"
+              color="gray"
+              onClick={() => handlePress(')')}
+              className="text-xl"
+            />
+            <CalcBtn
+              label="+"
+              color="black"
+              onClick={() => handlePress('+')}
+              className="text-xl"
+            />
+
+            {/* Row 6: x² and numbers 7-9 */}
+            <CalcBtn
+              label={
+                <>
+                  x<sup className="text-[8px]">2</sup>
+                  <br />
+                  <span className="text-green-400 text-[7px]">√</span>
+                </>
+              }
+              color="gray"
+              onClick={() => handlePress('^2')}
+              className="text-base"
+            />
+            <CalcBtn label="7" color="white" className="text-xl font-bold" />
+            <CalcBtn label="8" color="white" className="text-xl font-bold" />
+            <CalcBtn label="9" color="white" className="text-xl font-bold" />
+            <div className="row-span-2">
+              <CalcBtn
+                label="enter"
+                color="black"
+                onClick={handleEnter}
+                className="h-[84px] text-sm font-bold"
+              />
+            </div>
+
+            {/* Row 7: Clear Var and numbers 4-6 */}
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-[8px]">clear var</span>
+                  <br />
+                  <span className="text-lg">x ÷ abc</span>
+                </>
+              }
+              color="gray"
+              className="text-[9px]"
+            />
+            <CalcBtn label="4" color="white" className="text-xl font-bold" />
+            <CalcBtn label="5" color="white" className="text-xl font-bold" />
+            <CalcBtn label="6" color="white" className="text-xl font-bold" />
+
+            {/* Row 8: Recall and numbers 1-3 */}
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-[8px]">recall</span>
+                  <br />
+                  sto▸
+                </>
+              }
+              color="gray"
+              className="text-[10px]"
+            />
+            <CalcBtn label="1" color="white" className="text-xl font-bold" />
+            <CalcBtn label="2" color="white" className="text-xl font-bold" />
+            <CalcBtn label="3" color="white" className="text-xl font-bold" />
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[8px]">ans</span>
+                  <br />
+                  (−)
+                </>
+              }
+              color="gray"
+              onClick={() => handlePress('(-')}
+              className="text-base"
+            />
+
+            {/* Row 9: On and bottom row */}
+            <CalcBtn
+              label={
+                <>
+                  on
+                  <br />
+                  <span className="text-[8px]">reset</span>
+                </>
+              }
+              color="gray"
+              className="text-[10px]"
+            />
+            <div className="col-span-2">
+              <CalcBtn label="0" color="white" className="text-xl font-bold" />
+            </div>
+            <CalcBtn
+              label="."
+              color="white"
+              className="text-2xl font-bold pb-2"
+            />
+            <CalcBtn
+              label="="
+              color="white"
+              className="text-xl font-bold"
+              onClick={handleEnter}
+            />
+          </div>
+        </div>
+
+        {/* D-Pad Navigation (Overlay in center-right area) */}
+        <div
+          className="absolute"
+          style={{
+            top: '405px',
+            right: '50px',
+            width: '70px',
+            height: '70px',
+            pointerEvents: 'none',
+          }}
+        >
+          <div className="relative w-full h-full bg-slate-700 rounded-full border-2 border-slate-800 shadow-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-slate-600 rounded-full shadow-inner"></div>
+            <div className="absolute top-0 text-[10px] text-slate-300 font-bold">
+              ▲
+            </div>
+            <div className="absolute bottom-0 text-[10px] text-slate-300 font-bold">
+              ▼
+            </div>
+            <div className="absolute left-1 text-[10px] text-slate-300 font-bold">
+              ◀
+            </div>
+            <div className="absolute right-1 text-[10px] text-slate-300 font-bold">
+              ▶
+            </div>
           </div>
         </div>
       </div>

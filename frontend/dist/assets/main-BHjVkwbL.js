@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-UqFyDANp.js";
+import { _ as __vitePreload } from "./index-dl9ka0xs.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -1854,7 +1854,8 @@ function TI30XSCalculator({ onClose }) {
   const [opacity, setOpacity] = reactExports.useState(1);
   const dragStart = reactExports.useRef({ x: 0, y: 0 });
   const handleMouseDown = (e) => {
-    if (e.target.tagName === "BUTTON" || e.target.closest(".calc-opacity-control")) return;
+    if (e.target.tagName === "BUTTON" || e.target.closest(".calc-opacity-control"))
+      return;
     setIsDragging(true);
     dragStart.current = {
       x: e.clientX - position.x,
@@ -1912,7 +1913,10 @@ function TI30XSCalculator({ onClose }) {
       }
       const evalResult = eval(expr);
       const formattedResult = typeof evalResult === "number" ? Math.abs(evalResult) < 1e-4 && evalResult !== 0 ? evalResult.toExponential(4) : evalResult.toString().slice(0, 12) : String(evalResult);
-      setHistory((prev) => [...prev.slice(-2), { exp: currentInput, ans: formattedResult }]);
+      setHistory((prev) => [
+        ...prev.slice(-2),
+        { exp: currentInput, ans: formattedResult }
+      ]);
       setResult(formattedResult);
       setCurrentInput("");
     } catch (e) {
@@ -1954,14 +1958,20 @@ function TI30XSCalculator({ onClose }) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentInput, result]);
-  const CalcBtn = ({ label, color = "black", onClick, className = "", span = 1 }) => {
-    const baseStyle = "h-10 text-sm font-bold rounded shadow-md active:scale-95 transition-transform flex items-center justify-center calc-btn";
+  const CalcBtn = ({
+    label,
+    color = "black",
+    onClick,
+    className = "",
+    span = 1
+  }) => {
+    const baseStyle = "h-11 text-sm font-semibold rounded-lg shadow-md active:scale-95 active:shadow-sm transition-all flex flex-col items-center justify-center calc-btn leading-tight py-1";
     const colorStyles = {
-      green: "bg-[#4a8b73] text-white border-b-4 border-[#2f594a] hover:bg-[#5a9b83]",
-      black: "bg-slate-900 text-white border-b-4 border-black hover:bg-slate-800",
-      white: "bg-white text-slate-900 border-b-4 border-slate-300 hover:bg-slate-50",
-      red: "bg-red-800 text-white border-b-4 border-red-950 hover:bg-red-700",
-      gray: "bg-slate-700 text-white border-b-4 border-slate-900 hover:bg-slate-600"
+      green: "bg-gradient-to-b from-[#4a8b73] to-[#3a7563] text-white border-b-[3px] border-[#2f594a] hover:from-[#5a9b83] hover:to-[#4a8b73]",
+      black: "bg-gradient-to-b from-slate-800 to-slate-900 text-white border-b-[3px] border-black hover:from-slate-700 hover:to-slate-800",
+      white: "bg-gradient-to-b from-white to-slate-100 text-slate-900 border-b-[3px] border-slate-300 hover:from-slate-50 hover:to-slate-200 font-bold",
+      red: "bg-gradient-to-b from-red-700 to-red-800 text-white border-b-[3px] border-red-950 hover:from-red-600 hover:to-red-700",
+      gray: "bg-gradient-to-b from-slate-600 to-slate-700 text-white border-b-[3px] border-slate-800 hover:from-slate-500 hover:to-slate-600"
     };
     const colSpan = span > 1 ? `col-span-${span}` : "";
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -1978,7 +1988,7 @@ function TI30XSCalculator({ onClose }) {
     {
       className: "fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-30",
       style: { pointerEvents: "none" },
-      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
           className: "relative",
@@ -1991,107 +2001,416 @@ function TI30XSCalculator({ onClose }) {
             cursor: isDragging ? "grabbing" : "grab"
           },
           onMouseDown: handleMouseDown,
-          children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-[340px] bg-[#2c3e50] rounded-[32px] p-6 pb-8 shadow-2xl border-4 border-[#1a252f]", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-start mb-4 px-1", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-slate-300 text-[10px] font-bold tracking-widest leading-tight", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "TEXAS INSTRUMENTS" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-slate-400 text-[9px] mt-0.5", children: "TI-30XS MultiView™" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-20 h-5 bg-[#1a1410] rounded border border-slate-700 shadow-inner" })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-[#c8dcc8] h-44 rounded-lg mb-5 border-4 border-slate-700 p-3 font-mono text-slate-900 flex flex-col relative shadow-inner", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-[9px] flex gap-3 opacity-70 border-b border-slate-400/40 pb-1 mb-2", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: isDegrees ? "font-bold" : "", children: isDegrees ? "DEG" : "RAD" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "NORM" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "FLOAT" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 flex flex-col justify-end overflow-hidden", children: history.map((item, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs opacity-60 leading-tight mb-1", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-right", children: item.exp }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-right font-bold", children: [
-                  "= ",
-                  item.ans
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "relative bg-[#3b4c5f] shadow-2xl",
+                style: {
+                  width: "320px",
+                  borderRadius: "40px 40px 60px 60px",
+                  padding: "20px",
+                  paddingBottom: "40px",
+                  clipPath: "polygon(8% 0%, 92% 0%, 100% 5%, 100% 45%, 95% 50%, 100% 55%, 100% 95%, 100% 100%, 0% 100%, 0% 95%, 0% 55%, 5% 50%, 0% 45%, 0% 5%)"
+                },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center mb-2", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-white text-2xl font-bold tracking-wider", children: "TI-30XS" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-slate-300 text-xs tracking-widest", children: "MultiView" })
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full h-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded-sm border border-slate-700 shadow-inner mb-2" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-center gap-2 mb-2", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-red-600 text-lg font-bold", children: "★" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-white text-[10px] font-bold tracking-widest", children: "TEXAS INSTRUMENTS" })
+                    ] })
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-[#c8dcb6] h-48 rounded-xl mb-4 border-4 border-slate-600 p-4 font-mono text-slate-900 flex flex-col relative shadow-2xl", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute top-2 right-3 text-[8px] flex gap-2 opacity-60", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: isDegrees ? "font-bold" : "", children: isDegrees ? "DEG" : "RAD" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "FLO" })
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 flex flex-col justify-end overflow-hidden", children: history.map((item, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-[11px] opacity-50 leading-tight mb-1", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-left", children: item.exp }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-right font-bold mb-1", children: [
+                        "=",
+                        item.ans
+                      ] })
+                    ] }, i)) }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-left text-2xl font-bold mt-2 min-h-[36px] border-t border-slate-400/30 pt-2", children: result !== "" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-right", children: result }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center", children: [
+                      currentInput || "0",
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block w-1 h-6 bg-slate-900 animate-pulse ml-1", children: "|" })
+                    ] }) })
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "calc-opacity-control mb-3 flex items-center gap-2 px-1", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-400 text-xs", children: "Opacity:" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "input",
+                      {
+                        type: "range",
+                        min: "0.3",
+                        max: "1",
+                        step: "0.1",
+                        value: opacity,
+                        onChange: (e) => setOpacity(parseFloat(e.target.value)),
+                        className: "flex-1 h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "button",
+                      {
+                        onClick: onClose,
+                        className: "ml-2 px-3 py-1 bg-red-700 hover:bg-red-600 text-white text-xs font-bold rounded shadow",
+                        children: "✕"
+                      }
+                    )
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-5 gap-1.5", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-yellow-300 text-[9px]", children: "quit" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "2nd"
+                        ] }),
+                        color: "green",
+                        onClick: () => setIsSecond(!isSecond),
+                        className: `text-[11px] ${isSecond ? "ring-2 ring-yellow-300" : ""}`
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-yellow-300 text-[9px]", children: "insert" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "mode"
+                        ] }),
+                        color: "gray",
+                        onClick: toggleMode,
+                        className: "text-[10px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-yellow-300 text-[9px]", children: "angle" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "delete"
+                        ] }),
+                        color: "gray",
+                        onClick: handleDelete,
+                        className: "text-[10px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-2 relative", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        CalcBtn,
+                        {
+                          label: "clear",
+                          color: "black",
+                          onClick: handleClear,
+                          className: "text-sm absolute inset-0"
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1 right-2 text-[8px] text-slate-400", children: "on" })
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[8px]", children: "e^x" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "log"
+                        ] }),
+                        color: "gray",
+                        className: "text-[10px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[8px]", children: "LRN" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "prb"
+                        ] }),
+                        color: "gray",
+                        className: "text-[9px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[8px]", children: "stat" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "data"
+                        ] }),
+                        color: "gray",
+                        className: "text-[9px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[8px]", children: "fx⟷d" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "table"
+                        ] }),
+                        color: "gray",
+                        className: "text-[9px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "÷", color: "black", onClick: () => handlePress("÷"), className: "text-lg" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[8px]", children: "10^x" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "ln"
+                        ] }),
+                        color: "gray",
+                        className: "text-[10px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[8px]", children: "n/d" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm", children: "□" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("sub", { className: "text-[8px]", children: "d" })
+                        ] }),
+                        color: "gray",
+                        className: "text-[10px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[8px]", children: "÷10^n" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "×10",
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("sup", { className: "text-[8px]", children: "n" })
+                        ] }),
+                        color: "gray",
+                        className: "text-[9px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[8px]", children: "cos⁻¹" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "table"
+                        ] }),
+                        color: "gray",
+                        className: "text-[9px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "×", color: "black", onClick: () => handlePress("×"), className: "text-lg font-bold" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          "π",
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-green-400 text-[7px]", children: [
+                            "x",
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("sup", { className: "text-[7px]", children: "π" })
+                          ] })
+                        ] }),
+                        color: "gray",
+                        onClick: () => handlePress("π"),
+                        className: "text-base"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          "sin",
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[7px]", children: "sin⁻¹" })
+                        ] }),
+                        color: "gray",
+                        onClick: () => handleFunction("sin"),
+                        className: "text-[11px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          "cos",
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[7px]", children: "cos⁻¹" })
+                        ] }),
+                        color: "gray",
+                        onClick: () => handleFunction("cos"),
+                        className: "text-[11px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          "tan",
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[7px]", children: "tan⁻¹" })
+                        ] }),
+                        color: "gray",
+                        onClick: () => handleFunction("tan"),
+                        className: "text-[11px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "−", color: "black", onClick: () => handlePress("-"), className: "text-xl" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[8px]", children: "√" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "^"
+                        ] }),
+                        color: "gray",
+                        onClick: () => handlePress("^"),
+                        className: "text-base"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          "x",
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("sup", { className: "text-[8px]", children: "-1" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[7px]", children: "nCr/nPr" })
+                        ] }),
+                        color: "gray",
+                        className: "text-[11px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "(", color: "gray", onClick: () => handlePress("("), className: "text-xl" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: ")", color: "gray", onClick: () => handlePress(")"), className: "text-xl" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "+", color: "black", onClick: () => handlePress("+"), className: "text-xl" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          "x",
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("sup", { className: "text-[8px]", children: "2" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[7px]", children: "√" })
+                        ] }),
+                        color: "gray",
+                        onClick: () => handlePress("^2"),
+                        className: "text-base"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "7", color: "white", className: "text-xl font-bold" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "8", color: "white", className: "text-xl font-bold" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "9", color: "white", className: "text-xl font-bold" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "row-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: "enter",
+                        color: "black",
+                        onClick: handleEnter,
+                        className: "h-[84px] text-sm font-bold"
+                      }
+                    ) }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[8px]", children: "clear var" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-lg", children: "x ÷ abc" })
+                        ] }),
+                        color: "gray",
+                        className: "text-[9px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "4", color: "white", className: "text-xl font-bold" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "5", color: "white", className: "text-xl font-bold" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "6", color: "white", className: "text-xl font-bold" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[8px]", children: "recall" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "sto▸"
+                        ] }),
+                        color: "gray",
+                        className: "text-[10px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "1", color: "white", className: "text-xl font-bold" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "2", color: "white", className: "text-xl font-bold" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "3", color: "white", className: "text-xl font-bold" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[8px]", children: "ans" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          "(−)"
+                        ] }),
+                        color: "gray",
+                        onClick: () => handlePress("(-"),
+                        className: "text-base"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CalcBtn,
+                      {
+                        label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                          "on",
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[8px]", children: "reset" })
+                        ] }),
+                        color: "gray",
+                        className: "text-[10px]"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "col-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "0", color: "white", className: "text-xl font-bold" }) }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: ".", color: "white", className: "text-2xl font-bold pb-2" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "=", color: "white", className: "text-xl font-bold", onClick: handleEnter })
+                  ] })
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: "absolute",
+                style: {
+                  top: "405px",
+                  right: "50px",
+                  width: "70px",
+                  height: "70px",
+                  pointerEvents: "none"
+                },
+                children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative w-full h-full bg-slate-700 rounded-full border-2 border-slate-800 shadow-lg flex items-center justify-center", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-10 h-10 bg-slate-600 rounded-full shadow-inner" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 text-[10px] text-slate-300 font-bold", children: "▲" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-0 text-[10px] text-slate-300 font-bold", children: "▼" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute left-1 text-[10px] text-slate-300 font-bold", children: "◀" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute right-1 text-[10px] text-slate-300 font-bold", children: "▶" })
                 ] })
-              ] }, i)) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-right text-2xl font-bold mt-2 truncate min-h-[32px]", children: result !== "" ? /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: result }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                currentInput || "0",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block w-0.5 h-6 bg-slate-900 animate-pulse ml-0.5", children: "|" })
-              ] }) })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "calc-opacity-control mb-3 flex items-center gap-2 px-1", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-400 text-xs", children: "Opacity:" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "input",
-                {
-                  type: "range",
-                  min: "0.3",
-                  max: "1",
-                  step: "0.1",
-                  value: opacity,
-                  onChange: (e) => setOpacity(parseFloat(e.target.value)),
-                  className: "flex-1 h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer"
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  onClick: onClose,
-                  className: "ml-2 px-3 py-1 bg-red-700 hover:bg-red-600 text-white text-xs font-bold rounded shadow",
-                  children: "✕"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-5 gap-2", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                CalcBtn,
-                {
-                  label: "2nd",
-                  color: "green",
-                  onClick: () => setIsSecond(!isSecond),
-                  className: isSecond ? "ring-2 ring-yellow-400" : ""
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "mode", color: "black", onClick: toggleMode }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "del", color: "black", onClick: handleDelete }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "on", color: "black", onClick: handleClear, span: 2 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "π", color: "gray", onClick: () => handlePress("π") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "sin", color: "gray", onClick: () => handleFunction("sin") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "cos", color: "gray", onClick: () => handleFunction("cos") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "tan", color: "gray", onClick: () => handleFunction("tan") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "÷", color: "black", onClick: () => handlePress("÷") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "n/d", color: "gray", onClick: () => handlePress("/") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "√", color: "gray", onClick: () => handlePress("√(") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "x²", color: "gray", onClick: () => handlePress("^2") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "^", color: "gray", onClick: () => handlePress("^") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "×", color: "black", onClick: () => handlePress("×") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "(", color: "gray", onClick: () => handlePress("(") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: ")", color: "gray", onClick: () => handlePress(")") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-2 row-span-2 flex items-center justify-center relative h-full bg-slate-800 rounded-full border-2 border-slate-900 shadow-inner", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 bg-slate-700 rounded-full shadow-md" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1 text-[10px] text-slate-400 font-bold", children: "▲" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-1 text-[10px] text-slate-400 font-bold", children: "▼" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute left-2 text-[10px] text-slate-400 font-bold", children: "◀" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute right-2 text-[10px] text-slate-400 font-bold", children: "▶" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "-", color: "black", onClick: () => handlePress("-") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "log", color: "gray" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "7", color: "white" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "8", color: "white" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "9", color: "white" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "ln", color: "gray" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "4", color: "white" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "5", color: "white" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "6", color: "white" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "+", color: "black", onClick: () => handlePress("+") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "sto>", color: "gray" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "1", color: "white" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "2", color: "white" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "3", color: "white" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "enter", color: "black", onClick: handleEnter, className: "row-span-2 !h-[84px]" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "rcl", color: "gray" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "0", color: "white", span: 2 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: ".", color: "white" })
-            ] })
-          ] })
+              }
+            )
+          ]
         }
       )
     }
@@ -36150,4 +36469,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-B8DRLCHG.js.map
+//# sourceMappingURL=main-BHjVkwbL.js.map
