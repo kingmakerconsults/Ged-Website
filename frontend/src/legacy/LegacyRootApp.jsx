@@ -1237,6 +1237,26 @@ const ALLOWED_HTML_ATTR = [
 const ENTITY_DECODER =
   typeof document !== 'undefined' ? document.createElement('textarea') : null;
 
+// Utility: strip all HTML tags from a string while decoding entities
+function stripHtmlTag(input) {
+  if (input == null) return '';
+  const value = String(input);
+  // Quick exit if no angle brackets present
+  if (!/[<>]/.test(value)) {
+    if (ENTITY_DECODER) {
+      ENTITY_DECODER.innerHTML = value;
+      return ENTITY_DECODER.value;
+    }
+    return value;
+  }
+  const withoutTags = value.replace(/<[^>]*>/g, '');
+  if (ENTITY_DECODER) {
+    ENTITY_DECODER.innerHTML = withoutTags;
+    return ENTITY_DECODER.value;
+  }
+  return withoutTags;
+}
+
 function collapseSplitLatexCommands(source) {
   if (typeof source !== 'string' || source.length === 0) {
     return source;
