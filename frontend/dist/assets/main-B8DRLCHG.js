@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-Bf6rHtf7.js";
+import { _ as __vitePreload } from "./index-UqFyDANp.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -399,16 +399,20 @@ function GraphTool({
       }
     };
   }, [boardId, config, onBoardReady]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "graph-tool-container w-full h-full bg-white dark:bg-slate-800 rounded-lg p-4", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "div",
-    {
-      id: boardId,
-      ref: containerRef,
-      className: "jxgbox w-full h-full min-h-[400px] rounded border border-slate-300 dark:border-slate-600",
-      role: "img",
-      "aria-label": "Interactive graph for plotting mathematical objects"
-    }
-  ) });
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "graph-tool-container w-full h-full bg-white dark:bg-slate-800 rounded-lg p-4", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-blue-700 dark:text-blue-400", children: "📊 Graphing Tool" }),
+    typeof window.JXG === "undefined" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 p-4 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-yellow-800 dark:text-yellow-200 font-semibold", children: "⚠️ JSXGraph library not loaded. Please refresh the page." }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        id: boardId,
+        ref: containerRef,
+        className: "jxgbox w-full h-full min-h-[400px] rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900",
+        role: "img",
+        "aria-label": "Interactive graph for plotting mathematical objects"
+      }
+    )
+  ] });
 }
 function StepByStepSolver({
   problemType = "equation",
@@ -445,7 +449,7 @@ function StepByStepSolver({
       }
     }, 1e3);
   };
-  const handleClear = () => {
+  const handleClear2 = () => {
     setInput("");
     setSteps([]);
   };
@@ -487,7 +491,7 @@ function StepByStepSolver({
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
-          onClick: handleClear,
+          onClick: handleClear2,
           disabled: !input && steps.length === 0,
           className: "px-6 py-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-900 dark:text-slate-100 rounded font-medium transition-colors",
           children: "Clear"
@@ -517,10 +521,80 @@ function StepByStepSolver({
     ] })
   ] });
 }
+const STATS_PRACTICE_PROBLEMS = [
+  {
+    id: "stats_1",
+    question: "Find the mean of: 5, 10, 15, 20, 15",
+    data: [5, 10, 15, 20, 15],
+    askFor: "mean",
+    answer: 13,
+    explanation: "Mean = (5 + 10 + 15 + 20 + 15) / 5 = 65 / 5 = 13"
+  },
+  {
+    id: "stats_2",
+    question: "Find the median of: 3, 7, 12, 18, 21",
+    data: [3, 7, 12, 18, 21],
+    askFor: "median",
+    answer: 12,
+    explanation: "The median is the middle value when data is sorted. With 5 values, the 3rd value (12) is the median."
+  },
+  {
+    id: "stats_3",
+    question: "Find the mode of: 2, 4, 4, 6, 8, 4, 10",
+    data: [2, 4, 4, 6, 8, 4, 10],
+    askFor: "mode",
+    answer: 4,
+    explanation: "The mode is the most frequently occurring value. 4 appears 3 times, more than any other number."
+  },
+  {
+    id: "stats_4",
+    question: "Find the range of: 15, 22, 8, 35, 12",
+    data: [15, 22, 8, 35, 12],
+    askFor: "range",
+    answer: 27,
+    explanation: "Range = Maximum - Minimum = 35 - 8 = 27"
+  },
+  {
+    id: "stats_5",
+    question: "Find the mean of: 100, 85, 92, 88, 95",
+    data: [100, 85, 92, 88, 95],
+    askFor: "mean",
+    answer: 92,
+    explanation: "Mean = (100 + 85 + 92 + 88 + 95) / 5 = 460 / 5 = 92"
+  },
+  {
+    id: "stats_6",
+    question: "Find the median of: 6, 2, 8, 4, 10, 12",
+    data: [6, 2, 8, 4, 10, 12],
+    askFor: "median",
+    answer: 7,
+    explanation: "Sorted: 2, 4, 6, 8, 10, 12. With an even count, median = (6 + 8) / 2 = 7"
+  },
+  {
+    id: "stats_7",
+    question: "Find the range of: 45, 67, 23, 89, 34, 56",
+    data: [45, 67, 23, 89, 34, 56],
+    askFor: "range",
+    answer: 66,
+    explanation: "Range = 89 - 23 = 66"
+  },
+  {
+    id: "stats_8",
+    question: "Find the mean of: 12, 18, 24, 30",
+    data: [12, 18, 24, 30],
+    askFor: "mean",
+    answer: 21,
+    explanation: "Mean = (12 + 18 + 24 + 30) / 4 = 84 / 4 = 21"
+  }
+];
 function StatisticsTool({ onCalculate = null }) {
+  const [mode, setMode] = reactExports.useState("calculator");
   const [input, setInput] = reactExports.useState("");
   const [results, setResults] = reactExports.useState(null);
   const [error, setError] = reactExports.useState("");
+  const [currentProblem, setCurrentProblem] = reactExports.useState(null);
+  const [studentAnswer, setStudentAnswer] = reactExports.useState("");
+  const [feedback, setFeedback] = reactExports.useState(null);
   const parseNumbers = (text) => {
     const numbers = text.split(/[,\s]+/).map((s) => s.trim()).filter((s) => s.length > 0).map((s) => parseFloat(s)).filter((n2) => !isNaN(n2));
     return numbers;
@@ -574,105 +648,211 @@ function StatisticsTool({ onCalculate = null }) {
       max: Math.max(...numbers)
     };
     setResults(stats);
-    if (onCalculate) {
-      onCalculate(stats);
-    }
+    if (onCalculate) onCalculate(stats);
   };
-  const handleClear = () => {
+  const handleClear2 = () => {
     setInput("");
     setResults(null);
     setError("");
+  };
+  const selectNewProblem = () => {
+    const randomProblem = STATS_PRACTICE_PROBLEMS[Math.floor(Math.random() * STATS_PRACTICE_PROBLEMS.length)];
+    setCurrentProblem(randomProblem);
+    setStudentAnswer("");
+    setFeedback(null);
+  };
+  const checkPracticeAnswer = () => {
+    if (!currentProblem) return;
+    if (studentAnswer.trim() === "") {
+      alert("Please enter an answer.");
+      return;
+    }
+    const numericAnswer = parseFloat(studentAnswer);
+    if (isNaN(numericAnswer)) {
+      alert("Please enter a valid number.");
+      return;
+    }
+    const isCorrect = Math.abs(numericAnswer - currentProblem.answer) < 0.01;
+    setFeedback({
+      isCorrect,
+      correctAnswer: currentProblem.answer,
+      explanation: currentProblem.explanation
+    });
   };
   const formatNumber = (num) => {
     if (num === null || num === void 0) return "N/A";
     return typeof num === "number" ? num.toFixed(2) : num.toString();
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "statistics-tool w-full bg-white dark:bg-slate-800 rounded-lg p-6 shadow-lg", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-blue-700 dark:text-blue-400", children: "📊 Statistics Calculator" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "input-section mb-4", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "label",
-        {
-          htmlFor: "stats-input",
-          className: "block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300",
-          children: "Enter numbers (comma or space-separated):"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "input",
-        {
-          id: "stats-input",
-          type: "text",
-          value: input,
-          onChange: (e) => setInput(e.target.value),
-          onKeyPress: (e) => e.key === "Enter" && handleCalculate(),
-          placeholder: "e.g., 5, 10, 15, 20, 15",
-          className: "w-full px-4 py-2 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100",
-          "aria-label": "Number input for statistics"
-        }
-      )
-    ] }),
-    error && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "error-message mb-4 p-3 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded", children: error }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-group flex gap-2 mb-6", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-blue-700 dark:text-blue-400", children: "📊 Statistics Tool" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-6 flex gap-2", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
-          onClick: handleCalculate,
-          disabled: !input.trim(),
-          className: "px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded font-medium transition-colors",
-          children: "Calculate"
+          onClick: () => setMode("calculator"),
+          className: `flex-1 px-4 py-2 rounded-lg font-semibold transition ${mode === "calculator" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"}`,
+          children: "Calculator"
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
-          onClick: handleClear,
-          disabled: !input && !results,
-          className: "px-6 py-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-900 dark:text-slate-100 rounded font-medium transition-colors",
-          children: "Clear"
+          onClick: () => setMode("practice"),
+          className: `flex-1 px-4 py-2 rounded-lg font-semibold transition ${mode === "practice" ? "bg-green-600 text-white" : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"}`,
+          children: "Practice Questions"
         }
       )
     ] }),
-    results && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "results-section space-y-4", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-semibold text-lg text-slate-900 dark:text-slate-100 mb-3", children: "Results:" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-grid grid grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Count" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-slate-900 dark:text-slate-100", children: results.count })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Mean (Average)" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-blue-600 dark:text-blue-400", children: formatNumber(results.mean) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Median" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-blue-600 dark:text-blue-400", children: formatNumber(results.median) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Mode" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-blue-600 dark:text-blue-400", children: results.mode === null ? "None" : Array.isArray(results.mode) ? results.mode.map(formatNumber).join(", ") : formatNumber(results.mode) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Range" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-slate-900 dark:text-slate-100", children: formatNumber(results.range) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Min / Max" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-value text-xl font-bold text-slate-900 dark:text-slate-100", children: [
-            formatNumber(results.min),
-            " / ",
-            formatNumber(results.max)
+    mode === "calculator" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "input-section mb-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "label",
+          {
+            htmlFor: "stats-input",
+            className: "block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300",
+            children: "Enter numbers (comma or space-separated):"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            id: "stats-input",
+            type: "text",
+            value: input,
+            onChange: (e) => setInput(e.target.value),
+            onKeyPress: (e) => e.key === "Enter" && handleCalculate(),
+            placeholder: "e.g., 5, 10, 15, 20, 15",
+            className: "w-full px-4 py-2 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+          }
+        )
+      ] }),
+      error && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "error-message mb-4 p-3 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded", children: error }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-group flex gap-2 mb-6", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: handleCalculate,
+            disabled: !input.trim(),
+            className: "px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded font-medium transition-colors",
+            children: "Calculate"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: handleClear2,
+            disabled: !input && !results,
+            className: "px-6 py-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-900 dark:text-slate-100 rounded font-medium transition-colors",
+            children: "Clear"
+          }
+        )
+      ] }),
+      results && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "results-section space-y-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-semibold text-lg text-slate-900 dark:text-slate-100 mb-3", children: "Results:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-grid grid grid-cols-2 gap-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Count" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-slate-900 dark:text-slate-100", children: results.count })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Mean (Average)" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-blue-600 dark:text-blue-400", children: formatNumber(results.mean) })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Median" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-blue-600 dark:text-blue-400", children: formatNumber(results.median) })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Mode" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-blue-600 dark:text-blue-400", children: results.mode === null ? "None" : Array.isArray(results.mode) ? results.mode.map(formatNumber).join(", ") : formatNumber(results.mode) })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Range" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-value text-2xl font-bold text-slate-900 dark:text-slate-100", children: formatNumber(results.range) })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "result-label text-sm font-medium text-slate-600 dark:text-slate-400 mb-1", children: "Min / Max" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "result-value text-xl font-bold text-slate-900 dark:text-slate-100", children: [
+              formatNumber(results.min),
+              " / ",
+              formatNumber(results.max)
+            ] })
           ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "values-display mt-4 p-3 rounded bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-600", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm font-medium text-slate-600 dark:text-slate-400 mb-2", children: "Sorted Values:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-slate-900 dark:text-slate-100 font-mono", children: [...results.values].sort((a, b) => a - b).join(", ") })
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "values-display mt-4 p-3 rounded bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-600", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm font-medium text-slate-600 dark:text-slate-400 mb-2", children: "Sorted Values:" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-slate-900 dark:text-slate-100 font-mono", children: [...results.values].sort((a, b) => a - b).join(", ") })
+      !results && !error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state text-center py-8 text-slate-500 dark:text-slate-400", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg", children: "Enter numbers above to calculate statistics" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-2", children: "Calculates mean, median, mode, and range" })
       ] })
     ] }),
-    !results && !error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state text-center py-8 text-slate-500 dark:text-slate-400", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg", children: "Enter numbers above to calculate statistics" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-2", children: "Calculates mean, median, mode, and range" })
+    mode === "practice" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: selectNewProblem,
+          className: "px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition",
+          children: "New Practice Problem"
+        }
+      ) }),
+      currentProblem ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 rounded-lg bg-slate-50 dark:bg-slate-700", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-lg font-bold mb-3 text-slate-900 dark:text-slate-100", children: "Practice Question:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-4 text-slate-900 dark:text-slate-100", children: currentProblem.question }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4 p-3 bg-blue-50 dark:bg-blue-900 rounded", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { className: "text-slate-900 dark:text-slate-100", children: "Data:" }),
+          " ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-900 dark:text-slate-100", children: currentProblem.data.join(", ") })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block font-semibold mb-2 text-slate-900 dark:text-slate-100", children: "Your Answer:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "text",
+              value: studentAnswer,
+              onChange: (e) => setStudentAnswer(e.target.value),
+              onKeyPress: (e) => e.key === "Enter" && checkPracticeAnswer(),
+              className: "w-full px-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg",
+              placeholder: "Enter your answer"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: checkPracticeAnswer,
+            className: "px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition",
+            children: "Check Answer"
+          }
+        ),
+        feedback && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `mt-4 p-3 rounded-lg ${feedback.isCorrect ? "bg-green-100 text-green-800 border-2 border-green-500" : "bg-red-100 text-red-800 border-2 border-red-500"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold mb-2", children: feedback.isCorrect ? "✓ Correct!" : "✗ Incorrect" }),
+              !feedback.isCorrect && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mb-2", children: [
+                "Correct answer: ",
+                feedback.correctAnswer
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Explanation:" }),
+                " ",
+                feedback.explanation
+              ] })
+            ]
+          }
+        )
+      ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-8 text-slate-500 dark:text-slate-400", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg", children: 'Click "New Practice Problem" to begin!' }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm mt-2", children: [
+          STATS_PRACTICE_PROBLEMS.length,
+          " practice problems available"
+        ] })
+      ] })
     ] })
   ] });
 }
@@ -951,402 +1131,971 @@ function ScienceFormulaSheet$1({ onClose: onClose2 }) {
     }
   );
 }
+const SCIENCE_FORMULA_PRACTICE = [
+  // DENSITY PROBLEMS
+  {
+    id: "density_1",
+    category: "Density",
+    formulaName: "Density",
+    formulaDisplay: "d = m / V",
+    problemText: "A metal block has a mass of 120 g and a volume of 15 cm³. What is its density?",
+    given: { m: "120 g", V: "15 cm³" },
+    answer: 8,
+    answerUnits: "g/cm³",
+    tolerance: 0.01,
+    steps: [
+      "Identify the formula: d = m / V",
+      "Substitute: d = 120 g / 15 cm³",
+      "Compute: d = 8 g/cm³"
+    ]
+  },
+  {
+    id: "density_2",
+    category: "Density",
+    formulaName: "Density",
+    formulaDisplay: "d = m / V",
+    problemText: "A piece of wood has a mass of 45 g and a volume of 60 cm³. Calculate its density.",
+    given: { m: "45 g", V: "60 cm³" },
+    answer: 0.75,
+    answerUnits: "g/cm³",
+    tolerance: 0.01,
+    steps: [
+      "Use the formula: d = m / V",
+      "Substitute: d = 45 g / 60 cm³",
+      "Compute: d = 0.75 g/cm³"
+    ]
+  },
+  {
+    id: "density_3",
+    category: "Density",
+    formulaName: "Density",
+    formulaDisplay: "d = m / V",
+    problemText: "A liquid sample has a volume of 50 mL and a mass of 65 g. Find its density.",
+    given: { m: "65 g", V: "50 mL" },
+    answer: 1.3,
+    answerUnits: "g/mL",
+    tolerance: 0.01,
+    steps: [
+      "Apply: d = m / V",
+      "Substitute: d = 65 g / 50 mL",
+      "Compute: d = 1.3 g/mL"
+    ]
+  },
+  // SPEED PROBLEMS
+  {
+    id: "speed_1",
+    category: "Speed",
+    formulaName: "Average Speed",
+    formulaDisplay: "v = d / t",
+    problemText: "A car travels 300 miles in 5 hours. What is its average speed?",
+    given: { d: "300 miles", t: "5 hours" },
+    answer: 60,
+    answerUnits: "mph",
+    tolerance: 0.1,
+    steps: [
+      "Formula: v = d / t",
+      "Substitute: v = 300 miles / 5 hours",
+      "Compute: v = 60 mph"
+    ]
+  },
+  {
+    id: "speed_2",
+    category: "Speed",
+    formulaName: "Average Speed",
+    formulaDisplay: "v = d / t",
+    problemText: "A runner completes 100 meters in 12.5 seconds. Calculate the average speed.",
+    given: { d: "100 m", t: "12.5 s" },
+    answer: 8,
+    answerUnits: "m/s",
+    tolerance: 0.1,
+    steps: [
+      "Use: v = d / t",
+      "Substitute: v = 100 m / 12.5 s",
+      "Compute: v = 8 m/s"
+    ]
+  },
+  // FORCE PROBLEMS
+  {
+    id: "force_1",
+    category: "Force",
+    formulaName: "Force (Newton's 2nd Law)",
+    formulaDisplay: "F = m × a",
+    problemText: "A 10 kg object accelerates at 3 m/s². What force is applied?",
+    given: { m: "10 kg", a: "3 m/s²" },
+    answer: 30,
+    answerUnits: "N",
+    tolerance: 0.1,
+    steps: [
+      "Formula: F = m × a",
+      "Substitute: F = 10 kg × 3 m/s²",
+      "Compute: F = 30 N"
+    ]
+  },
+  {
+    id: "force_2",
+    category: "Force",
+    formulaName: "Force",
+    formulaDisplay: "F = m × a",
+    problemText: "A force of 50 N accelerates a 5 kg box. What is the acceleration?",
+    given: { F: "50 N", m: "5 kg" },
+    answer: 10,
+    answerUnits: "m/s²",
+    tolerance: 0.1,
+    steps: [
+      "Rearrange: a = F / m",
+      "Substitute: a = 50 N / 5 kg",
+      "Compute: a = 10 m/s²"
+    ]
+  },
+  // WORK PROBLEMS
+  {
+    id: "work_1",
+    category: "Work",
+    formulaName: "Work",
+    formulaDisplay: "W = F × d",
+    problemText: "A force of 20 N moves an object 5 meters. How much work is done?",
+    given: { F: "20 N", d: "5 m" },
+    answer: 100,
+    answerUnits: "J",
+    tolerance: 0.1,
+    steps: [
+      "Formula: W = F × d",
+      "Substitute: W = 20 N × 5 m",
+      "Compute: W = 100 J"
+    ]
+  },
+  {
+    id: "work_2",
+    category: "Work",
+    formulaName: "Work",
+    formulaDisplay: "W = F × d",
+    problemText: "Lifting a 50 N box 2 meters high requires how much work?",
+    given: { F: "50 N", d: "2 m" },
+    answer: 100,
+    answerUnits: "J",
+    tolerance: 0.1,
+    steps: [
+      "Use: W = F × d",
+      "Substitute: W = 50 N × 2 m",
+      "Compute: W = 100 J"
+    ]
+  }
+];
 function ScienceFormulaPractice({ onClose: onClose2, dark = false }) {
-  const ScienceFormulaPracticeTool = window.ScienceFormulaPracticeTool;
-  if (!ScienceFormulaPracticeTool) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 text-center", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-red-600 font-semibold", children: "Formula Practice Tool is not loaded" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: onClose2,
-          className: "mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg",
-          children: "Close"
-        }
-      )
-    ] });
-  }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(ScienceFormulaPracticeTool, { theme: dark ? "dark" : "light" });
+  const [selectedCategory, setSelectedCategory] = reactExports.useState("");
+  const [currentProblem, setCurrentProblem] = reactExports.useState(null);
+  const [studentAnswer, setStudentAnswer] = reactExports.useState("");
+  const [feedback, setFeedback] = reactExports.useState(null);
+  const [showSteps, setShowSteps] = reactExports.useState(false);
+  const categories = reactExports.useMemo(() => {
+    const cats = [...new Set(SCIENCE_FORMULA_PRACTICE.map((p2) => p2.category))];
+    return cats.sort();
+  }, []);
+  const selectNewProblem = () => {
+    if (!selectedCategory) {
+      alert("Please select a category first.");
+      return;
+    }
+    const categoryProblems = SCIENCE_FORMULA_PRACTICE.filter(
+      (p2) => p2.category === selectedCategory
+    );
+    if (categoryProblems.length === 0) {
+      alert("No problems available for this category.");
+      return;
+    }
+    const randomProblem = categoryProblems[Math.floor(Math.random() * categoryProblems.length)];
+    setCurrentProblem(randomProblem);
+    setStudentAnswer("");
+    setFeedback(null);
+    setShowSteps(false);
+  };
+  const checkAnswer = () => {
+    if (!currentProblem) return;
+    if (studentAnswer.trim() === "") {
+      alert("Please enter an answer.");
+      return;
+    }
+    const numericAnswer = parseFloat(studentAnswer);
+    if (isNaN(numericAnswer)) {
+      alert("Please enter a valid number.");
+      return;
+    }
+    const tolerance = currentProblem.tolerance || 0.01;
+    const isCorrect = Math.abs(numericAnswer - currentProblem.answer) <= tolerance;
+    setFeedback({
+      isCorrect,
+      correctAnswer: currentProblem.answer,
+      units: currentProblem.answerUnits
+    });
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      className: `p-6 rounded-xl ${dark ? "bg-gray-800 text-white" : "bg-white text-gray-900"}`,
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold mb-4 text-emerald-600 dark:text-emerald-400", children: "⚗️ Science Formula Practice" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block font-semibold mb-2", children: "Select Category:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: categories.map((cat) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setSelectedCategory(cat),
+              className: `px-4 py-2 rounded-lg font-semibold transition ${selectedCategory === cat ? "bg-green-600 text-white" : dark ? "bg-gray-700 text-gray-200 hover:bg-gray-600" : "bg-gray-200 text-gray-800 hover:bg-gray-300"}`,
+              children: cat
+            },
+            cat
+          )) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: selectNewProblem,
+            disabled: !selectedCategory,
+            className: `px-6 py-3 rounded-lg font-bold text-white transition ${!selectedCategory ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`,
+            children: "New Problem"
+          }
+        ) }),
+        currentProblem && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `p-4 rounded-lg mb-4 ${dark ? "bg-gray-700" : "bg-gray-50"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-2", children: currentProblem.formulaName }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-3 bg-blue-50 dark:bg-blue-900 rounded text-center", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { className: "text-slate-900 dark:text-slate-100", children: [
+                  "Formula:",
+                  " "
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-lg text-slate-900 dark:text-slate-100", children: currentProblem.formulaDisplay })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-3 p-3 border-l-4 border-blue-500 bg-slate-50 dark:bg-slate-800", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-base text-slate-900 dark:text-slate-100", children: currentProblem.problemText }) }),
+              currentProblem.given && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 text-slate-900 dark:text-slate-100", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Given:" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ml-4 mt-1", children: Object.entries(currentProblem.given).map(([key, value]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                  key,
+                  " = ",
+                  value
+                ] }, key)) })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "block font-semibold mb-2", children: [
+                  "Your Answer (",
+                  currentProblem.answerUnits,
+                  "):"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "text",
+                    value: studentAnswer,
+                    onChange: (e) => setStudentAnswer(e.target.value),
+                    onKeyPress: (e) => e.key === "Enter" && checkAnswer(),
+                    className: `w-full px-3 py-2 border rounded-lg ${dark ? "bg-gray-800 border-gray-600 text-white" : "bg-white border-gray-300 text-gray-900"}`,
+                    placeholder: "Enter numeric answer"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: checkAnswer,
+                  className: "px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition",
+                  children: "Check Answer"
+                }
+              ),
+              feedback && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: `mt-4 p-3 rounded-lg ${feedback.isCorrect ? "bg-green-100 text-green-800 border-2 border-green-500" : "bg-red-100 text-red-800 border-2 border-red-500"}`,
+                  children: [
+                    feedback.isCorrect ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold", children: "✓ Correct!" }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold", children: "✗ Incorrect" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+                        "Correct answer: ",
+                        feedback.correctAnswer,
+                        " ",
+                        feedback.units
+                      ] })
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "button",
+                      {
+                        onClick: () => setShowSteps(!showSteps),
+                        className: "mt-2 px-4 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition",
+                        children: showSteps ? "Hide Steps" : "View Steps"
+                      }
+                    )
+                  ]
+                }
+              ),
+              showSteps && currentProblem.steps && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: `mt-4 p-4 rounded-lg ${dark ? "bg-gray-600" : "bg-blue-50"}`,
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold mb-2", children: "Solution Steps:" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("ol", { className: "list-decimal ml-6", children: currentProblem.steps.map((step, idx) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { className: "mb-2", children: step }, idx)) })
+                  ]
+                }
+              )
+            ]
+          }
+        ),
+        !currentProblem && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `p-4 text-center ${dark ? "text-gray-400" : "text-gray-600"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: 'Select a category and click "New Problem" to begin.' }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm mt-2", children: [
+                "Practice with ",
+                SCIENCE_FORMULA_PRACTICE.length,
+                " formula problems!"
+              ] })
+            ]
+          }
+        )
+      ]
+    }
+  );
 }
-function ScienceConceptPractice({ onClose: onClose2, dark = false }) {
-  const ScienceConceptPracticeTool = window.ScienceConceptPracticeTool;
-  if (!ScienceConceptPracticeTool) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 text-center", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-red-600 font-semibold", children: "Concept Practice Tool is not loaded" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: onClose2,
-          className: "mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg",
-          children: "Close"
-        }
-      )
-    ] });
+const SCIENCE_CONCEPT_QUESTIONS = [
+  // Physics
+  {
+    id: "phys_1",
+    category: "Physics",
+    difficulty: "easy",
+    question: "What is the unit of force in the SI system?",
+    choices: [
+      { text: "Newton (N)", correct: true },
+      { text: "Joule (J)", correct: false },
+      { text: "Watt (W)", correct: false },
+      { text: "Pascal (Pa)", correct: false }
+    ],
+    explanation: "Force is measured in newtons (N). One newton is the force required to accelerate a 1 kg mass at 1 m/s²."
+  },
+  {
+    id: "phys_2",
+    category: "Physics",
+    difficulty: "easy",
+    question: "Which quantity is conserved in an isolated system?",
+    choices: [
+      { text: "Energy", correct: true },
+      { text: "Velocity", correct: false },
+      { text: "Force", correct: false },
+      { text: "Power", correct: false }
+    ],
+    explanation: "Total energy remains constant in an isolated system according to the law of conservation of energy."
+  },
+  {
+    id: "phys_3",
+    category: "Physics",
+    difficulty: "medium",
+    question: "An object moves at constant velocity. What is the net force acting on it?",
+    choices: [
+      { text: "Zero", correct: true },
+      { text: "Equal to its weight", correct: false },
+      { text: "Increasing", correct: false },
+      { text: "Opposite to its velocity", correct: false }
+    ],
+    explanation: "Newton's First Law states that constant velocity implies zero net force. Forces are balanced."
+  },
+  {
+    id: "phys_4",
+    category: "Physics",
+    difficulty: "medium",
+    question: "What is the formula for kinetic energy?",
+    choices: [
+      { text: "KE = ½mv²", correct: true },
+      { text: "KE = mv", correct: false },
+      { text: "KE = mgh", correct: false },
+      { text: "KE = Fd", correct: false }
+    ],
+    explanation: "Kinetic energy is calculated as KE = ½mv², where m is mass and v is velocity."
+  },
+  // Chemistry
+  {
+    id: "chem_1",
+    category: "Chemistry",
+    difficulty: "easy",
+    question: "What is the chemical symbol for water?",
+    choices: [
+      { text: "H₂O", correct: true },
+      { text: "CO₂", correct: false },
+      { text: "O₂", correct: false },
+      { text: "NaCl", correct: false }
+    ],
+    explanation: "Water is H₂O: two hydrogen atoms bonded to one oxygen atom."
+  },
+  {
+    id: "chem_2",
+    category: "Chemistry",
+    difficulty: "easy",
+    question: "What is the smallest unit of an element?",
+    choices: [
+      { text: "Atom", correct: true },
+      { text: "Molecule", correct: false },
+      { text: "Cell", correct: false },
+      { text: "Compound", correct: false }
+    ],
+    explanation: "An atom is the smallest unit that retains the properties of an element."
+  },
+  {
+    id: "chem_3",
+    category: "Chemistry",
+    difficulty: "medium",
+    question: "What type of bond forms when electrons are shared between atoms?",
+    choices: [
+      { text: "Covalent bond", correct: true },
+      { text: "Ionic bond", correct: false },
+      { text: "Metallic bond", correct: false },
+      { text: "Hydrogen bond", correct: false }
+    ],
+    explanation: "Covalent bonds form when atoms share electrons to achieve stable electron configurations."
+  },
+  {
+    id: "chem_4",
+    category: "Chemistry",
+    difficulty: "hard",
+    question: "What happens during an oxidation reaction?",
+    choices: [
+      { text: "Loss of electrons", correct: true },
+      { text: "Gain of electrons", correct: false },
+      { text: "Gain of protons", correct: false },
+      { text: "Loss of neutrons", correct: false }
+    ],
+    explanation: "Oxidation is the loss of electrons. Remember: OIL RIG (Oxidation Is Loss, Reduction Is Gain)."
+  },
+  // Biology
+  {
+    id: "bio_1",
+    category: "Biology",
+    difficulty: "easy",
+    question: "What is the basic unit of life?",
+    choices: [
+      { text: "Cell", correct: true },
+      { text: "Tissue", correct: false },
+      { text: "Organ", correct: false },
+      { text: "Atom", correct: false }
+    ],
+    explanation: "The cell is the basic structural and functional unit of all living organisms."
+  },
+  {
+    id: "bio_2",
+    category: "Biology",
+    difficulty: "easy",
+    question: "What organelle is responsible for photosynthesis?",
+    choices: [
+      { text: "Chloroplast", correct: true },
+      { text: "Mitochondria", correct: false },
+      { text: "Nucleus", correct: false },
+      { text: "Ribosome", correct: false }
+    ],
+    explanation: "Chloroplasts contain chlorophyll and are the site of photosynthesis in plant cells."
+  },
+  {
+    id: "bio_3",
+    category: "Biology",
+    difficulty: "medium",
+    question: "DNA is composed of repeating units called:",
+    choices: [
+      { text: "Nucleotides", correct: true },
+      { text: "Amino acids", correct: false },
+      { text: "Proteins", correct: false },
+      { text: "Lipids", correct: false }
+    ],
+    explanation: "Nucleotides are the building blocks of DNA, each containing a sugar, phosphate, and nitrogenous base."
+  },
+  {
+    id: "bio_4",
+    category: "Biology",
+    difficulty: "hard",
+    question: "Which process produces the most ATP in cellular respiration?",
+    choices: [
+      { text: "Electron transport chain", correct: true },
+      { text: "Glycolysis", correct: false },
+      { text: "Krebs cycle", correct: false },
+      { text: "Fermentation", correct: false }
+    ],
+    explanation: "The electron transport chain produces about 34 ATP molecules, the most of any stage in cellular respiration."
+  },
+  // Earth Science
+  {
+    id: "earth_1",
+    category: "Earth Science",
+    difficulty: "easy",
+    question: "What causes tides on Earth?",
+    choices: [
+      { text: "Moon's gravitational pull", correct: true },
+      { text: "Wind patterns", correct: false },
+      { text: "Ocean currents", correct: false },
+      { text: "Earth's rotation", correct: false }
+    ],
+    explanation: "Tides are primarily caused by the Moon's gravitational pull on Earth's oceans."
+  },
+  {
+    id: "earth_2",
+    category: "Earth Science",
+    difficulty: "medium",
+    question: "Which layer of Earth is the thickest?",
+    choices: [
+      { text: "Mantle", correct: true },
+      { text: "Crust", correct: false },
+      { text: "Outer core", correct: false },
+      { text: "Inner core", correct: false }
+    ],
+    explanation: "The mantle makes up about 84% of Earth's volume and extends nearly 2,900 km deep."
+  },
+  {
+    id: "earth_3",
+    category: "Earth Science",
+    difficulty: "medium",
+    question: "What type of rock is formed from cooled magma or lava?",
+    choices: [
+      { text: "Igneous", correct: true },
+      { text: "Sedimentary", correct: false },
+      { text: "Metamorphic", correct: false },
+      { text: "Crystalline", correct: false }
+    ],
+    explanation: "Igneous rocks form when molten rock (magma or lava) cools and solidifies."
+  },
+  {
+    id: "earth_4",
+    category: "Earth Science",
+    difficulty: "hard",
+    question: "What drives plate tectonics?",
+    choices: [
+      { text: "Convection currents in the mantle", correct: true },
+      { text: "Ocean currents", correct: false },
+      { text: "Atmospheric pressure", correct: false },
+      { text: "Earth's magnetic field", correct: false }
+    ],
+    explanation: "Heat-driven convection currents in the mantle cause tectonic plates to move across Earth's surface."
   }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(ScienceConceptPracticeTool, { theme: dark ? "dark" : "light" });
+];
+function ScienceConceptPractice({ onClose: onClose2, dark = false }) {
+  const [selectedCategory, setSelectedCategory] = reactExports.useState("");
+  const [selectedDifficulty, setSelectedDifficulty] = reactExports.useState("all");
+  const [currentQuestion, setCurrentQuestion] = reactExports.useState(null);
+  const [selectedChoice, setSelectedChoice] = reactExports.useState(null);
+  const [revealed, setRevealed] = reactExports.useState(false);
+  const categories = reactExports.useMemo(() => {
+    const unique = [
+      ...new Set(SCIENCE_CONCEPT_QUESTIONS.map((q2) => q2.category))
+    ];
+    return unique.sort();
+  }, []);
+  const difficulties = reactExports.useMemo(() => {
+    const unique = [
+      ...new Set(SCIENCE_CONCEPT_QUESTIONS.map((q2) => q2.difficulty))
+    ];
+    return ["all", ...unique.sort()];
+  }, []);
+  function selectNewQuestion() {
+    if (!selectedCategory) {
+      alert("Please select a category first.");
+      return;
+    }
+    let pool = SCIENCE_CONCEPT_QUESTIONS.filter(
+      (q2) => q2.category === selectedCategory
+    );
+    if (selectedDifficulty !== "all") {
+      pool = pool.filter((q2) => q2.difficulty === selectedDifficulty);
+    }
+    if (pool.length === 0) {
+      alert("No questions available for this selection.");
+      return;
+    }
+    const picked = pool[Math.floor(Math.random() * pool.length)];
+    setCurrentQuestion(picked);
+    setSelectedChoice(null);
+    setRevealed(false);
+  }
+  function grade() {
+    if (!currentQuestion) return;
+    if (selectedChoice === null) {
+      alert("Please select an answer first.");
+      return;
+    }
+    setRevealed(true);
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      className: `p-6 rounded-xl ${dark ? "bg-gray-800 text-white" : "bg-white text-gray-900"}`,
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold mb-4 text-emerald-600 dark:text-emerald-400", children: "🔬 Science Concept Practice" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block font-semibold mb-2", children: "Category:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: categories.map((cat) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setSelectedCategory(cat),
+              className: `px-4 py-2 rounded-lg font-semibold transition ${selectedCategory === cat ? "bg-emerald-600 text-white" : dark ? "bg-gray-700 text-gray-200 hover:bg-gray-600" : "bg-gray-200 text-gray-800 hover:bg-gray-300"}`,
+              children: cat
+            },
+            cat
+          )) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block font-semibold mb-2", children: "Difficulty:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: difficulties.map((diff) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setSelectedDifficulty(diff),
+              className: `px-3 py-1 rounded-lg text-sm font-semibold transition ${selectedDifficulty === diff ? "bg-purple-600 text-white" : dark ? "bg-gray-700 text-gray-200 hover:bg-gray-600" : "bg-gray-200 text-gray-800 hover:bg-gray-300"}`,
+              children: diff.charAt(0).toUpperCase() + diff.slice(1)
+            },
+            diff
+          )) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: selectNewQuestion,
+            disabled: !selectedCategory,
+            className: `px-6 py-3 rounded-lg font-bold text-white transition ${!selectedCategory ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`,
+            children: "New Question"
+          }
+        ) }),
+        currentQuestion ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `p-4 rounded-lg mb-4 ${dark ? "bg-gray-700" : "bg-gray-50"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 flex items-center gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "span",
+                  {
+                    className: `px-2 py-1 rounded text-xs font-semibold ${currentQuestion.difficulty === "easy" ? "bg-green-200 text-green-800" : currentQuestion.difficulty === "medium" ? "bg-yellow-200 text-yellow-800" : "bg-red-200 text-red-800"}`,
+                    children: currentQuestion.difficulty.toUpperCase()
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs opacity-70", children: currentQuestion.category })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-bold mb-3", children: "Question:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-4", children: currentQuestion.question }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-2 mb-4", children: currentQuestion.choices.map((ch, idx) => {
+                const chosen = selectedChoice === idx;
+                const correct = ch.correct;
+                let btnStyle = chosen ? "ring-2 ring-blue-500" : "";
+                if (revealed) {
+                  if (correct) {
+                    btnStyle += " bg-green-600 text-white";
+                  } else if (chosen && !correct) {
+                    btnStyle += " bg-red-600 text-white";
+                  } else {
+                    btnStyle += dark ? " bg-gray-600" : " bg-gray-200";
+                  }
+                } else {
+                  btnStyle += chosen ? " bg-blue-600 text-white" : dark ? " bg-gray-600 text-gray-100" : " bg-gray-200 text-gray-800";
+                }
+                return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    disabled: revealed,
+                    onClick: () => setSelectedChoice(idx),
+                    className: `w-full text-left px-4 py-2 rounded-lg font-medium transition ${btnStyle}`,
+                    children: ch.text
+                  },
+                  idx
+                );
+              }) }),
+              !revealed && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: grade,
+                  className: "px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition",
+                  children: "Check Answer"
+                }
+              ),
+              revealed && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: `mt-4 p-3 rounded-lg ${currentQuestion.choices[selectedChoice].correct ? "bg-green-100 text-green-800 border-2 border-green-500" : "bg-red-100 text-red-800 border-2 border-red-500"}`,
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold mb-2", children: currentQuestion.choices[selectedChoice].correct ? "✓ Correct!" : "✗ Incorrect" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Explanation:" }),
+                      " ",
+                      currentQuestion.explanation
+                    ] })
+                  ]
+                }
+              )
+            ]
+          }
+        ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `p-4 text-center ${dark ? "text-gray-400" : "text-gray-600"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: 'Select a category and click "New Question" to begin.' }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm mt-2", children: [
+                "Practice with ",
+                SCIENCE_CONCEPT_QUESTIONS.length,
+                " questions across 4 categories!"
+              ] })
+            ]
+          }
+        )
+      ]
+    }
+  );
 }
 function TI30XSCalculator({ onClose }) {
-  const [display, setDisplay] = reactExports.useState("0");
-  const [cursor, setCursor] = reactExports.useState(0);
-  const [inFraction, setInFraction] = reactExports.useState(false);
-  const [fractionPart, setFractionPart] = reactExports.useState("numerator");
-  const [memory, setMemory] = reactExports.useState(null);
-  const [isRadians, setIsRadians] = reactExports.useState(false);
-  const [opacity, setOpacity] = reactExports.useState(1);
+  const [history, setHistory] = reactExports.useState([]);
+  const [currentInput, setCurrentInput] = reactExports.useState("");
+  const [result, setResult] = reactExports.useState("");
+  const [isSecond, setIsSecond] = reactExports.useState(false);
+  const [isDegrees, setIsDegrees] = reactExports.useState(true);
   const [position, setPosition] = reactExports.useState({ x: 100, y: 100 });
   const [isDragging, setIsDragging] = reactExports.useState(false);
-  const dragRef = reactExports.useRef({ startX: 0, startY: 0 });
-  const calcRef = reactExports.useRef(null);
-  const moveCursor = (direction) => {
-    if (direction === "left") {
-      setCursor((prev) => Math.max(0, prev - 1));
-    } else if (direction === "right") {
-      setCursor((prev) => Math.min(display.length, prev + 1));
-    }
-  };
-  const insertAtCursor = (val2) => {
-    setDisplay((prev) => {
-      if (prev === "0" || prev === "Error") {
-        setCursor(val2.length);
-        return val2;
-      }
-      const before = prev.slice(0, cursor);
-      const after = prev.slice(cursor);
-      setCursor(cursor + val2.length);
-      return before + val2 + after;
-    });
-  };
-  const handlePress = (val2) => {
-    insertAtCursor(val2);
-  };
-  const handleClearAll = () => {
-    setDisplay("0");
-    setCursor(0);
-    setInFraction(false);
-    setFractionPart("numerator");
-  };
-  const handleDelete = () => {
-    if (cursor === 0) return;
-    setDisplay((prev) => {
-      if (prev.length <= 1 || prev === "Error") {
-        setCursor(0);
-        return "0";
-      }
-      const before = prev.slice(0, cursor - 1);
-      const after = prev.slice(cursor);
-      setCursor(cursor - 1);
-      return before + after;
-    });
-  };
-  const handleFraction = () => {
-    if (inFraction) {
-      insertAtCursor(")");
-      setInFraction(false);
-      setFractionPart("numerator");
-    } else {
-      insertAtCursor("(");
-      setInFraction(true);
-      setFractionPart("numerator");
-    }
-  };
-  const handleFractionBar = () => {
-    if (inFraction && fractionPart === "numerator") {
-      insertAtCursor("/");
-      setFractionPart("denominator");
-    }
-  };
-  const handleEval = () => {
-    try {
-      let expr = display.replace(/×/g, "*").replace(/÷/g, "/").replace(/π/g, "Math.PI").replace(/√\(/g, "Math.sqrt(").replace(/\^/g, "**");
-      const result = eval(expr);
-      const resultStr = String(result).slice(0, 12);
-      setDisplay(resultStr);
-      setCursor(resultStr.length);
-      setInFraction(false);
-      setFractionPart("numerator");
-    } catch (e) {
-      setDisplay("Error");
-      setCursor(5);
-    }
-  };
-  const handleSqrt = () => {
-    insertAtCursor("√(");
-  };
-  const handleMemoryAdd = () => {
-    try {
-      let expr = display.replace(/×/g, "*").replace(/÷/g, "/").replace(/π/g, "Math.PI").replace(/\^/g, "**");
-      const val = eval(expr);
-      setMemory((prev) => (prev || 0) + val);
-    } catch (e) {
-    }
-  };
-  const handleMemoryRecall = () => {
-    if (memory !== null) {
-      const memStr = String(memory);
-      insertAtCursor(memStr);
-    }
-  };
-  const handleMemoryClear = () => {
-    setMemory(null);
-  };
-  reactExports.useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        moveCursor("left");
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        moveCursor("right");
-      } else if (e.key === "Backspace") {
-        e.preventDefault();
-        handleDelete();
-      } else if (e.key === "Enter") {
-        e.preventDefault();
-        handleEval();
-      } else if (e.key === "Delete") {
-        e.preventDefault();
-        handleDelete();
-      } else if (e.key === "Escape") {
-        e.preventDefault();
-        onClose();
-      } else if (/^[0-9]$/.test(e.key)) {
-        e.preventDefault();
-        handlePress(e.key);
-      } else if (["+", "-", "*", "/", "(", ")", "."].includes(e.key)) {
-        e.preventDefault();
-        if (e.key === "*") handlePress("×");
-        else if (e.key === "/") handlePress("÷");
-        else handlePress(e.key);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [cursor, display, inFraction]);
+  const [opacity, setOpacity] = reactExports.useState(1);
+  const dragStart = reactExports.useRef({ x: 0, y: 0 });
   const handleMouseDown = (e) => {
-    if (e.target.closest(".calc-opacity-control, .calc-btn")) return;
+    if (e.target.tagName === "BUTTON" || e.target.closest(".calc-opacity-control")) return;
     setIsDragging(true);
-    dragRef.current = {
-      startX: e.clientX - position.x,
-      startY: e.clientY - position.y
+    dragStart.current = {
+      x: e.clientX - position.x,
+      y: e.clientY - position.y
     };
   };
   reactExports.useEffect(() => {
     const handleMouseMove = (e) => {
       if (!isDragging) return;
       setPosition({
-        x: e.clientX - dragRef.current.startX,
-        y: e.clientY - dragRef.current.startY
+        x: e.clientX - dragStart.current.x,
+        y: e.clientY - dragStart.current.y
       });
     };
-    const handleMouseUp = () => {
-      setIsDragging(false);
-    };
+    const handleMouseUp = () => setIsDragging(false);
     if (isDragging) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
     }
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [isDragging]);
-  const renderDisplay = () => {
-    if (display === "0" || display === "Error") {
-      return display;
+  const handlePress = (val) => {
+    if (result !== "") {
+      if (["+", "-", "×", "÷", "^"].includes(val)) {
+        setCurrentInput(result + val);
+      } else {
+        setCurrentInput(val);
+      }
+      setResult("");
+    } else {
+      setCurrentInput((prev) => prev + val);
     }
-    const before = display.slice(0, cursor);
-    const after = display.slice(cursor);
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-      before,
-      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block w-0.5 h-6 bg-slate-900 animate-pulse", children: "|" }),
-      after
-    ] });
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ti-30xs-shell fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-30 p-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  const handleClear = () => {
+    setCurrentInput("");
+    setResult("");
+    if (currentInput === "" && result === "") {
+      setHistory([]);
+    }
+  };
+  const handleDelete = () => {
+    setCurrentInput((prev) => prev.slice(0, -1));
+  };
+  const handleEnter = () => {
+    if (!currentInput) return;
+    try {
+      let expr = currentInput.replace(/×/g, "*").replace(/÷/g, "/").replace(/\^/g, "**").replace(/π/g, "Math.PI").replace(/√/g, "Math.sqrt");
+      if (isDegrees) {
+        expr = expr.replace(/sin\(/g, "Math.sin(Math.PI/180*").replace(/cos\(/g, "Math.cos(Math.PI/180*").replace(/tan\(/g, "Math.tan(Math.PI/180*");
+      } else {
+        expr = expr.replace(/sin\(/g, "Math.sin(").replace(/cos\(/g, "Math.cos(").replace(/tan\(/g, "Math.tan(");
+      }
+      const evalResult = eval(expr);
+      const formattedResult = typeof evalResult === "number" ? Math.abs(evalResult) < 1e-4 && evalResult !== 0 ? evalResult.toExponential(4) : evalResult.toString().slice(0, 12) : String(evalResult);
+      setHistory((prev) => [...prev.slice(-2), { exp: currentInput, ans: formattedResult }]);
+      setResult(formattedResult);
+      setCurrentInput("");
+    } catch (e) {
+      setResult("SYNTAX ERROR");
+      setTimeout(() => setResult(""), 2e3);
+    }
+  };
+  const handleFunction = (fn) => {
+    setCurrentInput((prev) => prev + fn + "(");
+  };
+  const toggleMode = () => {
+    setIsDegrees((prev) => !prev);
+  };
+  reactExports.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Backspace") {
+        e.preventDefault();
+        handleDelete();
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        handleEnter();
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        handleClear();
+      } else if (/^[0-9]$/.test(e.key)) {
+        e.preventDefault();
+        handlePress(e.key);
+      } else if (["+", "-", "(", ")", "."].includes(e.key)) {
+        e.preventDefault();
+        handlePress(e.key);
+      } else if (e.key === "*") {
+        e.preventDefault();
+        handlePress("×");
+      } else if (e.key === "/") {
+        e.preventDefault();
+        handlePress("÷");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentInput, result]);
+  const CalcBtn = ({ label, color = "black", onClick, className = "", span = 1 }) => {
+    const baseStyle = "h-10 text-sm font-bold rounded shadow-md active:scale-95 transition-transform flex items-center justify-center calc-btn";
+    const colorStyles = {
+      green: "bg-[#4a8b73] text-white border-b-4 border-[#2f594a] hover:bg-[#5a9b83]",
+      black: "bg-slate-900 text-white border-b-4 border-black hover:bg-slate-800",
+      white: "bg-white text-slate-900 border-b-4 border-slate-300 hover:bg-slate-50",
+      red: "bg-red-800 text-white border-b-4 border-red-950 hover:bg-red-700",
+      gray: "bg-slate-700 text-white border-b-4 border-slate-900 hover:bg-slate-600"
+    };
+    const colSpan = span > 1 ? `col-span-${span}` : "";
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "button",
+      {
+        className: `${baseStyle} ${colorStyles[color]} ${className} ${colSpan}`,
+        onClick: onClick || (() => handlePress(label)),
+        children: label
+      }
+    );
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
-      ref: calcRef,
-      className: `calc-draggable relative w-80 rounded-xl shadow-2xl border-2 border-slate-600 bg-slate-800 p-4 font-sans ${isDragging ? "dragging" : ""}`,
-      style: {
-        left: position.x,
-        top: position.y,
-        opacity,
-        cursor: isDragging ? "grabbing" : "move"
-      },
-      onMouseDown: handleMouseDown,
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-center mb-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-400 font-bold tracking-widest", children: "TI-30XS MultiView™" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: "w-16 h-4 bg-slate-700 rounded-sm border border-slate-600 opacity-80",
-              title: "Solar Panel"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: onClose,
-              className: "text-slate-400 hover:text-white text-xl font-bold",
-              title: "Close (Esc)",
-              children: "✕"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "calc-opacity-control mb-3 flex items-center gap-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-xs text-slate-300", children: "Opacity:" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "range",
-              min: "0.5",
-              max: "1",
-              step: "0.05",
-              value: opacity,
-              onChange: (e) => setOpacity(parseFloat(e.target.value)),
-              className: "calc-opacity-slider flex-1"
-            }
-          )
-        ] }),
-        memory !== null && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-slate-300 mb-1", children: [
-          "Memory: ",
-          memory.toFixed(4)
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "calc-screen mb-4 p-2 rounded bg-[#c8dcc8] font-mono text-right text-xl text-slate-900 shadow-inner h-20 flex items-end justify-end overflow-x-auto overflow-y-hidden border-4 border-slate-700", children: renderDisplay() }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between text-xs text-slate-400 mb-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: isRadians ? "RAD" : "DEG" }),
-          inFraction && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-blue-400", children: [
-            "FRAC: ",
-            fractionPart === "numerator" ? "NUM" : "DEN"
+      className: "fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-30",
+      style: { pointerEvents: "none" },
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: "relative",
+          style: {
+            left: position.x,
+            top: position.y,
+            position: "fixed",
+            opacity,
+            pointerEvents: "auto",
+            cursor: isDragging ? "grabbing" : "grab"
+          },
+          onMouseDown: handleMouseDown,
+          children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-[340px] bg-[#2c3e50] rounded-[32px] p-6 pb-8 shadow-2xl border-4 border-[#1a252f]", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-start mb-4 px-1", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-slate-300 text-[10px] font-bold tracking-widest leading-tight", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "TEXAS INSTRUMENTS" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-slate-400 text-[9px] mt-0.5", children: "TI-30XS MultiView™" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-20 h-5 bg-[#1a1410] rounded border border-slate-700 shadow-inner" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-[#c8dcc8] h-44 rounded-lg mb-5 border-4 border-slate-700 p-3 font-mono text-slate-900 flex flex-col relative shadow-inner", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-[9px] flex gap-3 opacity-70 border-b border-slate-400/40 pb-1 mb-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: isDegrees ? "font-bold" : "", children: isDegrees ? "DEG" : "RAD" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "NORM" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "FLOAT" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 flex flex-col justify-end overflow-hidden", children: history.map((item, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs opacity-60 leading-tight mb-1", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-right", children: item.exp }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-right font-bold", children: [
+                  "= ",
+                  item.ans
+                ] })
+              ] }, i)) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-right text-2xl font-bold mt-2 truncate min-h-[32px]", children: result !== "" ? /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: result }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                currentInput || "0",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block w-0.5 h-6 bg-slate-900 animate-pulse ml-0.5", children: "|" })
+              ] }) })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "calc-opacity-control mb-3 flex items-center gap-2 px-1", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-400 text-xs", children: "Opacity:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  type: "range",
+                  min: "0.3",
+                  max: "1",
+                  step: "0.1",
+                  value: opacity,
+                  onChange: (e) => setOpacity(parseFloat(e.target.value)),
+                  className: "flex-1 h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: onClose,
+                  className: "ml-2 px-3 py-1 bg-red-700 hover:bg-red-600 text-white text-xs font-bold rounded shadow",
+                  children: "✕"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-5 gap-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                CalcBtn,
+                {
+                  label: "2nd",
+                  color: "green",
+                  onClick: () => setIsSecond(!isSecond),
+                  className: isSecond ? "ring-2 ring-yellow-400" : ""
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "mode", color: "black", onClick: toggleMode }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "del", color: "black", onClick: handleDelete }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "on", color: "black", onClick: handleClear, span: 2 }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "π", color: "gray", onClick: () => handlePress("π") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "sin", color: "gray", onClick: () => handleFunction("sin") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "cos", color: "gray", onClick: () => handleFunction("cos") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "tan", color: "gray", onClick: () => handleFunction("tan") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "÷", color: "black", onClick: () => handlePress("÷") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "n/d", color: "gray", onClick: () => handlePress("/") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "√", color: "gray", onClick: () => handlePress("√(") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "x²", color: "gray", onClick: () => handlePress("^2") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "^", color: "gray", onClick: () => handlePress("^") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "×", color: "black", onClick: () => handlePress("×") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "(", color: "gray", onClick: () => handlePress("(") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: ")", color: "gray", onClick: () => handlePress(")") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-2 row-span-2 flex items-center justify-center relative h-full bg-slate-800 rounded-full border-2 border-slate-900 shadow-inner", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 bg-slate-700 rounded-full shadow-md" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1 text-[10px] text-slate-400 font-bold", children: "▲" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-1 text-[10px] text-slate-400 font-bold", children: "▼" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute left-2 text-[10px] text-slate-400 font-bold", children: "◀" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute right-2 text-[10px] text-slate-400 font-bold", children: "▶" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "-", color: "black", onClick: () => handlePress("-") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "log", color: "gray" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "7", color: "white" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "8", color: "white" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "9", color: "white" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "ln", color: "gray" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "4", color: "white" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "5", color: "white" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "6", color: "white" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "+", color: "black", onClick: () => handlePress("+") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "sto>", color: "gray" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "1", color: "white" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "2", color: "white" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "3", color: "white" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "enter", color: "black", onClick: handleEnter, className: "row-span-2 !h-[84px]" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "rcl", color: "gray" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "0", color: "white", span: 2 }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: ".", color: "white" })
+            ] })
           ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-5 gap-1.5", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "calc-btn gray text-xs",
-              onClick: () => setIsRadians(!isRadians),
-              title: "Toggle Radians/Degrees",
-              children: isRadians ? "RAD" : "DEG"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "calc-btn gray text-xs",
-              onClick: handleFraction,
-              title: "Fraction Mode",
-              children: "n/d"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "calc-btn gray text-xs",
-              onClick: () => moveCursor("left"),
-              title: "Move Cursor Left",
-              children: "←"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "calc-btn gray text-xs",
-              onClick: () => moveCursor("right"),
-              title: "Move Cursor Right",
-              children: "→"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "calc-btn red text-xs font-bold",
-              onClick: handleClearAll,
-              title: "Clear All",
-              children: "clear"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "calc-btn gray text-xs",
-              onClick: handleMemoryAdd,
-              title: "Memory Add (M+)",
-              children: "M+"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "calc-btn gray text-xs",
-              onClick: handleMemoryRecall,
-              title: "Memory Recall (MR)",
-              children: "MR"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "calc-btn gray text-xs",
-              onClick: handleMemoryClear,
-              title: "Memory Clear (MC)",
-              children: "MC"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "calc-btn gray text-xs",
-              onClick: handleDelete,
-              title: "Delete (Backspace)",
-              children: "DEL"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "calc-btn gray",
-              onClick: () => handlePress("^"),
-              title: "Exponent",
-              children: "x^y"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("("), children: "(" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress(")"), children: ")" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: handleSqrt, children: "√" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "calc-btn gray",
-              onClick: handleFractionBar,
-              title: "Fraction Bar",
-              children: "─"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("π"), children: "π" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("7"), children: "7" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("8"), children: "8" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("9"), children: "9" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("÷"), children: "÷" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray row-span-2", onClick: handleEval, children: "enter" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("4"), children: "4" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("5"), children: "5" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("6"), children: "6" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("×"), children: "×" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("1"), children: "1" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("2"), children: "2" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("3"), children: "3" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("-"), children: "−" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray row-span-2", onClick: () => handlePress("+"), children: "+" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white col-span-2", onClick: () => handlePress("0"), children: "0" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn white", onClick: () => handlePress("."), children: "." }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "calc-btn gray", onClick: () => handlePress("(-)"), children: "(−)" })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-3 text-xs text-slate-400 text-center", children: "Use arrow keys ←→ to move cursor • Esc to close" })
-      ]
+        }
+      )
     }
-  ) });
+  );
 }
 if (typeof window !== "undefined") {
   window.Components = window.Components || {};
@@ -22665,12 +23414,12 @@ function App({ externalTheme, onThemeChange }) {
             science: "Science",
             social_studies: "Social Studies"
           };
-          serverTestPlan = Object.entries(tests).map(([key, val2]) => ({
+          serverTestPlan = Object.entries(tests).map(([key, val]) => ({
             subject: labelMap[key] || key,
-            testDate: coerceIso((val2 == null ? void 0 : val2.testDate) || (val2 == null ? void 0 : val2.date)),
-            testLocation: (val2 == null ? void 0 : val2.testLocation) || (val2 == null ? void 0 : val2.location) || "",
-            passed: !!((val2 == null ? void 0 : val2.passed) ?? (val2 == null ? void 0 : val2.isPassed)),
-            notScheduled: !!((val2 == null ? void 0 : val2.notScheduled) ?? (val2 == null ? void 0 : val2.not_scheduled))
+            testDate: coerceIso((val == null ? void 0 : val.testDate) || (val == null ? void 0 : val.date)),
+            testLocation: (val == null ? void 0 : val.testLocation) || (val == null ? void 0 : val.location) || "",
+            passed: !!((val == null ? void 0 : val.passed) ?? (val == null ? void 0 : val.isPassed)),
+            notScheduled: !!((val == null ? void 0 : val.notScheduled) ?? (val == null ? void 0 : val.not_scheduled))
           }));
         }
         const serverChallenges = Array.isArray(bundle.challengeOptions) ? bundle.challengeOptions.map((opt, index) => ({
@@ -23855,9 +24604,9 @@ function App({ externalTheme, onThemeChange }) {
       const questions = Array.isArray(quizObj == null ? void 0 : quizObj.questions) ? quizObj.questions : [];
       const answers = Array.isArray(results == null ? void 0 : results.answers) ? results.answers : [];
       if (questions.length && answers.length && questions.length === answers.length) {
-        const normalizeAnswer = (val2) => {
-          if (val2 === null || val2 === void 0) return "";
-          return String(val2).replace(/^\$+|\$+$/g, "").replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+        const normalizeAnswer = (val) => {
+          if (val === null || val === void 0) return "";
+          return String(val).replace(/^\$+|\$+$/g, "").replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
         };
         const isNumericEqual = (a, b) => {
           const na = Number(a);
@@ -25357,7 +26106,7 @@ function AuthScreen({ onLogin }) {
     };
   }, [handleCredentialResponse]);
   const modeLabel = mode === "login" ? "Log In" : "Register";
-  const toggleMode = () => {
+  const toggleMode2 = () => {
     setMode((prev) => prev === "login" ? "register" : "login");
     setFormError(null);
     setFormMessage(null);
@@ -25484,7 +26233,7 @@ function AuthScreen({ onLogin }) {
         "button",
         {
           type: "button",
-          onClick: toggleMode,
+          onClick: toggleMode2,
           className: "font-semibold text-info hover:text-primary",
           children: mode === "login" ? "Register" : "Log in"
         }
@@ -28304,10 +29053,10 @@ function StartScreen({
     });
     const pt = (_a3 = profileData == null ? void 0 : profileData.profile) == null ? void 0 : _a3.tests;
     if (pt && typeof pt === "object") {
-      Object.entries(pt).forEach(([key, val2]) => {
-        if (!val2) return;
+      Object.entries(pt).forEach(([key, val]) => {
+        if (!val) return;
         const id = key;
-        if (val2.passed === true || val2.isPassed === true) map[id] = true;
+        if (val.passed === true || val.isPassed === true) map[id] = true;
       });
     }
     return map;
@@ -28339,11 +29088,11 @@ function StartScreen({
   }, [profilePassedMap]);
   reactExports.useMemo(() => {
     const ids = /* @__PURE__ */ new Set();
-    Object.entries(profilePassedMap).forEach(([id, val2]) => {
-      if (val2) ids.add(id);
+    Object.entries(profilePassedMap).forEach(([id, val]) => {
+      if (val) ids.add(id);
     });
-    Object.entries(progressPassedMap).forEach(([id, val2]) => {
-      if (val2) ids.add(id);
+    Object.entries(progressPassedMap).forEach(([id, val]) => {
+      if (val) ids.add(id);
     });
     const order = ["math", "rla", "science", "social_studies"];
     return order.filter((id) => ids.has(id)).map((id) => ({
@@ -28709,9 +29458,9 @@ function StartScreen({
                         selectedSubject
                       )}:${topic.id || `topic_${topicIndex}`}`;
                       const expanded = !!variantExpanded[expKey];
-                      const setExpanded = (val2) => setVariantExpanded((prev) => ({
+                      const setExpanded = (val) => setVariantExpanded((prev) => ({
                         ...prev,
-                        [expKey]: val2
+                        [expKey]: val
                       }));
                       const shown = expanded ? list : list.slice(0, 3);
                       return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 space-y-3 w-full", children: [
@@ -30349,7 +31098,7 @@ function QuizInterface({
         const correctOption = q2.answerOptions.find((opt) => opt.isCorrect);
         return correctOption && correctOption.text === userAnswer;
       } else {
-        const normalize = (val2) => (val2 ?? "").toString().trim().toLowerCase();
+        const normalize = (val) => (val ?? "").toString().trim().toLowerCase();
         return normalize(q2.correctAnswer) === normalize(userAnswer);
       }
     },
@@ -31390,9 +32139,9 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     // Multi-answer list separated by comma
     MULTI_SPLIT_RE: /\s*,\s*/
   };
-  const normalizeRaw = (val2) => {
-    if (val2 === null || val2 === void 0) return "";
-    return String(val2).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+  const normalizeRaw = (val) => {
+    if (val === null || val === void 0) return "";
+    return String(val).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
   };
   const stripCurrency = (s) => s.replace(/^\$/, "").replace(/,/g, "");
   const parseFraction = (s) => {
@@ -31471,7 +32220,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     return isEquivalentAnswer(q2.correctAnswer, userAns);
   };
   const handleComplete = (result2) => {
-    const normalizeText = (val2) => (val2 ?? "").toString().trim().toLowerCase();
+    const normalizeText = (val) => (val ?? "").toString().trim().toLowerCase();
     let earnedPoints = 0;
     let possiblePoints = 0;
     (quiz.questions || []).forEach((q2, idx) => {
@@ -31489,7 +32238,7 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
           const correctSet = correctOpts.map((o) => normalizeText(o.text)).sort();
           const userSet = (Array.isArray(userAns) ? userAns : [userAns]).map((v) => normalizeText(v)).filter(Boolean).sort();
           if (userSet.length === correctSet.length) {
-            isCorrect = userSet.every((val2, i) => val2 === correctSet[i]);
+            isCorrect = userSet.every((val, i) => val === correctSet[i]);
           } else {
             isCorrect = false;
           }
@@ -31572,9 +32321,9 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
       ...p1.confidence || [],
       ...result2.confidence || []
     ];
-    const normalizeRaw = (val2) => {
-      if (val2 === null || val2 === void 0) return "";
-      return String(val2).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+    const normalizeRaw = (val) => {
+      if (val === null || val === void 0) return "";
+      return String(val).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
     };
     const numericValue = (raw) => {
       const s = normalizeRaw(raw);
@@ -31654,7 +32403,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
         `[grader] ${missing.length} fill-in question(s) missing correctAnswer: #${missing.join(", ")}`
       );
     }
-    const normalizeText = (val2) => (val2 ?? "").toString().trim().toLowerCase();
+    const normalizeText = (val) => (val ?? "").toString().trim().toLowerCase();
     let earnedPoints = 0;
     let possiblePoints = 0;
     quiz.questions.forEach((q2, idx) => {
@@ -31673,7 +32422,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
           const correctSet = correctOpts.map((o) => normalizeText(o.text)).sort();
           const userSet = (Array.isArray(userAns) ? userAns : [userAns]).map((v) => normalizeText(v)).filter(Boolean).sort();
           if (userSet.length === correctSet.length) {
-            isCorrect = userSet.every((val2, i) => val2 === correctSet[i]);
+            isCorrect = userSet.every((val, i) => val === correctSet[i]);
           }
         }
       } else {
@@ -32434,9 +33183,9 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             const correctMC = (question.answerOptions || []).find(
               (opt) => opt.isCorrect
             );
-            const normalizeRaw = (val2) => {
-              if (val2 === null || val2 === void 0) return "";
-              return String(val2).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+            const normalizeRaw = (val) => {
+              if (val === null || val === void 0) return "";
+              return String(val).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
             };
             const numericValue = (raw) => {
               const s = normalizeRaw(raw);
@@ -34945,7 +35694,7 @@ function GraphingTool({ onExit }) {
       setError(e.message || "Could not plot equation.");
     }
   };
-  const handleClear = () => {
+  const handleClear2 = () => {
     clearPlottedObjects();
     setError("");
     setTableData([]);
@@ -35061,7 +35810,7 @@ function GraphingTool({ onExit }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
-            onClick: handleClear,
+            onClick: handleClear2,
             className: "w-full p-2 mt-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition",
             children: "Clear All"
           }
@@ -35401,4 +36150,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-DPA7Wvwh.js.map
+//# sourceMappingURL=main-B8DRLCHG.js.map
