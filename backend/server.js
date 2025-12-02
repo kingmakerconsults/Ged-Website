@@ -4218,8 +4218,8 @@ async function buildProfileBundle(userId) {
   let profileRow = null;
   try {
     const columnList = hasNameColumn
-      ? 'user_id, name, timezone, reminder_enabled, font_size, onboarding_complete'
-      : 'user_id, timezone, reminder_enabled, font_size, onboarding_complete';
+      ? 'user_id, name, timezone, reminder_enabled, font_size, onboarding_complete, icon'
+      : 'user_id, timezone, reminder_enabled, font_size, onboarding_complete, icon';
     const result = await db.query(
       `SELECT ${columnList} FROM profiles WHERE user_id = $1`,
       [userId]
@@ -4357,6 +4357,7 @@ async function buildProfileBundle(userId) {
           : true,
       fontSize: profileData.font_size,
       onboardingComplete: !!profileData.onboarding_complete,
+      icon: profileData.icon || '/icons/student-svgrepo-com.svg',
     },
     // Both testPlan (normalized for UI) and raw tests for debugging/compat
     testPlan,
@@ -4692,6 +4693,7 @@ const defaultOrigins = [
   'https://ezged.netlify.app',
   'https://quiz.ez-ged.com',
   'http://localhost:8000', // For local testing
+  'http://localhost:5173', // Vite dev server
 ];
 
 const allowedOrigins = process.env.CORS_ORIGINS

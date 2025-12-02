@@ -34,6 +34,10 @@ function ProfileView({
   onCompleteLater,
   finishingOnboarding,
   onboardingComplete,
+  selectedIcon,
+  onIconChange,
+  onSaveIcon,
+  iconSaving,
 }) {
   const profile = data?.profile || {};
   const challengeOptions = Array.isArray(data?.challengeOptions)
@@ -183,7 +187,7 @@ function ProfileView({
             <h1 className="text-3xl font-bold text-white drop-shadow-sm">
               Profile
             </h1>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-500 dark:text-slate-300">
               Update your learning plan and keep your information in sync.
             </p>
           </div>
@@ -292,7 +296,7 @@ function ProfileView({
                 onChange={(event) => onNameDraftChange(event.target.value)}
                 maxLength={80}
                 placeholder="Your name"
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                className="w-full rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2 text-base text-slate-900 dark:text-slate-100 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
               />
             </label>
             <button
@@ -303,10 +307,12 @@ function ProfileView({
               {nameSaving ? 'Saving…' : 'Save Name'}
             </button>
           </div>
-          <p className="text-xs text-slate-500">Maximum 80 characters.</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Maximum 80 characters.
+          </p>
           {nameStatus && (
             <p
-              className="text-sm text-slate-600"
+              className="text-sm text-slate-600 dark:text-slate-300"
               role="status"
               aria-live="polite"
             >
@@ -314,6 +320,116 @@ function ProfileView({
             </p>
           )}
         </form>
+
+        {/* Avatar Icon Selection */}
+        <section
+          className="rounded-2xl border bg-white/95 dark:bg-slate-950/70 dark:border-slate-700 p-5 shadow-sm space-y-4 border-slate-200"
+          aria-labelledby="profile-icon-heading"
+        >
+          <div>
+            <h2
+              id="profile-icon-heading"
+              className="text-xl font-semibold text-slate-800 dark:text-slate-100"
+            >
+              Avatar Icon
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-300">
+              Choose an icon that represents you.
+            </p>
+          </div>
+          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
+            {[
+              {
+                name: 'student',
+                path: '/icons/student-svgrepo-com.svg',
+                label: 'Student',
+              },
+              {
+                name: 'book',
+                path: '/icons/book-closed-svgrepo-com.svg',
+                label: 'Book',
+              },
+              {
+                name: 'read',
+                path: '/icons/read-svgrepo-com.svg',
+                label: 'Reading',
+              },
+              {
+                name: 'pencil',
+                path: '/icons/pencil-svgrepo-com.svg',
+                label: 'Pencil',
+              },
+              {
+                name: 'writing',
+                path: '/icons/writing-svgrepo-com.svg',
+                label: 'Writing',
+              },
+              {
+                name: 'knowledge',
+                path: '/icons/knowledge-svgrepo-com.svg',
+                label: 'Knowledge',
+              },
+              {
+                name: 'math',
+                path: '/icons/math-svgrepo-com.svg',
+                label: 'Math',
+              },
+              {
+                name: 'science',
+                path: '/icons/double-helix-svgrepo-com.svg',
+                label: 'Science',
+              },
+            ].map((icon) => (
+              <button
+                key={icon.name}
+                type="button"
+                onClick={() => onIconChange && onIconChange(icon.path)}
+                className={`relative rounded-lg p-3 border-2 transition-all hover:scale-105 ${
+                  selectedIcon === icon.path
+                    ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/30'
+                    : 'border-slate-300 dark:border-slate-600 hover:border-sky-300'
+                }`}
+                aria-label={`Select ${icon.label} icon`}
+                title={icon.label}
+              >
+                <img
+                  src={icon.path}
+                  alt={icon.label}
+                  className="w-full h-auto"
+                  style={{
+                    filter:
+                      selectedIcon === icon.path ? 'none' : 'opacity(0.7)',
+                  }}
+                />
+                {selectedIcon === icon.path && (
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-sky-500 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-3 h-3 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+          {onSaveIcon && (
+            <button
+              type="button"
+              onClick={onSaveIcon}
+              className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-60"
+              disabled={iconSaving}
+            >
+              {iconSaving ? 'Saving…' : 'Save Icon'}
+            </button>
+          )}
+        </section>
 
         <div className="grid gap-4 md:grid-cols-2">
           <section
@@ -360,13 +476,13 @@ function ProfileView({
             </h2>
             <div
               id="nextUpcomingSummary"
-              className="note text-sm text-slate-600"
+              className="note text-sm text-slate-600 dark:text-slate-300"
             >
               {nextUpcomingSummary}
             </div>
             <div id="testPlanList" className="grid gap-4 md:grid-cols-2">
               {normalizedTestPlan.length === 0 ? (
-                <p className="col-span-full text-sm text-slate-500">
+                <p className="col-span-full text-sm text-slate-500 dark:text-slate-400">
                   No subjects available yet.
                 </p>
               ) : (
@@ -483,15 +599,15 @@ function ProfileView({
                           : `Save ${entry.subject}`}
                       </button>
                       {edits.passed ? (
-                        <p className="text-xs text-emerald-600">
+                        <p className="text-xs text-emerald-600 dark:text-emerald-400">
                           Great job! We marked this subject as passed.
                         </p>
                       ) : isNotScheduled ? (
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
                           We'll remind you to set a date when you're ready.
                         </p>
                       ) : countdownLabel ? (
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
                           {countdownLabel}
                         </p>
                       ) : null}
@@ -500,7 +616,7 @@ function ProfileView({
                 })
               )}
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Dates saved here will also appear on your dashboard.
             </p>
           </section>
@@ -509,7 +625,7 @@ function ProfileView({
             <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
               Preferences Snapshot
             </h2>
-            <dl className="space-y-2 text-sm text-slate-600">
+            <dl className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
               <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 pref-row dark:bg-slate-900/70">
                 <dt className="font-medium text-slate-700 dark:text-slate-100">
                   Font Size
@@ -537,7 +653,7 @@ function ProfileView({
                 <dd className="dark:text-slate-100">{reminderLabel}</dd>
               </div>
             </dl>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Adjust these settings anytime from the Settings panel.
             </p>
           </article>

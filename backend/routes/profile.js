@@ -560,6 +560,41 @@ router.patch('/name', express.json(), async (req, res) => {
   }
 });
 
+// PATCH /api/profile/icon
+// Body: { icon: "/icons/student-svgrepo-com.svg" }
+// Updates profiles.icon, returns { icon }
+router.patch('/icon', express.json(), async (req, res) => {
+  try {
+    const userId = req.user?.userId ?? req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Not signed in' });
+    }
+
+    if (!(await assertUserIsActive(userId))) {
+      return res.status(403).json({ error: 'user_not_active' });
+    }
+
+    await ensureProfileRow(userId);
+
+    const rawIcon = req.body?.icon;
+    const icon = (rawIcon || '').toString().trim();
+    if (!icon || !icon.startsWith('/icons/')) {
+      return res.status(400).json({ error: 'Invalid icon path' });
+    }
+
+    console.log('[PATCH] /api/profile/icon', { userId, icon });
+    await pool.query(
+      'UPDATE profiles SET icon = $1, updated_at = NOW() WHERE user_id = $2',
+      [icon, userId]
+    );
+
+    return res.json({ icon });
+  } catch (err) {
+    console.error('PATCH /api/profile/icon failed:', err);
+    return res.status(500).json({ error: 'Failed to save icon' });
+  }
+});
+
 // PATCH /api/profile/test
 // Body: { subject, testDate, testLocation, passed, notScheduled }
 // Upserts into test_plans, then returns the full profile bundle again.

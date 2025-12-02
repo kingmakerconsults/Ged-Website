@@ -1350,6 +1350,24 @@ h3 {
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
   color: var(--text-color);
 }
+/* Unified dark-mode card/panel recipe */
+[data-theme='dark'] .content-card,
+[data-theme='dark'] .panel,
+[data-theme='dark'] .card,
+[data-theme='dark'] .box,
+[data-theme='dark'] .dashboard-sections,
+[data-theme='dark'] .dashboard-row,
+[data-theme='dark'] .section,
+[data-theme='dark'] .section-container,
+[data-theme='dark'] .quiz-section,
+[data-theme='dark'] .vocabulary-ticker {
+  background-color: #1e293b !important;
+  background: linear-gradient(135deg, #1e293b, #0f172a) !important;
+  border: 1px solid rgba(51, 65, 85, 0.4);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: var(--text-color);
+}
 /* top bar / header strip */
 [data-theme='light'] .section-header,
 [data-theme='light'] header.dashboard-header,

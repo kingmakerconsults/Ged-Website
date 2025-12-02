@@ -885,6 +885,25 @@ h3 {
   color: var(--text-color);
 }
 
+/* Unified dark-mode card/panel recipe */
+[data-theme='dark'] .content-card,
+[data-theme='dark'] .panel,
+[data-theme='dark'] .card,
+[data-theme='dark'] .box,
+[data-theme='dark'] .dashboard-sections,
+[data-theme='dark'] .dashboard-row,
+[data-theme='dark'] .section,
+[data-theme='dark'] .section-container,
+[data-theme='dark'] .quiz-section,
+[data-theme='dark'] .vocabulary-ticker {
+  background-color: #1e293b !important;
+  background: linear-gradient(135deg, #1e293b, #0f172a) !important;
+  border: 1px solid rgba(51, 65, 85, 0.4);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: var(--text-color);
+}
+
 /* top bar / header strip */
 [data-theme='light'] .section-header,
 [data-theme='light'] header.dashboard-header,
@@ -1131,6 +1150,30 @@ h3 {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #334155;
+  opacity: 0.9;
+}
+
+/* Dark mode typography: light text on dark backgrounds */
+[data-theme='dark'] .section-title,
+[data-theme='dark'] .panel-title,
+[data-theme='dark'] .settings-title {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  color: #f1f5f9; /* slate-100 */
+  text-shadow: none;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(148, 163, 184, 0.25);
+  padding-bottom: 0.4rem;
+}
+
+[data-theme='dark'] .overline,
+[data-theme='dark'] .label-lite {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #cbd5e1; /* slate-300 */
   opacity: 0.9;
 }
 
@@ -2334,30 +2377,63 @@ h3 {
 [data-theme='light'] .text-admin-subtle {
   color: #475569;
 }
-[data-theme='dark'] #settingsView * {
-  color: #ffffff;
+/* Settings page dark mode: softer backgrounds with proper contrast */
+[data-theme='dark'] #settingsView {
+  background-color: #0f172a; /* slate-900 instead of pure black */
 }
 
-/* force the actual settings containers to go fully black in dark mode */
+[data-theme='dark'] #settingsView h1,
+[data-theme='dark'] #settingsView h2,
+[data-theme='dark'] #settingsView h3 {
+  color: #f1f5f9; /* slate-100 - bright headings */
+}
+
+[data-theme='dark'] #settingsView p,
+[data-theme='dark'] #settingsView label,
+[data-theme='dark'] #settingsView li,
+[data-theme='dark'] #settingsView dt,
+[data-theme='dark'] #settingsView dd,
+[data-theme='dark'] #settingsView span {
+  color: #cbd5e1; /* slate-300 - readable body text */
+}
+
+/* Settings containers: slightly lighter than page background */
 [data-theme='dark'] #settingsView .settings-panel,
 [data-theme='dark'] #settingsView .settings-card,
 [data-theme='dark'] #settingsView .settings-section {
-  background-color: #000000;
-  border-color: rgba(148, 163, 184, 0.45);
+  background-color: #1e293b; /* slate-800 - visible against slate-900 */
+  border-color: rgba(148, 163, 184, 0.25);
 }
 
 /* radio/option “pills” in dark mode need the dark background too */
 [data-theme='dark'] #settingsView .option-pill,
 [data-theme='dark'] #settingsView label[for*='font'],
 [data-theme='dark'] #settingsView label[for*='theme'] {
-  background-color: rgba(15, 23, 42, 0.55);
+  background-color: #334155; /* slate-700 - clear hover target */
+  color: #f1f5f9; /* slate-100 */
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+/* Checked state for radio options */
+[data-theme='dark'] #settingsView label:has(input[type='radio']:checked) {
+  background-color: #475569; /* slate-600 - selected state */
+  border-color: rgba(148, 163, 184, 0.5);
   color: #ffffff;
 }
 
-/* stop the white page from showing behind settings in dark mode */
-[data-theme='dark'] #settingsView {
-  background-color: #000000;
+/* Settings header button */
+[data-theme='dark'] #settingsView .settings-header button {
+  background-color: #334155; /* slate-700 */
+  color: #f1f5f9; /* slate-100 */
+  border: 1px solid rgba(148, 163, 184, 0.3);
 }
+
+[data-theme='dark'] #settingsView .settings-header button:hover:not(:disabled) {
+  background-color: #475569; /* slate-600 */
+}
+
+/* stop the white page from showing behind settings in dark mode */
+/* (removed - duplicate declaration, handled above) */
 
 /* Profile: dark mode panels and text */
 [data-theme='dark'] #profileView article,
@@ -2371,6 +2447,22 @@ h3 {
 [data-theme='dark'] #profileView .pref-row {
   background-color: rgba(30, 41, 59, 0.7); /* slate-800-ish */
   color: #ffffff;
+}
+
+/* Ensure ALL text in profile view is light in dark mode */
+[data-theme='dark'] #profileView h1,
+[data-theme='dark'] #profileView h2,
+[data-theme='dark'] #profileView h3,
+[data-theme='dark'] #profileView h4,
+[data-theme='dark'] #profileView h5,
+[data-theme='dark'] #profileView h6,
+[data-theme='dark'] #profileView p,
+[data-theme='dark'] #profileView label,
+[data-theme='dark'] #profileView span,
+[data-theme='dark'] #profileView div,
+[data-theme='dark'] #profileView .text-slate-800,
+[data-theme='dark'] #profileView .text-slate-600 {
+  color: #f1f5f9 !important; /* slate-100 */
 }
 
 /* make the toggle (Show / Hide) consistent in both modes */

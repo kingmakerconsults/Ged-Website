@@ -196,7 +196,7 @@ export function TI30XSCalculator({ onClose }) {
     span = 1,
   }) => {
     const baseStyle =
-      'h-11 text-sm font-semibold rounded-lg shadow-md active:scale-95 active:shadow-sm transition-all flex flex-col items-center justify-center calc-btn leading-tight py-1';
+      'h-9 text-xs font-semibold rounded-lg shadow-md active:scale-95 active:shadow-sm transition-all flex flex-col items-center justify-center calc-btn leading-none py-0.5 px-1 overflow-hidden';
     const colorStyles = {
       green:
         'bg-gradient-to-b from-[#4a8b73] to-[#3a7563] text-white border-b-[3px] border-[#2f594a] hover:from-[#5a9b83] hover:to-[#4a8b73]',
@@ -321,28 +321,28 @@ export function TI30XSCalculator({ onClose }) {
           </div>
 
           {/* Keypad Grid: 4 cols */}
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-4 gap-2">
             {/* Top Control Row: small buttons */}
             <button
-              className="h-8 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-[#4a8b73] text-white"
+              className="h-7 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-[#4a8b73] text-white"
               onClick={() => setIsSecond(!isSecond)}
             >
               2nd
             </button>
             <button
-              className="h-8 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-slate-700 text-white"
+              className="h-7 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-slate-700 text-white"
               onClick={toggleMode}
             >
               mode
             </button>
             <button
-              className="h-8 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-slate-700 text-white"
+              className="h-7 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-slate-700 text-white"
               onClick={handleDelete}
             >
               del
             </button>
             <button
-              className="h-8 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-slate-900 text-white"
+              className="h-7 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-slate-900 text-white"
               onClick={handleClear}
             >
               clear
@@ -352,38 +352,38 @@ export function TI30XSCalculator({ onClose }) {
             <CalcBtn
               label={
                 <>
-                  <span className="text-green-400 text-[8px]">e^x</span>
+                  <span className="text-green-400 text-[7px]">e^x</span>
                   <br />
                   log
                 </>
               }
               color="gray"
-              className="text-[10px]"
+              className="text-[9px]"
             />
             <CalcBtn
               label={
                 <>
-                  <span className="text-green-400 text-[8px]">LRN</span>
+                  <span className="text-green-400 text-[7px]">LRN</span>
                   <br />
                   prb
                 </>
               }
               color="gray"
-              className="text-[9px]"
+              className="text-[8px]"
             />
             <CalcBtn
               label={
                 <>
-                  <span className="text-green-400 text-[8px]">stat</span>
+                  <span className="text-green-400 text-[7px]">stat</span>
                   <br />
                   data
                 </>
               }
               color="gray"
-              className="text-[9px]"
+              className="text-[8px]"
             />
             <div className="col-span-2">
-              <div className="relative w-full h-16 bg-slate-700 rounded-full border-2 border-slate-800 shadow-md">
+              <div className="relative w-full h-14 bg-slate-700 rounded-full border-2 border-slate-800 shadow-md">
                 <button
                   aria-label="up"
                   className="absolute top-0 left-1/2 -translate-x-1/2 h-1/2 w-1/3 bg-transparent"
@@ -411,42 +411,42 @@ export function TI30XSCalculator({ onClose }) {
             <CalcBtn
               label={
                 <>
-                  <span className="text-green-400 text-[8px]">10^x</span>
+                  <span className="text-green-400 text-[7px]">10^x</span>
                   <br />
                   ln
-                </>
-              }
-              color="gray"
-              className="text-[10px]"
-            />
-            <CalcBtn
-              label={
-                <>
-                  <span className="text-green-400 text-[8px]">n/d</span>
-                  <br />
-                  <span className="text-sm"></span>
-                  <sub className="text-[8px]">d</sub>
-                </>
-              }
-              color="gray"
-              className="text-[10px]"
-            />
-            <CalcBtn
-              label={
-                <>
-                  <span className="text-green-400 text-[8px]">10^n</span>
-                  <br />
-                  10<sup className="text-[8px]">n</sup>
                 </>
               }
               color="gray"
               className="text-[9px]"
             />
             <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[7px]">n/d</span>
+                  <br />
+                  <span className="text-xs"></span>
+                  <sub className="text-[7px]">d</sub>
+                </>
+              }
+              color="gray"
+              className="text-[9px]"
+            />
+            <CalcBtn
+              label={
+                <>
+                  <span className="text-green-400 text-[7px]">10^n</span>
+                  <br />
+                  10<sup className="text-[7px]">n</sup>
+                </>
+              }
+              color="gray"
+              className="text-[8px]"
+            />
+            <CalcBtn
               label=""
               color="black"
               onClick={() => handlePress('')}
-              className="text-lg font-bold"
+              className="text-base font-bold"
             />
 
             {/* Row 4 */}
@@ -455,50 +455,50 @@ export function TI30XSCalculator({ onClose }) {
                 <>
                   <span>π</span>
                   <br />
-                  <span className="text-green-400 text-[7px]">
-                    x<sup className="text-[7px]">π</sup>
+                  <span className="text-green-400 text-[6px]">
+                    x<sup className="text-[6px]">π</sup>
                   </span>
                 </>
               }
               color="gray"
               onClick={() => handlePress('π')}
-              className="text-base"
+              className="text-sm"
             />
             <CalcBtn
               label={
                 <>
                   <span>sin</span>
                   <br />
-                  <span className="text-green-400 text-[7px]">sin</span>
+                  <span className="text-green-400 text-[6px]">sin</span>
                 </>
               }
               color="gray"
               onClick={() => handleFunction('sin')}
-              className="text-[11px]"
+              className="text-[10px]"
             />
             <CalcBtn
               label={
                 <>
                   <span>cos</span>
                   <br />
-                  <span className="text-green-400 text-[7px]">cos</span>
+                  <span className="text-green-400 text-[6px]">cos</span>
                 </>
               }
               color="gray"
               onClick={() => handleFunction('cos')}
-              className="text-[11px]"
+              className="text-[10px]"
             />
             <CalcBtn
               label={
                 <>
                   <span>tan</span>
                   <br />
-                  <span className="text-green-400 text-[7px]">tan</span>
+                  <span className="text-green-400 text-[6px]">tan</span>
                 </>
               }
               color="gray"
               onClick={() => handleFunction('tan')}
-              className="text-[11px]"
+              className="text-[10px]"
             />
 
             {/* Row 5 */}
@@ -517,26 +517,26 @@ export function TI30XSCalculator({ onClose }) {
               label={
                 <>
                   <span>
-                    x<sup className="text-[8px]">-1</sup>
+                    x<sup className="text-[7px]">-1</sup>
                   </span>
                   <br />
-                  <span className="text-green-400 text-[7px]">nCr/nPr</span>
+                  <span className="text-green-400 text-[6px]">nCr/nPr</span>
                 </>
               }
               color="gray"
-              className="text-[11px]"
+              className="text-[9px]"
             />
             <CalcBtn
               label="("
               color="gray"
               onClick={() => handlePress('(')}
-              className="text-xl"
+              className="text-lg"
             />
             <CalcBtn
               label=")"
               color="gray"
               onClick={() => handlePress(')')}
-              className="text-xl"
+              className="text-lg"
             />
 
             {/* Row 6 */}
@@ -544,51 +544,51 @@ export function TI30XSCalculator({ onClose }) {
               label={
                 <>
                   <span>
-                    x<sup className="text-[8px]">2</sup>
+                    x<sup className="text-[7px]">2</sup>
                   </span>
                   <br />
-                  <span className="text-green-400 text-[7px]"></span>
+                  <span className="text-green-400 text-[6px]"></span>
                 </>
               }
               color="gray"
               onClick={() => handlePress('^2')}
-              className="text-base"
+              className="text-sm"
             />
-            <CalcBtn label="7" color="white" className="text-xl font-bold" />
-            <CalcBtn label="8" color="white" className="text-xl font-bold" />
-            <CalcBtn label="9" color="white" className="text-xl font-bold" />
+            <CalcBtn label="7" color="white" className="text-lg font-bold" />
+            <CalcBtn label="8" color="white" className="text-lg font-bold" />
+            <CalcBtn label="9" color="white" className="text-lg font-bold" />
 
             {/* Row 7 */}
             <CalcBtn
               label={
                 <>
-                  <span className="text-[8px]">clear var</span>
+                  <span className="text-[6px]">clear var</span>
                   <br />
-                  <span className="text-lg">x abc</span>
+                  <span className="text-sm">x abc</span>
                 </>
               }
               color="gray"
-              className="text-[9px]"
+              className="text-[8px]"
             />
-            <CalcBtn label="4" color="white" className="text-xl font-bold" />
-            <CalcBtn label="5" color="white" className="text-xl font-bold" />
-            <CalcBtn label="6" color="white" className="text-xl font-bold" />
+            <CalcBtn label="4" color="white" className="text-lg font-bold" />
+            <CalcBtn label="5" color="white" className="text-lg font-bold" />
+            <CalcBtn label="6" color="white" className="text-lg font-bold" />
 
             {/* Row 8 */}
             <CalcBtn
               label={
                 <>
-                  <span className="text-[8px]">recall</span>
+                  <span className="text-[7px]">recall</span>
                   <br />
                   sto
                 </>
               }
               color="gray"
-              className="text-[10px]"
+              className="text-[9px]"
             />
-            <CalcBtn label="1" color="white" className="text-xl font-bold" />
-            <CalcBtn label="2" color="white" className="text-xl font-bold" />
-            <CalcBtn label="3" color="white" className="text-xl font-bold" />
+            <CalcBtn label="1" color="white" className="text-lg font-bold" />
+            <CalcBtn label="2" color="white" className="text-lg font-bold" />
+            <CalcBtn label="3" color="white" className="text-lg font-bold" />
 
             {/* Bottom Row */}
             <CalcBtn
@@ -596,20 +596,16 @@ export function TI30XSCalculator({ onClose }) {
                 <>
                   <span>on</span>
                   <br />
-                  <span className="text-[8px]">reset</span>
+                  <span className="text-[7px]">reset</span>
                 </>
               }
               color="gray"
-              className="text-[10px]"
+              className="text-[9px]"
             />
             <div className="col-span-2">
-              <CalcBtn label="0" color="white" className="text-xl font-bold" />
+              <CalcBtn label="0" color="white" className="text-lg font-bold" />
             </div>
-            <CalcBtn
-              label="."
-              color="white"
-              className="text-2xl font-bold pb-2"
-            />
+            <CalcBtn label="." color="white" className="text-xl font-bold" />
             <div className="row-span-2">
               <CalcBtn
                 label="enter"

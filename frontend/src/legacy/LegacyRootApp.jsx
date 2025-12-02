@@ -23144,8 +23144,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
           <button
             type="button"
             onClick={onDismiss}
-            className="absolute right-4 top-4 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-            style={{ color: 'var(--text-secondary)' }}
+            className="absolute right-4 top-4 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100"
             aria-label="Close name prompt"
           >
             <svg
@@ -23162,13 +23161,10 @@ function NamePromptModal({ user, onSave, onDismiss }) {
             </svg>
           </button>
         )}
-        <h2
-          className="mb-4 text-2xl font-bold"
-          style={{ color: 'var(--text-primary)' }}
-        >
+        <h2 className="mb-4 text-2xl font-bold text-slate-800 dark:text-slate-100">
           Welcome! Let's set up your name.
         </h2>
-        <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
+        <p className="mb-6 text-slate-600 dark:text-slate-300">
           Please confirm your name below. This will be used to personalize your
           experience.
         </p>
@@ -23176,8 +23172,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
           <div>
             <label
               htmlFor="firstName"
-              className="block text-sm font-medium"
-              style={{ color: 'var(--text-secondary)' }}
+              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
             >
               First Name
             </label>
@@ -23186,19 +23181,13 @@ function NamePromptModal({ user, onSave, onDismiss }) {
               id="firstName"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none"
-              style={{
-                backgroundColor: 'var(--bg-surface)',
-                border: `1px solid var(--border-subtle)`,
-                color: 'var(--text-primary)',
-              }}
+              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100"
             />
           </div>
           <div>
             <label
               htmlFor="lastName"
-              className="block text-sm font-medium"
-              style={{ color: 'var(--text-secondary)' }}
+              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
             >
               Last Name
             </label>
@@ -23207,12 +23196,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
               id="lastName"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none"
-              style={{
-                backgroundColor: 'var(--bg-surface)',
-                border: `1px solid var(--border-subtle)`,
-                color: 'var(--text-primary)',
-              }}
+              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100"
             />
           </div>
         </div>
@@ -23233,12 +23217,8 @@ function NamePromptModal({ user, onSave, onDismiss }) {
             <button
               type="button"
               onClick={onDismiss}
-              className="w-full rounded-lg px-6 py-3 font-semibold transition"
+              className="w-full rounded-lg px-6 py-3 font-semibold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
               data-role="secondary"
-              style={{
-                color: 'var(--text-secondary)',
-                borderColor: 'var(--border-subtle)',
-              }}
             >
               Skip for now
             </button>
@@ -23781,6 +23761,10 @@ function App({ externalTheme, onThemeChange }) {
   const [nameDraft, setNameDraft] = useState('');
   const [nameStatus, setNameStatus] = useState('');
   const [nameSaving, setNameSaving] = useState(false);
+  const [selectedIcon, setSelectedIcon] = useState(
+    '/icons/student-svgrepo-com.svg'
+  );
+  const [iconSaving, setIconSaving] = useState(false);
   const [settingsStatus, setSettingsStatus] = useState('');
   const [settingsSaving, setSettingsSaving] = useState(false);
   const [onboardingComplete, setOnboardingComplete] = useState(
@@ -24623,6 +24607,54 @@ function App({ externalTheme, onThemeChange }) {
     },
     [nameDraft, saveDisplayName, authToken]
   );
+
+  const handleSaveIcon = useCallback(async () => {
+    if (!selectedIcon) {
+      return;
+    }
+    setIconSaving(true);
+    const token =
+      authToken ||
+      (typeof window !== 'undefined' && window.localStorage
+        ? window.localStorage.getItem('appToken')
+        : null);
+    if (token) {
+      try {
+        const resp = await fetchJSON(`${API_BASE_URL}/api/profile/icon`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ icon: selectedIcon }),
+        });
+        setLocalProfile((prev) => ({
+          ...prev,
+          profile: { ...prev.profile, icon: selectedIcon },
+        }));
+        setCurrentUser((prev) =>
+          prev ? { ...prev, picture: selectedIcon } : prev
+        );
+        setIconSaving(false);
+        return;
+      } catch (err) {
+        console.warn('Server icon save failed; falling back to local:', err);
+      }
+    }
+    // Local fallback
+    setLocalProfile((prev) => ({
+      ...prev,
+      profile: { ...prev.profile, icon: selectedIcon },
+    }));
+    setIconSaving(false);
+  }, [selectedIcon, authToken]);
+
+  useEffect(() => {
+    const iconFromProfile = localProfile?.profile?.icon || currentUser?.picture;
+    if (iconFromProfile && iconFromProfile.startsWith('/icons/')) {
+      setSelectedIcon(iconFromProfile);
+    }
+  }, [localProfile?.profile?.icon, currentUser?.picture]);
 
   const handleProfileRefresh = useCallback(async () => {
     await loadProfileOnce();
@@ -25972,6 +26004,10 @@ function App({ externalTheme, onThemeChange }) {
               onCompleteLater={handleCompleteOnboardingLater}
               finishingOnboarding={finishingOnboarding}
               onboardingComplete={onboardingComplete}
+              selectedIcon={selectedIcon}
+              onIconChange={setSelectedIcon}
+              onSaveIcon={handleSaveIcon}
+              iconSaving={iconSaving}
             />
           );
         }
@@ -26442,17 +26478,18 @@ function ProfileView({
 
         {!onboardingComplete && (
           <div
-            className="onboarding-banner"
+            className="onboarding-banner text-slate-900"
             style={{
               border: '1px solid #f6c',
               background: '#fff0f6',
               padding: '1rem',
               borderRadius: '0.5rem',
+              color: '#0f172a',
             }}
           >
             <strong>Welcome!</strong> Before we start, fill this out so we can
             build you a plan:
-            <ol className="list-decimal pl-5 text-sm text-secondary space-y-1 mt-2">
+            <ol className="list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2">
               <li>Pick the areas you struggle with</li>
               <li>Set your test date (or mark "I passed")</li>
               <li>Choose a display name</li>
@@ -26471,7 +26508,7 @@ function ProfileView({
                 id="completeLaterBtn"
                 type="button"
                 onClick={onCompleteLater}
-                className="inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold"
+                className="inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold text-slate-900"
                 aria-label="Skip onboarding for now"
               >
                 Complete Later
@@ -27175,10 +27212,10 @@ function SettingsView({
           className="settings-panel rounded-2xl panel-surface p-5 shadow-sm space-y-6"
         >
           <fieldset className="space-y-3 settings-section">
-            <legend className="text-lg font-semibold text-primary">
+            <legend className="text-lg font-semibold text-primary dark:text-white">
               Font Size
             </legend>
-            <p className="text-sm text-muted">
+            <p className="text-sm text-muted dark:text-white">
               Pick the text size that feels comfortable on your device.
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
@@ -27211,10 +27248,10 @@ function SettingsView({
           </fieldset>
 
           <fieldset className="space-y-3 settings-section">
-            <legend className="text-lg font-semibold text-primary">
+            <legend className="text-lg font-semibold text-primary dark:text-white">
               Color Mode
             </legend>
-            <p className="text-sm text-muted">
+            <p className="text-sm text-muted dark:text-white">
               Choose between light and dark themes. Well remember your pick.
             </p>
             <div className="grid gap-2 sm:grid-cols-2">
@@ -27422,8 +27459,10 @@ function AuthScreen({ onLogin }) {
   return (
     <>
       <div className="text-center max-w-md mx-auto">
-        <h2 className="text-3xl font-extrabold text-primary mb-2">Welcome!</h2>
-        <p className="text-muted mb-6">
+        <h2 className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-2">
+          Welcome!
+        </h2>
+        <p className="text-slate-600 dark:text-slate-300 mb-6">
           Sign in to save your progress across devices.
         </p>
         <form
@@ -27433,7 +27472,7 @@ function AuthScreen({ onLogin }) {
           <div>
             <label
               htmlFor="auth-email"
-              className="block text-sm font-medium text-secondary"
+              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
             >
               Email
             </label>
@@ -27442,7 +27481,7 @@ function AuthScreen({ onLogin }) {
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 text-primary shadow-sm focus-ring-primary focus:border-primary"
+              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 text-slate-900 dark:text-slate-100 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary"
               autoComplete="email"
               placeholder="you@example.com"
               required
@@ -27451,7 +27490,7 @@ function AuthScreen({ onLogin }) {
           <div>
             <label
               htmlFor="auth-password"
-              className="block text-sm font-medium text-secondary"
+              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
             >
               Password
             </label>
@@ -27460,7 +27499,7 @@ function AuthScreen({ onLogin }) {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 text-primary shadow-sm focus-ring-primary focus:border-primary"
+              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 text-slate-900 dark:text-slate-100 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary"
               autoComplete={
                 mode === 'login' ? 'current-password' : 'new-password'
               }
@@ -27478,12 +27517,12 @@ function AuthScreen({ onLogin }) {
             {submitting ? 'Please wait' : modeLabel}
           </button>
         </form>
-        <p className="mt-3 text-sm text-secondary">
+        <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
           {mode === 'login' ? 'Need an account?' : 'Already have an account?'}{' '}
           <button
             type="button"
             onClick={toggleMode}
-            className="font-semibold text-info hover:text-primary"
+            className="font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300"
           >
             {mode === 'login' ? 'Register' : 'Log in'}
           </button>
@@ -27537,20 +27576,32 @@ function AuthScreen({ onLogin }) {
                     type="button"
                     onClick={async () => {
                       try {
-                        const response = await fetch(
-                          'http://localhost:3002/api/dev-login-as',
-                          {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ role }),
-                          }
-                        );
+                        console.log('[DEV] Attempting login as:', role);
+                        const response = await fetch('/api/dev-login-as', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ role }),
+                        });
+                        console.log('[DEV] Response status:', response.status);
                         const data = await response.json();
+                        console.log('[DEV] Response data:', data);
                         if (data.ok) {
+                          console.log(
+                            '[DEV] Calling onLogin with:',
+                            data.user,
+                            data.token
+                          );
                           onLogin(data.user, data.token);
+                        } else {
+                          console.error('[DEV] Login failed:', data);
+                          alert(
+                            'Dev login failed: ' +
+                              (data.error || 'Unknown error')
+                          );
                         }
                       } catch (error) {
                         console.error('Dev login error:', error);
+                        alert('Dev login error: ' + error.message);
                       }
                     }}
                     className={`px-3 py-2 text-xs font-semibold text-white rounded-lg transition ${color}`}
@@ -32699,7 +32750,19 @@ function StartScreen({
         <header className="text-center pb-4 mb-4">
           {currentUser ? (
             <div className="flex flex-col items-center gap-2">
-              {currentUser.picture ? (
+              {currentUser.picture &&
+              currentUser.picture.startsWith('/icons/') ? (
+                <div className="w-16 h-16 rounded-full bg-sky-600 text-white flex items-center justify-center shadow-lg">
+                  <img
+                    src={currentUser.picture}
+                    alt="User avatar"
+                    className="w-10 h-10"
+                    style={{
+                      filter: 'brightness(0) saturate(100%) invert(100%)',
+                    }}
+                  />
+                </div>
+              ) : currentUser.picture ? (
                 <img
                   src={currentUser.picture}
                   alt="User"
@@ -32751,7 +32814,7 @@ function StartScreen({
           )}
         </header>
         {!onboardingComplete && !onboardingBannerHidden && (
-          <div className="mb-6 rounded-xl border border-amber-300 bg-amber-50 p-4 text-amber-900 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="mb-6 rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950 p-4 text-amber-900 dark:text-amber-100 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="space-y-1">
               <p className="font-semibold">
                 Finish setting up your learning plan
