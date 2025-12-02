@@ -17,7 +17,7 @@ export async function devLoginAs(role = 'student') {
   }
 
   try {
-    const response = await fetch('http://localhost:3002/api/dev-login-as', {
+    const response = await fetch('/api/dev-login-as', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
