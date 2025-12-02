@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-dSXff7ho.js";
+import { _ as __vitePreload } from "./index-BztTWOUd.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -4002,6 +4002,23 @@ const ALLOWED_HTML_ATTR = [
   "class"
 ];
 const ENTITY_DECODER = typeof document !== "undefined" ? document.createElement("textarea") : null;
+function stripHtmlTag(input) {
+  if (input == null) return "";
+  const value = String(input);
+  if (!/[<>]/.test(value)) {
+    if (ENTITY_DECODER) {
+      ENTITY_DECODER.innerHTML = value;
+      return ENTITY_DECODER.value;
+    }
+    return value;
+  }
+  const withoutTags = value.replace(/<[^>]*>/g, "");
+  if (ENTITY_DECODER) {
+    ENTITY_DECODER.innerHTML = withoutTags;
+    return ENTITY_DECODER.value;
+  }
+  return withoutTags;
+}
 function collapseSplitLatexCommands(source) {
   if (typeof source !== "string" || source.length === 0) {
     return source;
@@ -25728,17 +25745,18 @@ function ProfileView({
         !onboardingComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "div",
           {
-            className: "onboarding-banner",
+            className: "onboarding-banner text-slate-900",
             style: {
               border: "1px solid #f6c",
               background: "#fff0f6",
               padding: "1rem",
-              borderRadius: "0.5rem"
+              borderRadius: "0.5rem",
+              color: "#0f172a"
             },
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Welcome!" }),
               " Before we start, fill this out so we can build you a plan:",
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("ol", { className: "list-decimal pl-5 text-sm text-secondary space-y-1 mt-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("ol", { className: "list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Pick the areas you struggle with" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: 'Set your test date (or mark "I passed")' }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Choose a display name" })
@@ -25761,7 +25779,7 @@ function ProfileView({
                     id: "completeLaterBtn",
                     type: "button",
                     onClick: onCompleteLater,
-                    className: "inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold",
+                    className: "inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold text-slate-900",
                     "aria-label": "Skip onboarding for now",
                     children: "Complete Later"
                   }
@@ -26313,8 +26331,8 @@ function SettingsView({
             className: "settings-panel rounded-2xl panel-surface p-5 shadow-sm space-y-6",
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("fieldset", { className: "space-y-3 settings-section", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "text-lg font-semibold text-primary", children: "Font Size" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted", children: "Pick the text size that feels comfortable on your device." }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "text-lg font-semibold text-primary dark:text-white", children: "Font Size" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted dark:text-white", children: "Pick the text size that feels comfortable on your device." }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid gap-2 sm:grid-cols-2", children: fontSizeOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "label",
                   {
@@ -26341,8 +26359,8 @@ function SettingsView({
                 )) })
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("fieldset", { className: "space-y-3 settings-section", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "text-lg font-semibold text-primary", children: "Color Mode" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted", children: "Choose between light and dark themes. Well remember your pick." }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { className: "text-lg font-semibold text-primary dark:text-white", children: "Color Mode" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted dark:text-white", children: "Choose between light and dark themes. Well remember your pick." }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid gap-2 sm:grid-cols-2", children: themeOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "label",
                   {
@@ -36513,4 +36531,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-BDkTvOVL.js.map
+//# sourceMappingURL=main-DsG3E2Ce.js.map
