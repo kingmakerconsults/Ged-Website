@@ -22961,8 +22961,8 @@ async function fetchJSON(url, options = {}) {
 // --- App Structure Components ---
 import SubjectCard from '../components/subject/SubjectCard.jsx';
 import SubjectToolsModal from '../components/SubjectToolsModal.jsx';
-import ConstitutionExplorer from '../components/social/ConstitutionExplorer.jsx';
-import EconomicsGraphTool from '../components/social/EconomicsGraphTool.jsx';
+import ConstitutionExplorer from '../tools/ConstitutionExplorer.jsx';
+import EconomicsGraphTool from '../tools/EconomicsGraphTool.jsx';
 
 function AppHeader({
   currentUser,
@@ -36475,6 +36475,29 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                   item={{ ...q, questionNumber: q.questionNumber ?? i + 1 }}
                 />
               </div>
+              {(() => {
+                const src = q.sourceMeta || {};
+                const subject = src.subject || q.subject || null;
+                const category = src.category || null;
+                const topic =
+                  src.topicTitle || src.topicId || q.topic || q.area || null;
+                const qnum = q.questionNumber || src.questionNumber || null;
+                const show =
+                  quiz?.title === 'Practice Session' ||
+                  quiz?.subject === 'Practice Session' ||
+                  Boolean(src.subject);
+                if (!show) return null;
+                const parts = [subject, category, topic].filter(Boolean);
+                const label = parts.length
+                  ? parts.join(' > ')
+                  : src.premadeQuizTitle || q.quizTitle || null;
+                return label ? (
+                  <div className="text-xs text-slate-500 mb-2">
+                    Source: {label}
+                    {qnum ? ` (Q#${qnum})` : ''}
+                  </div>
+                ) : null;
+              })()}
               <div className="mt-2 space-y-1">
                 {(q.answerOptions || []).map((opt, j) => {
                   const isSelectedOption = answers[i] === opt.text;

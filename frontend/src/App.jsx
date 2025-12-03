@@ -7,6 +7,8 @@ import {
 import { useThemeController } from '../hooks/useThemeController.js';
 import { AuthScreen } from '../components/index.js';
 import DashboardView from './views/DashboardView.jsx';
+import ConstitutionExplorer from '../tools/ConstitutionExplorer.jsx';
+import EconomicsGraphTool from '../tools/EconomicsGraphTool.jsx';
 import ProfileView from './views/ProfileView.jsx';
 import SettingsView from './views/SettingsView.jsx';
 import QuizDemo from './views/QuizDemo.jsx';
@@ -90,6 +92,18 @@ export default function App() {
             <Route path="/profile" element={<ProfileView />} />
             <Route path="/settings" element={<SettingsView />} />
             <Route path="/demo/math" element={<QuizDemo />} />
+            <Route
+              path="/tools/constitution-explorer"
+              element={
+                <ConstitutionExplorer onExit={() => window.history.back()} />
+              }
+            />
+            <Route
+              path="/tools/economics-market-simulator"
+              element={
+                <EconomicsGraphTool onExit={() => window.history.back()} />
+              }
+            />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
