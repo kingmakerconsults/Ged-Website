@@ -17,7 +17,7 @@ function EconomicsGraphTool({ onExit }) {
     // Initialize board
     const board = window.JXG.JSXGraph.initBoard(boardRef.current.id, {
       boundingbox: [-1, 12, 12, -1],
-      axis: true,
+      axis: false,
       showCopyright: false,
       showNavigation: false,
     });
@@ -81,7 +81,6 @@ function EconomicsGraphTool({ onExit }) {
 
     // Remove old curves and points (keep axes)
     if (board.objectsList) {
-      const idsToRemove = [];
       board.objectsList.forEach((el) => {
         if (
           (el.elType === 'line' ||
@@ -90,10 +89,9 @@ function EconomicsGraphTool({ onExit }) {
           el.name !== 'Quantity' &&
           el.name !== 'Price'
         ) {
-          idsToRemove.push(el);
+          board.removeObject(el);
         }
       });
-      board.removeObject(idsToRemove);
     }
 
     // Draw Demand (Downward sloping)
@@ -188,7 +186,12 @@ function EconomicsGraphTool({ onExit }) {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Graph Container */}
         <div className="flex-1 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden h-[500px] relative">
-          <div id="econ-board" ref={boardRef} className="w-full h-full" />
+          <div
+            id="econ-board"
+            ref={boardRef}
+            className="jxgbox w-full h-full"
+            style={{ width: '100%', height: '100%' }}
+          />
           <div className="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 p-3 rounded-lg border border-slate-200 dark:border-slate-600 shadow text-sm">
             <div className="font-bold text-slate-500 uppercase text-xs">
               Equilibrium
