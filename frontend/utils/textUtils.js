@@ -490,11 +490,9 @@ export function resolveAssetUrl(src) {
   // our working CDN / static host
   const NETLIFY_ROOT = 'https://ezged.netlify.app';
 
-  // if it's one of our quiz images, serve it from Netlify, but Netlify doesn't use /frontend
+  // if it's one of our quiz images, serve it from Netlify and KEEP /frontend/Images path
   if (normalized.startsWith('/frontend/Images/')) {
-    // turn /frontend/Images/... -> /Images/...
-    const netlifyPath = normalized.replace('/frontend/Images', '/Images');
-    return `${NETLIFY_ROOT}${netlifyPath}`;
+    return `${NETLIFY_ROOT}${normalized}`;
   }
 
   // fallback: current origin

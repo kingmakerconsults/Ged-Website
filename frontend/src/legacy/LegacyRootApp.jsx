@@ -2769,6 +2769,21 @@ function sanitizeHtmlContent(
     working = preprocessRawContent(working, { normalizeSpacing });
   }
 
+  // Rewrite <img src> to use our resolver so images always load from Netlify
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(working, 'text/html');
+    const imgs = doc.querySelectorAll('img[src]');
+    if (imgs && imgs.length) {
+      imgs.forEach((img) => {
+        const raw = img.getAttribute('src') || '';
+        const resolved = resolveAssetUrl(raw);
+        img.setAttribute('src', resolved);
+      });
+      working = doc.body.innerHTML;
+    }
+  } catch (_e) {}
+
   // Convert any inline pipe tables (including compressed single-line with "||") into HTML tables
   working = normalizeInlineTablesFront(working);
 
@@ -27608,80 +27623,83 @@ function AuthScreen({ onLogin }) {
         <div ref={googleButton} className="flex justify-center"></div>
 
         {/* Dev-only quick login bypass */}
-        {// Show in Vite dev OR when running locally with ?dev=1
-        (import.meta.env.MODE === 'development' ||
-          (typeof window !== 'undefined' &&
-            (window.location.hostname === 'localhost' ||
-              window.location.hostname === '127.0.0.1') &&
-            new URLSearchParams(window.location.search).get('dev') ===
-              '1')) && (
-          <div className="mt-6 p-4 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/40">
-            <p className="text-xs font-semibold text-amber-800 dark:text-amber-200 mb-2 uppercase tracking-wide">
-              Dev Mode: Quick Login
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {[
-                {
-                  role: 'student',
-                  label: 'Student',
-                  color: 'bg-blue-600 hover:bg-blue-700',
-                },
-                {
-                  role: 'instructor',
-                  label: 'Instructor',
-                  color: 'bg-green-600 hover:bg-green-700',
-                },
-                {
-                  role: 'orgAdmin',
-                  label: 'Org Admin',
-                  color: 'bg-purple-600 hover:bg-purple-700',
-                },
-                {
-                  role: 'superAdmin',
-                  label: 'Super Admin',
-                  color: 'bg-red-600 hover:bg-red-700',
-                },
-              ].map(({ role, label, color }) => (
-                <button
-                  key={role}
-                  type="button"
-                  onClick={async () => {
-                    try {
-                      console.log('[DEV] Attempting login as:', role);
-                      const response = await fetch('/api/dev-login-as', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ role }),
-                      });
-                      console.log('[DEV] Response status:', response.status);
-                      const data = await response.json();
-                      console.log('[DEV] Response data:', data);
-                      if (data.ok) {
-                        console.log(
-                          '[DEV] Calling onLogin with:',
-                          data.user,
-                          data.token
-                        );
-                        onLogin(data.user, data.token);
-                      } else {
-                        console.error('[DEV] Login failed:', data);
-                        alert(
-                          'Dev login failed: ' + (data.error || 'Unknown error')
-                        );
+        {
+          // Show in Vite dev OR when running locally with ?dev=1
+          (import.meta.env.MODE === 'development' ||
+            (typeof window !== 'undefined' &&
+              (window.location.hostname === 'localhost' ||
+                window.location.hostname === '127.0.0.1') &&
+              new URLSearchParams(window.location.search).get('dev') ===
+                '1')) && (
+            <div className="mt-6 p-4 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/40">
+              <p className="text-xs font-semibold text-amber-800 dark:text-amber-200 mb-2 uppercase tracking-wide">
+                Dev Mode: Quick Login
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  {
+                    role: 'student',
+                    label: 'Student',
+                    color: 'bg-blue-600 hover:bg-blue-700',
+                  },
+                  {
+                    role: 'instructor',
+                    label: 'Instructor',
+                    color: 'bg-green-600 hover:bg-green-700',
+                  },
+                  {
+                    role: 'orgAdmin',
+                    label: 'Org Admin',
+                    color: 'bg-purple-600 hover:bg-purple-700',
+                  },
+                  {
+                    role: 'superAdmin',
+                    label: 'Super Admin',
+                    color: 'bg-red-600 hover:bg-red-700',
+                  },
+                ].map(({ role, label, color }) => (
+                  <button
+                    key={role}
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        console.log('[DEV] Attempting login as:', role);
+                        const response = await fetch('/api/dev-login-as', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ role }),
+                        });
+                        console.log('[DEV] Response status:', response.status);
+                        const data = await response.json();
+                        console.log('[DEV] Response data:', data);
+                        if (data.ok) {
+                          console.log(
+                            '[DEV] Calling onLogin with:',
+                            data.user,
+                            data.token
+                          );
+                          onLogin(data.user, data.token);
+                        } else {
+                          console.error('[DEV] Login failed:', data);
+                          alert(
+                            'Dev login failed: ' +
+                              (data.error || 'Unknown error')
+                          );
+                        }
+                      } catch (error) {
+                        console.error('Dev login error:', error);
+                        alert('Dev login error: ' + error.message);
                       }
-                    } catch (error) {
-                      console.error('Dev login error:', error);
-                      alert('Dev login error: ' + error.message);
-                    }
-                  }}
-                  className={`px-3 py-2 text-xs font-semibold text-white rounded-lg transition ${color}`}
-                >
-                  {label}
-                </button>
-              ))}
+                    }}
+                    className={`px-3 py-2 text-xs font-semibold text-white rounded-lg transition ${color}`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }
 
         <p className="mt-6 text-xs text-muted">
           Admins: Sign in with Google to access your dashboard.
