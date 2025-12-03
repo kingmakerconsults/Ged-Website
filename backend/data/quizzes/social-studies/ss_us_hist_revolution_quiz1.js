@@ -46,24 +46,24 @@ module.exports = [
     "question": "Which sentence from the passage best supports the main idea?",
     "answerOptions": [
       {
-        "text": "A sentence that directly expresses the theme of liberty and equality.",
+        "text": "\"that all men are created equal\"",
         "isCorrect": true,
-        "rationale": "Direct textual evidence best supports the central idea."
+        "rationale": "This explicit claim directly states the passage's core principle of equality."
       },
       {
-        "text": "A sentence that mentions a specific date with no context.",
+        "text": "\"Governments are instituted among Men\"",
         "isCorrect": false,
-        "rationale": "Dates alone do not capture the main idea."
+        "rationale": "Relevant context, but it does not most directly state the main idea."
       },
       {
-        "text": "A sentence that names people without explanation.",
+        "text": "\"deriving their just powers from the consent of the governed\"",
         "isCorrect": false,
-        "rationale": "Names without relevance do not support the idea."
+        "rationale": "Addresses legitimacy of government, not the central claim about human equality."
       },
       {
-        "text": "A sentence describing punctuation.",
+        "text": "\"— That to secure these rights, Governments are instituted among Men\"",
         "isCorrect": false,
-        "rationale": "Irrelevant to meaning."
+        "rationale": "Also related, but secondary to the explicit equality statement."
       }
     ]
   },
@@ -229,30 +229,30 @@ module.exports = [
     ],
     "type": "text",
     "questionNumber": 8,
-    "question": "Which detail best supports the idea of national responsibility?",
+    "question": "Which detail best supports the idea that governments have a responsibility to protect natural rights?",
     "answerOptions": [
       {
-        "text": "References to honoring those who sacrificed for the nation.",
+        "text": "\"That to secure these rights, Governments are instituted among Men\"",
         "isCorrect": true,
-        "rationale": "Direct support for responsibility and memory."
+        "rationale": "This line explicitly states government exists to secure (protect) rights."
       },
       {
-        "text": "A mention of weather conditions at the site.",
+        "text": "\"that all men are created equal\"",
         "isCorrect": false,
-        "rationale": "Irrelevant detail."
+        "rationale": "Foundational principle, but it describes people, not the role of government."
       },
       {
-        "text": "A list of unrelated names.",
+        "text": "\"Life, Liberty and the pursuit of Happiness\"",
         "isCorrect": false,
-        "rationale": "Names without context do not support the idea."
+        "rationale": "Identifies the rights, not the government's responsibility toward them."
       },
       {
-        "text": "A punctuation example.",
+        "text": "\"They are endowed by their Creator with certain unalienable Rights\"",
         "isCorrect": false,
-        "rationale": "Not evidence."
+        "rationale": "States the origin of rights, not the government's duty."
       }
     ]
-  },
+  }
   {
     "passage": "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battlefield of that war. We have come to dedicate a portion of that field as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this...",
     "challenge_tags": [

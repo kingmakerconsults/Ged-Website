@@ -13802,6 +13802,27 @@ function ensureQuestionTags(
   idxForLog = null
 ) {
   try {
+    // Always attach lightweight source metadata for traceability
+    try {
+      const topicId = topic?.id || topic?.title || 'topic';
+      const topicTitle = topic?.title || topic?.id || null;
+      if (!question.sourceMeta) question.sourceMeta = {};
+      if (!question.sourceMeta.subject)
+        question.sourceMeta.subject = subjectKey;
+      if (!question.sourceMeta.category)
+        question.sourceMeta.category = categoryName || null;
+      if (!question.sourceMeta.topicId)
+        question.sourceMeta.topicId = topicId || null;
+      if (!question.sourceMeta.topicTitle)
+        question.sourceMeta.topicTitle = topicTitle || null;
+      if (
+        !question.sourceMeta.questionNumber &&
+        typeof question.questionNumber === 'number'
+      ) {
+        question.sourceMeta.questionNumber = question.questionNumber;
+      }
+    } catch (_) {}
+
     const hasExplicit =
       Array.isArray(question?.challenge_tags) &&
       question.challenge_tags.length > 0;
