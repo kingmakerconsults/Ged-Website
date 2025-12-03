@@ -6,6 +6,7 @@
 
 module.exports = [
   {
+    "questionNumber": 1,
     "question": "What is the author's main claim in the passage?",
     "answerOptions": [
       {
@@ -34,6 +35,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 2,
     "question": "Which piece of evidence does the author use to support the claim about environmental benefits?",
     "answerOptions": [
       {
@@ -62,6 +64,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 3,
     "question": "In paragraph 4, the author addresses the counterargument that cities need land for housing, not parks. How does the author rebut this point?",
     "answerOptions": [
       {
@@ -90,6 +93,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 4,
     "question": "The author's claim that 'studies have consistently shown' that nature reduces stress is an appeal to what?",
     "answerOptions": [
       {
@@ -118,6 +122,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 5,
     "question": "What is the logical flaw in the argument that cities 'cannot afford to 'waste' land on parks,' as described by the author?",
     "answerOptions": [
       {
@@ -146,6 +151,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 6,
     "question": "Which of the following statements is presented as a fact rather than an opinion in the passage?",
     "answerOptions": [
       {
@@ -174,6 +180,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 7,
     "question": "The author's argument would be most weakened by which of the following findings?",
     "answerOptions": [
       {
@@ -202,6 +209,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 8,
     "question": "The author's argument would be most strengthened by including:",
     "answerOptions": [
       {
@@ -230,6 +238,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 9,
     "question": "What unstated assumption does the author make about their audience?",
     "answerOptions": [
       {
@@ -258,6 +267,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 10,
     "question": "By stating that the argument against green spaces is 'shortsighted,' the author implies that opponents are:",
     "answerOptions": [
       {
@@ -286,6 +296,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 11,
     "question": "Is the author's claim that green spaces can 'save millions in infrastructure costs' a valid conclusion based on the evidence provided?",
     "answerOptions": [
       {
@@ -314,6 +325,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 12,
     "question": "The author's argument that green spaces are 'essential infrastructure' is an attempt to:",
     "answerOptions": [
       {
@@ -342,6 +354,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 13,
     "question": "How does the author use the example of 'underserved neighborhoods' in paragraph 3 to support the main argument?",
     "answerOptions": [
       {
@@ -370,6 +383,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 14,
     "question": "Which of the following claims made by the author is LEAST supported by specific evidence in the text?",
     "answerOptions": [
       {
@@ -398,6 +412,7 @@ module.exports = [
     ]
   },
   {
+    "questionNumber": 15,
     "question": "Overall, is the author's argument that green spaces are a 'vital necessity' convincing?",
     "answerOptions": [
       {

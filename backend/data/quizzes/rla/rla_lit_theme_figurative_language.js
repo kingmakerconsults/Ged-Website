@@ -6,6 +6,9 @@
 
 module.exports = [
   {
+
+    "questionNumber": 1,
+
     "question": "The 'two roads' in the poem are a metaphor for what?",
     "answerOptions": [
       {
@@ -34,6 +37,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "What is the central theme of the poem?",
     "answerOptions": [
       {
@@ -62,6 +68,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "In the first stanza, what does the 'yellow wood' symbolize?",
     "answerOptions": [
       {
@@ -90,6 +99,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "In the second stanza, the speaker notes that the second road 'was grassy and wanted wear.' What does this figurative language suggest?",
     "answerOptions": [
       {
@@ -118,6 +130,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "How does the speaker contradict his own description of the two roads in the second stanza?",
     "answerOptions": [
       {
@@ -146,6 +161,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "What does the line 'And both that morning equally lay / In leaves no step had trodden black' imply?",
     "answerOptions": [
       {
@@ -174,6 +192,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The 'sigh' mentioned in the final stanza ('I shall be telling this with a sigh') is best interpreted as a sigh of:",
     "answerOptions": [
       {
@@ -202,6 +223,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The phrase 'way leads on to way' in the third stanza suggests that:",
     "answerOptions": [
       {
@@ -230,6 +254,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The final lines, 'I took the one less traveled by, / And that has made all the difference,' are often interpreted as a celebration of individualism. However, considering the poem's earlier statement that the roads were 'really about the same,' what is another possible interpretation of the theme?",
     "answerOptions": [
       {
@@ -258,6 +285,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The repetition of the word 'And' at the beginning of lines 2, 3, and 4 is a literary device called anaphora. What is its effect?",
     "answerOptions": [
       {
@@ -286,6 +316,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The 'undergrowth' where the path bends can be seen as a symbol for:",
     "answerOptions": [
       {
@@ -314,6 +347,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The poem's rhyme scheme is ABAAB. What effect does this consistent structure have?",
     "answerOptions": [
       {
@@ -342,6 +378,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "Which of the following words best describes the overall mood of the poem?",
     "answerOptions": [
       {
@@ -370,6 +409,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The title 'The Road Not Taken' is significant because the poem focuses heavily on:",
     "answerOptions": [
       {
@@ -398,6 +440,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The poem uses the past tense until the final stanza. Why does the poet switch to the future tense ('I shall be telling this...')?",
     "answerOptions": [
       {
@@ -426,3 +471,4 @@ module.exports = [
     ]
   }
 ];
+
