@@ -13,16 +13,21 @@ export function SubjectCard({
   className = '',
 }) {
   const theme = getSubjectTheme(subject, dark);
+  const isRLA =
+    subject.toLowerCase().includes('reasoning') ||
+    subject.toLowerCase().includes('rla');
+
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`group relative rounded-2xl p-6 md:p-7 text-left shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 transition ${className}`.trim()}
+      className={`group relative rounded-2xl p-6 md:p-7 text-left shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 transition ${className}`.trim()}
       style={{
         background: theme.bg,
         border: `1px solid ${theme.bgSoft}`,
         color: theme.accent,
         minHeight: '128px',
+        '--tw-ring-color': isRLA ? theme.accent : '#0ea5e9',
       }}
     >
       <div className="flex items-center gap-4">
@@ -49,7 +54,10 @@ export function SubjectCard({
           >
             {subject}
           </h3>
-          <div className="text-sm md:text-base leading-snug text-primary">
+          <div
+            className="text-sm md:text-base leading-snug"
+            style={{ color: theme.accent, opacity: 0.8 }}
+          >
             {children}
           </div>
         </div>

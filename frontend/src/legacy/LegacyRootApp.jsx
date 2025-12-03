@@ -23156,7 +23156,6 @@ function NamePromptModal({ user, onSave, onDismiss }) {
         className="relative w-11/12 max-w-md rounded-lg p-8 shadow-2xl"
         style={{
           backgroundColor: 'var(--modal-surface)',
-          color: 'var(--modal-text)',
           border: `1px solid var(--modal-border)`,
         }}
       >
@@ -23164,7 +23163,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
           <button
             type="button"
             onClick={onDismiss}
-            className="absolute right-4 top-4 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100"
+            className="absolute right-4 top-4 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100"
             aria-label="Close name prompt"
           >
             <svg
@@ -23181,10 +23180,10 @@ function NamePromptModal({ user, onSave, onDismiss }) {
             </svg>
           </button>
         )}
-        <h2 className="mb-4 text-2xl font-bold text-slate-800 dark:text-slate-100">
+        <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-slate-100">
           Welcome! Let's set up your name.
         </h2>
-        <p className="mb-6 text-slate-600 dark:text-slate-300">
+        <p className="mb-6 text-slate-900 dark:text-slate-300">
           Please confirm your name below. This will be used to personalize your
           experience.
         </p>
@@ -23192,7 +23191,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
           <div>
             <label
               htmlFor="firstName"
-              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+              className="block text-sm font-medium text-slate-900 dark:text-slate-300"
             >
               First Name
             </label>
@@ -23207,7 +23206,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
           <div>
             <label
               htmlFor="lastName"
-              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+              className="block text-sm font-medium text-slate-900 dark:text-slate-300"
             >
               Last Name
             </label>
@@ -23237,7 +23236,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
             <button
               type="button"
               onClick={onDismiss}
-              className="w-full rounded-lg px-6 py-3 font-semibold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+              className="w-full rounded-lg px-6 py-3 font-semibold transition border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
               data-role="secondary"
             >
               Skip for now
@@ -27479,10 +27478,10 @@ function AuthScreen({ onLogin }) {
   return (
     <>
       <div className="text-center max-w-md mx-auto">
-        <h2 className="text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-2">
+        <h2 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100 mb-2">
           Welcome!
         </h2>
-        <p className="text-slate-600 dark:text-slate-300 mb-6">
+        <p className="text-slate-700 dark:text-slate-300 mb-6">
           Sign in to save your progress across devices.
         </p>
         <form
@@ -32800,10 +32799,10 @@ function StartScreen({
                   />
                 </div>
               )}
-              <h1 className="text-4xl font-extrabold text-slate-800 dark:text-slate-100">
+              <h1 className="text-4xl font-extrabold text-slate-900 dark:text-slate-100">
                 Welcome, {userDisplayName}!
               </h1>
-              <p className="text-slate-500 dark:text-slate-300">
+              <p className="text-slate-700 dark:text-slate-300">
                 Please select a subject to begin.
               </p>
               <button
@@ -32824,10 +32823,10 @@ function StartScreen({
             </div>
           ) : (
             <>
-              <h1 className="text-4xl font-extrabold text-slate-800 dark:text-slate-100">
+              <h1 className="text-4xl font-extrabold text-slate-900 dark:text-slate-100">
                 Mr. Smith's Learning Canvas
               </h1>
-              <p className="text-slate-500 dark:text-slate-300 mt-2">
+              <p className="text-slate-700 dark:text-slate-300 mt-2">
                 An interactive learning experience.
               </p>
             </>
