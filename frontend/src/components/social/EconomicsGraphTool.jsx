@@ -11,6 +11,29 @@ function EconomicsGraphTool({ onExit }) {
   // Price/Quantity readout
   const [equilibrium, setEquilibrium] = useState({ p: 5, q: 5 });
 
+  // Premade practice question that leverages the live tool state
+  const premadeQuestion = {
+    stem: 'A new technology lowers production costs across the industry. Using the tool, determine the likely effect on equilibrium price and quantity.',
+    choices: [
+      'Price decreases; Quantity increases',
+      'Price increases; Quantity decreases',
+      'Price increases; Quantity increases',
+      'Price decreases; Quantity decreases',
+    ],
+    rationale:
+      'Lower production costs shift the supply curve right (increase supply). This typically lowers price and increases quantity.',
+  };
+  const [premadeFeedback, setPremadeFeedback] = useState('');
+  const checkPremadeAnswer = (idx) => {
+    // Correct choice index 0 corresponds to supply shifting right
+    const correct = idx === 0;
+    setPremadeFeedback(
+      correct
+        ? 'Correct! Increased supply lowers price and raises quantity.'
+        : 'Not quite. Try moving the supply slider right and observe how the equilibrium changes.'
+    );
+  };
+
   useEffect(() => {
     if (!boardRef.current || !window.JXG) return;
 
@@ -20,9 +43,17 @@ function EconomicsGraphTool({ onExit }) {
       axis: false,
       showCopyright: false,
       showNavigation: false,
+      keepAspectRatio: true,
+      pan: { enabled: false },
+      zoom: { enabled: false },
     });
 
-    // Create axes with labels
+    // Disable dragging/panning by intercepting mouse events
+    board.on('down', () => false);
+    board.on('move', () => false);
+    board.on('up', () => false);
+
+    // Create axes with labels (fixed, non-interactive)
     board.create(
       'axis',
       [
@@ -33,6 +64,8 @@ function EconomicsGraphTool({ onExit }) {
         name: 'Quantity',
         withLabel: true,
         label: { position: 'rt', offset: [-10, 10] },
+        fixed: true,
+        highlight: false,
       }
     );
 
@@ -46,6 +79,8 @@ function EconomicsGraphTool({ onExit }) {
         name: 'Price',
         withLabel: true,
         label: { position: 'rt', offset: [-20, 0] },
+        fixed: true,
+        highlight: false,
       }
     );
 
@@ -94,7 +129,7 @@ function EconomicsGraphTool({ onExit }) {
       });
     }
 
-    // Draw Demand (Downward sloping)
+    // Draw Demand (Downward sloping, fixed)
     // P1: (0, d_intercept), P2: (10, d_intercept - 10)
     board.create(
       'line',
@@ -108,10 +143,12 @@ function EconomicsGraphTool({ onExit }) {
         name: 'Demand',
         withLabel: true,
         label: { position: 'top', offset: [10, 10] },
+        fixed: true,
+        highlight: false,
       }
     );
 
-    // Draw Supply (Upward sloping)
+    // Draw Supply (Upward sloping, fixed)
     // P1: (0, s_intercept), P2: (10, 10 + s_intercept)
     board.create(
       'line',
@@ -125,6 +162,8 @@ function EconomicsGraphTool({ onExit }) {
         name: 'Supply',
         withLabel: true,
         label: { position: 'top', offset: [10, -10] },
+        fixed: true,
+        highlight: false,
       }
     );
 
@@ -136,6 +175,7 @@ function EconomicsGraphTool({ onExit }) {
       strokeColor: '#16a34a',
       fillColor: '#16a34a',
       fixed: true,
+      highlight: false,
     });
 
     // Dashed lines to axes
@@ -149,6 +189,8 @@ function EconomicsGraphTool({ onExit }) {
         strokeColor: '#666',
         dash: 2,
         strokeWidth: 1,
+        fixed: true,
+        highlight: false,
       }
     );
 
@@ -162,6 +204,8 @@ function EconomicsGraphTool({ onExit }) {
         strokeColor: '#666',
         dash: 2,
         strokeWidth: 1,
+        fixed: true,
+        highlight: false,
       }
     );
 
@@ -269,20 +313,78 @@ function EconomicsGraphTool({ onExit }) {
             </div>
           </div>
 
+          {/* Practice Questions tied to current equilibrium */}
           <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm text-slate-600 dark:text-slate-300">
-            <p className="mb-2">
-              <strong>Try this:</strong>
-            </p>
-            <ul className="list-disc pl-4 space-y-1">
-              <li>
-                Increase <strong>Demand</strong> (right) to see Price and
-                Quantity both go up.
-              </li>
-              <li>
-                Increase <strong>Supply</strong> (left slider) to see Price go
-                down while Quantity goes up.
-              </li>
-            </ul>
+            <p className="mb-2 font-semibold">Practice</p>
+            <div className="space-y-3">
+              <div>
+                <p className="mb-1">
+                  If demand increases (shift right), what happens to equilibrium
+                  price and quantity?
+                </p>
+                <div className="grid grid-cols-1 gap-2">
+                  {[
+                    'Price up, Quantity up',
+                    'Price down, Quantity down',
+                    'Price up, Quantity down',
+                  ].map((opt, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() =>
+                        alert(
+                          idx === 0
+                            ? 'Correct!'
+                            : 'Not quite. Demand right typically raises price and quantity.'
+                        )
+                      }
+                      className={`rounded-md px-3 py-2 text-left transition ${
+                        idx === 0
+                          ? 'bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40'
+                          : 'bg-slate-100 dark:bg-slate-700'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="mb-1">
+                  Move the sliders so Quantity equals{' '}
+                  {Math.round(equilibrium.q)} and Price equals $
+                  {equilibrium.p.toFixed(2)}. What shift achieves this?
+                </p>
+                <p className="text-xs">
+                  Hint: Demand slider changes the intercept of the demand curve;
+                  Supply slider changes the intercept of the supply curve.
+                </p>
+              </div>
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-700">
+                <p className="mb-2 font-semibold">Premade Question</p>
+                <p className="mb-2">{premadeQuestion.stem}</p>
+                <div className="grid grid-cols-1 gap-2">
+                  {premadeQuestion.choices.map((opt, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => checkPremadeAnswer(idx)}
+                      className="rounded-md px-3 py-2 text-left transition bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600"
+                    >
+                      {String.fromCharCode(65 + idx)}. {opt}
+                    </button>
+                  ))}
+                </div>
+                {premadeFeedback && (
+                  <div className="mt-2 p-2 rounded-md bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-200">
+                    {premadeFeedback}
+                  </div>
+                )}
+                <p className="mt-2 text-xs text-muted">
+                  Explanation: {premadeQuestion.rationale}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
