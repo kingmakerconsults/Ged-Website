@@ -32883,7 +32883,10 @@ function StartScreen({
                   Day 0 Diagnostic
                 </h2>
               </div>
-              <p className="text-slate-600 dark:text-slate-300 mb-4 max-w-2xl">
+              <p
+                className="text-slate-900 dark:text-slate-300 mb-4 max-w-2xl"
+                style={{ color: 'inherit' }}
+              >
                 Start your journey with a comprehensive 40-question assessment
                 covering all 4 subjects. This sets your baseline and helps Coach
                 Smith build your personalized learning plan.
