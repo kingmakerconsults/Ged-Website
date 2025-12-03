@@ -1,8 +1,8 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for y: $y + 12 = 20$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Simplify: $x(x + 5) - 3x$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Solve the inequality: $4x - 5 < 11$.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the slope of the line that is perpendicular to the line passing through (2, 2) and (5, 8)?",

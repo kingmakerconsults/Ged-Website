@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is 25% of 200?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate: $10 + 4 \\times 2^3$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the result of $1/2 - 1/3$?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A car is traveling at 60 miles per hour. How many miles does it travel in 45 minutes?",

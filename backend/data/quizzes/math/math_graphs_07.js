@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the slope of the line that passes through (1, 3) and (4, 9)?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of the line $2x - 3y = 12$?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "If $f(x) = 2x$ and $g(x) = x - 1$, find $f(g(4))$.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A bank account balance B(t) after t years is modeled by $B(t) = 500(1.03)^t$. What is the balance after 2 years?",

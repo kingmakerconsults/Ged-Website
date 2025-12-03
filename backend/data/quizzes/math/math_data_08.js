@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A card is drawn from a standard 52-card deck. What is the probability that the card is a spade?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the median of the data set: 5, 2, 8, 4, 9, 2?",
@@ -133,7 +133,7 @@ module.exports = [
       {
         "text": "17,576,000",
         "isCorrect": true,
-        "rationale": "26 choices for each of the 3 letters (26³) and 10 choices for each of the 3 numbers (10³). Total = 26³ * 10³ = 17,576,000."
+        "rationale": "26 choices for each of the 3 letters (26Â³) and 10 choices for each of the 3 numbers (10Â³). Total = 26Â³ * 10Â³ = 17,576,000."
       },
       {
         "text": "1,757,600",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The mean of a set of 5 numbers is 70. If a 6th number is added and the new mean is 75, what is the 6th number?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "A coin is flipped 3 times. What is the probability of getting tails all 3 times?",

@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the mode of the data set: apple, pear, banana, apple, orange, pear, apple?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the mean of the following numbers: 12, 15, 18, 21, 24.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A student's scores are 80, 85, 90, 95. What score is needed on the fifth test to achieve an average of 90?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "A fair die is rolled. What is the probability of rolling a number less than 3?",

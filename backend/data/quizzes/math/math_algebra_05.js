@@ -1,8 +1,8 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for n: $5n = 45$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the slope of the line that passes through (0, 4) and (2, 0)?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "If $g(x) = 5 - x^2$, what is $g(3)$?",
@@ -183,7 +183,7 @@ module.exports = [
       {
         "text": "$6x$",
         "isCorrect": true,
-        "rationale": "The GCF of 12 and 18 is 6. The GCF of x² and x is x. So, the GCF is 6x."
+        "rationale": "The GCF of 12 and 18 is 6. The GCF of xÂ² and x is x. So, the GCF is 6x."
       },
       {
         "text": "$3x$",
@@ -196,14 +196,14 @@ module.exports = [
         "rationale": "This is the least common multiple (LCM)."
       }
     ],
-    "rationale": "Find the GCF of the coefficients (12 and 18), which is 6. Find the GCF of the variables (x² and x), which is x. Combine them to get 6x.",
+    "rationale": "Find the GCF of the coefficients (12 and 18), which is 6. Find the GCF of the variables (xÂ² and x), which is x. Combine them to get 6x.",
     "challenge_tags": [
       "math-3"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the equation of a line with a slope of -4 and a y-intercept of 5?",

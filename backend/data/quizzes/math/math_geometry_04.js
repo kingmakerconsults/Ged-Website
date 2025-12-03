@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,12 +35,12 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the area of a triangle with a base of 15 cm and a height of 10 cm.",
-    "correctAnswer": "75 cm²",
-    "rationale": "The area of a triangle is A = 1/2 * b * h. So, A = 1/2 * 15 cm * 10 cm = 75 cm².",
+    "correctAnswer": "75 cmÂ²",
+    "rationale": "The area of a triangle is A = 1/2 * b * h. So, A = 1/2 * 15 cm * 10 cm = 75 cmÂ².",
     "challenge_tags": [
       "math-5"
     ]
@@ -80,12 +80,12 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
-    "question": "An angle measuring 150° is what type of angle?",
+    "question": "An angle measuring 150Â° is what type of angle?",
     "correctAnswer": "Obtuse",
-    "rationale": "An obtuse angle is an angle that measures more than 90° but less than 180°.",
+    "rationale": "An obtuse angle is an angle that measures more than 90Â° but less than 180Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -100,7 +100,7 @@ module.exports = [
       {
         "text": "13 cm",
         "isCorrect": true,
-        "rationale": "Using the Pythagorean theorem, 5² + 12² = 25 + 144 = 169. The square root of 169 is 13."
+        "rationale": "Using the Pythagorean theorem, 5Â² + 12Â² = 25 + 144 = 169. The square root of 169 is 13."
       },
       {
         "text": "17 cm",
@@ -115,7 +115,7 @@ module.exports = [
       {
         "text": "119 cm",
         "isCorrect": false,
-        "rationale": "This is 12²-5²."
+        "rationale": "This is 12Â²-5Â²."
       }
     ],
     "rationale": "According to the Pythagorean theorem, $a^2 + b^2 = c^2$. So, $5^2 + 12^2 = c^2$, which is $25 + 144 = 169$. Thus, c = $\\sqrt{169}$ = 13 cm.",
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "How many degrees are in a right angle?",
-    "correctAnswer": "90°",
-    "rationale": "A right angle is an angle that measures exactly 90°.",
+    "correctAnswer": "90Â°",
+    "rationale": "A right angle is an angle that measures exactly 90Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -176,34 +176,34 @@ module.exports = [
     "question": "What is the volume of a cube with a side length of 4 cm?",
     "answerOptions": [
       {
-        "text": "12 cm³",
+        "text": "12 cmÂ³",
         "isCorrect": false,
         "rationale": "This is the sum of three side lengths."
       },
       {
-        "text": "16 cm³",
+        "text": "16 cmÂ³",
         "isCorrect": false,
         "rationale": "This is the area of one face."
       },
       {
-        "text": "48 cm²",
+        "text": "48 cmÂ²",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },
       {
-        "text": "64 cm³",
+        "text": "64 cmÂ³",
         "isCorrect": true,
-        "rationale": "Volume of a cube is side³. 4³ = 4 * 4 * 4 = 64."
+        "rationale": "Volume of a cube is sideÂ³. 4Â³ = 4 * 4 * 4 = 64."
       }
     ],
-    "rationale": "The volume of a cube is calculated as V = s³. So, V = (4 cm)³ = 64 cm³.",
+    "rationale": "The volume of a cube is calculated as V = sÂ³. So, V = (4 cm)Â³ = 64 cmÂ³.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A room is 12 feet long and 15 feet wide. How many square yards of carpet are needed to cover the floor?",
@@ -287,27 +287,27 @@ module.exports = [
     "question": "Find the surface area of a rectangular prism with length 6m, width 4m, and height 2m.",
     "answerOptions": [
       {
-        "text": "48 m²",
+        "text": "48 mÂ²",
         "isCorrect": false,
         "rationale": "This is the volume of the prism."
       },
       {
-        "text": "24 m²",
+        "text": "24 mÂ²",
         "isCorrect": false,
         "rationale": "This is the area of the largest face."
       },
       {
-        "text": "88 m²",
+        "text": "88 mÂ²",
         "isCorrect": true,
         "rationale": "SA = 2(lw + lh + wh) = 2(6*4 + 6*2 + 4*2) = 2(24 + 12 + 8) = 2(44) = 88."
       },
       {
-        "text": "44 m²",
+        "text": "44 mÂ²",
         "isCorrect": false,
         "rationale": "This is half the surface area."
       }
     ],
-    "rationale": "The formula for the surface area of a rectangular prism is SA = 2(lw + lh + wh). SA = 2((6)(4) + (6)(2) + (4)(2)) = 2(24 + 12 + 8) = 2(44) = 88 m².",
+    "rationale": "The formula for the surface area of a rectangular prism is SA = 2(lw + lh + wh). SA = 2((6)(4) + (6)(2) + (4)(2)) = 2(24 + 12 + 8) = 2(44) = 88 mÂ².",
     "challenge_tags": [
       "math-5"
     ]

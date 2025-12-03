@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "If f(x) = x - 8, what is f(10)?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the x-intercept of the line 4x + 3y = 12?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the range of the function $f(x) = x^2 + 5$?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "For the function $f(x) = 100(2)^x$, find the value of $f(3)$.",
@@ -228,7 +228,7 @@ module.exports = [
       {
         "text": "(5, 1)",
         "isCorrect": true,
-        "rationale": "The vertex form is y = (x-h)² + k, so the vertex is (h,k)."
+        "rationale": "The vertex form is y = (x-h)Â² + k, so the vertex is (h,k)."
       },
       {
         "text": "(1, 5)",

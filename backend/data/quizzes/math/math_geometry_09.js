@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -8,34 +8,34 @@ module.exports = [
     "question": "What is the area of a rectangle with a width of 6 inches and a length of 9 inches?",
     "answerOptions": [
       {
-        "text": "15 in²",
+        "text": "15 inÂ²",
         "isCorrect": false,
         "rationale": "This is the sum of the sides."
       },
       {
-        "text": "30 in²",
+        "text": "30 inÂ²",
         "isCorrect": false,
         "rationale": "This is the perimeter."
       },
       {
-        "text": "54 in²",
+        "text": "54 inÂ²",
         "isCorrect": true,
         "rationale": "Area = 6 * 9 = 54."
       },
       {
-        "text": "81 in²",
+        "text": "81 inÂ²",
         "isCorrect": false,
         "rationale": "This is 9*9."
       }
     ],
-    "rationale": "The area of a rectangle is calculated by multiplying its length and width. Area = 9 inches * 6 inches = 54 in².",
+    "rationale": "The area of a rectangle is calculated by multiplying its length and width. Area = 9 inches * 6 inches = 54 inÂ².",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a radius of 20 meters. What is its circumference? Use 3.14 for $\\pi$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "How many centimeters are in a meter?",
@@ -95,30 +95,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "A triangle has angles measuring 100°, 40°, and 40°. What type of triangle is it?",
+    "question": "A triangle has angles measuring 100Â°, 40Â°, and 40Â°. What type of triangle is it?",
     "answerOptions": [
       {
         "text": "Acute",
         "isCorrect": false,
-        "rationale": "An acute triangle must have all angles less than 90°."
+        "rationale": "An acute triangle must have all angles less than 90Â°."
       },
       {
         "text": "Obtuse Isosceles",
         "isCorrect": true,
-        "rationale": "It has one obtuse angle (100°) and two equal angles/sides."
+        "rationale": "It has one obtuse angle (100Â°) and two equal angles/sides."
       },
       {
         "text": "Right",
         "isCorrect": false,
-        "rationale": "It does not have a 90° angle."
+        "rationale": "It does not have a 90Â° angle."
       },
       {
         "text": "Equilateral",
         "isCorrect": false,
-        "rationale": "An equilateral triangle has all angles equal to 60°."
+        "rationale": "An equilateral triangle has all angles equal to 60Â°."
       }
     ],
-    "rationale": "The triangle has one angle greater than 90° (100°), making it obtuse. It also has two equal angles (40°), which means the sides opposite those angles are equal, making it isosceles.",
+    "rationale": "The triangle has one angle greater than 90Â° (100Â°), making it obtuse. It also has two equal angles (40Â°), which means the sides opposite those angles are equal, making it isosceles.",
     "challenge_tags": [
       "math-5"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the perimeter of a rectangle if its length is 15 and its width is 10?",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for $\\pi$.",
     "correctAnswer": "560 rotations",
-    "rationale": "The circumference of the wheel is C = 2 * 3.14 * 1.5 = 9.42 feet. The number of rotations is the total distance divided by the circumference: 5280 / 9.42 ≈ 560.5. The number of full rotations is 560.",
+    "rationale": "The circumference of the wheel is C = 2 * 3.14 * 1.5 = 9.42 feet. The number of rotations is the total distance divided by the circumference: 5280 / 9.42 â‰ˆ 560.5. The number of full rotations is 560.",
     "challenge_tags": [
       "math-5"
     ]
@@ -221,27 +221,27 @@ module.exports = [
     "question": "What is the sum of the interior angles of a pentagon?",
     "answerOptions": [
       {
-        "text": "360°",
+        "text": "360Â°",
         "isCorrect": false,
         "rationale": "This is for a quadrilateral."
       },
       {
-        "text": "540°",
+        "text": "540Â°",
         "isCorrect": true,
-        "rationale": "The formula is (n-2) * 180°. For a pentagon, n=5. (5-2)*180 = 3*180 = 540°."
+        "rationale": "The formula is (n-2) * 180Â°. For a pentagon, n=5. (5-2)*180 = 3*180 = 540Â°."
       },
       {
-        "text": "720°",
+        "text": "720Â°",
         "isCorrect": false,
         "rationale": "This is for a hexagon."
       },
       {
-        "text": "900°",
+        "text": "900Â°",
         "isCorrect": false,
         "rationale": "This is for a heptagon."
       }
     ],
-    "rationale": "The sum of the interior angles of a polygon is given by the formula (n-2) * 180°, where n is the number of sides. For a pentagon, n=5, so the sum is (5-2) * 180° = 540°.",
+    "rationale": "The sum of the interior angles of a polygon is given by the formula (n-2) * 180Â°, where n is the number of sides. For a pentagon, n=5, so the sum is (5-2) * 180Â° = 540Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -294,7 +294,7 @@ module.exports = [
       {
         "text": "93.53",
         "isCorrect": true,
-        "rationale": "A = (3 * sqrt(3) / 2) * $6^2$ ≈ 93.53."
+        "rationale": "A = (3 * sqrt(3) / 2) * $6^2$ â‰ˆ 93.53."
       },
       {
         "text": "108",

@@ -1,8 +1,8 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for y: $y - 15 = 2$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the slope of a line passing through (-1, 5) and (3, 5)?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Factor: $4x^2 - 25$.",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "If $f(x) = (x-4)^2 + 3$, find $f(1)$.",
     "correctAnswer": "12",
-    "rationale": "f(1) = (1-4)² + 3 = (-3)² + 3 = 9 + 3 = 12.",
+    "rationale": "f(1) = (1-4)Â² + 3 = (-3)Â² + 3 = 9 + 3 = 12.",
     "challenge_tags": [
       "math-3"
     ]
@@ -307,7 +307,7 @@ module.exports = [
         "rationale": "This reverses the base and exponent."
       }
     ],
-    "rationale": "Exponents are used to denote repeated multiplication. Since 'y' is multiplied by itself 4 times, it can be written as y⁴.",
+    "rationale": "Exponents are used to denote repeated multiplication. Since 'y' is multiplied by itself 4 times, it can be written as yâ´.",
     "challenge_tags": [
       "math-3"
     ]

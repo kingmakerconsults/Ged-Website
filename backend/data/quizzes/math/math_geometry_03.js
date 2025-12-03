@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the area of a circle with a radius of 10 cm? Use 3.14 for $\\pi$.",
@@ -80,12 +80,12 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the measure of a straight angle?",
-    "correctAnswer": "180°",
-    "rationale": "A straight angle is an angle that forms a straight line, and its measure is 180°.",
+    "correctAnswer": "180Â°",
+    "rationale": "A straight angle is an angle that forms a straight line, and its measure is 180Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -95,22 +95,22 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "If two angles of a triangle are 30° and 70°, what kind of triangle is it?",
+    "question": "If two angles of a triangle are 30Â° and 70Â°, what kind of triangle is it?",
     "answerOptions": [
       {
         "text": "Acute",
         "isCorrect": false,
-        "rationale": "An acute triangle has all angles less than 90°. The third angle is 80°, so this is correct, but 'Isosceles' is a better description."
+        "rationale": "An acute triangle has all angles less than 90Â°. The third angle is 80Â°, so this is correct, but 'Isosceles' is a better description."
       },
       {
         "text": "Obtuse",
         "isCorrect": false,
-        "rationale": "An obtuse triangle has one angle greater than 90°."
+        "rationale": "An obtuse triangle has one angle greater than 90Â°."
       },
       {
         "text": "Right",
         "isCorrect": false,
-        "rationale": "A right triangle has one 90° angle."
+        "rationale": "A right triangle has one 90Â° angle."
       },
       {
         "text": "Isosceles",
@@ -123,7 +123,7 @@ module.exports = [
         "rationale": "The third angle is 180-30-70 = 80. Since all angles are different, all sides are different, making it a scalene triangle."
       }
     ],
-    "rationale": "The sum of angles in a triangle is 180°. The third angle is 180° - 30° - 70° = 80°. Since all three angles (30°, 70°, 80°) are different, the triangle is scalene. Since all angles are less than 90°, it is also an acute triangle, but scalene is a more specific classification based on the side lengths implied by the angles.",
+    "rationale": "The sum of angles in a triangle is 180Â°. The third angle is 180Â° - 30Â° - 70Â° = 80Â°. Since all three angles (30Â°, 70Â°, 80Â°) are different, the triangle is scalene. Since all angles are less than 90Â°, it is also an acute triangle, but scalene is a more specific classification based on the side lengths implied by the angles.",
     "challenge_tags": [
       "math-5"
     ]
@@ -163,7 +163,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the perimeter of an equilateral triangle with a side length of 9 cm?",
@@ -208,7 +208,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A ladder leaning against a wall forms a right triangle. If the ladder is 10 feet long and the base is 6 feet from the wall, how high up the wall does the ladder reach?",
@@ -259,22 +259,22 @@ module.exports = [
     "question": "Complementary angles are two angles that add up to:",
     "answerOptions": [
       {
-        "text": "45°",
+        "text": "45Â°",
         "isCorrect": false,
         "rationale": "This is half of a right angle."
       },
       {
-        "text": "90°",
+        "text": "90Â°",
         "isCorrect": true,
-        "rationale": "Complementary angles sum to 90°."
+        "rationale": "Complementary angles sum to 90Â°."
       },
       {
-        "text": "180°",
+        "text": "180Â°",
         "isCorrect": false,
-        "rationale": "Supplementary angles sum to 180°."
+        "rationale": "Supplementary angles sum to 180Â°."
       },
       {
-        "text": "360°",
+        "text": "360Â°",
         "isCorrect": false,
         "rationale": "This is the sum of angles in a circle."
       }

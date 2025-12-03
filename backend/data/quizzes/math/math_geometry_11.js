@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a diameter of 8. What is its area? Use 3.14 for $\\pi$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "How many sides does a quadrilateral have?",
@@ -100,12 +100,12 @@ module.exports = [
       {
         "text": "Acute",
         "isCorrect": false,
-        "rationale": "An acute angle is less than 90°."
+        "rationale": "An acute angle is less than 90Â°."
       },
       {
         "text": "Obtuse",
         "isCorrect": false,
-        "rationale": "An obtuse angle is greater than 90°."
+        "rationale": "An obtuse angle is greater than 90Â°."
       },
       {
         "text": "Parallel",
@@ -115,7 +115,7 @@ module.exports = [
       {
         "text": "Right",
         "isCorrect": false,
-        "rationale": "A right angle is 90°."
+        "rationale": "A right angle is 90Â°."
       }
     ],
     "rationale": "'Parallel' is a term used to describe lines that never intersect. Acute, obtuse, and right are all types of angles.",
@@ -133,7 +133,7 @@ module.exports = [
       {
         "text": "20 feet",
         "isCorrect": true,
-        "rationale": "d² = 12² + 16² = 144 + 256 = 400. d = sqrt(400) = 20."
+        "rationale": "dÂ² = 12Â² + 16Â² = 144 + 256 = 400. d = sqrt(400) = 20."
       },
       {
         "text": "28 feet",
@@ -151,19 +151,19 @@ module.exports = [
         "rationale": "This is the area."
       }
     ],
-    "rationale": "The diagonal of a rectangle forms the hypotenuse of a right triangle with the length and width as legs. Using the Pythagorean theorem: d² = 12² + 16² = 144 + 256 = 400. d = $\\sqrt{400}$ = 20 feet.",
+    "rationale": "The diagonal of a rectangle forms the hypotenuse of a right triangle with the length and width as legs. Using the Pythagorean theorem: dÂ² = 12Â² + 16Â² = 144 + 256 = 400. d = $\\sqrt{400}$ = 20 feet.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
-    "question": "If an angle is 70°, what is its supplementary angle?",
-    "correctAnswer": "110°",
-    "rationale": "Supplementary angles add up to 180°. 180 - 70 = 110.",
+    "question": "If an angle is 70Â°, what is its supplementary angle?",
+    "correctAnswer": "110Â°",
+    "rationale": "Supplementary angles add up to 180Â°. 180 - 70 = 110.",
     "challenge_tags": [
       "math-5"
     ]
@@ -178,7 +178,7 @@ module.exports = [
       {
         "text": "28.26",
         "isCorrect": true,
-        "rationale": "C = 2*pi*r -> 18.84 = 2*3.14*r -> r=3. Area = pi*r² = 3.14*3² = 28.26."
+        "rationale": "C = 2*pi*r -> 18.84 = 2*3.14*r -> r=3. Area = pi*rÂ² = 3.14*3Â² = 28.26."
       },
       {
         "text": "56.52",
@@ -188,7 +188,7 @@ module.exports = [
       {
         "text": "9",
         "isCorrect": false,
-        "rationale": "This is r²."
+        "rationale": "This is rÂ²."
       },
       {
         "text": "3",
@@ -196,19 +196,19 @@ module.exports = [
         "rationale": "This is the radius."
       }
     ],
-    "rationale": "First, find the radius from the circumference: C = 2 * pi * r. 18.84 = 2 * 3.14 * r. r = 18.84 / 6.28 = 3. Now, find the area: A = pi * r² = 3.14 * 3² = 28.26.",
+    "rationale": "First, find the radius from the circumference: C = 2 * pi * r. 18.84 = 2 * 3.14 * r. r = 18.84 / 6.28 = 3. Now, find the area: A = pi * rÂ² = 3.14 * 3Â² = 28.26.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A cube has a volume of 125 cubic inches. What is its surface area?",
     "correctAnswer": "150 square inches",
-    "rationale": "The side length is the cube root of the volume: ³√125 = 5 inches. The area of one face is 5² = 25. The surface area is 6 * 25 = 150.",
+    "rationale": "The side length is the cube root of the volume: Â³âˆš125 = 5 inches. The area of one face is 5Â² = 25. The surface area is 6 * 25 = 150.",
     "challenge_tags": [
       "math-5"
     ]

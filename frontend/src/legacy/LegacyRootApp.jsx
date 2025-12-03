@@ -34532,7 +34532,7 @@ function QuizInterface({
                 <div className="space-y-3">
                   {(currentQ.answerOptions || []).map((opt, i) => {
                     const cleanedOptionText = stripHtmlTag(opt.text || '');
-                    const isSelected = answers[currentIndex] === i;
+                    const isSelected = answers[currentIndex] === opt.text;
                     const optionStyle = isSelected
                       ? {
                           backgroundColor: scheme.optionSelectedBg,
@@ -34547,7 +34547,7 @@ function QuizInterface({
                     return (
                       <button
                         key={i}
-                        onClick={() => handleOptionChange(i)}
+                        onClick={() => handleSelect(opt.text)}
                         disabled={isOlympicsMode && showingExplanation}
                         className="flex w-full items-center gap-2 rounded-lg p-3 text-left transition"
                         style={{

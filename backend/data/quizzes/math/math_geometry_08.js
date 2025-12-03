@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the area of a circle with a diameter of 12 inches. Use 3.14 for $\\pi$.",
@@ -73,14 +73,14 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Using the formula, V = (4/3) * pi * $r^3$. V = (4/3) * 3.14 * (5 cm)$^3$ = (4/3) * 3.14 * 125 ≈ 523.33 $cm^3$.",
+    "rationale": "Using the formula, V = (4/3) * pi * $r^3$. V = (4/3) * 3.14 * (5 cm)$^3$ = (4/3) * 3.14 * 125 â‰ˆ 523.33 $cm^3$.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "How many grams are in a kilogram?",
@@ -95,30 +95,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "If a right angle is divided into two smaller angles and one of them is 35°, what is the measure of the other angle?",
+    "question": "If a right angle is divided into two smaller angles and one of them is 35Â°, what is the measure of the other angle?",
     "answerOptions": [
       {
-        "text": "35°",
+        "text": "35Â°",
         "isCorrect": false,
         "rationale": "This is the measure of the given angle."
       },
       {
-        "text": "55°",
+        "text": "55Â°",
         "isCorrect": true,
-        "rationale": "The two angles are complementary (add up to 90°). 90 - 35 = 55."
+        "rationale": "The two angles are complementary (add up to 90Â°). 90 - 35 = 55."
       },
       {
-        "text": "145°",
+        "text": "145Â°",
         "isCorrect": false,
         "rationale": "This would be the supplementary angle."
       },
       {
-        "text": "90°",
+        "text": "90Â°",
         "isCorrect": false,
         "rationale": "This is the measure of the original right angle."
       }
     ],
-    "rationale": "A right angle measures 90°. If it's divided into two angles, those angles are complementary. The other angle is 90° - 35° = 55°.",
+    "rationale": "A right angle measures 90Â°. If it's divided into two angles, those angles are complementary. The other angle is 90Â° - 35Â° = 55Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -133,7 +133,7 @@ module.exports = [
       {
         "text": "47.17 feet",
         "isCorrect": true,
-        "rationale": "Using the Pythagorean theorem, $d^2 = 25^2 + 40^2$ = 625 + 1600 = 2225. d = sqrt(2225) ≈ 47.17."
+        "rationale": "Using the Pythagorean theorem, $d^2 = 25^2 + 40^2$ = 625 + 1600 = 2225. d = sqrt(2225) â‰ˆ 47.17."
       },
       {
         "text": "65 feet",
@@ -151,14 +151,14 @@ module.exports = [
         "rationale": "This is the area."
       }
     ],
-    "rationale": "The diagonal of a rectangle forms the hypotenuse of a right triangle with the length and width as its legs. Using the Pythagorean theorem: $d^2 = 25^2 + 40^2$ = 625 + 1600 = 2225. d = $\\sqrt{2225}$ ≈ 47.17 feet.",
+    "rationale": "The diagonal of a rectangle forms the hypotenuse of a right triangle with the length and width as its legs. Using the Pythagorean theorem: $d^2 = 25^2 + 40^2$ = 625 + 1600 = 2225. d = $\\sqrt{2225}$ â‰ˆ 47.17 feet.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the name for a polygon with eight sides?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A car's wheel has a diameter of 24 inches. How many feet does the car travel in one full rotation of the wheel? Use 3.14 for $\\pi$.",
@@ -221,7 +221,7 @@ module.exports = [
     "question": "Which of the following describes parallel lines?",
     "answerOptions": [
       {
-        "text": "Lines that intersect at a 90° angle.",
+        "text": "Lines that intersect at a 90Â° angle.",
         "isCorrect": false,
         "rationale": "These are perpendicular lines."
       },
@@ -251,30 +251,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "An angle is 110°. What is its supplementary angle?",
+    "question": "An angle is 110Â°. What is its supplementary angle?",
     "answerOptions": [
       {
-        "text": "-20°",
+        "text": "-20Â°",
         "isCorrect": false,
         "rationale": "Angles cannot be negative."
       },
       {
-        "text": "20°",
+        "text": "20Â°",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },
       {
-        "text": "70°",
+        "text": "70Â°",
         "isCorrect": true,
-        "rationale": "Supplementary angles add up to 180°. 180 - 110 = 70."
+        "rationale": "Supplementary angles add up to 180Â°. 180 - 110 = 70."
       },
       {
-        "text": "250°",
+        "text": "250Â°",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Supplementary angles are two angles that sum to 180°. The supplement of a 110° angle is 180° - 110° = 70°.",
+    "rationale": "Supplementary angles are two angles that sum to 180Â°. The supplement of a 110Â° angle is 180Â° - 110Â° = 70Â°.",
     "challenge_tags": [
       "math-5"
     ]

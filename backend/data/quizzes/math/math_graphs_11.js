@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "If $f(x) = 3x$, what is $f(10)$?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of the line $4x - 2y = 8$?",
@@ -151,14 +151,14 @@ module.exports = [
         "rationale": "This is the vertex."
       }
     ],
-    "rationale": "The y-intercept of a function is the point where its graph crosses the y-axis, which occurs when x=0. For this function, f(0) = 0² - 4(0) + 3 = 3.",
+    "rationale": "The y-intercept of a function is the point where its graph crosses the y-axis, which occurs when x=0. For this function, f(0) = 0Â² - 4(0) + 3 = 3.",
     "challenge_tags": [
       "math-3"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the slope of a line perpendicular to $y = -1/5x + 2$?",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "A function models the height of a ball, h(t) = -16t² + 32t, where t is time in seconds. What is the height of the ball at t=1 second?",
+    "question": "A function models the height of a ball, h(t) = -16tÂ² + 32t, where t is time in seconds. What is the height of the ball at t=1 second?",
     "correctAnswer": "16",
-    "rationale": "h(1) = -16(1)² + 32(1) = -16 + 32 = 16.",
+    "rationale": "h(1) = -16(1)Â² + 32(1) = -16 + 32 = 16.",
     "challenge_tags": [
       "math-3"
     ]
@@ -274,7 +274,7 @@ module.exports = [
         "rationale": "This is a shift left."
       }
     ],
-    "rationale": "A vertical shift of a function f(x) down by k units is represented by the new function g(x) = f(x) - k. So, the new equation is y = x² - 3.",
+    "rationale": "A vertical shift of a function f(x) down by k units is represented by the new function g(x) = f(x) - k. So, the new equation is y = xÂ² - 3.",
     "challenge_tags": [
       "math-3"
     ]

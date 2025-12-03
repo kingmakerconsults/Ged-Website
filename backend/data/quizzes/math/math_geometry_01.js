@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A square has a perimeter of 24 inches. What is the length of one side?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a radius of 5 meters. What is its circumference? Use 3.14 for $\\pi$.",
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
-    "question": "Two angles in a triangle measure 40° and 60°. What is the measure of the third angle?",
-    "correctAnswer": "80°",
-    "rationale": "The sum of the angles in a triangle is always 180°. So, the third angle is 180° - 40° - 60° = 80°.",
+    "question": "Two angles in a triangle measure 40Â° and 60Â°. What is the measure of the third angle?",
+    "correctAnswer": "80Â°",
+    "rationale": "The sum of the angles in a triangle is always 180Â°. So, the third angle is 180Â° - 40Â° - 60Â° = 80Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "How many feet are in 3 yards?",
@@ -251,30 +251,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "An angle that measures 95° is classified as what type of angle?",
+    "question": "An angle that measures 95Â° is classified as what type of angle?",
     "answerOptions": [
       {
         "text": "Acute",
         "isCorrect": false,
-        "rationale": "An acute angle is less than 90°."
+        "rationale": "An acute angle is less than 90Â°."
       },
       {
         "text": "Obtuse",
         "isCorrect": true,
-        "rationale": "An obtuse angle is greater than 90° but less than 180°."
+        "rationale": "An obtuse angle is greater than 90Â° but less than 180Â°."
       },
       {
         "text": "Right",
         "isCorrect": false,
-        "rationale": "A right angle is exactly 90°."
+        "rationale": "A right angle is exactly 90Â°."
       },
       {
         "text": "Straight",
         "isCorrect": false,
-        "rationale": "A straight angle is exactly 180°."
+        "rationale": "A straight angle is exactly 180Â°."
       }
     ],
-    "rationale": "Angles are classified based on their measure. An angle greater than 90° and less than 180° is an obtuse angle.",
+    "rationale": "Angles are classified based on their measure. An angle greater than 90Â° and less than 180Â° is an obtuse angle.",
     "challenge_tags": [
       "math-5"
     ]

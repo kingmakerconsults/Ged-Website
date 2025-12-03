@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A coin is flipped. What is the probability of it landing on heads?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the mean of the numbers: 2.5, 3.5, 4.0, 5.0.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the mode of the data set: Apple, Banana, Orange, Apple, Grape, Apple?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The average of 5 numbers is 30. The average of 3 of those numbers is 20. What is the average of the other two numbers?",
@@ -271,7 +271,7 @@ module.exports = [
       {
         "text": "1000",
         "isCorrect": false,
-        "rationale": "This is 10³."
+        "rationale": "This is 10Â³."
       }
     ],
     "rationale": "This is a permutation problem because the order matters. For first place, there are 10 choices. For second, 9 remain. For third, 8 remain. Total ways = 10 * 9 * 8 = 720.",

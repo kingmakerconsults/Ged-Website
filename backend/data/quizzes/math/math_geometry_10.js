@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a circumference of 31.4 inches. What is its radius? Use 3.14 for $\\pi$.",
@@ -80,12 +80,12 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
-    "question": "A triangle has angles of 20° and 80°. What is the third angle?",
-    "correctAnswer": "80°",
-    "rationale": "The sum of the angles in a triangle is 180°. 180 - 20 - 80 = 80°.",
+    "question": "A triangle has angles of 20Â° and 80Â°. What is the third angle?",
+    "correctAnswer": "80Â°",
+    "rationale": "The sum of the angles in a triangle is 180Â°. 180 - 20 - 80 = 80Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the perimeter of a regular octagon with a side length of 5 cm.",
@@ -178,7 +178,7 @@ module.exports = [
       {
         "text": "20",
         "isCorrect": true,
-        "rationale": "12² + 16² = 144 + 256 = 400. sqrt(400) = 20."
+        "rationale": "12Â² + 16Â² = 144 + 256 = 400. sqrt(400) = 20."
       },
       {
         "text": "28",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A cylindrical tank is 10 feet tall and has a radius of 3 feet. What is its volume? Use 3.14 for $\\pi$.",
     "correctAnswer": "282.6 cubic feet",
-    "rationale": "Volume = pi * r² * h = 3.14 * 3² * 10 = 282.6.",
+    "rationale": "Volume = pi * rÂ² * h = 3.14 * 3Â² * 10 = 282.6.",
     "challenge_tags": [
       "math-5"
     ]
@@ -266,7 +266,7 @@ module.exports = [
       {
         "text": "Complementary",
         "isCorrect": false,
-        "rationale": "They do not necessarily add to 90°."
+        "rationale": "They do not necessarily add to 90Â°."
       },
       {
         "text": "Unequal",

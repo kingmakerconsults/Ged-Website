@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A store has a 20% off sale. If a shirt is originally $35, what is the amount of the discount?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A recipe uses 3 eggs for every 24 cookies. How many eggs are needed for 48 cookies?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A survey of 400 people found that 60% prefer brand X. How many people prefer a different brand?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "The ratio of teachers to students in a school is 1:25. If there are 20 teachers, how many students are there?",
@@ -254,27 +254,27 @@ module.exports = [
     "question": "The ratio of two supplementary angles is 2:3. What is the measure of the larger angle?",
     "answerOptions": [
       {
-        "text": "36°",
+        "text": "36Â°",
         "isCorrect": false,
         "rationale": "This is the result for one part of the ratio."
       },
       {
-        "text": "72°",
+        "text": "72Â°",
         "isCorrect": false,
         "rationale": "This is the measure of the smaller angle."
       },
       {
-        "text": "108°",
+        "text": "108Â°",
         "isCorrect": true,
         "rationale": "The total ratio parts is 5. 180/5 = 36. The larger angle is 3 * 36 = 108."
       },
       {
-        "text": "180°",
+        "text": "180Â°",
         "isCorrect": false,
         "rationale": "This is the total measure."
       }
     ],
-    "rationale": "Supplementary angles add up to 180°. The ratio 2:3 has a total of 5 parts. Divide 180° by 5 to find the value of one part: 180 / 5 = 36°. The larger angle is 3 parts, so 3 * 36° = 108°.",
+    "rationale": "Supplementary angles add up to 180Â°. The ratio 2:3 has a total of 5 parts. Divide 180Â° by 5 to find the value of one part: 180 / 5 = 36Â°. The larger angle is 3 parts, so 3 * 36Â° = 108Â°.",
     "challenge_tags": [
       "math-1"
     ]

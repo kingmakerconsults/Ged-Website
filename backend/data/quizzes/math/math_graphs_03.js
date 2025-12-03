@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the slope of the equation $y = -x + 4$?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A line passes through (0, 1) and (3, 7). What is its y-intercept?",
@@ -105,7 +105,7 @@ module.exports = [
       {
         "text": "$y = 3x^2 - 4x + 2$",
         "isCorrect": true,
-        "rationale": "A quadratic function has a term with x² as its highest power."
+        "rationale": "A quadratic function has a term with xÂ² as its highest power."
       },
       {
         "text": "$y = |x-3|$",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the slope of the line given by the equation $4x + 2y = 10$?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "For the function $h(t) = -16t^2 + 64t$, find the value of $h(2)$.",

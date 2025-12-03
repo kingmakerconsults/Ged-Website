@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Calculate: $100 - 35$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate the expression: $5 + 3 \\times (8 - 2)$.",
@@ -118,7 +118,7 @@ module.exports = [
         "rationale": "This is 7/2."
       }
     ],
-    "rationale": "To convert a fraction to a decimal, divide the numerator by the denominator. 7 ÷ 20 = 0.35.",
+    "rationale": "To convert a fraction to a decimal, divide the numerator by the denominator. 7 Ã· 20 = 0.35.",
     "challenge_tags": [
       "math-1"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the product of $-6$ and $9$?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A recipe requires 3/4 cup of sugar. If you are making 2.5 times the recipe, how many cups of sugar do you need?",

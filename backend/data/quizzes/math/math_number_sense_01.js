@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -68,7 +68,7 @@ module.exports = [
   },
   {
     "questionNumber": 3,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate the expression: $12 + (5 - 2) \\times 3^2$.",
@@ -113,7 +113,7 @@ module.exports = [
   },
   {
     "questionNumber": 5,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is $\\frac{3}{5}$ as a percentage?",
@@ -191,7 +191,7 @@ module.exports = [
   },
   {
     "questionNumber": 8,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A recipe calls for $2 \\frac{1}{2}$ cups of flour, but you only want to make half the recipe. How many cups of flour do you need?",
@@ -236,7 +236,7 @@ module.exports = [
   },
   {
     "questionNumber": 10,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "hard",
     "question": "A car travels 150 miles on 5 gallons of gas. What is the car's fuel efficiency in miles per gallon (MPG)?",
