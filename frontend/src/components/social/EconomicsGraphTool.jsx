@@ -1,1 +1,1 @@
-export { default } from '../../../tools/EconomicsGraphTool.jsx';
+export { default } from '../../../../tools/EconomicsGraphTool.jsx';

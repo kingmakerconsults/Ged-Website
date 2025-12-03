@@ -1,1 +1,1 @@
-export { default } from '../../../tools/ConstitutionExplorer.jsx';
+export { default } from '../../../../tools/ConstitutionExplorer.jsx';
