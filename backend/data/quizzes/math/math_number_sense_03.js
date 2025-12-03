@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the product of 15 and 4?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate: $3^3 - 2 \\times 5$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the greatest common factor (GCF) of 24 and 30?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A company has 120 employees. If 45% are in the sales department, how many employees are NOT in the sales department?",
@@ -233,7 +233,7 @@ module.exports = [
       {
         "text": "1200",
         "isCorrect": true,
-        "rationale": "Multiplying by 10³ moves the decimal point 3 places to the right."
+        "rationale": "Multiplying by 10Â³ moves the decimal point 3 places to the right."
       },
       {
         "text": "0.012",
@@ -241,7 +241,7 @@ module.exports = [
         "rationale": "This is the result of dividing by 100."
       }
     ],
-    "rationale": "Multiplying a decimal by 10³ means moving the decimal point three places to the right. So, 1.2 becomes 1200.",
+    "rationale": "Multiplying a decimal by 10Â³ means moving the decimal point three places to the right. So, 1.2 becomes 1200.",
     "challenge_tags": [
       "math-1"
     ]

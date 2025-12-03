@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the circumference of a circle with a diameter of 15 cm? Use 3.14 for $\\pi$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "How many inches are in one foot?",
@@ -131,39 +131,39 @@ module.exports = [
     "question": "A right circular cone has a height of 12 cm and a radius of 5 cm. What is its volume? Use 3.14 for $\\pi$ and V = $\\frac{1}{3}\\pi r^2 h$.",
     "answerOptions": [
       {
-        "text": "314 cm³",
+        "text": "314 cmÂ³",
         "isCorrect": true,
-        "rationale": "V = (1/3) * 3.14 * 5² * 12 = 314."
+        "rationale": "V = (1/3) * 3.14 * 5Â² * 12 = 314."
       },
       {
-        "text": "942 cm³",
+        "text": "942 cmÂ³",
         "isCorrect": false,
         "rationale": "This is the volume of a cylinder with the same dimensions."
       },
       {
-        "text": "188.4 cm³",
+        "text": "188.4 cmÂ³",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },
       {
-        "text": "1570 cm³",
+        "text": "1570 cmÂ³",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Using the formula for the volume of a cone, V = (1/3) * pi * r² * h. V = (1/3) * 3.14 * (5 cm)² * 12 cm = (1/3) * 3.14 * 25 * 12 = 314 cm³.",
+    "rationale": "Using the formula for the volume of a cone, V = (1/3) * pi * rÂ² * h. V = (1/3) * 3.14 * (5 cm)Â² * 12 cm = (1/3) * 3.14 * 25 * 12 = 314 cmÂ³.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the measure of each angle in an equilateral triangle?",
-    "correctAnswer": "60°",
-    "rationale": "An equilateral triangle has three equal angles. The sum of the angles is 180°, so each angle is 180° / 3 = 60°.",
+    "correctAnswer": "60Â°",
+    "rationale": "An equilateral triangle has three equal angles. The sum of the angles is 180Â°, so each angle is 180Â° / 3 = 60Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -178,7 +178,7 @@ module.exports = [
       {
         "text": "25",
         "isCorrect": true,
-        "rationale": "7² + 24² = 49 + 576 = 625. sqrt(625) = 25."
+        "rationale": "7Â² + 24Â² = 49 + 576 = 625. sqrt(625) = 25."
       },
       {
         "text": "31",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A rectangular room is 5 yards long and 4 yards wide. What is its area in square feet?",
@@ -251,30 +251,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "If an angle is 30°, what is its complementary angle?",
+    "question": "If an angle is 30Â°, what is its complementary angle?",
     "answerOptions": [
       {
-        "text": "60°",
+        "text": "60Â°",
         "isCorrect": true,
-        "rationale": "Complementary angles add to 90°. 90 - 30 = 60."
+        "rationale": "Complementary angles add to 90Â°. 90 - 30 = 60."
       },
       {
-        "text": "150°",
+        "text": "150Â°",
         "isCorrect": false,
         "rationale": "This is the supplementary angle."
       },
       {
-        "text": "30°",
+        "text": "30Â°",
         "isCorrect": false,
         "rationale": "This is the original angle."
       },
       {
-        "text": "90°",
+        "text": "90Â°",
         "isCorrect": false,
         "rationale": "This is the sum of the two angles."
       }
     ],
-    "rationale": "Complementary angles are two angles that sum to 90°. The complement of a 30° angle is 90° - 30° = 60°.",
+    "rationale": "Complementary angles are two angles that sum to 90Â°. The complement of a 30Â° angle is 90Â° - 30Â° = 60Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -289,7 +289,7 @@ module.exports = [
       {
         "text": "64 meters",
         "isCorrect": true,
-        "rationale": "C = 2 * pi * r. 400 = 2 * 3.14 * r. 400 = 6.28 * r. r = 400/6.28 ≈ 63.69, which is 64 to the nearest meter."
+        "rationale": "C = 2 * pi * r. 400 = 2 * 3.14 * r. 400 = 6.28 * r. r = 400/6.28 â‰ˆ 63.69, which is 64 to the nearest meter."
       },
       {
         "text": "127 meters",
@@ -307,7 +307,7 @@ module.exports = [
         "rationale": "This is the area."
       }
     ],
-    "rationale": "The formula for circumference is C = 2 * pi * r. We have 400 = 2 * 3.14 * r. First, divide by (2 * 3.14): r = 400 / 6.28 ≈ 63.69 meters. To the nearest meter, this is 64 meters.",
+    "rationale": "The formula for circumference is C = 2 * pi * r. We have 400 = 2 * 3.14 * r. First, divide by (2 * 3.14): r = 400 / 6.28 â‰ˆ 63.69 meters. To the nearest meter, this is 64 meters.",
     "challenge_tags": [
       "math-5"
     ]

@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a radius of 9 cm. What is its area? Use 3.14 for $\\pi$.",
@@ -80,12 +80,12 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
-    "question": "An angle measuring exactly 90° is called what?",
+    "question": "An angle measuring exactly 90Â° is called what?",
     "correctAnswer": "Right angle",
-    "rationale": "A right angle is an angle that measures exactly 90°.",
+    "rationale": "A right angle is an angle that measures exactly 90Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
-    "question": "If two angles in a triangle are 45° and 90°, what is the third angle?",
-    "correctAnswer": "45°",
-    "rationale": "The sum of the angles in a triangle is 180°. So, the third angle is 180° - 90° - 45° = 45°.",
+    "question": "If two angles in a triangle are 45Â° and 90Â°, what is the third angle?",
+    "correctAnswer": "45Â°",
+    "rationale": "The sum of the angles in a triangle is 180Â°. So, the third angle is 180Â° - 90Â° - 45Â° = 45Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A rectangular field is 100 yards long and 50 yards wide. What is the length of the diagonal in yards?",
     "correctAnswer": "111.8 yards",
-    "rationale": "The diagonal forms the hypotenuse of a right triangle. Using the Pythagorean theorem: d² = 100² + 50² = 10000 + 2500 = 12500. d = sqrt(12500) ≈ 111.8 yards.",
+    "rationale": "The diagonal forms the hypotenuse of a right triangle. Using the Pythagorean theorem: dÂ² = 100Â² + 50Â² = 10000 + 2500 = 12500. d = sqrt(12500) â‰ˆ 111.8 yards.",
     "challenge_tags": [
       "math-5"
     ]
@@ -221,27 +221,27 @@ module.exports = [
     "question": "What is the sum of the interior angles of a hexagon?",
     "answerOptions": [
       {
-        "text": "360°",
+        "text": "360Â°",
         "isCorrect": false,
         "rationale": "This is for a quadrilateral."
       },
       {
-        "text": "540°",
+        "text": "540Â°",
         "isCorrect": false,
         "rationale": "This is for a pentagon."
       },
       {
-        "text": "720°",
+        "text": "720Â°",
         "isCorrect": true,
-        "rationale": "The formula is (n-2) * 180°. For a hexagon, n=6. (6-2)*180 = 4*180 = 720°."
+        "rationale": "The formula is (n-2) * 180Â°. For a hexagon, n=6. (6-2)*180 = 4*180 = 720Â°."
       },
       {
-        "text": "1080°",
+        "text": "1080Â°",
         "isCorrect": false,
         "rationale": "This is for an octagon."
       }
     ],
-    "rationale": "The sum of the interior angles of a polygon is given by the formula (n-2) * 180°, where n is the number of sides. For a hexagon, n=6, so the sum is (6-2) * 180° = 720°.",
+    "rationale": "The sum of the interior angles of a polygon is given by the formula (n-2) * 180Â°, where n is the number of sides. For a hexagon, n=6, so the sum is (6-2) * 180Â° = 720Â°.",
     "challenge_tags": [
       "math-5"
     ]

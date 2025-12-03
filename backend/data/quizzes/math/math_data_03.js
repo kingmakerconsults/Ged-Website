@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A standard die is rolled once. What is the probability of rolling a 5?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A basketball player scores 15, 20, 22, and 18 points in four games. How many points must they score in the fifth game to have an average of 20 points per game?",
@@ -95,30 +95,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "Find the range of the temperatures: 5°C, -2°C, 8°C, 0°C, -5°C.",
+    "question": "Find the range of the temperatures: 5Â°C, -2Â°C, 8Â°C, 0Â°C, -5Â°C.",
     "answerOptions": [
       {
-        "text": "3°C",
+        "text": "3Â°C",
         "isCorrect": false,
         "rationale": "This is the difference between 8 and 5."
       },
       {
-        "text": "8°C",
+        "text": "8Â°C",
         "isCorrect": false,
         "rationale": "This is the maximum temperature."
       },
       {
-        "text": "13°C",
+        "text": "13Â°C",
         "isCorrect": true,
-        "rationale": "The range is the difference between the highest (8°C) and the lowest (-5°C). 8 - (-5) = 13."
+        "rationale": "The range is the difference between the highest (8Â°C) and the lowest (-5Â°C). 8 - (-5) = 13."
       },
       {
-        "text": "-5°C",
+        "text": "-5Â°C",
         "isCorrect": false,
         "rationale": "This is the minimum temperature."
       }
     ],
-    "rationale": "The range is the difference between the maximum and minimum values. The maximum is 8°C and the minimum is -5°C. The range is 8 - (-5) = 13°C.",
+    "rationale": "The range is the difference between the maximum and minimum values. The maximum is 8Â°C and the minimum is -5Â°C. The range is 8 - (-5) = 13Â°C.",
     "challenge_tags": [
       "math-6"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the mode of the following set of data: red, blue, green, blue, red, blue.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A survey of 50 people shows that 35 like pop music, 25 like rock music, and 15 like both. How many people like neither?",

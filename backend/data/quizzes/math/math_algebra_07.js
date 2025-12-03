@@ -1,8 +1,8 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for k: $\\frac{k}{4} = 6$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the slope of a line that passes through (1, 6) and (3, 2).",
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "If $f(x) = x^2 - 10$, find $f(3)$.",
     "correctAnswer": "-1",
-    "rationale": "Substitute 3 for x: f(3) = (3)² - 10 = 9 - 10 = -1.",
+    "rationale": "Substitute 3 for x: f(3) = (3)Â² - 10 = 9 - 10 = -1.",
     "challenge_tags": [
       "math-3"
     ]
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Solve for x: $x/2 - 5 = 3$.",

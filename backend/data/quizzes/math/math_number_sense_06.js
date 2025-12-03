@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Convert 0.45 to a fraction in simplest form.",
@@ -50,37 +50,37 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "The temperature was -5°F in the morning and rose to 12°F in the afternoon. What was the change in temperature?",
+    "question": "The temperature was -5Â°F in the morning and rose to 12Â°F in the afternoon. What was the change in temperature?",
     "answerOptions": [
       {
-        "text": "7°F",
+        "text": "7Â°F",
         "isCorrect": false,
         "rationale": "This is 12-5."
       },
       {
-        "text": "17°F",
+        "text": "17Â°F",
         "isCorrect": true,
         "rationale": "The change is the difference between the final and initial temperatures: 12 - (-5) = 17."
       },
       {
-        "text": "-17°F",
+        "text": "-17Â°F",
         "isCorrect": false,
         "rationale": "The temperature rose, so the change is positive."
       },
       {
-        "text": "-7°F",
+        "text": "-7Â°F",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To find the change in temperature, subtract the initial temperature from the final temperature: 12°F - (-5°F) = 12°F + 5°F = 17°F.",
+    "rationale": "To find the change in temperature, subtract the initial temperature from the final temperature: 12Â°F - (-5Â°F) = 12Â°F + 5Â°F = 17Â°F.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the least common multiple (LCM) of 8 and 10.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A car travels 220 miles on 8 gallons of gas. What is its fuel efficiency in miles per gallon?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "hard",
     "question": "Evaluate: $(2^3 + 2)^2$.",

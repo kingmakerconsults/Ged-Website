@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "You get 18 questions right on a 20-question test. What is your score as a percentage?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A map has a scale of 1 inch to 50 miles. How many inches on the map represent 200 miles?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The ratio of fiction to non-fiction books in a library is 4:3. If there are 1200 fiction books, how many non-fiction books are there?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Solve the proportion: $\\frac{7}{3} = \\frac{x}{9}$.",
@@ -254,27 +254,27 @@ module.exports = [
     "question": "The ratio of the angles in a triangle is 1:2:3. What is the measure of the largest angle?",
     "answerOptions": [
       {
-        "text": "30°",
+        "text": "30Â°",
         "isCorrect": false,
         "rationale": "This is the smallest angle."
       },
       {
-        "text": "60°",
+        "text": "60Â°",
         "isCorrect": false,
         "rationale": "This is the middle angle."
       },
       {
-        "text": "90°",
+        "text": "90Â°",
         "isCorrect": true,
         "rationale": "The total ratio parts is 6. 180/6 = 30. The largest angle is 3 * 30 = 90."
       },
       {
-        "text": "180°",
+        "text": "180Â°",
         "isCorrect": false,
         "rationale": "This is the sum of the angles."
       }
     ],
-    "rationale": "The angles of a triangle sum to 180°. The ratio 1:2:3 has a total of 1+2+3=6 parts. The value of one part is 180° / 6 = 30°. The largest angle is 3 parts, so 3 * 30° = 90°.",
+    "rationale": "The angles of a triangle sum to 180Â°. The ratio 1:2:3 has a total of 1+2+3=6 parts. The value of one part is 180Â° / 6 = 30Â°. The largest angle is 3 parts, so 3 * 30Â° = 90Â°.",
     "challenge_tags": [
       "math-1"
     ]

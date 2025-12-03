@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A bag has 5 red, 3 blue, and 2 green marbles. What is the probability of picking a blue marble?",
@@ -60,7 +60,7 @@ module.exports = [
       {
         "text": "3.33",
         "isCorrect": true,
-        "rationale": "The sum is 20. 20/6 ≈ 3.33."
+        "rationale": "The sum is 20. 20/6 â‰ˆ 3.33."
       },
       {
         "text": "1",
@@ -73,14 +73,14 @@ module.exports = [
         "rationale": "This is the range."
       }
     ],
-    "rationale": "To find the mean, add the numbers together (1+1+2+3+5+8 = 20) and divide by the number of values (6). 20 / 6 ≈ 3.33.",
+    "rationale": "To find the mean, add the numbers together (1+1+2+3+5+8 = 20) and divide by the number of values (6). 20 / 6 â‰ˆ 3.33.",
     "challenge_tags": [
       "math-6"
     ]
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the range of the data set: 1.5, 2.3, 0.8, 3.1, 1.9?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The mean of five numbers is 12. Four of the numbers are 10, 12, 14, and 16. What is the fifth number?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "A jar has 15 red marbles and 5 green marbles. What are the odds in favor of drawing a red marble?",

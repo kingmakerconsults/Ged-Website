@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "If $f(x) = 5x + 1$, what is $f(-1)$?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of a line with slope 3 that passes through (2, 5)?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the x-intercept of the line $y = -4x + 12$.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A company's cost function is C(x) = 10x + 500, where x is the number of units produced. What is the cost of producing 50 units?",
@@ -223,7 +223,7 @@ module.exports = [
       {
         "text": "(-2, -1)",
         "isCorrect": true,
-        "rationale": "The x-coordinate of the vertex is -b/(2a) = -4/2 = -2. y = (-2)² + 4(-2) + 3 = 4 - 8 + 3 = -1."
+        "rationale": "The x-coordinate of the vertex is -b/(2a) = -4/2 = -2. y = (-2)Â² + 4(-2) + 3 = 4 - 8 + 3 = -1."
       },
       {
         "text": "(2, 15)",

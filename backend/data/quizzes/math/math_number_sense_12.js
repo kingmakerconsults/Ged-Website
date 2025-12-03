@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is 10% of 350?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate: $60 \\div (5 \times 3) + 2$.",
@@ -118,7 +118,7 @@ module.exports = [
         "rationale": "This is 0.45."
       }
     ],
-    "rationale": "To compare, convert all values to decimals: 1/3 ≈ 0.333, 40% = 0.4. The smallest value is 0.333..., which is 1/3.",
+    "rationale": "To compare, convert all values to decimals: 1/3 â‰ˆ 0.333, 40% = 0.4. The smallest value is 0.333..., which is 1/3.",
     "challenge_tags": [
       "math-1"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the result of multiplying 1/2 by 3/4?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A company's total expenses are $30,000. If salaries account for 65% of the expenses, how much is spent on salaries?",

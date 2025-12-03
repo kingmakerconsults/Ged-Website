@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the next prime number after 19?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Convert the improper fraction $\\frac{11}{4}$ to a mixed number.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the sum of all prime numbers between 10 and 20?",
@@ -196,14 +196,14 @@ module.exports = [
         "rationale": "This is 20+10."
       }
     ],
-    "rationale": "According to the order of operations (PEMDAS), division is performed before addition. So, 20 ÷ 4 = 5, and then 5 + 6 = 11.",
+    "rationale": "According to the order of operations (PEMDAS), division is performed before addition. So, 20 Ã· 4 = 5, and then 5 + 6 = 11.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A piece of wood is 8 feet long. If you cut off a piece that is 2.25 feet long, how many inches is the remaining piece?",

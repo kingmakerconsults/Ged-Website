@@ -1,8 +1,8 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for x: $x + 9 = 17$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Simplify the expression: $9x - (2x - 4)$.",
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "If $f(x) = x^2 + x$, find $f(-5)$.",
     "correctAnswer": "20",
-    "rationale": "Substitute -5 for x: f(-5) = (-5)² + (-5) = 25 - 5 = 20.",
+    "rationale": "Substitute -5 for x: f(-5) = (-5)Â² + (-5) = 25 - 5 = 20.",
     "challenge_tags": [
       "math-3"
     ]
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of a line that has a slope of 2 and passes through the point (3, 10)?",
@@ -299,7 +299,7 @@ module.exports = [
       {
         "text": "$8x^3$",
         "isCorrect": true,
-        "rationale": "Both the 2 and the x are cubed: 2³ * x³ = 8x³."
+        "rationale": "Both the 2 and the x are cubed: 2Â³ * xÂ³ = 8xÂ³."
       },
       {
         "text": "$6x^3$",

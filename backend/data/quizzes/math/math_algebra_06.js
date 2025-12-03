@@ -1,8 +1,8 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for x: $x - 7 = 11$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Simplify the expression: $8(y - 2) - 3y$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the slope of a line passing through (5, 2) and (5, 8)?",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Given $f(x) = (x+2)^2$, find $f(4)$.",
     "correctAnswer": "36",
-    "rationale": "Substitute 4 for x: f(4) = (4 + 2)² = (6)² = 36.",
+    "rationale": "Substitute 4 for x: f(4) = (4 + 2)Â² = (6)Â² = 36.",
     "challenge_tags": [
       "math-3"
     ]
@@ -261,7 +261,7 @@ module.exports = [
       {
         "text": "(-1, -4)",
         "isCorrect": true,
-        "rationale": "The equation is in vertex form y = a(x - h)² + k, so the vertex is (h, k). Here h=-1 and k=-4."
+        "rationale": "The equation is in vertex form y = a(x - h)Â² + k, so the vertex is (h, k). Here h=-1 and k=-4."
       },
       {
         "text": "(-1, 4)",
@@ -274,7 +274,7 @@ module.exports = [
         "rationale": "The 'a' value does not affect the vertex's location."
       }
     ],
-    "rationale": "The vertex form of a parabola is y = a(x - h)² + k, where (h, k) is the vertex. In this equation, h = -1 and k = -4.",
+    "rationale": "The vertex form of a parabola is y = a(x - h)Â² + k, where (h, k) is the vertex. In this equation, h = -1 and k = -4.",
     "challenge_tags": [
       "math-3"
     ]

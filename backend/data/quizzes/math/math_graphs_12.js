@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "If $f(x) = 15 - x$, what is $f(15)$?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the slope of a line passing through (4, 2) and (6, 10)?",
@@ -118,7 +118,7 @@ module.exports = [
         "rationale": "The y-intercept is the value when x=0. f(0) = -9."
       }
     ],
-    "rationale": "To find the y-intercept, set x=0. f(0) = 0² - 9 = -9.",
+    "rationale": "To find the y-intercept, set x=0. f(0) = 0Â² - 9 = -9.",
     "challenge_tags": [
       "math-1"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the x-intercept of the line $y = 5x + 15$?",
@@ -183,7 +183,7 @@ module.exports = [
       {
         "text": "(-1, -2)",
         "isCorrect": true,
-        "rationale": "The vertex form y=(x-h)²+k gives the vertex (h,k)."
+        "rationale": "The vertex form y=(x-h)Â²+k gives the vertex (h,k)."
       },
       {
         "text": "(1, 2)",
@@ -196,14 +196,14 @@ module.exports = [
         "rationale": "The y-coordinate is -2."
       }
     ],
-    "rationale": "The vertex form of a parabola is y = a(x - h)² + k, where the vertex is (h, k). In this equation, h = -1 and k = -2.",
+    "rationale": "The vertex form of a parabola is y = a(x - h)Â² + k, where the vertex is (h, k). In this equation, h = -1 and k = -2.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A gym membership costs $25 per month. Write a function C(m) for the total cost of 'm' months.",

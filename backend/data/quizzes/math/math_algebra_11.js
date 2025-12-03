@@ -1,8 +1,8 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for x: $3x = 33$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Simplify the expression: $3(2x + 1) - 4x$.",
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "If $f(x) = 10 - x^2$, what is $f(4)$?",
     "correctAnswer": "-6",
-    "rationale": "Substitute 4 for x: f(4) = 10 - (4)² = 10 - 16 = -6.",
+    "rationale": "Substitute 4 for x: f(4) = 10 - (4)Â² = 10 - 16 = -6.",
     "challenge_tags": [
       "math-3"
     ]
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Solve the inequality: $2x + 8 > 20$.",

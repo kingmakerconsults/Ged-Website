@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the circumference of a circle with a radius of 4.5 inches. Use 3.14 for $\\pi$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "How many sides does a hexagon have?",
@@ -98,22 +98,22 @@ module.exports = [
     "question": "The sum of the interior angles of any triangle is:",
     "answerOptions": [
       {
-        "text": "90°",
+        "text": "90Â°",
         "isCorrect": false,
         "rationale": "This is the measure of a right angle."
       },
       {
-        "text": "180°",
+        "text": "180Â°",
         "isCorrect": true,
-        "rationale": "The sum of the three interior angles of any triangle is always 180°."
+        "rationale": "The sum of the three interior angles of any triangle is always 180Â°."
       },
       {
-        "text": "270°",
+        "text": "270Â°",
         "isCorrect": false,
         "rationale": "This is three right angles."
       },
       {
-        "text": "360°",
+        "text": "360Â°",
         "isCorrect": false,
         "rationale": "This is the sum of angles in a quadrilateral or circle."
       }
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "How many milliliters are in 3.5 liters?",
@@ -173,37 +173,37 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "An isosceles triangle has two angles that measure 50° each. What is the measure of the third angle?",
+    "question": "An isosceles triangle has two angles that measure 50Â° each. What is the measure of the third angle?",
     "answerOptions": [
       {
-        "text": "50°",
+        "text": "50Â°",
         "isCorrect": false,
         "rationale": "This would make it an equilateral triangle."
       },
       {
-        "text": "80°",
+        "text": "80Â°",
         "isCorrect": true,
-        "rationale": "The sum of angles is 180°. 180 - 50 - 50 = 80°."
+        "rationale": "The sum of angles is 180Â°. 180 - 50 - 50 = 80Â°."
       },
       {
-        "text": "100°",
+        "text": "100Â°",
         "isCorrect": false,
         "rationale": "This is the sum of the two given angles."
       },
       {
-        "text": "130°",
+        "text": "130Â°",
         "isCorrect": false,
         "rationale": "This is 180-50."
       }
     ],
-    "rationale": "The sum of the angles in a triangle is 180°. The two given angles sum to 50° + 50° = 100°. The third angle is 180° - 100° = 80°.",
+    "rationale": "The sum of the angles in a triangle is 180Â°. The two given angles sum to 50Â° + 50Â° = 100Â°. The third angle is 180Â° - 100Â° = 80Â°.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A circular pool has an area of 200.96 square feet. What is its diameter? Use 3.14 for $\\pi$.",
@@ -261,7 +261,7 @@ module.exports = [
       {
         "text": "Complementary",
         "isCorrect": false,
-        "rationale": "Two angles that sum to 90° are complementary."
+        "rationale": "Two angles that sum to 90Â° are complementary."
       },
       {
         "text": "Congruent",

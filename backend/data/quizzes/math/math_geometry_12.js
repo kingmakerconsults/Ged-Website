@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle's area is 314 sq. units. What is its radius? Use 3.14 for $\\pi$.",
@@ -80,12 +80,12 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
-    "question": "An angle of 180° is a ___ angle.",
+    "question": "An angle of 180Â° is a ___ angle.",
     "correctAnswer": "straight",
-    "rationale": "A straight angle is an angle of 180°.",
+    "rationale": "A straight angle is an angle of 180Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -143,7 +143,7 @@ module.exports = [
       {
         "text": "314",
         "isCorrect": true,
-        "rationale": "The radius is 5. SA = 4*3.14*5² = 314."
+        "rationale": "The radius is 5. SA = 4*3.14*5Â² = 314."
       },
       {
         "text": "523.33",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the area of a square with perimeter 48?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",
+    "type": "fillIn",`n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "How many feet are in half a mile? (1 mile = 5280 feet)",
@@ -251,30 +251,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "If an angle is 120°, what is its supplementary angle?",
+    "question": "If an angle is 120Â°, what is its supplementary angle?",
     "answerOptions": [
       {
-        "text": "30°",
+        "text": "30Â°",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },
       {
-        "text": "60°",
+        "text": "60Â°",
         "isCorrect": true,
         "rationale": "180 - 120 = 60."
       },
       {
-        "text": "90°",
+        "text": "90Â°",
         "isCorrect": false,
         "rationale": "This is a right angle."
       },
       {
-        "text": "240°",
+        "text": "240Â°",
         "isCorrect": false,
         "rationale": "This is 120*2."
       }
     ],
-    "rationale": "Supplementary angles add up to 180°. The supplement of 120° is 180° - 120° = 60°.",
+    "rationale": "Supplementary angles add up to 180Â°. The supplement of 120Â° is 180Â° - 120Â° = 60Â°.",
     "challenge_tags": [
       "math-5"
     ]
@@ -307,7 +307,7 @@ module.exports = [
         "rationale": "It can be determined."
       }
     ],
-    "rationale": "The volume of a cone is given by V = (1/3) * pi * r² * h, while the volume of a cylinder is V = pi * r² * h. Therefore, a cylinder's volume is 3 times that of a cone with the same base and height. 3 * 100 = 300.",
+    "rationale": "The volume of a cone is given by V = (1/3) * pi * rÂ² * h, while the volume of a cylinder is V = pi * rÂ² * h. Therefore, a cylinder's volume is 3 times that of a cone with the same base and height. 3 * 100 = 300.",
     "challenge_tags": [
       "math-5"
     ]
