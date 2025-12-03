@@ -11,7 +11,28 @@ export function TI30XSCalculator({ onClose }) {
   const [isDragging, setIsDragging] = useState(false);
   const [opacity, setOpacity] = useState(1.0);
   const [dpadIndex, setDpadIndex] = useState(-1);
+  const [scale, setScale] = useState(1.8);
   const dragStart = useRef({ x: 0, y: 0 });
+
+  // Calculate responsive scale
+  useEffect(() => {
+    const calculateScale = () => {
+      const maxWidth = window.innerWidth - 20;
+      const maxHeight = window.innerHeight - 20;
+      const calcWidth = 340;
+      const calcHeight = 680;
+
+      const scaleByWidth = maxWidth / calcWidth;
+      const scaleByHeight = maxHeight / calcHeight;
+      const newScale = Math.min(1.8, scaleByWidth, scaleByHeight);
+
+      setScale(newScale);
+    };
+
+    calculateScale();
+    window.addEventListener('resize', calculateScale);
+    return () => window.removeEventListener('resize', calculateScale);
+  }, []);
 
   // --- Drag Logic ---
   const handleMouseDown = (e) => {
@@ -237,8 +258,6 @@ export function TI30XSCalculator({ onClose }) {
           opacity: opacity,
           pointerEvents: 'auto',
           cursor: isDragging ? 'grabbing' : 'grab',
-          maxWidth: '100vw',
-          maxHeight: '100vh',
         }}
         onMouseDown={handleMouseDown}
       >
@@ -248,8 +267,7 @@ export function TI30XSCalculator({ onClose }) {
           style={{
             width: '340px',
             height: '680px',
-            transform:
-              'scale(min(1.8, min(calc(100vw / 340px), calc(100vh / 680px))))',
+            transform: `scale(${scale})`,
             transformOrigin: 'top left',
           }}
         >

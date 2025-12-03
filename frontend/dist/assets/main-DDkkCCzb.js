@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-BztTWOUd.js";
+import { _ as __vitePreload } from "./index-BUm2eYMh.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -206,17 +206,19 @@ function SubjectCard({
   className = ""
 }) {
   const theme = getSubjectTheme(subject, dark);
+  const isRLA = subject.toLowerCase().includes("reasoning") || subject.toLowerCase().includes("rla");
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "button",
     {
       type: "button",
       onClick,
-      className: `group relative rounded-2xl p-6 md:p-7 text-left shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 transition ${className}`.trim(),
+      className: `group relative rounded-2xl p-6 md:p-7 text-left shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 transition ${className}`.trim(),
       style: {
         background: theme.bg,
         border: `1px solid ${theme.bgSoft}`,
         color: theme.accent,
-        minHeight: "128px"
+        minHeight: "128px",
+        "--tw-ring-color": isRLA ? theme.accent : "#0ea5e9"
       },
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-4", children: [
         icon && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -240,7 +242,14 @@ function SubjectCard({
               children: subject
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm md:text-base leading-snug text-primary", children })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "text-sm md:text-base leading-snug",
+              style: { color: theme.accent, opacity: 0.8 },
+              children
+            }
+          )
         ] })
       ] })
     }
@@ -1853,7 +1862,23 @@ function TI30XSCalculator({ onClose }) {
   const [isDragging, setIsDragging] = reactExports.useState(false);
   const [opacity, setOpacity] = reactExports.useState(1);
   const [dpadIndex, setDpadIndex] = reactExports.useState(-1);
+  const [scale, setScale] = reactExports.useState(1.8);
   const dragStart = reactExports.useRef({ x: 0, y: 0 });
+  reactExports.useEffect(() => {
+    const calculateScale = () => {
+      const maxWidth = window.innerWidth - 20;
+      const maxHeight = window.innerHeight - 20;
+      const calcWidth = 340;
+      const calcHeight = 680;
+      const scaleByWidth = maxWidth / calcWidth;
+      const scaleByHeight = maxHeight / calcHeight;
+      const newScale = Math.min(1.8, scaleByWidth, scaleByHeight);
+      setScale(newScale);
+    };
+    calculateScale();
+    window.addEventListener("resize", calculateScale);
+    return () => window.removeEventListener("resize", calculateScale);
+  }, []);
   const handleMouseDown = (e) => {
     if (e.target.tagName === "BUTTON" || e.target.closest(".calc-opacity-control"))
       return;
@@ -2031,7 +2056,7 @@ function TI30XSCalculator({ onClose }) {
               style: {
                 width: "340px",
                 height: "680px",
-                transform: "scale(2)",
+                transform: `scale(${scale})`,
                 transformOrigin: "top left"
               },
               children: [
@@ -4729,10 +4754,10 @@ const rectPrismNetRenderer = (params = {}, style) => {
   if (!Number.isFinite(length) || !Number.isFinite(width) || !Number.isFinite(height))
     return null;
   const padding = 10;
-  const scale = 1;
-  const L = length * scale;
-  const W = width * scale;
-  const H = height * scale;
+  const scale2 = 1;
+  const L = length * scale2;
+  const W = width * scale2;
+  const H = height * scale2;
   const elements = [];
   const pointsForBounds = [];
   const drawRect = (x, y, w, h, key, label) => {
@@ -22859,7 +22884,6 @@ function NamePromptModal({ user, onSave, onDismiss }) {
           className: "relative w-11/12 max-w-md rounded-lg p-8 shadow-2xl",
           style: {
             backgroundColor: "var(--modal-surface)",
-            color: "var(--modal-text)",
             border: `1px solid var(--modal-border)`
           },
           children: [
@@ -22868,7 +22892,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
               {
                 type: "button",
                 onClick: onDismiss,
-                className: "absolute right-4 top-4 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100",
+                className: "absolute right-4 top-4 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100",
                 "aria-label": "Close name prompt",
                 children: /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "svg",
@@ -22889,15 +22913,15 @@ function NamePromptModal({ user, onSave, onDismiss }) {
                 )
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mb-4 text-2xl font-bold text-slate-800 dark:text-slate-100", children: "Welcome! Let's set up your name." }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-6 text-slate-600 dark:text-slate-300", children: "Please confirm your name below. This will be used to personalize your experience." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mb-4 text-2xl font-bold text-slate-900 dark:text-slate-100", children: "Welcome! Let's set up your name." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-6 text-slate-900 dark:text-slate-300", children: "Please confirm your name below. This will be used to personalize your experience." }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "label",
                   {
                     htmlFor: "firstName",
-                    className: "block text-sm font-medium text-slate-700 dark:text-slate-300",
+                    className: "block text-sm font-medium text-slate-900 dark:text-slate-300",
                     children: "First Name"
                   }
                 ),
@@ -22917,7 +22941,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
                   "label",
                   {
                     htmlFor: "lastName",
-                    className: "block text-sm font-medium text-slate-700 dark:text-slate-300",
+                    className: "block text-sm font-medium text-slate-900 dark:text-slate-300",
                     children: "Last Name"
                   }
                 ),
@@ -22953,7 +22977,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
                 {
                   type: "button",
                   onClick: onDismiss,
-                  className: "w-full rounded-lg px-6 py-3 font-semibold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800",
+                  className: "w-full rounded-lg px-6 py-3 font-semibold transition border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800",
                   "data-role": "secondary",
                   children: "Skip for now"
                 }
@@ -26529,8 +26553,8 @@ function AuthScreen({ onLogin }) {
     }
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center max-w-md mx-auto", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-3xl font-extrabold text-slate-800 dark:text-slate-100 mb-2", children: "Welcome!" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-600 dark:text-slate-300 mb-6", children: "Sign in to save your progress across devices." }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-3xl font-extrabold text-slate-900 dark:text-slate-100 mb-2", children: "Welcome!" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 dark:text-slate-300 mb-6", children: "Sign in to save your progress across devices." }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "form",
       {
@@ -30789,12 +30813,12 @@ function StartScreen({
             }
           }
         ) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-4xl font-extrabold text-slate-800 dark:text-slate-100", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-4xl font-extrabold text-slate-900 dark:text-slate-100", children: [
           "Welcome, ",
           userDisplayName,
           "!"
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-500 dark:text-slate-300", children: "Please select a subject to begin." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 dark:text-slate-300", children: "Please select a subject to begin." }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "button",
           {
@@ -30817,8 +30841,8 @@ function StartScreen({
           }
         )
       ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-4xl font-extrabold text-slate-800 dark:text-slate-100", children: "Mr. Smith's Learning Canvas" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-500 dark:text-slate-300 mt-2", children: "An interactive learning experience." })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-4xl font-extrabold text-slate-900 dark:text-slate-100", children: "Mr. Smith's Learning Canvas" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 dark:text-slate-300 mt-2", children: "An interactive learning experience." })
       ] }) }),
       !onboardingComplete && !onboardingBannerHidden && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-6 rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950 p-4 text-amber-900 dark:text-amber-100 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-1", children: [
@@ -35666,11 +35690,11 @@ function GeometryPracticeTool({ onExit }) {
       }),
       render: ({ a, b }, context = {}) => {
         const hidden = context.hiddenLabels || [];
-        const scale = 10;
+        const scale2 = 10;
         const startX = 60;
         const startY = 200;
-        const pointB = [startX + a * scale, startY];
-        const pointC = [startX, startY - b * scale];
+        const pointB = [startX + a * scale2, startY];
+        const pointC = [startX, startY - b * scale2];
         return /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { stroke: "currentColor", fill: "none", strokeWidth: "2", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "polygon",
@@ -35688,7 +35712,7 @@ function GeometryPracticeTool({ onExit }) {
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "text",
             {
-              x: startX + a * scale / 2,
+              x: startX + a * scale2 / 2,
               y: startY + 20,
               textAnchor: "middle",
               fill: "currentColor",
@@ -35699,7 +35723,7 @@ function GeometryPracticeTool({ onExit }) {
             "text",
             {
               x: startX - 20,
-              y: startY - b * scale / 2,
+              y: startY - b * scale2 / 2,
               textAnchor: "end",
               dominantBaseline: "middle",
               fill: "currentColor",
@@ -36531,4 +36555,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-DsG3E2Ce.js.map
+//# sourceMappingURL=main-DDkkCCzb.js.map
