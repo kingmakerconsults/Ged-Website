@@ -6,6 +6,9 @@
 
 module.exports = [
   {
+
+    "questionNumber": 1,
+
     "question": "Which of the following statements best expresses the main idea of the passage?",
     "answerOptions": [
       {
@@ -35,6 +38,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "In paragraphs 2 and 3, the word 'intermittency' is used to describe a key challenge for solar and wind power. This term most nearly means:",
     "answerOptions": [
       {
@@ -64,6 +70,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "According to the passage, what is the primary environmental motivation for transitioning to renewable energy?",
     "answerOptions": [
       {
@@ -93,6 +102,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The passage suggests that a key difference between hydropower/geothermal energy and solar/wind energy is:",
     "answerOptions": [
       {
@@ -122,6 +134,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "According to paragraph 5, what is the primary purpose of developing smart grids?",
     "answerOptions": [
       {
@@ -151,6 +166,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The passage mentions all of the following as challenges to the widespread adoption of renewable energy EXCEPT:",
     "answerOptions": [
       {
@@ -180,6 +198,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "How does the author structure the main body of the text (paragraphs 2-4)?",
     "answerOptions": [
       {
@@ -209,6 +230,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "In paragraph 5, the word 'formidable' most nearly means:",
     "answerOptions": [
       {
@@ -238,6 +262,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "Based on the passage, a government wishing to accelerate the transition to renewable energy would most likely:",
     "answerOptions": [
       {
@@ -267,6 +294,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The text identifies photovoltaic cells as a technology used in:",
     "answerOptions": [
       {
@@ -296,6 +326,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "What can be inferred about the economic aspect of the energy transition?",
     "answerOptions": [
       {
@@ -325,6 +358,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "In paragraph 4, the term 'baseload' power implies that the energy source is:",
     "answerOptions": [
       {
@@ -354,6 +390,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The author presents the environmental impact of large hydropower dams as:",
     "answerOptions": [
       {
@@ -383,6 +422,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "What can be inferred from the passage about the future relationship between different renewable energy sources?",
     "answerOptions": [
       {
@@ -412,6 +454,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The overall tone of the passage can best be described as:",
     "answerOptions": [
       {
@@ -441,3 +486,4 @@ module.exports = [
     ]
   }
 ];
+

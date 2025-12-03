@@ -6,6 +6,9 @@
 
 module.exports = [
   {
+
+    "questionNumber": 1,
+
     "question": "What is the author's primary purpose in writing this passage?",
     "answerOptions": [
       {
@@ -34,6 +37,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "Which statement best describes the author's point of view regarding the traditional school calendar?",
     "answerOptions": [
       {
@@ -62,6 +68,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The author uses the phrase 'outdated relic of an agrarian past' in the first paragraph to create a sense of:",
     "answerOptions": [
       {
@@ -90,6 +99,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "How does the author address the opposing viewpoint that year-round schooling disrupts family traditions?",
     "answerOptions": [
       {
@@ -118,6 +130,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The author's tone can best be described as:",
     "answerOptions": [
       {
@@ -146,6 +161,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "What bias does the author display in the passage?",
     "answerOptions": [
       {
@@ -174,6 +192,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The author claims that the 'summer slide' is 'particularly detrimental to students from low-income families.' What is the likely purpose of including this detail?",
     "answerOptions": [
       {
@@ -202,6 +223,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "In paragraph 2, the author states that concerns about family traditions 'pale in comparison to the profound educational benefits.' The phrase 'pale in comparison' is used to:",
     "answerOptions": [
       {
@@ -230,6 +254,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "What is the author's likely purpose for using strong, emotional language like 'commitment,' 'courage,' and 'disservice' in the final paragraph?",
     "answerOptions": [
       {
@@ -258,6 +285,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The author's main argument is that year-round schooling should be adopted because:",
     "answerOptions": [
       {
@@ -286,6 +316,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "Which of the following best describes the author's perspective on teachers?",
     "answerOptions": [
       {
@@ -314,6 +347,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The intended audience for this passage is most likely:",
     "answerOptions": [
       {
@@ -342,6 +378,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "How does the author attempt to build credibility?",
     "answerOptions": [
       {
@@ -370,6 +409,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The author's use of the word 'clinging' in the final paragraph suggests that adherence to the traditional calendar is:",
     "answerOptions": [
       {
@@ -398,6 +440,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "If this passage were to continue, what would the author most likely discuss next?",
     "answerOptions": [
       {
@@ -426,3 +471,4 @@ module.exports = [
     ]
   }
 ];
+

@@ -6,6 +6,9 @@
 
 module.exports = [
   {
+
+    "questionNumber": 1,
+
     "question": "What is the central conflict that Della faces at the beginning of the passage?",
     "answerOptions": [
       {
@@ -34,6 +37,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "Which of the following character traits best describes Della in the first three paragraphs?",
     "answerOptions": [
       {
@@ -62,6 +68,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The description of the 'gray cat walking a gray fence in a gray backyard' in paragraph 3 serves primarily to:",
     "answerOptions": [
       {
@@ -90,6 +99,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "What happens in the plot that marks a turning point for Della's emotional state?",
     "answerOptions": [
       {
@@ -118,6 +130,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The author states that Della's hair and Jim's watch are possessions in which they 'took a mighty pride.' What is the purpose of highlighting these two items?",
     "answerOptions": [
       {
@@ -146,6 +161,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "How does Della's character evolve from the beginning of the passage to the end?",
     "answerOptions": [
       {
@@ -174,6 +192,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The phrase 'silent imputation of parsimony' in the first paragraph means that Della felt:",
     "answerOptions": [
       {
@@ -202,6 +223,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "What is the climax of this particular excerpt?",
     "answerOptions": [
       {
@@ -230,6 +254,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The author's comparison of Della's hair to the Queen of Sheba's jewels and Jim's watch to King Solomon's treasures is an example of what literary device?",
     "answerOptions": [
       {
@@ -258,6 +285,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "What primary motivation drives Della's actions throughout the passage?",
     "answerOptions": [
       {
@@ -286,6 +316,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The author writes, 'Once she faltered for a minute and stood still while a tear or two splashed on the worn red carpet.' This moment in the plot reveals that Della's decision:",
     "answerOptions": [
       {
@@ -314,6 +347,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "Which of the following is part of the exposition of the story, as presented in the excerpt?",
     "answerOptions": [
       {
@@ -342,6 +378,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The description of Della putting on her 'old brown jacket' and 'old brown hat' contributes to the characterization by emphasizing her:",
     "answerOptions": [
       {
@@ -370,6 +409,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "What does the 'brilliant sparkle' in Della's eyes at the end of the passage symbolize?",
     "answerOptions": [
       {
@@ -398,6 +440,9 @@ module.exports = [
     ]
   },
   {
+
+    "questionNumber": 1,
+
     "question": "The rising action of this excerpt begins when:",
     "answerOptions": [
       {
@@ -426,3 +471,4 @@ module.exports = [
     ]
   }
 ];
+
