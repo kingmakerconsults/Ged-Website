@@ -234,7 +234,8 @@ function EconomicsGraphTool({ onExit }) {
             id="econ-board"
             ref={boardRef}
             className="jxgbox w-full h-full"
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
+            aria-hidden="true"
           />
           <div className="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 p-3 rounded-lg border border-slate-200 dark:border-slate-600 shadow text-sm">
             <div className="font-bold text-slate-500 uppercase text-xs">
@@ -314,8 +315,10 @@ function EconomicsGraphTool({ onExit }) {
           </div>
 
           {/* Practice Questions tied to current equilibrium */}
-          <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm text-slate-600 dark:text-slate-300">
-            <p className="mb-2 font-semibold">Practice</p>
+          <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700">
+            <p className="mb-2 font-semibold text-slate-900 dark:text-slate-100">
+              Practice
+            </p>
             <div className="space-y-3">
               <div>
                 <p className="mb-1">
