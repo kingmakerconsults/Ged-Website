@@ -7,8 +7,8 @@ import {
 import { useThemeController } from '../hooks/useThemeController.js';
 import { AuthScreen } from '../components/index.js';
 import DashboardView from './views/DashboardView.jsx';
-import ConstitutionExplorer from '../tools/ConstitutionExplorer.jsx';
-import EconomicsGraphTool from '../tools/EconomicsGraphTool.jsx';
+import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
+import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
 import ProfileView from './views/ProfileView.jsx';
 import SettingsView from './views/SettingsView.jsx';
 import QuizDemo from './views/QuizDemo.jsx';

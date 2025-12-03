@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-BUm2eYMh.js";
+import { _ as __vitePreload } from "./index-D5A9_z6B.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -2674,64 +2674,146 @@ const AMENDMENTS_DB = [
     id: "1st",
     topic: "Freedoms",
     simple: "Freedom of speech, religion, press, assembly, and petition.",
-    original: "Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances."
+    original: "Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances.",
+    difficulty: "easy",
+    tags: ["speech_press", "religion", "assembly", "petition"]
   },
   {
     id: "2nd",
     topic: "Arms",
     simple: "Right to keep and bear arms (own guns).",
-    original: "A well regulated Militia, being necessary to the security of a free State, the right of the people to keep and bear Arms, shall not be infringed."
+    original: "A well regulated Militia, being necessary to the security of a free State, the right of the people to keep and bear Arms, shall not be infringed.",
+    difficulty: "medium",
+    tags: ["civil_rights"]
   },
   {
     id: "4th",
     topic: "Privacy",
     simple: "Protection against unreasonable searches and seizures (need a warrant).",
-    original: "The right of the people to be secure in their persons, houses, papers, and effects, against unreasonable searches and seizures, shall not be violated, and no Warrants shall issue, but upon probable cause, supported by Oath or affirmation, and particularly describing the place to be searched, and the persons or things to be seized."
+    original: "The right of the people to be secure in their persons, houses, papers, and effects, against unreasonable searches and seizures, shall not be violated, and no Warrants shall issue, but upon probable cause, supported by Oath or affirmation, and particularly describing the place to be searched, and the persons or things to be seized.",
+    difficulty: "medium",
+    tags: ["criminal_procedure", "privacy"]
   },
   {
     id: "5th",
     topic: "Due Process",
     simple: "Right to remain silent; no double jeopardy; due process required.",
-    original: "No person shall be held to answer for a capital, or otherwise infamous crime, unless on a presentment or indictment of a Grand Jury... nor shall be compelled in any criminal case to be a witness against himself, nor be deprived of life, liberty, or property, without due process of law; nor shall private property be taken for public use, without just compensation."
+    original: "No person shall be held to answer for a capital, or otherwise infamous crime, unless on a presentment or indictment of a Grand Jury... nor shall be compelled in any criminal case to be a witness against himself, nor be deprived of life, liberty, or property, without due process of law; nor shall private property be taken for public use, without just compensation.",
+    difficulty: "hard",
+    tags: ["criminal_procedure", "due_process", "takings"]
   },
   {
     id: "6th",
     topic: "Trial",
     simple: "Right to a speedy, public trial and a lawyer.",
-    original: "In all criminal prosecutions, the accused shall enjoy the right to a speedy and public trial, by an impartial jury of the State and district wherein the crime shall have been committed... and to have the Assistance of Counsel for his defence."
+    original: "In all criminal prosecutions, the accused shall enjoy the right to a speedy and public trial, by an impartial jury of the State and district wherein the crime shall have been committed... and to have the Assistance of Counsel for his defence.",
+    difficulty: "medium",
+    tags: ["criminal_procedure", "trial_rights"]
   },
   {
     id: "8th",
     topic: "Punishment",
     simple: "No cruel or unusual punishment; no excessive bail.",
-    original: "Excessive bail shall not be required, nor excessive fines imposed, nor cruel and unusual punishments inflicted."
+    original: "Excessive bail shall not be required, nor excessive fines imposed, nor cruel and unusual punishments inflicted.",
+    difficulty: "easy",
+    tags: ["criminal_procedure", "punishment"]
   },
   {
     id: "13th",
     topic: "Slavery",
     simple: "Abolished slavery in the United States.",
-    original: "Neither slavery nor involuntary servitude, except as a punishment for crime whereof the party shall have been duly convicted, shall exist within the United States, or any place subject to their jurisdiction."
+    original: "Neither slavery nor involuntary servitude, except as a punishment for crime whereof the party shall have been duly convicted, shall exist within the United States, or any place subject to their jurisdiction.",
+    difficulty: "easy",
+    tags: ["civil_rights"]
   },
   {
     id: "14th",
     topic: "Equality",
     simple: "Grants citizenship to anyone born in the US; guarantees equal protection under the law.",
-    original: "All persons born or naturalized in the United States, and subject to the jurisdiction thereof, are citizens of the United States and of the State wherein they reside. No State shall make or enforce any law which shall abridge the privileges or immunities of citizens of the United States; nor shall any State deprive any person of life, liberty, or property, without due process of law; nor deny to any person within its jurisdiction the equal protection of the laws."
+    original: "All persons born or naturalized in the United States... nor deny to any person within its jurisdiction the equal protection of the laws.",
+    difficulty: "hard",
+    tags: ["civil_rights", "equal_protection", "due_process"]
   },
   {
     id: "19th",
     topic: "Voting (Sex)",
     simple: "Women's right to vote.",
-    original: "The right of citizens of the United States to vote shall not be denied or abridged by the United States or by any State on account of sex."
+    original: "The right of citizens of the United States to vote shall not be denied or abridged by the United States or by any State on account of sex.",
+    difficulty: "medium",
+    tags: ["civil_rights", "voting"]
   }
 ];
-function ConstitutionExplorer({ onExit }) {
+const PRACTICE_SCENARIOS = [
+  {
+    id: "scn_001",
+    pack: "speech_press",
+    prompt: "A city passes a law banning peaceful protests in public parks.",
+    correctAmendmentId: "1st",
+    explanation: "The First Amendment protects the right to assembly and petition, so banning peaceful protests infringes those rights.",
+    difficulty: "easy",
+    tags: ["assembly", "petition", "speech_press"]
+  },
+  {
+    id: "scn_002",
+    pack: "criminal_procedure",
+    prompt: "Police search a home without a warrant or probable cause and seize evidence.",
+    correctAmendmentId: "4th",
+    explanation: "The Fourth Amendment protects against unreasonable searches and seizures and generally requires a warrant based on probable cause.",
+    difficulty: "medium",
+    tags: ["criminal_procedure", "privacy"]
+  },
+  {
+    id: "scn_003",
+    pack: "criminal_procedure",
+    prompt: "A suspect is compelled to testify against themselves during a criminal trial.",
+    correctAmendmentId: "5th",
+    explanation: "The Fifth Amendment protects against self-incrimination and ensures due process.",
+    difficulty: "hard",
+    tags: ["criminal_procedure", "due_process"]
+  },
+  {
+    id: "scn_004",
+    pack: "civil_rights",
+    prompt: "A state denies equal protection of the laws to a group of citizens.",
+    correctAmendmentId: "14th",
+    explanation: "The Fourteenth Amendment guarantees equal protection and due process for all persons.",
+    difficulty: "hard",
+    tags: ["civil_rights", "equal_protection"]
+  }
+];
+function ConstitutionExplorer({ onExit, pack }) {
   const [mode, setMode] = reactExports.useState("simple");
   const [search, setSearch] = reactExports.useState("");
-  const filtered = AMENDMENTS_DB.filter(
+  const [selectedScenario, setSelectedScenario] = reactExports.useState(null);
+  const [selectedAmendmentId, setSelectedAmendmentId] = reactExports.useState(null);
+  const [feedback, setFeedback] = reactExports.useState(null);
+  const filteredAmendments = AMENDMENTS_DB.filter(
     (item) => item.simple.toLowerCase().includes(search.toLowerCase()) || item.topic.toLowerCase().includes(search.toLowerCase()) || item.id.toLowerCase().includes(search.toLowerCase())
   );
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-5xl mx-auto p-6 space-y-6", children: [
+  const availableScenarios = PRACTICE_SCENARIOS.filter(
+    (s) => pack ? s.pack === pack : true
+  );
+  const startScenario = (s) => {
+    setSelectedScenario(s);
+    setSelectedAmendmentId(null);
+    setFeedback(null);
+  };
+  const answerScenario = (amendmentId) => {
+    if (!selectedScenario) return;
+    setSelectedAmendmentId(amendmentId);
+    const correct = amendmentId === selectedScenario.correctAmendmentId;
+    setFeedback({ correct });
+  };
+  const resetScenario = () => {
+    setSelectedScenario(null);
+    setSelectedAmendmentId(null);
+    setFeedback(null);
+  };
+  const isHighlighted = (amendmentId) => {
+    if (!feedback || feedback.correct) return false;
+    return amendmentId === (selectedScenario == null ? void 0 : selectedScenario.correctAmendmentId);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-6xl mx-auto p-6 space-y-6", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
@@ -2741,9 +2823,67 @@ function ConstitutionExplorer({ onExit }) {
           children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
         }
       ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold", children: "Constitution Explorer" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-12" }),
-      " "
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold", children: "Constitution Explorer — Rights Arbitrator" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-12" })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-bold", children: "Practice Scenarios" }),
+        selectedScenario && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: resetScenario,
+            className: "text-sm px-3 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600",
+            children: "Clear"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-3", children: availableScenarios.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "button",
+        {
+          className: `text-left p-3 rounded-lg border transition ${(selectedScenario == null ? void 0 : selectedScenario.id) === s.id ? "border-sky-400 bg-sky-50 dark:bg-sky-900/20" : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900"}`,
+          onClick: () => startScenario(s),
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: s.prompt }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-slate-500", children: s.difficulty })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 text-xs text-slate-500", children: s.tags.join(", ") })
+          ]
+        },
+        s.id
+      )) }),
+      selectedScenario && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 p-3 rounded-lg bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm mb-2", children: "Select the correct amendment:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: AMENDMENTS_DB.map((a) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => answerScenario(a.id),
+            className: `px-3 py-1.5 rounded border text-sm transition ${isHighlighted(a.id) ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-200" : "border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600"}`,
+            children: a.id
+          },
+          a.id
+        )) }),
+        feedback && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: `text-sm font-semibold ${feedback.correct ? "text-emerald-700 dark:text-emerald-200" : "text-red-700 dark:text-red-300"}`,
+              children: feedback.correct ? "Correct!" : "Incorrect"
+            }
+          ),
+          !feedback.correct && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm", children: [
+            "You selected:",
+            " ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: selectedAmendmentId }),
+            ". Correct:",
+            " ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: selectedScenario.correctAmendmentId }),
+            "."
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-600 dark:text-slate-300", children: selectedScenario.explanation })
+        ] })
+      ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -2776,10 +2916,10 @@ function ConstitutionExplorer({ onExit }) {
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: [
-      filtered.map((amendment) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      filteredAmendments.map((amendment) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
-          className: "flex flex-col p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow",
+          className: "flex flex-col p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-800/95 shadow-sm hover:shadow-md transition-shadow",
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-start mb-3", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider", children: [
@@ -2794,12 +2934,19 @@ function ConstitutionExplorer({ onExit }) {
                 className: `text-base leading-relaxed flex-grow ${mode === "original" ? "font-serif italic text-slate-700 dark:text-slate-300" : "font-sans text-slate-900 dark:text-white"}`,
                 children: mode === "original" ? `"${amendment.original}"` : amendment.simple
               }
-            )
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex items-center justify-between text-xs text-slate-500", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                "Difficulty: ",
+                amendment.difficulty
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "truncate max-w-[60%]", children: amendment.tags.join(", ") })
+            ] })
           ]
         },
         amendment.id
       )),
-      filtered.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12 text-slate-500", children: [
+      filteredAmendments.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12 text-slate-500", children: [
         'No amendments found matching "',
         search,
         '".'
@@ -2807,20 +2954,96 @@ function ConstitutionExplorer({ onExit }) {
     ] })
   ] }) });
 }
+const SCENARIOS = [
+  {
+    id: "econ_001",
+    prompt: "A new technology lowers production costs across the industry. What happens?",
+    affect: "supply",
+    // training mode step 1
+    direction: "increase",
+    // training mode step 2
+    explanation: "Lower input costs increase supply (shift right), reducing price and increasing quantity.",
+    difficulty: "easy",
+    tags: ["technology", "input_costs"]
+  },
+  {
+    id: "econ_002",
+    prompt: "Consumer incomes rise sharply for a normal good. What happens?",
+    affect: "demand",
+    direction: "increase",
+    explanation: "Higher income for a normal good increases demand (shift right), raising price and quantity.",
+    difficulty: "medium",
+    tags: ["income", "tastes"]
+  },
+  {
+    id: "econ_003",
+    prompt: "A health scare reduces consumer preference for a product.",
+    affect: "demand",
+    direction: "decrease",
+    explanation: "Lower preference decreases demand (shift left), reducing price and quantity.",
+    difficulty: "medium",
+    tags: ["tastes"]
+  },
+  {
+    id: "econ_004",
+    prompt: "A tax raises input costs for producers.",
+    affect: "supply",
+    direction: "decrease",
+    explanation: "Higher input costs decrease supply (shift left), raising price and lowering quantity.",
+    difficulty: "hard",
+    tags: ["input_costs", "taxes"]
+  }
+];
 function EconomicsGraphTool({ onExit }) {
   const boardRef = reactExports.useRef(null);
   const boardInstance = reactExports.useRef(null);
+  const initialized = reactExports.useRef(false);
+  const [trainingMode, setTrainingMode] = reactExports.useState(false);
+  const [stepAffect, setStepAffect] = reactExports.useState(null);
+  const [stepDirection, setStepDirection] = reactExports.useState(null);
   const [demandShift, setDemandShift] = reactExports.useState(0);
   const [supplyShift, setSupplyShift] = reactExports.useState(0);
   const [equilibrium, setEquilibrium] = reactExports.useState({ p: 5, q: 5 });
+  const [activeScenarioIdx, setActiveScenarioIdx] = reactExports.useState(0);
+  const scenario = SCENARIOS[activeScenarioIdx];
+  const [premadeFeedback, setPremadeFeedback] = reactExports.useState("");
+  const [showExplanation, setShowExplanation] = reactExports.useState(false);
+  const checkPremadeAnswer = (idx) => {
+    const correct = scenario.affect === "supply" && scenario.direction === "increase" ? idx === 0 : null;
+    if (correct === null) {
+      const mapping = {
+        demand_increase: 2,
+        demand_decrease: 3,
+        supply_increase: 0,
+        supply_decrease: 1
+      };
+      const key = `${scenario.affect}_${scenario.direction}`;
+      const correctIdx = mapping[key];
+      setPremadeFeedback(
+        idx === correctIdx ? "Correct!" : "Not quite. Try adjusting the curve to match the concept."
+      );
+    } else {
+      setPremadeFeedback(
+        correct ? "Correct!" : "Not quite. Try moving the supply slider right and observe equilibrium."
+      );
+    }
+  };
   reactExports.useEffect(() => {
-    if (!boardRef.current || !window.JXG) return;
+    if (!window.JXG || !boardRef.current) return;
+    if (initialized.current) return;
+    initialized.current = true;
     const board = window.JXG.JSXGraph.initBoard(boardRef.current.id, {
       boundingbox: [-1, 12, 12, -1],
-      axis: true,
+      axis: false,
       showCopyright: false,
-      showNavigation: false
+      showNavigation: false,
+      keepAspectRatio: true,
+      pan: { enabled: false },
+      zoom: { enabled: false }
     });
+    board.on("down", () => false);
+    board.on("move", () => false);
+    board.on("up", () => false);
     board.create(
       "axis",
       [
@@ -2830,7 +3053,10 @@ function EconomicsGraphTool({ onExit }) {
       {
         name: "Quantity",
         withLabel: true,
-        label: { position: "rt", offset: [-10, 10] }
+        label: { position: "rt", offset: [-10, 10] },
+        fixed: true,
+        highlight: false,
+        strokeColor: "#64748b"
       }
     );
     board.create(
@@ -2842,15 +3068,13 @@ function EconomicsGraphTool({ onExit }) {
       {
         name: "Price",
         withLabel: true,
-        label: { position: "rt", offset: [-20, 0] }
+        label: { position: "rt", offset: [-20, 0] },
+        fixed: true,
+        highlight: false,
+        strokeColor: "#64748b"
       }
     );
     boardInstance.current = board;
-    return () => {
-      if (boardInstance.current) {
-        window.JXG.JSXGraph.freeBoard(boardInstance.current);
-      }
-    };
   }, []);
   reactExports.useEffect(() => {
     const board = boardInstance.current;
@@ -2862,13 +3086,11 @@ function EconomicsGraphTool({ onExit }) {
     const eq_P = eq_Q + s_intercept;
     setEquilibrium({ p: eq_P, q: eq_Q });
     if (board.objectsList) {
-      const idsToRemove = [];
       board.objectsList.forEach((el) => {
-        if ((el.elType === "line" || el.elType === "point" || el.elType === "text") && el.name !== "Quantity" && el.name !== "Price") {
-          idsToRemove.push(el);
+        if ((el.elType === "line" || el.elType === "point" || el.elType === "text" || el.elType === "segment") && el.name !== "Quantity" && el.name !== "Price") {
+          board.removeObject(el);
         }
       });
-      board.removeObject(idsToRemove);
     }
     board.create(
       "line",
@@ -2877,11 +3099,13 @@ function EconomicsGraphTool({ onExit }) {
         [10, d_intercept - 10]
       ],
       {
-        strokeColor: "#2563eb",
+        strokeColor: "#3b82f6",
         strokeWidth: 3,
         name: "Demand",
         withLabel: true,
-        label: { position: "top", offset: [10, 10] }
+        label: { position: "top", offset: [10, 10] },
+        fixed: true,
+        highlight: false
       }
     );
     board.create(
@@ -2891,20 +3115,23 @@ function EconomicsGraphTool({ onExit }) {
         [10, 10 + s_intercept]
       ],
       {
-        strokeColor: "#dc2626",
+        strokeColor: "#ef4444",
         strokeWidth: 3,
         name: "Supply",
         withLabel: true,
-        label: { position: "top", offset: [10, -10] }
+        label: { position: "top", offset: [10, -10] },
+        fixed: true,
+        highlight: false
       }
     );
     board.create("point", [eq_Q, eq_P], {
       name: "",
       face: "o",
       size: 5,
-      strokeColor: "#16a34a",
-      fillColor: "#16a34a",
-      fixed: true
+      strokeColor: "#22c55e",
+      fillColor: "#22c55e",
+      fixed: true,
+      highlight: false
     });
     board.create(
       "segment",
@@ -2913,9 +3140,11 @@ function EconomicsGraphTool({ onExit }) {
         [eq_Q, eq_P]
       ],
       {
-        strokeColor: "#666",
+        strokeColor: "#94a3b8",
         dash: 2,
-        strokeWidth: 1
+        strokeWidth: 1,
+        fixed: true,
+        highlight: false
       }
     );
     board.create(
@@ -2925,13 +3154,37 @@ function EconomicsGraphTool({ onExit }) {
         [eq_Q, eq_P]
       ],
       {
-        strokeColor: "#666",
+        strokeColor: "#94a3b8",
         dash: 2,
-        strokeWidth: 1
+        strokeWidth: 1,
+        fixed: true,
+        highlight: false
       }
     );
     board.unsuspendUpdate();
   }, [demandShift, supplyShift]);
+  reactExports.useEffect(
+    () => () => {
+      var _a2, _b2;
+      if (boardInstance.current) {
+        try {
+          (_b2 = (_a2 = window.JXG) == null ? void 0 : _a2.JSXGraph) == null ? void 0 : _b2.freeBoard(boardInstance.current);
+        } catch {
+        }
+        boardInstance.current = null;
+        initialized.current = false;
+      }
+    },
+    []
+  );
+  const applyTrainingSelection = () => {
+    if (!trainingMode) return;
+    if (stepAffect === "demand") {
+      setDemandShift(stepDirection === "increase" ? 2 : -2);
+    } else if (stepAffect === "supply") {
+      setSupplyShift(stepDirection === "increase" ? 2 : -2);
+    }
+  };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-6", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4 mb-6", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -2939,15 +3192,24 @@ function EconomicsGraphTool({ onExit }) {
         {
           onClick: onExit,
           className: "text-sm font-semibold text-sky-600 hover:text-sky-700",
-          children: "← Back to Dashboard"
+          children: "← Back to Social Studies"
         }
       ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold", children: "Economics Simulator: Supply & Demand" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold", children: "Market Simulator — Supply & Demand Trainer" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-16" })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col lg:flex-row gap-8", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden h-[500px] relative", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "econ-board", ref: boardRef, className: "w-full h-full" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 bg-white/95 dark:bg-slate-800/95 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden h-[500px] relative", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            id: "econ-board",
+            ref: boardRef,
+            className: "jxgbox w-full h-full",
+            style: { width: "100%", height: "100%", pointerEvents: "none" },
+            "aria-hidden": "true"
+          }
+        ),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 p-3 rounded-lg border border-slate-200 dark:border-slate-600 shadow text-sm", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-slate-500 uppercase text-xs", children: "Equilibrium" }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-emerald-600 font-mono text-lg", children: [
@@ -2962,6 +3224,76 @@ function EconomicsGraphTool({ onExit }) {
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full lg:w-80 space-y-6", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold", children: "Training Mode" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => {
+                  const next = !trainingMode;
+                  setTrainingMode(next);
+                  setStepAffect(null);
+                  setStepDirection(null);
+                },
+                className: `px-3 py-1 rounded text-sm ${trainingMode ? "bg-emerald-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
+                children: trainingMode ? "ON" : "OFF"
+              }
+            )
+          ] }),
+          trainingMode && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 space-y-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-medium mb-2", children: "Step 1: Does this affect Supply or Demand?" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `px-3 py-1 rounded ${stepAffect === "supply" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
+                    onClick: () => setStepAffect("supply"),
+                    children: "Supply"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `px-3 py-1 rounded ${stepAffect === "demand" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
+                    onClick: () => setStepAffect("demand"),
+                    children: "Demand"
+                  }
+                )
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-medium mb-2", children: "Step 2: Increase or Decrease?" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `px-3 py-1 rounded ${stepDirection === "increase" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
+                    onClick: () => setStepDirection("increase"),
+                    children: "Increase"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `px-3 py-1 rounded ${stepDirection === "decrease" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
+                    onClick: () => setStepDirection("decrease"),
+                    children: "Decrease"
+                  }
+                )
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: applyTrainingSelection,
+                className: "px-3 py-1 rounded bg-emerald-600 text-white",
+                children: "Apply Selection"
+              }
+            ) })
+          ] })
+        ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-blue-800 dark:text-blue-300 mb-1", children: "Demand Factors" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-blue-600 dark:text-blue-400 mb-4", children: "Examples: Consumer income, trends, population." }),
@@ -3012,19 +3344,58 @@ function EconomicsGraphTool({ onExit }) {
             ] })
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm text-slate-600 dark:text-slate-300", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Try this:" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "list-disc pl-4 space-y-1", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
-              "Increase ",
-              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Demand" }),
-              " (right) to see Price and Quantity both go up."
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
-              "Increase ",
-              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Supply" }),
-              " (left slider) to see Price go down while Quantity goes up."
-            ] })
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: "Scenario Trainer" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "select",
+              {
+                className: "text-sm bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded px-2 py-1",
+                value: activeScenarioIdx,
+                onChange: (e) => setActiveScenarioIdx(Number(e.target.value)),
+                children: SCENARIOS.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("option", { value: i, children: [
+                  s.id,
+                  " — ",
+                  s.difficulty
+                ] }, s.id))
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-2", children: scenario.prompt }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 gap-2", children: [
+            "Price decreases; Quantity increases",
+            "Price increases; Quantity decreases",
+            "Price increases; Quantity increases",
+            "Price decreases; Quantity decreases"
+          ].map((opt, idx) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              type: "button",
+              onClick: () => {
+                setShowExplanation(false);
+                checkPremadeAnswer(idx);
+              },
+              className: "rounded-md px-3 py-2 text-left transition bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600",
+              children: [
+                String.fromCharCode(65 + idx),
+                ". ",
+                opt
+              ]
+            },
+            idx
+          )) }),
+          premadeFeedback && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-2 p-2 rounded-md bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-200", children: premadeFeedback }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-2 flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "text-xs px-2 py-1 rounded bg-slate-200 dark:bg-slate-700",
+              onClick: () => setShowExplanation((v) => !v),
+              children: "Show Explanation"
+            }
+          ) }),
+          showExplanation && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-2 text-xs text-slate-600 dark:text-slate-300", children: [
+            "Explanation: ",
+            scenario.explanation
           ] })
         ] })
       ] })
@@ -5184,6 +5555,20 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess
   let working = content;
   if (!skipPreprocess) {
     working = preprocessRawContent(working, { normalizeSpacing });
+  }
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(working, "text/html");
+    const imgs = doc.querySelectorAll("img[src]");
+    if (imgs && imgs.length) {
+      imgs.forEach((img) => {
+        const raw = img.getAttribute("src") || "";
+        const resolved = resolveAssetUrl(raw);
+        img.setAttribute("src", resolved);
+      });
+      working = doc.body.innerHTML;
+    }
+  } catch (_e) {
   }
   working = normalizeInlineTablesFront(working);
   const sanitizer = window.DOMPurify && window.DOMPurify.sanitize ? window.DOMPurify.sanitize : null;
@@ -23029,14 +23414,14 @@ function PracticeSessionModal({
             border: `1px solid var(--modal-border)`
           },
           children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold mb-4", children: "Start a Practice Session" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold mb-4 text-slate-900 dark:text-slate-100", children: "Start a Practice Session" }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-1", children: "Duration" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-1 text-slate-900 dark:text-slate-300", children: "Duration" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "select",
                   {
-                    className: "w-full rounded-md border px-3 py-2 bg-transparent",
+                    className: "w-full rounded-md border px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100",
                     style: { borderColor: "var(--modal-border)" },
                     value: duration,
                     onChange: (e) => setDuration(parseInt(e.target.value, 10)),
@@ -23049,11 +23434,11 @@ function PracticeSessionModal({
                 )
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-1", children: "Mode" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-1 text-slate-900 dark:text-slate-300", children: "Mode" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "select",
                   {
-                    className: "w-full rounded-md border px-3 py-2 bg-transparent",
+                    className: "w-full rounded-md border px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100",
                     style: { borderColor: "var(--modal-border)" },
                     value: mode,
                     onChange: (e) => setMode(e.target.value),
@@ -23076,7 +23461,7 @@ function PracticeSessionModal({
                 {
                   type: "button",
                   onClick: onDismiss,
-                  className: "px-4 py-2 rounded-md border",
+                  className: "px-4 py-2 rounded-md border text-slate-900 dark:text-slate-100",
                   style: { borderColor: "var(--modal-border)" },
                   disabled: submitting,
                   children: "Cancel"
@@ -24636,11 +25021,19 @@ function App({ externalTheme, onThemeChange }) {
         setAuthToken(storedToken);
         const isStudent = profile.role !== "super_admin" && profile.role !== "org_admin";
         if (isStudent) {
-          const customNameSet = localStorage.getItem(
-            `customNameSet_${profile.id}`
-          );
-          if (!customNameSet) {
+          const flagKey = `customNameSet_${profile.id}`;
+          const customNameSet = localStorage.getItem(flagKey);
+          const hasName = !!((profile == null ? void 0 : profile.name) && profile.name.trim());
+          if (hasName && !customNameSet) {
+            try {
+              localStorage.setItem(flagKey, "true");
+            } catch (e) {
+            }
+          }
+          if (!hasName && !customNameSet) {
             setShowNamePrompt(true);
+          } else {
+            setShowNamePrompt(false);
           }
           loadQuizAttempts(storedToken);
         } else {
@@ -24722,9 +25115,19 @@ function App({ externalTheme, onThemeChange }) {
     setQuizAttempts([]);
     recalcProgress([]);
     if (!isAdminUser) {
-      const customNameSet = localStorage.getItem(`customNameSet_${profile.id}`);
-      if (!customNameSet) {
+      const flagKey = `customNameSet_${profile.id}`;
+      const customNameSet = localStorage.getItem(flagKey);
+      const hasName = !!((profile == null ? void 0 : profile.name) && profile.name.trim());
+      if (hasName && !customNameSet) {
+        try {
+          localStorage.setItem(flagKey, "true");
+        } catch (e) {
+        }
+      }
+      if (!hasName && !customNameSet) {
         setShowNamePrompt(true);
+      } else {
+        setShowNamePrompt(false);
       }
       loadQuizAttempts(token);
     } else {
@@ -24733,6 +25136,7 @@ function App({ externalTheme, onThemeChange }) {
     setView("start");
   };
   const handleSaveName = async (firstName, lastName) => {
+    var _a3, _b3;
     const newName = `${firstName} ${lastName}`.trim();
     if (!newName) {
       alert("Please enter both a first and last name.");
@@ -24756,6 +25160,15 @@ function App({ externalTheme, onThemeChange }) {
         }));
         setCurrentUser((prev) => prev ? { ...prev, name: confirmed } : prev);
         setNameDraft(confirmed);
+        try {
+          if ((_a3 = currentUserRef.current) == null ? void 0 : _a3.id) {
+            localStorage.setItem(
+              `customNameSet_${currentUserRef.current.id}`,
+              "true"
+            );
+          }
+        } catch (e) {
+        }
         setShowNamePrompt(false);
         return;
       } catch (err) {
@@ -24768,6 +25181,15 @@ function App({ externalTheme, onThemeChange }) {
     const saved = saveDisplayName(newName);
     if (saved) {
       setNameDraft(saved);
+    }
+    try {
+      if ((_b3 = currentUserRef.current) == null ? void 0 : _b3.id) {
+        localStorage.setItem(
+          `customNameSet_${currentUserRef.current.id}`,
+          "true"
+        );
+      }
+    } catch (e) {
     }
     setShowNamePrompt(false);
   };
@@ -26652,7 +27074,69 @@ function AuthScreen({ onLogin }) {
       )
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: googleButton, className: "flex justify-center" }),
-    false,
+    // Show in Vite dev OR when running locally with ?dev=1
+    typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") && new URLSearchParams(window.location.search).get("dev") === "1" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 p-4 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/40", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold text-amber-800 dark:text-amber-200 mb-2 uppercase tracking-wide", children: "Dev Mode: Quick Login" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 gap-2", children: [
+        {
+          role: "student",
+          label: "Student",
+          color: "bg-blue-600 hover:bg-blue-700"
+        },
+        {
+          role: "instructor",
+          label: "Instructor",
+          color: "bg-green-600 hover:bg-green-700"
+        },
+        {
+          role: "orgAdmin",
+          label: "Org Admin",
+          color: "bg-purple-600 hover:bg-purple-700"
+        },
+        {
+          role: "superAdmin",
+          label: "Super Admin",
+          color: "bg-red-600 hover:bg-red-700"
+        }
+      ].map(({ role, label, color }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          type: "button",
+          onClick: async () => {
+            try {
+              console.log("[DEV] Attempting login as:", role);
+              const response = await fetch("/api/dev-login-as", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ role })
+              });
+              console.log("[DEV] Response status:", response.status);
+              const data = await response.json();
+              console.log("[DEV] Response data:", data);
+              if (data.ok) {
+                console.log(
+                  "[DEV] Calling onLogin with:",
+                  data.user,
+                  data.token
+                );
+                onLogin(data.user, data.token);
+              } else {
+                console.error("[DEV] Login failed:", data);
+                alert(
+                  "Dev login failed: " + (data.error || "Unknown error")
+                );
+              }
+            } catch (error) {
+              console.error("Dev login error:", error);
+              alert("Dev login error: " + error.message);
+            }
+          },
+          className: `px-3 py-2 text-xs font-semibold text-white rounded-lg transition ${color}`,
+          children: label
+        },
+        role
+      )) })
+    ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 text-xs text-muted", children: "Admins: Sign in with Google to access your dashboard." })
   ] }) });
 }
@@ -30887,7 +31371,14 @@ function StartScreen({
               /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300", children: "Recommended" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-slate-900 dark:text-white", children: "Day 0 Diagnostic" })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-600 dark:text-slate-300 mb-4 max-w-2xl", children: "Start your journey with a comprehensive 40-question assessment covering all 4 subjects. This sets your baseline and helps Coach Smith build your personalized learning plan." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "p",
+              {
+                className: "text-slate-900 dark:text-slate-300 mb-4 max-w-2xl",
+                style: { color: "inherit" },
+                children: "Start your journey with a comprehensive 40-question assessment covering all 4 subjects. This sets your baseline and helps Coach Smith build your personalized learning plan."
+              }
+            ),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
               {
@@ -32360,7 +32851,7 @@ function QuizInterface({
                     )
                   ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-3", children: (currentQ.answerOptions || []).map((opt, i) => {
                     const cleanedOptionText = stripHtmlTag(opt.text || "");
-                    const isSelected = answers[currentIndex] === i;
+                    const isSelected = answers[currentIndex] === opt.text;
                     const optionStyle = isSelected ? {
                       backgroundColor: scheme.optionSelectedBg,
                       border: `2px solid ${scheme.optionSelectedBorder}`,
@@ -32373,7 +32864,7 @@ function QuizInterface({
                     return /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "button",
                       {
-                        onClick: () => handleOptionChange(i),
+                        onClick: () => handleSelect(opt.text),
                         disabled: isOlympicsMode && showingExplanation,
                         className: "flex w-full items-center gap-2 rounded-lg p-3 text-left transition",
                         style: {
@@ -33884,6 +34375,22 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                   }
                 )
               ] }),
+              (() => {
+                const src = q2.sourceMeta || {};
+                const subject = src.subject || q2.subject || null;
+                const category = src.category || null;
+                const topic = src.topicTitle || src.topicId || q2.topic || q2.area || null;
+                const qnum = q2.questionNumber || src.questionNumber || null;
+                const show = (quiz == null ? void 0 : quiz.title) === "Practice Session" || (quiz == null ? void 0 : quiz.subject) === "Practice Session" || Boolean(src.subject);
+                if (!show) return null;
+                const parts = [subject, category, topic].filter(Boolean);
+                const label = parts.length ? parts.join(" > ") : src.premadeQuizTitle || q2.quizTitle || null;
+                return label ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-slate-500 mb-2", children: [
+                  "Source: ",
+                  label,
+                  qnum ? ` (Q#${qnum})` : ""
+                ] }) : null;
+              })(),
               /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-2 space-y-1", children: (q2.answerOptions || []).map((opt, j) => {
                 const isSelectedOption = answers[i] === opt.text;
                 const optionClasses = [
@@ -36555,4 +37062,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-DDkkCCzb.js.map
+//# sourceMappingURL=main-JjJlGWuL.js.map

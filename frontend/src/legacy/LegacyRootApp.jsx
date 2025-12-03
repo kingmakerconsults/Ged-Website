@@ -22961,8 +22961,8 @@ async function fetchJSON(url, options = {}) {
 // --- App Structure Components ---
 import SubjectCard from '../components/subject/SubjectCard.jsx';
 import SubjectToolsModal from '../components/SubjectToolsModal.jsx';
-import ConstitutionExplorer from '../tools/ConstitutionExplorer.jsx';
-import EconomicsGraphTool from '../tools/EconomicsGraphTool.jsx';
+import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
+import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
 
 function AppHeader({
   currentUser,

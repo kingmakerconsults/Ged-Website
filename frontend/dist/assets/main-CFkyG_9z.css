@@ -516,7 +516,7 @@
   --bg-muted: #f1f5f9;
   --text-primary: #0f172a;
   --text-secondary: #1e293b;
-  --text-tertiary: #334155;
+  --text-tertiary: #0f172a;
   --option-text: #334155;
   --accent: #38bdf8;
   --accent-hover: #0ea5e9;
@@ -1167,18 +1167,22 @@ button[data-role='secondary']:hover:not(:disabled) {
   }
 }
 .good-evidence {
-  background-color: #dcfce7; /* Tailwind green-100 */
-  color: #166534; /* Tailwind green-800 */
-  padding: 2px 4px;
+  background-color: #bbf7d0; /* Tailwind green-200 - brighter */
+  color: #14532d; /* Tailwind green-900 - darker text */
+  padding: 3px 6px;
   border-radius: 4px;
-  font-weight: 500;
+  font-weight: 600;
+  border-left: 3px solid #22c55e; /* green-500 accent */
+  box-shadow: 0 1px 3px rgba(34, 197, 94, 0.2);
 }
 .bad-evidence {
-  background-color: #fee2e2; /* Tailwind red-100 */
-  color: #991b1b; /* Tailwind red-800 */
-  padding: 2px 4px;
+  background-color: #fecaca; /* Tailwind red-200 - brighter */
+  color: #7f1d1d; /* Tailwind red-900 - darker text */
+  padding: 3px 6px;
   border-radius: 4px;
-  font-weight: 500;
+  font-weight: 600;
+  border-left: 3px solid #ef4444; /* red-500 accent */
+  box-shadow: 0 1px 3px rgba(239, 68, 68, 0.2);
 }
 .vocabulary-ticker {
   position: relative;
@@ -2205,18 +2209,22 @@ button[data-role='secondary']:hover:not(:disabled) {
   }
 }
 .good-evidence {
-  background-color: #dcfce7; /* Tailwind green-100 */
-  color: #166534; /* Tailwind green-800 */
-  padding: 2px 4px;
+  background-color: #bbf7d0; /* Tailwind green-200 - brighter */
+  color: #14532d; /* Tailwind green-900 - darker text */
+  padding: 3px 6px;
   border-radius: 4px;
-  font-weight: 500;
+  font-weight: 600;
+  border-left: 3px solid #22c55e; /* green-500 accent */
+  box-shadow: 0 1px 3px rgba(34, 197, 94, 0.2);
 }
 .bad-evidence {
-  background-color: #fee2e2; /* Tailwind red-100 */
-  color: #991b1b; /* Tailwind red-800 */
-  padding: 2px 4px;
+  background-color: #fecaca; /* Tailwind red-200 - brighter */
+  color: #7f1d1d; /* Tailwind red-900 - darker text */
+  padding: 3px 6px;
   border-radius: 4px;
-  font-weight: 500;
+  font-weight: 600;
+  border-left: 3px solid #ef4444; /* red-500 accent */
+  box-shadow: 0 1px 3px rgba(239, 68, 68, 0.2);
 }
 .vocabulary-ticker {
   position: relative;
@@ -3464,3 +3472,4 @@ select:focus {
 [data-theme='dark'] select:focus {
   box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.4);
 }
+
