@@ -237,16 +237,19 @@ export function TI30XSCalculator({ onClose }) {
           opacity: opacity,
           pointerEvents: 'auto',
           cursor: isDragging ? 'grabbing' : 'grab',
+          maxWidth: '100vw',
+          maxHeight: '100vh',
         }}
         onMouseDown={handleMouseDown}
       >
-        {/* Calculator Shell: tall & narrow, scaled 2x */}
+        {/* Calculator Shell: tall & narrow, responsive scale */}
         <div
           className="relative bg-[#3b4c5f] shadow-2xl rounded-[30px] p-5"
           style={{
             width: '340px',
             height: '680px',
-            transform: 'scale(2)',
+            transform:
+              'scale(min(1.8, min(calc(100vw / 340px), calc(100vh / 680px))))',
             transformOrigin: 'top left',
           }}
         >
