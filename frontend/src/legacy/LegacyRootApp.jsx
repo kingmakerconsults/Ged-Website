@@ -2770,7 +2770,7 @@ function sanitizeHtmlContent(
     working = preprocessRawContent(working, { normalizeSpacing });
   }
 
-  // Rewrite <img src> to use our resolver so images always load from Netlify
+  // HARDCODED FIX: Aggressively rewrite ALL image URLs to Netlify CDN
   try {
     const parser = new DOMParser();
     const doc = parser.parseFromString(working, 'text/html');
@@ -2778,12 +2778,18 @@ function sanitizeHtmlContent(
     if (imgs && imgs.length) {
       imgs.forEach((img) => {
         const raw = img.getAttribute('src') || '';
+        // Skip data: and blob: URLs
+        if (raw.startsWith('data:') || raw.startsWith('blob:')) return;
+        
         const resolved = resolveAssetUrl(raw);
+        console.log(`[sanitizeHtmlContent] Rewriting: ${raw} -> ${resolved}`);
         img.setAttribute('src', resolved);
       });
       working = doc.body.innerHTML;
     }
-  } catch (_e) {}
+  } catch (_e) {
+    console.error('[sanitizeHtmlContent] Image rewrite error:', _e);
+  }
 
   // Convert any inline pipe tables (including compressed single-line with "||") into HTML tables
   working = normalizeInlineTablesFront(working);
@@ -20436,26 +20442,59 @@ function resolveAssetUrl(src) {
   if (!src) return '';
   let s = String(src).trim();
 
-  // if it's already absolute or data/blob, just return it
-  if (
-    /^https?:\/\//i.test(s) ||
-    s.startsWith('data:') ||
-    s.startsWith('blob:')
-  ) {
+  // Keep data: and blob: URLs unchanged
+  if (s.startsWith('data:') || s.startsWith('blob:')) {
     return s;
   }
 
-  // normalize to our /frontend/Images/... pattern
-  const normalized = normalizeImagePath(s);
-
-  // build an absolute URL using current origin
-  const origin =
-    (typeof window !== 'undefined' &&
-      window.location &&
-      window.location.origin) ||
-    '';
-
-  return origin + normalized;
+  // HARDCODED FIX: Strip ANY domain and force Netlify CDN
+  // Remove any protocol and domain (quiz.ez-ged.com, ged-website.onrender.com, localhost, etc.)
+  s = s.replace(/^https?:\/\/[^\/]+/i, '');
+  
+  // Remove leading slashes
+  s = s.replace(/^\/+/, '');
+  
+  // Remove 'frontend/' prefix if present
+  s = s.replace(/^frontend\//i, '');
+  
+  // Remove 'Images/' prefix if present (we'll add it back)
+  s = s.replace(/^Images\//i, '');
+  
+  // Split path to extract subject and filename
+  const parts = s.split('/').filter(p => p.trim());
+  
+  if (parts.length === 0) return '';
+  
+  // Get filename (last part)
+  const filename = parts[parts.length - 1];
+  
+  // Detect subject from path segments
+  let subject = 'Social_Studies'; // default
+  
+  for (const part of parts) {
+    const lower = part.toLowerCase().replace(/[_\s-]+/g, '');
+    if (lower.includes('math')) {
+      subject = 'Math';
+      break;
+    } else if (lower.includes('science')) {
+      subject = 'Science';
+      break;
+    } else if (lower.includes('social') || lower.includes('studies')) {
+      subject = 'Social_Studies';
+      break;
+    } else if (lower.includes('rla') || lower.includes('language')) {
+      subject = 'RLA';
+      break;
+    } else if (lower.includes('workforce') || lower.includes('readiness')) {
+      subject = 'Workforce_Readiness';
+      break;
+    }
+  }
+  
+  // FORCE NETLIFY CDN - hardcoded canonical URL
+  const netlifyUrl = `https://ezged.netlify.app/frontend/Images/${subject}/${filename}`;
+  console.log(`[IMG FIX] ${src} -> ${netlifyUrl}`);
+  return netlifyUrl;
 }
 
 function normalizeMathText(text) {

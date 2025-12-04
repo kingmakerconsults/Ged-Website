@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-Dmc2dtVs.js";
+import { _ as __vitePreload } from "./index-DuizNlwj.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -5563,12 +5563,15 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess
     if (imgs && imgs.length) {
       imgs.forEach((img) => {
         const raw = img.getAttribute("src") || "";
+        if (raw.startsWith("data:") || raw.startsWith("blob:")) return;
         const resolved = resolveAssetUrl(raw);
+        console.log(`[sanitizeHtmlContent] Rewriting: ${raw} -> ${resolved}`);
         img.setAttribute("src", resolved);
       });
       working = doc.body.innerHTML;
     }
   } catch (_e) {
+    console.error("[sanitizeHtmlContent] Image rewrite error:", _e);
   }
   working = normalizeInlineTablesFront(working);
   const sanitizer = window.DOMPurify && window.DOMPurify.sanitize ? window.DOMPurify.sanitize : null;
@@ -21103,12 +21106,39 @@ function normalizeImagePath(path) {
 function resolveAssetUrl(src) {
   if (!src) return "";
   let s = String(src).trim();
-  if (/^https?:\/\//i.test(s) || s.startsWith("data:") || s.startsWith("blob:")) {
+  if (s.startsWith("data:") || s.startsWith("blob:")) {
     return s;
   }
-  const normalized = normalizeImagePath(s);
-  const origin = typeof window !== "undefined" && window.location && window.location.origin || "";
-  return origin + normalized;
+  s = s.replace(/^https?:\/\/[^\/]+/i, "");
+  s = s.replace(/^\/+/, "");
+  s = s.replace(/^frontend\//i, "");
+  s = s.replace(/^Images\//i, "");
+  const parts = s.split("/").filter((p2) => p2.trim());
+  if (parts.length === 0) return "";
+  const filename = parts[parts.length - 1];
+  let subject = "Social_Studies";
+  for (const part of parts) {
+    const lower = part.toLowerCase().replace(/[_\s-]+/g, "");
+    if (lower.includes("math")) {
+      subject = "Math";
+      break;
+    } else if (lower.includes("science")) {
+      subject = "Science";
+      break;
+    } else if (lower.includes("social") || lower.includes("studies")) {
+      subject = "Social_Studies";
+      break;
+    } else if (lower.includes("rla") || lower.includes("language")) {
+      subject = "RLA";
+      break;
+    } else if (lower.includes("workforce") || lower.includes("readiness")) {
+      subject = "Workforce_Readiness";
+      break;
+    }
+  }
+  const netlifyUrl = `https://ezged.netlify.app/frontend/Images/${subject}/${filename}`;
+  console.log(`[IMG FIX] ${src} -> ${netlifyUrl}`);
+  return netlifyUrl;
 }
 function normalizeMathText(text) {
   if (typeof text !== "string") return text;
@@ -37062,4 +37092,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-CdhMAxAd.js.map
+//# sourceMappingURL=main-DX_PSj57.js.map
