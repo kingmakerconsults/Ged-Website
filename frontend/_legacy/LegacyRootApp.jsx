@@ -20439,7 +20439,18 @@ function resolveAssetUrl(src) {
   if (!src) return '';
   let s = String(src).trim();
 
-  // if it's already absolute or data/blob, just return it
+  // If it's one of our legacy quiz hosts, strip the host and treat it as an internal asset path
+  // Examples:
+  //   https://quiz.ez-ged.com/Images/Math/foo.png
+  //   http://quiz.ez-ged.net/Images/Science/bar.jpg
+  //   https://something.quiz.ez-ged.com/path/to/image.png
+  const legacyMatch = s.match(/^https?:\/\/([^\/]*quiz\.ez-ged[^\/]*)\/(.*)$/i);
+  if (legacyMatch) {
+    const pathAndRest = legacyMatch[2] || '';
+    s = pathAndRest;
+  }
+
+  // Already absolute and NOT one of our legacy hosts? keep it as-is
   if (
     /^https?:\/\//i.test(s) ||
     s.startsWith('data:') ||
@@ -20448,16 +20459,23 @@ function resolveAssetUrl(src) {
     return s;
   }
 
-  // normalize to our /frontend/Images/... pattern
-  const normalized = normalizeImagePath(s);
+  // normalize to our internal pattern first
+  const normalized = normalizeImagePath(s); // e.g. /frontend/Images/Social Studies/foo.png
 
-  // build an absolute URL using current origin
+  // our working CDN / static host
+  const NETLIFY_ROOT = 'https://ezged.netlify.app';
+
+  // if it's one of our quiz images, serve it from Netlify and KEEP /frontend/Images path
+  if (normalized.startsWith('/frontend/Images/')) {
+    return `${NETLIFY_ROOT}${normalized}`;
+  }
+
+  // fallback: current origin
   const origin =
     (typeof window !== 'undefined' &&
       window.location &&
       window.location.origin) ||
     '';
-
   return origin + normalized;
 }
 
