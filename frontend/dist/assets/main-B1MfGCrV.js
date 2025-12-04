@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-DuizNlwj.js";
+import { _ as __vitePreload } from "./index-OovyWtp0.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -31938,7 +31938,6 @@ function QuizInterface({
   const [showMathFormulas, setShowMathFormulas] = reactExports.useState(false);
   const [showScienceFormulas, setShowScienceFormulas] = reactExports.useState(false);
   const [showArticle, setShowArticle] = reactExports.useState(Boolean(article));
-  const [showCalculator, setShowCalculator] = reactExports.useState(false);
   const toolPanelRef = reactExports.useRef(null);
   const toolInstanceRef = reactExports.useRef(null);
   const toolTypeRef = reactExports.useRef(null);
@@ -32379,29 +32378,12 @@ function QuizInterface({
                         },
                         children: "View Science Formula Sheet"
                       }
-                    ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      "button",
-                      {
-                        type: "button",
-                        onClick: () => setShowCalculator(!showCalculator),
-                        className: "btn-secondary text-xs",
-                        style: {
-                          color: scheme.accentText,
-                          borderColor: scheme.accent
-                        },
-                        children: "🖩 Calculator"
-                      }
                     )
                   ] })
                 ] })
               ]
             }
           ),
-          showCalculator && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { position: "fixed", zIndex: 9999 }, children: React.createElement(
-            require("../components/TI30XSCalculator.jsx").TI30XSCalculator,
-            { onClose: () => setShowCalculator(false) }
-          ) }),
           article && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ged-split-view h-[calc(100vh-140px)] overflow-hidden mb-6", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "passage-pane overflow-y-auto p-6 border-r border-subtle bg-white dark:bg-slate-900", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2 mb-4", children: [
@@ -37092,4 +37074,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-DX_PSj57.js.map
+//# sourceMappingURL=main-B1MfGCrV.js.map
