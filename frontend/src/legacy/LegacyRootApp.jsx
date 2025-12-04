@@ -2780,7 +2780,7 @@ function sanitizeHtmlContent(
         const raw = img.getAttribute('src') || '';
         // Skip data: and blob: URLs
         if (raw.startsWith('data:') || raw.startsWith('blob:')) return;
-        
+
         const resolved = resolveAssetUrl(raw);
         console.log(`[sanitizeHtmlContent] Rewriting: ${raw} -> ${resolved}`);
         img.setAttribute('src', resolved);
@@ -20450,27 +20450,27 @@ function resolveAssetUrl(src) {
   // HARDCODED FIX: Strip ANY domain and force Netlify CDN
   // Remove any protocol and domain (quiz.ez-ged.com, ged-website.onrender.com, localhost, etc.)
   s = s.replace(/^https?:\/\/[^\/]+/i, '');
-  
+
   // Remove leading slashes
   s = s.replace(/^\/+/, '');
-  
+
   // Remove 'frontend/' prefix if present
   s = s.replace(/^frontend\//i, '');
-  
+
   // Remove 'Images/' prefix if present (we'll add it back)
   s = s.replace(/^Images\//i, '');
-  
+
   // Split path to extract subject and filename
-  const parts = s.split('/').filter(p => p.trim());
-  
+  const parts = s.split('/').filter((p) => p.trim());
+
   if (parts.length === 0) return '';
-  
+
   // Get filename (last part)
   const filename = parts[parts.length - 1];
-  
+
   // Detect subject from path segments
   let subject = 'Social_Studies'; // default
-  
+
   for (const part of parts) {
     const lower = part.toLowerCase().replace(/[_\s-]+/g, '');
     if (lower.includes('math')) {
@@ -20490,7 +20490,7 @@ function resolveAssetUrl(src) {
       break;
     }
   }
-  
+
   // FORCE NETLIFY CDN - hardcoded canonical URL
   const netlifyUrl = `https://ezged.netlify.app/frontend/Images/${subject}/${filename}`;
   console.log(`[IMG FIX] ${src} -> ${netlifyUrl}`);
@@ -33568,7 +33568,6 @@ function QuizInterface({
   const [showMathFormulas, setShowMathFormulas] = useState(false);
   const [showScienceFormulas, setShowScienceFormulas] = useState(false);
   const [showArticle, setShowArticle] = useState(Boolean(article));
-  const [showCalculator, setShowCalculator] = useState(false);
   const toolPanelRef = useRef(null);
   const toolInstanceRef = useRef(null);
   const toolTypeRef = useRef(null); // 'graph' | 'geometry' | null
@@ -34107,30 +34106,10 @@ function QuizInterface({
                       View Science Formula Sheet
                     </button>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => setShowCalculator(!showCalculator)}
-                    className="btn-secondary text-xs"
-                    style={{
-                      color: scheme.accentText,
-                      borderColor: scheme.accent,
-                    }}
-                  >
-                    🖩 Calculator
-                  </button>
                 </div>
               )}
             </div>
           </header>
-        )}
-
-        {showCalculator && (
-          <div style={{ position: 'fixed', zIndex: 9999 }}>
-            {React.createElement(
-              require('../components/TI30XSCalculator.jsx').TI30XSCalculator,
-              { onClose: () => setShowCalculator(false) }
-            )}
-          </div>
         )}
 
         {article && (
