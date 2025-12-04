@@ -3472,4 +3472,34 @@ select:focus {
 [data-theme='dark'] select:focus {
   box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.4);
 }
-
+/* Tables in passage text - same styling as question-stem tables */
+.passage-text table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+}
+.passage-text th,
+.passage-text td {
+  border: 1px solid #e5e7eb;
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  color: inherit;
+}
+.passage-text thead th {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: #111827;
+}
+.dark .passage-text th,
+.dark .passage-text td {
+  border: 1px solid rgba(226, 232, 240, 0.18);
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  color: #f8fafc;
+  background-color: rgba(15, 23, 42, 0.6);
+}
+.dark .passage-text thead th {
+  background-color: rgba(30, 41, 59, 0.8);
+  color: #ffffff;
+  font-weight: 600;
+}
