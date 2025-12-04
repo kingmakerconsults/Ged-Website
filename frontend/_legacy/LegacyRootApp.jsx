@@ -10,6 +10,7 @@
 } from 'react';
 import ReactDOM from 'react-dom/client';
 import { TI30XSCalculator } from '../components/TI30XSCalculator.jsx';
+import { normalizeImageUrl } from '../utils/normalizeImageUrl.js';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
 (function () {
@@ -20438,46 +20439,14 @@ function normalizeImagePath(path) {
 
 function resolveAssetUrl(src) {
   if (!src) return '';
-  let s = String(src).trim();
-
-  // If it's one of our legacy quiz hosts, strip the host and treat it as an internal asset path
-  // Examples:
-  //   https://quiz.ez-ged.com/Images/Math/foo.png
-  //   http://quiz.ez-ged.net/Images/Science/bar.jpg
-  //   https://something.quiz.ez-ged.com/path/to/image.png
-  const legacyMatch = s.match(/^https?:\/\/([^\/]*quiz\.ez-ged[^\/]*)\/(.*)$/i);
-  if (legacyMatch) {
-    const pathAndRest = legacyMatch[2] || '';
-    s = pathAndRest;
+  
+  // For data URLs and blob URLs, return as-is
+  if (String(src).startsWith('data:') || String(src).startsWith('blob:')) {
+    return src;
   }
-
-  // Already absolute and NOT one of our legacy hosts? keep it as-is
-  if (
-    /^https?:\/\//i.test(s) ||
-    s.startsWith('data:') ||
-    s.startsWith('blob:')
-  ) {
-    return s;
-  }
-
-  // normalize to our internal pattern first
-  const normalized = normalizeImagePath(s); // e.g. /frontend/Images/Social Studies/foo.png
-
-  // our working CDN / static host
-  const NETLIFY_ROOT = 'https://ezged.netlify.app';
-
-  // if it's one of our quiz images, serve it from Netlify and KEEP /frontend/Images path
-  if (normalized.startsWith('/frontend/Images/')) {
-    return `${NETLIFY_ROOT}${normalized}`;
-  }
-
-  // fallback: current origin
-  const origin =
-    (typeof window !== 'undefined' &&
-      window.location &&
-      window.location.origin) ||
-    '';
-  return origin + normalized;
+  
+  // Use the Netlify-locked normalizer for ALL other images
+  return normalizeImageUrl(src);
 }
 
 function normalizeMathText(text) {
@@ -34097,24 +34066,26 @@ function QuizInterface({
                       View Science Formula Sheet
                     </button>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => setShowCalculator(!showCalculator)}
-                    className="btn-secondary text-xs"
-                    style={{
-                      color: scheme.accentText,
-                      borderColor: scheme.accent,
-                    }}
-                  >
-                    🖩 Calculator
-                  </button>
+                  {false && (
+                    <button
+                      type="button"
+                      onClick={() => setShowCalculator(!showCalculator)}
+                      className="btn-secondary text-xs"
+                      style={{
+                        color: scheme.accentText,
+                        borderColor: scheme.accent,
+                      }}
+                    >
+                      🖩 Calculator
+                    </button>
+                  )}
                 </div>
               )}
             </div>
           </header>
         )}
 
-        {showCalculator && (
+        {false && showCalculator && (
           <div style={{ position: 'fixed', zIndex: 9999 }}>
             <TI30XSCalculator onClose={() => setShowCalculator(false)} />
           </div>
