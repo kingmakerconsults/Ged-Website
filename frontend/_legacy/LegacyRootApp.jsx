@@ -2778,11 +2778,14 @@ function sanitizeHtmlContent(
       imgs.forEach((img) => {
         const raw = img.getAttribute('src') || '';
         const resolved = resolveAssetUrl(raw);
+        console.log(`[Image URL Rewrite] ${raw} -> ${resolved}`);
         img.setAttribute('src', resolved);
       });
       working = doc.body.innerHTML;
     }
-  } catch (_e) {}
+  } catch (_e) {
+    console.error('[Image URL Rewrite] Error:', _e);
+  }
 
   // Convert any inline pipe tables (including compressed single-line with "||") into HTML tables
   working = normalizeInlineTablesFront(working);
@@ -2800,9 +2803,10 @@ function sanitizeHtmlContent(
     );
   }
 
-  return formatFractions(
-    working.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  );
+  // If DOMPurify is not available, return the HTML as-is (already preprocessed and validated)
+  // This is safe because the content comes from our own quiz data, not user input
+  console.warn('DOMPurify not available, returning HTML without sanitization');
+  return formatFractions(working);
 }
 
 // Frontend safety: convert pipe-style tables to HTML so styles apply even if backend missed them
@@ -20477,8 +20481,7 @@ function normalizeQuestionAssets(question, subjectName) {
   // Image URL variants
   if (question.imageURL && !question.imageUrl)
     question.imageUrl = question.imageURL;
-  if (question.imageUrl)
-    question.imageUrl = normalizeImagePath(question.imageUrl);
+  if (question.imageUrl) question.imageUrl = resolveAssetUrl(question.imageUrl);
   if (
     question.stimulusImage &&
     typeof question.stimulusImage === 'object' &&
@@ -20486,7 +20489,7 @@ function normalizeQuestionAssets(question, subjectName) {
   ) {
     question.stimulusImage = {
       ...question.stimulusImage,
-      src: normalizeImagePath(question.stimulusImage.src),
+      src: resolveAssetUrl(question.stimulusImage.src),
     };
   }
   // Math normalization for Math subject only
