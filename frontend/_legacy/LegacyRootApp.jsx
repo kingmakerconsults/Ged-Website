@@ -20456,7 +20456,10 @@ function resolveAssetUrl(src) {
   }
 
   // Use the Netlify-locked normalizer for ALL other images
-  return normalizeImageUrl(src);
+  console.log(`[resolveAssetUrl] Calling normalizeImageUrl with:`, src);
+  const result = normalizeImageUrl(src);
+  console.log(`[resolveAssetUrl] normalizeImageUrl returned:`, result);
+  return result;
 }
 
 function normalizeMathText(text) {

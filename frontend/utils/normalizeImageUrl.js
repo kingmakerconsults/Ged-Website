@@ -51,5 +51,7 @@ export function normalizeImageUrl(url) {
   }
 
   // Always return Netlify-locked canonical URL
-  return `https://ezged.netlify.app/frontend/Images/${subject}/${filename}`;
+  const result = `https://ezged.netlify.app/frontend/Images/${subject}/${filename}`;
+  console.log(`[normalizeImageUrl] ${url} → ${result}`);
+  return result;
 }

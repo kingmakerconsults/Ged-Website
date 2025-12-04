@@ -9,6 +9,7 @@
   createContext,
 } from 'react';
 import ReactDOM from 'react-dom/client';
+import { normalizeImageUrl } from '../../utils/normalizeImageUrl.js';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
 (function () {
