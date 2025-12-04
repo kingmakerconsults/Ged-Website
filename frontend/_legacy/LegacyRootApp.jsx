@@ -2437,6 +2437,16 @@ function sanitizeUnicode(s) {
 }
 
 function renderQuestionTextForDisplay(text, isPremade) {
+  // If text contains HTML table tags, render as HTML
+  if (
+    text &&
+    (text.includes('<table>') ||
+      text.includes('<thead>') ||
+      text.includes('<tbody>'))
+  ) {
+    return { __html: sanitizeHtmlContent(text, { normalizeSpacing: true }) };
+  }
+
   // Only allow KaTeX rendering for premade items; AI/dynamic stay plain text (fractions a/b, exponents a^b)
   const useKatex = Boolean(
     window.__APP_CONFIG__ &&

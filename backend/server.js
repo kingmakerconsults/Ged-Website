@@ -11256,6 +11256,75 @@ app.post('/generate-quiz', async (req, res) => {
         res.json(finalQuiz);
       } catch (error) {
         console.error('[SS] Error generating Social Studies exam:', error);
+        console.log('[SS] Falling back to premade quiz assembly');
+
+        // FALLBACK: Pull from premade quiz bank
+        try {
+          const allQuestions = [];
+          const SS_CATEGORIES = [
+            'Civics & Government',
+            'U.S. History',
+            'Economics',
+            'Geography & the World',
+          ];
+
+          // Try to get questions from ALL_QUIZZES
+          if (ALL_QUIZZES && ALL_QUIZZES['Social Studies']) {
+            const ssData = ALL_QUIZZES['Social Studies'];
+            if (ssData.categories) {
+              for (const [catName, catData] of Object.entries(
+                ssData.categories
+              )) {
+                if (catData.topics && Array.isArray(catData.topics)) {
+                  for (const topic of catData.topics) {
+                    if (topic.questions && Array.isArray(topic.questions)) {
+                      allQuestions.push(
+                        ...topic.questions.map((q) => ({
+                          ...q,
+                          subject: 'Social Studies',
+                          category: catName,
+                        }))
+                      );
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          console.log(
+            `[SS Fallback] Found ${allQuestions.length} premade questions`
+          );
+
+          // Shuffle and take 35
+          const shuffled = shuffleQuestionsPreservingStimulus(allQuestions);
+          const selected = shuffled.slice(0, 35);
+
+          // Number them
+          selected.forEach((q, idx) => {
+            q.questionNumber = idx + 1;
+            q.subject = 'Social Studies';
+          });
+
+          const fallbackQuiz = {
+            id: `premade_comp_ss_${Date.now()}`,
+            title: 'Comprehensive Social Studies Exam',
+            subject: 'Social Studies',
+            source: 'premade',
+            questions: selected,
+          };
+
+          logGenerationDuration(examType, subject, generationStart, 'fallback');
+          console.log(
+            '[SS] Returning fallback quiz with',
+            selected.length,
+            'questions'
+          );
+          return res.json(fallbackQuiz);
+        } catch (fallbackError) {
+          console.error('[SS] Fallback also failed:', fallbackError);
+        }
+
         logGenerationDuration(examType, subject, generationStart, 'failed');
         res
           .status(500)

@@ -9,49 +9,47 @@ export function normalizeImageUrl(url) {
 
   let cleaned = String(url).trim();
 
-  // Remove any domain (quiz.ez-ged, render, localhost, netlify preview, etc.)
+  // Remove any domain completely
   cleaned = cleaned.replace(/^https?:\/\/[^/]+/i, '');
 
-  // Remove leading slashes and /frontend/Images/ prefix if present
+  // Remove leading slashes
   cleaned = cleaned.replace(/^\/+/, '');
-  cleaned = cleaned.replace(/^frontend\/Images\//i, '');
-  cleaned = cleaned.replace(/^Images\//i, '');
 
-  // Extract just the filename (last segment of path)
-  const parts = cleaned.split('/');
-  const filename = parts[parts.length - 1];
+  // Split the path into segments
+  const segments = cleaned.split('/').filter((s) => s);
+
+  if (segments.length === 0) return '';
+
+  // Extract filename (last segment)
+  const filename = segments[segments.length - 1];
 
   if (!filename) return '';
 
-  // Try to preserve subject folder if it's in the path
-  let subject = '';
-  for (let i = 0; i < parts.length - 1; i++) {
-    const part = parts[i];
-    if (
-      /math|science|social|rla|workforce/i.test(part) ||
-      part.includes('Studies')
-    ) {
-      // Normalize subject name
-      if (/social/i.test(part) || part.includes('Studies')) {
-        subject = 'Social_Studies';
-      } else if (/math/i.test(part)) {
-        subject = 'Math';
-      } else if (/science/i.test(part)) {
-        subject = 'Science';
-      } else if (/rla/i.test(part)) {
-        subject = 'RLA';
-      } else if (/workforce/i.test(part)) {
-        subject = 'Workforce_Readiness';
-      }
+  // Determine subject from path
+  let subject = 'Social_Studies'; // default
+
+  // Check all segments for subject indicators
+  for (const segment of segments) {
+    const lower = segment.toLowerCase().replace(/[_\s-]+/g, '');
+
+    if (lower.includes('math')) {
+      subject = 'Math';
+      break;
+    } else if (lower.includes('science')) {
+      subject = 'Science';
+      break;
+    } else if (lower.includes('social') || lower.includes('studies')) {
+      subject = 'Social_Studies';
+      break;
+    } else if (lower.includes('rla') || lower.includes('language')) {
+      subject = 'RLA';
+      break;
+    } else if (lower.includes('workforce')) {
+      subject = 'Workforce_Readiness';
       break;
     }
   }
 
-  // If no subject found, try to infer from filename or default to Social_Studies
-  if (!subject) {
-    subject = 'Social_Studies'; // default fallback
-  }
-
-  // Always return the Netlify-locked canonical path
+  // Always return Netlify-locked canonical URL
   return `https://ezged.netlify.app/frontend/Images/${subject}/${filename}`;
 }
