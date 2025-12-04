@@ -20439,12 +20439,12 @@ function normalizeImagePath(path) {
 
 function resolveAssetUrl(src) {
   if (!src) return '';
-  
+
   // For data URLs and blob URLs, return as-is
   if (String(src).startsWith('data:') || String(src).startsWith('blob:')) {
     return src;
   }
-  
+
   // Use the Netlify-locked normalizer for ALL other images
   return normalizeImageUrl(src);
 }
