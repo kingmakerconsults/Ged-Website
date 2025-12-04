@@ -34115,10 +34115,39 @@ function QuizInterface({
 
         {showCalculator && (
           <div style={{ position: 'fixed', zIndex: 9999 }}>
-            {React.createElement(
-              require('../components/TI30XSCalculator.jsx').TI30XSCalculator,
-              { onClose: () => setShowCalculator(false) }
-            )}
+            {(() => {
+              try {
+                // Get the calculator from window.Components
+                const CalcComponent = window.Components?.TI30XSCalculator;
+                if (CalcComponent) {
+                  return React.createElement(
+                    CalcComponent,
+                    { onClose: () => setShowCalculator(false) }
+                  );
+                }
+                // Fallback: render a message
+                return React.createElement('div', {
+                  style: {
+                    padding: '20px',
+                    backgroundColor: '#fff',
+                    border: '1px solid #ccc',
+                    borderRadius: '8px',
+                  },
+                  children: 'Calculator component not available. Please reload the page.',
+                });
+              } catch (err) {
+                console.error('Error loading calculator:', err);
+                return React.createElement('div', {
+                  style: {
+                    padding: '20px',
+                    backgroundColor: '#fee',
+                    border: '1px solid #f00',
+                    borderRadius: '8px',
+                  },
+                  children: 'Error loading calculator: ' + err.message,
+                });
+              }
+            })()}
           </div>
         )}
 
