@@ -41,21 +41,31 @@ export default function RLAView({ dark = false }) {
           border: `2px solid ${dark ? '#334155' : '#e2e8f0'}`,
         }}
       >
-        <h2 className="text-2xl font-bold mb-4">RLA Practice Tools</h2>
+        <h2
+          className="text-2xl font-bold mb-4"
+          style={{ color: dark ? '#ffffff' : undefined }}
+        >
+          RLA Practice Tools
+        </h2>
 
         <div className="tools-grid grid md:grid-cols-2 gap-6">
           <div
             className="tool-card p-6 rounded-lg"
             style={{
-              backgroundColor: dark ? '#334155' : '#f1f5f9',
+              backgroundColor: dark ? '#5b21b6' : theme.bgSoft,
               border: `2px solid ${theme.primary}`,
             }}
           >
             <div className="text-4xl mb-3">📖</div>
-            <h3 className="text-xl font-semibold mb-2">Reading Passages</h3>
+            <h3
+              className="text-xl font-semibold mb-2"
+              style={{ color: dark ? '#ddd6fe' : theme.primary }}
+            >
+              Reading Passages
+            </h3>
             <p
               className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+              style={{ color: dark ? '#e2e8f0' : '#64748b' }}
             >
               Practice with fiction, nonfiction, and informational texts.
               Analyze themes, main ideas, and supporting details.
@@ -80,10 +90,15 @@ export default function RLAView({ dark = false }) {
             }}
           >
             <div className="text-4xl mb-3">✍️</div>
-            <h3 className="text-xl font-semibold mb-2">Writing Practice</h3>
+            <h3
+              className="text-xl font-semibold mb-2"
+              style={{ color: dark ? '#ffffff' : undefined }}
+            >
+              Writing Practice
+            </h3>
             <p
               className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+              style={{ color: dark ? '#e2e8f0' : '#64748b' }}
             >
               Coming soon: Practice extended response essays with guided prompts
               and scoring rubrics.
@@ -108,10 +123,15 @@ export default function RLAView({ dark = false }) {
             }}
           >
             <div className="text-4xl mb-3">📝</div>
-            <h3 className="text-xl font-semibold mb-2">Grammar & Mechanics</h3>
+            <h3
+              className="text-xl font-semibold mb-2"
+              style={{ color: dark ? '#ffffff' : undefined }}
+            >
+              Grammar & Mechanics
+            </h3>
             <p
               className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+              style={{ color: dark ? '#e2e8f0' : '#64748b' }}
             >
               Coming soon: Master grammar rules, punctuation, capitalization,
               and sentence structure.
@@ -136,10 +156,15 @@ export default function RLAView({ dark = false }) {
             }}
           >
             <div className="text-4xl mb-3">🔍</div>
-            <h3 className="text-xl font-semibold mb-2">Critical Analysis</h3>
+            <h3
+              className="text-xl font-semibold mb-2"
+              style={{ color: dark ? '#ffffff' : undefined }}
+            >
+              Critical Analysis
+            </h3>
             <p
               className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
+              style={{ color: dark ? '#e2e8f0' : '#64748b' }}
             >
               Coming soon: Analyze arguments, evaluate evidence, and make
               inferences from complex texts.
@@ -166,7 +191,12 @@ export default function RLAView({ dark = false }) {
           border: `2px solid ${dark ? '#334155' : '#e2e8f0'}`,
         }}
       >
-        <h3 className="text-lg font-semibold mb-3">GED RLA Topics</h3>
+        <h3
+          className="text-lg font-semibold mb-3"
+          style={{ color: dark ? '#ffffff' : undefined }}
+        >
+          GED RLA Topics
+        </h3>
         <ul className="space-y-2 text-sm">
           <li>
             📖 <strong>Reading Comprehension:</strong> Fiction, nonfiction,
@@ -193,8 +223,16 @@ export default function RLAView({ dark = false }) {
             borderLeft: `4px solid ${theme.primary}`,
           }}
         >
-          <h4 className="font-semibold mb-2">💡 Study Tip</h4>
-          <p className="text-sm">
+          <h4
+            className="font-semibold mb-2"
+            style={{ color: dark ? '#ffffff' : undefined }}
+          >
+            💡 Study Tip
+          </h4>
+          <p
+            className="text-sm"
+            style={{ color: dark ? '#e2e8f0' : undefined }}
+          >
             Focus on active reading strategies: annotate passages, identify main
             ideas, and practice summarizing information in your own words.
           </p>

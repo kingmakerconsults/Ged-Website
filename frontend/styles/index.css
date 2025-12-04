@@ -1,0 +1,117 @@
+/* Global stylesheet entry point for base styles and tokens */
+@import '../src/theme/designSystem.css';
+
+/* Base page/body styles */
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg-page, #f8fafc);
+  color: var(--text-primary, #0f172a);
+  font-family: Inter, Arial, sans-serif;
+}
+
+/* Utility classes that are safe to be global can be added here */
+::selection {
+  background: var(--selection-bg, #fef9c3);
+}
+
+/* Scrollbar styling for quiz and app containers */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--quiz-scrollbar-track, #f1f1f1);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--quiz-scrollbar-thumb, #888);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--quiz-scrollbar-thumb-hover, #555);
+}
+
+/* Modal overlay baseline (used by Modal component) */
+.app-modal-overlay {
+  background: var(--modal-overlay, rgba(15, 23, 42, 0.55));
+}
+
+/* Base link styles */
+a {
+  color: var(--accent, #38bdf8);
+  text-decoration-color: var(--accent-soft, #e0f2fe);
+}
+a:hover {
+  color: var(--accent-hover, #0ea5e9);
+}
+
+/* Headings baseline */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-secondary, #1e293b);
+  margin: 0 0 0.5rem 0;
+}
+h1 {
+  font-size: 1.75rem;
+}
+h2 {
+  font-size: 1.4rem;
+}
+h3 {
+  font-size: 1.2rem;
+}
+
+/* Simple spacing utilities */
+.mt-1 {
+  margin-top: 0.25rem;
+}
+.mt-2 {
+  margin-top: 0.5rem;
+}
+.mt-3 {
+  margin-top: 0.75rem;
+}
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+
+/* Button secondary baseline (non-component usage) */
+.btn-secondary {
+  background: var(--button-secondary-bg, #ffffff);
+  color: var(--button-secondary-text, #1e293b);
+  border: 1px solid var(--button-secondary-border, rgba(148, 163, 184, 0.45));
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+}
+
+/* Panel surface baseline class to ease migration */
+.panel-surface {
+  background: var(--bg-surface, #fff);
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.03));
+  border-radius: 1rem;
+}
+
+/* Shadow utilities aligned to tokens */
+.shadow-sm {
+  box-shadow: var(--option-shadow, 0 4px 10px -2px rgba(0, 0, 0, 0.08));
+}
+.shadow-md {
+  box-shadow: var(--shadow-hover, 0 12px 20px -6px rgba(0, 0, 0, 0.1));
+}
+.shadow-lg {
+  box-shadow: var(--shadow-strong, 0 18px 32px -24px rgba(15, 23, 42, 0.3));
+}
