@@ -9,6 +9,7 @@
   createContext,
 } from 'react';
 import ReactDOM from 'react-dom/client';
+import { TI30XSCalculator } from '../components/TI30XSCalculator.jsx';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
 (function () {
@@ -34115,39 +34116,7 @@ function QuizInterface({
 
         {showCalculator && (
           <div style={{ position: 'fixed', zIndex: 9999 }}>
-            {(() => {
-              try {
-                // Get the calculator from window.Components
-                const CalcComponent = window.Components?.TI30XSCalculator;
-                if (CalcComponent) {
-                  return React.createElement(
-                    CalcComponent,
-                    { onClose: () => setShowCalculator(false) }
-                  );
-                }
-                // Fallback: render a message
-                return React.createElement('div', {
-                  style: {
-                    padding: '20px',
-                    backgroundColor: '#fff',
-                    border: '1px solid #ccc',
-                    borderRadius: '8px',
-                  },
-                  children: 'Calculator component not available. Please reload the page.',
-                });
-              } catch (err) {
-                console.error('Error loading calculator:', err);
-                return React.createElement('div', {
-                  style: {
-                    padding: '20px',
-                    backgroundColor: '#fee',
-                    border: '1px solid #f00',
-                    borderRadius: '8px',
-                  },
-                  children: 'Error loading calculator: ' + err.message,
-                });
-              }
-            })()}
+            <TI30XSCalculator onClose={() => setShowCalculator(false)} />
           </div>
         )}
 
