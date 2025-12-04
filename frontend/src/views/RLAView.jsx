@@ -197,7 +197,10 @@ export default function RLAView({ dark = false }) {
         >
           GED RLA Topics
         </h3>
-        <ul className="space-y-2 text-sm">
+        <ul
+          className="space-y-2 text-sm"
+          style={{ color: dark ? '#e2e8f0' : undefined }}
+        >
           <li>
             📖 <strong>Reading Comprehension:</strong> Fiction, nonfiction,
             informational texts
