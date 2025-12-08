@@ -2799,16 +2799,65 @@ function sanitizeHtmlContent(
       ? window.DOMPurify.sanitize
       : null;
   if (sanitizer) {
-    return formatFractions(
+    let sanitized = formatFractions(
       sanitizer(working, {
         ALLOWED_TAGS: ALLOWED_HTML_TAGS,
         ALLOWED_ATTR: ALLOWED_HTML_ATTR,
       })
     );
+    // Convert Tailwind classes to inline CSS for table elements
+    sanitized = convertTailwindTableClassesToInlineCss(sanitized);
+    return sanitized;
   }
 
-  return formatFractions(
+  let result = formatFractions(
     working.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  );
+  // Convert Tailwind classes to inline CSS for table elements
+  result = convertTailwindTableClassesToInlineCss(result);
+  return result;
+}
+
+// Convert Tailwind classes to inline CSS for tables
+function convertTailwindTableClassesToInlineCss(html) {
+  if (typeof html !== 'string' || !/<table/i.test(html)) return html;
+
+  const tailwindMap = {
+    // Table
+    'w-full': 'width: 100%;',
+    'text-left': 'text-align: left;',
+    'mt-2': 'margin-top: 0.5rem;',
+    'mt-3': 'margin-top: 0.75rem;',
+    'mt-4': 'margin-top: 1rem;',
+
+    // Cells
+    'p-2': 'padding: 0.5rem;',
+    'p-3': 'padding: 0.75rem;',
+    'p-4': 'padding: 1rem;',
+    'border-b': 'border-bottom: 1px solid #e5e7eb;',
+    border: 'border: 1px solid #e5e7eb;',
+
+    // Common utilities
+    'text-center': 'text-align: center;',
+    'text-right': 'text-align: right;',
+    'font-bold': 'font-weight: bold;',
+    'font-semibold': 'font-weight: 600;',
+  };
+
+  return html.replace(
+    /<(table|thead|tbody|tr|th|td)([^>]*)class="([^"]+)"([^>]*)>/gi,
+    (match, tag, before, classes, after) => {
+      const classList = classes.split(/\s+/);
+      const styles = classList
+        .map((cls) => tailwindMap[cls.trim()])
+        .filter(Boolean)
+        .join('');
+
+      if (styles) {
+        return `<${tag}${before}style="${styles}"${after}>`;
+      }
+      return match;
+    }
   );
 }
 

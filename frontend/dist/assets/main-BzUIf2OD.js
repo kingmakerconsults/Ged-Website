@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-OovyWtp0.js";
+import { _ as __vitePreload } from "./index-D3wLGylb.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -3899,7 +3899,7 @@ const FALLBACK_VOCABULARY = {
     },
     {
       term: "Quadratic Equation",
-      definition: "An equation in the form ax² + bx + c = 0, where a, b, and c are constants and a ≠ 0."
+      definition: "An equation in the form ax� + bx + c = 0, where a, b, and c are constants and a ? 0."
     },
     {
       term: "Linear Function",
@@ -5251,17 +5251,17 @@ function sanitizeUnicode(s) {
   if (typeof s !== "string" || s.length === 0) return s;
   try {
     let t = s;
-    t = t.replace(/H\uFFFD\uFFFDO/g, "H₂O");
-    t = t.replace(/g\/cm\uFFFD/g, "g/cm³");
-    t = t.replace(/cm\uFFFD/g, "cm³");
-    t = t.replace(/\uFFFDC/g, "°C");
-    t = t.replace(/([abc])\uFFFD/g, "$1²");
-    t = t.replace(/(\d)\s?\uFFFD\s?(\d)/g, "$1–$2");
-    t = t.replace(/\uFFFD\uFFFD 0/g, "≠ 0");
-    t = t.replace(/Topic A\uFFFDZ/g, "Topic A–Z");
-    t = t.replace(/More in this topic\uFFFD/g, "More in this topic…");
-    t = t.replace(/pp \uFFFD/g, "pp →");
-    t = t.replace(/\uFFFD\uFFFD️?/g, "");
+    t = t.replace(/H\uFFFD\uFFFDO/g, "H2O");
+    t = t.replace(/g\/cm\uFFFD/g, "g/cm�");
+    t = t.replace(/cm\uFFFD/g, "cm�");
+    t = t.replace(/\uFFFDC/g, "�C");
+    t = t.replace(/([abc])\uFFFD/g, "$1�");
+    t = t.replace(/(\d)\s?\uFFFD\s?(\d)/g, "$1�$2");
+    t = t.replace(/\uFFFD\uFFFD 0/g, "? 0");
+    t = t.replace(/Topic A\uFFFDZ/g, "Topic A�Z");
+    t = t.replace(/More in this topic\uFFFD/g, "More in this topic�");
+    t = t.replace(/pp \uFFFD/g, "pp ?");
+    t = t.replace(/\uFFFD\uFFFD??/g, "");
     return t;
   } catch (_e) {
     return s;
@@ -5576,16 +5576,50 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess
   working = normalizeInlineTablesFront(working);
   const sanitizer = window.DOMPurify && window.DOMPurify.sanitize ? window.DOMPurify.sanitize : null;
   if (sanitizer) {
-    return formatFractions(
+    let sanitized = formatFractions(
       sanitizer(working, {
         ALLOWED_TAGS: ALLOWED_HTML_TAGS,
         ALLOWED_ATTR: ALLOWED_HTML_ATTR
       })
     );
+    sanitized = convertTailwindTableClassesToInlineCss(sanitized);
+    return sanitized;
   }
-  return formatFractions(
+  let result2 = formatFractions(
     working.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
   );
+  result2 = convertTailwindTableClassesToInlineCss(result2);
+  return result2;
+}
+function convertTailwindTableClassesToInlineCss(html) {
+  if (typeof html !== "string" || !/<table/i.test(html)) return html;
+  const tailwindMap = {
+    // Table
+    "w-full": "width: 100%;",
+    "text-left": "text-align: left;",
+    "mt-2": "margin-top: 0.5rem;",
+    "mt-3": "margin-top: 0.75rem;",
+    "mt-4": "margin-top: 1rem;",
+    // Cells
+    "p-2": "padding: 0.5rem;",
+    "p-3": "padding: 0.75rem;",
+    "p-4": "padding: 1rem;",
+    "border-b": "border-bottom: 1px solid #e5e7eb;",
+    "border": "border: 1px solid #e5e7eb;",
+    // Common utilities
+    "text-center": "text-align: center;",
+    "text-right": "text-align: right;",
+    "font-bold": "font-weight: bold;",
+    "font-semibold": "font-weight: 600;"
+  };
+  return html.replace(/<(table|thead|tbody|tr|th|td)([^>]*)class="([^"]+)"([^>]*)>/gi, (match, tag, before, classes, after) => {
+    const classList = classes.split(/\s+/);
+    const styles = classList.map((cls) => tailwindMap[cls.trim()]).filter(Boolean).join("");
+    if (styles) {
+      return `<${tag}${before}style="${styles}"${after}>`;
+    }
+    return match;
+  });
 }
 function normalizeInlineTablesFront(html) {
   if (typeof html !== "string" || !html.trim()) return html;
@@ -5694,7 +5728,7 @@ const SCI_NUMERACY_QUESTIONS = [
     questionNumber: 2,
     qaProfileKey: "numeracy",
     type: "knowledge",
-    passage: "<p>In pea plants, purple flowers (P) are dominant over white flowers (p). Two heterozygous plants (Pp × Pp) are crossed.</p>",
+    passage: "<p>In pea plants, purple flowers (P) are dominant over white flowers (p). Two heterozygous plants (Pp � Pp) are crossed.</p>",
     question: "What percent of offspring are expected to have <strong>white</strong> flowers?",
     answerOptions: [
       {
@@ -5704,7 +5738,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: "25%",
-        rationale: "Correct. The Punnett square gives PP, Pp, Pp, pp — 1 of 4 is pp (white).",
+        rationale: "Correct. The Punnett square gives PP, Pp, Pp, pp � 1 of 4 is pp (white).",
         isCorrect: true
       },
       {
@@ -5796,12 +5830,12 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: "200 J",
-        rationale: "Correct. Work W = F × d = 50 N × 4 m = 200 J.",
+        rationale: "Correct. Work W = F � d = 50 N � 4 m = 200 J.",
         isCorrect: true
       },
       {
         text: "200 N",
-        rationale: "Units are wrong — work is in joules.",
+        rationale: "Units are wrong � work is in joules.",
         isCorrect: false
       }
     ]
@@ -5825,12 +5859,12 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: "5 N",
-        rationale: "Close, but 2 × 3 is 6, not 5.",
+        rationale: "Close, but 2 � 3 is 6, not 5.",
         isCorrect: false
       },
       {
         text: "6 N",
-        rationale: "Correct. F = m × a = 2 kg × 3 m/s = 6 N.",
+        rationale: "Correct. F = m � a = 2 kg � 3 m/s = 6 N.",
         isCorrect: true
       }
     ]
@@ -5853,13 +5887,13 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: "Trial A",
-        rationale: "Increase was 30−22 = 8°C.",
+        rationale: "Increase was 30-22 = 8�C.",
         isCorrect: false
       },
       { text: "Trial B", rationale: "Increase was 7C.", isCorrect: false },
       {
         text: "Trial C",
-        rationale: "Correct. Increase was 35−22 = 13°C, the largest.",
+        rationale: "Correct. Increase was 35-22 = 13�C, the largest.",
         isCorrect: true
       },
       { text: "Trial D", rationale: "Increase was 6C.", isCorrect: false }
@@ -5877,7 +5911,7 @@ const SCI_NUMERACY_QUESTIONS = [
         rationale: "12 is just the smallest value.",
         isCorrect: false
       },
-      { text: "18", rationale: "18 is not max − min.", isCorrect: false },
+      { text: "18", rationale: "18 is not max - min.", isCorrect: false },
       {
         text: "30",
         rationale: "30 is just the largest value.",
@@ -5885,7 +5919,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: "18 (thousand)",
-        rationale: "Correct. Range = 30 − 12 = 18.",
+        rationale: "Correct. Range = 30 - 12 = 18.",
         isCorrect: true
       }
     ]
@@ -5967,7 +6001,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: "30 L",
-        rationale: "Correct. 12  4 = 3 L/min. 3 × 10 = 30 L.",
+        rationale: "Correct. 12  4 = 3 L/min. 3 � 10 = 30 L.",
         isCorrect: true
       },
       {
@@ -5986,13 +6020,13 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: "$700",
-        rationale: "That's 700 / 3000 ≈ 23%. Too low.",
+        rationale: "That's 700 / 3000 � 23%. Too low.",
         isCorrect: false
       },
       { text: "$900", rationale: "That's 30% of $3,000.", isCorrect: false },
       {
         text: "$1,050",
-        rationale: "Correct. 35% of $3,000 = 0.35 × 3000 = $1,050.",
+        rationale: "Correct. 35% of $3,000 = 0.35 � 3000 = $1,050.",
         isCorrect: true
       },
       {
@@ -6491,7 +6525,7 @@ const AppData = {
               {
                 questionNumber: 3,
                 type: "image",
-                imageUrl: "Images/Science/ged-scince-fig-12.png",
+                imageUrl: "/images/Science/ged-scince-fig-12.png",
                 question: "In this food web, which organism is a primary consumer?",
                 answerOptions: [
                   {
@@ -6943,7 +6977,7 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: "image",
-                imageUrl: "Images/Social Studies/licensed-image (5).jpg",
+                imageUrl: "/images/Social Studies/licensed-image (5).jpg",
                 question: "This image shows a typical entry on the periodic table for the element Carbon (C). What is the atomic number of Carbon?",
                 answerOptions: [
                   {
@@ -6980,7 +7014,7 @@ const AppData = {
                   },
                   {
                     text: "An element consists of only one type of atom, while a compound consists of two or more different types of atoms chemically bonded together.",
-                    rationale: "Correct. For example, oxygen (O) is an element, while water (H₂O) is a compound.",
+                    rationale: "Correct. For example, oxygen (O) is an element, while water (H2O) is a compound.",
                     isCorrect: true
                   },
                   {
@@ -7040,7 +7074,7 @@ const AppData = {
                   },
                   {
                     text: "Boiling water",
-                    rationale: "Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically H₂O. This is a physical change.",
+                    rationale: "Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically H2O. This is a physical change.",
                     isCorrect: true
                   },
                   {
@@ -7108,7 +7142,7 @@ const AppData = {
               {
                 questionNumber: 10,
                 type: "knowledge",
-                question: "In the chemical formula for water, H₂O, what does the subscript '2' indicate?",
+                question: "In the chemical formula for water, H2O, what does the subscript '2' indicate?",
                 answerOptions: [
                   {
                     text: "There are two water molecules.",
@@ -7162,7 +7196,7 @@ const AppData = {
               {
                 questionNumber: 12,
                 type: "text",
-                passage: "A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ions—charged atoms that are then attracted to each other.",
+                passage: "A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ions�charged atoms that are then attracted to each other.",
                 question: "What is the key difference between a covalent bond and an ionic bond?",
                 answerOptions: [
                   {
@@ -7307,7 +7341,7 @@ const AppData = {
               {
                 questionNumber: 2,
                 type: "text",
-                passage: "Newton's Second Law of Motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is often written as the formula F = ma (Force = mass × acceleration).",
+                passage: "Newton's Second Law of Motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is often written as the formula F = ma (Force = mass � acceleration).",
                 question: "If you push two objects with the same amount of force, which one will accelerate more?",
                 answerOptions: [
                   {
@@ -8076,7 +8110,7 @@ const AppData = {
               {
                 questionNumber: 14,
                 type: "image",
-                imageUrl: "Images/Science/ged-scince-fig-7.png",
+                imageUrl: "/images/Science/ged-scince-fig-7.png",
                 question: "This diagram illustrates the rock cycle. What process is required to turn a sedimentary rock into a metamorphic rock?",
                 answerOptions: [
                   {
@@ -10720,7 +10754,7 @@ const AppData = {
                 questionNumber: 1,
                 calculator: false,
                 type: "image",
-                imageUrl: "Images/Math/math_graph_1.png",
+                imageUrl: "/images/Math/math_graph_1.png",
                 question: "What is the slope of the line shown in the graph?",
                 answerOptions: [
                   {
@@ -10749,7 +10783,7 @@ const AppData = {
                 questionNumber: 2,
                 calculator: false,
                 type: "image",
-                imageUrl: "Images/Math/math_graph_1.png",
+                imageUrl: "/images/Math/math_graph_1.png",
                 question: "What is the y-intercept of the line shown in the graph?",
                 answerOptions: [
                   {
@@ -10886,7 +10920,7 @@ const AppData = {
                 questionNumber: 7,
                 calculator: true,
                 type: "image",
-                imageUrl: "Images/Math/math_graph_2.png",
+                imageUrl: "/images/Math/math_graph_2.png",
                 question: "Which point is located in Quadrant IV?",
                 answerOptions: [
                   {
@@ -10996,7 +11030,7 @@ const AppData = {
                 questionNumber: 11,
                 calculator: true,
                 type: "image",
-                imageUrl: "Images/Math/math_graph_3.png",
+                imageUrl: "/images/Math/math_graph_3.png",
                 question: "The graph shows the cost of renting a car based on the number of miles driven. What does the y-intercept of the graph represent?",
                 answerOptions: [
                   {
@@ -11106,7 +11140,7 @@ const AppData = {
                 questionNumber: 15,
                 calculator: true,
                 type: "image",
-                imageUrl: "Images/Math/math_graph_4.png",
+                imageUrl: "/images/Math/math_graph_4.png",
                 question: "The graph shows a parabola. What are the coordinates of the vertex?",
                 answerOptions: [
                   {
@@ -11150,7 +11184,7 @@ const AppData = {
                 questionNumber: 1,
                 calculator: false,
                 type: "image",
-                imageUrl: "Images/Math/math_geo_1.png",
+                imageUrl: "/images/Math/math_geo_1.png",
                 question: "What is the area of the rectangle shown?",
                 answerOptions: [
                   {
@@ -11179,7 +11213,7 @@ const AppData = {
                 questionNumber: 2,
                 calculator: false,
                 type: "image",
-                imageUrl: "Images/Math/math_geo_2.png",
+                imageUrl: "/images/Math/math_geo_2.png",
                 question: "What is the area of the triangle shown?",
                 answerOptions: [
                   {
@@ -11208,7 +11242,7 @@ const AppData = {
                 questionNumber: 3,
                 calculator: false,
                 type: "image",
-                imageUrl: "Images/Math/math_geo_3.png",
+                imageUrl: "/images/Math/math_geo_3.png",
                 question: "What is the circumference of the circle shown? (Use $\\pi \\approx 3.14$)",
                 answerOptions: [
                   {
@@ -12309,7 +12343,7 @@ const AppData = {
                   {
                     questionNumber: 1,
                     type: "image",
-                    imageUrl: "Images/Social Studies/join_or_die_cartoon.jpg",
+                    imageUrl: "/images/Social Studies/join_or_die_cartoon.jpg",
                     question: "This 1754 political cartoon by Benjamin Franklin was originally created to encourage colonial unity during the French and Indian War. How was its message re-purposed during the American Revolution?",
                     answerOptions: [
                       {
@@ -13004,7 +13038,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: "image",
-                    imageUrl: "Images/Social Studies/Louisiana_Purchase.png",
+                    imageUrl: "/images/Social Studies/Louisiana_Purchase.png",
                     question: "This map illustrates the impact of the Louisiana Purchase in 1803. What was the most significant effect of this event?",
                     answerOptions: [
                       {
@@ -13724,7 +13758,7 @@ const AppData = {
                   {
                     questionNumber: 4,
                     type: "image",
-                    imageUrl: "Images/Social Studies/licensed-image (13).jpg",
+                    imageUrl: "/images/Social Studies/licensed-image (13).jpg",
                     question: "This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:",
                     answerOptions: [
                       {
@@ -13775,7 +13809,7 @@ const AppData = {
                   {
                     questionNumber: 1,
                     type: "image",
-                    imageUrl: "Images/Social Studies/Bosses-of-the-Senate.jpg",
+                    imageUrl: "/images/Social Studies/Bosses-of-the-Senate.jpg",
                     question: "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
                     answerOptions: [
                       {
@@ -13834,7 +13868,7 @@ const AppData = {
                   {
                     questionNumber: 4,
                     type: "text",
-                    passage: "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking exposé of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
+                    passage: "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking expos� of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
                     question: "What was the most direct consequence of the publication of Upton Sinclair's 'The Jungle'?",
                     answerOptions: [
                       {
@@ -14042,7 +14076,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: "image",
-                    imageUrl: "Images/Social Studies/licensed-image (9).jpg",
+                    imageUrl: "/images/Social Studies/licensed-image (9).jpg",
                     question: "This map shows the new borders of Europe established by the Treaty of Versailles after World War I. Why did the U.S. Senate refuse to ratify this treaty?",
                     answerOptions: [
                       {
@@ -14130,7 +14164,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: "image",
-                    imageUrl: "Images/Social Studies/licensed-image (14).jpg",
+                    imageUrl: "/images/Social Studies/licensed-image (14).jpg",
                     question: "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
                     answerOptions: [
                       {
@@ -14543,7 +14577,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: "image",
-                    imageUrl: "Images/Social Studies/licensed-image (15).jpg",
+                    imageUrl: "/images/Social Studies/licensed-image (15).jpg",
                     question: "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
                     answerOptions: [
                       {
@@ -18174,7 +18208,7 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: "image",
-                imageUrl: "Images/Social Studies/political-map-of-world.jpg",
+                imageUrl: "/images/Social Studies/political-map-of-world.jpg",
                 question: "This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?",
                 answerOptions: [
                   {
@@ -18202,7 +18236,7 @@ const AppData = {
               {
                 questionNumber: 5,
                 type: "image",
-                imageUrl: "Images/Social Studies/political-map-of-world.jpg",
+                imageUrl: "/images/Social Studies/political-map-of-world.jpg",
                 question: "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
                 answerOptions: [
                   {
@@ -18342,7 +18376,7 @@ const AppData = {
               {
                 questionNumber: 10,
                 type: "image",
-                imageUrl: "Images/Social Studies/licensed-image (16).jpg",
+                imageUrl: "/images/Social Studies/licensed-image (16).jpg",
                 question: "This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?",
                 answerOptions: [
                   {
@@ -18370,8 +18404,8 @@ const AppData = {
               {
                 questionNumber: 11,
                 type: "image",
-                imageUrl: "Images/Social Studies/licensed-image (16).jpg",
-                question: "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotá) to the capital of Venezuela (Caracas) is:",
+                imageUrl: "/images/Social Studies/licensed-image (16).jpg",
+                question: "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogot�) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
                   {
                     text: "About 100 miles",
@@ -21080,25 +21114,18 @@ function normalizeImagePath(path) {
   let p2 = String(path).trim().replace(/\\+/g, "/").replace(/\/+/g, "/");
   p2 = p2.replace(/\/+/g, "/");
   p2 = p2.replace(/^\s+|\s+$/g, "").replace(/^\/+|\/+$/g, "");
-  p2 = p2.replace(/^frontend\//i, "frontend/");
-  p2 = p2.replace(/^frontend\/images\//i, "frontend/Images/");
-  p2 = p2.replace(/^frontend\/images/i, "frontend/Images");
+  p2 = p2.replace(/^frontend\/Images\//i, "images/");
+  p2 = p2.replace(/^frontend\/Images/i, "images");
   const parts = p2.split("/");
-  if (parts[0].toLowerCase() === "frontend" && parts[1] && parts[1].toLowerCase() === "images") {
-    if (parts[2]) {
-      parts[2] = parts[2].charAt(0).toUpperCase() + parts[2].slice(1);
-    }
-    p2 = "/frontend/Images/" + parts.slice(2).join("/");
-  } else if (p2.toLowerCase().startsWith("images/")) {
-    const subparts = p2.split("/");
-    if (subparts[1]) {
-      subparts[1] = subparts[1].charAt(0).toUpperCase() + subparts[1].slice(1);
-    }
-    p2 = "/frontend/Images/" + subparts.slice(1).join("/");
-  } else if (!p2.startsWith("/frontend/Images/")) {
-    p2 = "/frontend/Images/" + p2.replace(/^\/+/, "");
-  } else {
-    p2 = "/" + p2.replace(/^\/+/, "");
+  if (parts[0].toLowerCase() === "images" && parts[1]) {
+    parts[1] = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
+  }
+  p2 = parts.join("/");
+  if (!p2.startsWith("images/")) {
+    p2 = "images/" + p2.replace(/^\/+/, "");
+  }
+  if (!p2.startsWith("/")) {
+    p2 = "/" + p2;
   }
   p2 = p2.replace(/\/+/g, "/");
   return p2;
@@ -21111,12 +21138,14 @@ function resolveAssetUrl(src) {
   }
   s = s.replace(/^https?:\/\/[^\/]+/i, "");
   s = s.replace(/^\/+/, "");
+  s = s.replace(/^frontend\/Images\//i, "images/");
+  s = s.replace(/^frontend\/Images/i, "images");
   s = s.replace(/^frontend\//i, "");
   s = s.replace(/^Images\//i, "");
   const parts = s.split("/").filter((p2) => p2.trim());
   if (parts.length === 0) return "";
   const filename = parts[parts.length - 1];
-  let subject = "Social_Studies";
+  let subject = "Social Studies";
   for (const part of parts) {
     const lower = part.toLowerCase().replace(/[_\s-]+/g, "");
     if (lower.includes("math")) {
@@ -21126,19 +21155,19 @@ function resolveAssetUrl(src) {
       subject = "Science";
       break;
     } else if (lower.includes("social") || lower.includes("studies")) {
-      subject = "Social_Studies";
+      subject = "Social Studies";
       break;
     } else if (lower.includes("rla") || lower.includes("language")) {
       subject = "RLA";
       break;
     } else if (lower.includes("workforce") || lower.includes("readiness")) {
-      subject = "Workforce_Readiness";
+      subject = "Workforce Readiness";
       break;
     }
   }
-  const netlifyUrl = `https://ezged.netlify.app/frontend/Images/${subject}/${filename}`;
-  console.log(`[IMG FIX] ${src} -> ${netlifyUrl}`);
-  return netlifyUrl;
+  const imageUrl = `/images/${subject}/${filename}`;
+  console.log(`[IMG FIX] ${src} -> ${imageUrl}`);
+  return imageUrl;
 }
 function normalizeMathText(text) {
   if (typeof text !== "string") return text;
@@ -22510,7 +22539,7 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
                   };
                   persistExpanded(next);
                 },
-                children: "️"
+                children: "?"
               }
             )
           ] }),
@@ -22593,7 +22622,7 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
                 persistExpanded(next);
               },
               title: "Toggle overview",
-              children: "ℹ️"
+              children: "??"
             }
           )
         ] }),
@@ -25516,7 +25545,7 @@ function App({ externalTheme, onThemeChange }) {
     persistQuizAttempt({
       subject,
       quizCode,
-      quizTitle: quizDetails.title || quizDetails.topicTitle || "GED® Practice Exam",
+      quizTitle: quizDetails.title || quizDetails.topicTitle || "GED� Practice Exam",
       quizType: quizDetails.type,
       score: results.score,
       totalQuestions: results.totalQuestions,
@@ -25529,7 +25558,7 @@ function App({ externalTheme, onThemeChange }) {
         const payload = {
           subject,
           quizCode,
-          quizTitle: quizDetails.title || quizDetails.topicTitle || "GED® Practice Exam",
+          quizTitle: quizDetails.title || quizDetails.topicTitle || "GED� Practice Exam",
           quizType: quizDetails.type,
           score: results.score,
           totalQuestions: results.totalQuestions,
@@ -27821,12 +27850,12 @@ function SuperAdminDashboard({ user, token, onLogout }) {
           {
             className: "hover:bg-surface-soft transition",
             children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 font-medium text-primary", children: u.name || "—" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 font-medium text-primary", children: u.name || "�" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-secondary", children: u.email }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx(AdminRoleBadge, { role: u.role }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-secondary", children: u.organization_name || "—" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-secondary", children: u.organization_name || "�" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-secondary", children: u.quiz_attempt_count || 0 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-secondary", children: u.average_scaled_score != null ? Math.round(u.average_scaled_score) : "—" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-secondary", children: u.average_scaled_score != null ? Math.round(u.average_scaled_score) : "�" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-muted text-xs", children: formatDateTime(u.last_login_at) })
             ]
           },
@@ -28069,11 +28098,11 @@ function OrgAdminDashboard({ user, token, onLogout }) {
             {
               className: "hover:bg-surface-soft transition",
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 font-medium text-primary", children: u.name || "—" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 font-medium text-primary", children: u.name || "�" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-secondary", children: u.email }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx(AdminRoleBadge, { role: u.role }) }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-secondary", children: u.quiz_attempt_count || 0 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-secondary", children: u.average_scaled_score != null ? Math.round(u.average_scaled_score) : "—" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-secondary", children: u.average_scaled_score != null ? Math.round(u.average_scaled_score) : "�" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3 text-muted text-xs", children: formatDateTime(u.last_login_at) })
               ]
             },
@@ -28878,7 +28907,7 @@ function VocabularyBySubject({ vocabulary, onStartQuiz, theme = "light" }) {
                       },
                       className: buttonClasses,
                       style: buttonStyle,
-                      children: "📝 Vocabulary Quiz"
+                      children: "?? Vocabulary Quiz"
                     }
                   ),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-600 dark:text-slate-300 text-xl", children: isExpanded ? "" : "" })
@@ -28950,7 +28979,7 @@ function ScienceFormulaSheet({ onClose: onClose2 }) {
             type: "button",
             "aria-label": "Close science formula sheet",
             style: { color: "inherit" },
-            children: "×"
+            children: "�"
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "formula-sheet-title text-xl font-bold mb-4", children: "Science Formula Sheet" }),
@@ -29020,7 +29049,7 @@ function FormulaSheetModal({ onClose: onClose2 }) {
             className: "formula-sheet-header p-4 border-b flex justify-between items-center sticky top-0",
             style: { borderColor: "rgba(148,163,184,0.35)" },
             children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "formula-sheet-title text-xl font-bold", children: "GED® Mathematical Reasoning Formula Sheet" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "formula-sheet-title text-xl font-bold", children: "GED� Mathematical Reasoning Formula Sheet" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
@@ -30572,7 +30601,7 @@ function StartScreen({
                       color: heroAccentColor
                     },
                     children: [
-                      "🛠️ ",
+                      "??? ",
                       selectedSubject,
                       " Tools"
                     ]
@@ -30610,7 +30639,7 @@ function StartScreen({
                         backgroundColor: heroTextColor,
                         color: heroAccentColor
                       },
-                      children: "📜 Constitution Explorer"
+                      children: "?? Constitution Explorer"
                     }
                   ),
                   /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -30622,7 +30651,7 @@ function StartScreen({
                         backgroundColor: heroTextColor,
                         color: heroAccentColor
                       },
-                      children: "📊 Economics Graphing"
+                      children: "?? Economics Graphing"
                     }
                   )
                 ] })
@@ -31085,7 +31114,7 @@ function StartScreen({
                           {
                             id: "essay_practice_tool",
                             type: "essay",
-                            title: "GED® Essay Practice Toolkit"
+                            title: "GED� Essay Practice Toolkit"
                           },
                           selectedSubject
                         ),
@@ -31136,7 +31165,7 @@ function StartScreen({
                         {
                           onClick: () => setActiveSocialTool("constitution"),
                           className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
-                          children: "📜 Constitution Explorer"
+                          children: "?? Constitution Explorer"
                         }
                       ),
                       /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -31144,7 +31173,7 @@ function StartScreen({
                         {
                           onClick: () => setActiveSocialTool("economics"),
                           className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
-                          children: "📊 Economics Graphing"
+                          children: "?? Economics Graphing"
                         }
                       )
                     ] })
@@ -32269,8 +32298,8 @@ function QuizInterface({
                     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 text-sm font-medium", children: [
                       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: scheme.text }, children: "Olympics" }),
                       /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-base", children: [
-                        "♥".repeat(livesRemaining),
-                        "♡".repeat(3 - livesRemaining)
+                        "?".repeat(livesRemaining),
+                        "?".repeat(3 - livesRemaining)
                       ] }),
                       /* @__PURE__ */ jsxRuntimeExports.jsxs(
                         "span",
@@ -32289,8 +32318,8 @@ function QuizInterface({
                       {
                         className: `mt-2 px-4 py-2 rounded-lg text-sm font-medium ${lastAnswerCorrect ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-300 dark:border-green-700" : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700"}`,
                         children: [
-                          lastAnswerCorrect ? "✓ Correct!" : "✗ Incorrect",
-                          !lastAnswerCorrect && livesRemaining > 0 && " • Lives remaining: " + livesRemaining
+                          lastAnswerCorrect ? "? Correct!" : "? Incorrect",
+                          !lastAnswerCorrect && livesRemaining > 0 && " � Lives remaining: " + livesRemaining
                         ]
                       }
                     )
@@ -32301,7 +32330,7 @@ function QuizInterface({
                         className: "flex items-center gap-2 rounded-full px-3 py-1 font-mono text-lg font-semibold",
                         style: timerStyle,
                         children: [
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { role: "img", "aria-label": "timer", children: "⏱️" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { role: "img", "aria-label": "timer", children: "??" }),
                           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: formatTime(timeLeft) }),
                           isPaused && /* @__PURE__ */ jsxRuntimeExports.jsx(
                             "span",
@@ -32392,7 +32421,7 @@ function QuizInterface({
                   {
                     className: "text-lg font-semibold",
                     style: { color: scheme.text },
-                    children: "📖 Reading Passage"
+                    children: "?? Reading Passage"
                   }
                 ),
                 article.genre && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -33748,7 +33777,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
           {
             className: `flex items-center gap-2 px-3 py-1 rounded-full font-mono text-lg font-semibold ${timeLeft <= 60 ? "bg-danger-soft text-danger" : "bg-surface-alt text-secondary"}`,
             children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { role: "img", "aria-label": "timer", children: "⏱" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { role: "img", "aria-label": "timer", children: "?" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: formatTime(timeLeft) }),
               isPaused && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs uppercase tracking-wide", children: "Paused" })
             ]
@@ -33816,7 +33845,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   if (results.olympicsMode && results.olympicsHistory) {
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center fade-in results-screen olympics-summary", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-8", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2", children: "🏅 Olympics Session Complete" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2", children: "?? Olympics Session Complete" }),
         results.livesRemaining === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg text-gray-700 dark:text-gray-300", children: "You used all 3 lives." }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-lg text-gray-700 dark:text-gray-300", children: [
           "You ended the session with ",
           results.livesRemaining,
@@ -33859,11 +33888,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                   "span",
                   {
                     className: entry.correct ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400",
-                    children: entry.correct ? "✅" : "❌"
+                    children: entry.correct ? "?" : "?"
                   }
                 ) }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2", children: entry.subject }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2", children: entry.topic || "—" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2", children: entry.topic || "�" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2 text-sm", children: entry.premadeQuizTitle || "Premade Quiz" })
               ]
             },
@@ -33950,13 +33979,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const getPerf = (score) => {
     if (score >= 175)
       return {
-        level: "GED® College Ready + Credit",
+        level: "GED� College Ready + Credit",
         color: "text-info"
       };
     if (score >= 165)
-      return { level: "GED® College Ready", color: "text-info" };
+      return { level: "GED� College Ready", color: "text-info" };
     if (score >= 145)
-      return { level: "GED® Passing Score", color: "text-success" };
+      return { level: "GED� Passing Score", color: "text-success" };
     return { level: "Keep studying!", color: "text-warning" };
   };
   const scaledScore = typeof (results == null ? void 0 : results.scaledScore) === "number" ? results.scaledScore : 0;
@@ -34003,7 +34032,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
           (quiz == null ? void 0 : quiz.title) || "Completed Quiz"
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "my-6", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg text-secondary", children: "Your estimated GED® Score is:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg text-secondary", children: "Your estimated GED� Score is:" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: `text-6xl font-bold my-2 ${performance.color}`, children: scaledScore }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: `text-2xl font-semibold mb-2 ${performance.color}`, children: performance.level }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-lg text-secondary", children: [
@@ -34016,7 +34045,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         ] }),
         (loadingSuggestions || suggestions && suggestions.length) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 pt-4 border-t max-w-2xl mx-auto text-left", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold subject-accent-heading mb-3", children: "Suggested Focus Areas" }),
-          loadingSuggestions && !suggestions.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-secondary", children: "Loading suggestions…" }) : suggestions.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-2", children: suggestions.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          loadingSuggestions && !suggestions.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-secondary", children: "Loading suggestions�" }) : suggestions.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-2", children: suggestions.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "li",
             {
               className: "flex items-center justify-between gap-3 panel-surface p-3 rounded-lg",
@@ -34210,7 +34239,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                         "Your answer: ",
                         userAnswer || "No answer",
                         " ",
-                        isCorrect ? "✓" : "✗"
+                        isCorrect ? "?" : "?"
                       ]
                     }
                   ),
@@ -34868,7 +34897,7 @@ function EssayGuide({ onExit }) {
   const selectedPassage = passagesData[selectedTopic];
   const promptSummary = selectedPassage ? `After reading both passages about "${selectedPassage.topic}", write an essay in which you explain which author presents the more convincing argument. Support your response with evidence from both passages and explain why the evidence you cite supports your evaluation.` : "";
   const overlayButtons = [
-    { id: "prompt", label: "Essay Prompt", title: "GED® RLA Essay Prompt" },
+    { id: "prompt", label: "Essay Prompt", title: "GED� RLA Essay Prompt" },
     {
       id: "passage1",
       label: "Passage A",
@@ -35188,7 +35217,7 @@ function EssayGuide({ onExit }) {
                 ] }),
                 essayText.intro && essayText.intro.length > 20 && !/thesis|argue|believe|claim|position|support|evidence/i.test(
                   essayText.intro
-                ) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-yellow-700 bg-yellow-50 px-3 py-1 rounded-md border border-yellow-300", children: "💡 Tip: Ensure you state your main argument" })
+                ) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-yellow-700 bg-yellow-50 px-3 py-1 rounded-md border border-yellow-300", children: "?? Tip: Ensure you state your main argument" })
               ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
@@ -37074,4 +37103,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-B1MfGCrV.js.map
+//# sourceMappingURL=main-BzUIf2OD.js.map
