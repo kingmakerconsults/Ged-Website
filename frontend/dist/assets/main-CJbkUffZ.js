@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-C_d5bPLk.js";
+import { _ as __vitePreload } from "./index-BaZRlw_r.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -34138,14 +34138,14 @@ function QuizInterface({
                     dangerouslySetInnerHTML: {
                       __html: sanitizeHtmlContent(article.title, {
                         normalizeSpacing: true,
-                        subject: selectedSubject
+                        subject
                       })
                     }
                   }
                 ),
                 (article.imageUrl || articleImage) && (() => {
                   const rawImg = article.imageUrl || articleImage;
-                  const imgSrc = resolveAssetUrl(rawImg, selectedSubject);
+                  const imgSrc = resolveAssetUrl(rawImg, subject);
                   return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                     "img",
                     {
@@ -34164,7 +34164,7 @@ function QuizInterface({
                     dangerouslySetInnerHTML: {
                       __html: sanitizeHtmlContent(paragraph, {
                         normalizeSpacing: true,
-                        subject: selectedSubject
+                        subject
                       })
                     }
                   },
@@ -34516,12 +34516,12 @@ function QuizInterface({
                         ]
                       }
                     ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: currentQ })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: currentQ, subject })
                   ] }) }),
                   (() => {
                     var _a2;
                     const rawImgSrc = !((_a2 = currentQ.stimulusImage) == null ? void 0 : _a2.src) && currentQ.imageUrl ? currentQ.imageUrl : null;
-                    const imgSrc = resolveAssetUrl(rawImgSrc, selectedSubject);
+                    const imgSrc = resolveAssetUrl(rawImgSrc, subject);
                     return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "img",
                       {
@@ -38807,4 +38807,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-D6uQsnuA.js.map
+//# sourceMappingURL=main-CJbkUffZ.js.map
