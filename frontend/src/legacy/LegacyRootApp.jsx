@@ -20522,7 +20522,11 @@ function resolveAssetUrl(src, contextSubject = null) {
     } else if (lower.includes('social') || lower.includes('studies')) {
       subject = 'Social Studies';
       break;
-    } else if (lower.includes('rla') || lower.includes('language') || lower.includes('english')) {
+    } else if (
+      lower.includes('rla') ||
+      lower.includes('language') ||
+      lower.includes('english')
+    ) {
       subject = 'RLA';
       break;
     } else if (lower.includes('workforce') || lower.includes('readiness')) {
@@ -20538,9 +20542,21 @@ function resolveAssetUrl(src, contextSubject = null) {
       subject = 'Math';
     } else if (fnLower.includes('scince') || fnLower.includes('science')) {
       subject = 'Science';
-    } else if (fnLower.includes('rla') || fnLower.includes('english') || fnLower.includes('language') || fnLower.includes('reading') || fnLower.includes('writing')) {
+    } else if (
+      fnLower.includes('rla') ||
+      fnLower.includes('english') ||
+      fnLower.includes('language') ||
+      fnLower.includes('reading') ||
+      fnLower.includes('writing')
+    ) {
       subject = 'RLA';
-    } else if (fnLower.includes('social') || fnLower.includes('history') || fnLower.includes('civics') || fnLower.includes('economic') || fnLower.includes('geography')) {
+    } else if (
+      fnLower.includes('social') ||
+      fnLower.includes('history') ||
+      fnLower.includes('civics') ||
+      fnLower.includes('economic') ||
+      fnLower.includes('geography')
+    ) {
       subject = 'Social Studies';
     } else if (fnLower.includes('workforce')) {
       subject = 'Workforce Readiness';
