@@ -42,6 +42,20 @@ export default function SocialStudiesView({ dark = false }) {
       href: '/tools/electoral-college',
       status: 'active',
     },
+    {
+      icon: '📋',
+      title: 'Constitution Explorer',
+      subtitle: 'Interactive amendments + case study scenarios.',
+      href: '/tools/constitution-explorer',
+      status: 'active',
+    },
+    {
+      icon: '💰',
+      title: 'Economics Market Simulator',
+      subtitle: 'Shift supply/demand and interpret price/quantity changes.',
+      href: '/tools/economics-market-simulator',
+      status: 'active',
+    },
   ];
 
   return (

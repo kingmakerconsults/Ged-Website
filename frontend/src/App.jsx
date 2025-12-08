@@ -7,6 +7,7 @@ import {
 import { useThemeController } from '../hooks/useThemeController.js';
 import { AuthScreen } from '../components/index.js';
 import DashboardView from './views/DashboardView.jsx';
+import SocialStudiesView from './views/SocialStudiesView.jsx';
 import SuperAdminAllQuestions from './views/SuperAdminAllQuestions.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
@@ -86,6 +87,7 @@ export default function App() {
 
         <nav className="flex gap-4 mb-6 text-blue-600 underline">
           <Link to="/">Dashboard</Link>
+          <Link to="/social-studies">Social Studies</Link>
           <Link to="/profile">Profile</Link>
           <Link to="/settings">Settings</Link>
           <Link to="/demo/math">Math Quiz Demo</Link>
@@ -97,6 +99,7 @@ export default function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/" element={<DashboardView />} />
+            <Route path="/social-studies" element={<SocialStudiesView />} />
             <Route path="/profile" element={<ProfileView />} />
             <Route path="/settings" element={<SettingsView />} />
             <Route path="/demo/math" element={<QuizDemo />} />
