@@ -13,6 +13,8 @@ import {
   getOptionText,
   getOptionIsCorrect,
   isShortResponseQuestion,
+  sanitizeHtmlContent,
+  resolveAssetUrl,
 } from '../../utils/textUtils.js';
 import MathInputWithPad from '../MathInputWithPad.jsx';
 import { TI30XSCalculator } from '../TI30XSCalculator.jsx';

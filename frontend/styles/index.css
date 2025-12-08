@@ -115,3 +115,71 @@ h3 {
 .shadow-lg {
   box-shadow: var(--shadow-strong, 0 18px 32px -24px rgba(15, 23, 42, 0.3));
 }
+
+/* TABLE RENDERING FIXES FOR QUIZ PASSAGES */
+/* Ensure tables in dangerouslySetInnerHTML render properly */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+table[style*='width: 100%'] {
+  width: 100%;
+}
+
+table th,
+table td {
+  border-collapse: collapse;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+table thead tr {
+  background-color: var(--table-header-bg, #f1f5f9);
+  font-weight: 600;
+}
+
+table thead th {
+  border-bottom: 1px solid var(--table-border, #e5e7eb);
+  padding: 0.5rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+table tbody tr {
+  border-bottom: 1px solid var(--table-border, #e5e7eb);
+}
+
+table tbody td {
+  padding: 0.5rem;
+  text-align: left;
+}
+
+/* Support for inline styled tables */
+table[style*='border-bottom'] th,
+table[style*='border-bottom'] td {
+  border-bottom: 1px solid var(--table-border, #e5e7eb);
+}
+
+table[style*='text-align'] {
+  text-align: left;
+}
+
+/* Dark mode support for tables */
+@media (prefers-color-scheme: dark) {
+  table thead tr {
+    background-color: var(--table-header-bg-dark, #1e293b);
+    color: var(--text-light, #f1f5f9);
+  }
+
+  table tbody tr {
+    background-color: var(--table-row-bg-dark, transparent);
+    color: var(--text-light, #f1f5f9);
+  }
+
+  table th,
+  table td {
+    border-color: var(--table-border-dark, #334155);
+  }
+}
