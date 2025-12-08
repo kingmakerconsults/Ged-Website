@@ -2762,7 +2762,7 @@ function extractMathSegments(input) {
 
 function sanitizeHtmlContent(
   content,
-  { normalizeSpacing = false, skipPreprocess = false } = {}
+  { normalizeSpacing = false, skipPreprocess = false, subject = null } = {}
 ) {
   if (typeof content !== 'string') return '';
   let working = content;
@@ -2781,7 +2781,7 @@ function sanitizeHtmlContent(
         // Skip data: and blob: URLs
         if (raw.startsWith('data:') || raw.startsWith('blob:')) return;
 
-        const resolved = resolveAssetUrl(raw);
+        const resolved = resolveAssetUrl(raw, subject);
         console.log(`[sanitizeHtmlContent] Rewriting: ${raw} -> ${resolved}`);
         img.setAttribute('src', resolved);
       });
@@ -20474,7 +20474,7 @@ function normalizeImagePath(path) {
   return p;
 }
 
-function resolveAssetUrl(src) {
+function resolveAssetUrl(src, contextSubject = null) {
   if (!src) return '';
   let s = String(src).trim();
 
@@ -20507,21 +20507,22 @@ function resolveAssetUrl(src) {
   // Get filename (last part)
   const filename = parts[parts.length - 1];
 
-  // Detect subject from path segments
-  let subject = 'Social Studies'; // default
+  // Detect subject from path segments first, then from filename, then use context
+  let subject = contextSubject || 'Social Studies'; // default
 
+  // Try to detect from path segments
   for (const part of parts) {
     const lower = part.toLowerCase().replace(/[_\s-]+/g, '');
     if (lower.includes('math')) {
       subject = 'Math';
       break;
-    } else if (lower.includes('science')) {
+    } else if (lower.includes('science') || lower === 'scince') {
       subject = 'Science';
       break;
     } else if (lower.includes('social') || lower.includes('studies')) {
       subject = 'Social Studies';
       break;
-    } else if (lower.includes('rla') || lower.includes('language')) {
+    } else if (lower.includes('rla') || lower.includes('language') || lower.includes('english')) {
       subject = 'RLA';
       break;
     } else if (lower.includes('workforce') || lower.includes('readiness')) {
@@ -20530,9 +20531,25 @@ function resolveAssetUrl(src) {
     }
   }
 
+  // If still default, try to detect from filename patterns
+  if (!contextSubject) {
+    const fnLower = filename.toLowerCase();
+    if (fnLower.includes('math')) {
+      subject = 'Math';
+    } else if (fnLower.includes('scince') || fnLower.includes('science')) {
+      subject = 'Science';
+    } else if (fnLower.includes('rla') || fnLower.includes('english') || fnLower.includes('language') || fnLower.includes('reading') || fnLower.includes('writing')) {
+      subject = 'RLA';
+    } else if (fnLower.includes('social') || fnLower.includes('history') || fnLower.includes('civics') || fnLower.includes('economic') || fnLower.includes('geography')) {
+      subject = 'Social Studies';
+    } else if (fnLower.includes('workforce')) {
+      subject = 'Workforce Readiness';
+    }
+  }
+
   // Return standard /images/ path
   const imageUrl = `/images/${subject}/${filename}`;
-  console.log(`[IMG FIX] ${src} -> ${imageUrl}`);
+  console.log(`[IMG FIX] ${src} -> ${imageUrl} (context: ${contextSubject})`);
   return imageUrl;
 }
 
@@ -23530,8 +23547,9 @@ function App({ externalTheme, onThemeChange }) {
   const [quizAttempts, setQuizAttempts] = useState([]);
   const [showFormulaSheet, setShowFormulaSheet] = useState(false);
   const [showToolsModal, setShowToolsModal] = useState(false);
+  const [showSocialToolsModal, setShowSocialToolsModal] = useState(false);
   const [toolsModalSubject, setToolsModalSubject] = useState(null);
-  const [activeSocialTool, setActiveSocialTool] = useState(null); // 'constitution' | 'economics' | null
+  const [activeSocialTool, setActiveSocialTool] = useState(null); // 'constitution' | 'economics' | 'map' | 'civics' | 'timeline' | 'electoral' | null
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [showPracticeModal, setShowPracticeModal] = useState(false);
   const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
@@ -26369,6 +26387,136 @@ function App({ externalTheme, onThemeChange }) {
               setToolsModalSubject(null);
             }}
           />
+        )}
+        {showSocialToolsModal && (
+          <div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowSocialToolsModal(false)}
+          >
+            <div
+              className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold dark:text-white">
+                    🏛️ Social Studies Tools
+                  </h2>
+                  <button
+                    onClick={() => setShowSocialToolsModal(false)}
+                    className="text-2xl text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                  >
+                    ×
+                  </button>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  Interactive tools to master Civics, History, Geography, and
+                  Economics
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <button
+                    onClick={() => {
+                      setActiveSocialTool('civics');
+                      setShowSocialToolsModal(false);
+                    }}
+                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
+                  >
+                    <div className="text-4xl mb-3">🏛️</div>
+                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
+                      Civics Reasoning Lab
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Decide which branch and level of government handles each
+                      scenario.
+                    </p>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActiveSocialTool('map');
+                      setShowSocialToolsModal(false);
+                    }}
+                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
+                  >
+                    <div className="text-4xl mb-3">🗺️</div>
+                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
+                      Map Explorer
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Practice geography and map-reading questions like the GED.
+                    </p>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActiveSocialTool('timeline');
+                      setShowSocialToolsModal(false);
+                    }}
+                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
+                  >
+                    <div className="text-4xl mb-3">📜</div>
+                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
+                      History Timeline Builder
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Put key historical events in order and see how they
+                      connect.
+                    </p>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActiveSocialTool('electoral');
+                      setShowSocialToolsModal(false);
+                    }}
+                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
+                  >
+                    <div className="text-4xl mb-3">🗳️</div>
+                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
+                      Electoral College Simulator
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Practice electoral vote math and winner-takes-all
+                      scenarios.
+                    </p>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActiveSocialTool('constitution');
+                      setShowSocialToolsModal(false);
+                    }}
+                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
+                  >
+                    <div className="text-4xl mb-3">📋</div>
+                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
+                      Constitution Explorer
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Interactive amendments + case study scenarios.
+                    </p>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActiveSocialTool('economics');
+                      setShowSocialToolsModal(false);
+                    }}
+                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
+                  >
+                    <div className="text-4xl mb-3">💰</div>
+                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
+                      Economics Market Simulator
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Shift supply/demand and interpret price/quantity changes.
+                    </p>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
         {showNamePrompt && (
           <NamePromptModal
@@ -32213,11 +32361,16 @@ function StartScreen({
               selectedSubject === 'Social Studies') && (
               <div className="flex flex-wrap gap-2">
                 {(selectedSubject === 'Math' ||
-                  selectedSubject === 'Science') && (
+                  selectedSubject === 'Science' ||
+                  selectedSubject === 'Social Studies') && (
                   <button
                     onClick={() => {
-                      setToolsModalSubject(selectedSubject);
-                      setShowToolsModal(true);
+                      if (selectedSubject === 'Social Studies') {
+                        setShowSocialToolsModal(true);
+                      } else {
+                        setToolsModalSubject(selectedSubject);
+                        setShowToolsModal(true);
+                      }
                     }}
                     className="px-4 py-2 font-semibold rounded-lg shadow-sm transition"
                     style={{
@@ -32225,7 +32378,7 @@ function StartScreen({
                       color: heroAccentColor,
                     }}
                   >
-                    ??? {selectedSubject} Tools
+                    🛠️ {selectedSubject} Tools
                   </button>
                 )}
                 {selectedSubject === 'Math' && (
@@ -32567,204 +32720,14 @@ function StartScreen({
             </div>
           )}
 
-          {/* Social Studies Tools Grid (replaces quiz browser) */}
-          {selectedSubject === 'Social Studies' && (
-            <div className="social-studies-tools-section mt-6">
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-2">
-                  🏛️ Social Studies Tools
-                </h2>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Interactive tools to master Civics, History, Geography, and
-                  Economics
-                </p>
-              </div>
+          {/* Social Studies Tools Modal will be added here */}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Civics Reasoning Lab */}
-                <button
-                  onClick={() => setActiveSocialTool('civics')}
-                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
-                  style={{
-                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
-                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                  }}
-                >
-                  <div className="text-4xl mb-3">🏛️</div>
-                  <h3 className="text-xl font-semibold mb-2">
-                    Civics Reasoning Lab
-                  </h3>
-                  <p
-                    className="text-sm mb-4"
-                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
-                  >
-                    Decide which branch and level of government handles each
-                    scenario.
-                  </p>
-                  <span
-                    className="px-4 py-2 rounded font-medium inline-block"
-                    style={{
-                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                    }}
-                  >
-                    Start
-                  </span>
-                </button>
-
-                {/* Map Explorer */}
-                <button
-                  onClick={() => setActiveSocialTool('map')}
-                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
-                  style={{
-                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
-                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                  }}
-                >
-                  <div className="text-4xl mb-3">🗺️</div>
-                  <h3 className="text-xl font-semibold mb-2">Map Explorer</h3>
-                  <p
-                    className="text-sm mb-4"
-                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
-                  >
-                    Practice geography and map-reading questions like the GED.
-                  </p>
-                  <span
-                    className="px-4 py-2 rounded font-medium inline-block"
-                    style={{
-                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                    }}
-                  >
-                    Start
-                  </span>
-                </button>
-
-                {/* History Timeline Builder */}
-                <button
-                  onClick={() => setActiveSocialTool('timeline')}
-                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
-                  style={{
-                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
-                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                  }}
-                >
-                  <div className="text-4xl mb-3">📜</div>
-                  <h3 className="text-xl font-semibold mb-2">
-                    History Timeline Builder
-                  </h3>
-                  <p
-                    className="text-sm mb-4"
-                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
-                  >
-                    Put key historical events in order and see how they connect.
-                  </p>
-                  <span
-                    className="px-4 py-2 rounded font-medium inline-block"
-                    style={{
-                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                    }}
-                  >
-                    Start
-                  </span>
-                </button>
-
-                {/* Electoral College Simulator */}
-                <button
-                  onClick={() => setActiveSocialTool('electoral')}
-                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
-                  style={{
-                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
-                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                  }}
-                >
-                  <div className="text-4xl mb-3">🗳️</div>
-                  <h3 className="text-xl font-semibold mb-2">
-                    Electoral College Simulator
-                  </h3>
-                  <p
-                    className="text-sm mb-4"
-                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
-                  >
-                    Practice electoral vote math and winner-takes-all scenarios.
-                  </p>
-                  <span
-                    className="px-4 py-2 rounded font-medium inline-block"
-                    style={{
-                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                    }}
-                  >
-                    Start
-                  </span>
-                </button>
-
-                {/* Constitution Explorer */}
-                <button
-                  onClick={() => setActiveSocialTool('constitution')}
-                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
-                  style={{
-                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
-                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                  }}
-                >
-                  <div className="text-4xl mb-3">📋</div>
-                  <h3 className="text-xl font-semibold mb-2">
-                    Constitution Explorer
-                  </h3>
-                  <p
-                    className="text-sm mb-4"
-                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
-                  >
-                    Interactive amendments + case study scenarios.
-                  </p>
-                  <span
-                    className="px-4 py-2 rounded font-medium inline-block"
-                    style={{
-                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                    }}
-                  >
-                    Start
-                  </span>
-                </button>
-
-                {/* Economics Market Simulator */}
-                <button
-                  onClick={() => setActiveSocialTool('economics')}
-                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
-                  style={{
-                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
-                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                  }}
-                >
-                  <div className="text-4xl mb-3">💰</div>
-                  <h3 className="text-xl font-semibold mb-2">
-                    Economics Market Simulator
-                  </h3>
-                  <p
-                    className="text-sm mb-4"
-                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
-                  >
-                    Shift supply/demand and interpret price/quantity changes.
-                  </p>
-                  <span
-                    className="px-4 py-2 rounded font-medium inline-block"
-                    style={{
-                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
-                    }}
-                  >
-                    Start
-                  </span>
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* New clustered quiz browser (hidden when Social Studies is selected) */}
-          {selectedSubject !== 'Social Studies' && (
-            <SubjectQuizBrowser
-              subjectName={selectedSubject}
-              onSelectQuiz={onSelectQuiz}
-              theme={theme}
-            />
-          )}
+          {/* New clustered quiz browser - show for all subjects */}
+          <SubjectQuizBrowser
+            subjectName={selectedSubject}
+            onSelectQuiz={onSelectQuiz}
+            theme={theme}
+          />
           {/* Keep generator and comprehensive exam below the cluster UI */}
           {(selectedSubject === 'Social Studies' ||
             selectedSubject === 'Reasoning Through Language Arts (RLA)' ||
@@ -33757,7 +33720,7 @@ function StartScreen({
   );
 }
 
-function Stem({ item }) {
+function Stem({ item, subject = null, isReview = false }) {
   const passageContent =
     typeof item.passage === 'string' ? item.passage.trim() : '';
   const questionContent =
@@ -33775,7 +33738,7 @@ function Stem({ item }) {
     <div className="stem space-y-4">
       {item.stimulusImage?.src &&
         (() => {
-          const resolved = resolveAssetUrl(item.stimulusImage.src);
+          const resolved = resolveAssetUrl(item.stimulusImage.src, subject);
           return resolved ? (
             <div className="mb-3">
               <img
@@ -33795,6 +33758,7 @@ function Stem({ item }) {
           dangerouslySetInnerHTML={{
             __html: sanitizeHtmlContent(passageContent, {
               normalizeSpacing: true,
+              subject,
             }),
           }}
         />
@@ -34418,6 +34382,7 @@ function QuizInterface({
                     dangerouslySetInnerHTML={{
                       __html: sanitizeHtmlContent(article.title, {
                         normalizeSpacing: true,
+                        subject: selectedSubject,
                       }),
                     }}
                   />
@@ -34425,7 +34390,7 @@ function QuizInterface({
                 {(article.imageUrl || articleImage) &&
                   (() => {
                     const rawImg = article.imageUrl || articleImage;
-                    const imgSrc = resolveAssetUrl(rawImg);
+                    const imgSrc = resolveAssetUrl(rawImg, selectedSubject);
                     return imgSrc ? (
                       <img
                         src={imgSrc}
@@ -34447,6 +34412,7 @@ function QuizInterface({
                     dangerouslySetInnerHTML={{
                       __html: sanitizeHtmlContent(paragraph, {
                         normalizeSpacing: true,
+                        subject: selectedSubject,
                       }),
                     }}
                   />
@@ -34505,7 +34471,7 @@ function QuizInterface({
                     >
                       {currentQ.questionNumber}.
                     </span>
-                    <Stem item={currentQ} />
+                    <Stem item={currentQ} subject={selectedSubject} />
                   </div>
                 </div>
                 {(() => {
@@ -34513,7 +34479,7 @@ function QuizInterface({
                     !currentQ.stimulusImage?.src && currentQ.imageUrl
                       ? currentQ.imageUrl
                       : null;
-                  const imgSrc = resolveAssetUrl(rawImgSrc);
+                  const imgSrc = resolveAssetUrl(rawImgSrc, selectedSubject);
                   return imgSrc ? (
                     <img
                       src={imgSrc}
@@ -34827,7 +34793,7 @@ function QuizInterface({
                   !currentQ.stimulusImage?.src && currentQ.imageUrl
                     ? currentQ.imageUrl
                     : null;
-                const imgSrc = resolveAssetUrl(rawImgSrc);
+                const imgSrc = resolveAssetUrl(rawImgSrc, selectedSubject);
                 return imgSrc ? (
                   <img
                     src={imgSrc}
@@ -36561,7 +36527,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                   <span className="font-semibold question-stem leading-relaxed">
                     {index + 1}.
                   </span>
-                  <Stem item={question} />
+                  <Stem item={question} subject={selectedSubject} />
                 </div>
                 {(() => {
                   const rawImg =
@@ -36703,12 +36669,13 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
           dangerouslySetInnerHTML={{
             __html: sanitizeHtmlContent(quiz.article.title, {
               normalizeSpacing: true,
+              subject: selectedSubject,
             }),
           }}
         ></h3>
         <p className="text-sm italic text-secondary">{quiz.article.genre}</p>
         {(() => {
-          const imgSrc = resolveAssetUrl(quiz.imageUrl);
+          const imgSrc = resolveAssetUrl(quiz.imageUrl, selectedSubject);
           return imgSrc ? (
             <img
               src={imgSrc}
@@ -36721,7 +36688,10 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
           <p
             key={i}
             dangerouslySetInnerHTML={{
-              __html: sanitizeHtmlContent(p, { normalizeSpacing: true }),
+              __html: sanitizeHtmlContent(p, {
+                normalizeSpacing: true,
+                subject: selectedSubject,
+              }),
             }}
           ></p>
         ))}
@@ -36748,7 +36718,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                   !(q.stimulusImage && q.stimulusImage.src) && q.imageUrl
                     ? q.imageUrl
                     : null;
-                const imgSrc = resolveAssetUrl(rawImg);
+                const imgSrc = resolveAssetUrl(rawImg, selectedSubject);
                 return imgSrc ? (
                   <img
                     src={imgSrc}
@@ -36771,6 +36741,8 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                 </span>
                 <Stem
                   item={{ ...q, questionNumber: q.questionNumber ?? i + 1 }}
+                  subject={selectedSubject}
+                  isReview={true}
                 />
               </div>
               {(() => {
