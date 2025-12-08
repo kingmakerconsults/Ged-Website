@@ -417,9 +417,11 @@ export function renderStemWithKatex(text) {
   const parts = [];
   const moneyRegex = /^\$\d+(?:\.\d{1,2})?$/;
   const pureNumber = /^\d+(?:\.\d{1,2})?$/;
-  for (const seg of segments.length
+  const effectiveSegments = segments.length
     ? segments
-    : [{ type: 'text', value: text }]) {
+    : [{ type: 'text', value: text }];
+
+  for (const seg of effectiveSegments) {
     if (seg.type !== 'math') {
       const sanitizer =
         typeof window !== 'undefined' &&
@@ -478,6 +480,10 @@ export function renderStemWithKatex(text) {
     }
   }
   const combined = parts.join('');
+  const maybeFormatted =
+    effectiveSegments.length === 1 && effectiveSegments[0].type === 'text'
+      ? formatMathText(combined)
+      : combined;
   const finalSan =
     typeof window !== 'undefined' &&
     window.DOMPurify &&
@@ -485,7 +491,7 @@ export function renderStemWithKatex(text) {
       ? window.DOMPurify.sanitize
       : null;
   return finalSan
-    ? finalSan(combined, {
+    ? finalSan(maybeFormatted, {
         ALLOWED_TAGS:
           typeof ALLOWED_HTML_TAGS !== 'undefined'
             ? [...ALLOWED_HTML_TAGS, 'span', 'sup', 'svg', 'path']
@@ -495,7 +501,7 @@ export function renderStemWithKatex(text) {
             ? [...ALLOWED_HTML_ATTR, 'style', 'd', 'viewBox', 'xmlns']
             : [],
       })
-    : combined;
+    : maybeFormatted;
 }
 
 // Extracted: renderQuestionTextForDisplay
