@@ -23042,6 +23042,10 @@ import SubjectCard from '../components/subject/SubjectCard.jsx';
 import SubjectToolsModal from '../components/SubjectToolsModal.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
+import MapExplorer from '../../tools/MapExplorer.jsx';
+import CivicsReasoningLab from '../../tools/CivicsReasoningLab.jsx';
+import HistoryTimelineBuilder from '../../tools/HistoryTimelineBuilder.jsx';
+import ElectoralCollegeSimulator from '../../tools/ElectoralCollegeSimulator.jsx';
 
 function AppHeader({
   currentUser,
@@ -25970,6 +25974,26 @@ function App({ externalTheme, onThemeChange }) {
 
     if (activeSocialTool === 'economics') {
       return <EconomicsGraphTool onExit={() => setActiveSocialTool(null)} />;
+    }
+
+    if (activeSocialTool === 'map') {
+      return <MapExplorer onExit={() => setActiveSocialTool(null)} />;
+    }
+
+    if (activeSocialTool === 'civics') {
+      return <CivicsReasoningLab onExit={() => setActiveSocialTool(null)} />;
+    }
+
+    if (activeSocialTool === 'timeline') {
+      return (
+        <HistoryTimelineBuilder onExit={() => setActiveSocialTool(null)} />
+      );
+    }
+
+    if (activeSocialTool === 'electoral') {
+      return (
+        <ElectoralCollegeSimulator onExit={() => setActiveSocialTool(null)} />
+      );
     }
 
     // Normalize role string (handle both super_admin and superAdmin formats)
@@ -32543,12 +32567,204 @@ function StartScreen({
             </div>
           )}
 
-          {/* New clustered quiz browser */}
-          <SubjectQuizBrowser
-            subjectName={selectedSubject}
-            onSelectQuiz={onSelectQuiz}
-            theme={theme}
-          />
+          {/* Social Studies Tools Grid (replaces quiz browser) */}
+          {selectedSubject === 'Social Studies' && (
+            <div className="social-studies-tools-section mt-6">
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold mb-2">
+                  🏛️ Social Studies Tools
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Interactive tools to master Civics, History, Geography, and
+                  Economics
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Civics Reasoning Lab */}
+                <button
+                  onClick={() => setActiveSocialTool('civics')}
+                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                  }}
+                >
+                  <div className="text-4xl mb-3">🏛️</div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Civics Reasoning Lab
+                  </h3>
+                  <p
+                    className="text-sm mb-4"
+                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
+                  >
+                    Decide which branch and level of government handles each
+                    scenario.
+                  </p>
+                  <span
+                    className="px-4 py-2 rounded font-medium inline-block"
+                    style={{
+                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                    }}
+                  >
+                    Start
+                  </span>
+                </button>
+
+                {/* Map Explorer */}
+                <button
+                  onClick={() => setActiveSocialTool('map')}
+                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                  }}
+                >
+                  <div className="text-4xl mb-3">🗺️</div>
+                  <h3 className="text-xl font-semibold mb-2">Map Explorer</h3>
+                  <p
+                    className="text-sm mb-4"
+                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
+                  >
+                    Practice geography and map-reading questions like the GED.
+                  </p>
+                  <span
+                    className="px-4 py-2 rounded font-medium inline-block"
+                    style={{
+                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                    }}
+                  >
+                    Start
+                  </span>
+                </button>
+
+                {/* History Timeline Builder */}
+                <button
+                  onClick={() => setActiveSocialTool('timeline')}
+                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                  }}
+                >
+                  <div className="text-4xl mb-3">📜</div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    History Timeline Builder
+                  </h3>
+                  <p
+                    className="text-sm mb-4"
+                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
+                  >
+                    Put key historical events in order and see how they connect.
+                  </p>
+                  <span
+                    className="px-4 py-2 rounded font-medium inline-block"
+                    style={{
+                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                    }}
+                  >
+                    Start
+                  </span>
+                </button>
+
+                {/* Electoral College Simulator */}
+                <button
+                  onClick={() => setActiveSocialTool('electoral')}
+                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                  }}
+                >
+                  <div className="text-4xl mb-3">🗳️</div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Electoral College Simulator
+                  </h3>
+                  <p
+                    className="text-sm mb-4"
+                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
+                  >
+                    Practice electoral vote math and winner-takes-all scenarios.
+                  </p>
+                  <span
+                    className="px-4 py-2 rounded font-medium inline-block"
+                    style={{
+                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                    }}
+                  >
+                    Start
+                  </span>
+                </button>
+
+                {/* Constitution Explorer */}
+                <button
+                  onClick={() => setActiveSocialTool('constitution')}
+                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                  }}
+                >
+                  <div className="text-4xl mb-3">📋</div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Constitution Explorer
+                  </h3>
+                  <p
+                    className="text-sm mb-4"
+                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
+                  >
+                    Interactive amendments + case study scenarios.
+                  </p>
+                  <span
+                    className="px-4 py-2 rounded font-medium inline-block"
+                    style={{
+                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                    }}
+                  >
+                    Start
+                  </span>
+                </button>
+
+                {/* Economics Market Simulator */}
+                <button
+                  onClick={() => setActiveSocialTool('economics')}
+                  className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2"
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+                    borderColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                  }}
+                >
+                  <div className="text-4xl mb-3">💰</div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Economics Market Simulator
+                  </h3>
+                  <p
+                    className="text-sm mb-4"
+                    style={{ color: theme === 'dark' ? '#94a3b8' : '#64748b' }}
+                  >
+                    Shift supply/demand and interpret price/quantity changes.
+                  </p>
+                  <span
+                    className="px-4 py-2 rounded font-medium inline-block"
+                    style={{
+                      backgroundColor: theme === 'dark' ? '#334155' : '#e2e8f0',
+                    }}
+                  >
+                    Start
+                  </span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* New clustered quiz browser (hidden when Social Studies is selected) */}
+          {selectedSubject !== 'Social Studies' && (
+            <SubjectQuizBrowser
+              subjectName={selectedSubject}
+              onSelectQuiz={onSelectQuiz}
+              theme={theme}
+            />
+          )}
           {/* Keep generator and comprehensive exam below the cluster UI */}
           {(selectedSubject === 'Social Studies' ||
             selectedSubject === 'Reasoning Through Language Arts (RLA)' ||
@@ -32782,18 +32998,42 @@ function StartScreen({
                       Interactive tools to master Civics and Economics.
                     </p>
                   </div>
-                  <div className="flex flex-col gap-2 mt-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                     <button
                       onClick={() => setActiveSocialTool('constitution')}
                       className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
                     >
-                      ?? Constitution Explorer
+                      📋 Constitution Explorer
                     </button>
                     <button
                       onClick={() => setActiveSocialTool('economics')}
                       className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
                     >
-                      ?? Economics Graphing
+                      💰 Economics Market Simulator
+                    </button>
+                    <button
+                      onClick={() => setActiveSocialTool('map')}
+                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
+                    >
+                      🗺️ Map Explorer
+                    </button>
+                    <button
+                      onClick={() => setActiveSocialTool('civics')}
+                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
+                    >
+                      🏛️ Civics Reasoning Lab
+                    </button>
+                    <button
+                      onClick={() => setActiveSocialTool('timeline')}
+                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
+                    >
+                      📜 History Timeline Builder
+                    </button>
+                    <button
+                      onClick={() => setActiveSocialTool('electoral')}
+                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
+                    >
+                      🗳️ Electoral College Simulator
                     </button>
                   </div>
                 </div>
