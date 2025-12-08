@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-VnRgwHf6.js";
+import { _ as __vitePreload } from "./index-CLMGwSFF.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -3401,6 +3401,1515 @@ function EconomicsGraphTool({ onExit }) {
       ] })
     ] })
   ] });
+}
+const MAP_SCENARIOS = [
+  {
+    id: "us_regions_midwest",
+    difficulty: "easy",
+    tags: ["us", "regions", "geography"],
+    title: "U.S. Regions – The Midwest",
+    prompt: "On this map, which region is best known as the Midwest?",
+    choices: [
+      { id: "A", label: "Region A (Pacific Coast)", isCorrect: false },
+      { id: "B", label: "Region B (Central United States)", isCorrect: true },
+      { id: "C", label: "Region C (Southern States)", isCorrect: false },
+      { id: "D", label: "Region D (Northeast)", isCorrect: false }
+    ],
+    explanation: "The Midwest is the central-northern region including states like Ohio, Indiana, Illinois, and Iowa. It is characterized by agricultural production and industrial cities.",
+    imageKey: "us_regions_basic"
+  },
+  {
+    id: "us_regions_south",
+    difficulty: "easy",
+    tags: ["us", "regions", "climate"],
+    title: "U.S. Regions – The South",
+    prompt: "Which region on the map represents the Southern United States?",
+    choices: [
+      { id: "A", label: "Region A", isCorrect: false },
+      { id: "B", label: "Region B", isCorrect: false },
+      {
+        id: "C",
+        label: "Region C (states below the Mason-Dixon line)",
+        isCorrect: true
+      },
+      { id: "D", label: "Region D", isCorrect: false }
+    ],
+    explanation: "The South includes states like Texas, Florida, Georgia, and the Carolinas. This region has a warm climate and rich historical significance.",
+    imageKey: "us_regions_basic"
+  },
+  {
+    id: "world_continents_africa",
+    difficulty: "easy",
+    tags: ["world", "continents", "geography"],
+    title: "World Continents – Africa",
+    prompt: "Which continent on this world map is Africa?",
+    choices: [
+      { id: "A", label: "Continent A", isCorrect: false },
+      {
+        id: "B",
+        label: "Continent B (south of Europe, east of Atlantic)",
+        isCorrect: true
+      },
+      { id: "C", label: "Continent C", isCorrect: false },
+      { id: "D", label: "Continent D", isCorrect: false }
+    ],
+    explanation: "Africa is the second-largest continent, located south of Europe and spanning from the Mediterranean Sea to the Indian Ocean. It is home to 54 recognized countries.",
+    imageKey: "world_continents"
+  },
+  {
+    id: "us_major_rivers_mississippi",
+    difficulty: "medium",
+    tags: ["us", "geography", "rivers"],
+    title: "Major U.S. Rivers – The Mississippi",
+    prompt: "Which river on this map represents the Mississippi River?",
+    choices: [
+      { id: "A", label: "River A (Pacific side)", isCorrect: false },
+      {
+        id: "B",
+        label: "River B (flows north-south through central US)",
+        isCorrect: true
+      },
+      { id: "C", label: "River C (northeastern river)", isCorrect: false },
+      { id: "D", label: "River D (Texas region)", isCorrect: false }
+    ],
+    explanation: "The Mississippi River is the second-longest river in North America. It flows from Minnesota southward through the central United States to the Gulf of Mexico and was crucial to American commerce and settlement.",
+    imageKey: "us_rivers"
+  },
+  {
+    id: "trade_routes_triangular",
+    difficulty: "medium",
+    tags: ["history", "trade", "geography"],
+    title: "Historical Trade Routes – Triangular Trade",
+    prompt: "Based on this map of trade routes, which arrow represents cargo traveling from Africa to the Americas?",
+    choices: [
+      { id: "A", label: "Route A (Europe to Americas)", isCorrect: false },
+      { id: "B", label: "Route B (Africa to Americas)", isCorrect: true },
+      { id: "C", label: "Route C (Americas to Europe)", isCorrect: false },
+      { id: "D", label: "Route D (local coastal trade)", isCorrect: false }
+    ],
+    explanation: "The Triangular Trade involved the transport of enslaved people from Africa to the Americas. This tragic trade route was a significant part of the colonial Atlantic economy.",
+    imageKey: "triangular_trade_routes"
+  },
+  {
+    id: "asia_geography_major_cities",
+    difficulty: "medium",
+    tags: ["world", "geography", "cities"],
+    title: "Asian Geography – Population Centers",
+    prompt: "Which region on this map shows East Asia with high population density?",
+    choices: [
+      { id: "A", label: "Region A (sparse western areas)", isCorrect: false },
+      {
+        id: "B",
+        label: "Region B (eastern coastal and central areas)",
+        isCorrect: true
+      },
+      {
+        id: "C",
+        label: "Region C (southern island nations)",
+        isCorrect: false
+      },
+      { id: "D", label: "Region D (northern regions)", isCorrect: false }
+    ],
+    explanation: "East Asia, particularly eastern China, Japan, and South Korea, contains some of the world's highest population densities. These areas are economic powerhouses in the global economy.",
+    imageKey: "asia_map"
+  },
+  {
+    id: "colonial_america_thirteen_colonies",
+    difficulty: "medium",
+    tags: ["us_history", "geography", "colonial"],
+    title: "Colonial America – The Thirteen Colonies",
+    prompt: "Based on this map, which region represents the Thirteen Original Colonies?",
+    choices: [
+      { id: "A", label: "Western territories", isCorrect: false },
+      {
+        id: "B",
+        label: "Eastern seaboard from Massachusetts to Georgia",
+        isCorrect: true
+      },
+      { id: "C", label: "Great Lakes region", isCorrect: false },
+      { id: "D", label: "Southern interior plains", isCorrect: false }
+    ],
+    explanation: "The Thirteen Original Colonies stretched along the Atlantic seaboard from present-day New Hampshire to Georgia. These British colonies eventually declared independence and formed the United States.",
+    imageKey: "colonial_america"
+  },
+  {
+    id: "time_zone_distribution",
+    difficulty: "hard",
+    tags: ["geography", "time_zones", "global"],
+    title: "Time Zones – Continental U.S. Time Zones",
+    prompt: "How many standard time zones are used in the continental United States?",
+    choices: [
+      { id: "A", label: "2", isCorrect: false },
+      { id: "B", label: "3", isCorrect: false },
+      { id: "C", label: "4", isCorrect: true },
+      { id: "D", label: "5", isCorrect: false }
+    ],
+    explanation: "The continental United States spans four standard time zones: Pacific, Mountain, Central, and Eastern. This division allows for consistent timekeeping across different regions.",
+    imageKey: "us_time_zones"
+  }
+];
+function MapExplorer({ onExit }) {
+  const [currentScenarioIndex, setCurrentScenarioIndex] = reactExports.useState(0);
+  const [correctCount, setCorrectCount] = reactExports.useState(0);
+  const [selectedChoice, setSelectedChoice] = reactExports.useState(null);
+  const [feedback, setFeedback] = reactExports.useState(null);
+  const [sessionComplete, setSessionComplete] = reactExports.useState(false);
+  const currentScenario = MAP_SCENARIOS[currentScenarioIndex];
+  const handleChoiceSelect = (choiceId) => {
+    const choice = currentScenario.choices.find((c) => c.id === choiceId);
+    setSelectedChoice(choiceId);
+    const isCorrect = choice.isCorrect;
+    setFeedback({
+      isCorrect,
+      correctChoiceId: currentScenario.choices.find((c) => c.isCorrect).id
+    });
+    if (isCorrect) {
+      setCorrectCount(correctCount + 1);
+    }
+  };
+  const handleNextScenario = () => {
+    if (currentScenarioIndex < MAP_SCENARIOS.length - 1) {
+      setCurrentScenarioIndex(currentScenarioIndex + 1);
+      setSelectedChoice(null);
+      setFeedback(null);
+    } else {
+      setSessionComplete(true);
+    }
+  };
+  const handleResetSession = () => {
+    setCurrentScenarioIndex(0);
+    setCorrectCount(0);
+    setSelectedChoice(null);
+    setFeedback(null);
+    setSessionComplete(false);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-6xl mx-auto p-6 space-y-6", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onExit,
+          className: "flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold", children: "🗺️ Map Explorer" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-20 text-right text-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-slate-600 dark:text-slate-400", children: [
+        currentScenarioIndex + 1,
+        "/",
+        MAP_SCENARIOS.length
+      ] }) })
+    ] }),
+    sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-300 dark:border-emerald-700 rounded-xl p-6 text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold text-emerald-900 dark:text-emerald-200 mb-2", children: "✅ Round Complete!" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-lg text-emerald-800 dark:text-emerald-300 mb-4", children: [
+        "You answered",
+        " ",
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+          correctCount,
+          " out of ",
+          MAP_SCENARIOS.length
+        ] }),
+        " ",
+        "correctly."
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleResetSession,
+          className: "px-6 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition",
+          children: "Start New Round"
+        }
+      )
+    ] }),
+    !sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 lg:grid-cols-3 gap-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:col-span-1 bg-slate-100 dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 flex items-center justify-center min-h-64", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-6xl mb-3", children: "🗺️" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm text-slate-600 dark:text-slate-400", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "font-semibold mb-1", children: [
+            "Map: ",
+            currentScenario.imageKey
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs", children: "(Visual maps will be displayed here in production)" })
+        ] })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "lg:col-span-2 space-y-6", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 mb-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold", children: currentScenario.title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "span",
+              {
+                className: `text-xs px-3 py-1 rounded-full font-semibold ${currentScenario.difficulty === "easy" ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200" : currentScenario.difficulty === "medium" ? "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200" : "bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200"}`,
+                children: currentScenario.difficulty.charAt(0).toUpperCase() + currentScenario.difficulty.slice(1)
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2 mb-4", children: currentScenario.tags.map((tag) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
+            {
+              className: "text-xs bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-slate-700 dark:text-slate-300",
+              children: tag
+            },
+            tag
+          )) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg font-semibold text-slate-900 dark:text-slate-100", children: currentScenario.prompt }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-3", children: currentScenario.choices.map((choice) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: () => handleChoiceSelect(choice.id),
+            disabled: feedback !== null,
+            className: `w-full text-left p-4 rounded-lg border-2 transition font-semibold ${selectedChoice === choice.id ? (feedback == null ? void 0 : feedback.isCorrect) ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : feedback && feedback.correctChoiceId === choice.id ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-bold text-lg mr-3", children: [
+                choice.id,
+                "."
+              ] }),
+              choice.label
+            ]
+          },
+          choice.id
+        )) }),
+        feedback && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `rounded-lg p-4 border ${feedback.isCorrect ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-600" : "bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-600"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "p",
+                {
+                  className: `font-bold mb-2 ${feedback.isCorrect ? "text-emerald-900 dark:text-emerald-200" : "text-red-900 dark:text-red-200"}`,
+                  children: feedback.isCorrect ? "✅ Correct!" : "❌ Not quite"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-slate-700 dark:text-slate-300", children: currentScenario.explanation })
+            ]
+          }
+        ),
+        feedback && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: handleNextScenario,
+            className: "w-full px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600 text-white font-semibold transition",
+            children: currentScenarioIndex === MAP_SCENARIOS.length - 1 ? "See Results" : "Next Map"
+          }
+        )
+      ] })
+    ] })
+  ] }) });
+}
+const CIVICS_SCENARIOS = [
+  {
+    id: "veto_1",
+    difficulty: "easy",
+    tags: ["federal", "executive", "checks_and_balances"],
+    text: "The President refuses to sign a bill that Congress passed. What branch of government is this power from?",
+    correctBranch: "executive",
+    correctLevel: "federal",
+    correctPowerType: "check_on_legislative",
+    explanation: "The President (executive branch) can veto legislation passed by Congress. This is a check on the legislative branch, a key part of our system of checks and balances."
+  },
+  {
+    id: "judicial_review_1",
+    difficulty: "medium",
+    tags: ["federal", "judicial", "judicial_review"],
+    text: "The Supreme Court rules that a law passed by Congress is unconstitutional.",
+    correctBranch: "judicial",
+    correctLevel: "federal",
+    correctPowerType: "judicial_review",
+    explanation: "The judicial branch uses judicial review to interpret laws and strike down those that violate the Constitution. This power allows the courts to check both the legislative and executive branches."
+  },
+  {
+    id: "senate_ratify_treaty",
+    difficulty: "easy",
+    tags: ["federal", "legislative", "checks_and_balances"],
+    text: "The Senate votes to approve a treaty signed by the President.",
+    correctBranch: "legislative",
+    correctLevel: "federal",
+    correctPowerType: "check_on_executive",
+    explanation: "The Senate (part of Congress) must ratify international treaties signed by the President. This ensures that the executive cannot unilaterally commit the nation to international agreements."
+  },
+  {
+    id: "impeachment_1",
+    difficulty: "medium",
+    tags: ["federal", "legislative", "checks_and_balances"],
+    text: "The House of Representatives votes to impeach a federal judge.",
+    correctBranch: "legislative",
+    correctLevel: "federal",
+    correctPowerType: "check_on_judicial",
+    explanation: 'Congress can impeach federal judges (and other officials) for "high crimes and misdemeanors." The House brings charges, and the Senate conducts the trial. This is the legislative branch checking the judicial branch.'
+  },
+  {
+    id: "state_governor_veto",
+    difficulty: "medium",
+    tags: ["state", "executive", "checks_and_balances"],
+    text: "A state governor vetoes a bill passed by the state legislature.",
+    correctBranch: "executive",
+    correctLevel: "state",
+    correctPowerType: "check_on_legislative",
+    explanation: "State governors have the same veto power that the President has at the federal level. This allows the state executive to block legislation from the state legislature."
+  },
+  {
+    id: "local_school_board_1",
+    difficulty: "easy",
+    tags: ["local", "legislative", "education"],
+    text: "The local school board votes to approve a new curriculum for all elementary schools.",
+    correctBranch: "legislative",
+    correctLevel: "local",
+    correctPowerType: "passes_laws",
+    explanation: "School boards are local legislative bodies that make decisions about education. They pass policies and regulations governing public schools in their district."
+  },
+  {
+    id: "city_council_budget",
+    difficulty: "easy",
+    tags: ["local", "legislative", "budget"],
+    text: "The city council approves the municipal budget for the next fiscal year.",
+    correctBranch: "legislative",
+    correctLevel: "local",
+    correctPowerType: "passes_laws",
+    explanation: "City councils are local legislative bodies that control municipal budgets and pass local ordinances. They represent the interests of citizens in their city or town."
+  },
+  {
+    id: "senate_confirm_judge",
+    difficulty: "medium",
+    tags: ["federal", "legislative", "checks_and_balances"],
+    text: "The Senate votes to confirm a Supreme Court justice nominated by the President.",
+    correctBranch: "legislative",
+    correctLevel: "federal",
+    correctPowerType: "check_on_executive",
+    explanation: "The President nominates Supreme Court justices, but the Senate must confirm them. This ensures that the judiciary is not controlled solely by the executive branch."
+  },
+  {
+    id: "state_tax_law",
+    difficulty: "easy",
+    tags: ["state", "legislative", "taxes"],
+    text: "The state legislature passes a new income tax law.",
+    correctBranch: "legislative",
+    correctLevel: "state",
+    correctPowerType: "passes_laws",
+    explanation: "State legislatures have the power to levy taxes within their state. These taxes fund state services like education, infrastructure, and public safety."
+  },
+  {
+    id: "fed_reserve_interest_rates",
+    difficulty: "hard",
+    tags: ["federal", "executive", "economic"],
+    text: "The Federal Reserve Board adjusts interest rates to control inflation.",
+    correctBranch: "executive",
+    correctLevel: "federal",
+    correctPowerType: "enforces_laws",
+    explanation: "The Federal Reserve, part of the executive branch, controls monetary policy by adjusting interest rates. This is separate from Congress and is designed to regulate the economy and manage inflation."
+  },
+  {
+    id: "constitutional_amendment",
+    difficulty: "hard",
+    tags: ["federal", "legislative", "constitution"],
+    text: "Congress proposes an amendment to the Constitution, and the states vote to ratify it.",
+    correctBranch: "legislative",
+    correctLevel: "federal",
+    correctPowerType: "check_on_constitution",
+    explanation: "Amending the Constitution requires a two-thirds vote in both houses of Congress, followed by ratification by three-fourths of the states. This is the most fundamental power of the legislative branch."
+  },
+  {
+    id: "state_court_ruling",
+    difficulty: "medium",
+    tags: ["state", "judicial", "judicial_review"],
+    text: "A state supreme court rules that a state law violates the state constitution.",
+    correctBranch: "judicial",
+    correctLevel: "state",
+    correctPowerType: "judicial_review",
+    explanation: "State courts have the power to interpret state laws and constitutions. Like federal courts, they can strike down laws they find unconstitutional."
+  },
+  {
+    id: "mayor_appoints_police_chief",
+    difficulty: "easy",
+    tags: ["local", "executive", "appointments"],
+    text: "The mayor appoints a new police chief to run the city police department.",
+    correctBranch: "executive",
+    correctLevel: "local",
+    correctPowerType: "enforces_laws",
+    explanation: "Mayors are the chief executives of cities and towns. They appoint officials to manage city departments and enforce local laws and ordinances."
+  }
+];
+function CivicsReasoningLab({ onExit }) {
+  const [currentScenarioIndex, setCurrentScenarioIndex] = reactExports.useState(0);
+  const [correctCount, setCorrectCount] = reactExports.useState(0);
+  const [selectedBranch, setSelectedBranch] = reactExports.useState(null);
+  const [selectedLevel, setSelectedLevel] = reactExports.useState(null);
+  const [selectedPowerType, setSelectedPowerType] = reactExports.useState(null);
+  const [feedback, setFeedback] = reactExports.useState(null);
+  const [sessionComplete, setSessionComplete] = reactExports.useState(false);
+  const currentScenario = CIVICS_SCENARIOS[currentScenarioIndex];
+  const BRANCH_OPTIONS = [
+    { id: "legislative", label: "Legislative" },
+    { id: "executive", label: "Executive" },
+    { id: "judicial", label: "Judicial" }
+  ];
+  const LEVEL_OPTIONS = [
+    { id: "federal", label: "Federal" },
+    { id: "state", label: "State" },
+    { id: "local", label: "Local" }
+  ];
+  const POWER_TYPE_OPTIONS = [
+    { id: "passes_laws", label: "Passes Laws" },
+    { id: "enforces_laws", label: "Enforces Laws" },
+    { id: "interprets_laws", label: "Interprets Laws" },
+    { id: "check_on_legislative", label: "Check on Legislative" },
+    { id: "check_on_executive", label: "Check on Executive" },
+    { id: "check_on_judicial", label: "Check on Judicial" },
+    { id: "judicial_review", label: "Judicial Review" }
+  ];
+  const handleCheckAnswer = () => {
+    const isCorrect = selectedBranch === currentScenario.correctBranch && selectedLevel === currentScenario.correctLevel && selectedPowerType === currentScenario.correctPowerType;
+    const partialCorrect = {
+      branch: selectedBranch === currentScenario.correctBranch,
+      level: selectedLevel === currentScenario.correctLevel,
+      powerType: selectedPowerType === currentScenario.correctPowerType
+    };
+    setFeedback({
+      isCorrect,
+      partialCorrect
+    });
+    if (isCorrect) {
+      setCorrectCount(correctCount + 1);
+    }
+  };
+  const handleNextScenario = () => {
+    if (currentScenarioIndex < CIVICS_SCENARIOS.length - 1) {
+      setCurrentScenarioIndex(currentScenarioIndex + 1);
+      setSelectedBranch(null);
+      setSelectedLevel(null);
+      setSelectedPowerType(null);
+      setFeedback(null);
+    } else {
+      setSessionComplete(true);
+    }
+  };
+  const handleResetSession = () => {
+    setCurrentScenarioIndex(0);
+    setCorrectCount(0);
+    setSelectedBranch(null);
+    setSelectedLevel(null);
+    setSelectedPowerType(null);
+    setFeedback(null);
+    setSessionComplete(false);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-6 space-y-6", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onExit,
+          className: "flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold", children: "🏛️ Civics Reasoning Lab" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-20 text-right text-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-slate-600 dark:text-slate-400", children: [
+        currentScenarioIndex + 1,
+        "/",
+        CIVICS_SCENARIOS.length
+      ] }) })
+    ] }),
+    sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-300 dark:border-emerald-700 rounded-xl p-6 text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold text-emerald-900 dark:text-emerald-200 mb-2", children: "✅ Round Complete!" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-lg text-emerald-800 dark:text-emerald-300 mb-4", children: [
+        "You answered",
+        " ",
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+          correctCount,
+          " out of ",
+          CIVICS_SCENARIOS.length
+        ] }),
+        " ",
+        "correctly."
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleResetSession,
+          className: "px-6 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition",
+          children: "Start New Round"
+        }
+      )
+    ] }),
+    !sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-3 mb-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "span",
+          {
+            className: `text-xs px-3 py-1 rounded-full font-semibold ${currentScenario.difficulty === "easy" ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200" : currentScenario.difficulty === "medium" ? "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200" : "bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200"}`,
+            children: currentScenario.difficulty.charAt(0).toUpperCase() + currentScenario.difficulty.slice(1)
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2 mb-4", children: currentScenario.tags.map((tag) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "span",
+          {
+            className: "text-xs bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-slate-700 dark:text-slate-300",
+            children: tag
+          },
+          tag
+        )) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg font-semibold text-slate-900 dark:text-slate-100", children: currentScenario.text }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-6", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-slate-900 dark:text-slate-100", children: "Branch of Government" }),
+          BRANCH_OPTIONS.map((option) => {
+            var _a2;
+            return /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setSelectedBranch(option.id),
+                disabled: feedback !== null,
+                className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedBranch === option.id ? feedback ? feedback.partialCorrect.branch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.branch) && option.id === currentScenario.correctBranch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                children: option.label
+              },
+              option.id
+            );
+          })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-slate-900 dark:text-slate-100", children: "Level of Government" }),
+          LEVEL_OPTIONS.map((option) => {
+            var _a2;
+            return /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setSelectedLevel(option.id),
+                disabled: feedback !== null,
+                className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedLevel === option.id ? feedback ? feedback.partialCorrect.level ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.level) && option.id === currentScenario.correctLevel ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                children: option.label
+              },
+              option.id
+            );
+          })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-slate-900 dark:text-slate-100", children: "Power Type" }),
+          POWER_TYPE_OPTIONS.map((option) => {
+            var _a2;
+            return /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setSelectedPowerType(option.id),
+                disabled: feedback !== null,
+                className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold text-sm ${selectedPowerType === option.id ? feedback ? feedback.partialCorrect.powerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.powerType) && option.id === currentScenario.correctPowerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                children: option.label
+              },
+              option.id
+            );
+          })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: !feedback ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleCheckAnswer,
+          disabled: !selectedBranch || !selectedLevel || !selectedPowerType,
+          className: "w-full px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 disabled:bg-slate-400 disabled:cursor-not-allowed dark:bg-sky-500 dark:hover:bg-sky-600 dark:disabled:bg-slate-600 text-white font-semibold transition",
+          children: "Check My Answer"
+        }
+      ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `rounded-lg p-4 border ${feedback.isCorrect ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-600" : "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-600"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "p",
+                {
+                  className: `font-bold mb-3 ${feedback.isCorrect ? "text-emerald-900 dark:text-emerald-200" : "text-yellow-900 dark:text-yellow-200"}`,
+                  children: feedback.isCorrect ? "✅ Perfect!" : "📋 Review Your Answers"
+                }
+              ),
+              !feedback.isCorrect && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 text-sm text-slate-700 dark:text-slate-300 mb-3", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                  feedback.partialCorrect.branch ? "✅" : "❌",
+                  " ",
+                  "Branch:",
+                  " ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: currentScenario.correctBranch })
+                ] }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                  feedback.partialCorrect.level ? "✅" : "❌",
+                  " Level:",
+                  " ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: currentScenario.correctLevel })
+                ] }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                  feedback.partialCorrect.powerType ? "✅" : "❌",
+                  " ",
+                  "Power Type:",
+                  " ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: currentScenario.correctPowerType })
+                ] }) })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-slate-700 dark:text-slate-300", children: currentScenario.explanation })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: handleNextScenario,
+            className: "w-full px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600 text-white font-semibold transition",
+            children: currentScenarioIndex === CIVICS_SCENARIOS.length - 1 ? "See Results" : "Next Scenario"
+          }
+        )
+      ] }) })
+    ] })
+  ] }) });
+}
+const HISTORY_TIMELINE_SETS = [
+  {
+    id: "civil_rights_basic",
+    difficulty: "medium",
+    tags: ["us_history", "civil_rights", "20th_century"],
+    title: "Key Civil Rights Events",
+    events: [
+      {
+        id: "brown_v_board",
+        label: "Brown v. Board of Education decision",
+        year: 1954
+      },
+      {
+        id: "montgomery_bus_boycott",
+        label: "Montgomery Bus Boycott",
+        year: 1955
+      },
+      { id: "civil_rights_act", label: "Civil Rights Act passed", year: 1964 },
+      {
+        id: "voting_rights_act",
+        label: "Voting Rights Act passed",
+        year: 1965
+      }
+    ],
+    explanation: "These events show the progression of the Civil Rights Movement. They demonstrate how legal challenges, grassroots activism, and legislative action worked together to advance racial equality."
+  },
+  {
+    id: "american_independence",
+    difficulty: "easy",
+    tags: ["us_history", "colonial", "revolution"],
+    title: "Path to American Independence",
+    events: [
+      {
+        id: "declaration_independence",
+        label: "Declaration of Independence signed",
+        year: 1776
+      },
+      {
+        id: "boston_tea_party",
+        label: "Boston Tea Party (protest)",
+        year: 1773
+      },
+      {
+        id: "revolutionary_war_starts",
+        label: "American Revolutionary War begins",
+        year: 1775
+      },
+      {
+        id: "treaty_paris",
+        label: "Treaty of Paris (British recognize independence)",
+        year: 1783
+      }
+    ],
+    explanation: "These events trace the timeline from colonial grievances through the Revolutionary War to formal independence. Understanding this sequence is key to understanding American origins."
+  },
+  {
+    id: "westward_expansion",
+    difficulty: "medium",
+    tags: ["us_history", "expansion", "19th_century"],
+    title: "Westward Expansion Timeline",
+    events: [
+      { id: "louisiana_purchase", label: "Louisiana Purchase", year: 1803 },
+      { id: "lewis_clark", label: "Lewis & Clark Expedition", year: 1804 },
+      {
+        id: "indian_removal_act",
+        label: "Indian Removal Act (forced relocation)",
+        year: 1830
+      },
+      {
+        id: "homestead_act",
+        label: "Homestead Act (land grants to settlers)",
+        year: 1862
+      }
+    ],
+    explanation: "This timeline shows the expansion of the United States westward, including its effects on Native American populations. This period fundamentally shaped the geographic and political contours of the modern US."
+  },
+  {
+    id: "world_war_2",
+    difficulty: "medium",
+    tags: ["world_history", "20th_century", "war"],
+    title: "World War II Key Events",
+    events: [
+      {
+        id: "germany_invades_poland",
+        label: "Germany invades Poland",
+        year: 1939
+      },
+      {
+        id: "pearl_harbor",
+        label: "Attack on Pearl Harbor (US enters war)",
+        year: 1941
+      },
+      { id: "d_day", label: "D-Day invasion of Normandy", year: 1944 },
+      {
+        id: "japan_surrender",
+        label: "Japan surrenders (war ends)",
+        year: 1945
+      }
+    ],
+    explanation: "These events outline World War II's major turning points, from initial Axis aggression to the eventual Allied victory. This war reshaped the global political order."
+  },
+  {
+    id: "great_depression_new_deal",
+    difficulty: "hard",
+    tags: ["us_history", "economy", "20th_century"],
+    title: "Great Depression & New Deal Era",
+    events: [
+      {
+        id: "stock_market_crash",
+        label: "Stock Market Crash (Great Depression begins)",
+        year: 1929
+      },
+      {
+        id: "fdr_elected",
+        label: "Franklin D. Roosevelt elected president",
+        year: 1932
+      },
+      {
+        id: "new_deal_starts",
+        label: "New Deal programs begin",
+        year: 1933
+      },
+      {
+        id: "social_security",
+        label: "Social Security Act passed",
+        year: 1935
+      }
+    ],
+    explanation: "The Great Depression was the worst economic crisis in American history. FDR's New Deal programs fundamentally expanded the federal government's role in providing economic relief and social safety nets."
+  },
+  {
+    id: "american_industrial_revolution",
+    difficulty: "hard",
+    tags: ["us_history", "economy", "19th_century"],
+    title: "American Industrial Revolution",
+    events: [
+      { id: "cotton_gin", label: "Eli Whitney invents cotton gin", year: 1793 },
+      {
+        id: "first_railroad",
+        label: "First successful US railroad (Baltimore & Ohio)",
+        year: 1830
+      },
+      { id: "telegraph", label: "Samuel Morse invents telegraph", year: 1844 },
+      {
+        id: "transcontinental_railroad",
+        label: "Transcontinental Railroad completed",
+        year: 1869
+      }
+    ],
+    explanation: "These technological innovations transformed American society from agricultural to industrial. They enabled mass production, rapid communication, and continental connection."
+  },
+  {
+    id: "civil_war_reconstruction",
+    difficulty: "medium",
+    tags: ["us_history", "civil_war", "19th_century"],
+    title: "Civil War & Reconstruction",
+    events: [
+      {
+        id: "fort_sumter",
+        label: "Battle of Fort Sumter (war begins)",
+        year: 1861
+      },
+      {
+        id: "gettysburg",
+        label: "Battle of Gettysburg (turning point)",
+        year: 1863
+      },
+      {
+        id: "emancipation_proclamation",
+        label: "Emancipation Proclamation (enslaved people freed)",
+        year: 1863
+      },
+      {
+        id: "lee_surrenders",
+        label: "General Lee surrenders at Appomattox",
+        year: 1865
+      }
+    ],
+    explanation: "The Civil War was fought to preserve the Union and end slavery. These events mark major military and political turning points in this pivotal conflict."
+  },
+  {
+    id: "cold_war_early",
+    difficulty: "medium",
+    tags: ["world_history", "cold_war", "20th_century"],
+    title: "Early Cold War Events",
+    events: [
+      {
+        id: "berlin_blockade",
+        label: "Berlin Blockade and Airlift",
+        year: 1948
+      },
+      { id: "korean_war", label: "Korean War begins", year: 1950 },
+      {
+        id: "cuban_missile_crisis",
+        label: "Cuban Missile Crisis (nuclear standoff)",
+        year: 1962
+      },
+      {
+        id: "soviet_space",
+        label: "Soviet Union launches Sputnik",
+        year: 1957
+      }
+    ],
+    explanation: "These events define the early Cold War period between the United States and Soviet Union. They illustrate the ideological and military tensions that dominated post-WWII geopolitics."
+  }
+];
+function HistoryTimelineBuilder({ onExit }) {
+  const [currentSetIndex, setCurrentSetIndex] = reactExports.useState(0);
+  const [correctCount, setCorrectCount] = reactExports.useState(0);
+  const [events, setEvents] = reactExports.useState([]);
+  const [feedback, setFeedback] = reactExports.useState(null);
+  const [sessionComplete, setSessionComplete] = reactExports.useState(false);
+  const currentSet = HISTORY_TIMELINE_SETS[currentSetIndex];
+  reactExports.useEffect(() => {
+    const shuffled = [...currentSet.events].sort(() => Math.random() - 0.5);
+    setEvents(shuffled);
+    setFeedback(null);
+  }, [currentSetIndex]);
+  const correctOrder = currentSet.events.sort((a, b) => a.year - b.year);
+  const handleMoveUp = (index) => {
+    if (index === 0) return;
+    const newEvents = [...events];
+    [newEvents[index], newEvents[index - 1]] = [
+      newEvents[index - 1],
+      newEvents[index]
+    ];
+    setEvents(newEvents);
+    setFeedback(null);
+  };
+  const handleMoveDown = (index) => {
+    if (index === events.length - 1) return;
+    const newEvents = [...events];
+    [newEvents[index], newEvents[index + 1]] = [
+      newEvents[index + 1],
+      newEvents[index]
+    ];
+    setEvents(newEvents);
+    setFeedback(null);
+  };
+  const handleCheckOrder = () => {
+    const isCorrect = events.every(
+      (event, index) => event.id === correctOrder[index].id
+    );
+    setFeedback({ isCorrect });
+    if (isCorrect) {
+      setCorrectCount(correctCount + 1);
+    }
+  };
+  const handleNextSet = () => {
+    if (currentSetIndex < HISTORY_TIMELINE_SETS.length - 1) {
+      setCurrentSetIndex(currentSetIndex + 1);
+      setFeedback(null);
+    } else {
+      setSessionComplete(true);
+    }
+  };
+  const handleResetSession = () => {
+    setCurrentSetIndex(0);
+    setCorrectCount(0);
+    setFeedback(null);
+    setSessionComplete(false);
+    const shuffled = [...HISTORY_TIMELINE_SETS[0].events].sort(
+      () => Math.random() - 0.5
+    );
+    setEvents(shuffled);
+  };
+  const isMisordered = (index) => {
+    if (!feedback || feedback.isCorrect) return false;
+    return events[index].id !== correctOrder[index].id;
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-6 space-y-6", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onExit,
+          className: "flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold", children: "📜 History Timeline Builder" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-20 text-right text-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-slate-600 dark:text-slate-400", children: [
+        currentSetIndex + 1,
+        "/",
+        HISTORY_TIMELINE_SETS.length
+      ] }) })
+    ] }),
+    sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-300 dark:border-emerald-700 rounded-xl p-6 text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold text-emerald-900 dark:text-emerald-200 mb-2", children: "✅ Round Complete!" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-lg text-emerald-800 dark:text-emerald-300 mb-4", children: [
+        "You correctly ordered",
+        " ",
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+          correctCount,
+          " out of ",
+          HISTORY_TIMELINE_SETS.length
+        ] }),
+        " ",
+        "timelines."
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleResetSession,
+          className: "px-6 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition",
+          children: "Start New Round"
+        }
+      )
+    ] }),
+    !sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 mb-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold", children: currentSet.title }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
+            {
+              className: `text-xs px-3 py-1 rounded-full font-semibold ${currentSet.difficulty === "easy" ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200" : currentSet.difficulty === "medium" ? "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200" : "bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200"}`,
+              children: currentSet.difficulty.charAt(0).toUpperCase() + currentSet.difficulty.slice(1)
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2 mb-4", children: currentSet.tags.map((tag) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "span",
+          {
+            className: "text-xs bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-slate-700 dark:text-slate-300",
+            children: tag
+          },
+          tag
+        )) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold text-slate-900 dark:text-slate-100", children: "📋 Instructions: Arrange these historical events in chronological order (earliest to latest). Use the arrow buttons to reorder the events." }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-3", children: events.map((event, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: `flex items-center gap-4 p-4 rounded-lg border-2 transition ${isMisordered(index) ? "border-red-400 dark:border-red-500 bg-red-50 dark:bg-red-900/20" : (feedback == null ? void 0 : feedback.isCorrect) ? "border-emerald-400 dark:border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800"}`,
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center font-bold text-sm", children: index + 1 }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold text-slate-900 dark:text-slate-100", children: event.label }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-slate-600 dark:text-slate-400", children: event.year })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 shrink-0", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => handleMoveUp(index),
+                  disabled: index === 0 || feedback !== null,
+                  className: "px-3 py-2 rounded bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:cursor-not-allowed transition font-bold",
+                  children: "↑"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => handleMoveDown(index),
+                  disabled: index === events.length - 1 || feedback !== null,
+                  className: "px-3 py-2 rounded bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:cursor-not-allowed transition font-bold",
+                  children: "↓"
+                }
+              )
+            ] })
+          ]
+        },
+        event.id
+      )) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: !feedback ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleCheckOrder,
+          className: "w-full px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600 text-white font-semibold transition",
+          children: "Check Timeline Order"
+        }
+      ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `rounded-lg p-4 border ${feedback.isCorrect ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-600" : "bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-600"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "p",
+                {
+                  className: `font-bold mb-3 ${feedback.isCorrect ? "text-emerald-900 dark:text-emerald-200" : "text-red-900 dark:text-red-200"}`,
+                  children: feedback.isCorrect ? "✅ Perfect Timeline!" : "❌ Not Quite Right"
+                }
+              ),
+              !feedback.isCorrect && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2", children: "Correct Order:" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-2", children: correctOrder.map((event, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "text-sm text-slate-700 dark:text-slate-300 p-2 bg-white dark:bg-slate-700 rounded border border-slate-200 dark:border-slate-600",
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-bold", children: [
+                        index + 1,
+                        "."
+                      ] }),
+                      " ",
+                      event.label,
+                      " ",
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs text-slate-500 dark:text-slate-400", children: [
+                        "(",
+                        event.year,
+                        ")"
+                      ] })
+                    ]
+                  },
+                  event.id
+                )) })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-slate-700 dark:text-slate-300", children: currentSet.explanation })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: handleNextSet,
+            className: "w-full px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600 text-white font-semibold transition",
+            children: currentSetIndex === HISTORY_TIMELINE_SETS.length - 1 ? "See Results" : "Next Timeline"
+          }
+        )
+      ] }) })
+    ] })
+  ] }) });
+}
+const ELECTORAL_COLLEGE_SCENARIOS = [
+  {
+    id: "simple_majority_1",
+    difficulty: "easy",
+    tags: ["basics", "electoral_votes", "math"],
+    title: "Simple Electoral Vote Majority",
+    prompt: "Candidate A has 260 electoral votes. Candidate B has 240. There are 38 electoral votes left. How many more votes does Candidate A need to win the presidency (270 required)?",
+    type: "numeric",
+    correctAnswer: 10,
+    explanation: "To reach 270, Candidate A needs 10 more electoral votes (270 - 260 = 10). This is the minimum needed to win the presidency."
+  },
+  {
+    id: "winner_takes_all_1",
+    difficulty: "easy",
+    tags: ["winner_takes_all", "state_results"],
+    title: "Winner-Takes-All Scenario",
+    prompt: "In a state with 20 electoral votes, Candidate A wins 51% of the popular vote and Candidate B wins 49%. Under winner-takes-all rules, how many electoral votes does Candidate A receive?",
+    type: "multiple_choice",
+    choices: [
+      { id: "A", label: "10", isCorrect: false },
+      { id: "B", label: "20", isCorrect: true },
+      { id: "C", label: "11", isCorrect: false },
+      { id: "D", label: "0", isCorrect: false }
+    ],
+    explanation: "In most states, winner-takes-all means the candidate with the most votes in that state gets all of its electoral votes, regardless of the margin. Candidate A wins all 20 electoral votes despite the narrow margin."
+  },
+  {
+    id: "map_flip_1",
+    difficulty: "medium",
+    tags: ["swing_states", "strategy", "math"],
+    title: "Flipping a Swing State",
+    prompt: "Candidate A currently has 268 electoral votes, and Candidate B has 270. A single swing state with 6 electoral votes is recounted and flips from B to A. Who wins after the recount?",
+    type: "multiple_choice",
+    choices: [
+      { id: "A", label: "Candidate A now wins (274-264)", isCorrect: true },
+      { id: "B", label: "Candidate B still wins (270-274)", isCorrect: false },
+      { id: "C", label: "There is a 270-270 tie", isCorrect: false },
+      {
+        id: "D",
+        label: "The election is thrown to the Supreme Court",
+        isCorrect: false
+      }
+    ],
+    explanation: "If 6 electoral votes move from B to A: A gains 6 (268 + 6 = 274) and B loses 6 (270 - 6 = 264), so Candidate A wins with 274 electoral votes."
+  },
+  {
+    id: "popular_vote_vs_electoral",
+    difficulty: "hard",
+    tags: ["popular_vote", "electoral_college", "disparity"],
+    title: "Popular Vote vs. Electoral Vote",
+    prompt: "Candidate A wins the national popular vote by 3 million votes but loses the Electoral College. In 48 states, the race is very close. In 2 large states, Candidate B wins by overwhelming margins. How is this possible?",
+    type: "multiple_choice",
+    choices: [
+      {
+        id: "A",
+        label: "Candidate B concentrated wins in high-population states",
+        isCorrect: true
+      },
+      {
+        id: "B",
+        label: "The Electoral College votes are weighted by land area",
+        isCorrect: false
+      },
+      {
+        id: "C",
+        label: "Candidate A committed fraud in multiple states",
+        isCorrect: false
+      },
+      {
+        id: "D",
+        label: "Congress changed the rules after voting ended",
+        isCorrect: false
+      }
+    ],
+    explanation: "The Electoral College system can produce outcomes where the winner of the national popular vote loses the presidency. This happens when the losing candidate wins some large states by huge margins (wasting votes) while losing close races in many smaller states. This has occurred 5 times in U.S. history."
+  },
+  {
+    id: "state_electoral_votes_1",
+    difficulty: "easy",
+    tags: ["state_votes", "representation", "congress"],
+    title: "How States Get Electoral Votes",
+    prompt: "How many electoral votes does a state have in the Electoral College?",
+    type: "multiple_choice",
+    choices: [
+      {
+        id: "A",
+        label: "Equal to its state population divided by 100,000",
+        isCorrect: false
+      },
+      {
+        id: "B",
+        label: "Equal to its number of House members plus 2 Senators",
+        isCorrect: true
+      },
+      {
+        id: "C",
+        label: "Equal to the number of registered voters",
+        isCorrect: false
+      },
+      {
+        id: "D",
+        label: "Determined by the state legislature each year",
+        isCorrect: false
+      }
+    ],
+    explanation: "Each state gets one electoral vote for each representative in the House (based on population) plus 2 electoral votes for its Senators. This means larger states have more electoral votes, but every state has at least 3."
+  },
+  {
+    id: "total_electoral_votes",
+    difficulty: "easy",
+    tags: ["basics", "total_votes"],
+    title: "Total Electoral Votes",
+    prompt: "What is the total number of electoral votes in a presidential election?",
+    type: "numeric",
+    correctAnswer: 538,
+    explanation: "There are 538 total electoral votes: 435 House members + 100 Senators + 3 for Washington, D.C. (from the 23rd Amendment). A candidate needs 270 votes to win (a simple majority)."
+  },
+  {
+    id: "swing_state_importance",
+    difficulty: "medium",
+    tags: ["swing_states", "strategy"],
+    title: "Why Swing States Matter",
+    prompt: 'Why do presidential campaigns focus most on "swing states" rather than safely Democratic or Republican states?',
+    type: "multiple_choice",
+    choices: [
+      {
+        id: "A",
+        label: "They have more electoral votes than other states",
+        isCorrect: false
+      },
+      {
+        id: "B",
+        label: "The outcome in these states is uncertain and could decide the election",
+        isCorrect: true
+      },
+      {
+        id: "C",
+        label: "They have the lowest state populations",
+        isCorrect: false
+      },
+      {
+        id: "D",
+        label: "Federal law requires campaigns to visit swing states",
+        isCorrect: false
+      }
+    ],
+    explanation: "Swing states are competitive battlegrounds where either candidate could win. Focusing resources there makes strategic sense because these states could determine the presidency. Safe states are less critical to campaign strategy."
+  },
+  {
+    id: "electoral_tie_1",
+    difficulty: "hard",
+    tags: ["tie", "house_voting"],
+    title: "Electoral College Tie",
+    prompt: "What happens if the Electoral College results in a 269-269 tie?",
+    type: "multiple_choice",
+    choices: [
+      {
+        id: "A",
+        label: "There is an immediate runoff election",
+        isCorrect: false
+      },
+      {
+        id: "B",
+        label: "The House of Representatives votes to choose the president",
+        isCorrect: true
+      },
+      {
+        id: "C",
+        label: "The Supreme Court decides the winner",
+        isCorrect: false
+      },
+      {
+        id: "D",
+        label: "The sitting president continues in office",
+        isCorrect: false
+      }
+    ],
+    explanation: "If no candidate wins 270 electoral votes, the House of Representatives votes to elect the president (with each state delegation getting one vote). The Senate elects the vice president. This process is outlined in the 12th Amendment."
+  },
+  {
+    id: "early_voting_scenarios",
+    difficulty: "medium",
+    tags: ["electoral_math", "scenarios"],
+    title: "Early Election Scenario",
+    prompt: "Before the last 5 states vote, Candidate A has 245 electoral votes and Candidate B has 247. The remaining 5 states have: 15, 12, 8, 5, and 3 electoral votes. Can Candidate A still win?",
+    type: "multiple_choice",
+    choices: [
+      {
+        id: "A",
+        label: "No, not enough electoral votes remain",
+        isCorrect: false
+      },
+      {
+        id: "B",
+        label: "Yes, if Candidate A wins all remaining states (243 total)",
+        isCorrect: false
+      },
+      {
+        id: "C",
+        label: "Yes, if Candidate A wins the largest 3 states",
+        isCorrect: true
+      },
+      {
+        id: "D",
+        label: "It depends on how many faithless electors there are",
+        isCorrect: false
+      }
+    ],
+    explanation: "The remaining 43 electoral votes total: 15 + 12 + 8 + 5 + 3 = 43. If Candidate A wins the three largest states (15 + 12 + 8 = 35), they would have 245 + 35 = 280 electoral votes, which exceeds the 270 needed to win."
+  },
+  {
+    id: "state_delegation_voting",
+    difficulty: "hard",
+    tags: ["house_voting", "contingent_election"],
+    title: "Contingent Election (House Vote)",
+    prompt: "If the House of Representatives must elect the president because of an Electoral College tie, how many votes does each state get in the House vote?",
+    type: "multiple_choice",
+    choices: [
+      { id: "A", label: "One vote per House representative", isCorrect: false },
+      {
+        id: "B",
+        label: "One vote per state (state delegation votes as a block)",
+        isCorrect: true
+      },
+      {
+        id: "C",
+        label: "Votes weighted by state population",
+        isCorrect: false
+      },
+      {
+        id: "D",
+        label: "Only representatives from swing states vote",
+        isCorrect: false
+      }
+    ],
+    explanation: "In a contingent election, each state delegation votes as one unit. This means small states have the same influence as large states. A candidate needs 26 state votes (a simple majority of the 50 states) to become president."
+  },
+  {
+    id: "faithless_elector",
+    difficulty: "hard",
+    tags: ["electors", "rare_scenarios"],
+    title: "Faithless Electors",
+    prompt: 'A "faithless elector" is an elector who votes contrary to how their state voted. How many faithless electors would it take to change the outcome if the election is decided 271-267?',
+    type: "numeric",
+    correctAnswer: 5,
+    explanation: "To flip a 271-267 result, you would need 5 electors to switch: the leader would drop 4 votes (271 - 4 = 267) and the challenger would gain 4 (267 + 4 = 271), but actually you need 5 to flip a 2-vote margin. In practice, faithless electors are extremely rare and have never decided an election."
+  }
+];
+function ElectoralCollegeSimulator({ onExit }) {
+  const [currentScenarioIndex, setCurrentScenarioIndex] = reactExports.useState(0);
+  const [correctCount, setCorrectCount] = reactExports.useState(0);
+  const [numericInput, setNumericInput] = reactExports.useState("");
+  const [selectedMultiChoice, setSelectedMultiChoice] = reactExports.useState(null);
+  const [feedback, setFeedback] = reactExports.useState(null);
+  const [sessionComplete, setSessionComplete] = reactExports.useState(false);
+  const currentScenario = ELECTORAL_COLLEGE_SCENARIOS[currentScenarioIndex];
+  const isNumeric = currentScenario.type === "numeric";
+  const handleCheckAnswer = () => {
+    let isCorrect = false;
+    if (isNumeric) {
+      isCorrect = parseInt(numericInput, 10) === currentScenario.correctAnswer;
+    } else {
+      isCorrect = selectedMultiChoice === ELECTORAL_COLLEGE_SCENARIOS[currentScenarioIndex].choices.find(
+        (c) => c.isCorrect
+      ).id;
+    }
+    setFeedback({ isCorrect });
+    if (isCorrect) {
+      setCorrectCount(correctCount + 1);
+    }
+  };
+  const handleNextScenario = () => {
+    if (currentScenarioIndex < ELECTORAL_COLLEGE_SCENARIOS.length - 1) {
+      setCurrentScenarioIndex(currentScenarioIndex + 1);
+      setNumericInput("");
+      setSelectedMultiChoice(null);
+      setFeedback(null);
+    } else {
+      setSessionComplete(true);
+    }
+  };
+  const handleResetSession = () => {
+    setCurrentScenarioIndex(0);
+    setCorrectCount(0);
+    setNumericInput("");
+    setSelectedMultiChoice(null);
+    setFeedback(null);
+    setSessionComplete(false);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-6 space-y-6", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onExit,
+          className: "flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold", children: "🗳️ Electoral College Simulator" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-20 text-right text-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-slate-600 dark:text-slate-400", children: [
+        currentScenarioIndex + 1,
+        "/",
+        ELECTORAL_COLLEGE_SCENARIOS.length
+      ] }) })
+    ] }),
+    sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-300 dark:border-emerald-700 rounded-xl p-6 text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold text-emerald-900 dark:text-emerald-200 mb-2", children: "✅ Round Complete!" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-lg text-emerald-800 dark:text-emerald-300 mb-4", children: [
+        "You answered",
+        " ",
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+          correctCount,
+          " out of ",
+          ELECTORAL_COLLEGE_SCENARIOS.length
+        ] }),
+        " ",
+        "correctly."
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleResetSession,
+          className: "px-6 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition",
+          children: "Start New Round"
+        }
+      )
+    ] }),
+    !sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 mb-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-bold", children: currentScenario.title }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
+            {
+              className: `text-xs px-3 py-1 rounded-full font-semibold ${currentScenario.difficulty === "easy" ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200" : currentScenario.difficulty === "medium" ? "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200" : "bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200"}`,
+              children: currentScenario.difficulty.charAt(0).toUpperCase() + currentScenario.difficulty.slice(1)
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2 mb-4", children: currentScenario.tags.map((tag) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "span",
+          {
+            className: "text-xs bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-slate-700 dark:text-slate-300",
+            children: tag
+          },
+          tag
+        )) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg font-semibold text-slate-900 dark:text-slate-100", children: currentScenario.prompt }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: isNumeric ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-semibold mb-2 text-slate-900 dark:text-slate-100", children: "Your Answer:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "number",
+            value: numericInput,
+            onChange: (e) => setNumericInput(e.target.value),
+            disabled: feedback !== null,
+            className: "w-full px-4 py-3 rounded-lg border-2 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-lg font-semibold disabled:bg-slate-100 dark:disabled:bg-slate-900",
+            placeholder: "Enter a number"
+          }
+        )
+      ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-3", children: currentScenario.choices.map((choice) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "button",
+        {
+          onClick: () => setSelectedMultiChoice(choice.id),
+          disabled: feedback !== null,
+          className: `w-full text-left p-4 rounded-lg border-2 transition font-semibold ${selectedMultiChoice === choice.id ? (feedback == null ? void 0 : feedback.isCorrect) ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : feedback && choice.isCorrect ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-bold text-lg mr-3", children: [
+              choice.id,
+              "."
+            ] }),
+            choice.label
+          ]
+        },
+        choice.id
+      )) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: !feedback ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleCheckAnswer,
+          disabled: isNumeric ? numericInput === "" : selectedMultiChoice === null,
+          className: "w-full px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 disabled:bg-slate-400 disabled:cursor-not-allowed dark:bg-sky-500 dark:hover:bg-sky-600 dark:disabled:bg-slate-600 text-white font-semibold transition",
+          children: "Check My Answer"
+        }
+      ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `rounded-lg p-4 border ${feedback.isCorrect ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-600" : "bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-600"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "p",
+                {
+                  className: `font-bold mb-2 ${feedback.isCorrect ? "text-emerald-900 dark:text-emerald-200" : "text-red-900 dark:text-red-200"}`,
+                  children: feedback.isCorrect ? "✅ Correct!" : "❌ Not Quite"
+                }
+              ),
+              !feedback.isCorrect && isNumeric && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm text-slate-700 dark:text-slate-300 mb-2", children: [
+                "The correct answer is:",
+                " ",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { className: "text-lg", children: currentScenario.correctAnswer })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-slate-700 dark:text-slate-300", children: currentScenario.explanation })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: handleNextScenario,
+            className: "w-full px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600 text-white font-semibold transition",
+            children: currentScenarioIndex === ELECTORAL_COLLEGE_SCENARIOS.length - 1 ? "See Results" : "Next Scenario"
+          }
+        )
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-slate-100 dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-600 dark:text-slate-400 space-y-1", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Quick Reference:" }),
+        " 270 electoral votes needed to win the presidency. 538 total votes (435 House + 100 Senate + 3 D.C.)."
+      ] }) }) })
+    ] })
+  ] }) });
 }
 (function() {
   try {
@@ -25623,6 +27132,18 @@ function App({ externalTheme, onThemeChange }) {
     if (activeSocialTool === "economics") {
       return /* @__PURE__ */ jsxRuntimeExports.jsx(EconomicsGraphTool, { onExit: () => setActiveSocialTool(null) });
     }
+    if (activeSocialTool === "map") {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(MapExplorer, { onExit: () => setActiveSocialTool(null) });
+    }
+    if (activeSocialTool === "civics") {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(CivicsReasoningLab, { onExit: () => setActiveSocialTool(null) });
+    }
+    if (activeSocialTool === "timeline") {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(HistoryTimelineBuilder, { onExit: () => setActiveSocialTool(null) });
+    }
+    if (activeSocialTool === "electoral") {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(ElectoralCollegeSimulator, { onExit: () => setActiveSocialTool(null) });
+    }
     const normalizedRole = ((_a3 = currentUser.role) == null ? void 0 : _a3.replace("_", "")) || currentUser.role;
     if (normalizedRole === "superAdmin" || normalizedRole === "superadmin") {
       return /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -30927,7 +32448,117 @@ function StartScreen({
                 ]
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
+            selectedSubject === "Social Studies" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "social-studies-tools-section mt-6", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-6", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold mb-2", children: "🏛️ Social Studies Tools" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-gray-600 dark:text-gray-400", children: "Interactive tools to master Civics, History, Geography, and Economics" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    onClick: () => setActiveSocialTool("civics"),
+                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
+                    style: {
+                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
+                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🏛️" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Civics Reasoning Lab" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Decide which branch and level of government handles each scenario." }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    onClick: () => setActiveSocialTool("map"),
+                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
+                    style: {
+                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
+                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🗺️" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Map Explorer" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Practice geography and map-reading questions like the GED." }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    onClick: () => setActiveSocialTool("timeline"),
+                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
+                    style: {
+                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
+                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📜" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "History Timeline Builder" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Put key historical events in order and see how they connect." }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    onClick: () => setActiveSocialTool("electoral"),
+                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
+                    style: {
+                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
+                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🗳️" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Electoral College Simulator" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Practice electoral vote math and winner-takes-all scenarios." }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    onClick: () => setActiveSocialTool("constitution"),
+                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
+                    style: {
+                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
+                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📋" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Constitution Explorer" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Interactive amendments + case study scenarios." }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    onClick: () => setActiveSocialTool("economics"),
+                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
+                    style: {
+                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
+                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "💰" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Economics Market Simulator" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Shift supply/demand and interpret price/quantity changes." }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
+                    ]
+                  }
+                )
+              ] })
+            ] }),
+            selectedSubject !== "Social Studies" && /* @__PURE__ */ jsxRuntimeExports.jsx(
               SubjectQuizBrowser,
               {
                 subjectName: selectedSubject,
@@ -31162,13 +32793,13 @@ function StartScreen({
                         }
                       )
                     ] }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2 mt-2", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-3 mt-3", children: [
                       /* @__PURE__ */ jsxRuntimeExports.jsx(
                         "button",
                         {
                           onClick: () => setActiveSocialTool("constitution"),
                           className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
-                          children: "?? Constitution Explorer"
+                          children: "📋 Constitution Explorer"
                         }
                       ),
                       /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -31176,7 +32807,39 @@ function StartScreen({
                         {
                           onClick: () => setActiveSocialTool("economics"),
                           className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
-                          children: "?? Economics Graphing"
+                          children: "💰 Economics Market Simulator"
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          onClick: () => setActiveSocialTool("map"),
+                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
+                          children: "🗺️ Map Explorer"
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          onClick: () => setActiveSocialTool("civics"),
+                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
+                          children: "🏛️ Civics Reasoning Lab"
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          onClick: () => setActiveSocialTool("timeline"),
+                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
+                          children: "📜 History Timeline Builder"
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          onClick: () => setActiveSocialTool("electoral"),
+                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
+                          children: "🗳️ Electoral College Simulator"
                         }
                       )
                     ] })
@@ -37106,4 +38769,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-DMe6ZlN3.js.map
+//# sourceMappingURL=main-DXLjhpc4.js.map
