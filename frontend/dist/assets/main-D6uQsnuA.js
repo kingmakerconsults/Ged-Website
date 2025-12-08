@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-CLMGwSFF.js";
+import { _ as __vitePreload } from "./index-C_d5bPLk.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -7059,7 +7059,7 @@ function extractMathSegments(input) {
   }
   return segments;
 }
-function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess = false } = {}) {
+function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess = false, subject = null } = {}) {
   if (typeof content !== "string") return "";
   let working = content;
   if (!skipPreprocess) {
@@ -7073,7 +7073,7 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess
       imgs.forEach((img) => {
         const raw = img.getAttribute("src") || "";
         if (raw.startsWith("data:") || raw.startsWith("blob:")) return;
-        const resolved = resolveAssetUrl(raw);
+        const resolved = resolveAssetUrl(raw, subject);
         console.log(`[sanitizeHtmlContent] Rewriting: ${raw} -> ${resolved}`);
         img.setAttribute("src", resolved);
       });
@@ -22642,7 +22642,7 @@ function normalizeImagePath(path) {
   p2 = p2.replace(/\/+/g, "/");
   return p2;
 }
-function resolveAssetUrl(src) {
+function resolveAssetUrl(src, contextSubject = null) {
   if (!src) return "";
   let s = String(src).trim();
   if (s.startsWith("data:") || s.startsWith("blob:")) {
@@ -22657,19 +22657,19 @@ function resolveAssetUrl(src) {
   const parts = s.split("/").filter((p2) => p2.trim());
   if (parts.length === 0) return "";
   const filename = parts[parts.length - 1];
-  let subject = "Social Studies";
+  let subject = contextSubject || "Social Studies";
   for (const part of parts) {
     const lower = part.toLowerCase().replace(/[_\s-]+/g, "");
     if (lower.includes("math")) {
       subject = "Math";
       break;
-    } else if (lower.includes("science")) {
+    } else if (lower.includes("science") || lower === "scince") {
       subject = "Science";
       break;
     } else if (lower.includes("social") || lower.includes("studies")) {
       subject = "Social Studies";
       break;
-    } else if (lower.includes("rla") || lower.includes("language")) {
+    } else if (lower.includes("rla") || lower.includes("language") || lower.includes("english")) {
       subject = "RLA";
       break;
     } else if (lower.includes("workforce") || lower.includes("readiness")) {
@@ -22677,8 +22677,22 @@ function resolveAssetUrl(src) {
       break;
     }
   }
+  if (!contextSubject) {
+    const fnLower = filename.toLowerCase();
+    if (fnLower.includes("math")) {
+      subject = "Math";
+    } else if (fnLower.includes("scince") || fnLower.includes("science")) {
+      subject = "Science";
+    } else if (fnLower.includes("rla") || fnLower.includes("english") || fnLower.includes("language") || fnLower.includes("reading") || fnLower.includes("writing")) {
+      subject = "RLA";
+    } else if (fnLower.includes("social") || fnLower.includes("history") || fnLower.includes("civics") || fnLower.includes("economic") || fnLower.includes("geography")) {
+      subject = "Social Studies";
+    } else if (fnLower.includes("workforce")) {
+      subject = "Workforce Readiness";
+    }
+  }
   const imageUrl = `/images/${subject}/${filename}`;
-  console.log(`[IMG FIX] ${src} -> ${imageUrl}`);
+  console.log(`[IMG FIX] ${src} -> ${imageUrl} (context: ${contextSubject})`);
   return imageUrl;
 }
 function normalizeMathText(text) {
@@ -25098,7 +25112,7 @@ function App({ externalTheme, onThemeChange }) {
   const [revolvingPrompt, setRevolvingPrompt] = reactExports.useState("");
   const [currentUser, setCurrentUser] = reactExports.useState(null);
   const [activeView, setActiveView] = reactExports.useState("dashboard");
-  const [selectedSubject, setSelectedSubject] = reactExports.useState(null);
+  const [selectedSubject2, setSelectedSubject] = reactExports.useState(null);
   const [selectedCategory, setSelectedCategory] = reactExports.useState(null);
   const [navHistory, setNavHistory] = reactExports.useState([]);
   const browserDepthRef = reactExports.useRef(0);
@@ -25118,6 +25132,7 @@ function App({ externalTheme, onThemeChange }) {
   const [quizAttempts, setQuizAttempts] = reactExports.useState([]);
   const [showFormulaSheet, setShowFormulaSheet] = reactExports.useState(false);
   const [showToolsModal, setShowToolsModal] = reactExports.useState(false);
+  const [showSocialToolsModal, setShowSocialToolsModal2] = reactExports.useState(false);
   const [toolsModalSubject, setToolsModalSubject] = reactExports.useState(null);
   const [activeSocialTool, setActiveSocialTool] = reactExports.useState(null);
   const [showNamePrompt, setShowNamePrompt] = reactExports.useState(false);
@@ -25143,7 +25158,7 @@ function App({ externalTheme, onThemeChange }) {
       appNav: true,
       activeView,
       view,
-      selectedSubject,
+      selectedSubject: selectedSubject2,
       selectedCategory
     };
     try {
@@ -25229,7 +25244,7 @@ function App({ externalTheme, onThemeChange }) {
       appNav: true,
       activeView,
       view,
-      selectedSubject,
+      selectedSubject: selectedSubject2,
       selectedCategory
     };
     try {
@@ -25237,7 +25252,7 @@ function App({ externalTheme, onThemeChange }) {
       browserDepthRef.current += 1;
     } catch (e) {
     }
-  }, [activeView, view, selectedSubject, selectedCategory]);
+  }, [activeView, view, selectedSubject2, selectedCategory]);
   reactExports.useEffect(() => {
     currentUserRef.current = currentUser;
   }, [currentUser]);
@@ -25583,7 +25598,7 @@ function App({ externalTheme, onThemeChange }) {
         {
           activeView,
           view,
-          selectedSubject,
+          selectedSubject: selectedSubject2,
           selectedCategory
         }
       ]);
@@ -25593,7 +25608,7 @@ function App({ externalTheme, onThemeChange }) {
       setActiveView(nextActiveView);
       setView("start");
     },
-    [activeView, view, selectedSubject, selectedCategory]
+    [activeView, view, selectedSubject2, selectedCategory]
   );
   const hardJump = reactExports.useCallback((nextActiveView, options = {}) => {
     setNavHistory([]);
@@ -25791,14 +25806,14 @@ function App({ externalTheme, onThemeChange }) {
         {
           activeView,
           view,
-          selectedSubject,
+          selectedSubject: selectedSubject2,
           selectedCategory
         }
       ]);
       setSelectedSubject(subject);
       setSelectedCategory(null);
     },
-    [activeView, view, selectedSubject, selectedCategory]
+    [activeView, view, selectedSubject2, selectedCategory]
   );
   const selectCategory = reactExports.useCallback(
     (category) => {
@@ -25807,13 +25822,13 @@ function App({ externalTheme, onThemeChange }) {
         {
           activeView,
           view,
-          selectedSubject,
+          selectedSubject: selectedSubject2,
           selectedCategory
         }
       ]);
       setSelectedCategory(category);
     },
-    [activeView, view, selectedSubject, selectedCategory]
+    [activeView, view, selectedSubject2, selectedCategory]
   );
   reactExports.useCallback(
     (targetId) => {
@@ -26892,7 +26907,7 @@ function App({ externalTheme, onThemeChange }) {
       {
         activeView,
         view,
-        selectedSubject,
+        selectedSubject: selectedSubject2,
         selectedCategory,
         activeQuiz,
         quizResults
@@ -27383,7 +27398,7 @@ function App({ externalTheme, onThemeChange }) {
             setToolsModalSubject,
             setShowToolsModal,
             theme: preferences.theme,
-            selectedSubject,
+            selectedSubject: selectedSubject2,
             selectedCategory,
             onSelectSubject: selectSubject,
             onSelectCategory: selectCategory,
@@ -27508,6 +27523,126 @@ function App({ externalTheme, onThemeChange }) {
                 setShowToolsModal(false);
                 setToolsModalSubject(null);
               }
+            }
+          ),
+          showSocialToolsModal && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4",
+              onClick: () => setShowSocialToolsModal2(false),
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: "bg-white dark:bg-slate-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto",
+                  onClick: (e) => e.stopPropagation(),
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-6", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold dark:text-white", children: "🏛️ Social Studies Tools" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "button",
+                        {
+                          onClick: () => setShowSocialToolsModal2(false),
+                          className: "text-2xl text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200",
+                          children: "×"
+                        }
+                      )
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-gray-600 dark:text-gray-400 mb-6", children: "Interactive tools to master Civics, History, Geography, and Economics" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "button",
+                        {
+                          onClick: () => {
+                            setActiveSocialTool("civics");
+                            setShowSocialToolsModal2(false);
+                          },
+                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
+                          children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🏛️" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "Civics Reasoning Lab" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Decide which branch and level of government handles each scenario." })
+                          ]
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "button",
+                        {
+                          onClick: () => {
+                            setActiveSocialTool("map");
+                            setShowSocialToolsModal2(false);
+                          },
+                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
+                          children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🗺️" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "Map Explorer" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Practice geography and map-reading questions like the GED." })
+                          ]
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "button",
+                        {
+                          onClick: () => {
+                            setActiveSocialTool("timeline");
+                            setShowSocialToolsModal2(false);
+                          },
+                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
+                          children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📜" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "History Timeline Builder" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Put key historical events in order and see how they connect." })
+                          ]
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "button",
+                        {
+                          onClick: () => {
+                            setActiveSocialTool("electoral");
+                            setShowSocialToolsModal2(false);
+                          },
+                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
+                          children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🗳️" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "Electoral College Simulator" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Practice electoral vote math and winner-takes-all scenarios." })
+                          ]
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "button",
+                        {
+                          onClick: () => {
+                            setActiveSocialTool("constitution");
+                            setShowSocialToolsModal2(false);
+                          },
+                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
+                          children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📋" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "Constitution Explorer" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Interactive amendments + case study scenarios." })
+                          ]
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "button",
+                        {
+                          onClick: () => {
+                            setActiveSocialTool("economics");
+                            setShowSocialToolsModal2(false);
+                          },
+                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
+                          children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "💰" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "Economics Market Simulator" }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Shift supply/demand and interpret price/quantity changes." })
+                          ]
+                        }
+                      )
+                    ] })
+                  ] })
+                }
+              )
             }
           ),
           showNamePrompt && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -30671,7 +30806,7 @@ function StartScreen({
   setShowToolsModal,
   theme = "light",
   onRefreshProfile,
-  selectedSubject,
+  selectedSubject: selectedSubject2,
   selectedCategory,
   onSelectSubject,
   onSelectCategory,
@@ -30905,7 +31040,7 @@ function StartScreen({
   const generateCoachPlan = async () => {
     if (!window.__COACH_ENABLED__) return;
     const token = typeof localStorage !== "undefined" && localStorage.getItem("appToken") || null;
-    const subjectParam = practiceSubjectParam(selectedSubject);
+    const subjectParam = practiceSubjectParam(selectedSubject2);
     if (!token) {
       alert("Please sign in to generate a weekly plan.");
       return;
@@ -31496,7 +31631,7 @@ function StartScreen({
       setAiQuizTopic("");
       return;
     }
-    if (selectedSubject && typeof onSelectSubject === "function") {
+    if (selectedSubject2 && typeof onSelectSubject === "function") {
       onSelectSubject(null);
       setAiQuizTopic("");
       setShowFormulaSheet == null ? void 0 : setShowFormulaSheet(false);
@@ -31609,10 +31744,10 @@ function StartScreen({
     return out;
   };
   const availableTopics = (() => {
-    if (!selectedSubject) return [];
+    if (!selectedSubject2) return [];
     try {
       if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics === "function") {
-        const list = window.getSmithAQuizTopics(selectedSubject) || [];
+        const list = window.getSmithAQuizTopics(selectedSubject2) || [];
         return dedupeCI(list.filter(dropVariantish));
       }
     } catch {
@@ -31623,7 +31758,7 @@ function StartScreen({
     const isOnColor = variant === "onColor";
     const resolvedColor = color || (isOnColor ? "#ffffff" : "#475569");
     const resolvedAccent = accentColor || resolvedColor;
-    const backLabel = selectedCategory ? `Back to ${selectedSubject}` : "Back to Main Menu";
+    const backLabel = selectedCategory ? `Back to ${selectedSubject2}` : "Back to Main Menu";
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
@@ -31645,7 +31780,7 @@ function StartScreen({
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "/" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: isOnColor ? { color: resolvedColor } : void 0, children: selectedSubject }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: isOnColor ? { color: resolvedColor } : void 0, children: selectedSubject2 }),
           selectedCategory && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "/" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -31661,24 +31796,24 @@ function StartScreen({
       }
     );
   };
-  if (selectedSubject && selectedCategory) {
+  if (selectedSubject2 && selectedCategory) {
     const [variantExpanded, setVariantExpanded] = React.useState({});
-    const rawTopics = AppData[selectedSubject].categories[selectedCategory].topics || [];
+    const rawTopics = AppData[selectedSubject2].categories[selectedCategory].topics || [];
     const topics = buildCanonicalTopics(
-      selectedSubject,
+      selectedSubject2,
       selectedCategory,
       rawTopics
     );
-    const subjectColors = SUBJECT_COLORS[selectedSubject] || DEFAULT_COLOR_SCHEME;
-    const lightTint = SUBJECT_LIGHT_TINTS[selectedSubject] || "rgba(148,163,184,0.28)";
-    const lightCardBackground = SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject] || "linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))";
+    const subjectColors = SUBJECT_COLORS[selectedSubject2] || DEFAULT_COLOR_SCHEME;
+    const lightTint = SUBJECT_LIGHT_TINTS[selectedSubject2] || "rgba(148,163,184,0.28)";
+    const lightCardBackground = SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject2] || "linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))";
     const cardTextColor = subjectColors.text || subjectColors.heroText || "#0f172a";
     subjectColors.text || subjectColors.accent || "#0f172a";
-    const gradientBackground = isDarkMode ? SUBJECT_BG_GRADIENTS[selectedSubject] : SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject] || SUBJECT_BG_GRADIENTS[selectedSubject];
+    const gradientBackground = isDarkMode ? SUBJECT_BG_GRADIENTS[selectedSubject2] : SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject2] || SUBJECT_BG_GRADIENTS[selectedSubject2];
     const heroStyles = isDarkMode ? gradientBackground ? { backgroundImage: gradientBackground } : subjectColors.background ? { backgroundColor: subjectColors.background } : { backgroundColor: DEFAULT_COLOR_SCHEME.background } : {
       backgroundColor: "#ffffff",
       backgroundImage: gradientBackground || "linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))",
-      border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || "rgba(148,163,184,0.35)"}`
+      border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject2] || "rgba(148,163,184,0.35)"}`
     };
     const heroTextColor = isDarkMode ? subjectColors.heroText || subjectColors.onBackgroundText || "#ffffff" : subjectColors.text || subjectColors.accent || "#0f172a";
     const heroAccentColor = subjectColors.accent || subjectColors.text || "#0f172a";
@@ -31689,9 +31824,9 @@ function StartScreen({
     } : {
       backgroundColor: "#ffffff",
       color: heroAccentColor,
-      border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || "rgba(148,163,184,0.35)"}`
+      border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject2] || "rgba(148,163,184,0.35)"}`
     };
-    const categoryObj = AppData[selectedSubject].categories[selectedCategory] || {};
+    const categoryObj = AppData[selectedSubject2].categories[selectedCategory] || {};
     const categorySetsMap = (() => {
       if (categoryObj && categoryObj.sets) return categoryObj.sets;
       if (Array.isArray(categoryObj == null ? void 0 : categoryObj.quizSets)) {
@@ -31713,7 +31848,7 @@ function StartScreen({
       if (typeof onSelectQuiz !== "function") return;
       const quizzes = Array.isArray(categorySetsMap[setName]) ? categorySetsMap[setName] : [];
       if (!quizzes.length) return;
-      const subjectName2 = selectedSubject;
+      const subjectName2 = selectedSubject2;
       const combinedQuestions = [];
       quizzes.forEach((quiz) => {
         if (!quiz || typeof quiz !== "object") return;
@@ -31732,8 +31867,8 @@ function StartScreen({
       ensureMinQuestions(prepared, subjectName2, 12);
       const setIndex = orderedSetNames.findIndex((n2) => n2 === setName);
       const setNumber = setIndex >= 0 ? setIndex + 1 : 1;
-      const title = `${selectedSubject} ${selectedCategory} Set ${setNumber}`;
-      const subjectSlug = sanitizeCodeSegment(selectedSubject, "subject");
+      const title = `${selectedSubject2} ${selectedCategory} Set ${setNumber}`;
+      const subjectSlug = sanitizeCodeSegment(selectedSubject2, "subject");
       const categorySlug = sanitizeCodeSegment(selectedCategory, "category");
       const quizCode = [subjectSlug, categorySlug, `set-${setNumber}`].join(
         "__"
@@ -31798,7 +31933,7 @@ function StartScreen({
                 children: [
                   "Start",
                   " ",
-                  `${selectedSubject} ${selectedCategory} Set ${idx + 1}`
+                  `${selectedSubject2} ${selectedCategory} Set ${idx + 1}`
                 ]
               },
               setName
@@ -31808,7 +31943,7 @@ function StartScreen({
             topics.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "col-span-full text-center text-sm text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-800/60 border border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6", children: "Premade quizzes for this category are coming soon." }),
             topics.map((topic, topicIndex) => {
               const quizSets = Array.isArray(topic.quizzes) ? topic.quizzes.filter(
-                (quiz) => quizHasAvailableQuestions(selectedSubject, topic, quiz)
+                (quiz) => quizHasAvailableQuestions(selectedSubject2, topic, quiz)
               ) : [];
               const supportsMultipleQuizzes = quizSets.length > 0 && ![
                 "essay",
@@ -31832,7 +31967,7 @@ function StartScreen({
                 const derivedTitle = quiz.title || `${baseTitle} ${quizLabel}`;
                 const quizIdBase = topic.id || `topic_${topicIndex}`;
                 const resolvedQuestions = resolveQuizQuestions(
-                  selectedSubject,
+                  selectedSubject2,
                   topic,
                   quiz
                 ).map((question, questionIndex) => {
@@ -31849,7 +31984,7 @@ function StartScreen({
                   return;
                 }
                 const quizCode = quiz.quizCode || `${quizIdBase}_set_${index}`;
-                const sourceTopic = quiz.questionSourceTopicId ? getTopicById(selectedSubject, quiz.questionSourceTopicId) : null;
+                const sourceTopic = quiz.questionSourceTopicId ? getTopicById(selectedSubject2, quiz.questionSourceTopicId) : null;
                 const articleSource = quiz.article || topic.article || sourceTopic && sourceTopic.article;
                 const articleClone = cloneArticle(articleSource);
                 const resolvedImageUrl = quiz.imageUrl || topic.imageUrl || sourceTopic && sourceTopic.imageUrl || articleClone && articleClone.imageUrl || articleSource && articleSource.imageUrl;
@@ -31871,7 +32006,7 @@ function StartScreen({
                 if (!preparedQuiz.imageUrl && resolvedImageUrl) {
                   preparedQuiz.imageUrl = resolvedImageUrl;
                 }
-                onSelectQuiz(preparedQuiz, selectedSubject);
+                onSelectQuiz(preparedQuiz, selectedSubject2);
               };
               return /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 "div",
@@ -31911,13 +32046,13 @@ function StartScreen({
                       const list = sorted.map((q2, i) => ({
                         quiz: q2,
                         name: getVariantDisplayName(
-                          selectedSubject,
+                          selectedSubject2,
                           topic.title,
                           i
                         )
                       }));
                       const expKey = `topic-variants:${sanitizeCodeSegment(
-                        selectedSubject
+                        selectedSubject2
                       )}:${topic.id || `topic_${topicIndex}`}`;
                       const expanded = !!variantExpanded[expKey];
                       const setExpanded = (val) => setVariantExpanded((prev) => ({
@@ -31956,7 +32091,7 @@ function StartScreen({
                         `topic-${topicIndex + 1}`
                       );
                       const subjectSlug = sanitizeCodeSegment(
-                        selectedSubject,
+                        selectedSubject2,
                         "subject"
                       );
                       const topicQuizCode = topic.quizCode || topic.id || `${subjectSlug}__${fallbackTopicSlug}`;
@@ -32007,7 +32142,7 @@ function StartScreen({
                                 }
                               );
                             }
-                            onSelectQuiz(preparedQuiz, selectedSubject);
+                            onSelectQuiz(preparedQuiz, selectedSubject2);
                           },
                           className: "w-full mt-2 px-4 py-2 rounded-lg font-semibold shadow-sm transition hover:opacity-95",
                           style: buttonStyle,
@@ -32032,7 +32167,7 @@ function StartScreen({
                 /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowLeftIcon, {}),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
                   "Back to ",
-                  selectedSubject
+                  selectedSubject2
                 ] })
               ]
             }
@@ -32041,25 +32176,25 @@ function StartScreen({
       }
     ) });
   }
-  if (selectedSubject) {
-    AppData[selectedSubject];
-    const subjectColors = SUBJECT_COLORS[selectedSubject] || {};
-    const gradientBackground = isDarkMode ? SUBJECT_BG_GRADIENTS[selectedSubject] : SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject] || SUBJECT_BG_GRADIENTS[selectedSubject];
+  if (selectedSubject2) {
+    AppData[selectedSubject2];
+    const subjectColors = SUBJECT_COLORS[selectedSubject2] || {};
+    const gradientBackground = isDarkMode ? SUBJECT_BG_GRADIENTS[selectedSubject2] : SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject2] || SUBJECT_BG_GRADIENTS[selectedSubject2];
     const heroStyles = isDarkMode ? gradientBackground ? { backgroundImage: gradientBackground } : subjectColors.background ? { backgroundColor: subjectColors.background } : { backgroundColor: DEFAULT_COLOR_SCHEME.background } : {
       backgroundColor: "#ffffff",
       backgroundImage: gradientBackground || "linear-gradient(135deg, rgba(255,255,255,0.98), rgba(148,163,184,0.12))",
-      border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || "rgba(148,163,184,0.35)"}`
+      border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject2] || "rgba(148,163,184,0.35)"}`
     };
     const heroTextColor = isDarkMode ? subjectColors.heroText || subjectColors.onBackgroundText || "#ffffff" : subjectColors.text || subjectColors.accent || "#0f172a";
     const heroAccentColor = subjectColors.accent || subjectColors.text || "#0f172a";
     const heroMutedTextStyle = isDarkMode ? { color: "rgba(255,255,255,0.85)" } : { color: heroTextColor, opacity: 0.75 };
-    const panelBorderColor = isDarkMode ? subjectColors.border || "rgba(255,255,255,0.55)" : SUBJECT_LIGHT_TINTS[selectedSubject] || "rgba(148,163,184,0.35)";
+    const panelBorderColor = isDarkMode ? subjectColors.border || "rgba(255,255,255,0.55)" : SUBJECT_LIGHT_TINTS[selectedSubject2] || "rgba(148,163,184,0.35)";
     const panelBaseStyle = {
       borderColor: panelBorderColor,
       backgroundColor: isDarkMode ? "rgba(255,255,255,0.08)" : "#ffffff",
       color: heroTextColor
     };
-    const panelBackground = !isDarkMode && SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject];
+    const panelBackground = !isDarkMode && SUBJECT_LIGHT_SURFACE_GRADIENTS[selectedSubject2];
     if (panelBackground) {
       panelBaseStyle.backgroundImage = panelBackground;
       panelBaseStyle.boxShadow = "0 22px 45px -34px rgba(15,23,42,0.35)";
@@ -32080,10 +32215,10 @@ function StartScreen({
     } : {
       backgroundColor: "#ffffff",
       color: heroAccentColor,
-      border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject] || "rgba(148,163,184,0.35)"}`
+      border: `1px solid ${SUBJECT_LIGHT_TINTS[selectedSubject2] || "rgba(148,163,184,0.35)"}`
     };
-    const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject]) ? vocabularyData[selectedSubject] : [];
-    const subjectPremadeTotal = getPremadeQuizTotal(selectedSubject);
+    const subjectVocabulary = Array.isArray(vocabularyData[selectedSubject2]) ? vocabularyData[selectedSubject2] : [];
+    const subjectPremadeTotal = getPremadeQuizTotal(selectedSubject2);
     typeof window !== "undefined" && window.ExpandedQuizData && Object.keys(window.ExpandedQuizData).length > 0;
     const subjectPremadeLabel = subjectPremadeTotal === 1 ? "1 premade quiz ready" : `${subjectPremadeTotal} premade quizzes ready`;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
@@ -32108,16 +32243,20 @@ function StartScreen({
             ),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-1", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "hero-title text-3xl font-extrabold", children: selectedSubject }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "hero-title text-3xl font-extrabold", children: selectedSubject2 }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold", style: heroMutedTextStyle, children: subjectPremadeLabel })
               ] }),
-              (selectedSubject === "Math" || selectedSubject === "Science" || selectedSubject === "Social Studies") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap gap-2", children: [
-                (selectedSubject === "Math" || selectedSubject === "Science") && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              (selectedSubject2 === "Math" || selectedSubject2 === "Science" || selectedSubject2 === "Social Studies") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap gap-2", children: [
+                (selectedSubject2 === "Math" || selectedSubject2 === "Science" || selectedSubject2 === "Social Studies") && /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "button",
                   {
                     onClick: () => {
-                      setToolsModalSubject(selectedSubject);
-                      setShowToolsModal(true);
+                      if (selectedSubject2 === "Social Studies") {
+                        setShowSocialToolsModal(true);
+                      } else {
+                        setToolsModalSubject(selectedSubject2);
+                        setShowToolsModal(true);
+                      }
                     },
                     className: "px-4 py-2 font-semibold rounded-lg shadow-sm transition",
                     style: {
@@ -32125,13 +32264,13 @@ function StartScreen({
                       color: heroAccentColor
                     },
                     children: [
-                      "??? ",
-                      selectedSubject,
+                      "🛠️ ",
+                      selectedSubject2,
                       " Tools"
                     ]
                   }
                 ),
-                selectedSubject === "Math" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                selectedSubject2 === "Math" && /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "button",
                   {
                     onClick: () => setShowFormulaSheet(true),
@@ -32139,7 +32278,7 @@ function StartScreen({
                     children: "Formula Sheet"
                   }
                 ),
-                selectedSubject === "Science" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                selectedSubject2 === "Science" && /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "button",
                   {
                     type: "button",
@@ -32153,7 +32292,7 @@ function StartScreen({
                     children: "View Science Formula Sheet"
                   }
                 ),
-                selectedSubject === "Social Studies" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                selectedSubject2 === "Social Studies" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(
                     "button",
                     {
@@ -32184,7 +32323,7 @@ function StartScreen({
             subjectVocabulary.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(
               SubjectVocabularySection,
               {
-                subject: selectedSubject,
+                subject: selectedSubject2,
                 words: subjectVocabulary,
                 theme
               }
@@ -32223,7 +32362,7 @@ function StartScreen({
                     const groupSubjectId = canonicalSubjectId(
                       group.subjectId || group.subjectLabel
                     );
-                    const selectedSubjectId = canonicalSubjectId(selectedSubject);
+                    const selectedSubjectId = canonicalSubjectId(selectedSubject2);
                     return groupSubjectId === selectedSubjectId;
                   }).map((group) => {
                     const progress2 = dailyProgressMap.get(group.subjectId) || {};
@@ -32409,7 +32548,7 @@ function StartScreen({
                               /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-sm font-medium", children: [
                                 "Ask Coach for a",
                                 " ",
-                                selectedSubject ? selectedSubject : "subject",
+                                selectedSubject2 ? selectedSubject2 : "subject",
                                 " tip"
                               ] })
                             ]
@@ -32419,8 +32558,8 @@ function StartScreen({
                           /* @__PURE__ */ jsxRuntimeExports.jsx(
                             "button",
                             {
-                              onClick: () => selectedSubject && startDailyCompositeForSubject(selectedSubject),
-                              disabled: !selectedSubject || adviceLoading || !window.__ASK_COACH_ENABLED__,
+                              onClick: () => selectedSubject2 && startDailyCompositeForSubject(selectedSubject2),
+                              disabled: !selectedSubject2 || adviceLoading || !window.__ASK_COACH_ENABLED__,
                               className: "px-3 py-2 text-sm font-semibold rounded-md transition hover:opacity-90",
                               style: {
                                 backgroundColor: "#ffffff",
@@ -32448,127 +32587,17 @@ function StartScreen({
                 ]
               }
             ),
-            selectedSubject === "Social Studies" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "social-studies-tools-section mt-6", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-6", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold mb-2", children: "🏛️ Social Studies Tools" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-gray-600 dark:text-gray-400", children: "Interactive tools to master Civics, History, Geography, and Economics" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                  "button",
-                  {
-                    onClick: () => setActiveSocialTool("civics"),
-                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
-                    style: {
-                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
-                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
-                    },
-                    children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🏛️" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Civics Reasoning Lab" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Decide which branch and level of government handles each scenario." }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
-                    ]
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                  "button",
-                  {
-                    onClick: () => setActiveSocialTool("map"),
-                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
-                    style: {
-                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
-                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
-                    },
-                    children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🗺️" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Map Explorer" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Practice geography and map-reading questions like the GED." }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
-                    ]
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                  "button",
-                  {
-                    onClick: () => setActiveSocialTool("timeline"),
-                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
-                    style: {
-                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
-                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
-                    },
-                    children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📜" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "History Timeline Builder" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Put key historical events in order and see how they connect." }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
-                    ]
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                  "button",
-                  {
-                    onClick: () => setActiveSocialTool("electoral"),
-                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
-                    style: {
-                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
-                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
-                    },
-                    children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🗳️" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Electoral College Simulator" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Practice electoral vote math and winner-takes-all scenarios." }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
-                    ]
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                  "button",
-                  {
-                    onClick: () => setActiveSocialTool("constitution"),
-                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
-                    style: {
-                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
-                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
-                    },
-                    children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📋" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Constitution Explorer" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Interactive amendments + case study scenarios." }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
-                    ]
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                  "button",
-                  {
-                    onClick: () => setActiveSocialTool("economics"),
-                    className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2",
-                    style: {
-                      backgroundColor: theme === "dark" ? "#1e293b" : "#ffffff",
-                      borderColor: theme === "dark" ? "#334155" : "#e2e8f0"
-                    },
-                    children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "💰" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2", children: "Economics Market Simulator" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-4", style: { color: theme === "dark" ? "#94a3b8" : "#64748b" }, children: "Shift supply/demand and interpret price/quantity changes." }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "px-4 py-2 rounded font-medium inline-block", style: { backgroundColor: theme === "dark" ? "#334155" : "#e2e8f0" }, children: "Start" })
-                    ]
-                  }
-                )
-              ] })
-            ] }),
-            selectedSubject !== "Social Studies" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               SubjectQuizBrowser,
               {
-                subjectName: selectedSubject,
+                subjectName: selectedSubject2,
                 onSelectQuiz,
                 theme
               }
             ),
-            (selectedSubject === "Social Studies" || selectedSubject === "Reasoning Through Language Arts (RLA)" || selectedSubject === "Science" || selectedSubject === "Math") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4", children: [
+            (selectedSubject2 === "Social Studies" || selectedSubject2 === "Reasoning Through Language Arts (RLA)" || selectedSubject2 === "Science" || selectedSubject2 === "Math") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4", children: [
               (() => {
-                const subj = selectedSubject;
+                const subj = selectedSubject2;
                 const subjectId = canonicalSubjectId(subj);
                 const subjectKey = subjectId === "science" ? "science" : subjectId === "math" ? "math" : subjectId === "rla" ? "rla" : "social";
                 const match = Array.isArray(weeklyCoachSummary) ? weeklyCoachSummary.find(
@@ -32707,7 +32736,7 @@ function StartScreen({
                   }
                 );
               })(),
-              selectedSubject === "Reasoning Through Language Arts (RLA)" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              selectedSubject2 === "Reasoning Through Language Arts (RLA)" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 "div",
                 {
                   className: "border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all",
@@ -32750,7 +32779,7 @@ function StartScreen({
                             type: "essay",
                             title: "GED� Essay Practice Toolkit"
                           },
-                          selectedSubject
+                          selectedSubject2
                         ),
                         className: "w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition",
                         children: "Launch Essay Practice"
@@ -32759,7 +32788,7 @@ function StartScreen({
                   ]
                 }
               ),
-              selectedSubject === "Social Studies" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              selectedSubject2 === "Social Studies" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
                 "div",
                 {
                   className: "border-2 border-dashed rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition-all",
@@ -32878,7 +32907,7 @@ function StartScreen({
                           style: heroMutedTextStyle,
                           children: [
                             "Generate a new quiz for any topic in ",
-                            selectedSubject,
+                            selectedSubject2,
                             "."
                           ]
                         }
@@ -32915,7 +32944,7 @@ function StartScreen({
                       "button",
                       {
                         onClick: () => onSelectGenerator(
-                          selectedSubject,
+                          selectedSubject2,
                           aiQuizTopic,
                           setIsLoading,
                           setLoadingMessage
@@ -32956,7 +32985,7 @@ function StartScreen({
                         style: heroMutedTextStyle,
                         children: [
                           "Take a full-length practice exam for ",
-                          selectedSubject,
+                          selectedSubject2,
                           "."
                         ]
                       }
@@ -32964,7 +32993,7 @@ function StartScreen({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "button",
                       {
-                        onClick: async () => await onStartComprehensiveExam(selectedSubject),
+                        onClick: async () => await onStartComprehensiveExam(selectedSubject2),
                         className: "w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition",
                         children: "Start Comprehensive Exam"
                       }
@@ -33557,14 +33586,14 @@ function StartScreen({
     )
   ] });
 }
-function Stem({ item }) {
+function Stem({ item, subject = null, isReview = false }) {
   var _a2;
   const passageContent = typeof item.passage === "string" ? item.passage.trim() : "";
   const questionContent = typeof (item.questionText || item.question) === "string" ? (item.questionText || item.question).trim() : "";
   const displaySource = (item == null ? void 0 : item.asset) && item.asset.displaySource || item.displaySource || item.source || "";
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "stem space-y-4", children: [
     ((_a2 = item.stimulusImage) == null ? void 0 : _a2.src) && (() => {
-      const resolved = resolveAssetUrl(item.stimulusImage.src);
+      const resolved = resolveAssetUrl(item.stimulusImage.src, subject);
       return resolved ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         "img",
         {
@@ -33582,7 +33611,8 @@ function Stem({ item }) {
         className: "question-stem block",
         dangerouslySetInnerHTML: {
           __html: sanitizeHtmlContent(passageContent, {
-            normalizeSpacing: true
+            normalizeSpacing: true,
+            subject
           })
         }
       }
@@ -34107,14 +34137,15 @@ function QuizInterface({
                     style: { color: scheme.text },
                     dangerouslySetInnerHTML: {
                       __html: sanitizeHtmlContent(article.title, {
-                        normalizeSpacing: true
+                        normalizeSpacing: true,
+                        subject: selectedSubject
                       })
                     }
                   }
                 ),
                 (article.imageUrl || articleImage) && (() => {
                   const rawImg = article.imageUrl || articleImage;
-                  const imgSrc = resolveAssetUrl(rawImg);
+                  const imgSrc = resolveAssetUrl(rawImg, selectedSubject);
                   return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                     "img",
                     {
@@ -34132,7 +34163,8 @@ function QuizInterface({
                     style: { color: scheme.text },
                     dangerouslySetInnerHTML: {
                       __html: sanitizeHtmlContent(paragraph, {
-                        normalizeSpacing: true
+                        normalizeSpacing: true,
+                        subject: selectedSubject
                       })
                     }
                   },
@@ -34190,12 +34222,12 @@ function QuizInterface({
                           ]
                         }
                       ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: currentQ })
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: currentQ, subject: selectedSubject })
                     ] }) }),
                     (() => {
                       var _a2;
                       const rawImgSrc = !((_a2 = currentQ.stimulusImage) == null ? void 0 : _a2.src) && currentQ.imageUrl ? currentQ.imageUrl : null;
-                      const imgSrc = resolveAssetUrl(rawImgSrc);
+                      const imgSrc = resolveAssetUrl(rawImgSrc, selectedSubject);
                       return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                         "img",
                         {
@@ -34489,7 +34521,7 @@ function QuizInterface({
                   (() => {
                     var _a2;
                     const rawImgSrc = !((_a2 = currentQ.stimulusImage) == null ? void 0 : _a2.src) && currentQ.imageUrl ? currentQ.imageUrl : null;
-                    const imgSrc = resolveAssetUrl(rawImgSrc);
+                    const imgSrc = resolveAssetUrl(rawImgSrc, selectedSubject);
                     return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "img",
                       {
@@ -35875,7 +35907,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       index + 1,
                       "."
                     ] }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: question })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: question, subject: selectedSubject })
                   ] }),
                   (() => {
                     var _a3;
@@ -36015,14 +36047,15 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
           className: "text-2xl font-bold question-stem",
           dangerouslySetInnerHTML: {
             __html: sanitizeHtmlContent(quiz.article.title, {
-              normalizeSpacing: true
+              normalizeSpacing: true,
+              subject: selectedSubject
             })
           }
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm italic text-secondary", children: quiz.article.genre }),
       (() => {
-        const imgSrc = resolveAssetUrl(quiz.imageUrl);
+        const imgSrc = resolveAssetUrl(quiz.imageUrl, selectedSubject);
         return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
           "img",
           {
@@ -36036,7 +36069,10 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
         "p",
         {
           dangerouslySetInnerHTML: {
-            __html: sanitizeHtmlContent(p2, { normalizeSpacing: true })
+            __html: sanitizeHtmlContent(p2, {
+              normalizeSpacing: true,
+              subject: selectedSubject
+            })
           }
         },
         i
@@ -36053,7 +36089,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
             children: [
               (() => {
                 const rawImg = !(q2.stimulusImage && q2.stimulusImage.src) && q2.imageUrl ? q2.imageUrl : null;
-                const imgSrc = resolveAssetUrl(rawImg);
+                const imgSrc = resolveAssetUrl(rawImg, selectedSubject);
                 return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "img",
                   {
@@ -36078,7 +36114,9 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   Stem,
                   {
-                    item: { ...q2, questionNumber: q2.questionNumber ?? i + 1 }
+                    item: { ...q2, questionNumber: q2.questionNumber ?? i + 1 },
+                    subject: selectedSubject,
+                    isReview: true
                   }
                 )
               ] }),
@@ -38769,4 +38807,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-DXLjhpc4.js.map
+//# sourceMappingURL=main-D6uQsnuA.js.map
