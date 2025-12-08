@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-D3wLGylb.js";
+import { _ as __vitePreload } from "./index-VnRgwHf6.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -5605,21 +5605,24 @@ function convertTailwindTableClassesToInlineCss(html) {
     "p-3": "padding: 0.75rem;",
     "p-4": "padding: 1rem;",
     "border-b": "border-bottom: 1px solid #e5e7eb;",
-    "border": "border: 1px solid #e5e7eb;",
+    border: "border: 1px solid #e5e7eb;",
     // Common utilities
     "text-center": "text-align: center;",
     "text-right": "text-align: right;",
     "font-bold": "font-weight: bold;",
     "font-semibold": "font-weight: 600;"
   };
-  return html.replace(/<(table|thead|tbody|tr|th|td)([^>]*)class="([^"]+)"([^>]*)>/gi, (match, tag, before, classes, after) => {
-    const classList = classes.split(/\s+/);
-    const styles = classList.map((cls) => tailwindMap[cls.trim()]).filter(Boolean).join("");
-    if (styles) {
-      return `<${tag}${before}style="${styles}"${after}>`;
+  return html.replace(
+    /<(table|thead|tbody|tr|th|td)([^>]*)class="([^"]+)"([^>]*)>/gi,
+    (match, tag, before, classes, after) => {
+      const classList = classes.split(/\s+/);
+      const styles = classList.map((cls) => tailwindMap[cls.trim()]).filter(Boolean).join("");
+      if (styles) {
+        return `<${tag}${before}style="${styles}"${after}>`;
+      }
+      return match;
     }
-    return match;
-  });
+  );
 }
 function normalizeInlineTablesFront(html) {
   if (typeof html !== "string" || !html.trim()) return html;
@@ -37103,4 +37106,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-BzUIf2OD.js.map
+//# sourceMappingURL=main-DMe6ZlN3.js.map
