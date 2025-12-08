@@ -34398,7 +34398,7 @@ function QuizInterface({
                     dangerouslySetInnerHTML={{
                       __html: sanitizeHtmlContent(article.title, {
                         normalizeSpacing: true,
-                        subject: selectedSubject,
+                        subject: subject,
                       }),
                     }}
                   />
@@ -34406,7 +34406,7 @@ function QuizInterface({
                 {(article.imageUrl || articleImage) &&
                   (() => {
                     const rawImg = article.imageUrl || articleImage;
-                    const imgSrc = resolveAssetUrl(rawImg, selectedSubject);
+                    const imgSrc = resolveAssetUrl(rawImg, subject);
                     return imgSrc ? (
                       <img
                         src={imgSrc}
@@ -34428,7 +34428,7 @@ function QuizInterface({
                     dangerouslySetInnerHTML={{
                       __html: sanitizeHtmlContent(paragraph, {
                         normalizeSpacing: true,
-                        subject: selectedSubject,
+                        subject: subject,
                       }),
                     }}
                   />
@@ -34801,7 +34801,7 @@ function QuizInterface({
                   >
                     {currentQ.questionNumber}.
                   </span>
-                  <Stem item={currentQ} />
+                  <Stem item={currentQ} subject={subject} />
                 </div>
               </div>
               {(() => {
@@ -34809,7 +34809,7 @@ function QuizInterface({
                   !currentQ.stimulusImage?.src && currentQ.imageUrl
                     ? currentQ.imageUrl
                     : null;
-                const imgSrc = resolveAssetUrl(rawImgSrc, selectedSubject);
+                const imgSrc = resolveAssetUrl(rawImgSrc, subject);
                 return imgSrc ? (
                   <img
                     src={imgSrc}
