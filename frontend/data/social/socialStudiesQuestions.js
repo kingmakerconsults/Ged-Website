@@ -1,4 +1,4 @@
-﻿export const SOCIAL_STUDIES_QUESTIONS = {
+export const SOCIAL_STUDIES_QUESTIONS = {
   'Social Studies': {
     icon: 'GlobeIcon',
     categories: {
@@ -373,7 +373,7 @@
                     challenge_tags: ['social-2'],
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/This-Question-is-based-on-the-following-graph.png',
+                      '/images/Social Studies/This-Question-is-based-on-the-following-graph.png',
                     question:
                       'This map shows the New England colonies. Which economic activity would be most characteristic of this region during the colonial era?',
                     answerOptions: [
@@ -407,7 +407,7 @@
                     questionNumber: 2,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/A map of the Triangular Trade routes..jpg',
+                      '/images/Social Studies/A map of the Triangular Trade routes..jpg',
                     question:
                       'This map shows the Triangular Trade. The route that transported enslaved Africans from Africa to the Americas was known as the:',
                     answerOptions: [
@@ -476,7 +476,7 @@
                     challenge_tags: ['social-1'],
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg',
+                      '/images/Social Studies/American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg',
                     question:
                       'This political cartoon by Benjamin Franklin, created in 1754, was used to promote the Albany Plan of Union. What was the primary goal of this plan?',
                     answerOptions: [
@@ -909,7 +909,7 @@
                     challenge_tags: ['social-3', 'social-4'],
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/join_or_die_cartoon.jpg',
+                      '/images/Social Studies/join_or_die_cartoon.jpg',
                     question:
                       'This 1754 political cartoon by Benjamin Franklin was originally created to encourage colonial unity during the French and Indian War. How was its message re-purposed during the American Revolution?',
                     answerOptions: [
@@ -1043,7 +1043,7 @@
                   {
                     questionNumber: 5,
                     type: 'analysis',
-                    passage: `<p class="passage-text mb-4"><b>Historian A:</b> The American Revolution was fundamentally an economic conflict. The British Empire's mercantilist policies, such as the Navigation Acts and various taxes, restricted colonial trade and manufacturing. The core of the dispute was the colonists' desire for economic freedomâ€”'the ability to trade with whomever they pleased and to develop their own industries without British interference.</p><p class="passage-text"><b>Historian B:</b> The Revolution was primarily a political and ideological struggle. Colonists saw themselves as freeborn Britons entitled to certain rights, most notably the right to be taxed only by their own elected representatives. When Parliament violated this principle, it was seen as an act of tyranny. The conflict was not about the amount of the tax, but the principle of self-government.</p>`,
+                    passage: `<p class="passage-text mb-4"><b>Historian A:</b> The American Revolution was fundamentally an economic conflict. The British Empire's mercantilist policies, such as the Navigation Acts and various taxes, restricted colonial trade and manufacturing. The core of the dispute was the colonists' desire for economic freedom—'the ability to trade with whomever they pleased and to develop their own industries without British interference.</p><p class="passage-text"><b>Historian B:</b> The Revolution was primarily a political and ideological struggle. Colonists saw themselves as freeborn Britons entitled to certain rights, most notably the right to be taxed only by their own elected representatives. When Parliament violated this principle, it was seen as an act of tyranny. The conflict was not about the amount of the tax, but the principle of self-government.</p>`,
                     question:
                       'What is the central point of disagreement between Historian A and Historian B?',
                     answerOptions: [
@@ -1710,7 +1710,7 @@
                     questionNumber: 3,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/Louisiana_Purchase.png',
+                      '/images/Social Studies/Louisiana_Purchase.png',
                     question:
                       'This map illustrates the impact of the Louisiana Purchase in 1803. What was the most significant effect of this event?',
                     answerOptions: [
@@ -2027,7 +2027,7 @@
                 questionNumber: 2,
                 type: 'image',
                 imageUrl:
-                  'Images/Social Studies/Social Studies/territorial-gains-by-the-us.jpg',
+                  '/images/Social Studies/territorial-gains-by-the-us.jpg',
                 question:
                   'This map shows the territorial expansion of the United States. The belief that it was the divine destiny of the U.S. to expand across the continent, as depicted here, was known as:',
                 answerOptions: [
@@ -2079,7 +2079,7 @@
                   {
                     text: 'To give all western territories the right to popular sovereignty.',
                     rationale:
-                      "The compromise established a specific line (36Â°30') to determine where slavery was allowed, rather than letting settlers decide everywhere.",
+                      "The compromise established a specific line (36°30') to determine where slavery was allowed, rather than letting settlers decide everywhere.",
                     isCorrect: false,
                   },
                   {
@@ -2536,7 +2536,7 @@
                     challenge_tags: ['social-1'],
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg',
+                      '/images/Social Studies/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg',
                     question:
                       "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
                     answerOptions: [
@@ -2576,7 +2576,7 @@
                     questionNumber: 4,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/licensed-image (13).jpg',
+                      '/images/Social Studies/licensed-image (13).jpg',
                     question:
                       'This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:',
                     answerOptions: [
@@ -2602,7 +2602,7 @@
                     questionNumber: 5,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/Questions-are-based-on-the-following-graph.-7.png',
+                      '/images/Social Studies/Questions-are-based-on-the-following-graph.-7.png',
                     question:
                       'This graph shows a significant trend of population growth, similar to the urbanization seen in the U.S. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?',
                     answerOptions: [
@@ -2632,7 +2632,7 @@
                     challenge_tags: ['social-1', 'social-5', 'social-3'],
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/Bosses-of-the-Senate.jpg',
+                      '/images/Social Studies/Bosses-of-the-Senate.jpg',
                     question:
                       "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
                     answerOptions: [
@@ -2698,7 +2698,7 @@
                     questionNumber: 4,
                     type: 'text',
                     passage:
-                      "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking exposÃ© of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
+                      "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking exposé of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
                     question:
                       "What was the most direct consequence of the publication of Upton Sinclair's 'The Jungle'?",
                     answerOptions: [
@@ -2932,7 +2932,7 @@
                     questionNumber: 3,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/licensed-image (9).jpg',
+                      '/images/Social Studies/licensed-image (9).jpg',
                     question:
                       'This map shows the new borders of Europe established by the Treaty of Versailles after World War I. Why did the U.S. Senate refuse to ratify this treaty?',
                     answerOptions: [
@@ -3035,7 +3035,7 @@
                     questionNumber: 3,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/licensed-image (14).jpg',
+                      '/images/Social Studies/licensed-image (14).jpg',
                     question:
                       "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
                     answerOptions: [
@@ -3141,7 +3141,7 @@
                     questionNumber: 3,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/Questions-are-based-on-the-following-graph.-5.png',
+                      '/images/Social Studies/Questions-are-based-on-the-following-graph.-5.png',
                     question:
                       "This iconic 'Rosie the Riveter' poster from World War II became a symbol of what major change on the U.S. home front?",
                     answerOptions: [
@@ -3267,7 +3267,7 @@
                     questionNumber: 4,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/The_Iron_Curtain_in_the_beginning_of_the_Cold_War.png',
+                      '/images/Social Studies/The_Iron_Curtain_in_the_beginning_of_the_Cold_War.png',
                     question:
                       "This map depicts the 'Iron Curtain,' a term famously used by Winston Churchill. What did the 'Iron Curtain' symbolize?",
                     answerOptions: [
@@ -3398,7 +3398,7 @@
                     questionNumber: 4,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/Question-is-based-on-the-following-cartoon.-4.png',
+                      '/images/Social Studies/Question-is-based-on-the-following-cartoon.-4.png',
                     question:
                       'This political cartoon depicts Soviet Premier Nikita Khrushchev and U.S. President John F. Kennedy arm-wrestling while sitting on nuclear weapons. What Cold War concept does this cartoon best illustrate?',
                     answerOptions: [
@@ -3494,7 +3494,7 @@
                     questionNumber: 3,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/Social Studies/licensed-image (15).jpg',
+                      '/images/Social Studies/licensed-image (15).jpg',
                     question:
                       "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
                     answerOptions: [
@@ -4863,7 +4863,7 @@
                     questionNumber: 3,
                     type: 'text',
                     passage:
-                      "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powersâ€”powers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
+                      "The 'Necessary and Proper Clause' (also known as the Elastic Clause) in Article I, Section 8 of the Constitution gives Congress the power 'To make all Laws which shall be necessary and proper for carrying into Execution the foregoing Powers...' This clause grants Congress implied powers—powers not explicitly stated in the Constitution but that are necessary to carry out its expressed powers.",
                     question:
                       "The 'Elastic Clause' is significant because it grants Congress:",
                     answerOptions: [
@@ -6868,7 +6868,7 @@
                 challenge_tags: ['social-5'],
                 type: 'image',
                 imageUrl:
-                  'Images/Social Studies/Social Studies/Questions-are-based-on-the-following-graph.-7 (1).png',
+                  '/images/Social Studies/Questions-are-based-on-the-following-graph.-7 (1).png',
                 question:
                   'This graph shows a standard supply and demand model. The point where the supply curve and the demand curve intersect is known as:',
                 answerOptions: [
@@ -7574,7 +7574,7 @@
                 challenge_tags: ['social-5'],
                 type: 'image',
                 imageUrl:
-                  'Images/Social Studies/Social Studies/Questions-are-based-on-the-following-graph.-6 (1).png',
+                  '/images/Social Studies/Questions-are-based-on-the-following-graph.-6 (1).png',
                 question:
                   'This chart shows the unemployment rate in the U.S. over time. A sharp spike in the unemployment rate, like the ones seen around 2009 and 2020, is typically associated with which phase of the business cycle?',
                 answerOptions: [
@@ -7815,7 +7815,7 @@
                 challenge_tags: ['social-2'],
                 type: 'image',
                 imageUrl:
-                  'Images/Social Studies/Social Studies/political-map-of-world.jpg',
+                  '/images/Social Studies/political-map-of-world.jpg',
                 question:
                   'This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?',
                 answerOptions: [
@@ -7848,7 +7848,7 @@
                 questionNumber: 5,
                 type: 'image',
                 imageUrl:
-                  'Images/Social Studies/Social Studies/political-map-of-world.jpg',
+                  '/images/Social Studies/political-map-of-world.jpg',
                 question:
                   "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
                 answerOptions: [
@@ -7882,7 +7882,7 @@
                 questionNumber: 6,
                 challenge_tags: ['rla-7'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="Images/Social Studies/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/Social Studies/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the bar chart, which two toppings are the most popular?',
                 answerOptions: [
@@ -7914,7 +7914,7 @@
                 questionNumber: 7,
                 challenge_tags: ['rla-4'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="Images/Social Studies/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/Social Studies/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
                   'How many more students chose Pepperoni than chose Sausage?',
                 answerOptions: [
@@ -7948,7 +7948,7 @@
                 questionNumber: 8,
                 challenge_tags: ['math-6', 'science-1'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="Images/Social Studies/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/Social Studies/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
                 question:
                   "According to the line graph, in which year did the company's profits decrease compared to the previous year?",
                 answerOptions: [
@@ -7981,7 +7981,7 @@
               {
                 questionNumber: 9,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="Images/Social Studies/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/Social Studies/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
                 question:
                   'What was the approximate total profit for the company over the 5-year period shown?',
                 answerOptions: [
@@ -8014,7 +8014,7 @@
                 challenge_tags: ['social-1'],
                 type: 'image',
                 imageUrl:
-                  'Images/Social Studies/Social Studies/licensed-image (16).jpg',
+                  '/images/Social Studies/licensed-image (16).jpg',
                 question:
                   'This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?',
                 answerOptions: [
@@ -8048,9 +8048,9 @@
                 questionNumber: 11,
                 type: 'image',
                 imageUrl:
-                  'Images/Social Studies/Social Studies/licensed-image (16).jpg',
+                  '/images/Social Studies/licensed-image (16).jpg',
                 question:
-                  "Using the map's scale of miles, the approximate distance from the capital of Colombia (BogotÃ¡) to the capital of Venezuela (Caracas) is:",
+                  "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotá) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
                   {
                     text: 'About 100 miles',
@@ -8168,7 +8168,7 @@
                 questionNumber: 15,
                 challenge_tags: ['rla-7'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="Images/Social Studies/035fa172-2083-4c13-9485-a5f4bfa28340.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="/images/Social Studies/035fa172-2083-4c13-9485-a5f4bfa28340.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the pie chart, how much money is allocated to Housing each month?',
                 answerOptions: [
