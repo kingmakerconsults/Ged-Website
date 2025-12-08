@@ -9,6 +9,10 @@ import { AuthScreen } from '../components/index.js';
 import DashboardView from './views/DashboardView.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
+import MapExplorer from '../../tools/MapExplorer.jsx';
+import CivicsReasoningLab from '../../tools/CivicsReasoningLab.jsx';
+import HistoryTimelineBuilder from '../../tools/HistoryTimelineBuilder.jsx';
+import ElectoralCollegeSimulator from '../../tools/ElectoralCollegeSimulator.jsx';
 import ProfileView from './views/ProfileView.jsx';
 import SettingsView from './views/SettingsView.jsx';
 import QuizDemo from './views/QuizDemo.jsx';
@@ -102,6 +106,30 @@ export default function App() {
               path="/tools/economics-market-simulator"
               element={
                 <EconomicsGraphTool onExit={() => window.history.back()} />
+              }
+            />
+            <Route
+              path="/tools/map-explorer"
+              element={<MapExplorer onExit={() => window.history.back()} />}
+            />
+            <Route
+              path="/tools/civics-reasoning"
+              element={
+                <CivicsReasoningLab onExit={() => window.history.back()} />
+              }
+            />
+            <Route
+              path="/tools/history-timeline"
+              element={
+                <HistoryTimelineBuilder onExit={() => window.history.back()} />
+              }
+            />
+            <Route
+              path="/tools/electoral-college"
+              element={
+                <ElectoralCollegeSimulator
+                  onExit={() => window.history.back()}
+                />
               }
             />
             <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getSubjectTheme } from '../theme/designSystem';
 
 /**
@@ -8,7 +9,40 @@ import { getSubjectTheme } from '../theme/designSystem';
  * for GED Social Studies.
  */
 export default function SocialStudiesView({ dark = false }) {
+  const navigate = useNavigate();
   const theme = getSubjectTheme('social-studies', dark);
+
+  const toolCards = [
+    {
+      icon: '🏛️',
+      title: 'Civics Reasoning Lab',
+      subtitle:
+        'Decide which branch and level of government handles each scenario.',
+      href: '/tools/civics-reasoning',
+      status: 'active',
+    },
+    {
+      icon: '🗺️',
+      title: 'Map Explorer',
+      subtitle: 'Practice geography and map-reading questions like the GED.',
+      href: '/tools/map-explorer',
+      status: 'active',
+    },
+    {
+      icon: '📜',
+      title: 'History Timeline Builder',
+      subtitle: 'Put key historical events in order and see how they connect.',
+      href: '/tools/history-timeline',
+      status: 'active',
+    },
+    {
+      icon: '🗳️',
+      title: 'Electoral College Simulator',
+      subtitle: 'Practice electoral vote math and winner-takes-all scenarios.',
+      href: '/tools/electoral-college',
+      status: 'active',
+    },
+  ];
 
   return (
     <div
@@ -46,117 +80,52 @@ export default function SocialStudiesView({ dark = false }) {
         </h2>
 
         <div className="tools-grid grid md:grid-cols-2 gap-6">
-          <div
-            className="tool-card p-6 rounded-lg"
-            style={{
-              backgroundColor: dark ? '#334155' : '#f1f5f9',
-              border: `2px solid ${theme.primary}`,
-            }}
-          >
-            <div className="text-4xl mb-3">🏛️</div>
-            <h3 className="text-xl font-semibold mb-2">Civics & Government</h3>
-            <p
-              className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
-            >
-              Study the U.S. Constitution, branches of government, voting
-              rights, and civic participation.
-            </p>
+          {toolCards.map((card) => (
             <button
-              disabled
-              className="px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed"
+              key={card.href}
+              onClick={() => navigate(card.href)}
+              className="tool-card p-6 rounded-lg text-left transition-all hover:shadow-lg"
               style={{
-                backgroundColor: dark ? '#475569' : '#cbd5e1',
-                color: dark ? '#94a3b8' : '#64748b',
+                backgroundColor: dark ? '#334155' : '#f1f5f9',
+                border: `2px solid ${
+                  card.status === 'active'
+                    ? theme.primary
+                    : dark
+                    ? '#334155'
+                    : '#e2e8f0'
+                }`,
+                cursor: 'pointer',
               }}
             >
-              Coming Soon
+              <div className="text-4xl mb-3">{card.icon}</div>
+              <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
+              <p
+                className="text-sm mb-4"
+                style={{ color: dark ? '#94a3b8' : '#64748b' }}
+              >
+                {card.subtitle}
+              </p>
+              <span
+                className="px-4 py-2 rounded font-medium inline-block"
+                style={{
+                  backgroundColor:
+                    card.status === 'active'
+                      ? theme.primary
+                      : dark
+                      ? '#475569'
+                      : '#cbd5e1',
+                  color:
+                    card.status === 'active'
+                      ? theme.text || '#ffffff'
+                      : dark
+                      ? '#94a3b8'
+                      : '#64748b',
+                }}
+              >
+                {card.status === 'active' ? 'Start' : 'Coming Soon'}
+              </span>
             </button>
-          </div>
-
-          <div
-            className="tool-card p-6 rounded-lg"
-            style={{
-              backgroundColor: dark ? '#334155' : '#f1f5f9',
-              border: `2px solid ${dark ? '#334155' : '#e2e8f0'}`,
-            }}
-          >
-            <div className="text-4xl mb-3">📜</div>
-            <h3 className="text-xl font-semibold mb-2">U.S. History</h3>
-            <p
-              className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
-            >
-              Coming soon: Explore key events, movements, and figures that
-              shaped American history.
-            </p>
-            <button
-              disabled
-              className="px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed"
-              style={{
-                backgroundColor: dark ? '#475569' : '#cbd5e1',
-                color: dark ? '#94a3b8' : '#64748b',
-              }}
-            >
-              Coming Soon
-            </button>
-          </div>
-
-          <div
-            className="tool-card p-6 rounded-lg"
-            style={{
-              backgroundColor: dark ? '#334155' : '#f1f5f9',
-              border: `2px solid ${dark ? '#334155' : '#e2e8f0'}`,
-            }}
-          >
-            <div className="text-4xl mb-3">🗺️</div>
-            <h3 className="text-xl font-semibold mb-2">Geography</h3>
-            <p
-              className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
-            >
-              Coming soon: Master map reading, regions, natural resources, and
-              human-environment interactions.
-            </p>
-            <button
-              disabled
-              className="px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed"
-              style={{
-                backgroundColor: dark ? '#475569' : '#cbd5e1',
-                color: dark ? '#94a3b8' : '#64748b',
-              }}
-            >
-              Coming Soon
-            </button>
-          </div>
-
-          <div
-            className="tool-card p-6 rounded-lg"
-            style={{
-              backgroundColor: dark ? '#334155' : '#f1f5f9',
-              border: `2px solid ${dark ? '#334155' : '#e2e8f0'}`,
-            }}
-          >
-            <div className="text-4xl mb-3">💰</div>
-            <h3 className="text-xl font-semibold mb-2">Economics</h3>
-            <p
-              className="text-sm mb-4"
-              style={{ color: dark ? '#94a3b8' : '#64748b' }}
-            >
-              Coming soon: Understand supply and demand, market systems,
-              financial literacy, and economic principles.
-            </p>
-            <button
-              disabled
-              className="px-4 py-2 rounded font-medium opacity-50 cursor-not-allowed"
-              style={{
-                backgroundColor: dark ? '#475569' : '#cbd5e1',
-                color: dark ? '#94a3b8' : '#64748b',
-              }}
-            >
-              Coming Soon
-            </button>
-          </div>
+          ))}
         </div>
       </div>
 

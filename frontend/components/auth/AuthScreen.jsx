@@ -12,6 +12,27 @@ export function AuthScreen({ onLogin }) {
   const [formMessage, setFormMessage] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
+  // Dev login handler
+  const handleDevLogin = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/dev-login-as`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: 'dev@example.com' }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Dev login failed');
+      }
+
+      const { user, token } = await response.json();
+      onLogin(user, token);
+    } catch (error) {
+      console.error('Dev login error:', error);
+      setFormError('Dev login failed');
+    }
+  };
+
   const handleCredentialResponse = useCallback(
     async (response) => {
       try {
@@ -214,6 +235,18 @@ export function AuthScreen({ onLogin }) {
           <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
         </div>
         <div ref={googleButton} className="flex justify-center"></div>
+
+        {/* Dev Login Button */}
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={handleDevLogin}
+            className="w-full rounded-lg bg-purple-600 py-2 text-sm font-semibold text-white shadow hover:bg-purple-700"
+          >
+            🚀 Dev Login (Bypass)
+          </button>
+        </div>
+
         <p className="mt-6 text-xs text-slate-500 dark:text-slate-400">
           Admins: Sign in with Google to access your dashboard.
         </p>
