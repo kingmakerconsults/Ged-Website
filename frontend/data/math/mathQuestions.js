@@ -2815,9 +2815,7 @@
               {
                 questionNumber: 1,
                 calculator: false,
-                type: 'image',
-                imageUrl: 'Images/Math/math_graph_1.png',
-                question: 'What is the slope of the line shown in the graph?',
+                question: 'A line passes through the points $(0, -1)$ and $(2, 3)$. What is the slope of the line?',
                 answerOptions: [
                   {
                     text: '2',
@@ -2845,10 +2843,8 @@
               {
                 questionNumber: 2,
                 calculator: false,
-                type: 'image',
-                imageUrl: 'Images/Math/math_graph_1.png',
                 question:
-                  'What is the y-intercept of the line shown in the graph?',
+                  'A line passes through the points $(0, -1)$ and $(2, 3)$. What is the y-intercept of this line?',
                 answerOptions: [
                   {
                     text: '$(2, 0)$',
@@ -3112,31 +3108,29 @@
                 questionNumber: 11,
                 challenge_tags: ['science-1'],
                 calculator: true,
-                type: 'image',
-                imageUrl: 'Images/Math/math_graph_3.png',
                 question:
-                  'The graph shows the cost of renting a car based on the number of miles driven. What does the y-intercept of the graph represent?',
+                  'The cost $C$ of renting a car is given by $C = 0.25m + 50$, where $m$ is the number of miles driven. What does the value 50 in this equation represent?',
                 answerOptions: [
                   {
                     text: 'The cost per mile.',
                     isCorrect: false,
-                    rationale: 'The cost per mile is the slope of the line.',
+                    rationale: 'The cost per mile is 0.25, which is the coefficient of $m$.',
                   },
                   {
                     text: 'The flat fee or initial cost of the rental.',
                     isCorrect: true,
                     rationale:
-                      'The y-intercept represents the cost when the miles driven (x) is zero, which is the base rental fee.',
+                      'The constant 50 represents the cost when $m = 0$, which is the base rental fee.',
                   },
                   {
                     text: 'The total cost of the rental.',
                     isCorrect: false,
-                    rationale: 'The total cost depends on the miles driven.',
+                    rationale: 'The total cost is $C$, which depends on the miles driven.',
                   },
                   {
                     text: 'The maximum number of miles you can drive.',
                     isCorrect: false,
-                    rationale: 'The graph does not show a maximum.',
+                    rationale: 'The equation does not show a maximum.',
                   },
                 ],
               },
@@ -3228,31 +3222,29 @@
               {
                 questionNumber: 15,
                 calculator: true,
-                type: 'image',
-                imageUrl: 'Images/Math/math_graph_4.png',
                 question:
-                  'The graph shows a parabola. What are the coordinates of the vertex?',
+                  'A parabola has the equation $y = (x - 3)^2 - 2$. What are the coordinates of the vertex?',
                 answerOptions: [
                   {
                     text: '$(0, 4)$',
                     isCorrect: false,
-                    rationale: 'This is the y-intercept.',
+                    rationale: 'This is not the vertex of the parabola.',
                   },
                   {
                     text: '$(2, 0)$',
                     isCorrect: false,
-                    rationale: 'This is one of the x-intercepts.',
+                    rationale: 'This is not the vertex.',
                   },
                   {
                     text: '$(3, -2)$',
                     isCorrect: true,
                     rationale:
-                      'The vertex is the lowest point of the parabola, which is at $(3, -2)$.',
+                      'In vertex form $y = (x - h)^2 + k$, the vertex is $(h, k)$. Here $(h, k) = (3, -2)$.',
                   },
                   {
                     text: '$(-2, 3)$',
                     isCorrect: false,
-                    rationale: 'This point is not on the graph.',
+                    rationale: 'The signs are reversed; the vertex is $(3, -2)$.',
                   },
                 ],
               },
@@ -3276,9 +3268,7 @@
                 questionNumber: 1,
                 challenge_tags: ['math-5'],
                 calculator: false,
-                type: 'image',
-                imageUrl: 'Images/Math/math_geo_1.png',
-                question: 'What is the area of the rectangle shown?',
+                question: 'What is the area of a rectangle with length 10 units and width 5 units?',
                 answerOptions: [
                   {
                     text: '15 sq units',
@@ -3307,9 +3297,7 @@
                 questionNumber: 2,
                 challenge_tags: ['math-5'],
                 calculator: false,
-                type: 'image',
-                imageUrl: 'Images/Math/math_geo_2.png',
-                question: 'What is the area of the triangle shown?',
+                question: 'What is the area of a triangle with a base of 8 units and a height of 6 units?',
                 answerOptions: [
                   {
                     text: '24 sq units',
@@ -3339,10 +3327,8 @@
                 questionNumber: 3,
                 challenge_tags: ['math-5'],
                 calculator: false,
-                type: 'image',
-                imageUrl: 'Images/Math/math_geo_3.png',
                 question:
-                  'What is the circumference of the circle shown? (Use $\\pi \\approx 3.14$)',
+                  'What is the circumference of a circle with a radius of 5 units? (Use $\\pi \\approx 3.14$)',
                 answerOptions: [
                   {
                     text: '15.7',

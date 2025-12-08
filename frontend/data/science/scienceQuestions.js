@@ -551,7 +551,7 @@
                 questionNumber: 3,
                 challenge_tags: ['science-3', 'science-2'],
                 type: 'image',
-                imageUrl: 'Images/Science/ged-scince-fig-12.png',
+                imageUrl: '/Images/Science/ged-scince-fig-12.png',
                 question:
                   'In this food web, which organism is a primary consumer?',
                 answerOptions: [
@@ -1949,7 +1949,11 @@
                     rationale: 'Correct via ratio (0.67 Ã— 2).',
                     isCorrect: true,
                   },
-                  { text: '2', rationale: 'Needs 3 mol Hâ‚‚.', isCorrect: false },
+                  {
+                    text: '2',
+                    rationale: 'Needs 3 mol Hâ‚‚.',
+                    isCorrect: false,
+                  },
                   {
                     text: '3',
                     rationale: 'Insufficient Hâ‚‚.',
@@ -4543,7 +4547,7 @@
               {
                 questionNumber: 14,
                 type: 'image',
-                imageUrl: 'Images/Science/ged-scince-fig-7.png',
+                imageUrl: '/Images/Science/ged-scince-fig-7.png',
                 question:
                   'This diagram illustrates the rock cycle. What process is required to turn a sedimentary rock into a metamorphic rock?',
                 answerOptions: [
@@ -4609,9 +4613,12 @@
   },
 };
 
+// Legacy window attachment
+if (typeof window !== 'undefined') {
+  window.SCIENCE_QUESTIONS = SCIENCE_QUESTIONS;
+}
 
 // Legacy window attachment
-if (typeof window !== 'undefined') { window.SCIENCE_QUESTIONS = SCIENCE_QUESTIONS; }
-
-// Legacy window attachment
-if (typeof window !== 'undefined') { window.SCIENCE_QUESTIONS = SCIENCE_QUESTIONS; }
+if (typeof window !== 'undefined') {
+  window.SCIENCE_QUESTIONS = SCIENCE_QUESTIONS;
+}

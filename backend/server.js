@@ -4475,7 +4475,7 @@ try {
   // Serve images from /frontend/Images with CORS headers
   app.use(
     '/frontend/Images',
-    express.static(path.join(frontendDir, 'Images'), {
+    express.static(path.join(frontendRoot, 'Images'), {
       maxAge: '1h',
       setHeaders(res) {
         res.setHeader('Access-Control-Allow-Origin', '*');
