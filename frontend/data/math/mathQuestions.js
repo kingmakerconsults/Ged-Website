@@ -5,30 +5,30 @@
       'Quantitative Problem Solving': {
         description: 'Solve problems using numbers, data, and statistics.',
         icon: 'ChartBarIcon', // New Icon
-        topics: [
-          {
+                question:
+                  "A customer's total bill is $34.56. If they pay with a $50 bill, how much change should they receive?",
             id: 'math_quant_basics',
             title: 'Whole Numbers, Fractions & Decimals',
-            description: 'Operations with integers, fractions, and decimals.',
+                    text: '$15.44',
             type: 'quiz',
-            questions: [
+                    rationale: '$50.00 - $34.56 = $15.44.',
               {
                 questionNumber: 1,
-                challenge_tags: ['math-1'],
+                    text: '$16.44',
                 calculator: false,
                 question:
                   'A construction project requires $\\frac{5}{8}$ inch bolts. If a worker has a bolt that is $\\frac{3}{4}$ inch, is it too large or too small, and by how much?',
                 answerOptions: [
                   {
-                    text: 'The bolt is $\\frac{1}{8}$ inch too large.',
+                    text: '$15.54',
                     isCorrect: true,
                     rationale:
                       'To compare $\\frac{3}{4}$ and $\\frac{5}{8}$, find a common denominator, which is 8. $\\frac{3}{4}$ is equal to $\\frac{6}{8}$, so it exceeds $\\frac{5}{8}$ by $\\frac{1}{8}$.',
                   },
-                  {
+                    text: '$25.44',
                     text: 'The bolt is $\\frac{1}{8}$ inch too small.',
                     isCorrect: false,
-                    rationale:
+                      'This would be the change if the bill were $24.56.',
                       '$\\frac{3}{4}$ is equal to $\\frac{6}{8}$, which is larger than $\\frac{5}{8}$, not smaller.',
                   },
                   {
@@ -502,26 +502,26 @@
                 questionNumber: 17,
                 calculator: true,
                 question:
-                  "Sarah's temperature was 102.5F. After taking some medicine, her temperature dropped by 3.8F. What is her new temperature?",
+                  "Sarah's temperature was 102.5 degrees F. After taking some medicine, her temperature dropped by 3.8 degrees F. What is her new temperature?",
                 answerOptions: [
                   {
-                    text: '98.7F',
+                    text: '98.7 degrees F',
                     isCorrect: true,
-                    rationale: '$102.5 - 3.8 = 98.7$F.',
+                    rationale: '$102.5 - 3.8 = 98.7$ degrees F.',
                   },
                   {
-                    text: '99.7F',
+                    text: '99.7 degrees F',
                     isCorrect: false,
                     rationale: 'This is a calculation error.',
                   },
                   {
-                    text: '106.3F',
+                    text: '106.3 degrees F',
                     isCorrect: false,
                     rationale:
                       'This is the result of adding the numbers, not subtracting.',
                   },
                   {
-                    text: '98.2F',
+                    text: '98.2 degrees F',
                     isCorrect: false,
                     rationale: 'This is a calculation error.',
                   },
@@ -1203,9 +1203,7 @@
                 questionNumber: 1,
                 challenge_tags: ['math-6'],
                 calculator: false,
-                type: 'chart',
-                passage:
-                  "<div class='passage-text'><b>Test Scores: 85, 92, 78, 88, 92</b></div>",
+                passage: 'Test Scores: 85, 92, 78, 88, 92',
                 question: 'What is the mode of the test scores listed?',
                 answerOptions: [
                   {
@@ -1235,9 +1233,7 @@
                 questionNumber: 2,
                 challenge_tags: ['math-6'],
                 calculator: false,
-                type: 'chart',
-                passage:
-                  "<div class='passage-text'><b>Test Scores: 85, 92, 78, 88, 92</b></div>",
+                passage: 'Test Scores: 85, 92, 78, 88, 92',
                 question:
                   'What is the mean (average) of the test scores listed?',
                 answerOptions: [
@@ -1268,9 +1264,7 @@
                 questionNumber: 3,
                 challenge_tags: ['math-6'],
                 calculator: false,
-                type: 'chart',
-                passage:
-                  "<div class='passage-text'><b>Test Scores: 85, 92, 78, 88, 92</b></div>",
+                passage: 'Test Scores: 85, 92, 78, 88, 92',
                 question: 'What is the median of the test scores listed?',
                 answerOptions: [
                   {
@@ -1329,9 +1323,8 @@
               {
                 questionNumber: 5,
                 calculator: false,
-                type: 'chart',
                 passage:
-                  "<div class='passage-text'><b>Daily High Temperatures (F): 65, 68, 72, 72, 75, 78, 81</b></div>",
+                  'Daily High Temperatures (F): 65, 68, 72, 72, 75, 78, 81',
                 question: 'What is the range of the daily high temperatures?',
                 answerOptions: [
                   {
@@ -1392,9 +1385,7 @@
               {
                 questionNumber: 7,
                 calculator: true,
-                type: 'chart',
-                passage:
-                  "<div class='passage-text'><b>Ages of employees: 22, 25, 28, 34, 46</b></div>",
+                passage: 'Ages of employees: 22, 25, 28, 34, 46',
                 question: 'What is the median age of the employees?',
                 answerOptions: [
                   {
@@ -1453,10 +1444,9 @@
               {
                 questionNumber: 9,
                 calculator: true,
-                type: 'chart',
                 passage:
-                  "<div class='passage-text'><b>Number of books read per month: 2, 3, 3, 5, 7, 10</b></div>",
-                question: 'What is the mean number of books read?',
+                  'Number of books read per month: 2, 3, 3, 5, 7, 10',
+                question: 'What is the mean number of books read per month?',
                 answerOptions: [
                   { text: '3', isCorrect: false, rationale: '3 is the mode.' },
                   {
@@ -1507,9 +1497,8 @@
               {
                 questionNumber: 11,
                 calculator: true,
-                type: 'chart',
                 passage:
-                  "<div class='passage-text'><b>Points scored in 5 games: 10, 15, 12, 10, 18</b></div>",
+                  'Points scored in 5 games: 10, 15, 12, 10, 18',
                 question: 'What is the mode of the points scored?',
                 answerOptions: [
                   {
@@ -1565,9 +1554,8 @@
               {
                 questionNumber: 13,
                 calculator: true,
-                type: 'chart',
                 passage:
-                  "<div class='passage-text'><b>A student's grades are 80, 85, and 90. What grade do they need on the fourth test to have an average of 85?</b></div>",
+                  "A student's grades are 80, 85, and 90. What grade do they need on the fourth test to have an average of 85?",
                 question:
                   'What grade is needed on the fourth test for an average of 85?',
                 answerOptions: [
@@ -1627,9 +1615,8 @@
               {
                 questionNumber: 15,
                 calculator: true,
-                type: 'chart',
                 passage:
-                  "<div class='passage-text'><b>Number of daily customers: 102, 115, 98, 120, 115, 130</b></div>",
+                  'Number of daily customers: 102, 115, 98, 120, 115, 130',
                 question: 'What is the median number of customers?',
                 answerOptions: [
                   {
@@ -1658,9 +1645,8 @@
               {
                 questionNumber: 16,
                 calculator: true,
-                type: 'chart',
                 passage:
-                  "<div class='passage-text'><b>Final Exam Scores: 75, 80, 80, 85, 90, 95, 100</b></div>",
+                  'Final Exam Scores: 75, 80, 80, 85, 90, 95, 100',
                 question: 'What is the mode of the final exam scores?',
                 answerOptions: [
                   {
@@ -1721,10 +1707,8 @@
               {
                 questionNumber: 15,
                 calculator: true,
-                type: 'graph',
-                passage:
-                  "<div class='passage-text'>A line passes through the points (0, 2) and (3, 8).</div>",
-                question: 'What is the slope of the line?',
+                question:
+                  'A line passes through the points (0, 2) and (3, 8). What is the slope of the line?',
                 answerOptions: [
                   {
                     text: '2',
@@ -3009,9 +2993,8 @@
               {
                 questionNumber: 7,
                 calculator: true,
-                type: 'image',
-                imageUrl: 'Images/Math/math_graph_2.png',
-                question: 'Which point is located in Quadrant IV?',
+                question:
+                  'Consider four points on a coordinate plane: A (-3, 4), B (4, -2), C (-5, -3), and D (2, 5). Which point is located in Quadrant IV?',
                 answerOptions: [
                   {
                     text: 'Point A',
