@@ -1,4 +1,4 @@
-import React, {
+ï»¿import React, {
   useState,
   useEffect,
   useMemo,
@@ -649,7 +649,7 @@ const FALLBACK_VOCABULARY = {
     {
       term: 'Quadratic Equation',
       definition:
-        'An equation in the form ax² + bx + c = 0, where a, b, and c are constants and a ? 0.',
+        'An equation in the form axï¿½ + bx + c = 0, where a, b, and c are constants and a ? 0.',
     },
     {
       term: 'Linear Function',
@@ -2412,19 +2412,19 @@ function sanitizeUnicode(s) {
     let t = s;
     // Chemical formulas and units
     t = t.replace(/H\uFFFD\uFFFDO/g, 'H2O');
-    t = t.replace(/g\/cm\uFFFD/g, 'g/cm³');
-    t = t.replace(/cm\uFFFD/g, 'cm³');
+    t = t.replace(/g\/cm\uFFFD/g, 'g/cmï¿½');
+    t = t.replace(/cm\uFFFD/g, 'cmï¿½');
     // Degree symbol
-    t = t.replace(/\uFFFDC/g, '°C');
+    t = t.replace(/\uFFFDC/g, 'ï¿½C');
     // Common math superscripts in text blocks
-    t = t.replace(/([abc])\uFFFD/g, '$1²');
-    // Ranges like 35–22
-    t = t.replace(/(\d)\s?\uFFFD\s?(\d)/g, '$1–$2');
+    t = t.replace(/([abc])\uFFFD/g, '$1ï¿½');
+    // Ranges like 35ï¿½22
+    t = t.replace(/(\d)\s?\uFFFD\s?(\d)/g, '$1ï¿½$2');
     // Not-equal patterns
     t = t.replace(/\uFFFD\uFFFD 0/g, '? 0');
     // Topic labels and ellipsis
-    t = t.replace(/Topic A\uFFFDZ/g, 'Topic A–Z');
-    t = t.replace(/More in this topic\uFFFD/g, 'More in this topic…');
+    t = t.replace(/Topic A\uFFFDZ/g, 'Topic Aï¿½Z');
+    t = t.replace(/More in this topic\uFFFD/g, 'More in this topicï¿½');
     // Arrow in genetics example
     t = t.replace(/pp \uFFFD/g, 'pp ?');
     // Strip stray emoji diamonds
@@ -3035,7 +3035,7 @@ const SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage:
-      '<p>In pea plants, purple flowers (P) are dominant over white flowers (p). Two heterozygous plants (Pp × Pp) are crossed.</p>',
+      '<p>In pea plants, purple flowers (P) are dominant over white flowers (p). Two heterozygous plants (Pp ï¿½ Pp) are crossed.</p>',
     question:
       'What percent of offspring are expected to have <strong>white</strong> flowers?',
     answerOptions: [
@@ -3047,7 +3047,7 @@ const SCI_NUMERACY_QUESTIONS = [
       {
         text: '25%',
         rationale:
-          'Correct. The Punnett square gives PP, Pp, Pp, pp — 1 of 4 is pp (white).',
+          'Correct. The Punnett square gives PP, Pp, Pp, pp ï¿½ 1 of 4 is pp (white).',
         isCorrect: true,
       },
       {
@@ -3140,12 +3140,12 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '200 J',
-        rationale: 'Correct. Work W = F × d = 50 N × 4 m = 200 J.',
+        rationale: 'Correct. Work W = F ï¿½ d = 50 N ï¿½ 4 m = 200 J.',
         isCorrect: true,
       },
       {
         text: '200 N',
-        rationale: 'Units are wrong — work is in joules.',
+        rationale: 'Units are wrong ï¿½ work is in joules.',
         isCorrect: false,
       },
     ],
@@ -3169,12 +3169,12 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '5 N',
-        rationale: 'Close, but 2 × 3 is 6, not 5.',
+        rationale: 'Close, but 2 ï¿½ 3 is 6, not 5.',
         isCorrect: false,
       },
       {
         text: '6 N',
-        rationale: 'Correct. F = m × a = 2 kg × 3 m/s = 6 N.',
+        rationale: 'Correct. F = m ï¿½ a = 2 kg ï¿½ 3 m/s = 6 N.',
         isCorrect: true,
       },
     ],
@@ -3197,13 +3197,13 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: 'Trial A',
-        rationale: 'Increase was 30-22 = 8°C.',
+        rationale: 'Increase was 30-22 = 8ï¿½C.',
         isCorrect: false,
       },
       { text: 'Trial B', rationale: 'Increase was 7C.', isCorrect: false },
       {
         text: 'Trial C',
-        rationale: 'Correct. Increase was 35-22 = 13°C, the largest.',
+        rationale: 'Correct. Increase was 35-22 = 13ï¿½C, the largest.',
         isCorrect: true,
       },
       { text: 'Trial D', rationale: 'Increase was 6C.', isCorrect: false },
@@ -3315,7 +3315,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '30 L',
-        rationale: 'Correct. 12  4 = 3 L/min. 3 × 10 = 30 L.',
+        rationale: 'Correct. 12  4 = 3 L/min. 3 ï¿½ 10 = 30 L.',
         isCorrect: true,
       },
       {
@@ -3335,13 +3335,13 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: '$700',
-        rationale: "That's 700 / 3000 ˜ 23%. Too low.",
+        rationale: "That's 700 / 3000 ï¿½ 23%. Too low.",
         isCorrect: false,
       },
       { text: '$900', rationale: "That's 30% of $3,000.", isCorrect: false },
       {
         text: '$1,050',
-        rationale: 'Correct. 35% of $3,000 = 0.35 × 3000 = $1,050.',
+        rationale: 'Correct. 35% of $3,000 = 0.35 ï¿½ 3000 = $1,050.',
         isCorrect: true,
       },
       {
@@ -4671,7 +4671,7 @@ const AppData = {
                 questionNumber: 12,
                 type: 'text',
                 passage:
-                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ions—charged atoms that are then attracted to each other.',
+                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ionsï¿½charged atoms that are then attracted to each other.',
                 question:
                   'What is the key difference between a covalent bond and an ionic bond?',
                 answerOptions: [
@@ -4837,7 +4837,7 @@ const AppData = {
                 questionNumber: 2,
                 type: 'text',
                 passage:
-                  "Newton's Second Law of Motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is often written as the formula F = ma (Force = mass × acceleration).",
+                  "Newton's Second Law of Motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is often written as the formula F = ma (Force = mass ï¿½ acceleration).",
                 question:
                   'If you push two objects with the same amount of force, which one will accelerate more?',
                 answerOptions: [
@@ -12140,7 +12140,7 @@ const AppData = {
                     questionNumber: 4,
                     type: 'text',
                     passage:
-                      "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking exposé of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
+                      "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking exposï¿½ of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
                     question:
                       "What was the most direct consequence of the publication of Upton Sinclair's 'The Jungle'?",
                     answerOptions: [
@@ -17390,7 +17390,7 @@ const AppData = {
                 type: 'image',
                 imageUrl: '/images/Social Studies/licensed-image (16).jpg',
                 question:
-                  "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotá) to the capital of Venezuela (Caracas) is:",
+                  "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotï¿½) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
                   {
                     text: 'About 100 miles',
@@ -25824,7 +25824,7 @@ function App({ externalTheme, onThemeChange }) {
       subject,
       quizCode,
       quizTitle:
-        quizDetails.title || quizDetails.topicTitle || 'GED® Practice Exam',
+        quizDetails.title || quizDetails.topicTitle || 'GEDï¿½ Practice Exam',
       quizType: quizDetails.type,
       score: results.score,
       totalQuestions: results.totalQuestions,
@@ -25846,7 +25846,7 @@ function App({ externalTheme, onThemeChange }) {
           subject,
           quizCode,
           quizTitle:
-            quizDetails.title || quizDetails.topicTitle || 'GED® Practice Exam',
+            quizDetails.title || quizDetails.topicTitle || 'GEDï¿½ Practice Exam',
           quizType: quizDetails.type,
           score: results.score,
           totalQuestions: results.totalQuestions,
@@ -28668,14 +28668,14 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                         className="hover:bg-surface-soft transition"
                       >
                         <td className="px-4 py-3 font-medium text-primary">
-                          {u.name || '—'}
+                          {u.name || 'ï¿½'}
                         </td>
                         <td className="px-4 py-3 text-secondary">{u.email}</td>
                         <td className="px-4 py-3">
                           <AdminRoleBadge role={u.role} />
                         </td>
                         <td className="px-4 py-3 text-secondary">
-                          {u.organization_name || '—'}
+                          {u.organization_name || 'ï¿½'}
                         </td>
                         <td className="px-4 py-3 text-secondary">
                           {u.quiz_attempt_count || 0}
@@ -28683,7 +28683,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                         <td className="px-4 py-3 text-secondary">
                           {u.average_scaled_score != null
                             ? Math.round(u.average_scaled_score)
-                            : '—'}
+                            : 'ï¿½'}
                         </td>
                         <td className="px-4 py-3 text-muted text-xs">
                           {formatDateTime(u.last_login_at)}
@@ -29041,7 +29041,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                             className="hover:bg-surface-soft transition"
                           >
                             <td className="px-4 py-3 font-medium text-primary">
-                              {u.name || '—'}
+                              {u.name || 'ï¿½'}
                             </td>
                             <td className="px-4 py-3 text-secondary">
                               {u.email}
@@ -29055,7 +29055,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                             <td className="px-4 py-3 text-secondary">
                               {u.average_scaled_score != null
                                 ? Math.round(u.average_scaled_score)
-                                : '—'}
+                                : 'ï¿½'}
                             </td>
                             <td className="px-4 py-3 text-muted text-xs">
                               {formatDateTime(u.last_login_at)}
@@ -30076,7 +30076,7 @@ function ScienceFormulaSheet({ onClose }) {
           aria-label="Close science formula sheet"
           style={{ color: 'inherit' }}
         >
-          ×
+          ï¿½
         </button>
 
         <h2 className="formula-sheet-title text-xl font-bold mb-4">
@@ -30158,7 +30158,7 @@ function FormulaSheetModal({ onClose }) {
           style={{ borderColor: 'rgba(148,163,184,0.35)' }}
         >
           <h2 className="formula-sheet-title text-xl font-bold">
-            GED® Mathematical Reasoning Formula Sheet
+            GEDï¿½ Mathematical Reasoning Formula Sheet
           </h2>
           <button
             onClick={onClose}
@@ -32697,7 +32697,7 @@ function StartScreen({
                         {
                           id: 'essay_practice_tool',
                           type: 'essay',
-                          title: 'GED® Essay Practice Toolkit',
+                          title: 'GEDï¿½ Essay Practice Toolkit',
                         },
                         selectedSubject
                       )
@@ -34010,7 +34010,7 @@ function QuizInterface({
                       {lastAnswerCorrect ? '? Correct!' : '? Incorrect'}
                       {!lastAnswerCorrect &&
                         livesRemaining > 0 &&
-                        ' • Lives remaining: ' + livesRemaining}
+                        ' ï¿½ Lives remaining: ' + livesRemaining}
                     </div>
                   )}
                 </>
@@ -35887,7 +35887,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       </span>
                     </td>
                     <td className="px-4 py-2">{entry.subject}</td>
-                    <td className="px-4 py-2">{entry.topic || '—'}</td>
+                    <td className="px-4 py-2">{entry.topic || 'ï¿½'}</td>
                     <td className="px-4 py-2 text-sm">
                       {entry.premadeQuizTitle || 'Premade Quiz'}
                     </td>
@@ -35987,13 +35987,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const getPerf = (score) => {
     if (score >= 175)
       return {
-        level: 'GED® College Ready + Credit',
+        level: 'GEDï¿½ College Ready + Credit',
         color: 'text-info',
       };
     if (score >= 165)
-      return { level: 'GED® College Ready', color: 'text-info' };
+      return { level: 'GEDï¿½ College Ready', color: 'text-info' };
     if (score >= 145)
-      return { level: 'GED® Passing Score', color: 'text-success' };
+      return { level: 'GEDï¿½ Passing Score', color: 'text-success' };
     return { level: 'Keep studying!', color: 'text-warning' };
   };
 
@@ -36042,7 +36042,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         Results: {quiz?.title || 'Completed Quiz'}
       </h2>
       <div className="my-6">
-        <p className="text-lg text-secondary">Your estimated GED® Score is:</p>
+        <p className="text-lg text-secondary">Your estimated GEDï¿½ Score is:</p>
         <p className={`text-6xl font-bold my-2 ${performance.color}`}>
           {scaledScore}
         </p>
@@ -36061,7 +36061,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             Suggested Focus Areas
           </h3>
           {loadingSuggestions && !suggestions.length ? (
-            <p className="text-sm text-secondary">Loading suggestions…</p>
+            <p className="text-sm text-secondary">Loading suggestionsï¿½</p>
           ) : suggestions.length ? (
             <ul className="space-y-2">
               {suggestions.map((s) => (
@@ -37123,7 +37123,7 @@ function EssayGuide({ onExit }) {
     ? `After reading both passages about "${selectedPassage.topic}", write an essay in which you explain which author presents the more convincing argument. Support your response with evidence from both passages and explain why the evidence you cite supports your evaluation.`
     : '';
   const overlayButtons = [
-    { id: 'prompt', label: 'Essay Prompt', title: 'GED® RLA Essay Prompt' },
+    { id: 'prompt', label: 'Essay Prompt', title: 'GEDï¿½ RLA Essay Prompt' },
     {
       id: 'passage1',
       label: 'Passage A',
