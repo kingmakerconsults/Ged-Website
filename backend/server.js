@@ -4472,10 +4472,20 @@ try {
       },
     })
   );
-  // Serve images from /frontend/Images with CORS headers
+  // Serve images from /frontend/Images with CORS headers (legacy)
   app.use(
     '/frontend/Images',
     express.static(path.join(frontendRoot, 'Images'), {
+      maxAge: '1h',
+      setHeaders(res) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+      },
+    })
+  );
+  // Serve images from /images (new deployment-friendly path)
+  app.use(
+    '/images',
+    express.static(path.join(__dirname, '../frontend/public/images'), {
       maxAge: '1h',
       setHeaders(res) {
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -17570,6 +17580,24 @@ if (require.main === module) {
         process.exit(0);
       }
     }
+
+    // ========================================
+    // ADMIN API: Fetch all AI questions
+    // ========================================
+    app.get('/api/admin/all-questions', requireSuperAdmin, async (req, res) => {
+      try {
+        const rows = await db.manyOrNone(`
+          SELECT id, subject, topic, question_json, created_at
+          FROM ai_question_bank
+          ORDER BY created_at DESC
+        `);
+
+        res.json(rows || []);
+      } catch (err) {
+        console.error('Failed to fetch AI questions:', err);
+        res.status(500).json({ error: 'Unable to load AI question bank' });
+      }
+    });
 
     const server = app.listen(port, '0.0.0.0', () => {
       console.log(`Your service is live 🚀`);

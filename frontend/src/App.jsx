@@ -7,6 +7,7 @@ import {
 import { useThemeController } from '../hooks/useThemeController.js';
 import { AuthScreen } from '../components/index.js';
 import DashboardView from './views/DashboardView.jsx';
+import SuperAdminAllQuestions from './views/SuperAdminAllQuestions.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
 import MapExplorer from '../../tools/MapExplorer.jsx';
@@ -88,6 +89,9 @@ export default function App() {
           <Link to="/profile">Profile</Link>
           <Link to="/settings">Settings</Link>
           <Link to="/demo/math">Math Quiz Demo</Link>
+          {user?.role === 'super_admin' && (
+            <Link to="/super-admin/all-questions">All Questions</Link>
+          )}
         </nav>
 
         <Suspense fallback={<div>Loading...</div>}>
@@ -96,6 +100,16 @@ export default function App() {
             <Route path="/profile" element={<ProfileView />} />
             <Route path="/settings" element={<SettingsView />} />
             <Route path="/demo/math" element={<QuizDemo />} />
+            <Route
+              path="/super-admin/all-questions"
+              element={
+                user?.role === 'super_admin' ? (
+                  <SuperAdminAllQuestions />
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
+            />
             <Route
               path="/tools/constitution-explorer"
               element={

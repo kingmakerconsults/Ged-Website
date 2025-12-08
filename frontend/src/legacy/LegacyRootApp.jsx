@@ -1,4 +1,4 @@
-Ôªøimport React, {
+import React, {
   useState,
   useEffect,
   useMemo,
@@ -649,7 +649,7 @@ const FALLBACK_VOCABULARY = {
     {
       term: 'Quadratic Equation',
       definition:
-        'An equation in the form ax¬≤ + bx + c = 0, where a, b, and c are constants and a ‚â† 0.',
+        'An equation in the form ax≤ + bx + c = 0, where a, b, and c are constants and a ? 0.',
     },
     {
       term: 'Linear Function',
@@ -2411,24 +2411,24 @@ function sanitizeUnicode(s) {
   try {
     let t = s;
     // Chemical formulas and units
-    t = t.replace(/H\uFFFD\uFFFDO/g, 'H‚ÇÇO');
-    t = t.replace(/g\/cm\uFFFD/g, 'g/cm¬≥');
-    t = t.replace(/cm\uFFFD/g, 'cm¬≥');
+    t = t.replace(/H\uFFFD\uFFFDO/g, 'H2O');
+    t = t.replace(/g\/cm\uFFFD/g, 'g/cm≥');
+    t = t.replace(/cm\uFFFD/g, 'cm≥');
     // Degree symbol
-    t = t.replace(/\uFFFDC/g, '¬∞C');
+    t = t.replace(/\uFFFDC/g, '∞C');
     // Common math superscripts in text blocks
-    t = t.replace(/([abc])\uFFFD/g, '$1¬≤');
-    // Ranges like 35‚Äì22
-    t = t.replace(/(\d)\s?\uFFFD\s?(\d)/g, '$1‚Äì$2');
+    t = t.replace(/([abc])\uFFFD/g, '$1≤');
+    // Ranges like 35ñ22
+    t = t.replace(/(\d)\s?\uFFFD\s?(\d)/g, '$1ñ$2');
     // Not-equal patterns
-    t = t.replace(/\uFFFD\uFFFD 0/g, '‚â† 0');
+    t = t.replace(/\uFFFD\uFFFD 0/g, '? 0');
     // Topic labels and ellipsis
-    t = t.replace(/Topic A\uFFFDZ/g, 'Topic A‚ÄìZ');
-    t = t.replace(/More in this topic\uFFFD/g, 'More in this topic‚Ä¶');
+    t = t.replace(/Topic A\uFFFDZ/g, 'Topic AñZ');
+    t = t.replace(/More in this topic\uFFFD/g, 'More in this topicÖ');
     // Arrow in genetics example
-    t = t.replace(/pp \uFFFD/g, 'pp ‚Üí');
+    t = t.replace(/pp \uFFFD/g, 'pp ?');
     // Strip stray emoji diamonds
-    t = t.replace(/\uFFFD\uFFFDÔ∏è?/g, '');
+    t = t.replace(/\uFFFD\uFFFD??/g, '');
     return t;
   } catch (_e) {
     return s;
@@ -3035,7 +3035,7 @@ const SCI_NUMERACY_QUESTIONS = [
     qaProfileKey: 'numeracy',
     type: 'knowledge',
     passage:
-      '<p>In pea plants, purple flowers (P) are dominant over white flowers (p). Two heterozygous plants (Pp √ó Pp) are crossed.</p>',
+      '<p>In pea plants, purple flowers (P) are dominant over white flowers (p). Two heterozygous plants (Pp ◊ Pp) are crossed.</p>',
     question:
       'What percent of offspring are expected to have <strong>white</strong> flowers?',
     answerOptions: [
@@ -3047,7 +3047,7 @@ const SCI_NUMERACY_QUESTIONS = [
       {
         text: '25%',
         rationale:
-          'Correct. The Punnett square gives PP, Pp, Pp, pp ‚Äî 1 of 4 is pp (white).',
+          'Correct. The Punnett square gives PP, Pp, Pp, pp ó 1 of 4 is pp (white).',
         isCorrect: true,
       },
       {
@@ -3140,12 +3140,12 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '200 J',
-        rationale: 'Correct. Work W = F √ó d = 50 N √ó 4 m = 200 J.',
+        rationale: 'Correct. Work W = F ◊ d = 50 N ◊ 4 m = 200 J.',
         isCorrect: true,
       },
       {
         text: '200 N',
-        rationale: 'Units are wrong ‚Äî work is in joules.',
+        rationale: 'Units are wrong ó work is in joules.',
         isCorrect: false,
       },
     ],
@@ -3169,12 +3169,12 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '5 N',
-        rationale: 'Close, but 2 √ó 3 is 6, not 5.',
+        rationale: 'Close, but 2 ◊ 3 is 6, not 5.',
         isCorrect: false,
       },
       {
         text: '6 N',
-        rationale: 'Correct. F = m √ó a = 2 kg √ó 3 m/s = 6 N.',
+        rationale: 'Correct. F = m ◊ a = 2 kg ◊ 3 m/s = 6 N.',
         isCorrect: true,
       },
     ],
@@ -3197,13 +3197,13 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: 'Trial A',
-        rationale: 'Increase was 30‚àí22 = 8¬∞C.',
+        rationale: 'Increase was 30-22 = 8∞C.',
         isCorrect: false,
       },
       { text: 'Trial B', rationale: 'Increase was 7C.', isCorrect: false },
       {
         text: 'Trial C',
-        rationale: 'Correct. Increase was 35‚àí22 = 13¬∞C, the largest.',
+        rationale: 'Correct. Increase was 35-22 = 13∞C, the largest.',
         isCorrect: true,
       },
       { text: 'Trial D', rationale: 'Increase was 6C.', isCorrect: false },
@@ -3222,7 +3222,7 @@ const SCI_NUMERACY_QUESTIONS = [
         rationale: '12 is just the smallest value.',
         isCorrect: false,
       },
-      { text: '18', rationale: '18 is not max ‚àí min.', isCorrect: false },
+      { text: '18', rationale: '18 is not max - min.', isCorrect: false },
       {
         text: '30',
         rationale: '30 is just the largest value.',
@@ -3230,7 +3230,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '18 (thousand)',
-        rationale: 'Correct. Range = 30 ‚àí 12 = 18.',
+        rationale: 'Correct. Range = 30 - 12 = 18.',
         isCorrect: true,
       },
     ],
@@ -3315,7 +3315,7 @@ const SCI_NUMERACY_QUESTIONS = [
       },
       {
         text: '30 L',
-        rationale: 'Correct. 12  4 = 3 L/min. 3 √ó 10 = 30 L.',
+        rationale: 'Correct. 12  4 = 3 L/min. 3 ◊ 10 = 30 L.',
         isCorrect: true,
       },
       {
@@ -3335,13 +3335,13 @@ const SCI_NUMERACY_QUESTIONS = [
     answerOptions: [
       {
         text: '$700',
-        rationale: "That's 700 / 3000 ‚âà 23%. Too low.",
+        rationale: "That's 700 / 3000 ò 23%. Too low.",
         isCorrect: false,
       },
       { text: '$900', rationale: "That's 30% of $3,000.", isCorrect: false },
       {
         text: '$1,050',
-        rationale: 'Correct. 35% of $3,000 = 0.35 √ó 3000 = $1,050.',
+        rationale: 'Correct. 35% of $3,000 = 0.35 ◊ 3000 = $1,050.',
         isCorrect: true,
       },
       {
@@ -3901,7 +3901,7 @@ const AppData = {
               {
                 questionNumber: 3,
                 type: 'image',
-                imageUrl: 'Images/Science/ged-scince-fig-12.png',
+                imageUrl: '/images/Science/ged-scince-fig-12.png',
                 question:
                   'In this food web, which organism is a primary consumer?',
                 answerOptions: [
@@ -4422,7 +4422,7 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: 'image',
-                imageUrl: 'Images/Social Studies/licensed-image (5).jpg',
+                imageUrl: '/images/Social Studies/licensed-image (5).jpg',
                 question:
                   'This image shows a typical entry on the periodic table for the element Carbon (C). What is the atomic number of Carbon?',
                 answerOptions: [
@@ -4464,7 +4464,7 @@ const AppData = {
                   {
                     text: 'An element consists of only one type of atom, while a compound consists of two or more different types of atoms chemically bonded together.',
                     rationale:
-                      'Correct. For example, oxygen (O) is an element, while water (H‚ÇÇO) is a compound.',
+                      'Correct. For example, oxygen (O) is an element, while water (H2O) is a compound.',
                     isCorrect: true,
                   },
                   {
@@ -4535,7 +4535,7 @@ const AppData = {
                   {
                     text: 'Boiling water',
                     rationale:
-                      'Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically H‚ÇÇO. This is a physical change.',
+                      'Correct. Boiling water changes its state from liquid to gas (steam), but it is still chemically H2O. This is a physical change.',
                     isCorrect: true,
                   },
                   {
@@ -4611,7 +4611,7 @@ const AppData = {
                 questionNumber: 10,
                 type: 'knowledge',
                 question:
-                  "In the chemical formula for water, H‚ÇÇO, what does the subscript '2' indicate?",
+                  "In the chemical formula for water, H2O, what does the subscript '2' indicate?",
                 answerOptions: [
                   {
                     text: 'There are two water molecules.',
@@ -4671,7 +4671,7 @@ const AppData = {
                 questionNumber: 12,
                 type: 'text',
                 passage:
-                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ions‚Äîcharged atoms that are then attracted to each other.',
+                  'A covalent bond is a chemical bond that involves the sharing of electron pairs between atoms. An ionic bond is formed when one atom transfers one or more electrons to another atom, creating ionsócharged atoms that are then attracted to each other.',
                 question:
                   'What is the key difference between a covalent bond and an ionic bond?',
                 answerOptions: [
@@ -4837,7 +4837,7 @@ const AppData = {
                 questionNumber: 2,
                 type: 'text',
                 passage:
-                  "Newton's Second Law of Motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is often written as the formula F = ma (Force = mass √ó acceleration).",
+                  "Newton's Second Law of Motion states that the acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. This is often written as the formula F = ma (Force = mass ◊ acceleration).",
                 question:
                   'If you push two objects with the same amount of force, which one will accelerate more?',
                 answerOptions: [
@@ -5718,7 +5718,7 @@ const AppData = {
               {
                 questionNumber: 14,
                 type: 'image',
-                imageUrl: 'Images/Science/ged-scince-fig-7.png',
+                imageUrl: '/images/Science/ged-scince-fig-7.png',
                 question:
                   'This diagram illustrates the rock cycle. What process is required to turn a sedimentary rock into a metamorphic rock?',
                 answerOptions: [
@@ -8593,7 +8593,7 @@ const AppData = {
                 questionNumber: 1,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/Math/math_graph_1.png',
+                imageUrl: '/images/Math/math_graph_1.png',
                 question: 'What is the slope of the line shown in the graph?',
                 answerOptions: [
                   {
@@ -8623,7 +8623,7 @@ const AppData = {
                 questionNumber: 2,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/Math/math_graph_1.png',
+                imageUrl: '/images/Math/math_graph_1.png',
                 question:
                   'What is the y-intercept of the line shown in the graph?',
                 answerOptions: [
@@ -8770,7 +8770,7 @@ const AppData = {
                 questionNumber: 7,
                 calculator: true,
                 type: 'image',
-                imageUrl: 'Images/Math/math_graph_2.png',
+                imageUrl: '/images/Math/math_graph_2.png',
                 question: 'Which point is located in Quadrant IV?',
                 answerOptions: [
                   {
@@ -8889,7 +8889,7 @@ const AppData = {
                 questionNumber: 11,
                 calculator: true,
                 type: 'image',
-                imageUrl: 'Images/Math/math_graph_3.png',
+                imageUrl: '/images/Math/math_graph_3.png',
                 question:
                   'The graph shows the cost of renting a car based on the number of miles driven. What does the y-intercept of the graph represent?',
                 answerOptions: [
@@ -9005,7 +9005,7 @@ const AppData = {
                 questionNumber: 15,
                 calculator: true,
                 type: 'image',
-                imageUrl: 'Images/Math/math_graph_4.png',
+                imageUrl: '/images/Math/math_graph_4.png',
                 question:
                   'The graph shows a parabola. What are the coordinates of the vertex?',
                 answerOptions: [
@@ -9052,7 +9052,7 @@ const AppData = {
                 questionNumber: 1,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/Math/math_geo_1.png',
+                imageUrl: '/images/Math/math_geo_1.png',
                 question: 'What is the area of the rectangle shown?',
                 answerOptions: [
                   {
@@ -9082,7 +9082,7 @@ const AppData = {
                 questionNumber: 2,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/Math/math_geo_2.png',
+                imageUrl: '/images/Math/math_geo_2.png',
                 question: 'What is the area of the triangle shown?',
                 answerOptions: [
                   {
@@ -9113,7 +9113,7 @@ const AppData = {
                 questionNumber: 3,
                 calculator: false,
                 type: 'image',
-                imageUrl: 'Images/Math/math_geo_3.png',
+                imageUrl: '/images/Math/math_geo_3.png',
                 question:
                   'What is the circumference of the circle shown? (Use $\\pi \\approx 3.14$)',
                 answerOptions: [
@@ -10385,7 +10385,7 @@ const AppData = {
                   {
                     questionNumber: 1,
                     type: 'image',
-                    imageUrl: 'Images/Social Studies/join_or_die_cartoon.jpg',
+                    imageUrl: '/images/Social Studies/join_or_die_cartoon.jpg',
                     question:
                       'This 1754 political cartoon by Benjamin Franklin was originally created to encourage colonial unity during the French and Indian War. How was its message re-purposed during the American Revolution?',
                     answerOptions: [
@@ -11168,7 +11168,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/Social Studies/Louisiana_Purchase.png',
+                    imageUrl: '/images/Social Studies/Louisiana_Purchase.png',
                     question:
                       'This map illustrates the impact of the Louisiana Purchase in 1803. What was the most significant effect of this event?',
                     answerOptions: [
@@ -12022,7 +12022,7 @@ const AppData = {
                   {
                     questionNumber: 4,
                     type: 'image',
-                    imageUrl: 'Images/Social Studies/licensed-image (13).jpg',
+                    imageUrl: '/images/Social Studies/licensed-image (13).jpg',
                     question:
                       'This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:',
                     answerOptions: [
@@ -12076,7 +12076,7 @@ const AppData = {
                   {
                     questionNumber: 1,
                     type: 'image',
-                    imageUrl: 'Images/Social Studies/Bosses-of-the-Senate.jpg',
+                    imageUrl: '/images/Social Studies/Bosses-of-the-Senate.jpg',
                     question:
                       "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
                     answerOptions: [
@@ -12140,7 +12140,7 @@ const AppData = {
                     questionNumber: 4,
                     type: 'text',
                     passage:
-                      "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking expos√© of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
+                      "Upton Sinclair's 1906 novel, 'The Jungle,' was a shocking exposÈ of the meatpacking industry in Chicago. The book detailed the unsanitary conditions, the exploitation of workers, and the contaminated meat that was sold to the public. The public outcry following the publication of 'The Jungle' led directly to the passage of the Meat Inspection Act and the Pure Food and Drug Act in 1906.",
                     question:
                       "What was the most direct consequence of the publication of Upton Sinclair's 'The Jungle'?",
                     answerOptions: [
@@ -12368,7 +12368,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/Social Studies/licensed-image (9).jpg',
+                    imageUrl: '/images/Social Studies/licensed-image (9).jpg',
                     question:
                       'This map shows the new borders of Europe established by the Treaty of Versailles after World War I. Why did the U.S. Senate refuse to ratify this treaty?',
                     answerOptions: [
@@ -12470,7 +12470,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/Social Studies/licensed-image (14).jpg',
+                    imageUrl: '/images/Social Studies/licensed-image (14).jpg',
                     question:
                       "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
                     answerOptions: [
@@ -12922,7 +12922,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: 'Images/Social Studies/licensed-image (15).jpg',
+                    imageUrl: '/images/Social Studies/licensed-image (15).jpg',
                     question:
                       "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
                     answerOptions: [
@@ -17162,7 +17162,7 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: 'image',
-                imageUrl: 'Images/Social Studies/political-map-of-world.jpg',
+                imageUrl: '/images/Social Studies/political-map-of-world.jpg',
                 question:
                   'This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?',
                 answerOptions: [
@@ -17194,7 +17194,7 @@ const AppData = {
               {
                 questionNumber: 5,
                 type: 'image',
-                imageUrl: 'Images/Social Studies/political-map-of-world.jpg',
+                imageUrl: '/images/Social Studies/political-map-of-world.jpg',
                 question:
                   "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
                 answerOptions: [
@@ -17355,7 +17355,7 @@ const AppData = {
               {
                 questionNumber: 10,
                 type: 'image',
-                imageUrl: 'Images/Social Studies/licensed-image (16).jpg',
+                imageUrl: '/images/Social Studies/licensed-image (16).jpg',
                 question:
                   'This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?',
                 answerOptions: [
@@ -17388,9 +17388,9 @@ const AppData = {
               {
                 questionNumber: 11,
                 type: 'image',
-                imageUrl: 'Images/Social Studies/licensed-image (16).jpg',
+                imageUrl: '/images/Social Studies/licensed-image (16).jpg',
                 question:
-                  "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogot√°) to the capital of Venezuela (Caracas) is:",
+                  "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogot·) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
                   {
                     text: 'About 100 miles',
@@ -20403,35 +20403,22 @@ function normalizeImagePath(path) {
   p = p.replace(/\/+/g, '/');
   // Remove leading/trailing whitespace and slashes
   p = p.replace(/^\s+|\s+$/g, '').replace(/^\/+|\/+$/g, '');
-  // Lowercase /frontend/images and /frontend/images/subject segments only
-  p = p.replace(/^frontend\//i, 'frontend/');
-  p = p.replace(/^frontend\/images\//i, 'frontend/Images/');
-  // If path starts with /frontend/images (any case), normalize to /frontend/Images
-  p = p.replace(/^frontend\/images/i, 'frontend/Images');
-  // Always ensure /frontend/Images/Subject/FileName.png format
+  // Convert old /frontend/Images paths to new /images paths
+  p = p.replace(/^frontend\/Images\//i, 'images/');
+  p = p.replace(/^frontend\/Images/i, 'images');
+  // Capitalize subject folder names
   const parts = p.split('/');
-  if (
-    parts[0].toLowerCase() === 'frontend' &&
-    parts[1] &&
-    parts[1].toLowerCase() === 'images'
-  ) {
-    // Capitalize subject if present
-    if (parts[2]) {
-      parts[2] = parts[2].charAt(0).toUpperCase() + parts[2].slice(1);
-    }
-    p = '/frontend/Images/' + parts.slice(2).join('/');
-  } else if (p.toLowerCase().startsWith('images/')) {
-    // If path starts with images/subject/file, normalize
-    const subparts = p.split('/');
-    if (subparts[1]) {
-      subparts[1] = subparts[1].charAt(0).toUpperCase() + subparts[1].slice(1);
-    }
-    p = '/frontend/Images/' + subparts.slice(1).join('/');
-  } else if (!p.startsWith('/frontend/Images/')) {
-    // Fallback: just ensure it starts with /frontend/Images/
-    p = '/frontend/Images/' + p.replace(/^\/+/, '');
-  } else {
-    p = '/' + p.replace(/^\/+/, '');
+  if (parts[0].toLowerCase() === 'images' && parts[1]) {
+    parts[1] = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
+  }
+  p = parts.join('/');
+  // Ensure it starts with /images/
+  if (!p.startsWith('images/')) {
+    p = 'images/' + p.replace(/^\/+/, '');
+  }
+  // Ensure leading slash
+  if (!p.startsWith('/')) {
+    p = '/' + p;
   }
   // Remove duplicate slashes
   p = p.replace(/\/+/g, '/');
@@ -20447,17 +20434,20 @@ function resolveAssetUrl(src) {
     return s;
   }
 
-  // HARDCODED FIX: Strip ANY domain and force Netlify CDN
-  // Remove any protocol and domain (quiz.ez-ged.com, ged-website.onrender.com, localhost, etc.)
+  // Strip ANY domain (quiz.ez-ged.com, ged-website.onrender.com, localhost, etc.)
   s = s.replace(/^https?:\/\/[^\/]+/i, '');
 
   // Remove leading slashes
   s = s.replace(/^\/+/, '');
 
-  // Remove 'frontend/' prefix if present
+  // Convert old /frontend/Images paths to new /images paths
+  s = s.replace(/^frontend\/Images\//i, 'images/');
+  s = s.replace(/^frontend\/Images/i, 'images');
+
+  // Remove 'frontend/' prefix if still present
   s = s.replace(/^frontend\//i, '');
 
-  // Remove 'Images/' prefix if present (we'll add it back)
+  // Remove 'Images/' prefix if present (shouldn't be after above replacements)
   s = s.replace(/^Images\//i, '');
 
   // Split path to extract subject and filename
@@ -20469,7 +20459,7 @@ function resolveAssetUrl(src) {
   const filename = parts[parts.length - 1];
 
   // Detect subject from path segments
-  let subject = 'Social_Studies'; // default
+  let subject = 'Social Studies'; // default
 
   for (const part of parts) {
     const lower = part.toLowerCase().replace(/[_\s-]+/g, '');
@@ -20480,21 +20470,21 @@ function resolveAssetUrl(src) {
       subject = 'Science';
       break;
     } else if (lower.includes('social') || lower.includes('studies')) {
-      subject = 'Social_Studies';
+      subject = 'Social Studies';
       break;
     } else if (lower.includes('rla') || lower.includes('language')) {
       subject = 'RLA';
       break;
     } else if (lower.includes('workforce') || lower.includes('readiness')) {
-      subject = 'Workforce_Readiness';
+      subject = 'Workforce Readiness';
       break;
     }
   }
 
-  // FORCE NETLIFY CDN - hardcoded canonical URL
-  const netlifyUrl = `https://ezged.netlify.app/frontend/Images/${subject}/${filename}`;
-  console.log(`[IMG FIX] ${src} -> ${netlifyUrl}`);
-  return netlifyUrl;
+  // Return standard /images/ path
+  const imageUrl = `/images/${subject}/${filename}`;
+  console.log(`[IMG FIX] ${src} -> ${imageUrl}`);
+  return imageUrl;
 }
 
 function normalizeMathText(text) {
@@ -22250,7 +22240,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                       persistExpanded(next);
                     }}
                   >
-                    Ô∏è
+                    ?
                   </button>
                 </div>
                 {coreInfoOpen && (
@@ -22330,7 +22320,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
               }}
               title="Toggle overview"
             >
-              ‚ÑπÔ∏è
+              ??
             </button>
           </div>
           <button
@@ -25834,7 +25824,7 @@ function App({ externalTheme, onThemeChange }) {
       subject,
       quizCode,
       quizTitle:
-        quizDetails.title || quizDetails.topicTitle || 'GED¬Æ Practice Exam',
+        quizDetails.title || quizDetails.topicTitle || 'GEDÆ Practice Exam',
       quizType: quizDetails.type,
       score: results.score,
       totalQuestions: results.totalQuestions,
@@ -25856,7 +25846,7 @@ function App({ externalTheme, onThemeChange }) {
           subject,
           quizCode,
           quizTitle:
-            quizDetails.title || quizDetails.topicTitle || 'GED¬Æ Practice Exam',
+            quizDetails.title || quizDetails.topicTitle || 'GEDÆ Practice Exam',
           quizType: quizDetails.type,
           score: results.score,
           totalQuestions: results.totalQuestions,
@@ -28678,14 +28668,14 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                         className="hover:bg-surface-soft transition"
                       >
                         <td className="px-4 py-3 font-medium text-primary">
-                          {u.name || '‚Äî'}
+                          {u.name || 'ó'}
                         </td>
                         <td className="px-4 py-3 text-secondary">{u.email}</td>
                         <td className="px-4 py-3">
                           <AdminRoleBadge role={u.role} />
                         </td>
                         <td className="px-4 py-3 text-secondary">
-                          {u.organization_name || '‚Äî'}
+                          {u.organization_name || 'ó'}
                         </td>
                         <td className="px-4 py-3 text-secondary">
                           {u.quiz_attempt_count || 0}
@@ -28693,7 +28683,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                         <td className="px-4 py-3 text-secondary">
                           {u.average_scaled_score != null
                             ? Math.round(u.average_scaled_score)
-                            : '‚Äî'}
+                            : 'ó'}
                         </td>
                         <td className="px-4 py-3 text-muted text-xs">
                           {formatDateTime(u.last_login_at)}
@@ -29051,7 +29041,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                             className="hover:bg-surface-soft transition"
                           >
                             <td className="px-4 py-3 font-medium text-primary">
-                              {u.name || '‚Äî'}
+                              {u.name || 'ó'}
                             </td>
                             <td className="px-4 py-3 text-secondary">
                               {u.email}
@@ -29065,7 +29055,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                             <td className="px-4 py-3 text-secondary">
                               {u.average_scaled_score != null
                                 ? Math.round(u.average_scaled_score)
-                                : '‚Äî'}
+                                : 'ó'}
                             </td>
                             <td className="px-4 py-3 text-muted text-xs">
                               {formatDateTime(u.last_login_at)}
@@ -30003,7 +29993,7 @@ function VocabularyBySubject({ vocabulary, onStartQuiz, theme = 'light' }) {
                   className={buttonClasses}
                   style={buttonStyle}
                 >
-                  üìù Vocabulary Quiz
+                  ?? Vocabulary Quiz
                 </button>
                 <span className="text-slate-600 dark:text-slate-300 text-xl">
                   {isExpanded ? '' : ''}
@@ -30086,7 +30076,7 @@ function ScienceFormulaSheet({ onClose }) {
           aria-label="Close science formula sheet"
           style={{ color: 'inherit' }}
         >
-          √ó
+          ◊
         </button>
 
         <h2 className="formula-sheet-title text-xl font-bold mb-4">
@@ -30168,7 +30158,7 @@ function FormulaSheetModal({ onClose }) {
           style={{ borderColor: 'rgba(148,163,184,0.35)' }}
         >
           <h2 className="formula-sheet-title text-xl font-bold">
-            GED¬Æ Mathematical Reasoning Formula Sheet
+            GEDÆ Mathematical Reasoning Formula Sheet
           </h2>
           <button
             onClick={onClose}
@@ -32162,7 +32152,7 @@ function StartScreen({
                       color: heroAccentColor,
                     }}
                   >
-                    üõ†Ô∏è {selectedSubject} Tools
+                    ??? {selectedSubject} Tools
                   </button>
                 )}
                 {selectedSubject === 'Math' && (
@@ -32199,7 +32189,7 @@ function StartScreen({
                         color: heroAccentColor,
                       }}
                     >
-                      üìú Constitution Explorer
+                      ?? Constitution Explorer
                     </button>
                     <button
                       onClick={() => setActiveSocialTool('economics')}
@@ -32209,7 +32199,7 @@ function StartScreen({
                         color: heroAccentColor,
                       }}
                     >
-                      üìä Economics Graphing
+                      ?? Economics Graphing
                     </button>
                   </>
                 )}
@@ -32707,7 +32697,7 @@ function StartScreen({
                         {
                           id: 'essay_practice_tool',
                           type: 'essay',
-                          title: 'GED¬Æ Essay Practice Toolkit',
+                          title: 'GEDÆ Essay Practice Toolkit',
                         },
                         selectedSubject
                       )
@@ -32748,13 +32738,13 @@ function StartScreen({
                       onClick={() => setActiveSocialTool('constitution')}
                       className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
                     >
-                      üìú Constitution Explorer
+                      ?? Constitution Explorer
                     </button>
                     <button
                       onClick={() => setActiveSocialTool('economics')}
                       className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
                     >
-                      üìä Economics Graphing
+                      ?? Economics Graphing
                     </button>
                   </div>
                 </div>
@@ -33999,8 +33989,8 @@ function QuizInterface({
                   <div className="flex items-center gap-3 text-sm font-medium">
                     <span style={{ color: scheme.text }}>Olympics</span>
                     <span className="text-base">
-                      {'‚ô•'.repeat(livesRemaining)}
-                      {'‚ô°'.repeat(3 - livesRemaining)}
+                      {'?'.repeat(livesRemaining)}
+                      {'?'.repeat(3 - livesRemaining)}
                     </span>
                     <span
                       style={{ color: scheme.mutedText }}
@@ -34017,10 +34007,10 @@ function QuizInterface({
                           : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700'
                       }`}
                     >
-                      {lastAnswerCorrect ? '‚úì Correct!' : '‚úó Incorrect'}
+                      {lastAnswerCorrect ? '? Correct!' : '? Incorrect'}
                       {!lastAnswerCorrect &&
                         livesRemaining > 0 &&
-                        ' ‚Ä¢ Lives remaining: ' + livesRemaining}
+                        ' ï Lives remaining: ' + livesRemaining}
                     </div>
                   )}
                 </>
@@ -34032,7 +34022,7 @@ function QuizInterface({
                     style={timerStyle}
                   >
                     <span role="img" aria-label="timer">
-                      ‚è±Ô∏è
+                      ??
                     </span>
                     <span>{formatTime(timeLeft)}</span>
                     {isPaused && (
@@ -34120,7 +34110,7 @@ function QuizInterface({
                   className="text-lg font-semibold"
                   style={{ color: scheme.text }}
                 >
-                  üìñ Reading Passage
+                  ?? Reading Passage
                 </h3>
                 {article.genre && (
                   <p
@@ -35732,7 +35722,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
             }`}
           >
             <span role="img" aria-label="timer">
-              ‚è±
+              ?
             </span>
             <span>{formatTime(timeLeft)}</span>
             {isPaused && (
@@ -35812,7 +35802,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
       <div className="text-center fade-in results-screen olympics-summary">
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2">
-            üèÖ Olympics Session Complete
+            ?? Olympics Session Complete
           </h2>
           {results.livesRemaining === 0 ? (
             <p className="text-lg text-gray-700 dark:text-gray-300">
@@ -35893,11 +35883,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                             : 'text-red-600 dark:text-red-400'
                         }
                       >
-                        {entry.correct ? '‚úÖ' : '‚ùå'}
+                        {entry.correct ? '?' : '?'}
                       </span>
                     </td>
                     <td className="px-4 py-2">{entry.subject}</td>
-                    <td className="px-4 py-2">{entry.topic || '‚Äî'}</td>
+                    <td className="px-4 py-2">{entry.topic || 'ó'}</td>
                     <td className="px-4 py-2 text-sm">
                       {entry.premadeQuizTitle || 'Premade Quiz'}
                     </td>
@@ -35997,13 +35987,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const getPerf = (score) => {
     if (score >= 175)
       return {
-        level: 'GED¬Æ College Ready + Credit',
+        level: 'GEDÆ College Ready + Credit',
         color: 'text-info',
       };
     if (score >= 165)
-      return { level: 'GED¬Æ College Ready', color: 'text-info' };
+      return { level: 'GEDÆ College Ready', color: 'text-info' };
     if (score >= 145)
-      return { level: 'GED¬Æ Passing Score', color: 'text-success' };
+      return { level: 'GEDÆ Passing Score', color: 'text-success' };
     return { level: 'Keep studying!', color: 'text-warning' };
   };
 
@@ -36052,7 +36042,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         Results: {quiz?.title || 'Completed Quiz'}
       </h2>
       <div className="my-6">
-        <p className="text-lg text-secondary">Your estimated GED¬Æ Score is:</p>
+        <p className="text-lg text-secondary">Your estimated GEDÆ Score is:</p>
         <p className={`text-6xl font-bold my-2 ${performance.color}`}>
           {scaledScore}
         </p>
@@ -36071,7 +36061,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             Suggested Focus Areas
           </h3>
           {loadingSuggestions && !suggestions.length ? (
-            <p className="text-sm text-secondary">Loading suggestions‚Ä¶</p>
+            <p className="text-sm text-secondary">Loading suggestionsÖ</p>
           ) : suggestions.length ? (
             <ul className="space-y-2">
               {suggestions.map((s) => (
@@ -36312,7 +36302,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                   }`}
                 >
                   Your answer: {userAnswer || 'No answer'}{' '}
-                  {isCorrect ? '‚úì' : '‚úó'}
+                  {isCorrect ? '?' : '?'}
                 </p>
                 {!isCorrect &&
                   ((correctMC && correctMC.text) || question.correctAnswer) && (
@@ -37133,7 +37123,7 @@ function EssayGuide({ onExit }) {
     ? `After reading both passages about "${selectedPassage.topic}", write an essay in which you explain which author presents the more convincing argument. Support your response with evidence from both passages and explain why the evidence you cite supports your evaluation.`
     : '';
   const overlayButtons = [
-    { id: 'prompt', label: 'Essay Prompt', title: 'GED¬Æ RLA Essay Prompt' },
+    { id: 'prompt', label: 'Essay Prompt', title: 'GEDÆ RLA Essay Prompt' },
     {
       id: 'passage1',
       label: 'Passage A',
@@ -37522,7 +37512,7 @@ function EssayGuide({ onExit }) {
                         essayText.intro
                       ) && (
                         <div className="text-yellow-700 bg-yellow-50 px-3 py-1 rounded-md border border-yellow-300">
-                          üí° Tip: Ensure you state your main argument
+                          ?? Tip: Ensure you state your main argument
                         </div>
                       )}
                   </div>
