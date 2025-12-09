@@ -1,0 +1,594 @@
+{
+  "phase1_uam_implementation_guide": {
+    "description": "Step-by-step guide for adding UAM markers to all questions",
+    "objective": "Add 'uam' field to 6,549 questions across 9 files",
+    "format": "SUBJECT_PART_Q##_TYPE",
+    "processing_rules": {
+      "question_numbering": "Use existing question.questionNumber field, zero-padded to 2 digits",
+      "question_type_detection": {
+        "constructed_response": "type === 'constructedResponse' || type === 'constructed-response' -> TYPE: CR",
+        "multiple_choice": "answerOptions array present and options > 1 -> TYPE: MC",
+        "fill_in": "type === 'fillIn' or correctAnswer field exists without answerOptions -> TYPE: FI",
+        "image_based": "stimulusImage field exists -> TYPE: IMG",
+        "other": "Map to appropriate type based on question structure"
+      },
+      "subject_code_by_file": {
+        "math.quizzes.part1.json": "MATH",
+        "math.quizzes.part2.json": "MATH",
+        "rla.quizzes.part1.json": "RLA",
+        "rla.quizzes.part2.json": "RLA",
+        "science.quizzes.part1.json": "SCI",
+        "science.quizzes.part2.json": "SCI",
+        "social-studies.quizzes.json": "SS",
+        "social-studies.extras.json": "SS",
+        "workforce.quizzes.json": "WF"
+      },
+      "part_code_by_file": {
+        "part1": "P1",
+        "part2": "P2",
+        "extras": "EXTRAS",
+        "default": "N/A"
+      }
+    },
+    "example_implementations": [
+      {
+        "before": {
+          "questionNumber": 1,
+          "type": "multipleChoice",
+          "question": "What is 2+2?",
+          "answerOptions": [
+            { "text": "4", "isCorrect": true },
+            { "text": "5", "isCorrect": false }
+          ]
+        },
+        "after": {
+          "questionNumber": 1,
+          "type": "multipleChoice",
+          "uam": "MATH_P1_Q01_MC",
+          "question": "What is 2+2?",
+          "answerOptions": [
+            { "text": "4", "isCorrect": true },
+            { "text": "5", "isCorrect": false }
+          ]
+        }
+      },
+      {
+        "before": {
+          "questionNumber": 47,
+          "type": "constructedResponse",
+          "question": "Explain photosynthesis"
+        },
+        "after": {
+          "questionNumber": 47,
+          "type": "constructedResponse",
+          "uam": "SCI_P2_Q47_CR",
+          "question": "Explain photosynthesis"
+        }
+      },
+      {
+        "before": {
+          "questionNumber": 8,
+          "type": "multipleChoice",
+          "question": "What does this map show?",
+          "stimulusImage": {
+            "src": "/Images/Social Studies/territorial-evolution-of-the-united-states_0037a8d3.png",
+            "alt": "US Territorial Evolution"
+          },
+          "answerOptions": []
+        },
+        "after": {
+          "questionNumber": 8,
+          "type": "multipleChoice",
+          "uam": "SS_P1_Q08_IMG",
+          "question": "What does this map show?",
+          "stimulusImage": {
+            "src": "/Images/Social Studies/territorial-evolution-of-the-united-states_0037a8d3.png",
+            "alt": "US Territorial Evolution"
+          },
+          "answerOptions": []
+        }
+      }
+    ]
+  },
+  "phase3_new_questions_full_specification": {
+    "description": "Complete JSON structures for 14 new image-based questions",
+    "science_part_1": [
+      {
+        "questionNumber": 1047,
+        "type": "multipleChoice",
+        "uam": "SCI_P1_Q01047_IMG",
+        "difficulty": "medium",
+        "question": "The diagram below shows a Punnett square used to predict genetic outcomes. Which of the following best describes what a Punnett square represents?",
+        "stimulusImage": {
+          "src": "/Images/Science/punnett-square_044598f7.png",
+          "alt": "Punnett square showing genetic cross with two parent organisms and their offspring combinations",
+          "width": 400,
+          "height": 350
+        },
+        "answerOptions": [
+          {
+            "text": "The physical appearance of an organism resulting from its genes",
+            "isCorrect": false,
+            "rationale": "This describes phenotype, which is the physical trait, not what a Punnett square represents."
+          },
+          {
+            "text": "A tool used to predict the probability of offspring inheriting specific traits",
+            "isCorrect": true,
+            "rationale": "Correct. A Punnett square is a diagram used to determine the possible genetic combinations in offspring based on parent genotypes."
+          },
+          {
+            "text": "A diagram showing the evolutionary history of a species",
+            "isCorrect": false,
+            "rationale": "This describes a phylogenetic tree or evolutionary tree, not a Punnett square."
+          },
+          {
+            "text": "A chart comparing DNA sequences between different organisms",
+            "isCorrect": false,
+            "rationale": "This is not the purpose of a Punnett square. Punnett squares focus on inheritance, not sequence comparison."
+          }
+        ]
+      },
+      {
+        "questionNumber": 1048,
+        "type": "multipleChoice",
+        "uam": "SCI_P1_Q01048_IMG",
+        "difficulty": "medium",
+        "question": "The image below shows a NASA photograph of hurricane formation. Based on the visual information, which statement about hurricanes is most accurate?",
+        "stimulusImage": {
+          "src": "/Images/Science/how-does-nasa-study-hurricanes-nasa_00225935.png",
+          "alt": "NASA satellite image showing hurricane formation with spiral cloud bands and central eye structure",
+          "width": 400,
+          "height": 300
+        },
+        "answerOptions": [
+          {
+            "text": "Hurricanes form only over land masses",
+            "isCorrect": false,
+            "rationale": "Hurricanes form exclusively over warm ocean waters, not land."
+          },
+          {
+            "text": "Hurricanes are characterized by a rotating cloud pattern with a clear central eye",
+            "isCorrect": true,
+            "rationale": "Correct. The distinctive spiral rotation and the calm eye at the center are defining characteristics visible in satellite imagery of hurricanes."
+          },
+          {
+            "text": "Hurricanes are stationary and do not move",
+            "isCorrect": false,
+            "rationale": "Hurricanes are dynamic weather systems that move across ocean basins along predictable paths."
+          },
+          {
+            "text": "The eye of a hurricane is the most dangerous part of the storm",
+            "isCorrect": false,
+            "rationale": "The eye is the calmest part of the hurricane. The most dangerous area is the eyewall where winds are strongest."
+          }
+        ]
+      },
+      {
+        "questionNumber": 1049,
+        "type": "multipleChoice",
+        "uam": "SCI_P1_Q01049_IMG",
+        "difficulty": "easy",
+        "question": "The diagram below illustrates different systems in the human body. Which system is primarily responsible for circulating oxygen throughout the body?",
+        "stimulusImage": {
+          "src": "/Images/Science/human-body_0a194f0f.png",
+          "alt": "Diagram of major human body systems including skeletal, muscular, nervous, and circulatory systems",
+          "width": 350,
+          "height": 450
+        },
+        "answerOptions": [
+          {
+            "text": "Digestive system",
+            "isCorrect": false,
+            "rationale": "The digestive system breaks down food for energy and nutrient absorption but does not circulate oxygen."
+          },
+          {
+            "text": "Circulatory system",
+            "isCorrect": true,
+            "rationale": "Correct. The circulatory system, which includes the heart and blood vessels, is responsible for transporting oxygen-rich blood to all cells in the body."
+          },
+          {
+            "text": "Nervous system",
+            "isCorrect": false,
+            "rationale": "The nervous system controls body functions and sends signals but does not directly transport oxygen."
+          },
+          {
+            "text": "Skeletal system",
+            "isCorrect": false,
+            "rationale": "The skeletal system provides structure and support but does not circulate oxygen."
+          }
+        ]
+      },
+      {
+        "questionNumber": 1050,
+        "type": "multipleChoice",
+        "uam": "SCI_P1_Q01050_IMG",
+        "difficulty": "medium",
+        "question": "The diagram below shows a physics apparatus. Which principle does this equipment demonstrate?",
+        "stimulusImage": {
+          "src": "/Images/Science/ged-scince-fig-2.png",
+          "alt": "Physics demonstration equipment showing mechanical energy conversion",
+          "width": 400,
+          "height": 320
+        },
+        "answerOptions": [
+          {
+            "text": "Conservation of energy",
+            "isCorrect": true,
+            "rationale": "Correct. This demonstrates how energy is transformed from one form to another but is never created or destroyed."
+          },
+          {
+            "text": "Newton's first law of motion",
+            "isCorrect": false,
+            "rationale": "While related to motion concepts, this apparatus more directly demonstrates energy conservation principles."
+          },
+          {
+            "text": "Wave interference patterns",
+            "isCorrect": false,
+            "rationale": "This apparatus demonstrates mechanical energy concepts, not wave interference patterns."
+          },
+          {
+            "text": "Thermal conductivity",
+            "isCorrect": false,
+            "rationale": "The apparatus does not relate to heat transfer or thermal conductivity."
+          }
+        ]
+      }
+    ],
+    "science_part_2": [
+      {
+        "questionNumber": 489,
+        "type": "multipleChoice",
+        "uam": "SCI_P2_Q00489_IMG",
+        "difficulty": "medium",
+        "question": "The image shows a cross between two organisms. If this represents a Mendelian inheritance pattern, what can be concluded?",
+        "stimulusImage": {
+          "src": "/Images/Science/mendelian-inheritance_25031e87.png",
+          "alt": "Diagram showing Mendelian inheritance pattern across generations with dominant and recessive traits",
+          "width": 400,
+          "height": 350
+        },
+        "answerOptions": [
+          {
+            "text": "All offspring will be genetically identical to parents",
+            "isCorrect": false,
+            "rationale": "Mendelian inheritance produces genetic variation in offspring, not identical copies."
+          },
+          {
+            "text": "Traits are passed from parents to offspring in predictable ratios",
+            "isCorrect": true,
+            "rationale": "Correct. Mendelian inheritance explains how dominant and recessive traits are inherited in predictable mathematical ratios across generations."
+          },
+          {
+            "text": "Offspring inherit exactly half of their DNA from each parent",
+            "isCorrect": false,
+            "rationale": "While this is true, it is not the primary principle illustrated by Mendelian inheritance diagrams."
+          },
+          {
+            "text": "Mutations are required for trait inheritance",
+            "isCorrect": false,
+            "rationale": "Mendelian inheritance demonstrates inheritance of traits without requiring mutations to occur."
+          }
+        ]
+      },
+      {
+        "questionNumber": 490,
+        "type": "multipleChoice",
+        "uam": "SCI_P2_Q00490_IMG",
+        "difficulty": "medium",
+        "question": "Based on the satellite data shown, which factor most directly affects hurricane intensity?",
+        "stimulusImage": {
+          "src": "/Images/Science/five-questions-to-help-you-understand-hurricanes-and-climate-change-nasa_0eede8d4.png",
+          "alt": "NASA satellite data analyzing hurricane intensity and formation factors",
+          "width": 400,
+          "height": 300
+        },
+        "answerOptions": [
+          {
+            "text": "Wind patterns at high altitudes",
+            "isCorrect": false,
+            "rationale": "While high-altitude wind shear is important, warm ocean temperatures are the primary direct driver of hurricane intensity."
+          },
+          {
+            "text": "Warm ocean water surface temperatures",
+            "isCorrect": true,
+            "rationale": "Correct. Hurricanes derive their energy directly from warm ocean water. Higher water temperatures result in more intense storms."
+          },
+          {
+            "text": "The amount of land the hurricane passes over",
+            "isCorrect": false,
+            "rationale": "Land interaction causes hurricanes to weaken, but it is not the primary driver of initial intensity."
+          },
+          {
+            "text": "Atmospheric pressure in the upper atmosphere",
+            "isCorrect": false,
+            "rationale": "While related, ocean temperature is the primary factor determining hurricane intensity."
+          }
+        ]
+      },
+      {
+        "questionNumber": 491,
+        "type": "multipleChoice",
+        "uam": "SCI_P2_Q00491_IMG",
+        "difficulty": "easy",
+        "question": "The diagram below shows matter in different states. Which statement is supported by the image?",
+        "stimulusImage": {
+          "src": "/Images/Science/matter_bad6b569.png",
+          "alt": "Diagram showing the three states of matter: solid, liquid, and gas with particle arrangements",
+          "width": 400,
+          "height": 300
+        },
+        "answerOptions": [
+          {
+            "text": "Matter can only exist in one state at a time",
+            "isCorrect": false,
+            "rationale": "Matter can exist in multiple states simultaneously and transitions between states are common."
+          },
+          {
+            "text": "Matter can transition between solid, liquid, and gas states",
+            "isCorrect": true,
+            "rationale": "Correct. This is the fundamental principle of phase transitions in matter."
+          },
+          {
+            "text": "Plasma is the most common state of matter on Earth",
+            "isCorrect": false,
+            "rationale": "Liquid and solid states are far more common on Earth than plasma."
+          },
+          {
+            "text": "Temperature has no effect on the state of matter",
+            "isCorrect": false,
+            "rationale": "Temperature is a primary driver of phase changes between states of matter."
+          }
+        ]
+      }
+    ],
+    "social_studies_main": [
+      {
+        "questionNumber": 1302,
+        "type": "multipleChoice",
+        "uam": "SS_P1_Q01302_IMG",
+        "difficulty": "medium",
+        "question": "The map below shows the territorial expansion of the United States. Which statement best explains the significance of this expansion?",
+        "stimulusImage": {
+          "src": "/Images/Social Studies/territorial-evolution-of-the-united-states_0037a8d3.png",
+          "alt": "Map showing the progression of US territorial acquisition from 1783 to 1853",
+          "width": 500,
+          "height": 400
+        },
+        "answerOptions": [
+          {
+            "text": "The US acquired all its territory peacefully through diplomacy",
+            "isCorrect": false,
+            "rationale": "While some territory was acquired diplomatically, westward expansion also involved military conflict."
+          },
+          {
+            "text": "Westward expansion resulted from the doctrine of Manifest Destiny",
+            "isCorrect": true,
+            "rationale": "Correct. The belief in Manifest Destiny—that the US was destined to expand across the continent—drove territorial acquisition throughout the 19th century."
+          },
+          {
+            "text": "Territorial expansion occurred only through purchases from other nations",
+            "isCorrect": false,
+            "rationale": "While purchases occurred (like the Louisiana Purchase), territorial expansion also involved military conquest and conflict."
+          },
+          {
+            "text": "The US borders have remained unchanged since independence",
+            "isCorrect": false,
+            "rationale": "The map clearly demonstrates significant territorial changes from independence to the Civil War era."
+          }
+        ]
+      },
+      {
+        "questionNumber": 1303,
+        "type": "multipleChoice",
+        "uam": "SS_P1_Q01303_IMG",
+        "difficulty": "medium",
+        "question": "The political cartoon below critiques the influence of political machines. What is the primary message of this cartoon?",
+        "stimulusImage": {
+          "src": "/Images/Social Studies/Bosses-of-the-Senate.jpg",
+          "alt": "Political cartoon depicting wealthy industrial leaders controlling the US Senate",
+          "width": 450,
+          "height": 350
+        },
+        "answerOptions": [
+          {
+            "text": "Industrial leaders had excessive influence over government decisions",
+            "isCorrect": true,
+            "rationale": "Correct. The cartoon illustrates how wealthy industrialists and corporate interests essentially controlled political processes in the Gilded Age."
+          },
+          {
+            "text": "The Senate was the most democratic institution in government",
+            "isCorrect": false,
+            "rationale": "The cartoon criticizes the Senate's lack of democracy, not praises it."
+          },
+          {
+            "text": "Labor unions had more power than business interests",
+            "isCorrect": false,
+            "rationale": "The cartoon shows the opposite—that business interests dominated labor and government."
+          },
+          {
+            "text": "Government corruption was eliminated in the early 20th century",
+            "isCorrect": false,
+            "rationale": "The cartoon documents the corruption problem; reforms and elimination came gradually through Progressive Era legislation."
+          }
+        ]
+      },
+      {
+        "questionNumber": 1304,
+        "type": "multipleChoice",
+        "uam": "SS_P1_Q01304_IMG",
+        "difficulty": "easy",
+        "question": "The chart below displays data about a historical event. What trend does this data most clearly demonstrate?",
+        "stimulusImage": {
+          "src": "/Images/Social Studies/Questions-are-based-on-the-following-graph.-1.png",
+          "alt": "Historical data visualization showing economic or social trends over time",
+          "width": 500,
+          "height": 350
+        },
+        "answerOptions": [
+          {
+            "text": "A steady decline over the time period shown",
+            "isCorrect": false,
+            "rationale": "Most historical trend charts show growth or fluctuation, not steady decline."
+          },
+          {
+            "text": "Significant growth followed by stabilization",
+            "isCorrect": true,
+            "rationale": "Correct. This is a common pattern in historical data showing initial growth or expansion followed by stabilization."
+          },
+          {
+            "text": "Constant values with no change",
+            "isCorrect": false,
+            "rationale": "Historical charts typically show change and fluctuation over time."
+          },
+          {
+            "text": "Unpredictable fluctuations with no clear pattern",
+            "isCorrect": false,
+            "rationale": "Historical data typically reveals identifiable trends and patterns."
+          }
+        ]
+      },
+      {
+        "questionNumber": 1305,
+        "type": "multipleChoice",
+        "uam": "SS_P1_Q01305_IMG",
+        "difficulty": "medium",
+        "question": "The image below shows a political cartoon from the early 20th century. What historical event or movement does this cartoon most likely reference?",
+        "stimulusImage": {
+          "src": "/Images/Social Studies/political-cartoon_090c22af.png",
+          "alt": "Early 20th century editorial cartoon satirizing monopolies or corporate practices",
+          "width": 450,
+          "height": 350
+        },
+        "answerOptions": [
+          {
+            "text": "The Civil Rights Movement",
+            "isCorrect": false,
+            "rationale": "Timeline does not match—this cartoon is from the early 1900s, while the Civil Rights Movement was mid-20th century."
+          },
+          {
+            "text": "The Progressive Era and trust-busting reforms",
+            "isCorrect": true,
+            "rationale": "Correct. Early 20th century political cartoons frequently satirized industrial monopolies and criticized the lack of government regulation, issues central to Progressive Era reforms."
+          },
+          {
+            "text": "World War I military mobilization",
+            "isCorrect": false,
+            "rationale": "While the timeline could overlap, the cartoon content suggests domestic economic reform rather than military themes."
+          },
+          {
+            "text": "The expansion of the suffrage movement",
+            "isCorrect": false,
+            "rationale": "The cartoon's content and imagery suggest economic and corporate themes rather than voting rights."
+          }
+        ]
+      }
+    ],
+    "social_studies_extras": [
+      {
+        "questionNumber": 217,
+        "type": "multipleChoice",
+        "uam": "SS_EXTRAS_Q00217_IMG",
+        "difficulty": "medium",
+        "question": "Based on the territorial map shown, which of the following was a consequence of westward expansion?",
+        "stimulusImage": {
+          "src": "/Images/Social Studies/territorial-evolution-of-the-united-states_03abb99d.png",
+          "alt": "Map showing US territorial growth and frontier movement westward in the 19th century",
+          "width": 500,
+          "height": 400
+        },
+        "answerOptions": [
+          {
+            "text": "Conflict with Native American tribes over land rights",
+            "isCorrect": true,
+            "rationale": "Correct. Westward expansion directly led to conflict and displacement of Native American populations who occupied those lands."
+          },
+          {
+            "text": "Improved relations with European colonial powers",
+            "isCorrect": false,
+            "rationale": "Expansion did not necessarily improve diplomatic relations with European nations."
+          },
+          {
+            "text": "Elimination of international trade",
+            "isCorrect": false,
+            "rationale": "Westward expansion actually facilitated the growth and expansion of international trade."
+          },
+          {
+            "text": "Reduction in slavery in the South",
+            "isCorrect": false,
+            "rationale": "Westward expansion extended the slavery debate as new territories were claimed and debated as free or slave states."
+          }
+        ]
+      },
+      {
+        "questionNumber": 218,
+        "type": "multipleChoice",
+        "uam": "SS_EXTRAS_Q00218_IMG",
+        "difficulty": "medium",
+        "question": "The political cartoon below is typical of wartime propaganda. What audience was this cartoon designed to influence?",
+        "stimulusImage": {
+          "src": "/Images/Social Studies/FDR-cartoon-photoshoped.gif",
+          "alt": "WWII-era propaganda cartoon featuring political leadership and war messaging",
+          "width": 450,
+          "height": 350
+        },
+        "answerOptions": [
+          {
+            "text": "Enemy military leaders",
+            "isCorrect": false,
+            "rationale": "Propaganda was not typically designed to influence enemy leadership directly."
+          },
+          {
+            "text": "The general public to build support for war efforts",
+            "isCorrect": true,
+            "rationale": "Correct. Wartime propaganda was specifically designed to maintain public morale and build domestic support for military actions."
+          },
+          {
+            "text": "Neutral countries considering alignment",
+            "isCorrect": false,
+            "rationale": "While some propaganda targeted neutral nations, the primary audience for domestic cartoons was the general public."
+          },
+          {
+            "text": "Allied leaders for military strategy",
+            "isCorrect": false,
+            "rationale": "Public-facing propaganda cartoons were not designed for military strategy discussions among leaders."
+          }
+        ]
+      },
+      {
+        "questionNumber": 219,
+        "type": "multipleChoice",
+        "uam": "SS_EXTRAS_Q00219_IMG",
+        "difficulty": "easy",
+        "question": "The 'Join or Die' cartoon shown below was used to symbolize something. What did the fragmented snake most likely represent?",
+        "stimulusImage": {
+          "src": "/Images/Social Studies/join-or-die_a8363d6c.png",
+          "alt": "Historical 'Join or Die' cartoon showing a severed snake with body parts labeled with colonial abbreviations",
+          "width": 450,
+          "height": 280
+        },
+        "answerOptions": [
+          {
+            "text": "Individual colonies that needed unity against a common threat",
+            "isCorrect": true,
+            "rationale": "Correct. The severed snake segments represented separate colonies that needed to unite against British authority or face defeat individually."
+          },
+          {
+            "text": "The British army advancing on the colonies",
+            "isCorrect": false,
+            "rationale": "The snake represented the colonies themselves and their need for unity, not the British enemy."
+          },
+          {
+            "text": "Native American tribes opposing expansion",
+            "isCorrect": false,
+            "rationale": "The cartoon's historical context is about colonial unity, not conflicts with Native Americans."
+          },
+          {
+            "text": "The central government's power over the states",
+            "isCorrect": false,
+            "rationale": "This cartoon predates the federal system and emphasizes the need for colonial unity rather than central control."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -4714,6 +4714,17 @@ const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
+
+    // Allow VS Code Simple Browser and localhost
+    if (
+      origin &&
+      (origin.startsWith('vscode-webview://') ||
+        origin.includes('localhost') ||
+        origin.includes('127.0.0.1'))
+    ) {
+      return callback(null, true);
+    }
+
     if (allowedOrigins.indexOf(origin) === -1) {
       const msg =
         'The CORS policy for this site does not allow access from the specified Origin.';
@@ -14155,7 +14166,12 @@ app.get('/api/all-quizzes', (req, res) => {
 });
 
 // Practice Session helpers and endpoint
-const PRACTICE_SUBJECTS = ['Math', 'Science', 'RLA', 'Social Studies'];
+const PRACTICE_SUBJECTS = [
+  'Math',
+  'Science',
+  'Reasoning Through Language Arts (RLA)',
+  'Social Studies',
+];
 const VALID_DURATIONS = [10, 20, 30, 40, 50, 60];
 
 function clampDuration(mins) {
@@ -14372,10 +14388,20 @@ app.post(
               originQuizTitle: q.quizTitle || q.title || null,
             });
           });
+        } else {
+          console.warn(
+            `[practice-session] getPremadeQuestions returned non-array for subject: ${subj}`
+          );
         }
       });
 
       if (!pool.length) {
+        console.warn(
+          '[practice-session] Empty question pool. ALL_QUIZZES subjects:',
+          Object.keys(ALL_QUIZZES || {}),
+          'Requested subjects:',
+          subjectList
+        );
         return res.json({
           title: isOlympicsMode ? 'Olympics Practice' : 'Practice Session',
           durationMinutes,

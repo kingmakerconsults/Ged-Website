@@ -109,6 +109,10 @@
   --text-primary: #0f172a;
   --text-secondary: #1f2937;
   --panel-text: #0f172a;
+  --modal-overlay: rgba(15, 23, 42, 0.55);
+  --modal-surface: #ffffff;
+  --modal-border: rgba(148, 163, 184, 0.35);
+  --modal-text: #0f172a;
 }
 
 :root[data-theme='dark'],
@@ -116,6 +120,29 @@
   --text-primary: #e2e8f0;
   --text-secondary: #cbd5e1;
   --panel-text: #ffffff;
+  --modal-overlay: rgba(2, 6, 23, 0.82);
+  --modal-surface: rgba(15, 23, 42, 0.96);
+  --modal-border: rgba(148, 163, 184, 0.35);
+  --modal-text: #e2e8f0;
+}
+
+/* Support class-driven dark mode toggles */
+.dark {
+  --text-primary: #e2e8f0;
+  --text-secondary: #cbd5e1;
+  --panel-text: #ffffff;
+  --modal-overlay: rgba(2, 6, 23, 0.82);
+  --modal-surface: rgba(15, 23, 42, 0.96);
+  --modal-border: rgba(148, 163, 184, 0.35);
+  --modal-text: #e2e8f0;
+}
+.dark .practice-session-modal {
+  color: var(--modal-text);
+}
+.dark .practice-session-modal select,
+.dark .practice-session-modal button,
+.dark .practice-session-modal label {
+  color: var(--modal-text);
 }
 
 /* Base theme text colors - Light Mode */
@@ -251,7 +278,10 @@
   --button-secondary-bg: rgba(15, 23, 42, 0.85);
   --button-secondary-border: rgba(148, 163, 184, 0.35);
   --button-secondary-text: #e2e8f0;
-  --subject-science-accent: #f87171;
+}
+
+/* Continue with subject colors */
+.dark {
   --subject-science-text: #fff5f5;
   --subject-science-surface-text: #fff5f5;
   --subject-science-accent-text: #fff5f5;
@@ -301,6 +331,16 @@
     rgba(15, 23, 42, 0.95),
     rgba(20, 184, 166, 0.85)
   );
+}
+
+/* Vocabulary text color fix for dark/light mode */
+.vocab-text {
+  color: #0f172a !important;
+}
+.dark .vocab-text,
+:root.dark .vocab-text,
+html.dark .vocab-text {
+  color: #e2e8f0 !important;
 }
 
 /* Aurora Background Animation */

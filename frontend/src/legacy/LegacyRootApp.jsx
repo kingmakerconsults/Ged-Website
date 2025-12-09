@@ -2762,7 +2762,12 @@ function extractMathSegments(input) {
 
 function sanitizeHtmlContent(
   content,
-  { normalizeSpacing = false, skipPreprocess = false, subject = null } = {}
+  {
+    normalizeSpacing = false,
+    skipPreprocess = false,
+    subject = null,
+    trustedHtml = false, // set true for vetted premade content so we can render even if DOMPurify is unavailable
+  } = {}
 ) {
   if (typeof content !== 'string') return '';
   let working = content;
@@ -2808,6 +2813,13 @@ function sanitizeHtmlContent(
     // Convert Tailwind classes to inline CSS for table elements
     sanitized = convertTailwindTableClassesToInlineCss(sanitized);
     return sanitized;
+  }
+
+  // Fallback: if DOMPurify is missing but the content is trusted (premade), render without escaping
+  if (trustedHtml) {
+    let trusted = formatFractions(working);
+    trusted = convertTailwindTableClassesToInlineCss(trusted);
+    return trusted;
   }
 
   let result = formatFractions(
@@ -23420,12 +23432,18 @@ function PracticeSessionModal({
           border: `1px solid var(--modal-border)`,
         }}
       >
-        <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-slate-100">
+        <h2
+          className="text-xl font-bold mb-4"
+          style={{ color: 'var(--text-primary)' }}
+        >
           Start a Practice Session
         </h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1 text-slate-900 dark:text-slate-300">
+            <label
+              className="block text-sm font-medium mb-1"
+              style={{ color: 'var(--text-primary)' }}
+            >
               Duration
             </label>
             <select
@@ -23443,7 +23461,10 @@ function PracticeSessionModal({
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1 text-slate-900 dark:text-slate-300">
+            <label
+              className="block text-sm font-medium mb-1"
+              style={{ color: 'var(--text-primary)' }}
+            >
               Mode
             </label>
             <select
@@ -23466,8 +23487,11 @@ function PracticeSessionModal({
           <button
             type="button"
             onClick={onDismiss}
-            className="px-4 py-2 rounded-md border text-slate-900 dark:text-slate-100"
-            style={{ borderColor: 'var(--modal-border)' }}
+            className="px-4 py-2 rounded-md border"
+            style={{
+              borderColor: 'var(--modal-border)',
+              color: 'var(--text-primary)',
+            }}
             disabled={submitting}
           >
             Cancel
@@ -33775,6 +33799,7 @@ function Stem({ item, subject = null, isReview = false }) {
             __html: sanitizeHtmlContent(passageContent, {
               normalizeSpacing: true,
               subject,
+              trustedHtml: item.isPremade === true,
             }),
           }}
         />
@@ -36033,6 +36058,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 }
 
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
+  const selectedSubject = quiz?.subject || results?.subject || null;
   // Confetti celebration effect
   useEffect(() => {
     const passed =

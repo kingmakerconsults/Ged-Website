@@ -23199,10 +23199,16 @@ function NamePromptModal({ user, onSave, onDismiss }) {
             </svg>
           </button>
         )}
-        <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-slate-100">
+        <h2
+          className="mb-4 text-2xl font-bold"
+          style={{ color: 'var(--text-primary)' }}
+        >
           Welcome! Let's set up your name.
         </h2>
-        <p className="mb-6 text-slate-900 dark:text-slate-300">
+        <p
+          className="mb-6"
+          style={{ color: 'var(--text-primary)', opacity: 0.85 }}
+        >
           Please confirm your name below. This will be used to personalize your
           experience.
         </p>
@@ -23210,7 +23216,8 @@ function NamePromptModal({ user, onSave, onDismiss }) {
           <div>
             <label
               htmlFor="firstName"
-              className="block text-sm font-medium text-slate-900 dark:text-slate-300"
+              className="block text-sm font-medium"
+              style={{ color: 'var(--text-primary)' }}
             >
               First Name
             </label>
@@ -23219,13 +23226,15 @@ function NamePromptModal({ user, onSave, onDismiss }) {
               id="firstName"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100"
+              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600"
+              style={{ color: 'var(--text-primary)' }}
             />
           </div>
           <div>
             <label
               htmlFor="lastName"
-              className="block text-sm font-medium text-slate-900 dark:text-slate-300"
+              className="block text-sm font-medium"
+              style={{ color: 'var(--text-primary)' }}
             >
               Last Name
             </label>
@@ -23234,7 +23243,8 @@ function NamePromptModal({ user, onSave, onDismiss }) {
               id="lastName"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100"
+              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600"
+              style={{ color: 'var(--text-primary)' }}
             />
           </div>
         </div>
@@ -23308,17 +23318,26 @@ function PracticeSessionModal({
           border: `1px solid var(--modal-border)`,
         }}
       >
-        <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-slate-100">
+        <h2
+          className="text-xl font-bold mb-4"
+          style={{ color: 'var(--modal-text)' }}
+        >
           Start a Practice Session
         </h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1 text-slate-900 dark:text-slate-300">
+            <label
+              className="block text-sm font-medium mb-1"
+              style={{ color: 'var(--modal-text)' }}
+            >
               Duration
             </label>
             <select
-              className="w-full rounded-md border px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
-              style={{ borderColor: 'var(--modal-border)' }}
+              className="w-full rounded-md border px-3 py-2 bg-white dark:bg-slate-800"
+              style={{
+                borderColor: 'var(--modal-border)',
+                color: 'var(--modal-text)',
+              }}
               value={duration}
               onChange={(e) => setDuration(parseInt(e.target.value, 10))}
               disabled={submitting}
@@ -23331,12 +23350,18 @@ function PracticeSessionModal({
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1 text-slate-900 dark:text-slate-300">
+            <label
+              className="block text-sm font-medium mb-1"
+              style={{ color: 'var(--modal-text)' }}
+            >
               Mode
             </label>
             <select
-              className="w-full rounded-md border px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
-              style={{ borderColor: 'var(--modal-border)' }}
+              className="w-full rounded-md border px-3 py-2 bg-white dark:bg-slate-800"
+              style={{
+                borderColor: 'var(--modal-border)',
+                color: 'var(--modal-text)',
+              }}
               value={mode}
               onChange={(e) => setMode(e.target.value)}
               disabled={submitting}
@@ -23354,8 +23379,11 @@ function PracticeSessionModal({
           <button
             type="button"
             onClick={onDismiss}
-            className="px-4 py-2 rounded-md border text-slate-900 dark:text-slate-100"
-            style={{ borderColor: 'var(--modal-border)' }}
+            className="px-4 py-2 rounded-md border"
+            style={{
+              borderColor: 'var(--modal-border)',
+              color: 'var(--modal-text)',
+            }}
             disabled={submitting}
           >
             Cancel
@@ -27545,10 +27573,16 @@ function AuthScreen({ onLogin }) {
   return (
     <>
       <div className="text-center max-w-md mx-auto">
-        <h2 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100 mb-2">
+        <h2
+          className="text-3xl font-extrabold mb-2"
+          style={{ color: 'var(--text-primary)' }}
+        >
           Welcome!
         </h2>
-        <p className="text-slate-700 dark:text-slate-300 mb-6">
+        <p
+          className="mb-6"
+          style={{ color: 'var(--text-primary)', opacity: 0.85 }}
+        >
           Sign in to save your progress across devices.
         </p>
         <form
@@ -27558,7 +27592,8 @@ function AuthScreen({ onLogin }) {
           <div>
             <label
               htmlFor="auth-email"
-              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+              className="block text-sm font-medium"
+              style={{ color: 'var(--text-primary)' }}
             >
               Email
             </label>
@@ -27567,7 +27602,8 @@ function AuthScreen({ onLogin }) {
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 text-slate-900 dark:text-slate-100 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary"
+              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary"
+              style={{ color: 'var(--text-primary)' }}
               autoComplete="email"
               placeholder="you@example.com"
               required
@@ -27576,7 +27612,8 @@ function AuthScreen({ onLogin }) {
           <div>
             <label
               htmlFor="auth-password"
-              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
+              className="block text-sm font-medium"
+              style={{ color: 'var(--text-primary)' }}
             >
               Password
             </label>
@@ -27585,7 +27622,8 @@ function AuthScreen({ onLogin }) {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 text-slate-900 dark:text-slate-100 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary"
+              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary"
+              style={{ color: 'var(--text-primary)' }}
               autoComplete={
                 mode === 'login' ? 'current-password' : 'new-password'
               }
@@ -27603,7 +27641,10 @@ function AuthScreen({ onLogin }) {
             {submitting ? 'Please wait' : modeLabel}
           </button>
         </form>
-        <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
+        <p
+          className="mt-3 text-sm"
+          style={{ color: 'var(--text-primary)', opacity: 0.8 }}
+        >
           {mode === 'login' ? 'Need an account?' : 'Already have an account?'}{' '}
           <button
             type="button"
@@ -28534,7 +28575,10 @@ function SuperAdminDashboard({ user, token, onLogout }) {
                               : 'hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors'
                           }
                         >
-                          <td className="px-6 py-4 font-semibold text-slate-900 dark:text-slate-100">
+                          <td
+                            className="px-6 py-4 font-semibold"
+                            style={{ color: 'var(--text-primary)' }}
+                          >
                             {org.name}
                           </td>
                           <td className="px-6 py-4">
@@ -29691,10 +29735,10 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
                 {previewWords.map((word) => (
                   <li
                     key={word.term}
-                    className="rounded-lg px-3 py-2 text-sm font-medium shadow-sm"
+                    className="rounded-lg px-3 py-2 text-sm font-medium shadow-sm vocab-text"
                     style={{
                       backgroundColor: 'var(--bg-muted)',
-                      color: 'var(--text-secondary)',
+                      color: 'var(--text-primary)',
                     }}
                   >
                     {word.term}
@@ -29703,8 +29747,8 @@ function VocabularyOverview({ vocabulary, onWordClick }) {
               </ul>
               <div className="mt-auto">
                 <div
-                  className="mb-1 text-xs font-medium"
-                  style={{ color: 'var(--text-secondary)' }}
+                  className="mb-1 text-xs font-medium vocab-text"
+                  style={{ color: 'var(--text-primary)' }}
                 >
                   Study Progress
                 </div>
@@ -29799,14 +29843,18 @@ function SubjectVocabularySection({ subject, words, theme = 'light' }) {
       <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
         <div>
           <h3
-            className="text-xl font-bold text-slate-900 dark:text-slate-100"
-            style={headerTextStyle}
+            className="text-xl font-bold"
+            style={{ color: 'var(--text-primary)', ...headerTextStyle }}
           >
             Subject Vocabulary
           </h3>
           <p
-            className="text-sm text-slate-600 dark:text-slate-300"
-            style={subtextStyle}
+            className="text-sm"
+            style={{
+              color: 'var(--text-primary)',
+              opacity: 0.8,
+              ...subtextStyle,
+            }}
           >
             Scroll through the complete list of key terms for {subject}.
           </p>
@@ -29816,23 +29864,31 @@ function SubjectVocabularySection({ subject, words, theme = 'light' }) {
         {words.map((word) => (
           <div key={word.term} className={cardClasses} style={cardStyle}>
             <p
-              className="text-lg font-semibold text-slate-900 dark:text-slate-100"
-              style={termStyle}
+              className="text-lg font-semibold"
+              style={{ color: 'var(--text-primary)', ...termStyle }}
             >
               {word.term}
             </p>
             {word.definition && (
               <p
-                className="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed"
-                style={definitionStyle}
+                className="text-sm mt-2 leading-relaxed"
+                style={{
+                  color: 'var(--text-primary)',
+                  opacity: 0.85,
+                  ...definitionStyle,
+                }}
               >
                 {word.definition}
               </p>
             )}
             {word.example && (
               <p
-                className="text-xs text-slate-500 dark:text-slate-400 italic mt-2"
-                style={exampleStyle}
+                className="text-xs italic mt-2"
+                style={{
+                  color: 'var(--text-primary)',
+                  opacity: 0.75,
+                  ...exampleStyle,
+                }}
               >
                 Example: {word.example}
               </p>
@@ -29946,14 +30002,18 @@ function VocabularyBySubject({ vocabulary, onStartQuiz, theme = 'light' }) {
             >
               <div className="flex items-center gap-3">
                 <h3
-                  className="text-lg font-bold text-slate-900 dark:text-slate-100"
-                  style={titleStyle}
+                  className="text-lg font-bold"
+                  style={{ color: 'var(--text-primary)', ...titleStyle }}
                 >
                   {subjectName}
                 </h3>
                 <span
-                  className="text-sm text-slate-600 dark:text-slate-300"
-                  style={countStyle}
+                  className="text-sm"
+                  style={{
+                    color: 'var(--text-primary)',
+                    opacity: 0.8,
+                    ...countStyle,
+                  }}
                 >
                   ({words.length} terms)
                 </span>
@@ -29983,15 +30043,19 @@ function VocabularyBySubject({ vocabulary, onStartQuiz, theme = 'light' }) {
                     style={cardStyle}
                   >
                     <p
-                      className="text-base font-semibold text-slate-900 dark:text-slate-100"
-                      style={termStyle}
+                      className="text-base font-semibold"
+                      style={{ color: 'var(--text-primary)', ...termStyle }}
                     >
                       {word.term}
                     </p>
                     {word.definition && (
                       <p
-                        className="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed"
-                        style={definitionStyle}
+                        className="text-sm mt-2 leading-relaxed"
+                        style={{
+                          color: 'var(--text-primary)',
+                          opacity: 0.85,
+                          ...definitionStyle,
+                        }}
                       >
                         {word.definition}
                       </p>
@@ -30053,7 +30117,10 @@ function ScienceFormulaSheet({ onClose }) {
           ×
         </button>
 
-        <h2 className="formula-sheet-title text-xl font-bold mb-4">
+        <h2
+          className="formula-sheet-title text-xl font-bold mb-4"
+          style={{ color: 'var(--text-primary)' }}
+        >
           Science Formula Sheet
         </h2>
 
@@ -32880,10 +32947,13 @@ function StartScreen({
                   />
                 </div>
               )}
-              <h1 className="text-4xl font-extrabold text-slate-900 dark:text-slate-100">
+              <h1
+                className="text-4xl font-extrabold"
+                style={{ color: 'var(--text-primary)' }}
+              >
                 Welcome, {userDisplayName}!
               </h1>
-              <p className="text-slate-700 dark:text-slate-300">
+              <p style={{ color: 'var(--text-primary)', opacity: 0.85 }}>
                 Please select a subject to begin.
               </p>
               <button
@@ -32904,10 +32974,16 @@ function StartScreen({
             </div>
           ) : (
             <>
-              <h1 className="text-4xl font-extrabold text-slate-900 dark:text-slate-100">
+              <h1
+                className="text-4xl font-extrabold"
+                style={{ color: 'var(--text-primary)' }}
+              >
                 Mr. Smith's Learning Canvas
               </h1>
-              <p className="text-slate-700 dark:text-slate-300 mt-2">
+              <p
+                className="mt-2"
+                style={{ color: 'var(--text-primary)', opacity: 0.85 }}
+              >
                 An interactive learning experience.
               </p>
             </>
@@ -32960,13 +33036,16 @@ function StartScreen({
                 <span className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">
                   Recommended
                 </span>
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                <h2
+                  className="text-2xl font-bold"
+                  style={{ color: 'var(--text-primary)' }}
+                >
                   Day 0 Diagnostic
                 </h2>
               </div>
               <p
-                className="text-slate-900 dark:text-slate-300 mb-4 max-w-2xl"
-                style={{ color: 'inherit' }}
+                className="mb-4 max-w-2xl"
+                style={{ color: 'var(--text-primary)' }}
               >
                 Start your journey with a comprehensive 40-question assessment
                 covering all 4 subjects. This sets your baseline and helps Coach
@@ -32997,8 +33076,8 @@ function StartScreen({
                 >
                   <div className="flex items-center justify-between">
                     <h2
-                      className="text-lg font-semibold text-slate-900 dark:text-slate-100"
-                      style={isDarkMode ? undefined : { color: '#000000' }}
+                      className="text-lg font-semibold"
+                      style={{ color: 'var(--text-primary)' }}
                     >
                       Upcoming GED Test
                     </h2>
@@ -33086,8 +33165,8 @@ function StartScreen({
                 >
                   <div className="flex items-center justify-between">
                     <h2
-                      className="text-lg font-semibold text-slate-900 dark:text-slate-100"
-                      style={isDarkMode ? undefined : { color: '#000000' }}
+                      className="text-lg font-semibold"
+                      style={{ color: 'var(--text-primary)' }}
                     >
                       Upcoming Tests
                     </h2>
@@ -33114,7 +33193,10 @@ function StartScreen({
                           className="flex items-center justify-between py-1"
                         >
                           <div>
-                            <p className="font-semibold text-slate-900 dark:text-slate-100">
+                            <p
+                              className="font-semibold"
+                              style={{ color: 'var(--text-primary)' }}
+                            >
                               {item.subject}
                             </p>
                             <p
@@ -33159,8 +33241,8 @@ function StartScreen({
               >
                 <div className="flex items-center justify-between">
                   <h2
-                    className="text-lg font-semibold text-slate-900 dark:text-slate-100"
-                    style={isDarkMode ? undefined : { color: '#000000' }}
+                    className="text-lg font-semibold"
+                    style={{ color: 'var(--text-primary)' }}
                   >
                     Learning Challenges
                   </h2>
@@ -35846,7 +35928,10 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         </div>
 
         <div className="mb-8 max-w-4xl mx-auto">
-          <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">
+          <h3
+            className="text-xl font-bold mb-4"
+            style={{ color: 'var(--text-primary)' }}
+          >
             Question History
           </h3>
           <div className="overflow-x-auto">
@@ -36268,7 +36353,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                 key={index}
                 className={`p-4 rounded-lg border ${
                   isCorrect ? 'bg-success-soft' : 'bg-danger-soft'
-                } border-subtle text-slate-900 dark:text-slate-100`}
+                } border-subtle`}
+                style={{ color: 'var(--text-primary)' }}
               >
                 <div className="mb-2 flex items-start gap-3">
                   <span className="font-semibold question-stem leading-relaxed">
