@@ -31,8 +31,7 @@
             "rationale": "These were essays written to persuade people to support the ratification of the Constitution.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -62,8 +61,7 @@
             "isCorrect": false
           }
         ],
-        "source": "U.S. Constitution, First Amendment.",
-        "uam": "SS_P1_Q02_MC"
+        "source": "U.S. Constitution, First Amendment."
       },
       {
         "questionNumber": 3,
@@ -91,8 +89,7 @@
             "rationale": "The right to vote is protected by several other amendments, but not the second.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -120,8 +117,7 @@
             "rationale": "This grievance is addressed by the Fourth Amendment's protection against unreasonable searches.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -149,8 +145,7 @@
             "rationale": "An anonymous tip is generally not sufficient on its own to establish probable cause.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -180,8 +175,7 @@
             "isCorrect": false
           }
         ],
-        "source": "U.S. Constitution, Fifth Amendment.",
-        "uam": "SS_P1_Q06_MC"
+        "source": "U.S. Constitution, Fifth Amendment."
       },
       {
         "questionNumber": 7,
@@ -209,8 +203,7 @@
             "rationale": "This is a First Amendment right.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -238,8 +231,7 @@
             "rationale": "This would be an issue under the Fourth Amendment.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -267,8 +259,7 @@
             "rationale": "The Tenth Amendment addresses states' rights.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -296,8 +287,7 @@
             "rationale": "This is protected by the Fourth Amendment.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -325,8 +315,7 @@
             "rationale": "The court system was established in Article III of the Constitution.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -354,8 +343,7 @@
             "rationale": "While cases can be challenged in court, pre-approval is not required.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -391,8 +379,7 @@
             "rationale": "Attending school is often required by law up to a certain age, but it's more of a personal responsibility than a civic one.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -422,8 +409,7 @@
             "isCorrect": false
           }
         ],
-        "source": "U.S. Constitution, First Amendment.",
-        "uam": "SS_P1_Q02_MC"
+        "source": "U.S. Constitution, First Amendment."
       },
       {
         "questionNumber": 3,
@@ -451,8 +437,7 @@
             "rationale": "Staying informed is a responsibility of a good citizen, but it is not a legal requirement.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -480,8 +465,7 @@
             "rationale": "Registration, such as for voting or the selective service, is a process for citizens, not the process of becoming one.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -509,8 +493,7 @@
             "rationale": "This is protected by the Third Amendment.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -539,8 +522,7 @@
             "rationale": "While a form of public service, the passage focuses on civilian forms of participation.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -568,8 +550,7 @@
             "rationale": "The Fifth Amendment limits this power (eminent domain) to 'public use' and requires 'just compensation.'",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -597,8 +578,7 @@
             "rationale": "There are no special benefits for being informed.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -626,8 +606,7 @@
             "rationale": "The Eighth Amendment prohibits cruel and unusual punishment.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -656,8 +635,7 @@
             "rationale": "Correct. It is a legal responsibility that enables a draft if it were to become necessary.",
             "isCorrect": true
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -685,8 +663,7 @@
             "rationale": "This describes a referendum, which is not how federal laws are made.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -714,8 +691,7 @@
             "rationale": "Correct. Attending public meetings and expressing one's views is a voluntary and important part of being an engaged citizen.",
             "isCorrect": true
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -751,8 +727,7 @@
             "rationale": "The sit-ins in 1960 were an important tactic, but the movement had gained momentum with the bus boycott years earlier.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -780,8 +755,7 @@
             "rationale": "The act was designed to dismantle the 'separate but equal' doctrine.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -809,8 +783,7 @@
             "rationale": "This was the focus of the American Indian Movement.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -840,8 +813,7 @@
             "isCorrect": false
           }
         ],
-        "source": "U.S. Department of Education.",
-        "uam": "SS_P1_Q04_MC"
+        "source": "U.S. Department of Education."
       },
       {
         "questionNumber": 5,
@@ -869,8 +841,7 @@
             "rationale": "These were the defeated Axis powers of World War II.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -898,8 +869,7 @@
             "rationale": "This describes isolationism, which was the opposite of the containment policy.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -927,8 +897,7 @@
             "rationale": "Correct. The uprising against a police raid at the Stonewall Inn is seen as the catalyst for the modern gay rights movement.",
             "isCorrect": true
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -956,8 +925,7 @@
             "rationale": "The Great Society was a massive expansion of federal power and programs.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -986,8 +954,7 @@
             "rationale": "He was implicated in the cover-up and resigned.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -1015,8 +982,7 @@
             "rationale": "Reagan's administration took a strong stance against labor unions, most famously during the air traffic controllers' strike.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -1044,8 +1010,7 @@
             "rationale": "The ADA prohibits this kind of employment discrimination.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -1073,8 +1038,7 @@
             "rationale": "The internet has greatly facilitated and increased global trade.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -1110,8 +1074,7 @@
             "rationale": "This case established the principle of judicial review.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -1141,8 +1104,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Adapted from historical accounts of the Montgomery Bus Boycott.",
-        "uam": "SS_P1_Q02_MC"
+        "source": "Adapted from historical accounts of the Montgomery Bus Boycott."
       },
       {
         "questionNumber": 3,
@@ -1170,8 +1132,7 @@
             "rationale": "Stokely Carmichael was a leader who became associated with the Black Power movement, which often had a more militant stance.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -1199,8 +1160,7 @@
             "rationale": "Minimum wage is established by separate labor laws.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -1228,8 +1188,7 @@
             "rationale": "The anti-war movement was separate from this specific civil rights protest.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -1258,8 +1217,7 @@
             "rationale": "The goal was to integrate the restaurants, not to close them.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -1287,8 +1245,7 @@
             "rationale": "The Electoral College was established by the Constitution.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -1316,8 +1273,7 @@
             "rationale": "This was a different group of activists with a different focus.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -1346,8 +1302,7 @@
             "rationale": "The movement used various forms of protest, though they were sometimes more confrontational.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -1375,8 +1330,7 @@
             "rationale": "The military had been officially desegregated by President Truman in 1948.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -1404,8 +1358,7 @@
             "rationale": "The boycott began in 1955.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -1433,8 +1386,7 @@
             "rationale": "The New Deal was a response to the Great Depression in the 1930s.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -1470,8 +1422,7 @@
             "rationale": "Missouri was a border state that remained in the Union.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -1499,8 +1450,7 @@
             "rationale": "Charleston was where the first shots of the war were fired, but it was not the capital.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -1529,8 +1479,7 @@
             "rationale": "The Anaconda Plan was a wartime military strategy, not a post-war aid plan.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -1558,8 +1507,7 @@
             "rationale": "Ironclads changed naval warfare, but the vast majority of casualties in the war were caused by infantry weapons.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -1587,8 +1535,7 @@
             "rationale": "The Confederacy sought foreign support, but Great Britain and France never formally allied with them.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -1616,8 +1563,7 @@
             "rationale": "McClellan was a popular general in many parts of the North, and the riots were not focused on his leadership.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -1647,8 +1593,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Abraham Lincoln, Gettysburg Address, 1863.",
-        "uam": "SS_P1_Q07_MC"
+        "source": "Abraham Lincoln, Gettysburg Address, 1863."
       },
       {
         "questionNumber": 8,
@@ -1676,8 +1621,7 @@
             "rationale": "Stephens was the vice president of the Confederacy.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -1705,8 +1649,7 @@
             "rationale": "The war continued for nearly two years after Vicksburg.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -1734,8 +1677,7 @@
             "rationale": "The 54th was a combat unit.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -1763,8 +1705,7 @@
             "rationale": "This was part of the Anaconda Plan, but Sherman's march was a land campaign through Georgia.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -1792,8 +1733,7 @@
             "rationale": "Significant battles and political conflicts occurred in the border states.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -1829,8 +1769,7 @@
             "rationale": "Lincoln's assassination occurred at the end of the war, it was not a cause.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -1860,8 +1799,7 @@
             "isCorrect": false
           }
         ],
-        "source": "U.S. National Archives, Emancipation Proclamation.",
-        "uam": "SS_P1_Q02_MC"
+        "source": "U.S. National Archives, Emancipation Proclamation."
       },
       {
         "questionNumber": 3,
@@ -1889,8 +1827,7 @@
             "rationale": "While a crucial battle that led to the Emancipation Proclamation, Gettysburg is more widely considered the strategic turning point.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -1918,8 +1855,7 @@
             "rationale": "The Bureau was established to help the formerly enslaved, not the slave owners.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -1947,8 +1883,7 @@
             "rationale": "This was also part of the 14th Amendment.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -1976,8 +1911,7 @@
             "rationale": "Radical Reconstruction aimed to fundamentally change the Southern social order, not restore it.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -2007,8 +1941,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Adapted from historical analyses of the Reconstruction era.",
-        "uam": "SS_P1_Q07_MC"
+        "source": "Adapted from historical analyses of the Reconstruction era."
       },
       {
         "questionNumber": 8,
@@ -2036,8 +1969,7 @@
             "rationale": "Poll taxes were outlawed much later by the 24th Amendment.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -2065,8 +1997,7 @@
             "rationale": "While land distribution was discussed ('40 acres and a mule'), it was not widely implemented. Sharecropping was a private labor arrangement.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -2094,8 +2025,7 @@
             "rationale": "The compromise undermined the enforcement of existing amendments, leading to the disenfranchisement of Black voters.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -2125,8 +2055,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Abraham Lincoln, Second Inaugural Address, 1865.",
-        "uam": "SS_P1_Q11_MC"
+        "source": "Abraham Lincoln, Second Inaugural Address, 1865."
       },
       {
         "questionNumber": 12,
@@ -2154,8 +2083,7 @@
             "rationale": "Correct. Robert E. Lee was the most famous and respected commander of the Confederate forces.",
             "isCorrect": true
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -2193,8 +2121,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Adapted from historical texts on the Mayflower Compact.",
-        "uam": "SS_P1_Q01_MC"
+        "source": "Adapted from historical texts on the Mayflower Compact."
       },
       {
         "questionNumber": 2,
@@ -2222,8 +2149,7 @@
             "rationale": "Pennsylvania was founded by William Penn for this purpose.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -2251,8 +2177,7 @@
             "rationale": "This was a different form of migration, not the Middle Passage.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -2280,8 +2205,7 @@
             "rationale": "The Backcountry had a subsistence farming economy.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -2311,8 +2235,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Adapted from historical records of colonial Virginia.",
-        "uam": "SS_P1_Q05_MC"
+        "source": "Adapted from historical records of colonial Virginia."
       },
       {
         "questionNumber": 6,
@@ -2340,8 +2263,7 @@
             "rationale": "There were no significant precious metal discoveries in the New England colonies.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -2369,8 +2291,7 @@
             "rationale": "Industrial growth occurred later in American history.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -2400,8 +2321,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Historical analysis of British colonial policy.",
-        "uam": "SS_P1_Q08_MC"
+        "source": "Historical analysis of British colonial policy."
       },
       {
         "questionNumber": 9,
@@ -2429,8 +2349,7 @@
             "rationale": "Tobacco was a key crop in the Southern colonies, not Rhode Island.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -2460,8 +2379,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Adapted from historical accounts of the Albany Congress.",
-        "uam": "SS_P1_Q10_MC"
+        "source": "Adapted from historical accounts of the Albany Congress."
       },
       {
         "questionNumber": 11,
@@ -2489,8 +2407,7 @@
             "rationale": "Mercantilism discouraged manufacturing in the colonies to prevent competition with the mother country.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -2518,8 +2435,7 @@
             "rationale": "This describes religious tensions, but not the cause of Bacon's Rebellion in Virginia.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -2555,8 +2471,7 @@
             "rationale": "The national government was too weak to maintain a large standing army.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -2584,8 +2499,7 @@
             "rationale": "This was the first constitution of the United States, which was later replaced.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -2613,8 +2527,7 @@
             "rationale": "Franklin was an important delegate, but Madison was the key architect.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -2642,8 +2555,7 @@
             "rationale": "While huge, it did not triple the size of the country.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -2673,8 +2585,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Records of the Constitutional Convention.",
-        "uam": "SS_P1_Q05_MC"
+        "source": "Records of the Constitutional Convention."
       },
       {
         "questionNumber": 6,
@@ -2702,8 +2613,7 @@
             "rationale": "The authors were strong supporters of the new federal government.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -2731,8 +2641,7 @@
             "rationale": "This was decided by a compromise but was not the central issue dividing the parties.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -2760,8 +2669,7 @@
             "rationale": "Correct. The war was caused by issues including British interference with American shipping and impressment of American sailors.",
             "isCorrect": true
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -2789,8 +2697,7 @@
             "rationale": "Hamilton proposed tariffs (taxes on imports) to protect American industries and raise revenue.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -2818,8 +2725,7 @@
             "rationale": "The Louisiana Purchase happened later, under President Jefferson.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -2849,8 +2755,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Historical analysis of the Articles of Confederation period.",
-        "uam": "SS_P1_Q11_MC"
+        "source": "Historical analysis of the Articles of Confederation period."
       },
       {
         "questionNumber": 12,
@@ -2878,8 +2783,7 @@
             "rationale": "Correct. In this 1803 case, Chief Justice John Marshall established the Supreme Court's power to declare an act of Congress unconstitutional, a key part of the system of checks and balances.",
             "isCorrect": true
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -2915,8 +2819,7 @@
             "rationale": "This is the Gross Domestic Product (GDP).",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -2945,8 +2848,7 @@
             "rationale": "Inflation does not necessarily affect the quality of goods.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -2974,8 +2876,7 @@
             "rationale": "An underemployed person has a job, but it is part-time or below their skill level.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -3003,8 +2904,7 @@
             "rationale": "The title is usually at the top of the map.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -3032,8 +2932,7 @@
             "rationale": "In a market economy, prices are typically set by supply and demand, not the government.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -3062,8 +2961,7 @@
             "rationale": "The two are directly related.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -3091,8 +2989,7 @@
             "rationale": "This is not a type of tax system.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -3122,8 +3019,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Hypothetical trade data.",
-        "uam": "SS_P1_Q08_MC"
+        "source": "Hypothetical trade data."
       },
       {
         "questionNumber": 9,
@@ -3151,8 +3047,7 @@
             "rationale": "This is the primary role of the Federal Deposit Insurance Corporation (FDIC).",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -3181,8 +3076,7 @@
             "rationale": "Financial transactions like buying stocks are not counted in GDP as they do not represent the production of a new good or service.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -3210,8 +3104,7 @@
             "rationale": "A tax on domestic goods is an excise tax.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -3239,8 +3132,7 @@
             "rationale": "A stable population would have a more evenly distributed, pillar-like shape.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -3276,8 +3168,7 @@
             "rationale": "These are examples of third parties in the U.S., which are smaller than the two major parties.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -3306,8 +3197,7 @@
             "rationale": "Election results are challenged through legal means, not through the platform.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -3335,8 +3225,7 @@
             "rationale": "A president can serve a maximum of two four-year terms.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -3364,8 +3253,7 @@
             "rationale": "This is a recall election.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -3393,8 +3281,7 @@
             "rationale": "The date of admission is not a factor.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -3423,8 +3310,7 @@
             "rationale": "This was the 14th Amendment.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -3452,8 +3338,7 @@
             "rationale": "The system does not and cannot guarantee the quality of the candidate.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -3481,8 +3366,7 @@
             "rationale": "This is typically done by state legislatures.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -3510,8 +3394,7 @@
             "rationale": "The debates are organized by the non-partisan Commission on Presidential Debates.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -3539,8 +3422,7 @@
             "rationale": "The decision dealt with private, not public, funding.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -3568,8 +3450,7 @@
             "rationale": "Primaries are run by the states and the major parties.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -3597,8 +3478,7 @@
             "rationale": "While large states can be swing states, the term refers to the competitiveness of the election there, not the number of electoral votes.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -3634,8 +3514,7 @@
             "rationale": "This is the principle that the government's authority is created and sustained by the consent of its people.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -3665,8 +3544,7 @@
             "isCorrect": false
           }
         ],
-        "source": "U.S. Constitution, Tenth Amendment.",
-        "uam": "SS_P1_Q02_MC"
+        "source": "U.S. Constitution, Tenth Amendment."
       },
       {
         "questionNumber": 3,
@@ -3694,8 +3572,7 @@
             "rationale": "Correct. The power to declare war is explicitly given to Congress in the Constitution.",
             "isCorrect": true
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -3723,8 +3600,7 @@
             "rationale": "This is a federal power.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -3752,8 +3628,7 @@
             "rationale": "This describes a prohibited power.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -3783,8 +3658,7 @@
             "isCorrect": false
           }
         ],
-        "source": "U.S. Constitution, Article VI.",
-        "uam": "SS_P1_Q06_MC"
+        "source": "U.S. Constitution, Article VI."
       },
       {
         "questionNumber": 7,
@@ -3812,8 +3686,7 @@
             "rationale": "This power is given to the states.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -3841,8 +3714,7 @@
             "rationale": "There was no separate executive branch under the Articles.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -3870,8 +3742,7 @@
             "rationale": "This was established in Marbury v. Madison.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -3899,8 +3770,7 @@
             "rationale": "The clause has not been amended in this way.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -3928,8 +3798,7 @@
             "rationale": "This clause requires states to respect the 'public acts, records, and judicial proceedings of every other state,' which is not the central issue here.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -3957,8 +3826,7 @@
             "rationale": "This power is exclusive to the federal government.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -3994,8 +3862,7 @@
             "rationale": "This describes the levels of government in federalism.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -4023,8 +3890,7 @@
             "rationale": "This is the term for a Supreme Court justice.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -4052,8 +3918,7 @@
             "rationale": "This is another name for the legislative branch.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -4081,8 +3946,7 @@
             "rationale": "A state supreme court is the highest court in a state, but the U.S. Supreme Court is the highest in the nation.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -4111,8 +3975,7 @@
             "rationale": "They have different powers, but one is not inherently more powerful than the other.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -4140,8 +4003,7 @@
             "rationale": "The President is the Commander-in-Chief. The Secretary of Defense is a cabinet member, but does not command the military.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -4169,8 +4031,7 @@
             "rationale": "Impeachment is a federal process.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -4198,8 +4059,7 @@
             "rationale": "A veto can be overridden.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -4227,8 +4087,7 @@
             "rationale": "Only the members of the House vote for the Speaker.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -4257,8 +4116,7 @@
             "rationale": "Cases are decided by the legal system, not by popular vote.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -4286,8 +4144,7 @@
             "rationale": "This power is shared by both the House and the Senate.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -4315,8 +4172,7 @@
             "rationale": "Committee chairs are typically chosen based on seniority and party loyalty, not the whip position.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -4352,8 +4208,7 @@
             "rationale": "The Supreme Court may review a law after it is passed, not before.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -4382,8 +4237,7 @@
             "rationale": "Any member can introduce a bill.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -4411,8 +4265,7 @@
             "rationale": "State governors do not vote on federal legislation.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -4440,8 +4293,7 @@
             "rationale": "The President cannot fire members of Congress.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -4469,8 +4321,7 @@
             "rationale": "The Vice President's approval is not required.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -4499,8 +4350,7 @@
             "rationale": "This is the job of a journalist, not a lobbyist.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -4528,8 +4378,7 @@
             "rationale": "Refusing to pay taxes is illegal and not a legitimate part of the lawmaking process.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -4557,8 +4406,7 @@
             "rationale": "The filibuster is a well-known, if controversial, Senate tactic.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -4586,8 +4434,7 @@
             "rationale": "This is the Electoral College system.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -4616,8 +4463,7 @@
             "rationale": "While polls can be a factor, the passage lists other major influences.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -4645,8 +4491,7 @@
             "rationale": "There is no national referendum process for federal laws in the U.S.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -4674,8 +4519,7 @@
             "rationale": "This is a declaration of war.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -4713,8 +4557,7 @@
             "isCorrect": false
           }
         ],
-        "source": "The Declaration of Independence, 1776.",
-        "uam": "SS_P1_Q01_MC"
+        "source": "The Declaration of Independence, 1776."
       },
       {
         "questionNumber": 2,
@@ -4744,8 +4587,7 @@
             "isCorrect": false
           }
         ],
-        "source": "The Declaration of Independence, 1776.",
-        "uam": "SS_P1_Q02_MC"
+        "source": "The Declaration of Independence, 1776."
       },
       {
         "questionNumber": 3,
@@ -4773,8 +4615,7 @@
             "rationale": "While it could be official if published by a government body, its nature as an analysis of past events makes it a secondary source.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -4804,8 +4645,7 @@
             "isCorrect": false
           }
         ],
-        "source": "U.S. Constitution, First Amendment.",
-        "uam": "SS_P1_Q04_MC"
+        "source": "U.S. Constitution, First Amendment."
       },
       {
         "questionNumber": 5,
@@ -4835,8 +4675,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Hypothetical economic data table.",
-        "uam": "SS_P1_Q05_MC"
+        "source": "Hypothetical economic data table."
       },
       {
         "questionNumber": 6,
@@ -4866,8 +4705,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Hypothetical economic data table.",
-        "uam": "SS_P1_Q06_MC"
+        "source": "Hypothetical economic data table."
       },
       {
         "questionNumber": 7,
@@ -4897,8 +4735,7 @@
             "isCorrect": false
           }
         ],
-        "source": "George Washington's Farewell Address, 1796.",
-        "uam": "SS_P1_Q07_MC"
+        "source": "George Washington's Farewell Address, 1796."
       },
       {
         "questionNumber": 8,
@@ -4927,8 +4764,7 @@
             "rationale": "The diary entry does not mention Native Americans.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -4958,8 +4794,7 @@
             "isCorrect": false
           }
         ],
-        "source": "U.S. Constitution, Tenth Amendment.",
-        "uam": "SS_P1_Q09_MC"
+        "source": "U.S. Constitution, Tenth Amendment."
       },
       {
         "questionNumber": 10,
@@ -4987,8 +4822,7 @@
             "rationale": "Political cartoons typically comment on public, not personal, issues.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -5018,8 +4852,7 @@
             "isCorrect": false
           }
         ],
-        "source": "George Washington, Thanksgiving Proclamation, 1789.",
-        "uam": "SS_P1_Q11_MC"
+        "source": "George Washington, Thanksgiving Proclamation, 1789."
       },
       {
         "questionNumber": 12,
@@ -5048,8 +4881,7 @@
             "rationale": "The soaring sales of cars, radios, and appliances show a great deal of interest.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -5087,8 +4919,7 @@
             "isCorrect": false
           }
         ],
-        "source": "U.S. Constitution, Articles I, II, and III.",
-        "uam": "SS_P1_Q01_MC"
+        "source": "U.S. Constitution, Articles I, II, and III."
       },
       {
         "questionNumber": 2,
@@ -5116,8 +4947,7 @@
             "rationale": "This is not one of the three constitutional branches of government.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -5145,8 +4975,7 @@
             "rationale": "'Federal' describes the level of government, not a specific branch.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -5174,8 +5003,7 @@
             "rationale": "Judicial review is the power of the courts to declare laws unconstitutional.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -5205,8 +5033,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Adapted from summaries of Marbury v. Madison.",
-        "uam": "SS_P1_Q05_MC"
+        "source": "Adapted from summaries of Marbury v. Madison."
       },
       {
         "questionNumber": 6,
@@ -5234,8 +5061,7 @@
             "rationale": "The President cannot override a Supreme Court ruling.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -5263,8 +5089,7 @@
             "rationale": "Amending the Constitution is a check, but it requires more than just the legislative branch.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -5292,8 +5117,7 @@
             "rationale": "There is no popular vote for Supreme Court justices.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -5322,8 +5146,7 @@
             "rationale": "The President negotiates treaties, which must then be ratified by the Senate.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -5351,8 +5174,7 @@
             "rationale": "The Supreme Court is not involved in the veto override process.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -5380,8 +5202,7 @@
             "rationale": "Cabinet members are appointed by the President and serve at the President's pleasure.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -5409,8 +5230,7 @@
             "rationale": "This is the primary role of the judicial branch.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -5446,8 +5266,7 @@
             "rationale": "This case guaranteed the right to an attorney for defendants in criminal cases.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -5475,8 +5294,7 @@
             "rationale": "This was the issue in Tinker v. Des Moines.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -5505,8 +5323,7 @@
             "rationale": "Voting rights are protected by other amendments and laws.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -5534,8 +5351,7 @@
             "rationale": "This is a Fourth Amendment right.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -5563,8 +5379,7 @@
             "rationale": "The case established that student speech is protected.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -5592,8 +5407,7 @@
             "rationale": "It did the opposite; it legalized it.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -5621,8 +5435,7 @@
             "rationale": "The power to regulate interstate commerce belongs to Congress.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -5652,8 +5465,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Summary of the Dred Scott v. Sandford decision.",
-        "uam": "SS_P1_Q08_MC"
+        "source": "Summary of the Dred Scott v. Sandford decision."
       },
       {
         "questionNumber": 9,
@@ -5681,8 +5493,7 @@
             "rationale": "This has been the subject of several cases, such as Gregg v. Georgia.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -5710,8 +5521,7 @@
             "rationale": "This case dealt with student speech in schools.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -5739,8 +5549,7 @@
             "rationale": "This was addressed in United States v. Nixon.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -5768,8 +5577,7 @@
             "rationale": "The ruling forced the President to comply with a subpoena.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -5805,8 +5613,7 @@
             "rationale": "Reservations were established through treaties and other government actions, not the Homestead Act.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q01_MC"
+        ]
       },
       {
         "questionNumber": 2,
@@ -5834,8 +5641,7 @@
             "rationale": "The Gold Rush was about finding gold in California, not a route to Asia.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -5863,8 +5669,7 @@
             "rationale": "The railroad was completed after the Civil War.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -5894,8 +5699,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Term coined by Mark Twain.",
-        "uam": "SS_P1_Q04_MC"
+        "source": "Term coined by Mark Twain."
       },
       {
         "questionNumber": 5,
@@ -5923,8 +5727,7 @@
             "rationale": "The steam engine was developed much earlier, with key improvements by James Watt.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q05_MC"
+        ]
       },
       {
         "questionNumber": 6,
@@ -5952,8 +5755,7 @@
             "rationale": "The policy was aimed at assimilation, not sovereignty.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -5982,8 +5784,7 @@
             "rationale": "It was a victory that encouraged further resistance, not surrender.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -6011,8 +5812,7 @@
             "rationale": "They were the owners and managers, often in conflict with labor unions.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -6040,8 +5840,7 @@
             "rationale": "His thesis was about the historical impact of the continental frontier.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -6069,8 +5868,7 @@
             "rationale": "While there was immigration from China and Japan, the largest numbers came from Europe during this period.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q10_MC"
+        ]
       },
       {
         "questionNumber": 11,
@@ -6098,8 +5896,7 @@
             "rationale": "This was a period of factory growth, not decline.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -6127,8 +5924,7 @@
             "rationale": "Correct. The Populist platform included proposals like the free coinage of silver (to increase the money supply) and government control of railroads to help farmers.",
             "isCorrect": true
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   },
@@ -6166,8 +5962,7 @@
             "isCorrect": false
           }
         ],
-        "source": "Adapted from texts on 19th-century American history.",
-        "uam": "SS_P1_Q01_MC"
+        "source": "Adapted from texts on 19th-century American history."
       },
       {
         "questionNumber": 2,
@@ -6195,8 +5990,7 @@
             "rationale": "The U.S. acquired territory from Mexico later through war and purchase, but not the Louisiana Territory.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q02_MC"
+        ]
       },
       {
         "questionNumber": 3,
@@ -6224,8 +6018,7 @@
             "rationale": "Correct. The cotton gin made it much easier to separate cotton fibers from their seeds, making cotton a highly profitable crop.",
             "isCorrect": true
           }
-        ],
-        "uam": "SS_P1_Q03_MC"
+        ]
       },
       {
         "questionNumber": 4,
@@ -6253,8 +6046,7 @@
             "rationale": "The St. Lawrence River is in Canada and was not the terminus of the Erie Canal.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q04_MC"
+        ]
       },
       {
         "questionNumber": 5,
@@ -6284,8 +6076,7 @@
             "isCorrect": false
           }
         ],
-        "source": "U.S. National Archives, records on the Indian Removal Act.",
-        "uam": "SS_P1_Q05_MC"
+        "source": "U.S. National Archives, records on the Indian Removal Act."
       },
       {
         "questionNumber": 6,
@@ -6313,8 +6104,7 @@
             "rationale": "While trappers did use parts of the route, the main wave of migration consisted of settlers.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q06_MC"
+        ]
       },
       {
         "questionNumber": 7,
@@ -6342,8 +6132,7 @@
             "rationale": "Florida was acquired from Spain.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q07_MC"
+        ]
       },
       {
         "questionNumber": 8,
@@ -6371,8 +6160,7 @@
             "rationale": "The U.S. economy remained largely capitalist, with private ownership of industries.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q08_MC"
+        ]
       },
       {
         "questionNumber": 9,
@@ -6400,8 +6188,7 @@
             "rationale": "While child labor was common, the Lowell System was specifically known for its workforce of young women.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q09_MC"
+        ]
       },
       {
         "questionNumber": 10,
@@ -6431,8 +6218,7 @@
             "isCorrect": false
           }
         ],
-        "source": "President James Monroe's 1823 annual message to Congress.",
-        "uam": "SS_P1_Q10_MC"
+        "source": "President James Monroe's 1823 annual message to Congress."
       },
       {
         "questionNumber": 11,
@@ -6460,8 +6246,7 @@
             "rationale": "Correct. As work moved to factories and offices, the concept of a separate domestic sphere and a middle class of managers, clerks, and professionals grew.",
             "isCorrect": true
           }
-        ],
-        "uam": "SS_P1_Q11_MC"
+        ]
       },
       {
         "questionNumber": 12,
@@ -6489,8 +6274,7 @@
             "rationale": "This describes a referendum, not nullification.",
             "isCorrect": false
           }
-        ],
-        "uam": "SS_P1_Q12_MC"
+        ]
       }
     ]
   }

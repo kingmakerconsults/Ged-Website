@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-BaZRlw_r.js";
+import { _ as __vitePreload } from "./index-67BuonQ_.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -2781,6 +2781,14 @@ const PRACTICE_SCENARIOS = [
     tags: ["civil_rights", "equal_protection"]
   }
 ];
+const constitutionStyles = `
+  .constitution-text {
+    color: #0f172a !important;
+  }
+  .dark .constitution-text {
+    color: #e2e8f0 !important;
+  }
+`;
 function ConstitutionExplorer({ onExit, pack }) {
   const [mode, setMode] = reactExports.useState("simple");
   const [search, setSearch] = reactExports.useState("");
@@ -2813,146 +2821,149 @@ function ConstitutionExplorer({ onExit, pack }) {
     if (!feedback || feedback.correct) return false;
     return amendmentId === (selectedScenario == null ? void 0 : selectedScenario.correctAmendmentId);
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-6xl mx-auto p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: onExit,
-          className: "flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400",
-          children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold", children: "Constitution Explorer — Rights Arbitrator" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-12" })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-3", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-bold", children: "Practice Scenarios" }),
-        selectedScenario && /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "button",
-          {
-            onClick: resetScenario,
-            className: "text-sm px-3 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600",
-            children: "Clear"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-3", children: availableScenarios.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "button",
-        {
-          className: `text-left p-3 rounded-lg border transition ${(selectedScenario == null ? void 0 : selectedScenario.id) === s.id ? "border-sky-400 bg-sky-50 dark:bg-sky-900/20" : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900"}`,
-          onClick: () => startScenario(s),
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: s.prompt }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-slate-500", children: s.difficulty })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 text-xs text-slate-500", children: s.tags.join(", ") })
-          ]
-        },
-        s.id
-      )) }),
-      selectedScenario && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 p-3 rounded-lg bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm mb-2", children: "Select the correct amendment:" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: AMENDMENTS_DB.map((a) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "button",
-          {
-            onClick: () => answerScenario(a.id),
-            className: `px-3 py-1.5 rounded border text-sm transition ${isHighlighted(a.id) ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-200" : "border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600"}`,
-            children: a.id
-          },
-          a.id
-        )) }),
-        feedback && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: `text-sm font-semibold ${feedback.correct ? "text-emerald-700 dark:text-emerald-200" : "text-red-700 dark:text-red-300"}`,
-              children: feedback.correct ? "Correct!" : "Incorrect"
-            }
-          ),
-          !feedback.correct && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm", children: [
-            "You selected:",
-            " ",
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: selectedAmendmentId }),
-            ". Correct:",
-            " ",
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: selectedScenario.correctAmendmentId }),
-            "."
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-600 dark:text-slate-300", children: selectedScenario.explanation })
-        ] })
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "input",
-        {
-          type: "text",
-          placeholder: "Search (e.g. 'speech', 'voting', '14th')",
-          className: "w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-sky-500 outline-none transition",
-          value: search,
-          onChange: (e) => setSearch(e.target.value)
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex bg-white dark:bg-slate-900 rounded-lg p-1 border border-slate-200 dark:border-slate-700", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: constitutionStyles }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 constitution-text", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-6xl mx-auto p-6 space-y-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
-            onClick: () => setMode("simple"),
-            className: `px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === "simple" ? "bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`,
-            children: "Plain English"
+            onClick: onExit,
+            className: "flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold constitution-text", children: "Constitution Explorer — Rights Arbitrator" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-12" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-bold constitution-text", children: "Practice Scenarios" }),
+          selectedScenario && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: resetScenario,
+              className: "text-sm px-3 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 constitution-text",
+              children: "Clear"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-3", children: availableScenarios.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "button",
           {
-            onClick: () => setMode("original"),
-            className: `px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === "original" ? "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`,
-            children: "Original Text"
-          }
-        )
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: [
-      filteredAmendments.map((amendment) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          className: "flex flex-col p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-800/95 shadow-sm hover:shadow-md transition-shadow",
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-start mb-3", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider", children: [
-                amendment.id,
-                " Amendment"
+            className: `text-left p-3 rounded-lg border transition ${(selectedScenario == null ? void 0 : selectedScenario.id) === s.id ? "border-sky-400 bg-sky-50 dark:bg-sky-900/20" : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900"}`,
+            onClick: () => startScenario(s),
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold constitution-text", children: s.prompt }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-slate-500", children: s.difficulty })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-medium text-sky-600 dark:text-sky-400", children: amendment.topic })
-            ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 text-xs text-slate-500", children: s.tags.join(", ") })
+            ]
+          },
+          s.id
+        )) }),
+        selectedScenario && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 p-3 rounded-lg bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm mb-2 constitution-text", children: "Select the correct amendment:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: AMENDMENTS_DB.map((a) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => answerScenario(a.id),
+              className: `px-3 py-1.5 rounded border text-sm transition ${isHighlighted(a.id) ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-200" : "border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600"}`,
+              children: a.id
+            },
+            a.id
+          )) }),
+          feedback && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 space-y-2", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "p",
+              "div",
               {
-                className: `text-base leading-relaxed flex-grow ${mode === "original" ? "font-serif italic text-slate-700 dark:text-slate-300" : "font-sans text-slate-900 dark:text-white"}`,
-                children: mode === "original" ? `"${amendment.original}"` : amendment.simple
+                className: `text-sm font-semibold constitution-text ${feedback.correct ? "text-emerald-700 dark:text-emerald-200" : "text-red-700 dark:text-red-300"}`,
+                children: feedback.correct ? "Correct!" : "Incorrect"
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex items-center justify-between text-xs text-slate-500", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                "Difficulty: ",
-                amendment.difficulty
+            !feedback.correct && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm", children: [
+              "You selected:",
+              " ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: selectedAmendmentId }),
+              ". Correct:",
+              " ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: selectedScenario.correctAmendmentId }),
+              "."
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-600 dark:text-slate-300", children: selectedScenario.explanation })
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "text",
+            placeholder: "Search (e.g. 'speech', 'voting', '14th')",
+            className: "w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-sky-500 outline-none transition",
+            value: search,
+            onChange: (e) => setSearch(e.target.value)
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex bg-white dark:bg-slate-900 rounded-lg p-1 border border-slate-200 dark:border-slate-700", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setMode("simple"),
+              className: `px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === "simple" ? "bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`,
+              children: "Plain English"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setMode("original"),
+              className: `px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === "original" ? "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`,
+              children: "Original Text"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: [
+        filteredAmendments.map((amendment) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "flex flex-col p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-800/95 shadow-sm hover:shadow-md transition-shadow",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-start mb-3", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-xs font-bold uppercase tracking-wider constitution-text", children: [
+                  amendment.id,
+                  " Amendment"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-medium text-sky-600 dark:text-sky-400", children: amendment.topic })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "truncate max-w-[60%]", children: amendment.tags.join(", ") })
-            ] })
-          ]
-        },
-        amendment.id
-      )),
-      filteredAmendments.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12 text-slate-500", children: [
-        'No amendments found matching "',
-        search,
-        '".'
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "p",
+                {
+                  className: `text-base leading-relaxed flex-grow constitution-text ${mode === "original" ? "font-serif italic" : "font-sans"}`,
+                  children: mode === "original" ? `"${amendment.original}"` : amendment.simple
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex items-center justify-between text-xs text-slate-500", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                  "Difficulty: ",
+                  amendment.difficulty
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "truncate max-w-[60%]", children: amendment.tags.join(", ") })
+              ] })
+            ]
+          },
+          amendment.id
+        )),
+        filteredAmendments.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12 text-slate-500", children: [
+          'No amendments found matching "',
+          search,
+          '".'
+        ] })
       ] })
-    ] })
-  ] }) });
+    ] }) })
+  ] });
 }
 const SCENARIOS = [
   {
@@ -3831,6 +3842,14 @@ const CIVICS_SCENARIOS = [
     explanation: "Mayors are the chief executives of cities and towns. They appoint officials to manage city departments and enforce local laws and ordinances."
   }
 ];
+const civicsStyles = `
+  .civics-text {
+    color: #0f172a !important;
+  }
+  .dark .civics-text {
+    color: #e2e8f0 !important;
+  }
+`;
 function CivicsReasoningLab({ onExit }) {
   const [currentScenarioIndex, setCurrentScenarioIndex] = reactExports.useState(0);
   const [correctCount, setCorrectCount] = reactExports.useState(0);
@@ -3894,172 +3913,176 @@ function CivicsReasoningLab({ onExit }) {
     setFeedback(null);
     setSessionComplete(false);
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-6 space-y-6", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: onExit,
-          className: "flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300",
-          children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold", children: "🏛️ Civics Reasoning Lab" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-20 text-right text-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-slate-600 dark:text-slate-400", children: [
-        currentScenarioIndex + 1,
-        "/",
-        CIVICS_SCENARIOS.length
-      ] }) })
-    ] }),
-    sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-300 dark:border-emerald-700 rounded-xl p-6 text-center", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold text-emerald-900 dark:text-emerald-200 mb-2", children: "✅ Round Complete!" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-lg text-emerald-800 dark:text-emerald-300 mb-4", children: [
-        "You answered",
-        " ",
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
-          correctCount,
-          " out of ",
-          CIVICS_SCENARIOS.length
-        ] }),
-        " ",
-        "correctly."
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: handleResetSession,
-          className: "px-6 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition",
-          children: "Start New Round"
-        }
-      )
-    ] }),
-    !sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-6", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-3 mb-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "span",
-          {
-            className: `text-xs px-3 py-1 rounded-full font-semibold ${currentScenario.difficulty === "easy" ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200" : currentScenario.difficulty === "medium" ? "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200" : "bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200"}`,
-            children: currentScenario.difficulty.charAt(0).toUpperCase() + currentScenario.difficulty.slice(1)
-          }
-        ) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2 mb-4", children: currentScenario.tags.map((tag) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "span",
-          {
-            className: "text-xs bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-slate-700 dark:text-slate-300",
-            children: tag
-          },
-          tag
-        )) })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg font-semibold text-slate-900 dark:text-slate-100", children: currentScenario.text }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-6", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-slate-900 dark:text-slate-100", children: "Branch of Government" }),
-          BRANCH_OPTIONS.map((option) => {
-            var _a2;
-            return /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => setSelectedBranch(option.id),
-                disabled: feedback !== null,
-                className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedBranch === option.id ? feedback ? feedback.partialCorrect.branch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.branch) && option.id === currentScenario.correctBranch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
-                children: option.label
-              },
-              option.id
-            );
-          })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-slate-900 dark:text-slate-100", children: "Level of Government" }),
-          LEVEL_OPTIONS.map((option) => {
-            var _a2;
-            return /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => setSelectedLevel(option.id),
-                disabled: feedback !== null,
-                className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedLevel === option.id ? feedback ? feedback.partialCorrect.level ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.level) && option.id === currentScenario.correctLevel ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
-                children: option.label
-              },
-              option.id
-            );
-          })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-slate-900 dark:text-slate-100", children: "Power Type" }),
-          POWER_TYPE_OPTIONS.map((option) => {
-            var _a2;
-            return /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => setSelectedPowerType(option.id),
-                disabled: feedback !== null,
-                className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold text-sm ${selectedPowerType === option.id ? feedback ? feedback.partialCorrect.powerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.powerType) && option.id === currentScenario.correctPowerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
-                children: option.label
-              },
-              option.id
-            );
-          })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: !feedback ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: handleCheckAnswer,
-          disabled: !selectedBranch || !selectedLevel || !selectedPowerType,
-          className: "w-full px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 disabled:bg-slate-400 disabled:cursor-not-allowed dark:bg-sky-500 dark:hover:bg-sky-600 dark:disabled:bg-slate-600 text-white font-semibold transition",
-          children: "Check My Answer"
-        }
-      ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "div",
-          {
-            className: `rounded-lg p-4 border ${feedback.isCorrect ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-600" : "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-600"}`,
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "p",
-                {
-                  className: `font-bold mb-3 ${feedback.isCorrect ? "text-emerald-900 dark:text-emerald-200" : "text-yellow-900 dark:text-yellow-200"}`,
-                  children: feedback.isCorrect ? "✅ Perfect!" : "📋 Review Your Answers"
-                }
-              ),
-              !feedback.isCorrect && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 text-sm text-slate-700 dark:text-slate-300 mb-3", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                  feedback.partialCorrect.branch ? "✅" : "❌",
-                  " ",
-                  "Branch:",
-                  " ",
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: currentScenario.correctBranch })
-                ] }) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                  feedback.partialCorrect.level ? "✅" : "❌",
-                  " Level:",
-                  " ",
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: currentScenario.correctLevel })
-                ] }) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                  feedback.partialCorrect.powerType ? "✅" : "❌",
-                  " ",
-                  "Power Type:",
-                  " ",
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: currentScenario.correctPowerType })
-                ] }) })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-slate-700 dark:text-slate-300", children: currentScenario.explanation })
-            ]
-          }
-        ),
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: civicsStyles }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 civics-text", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-6 space-y-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
-            onClick: handleNextScenario,
-            className: "w-full px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600 text-white font-semibold transition",
-            children: currentScenarioIndex === CIVICS_SCENARIOS.length - 1 ? "See Results" : "Next Scenario"
+            onClick: onExit,
+            className: "flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold civics-text", children: "🏛️ Civics Reasoning Lab" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-20 text-right text-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-slate-600 dark:text-slate-400", children: [
+          currentScenarioIndex + 1,
+          "/",
+          CIVICS_SCENARIOS.length
+        ] }) })
+      ] }),
+      sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-300 dark:border-emerald-700 rounded-xl p-6 text-center", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold text-emerald-900 dark:text-emerald-200 mb-2", children: "✅ Round Complete!" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-lg text-emerald-800 dark:text-emerald-300 mb-4", children: [
+          "You answered",
+          " ",
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+            correctCount,
+            " out of ",
+            CIVICS_SCENARIOS.length
+          ] }),
+          " ",
+          "correctly."
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: handleResetSession,
+            className: "px-6 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition",
+            children: "Start New Round"
           }
         )
-      ] }) })
-    ] })
-  ] }) });
+      ] }),
+      !sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-6", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-3 mb-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
+            {
+              className: `text-xs px-3 py-1 rounded-full font-semibold ${currentScenario.difficulty === "easy" ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200" : currentScenario.difficulty === "medium" ? "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200" : "bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200"}`,
+              children: currentScenario.difficulty.charAt(0).toUpperCase() + currentScenario.difficulty.slice(1)
+            }
+          ) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2 mb-4", children: currentScenario.tags.map((tag) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
+            {
+              className: "text-xs bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-slate-700 dark:text-slate-300",
+              children: tag
+            },
+            tag
+          )) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg font-semibold civics-text", children: currentScenario.text }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-6", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold civics-text", children: "Branch of Government" }),
+            BRANCH_OPTIONS.map((option) => {
+              var _a2;
+              return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => setSelectedBranch(option.id),
+                  disabled: feedback !== null,
+                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedBranch === option.id ? feedback ? feedback.partialCorrect.branch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.branch) && option.id === currentScenario.correctBranch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                  children: option.label
+                },
+                option.id
+              );
+            })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold civics-text", children: "Level of Government" }),
+            LEVEL_OPTIONS.map((option) => {
+              var _a2;
+              return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => setSelectedLevel(option.id),
+                  disabled: feedback !== null,
+                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedLevel === option.id ? feedback ? feedback.partialCorrect.level ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.level) && option.id === currentScenario.correctLevel ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                  children: option.label
+                },
+                option.id
+              );
+            })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold civics-text", children: "Power Type" }),
+            POWER_TYPE_OPTIONS.map((option) => {
+              var _a2;
+              return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => setSelectedPowerType(option.id),
+                  disabled: feedback !== null,
+                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold text-sm ${selectedPowerType === option.id ? feedback ? feedback.partialCorrect.powerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.powerType) && option.id === currentScenario.correctPowerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                  children: option.label
+                },
+                option.id
+              );
+            })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: !feedback ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: handleCheckAnswer,
+            disabled: !selectedBranch || !selectedLevel || !selectedPowerType,
+            className: "w-full px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 disabled:bg-slate-400 disabled:cursor-not-allowed dark:bg-sky-500 dark:hover:bg-sky-600 dark:disabled:bg-slate-600 text-white font-semibold transition",
+            children: "Check My Answer"
+          }
+        ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: `rounded-lg p-4 border ${feedback.isCorrect ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-600" : "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-300 dark:border-yellow-600"}`,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "p",
+                  {
+                    className: `font-bold mb-3 ${feedback.isCorrect ? "text-emerald-900 dark:text-emerald-200" : "text-yellow-900 dark:text-yellow-200"}`,
+                    children: feedback.isCorrect ? "✅ Perfect!" : "📋 Review Your Answers"
+                  }
+                ),
+                !feedback.isCorrect && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 text-sm text-slate-700 dark:text-slate-300 mb-3", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                    feedback.partialCorrect.branch ? "✅" : "❌",
+                    " ",
+                    "Branch:",
+                    " ",
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: currentScenario.correctBranch })
+                  ] }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                    feedback.partialCorrect.level ? "✅" : "❌",
+                    " ",
+                    "Level:",
+                    " ",
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: currentScenario.correctLevel })
+                  ] }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                    feedback.partialCorrect.powerType ? "✅" : "❌",
+                    " ",
+                    "Power Type:",
+                    " ",
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: currentScenario.correctPowerType })
+                  ] }) })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-slate-700 dark:text-slate-300", children: currentScenario.explanation })
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: handleNextScenario,
+              className: "w-full px-6 py-3 rounded-lg bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600 text-white font-semibold transition",
+              children: currentScenarioIndex === CIVICS_SCENARIOS.length - 1 ? "See Results" : "Next Scenario"
+            }
+          )
+        ] }) })
+      ] })
+    ] }) })
+  ] });
 }
 const HISTORY_TIMELINE_SETS = [
   {
@@ -7059,7 +7082,13 @@ function extractMathSegments(input) {
   }
   return segments;
 }
-function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess = false, subject = null } = {}) {
+function sanitizeHtmlContent(content, {
+  normalizeSpacing = false,
+  skipPreprocess = false,
+  subject = null,
+  trustedHtml = false
+  // set true for vetted premade content so we can render even if DOMPurify is unavailable
+} = {}) {
   if (typeof content !== "string") return "";
   let working = content;
   if (!skipPreprocess) {
@@ -7093,6 +7122,11 @@ function sanitizeHtmlContent(content, { normalizeSpacing = false, skipPreprocess
     );
     sanitized = convertTailwindTableClassesToInlineCss(sanitized);
     return sanitized;
+  }
+  if (trustedHtml) {
+    let trusted = formatFractions(working);
+    trusted = convertTailwindTableClassesToInlineCss(trusted);
+    return trusted;
   }
   let result2 = formatFractions(
     working.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -24999,10 +25033,24 @@ function PracticeSessionModal({
             border: `1px solid var(--modal-border)`
           },
           children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold mb-4 text-slate-900 dark:text-slate-100", children: "Start a Practice Session" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "h2",
+              {
+                className: "text-xl font-bold mb-4",
+                style: { color: "var(--text-primary)" },
+                children: "Start a Practice Session"
+              }
+            ),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-1 text-slate-900 dark:text-slate-300", children: "Duration" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "label",
+                  {
+                    className: "block text-sm font-medium mb-1",
+                    style: { color: "var(--text-primary)" },
+                    children: "Duration"
+                  }
+                ),
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "select",
                   {
@@ -25019,7 +25067,14 @@ function PracticeSessionModal({
                 )
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-1 text-slate-900 dark:text-slate-300", children: "Mode" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "label",
+                  {
+                    className: "block text-sm font-medium mb-1",
+                    style: { color: "var(--text-primary)" },
+                    children: "Mode"
+                  }
+                ),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "select",
                   {
@@ -25046,8 +25101,11 @@ function PracticeSessionModal({
                 {
                   type: "button",
                   onClick: onDismiss,
-                  className: "px-4 py-2 rounded-md border text-slate-900 dark:text-slate-100",
-                  style: { borderColor: "var(--modal-border)" },
+                  className: "px-4 py-2 rounded-md border",
+                  style: {
+                    borderColor: "var(--modal-border)",
+                    color: "var(--text-primary)"
+                  },
                   disabled: submitting,
                   children: "Cancel"
                 }
@@ -33612,7 +33670,8 @@ function Stem({ item, subject = null, isReview = false }) {
         dangerouslySetInnerHTML: {
           __html: sanitizeHtmlContent(passageContent, {
             normalizeSpacing: true,
-            subject
+            subject,
+            trustedHtml: item.isPremade === true
           })
         }
       }
@@ -35516,6 +35575,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
 }
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   var _a2;
+  const selectedSubject2 = (quiz == null ? void 0 : quiz.subject) || (results == null ? void 0 : results.subject) || null;
   reactExports.useEffect(() => {
     const passed = (results == null ? void 0 : results.passed) === true || (results == null ? void 0 : results.scaledScore) && results.scaledScore >= 145;
     if (passed) {
@@ -35907,7 +35967,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                       index + 1,
                       "."
                     ] }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: question, subject: selectedSubject })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: question, subject: selectedSubject2 })
                   ] }),
                   (() => {
                     var _a3;
@@ -38807,4 +38867,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-CJbkUffZ.js.map
+//# sourceMappingURL=main-COSM2yYT.js.map

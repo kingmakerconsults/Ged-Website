@@ -40,8 +40,7 @@
                       "isCorrect": false,
                       "rationale": "Resumes complement applications but don't replace them."
                     }
-                  ],
-                  "uam": "WF_P1_Q01_MC"
+                  ]
                 },
                 {
                   "questionNumber": 2,
@@ -70,8 +69,7 @@
                       "isCorrect": false,
                       "rationale": "This is too general and doesn't demonstrate impact."
                     }
-                  ],
-                  "uam": "WF_P1_Q02_MC"
+                  ]
                 }
               ]
             },
@@ -108,8 +106,7 @@
                       "isCorrect": false,
                       "rationale": "This lacks professionalism."
                     }
-                  ],
-                  "uam": "WF_P1_Q01_MC"
+                  ]
                 },
                 {
                   "questionNumber": 2,
@@ -138,8 +135,7 @@
                       "isCorrect": false,
                       "rationale": "Date order, not duration, is the standard format."
                     }
-                  ],
-                  "uam": "WF_P1_Q02_MC"
+                  ]
                 }
               ]
             }
@@ -182,8 +178,7 @@
                       "isCorrect": false,
                       "rationale": "References are typically provided separately when requested."
                     }
-                  ],
-                  "uam": "WF_P1_Q01_MC"
+                  ]
                 },
                 {
                   "questionNumber": 2,
@@ -212,8 +207,7 @@
                       "isCorrect": false,
                       "rationale": "This is too casual for a professional cover letter."
                     }
-                  ],
-                  "uam": "WF_P1_Q02_MC"
+                  ]
                 }
               ]
             }
@@ -260,8 +254,7 @@
                       "isCorrect": false,
                       "rationale": "You should provide a summary in your own words."
                     }
-                  ],
-                  "uam": "WF_P1_Q01_MC"
+                  ]
                 },
                 {
                   "questionNumber": 2,
@@ -290,8 +283,7 @@
                       "isCorrect": false,
                       "rationale": "This doesn't provide a concrete example."
                     }
-                  ],
-                  "uam": "WF_P1_Q02_MC"
+                  ]
                 }
               ]
             }
@@ -338,8 +330,7 @@
                       "isCorrect": false,
                       "rationale": "This is too informal."
                     }
-                  ],
-                  "uam": "WF_P1_Q01_MC"
+                  ]
                 },
                 {
                   "questionNumber": 2,
@@ -368,8 +359,7 @@
                       "isCorrect": false,
                       "rationale": "Focus on understanding first, not planning your reply."
                     }
-                  ],
-                  "uam": "WF_P1_Q02_MC"
+                  ]
                 }
               ]
             }
@@ -416,8 +406,7 @@
                       "isCorrect": false,
                       "rationale": "Good teams involve input from all members."
                     }
-                  ],
-                  "uam": "WF_P1_Q01_MC"
+                  ]
                 },
                 {
                   "questionNumber": 2,
@@ -446,8 +435,7 @@
                       "isCorrect": false,
                       "rationale": "Reacting emotionally can worsen the situation."
                     }
-                  ],
-                  "uam": "WF_P1_Q02_MC"
+                  ]
                 }
               ]
             }
@@ -490,8 +478,7 @@
                       "isCorrect": false,
                       "rationale": "A brief delay doesn't justify missing work."
                     }
-                  ],
-                  "uam": "WF_P1_Q01_MC"
+                  ]
                 },
                 {
                   "questionNumber": 2,
@@ -520,8 +507,7 @@
                       "isCorrect": false,
                       "rationale": "Focus helps you complete tasks more efficiently."
                     }
-                  ],
-                  "uam": "WF_P1_Q02_MC"
+                  ]
                 }
               ]
             }
@@ -568,8 +554,7 @@
                       "isCorrect": false,
                       "rationale": "This is one of the most common weak passwords."
                     }
-                  ],
-                  "uam": "WF_P1_Q01_MC"
+                  ]
                 },
                 {
                   "questionNumber": 2,
@@ -598,8 +583,7 @@
                       "isCorrect": false,
                       "rationale": "This could spread the phishing attack."
                     }
-                  ],
-                  "uam": "WF_P1_Q02_MC"
+                  ]
                 }
               ]
             }
@@ -646,8 +630,7 @@
                       "isCorrect": false,
                       "rationale": "Pathways help you explore options you are interested in."
                     }
-                  ],
-                  "uam": "WF_P1_Q01_MC"
+                  ]
                 },
                 {
                   "questionNumber": 2,
@@ -676,8 +659,7 @@
                       "isCorrect": false,
                       "rationale": "Choosing based on ease alone often leads to dissatisfaction."
                     }
-                  ],
-                  "uam": "WF_P1_Q02_MC"
+                  ]
                 }
               ]
             }

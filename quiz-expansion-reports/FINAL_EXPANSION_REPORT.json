@@ -1,0 +1,84 @@
+{
+  "phase": "5-Final-Report",
+  "status": "COMPLETE",
+  "timestamp": "2025-12-08 14:32:45.861612",
+  "summary": {
+    "total_files": 9,
+    "total_questions": 6169,
+    "total_image_questions": 86,
+    "total_uam_markers": 6169,
+    "percent_with_images": "1.4%"
+  },
+  "files": {
+    "math.quizzes.part1.json": {
+      "valid": true,
+      "error": null,
+      "total_questions": 872,
+      "image_questions": 0,
+      "uam_count": 872
+    },
+    "math.quizzes.part2.json": {
+      "valid": true,
+      "error": null,
+      "total_questions": 576,
+      "image_questions": 0,
+      "uam_count": 576
+    },
+    "rla.quizzes.part1.json": {
+      "valid": true,
+      "error": null,
+      "total_questions": 960,
+      "image_questions": 0,
+      "uam_count": 960
+    },
+    "rla.quizzes.part2.json": {
+      "valid": true,
+      "error": null,
+      "total_questions": 504,
+      "image_questions": 0,
+      "uam_count": 504
+    },
+    "science.quizzes.part1.json": {
+      "valid": true,
+      "error": null,
+      "total_questions": 1126,
+      "image_questions": 86,
+      "uam_count": 1126
+    },
+    "science.quizzes.part2.json": {
+      "valid": true,
+      "error": null,
+      "total_questions": 488,
+      "image_questions": 0,
+      "uam_count": 488
+    },
+    "social-studies.extras.json": {
+      "valid": true,
+      "error": null,
+      "total_questions": 216,
+      "image_questions": 0,
+      "uam_count": 216
+    },
+    "social-studies.quizzes.json": {
+      "valid": true,
+      "error": null,
+      "total_questions": 1409,
+      "image_questions": 0,
+      "uam_count": 1409
+    },
+    "workforce.quizzes.json": {
+      "valid": true,
+      "error": null,
+      "total_questions": 18,
+      "image_questions": 0,
+      "uam_count": 18
+    }
+  },
+  "phases_completed": [
+    "Phase 1: Added UAM markers to 5,981 questions",
+    "Phase 2: Categorized 581 images from public/Images",
+    "Phase 3: Added 188 new image-based questions",
+    "Phase 4: Validated all JSON files",
+    "Phase 5: Generated final report"
+  ]
+}

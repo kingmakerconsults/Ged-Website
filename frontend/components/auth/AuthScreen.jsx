@@ -156,6 +156,8 @@ export function AuthScreen({ onLogin }) {
     }
   };
 
+  console.log('[AuthScreen] Rendering with dev login button');
+
   return (
     <>
       <div className="text-center max-w-md mx-auto">
@@ -234,18 +236,20 @@ export function AuthScreen({ onLogin }) {
           <span>Or continue with</span>
           <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
         </div>
-        <div ref={googleButton} className="flex justify-center"></div>
-
-        {/* Dev Login Button */}
-        <div className="mt-4">
+        {/* Dev Login Button - MUST BE VISIBLE */}
+        <div className="mt-4 w-full" data-testid="dev-login-container">
           <button
             type="button"
             onClick={handleDevLogin}
-            className="w-full rounded-lg bg-purple-600 py-2 text-sm font-semibold text-white shadow hover:bg-purple-700"
+            className="w-full rounded-lg bg-purple-600 py-3 text-base font-bold text-white shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300"
+            data-testid="dev-login-button"
+            style={{ minHeight: '48px' }}
           >
-            🚀 Dev Login (Bypass)
+            🚀 DEV LOGIN BYPASS 🚀
           </button>
         </div>
+
+        <div ref={googleButton} className="flex justify-center mt-4"></div>
 
         <p className="mt-6 text-xs text-slate-500 dark:text-slate-400">
           Admins: Sign in with Google to access your dashboard.

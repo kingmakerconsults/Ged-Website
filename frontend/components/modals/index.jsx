@@ -426,12 +426,18 @@ export function PracticeSessionModal({
           border: `1px solid var(--modal-border)`,
         }}
       >
-        <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-slate-100">
+        <h2
+          className="text-xl font-bold mb-4"
+          style={{ color: 'var(--text-primary)' }}
+        >
           Start a Practice Session
         </h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-2 text-slate-900 dark:text-slate-300">
+            <label
+              className="block text-sm font-medium mb-2"
+              style={{ color: 'var(--text-primary)' }}
+            >
               Practice Type
             </label>
             <div className="flex gap-2 mb-4">
@@ -488,7 +494,10 @@ export function PracticeSessionModal({
           <div
             style={{ display: practiceMode === 'olympics' ? 'none' : 'block' }}
           >
-            <label className="block text-sm font-medium mb-1 text-slate-900 dark:text-slate-300">
+            <label
+              className="block text-sm font-medium mb-1"
+              style={{ color: 'var(--text-primary)' }}
+            >
               Duration
             </label>
             <select
@@ -506,7 +515,10 @@ export function PracticeSessionModal({
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1 text-slate-900 dark:text-slate-300">
+            <label
+              className="block text-sm font-medium mb-1"
+              style={{ color: 'var(--text-primary)' }}
+            >
               Mode
             </label>
             <select
@@ -529,8 +541,11 @@ export function PracticeSessionModal({
           <button
             type="button"
             onClick={onDismiss}
-            className="px-4 py-2 rounded-md border text-slate-900 dark:text-slate-100"
-            style={{ borderColor: 'var(--modal-border)' }}
+            className="px-4 py-2 rounded-md border"
+            style={{
+              borderColor: 'var(--modal-border)',
+              color: 'var(--text-primary)',
+            }}
             disabled={submitting}
           >
             Cancel
