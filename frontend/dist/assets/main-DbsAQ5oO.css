@@ -3000,6 +3000,30 @@ select {
   border: 1px solid rgba(148, 163, 184, 0.25);
   overflow-y: auto;
 }
+#essayPracticeView .essay-prompt-body .good-evidence {
+  background: rgba(34, 197, 94, 0.12);
+  color: #166534;
+  border-left: 3px solid #22c55e;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+  font-weight: 700;
+}
+#essayPracticeView .essay-prompt-body .bad-evidence {
+  background: rgba(248, 113, 113, 0.12);
+  color: #991b1b;
+  border-left: 3px solid #ef4444;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+  font-weight: 700;
+}
+#essayPracticeView .essay-prompt-body .prompt-expansion {
+  background: rgba(59, 130, 246, 0.06);
+  border-left: 3px solid #3b82f6;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.35rem;
+  margin: 0.5rem 0;
+  color: inherit;
+}
 /* LIGHT MODE: white box, dark text */
 [data-theme='light']
   #essayPracticeView

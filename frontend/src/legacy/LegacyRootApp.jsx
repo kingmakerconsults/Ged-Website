@@ -37004,46 +37004,10 @@ function EssayGuide({ onExit }) {
     conclusion: `In conclusion, while both authors address the topic, [Stronger Author's Last Name] presents a more compelling argument. By skillfully using [restate evidence types], the author builds a case that is more persuasive than the weakly supported claims by [Weaker Author's Last Name].`,
   };
 
-  // Auto-fill essay templates with article-specific data
-  const fillEssayTemplate = (template, passageData) => {
-    if (!passageData) return template;
-    
-    const extractLastName = (title) => {
-      if (!title) return '[Author]';
-      const match = title.match(/([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/);
-      return match ? match[0].split(' ').pop() : '[Author]';
-    };
-
-    const author1LastName = extractLastName(passageData.passage1?.title);
-    const author2LastName = extractLastName(passageData.passage2?.title);
-    const topic = passageData.topic || '[topic]';
-    
-    // Determine stronger/weaker based on title indicators
-    const isPassage1Stronger = /stronger/i.test(passageData.passage1?.title || '');
-    const strongerAuthor = isPassage1Stronger ? author1LastName : author2LastName;
-    const weakerAuthor = isPassage1Stronger ? author2LastName : author1LastName;
-
-    return template
-      .replace(/\[topic of both articles\]/g, topic)
-      .replace(/\[Author 1's Last Name\]/g, author1LastName)
-      .replace(/\[Author 2's Last Name\]/g, author2LastName)
-      .replace(/\[Stronger Author's Last Name\]/g, strongerAuthor)
-      .replace(/\[Weaker Author's Last Name\]/g, weakerAuthor)
-      .replace(/\[Author's Last Name\]/g, strongerAuthor);
-  };
-
-  // Get filled templates for current passage
-  const currentPassage = passagesData[lockedTopic !== null ? lockedTopic : selectedTopic];
-  const filledTemplates = useMemo(() => {
-    if (!currentPassage || essayMode !== 'guided') return essayTemplates;
-    return {
-      intro: fillEssayTemplate(essayTemplates.intro, currentPassage),
-      body1: fillEssayTemplate(essayTemplates.body1, currentPassage),
-      body2: fillEssayTemplate(essayTemplates.body2, currentPassage),
-      body3: fillEssayTemplate(essayTemplates.body3, currentPassage),
-      conclusion: fillEssayTemplate(essayTemplates.conclusion, currentPassage),
-    };
-  }, [currentPassage, essayMode, lockedTopic, selectedTopic]);
+  // Pacing feedback state
+  const [pacingMessage, setPacingMessage] = useState('');
+  const [wordsPerMinute, setWordsPerMinute] = useState(0);
+  const pacingIntervalRef = useRef(null);
 
   // Typing accuracy tracking
   const [typingAccuracy, setTypingAccuracy] = useState({
@@ -37054,23 +37018,21 @@ function EssayGuide({ onExit }) {
     conclusion: { correct: true, progress: 0 },
   });
 
-  // Pacing feedback state
-  const [pacingMessage, setPacingMessage] = useState('');
-  const [wordsPerMinute, setWordsPerMinute] = useState(0);
-  const pacingIntervalRef = useRef(null);
-
   // Check typing accuracy
-  const checkTypingAccuracy = useCallback((section, typed, expected) => {
-    if (!expected || essayMode !== 'guided') return;
-    
-    const isCorrectSoFar = expected.startsWith(typed.trim());
-    const progress = typed.length / expected.length;
+  const checkTypingAccuracy = useCallback(
+    (section, typed, expected) => {
+      if (!expected || essayMode !== 'guided') return;
 
-    setTypingAccuracy(prev => ({
-      ...prev,
-      [section]: { correct: isCorrectSoFar, progress },
-    }));
-  }, [essayMode]);
+      const isCorrectSoFar = expected.startsWith(typed.trim());
+      const progress = typed.length / expected.length;
+
+      setTypingAccuracy((prev) => ({
+        ...prev,
+        [section]: { correct: isCorrectSoFar, progress },
+      }));
+    },
+    [essayMode]
+  );
 
   // Calculate WPM and show pacing feedback
   useEffect(() => {
@@ -37088,7 +37050,8 @@ function EssayGuide({ onExit }) {
         0
       );
       const elapsedMinutes = (45 * 60 - timer) / 60;
-      const wpm = elapsedMinutes > 0 ? Math.round(totalWords / elapsedMinutes) : 0;
+      const wpm =
+        elapsedMinutes > 0 ? Math.round(totalWords / elapsedMinutes) : 0;
       setWordsPerMinute(wpm);
 
       // Pacing feedback messages
@@ -37096,7 +37059,7 @@ function EssayGuide({ onExit }) {
         'Good pace—keep developing your ideas.',
         'Excellent—your writing rhythm is strong.',
         'Nice progress! Stay focused on the structure.',
-        'You\'re doing well. Keep up the momentum.',
+        "You're doing well. Keep up the momentum.",
       ];
 
       if (totalWords > 0 && elapsedMinutes > 1) {
@@ -37105,7 +37068,9 @@ function EssayGuide({ onExit }) {
         } else if (wpm > 40) {
           setPacingMessage('Great speed! Make sure to maintain accuracy.');
         } else {
-          setPacingMessage(messages[Math.floor(Math.random() * messages.length)]);
+          setPacingMessage(
+            messages[Math.floor(Math.random() * messages.length)]
+          );
         }
 
         // Auto-fade message
@@ -37492,6 +37457,125 @@ function EssayGuide({ onExit }) {
     },
   ];
 
+  // Auto-fill essay templates with article-specific data
+  const fillEssayTemplate = (template, passageData) => {
+    if (!passageData) return template;
+
+    const extractLastName = (title) => {
+      if (!title) return '[Author]';
+      const match = title.match(/([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/);
+      return match ? match[0].split(' ').pop() : '[Author]';
+    };
+
+    // Extract evidence snippets from passage content
+    const extractEvidence = (content) => {
+      if (!content) return '[evidence]';
+      const match = content.match(
+        /<span class='good-evidence'>([^<]+)<\/span>/
+      );
+      return match ? match[1].trim().substring(0, 80) : '[supporting data]';
+    };
+
+    // Extract main claim/position from first sentence
+    const extractMainClaim = (content) => {
+      if (!content) return '[main argument]';
+      const textOnly = content.replace(/<[^>]+>/g, '').trim();
+      const firstSentence = textOnly.split(/[.!?]+/)[0];
+      return firstSentence.length > 100
+        ? firstSentence.substring(0, 100) + '...'
+        : firstSentence || '[position]';
+    };
+
+    // Extract evidence type
+    const extractEvidenceType = (content) => {
+      if (!content) return 'evidence';
+      const types = [
+        'study',
+        'data',
+        'research',
+        'analysis',
+        'report',
+        'survey',
+        'poll',
+        'findings',
+      ];
+      const lowerContent = content.toLowerCase();
+      for (const type of types) {
+        if (lowerContent.includes(type)) return type;
+      }
+      return 'evidence';
+    };
+
+    const author1LastName = extractLastName(passageData.passage1?.title);
+    const author2LastName = extractLastName(passageData.passage2?.title);
+    const topic = passageData.topic || '[topic]';
+
+    // Determine stronger/weaker based on title indicators
+    const isPassage1Stronger = /stronger/i.test(
+      passageData.passage1?.title || ''
+    );
+    const strongerAuthor = isPassage1Stronger
+      ? author1LastName
+      : author2LastName;
+    const weakerAuthor = isPassage1Stronger ? author2LastName : author1LastName;
+
+    // Extract stronger passage data
+    const strongerPassage = isPassage1Stronger
+      ? passageData.passage1
+      : passageData.passage2;
+    const weakerPassage = isPassage1Stronger
+      ? passageData.passage2
+      : passageData.passage1;
+
+    const strongerClaim = extractMainClaim(strongerPassage?.content);
+    const weakerClaim = extractMainClaim(weakerPassage?.content);
+    const strongerEvidence = extractEvidence(strongerPassage?.content);
+    const weakerWeakness = weakerPassage?.content?.includes('bad-evidence')
+      ? 'anecdotal reasoning'
+      : 'insufficient evidence';
+    const evidenceType = extractEvidenceType(strongerPassage?.content);
+
+    return template
+      .replace(/\[topic of both articles\]/g, topic)
+      .replace(/\[Author 1's Last Name\]/g, author1LastName)
+      .replace(/\[Author 2's Last Name\]/g, author2LastName)
+      .replace(
+        /\[explain Author 1's main claim\]/g,
+        extractMainClaim(passageData.passage1?.content)
+      )
+      .replace(
+        /\[explain Author 2's main claim\]/g,
+        extractMainClaim(passageData.passage2?.content)
+      )
+      .replace(/\[Stronger Author's Last Name\]/g, strongerAuthor)
+      .replace(/\[Weaker Author's Last Name\]/g, weakerAuthor)
+      .replace(/\[Author's Last Name\]/g, strongerAuthor)
+      .replace(/\[type of evidence\]/g, evidenceType)
+      .replace(/\["quote or paraphrase"\]/g, `"${strongerEvidence}"`)
+      .replace(/\[explain why\]/g, 'it provides measurable, concrete support')
+      .replace(/\[another type of evidence\]/g, evidenceType)
+      .replace(/\[identify a weakness\]/g, weakerWeakness)
+      .replace(
+        /\[list key evidence types\]/g,
+        evidenceType + ' and expert testimony'
+      )
+      .replace(/\[restate evidence types\]/g, evidenceType);
+  };
+
+  // Get filled templates for current passage
+  const currentPassage =
+    passagesData[lockedTopic !== null ? lockedTopic : selectedTopic];
+  const filledTemplates = useMemo(() => {
+    if (!currentPassage || essayMode !== 'guided') return essayTemplates;
+    return {
+      intro: fillEssayTemplate(essayTemplates.intro, currentPassage),
+      body1: fillEssayTemplate(essayTemplates.body1, currentPassage),
+      body2: fillEssayTemplate(essayTemplates.body2, currentPassage),
+      body3: fillEssayTemplate(essayTemplates.body3, currentPassage),
+      conclusion: fillEssayTemplate(essayTemplates.conclusion, currentPassage),
+    };
+  }, [currentPassage, essayMode, lockedTopic, selectedTopic]);
+
   useEffect(() => {
     if (timerActive) {
       intervalRef.current = setInterval(() => {
@@ -37551,7 +37635,7 @@ function EssayGuide({ onExit }) {
   const handleTextChange = (e) => {
     const { name, value } = e.target;
     setEssayText((prev) => ({ ...prev, [name]: value }));
-    
+
     // Check typing accuracy in Guided Mode
     if (essayMode === 'guided' && filledTemplates[name]) {
       checkTypingAccuracy(name, value, filledTemplates[name]);
@@ -37983,7 +38067,9 @@ function EssayGuide({ onExit }) {
                   <span className="font-semibold">💡 Pacing Tip:</span>
                   <span>{pacingMessage}</span>
                   {wordsPerMinute > 0 && (
-                    <span className="ml-auto text-xs text-blue-700">({wordsPerMinute} WPM)</span>
+                    <span className="ml-auto text-xs text-blue-700">
+                      ({wordsPerMinute} WPM)
+                    </span>
                   )}
                 </div>
               </div>
@@ -38266,11 +38352,12 @@ function EssayGuide({ onExit }) {
                         ? filledTemplates.conclusion
                         : ''}
                     </div>
-                    {essayText.conclusion && !typingAccuracy.conclusion.correct && (
-                      <div className="absolute -bottom-6 left-0 text-xs text-red-600">
-                        ⚠️ Text doesn't match the template structure
-                      </div>
-                    )}
+                    {essayText.conclusion &&
+                      !typingAccuracy.conclusion.correct && (
+                        <div className="absolute -bottom-6 left-0 text-xs text-red-600">
+                          ⚠️ Text doesn't match the template structure
+                        </div>
+                      )}
                   </div>
                 </div>
               </>
@@ -38417,13 +38504,30 @@ function EssayGuide({ onExit }) {
             .trim();
 
     // Calculate Guided Mode statistics
-    const guidedStats = essayMode === 'guided' ? {
-      totalWords: wordCount(fullEssay),
-      timeSpent: Math.max(0, 45 * 60 - timer),
-      sectionsCompleted: Object.values(essayText).filter(t => String(t).trim().length > 20).length,
-      avgAccuracy: Object.values(typingAccuracy).reduce((sum, s) => sum + (s.correct ? 1 : 0), 0) / 5 * 100,
-      wpm: wordsPerMinute || (fullEssay ? Math.round(wordCount(fullEssay) / Math.max(1, (45 * 60 - timer) / 60)) : 0),
-    } : null;
+    const guidedStats =
+      essayMode === 'guided'
+        ? {
+            totalWords: wordCount(fullEssay),
+            timeSpent: Math.max(0, 45 * 60 - timer),
+            sectionsCompleted: Object.values(essayText).filter(
+              (t) => String(t).trim().length > 20
+            ).length,
+            avgAccuracy:
+              (Object.values(typingAccuracy).reduce(
+                (sum, s) => sum + (s.correct ? 1 : 0),
+                0
+              ) /
+                5) *
+              100,
+            wpm:
+              wordsPerMinute ||
+              (fullEssay
+                ? Math.round(
+                    wordCount(fullEssay) / Math.max(1, (45 * 60 - timer) / 60)
+                  )
+                : 0),
+          }
+        : null;
 
     return (
       <>
@@ -38446,35 +38550,51 @@ function EssayGuide({ onExit }) {
         {/* Guided Mode Summary Statistics */}
         {essayMode === 'guided' && guidedStats && fullEssay && (
           <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-t border-b">
-            <h4 className="text-lg font-bold text-indigo-900 mb-3">📊 Guided Mode Practice Summary</h4>
+            <h4 className="text-lg font-bold text-indigo-900 mb-3">
+              📊 Guided Mode Practice Summary
+            </h4>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
               <div className="bg-white rounded-lg p-3 shadow-sm">
                 <div className="text-gray-600 text-xs">Total Words</div>
-                <div className="text-2xl font-bold text-indigo-600">{guidedStats.totalWords}</div>
+                <div className="text-2xl font-bold text-indigo-600">
+                  {guidedStats.totalWords}
+                </div>
               </div>
               <div className="bg-white rounded-lg p-3 shadow-sm">
                 <div className="text-gray-600 text-xs">Writing Speed</div>
-                <div className="text-2xl font-bold text-indigo-600">{guidedStats.wpm} <span className="text-sm">WPM</span></div>
+                <div className="text-2xl font-bold text-indigo-600">
+                  {guidedStats.wpm} <span className="text-sm">WPM</span>
+                </div>
               </div>
               <div className="bg-white rounded-lg p-3 shadow-sm">
                 <div className="text-gray-600 text-xs">Time Spent</div>
-                <div className="text-2xl font-bold text-indigo-600">{Math.floor(guidedStats.timeSpent / 60)}<span className="text-sm">m</span></div>
+                <div className="text-2xl font-bold text-indigo-600">
+                  {Math.floor(guidedStats.timeSpent / 60)}
+                  <span className="text-sm">m</span>
+                </div>
               </div>
               <div className="bg-white rounded-lg p-3 shadow-sm">
                 <div className="text-gray-600 text-xs">Sections Completed</div>
-                <div className="text-2xl font-bold text-indigo-600">{guidedStats.sectionsCompleted}/5</div>
+                <div className="text-2xl font-bold text-indigo-600">
+                  {guidedStats.sectionsCompleted}/5
+                </div>
               </div>
               <div className="bg-white rounded-lg p-3 shadow-sm">
                 <div className="text-gray-600 text-xs">Template Accuracy</div>
-                <div className="text-2xl font-bold text-indigo-600">{Math.round(guidedStats.avgAccuracy)}%</div>
+                <div className="text-2xl font-bold text-indigo-600">
+                  {Math.round(guidedStats.avgAccuracy)}%
+                </div>
               </div>
               <div className="bg-white rounded-lg p-3 shadow-sm">
                 <div className="text-gray-600 text-xs">Completion</div>
-                <div className="text-2xl font-bold text-indigo-600">{Math.round(guidedStats.sectionsCompleted / 5 * 100)}%</div>
+                <div className="text-2xl font-bold text-indigo-600">
+                  {Math.round((guidedStats.sectionsCompleted / 5) * 100)}%
+                </div>
               </div>
             </div>
             <p className="mt-3 text-xs text-gray-600 italic">
-              💡 This is a guided practice tool. Stats show your structure reinforcement progress.
+              💡 This is a guided practice tool. Stats show your structure
+              reinforcement progress.
             </p>
           </div>
         )}
