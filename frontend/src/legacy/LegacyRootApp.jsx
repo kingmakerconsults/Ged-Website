@@ -36993,6 +36993,8 @@ function EssayGuide({ onExit }) {
     fontSize: 'inherit',
     lineHeight: 'inherit',
     zIndex: 1,
+    boxSizing: 'border-box',
+    margin: 0,
   });
 
   // Essay templates for shadow overlay
@@ -37488,7 +37490,8 @@ function EssayGuide({ onExit }) {
       if (!content) return 'this argument presents a compelling perspective';
       const textOnly = content.replace(/<[^>]+>/g, '').trim();
       const firstSentence = textOnly.split(/[.!?]+/)[0];
-      if (!firstSentence) return 'this argument presents a compelling perspective';
+      if (!firstSentence)
+        return 'this argument presents a compelling perspective';
       if (firstSentence.length > 120) {
         const truncated = firstSentence.substring(0, 120).trim();
         const lastSpace = truncated.lastIndexOf(' ');
@@ -38100,7 +38103,7 @@ function EssayGuide({ onExit }) {
                       value={essayText.intro}
                       onChange={handleTextChange}
                       disabled={!timerActive}
-                      className="practice-textarea w-full h-48 border-gray-300 rounded-md"
+                      className="w-full h-48"
                       style={{
                         position: 'relative',
                         background: 'transparent',
@@ -38111,6 +38114,9 @@ function EssayGuide({ onExit }) {
                         lineHeight: 'inherit',
                         margin: 0,
                         resize: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        boxSizing: 'border-box',
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Tab') {
@@ -38180,7 +38186,7 @@ function EssayGuide({ onExit }) {
                       value={essayText.body1}
                       onChange={handleTextChange}
                       disabled={!timerActive}
-                      className="practice-textarea w-full h-32 border-gray-300 rounded-md"
+                      className="w-full h-32"
                       style={{
                         position: 'relative',
                         background: 'transparent',
@@ -38191,6 +38197,9 @@ function EssayGuide({ onExit }) {
                         lineHeight: 'inherit',
                         margin: 0,
                         resize: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        boxSizing: 'border-box',
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Tab') {
@@ -38234,7 +38243,7 @@ function EssayGuide({ onExit }) {
                       value={essayText.body2}
                       onChange={handleTextChange}
                       disabled={!timerActive}
-                      className="practice-textarea w-full h-32 border-gray-300 rounded-md"
+                      className="w-full h-32"
                       style={{
                         position: 'relative',
                         background: 'transparent',
@@ -38245,6 +38254,9 @@ function EssayGuide({ onExit }) {
                         lineHeight: 'inherit',
                         margin: 0,
                         resize: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        boxSizing: 'border-box',
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Tab') {
@@ -38288,7 +38300,7 @@ function EssayGuide({ onExit }) {
                       value={essayText.body3}
                       onChange={handleTextChange}
                       disabled={!timerActive}
-                      className="practice-textarea w-full h-32 border-gray-300 rounded-md"
+                      className="w-full h-32"
                       style={{
                         position: 'relative',
                         background: 'transparent',
@@ -38299,6 +38311,9 @@ function EssayGuide({ onExit }) {
                         lineHeight: 'inherit',
                         margin: 0,
                         resize: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        boxSizing: 'border-box',
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Tab') {
@@ -38342,7 +38357,7 @@ function EssayGuide({ onExit }) {
                       value={essayText.conclusion}
                       onChange={handleTextChange}
                       disabled={!timerActive}
-                      className="practice-textarea w-full h-40 border-gray-300 rounded-md"
+                      className="w-full h-40"
                       style={{
                         position: 'relative',
                         background: 'transparent',
@@ -38353,6 +38368,9 @@ function EssayGuide({ onExit }) {
                         lineHeight: 'inherit',
                         margin: 0,
                         resize: 'none',
+                        border: 'none',
+                        outline: 'none',
+                        boxSizing: 'border-box',
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Tab') {

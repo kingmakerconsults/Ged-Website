@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-kUEo2W9S.js";
+import { _ as __vitePreload } from "./index-Dd1-Z4q1.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -36353,7 +36353,9 @@ function EssayGuide({ onExit }) {
     fontFamily: "inherit",
     fontSize: "inherit",
     lineHeight: "inherit",
-    zIndex: 1
+    zIndex: 1,
+    boxSizing: "border-box",
+    margin: 0
   });
   const essayTemplates = {
     intro: `The two passages present conflicting views on the topic of [topic of both articles]. In the first passage, [Author 1's Last Name] argues that [explain Author 1's main claim]. Conversely, in the second passage, [Author 2's Last Name] claims that [explain Author 2's main claim]. After analyzing both arguments, it is clear that [Author's Last Name] presents the more convincing case by effectively using [list key evidence types].`,
@@ -36725,7 +36727,8 @@ function EssayGuide({ onExit }) {
       if (!content) return "this argument presents a compelling perspective";
       const textOnly = content.replace(/<[^>]+>/g, "").trim();
       const firstSentence = textOnly.split(/[.!?]+/)[0];
-      if (!firstSentence) return "this argument presents a compelling perspective";
+      if (!firstSentence)
+        return "this argument presents a compelling perspective";
       if (firstSentence.length > 120) {
         const truncated = firstSentence.substring(0, 120).trim();
         const lastSpace = truncated.lastIndexOf(" ");
@@ -37206,7 +37209,7 @@ function EssayGuide({ onExit }) {
                     value: essayText.intro,
                     onChange: handleTextChange,
                     disabled: !timerActive,
-                    className: "practice-textarea w-full h-48 border-gray-300 rounded-md",
+                    className: "w-full h-48",
                     style: {
                       position: "relative",
                       background: "transparent",
@@ -37216,7 +37219,10 @@ function EssayGuide({ onExit }) {
                       fontSize: "inherit",
                       lineHeight: "inherit",
                       margin: 0,
-                      resize: "none"
+                      resize: "none",
+                      border: "none",
+                      outline: "none",
+                      boxSizing: "border-box"
                     },
                     onKeyDown: (e) => {
                       if (e.key === "Tab") {
@@ -37269,7 +37275,7 @@ function EssayGuide({ onExit }) {
                     value: essayText.body1,
                     onChange: handleTextChange,
                     disabled: !timerActive,
-                    className: "practice-textarea w-full h-32 border-gray-300 rounded-md",
+                    className: "w-full h-32",
                     style: {
                       position: "relative",
                       background: "transparent",
@@ -37279,7 +37285,10 @@ function EssayGuide({ onExit }) {
                       fontSize: "inherit",
                       lineHeight: "inherit",
                       margin: 0,
-                      resize: "none"
+                      resize: "none",
+                      border: "none",
+                      outline: "none",
+                      boxSizing: "border-box"
                     },
                     onKeyDown: (e) => {
                       if (e.key === "Tab") {
@@ -37318,7 +37327,7 @@ function EssayGuide({ onExit }) {
                     value: essayText.body2,
                     onChange: handleTextChange,
                     disabled: !timerActive,
-                    className: "practice-textarea w-full h-32 border-gray-300 rounded-md",
+                    className: "w-full h-32",
                     style: {
                       position: "relative",
                       background: "transparent",
@@ -37328,7 +37337,10 @@ function EssayGuide({ onExit }) {
                       fontSize: "inherit",
                       lineHeight: "inherit",
                       margin: 0,
-                      resize: "none"
+                      resize: "none",
+                      border: "none",
+                      outline: "none",
+                      boxSizing: "border-box"
                     },
                     onKeyDown: (e) => {
                       if (e.key === "Tab") {
@@ -37367,7 +37379,7 @@ function EssayGuide({ onExit }) {
                     value: essayText.body3,
                     onChange: handleTextChange,
                     disabled: !timerActive,
-                    className: "practice-textarea w-full h-32 border-gray-300 rounded-md",
+                    className: "w-full h-32",
                     style: {
                       position: "relative",
                       background: "transparent",
@@ -37377,7 +37389,10 @@ function EssayGuide({ onExit }) {
                       fontSize: "inherit",
                       lineHeight: "inherit",
                       margin: 0,
-                      resize: "none"
+                      resize: "none",
+                      border: "none",
+                      outline: "none",
+                      boxSizing: "border-box"
                     },
                     onKeyDown: (e) => {
                       if (e.key === "Tab") {
@@ -37416,7 +37431,7 @@ function EssayGuide({ onExit }) {
                     value: essayText.conclusion,
                     onChange: handleTextChange,
                     disabled: !timerActive,
-                    className: "practice-textarea w-full h-40 border-gray-300 rounded-md",
+                    className: "w-full h-40",
                     style: {
                       position: "relative",
                       background: "transparent",
@@ -37426,7 +37441,10 @@ function EssayGuide({ onExit }) {
                       fontSize: "inherit",
                       lineHeight: "inherit",
                       margin: 0,
-                      resize: "none"
+                      resize: "none",
+                      border: "none",
+                      outline: "none",
+                      boxSizing: "border-box"
                     },
                     onKeyDown: (e) => {
                       if (e.key === "Tab") {
@@ -39196,4 +39214,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-CPMm4ABf.js.map
+//# sourceMappingURL=main-D9-7LfWX.js.map
