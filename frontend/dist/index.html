@@ -146,6 +146,9 @@
           return;
         let theme = 'light';
         try {
+          const hasToken = !!(
+            window.localStorage && window.localStorage.getItem('appToken')
+          );
           const saved = window.localStorage
             ? window.localStorage.getItem('appTheme')
             : null;
@@ -153,18 +156,43 @@
             window.matchMedia &&
             typeof window.matchMedia === 'function' &&
             window.matchMedia('(prefers-color-scheme: dark)').matches;
-          theme =
-            saved === 'light' || saved === 'dark'
-              ? saved
-              : prefersDark
-              ? 'dark'
-              : 'light';
+
+          // FORCE LIGHT MODE when not authenticated
+          if (!hasToken) {
+            theme = 'light';
+            console.log(
+              '[preloadTheme] No token found, forcing light mode for auth screen'
+            );
+          } else if (hasToken && (saved === 'light' || saved === 'dark')) {
+            theme = saved;
+            console.log(
+              '[preloadTheme] User authenticated, using saved theme:',
+              theme
+            );
+          } else if (hasToken && prefersDark) {
+            theme = 'dark';
+            console.log(
+              '[preloadTheme] User authenticated, using dark from system preference'
+            );
+          } else {
+            theme = 'light';
+            console.log('[preloadTheme] Fallback to light mode');
+          }
         } catch (e) {
           console.warn('theme preload failed', e);
+          theme = 'light';
         }
         const root = document.documentElement;
         root.setAttribute('data-theme', theme);
         root.classList.toggle('dark', theme === 'dark');
+        console.log(
+          '[preloadTheme] Applied theme:',
+          theme,
+          'data-theme:',
+          root.getAttribute('data-theme'),
+          'dark class:',
+          root.classList.contains('dark')
+        );
         try {
           Object.defineProperty(window, '__START_THEME__', {
             value: theme,
@@ -465,7 +493,7 @@
     <!-- Practice Tool Components -->
     <script src="/components/practice-tools/ScienceFormulaPracticeTool.jsx"></script>
     <script src="/components/practice-tools/ScienceConceptPracticeTool.jsx"></script>
-    <script type="module" crossorigin src="/assets/index-D_wLdCxd.js"></script>
+    <script type="module" crossorigin src="/assets/index-Ci44oUsp.js"></script>
   </head>
   <body data-theme="light">
     <div id="root"></div>
