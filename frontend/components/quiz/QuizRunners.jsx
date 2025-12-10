@@ -502,7 +502,105 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
 
 // Multi-part RLA quiz runner (Reading + Essay + Language sections)
 function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
+  // --- Guided Essay Mode: Template and Shadow Logic ---
+  // Example template (should match your real template source)
+  const essayTemplates = {
+    introduction:
+      "The two passages present conflicting views on the topic of [topic of both articles]. In the first passage, [Author 1's Last Name] argues that [explain Author 1's main claim]. Conversely, in the second passage, [Author 2's Last Name] claims that [explain Author 2's main claim]. After analyzing both arguments, it is clear that [Author's Last Name] presents the more convincing case by effectively using [list key evidence types].",
+    body1:
+      "[Author 1's Last Name] supports their position by providing [describe evidence type 1] and [describe evidence type 2]. For example, [summarize key evidence]. This strengthens the argument by [explain why evidence is strong].",
+    body2:
+      "[Author 2's Last Name] attempts to counter with [describe evidence type or claim], but this is less convincing because [explain weakness]. For instance, [summarize opposing evidence].",
+    conclusion:
+      "In conclusion, [Author 1's Last Name] makes a more persuasive case by using [restate evidence types], while [Author 2's Last Name] relies on weaker support. This demonstrates that [Author 1's Last Name]'s position is better supported.",
+  };
+
+  // Helper: Fill template placeholders with prompt/article data
+  function fillEssayTemplate(template, data) {
+    if (!template || !data) return '';
+    return template.replace(/\[(.+?)\]/g, (_, key) => {
+      // Map keys to data fields
+      const map = {
+        'topic of both articles': data.topic,
+        "Author 1's Last Name": data.author1Last,
+        "Author 2's Last Name": data.author2Last,
+        "explain Author 1's main claim": data.author1Claim,
+        "explain Author 2's main claim": data.author2Claim,
+        'list key evidence types': data.evidenceTypes,
+        'describe evidence type 1': data.author1Evidence1,
+        'describe evidence type 2': data.author1Evidence2,
+        'summarize key evidence': data.author1EvidenceSummary,
+        'explain why evidence is strong': data.author1EvidenceStrength,
+        'describe evidence type or claim': data.author2EvidenceType,
+        'explain weakness': data.author2Weakness,
+        'summarize opposing evidence': data.author2EvidenceSummary,
+        'restate evidence types': data.evidenceTypes,
+      };
+      return map[key] || `[${key}]`;
+    });
+  }
+
+  // Extract prompt/article data for template filling
+  function getEssayTemplateData() {
+    const passages = Array.isArray(quiz.part2_essay.passages)
+      ? quiz.part2_essay.passages
+      : [];
+    const p1 = passages[0] || {};
+    const p2 = passages[1] || {};
+    // Fallbacks for missing fields
+    return {
+      topic: quiz.part2_essay.topic || quiz.part2_essay.prompt || '',
+      author1Last: (p1.author || '').split(' ').slice(-1)[0] || '',
+      author2Last: (p2.author || '').split(' ').slice(-1)[0] || '',
+      author1Claim: p1.claim || '',
+      author2Claim: p2.claim || '',
+      evidenceTypes: quiz.part2_essay.evidenceTypes || '',
+      author1Evidence1: p1.evidence1 || '',
+      author1Evidence2: p1.evidence2 || '',
+      author1EvidenceSummary: p1.evidenceSummary || '',
+      author1EvidenceStrength: p1.evidenceStrength || '',
+      author2EvidenceType: p2.evidenceType || '',
+      author2Weakness: p2.weakness || '',
+      author2EvidenceSummary: p2.evidenceSummary || '',
+    };
+  }
+
+  // Build shadow essay paragraphs
+  const shadowEssayData = getEssayTemplateData();
+  const shadowEssay = {
+    introduction: fillEssayTemplate(
+      essayTemplates.introduction,
+      shadowEssayData
+    ),
+    body1: fillEssayTemplate(essayTemplates.body1, shadowEssayData),
+    body2: fillEssayTemplate(essayTemplates.body2, shadowEssayData),
+    conclusion: fillEssayTemplate(essayTemplates.conclusion, shadowEssayData),
+  };
+
+  // Shadow overlay style
+  const getShadowStyle = () => {
+    const isDark =
+      document.documentElement.classList.contains('dark') ||
+      document.body.classList.contains('dark');
+    return {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      pointerEvents: 'none',
+      color: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)',
+      fontSize: '1rem',
+      lineHeight: '1.5',
+      padding: '0.5rem',
+      whiteSpace: 'pre-wrap',
+      zIndex: 1,
+      userSelect: 'none',
+    };
+  };
   const [currentPart, setCurrentPart] = React.useState(1);
+  // Guided Essay Mode state
+  const [essayMode, setEssayMode] = React.useState('standard'); // 'standard' | 'guided'
   const [isPaused, setIsPaused] = React.useState(false);
   const [timeLeft, setTimeLeft] = React.useState(0);
   const [pausesRemaining, setPausesRemaining] = React.useState(2);
@@ -749,6 +847,45 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
           </div>
         );
       case 2:
+        // Show mode selector before passages/prompts
+        if (!essayMode) {
+          return (
+            <div className="essay-mode-selector-wrapper">
+              <h3 className="text-2xl font-bold mb-6 subject-accent-heading">
+                Select Essay Practice Mode
+              </h3>
+              <div className="mb-8 flex gap-4 justify-center">
+                <button
+                  type="button"
+                  className={`px-6 py-3 rounded font-semibold text-lg transition-colors ${
+                    essayMode === 'standard'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  }`}
+                  onClick={() => setEssayMode('standard')}
+                >
+                  Standard Essay Mode
+                </button>
+                <button
+                  type="button"
+                  className={`px-6 py-3 rounded font-semibold text-lg transition-colors ${
+                    essayMode === 'guided'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  }`}
+                  onClick={() => setEssayMode('guided')}
+                >
+                  Guided Essay Mode
+                </button>
+              </div>
+              <p className="text-center text-slate-600 dark:text-slate-300">
+                Please select a mode to begin essay practice. Passages and
+                prompts will appear after you choose.
+              </p>
+            </div>
+          );
+        }
+        // ...existing code...
         return (
           <div className="essay-wrapper">
             <h3 className="text-2xl font-bold mb-4 subject-accent-heading">
@@ -789,32 +926,136 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                   Essay Prompt:
                 </h4>
                 <p className="mb-2">{quiz.part2_essay.prompt}</p>
-                <textarea
-                  className="w-full min-h-[24rem] p-2 border rounded flex-1 essay-response-box"
-                  value={essayText}
-                  onChange={(e) => setEssayText(e.target.value)}
-                  spellCheck="false"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Tab') {
-                      e.preventDefault();
-                      const target = e.target;
-                      const start = target.selectionStart;
-                      const end = target.selectionEnd;
-                      const value = target.value;
-                      const insert = '    ';
-                      const next =
-                        value.slice(0, start) + insert + value.slice(end);
-                      setEssayText(next);
-                      setTimeout(() => {
-                        try {
-                          target.selectionStart = target.selectionEnd =
-                            start + insert.length;
-                        } catch {}
-                      }, 0);
-                    }
-                  }}
-                  placeholder="Type your essay response here..."
-                />
+                {/* Guided Mode logic will go here next */}
+                {/* Guided Mode: render shadow overlays per section */}
+                {essayMode === 'guided' ? (
+                  <div className="space-y-6">
+                    {/* Introduction */}
+                    <div style={{ position: 'relative' }}>
+                      <textarea
+                        className="w-full min-h-[6rem] p-2 border rounded essay-response-box"
+                        value={essayText.introduction || ''}
+                        onChange={(e) =>
+                          setEssayText({
+                            ...essayText,
+                            introduction: e.target.value,
+                          })
+                        }
+                        spellCheck="false"
+                        placeholder="Write your introduction..."
+                        style={{
+                          position: 'relative',
+                          background: 'transparent',
+                          zIndex: 2,
+                        }}
+                      />
+                      {/* Shadow essay overlay */}
+                      <div style={getShadowStyle()} aria-hidden="true">
+                        {!essayText.introduction ||
+                        essayText.introduction.length < 2
+                          ? shadowEssay.introduction
+                          : ''}
+                      </div>
+                    </div>
+                    {/* Body Paragraph 1 */}
+                    <div style={{ position: 'relative' }}>
+                      <textarea
+                        className="w-full min-h-[6rem] p-2 border rounded essay-response-box"
+                        value={essayText.body1 || ''}
+                        onChange={(e) =>
+                          setEssayText({ ...essayText, body1: e.target.value })
+                        }
+                        spellCheck="false"
+                        placeholder="Body Paragraph 1..."
+                        style={{
+                          position: 'relative',
+                          background: 'transparent',
+                          zIndex: 2,
+                        }}
+                      />
+                      <div style={getShadowStyle()} aria-hidden="true">
+                        {!essayText.body1 || essayText.body1.length < 2
+                          ? shadowEssay.body1
+                          : ''}
+                      </div>
+                    </div>
+                    {/* Body Paragraph 2 */}
+                    <div style={{ position: 'relative' }}>
+                      <textarea
+                        className="w-full min-h-[6rem] p-2 border rounded essay-response-box"
+                        value={essayText.body2 || ''}
+                        onChange={(e) =>
+                          setEssayText({ ...essayText, body2: e.target.value })
+                        }
+                        spellCheck="false"
+                        placeholder="Body Paragraph 2..."
+                        style={{
+                          position: 'relative',
+                          background: 'transparent',
+                          zIndex: 2,
+                        }}
+                      />
+                      <div style={getShadowStyle()} aria-hidden="true">
+                        {!essayText.body2 || essayText.body2.length < 2
+                          ? shadowEssay.body2
+                          : ''}
+                      </div>
+                    </div>
+                    {/* Conclusion */}
+                    <div style={{ position: 'relative' }}>
+                      <textarea
+                        className="w-full min-h-[6rem] p-2 border rounded essay-response-box"
+                        value={essayText.conclusion || ''}
+                        onChange={(e) =>
+                          setEssayText({
+                            ...essayText,
+                            conclusion: e.target.value,
+                          })
+                        }
+                        spellCheck="false"
+                        placeholder="Conclusion..."
+                        style={{
+                          position: 'relative',
+                          background: 'transparent',
+                          zIndex: 2,
+                        }}
+                      />
+                      <div style={getShadowStyle()} aria-hidden="true">
+                        {!essayText.conclusion ||
+                        essayText.conclusion.length < 2
+                          ? shadowEssay.conclusion
+                          : ''}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <textarea
+                    className="w-full min-h-[24rem] p-2 border rounded flex-1 essay-response-box"
+                    value={essayText}
+                    onChange={(e) => setEssayText(e.target.value)}
+                    spellCheck="false"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Tab') {
+                        e.preventDefault();
+                        const target = e.target;
+                        const start = target.selectionStart;
+                        const end = target.selectionEnd;
+                        const value = target.value;
+                        const insert = '    ';
+                        const next =
+                          value.slice(0, start) + insert + value.slice(end);
+                        setEssayText(next);
+                        setTimeout(() => {
+                          try {
+                            target.selectionStart = target.selectionEnd =
+                              start + insert.length;
+                          } catch {}
+                        }, 0);
+                      }
+                    }}
+                    placeholder="Type your essay response here..."
+                  />
+                )}
                 <div className="mt-4 flex justify-end">
                   <button
                     type="button"
