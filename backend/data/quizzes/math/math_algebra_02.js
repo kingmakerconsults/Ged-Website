@@ -2,7 +2,7 @@
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for b: $b - 9 = 2$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Expand the expression: $(x - 4)(x + 4)$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "If $f(x) = -4x + 7$, what is $f(-3)$?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of the line $3x - 2y = 6$?",
@@ -254,27 +254,27 @@ module.exports = [
     "question": "What is the slope of a line perpendicular to $2x + 3y = 6$?",
     "answerOptions": [
       {
-        "text": "-2/3",
+        "text": "$-\\frac{2}{3}$",
         "isCorrect": false,
         "rationale": "This is the slope of the original line."
       },
       {
-        "text": "2/3",
+        "text": "$\\frac{2}{3}$",
         "isCorrect": false,
         "rationale": "This is the negative of the slope."
       },
       {
-        "text": "-3/2",
+        "text": "$-\\frac{3}{2}$",
         "isCorrect": false,
         "rationale": "This is the reciprocal, but not the negative reciprocal."
       },
       {
-        "text": "3/2",
+        "text": "$\\frac{3}{2}$",
         "isCorrect": true,
-        "rationale": "First, find the slope of the line by rewriting in y=mx+b form: y = (-2/3)x + 2. The slope is -2/3. The perpendicular slope is the negative reciprocal, which is 3/2."
+        "rationale": "First, find the slope of the line by rewriting in y=mx+b form: y = (-$\\frac{2}{3}$)x + 2. The slope is -$\\frac{2}{3}$. The perpendicular slope is the negative reciprocal, which is $\\frac{3}{2}$."
       }
     ],
-    "rationale": "First, convert the equation to slope-intercept form (y = mx + b). 3y = -2x + 6, so y = (-2/3)x + 2. The slope of this line is -2/3. The slope of a perpendicular line is the negative reciprocal, which is 3/2.",
+    "rationale": "First, convert the equation to slope-intercept form (y = mx + b). 3y = -2x + 6, so y = (-$\\frac{2}{3}$)x + 2. The slope of this line is -$\\frac{2}{3}$. The slope of a perpendicular line is the negative reciprocal, which is $\\frac{3}{2}$.",
     "challenge_tags": [
       "math-3"
     ]

@@ -35,12 +35,12 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A card is drawn from a standard 52-card deck. What is the probability that the card is a spade?",
-    "correctAnswer": "1/4",
-    "rationale": "There are 13 spades in a 52-card deck. The probability is 13/52, which simplifies to 1/4.",
+    "correctAnswer": "$\\frac{1}{4}$",
+    "rationale": "There are 13 spades in a 52-card deck. The probability is $\\frac{13}{52}$, which simplifies to $\\frac{1}{4}$.",
     "challenge_tags": [
       "math-6"
     ]
@@ -60,7 +60,7 @@ module.exports = [
       {
         "text": "40",
         "isCorrect": true,
-        "rationale": "The sum is 200. 200/5 = 40. Since the numbers are evenly spaced, the mean is the middle number."
+        "rationale": "The sum is 200. $\\frac{200}{5}$ = 40. Since the numbers are evenly spaced, the mean is the middle number."
       },
       {
         "text": "50",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the median of the data set: 5, 2, 8, 4, 9, 2?",
@@ -98,27 +98,27 @@ module.exports = [
     "question": "A bag has 4 green marbles, 3 red marbles, and 5 blue marbles. What is the probability of drawing a red OR a green marble?",
     "answerOptions": [
       {
-        "text": "1/4",
+        "text": "$\\frac{1}{4}$",
         "isCorrect": false,
         "rationale": "This is the probability of red."
       },
       {
-        "text": "1/3",
+        "text": "$\\frac{1}{3}$",
         "isCorrect": false,
         "rationale": "This is the probability of green."
       },
       {
-        "text": "7/12",
+        "text": "$\\frac{7}{12}$",
         "isCorrect": true,
-        "rationale": "There are 7 red or green marbles out of a total of 12. The probability is 7/12."
+        "rationale": "There are 7 red or green marbles out of a total of 12. The probability is $\\frac{7}{12}$."
       },
       {
-        "text": "5/12",
+        "text": "$\\frac{5}{12}$",
         "isCorrect": false,
         "rationale": "This is the probability of blue."
       }
     ],
-    "rationale": "There are a total of 4 + 3 + 5 = 12 marbles. The number of red or green marbles is 4 + 3 = 7. So, the probability is 7/12.",
+    "rationale": "There are a total of 4 + 3 + 5 = 12 marbles. The number of red or green marbles is 4 + 3 = 7. So, the probability is $\\frac{7}{12}$.",
     "challenge_tags": [
       "math-6"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The mean of a set of 5 numbers is 70. If a 6th number is added and the new mean is 75, what is the 6th number?",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "A coin is flipped 3 times. What is the probability of getting tails all 3 times?",
-    "correctAnswer": "1/8",
-    "rationale": "The probability of tails on one flip is 1/2. For 3 flips, the probability is (1/2) * (1/2) * (1/2) = 1/8.",
+    "correctAnswer": "$\\frac{1}{8}$",
+    "rationale": "The probability of tails on one flip is $\\frac{1}{2}$. For 3 flips, the probability is ($\\frac{1}{2}$) * ($\\frac{1}{2}$) * ($\\frac{1}{2}$) = $\\frac{1}{8}$.",
     "challenge_tags": [
       "math-6"
     ]
@@ -307,7 +307,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "A 20% chance of rain means the probability is 0.20 or 1/5. The probability of no rain is 80% or 4/5. The odds against rain are the ratio of the probability of no rain to the probability of rain, which is (4/5) to (1/5), or 4 to 1.",
+    "rationale": "A 20% chance of rain means the probability is 0.20 or $\\frac{1}{5}$. The probability of no rain is 80% or $\\frac{4}{5}$. The odds against rain are the ratio of the probability of no rain to the probability of rain, which is ($\\frac{4}{5}$) to ($\\frac{1}{5}$), or 4 to 1.",
     "challenge_tags": [
       "math-6"
     ]

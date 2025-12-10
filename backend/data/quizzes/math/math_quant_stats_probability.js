@@ -518,17 +518,17 @@ module.exports = [
       {
         "text": "$\\frac{8}{15}$",
         "isCorrect": true,
-        "rationale": "There are 15 total marbles (3+7+5). The number of non-blue marbles is 3 (red) + 5 (green) = 8. So the probability is 8/15."
+        "rationale": "There are 15 total marbles (3+7+5). The number of non-blue marbles is 3 (red) + 5 (green) = 8. So the probability is $\frac{8}{15}$."
       },
       {
         "text": "$\\frac{1}{3}$",
         "isCorrect": false,
-        "rationale": "This is the probability of drawing a green marble (5/15)."
+        "rationale": "This is the probability of drawing a green marble ($\frac{5}{15}$)."
       },
       {
         "text": "$\\frac{1}{5}$",
         "isCorrect": false,
-        "rationale": "This is the probability of drawing a red marble (3/15)."
+        "rationale": "This is the probability of drawing a red marble ($\frac{3}{15}$)."
       }
     ],
     "challenge_tags": [

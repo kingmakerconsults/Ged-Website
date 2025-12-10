@@ -2,7 +2,7 @@
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for m: $m + 11 = 30$.",
@@ -70,7 +70,7 @@ module.exports = [
       {
         "text": "1",
         "isCorrect": false,
-        "rationale": "This is 3/3."
+        "rationale": "This is $\\frac{3}{3}$."
       }
     ],
     "rationale": "First, add 2 to both sides: y/3 = 5 + 2, so y/3 = 7. Then, multiply by 3: y = 7 * 3 = 21.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Simplify the expression: $5a + 2b - 3a + 4b$.",
@@ -108,17 +108,17 @@ module.exports = [
         "rationale": "This is the negative of the slope."
       },
       {
-        "text": "1/3",
+        "text": "$\\frac{1}{3}$",
         "isCorrect": false,
         "rationale": "This is the reciprocal, but not negative."
       },
       {
-        "text": "-1/3",
+        "text": "$-\\frac{1}{3}$",
         "isCorrect": true,
         "rationale": "The perpendicular slope is the negative reciprocal of the original slope."
       }
     ],
-    "rationale": "The slope of the given line is 3. The slope of a perpendicular line is the negative reciprocal, which is -1/3.",
+    "rationale": "The slope of the given line is 3. The slope of a perpendicular line is the negative reciprocal, which is -$\\frac{1}{3}$.",
     "challenge_tags": [
       "math-3"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Factor the expression $x^2 - 100$.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "If $f(x) = 2x - 7$, what is the value of x when $f(x) = 11$?",

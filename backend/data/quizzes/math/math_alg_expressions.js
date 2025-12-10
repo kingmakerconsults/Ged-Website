@@ -443,7 +443,7 @@ module.exports = [
       {
         "text": "$4x^3$",
         "isCorrect": true,
-        "rationale": "Divide the coefficients ($8/2 = 4$) and subtract the exponents ($6-3 = 3$)."
+        "rationale": "Divide the coefficients ($\frac{8}{2} = 4$) and subtract the exponents ($6-3 = 3$)."
       },
       {
         "text": "$4x^9$",

@@ -28,14 +28,14 @@ module.exports = [
         "rationale": "This is the ratio of boys to total students."
       }
     ],
-    "rationale": "The ratio of boys to girls is 16 to 14. To simplify, find the greatest common divisor, which is 2. Divide both parts of the ratio by 2: 16/2 = 8 and 14/2 = 7. The simplified ratio is 8:7.",
+    "rationale": "The ratio of boys to girls is 16 to 14. To simplify, find the greatest common divisor, which is 2. Divide both parts of the ratio by 2: $\\frac{16}{2}$ = 8 and $\\frac{14}{2}$ = 7. The simplified ratio is 8:7.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A dinner bill is $85. You want to leave an 18% tip. How much is the tip?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for y: $\\frac{5}{2} = \\frac{y}{10}$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A product is marked up 25% from its wholesale price of $80. What is the retail price?",
@@ -196,14 +196,14 @@ module.exports = [
         "rationale": "This is the ratio of people who prefer winter to the total."
       }
     ],
-    "rationale": "The ratio is 6 to 10. Both numbers are divisible by 2. 6/2 = 3 and 10/2 = 5. The simplified ratio is 3:5.",
+    "rationale": "The ratio is 6 to 10. Both numbers are divisible by 2. $\\frac{6}{2}$ = 3 and $\\frac{10}{2}$ = 5. The simplified ratio is 3:5.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A car rental company charges $50 per day. If a customer paid $250, how many days did they rent the car for?",
@@ -261,7 +261,7 @@ module.exports = [
       {
         "text": "72 pounds",
         "isCorrect": true,
-        "rationale": "Set up the proportion 2/5 = x/180. 5x = 360. x = 72."
+        "rationale": "Set up the proportion $\\frac{2}{5}$ = x/180. 5x = 360. x = 72."
       },
       {
         "text": "90 pounds",
@@ -294,7 +294,7 @@ module.exports = [
       {
         "text": "12.5%",
         "isCorrect": false,
-        "rationale": "This is 24/192."
+        "rationale": "This is $\\frac{24}{192}$."
       },
       {
         "text": "24%",

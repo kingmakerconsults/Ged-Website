@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the slope of a vertical line?",
@@ -55,7 +55,7 @@ module.exports = [
       {
         "text": "y = (1/3)x + 1",
         "isCorrect": true,
-        "rationale": "Using y=mx+b: 2 = (1/3)(3) + b -> 2 = 1 + b -> b=1."
+        "rationale": "Using y=mx+b: 2 = ($\\frac{1}{3}$)(3) + b -> 2 = 1 + b -> b=1."
       },
       {
         "text": "y = 3x - 7",
@@ -63,7 +63,7 @@ module.exports = [
         "rationale": "This uses the reciprocal of the slope."
       },
       {
-        "text": "y = (1/3)x + 3",
+        "text": "y = (\\frac{1}{3})x + 3",
         "isCorrect": false,
         "rationale": "This does not pass through the given point."
       },
@@ -73,14 +73,14 @@ module.exports = [
         "rationale": "This has the wrong y-intercept."
       }
     ],
-    "rationale": "Use the point-slope form y - y1 = m(x - x1): y - 2 = (1/3)(x - 3). This simplifies to y - 2 = (1/3)x - 1, so y = (1/3)x + 1.",
+    "rationale": "Use the point-slope form y - y1 = m(x - x1): y - 2 = ($\\frac{1}{3}$)(x - 3). This simplifies to y - 2 = ($\\frac{1}{3}$)x - 1, so y = ($\\frac{1}{3}$)x + 1.",
     "challenge_tags": [
       "math-4"
     ]
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "If f(x) = 2x - 5, for what value of x is f(x) = 15?",
@@ -136,9 +136,9 @@ module.exports = [
         "rationale": "This line is parallel."
       },
       {
-        "text": "y = (1/3)x - 1",
+        "text": "y = (\\frac{1}{3})x - 1",
         "isCorrect": true,
-        "rationale": "The original line has a slope of -3. The perpendicular slope is the negative reciprocal, 1/3."
+        "rationale": "The original line has a slope of -3. The perpendicular slope is the negative reciprocal, $\\frac{1}{3}$."
       },
       {
         "text": "y = 3x + 5",
@@ -146,19 +146,19 @@ module.exports = [
         "rationale": "This has an incorrect slope."
       },
       {
-        "text": "y = (-1/3)x + 4",
+        "text": "y = (-\\frac{1}{3})x + 4",
         "isCorrect": false,
         "rationale": "This is the reciprocal, but not the negative reciprocal."
       }
     ],
-    "rationale": "First, find the slope of the given line by rewriting it in slope-intercept form: y = -3x + 5. The slope is -3. The slope of a perpendicular line is the negative reciprocal, which is 1/3.",
+    "rationale": "First, find the slope of the given line by rewriting it in slope-intercept form: y = -3x + 5. The slope is -3. The slope of a perpendicular line is the negative reciprocal, which is $\\frac{1}{3}$.",
     "challenge_tags": [
       "math-4"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Given $f(x) = x^3 - 1$, find $f(2)$.",
@@ -183,7 +183,7 @@ module.exports = [
       {
         "text": "x = 3",
         "isCorrect": true,
-        "rationale": "The axis of symmetry is x = -b/(2a). Here, x = -(-6)/(2*1) = 6/2 = 3."
+        "rationale": "The axis of symmetry is x = -b/(2a). Here, x = -(-6)/(2*1) = $\\frac{6}{2}$ = 3."
       },
       {
         "text": "x = 6",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A company's profit P(t) in thousands of dollars, t years after 2010, is modeled by P(t) = 50t + 200. What was the profit in 2015?",
@@ -297,12 +297,12 @@ module.exports = [
         "rationale": "The points are (0, 4) and (-2, 0). Slope = (0 - 4) / (-2 - 0) = -4 / -2 = 2."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": false,
         "rationale": "This is the reciprocal of the slope."
       },
       {
-        "text": "-1/2",
+        "text": "$-\\frac{1}{2}$",
         "isCorrect": false,
         "rationale": "This is the negative reciprocal of the slope."
       }

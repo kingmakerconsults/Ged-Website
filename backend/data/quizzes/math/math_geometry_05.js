@@ -20,7 +20,7 @@ module.exports = [
       {
         "text": "64 $cm^2$",
         "isCorrect": true,
-        "rationale": "The side length is 32/4 = 8 cm. The area is 8*8 = 64 $cm^2$."
+        "rationale": "The side length is $\\frac{32}{4}$ = 8 cm. The area is 8*8 = 64 $cm^2$."
       },
       {
         "text": "256 $cm^2$",
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the circumference of a circle with a radius of 4.5 inches. Use 3.14 for $\\pi$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "How many sides does a hexagon have?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "How many milliliters are in 3.5 liters?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A circular pool has an area of 200.96 square feet. What is its diameter? Use 3.14 for $\\pi$.",

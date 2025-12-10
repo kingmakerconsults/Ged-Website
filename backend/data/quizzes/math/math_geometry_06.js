@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a radius of 9 cm. What is its area? Use 3.14 for $\\pi$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "An angle measuring exactly 90Â° is called what?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "If two angles in a triangle are 45Â° and 90Â°, what is the third angle?",
@@ -183,12 +183,12 @@ module.exports = [
       {
         "text": "60",
         "isCorrect": true,
-        "rationale": "Area = (1/2) * (12 + 8) * 6 = (1/2) * 20 * 6 = 60."
+        "rationale": "Area = ($\\frac{1}{2}$) * (12 + 8) * 6 = ($\\frac{1}{2}$) * 20 * 6 = 60."
       },
       {
         "text": "120",
         "isCorrect": false,
-        "rationale": "This omits the 1/2 from the formula."
+        "rationale": "This omits the $\\frac{1}{2}$ from the formula."
       },
       {
         "text": "576",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A rectangular field is 100 yards long and 50 yards wide. What is the length of the diagonal in yards?",
@@ -294,7 +294,7 @@ module.exports = [
       {
         "text": "376.8 $cm^3$",
         "isCorrect": true,
-        "rationale": "V = (1/3) * 3.14 * $6^2$ * 10 = (1/3) * 3.14 * 36 * 10 = 376.8."
+        "rationale": "V = (\\frac{1}{3}) * 3.14 * $6^2$ * 10 = (\\frac{1}{3}) * 3.14 * 36 * 10 = 376.8."
       },
       {
         "text": "1130.4 $cm^3$",
@@ -307,7 +307,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Using the formula for the volume of a cone, V = (1/3) * pi * $r^2$ * h. V = (1/3) * 3.14 * (6 cm)$^2$ * 10 cm = (1/3) * 3.14 * 36 * 10 = 376.8 $cm^3$.",
+    "rationale": "Using the formula for the volume of a cone, V = ($\\frac{1}{3}$) * pi * $r^2$ * h. V = ($\\frac{1}{3}$) * 3.14 * (6 cm)$^2$ * 10 cm = ($\\frac{1}{3}$) * 3.14 * 36 * 10 = 376.8 $cm^3$.",
     "challenge_tags": [
       "math-5"
     ]

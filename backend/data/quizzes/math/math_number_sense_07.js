@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Find the product of 12 and 0.5.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate: $5 \times (6 - 2) + 3^2$.",
@@ -105,12 +105,12 @@ module.exports = [
       {
         "text": "$\\frac{17}{5}$",
         "isCorrect": true,
-        "rationale": "(3 * 5 + 2) / 5 = 17/5."
+        "rationale": "(3 * 5 + 2) / 5 = $\\frac{17}{5}$."
       },
       {
         "text": "$\\frac{6}{5}$",
         "isCorrect": false,
-        "rationale": "This is 3*2/5."
+        "rationale": "This is 3*$\\frac{2}{5}$."
       },
       {
         "text": "$\\frac{32}{5}$",
@@ -118,7 +118,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To convert a mixed number to an improper fraction, multiply the whole number by the denominator, add the numerator, and keep the same denominator: (3 * 5 + 2) / 5 = 17/5.",
+    "rationale": "To convert a mixed number to an improper fraction, multiply the whole number by the denominator, add the numerator, and keep the same denominator: (3 * 5 + 2) / 5 = $\\frac{17}{5}$.",
     "challenge_tags": [
       "math-1"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the least common denominator for the fractions $\\frac{1}{6}$ and $\\frac{3}{8}$?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "An electronics store marks up the price of a game console by 30%. If the store bought the console for $250, what is the selling price?",
@@ -238,7 +238,7 @@ module.exports = [
       {
         "text": "72",
         "isCorrect": false,
-        "rationale": "This is 144/2."
+        "rationale": "This is $\\frac{144}{2}$."
       }
     ],
     "rationale": "The square root of 144 is the number that, when multiplied by itself, equals 144. That number is 12.",
@@ -251,30 +251,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "You have 3/4 of a pizza left. If you eat 1/3 of the leftover pizza, what fraction of the original pizza did you eat?",
+    "question": "You have \\frac{3}{4} of a pizza left. If you eat 1/3 of the leftover pizza, what fraction of the original pizza did you eat?",
     "answerOptions": [
       {
-        "text": "1/4",
+        "text": "$\\frac{1}{4}$",
         "isCorrect": true,
-        "rationale": "You ate 1/3 of 3/4, which is (1/3) * (3/4) = 3/12 = 1/4."
+        "rationale": "You ate $\\frac{1}{3}$ of $\\frac{3}{4}$, which is ($\\frac{1}{3}$) * ($\\frac{3}{4}$) = $\\frac{3}{12}$ = $\\frac{1}{4}$."
       },
       {
-        "text": "1/3",
+        "text": "$\\frac{1}{3}$",
         "isCorrect": false,
         "rationale": "This is the fraction of the leftover pizza you ate."
       },
       {
-        "text": "5/12",
+        "text": "$\\frac{5}{12}$",
         "isCorrect": false,
-        "rationale": "This is the result of 3/4 - 1/3."
+        "rationale": "This is the result of $\\frac{3}{4}$ - $\\frac{1}{3}$."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": false,
         "rationale": "This is what's left after you ate."
       }
     ],
-    "rationale": "To find the fraction of the original pizza you ate, you need to calculate 1/3 of 3/4. This is a multiplication problem: $\\frac{1}{3} \\times \\frac{3}{4} = \\frac{3}{12}$, which simplifies to $\\frac{1}{4}$.",
+    "rationale": "To find the fraction of the original pizza you ate, you need to calculate $\\frac{1}{3}$ of $\\frac{3}{4}$. This is a multiplication problem: $\\frac{1}{3} \\times \\frac{3}{4} = \\frac{3}{12}$, which simplifies to $\\frac{1}{4}$.",
     "challenge_tags": [
       "math-1"
     ]

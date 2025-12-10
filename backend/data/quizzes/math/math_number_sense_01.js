@@ -43,32 +43,32 @@ module.exports = [
       {
         "text": "3.14",
         "isCorrect": false,
-        "rationale": "This is an approximation of pi, not the decimal for 1/4."
+        "rationale": "This is an approximation of pi, not the decimal for $\\frac{1}{4}$."
       },
       {
         "text": "3.25",
         "isCorrect": true,
-        "rationale": "The fraction 1/4 is equal to 0.25, so 3 1/4 is 3.25."
+        "rationale": "The fraction $\\frac{1}{4}$ is equal to 0.25, so 3 $\\frac{1}{4}$ is 3.25."
       },
       {
         "text": "3.50",
         "isCorrect": false,
-        "rationale": "3.50 is equivalent to 3 1/2."
+        "rationale": "3.50 is equivalent to 3 $\\frac{1}{2}$."
       },
       {
         "text": "3.75",
         "isCorrect": false,
-        "rationale": "3.75 is equivalent to 3 3/4."
+        "rationale": "3.75 is equivalent to 3 $\\frac{3}{4}$."
       }
     ],
-    "rationale": "To convert the fraction 1/4 to a decimal, divide 1 by 4, which equals 0.25. Add this to the whole number 3 to get 3.25.",
+    "rationale": "To convert the fraction $\\frac{1}{4}$ to a decimal, divide 1 by 4, which equals 0.25. Add this to the whole number 3 to get 3.25.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 3,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate the expression: $12 + (5 - 2) \\times 3^2$.",
@@ -113,7 +113,7 @@ module.exports = [
   },
   {
     "questionNumber": 5,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is $\\frac{3}{5}$ as a percentage?",
@@ -184,14 +184,14 @@ module.exports = [
         "rationale": "This result ignores the division operation."
       }
     ],
-    "rationale": "Using PEMDAS: Parentheses (4+2=6), then Multiplication/Division from left to right (5*6=30, 10/2=5), then Addition/Subtraction (30-5=25).",
+    "rationale": "Using PEMDAS: Parentheses (4+2=6), then Multiplication/Division from left to right (5*6=30, $\\frac{10}{2}$=5), then Addition/Subtraction (30-5=25).",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 8,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A recipe calls for $2 \\frac{1}{2}$ cups of flour, but you only want to make half the recipe. How many cups of flour do you need?",
@@ -236,7 +236,7 @@ module.exports = [
   },
   {
     "questionNumber": 10,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "hard",
     "question": "A car travels 150 miles on 5 gallons of gas. What is the car's fuel efficiency in miles per gallon (MPG)?",

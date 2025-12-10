@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A TV is priced at $450. A 10% sales tax is added. What is the total cost?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "If a box of 12 pencils costs $3, what is the cost per pencil in cents?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A car's value decreased from $15,000 to $12,000. What was the percent decrease?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "A factory produces 2 defective items for every 500 produced. What is the ratio of defective to non-defective items, in simplest form?",
@@ -228,7 +228,7 @@ module.exports = [
       {
         "text": "6 feet",
         "isCorrect": true,
-        "rationale": "The ratio of height to shadow is 6:4 or 3:2. So, for a 9-foot signpost, the shadow is (2/3)*9 = 6 feet."
+        "rationale": "The ratio of height to shadow is 6:4 or 3:2. So, for a 9-foot signpost, the shadow is ($\\frac{2}{3}$)*9 = 6 feet."
       },
       {
         "text": "9 feet",

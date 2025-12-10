@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a circumference of 31.4 inches. What is its radius? Use 3.14 for $\\pi$.",
@@ -70,7 +70,7 @@ module.exports = [
       {
         "text": "30 feet",
         "isCorrect": false,
-        "rationale": "This is 300/10."
+        "rationale": "This is $\\frac{300}{10}$."
       }
     ],
     "rationale": "The volume of a rectangular prism is V = L * W * H. We have 300 = 10 * 5 * H. 300 = 50H. Divide by 50 to find H = 6 feet.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A triangle has angles of 20Â° and 80Â°. What is the third angle?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the perimeter of a regular octagon with a side length of 5 cm.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A cylindrical tank is 10 feet tall and has a radius of 3 feet. What is its volume? Use 3.14 for $\\pi$.",
@@ -294,12 +294,12 @@ module.exports = [
       {
         "text": "12 units",
         "isCorrect": true,
-        "rationale": "100 = (1/2)(8+b2)*10. 100 = 5(8+b2). 20 = 8+b2. b2 = 12."
+        "rationale": "100 = ($\\frac{1}{2}$)(8+b2)*10. 100 = 5(8+b2). 20 = 8+b2. b2 = 12."
       },
       {
         "text": "20 units",
         "isCorrect": false,
-        "rationale": "This is 100/5."
+        "rationale": "This is $\\frac{100}{5}$."
       },
       {
         "text": "28 units",

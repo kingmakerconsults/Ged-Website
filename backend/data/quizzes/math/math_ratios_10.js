@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A store has a 20% off sale. If a shirt is originally $35, what is the amount of the discount?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A recipe uses 3 eggs for every 24 cookies. How many eggs are needed for 48 cookies?",
@@ -138,7 +138,7 @@ module.exports = [
       {
         "text": "$4.80",
         "isCorrect": true,
-        "rationale": "The cost per pound is $3.00/5 = $0.60. So, 8 pounds cost 8 * $0.60 = $4.80."
+        "rationale": "The cost per pound is $3.\\frac{00}{5} = $0.60. So, 8 pounds cost 8 * $0.60 = $4.80."
       },
       {
         "text": "$5.00",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A survey of 400 people found that 60% prefer brand X. How many people prefer a different brand?",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "The ratio of teachers to students in a school is 1:25. If there are 20 teachers, how many students are there?",
     "correctAnswer": "500 students",
-    "rationale": "Set up the proportion 1/25 = 20/x. Cross-multiply to find x = 20 * 25 = 500.",
+    "rationale": "Set up the proportion $\\frac{1}{25}$ = 20/x. Cross-multiply to find x = 20 * 25 = 500.",
     "challenge_tags": [
       "math-1"
     ]
@@ -266,7 +266,7 @@ module.exports = [
       {
         "text": "108Â°",
         "isCorrect": true,
-        "rationale": "The total ratio parts is 5. 180/5 = 36. The larger angle is 3 * 36 = 108."
+        "rationale": "The total ratio parts is 5. $\\frac{180}{5}$ = 36. The larger angle is 3 * 36 = 108."
       },
       {
         "text": "180Â°",

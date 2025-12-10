@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a circumference of 50.24 cm. What is its radius? Use 3.14 for $\\pi$.",
@@ -60,7 +60,7 @@ module.exports = [
       {
         "text": "113.04 inÂ³",
         "isCorrect": true,
-        "rationale": "V = (4/3) * 3.14 * 3Â³ = (4/3) * 3.14 * 27 = 113.04."
+        "rationale": "V = ($\\frac{4}{3}$) * 3.14 * 3Â³ = ($\\frac{4}{3}$) * 3.14 * 27 = 113.04."
       },
       {
         "text": "254.34 inÂ³",
@@ -73,14 +73,14 @@ module.exports = [
         "rationale": "This is the volume of a sphere with a much larger radius."
       }
     ],
-    "rationale": "Using the formula, V = (4/3) * 3.14 * (3 inches)Â³ = (4/3) * 3.14 * 27 = 113.04 inÂ³.",
+    "rationale": "Using the formula, V = ($\\frac{4}{3}$) * 3.14 * (3 inches)Â³ = ($\\frac{4}{3}$) * 3.14 * 27 = 113.04 inÂ³.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "An angle measuring 45Â° is what type of angle?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the sum of the interior angles of a quadrilateral?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "How many inches are in 2.5 feet?",
@@ -223,12 +223,12 @@ module.exports = [
       {
         "text": "60 cmÂ²",
         "isCorrect": true,
-        "rationale": "Area = (1/2) * (base1 + base2) * height = (1/2) * (10 + 14) * 5 = 60."
+        "rationale": "Area = ($\\frac{1}{2}$) * (base1 + base2) * height = ($\\frac{1}{2}$) * (10 + 14) * 5 = 60."
       },
       {
         "text": "120 cmÂ²",
         "isCorrect": false,
-        "rationale": "This omits the (1/2) from the formula."
+        "rationale": "This omits the ($\\frac{1}{2}$) from the formula."
       },
       {
         "text": "29 cmÂ²",

@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A square has a perimeter of 24 inches. What is the length of one side?",
@@ -60,7 +60,7 @@ module.exports = [
       {
         "text": "24 $in^2$",
         "isCorrect": true,
-        "rationale": "The area is (1/2) * base * height = (1/2) * 8 * 6 = 24."
+        "rationale": "The area is ($\\frac{1}{2}$) * base * height = ($\\frac{1}{2}$) * 8 * 6 = 24."
       },
       {
         "text": "28 $in^2$",
@@ -70,17 +70,17 @@ module.exports = [
       {
         "text": "48 $in^2$",
         "isCorrect": false,
-        "rationale": "This is the result of multiplying base by height, without multiplying by 1/2."
+        "rationale": "This is the result of multiplying base by height, without multiplying by $\\frac{1}{2}$."
       }
     ],
-    "rationale": "The formula for the area of a triangle is A = 1/2 * b * h. So, A = 1/2 * 8 inches * 6 inches = 24 $in^2$.",
+    "rationale": "The formula for the area of a triangle is A = $\\frac{1}{2}$ * b * h. So, A = $\\frac{1}{2}$ * 8 inches * 6 inches = 24 $in^2$.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a radius of 5 meters. What is its circumference? Use 3.14 for $\\pi$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Two angles in a triangle measure 40Â° and 60Â°. What is the measure of the third angle?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "How many feet are in 3 yards?",

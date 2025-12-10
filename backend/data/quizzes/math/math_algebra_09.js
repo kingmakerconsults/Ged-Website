@@ -2,7 +2,7 @@
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for x: $x + 9 = 17$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Simplify the expression: $9x - (2x - 4)$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "If $f(x) = x^2 + x$, find $f(-5)$.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of a line that has a slope of 2 and passes through the point (3, 10)?",
@@ -228,7 +228,7 @@ module.exports = [
       {
         "text": "5.4",
         "isCorrect": false,
-        "rationale": "This is 27/5."
+        "rationale": "This is $\\frac{27}{5}$."
       },
       {
         "text": "35",

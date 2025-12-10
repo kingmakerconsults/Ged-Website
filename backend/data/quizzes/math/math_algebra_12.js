@@ -2,7 +2,7 @@
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for b: $b - 6 = 14$.",
@@ -60,7 +60,7 @@ module.exports = [
       {
         "text": "10.5",
         "isCorrect": false,
-        "rationale": "This is 42/4."
+        "rationale": "This is $\\frac{42}{4}$."
       },
       {
         "text": "28",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the slope of a line with the equation $2x + y = 5$.",
@@ -133,12 +133,12 @@ module.exports = [
       {
         "text": "2",
         "isCorrect": false,
-        "rationale": "This is 6/3."
+        "rationale": "This is $\\frac{6}{3}$."
       },
       {
         "text": "3",
         "isCorrect": false,
-        "rationale": "This is 12/4."
+        "rationale": "This is $\\frac{12}{4}$."
       },
       {
         "text": "4",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "If $f(x) = 2x - 10$, what is $f(x)$ when $x=5$?",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A line passes through (1, 2) and (5, 10). What is its slope?",
     "correctAnswer": "2",
-    "rationale": "Slope = (10-2)/(5-1) = 8/4 = 2.",
+    "rationale": "Slope = (10-2)/(5-1) = $\\frac{8}{4}$ = 2.",
     "challenge_tags": [
       "math-3"
     ]

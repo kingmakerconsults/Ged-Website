@@ -10,32 +10,32 @@ module.exports = [
       {
         "text": "$\\frac{1}{2}$",
         "isCorrect": false,
-        "rationale": "1/2 is equal to 4/8."
+        "rationale": "$\\frac{1}{2}$ is equal to $\\frac{4}{8}$."
       },
       {
         "text": "$\\frac{3}{8}$",
         "isCorrect": false,
-        "rationale": "3/8 is smaller than 5/8."
+        "rationale": "$\\frac{3}{8}$ is smaller than $\\frac{5}{8}$."
       },
       {
         "text": "$\\frac{5}{8}$",
         "isCorrect": true,
-        "rationale": "With a common denominator, the fraction with the largest numerator is the largest. 5/8 is greater than 4/8 (1/2) and 3/8."
+        "rationale": "With a common denominator, the fraction with the largest numerator is the largest. $\\frac{5}{8}$ is greater than $\\frac{4}{8}$ ($\\frac{1}{2}$) and $\\frac{3}{8}$."
       },
       {
         "text": "$\\frac{1}{4}$",
         "isCorrect": false,
-        "rationale": "1/4 is equal to 2/8."
+        "rationale": "$\\frac{1}{4}$ is equal to $\\frac{2}{8}$."
       }
     ],
-    "rationale": "To compare the fractions, find a common denominator, which is 8. The fractions become 4/8, 3/8, 5/8, and 2/8. The largest is 5/8.",
+    "rationale": "To compare the fractions, find a common denominator, which is 8. The fractions become $\\frac{4}{8}$, $\\frac{3}{8}$, $\\frac{5}{8}$, and $\\frac{2}{8}$. The largest is $\\frac{5}{8}$.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is 75% of 40?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A lunch bill is $24.50. If you add a 15% tip, what is the total cost?",
@@ -110,7 +110,7 @@ module.exports = [
       {
         "text": "$\\frac{8}{3}$",
         "isCorrect": true,
-        "rationale": "To divide by a fraction, multiply by its reciprocal: 2/3 * 4/1 = 8/3."
+        "rationale": "To divide by a fraction, multiply by its reciprocal: $\\frac{2}{3}$ * $\\frac{4}{1}$ = $\\frac{8}{3}$."
       },
       {
         "text": "$\\frac{2}{12}$",
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Order the following from least to greatest: 0.5, $\\frac{2}{5}$, 45%, 0.42.",
-    "correctAnswer": "2/5, 0.42, 45%, 0.5",
-    "rationale": "Convert all to decimals: 2/5 = 0.4, 45% = 0.45. The order is 0.4, 0.42, 0.45, 0.5. This corresponds to 2/5, 0.42, 45%, 0.5.",
+    "correctAnswer": "\\frac{2}{5}, 0.42, 45%, 0.5",
+    "rationale": "Convert all to decimals: $\\frac{2}{5}$ = 0.4, 45% = 0.45. The order is 0.4, 0.42, 0.45, 0.5. This corresponds to $\\frac{2}{5}$, 0.42, 45%, 0.5.",
     "challenge_tags": [
       "math-1"
     ]
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "hard",
     "question": "What is the least common multiple (LCM) of 12 and 18?",

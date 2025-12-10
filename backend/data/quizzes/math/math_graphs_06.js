@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "If f(x) = x - 8, what is f(10)?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the x-intercept of the line 4x + 3y = 12?",
@@ -128,7 +128,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "A line passes through (1, -1) and is perpendicular to the line $y = (1/2)x + 5$. What is its equation?",
+    "question": "A line passes through (1, -1) and is perpendicular to the line $y = (\\frac{1}{2})x + 5$. What is its equation?",
     "answerOptions": [
       {
         "text": "$y = -2x + 1$",
@@ -136,7 +136,7 @@ module.exports = [
         "rationale": "The perpendicular slope is -2. Using y=mx+b: -1 = -2(1) + b -> -1 = -2 + b -> b=1."
       },
       {
-        "text": "$y = (1/2)x - 1.5$",
+        "text": "$y = (\\frac{1}{2})x - 1.5$",
         "isCorrect": false,
         "rationale": "This line is parallel."
       },
@@ -151,14 +151,14 @@ module.exports = [
         "rationale": "This has the correct slope but wrong y-intercept."
       }
     ],
-    "rationale": "The slope of the given line is 1/2. The slope of a perpendicular line is the negative reciprocal, which is -2. Use the point-slope form y - y1 = m(x - x1): y - (-1) = -2(x - 1). y + 1 = -2x + 2. So, y = -2x + 1.",
+    "rationale": "The slope of the given line is $\\frac{1}{2}$. The slope of a perpendicular line is the negative reciprocal, which is -2. Use the point-slope form y - y1 = m(x - x1): y - (-1) = -2(x - 1). y + 1 = -2x + 2. So, y = -2x + 1.",
     "challenge_tags": [
       "math-4"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the range of the function $f(x) = x^2 + 5$?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "For the function $f(x) = 100(2)^x$, find the value of $f(3)$.",
@@ -294,7 +294,7 @@ module.exports = [
       {
         "text": "2",
         "isCorrect": true,
-        "rationale": "Slope = (9-5)/(4-2) = 4/2 = 2."
+        "rationale": "Slope = (9-5)/(4-2) = $\\frac{4}{2}$ = 2."
       },
       {
         "text": "4",

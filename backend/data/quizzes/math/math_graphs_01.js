@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the slope of the line given by the equation $y = 5x + 2$?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the slope of the line passing through the points (1, 2) and (3, 10).",
@@ -136,7 +136,7 @@ module.exports = [
         "rationale": "This line has the correct slope, but does not pass through (2,5)."
       },
       {
-        "text": "y = -1/3x + 5",
+        "text": "y = -\\frac{1}{3}x + 5",
         "isCorrect": false,
         "rationale": "This line has the slope of a perpendicular line."
       },
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Given $f(x) = x^2 + 3$, find $f(-2)$.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the x-intercept of the line $2x + 4y = 8$?",
@@ -254,12 +254,12 @@ module.exports = [
     "question": "What is the slope of a line that is perpendicular to the line $y = -\\frac{1}{4}x + 2$?",
     "answerOptions": [
       {
-        "text": "-1/4",
+        "text": "$-\\frac{1}{4}$",
         "isCorrect": false,
         "rationale": "This is the slope of a parallel line."
       },
       {
-        "text": "1/4",
+        "text": "$\\frac{1}{4}$",
         "isCorrect": false,
         "rationale": "This is the reciprocal, but not the negative reciprocal."
       },
@@ -271,10 +271,10 @@ module.exports = [
       {
         "text": "4",
         "isCorrect": true,
-        "rationale": "The slope of a perpendicular line is the negative reciprocal of the original slope. The negative reciprocal of -1/4 is 4."
+        "rationale": "The slope of a perpendicular line is the negative reciprocal of the original slope. The negative reciprocal of -$\\frac{1}{4}$ is 4."
       }
     ],
-    "rationale": "Perpendicular lines have slopes that are negative reciprocals of each other. The slope of the given line is -1/4. The negative reciprocal is $-(\\frac{1}{-1/4}) = 4$.",
+    "rationale": "Perpendicular lines have slopes that are negative reciprocals of each other. The slope of the given line is -$\\frac{1}{4}$. The negative reciprocal is $-(\\frac{1}{-$\\frac{1}{4}$}) = 4$.",
     "challenge_tags": [
       "math-4"
     ]

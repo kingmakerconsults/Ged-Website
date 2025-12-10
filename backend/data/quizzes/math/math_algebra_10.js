@@ -2,7 +2,7 @@
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for y: $y - 15 = 2$.",
@@ -22,12 +22,12 @@ module.exports = [
       {
         "text": "4",
         "isCorrect": false,
-        "rationale": "This is 16/4."
+        "rationale": "This is $\\frac{16}{4}$."
       },
       {
         "text": "5",
         "isCorrect": true,
-        "rationale": "Substitute 16 for a: 16/4 + 1 = 4 + 1 = 5."
+        "rationale": "Substitute 16 for a: $\\frac{16}{4}$ + 1 = 4 + 1 = 5."
       },
       {
         "text": "17",
@@ -40,7 +40,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Substitute 16 for a in the expression: 16/4 + 1 = 4 + 1 = 5.",
+    "rationale": "Substitute 16 for a in the expression: $\\frac{16}{4}$ + 1 = 4 + 1 = 5.",
     "challenge_tags": [
       "math-3"
     ]
@@ -65,7 +65,7 @@ module.exports = [
       {
         "text": "5",
         "isCorrect": false,
-        "rationale": "This is 10/2."
+        "rationale": "This is $\\frac{10}{2}$."
       },
       {
         "text": "7",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the slope of a line passing through (-1, 5) and (3, 5)?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Factor: $4x^2 - 25$.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "If $f(x) = (x-4)^2 + 3$, find $f(1)$.",

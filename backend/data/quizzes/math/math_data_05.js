@@ -35,11 +35,11 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A coin is flipped. What is the probability of it landing on heads?",
-    "correctAnswer": "1/2",
+    "correctAnswer": "$\\frac{1}{2}$",
     "rationale": "A fair coin has two sides, heads and tails. There is 1 favorable outcome (heads) out of 2 possible outcomes.",
     "challenge_tags": [
       "math-6"
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the mean of the numbers: 2.5, 3.5, 4.0, 5.0.",
@@ -98,27 +98,27 @@ module.exports = [
     "question": "A deck of 52 cards is shuffled. What is the probability of drawing a heart?",
     "answerOptions": [
       {
-        "text": "1/52",
+        "text": "$\\frac{1}{52}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a specific card."
       },
       {
-        "text": "1/13",
+        "text": "$\\frac{1}{13}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a card of a specific rank."
       },
       {
-        "text": "1/4",
+        "text": "$\\frac{1}{4}$",
         "isCorrect": true,
-        "rationale": "There are 13 hearts in a deck of 52 cards. The probability is 13/52, which simplifies to 1/4."
+        "rationale": "There are 13 hearts in a deck of 52 cards. The probability is $\\frac{13}{52}$, which simplifies to $\\frac{1}{4}$."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a red card."
       }
     ],
-    "rationale": "A standard deck of 52 cards has 4 suits, one of which is hearts. There are 13 heart cards. So the probability is 13/52, which simplifies to 1/4.",
+    "rationale": "A standard deck of 52 cards has 4 suits, one of which is hearts. There are 13 heart cards. So the probability is $\\frac{13}{52}$, which simplifies to $\\frac{1}{4}$.",
     "challenge_tags": [
       "math-6"
     ]
@@ -138,7 +138,7 @@ module.exports = [
       {
         "text": "4",
         "isCorrect": true,
-        "rationale": "The rate of defects is 1/500. For 2,000 products, the number of defects is (1/500) * 2000 = 4."
+        "rationale": "The rate of defects is $\\frac{1}{500}$. For 2,000 products, the number of defects is ($\\frac{1}{500}$) * 2000 = 4."
       },
       {
         "text": "5",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the mode of the data set: Apple, Banana, Orange, Apple, Grape, Apple?",
@@ -176,34 +176,34 @@ module.exports = [
     "question": "A number cube (die) is rolled twice. What is the probability of rolling a 6 on the first roll and an odd number on the second roll?",
     "answerOptions": [
       {
-        "text": "1/12",
+        "text": "$\\frac{1}{12}$",
         "isCorrect": true,
-        "rationale": "P(rolling a 6) = 1/6. P(rolling an odd) = 3/6 = 1/2. P(both) = (1/6) * (1/2) = 1/12."
+        "rationale": "P(rolling a 6) = $\\frac{1}{6}$. P(rolling an odd) = $\\frac{3}{6}$ = $\\frac{1}{2}$. P(both) = ($\\frac{1}{6}$) * ($\\frac{1}{2}$) = $\\frac{1}{12}$."
       },
       {
-        "text": "1/6",
+        "text": "$\\frac{1}{6}$",
         "isCorrect": false,
         "rationale": "This is just the probability of rolling a 6."
       },
       {
-        "text": "1/4",
+        "text": "$\\frac{1}{4}$",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },
       {
-        "text": "2/3",
+        "text": "$\\frac{2}{3}$",
         "isCorrect": false,
-        "rationale": "This is 1/6 + 1/2."
+        "rationale": "This is $\\frac{1}{6}$ + $\\frac{1}{2}$."
       }
     ],
-    "rationale": "These are independent events. The probability of rolling a 6 is 1/6. The probability of rolling an odd number (1, 3, or 5) is 3/6 = 1/2. The probability of both events occurring is (1/6) * (1/2) = 1/12.",
+    "rationale": "These are independent events. The probability of rolling a 6 is $\\frac{1}{6}$. The probability of rolling an odd number (1, 3, or 5) is $\\frac{3}{6}$ = $\\frac{1}{2}$. The probability of both events occurring is ($\\frac{1}{6}$) * ($\\frac{1}{2}$) = $\\frac{1}{12}$.",
     "challenge_tags": [
       "math-6"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The average of 5 numbers is 30. The average of 3 of those numbers is 20. What is the average of the other two numbers?",

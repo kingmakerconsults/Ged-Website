@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is 10% of 350?",
@@ -80,12 +80,12 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate: $60 \\div (5 \times 3) + 2$.",
     "correctAnswer": "6",
-    "rationale": "Order of operations (PEMDAS): Parentheses (5*3=15), Division (60/15=4), Addition (4+2=6).",
+    "rationale": "Order of operations (PEMDAS): Parentheses (5*3=15), Division ($\\frac{60}{15}$=4), Addition (4+2=6).",
     "challenge_tags": [
       "math-1"
     ]
@@ -103,9 +103,9 @@ module.exports = [
         "rationale": "This is the largest."
       },
       {
-        "text": "1/3",
+        "text": "$\\frac{1}{3}$",
         "isCorrect": true,
-        "rationale": "1/3 is approx 0.333, which is the smallest."
+        "rationale": "$\\frac{1}{3}$ is approx 0.333, which is the smallest."
       },
       {
         "text": "40%",
@@ -118,7 +118,7 @@ module.exports = [
         "rationale": "This is 0.45."
       }
     ],
-    "rationale": "To compare, convert all values to decimals: 1/3 â‰ˆ 0.333, 40% = 0.4. The smallest value is 0.333..., which is 1/3.",
+    "rationale": "To compare, convert all values to decimals: $\\frac{1}{3}$ â‰ˆ 0.333, 40% = 0.4. The smallest value is 0.333..., which is $\\frac{1}{3}$.",
     "challenge_tags": [
       "math-1"
     ]
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
-    "question": "What is the result of multiplying 1/2 by 3/4?",
-    "correctAnswer": "3/8",
-    "rationale": "To multiply fractions, multiply the numerators together and the denominators together: (1*3) / (2*4) = 3/8.",
+    "question": "What is the result of multiplying \\frac{1}{2} by 3/4?",
+    "correctAnswer": "$\\frac{3}{8}$",
+    "rationale": "To multiply fractions, multiply the numerators together and the denominators together: (1*3) / (2*4) = $\\frac{3}{8}$.",
     "challenge_tags": [
       "math-1"
     ]
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A company's total expenses are $30,000. If salaries account for 65% of the expenses, how much is spent on salaries?",
@@ -261,12 +261,12 @@ module.exports = [
       {
         "text": "16",
         "isCorrect": true,
-        "rationale": "The ratio is 24 cookies / 1.5 cups. With 1 cup, you can make (1/1.5)*24 = 16 cookies."
+        "rationale": "The ratio is 24 cookies / 1.5 cups. With 1 cup, you can make ($\\frac{1}{1}$.5)*24 = 16 cookies."
       },
       {
         "text": "18",
         "isCorrect": false,
-        "rationale": "This is 3/4 of the recipe."
+        "rationale": "This is $\\frac{3}{4}$ of the recipe."
       },
       {
         "text": "20",

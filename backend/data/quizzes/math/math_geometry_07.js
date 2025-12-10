@@ -15,7 +15,7 @@ module.exports = [
       {
         "text": "24",
         "isCorrect": true,
-        "rationale": "Area = (1/2) * base * height = (1/2) * 6 * 8 = 24."
+        "rationale": "Area = ($\\frac{1}{2}$) * base * height = ($\\frac{1}{2}$) * 6 * 8 = 24."
       },
       {
         "text": "28",
@@ -25,17 +25,17 @@ module.exports = [
       {
         "text": "48",
         "isCorrect": false,
-        "rationale": "This is base * height, without multiplying by 1/2."
+        "rationale": "This is base * height, without multiplying by $\\frac{1}{2}$."
       }
     ],
-    "rationale": "The area of a triangle is given by the formula A = 1/2 * b * h. So, A = 1/2 * 6 * 8 = 24.",
+    "rationale": "The area of a triangle is given by the formula A = $\\frac{1}{2}$ * b * h. So, A = $\\frac{1}{2}$ * 6 * 8 = 24.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the circumference of a circle with a diameter of 15 cm? Use 3.14 for $\\pi$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "How many inches are in one foot?",
@@ -133,7 +133,7 @@ module.exports = [
       {
         "text": "314 cmÂ³",
         "isCorrect": true,
-        "rationale": "V = (1/3) * 3.14 * 5Â² * 12 = 314."
+        "rationale": "V = ($\\frac{1}{3}$) * 3.14 * 5Â² * 12 = 314."
       },
       {
         "text": "942 cmÂ³",
@@ -151,14 +151,14 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Using the formula for the volume of a cone, V = (1/3) * pi * rÂ² * h. V = (1/3) * 3.14 * (5 cm)Â² * 12 cm = (1/3) * 3.14 * 25 * 12 = 314 cmÂ³.",
+    "rationale": "Using the formula for the volume of a cone, V = ($\\frac{1}{3}$) * pi * rÂ² * h. V = ($\\frac{1}{3}$) * 3.14 * (5 cm)Â² * 12 cm = ($\\frac{1}{3}$) * 3.14 * 25 * 12 = 314 cmÂ³.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the measure of each angle in an equilateral triangle?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A rectangular room is 5 yards long and 4 yards wide. What is its area in square feet?",
@@ -289,7 +289,7 @@ module.exports = [
       {
         "text": "64 meters",
         "isCorrect": true,
-        "rationale": "C = 2 * pi * r. 400 = 2 * 3.14 * r. 400 = 6.28 * r. r = 400/6.28 â‰ˆ 63.69, which is 64 to the nearest meter."
+        "rationale": "C = 2 * pi * r. 400 = 2 * 3.14 * r. 400 = 6.28 * r. r = $\\frac{400}{6}$.28 â‰ˆ 63.69, which is 64 to the nearest meter."
       },
       {
         "text": "127 meters",
@@ -299,7 +299,7 @@ module.exports = [
       {
         "text": "200 meters",
         "isCorrect": false,
-        "rationale": "This is 400/2."
+        "rationale": "This is $\\frac{400}{2}$."
       },
       {
         "text": "12739 meters",
