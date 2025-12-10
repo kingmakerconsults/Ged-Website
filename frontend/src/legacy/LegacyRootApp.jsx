@@ -38090,7 +38090,6 @@ function EssayGuide({ onExit }) {
                       onChange={handleTextChange}
                       disabled={!timerActive}
                       className="practice-textarea w-full h-48 p-3 border-gray-300 rounded-md"
-                      placeholder="Type your introduction here..."
                       style={{
                         position: 'relative',
                         background: 'transparent',
@@ -38167,7 +38166,6 @@ function EssayGuide({ onExit }) {
                       onChange={handleTextChange}
                       disabled={!timerActive}
                       className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
-                      placeholder="Analyze the stronger argument's first piece of evidence..."
                       style={{
                         position: 'relative',
                         background: 'transparent',
@@ -38218,7 +38216,6 @@ function EssayGuide({ onExit }) {
                       onChange={handleTextChange}
                       disabled={!timerActive}
                       className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
-                      placeholder="Analyze the stronger argument's second piece of evidence..."
                       style={{
                         position: 'relative',
                         background: 'transparent',
@@ -38269,7 +38266,6 @@ function EssayGuide({ onExit }) {
                       onChange={handleTextChange}
                       disabled={!timerActive}
                       className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
-                      placeholder="Analyze a weakness in the opposing argument..."
                       style={{
                         position: 'relative',
                         background: 'transparent',
@@ -38320,7 +38316,6 @@ function EssayGuide({ onExit }) {
                       onChange={handleTextChange}
                       disabled={!timerActive}
                       className="practice-textarea w-full h-40 p-3 border-gray-300 rounded-md"
-                      placeholder="Write your conclusion..."
                       style={{
                         position: 'relative',
                         background: 'transparent',

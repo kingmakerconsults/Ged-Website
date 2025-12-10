@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-Cfeh3MFF.js";
+import { _ as __vitePreload } from "./index-DA_JTAI2.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -36372,15 +36372,18 @@ function EssayGuide({ onExit }) {
     body3: { correct: true, progress: 0 },
     conclusion: { correct: true, progress: 0 }
   });
-  const checkTypingAccuracy = reactExports.useCallback((section, typed, expected) => {
-    if (!expected || essayMode !== "guided") return;
-    const isCorrectSoFar = expected.startsWith(typed.trim());
-    const progress = typed.length / expected.length;
-    setTypingAccuracy((prev) => ({
-      ...prev,
-      [section]: { correct: isCorrectSoFar, progress }
-    }));
-  }, [essayMode]);
+  const checkTypingAccuracy = reactExports.useCallback(
+    (section, typed, expected) => {
+      if (!expected || essayMode !== "guided") return;
+      const isCorrectSoFar = expected.startsWith(typed.trim());
+      const progress = typed.length / expected.length;
+      setTypingAccuracy((prev) => ({
+        ...prev,
+        [section]: { correct: isCorrectSoFar, progress }
+      }));
+    },
+    [essayMode]
+  );
   reactExports.useEffect(() => {
     if (essayMode !== "guided" || !timerActive) {
       if (pacingIntervalRef.current) {
@@ -36409,7 +36412,9 @@ function EssayGuide({ onExit }) {
         } else if (wpm > 40) {
           setPacingMessage("Great speed! Make sure to maintain accuracy.");
         } else {
-          setPacingMessage(messages[Math.floor(Math.random() * messages.length)]);
+          setPacingMessage(
+            messages[Math.floor(Math.random() * messages.length)]
+          );
         }
         setTimeout(() => setPacingMessage(""), 8e3);
       }
@@ -36704,7 +36709,9 @@ function EssayGuide({ onExit }) {
     };
     const extractEvidence = (content) => {
       if (!content) return "[evidence]";
-      const match = content.match(/<span class='good-evidence'>([^<]+)<\/span>/);
+      const match = content.match(
+        /<span class='good-evidence'>([^<]+)<\/span>/
+      );
       return match ? match[1].trim().substring(0, 80) : "[supporting data]";
     };
     const extractMainClaim = (content) => {
@@ -36715,7 +36722,16 @@ function EssayGuide({ onExit }) {
     };
     const extractEvidenceType = (content) => {
       if (!content) return "evidence";
-      const types = ["study", "data", "research", "analysis", "report", "survey", "poll", "findings"];
+      const types = [
+        "study",
+        "data",
+        "research",
+        "analysis",
+        "report",
+        "survey",
+        "poll",
+        "findings"
+      ];
       const lowerContent = content.toLowerCase();
       for (const type of types) {
         if (lowerContent.includes(type)) return type;
@@ -36725,7 +36741,9 @@ function EssayGuide({ onExit }) {
     const author1LastName = extractLastName((_a3 = passageData.passage1) == null ? void 0 : _a3.title);
     const author2LastName = extractLastName((_b3 = passageData.passage2) == null ? void 0 : _b3.title);
     const topic = passageData.topic || "[topic]";
-    const isPassage1Stronger = /stronger/i.test(((_c = passageData.passage1) == null ? void 0 : _c.title) || "");
+    const isPassage1Stronger = /stronger/i.test(
+      ((_c = passageData.passage1) == null ? void 0 : _c.title) || ""
+    );
     const strongerAuthor = isPassage1Stronger ? author1LastName : author2LastName;
     const weakerAuthor = isPassage1Stronger ? author2LastName : author1LastName;
     const strongerPassage = isPassage1Stronger ? passageData.passage1 : passageData.passage2;
@@ -36735,7 +36753,16 @@ function EssayGuide({ onExit }) {
     const strongerEvidence = extractEvidence(strongerPassage == null ? void 0 : strongerPassage.content);
     const weakerWeakness = ((_d = weakerPassage == null ? void 0 : weakerPassage.content) == null ? void 0 : _d.includes("bad-evidence")) ? "anecdotal reasoning" : "insufficient evidence";
     const evidenceType = extractEvidenceType(strongerPassage == null ? void 0 : strongerPassage.content);
-    return template.replace(/\[topic of both articles\]/g, topic).replace(/\[Author 1's Last Name\]/g, author1LastName).replace(/\[Author 2's Last Name\]/g, author2LastName).replace(/\[explain Author 1's main claim\]/g, extractMainClaim((_e = passageData.passage1) == null ? void 0 : _e.content)).replace(/\[explain Author 2's main claim\]/g, extractMainClaim((_f = passageData.passage2) == null ? void 0 : _f.content)).replace(/\[Stronger Author's Last Name\]/g, strongerAuthor).replace(/\[Weaker Author's Last Name\]/g, weakerAuthor).replace(/\[Author's Last Name\]/g, strongerAuthor).replace(/\[type of evidence\]/g, evidenceType).replace(/\["quote or paraphrase"\]/g, `"${strongerEvidence}"`).replace(/\[explain why\]/g, "it provides measurable, concrete support").replace(/\[another type of evidence\]/g, evidenceType).replace(/\[identify a weakness\]/g, weakerWeakness).replace(/\[list key evidence types\]/g, evidenceType + " and expert testimony").replace(/\[restate evidence types\]/g, evidenceType);
+    return template.replace(/\[topic of both articles\]/g, topic).replace(/\[Author 1's Last Name\]/g, author1LastName).replace(/\[Author 2's Last Name\]/g, author2LastName).replace(
+      /\[explain Author 1's main claim\]/g,
+      extractMainClaim((_e = passageData.passage1) == null ? void 0 : _e.content)
+    ).replace(
+      /\[explain Author 2's main claim\]/g,
+      extractMainClaim((_f = passageData.passage2) == null ? void 0 : _f.content)
+    ).replace(/\[Stronger Author's Last Name\]/g, strongerAuthor).replace(/\[Weaker Author's Last Name\]/g, weakerAuthor).replace(/\[Author's Last Name\]/g, strongerAuthor).replace(/\[type of evidence\]/g, evidenceType).replace(/\["quote or paraphrase"\]/g, `"${strongerEvidence}"`).replace(/\[explain why\]/g, "it provides measurable, concrete support").replace(/\[another type of evidence\]/g, evidenceType).replace(/\[identify a weakness\]/g, weakerWeakness).replace(
+      /\[list key evidence types\]/g,
+      evidenceType + " and expert testimony"
+    ).replace(/\[restate evidence types\]/g, evidenceType);
   };
   const currentPassage = passagesData[lockedTopic !== null ? lockedTopic : selectedTopic];
   const filledTemplates = reactExports.useMemo(() => {
@@ -37167,7 +37194,6 @@ function EssayGuide({ onExit }) {
                     onChange: handleTextChange,
                     disabled: !timerActive,
                     className: "practice-textarea w-full h-48 p-3 border-gray-300 rounded-md",
-                    placeholder: "Type your introduction here...",
                     style: {
                       position: "relative",
                       background: "transparent",
@@ -37225,7 +37251,6 @@ function EssayGuide({ onExit }) {
                     onChange: handleTextChange,
                     disabled: !timerActive,
                     className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
-                    placeholder: "Analyze the stronger argument's first piece of evidence...",
                     style: {
                       position: "relative",
                       background: "transparent",
@@ -37269,7 +37294,6 @@ function EssayGuide({ onExit }) {
                     onChange: handleTextChange,
                     disabled: !timerActive,
                     className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
-                    placeholder: "Analyze the stronger argument's second piece of evidence...",
                     style: {
                       position: "relative",
                       background: "transparent",
@@ -37313,7 +37337,6 @@ function EssayGuide({ onExit }) {
                     onChange: handleTextChange,
                     disabled: !timerActive,
                     className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
-                    placeholder: "Analyze a weakness in the opposing argument...",
                     style: {
                       position: "relative",
                       background: "transparent",
@@ -37357,7 +37380,6 @@ function EssayGuide({ onExit }) {
                     onChange: handleTextChange,
                     disabled: !timerActive,
                     className: "practice-textarea w-full h-40 p-3 border-gray-300 rounded-md",
-                    placeholder: "Write your conclusion...",
                     style: {
                       position: "relative",
                       background: "transparent",
@@ -37479,9 +37501,16 @@ function EssayGuide({ onExit }) {
     const guidedStats = essayMode === "guided" ? {
       totalWords: wordCount(fullEssay),
       timeSpent: Math.max(0, 45 * 60 - timer),
-      sectionsCompleted: Object.values(essayText).filter((t) => String(t).trim().length > 20).length,
-      avgAccuracy: Object.values(typingAccuracy).reduce((sum, s) => sum + (s.correct ? 1 : 0), 0) / 5 * 100,
-      wpm: wordsPerMinute || (fullEssay ? Math.round(wordCount(fullEssay) / Math.max(1, (45 * 60 - timer) / 60)) : 0)
+      sectionsCompleted: Object.values(essayText).filter(
+        (t) => String(t).trim().length > 20
+      ).length,
+      avgAccuracy: Object.values(typingAccuracy).reduce(
+        (sum, s) => sum + (s.correct ? 1 : 0),
+        0
+      ) / 5 * 100,
+      wpm: wordsPerMinute || (fullEssay ? Math.round(
+        wordCount(fullEssay) / Math.max(1, (45 * 60 - timer) / 60)
+      ) : 0)
     } : null;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-8 prose max-w-none", children: fullEssay ? /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -39124,4 +39153,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-uPvtuWud.js.map
+//# sourceMappingURL=main-BaaOKcxw.js.map
