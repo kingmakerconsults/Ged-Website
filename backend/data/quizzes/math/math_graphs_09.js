@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "If $f(x) = 5x + 1$, what is $f(-1)$?",
@@ -58,7 +58,7 @@ module.exports = [
         "rationale": "Slope = (1 - 7) / (6 - 4) = -6 / 2 = -3."
       },
       {
-        "text": "-1/3",
+        "text": "$-\\frac{1}{3}$",
         "isCorrect": false,
         "rationale": "This is the negative reciprocal."
       },
@@ -68,7 +68,7 @@ module.exports = [
         "rationale": "This has the wrong sign."
       },
       {
-        "text": "1/3",
+        "text": "$\\frac{1}{3}$",
         "isCorrect": false,
         "rationale": "This is the reciprocal."
       }
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of a line with slope 3 that passes through (2, 5)?",
@@ -128,37 +128,37 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "A line is parallel to $y = (2/3)x + 1$ and passes through (6, 2). What is its equation?",
+    "question": "A line is parallel to $y = (\\frac{2}{3})x + 1$ and passes through (6, 2). What is its equation?",
     "answerOptions": [
       {
-        "text": "$y = (2/3)x - 2$",
+        "text": "$y = (\\frac{2}{3})x - 2$",
         "isCorrect": true,
-        "rationale": "The slope is 2/3. Using y=mx+b: 2 = (2/3)(6) + b -> 2 = 4 + b -> b=-2."
+        "rationale": "The slope is $\\frac{2}{3}$. Using y=mx+b: 2 = ($\\frac{2}{3}$)(6) + b -> 2 = 4 + b -> b=-2."
       },
       {
-        "text": "$y = (-3/2)x + 11$",
+        "text": "$y = (-\\frac{3}{2})x + 11$",
         "isCorrect": false,
         "rationale": "This is a perpendicular line."
       },
       {
-        "text": "$y = (2/3)x + 2$",
+        "text": "$y = (\\frac{2}{3})x + 2$",
         "isCorrect": false,
         "rationale": "This does not pass through the given point."
       },
       {
-        "text": "$y = (2/3)x + 6$",
+        "text": "$y = (\\frac{2}{3})x + 6$",
         "isCorrect": false,
         "rationale": "This does not pass through the given point."
       }
     ],
-    "rationale": "A parallel line has the same slope, 2/3. Use the point-slope form y - y1 = m(x - x1): y - 2 = (2/3)(x - 6). y - 2 = (2/3)x - 4. So, y = (2/3)x - 2.",
+    "rationale": "A parallel line has the same slope, $\\frac{2}{3}$. Use the point-slope form y - y1 = m(x - x1): y - 2 = ($\\frac{2}{3}$)(x - 6). y - 2 = ($\\frac{2}{3}$)x - 4. So, y = ($\\frac{2}{3}$)x - 2.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the x-intercept of the line $y = -4x + 12$.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A company's cost function is C(x) = 10x + 500, where x is the number of units produced. What is the cost of producing 50 units?",
@@ -223,7 +223,7 @@ module.exports = [
       {
         "text": "(-2, -1)",
         "isCorrect": true,
-        "rationale": "The x-coordinate of the vertex is -b/(2a) = -4/2 = -2. y = (-2)Â² + 4(-2) + 3 = 4 - 8 + 3 = -1."
+        "rationale": "The x-coordinate of the vertex is -b/(2a) = -$\\frac{4}{2}$ = -2. y = (-2)Â² + 4(-2) + 3 = 4 - 8 + 3 = -1."
       },
       {
         "text": "(2, 15)",

@@ -18,7 +18,7 @@ module.exports = [
         "rationale": "This is the y-intercept."
       },
       {
-        "text": "-1/5",
+        "text": "$-\\frac{1}{5}$",
         "isCorrect": false,
         "rationale": "This is the slope of a perpendicular line."
       },
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "If $f(x) = 15 - x$, what is $f(15)$?",
@@ -80,12 +80,12 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the slope of a line passing through (4, 2) and (6, 10)?",
     "correctAnswer": "4",
-    "rationale": "Slope = (10-2)/(6-4) = 8/2 = 4.",
+    "rationale": "Slope = (10-2)/(6-4) = $\\frac{8}{2}$ = 4.",
     "challenge_tags": [
       "math-1"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the x-intercept of the line $y = 5x + 15$?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A gym membership costs $25 per month. Write a function C(m) for the total cost of 'm' months.",
@@ -302,7 +302,7 @@ module.exports = [
         "rationale": "This is the y-intercept."
       },
       {
-        "text": "2/3",
+        "text": "$\\frac{2}{3}$",
         "isCorrect": false,
         "rationale": "This is the x-intercept."
       }

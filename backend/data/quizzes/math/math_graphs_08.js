@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Given $f(x) = 20 - 3x$, find $f(5)$.",
@@ -53,17 +53,17 @@ module.exports = [
     "question": "What is the slope of a line passing through (-2, -1) and (4, 3)?",
     "answerOptions": [
       {
-        "text": "2/3",
+        "text": "$\\frac{2}{3}$",
         "isCorrect": true,
-        "rationale": "Slope = (3 - (-1)) / (4 - (-2)) = 4 / 6 = 2/3."
+        "rationale": "Slope = (3 - (-1)) / (4 - (-2)) = 4 / 6 = $\\frac{2}{3}$."
       },
       {
-        "text": "3/2",
+        "text": "$\\frac{3}{2}$",
         "isCorrect": false,
         "rationale": "This is the reciprocal of the slope."
       },
       {
-        "text": "-2/3",
+        "text": "$-\\frac{2}{3}$",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the x-intercept of the line $y = 2x - 10$.",
@@ -136,29 +136,29 @@ module.exports = [
         "rationale": "This has an incorrect slope."
       },
       {
-        "text": "$y = (-1/4)x + 4$",
+        "text": "$y = (-\\frac{1}{4})x + 4$",
         "isCorrect": false,
         "rationale": "This is a parallel line."
       },
       {
-        "text": "$y = (1/4)x$",
+        "text": "$y = (\\frac{1}{4})x$",
         "isCorrect": true,
-        "rationale": "The perpendicular slope is 1/4. Using y=mx+b: 2 = (1/4)(8) + b -> 2 = 2 + b -> b=0."
+        "rationale": "The perpendicular slope is $\\frac{1}{4}$. Using y=mx+b: 2 = ($\\frac{1}{4}$)(8) + b -> 2 = 2 + b -> b=0."
       },
       {
-        "text": "$y = (1/4)x + 2$",
+        "text": "$y = (\\frac{1}{4})x + 2$",
         "isCorrect": false,
         "rationale": "This does not pass through the given point."
       }
     ],
-    "rationale": "The slope of the given line is -4. The slope of a perpendicular line is the negative reciprocal, which is 1/4. Use the point-slope form y - y1 = m(x - x1): y - 2 = (1/4)(x - 8). y - 2 = (1/4)x - 2. So, y = (1/4)x.",
+    "rationale": "The slope of the given line is -4. The slope of a perpendicular line is the negative reciprocal, which is $\\frac{1}{4}$. Use the point-slope form y - y1 = m(x - x1): y - 2 = ($\\frac{1}{4}$)(x - 8). y - 2 = ($\\frac{1}{4}$)x - 2. So, y = ($\\frac{1}{4}$)x.",
     "challenge_tags": [
       "math-4"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the value of $f(x) = x^2 - 3x$ when $x=-4$.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A phone's value V(t) after t years is given by $V(t) = 800 - 150t$. What is the phone's value after 3 years?",

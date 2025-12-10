@@ -28,14 +28,14 @@ module.exports = [
         "rationale": "This is boys to total students."
       }
     ],
-    "rationale": "The ratio of boys to girls is 20:25. The greatest common divisor is 5. 20/5 = 4 and 25/5 = 5. The simplified ratio is 4:5.",
+    "rationale": "The ratio of boys to girls is 20:25. The greatest common divisor is 5. $\\frac{20}{5}$ = 4 and $\\frac{25}{5}$ = 5. The simplified ratio is 4:5.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A book costs $18. The sales tax is 5%. What is the total cost?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A recipe for lemonade uses 1 cup of lemon juice for every 4 cups of water. If you use 3 cups of lemon juice, how much water do you need?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A population decreased from 800 to 760. What was the percent decrease?",
@@ -193,7 +193,7 @@ module.exports = [
       {
         "text": "1.2",
         "isCorrect": false,
-        "rationale": "This is 6/5."
+        "rationale": "This is $\\frac{6}{5}$."
       }
     ],
     "rationale": "To solve for x, you can cross-multiply: 1 * x = 6 * 5, which means x = 30.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "A map scale is 1 cm : 15 km. The distance between two cities is 12 cm. What is the actual distance?",
@@ -228,12 +228,12 @@ module.exports = [
       {
         "text": "37.5%",
         "isCorrect": false,
-        "rationale": "This is 6/16."
+        "rationale": "This is $\\frac{6}{16}$."
       },
       {
         "text": "60%",
         "isCorrect": true,
-        "rationale": "The markup is $6. (6/10)*100 = 60%."
+        "rationale": "The markup is $6. (\\frac{6}{10})*100 = 60%."
       },
       {
         "text": "160%",
@@ -256,7 +256,7 @@ module.exports = [
       {
         "text": "15",
         "isCorrect": true,
-        "rationale": "The ratio of blue marbles is 5 times the ratio number (25/5=5), so the number of red marbles is 3*5=15."
+        "rationale": "The ratio of blue marbles is 5 times the ratio number ($\\frac{25}{5}$=5), so the number of red marbles is 3*5=15."
       },
       {
         "text": "25",

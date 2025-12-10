@@ -1,0 +1,405 @@
+[
+  {
+    "file": "math_algebra_02.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_algebra_03.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_algebra_04.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_algebra_05.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_algebra_06.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_algebra_07.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_algebra_08.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_algebra_09.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_algebra_10.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_algebra_11.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_algebra_12.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_01.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_02.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_03.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_04.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_05.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_06.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_07.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_08.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_09.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_10.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_11.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_data_12.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_01.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_02.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_03.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_04.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_05.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_06.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_07.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_08.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_09.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_10.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_11.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_12.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_geometry_tool_demo.js",
+    "question": 3,
+    "field": "answer[0].rationale",
+    "type": "plain_exponent",
+    "value": "r^2",
+    "suggestion": "$r^2$"
+  },
+  {
+    "file": "math_geometry_tool_demo.js",
+    "question": 3,
+    "field": "answer[3].rationale",
+    "type": "plain_exponent",
+    "value": "r^2",
+    "suggestion": "$r^2$"
+  },
+  {
+    "file": "math_geometry_tool_demo.js",
+    "question": 4,
+    "field": "answer[1].rationale",
+    "type": "plain_exponent",
+    "value": "12^2",
+    "suggestion": "$12^2$"
+  },
+  {
+    "file": "math_geometry_tool_demo.js",
+    "question": 5,
+    "field": "answer[0].rationale",
+    "type": "plain_exponent",
+    "value": "12^2",
+    "suggestion": "$12^2$"
+  },
+  {
+    "file": "math_geometry_tool_demo.js",
+    "question": 7,
+    "field": "answer[0].rationale",
+    "type": "plain_exponent",
+    "value": "6a^2",
+    "suggestion": "$6a^2$"
+  },
+  {
+    "file": "math_geometry_tool_demo.js",
+    "question": 7,
+    "field": "answer[2].rationale",
+    "type": "plain_exponent",
+    "value": "6a^2",
+    "suggestion": "$6a^2$"
+  },
+  {
+    "file": "math_graphs_01.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_graphs_02.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_graphs_03.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_graphs_04.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_graphs_05.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_graphs_06.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_graphs_07.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_graphs_08.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_graphs_09.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_graphs_10.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_graphs_11.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_graphs_12.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_01.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_02.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_03.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_04.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_05.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_06.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_07.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_08.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_09.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_10.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_11.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_number_sense_12.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_01.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_02.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_03.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_04.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_05.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_06.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_07.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_08.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_09.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_10.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_11.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  },
+  {
+    "file": "math_ratios_12.js",
+    "type": "file_error",
+    "message": "Invalid or unexpected token"
+  }
+]

@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the median of the data set: 3, 7, 1, 9, 4?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the range of the data set: 15, 2, 12, 25, 8?",
@@ -98,27 +98,27 @@ module.exports = [
     "question": "If you roll a standard six-sided die, what is the probability of rolling an even number?",
     "answerOptions": [
       {
-        "text": "1/6",
+        "text": "$\\frac{1}{6}$",
         "isCorrect": false,
         "rationale": "This is the probability of rolling one specific number."
       },
       {
-        "text": "1/3",
+        "text": "$\\frac{1}{3}$",
         "isCorrect": false,
         "rationale": "This is the probability of rolling a 2 or a 4, but not 6."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": true,
-        "rationale": "There are three even numbers (2, 4, 6) out of six possible outcomes. So the probability is 3/6, which simplifies to 1/2."
+        "rationale": "There are three even numbers (2, 4, 6) out of six possible outcomes. So the probability is $\\frac{3}{6}$, which simplifies to $\\frac{1}{2}$."
       },
       {
-        "text": "2/3",
+        "text": "$\\frac{2}{3}$",
         "isCorrect": false,
         "rationale": "This is the probability of rolling a number greater than 2."
       }
     ],
-    "rationale": "A standard six-sided die has three even numbers (2, 4, 6) and a total of six possible outcomes. The probability is the number of favorable outcomes divided by the total number of outcomes: 3/6 = 1/2.",
+    "rationale": "A standard six-sided die has three even numbers (2, 4, 6) and a total of six possible outcomes. The probability is the number of favorable outcomes divided by the total number of outcomes: $\\frac{3}{6}$ = $\\frac{1}{2}$.",
     "challenge_tags": [
       "math-6"
     ]
@@ -131,34 +131,34 @@ module.exports = [
     "question": "A bag contains 4 red marbles, 5 blue marbles, and 6 green marbles. What is the probability of drawing a blue marble at random?",
     "answerOptions": [
       {
-        "text": "1/3",
+        "text": "$\\frac{1}{3}$",
         "isCorrect": true,
-        "rationale": "There are 5 blue marbles and a total of 15 marbles (4+5+6). The probability is 5/15, which simplifies to 1/3."
+        "rationale": "There are 5 blue marbles and a total of 15 marbles (4+5+6). The probability is $\\frac{5}{15}$, which simplifies to $\\frac{1}{3}$."
       },
       {
-        "text": "1/5",
+        "text": "$\\frac{1}{5}$",
         "isCorrect": false,
         "rationale": "This incorrectly uses the number of blue marbles as the denominator."
       },
       {
-        "text": "4/15",
+        "text": "$\\frac{4}{15}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a red marble."
       },
       {
-        "text": "2/5",
+        "text": "$\\frac{2}{5}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a green marble."
       }
     ],
-    "rationale": "There are a total of 4 + 5 + 6 = 15 marbles. The number of blue marbles is 5. The probability is 5/15, which simplifies to 1/3.",
+    "rationale": "There are a total of 4 + 5 + 6 = 15 marbles. The number of blue marbles is 5. The probability is $\\frac{5}{15}$, which simplifies to $\\frac{1}{3}$.",
     "challenge_tags": [
       "math-6"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "The scores on a test were 75, 80, 80, 85, 90, 95. What is the median score?",
@@ -176,34 +176,34 @@ module.exports = [
     "question": "A spinner is divided into 8 equal sections, numbered 1 through 8. What is the probability of spinning a number greater than 5?",
     "answerOptions": [
       {
-        "text": "1/8",
+        "text": "$\\frac{1}{8}$",
         "isCorrect": false,
         "rationale": "This is the probability of spinning one specific number."
       },
       {
-        "text": "1/4",
+        "text": "$\\frac{1}{4}$",
         "isCorrect": false,
         "rationale": "This is the probability of spinning a 7 or 8."
       },
       {
-        "text": "3/8",
+        "text": "$\\frac{3}{8}$",
         "isCorrect": true,
         "rationale": "The numbers greater than 5 are 6, 7, and 8. There are 3 favorable outcomes out of 8 total."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": false,
         "rationale": "This is the probability of spinning an even number."
       }
     ],
-    "rationale": "The numbers greater than 5 are 6, 7, and 8. This is 3 favorable outcomes out of 8 possible outcomes. So the probability is 3/8.",
+    "rationale": "The numbers greater than 5 are 6, 7, and 8. This is 3 favorable outcomes out of 8 possible outcomes. So the probability is $\\frac{3}{8}$.",
     "challenge_tags": [
       "math-6"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A student's grades are 88, 92, 85, and 95. What grade must the student get on the fifth test to have an average of 90?",
@@ -287,12 +287,12 @@ module.exports = [
     "question": "A coin is flipped twice. What is the probability of getting heads on both flips?",
     "answerOptions": [
       {
-        "text": "1/4",
+        "text": "$\\frac{1}{4}$",
         "isCorrect": true,
-        "rationale": "The probability of heads on the first flip is 1/2. The probability of heads on the second is 1/2. The combined probability is (1/2) * (1/2) = 1/4."
+        "rationale": "The probability of heads on the first flip is $\\frac{1}{2}$. The probability of heads on the second is $\\frac{1}{2}$. The combined probability is ($\\frac{1}{2}$) * ($\\frac{1}{2}$) = $\\frac{1}{4}$."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": false,
         "rationale": "This is the probability of getting heads on a single flip."
       },
@@ -307,7 +307,7 @@ module.exports = [
         "rationale": "This would mean it's an impossible outcome."
       }
     ],
-    "rationale": "The probability of getting heads on one flip is 1/2. For two independent events, you multiply their probabilities. So, P(Heads and Heads) = (1/2) * (1/2) = 1/4.",
+    "rationale": "The probability of getting heads on one flip is $\\frac{1}{2}$. For two independent events, you multiply their probabilities. So, P(Heads and Heads) = ($\\frac{1}{2}$) * ($\\frac{1}{2}$) = $\\frac{1}{4}$.",
     "challenge_tags": [
       "math-6"
     ]

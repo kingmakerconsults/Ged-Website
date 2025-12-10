@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the mode of the data set: apple, pear, banana, apple, orange, pear, apple?",
@@ -80,12 +80,12 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the mean of the following numbers: 12, 15, 18, 21, 24.",
     "correctAnswer": "18",
-    "rationale": "The sum of the numbers is 12+15+18+21+24 = 90. Divide by 5: 90/5 = 18. Since the numbers are evenly spaced, the mean is the middle number.",
+    "rationale": "The sum of the numbers is 12+15+18+21+24 = 90. Divide by 5: $\\frac{90}{5}$ = 18. Since the numbers are evenly spaced, the mean is the middle number.",
     "challenge_tags": [
       "math-6"
     ]
@@ -98,27 +98,27 @@ module.exports = [
     "question": "A bag contains 10 red, 8 blue, and 2 green marbles. What is the probability of NOT drawing a blue marble?",
     "answerOptions": [
       {
-        "text": "2/5",
+        "text": "$\\frac{2}{5}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a blue marble."
       },
       {
-        "text": "3/5",
+        "text": "$\\frac{3}{5}$",
         "isCorrect": true,
-        "rationale": "There are 12 non-blue marbles (10 red + 2 green) and 20 total marbles. The probability is 12/20, which is 3/5."
+        "rationale": "There are 12 non-blue marbles (10 red + 2 green) and 20 total marbles. The probability is $\\frac{12}{20}$, which is $\\frac{3}{5}$."
       },
       {
-        "text": "1/10",
+        "text": "$\\frac{1}{10}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a green marble."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a red marble."
       }
     ],
-    "rationale": "There are a total of 10 + 8 + 2 = 20 marbles. The number of non-blue marbles is 10 (red) + 2 (green) = 12. The probability is 12/20, which simplifies to 3/5.",
+    "rationale": "There are a total of 10 + 8 + 2 = 20 marbles. The number of non-blue marbles is 10 (red) + 2 (green) = 12. The probability is $\\frac{12}{20}$, which simplifies to $\\frac{3}{5}$.",
     "challenge_tags": [
       "math-6"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A student's scores are 80, 85, 90, 95. What score is needed on the fifth test to achieve an average of 90?",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "A fair die is rolled. What is the probability of rolling a number less than 3?",
-    "correctAnswer": "1/3",
-    "rationale": "The numbers less than 3 are 1 and 2. There are 2 favorable outcomes out of 6 possible outcomes. The probability is 2/6, which simplifies to 1/3.",
+    "correctAnswer": "$\\frac{1}{3}$",
+    "rationale": "The numbers less than 3 are 1 and 2. There are 2 favorable outcomes out of 6 possible outcomes. The probability is $\\frac{2}{6}$, which simplifies to $\\frac{1}{3}$.",
     "challenge_tags": [
       "math-6"
     ]
@@ -254,27 +254,27 @@ module.exports = [
     "question": "Two dice are rolled. What is the probability that the sum of the numbers is 7?",
     "answerOptions": [
       {
-        "text": "1/36",
+        "text": "$\\frac{1}{36}$",
         "isCorrect": false,
         "rationale": "This is the probability of rolling a specific combination, like (1,6)."
       },
       {
-        "text": "1/12",
+        "text": "$\\frac{1}{12}$",
         "isCorrect": false,
-        "rationale": "This is 3/36."
+        "rationale": "This is $\\frac{3}{36}$."
       },
       {
-        "text": "1/6",
+        "text": "$\\frac{1}{6}$",
         "isCorrect": true,
-        "rationale": "There are 6 ways to get a sum of 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). There are 36 total outcomes. P(sum=7) = 6/36 = 1/6."
+        "rationale": "There are 6 ways to get a sum of 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). There are 36 total outcomes. P(sum=7) = $\\frac{6}{36}$ = $\\frac{1}{6}$."
       },
       {
-        "text": "7/36",
+        "text": "$\\frac{7}{36}$",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "There are 36 possible outcomes when rolling two dice. The combinations that sum to 7 are (1,6), (2,5), (3,4), (4,3), (5,2), and (6,1). There are 6 favorable outcomes. The probability is 6/36, which simplifies to 1/6.",
+    "rationale": "There are 36 possible outcomes when rolling two dice. The combinations that sum to 7 are (1,6), (2,5), (3,4), (4,3), (5,2), and (6,1). There are 6 favorable outcomes. The probability is $\\frac{6}{36}$, which simplifies to $\\frac{1}{6}$.",
     "challenge_tags": [
       "math-6"
     ]

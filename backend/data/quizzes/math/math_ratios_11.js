@@ -28,14 +28,14 @@ module.exports = [
         "rationale": "This is the ratio of total games to wins."
       }
     ],
-    "rationale": "The total number of games played is 15 (wins) + 5 (losses) = 20. The ratio of wins to total games is 15:20. To simplify, divide both numbers by 5. 15/5 = 3 and 20/5 = 4. The simplified ratio is 3:4.",
+    "rationale": "The total number of games played is 15 (wins) + 5 (losses) = 20. The ratio of wins to total games is 15:20. To simplify, divide both numbers by 5. $\\frac{15}{5}$ = 3 and $\\frac{20}{5}$ = 4. The simplified ratio is 3:4.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "You get 18 questions right on a 20-question test. What is your score as a percentage?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A map has a scale of 1 inch to 50 miles. How many inches on the map represent 200 miles?",
@@ -148,7 +148,7 @@ module.exports = [
       {
         "text": "2.7 lbs",
         "isCorrect": false,
-        "rationale": "This is 5/2.2."
+        "rationale": "This is $\\frac{5}{2}$.2."
       }
     ],
     "rationale": "To convert kilograms to pounds, multiply the number of kilograms by the conversion factor: 5 kg * 2.2 lbs/kg = 11 pounds.",
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The ratio of fiction to non-fiction books in a library is 4:3. If there are 1200 fiction books, how many non-fiction books are there?",
     "correctAnswer": "900",
-    "rationale": "Set up the proportion 4/3 = 1200/x. 4x = 3600. x = 900.",
+    "rationale": "Set up the proportion $\\frac{4}{3}$ = 1200/x. 4x = 3600. x = 900.",
     "challenge_tags": [
       "math-1"
     ]
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Solve the proportion: $\\frac{7}{3} = \\frac{x}{9}$.",
@@ -266,7 +266,7 @@ module.exports = [
       {
         "text": "90Â°",
         "isCorrect": true,
-        "rationale": "The total ratio parts is 6. 180/6 = 30. The largest angle is 3 * 30 = 90."
+        "rationale": "The total ratio parts is 6. $\\frac{180}{6}$ = 30. The largest angle is 3 * 30 = 90."
       },
       {
         "text": "180Â°",

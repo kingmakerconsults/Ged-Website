@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Calculate: $100 - 35$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate the expression: $5 + 3 \\times (8 - 2)$.",
@@ -105,7 +105,7 @@ module.exports = [
       {
         "text": "0.7",
         "isCorrect": false,
-        "rationale": "This would be 7/10."
+        "rationale": "This would be $\\frac{7}{10}$."
       },
       {
         "text": "0.20",
@@ -115,7 +115,7 @@ module.exports = [
       {
         "text": "3.5",
         "isCorrect": false,
-        "rationale": "This is 7/2."
+        "rationale": "This is $\\frac{7}{2}$."
       }
     ],
     "rationale": "To convert a fraction to a decimal, divide the numerator by the denominator. 7 Ã· 20 = 0.35.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the product of $-6$ and $9$?",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
-    "question": "A recipe requires 3/4 cup of sugar. If you are making 2.5 times the recipe, how many cups of sugar do you need?",
+    "question": "A recipe requires \\frac{3}{4} cup of sugar. If you are making 2.5 times the recipe, how many cups of sugar do you need?",
     "correctAnswer": "1.875 cups",
-    "rationale": "Convert the fraction to a decimal: 3/4 = 0.75. Then multiply by 2.5: 0.75 * 2.5 = 1.875 cups.",
+    "rationale": "Convert the fraction to a decimal: $\\frac{3}{4}$ = 0.75. Then multiply by 2.5: 0.75 * 2.5 = 1.875 cups.",
     "challenge_tags": [
       "math-1"
     ]
@@ -294,7 +294,7 @@ module.exports = [
       {
         "text": "$\\frac{1}{2}$",
         "isCorrect": true,
-        "rationale": "Find a common denominator (6). The problem becomes 5/6 - 2/6 = 3/6, which simplifies to 1/2."
+        "rationale": "Find a common denominator (6). The problem becomes $\\frac{5}{6}$ - $\\frac{2}{6}$ = $\\frac{3}{6}$, which simplifies to $\\frac{1}{2}$."
       },
       {
         "text": "$\\frac{2}{3}$",
@@ -304,10 +304,10 @@ module.exports = [
       {
         "text": "$\\frac{4}{6}$",
         "isCorrect": false,
-        "rationale": "This simplifies to 2/3."
+        "rationale": "This simplifies to $\\frac{2}{3}$."
       }
     ],
-    "rationale": "To subtract the fractions, find a common denominator, which is 6. Convert 1/3 to 2/6. The problem becomes $\\frac{5}{6} - \\frac{2}{6} = \\frac{3}{6}$, which simplifies to $\\frac{1}{2}$.",
+    "rationale": "To subtract the fractions, find a common denominator, which is 6. Convert $\\frac{1}{3}$ to $\\frac{2}{6}$. The problem becomes $\\frac{5}{6} - \\frac{2}{6} = \\frac{3}{6}$, which simplifies to $\\frac{1}{2}$.",
     "challenge_tags": [
       "math-1"
     ]

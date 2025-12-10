@@ -15,7 +15,7 @@ module.exports = [
       {
         "text": "25",
         "isCorrect": true,
-        "rationale": "Area = (1/2)*10*5 = 25."
+        "rationale": "Area = ($\\frac{1}{2}$)*10*5 = 25."
       },
       {
         "text": "30",
@@ -28,14 +28,14 @@ module.exports = [
         "rationale": "This is base*height."
       }
     ],
-    "rationale": "The area of a triangle is A = 1/2 * b * h. A = 1/2 * 10 * 5 = 25.",
+    "rationale": "The area of a triangle is A = $\\frac{1}{2}$ * b * h. A = $\\frac{1}{2}$ * 10 * 5 = 25.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle's area is 314 sq. units. What is its radius? Use 3.14 for $\\pi$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "An angle of 180Â° is a ___ angle.",
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the area of a square with perimeter 48?",
     "correctAnswer": "144",
-    "rationale": "The side length is 48/4 = 12. The area is $12^2$ = 144.",
+    "rationale": "The side length is \\frac{48}{4} = 12. The area is $12^2$ = 144.",
     "challenge_tags": [
       "math-5"
     ]
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "How many feet are in half a mile? (1 mile = 5280 feet)",
@@ -289,7 +289,7 @@ module.exports = [
       {
         "text": "100",
         "isCorrect": false,
-        "rationale": "The volume of a cone is 1/3 that of a cylinder with the same base and height."
+        "rationale": "The volume of a cone is $\\frac{1}{3}$ that of a cylinder with the same base and height."
       },
       {
         "text": "200",
@@ -307,7 +307,7 @@ module.exports = [
         "rationale": "It can be determined."
       }
     ],
-    "rationale": "The volume of a cone is given by V = (1/3) * pi * rÂ² * h, while the volume of a cylinder is V = pi * rÂ² * h. Therefore, a cylinder's volume is 3 times that of a cone with the same base and height. 3 * 100 = 300.",
+    "rationale": "The volume of a cone is given by V = ($\\frac{1}{3}$) * pi * rÂ² * h, while the volume of a cylinder is V = pi * rÂ² * h. Therefore, a cylinder's volume is 3 times that of a cone with the same base and height. 3 * 100 = 300.",
     "challenge_tags": [
       "math-5"
     ]

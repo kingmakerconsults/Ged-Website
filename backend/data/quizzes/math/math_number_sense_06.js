@@ -35,12 +35,12 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Convert 0.45 to a fraction in simplest form.",
-    "correctAnswer": "9/20",
-    "rationale": "0.45 is 45/100. Both numbers are divisible by 5. 45/5 = 9 and 100/5 = 20. So, the fraction is 9/20.",
+    "correctAnswer": "$\\frac{9}{20}$",
+    "rationale": "0.45 is $\\frac{45}{100}$. Both numbers are divisible by 5. $\\frac{45}{5}$ = 9 and $\\frac{100}{5}$ = 20. So, the fraction is $\\frac{9}{20}$.",
     "challenge_tags": [
       "math-1"
     ]
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the least common multiple (LCM) of 8 and 10.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A car travels 220 miles on 8 gallons of gas. What is its fuel efficiency in miles per gallon?",
@@ -188,7 +188,7 @@ module.exports = [
       {
         "text": "0.333...",
         "isCorrect": false,
-        "rationale": "This is a repeating decimal, which is a rational number (1/3)."
+        "rationale": "This is a repeating decimal, which is a rational number ($\\frac{1}{3}$)."
       },
       {
         "text": "$\\frac{7}{2}$",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "hard",
     "question": "Evaluate: $(2^3 + 2)^2$.",
@@ -223,7 +223,7 @@ module.exports = [
       {
         "text": "40",
         "isCorrect": false,
-        "rationale": "This is 60/1.5"
+        "rationale": "This is $\\frac{60}{1}$.5"
       },
       {
         "text": "90",
@@ -256,12 +256,12 @@ module.exports = [
       {
         "text": "0.75",
         "isCorrect": false,
-        "rationale": "This is equivalent to 3/4."
+        "rationale": "This is equivalent to $\\frac{3}{4}$."
       },
       {
         "text": "75%",
         "isCorrect": false,
-        "rationale": "This is equivalent to 3/4."
+        "rationale": "This is equivalent to $\\frac{3}{4}$."
       },
       {
         "text": "$\\frac{3}{4}$",
@@ -271,10 +271,10 @@ module.exports = [
       {
         "text": "$\\frac{4}{3}$",
         "isCorrect": true,
-        "rationale": "4/3 is greater than 1, while the others are all equal to 0.75."
+        "rationale": "$\\frac{4}{3}$ is greater than 1, while the others are all equal to 0.75."
       }
     ],
-    "rationale": "The values 0.75, 75%, and 3/4 are all equivalent. The fraction 4/3 is equal to 1.333..., which is different.",
+    "rationale": "The values 0.75, 75%, and $\\frac{3}{4}$ are all equivalent. The fraction $\\frac{4}{3}$ is equal to 1.333..., which is different.",
     "challenge_tags": [
       "math-1"
     ]

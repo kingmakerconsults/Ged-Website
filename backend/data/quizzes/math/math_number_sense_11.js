@@ -35,12 +35,12 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is 25% of 200?",
     "correctAnswer": "50",
-    "rationale": "25% is the same as 1/4. 1/4 of 200 is 200 / 4 = 50.",
+    "rationale": "25% is the same as $\\frac{1}{4}$. $\\frac{1}{4}$ of 200 is 200 / 4 = 50.",
     "challenge_tags": [
       "math-1"
     ]
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate: $10 + 4 \\times 2^3$.",
@@ -100,25 +100,25 @@ module.exports = [
       {
         "text": "$\\frac{3}{4}$",
         "isCorrect": false,
-        "rationale": "3/4 is 75%."
+        "rationale": "$\\frac{3}{4}$ is 75%."
       },
       {
         "text": "$\\frac{4}{5}$",
         "isCorrect": true,
-        "rationale": "80% is 80/100, which simplifies to 4/5."
+        "rationale": "80% is $\\frac{80}{100}$, which simplifies to $\\frac{4}{5}$."
       },
       {
         "text": "$\\frac{5}{6}$",
         "isCorrect": false,
-        "rationale": "5/6 is approx 83.3%."
+        "rationale": "$\\frac{5}{6}$ is approx 83.3%."
       },
       {
         "text": "$\\frac{7}{8}$",
         "isCorrect": false,
-        "rationale": "7/8 is 87.5%."
+        "rationale": "$\\frac{7}{8}$ is 87.5%."
       }
     ],
-    "rationale": "80% means 80 out of 100, or 80/100. This fraction can be simplified by dividing both the numerator and denominator by 20, which results in 4/5.",
+    "rationale": "80% means 80 out of 100, or $\\frac{80}{100}$. This fraction can be simplified by dividing both the numerator and denominator by 20, which results in $\\frac{4}{5}$.",
     "challenge_tags": [
       "math-1"
     ]
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
-    "question": "What is the result of $1/2 - 1/3$?",
-    "correctAnswer": "1/6",
-    "rationale": "The common denominator is 6. 1/2 = 3/6 and 1/3 = 2/6. 3/6 - 2/6 = 1/6.",
+    "question": "What is the result of $\\frac{1}{2} - 1/3$?",
+    "correctAnswer": "$\\frac{1}{6}$",
+    "rationale": "The common denominator is 6. $\\frac{1}{2}$ = $\\frac{3}{6}$ and $\\frac{1}{3}$ = $\\frac{2}{6}$. $\\frac{3}{6}$ - $\\frac{2}{6}$ = $\\frac{1}{6}$.",
     "challenge_tags": [
       "math-1"
     ]
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A car is traveling at 60 miles per hour. How many miles does it travel in 45 minutes?",
     "correctAnswer": "45 miles",
-    "rationale": "45 minutes is 3/4 of an hour (0.75 hours). Distance = Speed * Time = 60 mph * 0.75 hours = 45 miles.",
+    "rationale": "45 minutes is $\\frac{3}{4}$ of an hour (0.75 hours). Distance = Speed * Time = 60 mph * 0.75 hours = 45 miles.",
     "challenge_tags": [
       "math-1"
     ]

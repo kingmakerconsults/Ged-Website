@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A phone is discounted by 30%. If the original price was $600, what is the discount amount?",
@@ -55,7 +55,7 @@ module.exports = [
       {
         "text": "28 Euros",
         "isCorrect": true,
-        "rationale": "Set up a proportion: 5/4 = 35/x. Cross-multiply to get 5x = 140. Solve for x to get x = 28."
+        "rationale": "Set up a proportion: $\\frac{5}{4}$ = 35/x. Cross-multiply to get 5x = 140. Solve for x to get x = 28."
       },
       {
         "text": "34 Euros",
@@ -65,7 +65,7 @@ module.exports = [
       {
         "text": "43.75 Euros",
         "isCorrect": false,
-        "rationale": "This is the result of dividing 35 by 4/5."
+        "rationale": "This is the result of dividing 35 by $\\frac{4}{5}$."
       },
       {
         "text": "30 Euros",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The number of students in a school increased from 500 to 540. What was the percent increase?",
@@ -105,7 +105,7 @@ module.exports = [
       {
         "text": "9 cups",
         "isCorrect": true,
-        "rationale": "The ratio is 3:5. Since she is using 3 times the flour (15/5=3), she needs 3 times the sugar (3*3=9)."
+        "rationale": "The ratio is 3:5. Since she is using 3 times the flour ($\\frac{15}{5}$=3), she needs 3 times the sugar (3*3=9)."
       },
       {
         "text": "12 cups",
@@ -143,22 +143,22 @@ module.exports = [
       {
         "text": "150",
         "isCorrect": true,
-        "rationale": "3/5 of 250 is (3/5) * 250 = 750 / 5 = 150."
+        "rationale": "$\\frac{3}{5}$ of 250 is ($\\frac{3}{5}$) * 250 = 750 / 5 = 150."
       },
       {
         "text": "200",
         "isCorrect": false,
-        "rationale": "This is 4/5 of the people."
+        "rationale": "This is $\\frac{4}{5}$ of the people."
       }
     ],
-    "rationale": "The fraction of people who prefer Brand A is 3/5. To find the number of people, multiply this fraction by the total number surveyed: $\\frac{3}{5} \\times 250 = 150$ people.",
+    "rationale": "The fraction of people who prefer Brand A is $\\frac{3}{5}$. To find the number of people, multiply this fraction by the total number surveyed: $\\frac{3}{5} \\times 250 = 150$ people.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "Sales tax is 7.5%. If you purchase an item for $80, what is the total cost including tax?",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Simplify the ratio 24:36.",
     "correctAnswer": "2:3",
-    "rationale": "The greatest common divisor of 24 and 36 is 12. Divide both parts of the ratio by 12: 24/12 = 2 and 36/12 = 3. The simplified ratio is 2:3.",
+    "rationale": "The greatest common divisor of 24 and 36 is 12. Divide both parts of the ratio by 12: $\\frac{24}{12}$ = 2 and $\\frac{36}{12}$ = 3. The simplified ratio is 2:3.",
     "challenge_tags": [
       "math-1"
     ]

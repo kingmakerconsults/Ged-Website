@@ -35,12 +35,12 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the area of a triangle with a base of 15 cm and a height of 10 cm.",
     "correctAnswer": "75 cmÂ²",
-    "rationale": "The area of a triangle is A = 1/2 * b * h. So, A = 1/2 * 15 cm * 10 cm = 75 cmÂ².",
+    "rationale": "The area of a triangle is A = $\\frac{1}{2}$ * b * h. So, A = $\\frac{1}{2}$ * 15 cm * 10 cm = 75 cmÂ².",
     "challenge_tags": [
       "math-5"
     ]
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "An angle measuring 150Â° is what type of angle?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "How many degrees are in a right angle?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A room is 12 feet long and 15 feet wide. How many square yards of carpet are needed to cover the floor?",

@@ -8,34 +8,34 @@ module.exports = [
     "question": "What is the slope of a line that goes down 2 units for every 3 units it moves to the right?",
     "answerOptions": [
       {
-        "text": "2/3",
+        "text": "$\\frac{2}{3}$",
         "isCorrect": false,
         "rationale": "This is a positive slope."
       },
       {
-        "text": "-2/3",
+        "text": "$-\\frac{2}{3}$",
         "isCorrect": true,
         "rationale": "Slope is rise over run. Down 2 is a rise of -2, and right 3 is a run of 3."
       },
       {
-        "text": "3/2",
+        "text": "$\\frac{3}{2}$",
         "isCorrect": false,
         "rationale": "This is the reciprocal."
       },
       {
-        "text": "-3/2",
+        "text": "$-\\frac{3}{2}$",
         "isCorrect": false,
         "rationale": "This is the negative reciprocal."
       }
     ],
-    "rationale": "Slope is defined as 'rise over run'. A downward movement is a negative rise. So, the slope is -2/3.",
+    "rationale": "Slope is defined as 'rise over run'. A downward movement is a negative rise. So, the slope is -$\\frac{2}{3}$.",
     "challenge_tags": [
       "math-3"
     ]
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "If $f(x) = 3x$, what is $f(10)$?",
@@ -68,7 +68,7 @@ module.exports = [
         "rationale": "This does not have the correct slope."
       },
       {
-        "text": "y = 1/2x + 0.5",
+        "text": "y = \\frac{1}{2}x + 0.5",
         "isCorrect": false,
         "rationale": "This has the wrong slope."
       }
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of the line $4x - 2y = 8$?",
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
-    "question": "What is the slope of a line perpendicular to $y = -1/5x + 2$?",
+    "question": "What is the slope of a line perpendicular to $y = -\\frac{1}{5}x + 2$?",
     "correctAnswer": "5",
-    "rationale": "The slope of the given line is -1/5. The slope of a perpendicular line is the negative reciprocal, which is 5.",
+    "rationale": "The slope of the given line is -$\\frac{1}{5}$. The slope of a perpendicular line is the negative reciprocal, which is 5.",
     "challenge_tags": [
       "math-3"
     ]
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A function models the height of a ball, h(t) = -16tÂ² + 32t, where t is time in seconds. What is the height of the ball at t=1 second?",

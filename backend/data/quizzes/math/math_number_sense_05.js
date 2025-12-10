@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the next prime number after 19?",
@@ -80,12 +80,12 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Convert the improper fraction $\\frac{11}{4}$ to a mixed number.",
-    "correctAnswer": "2 3/4",
-    "rationale": "Divide 11 by 4. It goes in 2 times (2 * 4 = 8) with a remainder of 3. So the mixed number is 2 3/4.",
+    "correctAnswer": "2 \\frac{3}{4}",
+    "rationale": "Divide 11 by 4. It goes in 2 times (2 * 4 = 8) with a remainder of 3. So the mixed number is 2 $\\frac{3}{4}$.",
     "challenge_tags": [
       "math-1"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the sum of all prime numbers between 10 and 20?",
@@ -183,7 +183,7 @@ module.exports = [
       {
         "text": "11",
         "isCorrect": true,
-        "rationale": "Following order of operations, division comes first: 20/4 = 5. Then addition: 5 + 6 = 11."
+        "rationale": "Following order of operations, division comes first: $\\frac{20}{4}$ = 5. Then addition: 5 + 6 = 11."
       },
       {
         "text": "10",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A piece of wood is 8 feet long. If you cut off a piece that is 2.25 feet long, how many inches is the remaining piece?",
@@ -294,7 +294,7 @@ module.exports = [
       {
         "text": "$\\frac{11}{12}$",
         "isCorrect": true,
-        "rationale": "The common denominator is 12. The sum is 3/12 + 8/12 = 11/12."
+        "rationale": "The common denominator is 12. The sum is $\\frac{3}{12}$ + $\\frac{8}{12}$ = $\\frac{11}{12}$."
       },
       {
         "text": "$\\frac{1}{2}$",

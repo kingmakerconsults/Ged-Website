@@ -35,12 +35,12 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Convert 2.5 to a fraction.",
-    "correctAnswer": "5/2",
-    "rationale": "2.5 is two and a half, which can be written as the mixed number 2 1/2. As an improper fraction, this is (2*2+1)/2 = 5/2.",
+    "correctAnswer": "$\\frac{5}{2}$",
+    "rationale": "2.5 is two and a half, which can be written as the mixed number 2 $\\frac{1}{2}$. As an improper fraction, this is (2*2+1)/2 = $\\frac{5}{2}$.",
     "challenge_tags": [
       "math-1"
     ]
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate: $100 \\div 5^2$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the next number in the sequence: 3, 6, 12, 24, ...?",
@@ -173,7 +173,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "What is $1/2$ of 50?",
+    "question": "What is $\\frac{1}{2}$ of 50?",
     "answerOptions": [
       {
         "text": "20",
@@ -196,14 +196,14 @@ module.exports = [
         "rationale": "This is double the number."
       }
     ],
-    "rationale": "Taking 1/2 of a number is the same as dividing it by 2. 50 / 2 = 25.",
+    "rationale": "Taking $\\frac{1}{2}$ of a number is the same as dividing it by 2. 50 / 2 = 25.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A plane flies 1,200 miles in 3 hours. What is its average speed in miles per hour?",
@@ -231,17 +231,17 @@ module.exports = [
         "rationale": "75% is 0.75."
       },
       {
-        "text": "3/5",
+        "text": "$\\frac{3}{5}$",
         "isCorrect": false,
-        "rationale": "3/5 is 0.6."
+        "rationale": "$\\frac{3}{5}$ is 0.6."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": false,
-        "rationale": "1/2 is 0.5."
+        "rationale": "$\\frac{1}{2}$ is 0.5."
       }
     ],
-    "rationale": "To compare, convert all values to decimals: 75% = 0.75, 3/5 = 0.6, 1/2 = 0.5. The largest value is 0.8.",
+    "rationale": "To compare, convert all values to decimals: 75% = 0.75, $\\frac{3}{5}$ = 0.6, $\\frac{1}{2}$ = 0.5. The largest value is 0.8.",
     "challenge_tags": [
       "math-1"
     ]

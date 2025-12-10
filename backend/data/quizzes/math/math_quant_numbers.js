@@ -65,30 +65,30 @@ module.exports = [
     "questionNumber": 2
   },
   {
-    "question": "Which fraction is equivalent to 3/4?",
+    "question": "Which fraction is equivalent to $\frac{3}{4}$?",
     "type": "text",
     "challenge_tags": [
       "math-1"
     ],
     "answerOptions": [
       {
-        "text": "6/8",
+        "text": "$\frac{6}{8}$",
         "rationale": "Multiply numerator and denominator by 2.",
         "isCorrect": true
       },
       {
-        "text": "9/16",
+        "text": "$\frac{9}{16}$",
         "rationale": "Incorrect scaling.",
         "isCorrect": false
       },
       {
-        "text": "3/8",
+        "text": "$\frac{3}{8}$",
         "rationale": "Denominator doubled only.",
         "isCorrect": false
       },
       {
-        "text": "12/20",
-        "rationale": "Not equal: 12/20=3/5.",
+        "text": "$\frac{12}{20}$",
+        "rationale": "Not equal: $\frac{12}{20}$=$\frac{3}{5}$.",
         "isCorrect": false
       }
     ],
@@ -125,29 +125,29 @@ module.exports = [
     "questionNumber": 4
   },
   {
-    "question": "How many eighths are in 1/2?",
+    "question": "How many eighths are in $\frac{1}{2}$?",
     "type": "text",
     "challenge_tags": [
       "math-1"
     ],
     "answerOptions": [
       {
-        "text": "4/8",
-        "rationale": "1/2 equals 4/8.",
+        "text": "$\frac{4}{8}$",
+        "rationale": "$\frac{1}{2}$ equals $\frac{4}{8}$.",
         "isCorrect": true
       },
       {
-        "text": "2/8",
-        "rationale": "2/8 simplifies to 1/4.",
+        "text": "$\frac{2}{8}$",
+        "rationale": "$\frac{2}{8}$ simplifies to $\frac{1}{4}$.",
         "isCorrect": false
       },
       {
-        "text": "6/8",
-        "rationale": "This equals 3/4.",
+        "text": "$\frac{6}{8}$",
+        "rationale": "This equals $\frac{3}{4}$.",
         "isCorrect": false
       },
       {
-        "text": "8/8",
+        "text": "$\frac{8}{8}$",
         "rationale": "That is 1 whole.",
         "isCorrect": false
       }
@@ -192,23 +192,23 @@ module.exports = [
     ],
     "answerOptions": [
       {
-        "text": "3/4",
-        "rationale": "0.75 = 75/100 = 3/4 simplified.",
+        "text": "$\frac{3}{4}$",
+        "rationale": "0.75 = $\frac{75}{100}$ = $\frac{3}{4}$ simplified.",
         "isCorrect": true
       },
       {
-        "text": "1/4",
-        "rationale": "0.25 = 1/4.",
+        "text": "$\frac{1}{4}$",
+        "rationale": "0.25 = $\frac{1}{4}$.",
         "isCorrect": false
       },
       {
-        "text": "7/8",
-        "rationale": "0.875 = 7/8.",
+        "text": "$\frac{7}{8}$",
+        "rationale": "0.875 = $\frac{7}{8}$.",
         "isCorrect": false
       },
       {
-        "text": "6/8",
-        "rationale": "Equivalent but not simplest (3/4).",
+        "text": "$\frac{6}{8}$",
+        "rationale": "Equivalent but not simplest ($\frac{3}{4}$).",
         "isCorrect": false
       }
     ],
@@ -222,7 +222,7 @@ module.exports = [
     ],
     "answerOptions": [
       {
-        "text": "20/3",
+        "text": "$\frac{20}{3}$",
         "rationale": "Sum=20, divide by 3.",
         "isCorrect": true
       },
@@ -252,23 +252,23 @@ module.exports = [
     ],
     "answerOptions": [
       {
-        "text": "0.5 = 1/2",
+        "text": "0.5 = $\frac{1}{2}$",
         "rationale": "Decimal equals fraction.",
         "isCorrect": true
       },
       {
-        "text": "0.5 = 1/3",
-        "rationale": "1/3 ≈ 0.333.",
+        "text": "0.5 = $\frac{1}{3}$",
+        "rationale": "$\frac{1}{3}$ ≈ 0.333.",
         "isCorrect": false
       },
       {
-        "text": "0.25 = 1/2",
-        "rationale": "1/2=0.5.",
+        "text": "0.25 = $\frac{1}{2}$",
+        "rationale": "$\frac{1}{2}$=0.5.",
         "isCorrect": false
       },
       {
-        "text": "0.2 = 1/4",
-        "rationale": "1/4=0.25.",
+        "text": "0.2 = $\frac{1}{4}$",
+        "rationale": "$\frac{1}{4}$=0.25.",
         "isCorrect": false
       }
     ],

@@ -359,12 +359,12 @@ module.exports = [
         "rationale": "Parallel lines have the same slope. Both lines have a slope of 4."
       },
       {
-        "text": "$y = (1/4)x + 3$",
+        "text": "$y = (\frac{1}{4})x + 3$",
         "isCorrect": false,
         "rationale": "This slope is the reciprocal, not the same."
       },
       {
-        "text": "$y = - (1/4)x - 1$",
+        "text": "$y = - (\frac{1}{4})x - 1$",
         "isCorrect": false,
         "rationale": "This is the slope of a perpendicular line."
       }

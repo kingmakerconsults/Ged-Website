@@ -15,12 +15,12 @@ module.exports = [
       {
         "text": "2",
         "isCorrect": false,
-        "rationale": "This is 40/20."
+        "rationale": "This is $\\frac{40}{20}$."
       },
       {
         "text": "200",
         "isCorrect": false,
-        "rationale": "This is 400/2."
+        "rationale": "This is $\\frac{400}{2}$."
       },
       {
         "text": "8000",
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the result of $1.5 \\times 4$?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate: $50 - (10 - 4)^2$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the result of multiplying -7 by -5?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A recipe for 12 cupcakes requires 1.5 cups of flour. How much flour is needed for 30 cupcakes?",
@@ -256,7 +256,7 @@ module.exports = [
       {
         "text": "10%",
         "isCorrect": true,
-        "rationale": "The decrease is 15 lbs. (15/150)*100 = 10%."
+        "rationale": "The decrease is 15 lbs. ($\\frac{15}{150}$)*100 = 10%."
       },
       {
         "text": "15%",
@@ -266,12 +266,12 @@ module.exports = [
       {
         "text": "11.1%",
         "isCorrect": false,
-        "rationale": "This is 15/135."
+        "rationale": "This is $\\frac{15}{135}$."
       },
       {
         "text": "90%",
         "isCorrect": false,
-        "rationale": "This is 135/150."
+        "rationale": "This is $\\frac{135}{150}$."
       }
     ],
     "rationale": "The amount of decrease is 150 - 135 = 15 lbs. The percent decrease is (decrease / original amount) * 100 = (15 / 150) * 100 = 0.10 * 100 = 10%.",

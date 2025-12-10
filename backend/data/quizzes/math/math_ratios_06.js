@@ -28,14 +28,14 @@ module.exports = [
         "rationale": "This is the inverse of the simplified ratio."
       }
     ],
-    "rationale": "The ratio of glazed donuts to total is 8:24. Both numbers are divisible by 8. 8/8 = 1 and 24/8 = 3. The simplified ratio is 1:3.",
+    "rationale": "The ratio of glazed donuts to total is 8:24. Both numbers are divisible by 8. $\\frac{8}{8}$ = 1 and $\\frac{24}{8}$ = 3. The simplified ratio is 1:3.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A computer that was originally $1200 is now on sale for $900. What is the percent decrease in price?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "If 3 oranges cost $1.50, what is the cost of one orange?",
@@ -158,12 +158,12 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A recipe requires flour and sugar in a ratio of 5:2. If you use 8 cups of flour, how much sugar do you need?",
     "correctAnswer": "3.2 cups",
-    "rationale": "Set up a proportion: 5/2 = 8/x. Cross-multiply: 5x = 16. Solve for x: x = 16/5 = 3.2 cups.",
+    "rationale": "Set up a proportion: $\\frac{5}{2}$ = 8/x. Cross-multiply: 5x = 16. Solve for x: x = $\\frac{16}{5}$ = 3.2 cups.",
     "challenge_tags": [
       "math-1"
     ]
@@ -178,12 +178,12 @@ module.exports = [
       {
         "text": "4",
         "isCorrect": false,
-        "rationale": "This is 12/3."
+        "rationale": "This is $\\frac{12}{3}$."
       },
       {
         "text": "6",
         "isCorrect": false,
-        "rationale": "This is 12/2."
+        "rationale": "This is $\\frac{12}{2}$."
       },
       {
         "text": "8",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "You pay $12 for a movie ticket that was 25% off. What was the original price?",
@@ -256,7 +256,7 @@ module.exports = [
       {
         "text": "160",
         "isCorrect": true,
-        "rationale": "The ratio parts are 4+5=9. 360/9 = 40. Boys = 4 * 40 = 160."
+        "rationale": "The ratio parts are 4+5=9. $\\frac{360}{9}$ = 40. Boys = 4 * 40 = 160."
       },
       {
         "text": "180",
@@ -271,7 +271,7 @@ module.exports = [
       {
         "text": "288",
         "isCorrect": false,
-        "rationale": "This is 4/5 of 360."
+        "rationale": "This is $\\frac{4}{5}$ of 360."
       }
     ],
     "rationale": "The total number of parts in the ratio is 4 + 5 = 9. Divide the total number of students by the total number of parts to find the value of one part: 360 / 9 = 40. The number of boys is 4 parts, so 4 * 40 = 160.",
@@ -294,7 +294,7 @@ module.exports = [
       {
         "text": "187.5 miles",
         "isCorrect": true,
-        "rationale": "The rate is 75/2 = 37.5 miles per inch. 5 inches * 37.5 miles/inch = 187.5 miles."
+        "rationale": "The rate is $\\frac{75}{2}$ = 37.5 miles per inch. 5 inches * 37.5 miles/inch = 187.5 miles."
       },
       {
         "text": "225 miles",

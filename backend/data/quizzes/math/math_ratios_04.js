@@ -20,7 +20,7 @@ module.exports = [
       {
         "text": "15",
         "isCorrect": true,
-        "rationale": "The ratio parts are 5+3=8. The factor is 24/8=3. So, wins are 5*3=15."
+        "rationale": "The ratio parts are 5+3=8. The factor is $\\frac{24}{8}$=3. So, wins are 5*3=15."
       },
       {
         "text": "21",
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A shirt that costs $40 is on sale for 15% off. What is the sale price?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A map scale is 1 inch : 25 miles. If the distance on the map is 4 inches, what is the actual distance?",
@@ -143,7 +143,7 @@ module.exports = [
       {
         "text": "40%",
         "isCorrect": true,
-        "rationale": "The fraction is 8/20, which is equal to 4/10 or 0.4. As a percentage, this is 40%."
+        "rationale": "The fraction is $\\frac{8}{20}$, which is equal to $\\frac{4}{10}$ or 0.4. As a percentage, this is 40%."
       },
       {
         "text": "50%",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A meal costs $50. You leave a tip of $8. What percentage tip did you leave?",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Solve the proportion: $\\frac{6}{x} = \\frac{18}{24}$",
     "correctAnswer": "8",
-    "rationale": "Simplify the fraction 18/24 to 3/4. So, 6/x = 3/4. Cross-multiply: 3x = 24. Solve for x: x = 8.",
+    "rationale": "Simplify the fraction $\\frac{18}{24}$ to $\\frac{3}{4}$. So, 6/x = $\\frac{3}{4}$. Cross-multiply: 3x = 24. Solve for x: x = 8.",
     "challenge_tags": [
       "math-1"
     ]

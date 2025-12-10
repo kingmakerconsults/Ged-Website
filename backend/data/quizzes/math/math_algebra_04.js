@@ -2,7 +2,7 @@
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for y: $y + 12 = 20$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Simplify: $x(x + 5) - 3x$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Solve the inequality: $4x - 5 < 11$.",
@@ -203,12 +203,12 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the slope of the line that is perpendicular to the line passing through (2, 2) and (5, 8)?",
-    "correctAnswer": "-1/2",
-    "rationale": "First, find the slope of the line: m = (8-2)/(5-2) = 6/3 = 2. The slope of a perpendicular line is the negative reciprocal, which is -1/2.",
+    "correctAnswer": "$-\\frac{1}{2}$",
+    "rationale": "First, find the slope of the line: m = (8-2)/(5-2) = $\\frac{6}{3}$ = 2. The slope of a perpendicular line is the negative reciprocal, which is -$\\frac{1}{2}$.",
     "challenge_tags": [
       "math-3"
     ]

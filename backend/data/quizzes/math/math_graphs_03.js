@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the slope of the equation $y = -x + 4$?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A line passes through (0, 1) and (3, 7). What is its y-intercept?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the slope of the line given by the equation $4x + 2y = 10$?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "For the function $h(t) = -16t^2 + 64t$, find the value of $h(2)$.",
@@ -238,10 +238,10 @@ module.exports = [
       {
         "text": "$y = -\\frac{1}{5}x + 4$",
         "isCorrect": true,
-        "rationale": "The slope of a perpendicular line is the negative reciprocal of the original slope. The negative reciprocal of 5 is -1/5."
+        "rationale": "The slope of a perpendicular line is the negative reciprocal of the original slope. The negative reciprocal of 5 is -$\\frac{1}{5}$."
       }
     ],
-    "rationale": "The slope of the given line is 5. The slope of a perpendicular line is the negative reciprocal, which is -1/5. This equation has a slope of -1/5.",
+    "rationale": "The slope of the given line is 5. The slope of a perpendicular line is the negative reciprocal, which is -$\\frac{1}{5}$. This equation has a slope of -$\\frac{1}{5}$.",
     "challenge_tags": [
       "math-1"
     ]
@@ -304,7 +304,7 @@ module.exports = [
       {
         "text": "The number of years until the car has no value",
         "isCorrect": false,
-        "rationale": "This would be 25000/1500."
+        "rationale": "This would be $\\frac{25000}{1500}$."
       }
     ],
     "rationale": "In this linear function, the slope (-1500) represents the rate of change of the car's value per year. Since it's negative, it represents a decrease.",

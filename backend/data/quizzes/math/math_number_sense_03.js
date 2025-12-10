@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the product of 15 and 4?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate: $3^3 - 2 \\times 5$.",
@@ -100,25 +100,25 @@ module.exports = [
       {
         "text": "$\\frac{6}{5}$",
         "isCorrect": false,
-        "rationale": "6/5 is equal to 1.2."
+        "rationale": "$\\frac{6}{5}$ is equal to 1.2."
       },
       {
         "text": "$\\frac{13}{20}$",
         "isCorrect": true,
-        "rationale": "0.65 can be written as 65/100, which simplifies to 13/20."
+        "rationale": "0.65 can be written as $\\frac{65}{100}$, which simplifies to $\\frac{13}{20}$."
       },
       {
         "text": "$\\frac{2}{3}$",
         "isCorrect": false,
-        "rationale": "2/3 is approximately 0.67."
+        "rationale": "$\\frac{2}{3}$ is approximately 0.67."
       },
       {
         "text": "$\\frac{65}{10}$",
         "isCorrect": false,
-        "rationale": "65/10 is equal to 6.5."
+        "rationale": "$\\frac{65}{10}$ is equal to 6.5."
       }
     ],
-    "rationale": "The decimal 0.65 means 65 hundredths, or 65/100. This fraction can be simplified by dividing both the numerator and denominator by 5, which results in 13/20.",
+    "rationale": "The decimal 0.65 means 65 hundredths, or $\\frac{65}{100}$. This fraction can be simplified by dividing both the numerator and denominator by 5, which results in $\\frac{13}{20}$.",
     "challenge_tags": [
       "math-1"
     ]
@@ -138,7 +138,7 @@ module.exports = [
       {
         "text": "15%",
         "isCorrect": true,
-        "rationale": "The price decreased by $120. The percent decrease is (120/800) * 100 = 15%."
+        "rationale": "The price decreased by $120. The percent decrease is (\\frac{120}{800}) * 100 = 15%."
       },
       {
         "text": "20%",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the greatest common factor (GCF) of 24 and 30?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A company has 120 employees. If 45% are in the sales department, how many employees are NOT in the sales department?",

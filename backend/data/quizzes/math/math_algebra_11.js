@@ -2,7 +2,7 @@
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Solve for x: $3x = 33$.",
@@ -55,7 +55,7 @@ module.exports = [
       {
         "text": "0.8",
         "isCorrect": false,
-        "rationale": "This is 4/5."
+        "rationale": "This is $\\frac{4}{5}$."
       },
       {
         "text": "4",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Simplify the expression: $3(2x + 1) - 4x$.",
@@ -148,7 +148,7 @@ module.exports = [
       {
         "text": "4.33",
         "isCorrect": false,
-        "rationale": "This is 13/3."
+        "rationale": "This is $\\frac{13}{3}$."
       }
     ],
     "rationale": "Let the number be n. 'A number is tripled' is 3n. '7 is subtracted' is 3n - 7. Set this equal to 20: 3n - 7 = 20. Add 7: 3n = 27. Divide by 3: n = 9.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "If $f(x) = 10 - x^2$, what is $f(4)$?",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Solve the inequality: $2x + 8 > 20$.",
@@ -218,7 +218,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "What is the equation of a line with a slope of 1/2 and a y-intercept of 4?",
+    "question": "What is the equation of a line with a slope of \\frac{1}{2} and a y-intercept of 4?",
     "answerOptions": [
       {
         "text": "$y = 4x + 1/2$",
@@ -226,22 +226,22 @@ module.exports = [
         "rationale": "This reverses the slope and y-intercept."
       },
       {
-        "text": "$y = 1/2x + 4$",
+        "text": "$y = \\frac{1}{2}x + 4$",
         "isCorrect": true,
         "rationale": "This fits the y=mx+b form with the given values."
       },
       {
-        "text": "$y = 1/2x - 4$",
+        "text": "$y = \\frac{1}{2}x - 4$",
         "isCorrect": false,
         "rationale": "This has the wrong y-intercept."
       },
       {
-        "text": "$x = 1/2y + 4$",
+        "text": "$x = \\frac{1}{2}y + 4$",
         "isCorrect": false,
         "rationale": "This reverses x and y."
       }
     ],
-    "rationale": "Using the slope-intercept form y = mx + b, substitute m = 1/2 and b = 4 to get y = (1/2)x + 4.",
+    "rationale": "Using the slope-intercept form y = mx + b, substitute m = $\\frac{1}{2}$ and b = 4 to get y = ($\\frac{1}{2}$)x + 4.",
     "challenge_tags": [
       "math-3"
     ]

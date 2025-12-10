@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the range of the following temperatures: 22, 15, 28, 12, 30?",
@@ -60,7 +60,7 @@ module.exports = [
       {
         "text": "120",
         "isCorrect": true,
-        "rationale": "The sum is 600. 600/5 = 120. As the numbers are evenly spaced, the mean is the middle number."
+        "rationale": "The sum is 600. $\\frac{600}{5}$ = 120. As the numbers are evenly spaced, the mean is the middle number."
       },
       {
         "text": "130",
@@ -80,12 +80,12 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "A drawer contains 6 black socks, 4 white socks, and 2 brown socks. What is the probability of randomly selecting a white sock?",
-    "correctAnswer": "1/3",
-    "rationale": "There are 4 white socks and a total of 12 socks (6+4+2). The probability is 4/12, which simplifies to 1/3.",
+    "correctAnswer": "$\\frac{1}{3}$",
+    "rationale": "There are 4 white socks and a total of 12 socks (6+4+2). The probability is $\\frac{4}{12}$, which simplifies to $\\frac{1}{3}$.",
     "challenge_tags": [
       "math-6"
     ]
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The average score of 5 students on a test is 82. If a sixth student scores a 94, what is the new average?",
@@ -176,17 +176,17 @@ module.exports = [
     "question": "A spinner is divided into 4 equal sections: Red, Green, Blue, Yellow. What is the probability of the spinner NOT landing on Red?",
     "answerOptions": [
       {
-        "text": "1/4",
+        "text": "$\\frac{1}{4}$",
         "isCorrect": false,
         "rationale": "This is the probability of landing on Red."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": false,
         "rationale": "This would be the case for a 2-section spinner."
       },
       {
-        "text": "3/4",
+        "text": "$\\frac{3}{4}$",
         "isCorrect": true,
         "rationale": "There are 3 outcomes that are not Red (Green, Blue, Yellow) out of 4 total outcomes."
       },
@@ -196,14 +196,14 @@ module.exports = [
         "rationale": "This would mean it's certain not to land on Red."
       }
     ],
-    "rationale": "There are 4 possible outcomes. The probability of landing on Red is 1/4. The probability of NOT landing on Red is 1 - P(Red) = 1 - 1/4 = 3/4.",
+    "rationale": "There are 4 possible outcomes. The probability of landing on Red is $\\frac{1}{4}$. The probability of NOT landing on Red is 1 - P(Red) = 1 - $\\frac{1}{4}$ = $\\frac{3}{4}$.",
     "challenge_tags": [
       "math-6"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the mode of the following numbers? 1, 2, 2, 3, 3, 3, 4, 4, 5",
@@ -254,27 +254,27 @@ module.exports = [
     "question": "You have a bag with 5 red balls and 5 blue balls. What is the probability of drawing two red balls in a row without replacement?",
     "answerOptions": [
       {
-        "text": "1/4",
+        "text": "$\\frac{1}{4}$",
         "isCorrect": false,
-        "rationale": "This is 25/100."
+        "rationale": "This is $\\frac{25}{100}$."
       },
       {
-        "text": "2/9",
+        "text": "$\\frac{2}{9}$",
         "isCorrect": true,
-        "rationale": "P(1st is red) = 5/10. P(2nd is red) = 4/9. P(both red) = (5/10) * (4/9) = 20/90 = 2/9."
+        "rationale": "P(1st is red) = $\\frac{5}{10}$. P(2nd is red) = $\\frac{4}{9}$. P(both red) = ($\\frac{5}{10}$) * ($\\frac{4}{9}$) = $\\frac{20}{90}$ = $\\frac{2}{9}$."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing one red ball."
       },
       {
-        "text": "5/9",
+        "text": "$\\frac{5}{9}$",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The probability of the first ball being red is 5/10. After drawing one red ball, there are 4 red balls left and a total of 9 balls. So, the probability of the second ball being red is 4/9. The total probability is (5/10) * (4/9) = 20/90 = 2/9.",
+    "rationale": "The probability of the first ball being red is $\\frac{5}{10}$. After drawing one red ball, there are 4 red balls left and a total of 9 balls. So, the probability of the second ball being red is $\\frac{4}{9}$. The total probability is ($\\frac{5}{10}$) * ($\\frac{4}{9}$) = $\\frac{20}{90}$ = $\\frac{2}{9}$.",
     "challenge_tags": [
       "math-6"
     ]

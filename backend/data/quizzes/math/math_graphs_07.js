@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the slope of the line that passes through (1, 3) and (4, 9)?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of the line $2x - 3y = 12$?",
@@ -108,7 +108,7 @@ module.exports = [
         "rationale": "Parallel lines have the same slope. This line also has a slope of 4."
       },
       {
-        "text": "$y = (1/4)x - 1$",
+        "text": "$y = (\\frac{1}{4})x - 1$",
         "isCorrect": false,
         "rationale": "This is a perpendicular line."
       },
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "If $f(x) = 2x$ and $g(x) = x - 1$, find $f(g(4))$.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A bank account balance B(t) after t years is modeled by $B(t) = 500(1.03)^t$. What is the balance after 2 years?",
@@ -223,7 +223,7 @@ module.exports = [
       {
         "text": "(2, 6)",
         "isCorrect": true,
-        "rationale": "Midpoint = ((-2+6)/2, (4+8)/2) = (4/2, 12/2) = (2, 6)."
+        "rationale": "Midpoint = ((-2+6)/2, (4+8)/2) = ($\\frac{4}{2}$, $\\frac{12}{2}$) = (2, 6)."
       },
       {
         "text": "(4, 12)",
@@ -284,7 +284,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "A linear function passes through (0, 5) and has a slope of -1/2. What is its value at x=4?",
+    "question": "A linear function passes through (0, 5) and has a slope of -\\frac{1}{2}. What is its value at x=4?",
     "answerOptions": [
       {
         "text": "1",
@@ -294,7 +294,7 @@ module.exports = [
       {
         "text": "3",
         "isCorrect": true,
-        "rationale": "The equation is y = (-1/2)x + 5. At x=4, y = (-1/2)(4) + 5 = -2 + 5 = 3."
+        "rationale": "The equation is y = (-$\\frac{1}{2}$)x + 5. At x=4, y = (-$\\frac{1}{2}$)(4) + 5 = -2 + 5 = 3."
       },
       {
         "text": "4",
@@ -307,7 +307,7 @@ module.exports = [
         "rationale": "This is the y-intercept."
       }
     ],
-    "rationale": "The equation of the line is y = mx + b. We are given m = -1/2 and the y-intercept b = 5. So, y = (-1/2)x + 5. To find the value at x=4, substitute it into the equation: y = (-1/2)(4) + 5 = -2 + 5 = 3.",
+    "rationale": "The equation of the line is y = mx + b. We are given m = -$\\frac{1}{2}$ and the y-intercept b = 5. So, y = (-$\\frac{1}{2}$)x + 5. To find the value at x=4, substitute it into the equation: y = (-$\\frac{1}{2}$)(4) + 5 = -2 + 5 = 3.",
     "challenge_tags": [
       "math-4"
     ]

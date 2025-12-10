@@ -35,11 +35,11 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A standard die is rolled once. What is the probability of rolling a 5?",
-    "correctAnswer": "1/6",
+    "correctAnswer": "$\\frac{1}{6}$",
     "rationale": "There is one '5' on a standard six-sided die, so there is 1 favorable outcome out of 6 total possible outcomes.",
     "challenge_tags": [
       "math-6"
@@ -60,7 +60,7 @@ module.exports = [
       {
         "text": "84",
         "isCorrect": true,
-        "rationale": "The sum of the scores is 70+80+80+90+100 = 420. Divide by 5 scores: 420/5 = 84."
+        "rationale": "The sum of the scores is 70+80+80+90+100 = 420. Divide by 5 scores: $\\frac{420}{5}$ = 84."
       },
       {
         "text": "85",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A basketball player scores 15, 20, 22, and 18 points in four games. How many points must they score in the fifth game to have an average of 20 points per game?",
@@ -131,34 +131,34 @@ module.exports = [
     "question": "A classroom has 12 girls and 18 boys. If a student is chosen at random, what is the probability that the student is a girl?",
     "answerOptions": [
       {
-        "text": "2/5",
+        "text": "$\\frac{2}{5}$",
         "isCorrect": true,
-        "rationale": "There are 12 girls and a total of 30 students. The probability is 12/30, which simplifies to 2/5."
+        "rationale": "There are 12 girls and a total of 30 students. The probability is $\\frac{12}{30}$, which simplifies to $\\frac{2}{5}$."
       },
       {
-        "text": "3/5",
+        "text": "$\\frac{3}{5}$",
         "isCorrect": false,
         "rationale": "This is the probability of choosing a boy."
       },
       {
-        "text": "2/3",
+        "text": "$\\frac{2}{3}$",
         "isCorrect": false,
         "rationale": "This is the ratio of girls to boys."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": false,
         "rationale": "This would be true if there were equal numbers of boys and girls."
       }
     ],
-    "rationale": "There are a total of 12 + 18 = 30 students. The number of girls is 12. The probability of choosing a girl is 12/30, which simplifies to 2/5.",
+    "rationale": "There are a total of 12 + 18 = 30 students. The number of girls is 12. The probability of choosing a girl is $\\frac{12}{30}$, which simplifies to $\\frac{2}{5}$.",
     "challenge_tags": [
       "math-6"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the mode of the following set of data: red, blue, green, blue, red, blue.",
@@ -176,34 +176,34 @@ module.exports = [
     "question": "A coin is tossed, and a die is rolled. What is the probability of getting a tail and a 4?",
     "answerOptions": [
       {
-        "text": "1/12",
+        "text": "$\\frac{1}{12}$",
         "isCorrect": true,
-        "rationale": "The probability of a tail is 1/2. The probability of a 4 is 1/6. The combined probability is (1/2) * (1/6) = 1/12."
+        "rationale": "The probability of a tail is $\\frac{1}{2}$. The probability of a 4 is $\\frac{1}{6}$. The combined probability is ($\\frac{1}{2}$) * ($\\frac{1}{6}$) = $\\frac{1}{12}$."
       },
       {
-        "text": "1/8",
+        "text": "$\\frac{1}{8}$",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },
       {
-        "text": "2/3",
+        "text": "$\\frac{2}{3}$",
         "isCorrect": false,
-        "rationale": "This is 1/2 + 1/6."
+        "rationale": "This is $\\frac{1}{2}$ + $\\frac{1}{6}$."
       },
       {
-        "text": "1/6",
+        "text": "$\\frac{1}{6}$",
         "isCorrect": false,
         "rationale": "This is only the probability of rolling a 4."
       }
     ],
-    "rationale": "These are independent events, so their probabilities are multiplied. The probability of a tail is 1/2, and the probability of rolling a 4 is 1/6. So, P(tail and 4) = 1/2 * 1/6 = 1/12.",
+    "rationale": "These are independent events, so their probabilities are multiplied. The probability of a tail is $\\frac{1}{2}$, and the probability of rolling a 4 is $\\frac{1}{6}$. So, P(tail and 4) = $\\frac{1}{2}$ * $\\frac{1}{6}$ = $\\frac{1}{12}$.",
     "challenge_tags": [
       "math-6"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A survey of 50 people shows that 35 like pop music, 25 like rock music, and 15 like both. How many people like neither?",
@@ -287,27 +287,27 @@ module.exports = [
     "question": "A spinner has 5 equal sections: red, blue, green, yellow, purple. What is the probability of landing on a primary color (red, yellow, or blue)?",
     "answerOptions": [
       {
-        "text": "1/5",
+        "text": "$\\frac{1}{5}$",
         "isCorrect": false,
         "rationale": "This is the probability of landing on one specific color."
       },
       {
-        "text": "2/5",
+        "text": "$\\frac{2}{5}$",
         "isCorrect": false,
         "rationale": "This is the probability of landing on a secondary color."
       },
       {
-        "text": "3/5",
+        "text": "$\\frac{3}{5}$",
         "isCorrect": true,
         "rationale": "There are 3 primary colors out of 5 total colors."
       },
       {
-        "text": "4/5",
+        "text": "$\\frac{4}{5}$",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "There are 3 favorable outcomes (red, yellow, blue) out of 5 possible outcomes. The probability is 3/5.",
+    "rationale": "There are 3 favorable outcomes (red, yellow, blue) out of 5 possible outcomes. The probability is $\\frac{3}{5}$.",
     "challenge_tags": [
       "math-6"
     ]

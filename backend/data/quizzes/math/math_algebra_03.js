@@ -2,12 +2,12 @@
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "Evaluate the expression $x/3 + 2$ for $x = 12$.",
     "correctAnswer": "6",
-    "rationale": "Substitute 12 for x: 12/3 + 2 = 4 + 2 = 6.",
+    "rationale": "Substitute 12 for x: $\\frac{12}{3}$ + 2 = 4 + 2 = 6.",
     "challenge_tags": [
       "math-3"
     ]
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the slope of the line passing through (2, 5) and (4, 1)?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Factor the expression: $x^2 - 49$.",
@@ -183,7 +183,7 @@ module.exports = [
       {
         "text": "$y = \\frac{1}{2}x$",
         "isCorrect": true,
-        "rationale": "A parallel line has the same slope (1/2). A line passing through the origin has a y-intercept of 0."
+        "rationale": "A parallel line has the same slope ($\\frac{1}{2}$). A line passing through the origin has a y-intercept of 0."
       },
       {
         "text": "$y = 2x$",
@@ -196,14 +196,14 @@ module.exports = [
         "rationale": "This does not pass through the origin."
       }
     ],
-    "rationale": "A parallel line must have the same slope, which is 1/2. A line that passes through the origin has a y-intercept of 0. So the equation is y = (1/2)x + 0, or y = (1/2)x.",
+    "rationale": "A parallel line must have the same slope, which is $\\frac{1}{2}$. A line that passes through the origin has a y-intercept of 0. So the equation is y = ($\\frac{1}{2}$)x + 0, or y = ($\\frac{1}{2}$)x.",
     "challenge_tags": [
       "math-3"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "If $f(x) = 2x^2 - 3x + 1$, find $f(4)$.",

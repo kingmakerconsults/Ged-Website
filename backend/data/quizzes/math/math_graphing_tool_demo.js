@@ -9,17 +9,17 @@ module.exports = [
       {
         "text": "2",
         "isCorrect": true,
-        "rationale": "Slope = (9−3)/(5−2) = 6/3 = 2."
+        "rationale": "Slope = (9−3)/(5−2) = $\frac{6}{3}$ = 2."
       },
       {
-        "text": "3/2",
+        "text": "$\frac{3}{2}$",
         "isCorrect": false,
-        "rationale": "Swapped rise/run; correct is 6/3, not 3/2."
+        "rationale": "Swapped rise/run; correct is $\frac{6}{3}$, not $\frac{3}{2}$."
       },
       {
-        "text": "1/2",
+        "text": "$\frac{1}{2}$",
         "isCorrect": false,
-        "rationale": "This would be 3/6, but rise/run is 6/3."
+        "rationale": "This would be $\frac{3}{6}$, but rise/run is $\frac{6}{3}$."
       },
       {
         "text": "-2",
@@ -66,25 +66,25 @@ module.exports = [
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "question": "Which equation represents a line parallel to y = −(1/3)x + 2 and passing through (0, 5)?",
+    "question": "Which equation represents a line parallel to y = −($\frac{1}{3}$)x + 2 and passing through (0, 5)?",
     "answerOptions": [
       {
-        "text": "y = −(1/3)x + 5",
+        "text": "y = −($\frac{1}{3}$)x + 5",
         "isCorrect": true,
-        "rationale": "Parallel lines have the same slope (−1/3) and (0,5) implies b=5."
+        "rationale": "Parallel lines have the same slope (−$\frac{1}{3}$) and (0,5) implies b=5."
       },
       {
-        "text": "y = (1/3)x + 5",
+        "text": "y = ($\frac{1}{3}$)x + 5",
         "isCorrect": false,
         "rationale": "This has the opposite slope; not parallel."
       },
       {
         "text": "y = −3x + 5",
         "isCorrect": false,
-        "rationale": "Slope −3 is not equal to −1/3."
+        "rationale": "Slope −3 is not equal to −$\frac{1}{3}$."
       },
       {
-        "text": "y = −(1/3)x − 5",
+        "text": "y = −($\frac{1}{3}$)x − 5",
         "isCorrect": false,
         "rationale": "This crosses the y-axis at −5, not at 5."
       }
@@ -100,9 +100,9 @@ module.exports = [
     "question": "A line is perpendicular to y = 2x + 1 and has a y-intercept of 3. Which is its equation?",
     "answerOptions": [
       {
-        "text": "y = −(1/2)x + 3",
+        "text": "y = −($\frac{1}{2}$)x + 3",
         "isCorrect": true,
-        "rationale": "Perpendicular slope is the negative reciprocal of 2, which is −1/2."
+        "rationale": "Perpendicular slope is the negative reciprocal of 2, which is −$\frac{1}{2}$."
       },
       {
         "text": "y = 2x + 3",
@@ -110,7 +110,7 @@ module.exports = [
         "rationale": "This would be parallel, not perpendicular."
       },
       {
-        "text": "y = (1/2)x + 3",
+        "text": "y = ($\frac{1}{2}$)x + 3",
         "isCorrect": false,
         "rationale": "Reciprocal is correct but sign must be negative."
       },
@@ -190,17 +190,17 @@ module.exports = [
     "questionNumber": 7,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "question": "For y = (1/2)x − 6, if x increases by 4, how does y change?",
+    "question": "For y = ($\frac{1}{2}$)x − 6, if x increases by 4, how does y change?",
     "answerOptions": [
       {
         "text": "+2",
         "isCorrect": true,
-        "rationale": "Δy = m·Δx = (1/2)·4 = 2."
+        "rationale": "Δy = m·Δx = ($\frac{1}{2}$)·4 = 2."
       },
       {
         "text": "+8",
         "isCorrect": false,
-        "rationale": "That would use slope 2, not 1/2."
+        "rationale": "That would use slope 2, not $\frac{1}{2}$."
       },
       {
         "text": "−2",
@@ -319,17 +319,17 @@ module.exports = [
       {
         "text": "y = 0.75x + 2",
         "isCorrect": true,
-        "rationale": "Slope 0.75 is greater than 2/3 ≈ 0.666…."
+        "rationale": "Slope 0.75 is greater than $\frac{2}{3}$ ≈ 0.666…."
       },
       {
-        "text": "y = (2/3)x − 1",
+        "text": "y = ($\frac{2}{3}$)x − 1",
         "isCorrect": false,
-        "rationale": "Slope 2/3 is smaller than 0.75."
+        "rationale": "Slope $\frac{2}{3}$ is smaller than 0.75."
       },
       {
         "text": "They have equal slopes",
         "isCorrect": false,
-        "rationale": "0.75 ≠ 2/3."
+        "rationale": "0.75 ≠ $\frac{2}{3}$."
       },
       {
         "text": "Cannot be determined",
@@ -350,7 +350,7 @@ module.exports = [
       {
         "text": "y = −2x − 3",
         "isCorrect": true,
-        "rationale": "Slope = (−11−1)/(4−(−2)) = −12/6 = −2; solve b with 1 = −2(−2) + b ⇒ b = −3."
+        "rationale": "Slope = (−11−1)/(4−(−2)) = −$\frac{12}{6}$ = −2; solve b with 1 = −2(−2) + b ⇒ b = −3."
       },
       {
         "text": "y = −2x + 3",

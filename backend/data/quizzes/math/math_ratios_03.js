@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A jacket is on sale for $72 after a 20% discount. What was the original price?",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A recipe calls for 1 cup of sugar to make 12 cookies. How much sugar is needed for 36 cookies?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A car is traveling at a constant speed of 65 miles per hour. How many miles will it travel in 2.5 hours?",
@@ -196,14 +196,14 @@ module.exports = [
         "rationale": "This is the ratio of roses to total plants."
       }
     ],
-    "rationale": "The ratio is 18 rose bushes to 6 lily plants. To simplify, divide both numbers by 6. 18/6 = 3, and 6/6 = 1. The simplified ratio is 3:1.",
+    "rationale": "The ratio is 18 rose bushes to 6 lily plants. To simplify, divide both numbers by 6. $\\frac{18}{6}$ = 3, and $\\frac{6}{6}$ = 1. The simplified ratio is 3:1.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "An item costs $120. With sales tax, the total cost is $127.20. What is the sales tax rate?",
@@ -228,7 +228,7 @@ module.exports = [
       {
         "text": "2.5 miles",
         "isCorrect": true,
-        "rationale": "Set up a proportion: 120/1 = 300/x. 120x = 300. x = 300/120 = 2.5."
+        "rationale": "Set up a proportion: $\\frac{120}{1}$ = 300/x. 120x = 300. x = $\\frac{300}{120}$ = 2.5."
       },
       {
         "text": "3 miles",
@@ -274,7 +274,7 @@ module.exports = [
         "rationale": "This is $0.50 per apple."
       }
     ],
-    "rationale": "To find the best value, calculate the unit price for each option: A) $1.50/3 = $0.50/apple, B) $1.80/4 = $0.45/apple, C) $2.50/5 = $0.50/apple, D) $1.00/2 = $0.50/apple. The lowest price per apple is $0.45.",
+    "rationale": "To find the best value, calculate the unit price for each option: A) $1.\\frac{50}{3} = $0.50/apple, B) $1.\\frac{80}{4} = $0.45/apple, C) $2.\\frac{50}{5} = $0.50/apple, D) $1.\\frac{00}{2} = $0.50/apple. The lowest price per apple is $0.45.",
     "challenge_tags": [
       "math-1"
     ]
@@ -304,7 +304,7 @@ module.exports = [
       {
         "text": "100000000",
         "isCorrect": false,
-        "rationale": "This is 100^4."
+        "rationale": "This is $100^{4}$."
       }
     ],
     "rationale": "This is an example of exponential growth. The population is multiplied by 2 each hour. After 4 hours, the population will be $100 \\times 2^4 = 100 \\times 16 = 1600$.",

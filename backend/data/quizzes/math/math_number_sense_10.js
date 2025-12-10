@@ -35,12 +35,12 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is $\\frac{2}{5}$ of 40?",
     "correctAnswer": "16",
-    "rationale": "To find the fraction of a number, multiply the number by the fraction. (2/5) * 40 = 80/5 = 16.",
+    "rationale": "To find the fraction of a number, multiply the number by the fraction. ($\\frac{2}{5}$) * 40 = $\\frac{80}{5}$ = 16.",
     "challenge_tags": [
       "math-1"
     ]
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Evaluate: $2 \times (3+4)^2$.",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "Find the least common multiple (LCM) of 9 and 15.",
@@ -203,7 +203,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A runner completes a 10-kilometer race in 50 minutes. How many minutes does it take her to run one kilometer?",
@@ -233,7 +233,7 @@ module.exports = [
       {
         "text": "$\\frac{7}{8}$",
         "isCorrect": true,
-        "rationale": "The common denominator is 8. 3/4 = 6/8. 6/8 + 1/8 = 7/8."
+        "rationale": "The common denominator is 8. $\\frac{3}{4}$ = $\\frac{6}{8}$. $\\frac{6}{8}$ + $\\frac{1}{8}$ = $\\frac{7}{8}$."
       },
       {
         "text": "1",
@@ -241,7 +241,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To add the fractions, find a common denominator, which is 8. Convert 3/4 to 6/8. Then add: $\\frac{6}{8} + \\frac{1}{8} = \\frac{7}{8}$.",
+    "rationale": "To add the fractions, find a common denominator, which is 8. Convert $\\frac{3}{4}$ to $\\frac{6}{8}$. Then add: $\\frac{6}{8} + \\frac{1}{8} = \\frac{7}{8}$.",
     "challenge_tags": [
       "math-1"
     ]

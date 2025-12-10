@@ -87,7 +87,7 @@ module.exports = [
         "rationale": "Subtract $2y$ from both sides: $3y - 8 = 7$. Add 8 to both sides: $3y = 15$. Divide by 3: $y = 5$."
       },
       {
-        "text": "$y = -1/3$",
+        "text": "$y = -\frac{1}{3}$",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },

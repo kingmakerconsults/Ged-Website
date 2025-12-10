@@ -20,7 +20,7 @@ module.exports = [
       {
         "text": "16 in",
         "isCorrect": false,
-        "rationale": "This is 64/4."
+        "rationale": "This is $\\frac{64}{4}$."
       },
       {
         "text": "32 in",
@@ -35,7 +35,7 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the area of a circle with a radius of 10 cm? Use 3.14 for $\\pi$.",
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "What is the measure of a straight angle?",
@@ -163,7 +163,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "medium",
     "question": "What is the perimeter of an equilateral triangle with a side length of 9 cm?",
@@ -208,7 +208,7 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A ladder leaning against a wall forms a right triangle. If the ladder is 10 feet long and the base is 6 feet from the wall, how high up the wall does the ladder reach?",

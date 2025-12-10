@@ -35,12 +35,12 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": false,
     "difficulty": "easy",
     "question": "A bag has 3 red marbles and 2 blue marbles. What is the probability of picking a red marble?",
-    "correctAnswer": "3/5",
-    "rationale": "There are 3 red marbles and a total of 5 marbles. The probability is the number of red marbles divided by the total number of marbles, which is 3/5.",
+    "correctAnswer": "$\\frac{3}{5}$",
+    "rationale": "There are 3 red marbles and a total of 5 marbles. The probability is the number of red marbles divided by the total number of marbles, which is $\\frac{3}{5}$.",
     "challenge_tags": [
       "math-6"
     ]
@@ -80,7 +80,7 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A set of data has a maximum value of 50 and a minimum value of 12. What is the range?",
@@ -158,7 +158,7 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "The average of four numbers is 15. If three of the numbers are 10, 12, and 18, what is the fourth number?",
@@ -176,34 +176,34 @@ module.exports = [
     "question": "What is the probability of drawing a king from a standard deck of 52 playing cards?",
     "answerOptions": [
       {
-        "text": "1/52",
+        "text": "$\\frac{1}{52}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a specific king (e.g., the King of Hearts)."
       },
       {
-        "text": "1/13",
+        "text": "$\\frac{1}{13}$",
         "isCorrect": true,
-        "rationale": "There are 4 kings in a deck of 52 cards. The probability is 4/52, which simplifies to 1/13."
+        "rationale": "There are 4 kings in a deck of 52 cards. The probability is $\\frac{4}{52}$, which simplifies to $\\frac{1}{13}$."
       },
       {
-        "text": "1/4",
+        "text": "$\\frac{1}{4}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a card of a specific suit."
       },
       {
-        "text": "1/26",
+        "text": "$\\frac{1}{26}$",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a specific red card."
       }
     ],
-    "rationale": "A standard deck of cards has 4 kings and 52 total cards. The probability is the number of favorable outcomes (4) divided by the total number of outcomes (52). 4/52 simplifies to 1/13.",
+    "rationale": "A standard deck of cards has 4 kings and 52 total cards. The probability is the number of favorable outcomes (4) divided by the total number of outcomes (52). $\\frac{4}{52}$ simplifies to $\\frac{1}{13}$.",
     "challenge_tags": [
       "math-6"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",`n  "inputCalculator": true,
+    "type": "fillIn",\n  "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A class of 25 students has an average test score of 80. A new student joins the class and scores 93. What is the new class average?",
@@ -287,17 +287,17 @@ module.exports = [
     "question": "A spinner is equally likely to land on red, blue, green, or yellow. What is the probability it does NOT land on green?",
     "answerOptions": [
       {
-        "text": "1/4",
+        "text": "$\\frac{1}{4}$",
         "isCorrect": false,
         "rationale": "This is the probability it will land on green."
       },
       {
-        "text": "1/2",
+        "text": "$\\frac{1}{2}$",
         "isCorrect": false,
         "rationale": "This would be the case if there were only two colors."
       },
       {
-        "text": "3/4",
+        "text": "$\\frac{3}{4}$",
         "isCorrect": true,
         "rationale": "There are 3 outcomes that are not green (red, blue, yellow) out of 4 total outcomes."
       },
@@ -307,7 +307,7 @@ module.exports = [
         "rationale": "This would mean it's certain not to land on green."
       }
     ],
-    "rationale": "There are 4 possible outcomes. The probability of landing on green is 1/4. The probability of not landing on green is 1 - 1/4 = 3/4.",
+    "rationale": "There are 4 possible outcomes. The probability of landing on green is $\\frac{1}{4}$. The probability of not landing on green is 1 - $\\frac{1}{4}$ = $\\frac{3}{4}$.",
     "challenge_tags": [
       "math-6"
     ]
