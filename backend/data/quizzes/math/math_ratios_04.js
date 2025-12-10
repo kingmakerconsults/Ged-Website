@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +34,8 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A shirt that costs $40 is on sale for 15% off. What is the sale price?",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "A map scale is 1 inch : 25 miles. If the distance on the map is 4 inches, what is the actual distance?",
     "correctAnswer": "100 miles",
@@ -158,7 +159,8 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A meal costs $50. You leave a tip of $8. What percentage tip did you leave?",
@@ -203,8 +205,9 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "Solve the proportion: $\\frac{6}{x} = \\frac{18}{24}$",
     "correctAnswer": "8",
@@ -241,7 +244,7 @@ module.exports = [
         "rationale": "This would be for 36 muffins."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{12 \\text{ muffins}}{2 \\text{ cups}} = \\frac{18 \\text{ muffins}}{x \\text{ cups}}$. Cross-multiply: $12x = 36$. Divide by 12: $x = 3$ cups.",
+    "rationale": "Set up a proportion: $\\frac{12  ext{ muffins}}{2  ext{ cups}} = \\frac{18  ext{ muffins}}{x  ext{ cups}}$. Cross-multiply: $12x = 36$. Divide by 12: $x = 3$ cups.",
     "challenge_tags": [
       "math-1"
     ]

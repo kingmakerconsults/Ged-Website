@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,8 +34,9 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "Calculate: $100 - 35$.",
     "correctAnswer": "65",
@@ -80,10 +80,11 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
-    "question": "Evaluate the expression: $5 + 3 \\times (8 - 2)$.",
+    "question": "Evaluate the expression: $5 + 3  imes (8 - 2)$.",
     "correctAnswer": "23",
     "rationale": "According to the order of operations (PEMDAS), first solve the parentheses: 8 - 2 = 6. Then, do the multiplication: 3 * 6 = 18. Finally, the addition: 5 + 18 = 23.",
     "challenge_tags": [
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "What is the product of $-6$ and $9$?",
     "correctAnswer": "-54",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A recipe requires \\frac{3}{4} cup of sugar. If you are making 2.5 times the recipe, how many cups of sugar do you need?",

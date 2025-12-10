@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +34,8 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a radius of 9 cm. What is its area? Use 3.14 for $\\pi$.",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "An angle measuring exactly 90Â° is called what?",
     "correctAnswer": "Right angle",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "If two angles in a triangle are 45Â° and 90Â°, what is the third angle?",
     "correctAnswer": "45Â°",
@@ -196,14 +198,15 @@ module.exports = [
         "rationale": "This is 12*8*6."
       }
     ],
-    "rationale": "The formula for the area of a trapezoid is A = $\\frac{1}{2}(b_1 + b_2)h$. A = $\\frac{1}{2}(12 + 8) \\times 6 = \\frac{1}{2}(20) \\times 6 = 10 \\times 6 = 60$.",
+    "rationale": "The formula for the area of a trapezoid is A = $\\frac{1}{2}(b_1 + b_2)h$. A = $\\frac{1}{2}(12 + 8)  imes 6 = \\frac{1}{2}(20)  imes 6 = 10  imes 6 = 60$.",
     "challenge_tags": [
       "math-5"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A rectangular field is 100 yards long and 50 yards wide. What is the length of the diagonal in yards?",

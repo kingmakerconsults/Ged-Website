@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +34,8 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A phone is discounted by 30%. If the original price was $600, what is the discount amount?",
@@ -73,14 +73,15 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{5 \\text{ dollars}}{4 \\text{ Euros}} = \\frac{35 \\text{ dollars}}{x \\text{ Euros}}$. Cross-multiply: $5x = 4 \\times 35$, so $5x = 140$. Divide by 5: $x = 28$ Euros.",
+    "rationale": "Set up a proportion: $\\frac{5  ext{ dollars}}{4  ext{ Euros}} = \\frac{35  ext{ dollars}}{x  ext{ Euros}}$. Cross-multiply: $5x = 4  imes 35$, so $5x = 140$. Divide by 5: $x = 28$ Euros.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The number of students in a school increased from 500 to 540. What was the percent increase?",
@@ -151,14 +152,15 @@ module.exports = [
         "rationale": "This is $\\frac{4}{5}$ of the people."
       }
     ],
-    "rationale": "The fraction of people who prefer Brand A is $\\frac{3}{5}$. To find the number of people, multiply this fraction by the total number surveyed: $\\frac{3}{5} \\times 250 = 150$ people.",
+    "rationale": "The fraction of people who prefer Brand A is $\\frac{3}{5}$. To find the number of people, multiply this fraction by the total number surveyed: $\\frac{3}{5}  imes 250 = 150$ people.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "Sales tax is 7.5%. If you purchase an item for $80, what is the total cost including tax?",
@@ -196,15 +198,16 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{1 \\text{ cm}}{20 \\text{ km}} = \\frac{x \\text{ cm}}{150 \\text{ km}}$. Solve for x: $x = \\frac{150}{20} = 7.5$ cm.",
+    "rationale": "Set up a proportion: $\\frac{1  ext{ cm}}{20  ext{ km}} = \\frac{x  ext{ cm}}{150  ext{ km}}$. Solve for x: $x = \\frac{150}{20} = 7.5$ cm.",
     "challenge_tags": [
       "math-1"
     ]
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "Simplify the ratio 24:36.",
     "correctAnswer": "2:3",

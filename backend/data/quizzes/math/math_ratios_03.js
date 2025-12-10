@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +34,8 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A jacket is on sale for $72 after a 20% discount. What was the original price?",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "A recipe calls for 1 cup of sugar to make 12 cookies. How much sugar is needed for 36 cookies?",
     "correctAnswer": "3 cups",
@@ -158,7 +159,8 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A car is traveling at a constant speed of 65 miles per hour. How many miles will it travel in 2.5 hours?",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "An item costs $120. With sales tax, the total cost is $127.20. What is the sales tax rate?",
@@ -307,7 +310,7 @@ module.exports = [
         "rationale": "This is $100^{4}$."
       }
     ],
-    "rationale": "This is an example of exponential growth. The population is multiplied by 2 each hour. After 4 hours, the population will be $100 \\times 2^4 = 100 \\times 16 = 1600$.",
+    "rationale": "This is an example of exponential growth. The population is multiplied by 2 each hour. After 4 hours, the population will be $100  imes 2^4 = 100  imes 16 = 1600$.",
     "challenge_tags": [
       "math-1"
     ]

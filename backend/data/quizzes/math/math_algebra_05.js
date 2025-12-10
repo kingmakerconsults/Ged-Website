@@ -1,9 +1,9 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "Solve for n: $5n = 45$.",
     "correctAnswer": "9",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "What is the slope of the line that passes through (0, 4) and (2, 0)?",
     "correctAnswer": "-2",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "If $g(x) = 5 - x^2$, what is $g(3)$?",
     "correctAnswer": "-4",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the equation of a line with a slope of -4 and a y-intercept of 5?",
@@ -307,7 +310,7 @@ module.exports = [
         "rationale": "This is an intermediate step, not the final simplified form."
       }
     ],
-    "rationale": "The rule for raising a power to another power is to multiply the exponents. So, $(5^2)^3 = 5^{2 \\times 3} = 5^6$.",
+    "rationale": "The rule for raising a power to another power is to multiply the exponents. So, $(5^2)^3 = 5^{2  imes 3} = 5^6$.",
     "challenge_tags": [
       "math-3"
     ]

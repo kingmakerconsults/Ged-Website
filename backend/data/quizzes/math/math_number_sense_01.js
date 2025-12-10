@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -68,10 +67,11 @@ module.exports = [
   },
   {
     "questionNumber": 3,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
-    "question": "Evaluate the expression: $12 + (5 - 2) \\times 3^2$.",
+    "question": "Evaluate the expression: $12 + (5 - 2)  imes 3^2$.",
     "correctAnswer": "39",
     "rationale": "Following the order of operations (PEMDAS): Parentheses (5-2=3), Exponents ($3^2$=9), Multiplication (3*9=27), Addition (12+27=39).",
     "challenge_tags": [
@@ -113,8 +113,9 @@ module.exports = [
   },
   {
     "questionNumber": 5,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "What is $\\frac{3}{5}$ as a percentage?",
     "correctAnswer": "60%",
@@ -161,7 +162,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "Simplify the expression: $5 \\times (4 + 2) - 10 \\div 2$.",
+    "question": "Simplify the expression: $5  imes (4 + 2) - 10 \\div 2$.",
     "answerOptions": [
       {
         "text": "10",
@@ -191,7 +192,8 @@ module.exports = [
   },
   {
     "questionNumber": 8,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A recipe calls for $2 \\frac{1}{2}$ cups of flour, but you only want to make half the recipe. How many cups of flour do you need?",
@@ -236,8 +238,9 @@ module.exports = [
   },
   {
     "questionNumber": 10,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "hard",
     "question": "A car travels 150 miles on 5 gallons of gas. What is the car's fuel efficiency in miles per gallon (MPG)?",
     "correctAnswer": "30 MPG",
@@ -284,7 +287,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "Estimate the result of $48.7 \\times 10.2$.",
+    "question": "Estimate the result of $48.7  imes 10.2$.",
     "answerOptions": [
       {
         "text": "50",

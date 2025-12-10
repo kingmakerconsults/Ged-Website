@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,8 +34,9 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "What is 25% of 200?",
     "correctAnswer": "50",
@@ -80,10 +80,11 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
-    "question": "Evaluate: $10 + 4 \\times 2^3$.",
+    "question": "Evaluate: $10 + 4  imes 2^3$.",
     "correctAnswer": "42",
     "rationale": "Order of operations (PEMDAS): Exponents ($2^3$=8), Multiplication (4*8=32), Addition (10+32=42).",
     "challenge_tags": [
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "What is the result of $\\frac{1}{2} - 1/3$?",
     "correctAnswer": "$\\frac{1}{6}$",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A car is traveling at 60 miles per hour. How many miles does it travel in 45 minutes?",
@@ -221,22 +224,22 @@ module.exports = [
     "question": "What is the scientific notation for 0.00058?",
     "answerOptions": [
       {
-        "text": "$5.8 \\times 10^4$",
+        "text": "$5.8  imes 10^4$",
         "isCorrect": false,
         "rationale": "The exponent should be negative."
       },
       {
-        "text": "$5.8 \\times 10^{-3}$",
+        "text": "$5.8  imes 10^{-3}$",
         "isCorrect": false,
         "rationale": "The decimal moved 4 places."
       },
       {
-        "text": "$5.8 \\times 10^{-4}$",
+        "text": "$5.8  imes 10^{-4}$",
         "isCorrect": true,
         "rationale": "The decimal point is moved 4 places to the right, so the exponent is -4."
       },
       {
-        "text": "$58 \\times 10^{-5}$",
+        "text": "$58  imes 10^{-5}$",
         "isCorrect": false,
         "rationale": "The number must be between 1 and 10."
       }

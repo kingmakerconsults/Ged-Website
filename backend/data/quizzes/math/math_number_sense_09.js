@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,10 +34,11 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
-    "question": "What is the result of $1.5 \\times 4$?",
+    "question": "What is the result of $1.5  imes 4$?",
     "correctAnswer": "6",
     "rationale": "1.5 multiplied by 4 is the same as adding 1.5 four times: 1.5 + 1.5 + 1.5 + 1.5 = 6.",
     "challenge_tags": [
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "Evaluate: $50 - (10 - 4)^2$.",
     "correctAnswer": "14",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "What is the result of multiplying -7 by -5?",
     "correctAnswer": "35",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A recipe for 12 cupcakes requires 1.5 cups of flour. How much flour is needed for 30 cupcakes?",
@@ -241,7 +244,7 @@ module.exports = [
         "rationale": "This is $10^5$."
       }
     ],
-    "rationale": "The exponent indicates how many times the base (10) is multiplied by itself. $10^4 = 10 \\times 10 \\times 10 \\times 10 = 10,000$.",
+    "rationale": "The exponent indicates how many times the base (10) is multiplied by itself. $10^4 = 10  imes 10  imes 10  imes 10 = 10,000$.",
     "challenge_tags": [
       "math-1"
     ]

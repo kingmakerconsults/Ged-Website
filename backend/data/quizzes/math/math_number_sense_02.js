@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,8 +34,9 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "What is 75% of 40?",
     "correctAnswer": "30",
@@ -80,7 +80,8 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A lunch bill is $24.50. If you add a 15% tip, what is the total cost?",
@@ -118,7 +119,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "To divide fractions, multiply the first fraction by the reciprocal of the second. So, $\\frac{2}{3} \\times \\frac{4}{1} = \\frac{8}{3}$.",
+    "rationale": "To divide fractions, multiply the first fraction by the reciprocal of the second. So, $\\frac{2}{3}  imes \\frac{4}{1} = \\frac{8}{3}$.",
     "challenge_tags": [
       "math-1"
     ]
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "Order the following from least to greatest: 0.5, $\\frac{2}{5}$, 45%, 0.42.",
     "correctAnswer": "\\frac{2}{5}, 0.42, 45%, 0.5",
@@ -203,8 +205,9 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "hard",
     "question": "What is the least common multiple (LCM) of 12 and 18?",
     "correctAnswer": "36",
@@ -284,7 +287,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "What is $2^3 \\times 2^4$?",
+    "question": "What is $2^3  imes 2^4$?",
     "answerOptions": [
       {
         "text": "$2^7$",
@@ -307,7 +310,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "According to the laws of exponents, when you multiply two powers with the same base, you add the exponents. So, $2^3 \\times 2^4 = 2^{3+4} = 2^7$.",
+    "rationale": "According to the laws of exponents, when you multiply two powers with the same base, you add the exponents. So, $2^3  imes 2^4 = 2^{3+4} = 2^7$.",
     "challenge_tags": [
       "math-1"
     ]
