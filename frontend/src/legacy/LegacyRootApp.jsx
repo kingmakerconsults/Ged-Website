@@ -36684,6 +36684,11 @@ function EssayGuide({ onExit }) {
 
   const intervalRef = useRef(null);
 
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   // Shadow overlay style for Guided Mode
   const getShadowStyle = () => ({
     position: 'absolute',
@@ -36700,6 +36705,8 @@ function EssayGuide({ onExit }) {
     fontFamily: 'inherit',
     fontSize: 'inherit',
     lineHeight: 'inherit',
+    // No indent in writing area overlay (per request)
+    textIndent: '0',
     zIndex: 1,
     boxSizing: 'border-box',
     margin: 0,
@@ -36707,11 +36714,11 @@ function EssayGuide({ onExit }) {
 
   // Essay templates for shadow overlay
   const essayTemplates = {
-    intro: `The two passages present conflicting views on the topic of [topic of both articles]. In the first passage, [Author 1's Last Name] argues that [explain Author 1's main claim]. Conversely, in the second passage, [Author 2's Last Name] claims that [explain Author 2's main claim]. After analyzing both arguments, it is clear that [Author's Last Name] presents the more convincing case by effectively using [list key evidence types].`,
-    body1: `First, [Stronger Author's Last Name] effectively builds their argument by using [type of evidence]. The author states, ["quote or paraphrase"]. This evidence is highly convincing because [explain why].`,
-    body2: `Furthermore, [Stronger Author's Last Name] strengthens their position with [another type of evidence]. For example, the author points out that ["quote or paraphrase"]. This is a logical and persuasive point because [explain why].`,
-    body3: `In contrast, the argument presented by [Weaker Author's Last Name] is not as well-supported. A key weakness is the author's reliance on [identify a weakness]. For instance, the author claims that ["quote or paraphrase"]. This argument is unconvincing because [explain why].`,
-    conclusion: `In conclusion, while both authors address the topic, [Stronger Author's Last Name] presents a more compelling argument. By skillfully using [restate evidence types], the author builds a case that is more persuasive than the weakly supported claims by [Weaker Author's Last Name].`,
+    intro: `    The two passages present conflicting views on the topic of [topic of both articles]. In the first passage, [Author 1's Last Name] argues that [explain Author 1's main claim]. Conversely, in the second passage, [Author 2's Last Name] claims that [explain Author 2's main claim]. After analyzing both arguments, it is clear that [Author's Last Name] presents the more convincing case by effectively using [list key evidence types].`,
+    body1: `    First, [Stronger Author's Last Name] effectively builds their argument by using [type of evidence]. The author states, ["quote or paraphrase"]. This evidence is highly convincing because [explain why].`,
+    body2: `    Furthermore, [Stronger Author's Last Name] strengthens their position with [another type of evidence]. For example, the author points out that ["quote or paraphrase"]. This is a logical and persuasive point because [explain why].`,
+    body3: `    In contrast, the argument presented by [Weaker Author's Last Name] is not as well-supported. A key weakness is the author's reliance on [identify a weakness]. For instance, the author claims that ["quote or paraphrase"]. This argument is unconvincing because [explain why].`,
+    conclusion: `    In conclusion, while both authors address the topic, [Stronger Author's Last Name] presents a more compelling argument. By skillfully using [restate evidence types], the author builds a case that is more persuasive than the weakly supported claims by [Weaker Author's Last Name].`,
   };
 
   // Pacing feedback state
@@ -36733,8 +36740,16 @@ function EssayGuide({ onExit }) {
     (section, typed, expected) => {
       if (!expected || essayMode !== 'guided') return;
 
-      const isCorrectSoFar = expected.startsWith(typed.trim());
-      const progress = typed.length / expected.length;
+      // Ignore leading whitespace so students aren't penalized for indent choices
+      const normalize = (str = '') => str.replace(/^\s+/, '');
+      const normalizedExpected = normalize(expected);
+      const normalizedTyped = normalize(typed);
+
+      const isCorrectSoFar = normalizedExpected.startsWith(normalizedTyped);
+      const progress =
+        normalizedExpected.length > 0
+          ? Math.min(1, normalizedTyped.length / normalizedExpected.length)
+          : 0;
 
       setTypingAccuracy((prev) => ({
         ...prev,
@@ -37210,19 +37225,10 @@ function EssayGuide({ onExit }) {
       if (firstSentence.length > 120) {
         const truncated = firstSentence.substring(0, 120).trim();
         const lastSpace = truncated.lastIndexOf(' ');
-        const result = truncated.substring(0, lastSpace);
-        // Don't add period if already ends with punctuation or is a question/exclamation
-        if (!/[.!?]$/.test(result)) {
-          return result + '.';
-        }
-        return result;
+        return truncated.substring(0, lastSpace);
       }
-      const claim = firstSentence.trim();
-      // Ensure proper ending punctuation
-      if (!/[.!?]$/.test(claim)) {
-        return claim + '.';
-      }
-      return claim;
+      // Return claim without ending punctuation (template will add it)
+      return firstSentence.trim();
     };
 
     // Extract evidence type
@@ -37857,12 +37863,30 @@ function EssayGuide({ onExit }) {
             )}
 
             {/* Editor sections: standard vs guided vs freeform */}
-            {essayMode === 'standard' ? (
+            {!showModal && essayMode === 'standard' ? (
               <>
                 <div className="practice-section bg-white p-6 rounded-lg shadow-md">
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Introduction Paragraph
                   </h3>
+                  <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-gray-700">
+                    <strong className="text-blue-900">Essay Format:</strong>{' '}
+                    State which author presents the stronger argument. Introduce
+                    both passages and preview your main points.
+                  </div>
+                  <div className="mb-3 p-4 bg-gray-50 border-l-4 border-blue-500 rounded text-sm text-gray-600 font-mono leading-relaxed">
+                    <div className="font-bold text-blue-700 mb-2">
+                      Template Structure:
+                    </div>
+                    The two passages present conflicting views on the topic of
+                    [topic of both articles]. In the first passage, [Author 1's
+                    Last Name] argues that [explain Author 1's main claim].
+                    Conversely, in the second passage, [Author 2's Last Name]
+                    claims that [explain Author 2's main claim]. After analyzing
+                    both arguments, it is clear that [Author's Last Name]
+                    presents the more convincing case by effectively using [list
+                    key evidence types].
+                  </div>
                   <textarea
                     name="intro"
                     onPaste={(e) => e.preventDefault()}
@@ -37920,6 +37944,21 @@ function EssayGuide({ onExit }) {
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Body Paragraph #1: Analyze Strong Evidence
                   </h3>
+                  <div className="mb-3 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-gray-700">
+                    <strong className="text-green-900">Essay Format:</strong>{' '}
+                    Present the first piece of strong evidence from the more
+                    convincing author. Quote or paraphrase, then explain why
+                    it's persuasive.
+                  </div>
+                  <div className="mb-3 p-4 bg-gray-50 border-l-4 border-green-500 rounded text-sm text-gray-600 font-mono leading-relaxed">
+                    <div className="font-bold text-green-700 mb-2">
+                      Template Structure:
+                    </div>
+                    First, [Stronger Author's Last Name] effectively builds
+                    their argument by using [type of evidence]. The author
+                    states, ["quote or paraphrase"]. This evidence is highly
+                    convincing because [explain why].
+                  </div>
                   <textarea
                     name="body1"
                     onPaste={(e) => e.preventDefault()}
@@ -37953,6 +37992,21 @@ function EssayGuide({ onExit }) {
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Body Paragraph #2: Analyze More Strong Evidence
                   </h3>
+                  <div className="mb-3 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-gray-700">
+                    <strong className="text-green-900">Essay Format:</strong>{' '}
+                    Present a second piece of strong evidence from the more
+                    convincing author. Show how it further supports their
+                    argument.
+                  </div>
+                  <div className="mb-3 p-4 bg-gray-50 border-l-4 border-green-500 rounded text-sm text-gray-600 font-mono leading-relaxed">
+                    <div className="font-bold text-green-700 mb-2">
+                      Template Structure:
+                    </div>
+                    Furthermore, [Stronger Author's Last Name] strengthens their
+                    position with [another type of evidence]. For example, the
+                    author points out that ["quote or paraphrase"]. This is a
+                    logical and persuasive point because [explain why].
+                  </div>
                   <textarea
                     name="body2"
                     onPaste={(e) => e.preventDefault()}
@@ -37986,6 +38040,21 @@ function EssayGuide({ onExit }) {
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Body Paragraph #3: Analyze the Weaker Argument
                   </h3>
+                  <div className="mb-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-gray-700">
+                    <strong className="text-amber-900">Essay Format:</strong>{' '}
+                    Identify a weakness in the opposing author's argument.
+                    Explain why their evidence is less convincing or flawed.
+                  </div>
+                  <div className="mb-3 p-4 bg-gray-50 border-l-4 border-amber-500 rounded text-sm text-gray-600 font-mono leading-relaxed">
+                    <div className="font-bold text-amber-700 mb-2">
+                      Template Structure:
+                    </div>
+                    In contrast, the argument presented by [Weaker Author's Last
+                    Name] is not as well-supported. A key weakness is the
+                    author's reliance on [identify a weakness]. For instance,
+                    the author claims that ["quote or paraphrase"]. This
+                    argument is unconvincing because [explain why].
+                  </div>
                   <textarea
                     name="body3"
                     onPaste={(e) => e.preventDefault()}
@@ -38019,6 +38088,22 @@ function EssayGuide({ onExit }) {
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Conclusion Paragraph
                   </h3>
+                  <div className="mb-3 p-3 bg-purple-50 border border-purple-200 rounded-lg text-sm text-gray-700">
+                    <strong className="text-purple-900">Essay Format:</strong>{' '}
+                    Restate your position and summarize why the stronger
+                    author's evidence is more persuasive. Close with a final
+                    thought.
+                  </div>
+                  <div className="mb-3 p-4 bg-gray-50 border-l-4 border-purple-500 rounded text-sm text-gray-600 font-mono leading-relaxed">
+                    <div className="font-bold text-purple-700 mb-2">
+                      Template Structure:
+                    </div>
+                    In conclusion, while both authors address the topic,
+                    [Stronger Author's Last Name] presents a more compelling
+                    argument. By skillfully using [restate evidence types], the
+                    author builds a case that is more persuasive than the weakly
+                    supported claims by [Weaker Author's Last Name].
+                  </div>
                   <textarea
                     name="conclusion"
                     onPaste={(e) => e.preventDefault()}
@@ -38049,7 +38134,7 @@ function EssayGuide({ onExit }) {
                   ></textarea>
                 </div>
               </>
-            ) : essayMode === 'guided' ? (
+            ) : !showModal && essayMode === 'guided' ? (
               <>
                 <div className="practice-section bg-white p-6 rounded-lg shadow-md">
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
@@ -38364,7 +38449,7 @@ function EssayGuide({ onExit }) {
                   </div>
                 </div>
               </>
-            ) : (
+            ) : !showModal ? (
               <div className="practice-section bg-white p-6 rounded-lg shadow-md">
                 <h3 className="text-2xl font-bold mb-3 text-gray-900">
                   Freeform Essay
@@ -38402,7 +38487,7 @@ function EssayGuide({ onExit }) {
                   }}
                 ></textarea>
               </div>
-            )}
+            ) : null}
           </div>
         );
       case 'strengths':
@@ -38538,9 +38623,17 @@ function EssayGuide({ onExit }) {
           {fullEssay ? (
             <div
               dangerouslySetInnerHTML={{
-                __html: sanitizeHtmlContent(fullEssay.replace(/\n/g, '<br/>'), {
-                  normalizeSpacing: true,
-                }),
+                __html: sanitizeHtmlContent(
+                  fullEssay
+                    .split(/\n\n+/)
+                    .filter((p) => p.trim())
+                    .map(
+                      (p) =>
+                        `<p style="text-indent: 2em; margin-bottom: 1em;">${p.trim()}</p>`
+                    )
+                    .join(''),
+                  { normalizeSpacing: true }
+                ),
               }}
             />
           ) : (
@@ -38603,14 +38696,26 @@ function EssayGuide({ onExit }) {
         )}
 
         <div className="p-6 border-t bg-gray-50 space-y-4">
-          <button
-            onClick={handleGetScore}
-            disabled={isScoring || !fullEssay}
-            className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isScoring ? 'Scoring...' : 'Get AI Score & Feedback'}
-          </button>
-          {scoreResult && (
+          {essayMode === 'guided' ? (
+            <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-900">
+              <p className="font-semibold mb-2">📘 Guided Mode Practice</p>
+              <p className="text-sm">
+                This mode is designed for structure reinforcement and template
+                practice. AI grading is not available for guided mode essays.
+                Switch to Standard or Freeform mode to receive AI feedback on
+                your writing.
+              </p>
+            </div>
+          ) : (
+            <button
+              onClick={handleGetScore}
+              disabled={isScoring || !fullEssay}
+              className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-4 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isScoring ? 'Scoring...' : 'Get AI Score & Feedback'}
+            </button>
+          )}
+          {scoreResult && essayMode !== 'guided' && (
             <div className="mt-4 p-4 bg-indigo-50 rounded-lg text-left">
               {scoreResult.error ? (
                 <p className="text-red-600">{scoreResult.error}</p>
