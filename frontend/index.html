@@ -146,6 +146,9 @@
           return;
         let theme = 'light';
         try {
+          const hasToken = !!(
+            window.localStorage && window.localStorage.getItem('appToken')
+          );
           const saved = window.localStorage
             ? window.localStorage.getItem('appTheme')
             : null;
@@ -153,12 +156,13 @@
             window.matchMedia &&
             typeof window.matchMedia === 'function' &&
             window.matchMedia('(prefers-color-scheme: dark)').matches;
-          theme =
-            saved === 'light' || saved === 'dark'
-              ? saved
-              : prefersDark
-              ? 'dark'
-              : 'light';
+          if (hasToken && (saved === 'light' || saved === 'dark')) {
+            theme = saved;
+          } else if (hasToken && prefersDark) {
+            theme = 'dark';
+          } else {
+            theme = 'light';
+          }
         } catch (e) {
           console.warn('theme preload failed', e);
         }

@@ -10,6 +10,7 @@
 } from 'react';
 import ReactDOM from 'react-dom/client';
 import { normalizeImageUrl } from '../../utils/normalizeImageUrl.js';
+import { AuthScreen as SharedAuthScreen } from '../components/auth/AuthScreen.jsx';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
 (function () {
@@ -25973,7 +25974,7 @@ function App({ externalTheme, onThemeChange }) {
       subject,
       quizCode,
       quizTitle:
-        quizDetails.title || quizDetails.topicTitle || 'GED� Practice Exam',
+        quizDetails.title || quizDetails.topicTitle || 'GED Practice Exam',
       quizType: quizDetails.type,
       score: results.score,
       totalQuestions: results.totalQuestions,
@@ -25995,7 +25996,7 @@ function App({ externalTheme, onThemeChange }) {
           subject,
           quizCode,
           quizTitle:
-            quizDetails.title || quizDetails.topicTitle || 'GED� Practice Exam',
+            quizDetails.title || quizDetails.topicTitle || 'GED Practice Exam',
           quizType: quizDetails.type,
           score: results.score,
           totalQuestions: results.totalQuestions,
@@ -26060,7 +26061,7 @@ function App({ externalTheme, onThemeChange }) {
 
   const renderView = () => {
     if (!currentUser) {
-      return <AuthScreen onLogin={handleLogin} />;
+      return <SharedAuthScreen onLogin={handleLogin} />;
     }
 
     // Check for active social studies tools
@@ -27732,307 +27733,6 @@ function SettingsView({
         </div>
       </div>
     </section>
-  );
-}
-
-function AuthScreen({ onLogin }) {
-  const googleButton = useRef(null);
-  const [mode, setMode] = useState('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [formError, setFormError] = useState(null);
-  const [formMessage, setFormMessage] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleCredentialResponse = useCallback(
-    async (response) => {
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify({ credential: response.credential }),
-        });
-
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(text || `Server responded with ${res.status}`);
-        }
-
-        const { user, token } = await res.json();
-        onLogin(user, token);
-      } catch (error) {
-        console.error('Login Error:', error);
-      }
-    },
-    [onLogin]
-  );
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-      if (window.google && google.accounts.id && googleButton.current) {
-        google.accounts.id.initialize({
-          client_id:
-            '828659988606-p9ct562f068p1778im2ck2o5iga89i7m.apps.googleusercontent.com',
-          callback: handleCredentialResponse,
-        });
-        google.accounts.id.renderButton(googleButton.current, {
-          theme: 'outline',
-          size: 'large',
-          text: 'signin_with',
-          shape: 'rectangular',
-        });
-      }
-    };
-    script.onerror = () => {
-      console.error('Google Sign-In script failed to load.');
-    };
-
-    document.body.appendChild(script);
-
-    return () => {
-      const goggleScript = document.querySelector(
-        'script[src="https://accounts.google.com/gsi/client"]'
-      );
-      if (goggleScript) {
-        document.body.removeChild(goggleScript);
-      }
-    };
-  }, [handleCredentialResponse]);
-
-  const modeLabel = mode === 'login' ? 'Log In' : 'Register';
-
-  const toggleMode = () => {
-    setMode((prev) => (prev === 'login' ? 'register' : 'login'));
-    setFormError(null);
-    setFormMessage(null);
-    setPassword('');
-  };
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    setFormError(null);
-    setFormMessage(null);
-
-    if (!email.trim() || !password.trim()) {
-      setFormError('Email and password are required');
-      return;
-    }
-
-    setSubmitting(true);
-
-    try {
-      const endpoint = mode === 'login' ? '/api/login' : '/api/register';
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: email.trim(), password }),
-      });
-
-      let body = {};
-      try {
-        body = await response.json();
-      } catch (err) {
-        body = {};
-      }
-
-      if (!response.ok) {
-        throw new Error(body?.error || 'Unable to complete request');
-      }
-
-      if (body?.user && body?.token) {
-        onLogin(body.user, body.token);
-        setEmail('');
-        setPassword('');
-      } else {
-        setFormMessage(body?.message || 'Success. You can now sign in.');
-        if (mode === 'register') {
-          setMode('login');
-        }
-      }
-    } catch (error) {
-      setFormError(
-        error instanceof Error ? error.message : 'Unable to complete request'
-      );
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  return (
-    <>
-      <div className="text-center max-w-md mx-auto">
-        <h2 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100 mb-2">
-          Welcome!
-        </h2>
-        <p className="text-slate-700 dark:text-slate-300 mb-6">
-          Sign in to save your progress across devices.
-        </p>
-        <form
-          onSubmit={handleFormSubmit}
-          className="panel-surface rounded-2xl shadow-md p-6 text-left space-y-4 border-subtle"
-        >
-          <div>
-            <label
-              htmlFor="auth-email"
-              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
-            >
-              Email
-            </label>
-            <input
-              id="auth-email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 text-slate-900 dark:text-slate-100 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary"
-              autoComplete="email"
-              placeholder="you@example.com"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="auth-password"
-              className="block text-sm font-medium text-slate-700 dark:text-slate-300"
-            >
-              Password
-            </label>
-            <input
-              id="auth-password"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 text-slate-900 dark:text-slate-100 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary"
-              autoComplete={
-                mode === 'login' ? 'current-password' : 'new-password'
-              }
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-          {formError && <p className="text-sm text-danger">{formError}</p>}
-          {formMessage && <p className="text-sm text-success">{formMessage}</p>}
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full rounded-lg btn-primary py-2 text-sm font-semibold shadow disabled:opacity-60"
-          >
-            {submitting ? 'Please wait' : modeLabel}
-          </button>
-        </form>
-        <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
-          {mode === 'login' ? 'Need an account?' : 'Already have an account?'}{' '}
-          <button
-            type="button"
-            onClick={toggleMode}
-            className="font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300"
-          >
-            {mode === 'login' ? 'Register' : 'Log in'}
-          </button>
-        </p>
-        <div className="my-6 flex items-center justify-center gap-3 text-xs uppercase tracking-wide text-muted">
-          <span
-            className="h-px w-12 border-subtle bg-current"
-            aria-hidden="true"
-          ></span>
-          <span>Or continue with</span>
-          <span
-            className="h-px w-12 border-subtle bg-current"
-            aria-hidden="true"
-          ></span>
-        </div>
-        <div ref={googleButton} className="flex justify-center"></div>
-
-        {/* Dev-only quick login bypass */}
-        {
-          // Show in Vite dev OR when running locally (no ?dev flag needed)
-          (import.meta.env.MODE === 'development' ||
-            (typeof window !== 'undefined' &&
-              (window.location.hostname === 'localhost' ||
-                window.location.hostname === '127.0.0.1'))) && (
-            <div className="mt-6 p-4 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/40">
-              <p className="text-xs font-semibold text-amber-800 dark:text-amber-200 mb-2 uppercase tracking-wide">
-                Dev Mode: Quick Login
-              </p>
-              <div className="grid grid-cols-2 gap-2">
-                {[
-                  {
-                    role: 'student',
-                    label: 'Student',
-                    color: 'bg-blue-600 hover:bg-blue-700',
-                  },
-                  {
-                    role: 'instructor',
-                    label: 'Instructor',
-                    color: 'bg-green-600 hover:bg-green-700',
-                  },
-                  {
-                    role: 'orgAdmin',
-                    label: 'Org Admin',
-                    color: 'bg-purple-600 hover:bg-purple-700',
-                  },
-                  {
-                    role: 'superAdmin',
-                    label: 'Super Admin',
-                    color: 'bg-red-600 hover:bg-red-700',
-                  },
-                ].map(({ role, label, color }) => (
-                  <button
-                    key={role}
-                    type="button"
-                    onClick={async () => {
-                      try {
-                        console.log('[DEV] Attempting login as:', role);
-                        const response = await fetch('/api/dev-login-as', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ role }),
-                        });
-                        console.log('[DEV] Response status:', response.status);
-                        const data = await response.json();
-                        console.log('[DEV] Response data:', data);
-                        if (data.ok) {
-                          console.log(
-                            '[DEV] Calling onLogin with:',
-                            data.user,
-                            data.token
-                          );
-                          onLogin(data.user, data.token);
-                        } else {
-                          console.error('[DEV] Login failed:', data);
-                          alert(
-                            'Dev login failed: ' +
-                              (data.error || 'Unknown error')
-                          );
-                        }
-                      } catch (error) {
-                        console.error('Dev login error:', error);
-                        alert('Dev login error: ' + error.message);
-                      }
-                    }}
-                    className={`px-3 py-2 text-xs font-semibold text-white rounded-lg transition ${color}`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )
-        }
-
-        <p className="mt-6 text-xs text-muted">
-          Admins: Sign in with Google to access your dashboard.
-        </p>
-      </div>
-    </>
   );
 }
 
@@ -30290,7 +29990,7 @@ function VocabularyBySubject({ vocabulary, onStartQuiz, theme = 'light' }) {
                   className={buttonClasses}
                   style={buttonStyle}
                 >
-                  ?? Vocabulary Quiz
+                  📚 Vocabulary Quiz
                 </button>
                 <span className="text-slate-600 dark:text-slate-300 text-xl">
                   {isExpanded ? '' : ''}
@@ -30455,7 +30155,7 @@ function FormulaSheetModal({ onClose }) {
           style={{ borderColor: 'rgba(148,163,184,0.35)' }}
         >
           <h2 className="formula-sheet-title text-xl font-bold">
-            GED� Mathematical Reasoning Formula Sheet
+            GED Mathematical Reasoning Formula Sheet
           </h2>
           <button
             onClick={onClose}
@@ -33001,7 +32701,7 @@ function StartScreen({
                         {
                           id: 'essay_practice_tool',
                           type: 'essay',
-                          title: 'GED� Essay Practice Toolkit',
+                          title: 'GED Essay Practice Toolkit',
                         },
                         selectedSubject
                       )
@@ -36367,13 +36067,12 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const getPerf = (score) => {
     if (score >= 175)
       return {
-        level: 'GED� College Ready + Credit',
+        level: 'GED College Ready + Credit',
         color: 'text-info',
       };
-    if (score >= 165)
-      return { level: 'GED� College Ready', color: 'text-info' };
+    if (score >= 165) return { level: 'GED College Ready', color: 'text-info' };
     if (score >= 145)
-      return { level: 'GED� Passing Score', color: 'text-success' };
+      return { level: 'GED Passing Score', color: 'text-success' };
     return { level: 'Keep studying!', color: 'text-warning' };
   };
 
@@ -36422,7 +36121,9 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         Results: {quiz?.title || 'Completed Quiz'}
       </h2>
       <div className="my-6">
-        <p className="text-lg text-secondary">Your estimated GED� Score is:</p>
+        <p className="text-lg text-secondary">
+          Your estimated GED (R) Score is:
+        </p>
         <p className={`text-6xl font-bold my-2 ${performance.color}`}>
           {scaledScore}
         </p>
@@ -36441,7 +36142,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             Suggested Focus Areas
           </h3>
           {loadingSuggestions && !suggestions.length ? (
-            <p className="text-sm text-secondary">Loading suggestions�</p>
+            <p className="text-sm text-secondary">Loading suggestions...</p>
           ) : suggestions.length ? (
             <ul className="space-y-2">
               {suggestions.map((s) => (
@@ -36681,8 +36382,15 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                     isCorrect ? 'text-success' : 'text-danger'
                   }`}
                 >
-                  Your answer: {userAnswer || 'No answer'}{' '}
-                  {isCorrect ? '?' : '?'}
+                  Your answer:{' '}
+                  <span
+                    className="question-stem"
+                    dangerouslySetInnerHTML={renderQuestionTextForDisplay(
+                      userAnswer || 'No answer',
+                      question.isPremade === true
+                    )}
+                  />{' '}
+                  {isCorrect ? '✓' : '✗'}
                 </p>
                 {!isCorrect &&
                   ((correctMC && correctMC.text) || question.correctAnswer) && (
@@ -37765,7 +37473,7 @@ function EssayGuide({ onExit }) {
     ? `After reading both passages about "${selectedPassage.topic}", write an essay in which you explain which author presents the more convincing argument. Support your response with evidence from both passages and explain why the evidence you cite supports your evaluation.`
     : '';
   const overlayButtons = [
-    { id: 'prompt', label: 'Essay Prompt', title: 'GED� RLA Essay Prompt' },
+    { id: 'prompt', label: 'Essay Prompt', title: 'GED RLA Essay Prompt' },
     {
       id: 'passage1',
       label: 'Passage A',
@@ -38170,7 +37878,7 @@ function EssayGuide({ onExit }) {
                         essayText.intro
                       ) && (
                         <div className="text-yellow-700 bg-yellow-50 px-3 py-1 rounded-md border border-yellow-300">
-                          ?? Tip: Ensure you state your main argument
+                          💡 Tip: Ensure you state your main argument
                         </div>
                       )}
                   </div>

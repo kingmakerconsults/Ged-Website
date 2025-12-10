@@ -161,10 +161,10 @@ export function AuthScreen({ onLogin }) {
   return (
     <>
       <div className="text-center max-w-md mx-auto">
-        <h2 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100 mb-2">
+        <h2 className="text-3xl font-extrabold text-black dark:text-slate-100 mb-2">
           Welcome!
         </h2>
-        <p className="text-slate-700 dark:text-slate-300 mb-6">
+        <p className="text-black dark:text-slate-300 mb-6">
           Sign in to save your progress across devices.
         </p>
         <form
