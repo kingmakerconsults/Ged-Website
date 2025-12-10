@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-DA_JTAI2.js";
+import { _ as __vitePreload } from "./index-CO9BMHr7.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -36764,17 +36764,6 @@ function EssayGuide({ onExit }) {
       evidenceType + " and expert testimony"
     ).replace(/\[restate evidence types\]/g, evidenceType);
   };
-  const currentPassage = passagesData[lockedTopic !== null ? lockedTopic : selectedTopic];
-  const filledTemplates = reactExports.useMemo(() => {
-    if (!currentPassage || essayMode !== "guided") return essayTemplates;
-    return {
-      intro: fillEssayTemplate(essayTemplates.intro, currentPassage),
-      body1: fillEssayTemplate(essayTemplates.body1, currentPassage),
-      body2: fillEssayTemplate(essayTemplates.body2, currentPassage),
-      body3: fillEssayTemplate(essayTemplates.body3, currentPassage),
-      conclusion: fillEssayTemplate(essayTemplates.conclusion, currentPassage)
-    };
-  }, [currentPassage, essayMode, lockedTopic, selectedTopic]);
   reactExports.useEffect(() => {
     if (timerActive) {
       intervalRef.current = setInterval(() => {
@@ -36798,6 +36787,17 @@ function EssayGuide({ onExit }) {
     setOverlayView("prompt");
   }, [selectedTopic]);
   const [lockedTopic, setLockedTopic] = reactExports.useState(null);
+  const currentPassage = passagesData[lockedTopic !== null ? lockedTopic : selectedTopic];
+  const filledTemplates = reactExports.useMemo(() => {
+    if (!currentPassage || essayMode !== "guided") return essayTemplates;
+    return {
+      intro: fillEssayTemplate(essayTemplates.intro, currentPassage),
+      body1: fillEssayTemplate(essayTemplates.body1, currentPassage),
+      body2: fillEssayTemplate(essayTemplates.body2, currentPassage),
+      body3: fillEssayTemplate(essayTemplates.body3, currentPassage),
+      conclusion: fillEssayTemplate(essayTemplates.conclusion, currentPassage)
+    };
+  }, [currentPassage, essayMode, lockedTopic, selectedTopic]);
   const startPractice = () => {
     if (lockedTopic === null) {
       setLockedTopic(selectedTopic);
@@ -39153,4 +39153,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-BaaOKcxw.js.map
+//# sourceMappingURL=main-BlM3HKOs.js.map
