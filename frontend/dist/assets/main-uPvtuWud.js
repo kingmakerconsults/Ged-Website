@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-DPJXI6_a.js";
+import { _ as __vitePreload } from "./index-Cfeh3MFF.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -5087,7 +5087,6 @@ const buildProgressFromAttempts = (attempts = []) => {
       quizCode: (entry == null ? void 0 : entry.quizCode) || (entry == null ? void 0 : entry.quiz_code) || (entry == null ? void 0 : entry.quizId) || (entry == null ? void 0 : entry.quiz_id) || null,
       quizTitle: (entry == null ? void 0 : entry.quizTitle) || (entry == null ? void 0 : entry.quiz_title) || (entry == null ? void 0 : entry.quizName) || null,
       quizType: (entry == null ? void 0 : entry.quizType) || (entry == null ? void 0 : entry.quiz_type) || null,
-      score: typeof (entry == null ? void 0 : entry.score) === "number" ? entry.score : Number.isFinite(Number(entry == null ? void 0 : entry.score)) ? Math.round(Number(entry.score)) : null,
       totalQuestions: typeof (entry == null ? void 0 : entry.totalQuestions) === "number" ? entry.totalQuestions : Number.isFinite(Number(entry == null ? void 0 : entry.total_questions)) ? Math.round(Number(entry.total_questions)) : Number.isFinite(Number(entry == null ? void 0 : entry.totalQuestions)) ? Math.round(Number(entry.totalQuestions)) : null,
       scaledScore: typeof (entry == null ? void 0 : entry.scaledScore) === "number" ? Math.round(entry.scaledScore) : Number.isFinite(Number(entry == null ? void 0 : entry.scaled_score)) ? Math.round(Number(entry.scaled_score)) : null,
       attemptedAt: (entry == null ? void 0 : entry.attemptedAt) || (entry == null ? void 0 : entry.attempted_at) || (entry == null ? void 0 : entry.takenAt) || null
@@ -36339,14 +36338,100 @@ function EssayGuide({ onExit }) {
   const [showPromptOverlay, setShowPromptOverlay] = reactExports.useState(false);
   const [overlayView, setOverlayView] = reactExports.useState("prompt");
   const intervalRef = reactExports.useRef(null);
+  const getShadowStyle = () => ({
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    padding: "0.5rem",
+    color: "rgba(100, 116, 139, 0.4)",
+    pointerEvents: "none",
+    whiteSpace: "pre-wrap",
+    wordWrap: "break-word",
+    overflow: "hidden",
+    fontFamily: "inherit",
+    fontSize: "inherit",
+    lineHeight: "inherit",
+    zIndex: 1
+  });
+  const essayTemplates = {
+    intro: `The two passages present conflicting views on the topic of [topic of both articles]. In the first passage, [Author 1's Last Name] argues that [explain Author 1's main claim]. Conversely, in the second passage, [Author 2's Last Name] claims that [explain Author 2's main claim]. After analyzing both arguments, it is clear that [Author's Last Name] presents the more convincing case by effectively using [list key evidence types].`,
+    body1: `First, [Stronger Author's Last Name] effectively builds their argument by using [type of evidence]. The author states, ["quote or paraphrase"]. This evidence is highly convincing because [explain why].`,
+    body2: `Furthermore, [Stronger Author's Last Name] strengthens their position with [another type of evidence]. For example, the author points out that ["quote or paraphrase"]. This is a logical and persuasive point because [explain why].`,
+    body3: `In contrast, the argument presented by [Weaker Author's Last Name] is not as well-supported. A key weakness is the author's reliance on [identify a weakness]. For instance, the author claims that ["quote or paraphrase"]. This argument is unconvincing because [explain why].`,
+    conclusion: `In conclusion, while both authors address the topic, [Stronger Author's Last Name] presents a more compelling argument. By skillfully using [restate evidence types], the author builds a case that is more persuasive than the weakly supported claims by [Weaker Author's Last Name].`
+  };
+  const [pacingMessage, setPacingMessage] = reactExports.useState("");
+  const [wordsPerMinute, setWordsPerMinute] = reactExports.useState(0);
+  const pacingIntervalRef = reactExports.useRef(null);
+  const [typingAccuracy, setTypingAccuracy] = reactExports.useState({
+    intro: { correct: true, progress: 0 },
+    body1: { correct: true, progress: 0 },
+    body2: { correct: true, progress: 0 },
+    body3: { correct: true, progress: 0 },
+    conclusion: { correct: true, progress: 0 }
+  });
+  const checkTypingAccuracy = reactExports.useCallback((section, typed, expected) => {
+    if (!expected || essayMode !== "guided") return;
+    const isCorrectSoFar = expected.startsWith(typed.trim());
+    const progress = typed.length / expected.length;
+    setTypingAccuracy((prev) => ({
+      ...prev,
+      [section]: { correct: isCorrectSoFar, progress }
+    }));
+  }, [essayMode]);
+  reactExports.useEffect(() => {
+    if (essayMode !== "guided" || !timerActive) {
+      if (pacingIntervalRef.current) {
+        clearInterval(pacingIntervalRef.current);
+        pacingIntervalRef.current = null;
+      }
+      return;
+    }
+    pacingIntervalRef.current = setInterval(() => {
+      const totalWords = Object.values(essayText).reduce(
+        (sum, text) => sum + wordCount(text),
+        0
+      );
+      const elapsedMinutes = (45 * 60 - timer) / 60;
+      const wpm = elapsedMinutes > 0 ? Math.round(totalWords / elapsedMinutes) : 0;
+      setWordsPerMinute(wpm);
+      const messages = [
+        "Good pace—keep developing your ideas.",
+        "Excellent—your writing rhythm is strong.",
+        "Nice progress! Stay focused on the structure.",
+        "You're doing well. Keep up the momentum."
+      ];
+      if (totalWords > 0 && elapsedMinutes > 1) {
+        if (wpm < 15) {
+          setPacingMessage("You may want to pick up the pace slightly.");
+        } else if (wpm > 40) {
+          setPacingMessage("Great speed! Make sure to maintain accuracy.");
+        } else {
+          setPacingMessage(messages[Math.floor(Math.random() * messages.length)]);
+        }
+        setTimeout(() => setPacingMessage(""), 8e3);
+      }
+    }, 3e4);
+    return () => {
+      if (pacingIntervalRef.current) {
+        clearInterval(pacingIntervalRef.current);
+      }
+    };
+  }, [essayMode, timerActive, timer, essayText]);
   const stripHtmlToPlain = (html) => {
     if (typeof html !== "string") return "";
-    let text = html.replace(/<\s*br\s*\/?>/gi, "\n").replace(/<\s*\/?p[^>]*>/gi, "\n\n").replace(/<\s*\/?li[^>]*>/gi, (m2) => m2.startsWith("</") ? "\n" : " ").replace(
-      /<\s*\/?(strong|em|b|i|u|span|div|h\d|section|article|blockquote)[^>]*>/gi,
-      ""
-    ).replace(/<[^>]+>/g, "");
+    let text = html.replace(/<\s*br\s*\/?/gi, "\n").replace(/<\s*\/?p[^>]*>/gi, "\n\n").replace(/<\s*\/?li[^>]*>/gi, (m2) => m2.startsWith("</") ? "\n" : " ").replace(/<[^>]+>/g, "");
     text = text.replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
     return text.replace(/[\t\r ]+/g, " ").replace(/\s*\n\s*\n\s*/g, "\n\n").trim();
+  };
+  const sanitizeEssayHtml = (html) => {
+    if (typeof html !== "string") return "";
+    return sanitizeHtmlContent(html, {
+      normalizeSpacing: true,
+      trustedHtml: true
+    });
   };
   const wordCount = (text) => {
     if (!text) return 0;
@@ -36356,16 +36441,18 @@ function EssayGuide({ onExit }) {
     stronger: "Proponents argue that the most persuasive way to evaluate this issue is to look at measurable outcomes and well-documented mechanisms. When a policy or practice produces consistent benefits across different settings, it suggests the core claim is not just theoretically appealing but operationally sound. For instance, researchers often highlight trends that persist after controlling for confounding factors, which strengthens causal interpretations. In everyday terms, the effects show up in places that are not cherry-picked: large districts as well as small ones, urban areas as well as rural communities, and across diverse populations. This breadth matters because it demonstrates that the argument is not reliant on a single exceptional case.\n\nEqually important is the internal logic of the claim. A clear explanation of how inputs become outcomesbacked by credible studies or official recordsbuilds reader confidence. When authors acknowledge limitations, address counterarguments directly, and explain why competing explanations fall short, they further enhance credibility. The tone remains measured and analytic rather than speculative, and the supporting evidence goes beyond anecdotes to include trends, comparative data, or longitudinal results.\n\nFinally, strong arguments connect evidence to implications. They clarify not only that an approach works, but why it is better than realistic alternatives in terms of access, cost, fairness, or long-term sustainability. This emphasis on mechanisms and trade-offs gives readers a trustworthy basis for judgment, which is precisely what the GED essay task asks evaluators to reward.",
     weaker: "Skeptics raise concerns that deserve attention, though their claims often rely on broad generalizations, isolated examples, or predictions that are not fully supported by data. These reservations can be useful for surfacing potential risks or unintended consequences, but they are most convincing when paired with specific evidence and a clear explanation of scope. Without those anchors, caution can drift into conjecture, making it hard to weigh against concrete results reported elsewhere.\n\nIn addition, weaker arguments sometimes mistake correlation for causation or rely on assumptions about human behavior that are plausible but untested. They may emphasize exceptional casesoutlierswhile downplaying broader trends that move in the opposite direction. A careful reader should ask whether the same claim holds across settings and whether competing explanations have been seriously considered. When key terms are left undefined or evidence is largely anecdotal, the overall force of the case diminishes.\n\nThat said, raising practical constraints and ethical considerations is valuable. Well-framed questions about cost, feasibility, or equity can guide better policy design. But to match the rigor expected on the GED, these concerns need to be grounded in verifiable facts and organized into a clear line of reasoning rather than relying primarily on intuition or personal experience."
   };
-  const expandIfShort = (topic, title, baseText) => {
+  const expandIfShort = (topic, title, baseHtml) => {
     const MIN = 450;
     const MAX = 650;
-    let text = stripHtmlToPlain(baseText);
+    let html = sanitizeEssayHtml(baseHtml);
+    let text = stripHtmlToPlain(html);
     let wc = wordCount(text);
-    if (wc >= MIN && wc <= MAX) return text;
+    if (wc >= MIN && wc <= MAX) return sanitizeEssayHtml(html);
     const stance = /stronger/i.test(title) ? "stronger" : /weaker/i.test(title) ? "weaker" : "stronger";
     const add = genericExpansion[stance];
     while (wc < MIN) {
-      text += "\n\n" + add;
+      html += `<p class="prompt-expansion">${add}</p>`;
+      text = stripHtmlToPlain(html);
       wc = wordCount(text);
       if (wc > MAX) break;
     }
@@ -36374,9 +36461,10 @@ function EssayGuide({ onExit }) {
       while (wordCount(sentences.join(" ")) > MAX && sentences.length > 3) {
         sentences.pop();
       }
-      text = sentences.join(" ");
+      const trimmedPlain = sentences.join(" ");
+      html = `<p>${trimmedPlain}</p>`;
     }
-    return text;
+    return sanitizeEssayHtml(html);
   };
   const passagesData = [
     // --- All 10 Topics Updated with Highlighted & Imbalanced Evidence ---
@@ -36384,13 +36472,13 @@ function EssayGuide({ onExit }) {
       topic: "Should the Voting Age Be Lowered to 16?",
       passage1: {
         title: "Dr. Alisa Klein, Sociologist (Stronger Argument)",
-        content: stripHtmlToPlain(
+        content: sanitizeEssayHtml(
           "<p>Lowering the voting age to 16 is a crucial step for a healthier democracy. At 16, many young people are employed, pay taxes on their earnings, and are subject to the laws of the land. It is a fundamental principle of democracy'no taxation without representation'that they should have a voice in shaping policies that directly affect them, from education funding to climate change.</p><p><span class='good-evidence'>Furthermore, research shows that voting is a habit; a 2020 study from Tufts University found that cities that allow 16-year-olds to vote in local elections see significantly higher youth turnout in subsequent national elections.</span> Enabling citizens to vote at an age when they are still living in a stable home and learning about civics in school increases the likelihood they will become lifelong voters.</p><p><span class='good-evidence'>As political scientist Dr. Mark Franklin notes, 'The earlier a citizen casts their first ballot, the more likely they are to become a consistent participant in our democracy.'</span> It is a vital step toward strengthening civic engagement for generations to come.</p>"
         )
       },
       passage2: {
         title: "Marcus heavyweight, Political Analyst (Weaker Argument)",
-        content: stripHtmlToPlain(
+        content: sanitizeEssayHtml(
           "<p>While the idealism behind lowering the voting age is appealing, the practical realities suggest it would be a mistake. The adolescent brain is still undergoing significant development, particularly in areas related to long-term decision-making and impulse control. The political landscape is complex, requiring a level of experience and cognitive maturity that most 16-year-olds have not yet developed.</p><p>We risk trivializing the profound responsibility of voting by extending it to a demographic that is, by and large, not yet equipped to handle it. <span class='bad-evidence'>I remember being 16, and my friends and I were far more concerned with prom dates and getting a driver's license than with monetary policy.</span> Their priorities are simply not aligned with the serious nature of national governance.</p><p>The current age of 18 strikes a reasonable balance, marking a clear transition into legal adulthood and the full spectrum of responsibilities that come with it. To change this is to experiment with the foundation of our republic for no clear gain.</p>"
         )
       }
@@ -36606,6 +36694,60 @@ function EssayGuide({ onExit }) {
       }
     }
   ];
+  const fillEssayTemplate = (template, passageData) => {
+    var _a3, _b3, _c, _d, _e, _f;
+    if (!passageData) return template;
+    const extractLastName = (title) => {
+      if (!title) return "[Author]";
+      const match = title.match(/([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/);
+      return match ? match[0].split(" ").pop() : "[Author]";
+    };
+    const extractEvidence = (content) => {
+      if (!content) return "[evidence]";
+      const match = content.match(/<span class='good-evidence'>([^<]+)<\/span>/);
+      return match ? match[1].trim().substring(0, 80) : "[supporting data]";
+    };
+    const extractMainClaim = (content) => {
+      if (!content) return "[main argument]";
+      const textOnly = content.replace(/<[^>]+>/g, "").trim();
+      const firstSentence = textOnly.split(/[.!?]+/)[0];
+      return firstSentence.length > 100 ? firstSentence.substring(0, 100) + "..." : firstSentence || "[position]";
+    };
+    const extractEvidenceType = (content) => {
+      if (!content) return "evidence";
+      const types = ["study", "data", "research", "analysis", "report", "survey", "poll", "findings"];
+      const lowerContent = content.toLowerCase();
+      for (const type of types) {
+        if (lowerContent.includes(type)) return type;
+      }
+      return "evidence";
+    };
+    const author1LastName = extractLastName((_a3 = passageData.passage1) == null ? void 0 : _a3.title);
+    const author2LastName = extractLastName((_b3 = passageData.passage2) == null ? void 0 : _b3.title);
+    const topic = passageData.topic || "[topic]";
+    const isPassage1Stronger = /stronger/i.test(((_c = passageData.passage1) == null ? void 0 : _c.title) || "");
+    const strongerAuthor = isPassage1Stronger ? author1LastName : author2LastName;
+    const weakerAuthor = isPassage1Stronger ? author2LastName : author1LastName;
+    const strongerPassage = isPassage1Stronger ? passageData.passage1 : passageData.passage2;
+    const weakerPassage = isPassage1Stronger ? passageData.passage2 : passageData.passage1;
+    extractMainClaim(strongerPassage == null ? void 0 : strongerPassage.content);
+    extractMainClaim(weakerPassage == null ? void 0 : weakerPassage.content);
+    const strongerEvidence = extractEvidence(strongerPassage == null ? void 0 : strongerPassage.content);
+    const weakerWeakness = ((_d = weakerPassage == null ? void 0 : weakerPassage.content) == null ? void 0 : _d.includes("bad-evidence")) ? "anecdotal reasoning" : "insufficient evidence";
+    const evidenceType = extractEvidenceType(strongerPassage == null ? void 0 : strongerPassage.content);
+    return template.replace(/\[topic of both articles\]/g, topic).replace(/\[Author 1's Last Name\]/g, author1LastName).replace(/\[Author 2's Last Name\]/g, author2LastName).replace(/\[explain Author 1's main claim\]/g, extractMainClaim((_e = passageData.passage1) == null ? void 0 : _e.content)).replace(/\[explain Author 2's main claim\]/g, extractMainClaim((_f = passageData.passage2) == null ? void 0 : _f.content)).replace(/\[Stronger Author's Last Name\]/g, strongerAuthor).replace(/\[Weaker Author's Last Name\]/g, weakerAuthor).replace(/\[Author's Last Name\]/g, strongerAuthor).replace(/\[type of evidence\]/g, evidenceType).replace(/\["quote or paraphrase"\]/g, `"${strongerEvidence}"`).replace(/\[explain why\]/g, "it provides measurable, concrete support").replace(/\[another type of evidence\]/g, evidenceType).replace(/\[identify a weakness\]/g, weakerWeakness).replace(/\[list key evidence types\]/g, evidenceType + " and expert testimony").replace(/\[restate evidence types\]/g, evidenceType);
+  };
+  const currentPassage = passagesData[lockedTopic !== null ? lockedTopic : selectedTopic];
+  const filledTemplates = reactExports.useMemo(() => {
+    if (!currentPassage || essayMode !== "guided") return essayTemplates;
+    return {
+      intro: fillEssayTemplate(essayTemplates.intro, currentPassage),
+      body1: fillEssayTemplate(essayTemplates.body1, currentPassage),
+      body2: fillEssayTemplate(essayTemplates.body2, currentPassage),
+      body3: fillEssayTemplate(essayTemplates.body3, currentPassage),
+      conclusion: fillEssayTemplate(essayTemplates.conclusion, currentPassage)
+    };
+  }, [currentPassage, essayMode, lockedTopic, selectedTopic]);
   reactExports.useEffect(() => {
     if (timerActive) {
       intervalRef.current = setInterval(() => {
@@ -36657,6 +36799,9 @@ function EssayGuide({ onExit }) {
   const handleTextChange = (e) => {
     const { name, value } = e.target;
     setEssayText((prev) => ({ ...prev, [name]: value }));
+    if (essayMode === "guided" && filledTemplates[name]) {
+      checkTypingAccuracy(name, value, filledTemplates[name]);
+    }
   };
   const handleGetScore = async () => {
     var _a3, _b3, _c, _d;
@@ -36752,7 +36897,7 @@ function EssayGuide({ onExit }) {
     if (!selectedPassage) return null;
     switch (overlayView) {
       case "passage1": {
-        const text = expandIfShort(
+        const html = expandIfShort(
           selectedPassage.topic,
           selectedPassage.passage1.title,
           selectedPassage.passage1.content
@@ -36762,12 +36907,12 @@ function EssayGuide({ onExit }) {
           {
             className: "prose passage-section max-w-none text-sm text-slate-700",
             style: { whiteSpace: "pre-wrap" },
-            children: text
+            dangerouslySetInnerHTML: { __html: html }
           }
         );
       }
       case "passage2": {
-        const text = expandIfShort(
+        const html = expandIfShort(
           selectedPassage.topic,
           selectedPassage.passage2.title,
           selectedPassage.passage2.content
@@ -36777,7 +36922,7 @@ function EssayGuide({ onExit }) {
           {
             className: "prose passage-section max-w-none text-sm text-slate-700",
             style: { whiteSpace: "pre-wrap" },
-            children: text
+            dangerouslySetInnerHTML: { __html: html }
           }
         );
       }
@@ -36875,19 +37020,37 @@ function EssayGuide({ onExit }) {
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "bg-white p-6 rounded-lg shadow-md essay-argument-column", children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem", children: selectedPassage.passage1.title }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { whiteSpace: "pre-wrap" }, children: expandIfShort(
-                      selectedPassage.topic,
-                      selectedPassage.passage1.title,
-                      selectedPassage.passage1.content
-                    ) })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        className: "essay-prompt-body",
+                        style: { whiteSpace: "pre-wrap" },
+                        dangerouslySetInnerHTML: {
+                          __html: expandIfShort(
+                            selectedPassage.topic,
+                            selectedPassage.passage1.title,
+                            selectedPassage.passage1.content
+                          )
+                        }
+                      }
+                    )
                   ] }),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "bg-white p-6 rounded-lg shadow-md essay-argument-column", children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem", children: selectedPassage.passage2.title }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { whiteSpace: "pre-wrap" }, children: expandIfShort(
-                      selectedPassage.topic,
-                      selectedPassage.passage2.title,
-                      selectedPassage.passage2.content
-                    ) })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        className: "essay-prompt-body",
+                        style: { whiteSpace: "pre-wrap" },
+                        dangerouslySetInnerHTML: {
+                          __html: expandIfShort(
+                            selectedPassage.topic,
+                            selectedPassage.passage2.title,
+                            selectedPassage.passage2.content
+                          )
+                        }
+                      }
+                    )
                   ] })
                 ]
               }
@@ -36982,68 +37145,59 @@ function EssayGuide({ onExit }) {
               }
             )
           ] }),
+          pacingMessage && essayMode === "guided" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-900 text-sm fade-in", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: "💡 Pacing Tip:" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: pacingMessage }),
+            wordsPerMinute > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ml-auto text-xs text-blue-700", children: [
+              "(",
+              wordsPerMinute,
+              " WPM)"
+            ] })
+          ] }) }),
           essayMode === "guided" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Introduction Paragraph" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-gray-700 leading-relaxed mb-4", children: [
-                "The two passages present conflicting views on the topic of",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[topic of both articles]" }),
-                ". In the first passage,",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[Author 1's Last Name]" }),
-                " ",
-                "argues that",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[explain Author 1's main claim]" }),
-                ". Conversely, in the second passage,",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[Author 2's Last Name]" }),
-                " ",
-                "claims that",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[explain Author 2's main claim]" }),
-                ". After analyzing both arguments, it is clear that",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[Author's Last Name]" }),
-                " ",
-                "presents the more convincing case by effectively using",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[list key evidence types]" }),
-                "."
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "textarea",
-                {
-                  name: "intro",
-                  onPaste: (e) => e.preventDefault(),
-                  value: essayText.intro,
-                  onChange: handleTextChange,
-                  disabled: !timerActive,
-                  className: "practice-textarea w-full h-48 p-3 border-gray-300 rounded-md",
-                  placeholder: "Type your introduction here...",
-                  onKeyDown: (e) => {
-                    if (e.key === "Tab") {
-                      e.preventDefault();
-                      const t = e.target;
-                      const s = t.selectionStart;
-                      const epos = t.selectionEnd;
-                      const v = t.value;
-                      const ins = "    ";
-                      const next = v.slice(0, s) + ins + v.slice(epos);
-                      handleTextChange({
-                        target: { name: "intro", value: next }
-                      });
-                      setTimeout(() => {
-                        try {
-                          t.selectionStart = t.selectionEnd = s + ins.length;
-                        } catch {
-                        }
-                      }, 0);
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "textarea",
+                  {
+                    name: "intro",
+                    onPaste: (e) => e.preventDefault(),
+                    value: essayText.intro,
+                    onChange: handleTextChange,
+                    disabled: !timerActive,
+                    className: "practice-textarea w-full h-48 p-3 border-gray-300 rounded-md",
+                    placeholder: "Type your introduction here...",
+                    style: {
+                      position: "relative",
+                      background: "transparent",
+                      zIndex: 2
+                    },
+                    onKeyDown: (e) => {
+                      if (e.key === "Tab") {
+                        e.preventDefault();
+                        const t = e.target;
+                        const s = t.selectionStart;
+                        const epos = t.selectionEnd;
+                        const v = t.value;
+                        const ins = "    ";
+                        const next = v.slice(0, s) + ins + v.slice(epos);
+                        handleTextChange({
+                          target: { name: "intro", value: next }
+                        });
+                        setTimeout(() => {
+                          try {
+                            t.selectionStart = t.selectionEnd = s + ins.length;
+                          } catch {
+                          }
+                        }, 0);
+                      }
                     }
                   }
-                }
-              ),
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: !essayText.intro || essayText.intro.length < 2 ? filledTemplates.intro : "" }),
+                essayText.intro && !typingAccuracy.intro.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
+              ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 flex justify-between items-center text-sm", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-gray-600", children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: wordCount(essayText.intro) }),
@@ -37061,204 +37215,179 @@ function EssayGuide({ onExit }) {
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #1: Analyze Strong Evidence" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-gray-700 leading-relaxed mb-4", children: [
-                "First,",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[Stronger Author's Last Name]" }),
-                " ",
-                "effectively builds their argument by using",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[type of evidence]" }),
-                ". The author states,",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: '["quote or paraphrase"]' }),
-                ". This evidence is highly convincing because",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[explain why]" }),
-                "."
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "textarea",
-                {
-                  name: "body1",
-                  onPaste: (e) => e.preventDefault(),
-                  value: essayText.body1,
-                  onChange: handleTextChange,
-                  disabled: !timerActive,
-                  className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
-                  placeholder: "Analyze the stronger argument's first piece of evidence...",
-                  onKeyDown: (e) => {
-                    if (e.key === "Tab") {
-                      e.preventDefault();
-                      const t = e.target;
-                      const s = t.selectionStart;
-                      const epos = t.selectionEnd;
-                      const v = t.value;
-                      const ins = "    ";
-                      const next = v.slice(0, s) + ins + v.slice(epos);
-                      handleTextChange({
-                        target: { name: "body1", value: next }
-                      });
-                      setTimeout(() => {
-                        try {
-                          t.selectionStart = t.selectionEnd = s + ins.length;
-                        } catch {
-                        }
-                      }, 0);
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "textarea",
+                  {
+                    name: "body1",
+                    onPaste: (e) => e.preventDefault(),
+                    value: essayText.body1,
+                    onChange: handleTextChange,
+                    disabled: !timerActive,
+                    className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
+                    placeholder: "Analyze the stronger argument's first piece of evidence...",
+                    style: {
+                      position: "relative",
+                      background: "transparent",
+                      zIndex: 2
+                    },
+                    onKeyDown: (e) => {
+                      if (e.key === "Tab") {
+                        e.preventDefault();
+                        const t = e.target;
+                        const s = t.selectionStart;
+                        const epos = t.selectionEnd;
+                        const v = t.value;
+                        const ins = "    ";
+                        const next = v.slice(0, s) + ins + v.slice(epos);
+                        handleTextChange({
+                          target: { name: "body1", value: next }
+                        });
+                        setTimeout(() => {
+                          try {
+                            t.selectionStart = t.selectionEnd = s + ins.length;
+                          } catch {
+                          }
+                        }, 0);
+                      }
                     }
                   }
-                }
-              )
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: !essayText.body1 || essayText.body1.length < 2 ? filledTemplates.body1 : "" }),
+                essayText.body1 && !typingAccuracy.body1.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
+              ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #2: Analyze More Strong Evidence" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-gray-700 leading-relaxed mb-4", children: [
-                "Furthermore,",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[Stronger Author's Last Name]" }),
-                " ",
-                "strengthens their position with",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[another type of evidence]" }),
-                ". For example, the author points out that",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: '["quote or paraphrase"]' }),
-                ". This is a logical and persuasive point because",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[explain why]" }),
-                "."
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "textarea",
-                {
-                  name: "body2",
-                  onPaste: (e) => e.preventDefault(),
-                  value: essayText.body2,
-                  onChange: handleTextChange,
-                  disabled: !timerActive,
-                  className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
-                  placeholder: "Analyze the stronger argument's second piece of evidence...",
-                  onKeyDown: (e) => {
-                    if (e.key === "Tab") {
-                      e.preventDefault();
-                      const t = e.target;
-                      const s = t.selectionStart;
-                      const epos = t.selectionEnd;
-                      const v = t.value;
-                      const ins = "    ";
-                      const next = v.slice(0, s) + ins + v.slice(epos);
-                      handleTextChange({
-                        target: { name: "body2", value: next }
-                      });
-                      setTimeout(() => {
-                        try {
-                          t.selectionStart = t.selectionEnd = s + ins.length;
-                        } catch {
-                        }
-                      }, 0);
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "textarea",
+                  {
+                    name: "body2",
+                    onPaste: (e) => e.preventDefault(),
+                    value: essayText.body2,
+                    onChange: handleTextChange,
+                    disabled: !timerActive,
+                    className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
+                    placeholder: "Analyze the stronger argument's second piece of evidence...",
+                    style: {
+                      position: "relative",
+                      background: "transparent",
+                      zIndex: 2
+                    },
+                    onKeyDown: (e) => {
+                      if (e.key === "Tab") {
+                        e.preventDefault();
+                        const t = e.target;
+                        const s = t.selectionStart;
+                        const epos = t.selectionEnd;
+                        const v = t.value;
+                        const ins = "    ";
+                        const next = v.slice(0, s) + ins + v.slice(epos);
+                        handleTextChange({
+                          target: { name: "body2", value: next }
+                        });
+                        setTimeout(() => {
+                          try {
+                            t.selectionStart = t.selectionEnd = s + ins.length;
+                          } catch {
+                          }
+                        }, 0);
+                      }
                     }
                   }
-                }
-              )
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: !essayText.body2 || essayText.body2.length < 2 ? filledTemplates.body2 : "" }),
+                essayText.body2 && !typingAccuracy.body2.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
+              ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #3: Analyze the Weaker Argument" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-gray-700 leading-relaxed mb-4", children: [
-                "In contrast, the argument presented by",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[Weaker Author's Last Name]" }),
-                " ",
-                "is not as well-supported. A key weakness is the author's reliance on",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[identify a weakness]" }),
-                ". For instance, the author claims that",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: '["quote or paraphrase"]' }),
-                ". This argument is unconvincing because",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[explain why]" }),
-                "."
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "textarea",
-                {
-                  name: "body3",
-                  onPaste: (e) => e.preventDefault(),
-                  value: essayText.body3,
-                  onChange: handleTextChange,
-                  disabled: !timerActive,
-                  className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
-                  placeholder: "Analyze a weakness in the opposing argument...",
-                  onKeyDown: (e) => {
-                    if (e.key === "Tab") {
-                      e.preventDefault();
-                      const t = e.target;
-                      const s = t.selectionStart;
-                      const epos = t.selectionEnd;
-                      const v = t.value;
-                      const ins = "    ";
-                      const next = v.slice(0, s) + ins + v.slice(epos);
-                      handleTextChange({
-                        target: { name: "body3", value: next }
-                      });
-                      setTimeout(() => {
-                        try {
-                          t.selectionStart = t.selectionEnd = s + ins.length;
-                        } catch {
-                        }
-                      }, 0);
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "textarea",
+                  {
+                    name: "body3",
+                    onPaste: (e) => e.preventDefault(),
+                    value: essayText.body3,
+                    onChange: handleTextChange,
+                    disabled: !timerActive,
+                    className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
+                    placeholder: "Analyze a weakness in the opposing argument...",
+                    style: {
+                      position: "relative",
+                      background: "transparent",
+                      zIndex: 2
+                    },
+                    onKeyDown: (e) => {
+                      if (e.key === "Tab") {
+                        e.preventDefault();
+                        const t = e.target;
+                        const s = t.selectionStart;
+                        const epos = t.selectionEnd;
+                        const v = t.value;
+                        const ins = "    ";
+                        const next = v.slice(0, s) + ins + v.slice(epos);
+                        handleTextChange({
+                          target: { name: "body3", value: next }
+                        });
+                        setTimeout(() => {
+                          try {
+                            t.selectionStart = t.selectionEnd = s + ins.length;
+                          } catch {
+                          }
+                        }, 0);
+                      }
                     }
                   }
-                }
-              )
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: !essayText.body3 || essayText.body3.length < 2 ? filledTemplates.body3 : "" }),
+                essayText.body3 && !typingAccuracy.body3.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
+              ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Conclusion Paragraph" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-gray-700 leading-relaxed mb-4", children: [
-                "In conclusion, while both authors address the topic,",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[Stronger Author's Last Name]" }),
-                " ",
-                "presents a more compelling argument. By skillfully using",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[restate evidence types]" }),
-                ", the author builds a case that is more persuasive than the weakly supported claims by",
-                " ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-blue-600 font-semibold", children: "[Weaker Author's Last Name]" }),
-                "."
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "textarea",
-                {
-                  name: "conclusion",
-                  onPaste: (e) => e.preventDefault(),
-                  value: essayText.conclusion,
-                  onChange: handleTextChange,
-                  disabled: !timerActive,
-                  className: "practice-textarea w-full h-40 p-3 border-gray-300 rounded-md",
-                  placeholder: "Write your conclusion...",
-                  onKeyDown: (e) => {
-                    if (e.key === "Tab") {
-                      e.preventDefault();
-                      const t = e.target;
-                      const s = t.selectionStart;
-                      const epos = t.selectionEnd;
-                      const v = t.value;
-                      const ins = "    ";
-                      const next = v.slice(0, s) + ins + v.slice(epos);
-                      handleTextChange({
-                        target: { name: "conclusion", value: next }
-                      });
-                      setTimeout(() => {
-                        try {
-                          t.selectionStart = t.selectionEnd = s + ins.length;
-                        } catch {
-                        }
-                      }, 0);
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "textarea",
+                  {
+                    name: "conclusion",
+                    onPaste: (e) => e.preventDefault(),
+                    value: essayText.conclusion,
+                    onChange: handleTextChange,
+                    disabled: !timerActive,
+                    className: "practice-textarea w-full h-40 p-3 border-gray-300 rounded-md",
+                    placeholder: "Write your conclusion...",
+                    style: {
+                      position: "relative",
+                      background: "transparent",
+                      zIndex: 2
+                    },
+                    onKeyDown: (e) => {
+                      if (e.key === "Tab") {
+                        e.preventDefault();
+                        const t = e.target;
+                        const s = t.selectionStart;
+                        const epos = t.selectionEnd;
+                        const v = t.value;
+                        const ins = "    ";
+                        const next = v.slice(0, s) + ins + v.slice(epos);
+                        handleTextChange({
+                          target: { name: "conclusion", value: next }
+                        });
+                        setTimeout(() => {
+                          try {
+                            t.selectionStart = t.selectionEnd = s + ins.length;
+                          } catch {
+                          }
+                        }, 0);
+                      }
                     }
                   }
-                }
-              )
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: !essayText.conclusion || essayText.conclusion.length < 2 ? filledTemplates.conclusion : "" }),
+                essayText.conclusion && !typingAccuracy.conclusion.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
+              ] })
             ] })
           ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Freeform Essay" }),
@@ -37347,6 +37476,13 @@ function EssayGuide({ onExit }) {
       body3: essayText.body3,
       conclusion: essayText.conclusion
     }).join("\n\n").trim();
+    const guidedStats = essayMode === "guided" ? {
+      totalWords: wordCount(fullEssay),
+      timeSpent: Math.max(0, 45 * 60 - timer),
+      sectionsCompleted: Object.values(essayText).filter((t) => String(t).trim().length > 20).length,
+      avgAccuracy: Object.values(typingAccuracy).reduce((sum, s) => sum + (s.correct ? 1 : 0), 0) / 5 * 100,
+      wpm: wordsPerMinute || (fullEssay ? Math.round(wordCount(fullEssay) / Math.max(1, (45 * 60 - timer) / 60)) : 0)
+    } : null;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-8 prose max-w-none", children: fullEssay ? /* @__PURE__ */ jsxRuntimeExports.jsx(
         "div",
@@ -37358,6 +37494,52 @@ function EssayGuide({ onExit }) {
           }
         }
       ) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("em", { children: "You did not write anything in the practice area." }) }) }),
+      essayMode === "guided" && guidedStats && fullEssay && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-t border-b", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-lg font-bold text-indigo-900 mb-3", children: "📊 Guided Mode Practice Summary" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-2 md:grid-cols-3 gap-4 text-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white rounded-lg p-3 shadow-sm", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-gray-600 text-xs", children: "Total Words" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-2xl font-bold text-indigo-600", children: guidedStats.totalWords })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white rounded-lg p-3 shadow-sm", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-gray-600 text-xs", children: "Writing Speed" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-2xl font-bold text-indigo-600", children: [
+              guidedStats.wpm,
+              " ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm", children: "WPM" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white rounded-lg p-3 shadow-sm", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-gray-600 text-xs", children: "Time Spent" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-2xl font-bold text-indigo-600", children: [
+              Math.floor(guidedStats.timeSpent / 60),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm", children: "m" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white rounded-lg p-3 shadow-sm", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-gray-600 text-xs", children: "Sections Completed" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-2xl font-bold text-indigo-600", children: [
+              guidedStats.sectionsCompleted,
+              "/5"
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white rounded-lg p-3 shadow-sm", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-gray-600 text-xs", children: "Template Accuracy" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-2xl font-bold text-indigo-600", children: [
+              Math.round(guidedStats.avgAccuracy),
+              "%"
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white rounded-lg p-3 shadow-sm", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-gray-600 text-xs", children: "Completion" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-2xl font-bold text-indigo-600", children: [
+              Math.round(guidedStats.sectionsCompleted / 5 * 100),
+              "%"
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-xs text-gray-600 italic", children: "💡 This is a guided practice tool. Stats show your structure reinforcement progress." })
+      ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 border-t bg-gray-50 space-y-4", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
@@ -38942,4 +39124,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-D7IJtvcv.js.map
+//# sourceMappingURL=main-uPvtuWud.js.map
