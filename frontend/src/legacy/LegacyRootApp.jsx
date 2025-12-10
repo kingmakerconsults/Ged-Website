@@ -10,7 +10,7 @@
 } from 'react';
 import ReactDOM from 'react-dom/client';
 import { normalizeImageUrl } from '../../utils/normalizeImageUrl.js';
-import { AuthScreen as SharedAuthScreen } from '../components/auth/AuthScreen.jsx';
+import { AuthScreen as SharedAuthScreen } from '../../components/auth/AuthScreen.jsx';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
 (function () {
