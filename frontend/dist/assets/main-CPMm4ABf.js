@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-CO9BMHr7.js";
+import { _ as __vitePreload } from "./index-kUEo2W9S.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -36708,17 +36708,30 @@ function EssayGuide({ onExit }) {
       return match ? match[0].split(" ").pop() : "[Author]";
     };
     const extractEvidence = (content) => {
-      if (!content) return "[evidence]";
+      if (!content) return "data from reliable sources";
       const match = content.match(
         /<span class='good-evidence'>([^<]+)<\/span>/
       );
-      return match ? match[1].trim().substring(0, 80) : "[supporting data]";
+      if (!match) return "evidence from the passage";
+      const snippet = match[1].trim();
+      if (snippet.length > 90) {
+        const truncated = snippet.substring(0, 90).trim();
+        const lastSpace = truncated.lastIndexOf(" ");
+        return truncated.substring(0, lastSpace);
+      }
+      return snippet;
     };
     const extractMainClaim = (content) => {
-      if (!content) return "[main argument]";
+      if (!content) return "this argument presents a compelling perspective";
       const textOnly = content.replace(/<[^>]+>/g, "").trim();
       const firstSentence = textOnly.split(/[.!?]+/)[0];
-      return firstSentence.length > 100 ? firstSentence.substring(0, 100) + "..." : firstSentence || "[position]";
+      if (!firstSentence) return "this argument presents a compelling perspective";
+      if (firstSentence.length > 120) {
+        const truncated = firstSentence.substring(0, 120).trim();
+        const lastSpace = truncated.lastIndexOf(" ");
+        return truncated.substring(0, lastSpace) + ".";
+      }
+      return firstSentence.trim();
     };
     const extractEvidenceType = (content) => {
       if (!content) return "evidence";
@@ -36751,7 +36764,7 @@ function EssayGuide({ onExit }) {
     extractMainClaim(strongerPassage == null ? void 0 : strongerPassage.content);
     extractMainClaim(weakerPassage == null ? void 0 : weakerPassage.content);
     const strongerEvidence = extractEvidence(strongerPassage == null ? void 0 : strongerPassage.content);
-    const weakerWeakness = ((_d = weakerPassage == null ? void 0 : weakerPassage.content) == null ? void 0 : _d.includes("bad-evidence")) ? "anecdotal reasoning" : "insufficient evidence";
+    const weakerWeakness = ((_d = weakerPassage == null ? void 0 : weakerPassage.content) == null ? void 0 : _d.includes("bad-evidence")) ? "reliance on anecdotal or unverified claims" : "lack of empirical support and concrete evidence";
     const evidenceType = extractEvidenceType(strongerPassage == null ? void 0 : strongerPassage.content);
     return template.replace(/\[topic of both articles\]/g, topic).replace(/\[Author 1's Last Name\]/g, author1LastName).replace(/\[Author 2's Last Name\]/g, author2LastName).replace(
       /\[explain Author 1's main claim\]/g,
@@ -37193,11 +37206,17 @@ function EssayGuide({ onExit }) {
                     value: essayText.intro,
                     onChange: handleTextChange,
                     disabled: !timerActive,
-                    className: "practice-textarea w-full h-48 p-3 border-gray-300 rounded-md",
+                    className: "practice-textarea w-full h-48 border-gray-300 rounded-md",
                     style: {
                       position: "relative",
                       background: "transparent",
-                      zIndex: 2
+                      zIndex: 2,
+                      padding: "0.5rem",
+                      fontFamily: "inherit",
+                      fontSize: "inherit",
+                      lineHeight: "inherit",
+                      margin: 0,
+                      resize: "none"
                     },
                     onKeyDown: (e) => {
                       if (e.key === "Tab") {
@@ -37221,7 +37240,7 @@ function EssayGuide({ onExit }) {
                     }
                   }
                 ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: !essayText.intro || essayText.intro.length < 2 ? filledTemplates.intro : "" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: filledTemplates.intro }),
                 essayText.intro && !typingAccuracy.intro.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 flex justify-between items-center text-sm", children: [
@@ -37250,11 +37269,17 @@ function EssayGuide({ onExit }) {
                     value: essayText.body1,
                     onChange: handleTextChange,
                     disabled: !timerActive,
-                    className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
+                    className: "practice-textarea w-full h-32 border-gray-300 rounded-md",
                     style: {
                       position: "relative",
                       background: "transparent",
-                      zIndex: 2
+                      zIndex: 2,
+                      padding: "0.5rem",
+                      fontFamily: "inherit",
+                      fontSize: "inherit",
+                      lineHeight: "inherit",
+                      margin: 0,
+                      resize: "none"
                     },
                     onKeyDown: (e) => {
                       if (e.key === "Tab") {
@@ -37278,7 +37303,7 @@ function EssayGuide({ onExit }) {
                     }
                   }
                 ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: !essayText.body1 || essayText.body1.length < 2 ? filledTemplates.body1 : "" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: filledTemplates.body1 }),
                 essayText.body1 && !typingAccuracy.body1.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
               ] })
             ] }),
@@ -37293,11 +37318,17 @@ function EssayGuide({ onExit }) {
                     value: essayText.body2,
                     onChange: handleTextChange,
                     disabled: !timerActive,
-                    className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
+                    className: "practice-textarea w-full h-32 border-gray-300 rounded-md",
                     style: {
                       position: "relative",
                       background: "transparent",
-                      zIndex: 2
+                      zIndex: 2,
+                      padding: "0.5rem",
+                      fontFamily: "inherit",
+                      fontSize: "inherit",
+                      lineHeight: "inherit",
+                      margin: 0,
+                      resize: "none"
                     },
                     onKeyDown: (e) => {
                       if (e.key === "Tab") {
@@ -37321,7 +37352,7 @@ function EssayGuide({ onExit }) {
                     }
                   }
                 ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: !essayText.body2 || essayText.body2.length < 2 ? filledTemplates.body2 : "" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: filledTemplates.body2 }),
                 essayText.body2 && !typingAccuracy.body2.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
               ] })
             ] }),
@@ -37336,11 +37367,17 @@ function EssayGuide({ onExit }) {
                     value: essayText.body3,
                     onChange: handleTextChange,
                     disabled: !timerActive,
-                    className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
+                    className: "practice-textarea w-full h-32 border-gray-300 rounded-md",
                     style: {
                       position: "relative",
                       background: "transparent",
-                      zIndex: 2
+                      zIndex: 2,
+                      padding: "0.5rem",
+                      fontFamily: "inherit",
+                      fontSize: "inherit",
+                      lineHeight: "inherit",
+                      margin: 0,
+                      resize: "none"
                     },
                     onKeyDown: (e) => {
                       if (e.key === "Tab") {
@@ -37364,7 +37401,7 @@ function EssayGuide({ onExit }) {
                     }
                   }
                 ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: !essayText.body3 || essayText.body3.length < 2 ? filledTemplates.body3 : "" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: filledTemplates.body3 }),
                 essayText.body3 && !typingAccuracy.body3.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
               ] })
             ] }),
@@ -37379,11 +37416,17 @@ function EssayGuide({ onExit }) {
                     value: essayText.conclusion,
                     onChange: handleTextChange,
                     disabled: !timerActive,
-                    className: "practice-textarea w-full h-40 p-3 border-gray-300 rounded-md",
+                    className: "practice-textarea w-full h-40 border-gray-300 rounded-md",
                     style: {
                       position: "relative",
                       background: "transparent",
-                      zIndex: 2
+                      zIndex: 2,
+                      padding: "0.5rem",
+                      fontFamily: "inherit",
+                      fontSize: "inherit",
+                      lineHeight: "inherit",
+                      margin: 0,
+                      resize: "none"
                     },
                     onKeyDown: (e) => {
                       if (e.key === "Tab") {
@@ -37407,7 +37450,7 @@ function EssayGuide({ onExit }) {
                     }
                   }
                 ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: !essayText.conclusion || essayText.conclusion.length < 2 ? filledTemplates.conclusion : "" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: filledTemplates.conclusion }),
                 essayText.conclusion && !typingAccuracy.conclusion.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
               ] })
             ] })
@@ -39153,4 +39196,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-BlM3HKOs.js.map
+//# sourceMappingURL=main-CPMm4ABf.js.map
