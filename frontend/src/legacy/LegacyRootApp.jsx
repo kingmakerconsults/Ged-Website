@@ -37469,21 +37469,32 @@ function EssayGuide({ onExit }) {
 
     // Extract evidence snippets from passage content
     const extractEvidence = (content) => {
-      if (!content) return '[evidence]';
+      if (!content) return 'data from reliable sources';
       const match = content.match(
         /<span class='good-evidence'>([^<]+)<\/span>/
       );
-      return match ? match[1].trim().substring(0, 80) : '[supporting data]';
+      if (!match) return 'evidence from the passage';
+      const snippet = match[1].trim();
+      if (snippet.length > 90) {
+        const truncated = snippet.substring(0, 90).trim();
+        const lastSpace = truncated.lastIndexOf(' ');
+        return truncated.substring(0, lastSpace);
+      }
+      return snippet;
     };
 
     // Extract main claim/position from first sentence
     const extractMainClaim = (content) => {
-      if (!content) return '[main argument]';
+      if (!content) return 'this argument presents a compelling perspective';
       const textOnly = content.replace(/<[^>]+>/g, '').trim();
       const firstSentence = textOnly.split(/[.!?]+/)[0];
-      return firstSentence.length > 100
-        ? firstSentence.substring(0, 100) + '...'
-        : firstSentence || '[position]';
+      if (!firstSentence) return 'this argument presents a compelling perspective';
+      if (firstSentence.length > 120) {
+        const truncated = firstSentence.substring(0, 120).trim();
+        const lastSpace = truncated.lastIndexOf(' ');
+        return truncated.substring(0, lastSpace) + '.';
+      }
+      return firstSentence.trim();
     };
 
     // Extract evidence type
@@ -37531,8 +37542,8 @@ function EssayGuide({ onExit }) {
     const weakerClaim = extractMainClaim(weakerPassage?.content);
     const strongerEvidence = extractEvidence(strongerPassage?.content);
     const weakerWeakness = weakerPassage?.content?.includes('bad-evidence')
-      ? 'anecdotal reasoning'
-      : 'insufficient evidence';
+      ? 'reliance on anecdotal or unverified claims'
+      : 'lack of empirical support and concrete evidence';
     const evidenceType = extractEvidenceType(strongerPassage?.content);
 
     return template
@@ -38089,11 +38100,17 @@ function EssayGuide({ onExit }) {
                       value={essayText.intro}
                       onChange={handleTextChange}
                       disabled={!timerActive}
-                      className="practice-textarea w-full h-48 p-3 border-gray-300 rounded-md"
+                      className="practice-textarea w-full h-48 border-gray-300 rounded-md"
                       style={{
                         position: 'relative',
                         background: 'transparent',
                         zIndex: 2,
+                        padding: '0.5rem',
+                        fontFamily: 'inherit',
+                        fontSize: 'inherit',
+                        lineHeight: 'inherit',
+                        margin: 0,
+                        resize: 'none',
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Tab') {
@@ -38118,9 +38135,7 @@ function EssayGuide({ onExit }) {
                     ></textarea>
                     {/* Shadow overlay */}
                     <div style={getShadowStyle()} aria-hidden="true">
-                      {!essayText.intro || essayText.intro.length < 2
-                        ? filledTemplates.intro
-                        : ''}
+                      {filledTemplates.intro}
                     </div>
                     {/* Accuracy indicator */}
                     {essayText.intro && !typingAccuracy.intro.correct && (
@@ -38165,11 +38180,17 @@ function EssayGuide({ onExit }) {
                       value={essayText.body1}
                       onChange={handleTextChange}
                       disabled={!timerActive}
-                      className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
+                      className="practice-textarea w-full h-32 border-gray-300 rounded-md"
                       style={{
                         position: 'relative',
                         background: 'transparent',
                         zIndex: 2,
+                        padding: '0.5rem',
+                        fontFamily: 'inherit',
+                        fontSize: 'inherit',
+                        lineHeight: 'inherit',
+                        margin: 0,
+                        resize: 'none',
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Tab') {
@@ -38193,9 +38214,7 @@ function EssayGuide({ onExit }) {
                       }}
                     ></textarea>
                     <div style={getShadowStyle()} aria-hidden="true">
-                      {!essayText.body1 || essayText.body1.length < 2
-                        ? filledTemplates.body1
-                        : ''}
+                      {filledTemplates.body1}
                     </div>
                     {essayText.body1 && !typingAccuracy.body1.correct && (
                       <div className="absolute -bottom-6 left-0 text-xs text-red-600">
@@ -38215,11 +38234,17 @@ function EssayGuide({ onExit }) {
                       value={essayText.body2}
                       onChange={handleTextChange}
                       disabled={!timerActive}
-                      className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
+                      className="practice-textarea w-full h-32 border-gray-300 rounded-md"
                       style={{
                         position: 'relative',
                         background: 'transparent',
                         zIndex: 2,
+                        padding: '0.5rem',
+                        fontFamily: 'inherit',
+                        fontSize: 'inherit',
+                        lineHeight: 'inherit',
+                        margin: 0,
+                        resize: 'none',
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Tab') {
@@ -38243,9 +38268,7 @@ function EssayGuide({ onExit }) {
                       }}
                     ></textarea>
                     <div style={getShadowStyle()} aria-hidden="true">
-                      {!essayText.body2 || essayText.body2.length < 2
-                        ? filledTemplates.body2
-                        : ''}
+                      {filledTemplates.body2}
                     </div>
                     {essayText.body2 && !typingAccuracy.body2.correct && (
                       <div className="absolute -bottom-6 left-0 text-xs text-red-600">
@@ -38265,11 +38288,17 @@ function EssayGuide({ onExit }) {
                       value={essayText.body3}
                       onChange={handleTextChange}
                       disabled={!timerActive}
-                      className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
+                      className="practice-textarea w-full h-32 border-gray-300 rounded-md"
                       style={{
                         position: 'relative',
                         background: 'transparent',
                         zIndex: 2,
+                        padding: '0.5rem',
+                        fontFamily: 'inherit',
+                        fontSize: 'inherit',
+                        lineHeight: 'inherit',
+                        margin: 0,
+                        resize: 'none',
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Tab') {
@@ -38293,9 +38322,7 @@ function EssayGuide({ onExit }) {
                       }}
                     ></textarea>
                     <div style={getShadowStyle()} aria-hidden="true">
-                      {!essayText.body3 || essayText.body3.length < 2
-                        ? filledTemplates.body3
-                        : ''}
+                      {filledTemplates.body3}
                     </div>
                     {essayText.body3 && !typingAccuracy.body3.correct && (
                       <div className="absolute -bottom-6 left-0 text-xs text-red-600">
@@ -38315,11 +38342,17 @@ function EssayGuide({ onExit }) {
                       value={essayText.conclusion}
                       onChange={handleTextChange}
                       disabled={!timerActive}
-                      className="practice-textarea w-full h-40 p-3 border-gray-300 rounded-md"
+                      className="practice-textarea w-full h-40 border-gray-300 rounded-md"
                       style={{
                         position: 'relative',
                         background: 'transparent',
                         zIndex: 2,
+                        padding: '0.5rem',
+                        fontFamily: 'inherit',
+                        fontSize: 'inherit',
+                        lineHeight: 'inherit',
+                        margin: 0,
+                        resize: 'none',
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Tab') {
@@ -38343,9 +38376,7 @@ function EssayGuide({ onExit }) {
                       }}
                     ></textarea>
                     <div style={getShadowStyle()} aria-hidden="true">
-                      {!essayText.conclusion || essayText.conclusion.length < 2
-                        ? filledTemplates.conclusion
-                        : ''}
+                      {filledTemplates.conclusion}
                     </div>
                     {essayText.conclusion &&
                       !typingAccuracy.conclusion.correct && (
