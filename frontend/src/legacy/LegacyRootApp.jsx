@@ -224,12 +224,6 @@ const buildProgressFromAttempts = (attempts = []) => {
       quizTitle:
         entry?.quizTitle || entry?.quiz_title || entry?.quizName || null,
       quizType: entry?.quizType || entry?.quiz_type || null,
-          <div
-            className="prose passage-section max-w-none text-sm text-slate-700 essay-prompt-body"
-            style={{ whiteSpace: 'pre-wrap' }}
-            dangerouslySetInnerHTML={{ __html: html }}
-          ></div>
-          : null,
       totalQuestions:
         typeof entry?.totalQuestions === 'number'
           ? entry.totalQuestions
@@ -238,7 +232,7 @@ const buildProgressFromAttempts = (attempts = []) => {
           : Number.isFinite(Number(entry?.totalQuestions))
           ? Math.round(Number(entry.totalQuestions))
           : null,
-            className="prose passage-section max-w-none text-sm text-slate-700 essay-prompt-body"
+      scaledScore:
         typeof entry?.scaledScore === 'number'
           ? Math.round(entry.scaledScore)
           : Number.isFinite(Number(entry?.scaled_score))
@@ -36982,6 +36976,34 @@ function EssayGuide({ onExit }) {
 
   const intervalRef = useRef(null);
 
+  // Shadow overlay style for Guided Mode
+  const getShadowStyle = () => ({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    padding: '0.5rem',
+    color: 'rgba(100, 116, 139, 0.4)',
+    pointerEvents: 'none',
+    whiteSpace: 'pre-wrap',
+    wordWrap: 'break-word',
+    overflow: 'hidden',
+    fontFamily: 'inherit',
+    fontSize: 'inherit',
+    lineHeight: 'inherit',
+    zIndex: 1,
+  });
+
+  // Essay templates for shadow overlay
+  const essayTemplates = {
+    intro: `The two passages present conflicting views on the topic of [topic of both articles]. In the first passage, [Author 1's Last Name] argues that [explain Author 1's main claim]. Conversely, in the second passage, [Author 2's Last Name] claims that [explain Author 2's main claim]. After analyzing both arguments, it is clear that [Author's Last Name] presents the more convincing case by effectively using [list key evidence types].`,
+    body1: `First, [Stronger Author's Last Name] effectively builds their argument by using [type of evidence]. The author states, ["quote or paraphrase"]. This evidence is highly convincing because [explain why].`,
+    body2: `Furthermore, [Stronger Author's Last Name] strengthens their position with [another type of evidence]. For example, the author points out that ["quote or paraphrase"]. This is a logical and persuasive point because [explain why].`,
+    body3: `In contrast, the argument presented by [Weaker Author's Last Name] is not as well-supported. A key weakness is the author's reliance on [identify a weakness]. For instance, the author claims that ["quote or paraphrase"]. This argument is unconvincing because [explain why].`,
+    conclusion: `In conclusion, while both authors address the topic, [Stronger Author's Last Name] presents a more compelling argument. By skillfully using [restate evidence types], the author builds a case that is more persuasive than the weakly supported claims by [Weaker Author's Last Name].`,
+  };
+
   // Helper: strip HTML to plain text, preserve basic paragraph breaks
   const stripHtmlToPlain = (html) => {
     if (typeof html !== 'string') return '';
@@ -37840,65 +37862,48 @@ function EssayGuide({ onExit }) {
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Introduction Paragraph
                   </h3>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    The two passages present conflicting views on the topic of{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [topic of both articles]
-                    </span>
-                    . In the first passage,{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [Author 1's Last Name]
-                    </span>{' '}
-                    argues that{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [explain Author 1's main claim]
-                    </span>
-                    . Conversely, in the second passage,{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [Author 2's Last Name]
-                    </span>{' '}
-                    claims that{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [explain Author 2's main claim]
-                    </span>
-                    . After analyzing both arguments, it is clear that{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [Author's Last Name]
-                    </span>{' '}
-                    presents the more convincing case by effectively using{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [list key evidence types]
-                    </span>
-                    .
-                  </p>
-                  <textarea
-                    name="intro"
-                    onPaste={(e) => e.preventDefault()}
-                    value={essayText.intro}
-                    onChange={handleTextChange}
-                    disabled={!timerActive}
-                    className="practice-textarea w-full h-48 p-3 border-gray-300 rounded-md"
-                    placeholder="Type your introduction here..."
-                    onKeyDown={(e) => {
-                      if (e.key === 'Tab') {
-                        e.preventDefault();
-                        const t = e.target;
-                        const s = t.selectionStart;
-                        const epos = t.selectionEnd;
-                        const v = t.value;
-                        const ins = '    ';
-                        const next = v.slice(0, s) + ins + v.slice(epos);
-                        handleTextChange({
-                          target: { name: 'intro', value: next },
-                        });
-                        setTimeout(() => {
-                          try {
-                            t.selectionStart = t.selectionEnd = s + ins.length;
-                          } catch {}
-                        }, 0);
-                      }
-                    }}
-                  ></textarea>
+                  <div style={{ position: 'relative' }}>
+                    <textarea
+                      name="intro"
+                      onPaste={(e) => e.preventDefault()}
+                      value={essayText.intro}
+                      onChange={handleTextChange}
+                      disabled={!timerActive}
+                      className="practice-textarea w-full h-48 p-3 border-gray-300 rounded-md"
+                      placeholder="Type your introduction here..."
+                      style={{
+                        position: 'relative',
+                        background: 'transparent',
+                        zIndex: 2,
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Tab') {
+                          e.preventDefault();
+                          const t = e.target;
+                          const s = t.selectionStart;
+                          const epos = t.selectionEnd;
+                          const v = t.value;
+                          const ins = '    ';
+                          const next = v.slice(0, s) + ins + v.slice(epos);
+                          handleTextChange({
+                            target: { name: 'intro', value: next },
+                          });
+                          setTimeout(() => {
+                            try {
+                              t.selectionStart = t.selectionEnd =
+                                s + ins.length;
+                            } catch {}
+                          }, 0);
+                        }
+                      }}
+                    ></textarea>
+                    {/* Shadow overlay */}
+                    <div style={getShadowStyle()} aria-hidden="true">
+                      {!essayText.intro || essayText.intro.length < 2
+                        ? essayTemplates.intro
+                        : ''}
+                    </div>
+                  </div>
 
                   {/* PREMIUM: Word Count & Heuristic Check */}
                   <div className="mt-2 flex justify-between items-center text-sm">
@@ -37928,207 +37933,185 @@ function EssayGuide({ onExit }) {
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Body Paragraph #1: Analyze Strong Evidence
                   </h3>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    First,{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [Stronger Author's Last Name]
-                    </span>{' '}
-                    effectively builds their argument by using{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [type of evidence]
-                    </span>
-                    . The author states,{' '}
-                    <span className="text-blue-600 font-semibold">
-                      ["quote or paraphrase"]
-                    </span>
-                    . This evidence is highly convincing because{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [explain why]
-                    </span>
-                    .
-                  </p>
-                  <textarea
-                    name="body1"
-                    onPaste={(e) => e.preventDefault()}
-                    value={essayText.body1}
-                    onChange={handleTextChange}
-                    disabled={!timerActive}
-                    className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
-                    placeholder="Analyze the stronger argument's first piece of evidence..."
-                    onKeyDown={(e) => {
-                      if (e.key === 'Tab') {
-                        e.preventDefault();
-                        const t = e.target;
-                        const s = t.selectionStart;
-                        const epos = t.selectionEnd;
-                        const v = t.value;
-                        const ins = '    ';
-                        const next = v.slice(0, s) + ins + v.slice(epos);
-                        handleTextChange({
-                          target: { name: 'body1', value: next },
-                        });
-                        setTimeout(() => {
-                          try {
-                            t.selectionStart = t.selectionEnd = s + ins.length;
-                          } catch {}
-                        }, 0);
-                      }
-                    }}
-                  ></textarea>
+                  <div style={{ position: 'relative' }}>
+                    <textarea
+                      name="body1"
+                      onPaste={(e) => e.preventDefault()}
+                      value={essayText.body1}
+                      onChange={handleTextChange}
+                      disabled={!timerActive}
+                      className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
+                      placeholder="Analyze the stronger argument's first piece of evidence..."
+                      style={{
+                        position: 'relative',
+                        background: 'transparent',
+                        zIndex: 2,
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Tab') {
+                          e.preventDefault();
+                          const t = e.target;
+                          const s = t.selectionStart;
+                          const epos = t.selectionEnd;
+                          const v = t.value;
+                          const ins = '    ';
+                          const next = v.slice(0, s) + ins + v.slice(epos);
+                          handleTextChange({
+                            target: { name: 'body1', value: next },
+                          });
+                          setTimeout(() => {
+                            try {
+                              t.selectionStart = t.selectionEnd =
+                                s + ins.length;
+                            } catch {}
+                          }, 0);
+                        }
+                      }}
+                    ></textarea>
+                    <div style={getShadowStyle()} aria-hidden="true">
+                      {!essayText.body1 || essayText.body1.length < 2
+                        ? essayTemplates.body1
+                        : ''}
+                    </div>
+                  </div>
                 </div>
                 <div className="practice-section bg-white p-6 rounded-lg shadow-md">
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Body Paragraph #2: Analyze More Strong Evidence
                   </h3>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    Furthermore,{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [Stronger Author's Last Name]
-                    </span>{' '}
-                    strengthens their position with{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [another type of evidence]
-                    </span>
-                    . For example, the author points out that{' '}
-                    <span className="text-blue-600 font-semibold">
-                      ["quote or paraphrase"]
-                    </span>
-                    . This is a logical and persuasive point because{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [explain why]
-                    </span>
-                    .
-                  </p>
-                  <textarea
-                    name="body2"
-                    onPaste={(e) => e.preventDefault()}
-                    value={essayText.body2}
-                    onChange={handleTextChange}
-                    disabled={!timerActive}
-                    className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
-                    placeholder="Analyze the stronger argument's second piece of evidence..."
-                    onKeyDown={(e) => {
-                      if (e.key === 'Tab') {
-                        e.preventDefault();
-                        const t = e.target;
-                        const s = t.selectionStart;
-                        const epos = t.selectionEnd;
-                        const v = t.value;
-                        const ins = '    ';
-                        const next = v.slice(0, s) + ins + v.slice(epos);
-                        handleTextChange({
-                          target: { name: 'body2', value: next },
-                        });
-                        setTimeout(() => {
-                          try {
-                            t.selectionStart = t.selectionEnd = s + ins.length;
-                          } catch {}
-                        }, 0);
-                      }
-                    }}
-                  ></textarea>
+                  <div style={{ position: 'relative' }}>
+                    <textarea
+                      name="body2"
+                      onPaste={(e) => e.preventDefault()}
+                      value={essayText.body2}
+                      onChange={handleTextChange}
+                      disabled={!timerActive}
+                      className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
+                      placeholder="Analyze the stronger argument's second piece of evidence..."
+                      style={{
+                        position: 'relative',
+                        background: 'transparent',
+                        zIndex: 2,
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Tab') {
+                          e.preventDefault();
+                          const t = e.target;
+                          const s = t.selectionStart;
+                          const epos = t.selectionEnd;
+                          const v = t.value;
+                          const ins = '    ';
+                          const next = v.slice(0, s) + ins + v.slice(epos);
+                          handleTextChange({
+                            target: { name: 'body2', value: next },
+                          });
+                          setTimeout(() => {
+                            try {
+                              t.selectionStart = t.selectionEnd =
+                                s + ins.length;
+                            } catch {}
+                          }, 0);
+                        }
+                      }}
+                    ></textarea>
+                    <div style={getShadowStyle()} aria-hidden="true">
+                      {!essayText.body2 || essayText.body2.length < 2
+                        ? essayTemplates.body2
+                        : ''}
+                    </div>
+                  </div>
                 </div>
                 <div className="practice-section bg-white p-6 rounded-lg shadow-md">
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Body Paragraph #3: Analyze the Weaker Argument
                   </h3>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    In contrast, the argument presented by{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [Weaker Author's Last Name]
-                    </span>{' '}
-                    is not as well-supported. A key weakness is the author's
-                    reliance on{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [identify a weakness]
-                    </span>
-                    . For instance, the author claims that{' '}
-                    <span className="text-blue-600 font-semibold">
-                      ["quote or paraphrase"]
-                    </span>
-                    . This argument is unconvincing because{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [explain why]
-                    </span>
-                    .
-                  </p>
-                  <textarea
-                    name="body3"
-                    onPaste={(e) => e.preventDefault()}
-                    value={essayText.body3}
-                    onChange={handleTextChange}
-                    disabled={!timerActive}
-                    className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
-                    placeholder="Analyze a weakness in the opposing argument..."
-                    onKeyDown={(e) => {
-                      if (e.key === 'Tab') {
-                        e.preventDefault();
-                        const t = e.target;
-                        const s = t.selectionStart;
-                        const epos = t.selectionEnd;
-                        const v = t.value;
-                        const ins = '    ';
-                        const next = v.slice(0, s) + ins + v.slice(epos);
-                        handleTextChange({
-                          target: { name: 'body3', value: next },
-                        });
-                        setTimeout(() => {
-                          try {
-                            t.selectionStart = t.selectionEnd = s + ins.length;
-                          } catch {}
-                        }, 0);
-                      }
-                    }}
-                  ></textarea>
+                  <div style={{ position: 'relative' }}>
+                    <textarea
+                      name="body3"
+                      onPaste={(e) => e.preventDefault()}
+                      value={essayText.body3}
+                      onChange={handleTextChange}
+                      disabled={!timerActive}
+                      className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
+                      placeholder="Analyze a weakness in the opposing argument..."
+                      style={{
+                        position: 'relative',
+                        background: 'transparent',
+                        zIndex: 2,
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Tab') {
+                          e.preventDefault();
+                          const t = e.target;
+                          const s = t.selectionStart;
+                          const epos = t.selectionEnd;
+                          const v = t.value;
+                          const ins = '    ';
+                          const next = v.slice(0, s) + ins + v.slice(epos);
+                          handleTextChange({
+                            target: { name: 'body3', value: next },
+                          });
+                          setTimeout(() => {
+                            try {
+                              t.selectionStart = t.selectionEnd =
+                                s + ins.length;
+                            } catch {}
+                          }, 0);
+                        }
+                      }}
+                    ></textarea>
+                    <div style={getShadowStyle()} aria-hidden="true">
+                      {!essayText.body3 || essayText.body3.length < 2
+                        ? essayTemplates.body3
+                        : ''}
+                    </div>
+                  </div>
                 </div>
                 <div className="practice-section bg-white p-6 rounded-lg shadow-md">
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Conclusion Paragraph
                   </h3>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    In conclusion, while both authors address the topic,{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [Stronger Author's Last Name]
-                    </span>{' '}
-                    presents a more compelling argument. By skillfully using{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [restate evidence types]
-                    </span>
-                    , the author builds a case that is more persuasive than the
-                    weakly supported claims by{' '}
-                    <span className="text-blue-600 font-semibold">
-                      [Weaker Author's Last Name]
-                    </span>
-                    .
-                  </p>
-                  <textarea
-                    name="conclusion"
-                    onPaste={(e) => e.preventDefault()}
-                    value={essayText.conclusion}
-                    onChange={handleTextChange}
-                    disabled={!timerActive}
-                    className="practice-textarea w-full h-40 p-3 border-gray-300 rounded-md"
-                    placeholder="Write your conclusion..."
-                    onKeyDown={(e) => {
-                      if (e.key === 'Tab') {
-                        e.preventDefault();
-                        const t = e.target;
-                        const s = t.selectionStart;
-                        const epos = t.selectionEnd;
-                        const v = t.value;
-                        const ins = '    ';
-                        const next = v.slice(0, s) + ins + v.slice(epos);
-                        handleTextChange({
-                          target: { name: 'conclusion', value: next },
-                        });
-                        setTimeout(() => {
-                          try {
-                            t.selectionStart = t.selectionEnd = s + ins.length;
-                          } catch {}
-                        }, 0);
-                      }
-                    }}
-                  ></textarea>
+                  <div style={{ position: 'relative' }}>
+                    <textarea
+                      name="conclusion"
+                      onPaste={(e) => e.preventDefault()}
+                      value={essayText.conclusion}
+                      onChange={handleTextChange}
+                      disabled={!timerActive}
+                      className="practice-textarea w-full h-40 p-3 border-gray-300 rounded-md"
+                      placeholder="Write your conclusion..."
+                      style={{
+                        position: 'relative',
+                        background: 'transparent',
+                        zIndex: 2,
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Tab') {
+                          e.preventDefault();
+                          const t = e.target;
+                          const s = t.selectionStart;
+                          const epos = t.selectionEnd;
+                          const v = t.value;
+                          const ins = '    ';
+                          const next = v.slice(0, s) + ins + v.slice(epos);
+                          handleTextChange({
+                            target: { name: 'conclusion', value: next },
+                          });
+                          setTimeout(() => {
+                            try {
+                              t.selectionStart = t.selectionEnd =
+                                s + ins.length;
+                            } catch {}
+                          }, 0);
+                        }
+                      }}
+                    ></textarea>
+                    <div style={getShadowStyle()} aria-hidden="true">
+                      {!essayText.conclusion || essayText.conclusion.length < 2
+                        ? essayTemplates.conclusion
+                        : ''}
+                    </div>
+                  </div>
                 </div>
               </>
             ) : (
