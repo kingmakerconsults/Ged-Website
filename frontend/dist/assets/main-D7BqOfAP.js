@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-Ci44oUsp.js";
+import { _ as __vitePreload } from "./index-B80_9e0N.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -36306,6 +36306,9 @@ function EssayGuide({ onExit }) {
   const [showPromptOverlay, setShowPromptOverlay] = reactExports.useState(false);
   const [overlayView, setOverlayView] = reactExports.useState("prompt");
   const intervalRef = reactExports.useRef(null);
+  reactExports.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const getShadowStyle = () => ({
     position: "absolute",
     top: 0,
@@ -36321,16 +36324,18 @@ function EssayGuide({ onExit }) {
     fontFamily: "inherit",
     fontSize: "inherit",
     lineHeight: "inherit",
+    // No indent in writing area overlay (per request)
+    textIndent: "0",
     zIndex: 1,
     boxSizing: "border-box",
     margin: 0
   });
   const essayTemplates = {
-    intro: `The two passages present conflicting views on the topic of [topic of both articles]. In the first passage, [Author 1's Last Name] argues that [explain Author 1's main claim]. Conversely, in the second passage, [Author 2's Last Name] claims that [explain Author 2's main claim]. After analyzing both arguments, it is clear that [Author's Last Name] presents the more convincing case by effectively using [list key evidence types].`,
-    body1: `First, [Stronger Author's Last Name] effectively builds their argument by using [type of evidence]. The author states, ["quote or paraphrase"]. This evidence is highly convincing because [explain why].`,
-    body2: `Furthermore, [Stronger Author's Last Name] strengthens their position with [another type of evidence]. For example, the author points out that ["quote or paraphrase"]. This is a logical and persuasive point because [explain why].`,
-    body3: `In contrast, the argument presented by [Weaker Author's Last Name] is not as well-supported. A key weakness is the author's reliance on [identify a weakness]. For instance, the author claims that ["quote or paraphrase"]. This argument is unconvincing because [explain why].`,
-    conclusion: `In conclusion, while both authors address the topic, [Stronger Author's Last Name] presents a more compelling argument. By skillfully using [restate evidence types], the author builds a case that is more persuasive than the weakly supported claims by [Weaker Author's Last Name].`
+    intro: `    The two passages present conflicting views on the topic of [topic of both articles]. In the first passage, [Author 1's Last Name] argues that [explain Author 1's main claim]. Conversely, in the second passage, [Author 2's Last Name] claims that [explain Author 2's main claim]. After analyzing both arguments, it is clear that [Author's Last Name] presents the more convincing case by effectively using [list key evidence types].`,
+    body1: `    First, [Stronger Author's Last Name] effectively builds their argument by using [type of evidence]. The author states, ["quote or paraphrase"]. This evidence is highly convincing because [explain why].`,
+    body2: `    Furthermore, [Stronger Author's Last Name] strengthens their position with [another type of evidence]. For example, the author points out that ["quote or paraphrase"]. This is a logical and persuasive point because [explain why].`,
+    body3: `    In contrast, the argument presented by [Weaker Author's Last Name] is not as well-supported. A key weakness is the author's reliance on [identify a weakness]. For instance, the author claims that ["quote or paraphrase"]. This argument is unconvincing because [explain why].`,
+    conclusion: `    In conclusion, while both authors address the topic, [Stronger Author's Last Name] presents a more compelling argument. By skillfully using [restate evidence types], the author builds a case that is more persuasive than the weakly supported claims by [Weaker Author's Last Name].`
   };
   const [pacingMessage, setPacingMessage] = reactExports.useState("");
   const [wordsPerMinute, setWordsPerMinute] = reactExports.useState(0);
@@ -36345,8 +36350,11 @@ function EssayGuide({ onExit }) {
   const checkTypingAccuracy = reactExports.useCallback(
     (section, typed, expected) => {
       if (!expected || essayMode !== "guided") return;
-      const isCorrectSoFar = expected.startsWith(typed.trim());
-      const progress = typed.length / expected.length;
+      const normalize = (str = "") => str.replace(/^\s+/, "");
+      const normalizedExpected = normalize(expected);
+      const normalizedTyped = normalize(typed);
+      const isCorrectSoFar = normalizedExpected.startsWith(normalizedTyped);
+      const progress = normalizedExpected.length > 0 ? Math.min(1, normalizedTyped.length / normalizedExpected.length) : 0;
       setTypingAccuracy((prev) => ({
         ...prev,
         [section]: { correct: isCorrectSoFar, progress }
@@ -36706,17 +36714,9 @@ function EssayGuide({ onExit }) {
       if (firstSentence.length > 120) {
         const truncated = firstSentence.substring(0, 120).trim();
         const lastSpace = truncated.lastIndexOf(" ");
-        const result2 = truncated.substring(0, lastSpace);
-        if (!/[.!?]$/.test(result2)) {
-          return result2 + ".";
-        }
-        return result2;
+        return truncated.substring(0, lastSpace);
       }
-      const claim = firstSentence.trim();
-      if (!/[.!?]$/.test(claim)) {
-        return claim + ".";
-      }
-      return claim;
+      return firstSentence.trim();
     };
     const extractEvidenceType = (content) => {
       if (!content) return "evidence";
@@ -37194,9 +37194,18 @@ function EssayGuide({ onExit }) {
               " WPM)"
             ] })
           ] }) }),
-          essayMode === "standard" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          !showModal && essayMode === "standard" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Introduction Paragraph" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-gray-700", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { className: "text-blue-900", children: "Essay Format:" }),
+                " ",
+                "State which author presents the stronger argument. Introduce both passages and preview your main points."
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-4 bg-gray-50 border-l-4 border-blue-500 rounded text-sm text-gray-600 font-mono leading-relaxed", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-blue-700 mb-2", children: "Template Structure:" }),
+                "The two passages present conflicting views on the topic of [topic of both articles]. In the first passage, [Author 1's Last Name] argues that [explain Author 1's main claim]. Conversely, in the second passage, [Author 2's Last Name] claims that [explain Author 2's main claim]. After analyzing both arguments, it is clear that [Author's Last Name] presents the more convincing case by effectively using [list key evidence types]."
+              ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "textarea",
                 {
@@ -37246,6 +37255,15 @@ function EssayGuide({ onExit }) {
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #1: Analyze Strong Evidence" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-gray-700", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { className: "text-green-900", children: "Essay Format:" }),
+                " ",
+                "Present the first piece of strong evidence from the more convincing author. Quote or paraphrase, then explain why it's persuasive."
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-4 bg-gray-50 border-l-4 border-green-500 rounded text-sm text-gray-600 font-mono leading-relaxed", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-green-700 mb-2", children: "Template Structure:" }),
+                `First, [Stronger Author's Last Name] effectively builds their argument by using [type of evidence]. The author states, ["quote or paraphrase"]. This evidence is highly convincing because [explain why].`
+              ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "textarea",
                 {
@@ -37281,6 +37299,15 @@ function EssayGuide({ onExit }) {
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #2: Analyze More Strong Evidence" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-gray-700", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { className: "text-green-900", children: "Essay Format:" }),
+                " ",
+                "Present a second piece of strong evidence from the more convincing author. Show how it further supports their argument."
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-4 bg-gray-50 border-l-4 border-green-500 rounded text-sm text-gray-600 font-mono leading-relaxed", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-green-700 mb-2", children: "Template Structure:" }),
+                `Furthermore, [Stronger Author's Last Name] strengthens their position with [another type of evidence]. For example, the author points out that ["quote or paraphrase"]. This is a logical and persuasive point because [explain why].`
+              ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "textarea",
                 {
@@ -37316,6 +37343,15 @@ function EssayGuide({ onExit }) {
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #3: Analyze the Weaker Argument" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-gray-700", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { className: "text-amber-900", children: "Essay Format:" }),
+                " ",
+                "Identify a weakness in the opposing author's argument. Explain why their evidence is less convincing or flawed."
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-4 bg-gray-50 border-l-4 border-amber-500 rounded text-sm text-gray-600 font-mono leading-relaxed", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-amber-700 mb-2", children: "Template Structure:" }),
+                `In contrast, the argument presented by [Weaker Author's Last Name] is not as well-supported. A key weakness is the author's reliance on [identify a weakness]. For instance, the author claims that ["quote or paraphrase"]. This argument is unconvincing because [explain why].`
+              ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "textarea",
                 {
@@ -37351,6 +37387,15 @@ function EssayGuide({ onExit }) {
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Conclusion Paragraph" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-3 bg-purple-50 border border-purple-200 rounded-lg text-sm text-gray-700", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { className: "text-purple-900", children: "Essay Format:" }),
+                " ",
+                "Restate your position and summarize why the stronger author's evidence is more persuasive. Close with a final thought."
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-4 bg-gray-50 border-l-4 border-purple-500 rounded text-sm text-gray-600 font-mono leading-relaxed", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-purple-700 mb-2", children: "Template Structure:" }),
+                "In conclusion, while both authors address the topic, [Stronger Author's Last Name] presents a more compelling argument. By skillfully using [restate evidence types], the author builds a case that is more persuasive than the weakly supported claims by [Weaker Author's Last Name]."
+              ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "textarea",
                 {
@@ -37384,7 +37429,7 @@ function EssayGuide({ onExit }) {
                 }
               )
             ] })
-          ] }) : essayMode === "guided" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          ] }) : !showModal && essayMode === "guided" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Introduction Paragraph" }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
@@ -37659,7 +37704,7 @@ function EssayGuide({ onExit }) {
                 essayText.conclusion && !typingAccuracy.conclusion.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
               ] })
             ] })
-          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
+          ] }) : !showModal ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Freeform Essay" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-gray-700 leading-relaxed mb-4", children: "Write your essay in one place. You can still open the prompt overlay to reference the passages." }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -37694,7 +37739,7 @@ function EssayGuide({ onExit }) {
                 }
               }
             )
-          ] })
+          ] }) : null
         ] });
       case "strengths":
         return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid md:grid-cols-2 gap-6", children: [
@@ -37765,9 +37810,12 @@ function EssayGuide({ onExit }) {
         "div",
         {
           dangerouslySetInnerHTML: {
-            __html: sanitizeHtmlContent(fullEssay.replace(/\n/g, "<br/>"), {
-              normalizeSpacing: true
-            })
+            __html: sanitizeHtmlContent(
+              fullEssay.split(/\n\n+/).filter((p2) => p2.trim()).map(
+                (p2) => `<p style="text-indent: 2em; margin-bottom: 1em;">${p2.trim()}</p>`
+              ).join(""),
+              { normalizeSpacing: true }
+            )
           }
         }
       ) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("em", { children: "You did not write anything in the practice area." }) }) }),
@@ -37818,7 +37866,10 @@ function EssayGuide({ onExit }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-xs text-gray-600 italic", children: "💡 This is a guided practice tool. Stats show your structure reinforcement progress." })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 border-t bg-gray-50 space-y-4", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
+        essayMode === "guided" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-900", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold mb-2", children: "📘 Guided Mode Practice" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm", children: "This mode is designed for structure reinforcement and template practice. AI grading is not available for guided mode essays. Switch to Standard or Freeform mode to receive AI feedback on your writing." })
+        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
             onClick: handleGetScore,
@@ -37827,7 +37878,7 @@ function EssayGuide({ onExit }) {
             children: isScoring ? "Scoring..." : "Get AI Score & Feedback"
           }
         ),
-        scoreResult && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-4 p-4 bg-indigo-50 rounded-lg text-left", children: scoreResult.error ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-red-600", children: scoreResult.error }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        scoreResult && essayMode !== "guided" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-4 p-4 bg-indigo-50 rounded-lg text-left", children: scoreResult.error ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-red-600", children: scoreResult.error }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-xl font-bold text-indigo-800", children: "AI Feedback" }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-2", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Overall Score:" }),
@@ -39401,4 +39452,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-BCGkeJXp.js.map
+//# sourceMappingURL=main-D7BqOfAP.js.map
