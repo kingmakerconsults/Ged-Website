@@ -37562,20 +37562,6 @@ function EssayGuide({ onExit }) {
       .replace(/\[restate evidence types\]/g, evidenceType);
   };
 
-  // Get filled templates for current passage
-  const currentPassage =
-    passagesData[lockedTopic !== null ? lockedTopic : selectedTopic];
-  const filledTemplates = useMemo(() => {
-    if (!currentPassage || essayMode !== 'guided') return essayTemplates;
-    return {
-      intro: fillEssayTemplate(essayTemplates.intro, currentPassage),
-      body1: fillEssayTemplate(essayTemplates.body1, currentPassage),
-      body2: fillEssayTemplate(essayTemplates.body2, currentPassage),
-      body3: fillEssayTemplate(essayTemplates.body3, currentPassage),
-      conclusion: fillEssayTemplate(essayTemplates.conclusion, currentPassage),
-    };
-  }, [currentPassage, essayMode, lockedTopic, selectedTopic]);
-
   useEffect(() => {
     if (timerActive) {
       intervalRef.current = setInterval(() => {
@@ -37603,6 +37589,20 @@ function EssayGuide({ onExit }) {
   }, [selectedTopic]);
 
   const [lockedTopic, setLockedTopic] = useState(null);
+
+  // Get filled templates for current passage
+  const currentPassage =
+    passagesData[lockedTopic !== null ? lockedTopic : selectedTopic];
+  const filledTemplates = useMemo(() => {
+    if (!currentPassage || essayMode !== 'guided') return essayTemplates;
+    return {
+      intro: fillEssayTemplate(essayTemplates.intro, currentPassage),
+      body1: fillEssayTemplate(essayTemplates.body1, currentPassage),
+      body2: fillEssayTemplate(essayTemplates.body2, currentPassage),
+      body3: fillEssayTemplate(essayTemplates.body3, currentPassage),
+      conclusion: fillEssayTemplate(essayTemplates.conclusion, currentPassage),
+    };
+  }, [currentPassage, essayMode, lockedTopic, selectedTopic]);
 
   const startPractice = () => {
     if (lockedTopic === null) {
