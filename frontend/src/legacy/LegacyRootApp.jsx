@@ -224,11 +224,11 @@ const buildProgressFromAttempts = (attempts = []) => {
       quizTitle:
         entry?.quizTitle || entry?.quiz_title || entry?.quizName || null,
       quizType: entry?.quizType || entry?.quiz_type || null,
-      score:
-        typeof entry?.score === 'number'
-          ? entry.score
-          : Number.isFinite(Number(entry?.score))
-          ? Math.round(Number(entry.score))
+          <div
+            className="prose passage-section max-w-none text-sm text-slate-700 essay-prompt-body"
+            style={{ whiteSpace: 'pre-wrap' }}
+            dangerouslySetInnerHTML={{ __html: html }}
+          ></div>
           : null,
       totalQuestions:
         typeof entry?.totalQuestions === 'number'
@@ -238,7 +238,7 @@ const buildProgressFromAttempts = (attempts = []) => {
           : Number.isFinite(Number(entry?.totalQuestions))
           ? Math.round(Number(entry.totalQuestions))
           : null,
-      scaledScore:
+            className="prose passage-section max-w-none text-sm text-slate-700 essay-prompt-body"
         typeof entry?.scaledScore === 'number'
           ? Math.round(entry.scaledScore)
           : Number.isFinite(Number(entry?.scaled_score))
@@ -2405,6 +2405,41 @@ function formatMathText(html) {
   return out;
 }
 
+// Wrap caret exponents and simple fractions inside inline math delimiters
+// so KaTeX renders them as superscripts and fractions instead of plain text.
+function wrapInlineMathForKatex(text) {
+  if (typeof text !== 'string' || text.length === 0) return text;
+
+  const segments = extractMathSegments(text);
+  const source = segments.length ? segments : [{ type: 'text', value: text }];
+
+  return source
+    .map((seg) => {
+      if (seg.type === 'math') {
+        return seg.raw || seg.value;
+      }
+
+      // exponents like x^2 or (x+1)^3
+      let value = seg.value.replace(
+        /([A-Za-z0-9)]+)\^(\d+)/g,
+        (_m, base, exp) => `\\(${base}^{${exp}}\\)`
+      );
+
+      // fractions like 3/4, 1/2x -> \frac{1}{2}x
+      value = value.replace(
+        /(\d+)\s*\/\s*(\d+)([A-Za-z])/g,
+        (_m, num, den, trailing) => `\\(\\frac{${num}}{${den}}${trailing}\\)`
+      );
+      value = value.replace(
+        /(\d+|[A-Za-z])\s*\/\s*(\d+|[A-Za-z])/g,
+        (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+      );
+
+      return value;
+    })
+    .join('');
+}
+
 // Safely fix common mojibake/unicode issues in displayed text only
 function sanitizeUnicode(s) {
   if (typeof s !== 'string' || s.length === 0) return s;
@@ -2436,24 +2471,20 @@ function sanitizeUnicode(s) {
 }
 
 function renderQuestionTextForDisplay(text, isPremade) {
-  // Only allow KaTeX rendering for premade items; AI/dynamic stay plain text (fractions a/b, exponents a^b)
-  const useKatex = Boolean(
-    window.__APP_CONFIG__ &&
-      window.__APP_CONFIG__.premadeUsesKatex === true &&
-      isPremade === true
-  );
-  // Premade path: keep original raw math delimiters and render with KaTeX
-  if (useKatex) {
-    return { __html: renderStemWithKatex(sanitizeUnicode(text)) };
+  const sanitized = sanitizeUnicode(text);
+
+  // Normalize caret/fraction math into inline KaTeX delimiters for all content
+  const katexReady = wrapInlineMathForKatex(sanitized);
+
+  try {
+    const html = renderStemWithKatex(katexReady);
+    return { __html: html };
+  } catch (err) {
+    console.warn('KaTeX render fallback:', err?.message || err);
   }
-  // Non-premade path: wrap math expressions with ^ in LaTeX delimiters for KaTeX rendering
-  let processedText = sanitizeUnicode(text);
-  // Wrap expressions with carets (e.g., 3x^2 -> \(3x^2\)) for KaTeX
-  processedText = processedText.replace(
-    /([a-zA-Z0-9]+\^[a-zA-Z0-9]+)/g,
-    '\\($1\\)'
-  );
-  const html = renderStem(processedText);
+
+  // Fallback: plain-text render with superscripts
+  const html = renderStem(katexReady);
   const finalHtml = formatMathText(html);
   return { __html: finalHtml };
 }
@@ -22414,7 +22445,20 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
               }}
               title="Toggle overview"
             >
-              ??
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="h-4 w-4 text-muted"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16Zm0-6.25a.75.75 0 00-.75.75v2a.75.75 0 001.5 0v-2A.75.75 0 0010 11.75Zm0-5a1 1 0 100 2 1 1 0 000-2Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="sr-only">Toggle overview</span>
             </button>
           </div>
           <button
@@ -27915,13 +27959,11 @@ function AuthScreen({ onLogin }) {
 
         {/* Dev-only quick login bypass */}
         {
-          // Show in Vite dev OR when running locally with ?dev=1
+          // Show in Vite dev OR when running locally (no ?dev flag needed)
           (import.meta.env.MODE === 'development' ||
             (typeof window !== 'undefined' &&
               (window.location.hostname === 'localhost' ||
-                window.location.hostname === '127.0.0.1') &&
-              new URLSearchParams(window.location.search).get('dev') ===
-                '1')) && (
+                window.location.hostname === '127.0.0.1'))) && (
             <div className="mt-6 p-4 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/40">
               <p className="text-xs font-semibold text-amber-800 dark:text-amber-200 mb-2 uppercase tracking-wide">
                 Dev Mode: Quick Login
@@ -36945,13 +36987,9 @@ function EssayGuide({ onExit }) {
     if (typeof html !== 'string') return '';
     // Replace paragraph tags with double newlines before stripping other tags
     let text = html
-      .replace(/<\s*br\s*\/?>/gi, '\n')
+      .replace(/<\s*br\s*\/?/gi, '\n')
       .replace(/<\s*\/?p[^>]*>/gi, '\n\n')
       .replace(/<\s*\/?li[^>]*>/gi, (m) => (m.startsWith('</') ? '\n' : ' '))
-      .replace(
-        /<\s*\/?(strong|em|b|i|u|span|div|h\d|section|article|blockquote)[^>]*>/gi,
-        ''
-      )
       .replace(/<[^>]+>/g, '');
     // Decode a few common entities
     text = text
@@ -36966,6 +37004,15 @@ function EssayGuide({ onExit }) {
       .replace(/[\t\r ]+/g, ' ')
       .replace(/\s*\n\s*\n\s*/g, '\n\n')
       .trim();
+  };
+
+  // Helper: keep markup for highlighting while sanitizing
+  const sanitizeEssayHtml = (html) => {
+    if (typeof html !== 'string') return '';
+    return sanitizeHtmlContent(html, {
+      normalizeSpacing: true,
+      trustedHtml: true,
+    });
   };
 
   const wordCount = (text) => {
@@ -37000,12 +37047,13 @@ function EssayGuide({ onExit }) {
       'But to match the rigor expected on the GED, these concerns need to be grounded in verifiable facts and organized into a clear line of reasoning rather than relying primarily on intuition or personal experience.',
   };
 
-  const expandIfShort = (topic, title, baseText) => {
+  const expandIfShort = (topic, title, baseHtml) => {
     const MIN = 450;
     const MAX = 650;
-    let text = stripHtmlToPlain(baseText);
+    let html = sanitizeEssayHtml(baseHtml);
+    let text = stripHtmlToPlain(html);
     let wc = wordCount(text);
-    if (wc >= MIN && wc <= MAX) return text;
+    if (wc >= MIN && wc <= MAX) return sanitizeEssayHtml(html);
     const stance = /stronger/i.test(title)
       ? 'stronger'
       : /weaker/i.test(title)
@@ -37014,7 +37062,8 @@ function EssayGuide({ onExit }) {
     // Append one or more generic expansions until within range
     const add = genericExpansion[stance];
     while (wc < MIN) {
-      text += '\n\n' + add;
+      html += `<p class="prompt-expansion">${add}</p>`;
+      text = stripHtmlToPlain(html);
       wc = wordCount(text);
       if (wc > MAX) break;
     }
@@ -37024,9 +37073,11 @@ function EssayGuide({ onExit }) {
       while (wordCount(sentences.join(' ')) > MAX && sentences.length > 3) {
         sentences.pop();
       }
-      text = sentences.join(' ');
+      const trimmedPlain = sentences.join(' ');
+      // Rebuild minimal HTML with trimmed plain text if needed
+      html = `<p>${trimmedPlain}</p>`;
     }
-    return text;
+    return sanitizeEssayHtml(html);
   };
 
   const passagesData = [
@@ -37035,13 +37086,13 @@ function EssayGuide({ onExit }) {
       topic: 'Should the Voting Age Be Lowered to 16?',
       passage1: {
         title: 'Dr. Alisa Klein, Sociologist (Stronger Argument)',
-        content: stripHtmlToPlain(
+        content: sanitizeEssayHtml(
           "<p>Lowering the voting age to 16 is a crucial step for a healthier democracy. At 16, many young people are employed, pay taxes on their earnings, and are subject to the laws of the land. It is a fundamental principle of democracy'no taxation without representation'that they should have a voice in shaping policies that directly affect them, from education funding to climate change.</p><p><span class='good-evidence'>Furthermore, research shows that voting is a habit; a 2020 study from Tufts University found that cities that allow 16-year-olds to vote in local elections see significantly higher youth turnout in subsequent national elections.</span> Enabling citizens to vote at an age when they are still living in a stable home and learning about civics in school increases the likelihood they will become lifelong voters.</p><p><span class='good-evidence'>As political scientist Dr. Mark Franklin notes, 'The earlier a citizen casts their first ballot, the more likely they are to become a consistent participant in our democracy.'</span> It is a vital step toward strengthening civic engagement for generations to come.</p>"
         ),
       },
       passage2: {
         title: 'Marcus heavyweight, Political Analyst (Weaker Argument)',
-        content: stripHtmlToPlain(
+        content: sanitizeEssayHtml(
           "<p>While the idealism behind lowering the voting age is appealing, the practical realities suggest it would be a mistake. The adolescent brain is still undergoing significant development, particularly in areas related to long-term decision-making and impulse control. The political landscape is complex, requiring a level of experience and cognitive maturity that most 16-year-olds have not yet developed.</p><p>We risk trivializing the profound responsibility of voting by extending it to a demographic that is, by and large, not yet equipped to handle it. <span class='bad-evidence'>I remember being 16, and my friends and I were far more concerned with prom dates and getting a driver's license than with monetary policy.</span> Their priorities are simply not aligned with the serious nature of national governance.</p><p>The current age of 18 strikes a reasonable balance, marking a clear transition into legal adulthood and the full spectrum of responsibilities that come with it. To change this is to experiment with the foundation of our republic for no clear gain.</p>"
         ),
       },
@@ -37490,7 +37541,7 @@ function EssayGuide({ onExit }) {
     if (!selectedPassage) return null;
     switch (overlayView) {
       case 'passage1': {
-        const text = expandIfShort(
+        const html = expandIfShort(
           selectedPassage.topic,
           selectedPassage.passage1.title,
           selectedPassage.passage1.content
@@ -37499,13 +37550,12 @@ function EssayGuide({ onExit }) {
           <div
             className="prose passage-section max-w-none text-sm text-slate-700"
             style={{ whiteSpace: 'pre-wrap' }}
-          >
-            {text}
-          </div>
+            dangerouslySetInnerHTML={{ __html: html }}
+          ></div>
         );
       }
       case 'passage2': {
-        const text = expandIfShort(
+        const html = expandIfShort(
           selectedPassage.topic,
           selectedPassage.passage2.title,
           selectedPassage.passage2.content
@@ -37514,9 +37564,8 @@ function EssayGuide({ onExit }) {
           <div
             className="prose passage-section max-w-none text-sm text-slate-700"
             style={{ whiteSpace: 'pre-wrap' }}
-          >
-            {text}
-          </div>
+            dangerouslySetInnerHTML={{ __html: html }}
+          ></div>
         );
       }
       default:
@@ -37646,25 +37695,33 @@ function EssayGuide({ onExit }) {
                   <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem">
                     {selectedPassage.passage1.title}
                   </h2>
-                  <div style={{ whiteSpace: 'pre-wrap' }}>
-                    {expandIfShort(
-                      selectedPassage.topic,
-                      selectedPassage.passage1.title,
-                      selectedPassage.passage1.content
-                    )}
-                  </div>
+                  <div
+                    className="essay-prompt-body"
+                    style={{ whiteSpace: 'pre-wrap' }}
+                    dangerouslySetInnerHTML={{
+                      __html: expandIfShort(
+                        selectedPassage.topic,
+                        selectedPassage.passage1.title,
+                        selectedPassage.passage1.content
+                      ),
+                    }}
+                  />
                 </article>
                 <article className="bg-white p-6 rounded-lg shadow-md essay-argument-column">
                   <h2 className="text-2xl font-bold mb-4 text-gray-900 border-b pb-2 question-stem">
                     {selectedPassage.passage2.title}
                   </h2>
-                  <div style={{ whiteSpace: 'pre-wrap' }}>
-                    {expandIfShort(
-                      selectedPassage.topic,
-                      selectedPassage.passage2.title,
-                      selectedPassage.passage2.content
-                    )}
-                  </div>
+                  <div
+                    className="essay-prompt-body"
+                    style={{ whiteSpace: 'pre-wrap' }}
+                    dangerouslySetInnerHTML={{
+                      __html: expandIfShort(
+                        selectedPassage.topic,
+                        selectedPassage.passage2.title,
+                        selectedPassage.passage2.content
+                      ),
+                    }}
+                  />
                 </article>
               </div>
             </div>
