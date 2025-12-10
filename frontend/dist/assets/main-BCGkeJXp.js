@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-D_wLdCxd.js";
+import { _ as __vitePreload } from "./index-Ci44oUsp.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -34,6 +34,246 @@ var m = reactDomExports;
 {
   client.createRoot = m.createRoot;
   client.hydrateRoot = m.hydrateRoot;
+}
+const API_BASE_URL$1 = typeof window !== "undefined" && window.API_BASE_URL || "";
+function AuthScreen({ onLogin }) {
+  const googleButton = reactExports.useRef(null);
+  const [mode, setMode] = reactExports.useState("login");
+  const [email, setEmail] = reactExports.useState("");
+  const [password, setPassword] = reactExports.useState("");
+  const [formError, setFormError] = reactExports.useState(null);
+  const [formMessage, setFormMessage] = reactExports.useState(null);
+  const [submitting, setSubmitting] = reactExports.useState(false);
+  const handleDevLogin = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL$1}/api/dev-login-as`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: "dev@example.com" })
+      });
+      if (!response.ok) {
+        throw new Error("Dev login failed");
+      }
+      const { user, token } = await response.json();
+      onLogin(user, token);
+    } catch (error) {
+      console.error("Dev login error:", error);
+      setFormError("Dev login failed");
+    }
+  };
+  const handleCredentialResponse = reactExports.useCallback(
+    async (response) => {
+      try {
+        const res = await fetch(`${API_BASE_URL$1}/api/auth/google`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "include",
+          body: JSON.stringify({ credential: response.credential })
+        });
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text || `Server responded with ${res.status}`);
+        }
+        const { user, token } = await res.json();
+        onLogin(user, token);
+      } catch (error) {
+        console.error("Login Error:", error);
+      }
+    },
+    [onLogin]
+  );
+  reactExports.useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      if (window.google && google.accounts.id && googleButton.current) {
+        google.accounts.id.initialize({
+          client_id: "828659988606-p9ct562f068p1778im2ck2o5iga89i7m.apps.googleusercontent.com",
+          callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(googleButton.current, {
+          theme: "outline",
+          size: "large",
+          text: "signin_with",
+          shape: "rectangular"
+        });
+      }
+    };
+    script.onerror = () => {
+      console.error("Google Sign-In script failed to load.");
+    };
+    document.body.appendChild(script);
+    return () => {
+      const goggleScript = document.querySelector(
+        'script[src="https://accounts.google.com/gsi/client"]'
+      );
+      if (goggleScript) {
+        document.body.removeChild(goggleScript);
+      }
+    };
+  }, [handleCredentialResponse]);
+  const modeLabel = mode === "login" ? "Log In" : "Register";
+  const toggleMode2 = () => {
+    setMode((prev) => prev === "login" ? "register" : "login");
+    setFormError(null);
+    setFormMessage(null);
+    setPassword("");
+  };
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    setFormError(null);
+    setFormMessage(null);
+    if (!email.trim() || !password.trim()) {
+      setFormError("Email and password are required");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const endpoint = mode === "login" ? "/api/login" : "/api/register";
+      const response = await fetch(`${API_BASE_URL$1}${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email: email.trim(), password })
+      });
+      let body = {};
+      try {
+        body = await response.json();
+      } catch (err) {
+        body = {};
+      }
+      if (!response.ok) {
+        throw new Error((body == null ? void 0 : body.error) || "Unable to complete request");
+      }
+      if ((body == null ? void 0 : body.user) && (body == null ? void 0 : body.token)) {
+        onLogin(body.user, body.token);
+        setEmail("");
+        setPassword("");
+      } else {
+        setFormMessage((body == null ? void 0 : body.message) || "Success. You can now sign in.");
+        if (mode === "register") {
+          setMode("login");
+        }
+      }
+    } catch (error) {
+      setFormError(
+        error instanceof Error ? error.message : "Unable to complete request"
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+  console.log("[AuthScreen] Rendering with dev login button");
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center max-w-md mx-auto", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-3xl font-extrabold text-black dark:text-slate-100 mb-2", children: "Welcome!" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-black dark:text-slate-300 mb-6", children: "Sign in to save your progress across devices." }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "form",
+      {
+        onSubmit: handleFormSubmit,
+        className: "bg-white dark:bg-slate-900/80 rounded-2xl shadow-md p-6 text-left space-y-4 border border-transparent dark:border-slate-700/60",
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "label",
+              {
+                htmlFor: "auth-email",
+                className: "block text-sm font-medium text-slate-900 dark:text-slate-300",
+                children: "Email"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                id: "auth-email",
+                type: "email",
+                value: email,
+                onChange: (event) => setEmail(event.target.value),
+                className: "mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-sky-400 dark:focus:ring-sky-500",
+                autoComplete: "email",
+                placeholder: "you@example.com",
+                required: true
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "label",
+              {
+                htmlFor: "auth-password",
+                className: "block text-sm font-medium text-slate-900 dark:text-slate-300",
+                children: "Password"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                id: "auth-password",
+                type: "password",
+                value: password,
+                onChange: (event) => setPassword(event.target.value),
+                className: "mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-sky-400 dark:focus:ring-sky-500",
+                autoComplete: mode === "login" ? "current-password" : "new-password",
+                placeholder: "Enter your password",
+                required: true
+              }
+            )
+          ] }),
+          formError && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-red-600", children: formError }),
+          formMessage && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-green-600", children: formMessage }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              type: "submit",
+              disabled: submitting,
+              className: "w-full rounded-lg bg-sky-600 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 disabled:opacity-60",
+              children: submitting ? "Please wait…" : modeLabel
+            }
+          )
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-3 text-sm text-slate-700 dark:text-slate-300", children: [
+      mode === "login" ? "Need an account?" : "Already have an account?",
+      " ",
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          type: "button",
+          onClick: toggleMode2,
+          className: "font-semibold text-sky-600 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200",
+          children: mode === "login" ? "Register" : "Log in"
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "my-6 flex items-center justify-center gap-3 text-xs uppercase tracking-wide text-slate-400 dark:text-slate-500", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "h-px w-12 bg-slate-200", "aria-hidden": "true" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Or continue with" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "h-px w-12 bg-slate-200", "aria-hidden": "true" })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-4 w-full", "data-testid": "dev-login-container", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "button",
+      {
+        type: "button",
+        onClick: handleDevLogin,
+        className: "w-full rounded-lg bg-purple-600 py-3 text-base font-bold text-white shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300",
+        "data-testid": "dev-login-button",
+        style: { minHeight: "48px" },
+        children: "🚀 DEV LOGIN BYPASS 🚀"
+      }
+    ) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: googleButton, className: "flex justify-center mt-4" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 text-xs text-slate-500 dark:text-slate-400", children: "Admins: Sign in with Google to access your dashboard." })
+  ] }) });
+}
+if (typeof window !== "undefined") {
+  window.Components = window.Components || {};
+  window.Components.AuthScreen = AuthScreen;
 }
 const designSystem = {
   // Subject themes
@@ -25733,7 +25973,7 @@ function App({ externalTheme, onThemeChange }) {
       setPendingScrollTarget(options.scrollTarget);
     }
   }, []);
-  const goBack2 = reactExports.useCallback(() => {
+  const goBack = reactExports.useCallback(() => {
     if (browserDepthRef.current > 0 && typeof window !== "undefined" && window.history && typeof window.history.back === "function") {
       browserDepthRef.current -= 1;
       window.history.back();
@@ -27294,7 +27534,7 @@ function App({ externalTheme, onThemeChange }) {
           {
             quiz: activeQuiz,
             onComplete: onQuizComplete,
-            onExit: goBack2
+            onExit: goBack
           }
         );
       case "reading":
@@ -27303,11 +27543,11 @@ function App({ externalTheme, onThemeChange }) {
           {
             quiz: activeQuiz,
             onComplete: onQuizComplete,
-            onExit: goBack2
+            onExit: goBack
           }
         );
       case "essay":
-        return /* @__PURE__ */ jsxRuntimeExports.jsx(EssayGuide, { onExit: goBack2 });
+        return /* @__PURE__ */ jsxRuntimeExports.jsx(EssayGuide, { onExit: goBack });
       case "simulation":
         return activeQuiz && (activeQuiz.id === "sim_life" || activeQuiz.title === "The Game of Life") ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fade-in", "data-subject": "Simulations", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -27319,7 +27559,7 @@ function App({ externalTheme, onThemeChange }) {
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-none min-w-[120px]", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "button",
                   {
-                    onClick: goBack2,
+                    onClick: goBack,
                     className: "inline-flex items-center gap-2 text-sm font-semibold bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md",
                     children: [
                       /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowLeftIcon, {}),
@@ -27378,7 +27618,7 @@ function App({ externalTheme, onThemeChange }) {
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
               {
-                onClick: goBack2,
+                onClick: goBack,
                 className: "px-6 py-2.5 rounded-full bg-white text-orange-600 font-semibold shadow-lg transition hover:shadow-xl hover:bg-orange-50",
                 children: "Back to Dashboard"
               }
@@ -27499,7 +27739,7 @@ function App({ externalTheme, onThemeChange }) {
             selectedCategory,
             onSelectSubject: selectSubject,
             onSelectCategory: selectCategory,
-            onBack: goBack2,
+            onBack: goBack,
             onSelectGenerator: async (subject, topic, setIsLoading2, setLoadingMessage2) => {
               if (!topic) {
                 alert("Please select a topic first.");
@@ -28673,287 +28913,6 @@ function SettingsView({
       ] })
     }
   );
-}
-function AuthScreen({ onLogin }) {
-  const googleButton = reactExports.useRef(null);
-  const [mode, setMode] = reactExports.useState("login");
-  const [email, setEmail] = reactExports.useState("");
-  const [password, setPassword] = reactExports.useState("");
-  const [formError, setFormError] = reactExports.useState(null);
-  const [formMessage, setFormMessage] = reactExports.useState(null);
-  const [submitting, setSubmitting] = reactExports.useState(false);
-  const handleCredentialResponse = reactExports.useCallback(
-    async (response) => {
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          credentials: "include",
-          body: JSON.stringify({ credential: response.credential })
-        });
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(text || `Server responded with ${res.status}`);
-        }
-        const { user, token } = await res.json();
-        onLogin(user, token);
-      } catch (error) {
-        console.error("Login Error:", error);
-      }
-    },
-    [onLogin]
-  );
-  reactExports.useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://accounts.google.com/gsi/client";
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-      if (window.google && google.accounts.id && googleButton.current) {
-        google.accounts.id.initialize({
-          client_id: "828659988606-p9ct562f068p1778im2ck2o5iga89i7m.apps.googleusercontent.com",
-          callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(googleButton.current, {
-          theme: "outline",
-          size: "large",
-          text: "signin_with",
-          shape: "rectangular"
-        });
-      }
-    };
-    script.onerror = () => {
-      console.error("Google Sign-In script failed to load.");
-    };
-    document.body.appendChild(script);
-    return () => {
-      const goggleScript = document.querySelector(
-        'script[src="https://accounts.google.com/gsi/client"]'
-      );
-      if (goggleScript) {
-        document.body.removeChild(goggleScript);
-      }
-    };
-  }, [handleCredentialResponse]);
-  const modeLabel = mode === "login" ? "Log In" : "Register";
-  const toggleMode2 = () => {
-    setMode((prev) => prev === "login" ? "register" : "login");
-    setFormError(null);
-    setFormMessage(null);
-    setPassword("");
-  };
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    setFormError(null);
-    setFormMessage(null);
-    if (!email.trim() || !password.trim()) {
-      setFormError("Email and password are required");
-      return;
-    }
-    setSubmitting(true);
-    try {
-      const endpoint = mode === "login" ? "/api/login" : "/api/register";
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email: email.trim(), password })
-      });
-      let body = {};
-      try {
-        body = await response.json();
-      } catch (err) {
-        body = {};
-      }
-      if (!response.ok) {
-        throw new Error((body == null ? void 0 : body.error) || "Unable to complete request");
-      }
-      if ((body == null ? void 0 : body.user) && (body == null ? void 0 : body.token)) {
-        onLogin(body.user, body.token);
-        setEmail("");
-        setPassword("");
-      } else {
-        setFormMessage((body == null ? void 0 : body.message) || "Success. You can now sign in.");
-        if (mode === "register") {
-          setMode("login");
-        }
-      }
-    } catch (error) {
-      setFormError(
-        error instanceof Error ? error.message : "Unable to complete request"
-      );
-    } finally {
-      setSubmitting(false);
-    }
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center max-w-md mx-auto", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-3xl font-extrabold text-slate-900 dark:text-slate-100 mb-2", children: "Welcome!" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-700 dark:text-slate-300 mb-6", children: "Sign in to save your progress across devices." }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "form",
-      {
-        onSubmit: handleFormSubmit,
-        className: "panel-surface rounded-2xl shadow-md p-6 text-left space-y-4 border-subtle",
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "label",
-              {
-                htmlFor: "auth-email",
-                className: "block text-sm font-medium text-slate-700 dark:text-slate-300",
-                children: "Email"
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "input",
-              {
-                id: "auth-email",
-                type: "email",
-                value: email,
-                onChange: (event) => setEmail(event.target.value),
-                className: "mt-1 w-full rounded-lg border-subtle px-3 py-2 text-slate-900 dark:text-slate-100 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary",
-                autoComplete: "email",
-                placeholder: "you@example.com",
-                required: true
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "label",
-              {
-                htmlFor: "auth-password",
-                className: "block text-sm font-medium text-slate-700 dark:text-slate-300",
-                children: "Password"
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "input",
-              {
-                id: "auth-password",
-                type: "password",
-                value: password,
-                onChange: (event) => setPassword(event.target.value),
-                className: "mt-1 w-full rounded-lg border-subtle px-3 py-2 text-slate-900 dark:text-slate-100 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary",
-                autoComplete: mode === "login" ? "current-password" : "new-password",
-                placeholder: "Enter your password",
-                required: true
-              }
-            )
-          ] }),
-          formError && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-danger", children: formError }),
-          formMessage && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-success", children: formMessage }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              type: "submit",
-              disabled: submitting,
-              className: "w-full rounded-lg btn-primary py-2 text-sm font-semibold shadow disabled:opacity-60",
-              children: submitting ? "Please wait" : modeLabel
-            }
-          )
-        ]
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-3 text-sm text-slate-600 dark:text-slate-400", children: [
-      mode === "login" ? "Need an account?" : "Already have an account?",
-      " ",
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          type: "button",
-          onClick: toggleMode2,
-          className: "font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300",
-          children: mode === "login" ? "Register" : "Log in"
-        }
-      )
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "my-6 flex items-center justify-center gap-3 text-xs uppercase tracking-wide text-muted", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "span",
-        {
-          className: "h-px w-12 border-subtle bg-current",
-          "aria-hidden": "true"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Or continue with" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "span",
-        {
-          className: "h-px w-12 border-subtle bg-current",
-          "aria-hidden": "true"
-        }
-      )
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: googleButton, className: "flex justify-center" }),
-    // Show in Vite dev OR when running locally (no ?dev flag needed)
-    typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 p-4 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/40", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold text-amber-800 dark:text-amber-200 mb-2 uppercase tracking-wide", children: "Dev Mode: Quick Login" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 gap-2", children: [
-        {
-          role: "student",
-          label: "Student",
-          color: "bg-blue-600 hover:bg-blue-700"
-        },
-        {
-          role: "instructor",
-          label: "Instructor",
-          color: "bg-green-600 hover:bg-green-700"
-        },
-        {
-          role: "orgAdmin",
-          label: "Org Admin",
-          color: "bg-purple-600 hover:bg-purple-700"
-        },
-        {
-          role: "superAdmin",
-          label: "Super Admin",
-          color: "bg-red-600 hover:bg-red-700"
-        }
-      ].map(({ role, label, color }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          type: "button",
-          onClick: async () => {
-            try {
-              console.log("[DEV] Attempting login as:", role);
-              const response = await fetch("/api/dev-login-as", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ role })
-              });
-              console.log("[DEV] Response status:", response.status);
-              const data = await response.json();
-              console.log("[DEV] Response data:", data);
-              if (data.ok) {
-                console.log(
-                  "[DEV] Calling onLogin with:",
-                  data.user,
-                  data.token
-                );
-                onLogin(data.user, data.token);
-              } else {
-                console.error("[DEV] Login failed:", data);
-                alert(
-                  "Dev login failed: " + (data.error || "Unknown error")
-                );
-              }
-            } catch (error) {
-              console.error("Dev login error:", error);
-              alert("Dev login error: " + error.message);
-            }
-          },
-          className: `px-3 py-2 text-xs font-semibold text-white rounded-lg transition ${color}`,
-          children: label
-        },
-        role
-      )) })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 text-xs text-muted", children: "Admins: Sign in with Google to access your dashboard." })
-  ] }) });
 }
 function AdminRoleBadge({ role }) {
   const normalizedRole = (role == null ? void 0 : role.replace("_", "")) || role;
@@ -31819,7 +31778,7 @@ function StartScreen({
       {
         subject: detailedViewSubject,
         progressData: progress[detailedViewSubject],
-        onBack: goBack,
+        onBack,
         rlaEssayAvgDisplay: rlaEssayAvgDisplayForDetails
       }
     );
@@ -35814,8 +35773,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         level: "GED College Ready + Credit",
         color: "text-info"
       };
-    if (score >= 165)
-      return { level: "GED College Ready", color: "text-info" };
+    if (score >= 165) return { level: "GED College Ready", color: "text-info" };
     if (score >= 145)
       return { level: "GED Passing Score", color: "text-success" };
     return { level: "Keep studying!", color: "text-warning" };
@@ -36334,7 +36292,7 @@ function EssayGuide({ onExit }) {
   const [timer, setTimer] = reactExports.useState(45 * 60);
   const [timerActive, setTimerActive] = reactExports.useState(false);
   const [overtimeNotified, setOvertimeNotified] = reactExports.useState(false);
-  const [essayMode, setEssayMode] = reactExports.useState("guided");
+  const [essayMode, setEssayMode] = reactExports.useState("standard");
   const [essayText, setEssayText] = reactExports.useState({
     intro: "",
     body1: "",
@@ -36716,6 +36674,12 @@ function EssayGuide({ onExit }) {
     if (!passageData) return template;
     const extractLastName = (title) => {
       if (!title) return "[Author]";
+      const titleMatch = title.match(
+        /(?:Dr\.|Mr\.|Ms\.|Mrs\.|Prof\.)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/
+      );
+      if (titleMatch) {
+        return titleMatch[1].split(" ").pop();
+      }
       const match = title.match(/([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/);
       return match ? match[0].split(" ").pop() : "[Author]";
     };
@@ -36742,9 +36706,17 @@ function EssayGuide({ onExit }) {
       if (firstSentence.length > 120) {
         const truncated = firstSentence.substring(0, 120).trim();
         const lastSpace = truncated.lastIndexOf(" ");
-        return truncated.substring(0, lastSpace) + ".";
+        const result2 = truncated.substring(0, lastSpace);
+        if (!/[.!?]$/.test(result2)) {
+          return result2 + ".";
+        }
+        return result2;
       }
-      return firstSentence.trim();
+      const claim = firstSentence.trim();
+      if (!/[.!?]$/.test(claim)) {
+        return claim + ".";
+      }
+      return claim;
     };
     const extractEvidenceType = (content) => {
       if (!content) return "evidence";
@@ -37005,35 +36977,81 @@ function EssayGuide({ onExit }) {
       case "passages":
         return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-6 bg-white p-4 rounded-lg shadow-md", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "label",
-              {
-                htmlFor: "topic-selector",
-                className: "block text-lg font-semibold text-gray-800 mb-2",
-                children: "Select an Article Topic:"
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "select",
-              {
-                id: "topic-selector",
-                className: "w-full p-2 border border-gray-300 rounded-md text-lg",
-                value: selectedTopic,
-                disabled: lockedTopic !== null,
-                onChange: (e) => {
-                  const nextIdx = Number(e.target.value);
-                  if (lockedTopic !== null && nextIdx !== lockedTopic) {
-                    const ok = window.confirm(
-                      "Switch topics? This will unlock and reset your current selection."
-                    );
-                    if (!ok) return;
-                    setLockedTopic(nextIdx);
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4 pb-4 border-b border-gray-200", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-lg font-semibold text-gray-800 mb-3", children: "Choose Your Essay Mode:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-3", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => setEssayMode("standard"),
+                    disabled: lockedTopic !== null,
+                    className: `p-4 rounded-lg border-2 text-left transition-all ${essayMode === "standard" ? "border-blue-500 bg-blue-50 shadow-md" : "border-gray-300 bg-white hover:border-blue-300"} ${lockedTopic !== null ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`,
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-gray-900 mb-1", children: "📝 Standard Essay Mode" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm text-gray-600", children: "Traditional essay writing with structured sections" })
+                    ]
                   }
-                  setSelectedTopic(nextIdx);
-                },
-                children: passagesData.map((p2, i) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: i, children: p2.topic }, i))
-              }
-            ),
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => setEssayMode("guided"),
+                    disabled: lockedTopic !== null,
+                    className: `p-4 rounded-lg border-2 text-left transition-all ${essayMode === "guided" ? "border-green-500 bg-green-50 shadow-md" : "border-gray-300 bg-white hover:border-green-300"} ${lockedTopic !== null ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`,
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-gray-900 mb-1", children: "🎯 Guided Essay Mode" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm text-gray-600", children: "Follow shadow templates with real-time accuracy tracking" })
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => setEssayMode("freeform"),
+                    disabled: lockedTopic !== null,
+                    className: `p-4 rounded-lg border-2 text-left transition-all ${essayMode === "freeform" ? "border-purple-500 bg-purple-50 shadow-md" : "border-gray-300 bg-white hover:border-purple-300"} ${lockedTopic !== null ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`,
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-gray-900 mb-1", children: "✍️ Freeform Mode" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm text-gray-600", children: "Write in one continuous text area without structure" })
+                    ]
+                  }
+                )
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 pt-4 border-t border-gray-200", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "label",
+                {
+                  htmlFor: "topic-selector",
+                  className: "block text-lg font-semibold text-gray-800 mb-2",
+                  children: "Select an Article Topic:"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "select",
+                {
+                  id: "topic-selector",
+                  className: "w-full p-2 border border-gray-300 rounded-md text-lg",
+                  value: selectedTopic,
+                  disabled: lockedTopic !== null,
+                  onChange: (e) => {
+                    const nextIdx = Number(e.target.value);
+                    if (lockedTopic !== null && nextIdx !== lockedTopic) {
+                      const ok = window.confirm(
+                        "Switch topics? This will unlock and reset your current selection."
+                      );
+                      if (!ok) return;
+                      setLockedTopic(nextIdx);
+                    }
+                    setSelectedTopic(nextIdx);
+                  },
+                  children: passagesData.map((p2, i) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: i, children: p2.topic }, i))
+                }
+              )
+            ] }),
             lockedTopic === null ? /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
               {
@@ -37043,7 +37061,7 @@ function EssayGuide({ onExit }) {
                   setActiveTab("structure");
                   setTimerActive(true);
                 },
-                className: "mt-3 inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-white font-semibold hover:bg-blue-700",
+                className: "mt-4 inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-white font-semibold hover:bg-blue-700",
                 children: "Start/Lock this topic"
               }
             ) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 text-sm text-green-700", children: "Topic locked. You can start typing and open the prompt overlay." })
@@ -37153,37 +37171,6 @@ function EssayGuide({ onExit }) {
             ] }),
             overtimeNotified && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-3 w-full sm:w-auto bg-amber-50 border border-amber-200 text-amber-800 text-sm px-3 py-2 rounded", children: "Time is up, but you can still finish your work. The timer now shows overtime." })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white p-3 rounded-lg shadow-sm border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm text-slate-700 font-semibold", children: "Editor Mode" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "div",
-              {
-                className: "inline-flex rounded-md shadow-sm",
-                role: "group",
-                "aria-label": "Editor mode toggle",
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      type: "button",
-                      onClick: () => setEssayMode("guided"),
-                      className: `px-4 py-2 text-sm font-medium border ${essayMode === "guided" ? "bg-sky-600 text-white border-sky-600" : "bg-white text-slate-700 border-slate-300 hover:bg-slate-50"}`,
-                      children: "Guided"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      type: "button",
-                      onClick: () => setEssayMode("freeform"),
-                      className: `px-4 py-2 text-sm font-medium border -ml-px ${essayMode === "freeform" ? "bg-sky-600 text-white border-sky-600" : "bg-white text-slate-700 border-slate-300 hover:bg-slate-50"}`,
-                      children: "Freeform"
-                    }
-                  )
-                ]
-              }
-            )
-          ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-lg font-semibold text-blue-900", children: "Need the prompt while you type?" }),
@@ -37207,7 +37194,197 @@ function EssayGuide({ onExit }) {
               " WPM)"
             ] })
           ] }) }),
-          essayMode === "guided" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          essayMode === "standard" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Introduction Paragraph" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "textarea",
+                {
+                  name: "intro",
+                  onPaste: (e) => e.preventDefault(),
+                  value: essayText.intro,
+                  onChange: handleTextChange,
+                  disabled: !timerActive,
+                  className: "practice-textarea w-full h-48 p-3 border-gray-300 rounded-md",
+                  placeholder: "Write your introduction paragraph here...",
+                  onKeyDown: (e) => {
+                    if (e.key === "Tab") {
+                      e.preventDefault();
+                      const t = e.target;
+                      const s = t.selectionStart;
+                      const epos = t.selectionEnd;
+                      const v = t.value;
+                      const ins = "    ";
+                      const next = v.slice(0, s) + ins + v.slice(epos);
+                      handleTextChange({
+                        target: { name: "intro", value: next }
+                      });
+                      setTimeout(() => {
+                        try {
+                          t.selectionStart = t.selectionEnd = s + ins.length;
+                        } catch {
+                        }
+                      }, 0);
+                    }
+                  }
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 flex justify-between items-center text-sm", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-gray-600", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: wordCount(essayText.intro) }),
+                  " ",
+                  "words",
+                  " | ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: (essayText.intro.match(/\n\n/g) || []).length + 1 }),
+                  " ",
+                  "paragraphs"
+                ] }),
+                essayText.intro && essayText.intro.length > 20 && !/thesis|argue|believe|claim|position|support|evidence/i.test(
+                  essayText.intro
+                ) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-yellow-700 bg-yellow-50 px-3 py-1 rounded-md border border-yellow-300", children: "💡 Tip: Ensure you state your main argument" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #1: Analyze Strong Evidence" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "textarea",
+                {
+                  name: "body1",
+                  onPaste: (e) => e.preventDefault(),
+                  value: essayText.body1,
+                  onChange: handleTextChange,
+                  disabled: !timerActive,
+                  className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
+                  placeholder: "Write your first body paragraph here...",
+                  onKeyDown: (e) => {
+                    if (e.key === "Tab") {
+                      e.preventDefault();
+                      const t = e.target;
+                      const s = t.selectionStart;
+                      const epos = t.selectionEnd;
+                      const v = t.value;
+                      const ins = "    ";
+                      const next = v.slice(0, s) + ins + v.slice(epos);
+                      handleTextChange({
+                        target: { name: "body1", value: next }
+                      });
+                      setTimeout(() => {
+                        try {
+                          t.selectionStart = t.selectionEnd = s + ins.length;
+                        } catch {
+                        }
+                      }, 0);
+                    }
+                  }
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #2: Analyze More Strong Evidence" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "textarea",
+                {
+                  name: "body2",
+                  onPaste: (e) => e.preventDefault(),
+                  value: essayText.body2,
+                  onChange: handleTextChange,
+                  disabled: !timerActive,
+                  className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
+                  placeholder: "Write your second body paragraph here...",
+                  onKeyDown: (e) => {
+                    if (e.key === "Tab") {
+                      e.preventDefault();
+                      const t = e.target;
+                      const s = t.selectionStart;
+                      const epos = t.selectionEnd;
+                      const v = t.value;
+                      const ins = "    ";
+                      const next = v.slice(0, s) + ins + v.slice(epos);
+                      handleTextChange({
+                        target: { name: "body2", value: next }
+                      });
+                      setTimeout(() => {
+                        try {
+                          t.selectionStart = t.selectionEnd = s + ins.length;
+                        } catch {
+                        }
+                      }, 0);
+                    }
+                  }
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Body Paragraph #3: Analyze the Weaker Argument" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "textarea",
+                {
+                  name: "body3",
+                  onPaste: (e) => e.preventDefault(),
+                  value: essayText.body3,
+                  onChange: handleTextChange,
+                  disabled: !timerActive,
+                  className: "practice-textarea w-full h-32 p-3 border-gray-300 rounded-md",
+                  placeholder: "Write your third body paragraph here...",
+                  onKeyDown: (e) => {
+                    if (e.key === "Tab") {
+                      e.preventDefault();
+                      const t = e.target;
+                      const s = t.selectionStart;
+                      const epos = t.selectionEnd;
+                      const v = t.value;
+                      const ins = "    ";
+                      const next = v.slice(0, s) + ins + v.slice(epos);
+                      handleTextChange({
+                        target: { name: "body3", value: next }
+                      });
+                      setTimeout(() => {
+                        try {
+                          t.selectionStart = t.selectionEnd = s + ins.length;
+                        } catch {
+                        }
+                      }, 0);
+                    }
+                  }
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Conclusion Paragraph" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "textarea",
+                {
+                  name: "conclusion",
+                  onPaste: (e) => e.preventDefault(),
+                  value: essayText.conclusion,
+                  onChange: handleTextChange,
+                  disabled: !timerActive,
+                  className: "practice-textarea w-full h-40 p-3 border-gray-300 rounded-md",
+                  placeholder: "Write your conclusion paragraph here...",
+                  onKeyDown: (e) => {
+                    if (e.key === "Tab") {
+                      e.preventDefault();
+                      const t = e.target;
+                      const s = t.selectionStart;
+                      const epos = t.selectionEnd;
+                      const v = t.value;
+                      const ins = "    ";
+                      const next = v.slice(0, s) + ins + v.slice(epos);
+                      handleTextChange({
+                        target: { name: "conclusion", value: next }
+                      });
+                      setTimeout(() => {
+                        try {
+                          t.selectionStart = t.selectionEnd = s + ins.length;
+                        } catch {
+                        }
+                      }, 0);
+                    }
+                  }
+                }
+              )
+            ] })
+          ] }) : essayMode === "guided" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Introduction Paragraph" }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { position: "relative" }, children: [
@@ -37257,7 +37434,7 @@ function EssayGuide({ onExit }) {
                   }
                 ),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: filledTemplates.intro }),
-                essayText.intro && !typingAccuracy.intro.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
+                essayText.intro && !typingAccuracy.intro.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 flex justify-between items-center text-sm", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-gray-600", children: [
@@ -37323,7 +37500,7 @@ function EssayGuide({ onExit }) {
                   }
                 ),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: filledTemplates.body1 }),
-                essayText.body1 && !typingAccuracy.body1.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
+                essayText.body1 && !typingAccuracy.body1.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
               ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
@@ -37375,7 +37552,7 @@ function EssayGuide({ onExit }) {
                   }
                 ),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: filledTemplates.body2 }),
-                essayText.body2 && !typingAccuracy.body2.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
+                essayText.body2 && !typingAccuracy.body2.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
               ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
@@ -37427,7 +37604,7 @@ function EssayGuide({ onExit }) {
                   }
                 ),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: filledTemplates.body3 }),
-                essayText.body3 && !typingAccuracy.body3.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
+                essayText.body3 && !typingAccuracy.body3.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
               ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
@@ -37479,7 +37656,7 @@ function EssayGuide({ onExit }) {
                   }
                 ),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: getShadowStyle(), "aria-hidden": "true", children: filledTemplates.conclusion }),
-                essayText.conclusion && !typingAccuracy.conclusion.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-6 left-0 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
+                essayText.conclusion && !typingAccuracy.conclusion.correct && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 text-xs text-red-600", children: "⚠️ Text doesn't match the template structure" })
               ] })
             ] })
           ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
@@ -39224,4 +39401,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-Bz9IqjaJ.js.map
+//# sourceMappingURL=main-BCGkeJXp.js.map

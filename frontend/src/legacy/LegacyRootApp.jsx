@@ -31419,7 +31419,7 @@ function StartScreen({
       <DetailedProgressView
         subject={detailedViewSubject}
         progressData={progress[detailedViewSubject]}
-        onBack={goBack}
+        onBack={onBack}
         rlaEssayAvgDisplay={rlaEssayAvgDisplayForDetails}
       />
     );
@@ -36668,7 +36668,7 @@ function EssayGuide({ onExit }) {
   const [timer, setTimer] = useState(45 * 60);
   const [timerActive, setTimerActive] = useState(false);
   const [overtimeNotified, setOvertimeNotified] = useState(false);
-  const [essayMode, setEssayMode] = useState('guided'); // 'guided' | 'freeform'
+  const [essayMode, setEssayMode] = useState('standard'); // 'standard' | 'guided' | 'freeform'
   const [essayText, setEssayText] = useState({
     intro: '',
     body1: '',
@@ -37173,6 +37173,13 @@ function EssayGuide({ onExit }) {
 
     const extractLastName = (title) => {
       if (!title) return '[Author]';
+      // Match titles like Dr., Mr., Ms., etc. followed by names
+      const titleMatch = title.match(
+        /(?:Dr\.|Mr\.|Ms\.|Mrs\.|Prof\.)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/
+      );
+      if (titleMatch) {
+        return titleMatch[1].split(' ').pop();
+      }
       const match = title.match(/([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/);
       return match ? match[0].split(' ').pop() : '[Author]';
     };
@@ -37203,9 +37210,19 @@ function EssayGuide({ onExit }) {
       if (firstSentence.length > 120) {
         const truncated = firstSentence.substring(0, 120).trim();
         const lastSpace = truncated.lastIndexOf(' ');
-        return truncated.substring(0, lastSpace) + '.';
+        const result = truncated.substring(0, lastSpace);
+        // Don't add period if already ends with punctuation or is a question/exclamation
+        if (!/[.!?]$/.test(result)) {
+          return result + '.';
+        }
+        return result;
       }
-      return firstSentence.trim();
+      const claim = firstSentence.trim();
+      // Ensure proper ending punctuation
+      if (!/[.!?]$/.test(claim)) {
+        return claim + '.';
+      }
+      return claim;
     };
 
     // Extract evidence type
@@ -37566,35 +37583,111 @@ function EssayGuide({ onExit }) {
         return (
           <div>
             <div className="mb-6 bg-white p-4 rounded-lg shadow-md">
-              <label
-                htmlFor="topic-selector"
-                className="block text-lg font-semibold text-gray-800 mb-2"
-              >
-                Select an Article Topic:
-              </label>
-              <select
-                id="topic-selector"
-                className="w-full p-2 border border-gray-300 rounded-md text-lg"
-                value={selectedTopic}
-                disabled={lockedTopic !== null}
-                onChange={(e) => {
-                  const nextIdx = Number(e.target.value);
-                  if (lockedTopic !== null && nextIdx !== lockedTopic) {
-                    const ok = window.confirm(
-                      'Switch topics? This will unlock and reset your current selection.'
-                    );
-                    if (!ok) return;
-                    setLockedTopic(nextIdx);
-                  }
-                  setSelectedTopic(nextIdx);
-                }}
-              >
-                {passagesData.map((p, i) => (
-                  <option key={i} value={i}>
-                    {p.topic}
-                  </option>
-                ))}
-              </select>
+              {/* Mode Selector - FIRST */}
+              <div className="mb-4 pb-4 border-b border-gray-200">
+                <label className="block text-lg font-semibold text-gray-800 mb-3">
+                  Choose Your Essay Mode:
+                </label>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setEssayMode('standard')}
+                    disabled={lockedTopic !== null}
+                    className={`p-4 rounded-lg border-2 text-left transition-all ${
+                      essayMode === 'standard'
+                        ? 'border-blue-500 bg-blue-50 shadow-md'
+                        : 'border-gray-300 bg-white hover:border-blue-300'
+                    } ${
+                      lockedTopic !== null
+                        ? 'opacity-50 cursor-not-allowed'
+                        : 'cursor-pointer'
+                    }`}
+                  >
+                    <div className="font-bold text-gray-900 mb-1">
+                      📝 Standard Essay Mode
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      Traditional essay writing with structured sections
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEssayMode('guided')}
+                    disabled={lockedTopic !== null}
+                    className={`p-4 rounded-lg border-2 text-left transition-all ${
+                      essayMode === 'guided'
+                        ? 'border-green-500 bg-green-50 shadow-md'
+                        : 'border-gray-300 bg-white hover:border-green-300'
+                    } ${
+                      lockedTopic !== null
+                        ? 'opacity-50 cursor-not-allowed'
+                        : 'cursor-pointer'
+                    }`}
+                  >
+                    <div className="font-bold text-gray-900 mb-1">
+                      🎯 Guided Essay Mode
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      Follow shadow templates with real-time accuracy tracking
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEssayMode('freeform')}
+                    disabled={lockedTopic !== null}
+                    className={`p-4 rounded-lg border-2 text-left transition-all ${
+                      essayMode === 'freeform'
+                        ? 'border-purple-500 bg-purple-50 shadow-md'
+                        : 'border-gray-300 bg-white hover:border-purple-300'
+                    } ${
+                      lockedTopic !== null
+                        ? 'opacity-50 cursor-not-allowed'
+                        : 'cursor-pointer'
+                    }`}
+                  >
+                    <div className="font-bold text-gray-900 mb-1">
+                      ✍️ Freeform Mode
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      Write in one continuous text area without structure
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Topic Selector - SECOND */}
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <label
+                  htmlFor="topic-selector"
+                  className="block text-lg font-semibold text-gray-800 mb-2"
+                >
+                  Select an Article Topic:
+                </label>
+                <select
+                  id="topic-selector"
+                  className="w-full p-2 border border-gray-300 rounded-md text-lg"
+                  value={selectedTopic}
+                  disabled={lockedTopic !== null}
+                  onChange={(e) => {
+                    const nextIdx = Number(e.target.value);
+                    if (lockedTopic !== null && nextIdx !== lockedTopic) {
+                      const ok = window.confirm(
+                        'Switch topics? This will unlock and reset your current selection.'
+                      );
+                      if (!ok) return;
+                      setLockedTopic(nextIdx);
+                    }
+                    setSelectedTopic(nextIdx);
+                  }}
+                >
+                  {passagesData.map((p, i) => (
+                    <option key={i} value={i}>
+                      {p.topic}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               {lockedTopic === null ? (
                 <button
                   type="button"
@@ -37603,7 +37696,7 @@ function EssayGuide({ onExit }) {
                     setActiveTab('structure');
                     setTimerActive(true);
                   }}
-                  className="mt-3 inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-white font-semibold hover:bg-blue-700"
+                  className="mt-4 inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-white font-semibold hover:bg-blue-700"
                 >
                   Start/Lock this topic
                 </button>
@@ -37728,40 +37821,6 @@ function EssayGuide({ onExit }) {
               )}
             </div>
 
-            <div className="bg-white p-3 rounded-lg shadow-sm border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div className="text-sm text-slate-700 font-semibold">
-                Editor Mode
-              </div>
-              <div
-                className="inline-flex rounded-md shadow-sm"
-                role="group"
-                aria-label="Editor mode toggle"
-              >
-                <button
-                  type="button"
-                  onClick={() => setEssayMode('guided')}
-                  className={`px-4 py-2 text-sm font-medium border ${
-                    essayMode === 'guided'
-                      ? 'bg-sky-600 text-white border-sky-600'
-                      : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
-                  }`}
-                >
-                  Guided
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setEssayMode('freeform')}
-                  className={`px-4 py-2 text-sm font-medium border -ml-px ${
-                    essayMode === 'freeform'
-                      ? 'bg-sky-600 text-white border-sky-600'
-                      : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
-                  }`}
-                >
-                  Freeform
-                </button>
-              </div>
-            </div>
-
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
               <div>
                 <h4 className="text-lg font-semibold text-blue-900">
@@ -37797,8 +37856,200 @@ function EssayGuide({ onExit }) {
               </div>
             )}
 
-            {/* Editor sections: guided vs freeform */}
-            {essayMode === 'guided' ? (
+            {/* Editor sections: standard vs guided vs freeform */}
+            {essayMode === 'standard' ? (
+              <>
+                <div className="practice-section bg-white p-6 rounded-lg shadow-md">
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900">
+                    Introduction Paragraph
+                  </h3>
+                  <textarea
+                    name="intro"
+                    onPaste={(e) => e.preventDefault()}
+                    value={essayText.intro}
+                    onChange={handleTextChange}
+                    disabled={!timerActive}
+                    className="practice-textarea w-full h-48 p-3 border-gray-300 rounded-md"
+                    placeholder="Write your introduction paragraph here..."
+                    onKeyDown={(e) => {
+                      if (e.key === 'Tab') {
+                        e.preventDefault();
+                        const t = e.target;
+                        const s = t.selectionStart;
+                        const epos = t.selectionEnd;
+                        const v = t.value;
+                        const ins = '    ';
+                        const next = v.slice(0, s) + ins + v.slice(epos);
+                        handleTextChange({
+                          target: { name: 'intro', value: next },
+                        });
+                        setTimeout(() => {
+                          try {
+                            t.selectionStart = t.selectionEnd = s + ins.length;
+                          } catch {}
+                        }, 0);
+                      }
+                    }}
+                  ></textarea>
+
+                  {/* Word Count */}
+                  <div className="mt-2 flex justify-between items-center text-sm">
+                    <div className="text-gray-600">
+                      <span className="font-semibold">
+                        {wordCount(essayText.intro)}
+                      </span>{' '}
+                      words
+                      {' | '}
+                      <span className="font-semibold">
+                        {(essayText.intro.match(/\n\n/g) || []).length + 1}
+                      </span>{' '}
+                      paragraphs
+                    </div>
+                    {essayText.intro &&
+                      essayText.intro.length > 20 &&
+                      !/thesis|argue|believe|claim|position|support|evidence/i.test(
+                        essayText.intro
+                      ) && (
+                        <div className="text-yellow-700 bg-yellow-50 px-3 py-1 rounded-md border border-yellow-300">
+                          💡 Tip: Ensure you state your main argument
+                        </div>
+                      )}
+                  </div>
+                </div>
+                <div className="practice-section bg-white p-6 rounded-lg shadow-md">
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900">
+                    Body Paragraph #1: Analyze Strong Evidence
+                  </h3>
+                  <textarea
+                    name="body1"
+                    onPaste={(e) => e.preventDefault()}
+                    value={essayText.body1}
+                    onChange={handleTextChange}
+                    disabled={!timerActive}
+                    className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
+                    placeholder="Write your first body paragraph here..."
+                    onKeyDown={(e) => {
+                      if (e.key === 'Tab') {
+                        e.preventDefault();
+                        const t = e.target;
+                        const s = t.selectionStart;
+                        const epos = t.selectionEnd;
+                        const v = t.value;
+                        const ins = '    ';
+                        const next = v.slice(0, s) + ins + v.slice(epos);
+                        handleTextChange({
+                          target: { name: 'body1', value: next },
+                        });
+                        setTimeout(() => {
+                          try {
+                            t.selectionStart = t.selectionEnd = s + ins.length;
+                          } catch {}
+                        }, 0);
+                      }
+                    }}
+                  ></textarea>
+                </div>
+                <div className="practice-section bg-white p-6 rounded-lg shadow-md">
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900">
+                    Body Paragraph #2: Analyze More Strong Evidence
+                  </h3>
+                  <textarea
+                    name="body2"
+                    onPaste={(e) => e.preventDefault()}
+                    value={essayText.body2}
+                    onChange={handleTextChange}
+                    disabled={!timerActive}
+                    className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
+                    placeholder="Write your second body paragraph here..."
+                    onKeyDown={(e) => {
+                      if (e.key === 'Tab') {
+                        e.preventDefault();
+                        const t = e.target;
+                        const s = t.selectionStart;
+                        const epos = t.selectionEnd;
+                        const v = t.value;
+                        const ins = '    ';
+                        const next = v.slice(0, s) + ins + v.slice(epos);
+                        handleTextChange({
+                          target: { name: 'body2', value: next },
+                        });
+                        setTimeout(() => {
+                          try {
+                            t.selectionStart = t.selectionEnd = s + ins.length;
+                          } catch {}
+                        }, 0);
+                      }
+                    }}
+                  ></textarea>
+                </div>
+                <div className="practice-section bg-white p-6 rounded-lg shadow-md">
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900">
+                    Body Paragraph #3: Analyze the Weaker Argument
+                  </h3>
+                  <textarea
+                    name="body3"
+                    onPaste={(e) => e.preventDefault()}
+                    value={essayText.body3}
+                    onChange={handleTextChange}
+                    disabled={!timerActive}
+                    className="practice-textarea w-full h-32 p-3 border-gray-300 rounded-md"
+                    placeholder="Write your third body paragraph here..."
+                    onKeyDown={(e) => {
+                      if (e.key === 'Tab') {
+                        e.preventDefault();
+                        const t = e.target;
+                        const s = t.selectionStart;
+                        const epos = t.selectionEnd;
+                        const v = t.value;
+                        const ins = '    ';
+                        const next = v.slice(0, s) + ins + v.slice(epos);
+                        handleTextChange({
+                          target: { name: 'body3', value: next },
+                        });
+                        setTimeout(() => {
+                          try {
+                            t.selectionStart = t.selectionEnd = s + ins.length;
+                          } catch {}
+                        }, 0);
+                      }
+                    }}
+                  ></textarea>
+                </div>
+                <div className="practice-section bg-white p-6 rounded-lg shadow-md">
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900">
+                    Conclusion Paragraph
+                  </h3>
+                  <textarea
+                    name="conclusion"
+                    onPaste={(e) => e.preventDefault()}
+                    value={essayText.conclusion}
+                    onChange={handleTextChange}
+                    disabled={!timerActive}
+                    className="practice-textarea w-full h-40 p-3 border-gray-300 rounded-md"
+                    placeholder="Write your conclusion paragraph here..."
+                    onKeyDown={(e) => {
+                      if (e.key === 'Tab') {
+                        e.preventDefault();
+                        const t = e.target;
+                        const s = t.selectionStart;
+                        const epos = t.selectionEnd;
+                        const v = t.value;
+                        const ins = '    ';
+                        const next = v.slice(0, s) + ins + v.slice(epos);
+                        handleTextChange({
+                          target: { name: 'conclusion', value: next },
+                        });
+                        setTimeout(() => {
+                          try {
+                            t.selectionStart = t.selectionEnd = s + ins.length;
+                          } catch {}
+                        }, 0);
+                      }
+                    }}
+                  ></textarea>
+                </div>
+              </>
+            ) : essayMode === 'guided' ? (
               <>
                 <div className="practice-section bg-white p-6 rounded-lg shadow-md">
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
@@ -37853,7 +38104,7 @@ function EssayGuide({ onExit }) {
                     </div>
                     {/* Accuracy indicator */}
                     {essayText.intro && !typingAccuracy.intro.correct && (
-                      <div className="absolute -bottom-6 left-0 text-xs text-red-600">
+                      <div className="mt-1 text-xs text-red-600">
                         ⚠️ Text doesn't match the template structure
                       </div>
                     )}
@@ -37934,7 +38185,7 @@ function EssayGuide({ onExit }) {
                       {filledTemplates.body1}
                     </div>
                     {essayText.body1 && !typingAccuracy.body1.correct && (
-                      <div className="absolute -bottom-6 left-0 text-xs text-red-600">
+                      <div className="mt-1 text-xs text-red-600">
                         ⚠️ Text doesn't match the template structure
                       </div>
                     )}
@@ -37991,7 +38242,7 @@ function EssayGuide({ onExit }) {
                       {filledTemplates.body2}
                     </div>
                     {essayText.body2 && !typingAccuracy.body2.correct && (
-                      <div className="absolute -bottom-6 left-0 text-xs text-red-600">
+                      <div className="mt-1 text-xs text-red-600">
                         ⚠️ Text doesn't match the template structure
                       </div>
                     )}
@@ -38048,7 +38299,7 @@ function EssayGuide({ onExit }) {
                       {filledTemplates.body3}
                     </div>
                     {essayText.body3 && !typingAccuracy.body3.correct && (
-                      <div className="absolute -bottom-6 left-0 text-xs text-red-600">
+                      <div className="mt-1 text-xs text-red-600">
                         ⚠️ Text doesn't match the template structure
                       </div>
                     )}
@@ -38106,7 +38357,7 @@ function EssayGuide({ onExit }) {
                     </div>
                     {essayText.conclusion &&
                       !typingAccuracy.conclusion.correct && (
-                        <div className="absolute -bottom-6 left-0 text-xs text-red-600">
+                        <div className="mt-1 text-xs text-red-600">
                           ⚠️ Text doesn't match the template structure
                         </div>
                       )}
