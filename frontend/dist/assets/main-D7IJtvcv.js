@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-67BuonQ_.js";
+import { _ as __vitePreload } from "./index-DPJXI6_a.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -6779,6 +6779,29 @@ function formatMathText(html) {
   );
   return out;
 }
+function wrapInlineMathForKatex(text) {
+  if (typeof text !== "string" || text.length === 0) return text;
+  const segments = extractMathSegments(text);
+  const source = segments.length ? segments : [{ type: "text", value: text }];
+  return source.map((seg) => {
+    if (seg.type === "math") {
+      return seg.raw || seg.value;
+    }
+    let value = seg.value.replace(
+      /([A-Za-z0-9)]+)\^(\d+)/g,
+      (_m, base, exp) => `\\(${base}^{${exp}}\\)`
+    );
+    value = value.replace(
+      /(\d+)\s*\/\s*(\d+)([A-Za-z])/g,
+      (_m, num, den, trailing) => `\\(\\frac{${num}}{${den}}${trailing}\\)`
+    );
+    value = value.replace(
+      /(\d+|[A-Za-z])\s*\/\s*(\d+|[A-Za-z])/g,
+      (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+    );
+    return value;
+  }).join("");
+}
 function sanitizeUnicode(s) {
   if (typeof s !== "string" || s.length === 0) return s;
   try {
@@ -6800,18 +6823,15 @@ function sanitizeUnicode(s) {
   }
 }
 function renderQuestionTextForDisplay(text, isPremade) {
-  const useKatex = Boolean(
-    window.__APP_CONFIG__ && window.__APP_CONFIG__.premadeUsesKatex === true && isPremade === true
-  );
-  if (useKatex) {
-    return { __html: renderStemWithKatex(sanitizeUnicode(text)) };
+  const sanitized = sanitizeUnicode(text);
+  const katexReady = wrapInlineMathForKatex(sanitized);
+  try {
+    const html2 = renderStemWithKatex(katexReady);
+    return { __html: html2 };
+  } catch (err) {
+    console.warn("KaTeX render fallback:", (err == null ? void 0 : err.message) || err);
   }
-  let processedText = sanitizeUnicode(text);
-  processedText = processedText.replace(
-    /([a-zA-Z0-9]+\^[a-zA-Z0-9]+)/g,
-    "\\($1\\)"
-  );
-  const html = renderStem(processedText);
+  const html = renderStem(katexReady);
   const finalHtml = formatMathText(html);
   return { __html: finalHtml };
 }
@@ -24171,7 +24191,7 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
               ")"
             ] })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
             {
               type: "button",
@@ -24182,7 +24202,27 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
                 persistExpanded(next);
               },
               title: "Toggle overview",
-              children: "??"
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "svg",
+                  {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 20 20",
+                    fill: "currentColor",
+                    className: "h-4 w-4 text-muted",
+                    "aria-hidden": "true",
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "path",
+                      {
+                        fillRule: "evenodd",
+                        d: "M10 18a8 8 0 100-16 8 8 0 000 16Zm0-6.25a.75.75 0 00-.75.75v2a.75.75 0 001.5 0v-2A.75.75 0 0010 11.75Zm0-5a1 1 0 100 2 1 1 0 000-2Z",
+                        clipRule: "evenodd"
+                      }
+                    )
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sr-only", children: "Toggle overview" })
+              ]
             }
           )
         ] }),
@@ -28850,8 +28890,8 @@ function AuthScreen({ onLogin }) {
       )
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: googleButton, className: "flex justify-center" }),
-    // Show in Vite dev OR when running locally with ?dev=1
-    typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") && new URLSearchParams(window.location.search).get("dev") === "1" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 p-4 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/40", children: [
+    // Show in Vite dev OR when running locally (no ?dev flag needed)
+    typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 p-4 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/40", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold text-amber-800 dark:text-amber-200 mb-2 uppercase tracking-wide", children: "Dev Mode: Quick Login" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 gap-2", children: [
         {
@@ -34867,17 +34907,52 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     if (!Number.isFinite(na) || !Number.isFinite(nb) || nb === 0) return null;
     return na / nb;
   };
+  const parsePercentWord = (s) => {
+    const m2 = s.match(/([-+]?\d+(?:\.\d+)?)\s*percent\b/i);
+    if (!m2) return null;
+    const num = Number(m2[1]);
+    return Number.isFinite(num) ? num / 100 : null;
+  };
+  const extractInlineFraction = (s) => {
+    const m2 = s.match(/[-+]?\d+\s*\/\s*[-+]?\d+/);
+    if (!m2) return null;
+    return parseFraction(m2[0]);
+  };
+  const extractInlineRatioTo = (s) => {
+    const m2 = s.match(/([-+]?\d+)\s+to\s+([-+]?\d+)/i);
+    if (!m2) return null;
+    const na = Number(m2[1]);
+    const nb = Number(m2[2]);
+    if (!Number.isFinite(na) || !Number.isFinite(nb) || nb === 0) return null;
+    return na / nb;
+  };
+  const extractInlineNumber = (s) => {
+    const m2 = s.match(/[-+]?\d+(?:,\d{3})*(?:\.\d+)?/);
+    if (!m2) return null;
+    const num = Number(m2[0].replace(/,/g, ""));
+    return Number.isFinite(num) ? num : null;
+  };
   const numericValue = (raw) => {
     const s = normalizeRaw(raw);
     if (!s) return null;
+    const looksLikeList = s.includes(",") && !MATH_EQUIV.CURRENCY_RE.test(s) && !/^[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/.test(s);
+    if (looksLikeList) return null;
     if (MATH_EQUIV.PERCENT_RE.test(s)) return parsePercent(s);
     if (MATH_EQUIV.CURRENCY_RE.test(s)) return parseCurrency(s);
     if (MATH_EQUIV.MIXED_RE.test(s)) return parseMixed(s);
     if (MATH_EQUIV.FRACTION_RE.test(s)) return parseFraction(s);
     if (MATH_EQUIV.RATIO_RE.test(s)) return parseRatio(s);
+    const percentWord = parsePercentWord(s);
+    if (percentWord !== null) return percentWord;
+    const inlineFrac = extractInlineFraction(s);
+    if (inlineFrac !== null) return inlineFrac;
+    const inlineRatio = extractInlineRatioTo(s);
+    if (inlineRatio !== null) return inlineRatio;
     const plain = s.replace(/,/g, "");
     const num = Number(plain);
-    return Number.isFinite(num) ? num : null;
+    if (Number.isFinite(num)) return num;
+    const inlineNumber = extractInlineNumber(s);
+    return inlineNumber !== null ? inlineNumber : null;
   };
   const canonicalTokens = (raw) => {
     const s = normalizeRaw(raw);
@@ -38867,4 +38942,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-COSM2yYT.js.map
+//# sourceMappingURL=main-D7IJtvcv.js.map

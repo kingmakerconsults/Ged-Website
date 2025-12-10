@@ -7259,28 +7259,28 @@ export const expandedQuizData = {
                   {
                     questionNumber: 4,
                     type: 'applied',
-                    question: 'Expand (x + 4)(x - 1).',
+                    question: 'Expand ((x + 4)(x - 1)).',
                     answerOptions: [
                       {
-                        text: 'x^2 + 3x - 4',
+                        text: '(x^{2} + 3x - 4)',
                         rationale:
                           'Correct. Multiply term by term and combine like terms.',
                         isCorrect: true,
                       },
                       {
-                        text: 'x^2 + 4x - 1',
+                        text: '(x^{2} + 4x - 1)',
                         rationale:
                           'This omits the product of the constant terms.',
                         isCorrect: false,
                       },
                       {
-                        text: 'x^2 - x + 4',
+                        text: '(x^{2} - x + 4)',
                         rationale:
                           'This mixes signs for the middle term and constant.',
                         isCorrect: false,
                       },
                       {
-                        text: 'x^2 - 5',
+                        text: '(x^{2} - 5)',
                         rationale:
                           'This only multiplies the outer and inner terms.',
                         isCorrect: false,
@@ -7290,28 +7290,29 @@ export const expandedQuizData = {
                   {
                     questionNumber: 5,
                     type: 'knowledge',
-                    question: 'Combine like terms in 4x^2 - 3x + 2x^2 + 5x.',
+                    question:
+                      'Combine like terms in (4x^{2} - 3x + 2x^{2} + 5x).',
                     answerOptions: [
                       {
-                        text: '6x^2 + 2x',
+                        text: '(6x^{2} + 2x)',
                         rationale:
                           'Correct. Combine 4x^2 + 2x^2 and -3x + 5x separately.',
                         isCorrect: true,
                       },
                       {
-                        text: '6x^2 - 8x',
+                        text: '(6x^{2} - 8x)',
                         rationale:
                           'This subtracts instead of adds the linear terms.',
                         isCorrect: false,
                       },
                       {
-                        text: '6x^2 + 8x',
+                        text: '(6x^{2} + 8x)',
                         rationale:
                           'This adds the coefficients without considering the negative sign.',
                         isCorrect: false,
                       },
                       {
-                        text: '8x^2 + 2x',
+                        text: '(8x^{2} + 2x)',
                         rationale: 'This adds 4x^2 and 2x^2 incorrectly.',
                         isCorrect: false,
                       },
@@ -7320,16 +7321,16 @@ export const expandedQuizData = {
                   {
                     questionNumber: 6,
                     type: 'knowledge',
-                    question: 'Factor 9x^2y + 12xy^2 completely.',
+                    question: 'Factor (9x^{2}y + 12xy^{2}) completely.',
                     answerOptions: [
                       {
-                        text: '3xy(3x + 4y)',
+                        text: '(3xy(3x + 4y))',
                         rationale:
                           'Correct. Factor out the greatest common factor 3xy.',
                         isCorrect: true,
                       },
                       {
-                        text: '3x(3xy + 4y^2)',
+                        text: '(3x(3xy + 4y^{2}))',
                         rationale:
                           'This leaves a common factor of y inside the parentheses.',
                         isCorrect: false,
