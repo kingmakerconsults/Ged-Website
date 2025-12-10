@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +34,8 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a radius of 20 meters. What is its circumference? Use 3.14 for $\\pi$.",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "How many centimeters are in a meter?",
     "correctAnswer": "100",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "What is the perimeter of a rectangle if its length is 15 and its width is 10?",
     "correctAnswer": "50",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for $\\pi$.",

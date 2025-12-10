@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,8 +34,9 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "If $f(x) = 15 - x$, what is $f(15)$?",
     "correctAnswer": "0",
@@ -80,7 +80,8 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the slope of a line passing through (4, 2) and (6, 10)?",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "What is the x-intercept of the line $y = 5x + 15$?",
     "correctAnswer": "-3",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A gym membership costs $25 per month. Write a function C(m) for the total cost of 'm' months.",

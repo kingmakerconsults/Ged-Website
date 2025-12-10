@@ -1,9 +1,9 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "Solve for b: $b - 9 = 2$.",
     "correctAnswer": "11",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "Expand the expression: $(x - 4)(x + 4)$.",
     "correctAnswer": "$x^2$ - 16",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "If $f(x) = -4x + 7$, what is $f(-3)$?",
     "correctAnswer": "19",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of the line $3x - 2y = 6$?",

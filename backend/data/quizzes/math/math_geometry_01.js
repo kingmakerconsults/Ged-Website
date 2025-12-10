@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,8 +34,9 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "A square has a perimeter of 24 inches. What is the length of one side?",
     "correctAnswer": "6 inches",
@@ -80,7 +80,8 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a radius of 5 meters. What is its circumference? Use 3.14 for $\\pi$.",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "Two angles in a triangle measure 40Â° and 60Â°. What is the measure of the third angle?",
     "correctAnswer": "80Â°",
@@ -203,8 +205,9 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "How many feet are in 3 yards?",
     "correctAnswer": "9 feet",

@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,8 +34,9 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "If $f(x) = 5x + 1$, what is $f(-1)$?",
     "correctAnswer": "-4",
@@ -80,7 +80,8 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of a line with slope 3 that passes through (2, 5)?",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "Find the x-intercept of the line $y = -4x + 12$.",
     "correctAnswer": "3",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A company's cost function is C(x) = 10x + 500, where x is the number of units produced. What is the cost of producing 50 units?",

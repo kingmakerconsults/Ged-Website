@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +34,8 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A laptop is on sale for $450, which is 25% off the original price. What was the original price?",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "A basketball player makes 7 out of 10 free throws. What is the ratio of made free throws to missed free throws?",
     "correctAnswer": "7:3",
@@ -158,7 +159,8 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A company's profits increased from $200,000 to $250,000. What was the percent increase?",
@@ -203,8 +205,9 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "A survey of 80 students showed that 48 of them have a sibling. What is this ratio as a percentage?",
     "correctAnswer": "60%",
@@ -274,7 +277,7 @@ module.exports = [
         "rationale": "This is 15*$\\frac{5}{2}$."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{2 \\text{ sugar}}{5 \\text{ flour}} = \\frac{x \\text{ sugar}}{15 \\text{ flour}}$. Cross-multiply: $5x = 30$. Divide by 5: $x = 6$ cups of sugar.",
+    "rationale": "Set up a proportion: $\\frac{2  ext{ sugar}}{5  ext{ flour}} = \\frac{x  ext{ sugar}}{15  ext{ flour}}$. Cross-multiply: $5x = 30$. Divide by 5: $x = 6$ cups of sugar.",
     "challenge_tags": [
       "math-1"
     ]

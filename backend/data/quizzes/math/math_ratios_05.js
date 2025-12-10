@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +34,8 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A TV is priced at $450. A 10% sales tax is added. What is the total cost?",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "If a box of 12 pencils costs $3, what is the cost per pencil in cents?",
     "correctAnswer": "25 cents",
@@ -158,7 +159,8 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A car's value decreased from $15,000 to $12,000. What was the percent decrease?",
@@ -203,8 +205,9 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "A factory produces 2 defective items for every 500 produced. What is the ratio of defective to non-defective items, in simplest form?",
     "correctAnswer": "1:249",

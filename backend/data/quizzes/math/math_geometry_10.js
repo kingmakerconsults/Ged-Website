@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +34,8 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A circle has a circumference of 31.4 inches. What is its radius? Use 3.14 for $\\pi$.",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "A triangle has angles of 20Â° and 80Â°. What is the third angle?",
     "correctAnswer": "80Â°",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "Find the perimeter of a regular octagon with a side length of 5 cm.",
     "correctAnswer": "40 cm",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A cylindrical tank is 10 feet tall and has a radius of 3 feet. What is its volume? Use 3.14 for $\\pi$.",
@@ -307,7 +310,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Using the area formula for a trapezoid, A = $\\frac{1}{2}(b_1 + b_2)h$. We have 100 = $\\frac{1}{2}(8 + b_2) \\times 10$. 100 = $5(8 + b_2)$. 20 = $8 + b_2$. So, $b_2 = 12$ units.",
+    "rationale": "Using the area formula for a trapezoid, A = $\\frac{1}{2}(b_1 + b_2)h$. We have 100 = $\\frac{1}{2}(8 + b_2)  imes 10$. 100 = $5(8 + b_2)$. 20 = $8 + b_2$. So, $b_2 = 12$ units.",
     "challenge_tags": [
       "math-5"
     ]

@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,8 +34,9 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "Find the product of 12 and 0.5.",
     "correctAnswer": "6",
@@ -80,10 +80,11 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
-    "question": "Evaluate: $5 \times (6 - 2) + 3^2$.",
+    "question": "Evaluate: $5  imes (6 - 2) + 3^2$.",
     "correctAnswer": "29",
     "rationale": "Order of operations (PEMDAS): Parentheses (6-2=4), Exponents ($3^2$=9), Multiplication (5*4=20), Addition (20+9=29).",
     "challenge_tags": [
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "What is the least common denominator for the fractions $\\frac{1}{6}$ and $\\frac{3}{8}$?",
     "correctAnswer": "24",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "An electronics store marks up the price of a game console by 30%. If the store bought the console for $250, what is the selling price?",
@@ -274,7 +277,7 @@ module.exports = [
         "rationale": "This is what's left after you ate."
       }
     ],
-    "rationale": "To find the fraction of the original pizza you ate, you need to calculate $\\frac{1}{3}$ of $\\frac{3}{4}$. This is a multiplication problem: $\\frac{1}{3} \\times \\frac{3}{4} = \\frac{3}{12}$, which simplifies to $\\frac{1}{4}$.",
+    "rationale": "To find the fraction of the original pizza you ate, you need to calculate $\\frac{1}{3}$ of $\\frac{3}{4}$. This is a multiplication problem: $\\frac{1}{3}  imes \\frac{3}{4} = \\frac{3}{12}$, which simplifies to $\\frac{1}{4}$.",
     "challenge_tags": [
       "math-1"
     ]

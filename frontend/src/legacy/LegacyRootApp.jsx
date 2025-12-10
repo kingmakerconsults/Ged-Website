@@ -35140,18 +35140,65 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     return na / nb;
   };
 
+  const parsePercentWord = (s) => {
+    const m = s.match(/([-+]?\d+(?:\.\d+)?)\s*percent\b/i);
+    if (!m) return null;
+    const num = Number(m[1]);
+    return Number.isFinite(num) ? num / 100 : null;
+  };
+
+  const extractInlineFraction = (s) => {
+    const m = s.match(/[-+]?\d+\s*\/\s*[-+]?\d+/);
+    if (!m) return null;
+    return parseFraction(m[0]);
+  };
+
+  const extractInlineRatioTo = (s) => {
+    const m = s.match(/([-+]?\d+)\s+to\s+([-+]?\d+)/i);
+    if (!m) return null;
+    const na = Number(m[1]);
+    const nb = Number(m[2]);
+    if (!Number.isFinite(na) || !Number.isFinite(nb) || nb === 0) return null;
+    return na / nb;
+  };
+
+  const extractInlineNumber = (s) => {
+    const m = s.match(/[-+]?\d+(?:,\d{3})*(?:\.\d+)?/);
+    if (!m) return null;
+    const num = Number(m[0].replace(/,/g, ''));
+    return Number.isFinite(num) ? num : null;
+  };
+
   const numericValue = (raw) => {
     const s = normalizeRaw(raw);
     if (!s) return null;
+
+    // If this looks like a multi-answer list (comma-separated) that is not currency/thousands, skip numeric parsing
+    const looksLikeList =
+      s.includes(',') &&
+      !MATH_EQUIV.CURRENCY_RE.test(s) &&
+      !/^[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/.test(s);
+    if (looksLikeList) return null;
+
     if (MATH_EQUIV.PERCENT_RE.test(s)) return parsePercent(s);
     if (MATH_EQUIV.CURRENCY_RE.test(s)) return parseCurrency(s);
     if (MATH_EQUIV.MIXED_RE.test(s)) return parseMixed(s);
     if (MATH_EQUIV.FRACTION_RE.test(s)) return parseFraction(s);
     if (MATH_EQUIV.RATIO_RE.test(s)) return parseRatio(s);
+    const percentWord = parsePercentWord(s);
+    if (percentWord !== null) return percentWord;
+    const inlineFrac = extractInlineFraction(s);
+    if (inlineFrac !== null) return inlineFrac;
+    const inlineRatio = extractInlineRatioTo(s);
+    if (inlineRatio !== null) return inlineRatio;
     // plain number (allow commas)
     const plain = s.replace(/,/g, '');
     const num = Number(plain);
-    return Number.isFinite(num) ? num : null;
+    if (Number.isFinite(num)) return num;
+
+    // Last resort: pull the first standalone number token from text (e.g., "9 cups", "20 hours")
+    const inlineNumber = extractInlineNumber(s);
+    return inlineNumber !== null ? inlineNumber : null;
   };
 
   // Produce canonical string tokens for multi-answer sets (order-insensitive) or single answer.

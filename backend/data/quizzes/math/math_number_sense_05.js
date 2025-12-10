@@ -1,11 +1,10 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "What is the result of $25 \\times 100$?",
+    "question": "What is the result of $25  imes 100$?",
     "answerOptions": [
       {
         "text": "250",
@@ -35,8 +34,9 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "What is the next prime number after 19?",
     "correctAnswer": "23",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "Convert the improper fraction $\\frac{11}{4}$ to a mixed number.",
     "correctAnswer": "2 \\frac{3}{4}",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "What is the sum of all prime numbers between 10 and 20?",
     "correctAnswer": "60",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A piece of wood is 8 feet long. If you cut off a piece that is 2.25 feet long, how many inches is the remaining piece?",
@@ -221,22 +224,22 @@ module.exports = [
     "question": "What is the scientific notation for 3,450,000?",
     "answerOptions": [
       {
-        "text": "$3.45 \\times 10^4$",
+        "text": "$3.45  imes 10^4$",
         "isCorrect": false,
         "rationale": "The exponent should be 6."
       },
       {
-        "text": "$3.45 \\times 10^5$",
+        "text": "$3.45  imes 10^5$",
         "isCorrect": false,
         "rationale": "The exponent should be 6."
       },
       {
-        "text": "$3.45 \\times 10^6$",
+        "text": "$3.45  imes 10^6$",
         "isCorrect": true,
         "rationale": "The decimal point is moved 6 places to the left."
       },
       {
-        "text": "$34.5 \\times 10^5$",
+        "text": "$34.5  imes 10^5$",
         "isCorrect": false,
         "rationale": "The number before the 'x' must be between 1 and 10."
       }

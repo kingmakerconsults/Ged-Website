@@ -1,9 +1,9 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "Solve for k: $\\frac{k}{4} = 6$.",
     "correctAnswer": "24",
@@ -35,7 +35,7 @@ module.exports = [
         "rationale": "The equals sign makes this an equation."
       },
       {
-        "text": "$10 = 2 \\times 5$",
+        "text": "$10 = 2  imes 5$",
         "isCorrect": false,
         "rationale": "The equals sign makes this an equation."
       }
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "Find the slope of a line that passes through (1, 6) and (3, 2).",
     "correctAnswer": "-2",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "If $f(x) = x^2 - 10$, find $f(3)$.",
     "correctAnswer": "-1",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Solve for x: $x/2 - 5 = 3$.",

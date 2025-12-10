@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,8 +34,9 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "A bag has 5 red, 3 blue, and 2 green marbles. What is the probability of picking a blue marble?",
     "correctAnswer": "$\\frac{3}{10}$",
@@ -80,7 +80,8 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the range of the data set: 1.5, 2.3, 0.8, 3.1, 1.9?",
@@ -158,7 +159,8 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The mean of five numbers is 12. Four of the numbers are 10, 12, 14, and 16. What is the fifth number?",
@@ -203,8 +205,9 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "A jar has 15 red marbles and 5 green marbles. What are the odds in favor of drawing a red marble?",
     "correctAnswer": "3:1",

@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,8 +34,9 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "A coin is flipped. What is the probability of it landing on heads?",
     "correctAnswer": "$\\frac{1}{2}$",
@@ -80,7 +80,8 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "Find the mean of the numbers: 2.5, 3.5, 4.0, 5.0.",
@@ -151,15 +152,16 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{1 \\text{ defective}}{500 \\text{ total}} = \\frac{x \\text{ defective}}{2000 \\text{ total}}$. Solve for x: $500x = 2000$, so $x = 4$.",
+    "rationale": "Set up a proportion: $\\frac{1  ext{ defective}}{500  ext{ total}} = \\frac{x  ext{ defective}}{2000  ext{ total}}$. Solve for x: $500x = 2000$, so $x = 4$.",
     "challenge_tags": [
       "math-6"
     ]
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "What is the mode of the data set: Apple, Banana, Orange, Apple, Grape, Apple?",
     "correctAnswer": "Apple",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "The average of 5 numbers is 30. The average of 3 of those numbers is 20. What is the average of the other two numbers?",

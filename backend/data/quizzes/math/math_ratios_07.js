@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,7 +34,8 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A dinner bill is $85. You want to leave an 18% tip. How much is the tip?",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "Solve for y: $\\frac{5}{2} = \\frac{y}{10}$.",
     "correctAnswer": "25",
@@ -158,7 +159,8 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A product is marked up 25% from its wholesale price of $80. What is the retail price?",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "A car rental company charges $50 per day. If a customer paid $250, how many days did they rent the car for?",
@@ -274,7 +277,7 @@ module.exports = [
         "rationale": "This is 180 * 5 / 2."
       }
     ],
-    "rationale": "Set up a proportion: $\\frac{2 \\text{ (Mars)}}{5 \\text{ (Earth)}} = \\frac{x \\text{ pounds (Mars)}}{180 \\text{ pounds (Earth)}}$. Cross-multiply: $5x = 2 \\times 180$, so $5x = 360$. Divide by 5: $x = 72$ pounds.",
+    "rationale": "Set up a proportion: $\\frac{2  ext{ (Mars)}}{5  ext{ (Earth)}} = \\frac{x  ext{ pounds (Mars)}}{180  ext{ pounds (Earth)}}$. Cross-multiply: $5x = 2  imes 180$, so $5x = 360$. Divide by 5: $x = 72$ pounds.",
     "challenge_tags": [
       "math-1"
     ]

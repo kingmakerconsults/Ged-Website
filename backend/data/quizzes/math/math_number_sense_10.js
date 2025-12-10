@@ -1,4 +1,3 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -35,8 +34,9 @@ module.exports = [
   },
   {
     "questionNumber": 2,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "What is $\\frac{2}{5}$ of 40?",
     "correctAnswer": "16",
@@ -80,10 +80,11 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
-    "question": "Evaluate: $2 \times (3+4)^2$.",
+    "question": "Evaluate: $2  imes (3+4)^2$.",
     "correctAnswer": "98",
     "rationale": "Order of operations: Parentheses (3+4=7), Exponents ($7^2$=49), Multiplication (2*49=98).",
     "challenge_tags": [
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "Find the least common multiple (LCM) of 9 and 15.",
     "correctAnswer": "45",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
     "question": "A runner completes a 10-kilometer race in 50 minutes. How many minutes does it take her to run one kilometer?",
@@ -284,7 +287,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "Evaluate: $|-3| \times |4 - 9|$.",
+    "question": "Evaluate: $|-3|  imes |4 - 9|$.",
     "answerOptions": [
       {
         "text": "-15",

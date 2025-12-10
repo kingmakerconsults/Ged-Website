@@ -1,9 +1,9 @@
-﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "easy",
     "question": "Solve for x: $x + 9 = 17$.",
     "correctAnswer": "8",
@@ -80,8 +80,9 @@ module.exports = [
   },
   {
     "questionNumber": 4,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "Simplify the expression: $9x - (2x - 4)$.",
     "correctAnswer": "7x + 4",
@@ -158,8 +159,9 @@ module.exports = [
   },
   {
     "questionNumber": 7,
-    "type": "fillIn",\n  "inputCalculator": true,
-    "calculator": false,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
     "difficulty": "medium",
     "question": "If $f(x) = x^2 + x$, find $f(-5)$.",
     "correctAnswer": "20",
@@ -203,7 +205,8 @@ module.exports = [
   },
   {
     "questionNumber": 9,
-    "type": "fillIn",\n  "inputCalculator": true,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the y-intercept of a line that has a slope of 2 and passes through the point (3, 10)?",
@@ -307,7 +310,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "When a product is raised to a power, each factor is raised to that power. So, $(2x)^3 = 2^3 \\times x^3 = 8x^3$.",
+    "rationale": "When a product is raised to a power, each factor is raised to that power. So, $(2x)^3 = 2^3  imes x^3 = 8x^3$.",
     "challenge_tags": [
       "math-3"
     ]
