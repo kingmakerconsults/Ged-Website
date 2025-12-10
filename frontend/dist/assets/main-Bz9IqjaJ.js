@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-Dd1-Z4q1.js";
+import { _ as __vitePreload } from "./index-D_wLdCxd.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -27169,7 +27169,7 @@ function App({ externalTheme, onThemeChange }) {
     persistQuizAttempt({
       subject,
       quizCode,
-      quizTitle: quizDetails.title || quizDetails.topicTitle || "GED� Practice Exam",
+      quizTitle: quizDetails.title || quizDetails.topicTitle || "GED Practice Exam",
       quizType: quizDetails.type,
       score: results.score,
       totalQuestions: results.totalQuestions,
@@ -27182,7 +27182,7 @@ function App({ externalTheme, onThemeChange }) {
         const payload = {
           subject,
           quizCode,
-          quizTitle: quizDetails.title || quizDetails.topicTitle || "GED� Practice Exam",
+          quizTitle: quizDetails.title || quizDetails.topicTitle || "GED Practice Exam",
           quizType: quizDetails.type,
           score: results.score,
           totalQuestions: results.totalQuestions,
@@ -30663,7 +30663,7 @@ function VocabularyBySubject({ vocabulary, onStartQuiz, theme = "light" }) {
                       },
                       className: buttonClasses,
                       style: buttonStyle,
-                      children: "?? Vocabulary Quiz"
+                      children: "📚 Vocabulary Quiz"
                     }
                   ),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-600 dark:text-slate-300 text-xl", children: isExpanded ? "" : "" })
@@ -30805,7 +30805,7 @@ function FormulaSheetModal({ onClose: onClose2 }) {
             className: "formula-sheet-header p-4 border-b flex justify-between items-center sticky top-0",
             style: { borderColor: "rgba(148,163,184,0.35)" },
             children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "formula-sheet-title text-xl font-bold", children: "GED� Mathematical Reasoning Formula Sheet" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "formula-sheet-title text-xl font-bold", children: "GED Mathematical Reasoning Formula Sheet" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
@@ -32874,7 +32874,7 @@ function StartScreen({
                           {
                             id: "essay_practice_tool",
                             type: "essay",
-                            title: "GED� Essay Practice Toolkit"
+                            title: "GED Essay Practice Toolkit"
                           },
                           selectedSubject2
                         ),
@@ -35811,13 +35811,13 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   const getPerf = (score) => {
     if (score >= 175)
       return {
-        level: "GED� College Ready + Credit",
+        level: "GED College Ready + Credit",
         color: "text-info"
       };
     if (score >= 165)
-      return { level: "GED� College Ready", color: "text-info" };
+      return { level: "GED College Ready", color: "text-info" };
     if (score >= 145)
-      return { level: "GED� Passing Score", color: "text-success" };
+      return { level: "GED Passing Score", color: "text-success" };
     return { level: "Keep studying!", color: "text-warning" };
   };
   const scaledScore = typeof (results == null ? void 0 : results.scaledScore) === "number" ? results.scaledScore : 0;
@@ -35864,7 +35864,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
           (quiz == null ? void 0 : quiz.title) || "Completed Quiz"
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "my-6", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg text-secondary", children: "Your estimated GED� Score is:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg text-secondary", children: "Your estimated GED (R) Score is:" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: `text-6xl font-bold my-2 ${performance.color}`, children: scaledScore }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: `text-2xl font-semibold mb-2 ${performance.color}`, children: performance.level }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-lg text-secondary", children: [
@@ -35877,7 +35877,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         ] }),
         (loadingSuggestions || suggestions && suggestions.length) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 pt-4 border-t max-w-2xl mx-auto text-left", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold subject-accent-heading mb-3", children: "Suggested Focus Areas" }),
-          loadingSuggestions && !suggestions.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-secondary", children: "Loading suggestions�" }) : suggestions.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-2", children: suggestions.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          loadingSuggestions && !suggestions.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-secondary", children: "Loading suggestions..." }) : suggestions.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-2", children: suggestions.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "li",
             {
               className: "flex items-center justify-between gap-3 panel-surface p-3 rounded-lg",
@@ -36068,10 +36068,20 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                     {
                       className: `mt-2 ${isCorrect ? "text-success" : "text-danger"}`,
                       children: [
-                        "Your answer: ",
-                        userAnswer || "No answer",
+                        "Your answer:",
                         " ",
-                        isCorrect ? "?" : "?"
+                        /* @__PURE__ */ jsxRuntimeExports.jsx(
+                          "span",
+                          {
+                            className: "question-stem",
+                            dangerouslySetInnerHTML: renderQuestionTextForDisplay(
+                              userAnswer || "No answer",
+                              question.isPremade === true
+                            )
+                          }
+                        ),
+                        " ",
+                        isCorrect ? "✓" : "✗"
                       ]
                     }
                   ),
@@ -36924,7 +36934,7 @@ function EssayGuide({ onExit }) {
   const selectedPassage = passagesData[selectedTopic];
   const promptSummary = selectedPassage ? `After reading both passages about "${selectedPassage.topic}", write an essay in which you explain which author presents the more convincing argument. Support your response with evidence from both passages and explain why the evidence you cite supports your evaluation.` : "";
   const overlayButtons = [
-    { id: "prompt", label: "Essay Prompt", title: "GED� RLA Essay Prompt" },
+    { id: "prompt", label: "Essay Prompt", title: "GED RLA Essay Prompt" },
     {
       id: "passage1",
       label: "Passage A",
@@ -37261,7 +37271,7 @@ function EssayGuide({ onExit }) {
                 ] }),
                 essayText.intro && essayText.intro.length > 20 && !/thesis|argue|believe|claim|position|support|evidence/i.test(
                   essayText.intro
-                ) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-yellow-700 bg-yellow-50 px-3 py-1 rounded-md border border-yellow-300", children: "?? Tip: Ensure you state your main argument" })
+                ) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-yellow-700 bg-yellow-50 px-3 py-1 rounded-md border border-yellow-300", children: "💡 Tip: Ensure you state your main argument" })
               ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
@@ -39214,4 +39224,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-D9-7LfWX.js.map
+//# sourceMappingURL=main-Bz9IqjaJ.js.map
