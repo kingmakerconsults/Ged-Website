@@ -5088,6 +5088,12 @@ app.get('/api/vocabulary-quiz/:subject', (req, res) => {
   return res.json({ subject: subjectKey, count: questions.length, quiz });
 });
 
+// Chemistry equation balancing endpoint
+app.get('/api/science/chemistry/random-equation', (req, res) => {
+  const equation = getChemistryBalancingQuestion();
+  res.json(equation);
+});
+
 // Allow on-demand rebuild of image metadata without restarting the server
 let imageRebuildInProgress = false;
 app.post('/api/images/rebuild', async (req, res) => {

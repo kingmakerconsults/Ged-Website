@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-ZaIIcdZ4.js";
+import { _ as __vitePreload } from "./index-DC8HU9BH.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -2091,6 +2091,496 @@ function ScienceConceptPractice({ onClose: onClose2, dark = false }) {
     }
   );
 }
+const SCIENCE_CHEMISTRY_EQUATIONS = window.SCIENCE_CHEMISTRY_EQUATIONS || [];
+function ChemistryEquationPractice({ onClose: onClose2, dark = false }) {
+  const [mode, setMode] = reactExports.useState("guided");
+  const [currentEquation, setCurrentEquation] = reactExports.useState(null);
+  const [studentCoefficients, setStudentCoefficients] = reactExports.useState([]);
+  const [feedback, setFeedback] = reactExports.useState(null);
+  const [showHint, setShowHint] = reactExports.useState(false);
+  const [showAnswer, setShowAnswer] = reactExports.useState(false);
+  const [statistics, setStatistics] = reactExports.useState({ correct: 0, total: 0 });
+  const [difficulty, setDifficulty] = reactExports.useState("all");
+  const isDark = dark;
+  const parseFormula = (formula) => {
+    const normalizedFormula = formula.replace(/₀/g, "0").replace(/₁/g, "1").replace(/₂/g, "2").replace(/₃/g, "3").replace(/₄/g, "4").replace(/₅/g, "5").replace(/₆/g, "6").replace(/₇/g, "7").replace(/₈/g, "8").replace(/₉/g, "9");
+    const atomCounts = {};
+    const regex = /([A-Z][a-z]?)(\d*)/g;
+    let match;
+    while ((match = regex.exec(normalizedFormula)) !== null) {
+      const atom = match[1];
+      const count = match[2] ? parseInt(match[2]) : 1;
+      atomCounts[atom] = (atomCounts[atom] || 0) + count;
+    }
+    return atomCounts;
+  };
+  const isBalanced = (equation, coeffs) => {
+    const leftAtoms = {};
+    const rightAtoms = {};
+    equation.reactants.forEach((reactant, idx) => {
+      const atomCounts = parseFormula(reactant.formula);
+      const coeff = coeffs[idx] || 1;
+      Object.entries(atomCounts).forEach(([atom, count]) => {
+        leftAtoms[atom] = (leftAtoms[atom] || 0) + count * coeff;
+      });
+    });
+    const reactantCount = equation.reactants.length;
+    equation.products.forEach((product, idx) => {
+      const atomCounts = parseFormula(product.formula);
+      const coeff = coeffs[reactantCount + idx] || 1;
+      Object.entries(atomCounts).forEach(([atom, count]) => {
+        rightAtoms[atom] = (rightAtoms[atom] || 0) + count * coeff;
+      });
+    });
+    const allAtoms = /* @__PURE__ */ new Set([
+      ...Object.keys(leftAtoms),
+      ...Object.keys(rightAtoms)
+    ]);
+    return Array.from(allAtoms).every(
+      (atom) => leftAtoms[atom] === rightAtoms[atom]
+    );
+  };
+  const reactionTypes = reactExports.useMemo(() => {
+    const types = [
+      ...new Set(SCIENCE_CHEMISTRY_EQUATIONS.map((eq) => eq.type))
+    ];
+    return types.sort();
+  }, []);
+  const difficulties = reactExports.useMemo(() => {
+    const diffs = [
+      ...new Set(SCIENCE_CHEMISTRY_EQUATIONS.map((eq) => eq.difficulty))
+    ];
+    return diffs.sort();
+  }, []);
+  const pickRandomEquation = (type = null, diff = null) => {
+    let filtered = SCIENCE_CHEMISTRY_EQUATIONS;
+    if (type) {
+      filtered = filtered.filter((eq2) => eq2.type === type);
+    }
+    if (diff && diff !== "all") {
+      filtered = filtered.filter((eq2) => eq2.difficulty === diff);
+    }
+    if (filtered.length === 0) {
+      alert("No equations match your filters.");
+      return null;
+    }
+    const eq = filtered[Math.floor(Math.random() * filtered.length)];
+    return eq;
+  };
+  const loadNewEquation = (type = null) => {
+    const eq = pickRandomEquation(type, difficulty);
+    if (eq) {
+      setCurrentEquation(eq);
+      setStudentCoefficients(
+        new Array(eq.reactants.length + eq.products.length).fill("")
+      );
+      setFeedback(null);
+      setShowHint(false);
+      setShowAnswer(false);
+    }
+  };
+  reactExports.useEffect(() => {
+    if (SCIENCE_CHEMISTRY_EQUATIONS.length > 0 && !currentEquation) {
+      loadNewEquation();
+    }
+  }, []);
+  const updateCoefficient = (index, value) => {
+    const newCoeffs = [...studentCoefficients];
+    newCoeffs[index] = value === "" ? "" : parseInt(value) || "";
+    setStudentCoefficients(newCoeffs);
+  };
+  const checkAnswer = () => {
+    if (!currentEquation) return;
+    const coeffs = studentCoefficients.map((c) => {
+      if (c === "" || c === null || c === void 0) return null;
+      const num = typeof c === "number" ? c : parseInt(c);
+      return isNaN(num) ? null : num;
+    });
+    if (coeffs.some((c) => c === null)) {
+      alert("Please fill in all coefficients.");
+      return;
+    }
+    if (coeffs.some((c) => c <= 0)) {
+      alert("Coefficients must be positive integers.");
+      return;
+    }
+    const balanced = isBalanced(currentEquation, coeffs);
+    if (balanced) {
+      setFeedback({ isCorrect: true });
+      setStatistics((prev) => ({
+        correct: prev.correct + 1,
+        total: prev.total + 1
+      }));
+    } else {
+      setFeedback({ isCorrect: false });
+      setStatistics((prev) => ({
+        ...prev,
+        total: prev.total + 1
+      }));
+    }
+  };
+  const renderFormula = (formula) => {
+    if (typeof window.katex === "undefined") {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: formula });
+    }
+    try {
+      const katexFormula = `\\text{${formula}}`;
+      const html = window.katex.renderToString(katexFormula, {
+        throwOnError: false
+      });
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { dangerouslySetInnerHTML: { __html: html } });
+    } catch (e) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: formula });
+    }
+  };
+  if (SCIENCE_CHEMISTRY_EQUATIONS.length === 0) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        className: `p-6 rounded-xl ${isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"}`,
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Chemistry equations data is loading..." })
+      }
+    );
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      className: `p-6 rounded-xl ${isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"}`,
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "h2",
+          {
+            className: "text-3xl font-bold mb-2",
+            style: { color: "var(--subject-science-accent)" },
+            children: "Chemistry Equation Balancer"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-500 mb-6", children: "Practice balancing chemical equations in different modes" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2 mb-6 border-b border-gray-300 dark:border-gray-600", children: [
+          { id: "guided", label: "Guided Balancing" },
+          { id: "unguided", label: "Unguided" },
+          { id: "reaction-type", label: "Reaction Type ID" },
+          { id: "random", label: "Random Mode" }
+        ].map((tab) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => {
+              setMode(tab.id);
+              setCurrentEquation(null);
+              setFeedback(null);
+            },
+            className: `px-4 py-2 font-semibold transition border-b-2 ${mode === tab.id ? "border-green-600 text-green-600" : isDark ? "border-transparent text-gray-400 hover:text-gray-200" : "border-transparent text-gray-600 hover:text-gray-900"}`,
+            children: tab.label
+          },
+          tab.id
+        )) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `p-4 rounded-lg mb-4 text-center ${isDark ? "bg-gray-700" : "bg-white"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "font-semibold", children: [
+                "Progress:",
+                " ",
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { color: "var(--subject-science-accent)" }, children: [
+                  statistics.correct,
+                  " / ",
+                  statistics.total
+                ] })
+              ] }),
+              statistics.total > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm text-gray-500 mt-1", children: [
+                "Accuracy:",
+                " ",
+                (statistics.correct / statistics.total * 100).toFixed(0),
+                "%"
+              ] })
+            ]
+          }
+        ),
+        currentEquation && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `p-4 rounded-lg mb-4 ${isDark ? "bg-gray-700" : "bg-white"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { className: "text-lg font-bold mb-2", children: [
+                  "Reaction Type:",
+                  " ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "var(--subject-science-accent)" }, children: currentEquation.type.replace(/_/g, " ").toUpperCase() })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm", children: [
+                  "Difficulty: ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: currentEquation.difficulty })
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 p-3 bg-white rounded-lg border border-gray-300 dark:border-gray-600", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 flex-wrap justify-center", children: [
+                currentEquation.reactants.map((reactant, idx) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "flex items-center gap-2",
+                    children: [
+                      mode === "guided" || mode === "random" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center", children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            "input",
+                            {
+                              type: "number",
+                              min: "1",
+                              max: "20",
+                              value: studentCoefficients[idx],
+                              onChange: (e) => updateCoefficient(idx, e.target.value),
+                              className: `w-12 px-2 py-1 border rounded text-center font-bold ${isDark ? "bg-gray-800 border-gray-600 text-white" : "bg-white border-gray-300"}`,
+                              placeholder: "-"
+                            }
+                          ),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-gray-500 mt-1", children: "coeff" })
+                        ] }),
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: renderFormula(reactant.formula) })
+                      ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: renderFormula(reactant.formula) }),
+                      idx < currentEquation.reactants.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xl", children: "+" })
+                    ]
+                  },
+                  `reactant-${idx}`
+                )),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xl font-bold", children: "→" }),
+                currentEquation.products.map((product, idx) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                  mode === "guided" || mode === "random" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "input",
+                        {
+                          type: "number",
+                          min: "1",
+                          max: "20",
+                          value: studentCoefficients[currentEquation.reactants.length + idx],
+                          onChange: (e) => updateCoefficient(
+                            currentEquation.reactants.length + idx,
+                            e.target.value
+                          ),
+                          className: `w-12 px-2 py-1 border rounded text-center font-bold ${isDark ? "bg-gray-800 border-gray-600 text-white" : "bg-white border-gray-300"}`,
+                          placeholder: "-"
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-gray-500 mt-1", children: "coeff" })
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: renderFormula(product.formula) })
+                  ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: renderFormula(product.formula) }),
+                  idx < currentEquation.products.length - 1 && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xl", children: "+" })
+                ] }, `product-${idx}`))
+              ] }) }),
+              mode === "unguided" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: `p-3 rounded-lg mb-4 ${isDark ? "bg-gray-800" : "bg-blue-50"}`,
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold mb-2", children: "Balance this equation:" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg font-mono text-center", children: currentEquation.displayEquation })
+                  ]
+                }
+              ),
+              mode === "unguided" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: `p-3 rounded-lg mb-4 ${isDark ? "bg-gray-800" : "bg-blue-50"}`,
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold mb-3", children: "Enter coefficients (space-separated):" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "input",
+                      {
+                        type: "text",
+                        value: studentCoefficients.join(" "),
+                        onChange: (e) => {
+                          const values = e.target.value.split(" ").map((v) => v.trim());
+                          setStudentCoefficients(values);
+                        },
+                        placeholder: "e.g., 1 2 1 2",
+                        className: `flex-1 px-3 py-2 border rounded-lg ${isDark ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"}`
+                      }
+                    ) }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-gray-500 mt-1", children: [
+                      "(",
+                      currentEquation.reactants.length,
+                      " reactant(s),",
+                      " ",
+                      currentEquation.products.length,
+                      " product(s))"
+                    ] })
+                  ]
+                }
+              ),
+              (mode === "guided" || mode === "random") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4 flex gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-sm font-semibold", children: "Difficulty:" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "select",
+                  {
+                    value: difficulty,
+                    onChange: (e) => {
+                      setDifficulty(e.target.value);
+                      loadNewEquation();
+                    },
+                    className: `px-2 py-1 border rounded text-sm ${isDark ? "bg-gray-800 border-gray-600 text-white" : "bg-white border-gray-300"}`,
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "All Levels" }),
+                      difficulties.map((d) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: d, children: d.charAt(0).toUpperCase() + d.slice(1) }, d))
+                    ]
+                  }
+                )
+              ] }),
+              mode === "reaction-type" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold mb-2", children: "Identify the reaction type:" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: reactionTypes.map((type) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: () => {
+                      loadNewEquation(type);
+                      setFeedback(null);
+                    },
+                    className: `px-4 py-2 rounded-lg font-semibold transition ${isDark ? "bg-gray-600 text-gray-100 hover:bg-gray-500" : "bg-gray-200 text-gray-800 hover:bg-gray-300"}`,
+                    children: type.replace(/_/g, " ")
+                  },
+                  type
+                )) })
+              ] })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 mb-4 flex-wrap", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => loadNewEquation(),
+              className: "px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition",
+              children: currentEquation ? "Next Problem" : "Start"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: checkAnswer,
+              disabled: !currentEquation || studentCoefficients.some((c) => c === ""),
+              className: `px-6 py-2 font-bold rounded-lg transition ${!currentEquation || studentCoefficients.some((c) => c === "") ? "bg-gray-400 cursor-not-allowed text-gray-700" : "bg-green-600 hover:bg-green-700 text-white"}`,
+              children: "Check Answer"
+            }
+          ),
+          currentEquation && !showHint && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setShowHint(true),
+              className: "px-6 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-lg transition",
+              children: "Show Hint"
+            }
+          ),
+          currentEquation && !showAnswer && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setShowAnswer(true),
+              className: "px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition",
+              children: "Show Answer"
+            }
+          )
+        ] }),
+        feedback && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: `p-4 rounded-lg mb-4 ${feedback.isCorrect ? isDark ? "bg-green-900 border-2 border-green-500 text-green-100" : "bg-green-100 border-2 border-green-500 text-green-800" : isDark ? "bg-red-900 border-2 border-red-500 text-red-100" : "bg-red-100 border-2 border-red-500 text-red-800"}`,
+            children: feedback.isCorrect ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold text-lg", children: "✓ Correct! Great job!" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-1", children: "Your coefficients properly balance the equation." })
+            ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold text-lg", children: "✗ Not quite right" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-1", children: "Check that all atoms are balanced on both sides of the equation." })
+            ] })
+          }
+        ),
+        showHint && currentEquation && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `p-4 rounded-lg mb-4 border-l-4 ${isDark ? "bg-amber-900 border-amber-500 text-amber-100" : "bg-amber-50 border-amber-500 text-amber-900"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold mb-2", children: "💡 Hint:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm space-y-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-medium", children: "Current atom counts with your coefficients:" }),
+                (() => {
+                  const coeffs = studentCoefficients.map((c) => {
+                    if (c === "" || c === null || c === void 0) return 1;
+                    const num = typeof c === "number" ? c : parseInt(c);
+                    return isNaN(num) ? 1 : num;
+                  });
+                  const leftAtoms = {};
+                  const rightAtoms = {};
+                  currentEquation.reactants.forEach((reactant, idx) => {
+                    const atomCounts = parseFormula(reactant.formula);
+                    const coeff = coeffs[idx];
+                    Object.entries(atomCounts).forEach(([atom, count]) => {
+                      leftAtoms[atom] = (leftAtoms[atom] || 0) + count * coeff;
+                    });
+                  });
+                  const reactantCount = currentEquation.reactants.length;
+                  currentEquation.products.forEach((product, idx) => {
+                    const atomCounts = parseFormula(product.formula);
+                    const coeff = coeffs[reactantCount + idx];
+                    Object.entries(atomCounts).forEach(([atom, count]) => {
+                      rightAtoms[atom] = (rightAtoms[atom] || 0) + count * coeff;
+                    });
+                  });
+                  const allAtoms = [
+                    .../* @__PURE__ */ new Set([
+                      ...Object.keys(leftAtoms),
+                      ...Object.keys(rightAtoms)
+                    ])
+                  ];
+                  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-1", children: allAtoms.map((atom) => {
+                    const left = leftAtoms[atom] || 0;
+                    const right = rightAtoms[atom] || 0;
+                    const balanced = left === right;
+                    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "div",
+                      {
+                        className: `flex items-center gap-2 ${!balanced ? "font-bold" : ""}`,
+                        children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "w-8", children: [
+                            atom,
+                            ":"
+                          ] }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                            "span",
+                            {
+                              className: left === right ? "text-green-600" : "text-red-600",
+                              children: [
+                                left,
+                                " (left) vs ",
+                                right,
+                                " (right)"
+                              ]
+                            }
+                          ),
+                          !balanced && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-red-600", children: "← Needs balancing!" })
+                        ]
+                      },
+                      atom
+                    );
+                  }) });
+                })(),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-3 italic", children: "💡 Tip: Adjust the coefficients so that each atom has the same count on both sides." })
+              ] })
+            ]
+          }
+        ),
+        showAnswer && currentEquation && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `p-4 rounded-lg ${isDark ? "bg-purple-900 border-2 border-purple-500 text-purple-100" : "bg-purple-50 border-2 border-purple-500 text-purple-900"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold mb-2", children: "Answer:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2 flex-wrap justify-center p-3 bg-black bg-opacity-20 rounded-lg font-mono text-lg", children: currentEquation.coefficients.map((coeff, idx) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: coeff }, idx)) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs mt-2", children: "Try entering these coefficients to see the balanced equation." })
+            ]
+          }
+        )
+      ]
+    }
+  );
+}
 function TI30XSCalculator({ onClose }) {
   const [history, setHistory] = reactExports.useState([]);
   const [currentInput, setCurrentInput] = reactExports.useState("");
@@ -2751,6 +3241,12 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
         name: "Concept Practice",
         icon: "🔬",
         component: ScienceConceptPractice
+      },
+      {
+        id: "chemistry-equations",
+        name: "Chemistry Equations",
+        icon: "⚛️",
+        component: ChemistryEquationPractice
       }
     ],
     "Reasoning Through Language Arts (RLA)": [
@@ -39435,4 +39931,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-DEx6hQ2G.js.map
+//# sourceMappingURL=main-JeERv9JT.js.map

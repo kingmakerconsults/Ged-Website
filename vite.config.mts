@@ -30,6 +30,10 @@ export default defineConfig({
             resolve(dataDir, 'science_concept_questions.js')
           );
           copyFileSync(
+            resolve(rootDir, 'data/science_chemistry_equations.js'),
+            resolve(dataDir, 'science_chemistry_equations.js')
+          );
+          copyFileSync(
             resolve(
               rootDir,
               'components/practice-tools/ScienceFormulaPracticeTool.jsx'
@@ -42,6 +46,13 @@ export default defineConfig({
               'components/practice-tools/ScienceConceptPracticeTool.jsx'
             ),
             resolve(componentsDir, 'ScienceConceptPracticeTool.jsx')
+          );
+          copyFileSync(
+            resolve(
+              rootDir,
+              'components/practice-tools/ChemistryEquationTool.jsx'
+            ),
+            resolve(componentsDir, 'ChemistryEquationTool.jsx')
           );
 
           console.log('✓ Legacy Science tool assets copied to dist');
