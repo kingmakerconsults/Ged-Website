@@ -1,6 +1,6 @@
 var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-B80_9e0N.js";
+import { _ as __vitePreload } from "./index-CFZn520W.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -25646,17 +25646,24 @@ function App({ externalTheme, onThemeChange }) {
     let isMounted = true;
     (async () => {
       try {
-        const response = await fetch("data/vocabulary.json", {
-          cache: "no-store"
-        });
-        if (!response.ok) {
-          throw new Error(`Request failed with status ${response.status}`);
+        let data = null;
+        try {
+          const response = await fetch("/api/vocabulary/all", {
+            cache: "no-store"
+          });
+          if (response.ok) {
+            data = await response.json();
+          }
+        } catch (apiErr) {
+          console.warn("Unable to load from API:", (apiErr == null ? void 0 : apiErr.message) || apiErr);
         }
-        const data = await response.json();
         if (!isMounted) return;
-        setVocabulary(mergeVocabularyData(FALLBACK_VOCABULARY, data));
+        setVocabulary(mergeVocabularyData(FALLBACK_VOCABULARY, data || {}));
       } catch (err) {
         console.warn("Unable to load vocabulary data:", err);
+        if (isMounted) {
+          setVocabulary(FALLBACK_VOCABULARY);
+        }
       }
     })();
     return () => {
@@ -30556,13 +30563,13 @@ function VocabularyBySubject({ vocabulary, onStartQuiz, theme = "light" }) {
       borderColor: lightTint,
       boxShadow: "0 18px 38px -24px rgba(15,23,42,0.4)"
     };
-    const headerClasses = `flex items-center justify-between p-4 cursor-pointer rounded-t-2xl transition-all ${isDarkMode ? "hover:bg-slate-800/40" : "hover:bg-slate-50"}`;
+    const headerClasses = `flex items-center justify-between p-4 cursor-pointer rounded-t-2xl transition-all ${isDarkMode ? "hover:bg-slate-800/40" : "hover:opacity-90"}`;
     const headerStyle = isDarkMode ? { backgroundImage: gradientBg } : {
-      backgroundColor: "#f8fafc",
-      borderBottom: `2px solid ${lightTint}`
+      backgroundColor: accentColor,
+      borderBottom: `2px solid ${accentColor}`
     };
-    const titleStyle = isDarkMode ? void 0 : { color: accentColor };
-    const countStyle = isDarkMode ? void 0 : { color: textColor, opacity: 0.7 };
+    const titleStyle = isDarkMode ? void 0 : { color: "#ffffff", fontWeight: "bold" };
+    const countStyle = isDarkMode ? void 0 : { color: "rgba(255, 255, 255, 0.85)", opacity: 0.9 };
     const buttonClasses = `px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-sm ${isDarkMode ? "bg-purple-600 hover:bg-purple-700 text-white" : "text-white hover:scale-105"}`;
     const buttonStyle = isDarkMode ? void 0 : {
       backgroundColor: accentColor,
@@ -39452,4 +39459,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-D7BqOfAP.js.map
+//# sourceMappingURL=main-COzHrTai.js.map
