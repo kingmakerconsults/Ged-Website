@@ -23854,17 +23854,28 @@ function App({ externalTheme, onThemeChange }) {
     let isMounted = true;
     (async () => {
       try {
-        const response = await fetch('data/vocabulary.json', {
-          cache: 'no-store',
-        });
-        if (!response.ok) {
-          throw new Error(`Request failed with status ${response.status}`);
+        let data = null;
+        // Fetch from API endpoint
+        try {
+          const response = await fetch('/api/vocabulary/all', {
+            cache: 'no-store',
+          });
+          if (response.ok) {
+            data = await response.json();
+          }
+        } catch (apiErr) {
+          console.warn('Unable to load from API:', apiErr?.message || apiErr);
         }
-        const data = await response.json();
+
         if (!isMounted) return;
-        setVocabulary(mergeVocabularyData(FALLBACK_VOCABULARY, data));
+        // Merge fetched data with fallback (fetched data takes priority)
+        setVocabulary(mergeVocabularyData(FALLBACK_VOCABULARY, data || {}));
       } catch (err) {
         console.warn('Unable to load vocabulary data:', err);
+        // Use fallback if everything fails
+        if (isMounted) {
+          setVocabulary(FALLBACK_VOCABULARY);
+        }
       }
     })();
     return () => {
@@ -29913,19 +29924,21 @@ function VocabularyBySubject({ vocabulary, onStartQuiz, theme = 'light' }) {
             };
 
         const headerClasses = `flex items-center justify-between p-4 cursor-pointer rounded-t-2xl transition-all ${
-          isDarkMode ? 'hover:bg-slate-800/40' : 'hover:bg-slate-50'
+          isDarkMode ? 'hover:bg-slate-800/40' : 'hover:opacity-90'
         }`;
         const headerStyle = isDarkMode
           ? { backgroundImage: gradientBg }
           : {
-              backgroundColor: '#f8fafc',
-              borderBottom: `2px solid ${lightTint}`,
+              backgroundColor: accentColor,
+              borderBottom: `2px solid ${accentColor}`,
             };
 
-        const titleStyle = isDarkMode ? undefined : { color: accentColor };
+        const titleStyle = isDarkMode
+          ? undefined
+          : { color: '#ffffff', fontWeight: 'bold' };
         const countStyle = isDarkMode
           ? undefined
-          : { color: textColor, opacity: 0.7 };
+          : { color: 'rgba(255, 255, 255, 0.85)', opacity: 0.9 };
 
         const buttonClasses = `px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-sm ${
           isDarkMode
