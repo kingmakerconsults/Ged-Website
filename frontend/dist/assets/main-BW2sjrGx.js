@@ -1,6 +1,5 @@
-var _a, _b;
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-CFZn520W.js";
+import { _ as __vitePreload } from "./index-CdwYCkRu.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -431,11 +430,11 @@ const designSystem = {
   }
 };
 function getSubjectTheme(subject, isDark = false) {
-  var _a2;
+  var _a;
   const mode = isDark ? "dark" : "light";
   const subjectKey = subject.toLowerCase().replace(/\s+/g, "");
   const normalizedKey = subjectKey === "socialstudies" ? "socialStudies" : subjectKey === "ged" ? "coach" : subjectKey;
-  return ((_a2 = designSystem.subjects[normalizedKey]) == null ? void 0 : _a2[mode]) || designSystem.subjects.math[mode];
+  return ((_a = designSystem.subjects[normalizedKey]) == null ? void 0 : _a[mode]) || designSystem.subjects.math[mode];
 }
 function SubjectCard({
   subject,
@@ -2697,7 +2696,7 @@ function Calculator({ onClose: onClose2, dark = false }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(TI30XSCalculator, { onClose: onClose2 });
 }
 function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
-  var _a2;
+  var _a;
   const [selectedTool, setSelectedTool] = reactExports.useState(null);
   const theme = getSubjectTheme(subject == null ? void 0 : subject.toLowerCase(), dark);
   const toolsConfig = {
@@ -2762,9 +2761,9 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
     ]
   };
   const tools = toolsConfig[subject] || [];
-  const ActiveToolComponent = (_a2 = tools.find(
+  const ActiveToolComponent = (_a = tools.find(
     (t) => t.id === selectedTool
-  )) == null ? void 0 : _a2.component;
+  )) == null ? void 0 : _a.component;
   if (!subject) return null;
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
@@ -3416,10 +3415,10 @@ function EconomicsGraphTool({ onExit }) {
   }, [demandShift, supplyShift]);
   reactExports.useEffect(
     () => () => {
-      var _a2, _b2;
+      var _a, _b;
       if (boardInstance.current) {
         try {
-          (_b2 = (_a2 = window.JXG) == null ? void 0 : _a2.JSXGraph) == null ? void 0 : _b2.freeBoard(boardInstance.current);
+          (_b = (_a = window.JXG) == null ? void 0 : _a.JSXGraph) == null ? void 0 : _b.freeBoard(boardInstance.current);
         } catch {
         }
         boardInstance.current = null;
@@ -4217,13 +4216,13 @@ function CivicsReasoningLab({ onExit }) {
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold civics-text", children: "Branch of Government" }),
             BRANCH_OPTIONS.map((option) => {
-              var _a2;
+              var _a;
               return /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
                   onClick: () => setSelectedBranch(option.id),
                   disabled: feedback !== null,
-                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedBranch === option.id ? feedback ? feedback.partialCorrect.branch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.branch) && option.id === currentScenario.correctBranch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedBranch === option.id ? feedback ? feedback.partialCorrect.branch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a.branch) && option.id === currentScenario.correctBranch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
                   children: option.label
                 },
                 option.id
@@ -4233,13 +4232,13 @@ function CivicsReasoningLab({ onExit }) {
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold civics-text", children: "Level of Government" }),
             LEVEL_OPTIONS.map((option) => {
-              var _a2;
+              var _a;
               return /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
                   onClick: () => setSelectedLevel(option.id),
                   disabled: feedback !== null,
-                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedLevel === option.id ? feedback ? feedback.partialCorrect.level ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.level) && option.id === currentScenario.correctLevel ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedLevel === option.id ? feedback ? feedback.partialCorrect.level ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a.level) && option.id === currentScenario.correctLevel ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
                   children: option.label
                 },
                 option.id
@@ -4249,13 +4248,13 @@ function CivicsReasoningLab({ onExit }) {
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold civics-text", children: "Power Type" }),
             POWER_TYPE_OPTIONS.map((option) => {
-              var _a2;
+              var _a;
               return /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
                   onClick: () => setSelectedPowerType(option.id),
                   disabled: feedback !== null,
-                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold text-sm ${selectedPowerType === option.id ? feedback ? feedback.partialCorrect.powerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a2 = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a2.powerType) && option.id === currentScenario.correctPowerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold text-sm ${selectedPowerType === option.id ? feedback ? feedback.partialCorrect.powerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a.powerType) && option.id === currentScenario.correctPowerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
                   children: option.label
                 },
                 option.id
@@ -5230,26 +5229,8 @@ if (typeof window !== "undefined") {
 }
 function hydratePremadeCatalogFromWindow() {
   try {
-    const src = typeof window !== "undefined" ? window.MergedExpandedQuizData || window.ExpandedQuizData || window.Data && window.Data.expandedQuizData || window.AppData || null : null;
-    if (!src || typeof src !== "object") {
-      console.warn("[hydrate] No quiz source data found");
-      return;
-    }
-    const out = {};
-    SUBJECT_PROGRESS_KEYS.forEach((subject) => {
-      const node = src[subject];
-      if (!node || !node.categories) {
-        out[subject] = [];
-        return;
-      }
-      const quizzes = [];
-      Object.values(node.categories).forEach((cat) => {
-        if (!cat) return;
-        const qlist = Array.isArray(cat.quizzes) ? cat.quizzes : [];
-        qlist.forEach((q2) => quizzes.push(q2));
-      });
-      out[subject] = quizzes;
-    });
+    const src = typeof window !== "undefined" ? window.MergedExpandedQuizData || window.ExpandedQuizData || window.Data && window.Data.expandedQuizData || window.AppData || {} : {};
+    const out = Object.assign({}, src);
     PREMADE_QUIZ_CATALOG = out;
     if (typeof window !== "undefined") {
       window.PREMADE_QUIZ_CATALOG = PREMADE_QUIZ_CATALOG;
@@ -5275,7 +5256,7 @@ try {
 } catch {
 }
 const getPremadeQuizTotal = (subject) => {
-  var _a2;
+  var _a;
   try {
     const list = PREMADE_QUIZ_CATALOG == null ? void 0 : PREMADE_QUIZ_CATALOG[subject];
     if (Array.isArray(list)) return list.length;
@@ -5286,7 +5267,7 @@ const getPremadeQuizTotal = (subject) => {
     if (Array.isArray(subjectData.quizzes)) total += subjectData.quizzes.length;
     const cats = subjectData.categories || {};
     for (const catName of Object.keys(cats)) {
-      const topics = Array.isArray((_a2 = cats[catName]) == null ? void 0 : _a2.topics) ? cats[catName].topics : [];
+      const topics = Array.isArray((_a = cats[catName]) == null ? void 0 : _a.topics) ? cats[catName].topics : [];
       topics.forEach((t) => {
         if (Array.isArray(t == null ? void 0 : t.quizzes)) total += t.quizzes.length;
         else if (Array.isArray(t == null ? void 0 : t.questions)) total += 1;
@@ -6051,18 +6032,7 @@ class ErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
-const {
-  tokenizeMathSegments,
-  restoreMathSegments,
-  normalizeCurrencyOutsideMath,
-  normalizeLatexMacrosInMath,
-  stripTextMacroInPlain,
-  applyPhraseSpacingRepairs,
-  addMissingBackslashesInMath,
-  fixAllMathInText,
-  collapseUnderscoredLatexMacros
-} = window.TextSanitizer || {};
-const API_BASE_URL = typeof window !== "undefined" ? ((_a = window.__CLIENT_CONFIG__) == null ? void 0 : _a.API_BASE_URL) || ((_b = window.__APP_CONFIG__) == null ? void 0 : _b.apiBaseUrl) || window.API_BASE_URL || (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "http://localhost:3002" : "https://ged-website.onrender.com") : "https://ged-website.onrender.com";
+API_BASE_URL;
 const SCORE_FETCH_INTERVAL_MS = 45e3;
 async function generateTopicQuiz(subjectParam, topic, difficulty) {
   const response = await fetch(
@@ -23108,14 +23078,14 @@ function generateSubjectQuestion(subject, baseIndex = 1, template = {}) {
   };
 }
 function flushShortQuizToTwelve(quiz, subject) {
-  var _a2;
+  var _a;
   if (!quiz || !Array.isArray(quiz.questions)) quiz.questions = [];
   const current = quiz.questions.length;
   if (current >= 12) return quiz;
   let nextNum = current + 1;
   while (quiz.questions.length < 12) {
     const generated = generateSubjectQuestion(subject, nextNum, {
-      difficulty: ((_a2 = quiz.questions[0]) == null ? void 0 : _a2.difficulty) || "easy"
+      difficulty: ((_a = quiz.questions[0]) == null ? void 0 : _a.difficulty) || "easy"
     });
     generated.questionNumber = nextNum;
     quiz.questions.push(generated);
@@ -23631,7 +23601,7 @@ const ArrowLeftIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsx(
   }
 );
 function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "light" }) {
-  var _a2;
+  var _a;
   const isDarkMode = theme === "dark";
   try {
     const cat = typeof window !== "undefined" && window.PREMADE_QUIZ_CATALOG ? window.PREMADE_QUIZ_CATALOG : {};
@@ -23644,7 +23614,7 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
   }
   const library = (typeof window !== "undefined" ? window.QUIZ_LIBRARY : QUIZ_LIBRARY) || {};
   const subjectColors = SUBJECT_COLORS[subjectName2] || DEFAULT_COLOR_SCHEME;
-  const clusters = ((_a2 = library == null ? void 0 : library[subjectName2]) == null ? void 0 : _a2.clusters) || [];
+  const clusters = ((_a = library == null ? void 0 : library[subjectName2]) == null ? void 0 : _a.clusters) || [];
   const [activeClusterId, setActiveClusterId] = React.useState(
     clusters.length ? clusters[0].id : null
   );
@@ -23655,19 +23625,19 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
   });
   const storageKey = `quizBrowserExpanded:${sanitizeCodeSegment(subjectName2)}`;
   const [expandedGroups, setExpandedGroups] = React.useState(() => {
-    var _a3;
+    var _a2;
     try {
-      const raw = (_a3 = window.localStorage) == null ? void 0 : _a3.getItem(storageKey);
+      const raw = (_a2 = window.localStorage) == null ? void 0 : _a2.getItem(storageKey);
       return raw ? JSON.parse(raw) : {};
     } catch {
       return {};
     }
   });
   const persistExpanded = (next) => {
-    var _a3;
+    var _a2;
     setExpandedGroups(next);
     try {
-      (_a3 = window.localStorage) == null ? void 0 : _a3.setItem(storageKey, JSON.stringify(next));
+      (_a2 = window.localStorage) == null ? void 0 : _a2.setItem(storageKey, JSON.stringify(next));
     } catch {
     }
   };
@@ -23677,9 +23647,9 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
   }, [subjectName2]);
   const progressKey = `quizBrowserProgress:${sanitizeCodeSegment(subjectName2)}`;
   const [progress, setProgress] = React.useState(() => {
-    var _a3;
+    var _a2;
     try {
-      const raw = (_a3 = window.localStorage) == null ? void 0 : _a3.getItem(progressKey);
+      const raw = (_a2 = window.localStorage) == null ? void 0 : _a2.getItem(progressKey);
       return raw ? JSON.parse(raw) : {};
     } catch {
       return {};
@@ -23690,7 +23660,7 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
       window.recordQuizResult = (quizId, scorePct) => {
         const passed = typeof scorePct === "number" && scorePct >= 70;
         setProgress((prev) => {
-          var _a3;
+          var _a2;
           const next = {
             ...prev,
             [quizId]: {
@@ -23700,7 +23670,7 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
             }
           };
           try {
-            (_a3 = window.localStorage) == null ? void 0 : _a3.setItem(progressKey, JSON.stringify(next));
+            (_a2 = window.localStorage) == null ? void 0 : _a2.setItem(progressKey, JSON.stringify(next));
           } catch {
           }
           return next;
@@ -23728,9 +23698,9 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
   const isTimed = (t) => t.config && typeof t.config.totalTime === "number" || false;
   const hasPassage = (t) => Array.isArray(t.questions) && t.questions.some((q2) => (q2 == null ? void 0 : q2.type) === "text" && (q2 == null ? void 0 : q2.passage));
   const getAttemptMeta = (topicOrQuizCode) => {
-    var _a3;
+    var _a2;
     try {
-      const raw = (_a3 = window.localStorage) == null ? void 0 : _a3.getItem("attemptIndex");
+      const raw = (_a2 = window.localStorage) == null ? void 0 : _a2.getItem("attemptIndex");
       const idx = raw ? JSON.parse(raw) : {};
       const rec = idx[topicOrQuizCode];
       return rec || {
@@ -23750,9 +23720,9 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
     return clean.slice(0, Math.max(0, max - 1)).trim() + "";
   };
   const topicOneLiner = (topic) => {
-    var _a3, _b2;
-    const fromTopic = (_a3 = topic == null ? void 0 : topic.description) == null ? void 0 : _a3.trim();
-    const fromQuiz = Array.isArray(topic == null ? void 0 : topic.quizzes) && ((_b2 = topic.quizzes.find((q2) => q2 && q2.description)) == null ? void 0 : _b2.description);
+    var _a2, _b;
+    const fromTopic = (_a2 = topic == null ? void 0 : topic.description) == null ? void 0 : _a2.trim();
+    const fromQuiz = Array.isArray(topic == null ? void 0 : topic.quizzes) && ((_b = topic.quizzes.find((q2) => q2 && q2.description)) == null ? void 0 : _b.description);
     const line = fromTopic || fromQuiz || "A short practice set covering key concepts in this topic.";
     return truncate(line, 100);
   };
@@ -24185,15 +24155,15 @@ function SubjectQuizBrowser({ subjectName: subjectName2, onSelectQuiz, theme = "
     ).map((x) => x.topic);
     const { stackedSets, shouldUse } = buildStackedSetsFromTopics(filtered);
     const renderStackedCard = (set, idx) => {
-      var _a3, _b2, _c, _d, _e, _f, _g;
+      var _a2, _b, _c, _d, _e, _f, _g;
       const baseId = set.baseTitle.toLowerCase().replace(/\s+/g, "_");
       const quiz1Id = `${baseId}_set_${set.setIndex}_quiz_1`;
       const quiz2Id = `${baseId}_set_${set.setIndex}_quiz_2`;
       const quiz3Id = `${baseId}_set_${set.setIndex}_quiz_3`;
       const quizCount = Array.isArray(set.quizzes) ? set.quizzes.length : 0;
       const statusList = [
-        (_a3 = progress[quiz1Id]) == null ? void 0 : _a3.status,
-        (_b2 = progress[quiz2Id]) == null ? void 0 : _b2.status,
+        (_a2 = progress[quiz1Id]) == null ? void 0 : _a2.status,
+        (_b = progress[quiz2Id]) == null ? void 0 : _b.status,
         (_c = progress[quiz3Id]) == null ? void 0 : _c.status
       ];
       const isPassed = statusList.includes("passed");
@@ -24924,8 +24894,8 @@ function buildSubjectEditsFromPlan(plan) {
   return merged;
 }
 function canCompleteOnboarding(p2) {
-  var _a2;
-  const hasName = ((_a2 = p2 == null ? void 0 : p2.profile) == null ? void 0 : _a2.name) && p2.profile.name.trim() !== "";
+  var _a;
+  const hasName = ((_a = p2 == null ? void 0 : p2.profile) == null ? void 0 : _a.name) && p2.profile.name.trim() !== "";
   const hasAnyTestProgress = Array.isArray(p2 == null ? void 0 : p2.testPlan) ? p2.testPlan.some(
     (row) => row && (row.passed || row.notScheduled || row.testDate && row.testDate.trim() !== "")
   ) : false;
@@ -25431,7 +25401,7 @@ const TypewriterText = ({ text, speed = 20 }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: displayedText });
 };
 function App({ externalTheme, onThemeChange }) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i;
   const SMITHING_PROMPTS = [
     "Heating the forge...",
     "The smith is at the anvil...",
@@ -25794,20 +25764,20 @@ function App({ externalTheme, onThemeChange }) {
     setSubjectEdits(buildSubjectEditsFromPlan(localProfile == null ? void 0 : localProfile.testPlan));
   }, [localProfile == null ? void 0 : localProfile.testPlan]);
   reactExports.useEffect(() => {
-    var _a3;
-    setNameDraft(((_a3 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a3.name) || "");
-  }, [(_a2 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a2.name]);
+    var _a2;
+    setNameDraft(((_a2 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a2.name) || "");
+  }, [(_a = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a.name]);
   reactExports.useEffect(() => {
-    var _a3, _b3;
-    const status = (_a3 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a3.onboardingStatus;
-    const legacyFlag = !!((_b3 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _b3.onboardingComplete);
+    var _a2, _b2;
+    const status = (_a2 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a2.onboardingStatus;
+    const legacyFlag = !!((_b2 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _b2.onboardingComplete);
     const flag = status === "complete" || legacyFlag;
     setOnboardingComplete(flag);
     if (typeof window !== "undefined") {
       window._onboardingComplete = flag;
     }
   }, [
-    (_b2 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _b2.onboardingStatus,
+    (_b = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _b.onboardingStatus,
     (_c = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _c.onboardingComplete
   ]);
   const profileData = localProfile;
@@ -25841,7 +25811,7 @@ function App({ externalTheme, onThemeChange }) {
     [setView]
   );
   const handleSaveAllProfile = reactExports.useCallback(async () => {
-    var _a3, _b3, _c2;
+    var _a2, _b2, _c2;
     const token = authToken || (typeof window !== "undefined" && window.localStorage ? window.localStorage.getItem("appToken") : null);
     if (!token) {
       alert("You must be signed in to save your profile.");
@@ -25890,26 +25860,26 @@ function App({ externalTheme, onThemeChange }) {
           selected: !!(opt == null ? void 0 : opt.selected)
         })) : [];
         setLocalProfile((prev) => {
-          var _a4, _b4;
+          var _a3, _b3;
           return {
             ...prev,
             profile: {
               ...prev.profile,
-              name: ((_a4 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a4.name) ?? prev.profile.name,
-              onboardingComplete: !!((_b4 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b4.onboardingComplete)
+              name: ((_a3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a3.name) ?? prev.profile.name,
+              onboardingComplete: !!((_b3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b3.onboardingComplete)
             },
             testPlan: serverTestPlan.length ? serverTestPlan : prev.testPlan || [],
             challengeOptions: serverChallenges.length ? serverChallenges : prev.challengeOptions || [],
             recentScoresDashboard: (bundle == null ? void 0 : bundle.recentScores) && typeof bundle.recentScores === "object" ? bundle.recentScores : prev.recentScoresDashboard || {}
           };
         });
-        if ((_a3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a3.name) {
+        if ((_a2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a2.name) {
           setCurrentUser(
             (prev) => prev ? { ...prev, name: bundle.profile.name } : prev
           );
           setNameDraft(bundle.profile.name);
         }
-        const srvFont = (_b3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b3.fontSize;
+        const srvFont = (_b2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b2.fontSize;
         const srvTheme = (_c2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _c2.theme;
         const prefUpdates = {};
         if (srvFont && VALID_FONT_SIZES.has(srvFont))
@@ -26024,7 +25994,7 @@ function App({ externalTheme, onThemeChange }) {
     return { subject, testDate, daysUntil };
   };
   const loadProfileOnce = reactExports.useCallback(async () => {
-    var _a3, _b3;
+    var _a2, _b2;
     setProfileLoading(true);
     setProfileError(null);
     const token = (typeof window !== "undefined" && window.localStorage ? window.localStorage.getItem("appToken") : null) || authToken || null;
@@ -26037,8 +26007,8 @@ function App({ externalTheme, onThemeChange }) {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (bundle && typeof bundle === "object") {
-        const srvFont = (_a3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a3.fontSize;
-        const srvTheme = (_b3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b3.theme;
+        const srvFont = (_a2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a2.fontSize;
+        const srvTheme = (_b2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b2.theme;
         const prefUpdates = {};
         if (srvFont && VALID_FONT_SIZES.has(srvFont))
           prefUpdates.fontSize = srvFont;
@@ -26093,13 +26063,13 @@ function App({ externalTheme, onThemeChange }) {
           selected: !!(opt == null ? void 0 : opt.selected)
         })) : [];
         setLocalProfile((prev) => {
-          var _a4, _b4, _c2, _d2;
+          var _a3, _b3, _c2, _d2;
           return {
             ...prev,
             profile: {
               ...prev.profile,
-              name: ((_a4 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a4.name) || prev.profile.name || "",
-              timezone: ((_b4 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b4.timezone) || prev.profile.timezone,
+              name: ((_a3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a3.name) || prev.profile.name || "",
+              timezone: ((_b3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b3.timezone) || prev.profile.timezone,
               reminderEnabled: typeof ((_c2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _c2.reminderEnabled) === "boolean" ? bundle.profile.reminderEnabled : prev.profile.reminderEnabled,
               onboardingComplete: !!((_d2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _d2.onboardingComplete)
             },
@@ -26337,8 +26307,8 @@ function App({ externalTheme, onThemeChange }) {
     }
     let profileId = "local-user";
     setLocalProfile((prev) => {
-      var _a3;
-      profileId = ((_a3 = prev == null ? void 0 : prev.profile) == null ? void 0 : _a3.id) || profileId;
+      var _a2;
+      profileId = ((_a2 = prev == null ? void 0 : prev.profile) == null ? void 0 : _a2.id) || profileId;
       return {
         ...prev,
         profile: {
@@ -26372,17 +26342,17 @@ function App({ externalTheme, onThemeChange }) {
     return trimmed;
   }, []);
   reactExports.useEffect(() => {
-    var _a3;
-    if ((currentUser == null ? void 0 : currentUser.name) && !((_a3 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a3.name)) {
+    var _a2;
+    if ((currentUser == null ? void 0 : currentUser.name) && !((_a2 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a2.name)) {
       setNameDraft(currentUser.name);
     }
   }, [currentUser == null ? void 0 : currentUser.name, (_g = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _g.name]);
   reactExports.useEffect(() => {
-    var _a3;
+    var _a2;
     if (!currentUser) {
       return;
     }
-    const status = (_a3 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a3.onboardingStatus;
+    const status = (_a2 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a2.onboardingStatus;
     if (status === "required") {
       setView("profile");
     }
@@ -26492,8 +26462,8 @@ function App({ externalTheme, onThemeChange }) {
     setIconSaving(false);
   }, [selectedIcon, authToken]);
   reactExports.useEffect(() => {
-    var _a3;
-    const iconFromProfile = ((_a3 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a3.icon) || (currentUser == null ? void 0 : currentUser.picture);
+    var _a2;
+    const iconFromProfile = ((_a2 = localProfile == null ? void 0 : localProfile.profile) == null ? void 0 : _a2.icon) || (currentUser == null ? void 0 : currentUser.picture);
     if (iconFromProfile && iconFromProfile.startsWith("/icons/")) {
       setSelectedIcon(iconFromProfile);
     }
@@ -26581,13 +26551,13 @@ function App({ externalTheme, onThemeChange }) {
           });
           if (bundle && typeof bundle === "object") {
             setLocalProfile((prev) => {
-              var _a3, _b3;
+              var _a2, _b2;
               return {
                 ...prev,
                 profile: {
                   ...prev.profile,
-                  name: ((_a3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a3.name) ?? prev.profile.name,
-                  onboardingComplete: !!((_b3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b3.onboardingComplete)
+                  name: ((_a2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a2.name) ?? prev.profile.name,
+                  onboardingComplete: !!((_b2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b2.onboardingComplete)
                 },
                 testPlan: Array.isArray(bundle.testPlan) ? bundle.testPlan.map((row) => ({
                   subject: (row == null ? void 0 : row.subject) || "",
@@ -26673,13 +26643,13 @@ function App({ externalTheme, onThemeChange }) {
         );
         if (bundle && typeof bundle === "object") {
           setLocalProfile((prev) => {
-            var _a3, _b3;
+            var _a2, _b2;
             return {
               ...prev,
               profile: {
                 ...prev.profile,
-                name: ((_a3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a3.name) ?? prev.profile.name,
-                onboardingComplete: !!((_b3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b3.onboardingComplete)
+                name: ((_a2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a2.name) ?? prev.profile.name,
+                onboardingComplete: !!((_b2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _b2.onboardingComplete)
               },
               testPlan: Array.isArray(bundle.testPlan) ? bundle.testPlan.map((row) => ({
                 subject: (row == null ? void 0 : row.subject) || "",
@@ -26749,14 +26719,14 @@ function App({ externalTheme, onThemeChange }) {
         );
         if (bundle && typeof bundle === "object") {
           setLocalProfile((prev) => {
-            var _a3;
+            var _a2;
             return {
               ...prev,
               profile: {
                 ...prev.profile,
                 onboardingStatus: "complete",
                 onboardingComplete: true,
-                name: ((_a3 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a3.name) ?? prev.profile.name
+                name: ((_a2 = bundle == null ? void 0 : bundle.profile) == null ? void 0 : _a2.name) ?? prev.profile.name
               },
               testPlan: Array.isArray(bundle.testPlan) ? bundle.testPlan.map((row) => ({
                 subject: (row == null ? void 0 : row.subject) || "",
@@ -27066,7 +27036,7 @@ function App({ externalTheme, onThemeChange }) {
     setView("start");
   };
   const handleSaveName = async (firstName, lastName) => {
-    var _a3, _b3;
+    var _a2, _b2;
     const newName = `${firstName} ${lastName}`.trim();
     if (!newName) {
       alert("Please enter both a first and last name.");
@@ -27091,7 +27061,7 @@ function App({ externalTheme, onThemeChange }) {
         setCurrentUser((prev) => prev ? { ...prev, name: confirmed } : prev);
         setNameDraft(confirmed);
         try {
-          if ((_a3 = currentUserRef.current) == null ? void 0 : _a3.id) {
+          if ((_a2 = currentUserRef.current) == null ? void 0 : _a2.id) {
             localStorage.setItem(
               `customNameSet_${currentUserRef.current.id}`,
               "true"
@@ -27113,7 +27083,7 @@ function App({ externalTheme, onThemeChange }) {
       setNameDraft(saved);
     }
     try {
-      if ((_b3 = currentUserRef.current) == null ? void 0 : _b3.id) {
+      if ((_b2 = currentUserRef.current) == null ? void 0 : _b2.id) {
         localStorage.setItem(
           `customNameSet_${currentUserRef.current.id}`,
           "true"
@@ -27481,7 +27451,7 @@ function App({ externalTheme, onThemeChange }) {
     startQuiz2(reviewQuiz, subject || "Review");
   };
   const renderView = () => {
-    var _a3;
+    var _a2;
     if (!currentUser) {
       return /* @__PURE__ */ jsxRuntimeExports.jsx(AuthScreen, { onLogin: handleLogin });
     }
@@ -27503,7 +27473,7 @@ function App({ externalTheme, onThemeChange }) {
     if (activeSocialTool === "electoral") {
       return /* @__PURE__ */ jsxRuntimeExports.jsx(ElectoralCollegeSimulator, { onExit: () => setActiveSocialTool(null) });
     }
-    const normalizedRole = ((_a3 = currentUser.role) == null ? void 0 : _a3.replace("_", "")) || currentUser.role;
+    const normalizedRole = ((_a2 = currentUser.role) == null ? void 0 : _a2.replace("_", "")) || currentUser.role;
     if (normalizedRole === "superAdmin" || normalizedRole === "superadmin") {
       return /* @__PURE__ */ jsxRuntimeExports.jsx(
         SuperAdminDashboard,
@@ -29620,7 +29590,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   ] }) });
 }
 function OrgAdminDashboard({ user, token, onLogout }) {
-  var _a2;
+  var _a;
   const [summary, setSummary] = reactExports.useState(null);
   const [users, setUsers] = reactExports.useState([]);
   const [activity, setActivity] = reactExports.useState([]);
@@ -29695,7 +29665,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
     loadUsers,
     loadActivity
   ]);
-  const organizationName = ((_a2 = summary == null ? void 0 : summary.organization) == null ? void 0 : _a2.name) || (user == null ? void 0 : user.organization_name) || "Your organization";
+  const organizationName = ((_a = summary == null ? void 0 : summary.organization) == null ? void 0 : _a.name) || (user == null ? void 0 : user.organization_name) || "Your organization";
   const students = (summary == null ? void 0 : summary.students) || 0;
   const instructors = (summary == null ? void 0 : summary.instructors) || 0;
   const activeThisWeek = (summary == null ? void 0 : summary.active_this_week) || 0;
@@ -30122,7 +30092,7 @@ function DashboardProgressSummary({
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "progress-subjects sm:col-span-3 lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4", children: subjects.map((subject) => {
-      var _a2, _b2, _c;
+      var _a, _b, _c;
       const data = progress[subject] || {};
       const cardStyle = getCardStyles(subject);
       const completionPercent = Math.min(
@@ -30132,8 +30102,8 @@ function DashboardProgressSummary({
       const completedCount = data.completedCount || 0;
       const totalPremade = data.totalPremadeExams || 0;
       const averageScore = formatAverage(data.averageScaledScore);
-      const lastTitle = (_a2 = data.lastAttempt) == null ? void 0 : _a2.quizTitle;
-      const lastScore = (_b2 = data.lastAttempt) == null ? void 0 : _b2.scaledScore;
+      const lastTitle = (_a = data.lastAttempt) == null ? void 0 : _a.quizTitle;
+      const lastScore = (_b = data.lastAttempt) == null ? void 0 : _b.scaledScore;
       const truncatedTitle = lastTitle && lastTitle.length > 52 ? `${lastTitle.slice(0, 49)}` : lastTitle;
       const subjectId = SUBJECT_ID_MAP[subject] || null;
       const shortLabel = SUBJECT_SHORT_LABELS && SUBJECT_SHORT_LABELS[subject] || (subjectId === "rla" ? "RLA" : subject);
@@ -30157,10 +30127,10 @@ function DashboardProgressSummary({
                 alt: `${subject} GED badge`,
                 className: "subject-badge-img",
                 onError: (e) => {
-                  var _a3;
+                  var _a2;
                   const shell = e.currentTarget.parentElement;
                   if (shell) shell.style.display = "none";
-                  const pill = (_a3 = e.currentTarget.closest(".subject-card")) == null ? void 0 : _a3.querySelector(".subject-badge-pill");
+                  const pill = (_a2 = e.currentTarget.closest(".subject-card")) == null ? void 0 : _a2.querySelector(".subject-badge-pill");
                   if (pill) pill.style.display = "inline-flex";
                 }
               }
@@ -30875,7 +30845,7 @@ function StartScreen({
   onSelectCategory,
   onBack
 }) {
-  var _a2;
+  var _a;
   const [aiQuizTopic, setAiQuizTopic] = reactExports.useState("");
   const [detailedViewSubject, setDetailedViewSubject] = reactExports.useState(null);
   const [weeklyCoachPlan, setWeeklyCoachPlan] = reactExports.useState(null);
@@ -31702,7 +31672,7 @@ function StartScreen({
     }
   };
   const profilePassedMap = reactExports.useMemo(() => {
-    var _a3;
+    var _a2;
     const map = {};
     const plan = Array.isArray(profileData == null ? void 0 : profileData.testPlan) ? profileData.testPlan : [];
     plan.forEach((row) => {
@@ -31711,7 +31681,7 @@ function StartScreen({
       if (!id) return;
       if (row.passed === true) map[id] = true;
     });
-    const pt = (_a3 = profileData == null ? void 0 : profileData.profile) == null ? void 0 : _a3.tests;
+    const pt = (_a2 = profileData == null ? void 0 : profileData.profile) == null ? void 0 : _a2.tests;
     if (pt && typeof pt === "object") {
       Object.entries(pt).forEach(([key, val]) => {
         if (!val) return;
@@ -31720,7 +31690,7 @@ function StartScreen({
       });
     }
     return map;
-  }, [profileData == null ? void 0 : profileData.testPlan, (_a2 = profileData == null ? void 0 : profileData.profile) == null ? void 0 : _a2.tests]);
+  }, [profileData == null ? void 0 : profileData.testPlan, (_a = profileData == null ? void 0 : profileData.profile) == null ? void 0 : _a.tests]);
   const progressPassedMap = reactExports.useMemo(() => {
     const map = {};
     const subjectNames = Object.keys(SUBJECT_ID_MAP);
@@ -33650,12 +33620,12 @@ function StartScreen({
   ] });
 }
 function Stem({ item, subject = null, isReview = false }) {
-  var _a2;
+  var _a;
   const passageContent = typeof item.passage === "string" ? item.passage.trim() : "";
   const questionContent = typeof (item.questionText || item.question) === "string" ? (item.questionText || item.question).trim() : "";
   const displaySource = (item == null ? void 0 : item.asset) && item.asset.displaySource || item.displaySource || item.source || "";
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "stem space-y-4", children: [
-    ((_a2 = item.stimulusImage) == null ? void 0 : _a2.src) && (() => {
+    ((_a = item.stimulusImage) == null ? void 0 : _a.src) && (() => {
       const resolved = resolveAssetUrl(item.stimulusImage.src, subject);
       return resolved ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         "img",
@@ -33752,10 +33722,10 @@ function QuizInterface({
     if (!onComplete || isPaused) return;
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
-        var _a2;
+        var _a;
         if (prev <= 1) {
           clearInterval(timer);
-          (_a2 = handleSubmitRef.current) == null ? void 0 : _a2.call(handleSubmitRef);
+          (_a = handleSubmitRef.current) == null ? void 0 : _a.call(handleSubmitRef);
           return 0;
         }
         return prev - 1;
@@ -33906,9 +33876,9 @@ function QuizInterface({
   reactExports.useEffect(() => {
     const panel = toolPanelRef.current;
     const destroyTool = () => {
-      var _a2, _b2;
+      var _a, _b;
       try {
-        (_b2 = (_a2 = toolInstanceRef.current) == null ? void 0 : _a2.destroy) == null ? void 0 : _b2.call(_a2);
+        (_b = (_a = toolInstanceRef.current) == null ? void 0 : _a.destroy) == null ? void 0 : _b.call(_a);
       } catch {
       }
       toolInstanceRef.current = null;
@@ -34289,8 +34259,8 @@ function QuizInterface({
                       /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: currentQ, subject: selectedSubject })
                     ] }) }),
                     (() => {
-                      var _a2;
-                      const rawImgSrc = !((_a2 = currentQ.stimulusImage) == null ? void 0 : _a2.src) && currentQ.imageUrl ? currentQ.imageUrl : null;
+                      var _a;
+                      const rawImgSrc = !((_a = currentQ.stimulusImage) == null ? void 0 : _a.src) && currentQ.imageUrl ? currentQ.imageUrl : null;
                       const imgSrc = resolveAssetUrl(rawImgSrc, selectedSubject);
                       return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                         "img",
@@ -34583,8 +34553,8 @@ function QuizInterface({
                     /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: currentQ, subject })
                   ] }) }),
                   (() => {
-                    var _a2;
-                    const rawImgSrc = !((_a2 = currentQ.stimulusImage) == null ? void 0 : _a2.src) && currentQ.imageUrl ? currentQ.imageUrl : null;
+                    var _a;
+                    const rawImgSrc = !((_a = currentQ.stimulusImage) == null ? void 0 : _a.src) && currentQ.imageUrl ? currentQ.imageUrl : null;
                     const imgSrc = resolveAssetUrl(rawImgSrc, subject);
                     return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "img",
@@ -35348,18 +35318,18 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
       ...part3Data.confidence || Array(part3Questions.length).fill(null)
     ];
     const part1Correct = part1Questions.reduce((count, question, index) => {
-      var _a2;
+      var _a;
       const correctOption = (question.answerOptions || []).find(
         (opt) => opt.isCorrect
       );
-      return count + (correctOption && correctOption.text === (((_a2 = part1Data.answers) == null ? void 0 : _a2[index]) ?? null) ? 1 : 0);
+      return count + (correctOption && correctOption.text === (((_a = part1Data.answers) == null ? void 0 : _a[index]) ?? null) ? 1 : 0);
     }, 0);
     const part3Correct = part3Questions.reduce((count, question, index) => {
-      var _a2;
+      var _a;
       const correctOption = (question.answerOptions || []).find(
         (opt) => opt.isCorrect
       );
-      return count + (correctOption && correctOption.text === (((_a2 = part3Data.answers) == null ? void 0 : _a2[index]) ?? null) ? 1 : 0);
+      return count + (correctOption && correctOption.text === (((_a = part3Data.answers) == null ? void 0 : _a[index]) ?? null) ? 1 : 0);
     }, 0);
     const score = part1Correct + part3Correct;
     const totalQuestions = part1Questions.length + part3Questions.length;
@@ -35388,7 +35358,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     });
   };
   const handleScoreEssay = async () => {
-    var _a2, _b2, _c, _d;
+    var _a, _b, _c, _d;
     if (!essayText.trim()) {
       alert("Please write an essay before continuing.");
       return null;
@@ -35412,7 +35382,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
       let parsedScore = null;
       if (result2 && result2.trait1 && result2.trait2 && result2.trait3 && typeof result2.overallScore === "number") {
         parsedScore = result2;
-      } else if (result2 && result2.candidates && ((_d = (_c = (_b2 = (_a2 = result2.candidates[0]) == null ? void 0 : _a2.content) == null ? void 0 : _b2.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
+      } else if (result2 && result2.candidates && ((_d = (_c = (_b = (_a = result2.candidates[0]) == null ? void 0 : _a.content) == null ? void 0 : _b.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
         let jsonText = result2.candidates[0].content.parts[0].text.replace(/```json/g, "").replace(/```/g, "").trim();
         parsedScore = JSON.parse(jsonText);
       } else {
@@ -35614,7 +35584,7 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
   ] });
 }
 function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
-  var _a2;
+  var _a;
   const selectedSubject2 = (quiz == null ? void 0 : quiz.subject) || (results == null ? void 0 : results.subject) || null;
   reactExports.useEffect(() => {
     const passed = (results == null ? void 0 : results.passed) === true || (results == null ? void 0 : results.scaledScore) && results.scaledScore >= 145;
@@ -35792,15 +35762,15 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   );
   const performanceByCategory = quiz.questions.reduce(
     (acc, question, index) => {
-      var _a3, _b2;
+      var _a2, _b;
       const type = question.type || "knowledge";
       if (!acc[type]) {
         acc[type] = { correct: 0, total: 0 };
       }
       acc[type].total++;
-      const correctAnswer = (_b2 = (_a3 = question.answerOptions) == null ? void 0 : _a3.find(
+      const correctAnswer = (_b = (_a2 = question.answerOptions) == null ? void 0 : _a2.find(
         (opt) => opt.isCorrect
-      )) == null ? void 0 : _b2.text;
+      )) == null ? void 0 : _b.text;
       if (safeAnswers[index] === correctAnswer) {
         acc[type].correct++;
       }
@@ -35836,7 +35806,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             (results == null ? void 0 : results.score) ?? 0,
             " /",
             " ",
-            (results == null ? void 0 : results.totalQuestions) ?? (((_a2 = quiz == null ? void 0 : quiz.questions) == null ? void 0 : _a2.length) || 0),
+            (results == null ? void 0 : results.totalQuestions) ?? (((_a = quiz == null ? void 0 : quiz.questions) == null ? void 0 : _a.length) || 0),
             " Correct"
           ] })
         ] }),
@@ -36009,8 +35979,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                     /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: question, subject: selectedSubject2 })
                   ] }),
                   (() => {
-                    var _a3;
-                    const rawImg = !((_a3 = question.stimulusImage) == null ? void 0 : _a3.src) && question.imageUrl ? question.imageUrl : null;
+                    var _a2;
+                    const rawImg = !((_a2 = question.stimulusImage) == null ? void 0 : _a2.src) && question.imageUrl ? question.imageUrl : null;
                     const imgSrc = resolveAssetUrl(rawImg);
                     return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "img",
@@ -36190,11 +36160,11 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
     /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "mt-8 pt-6 border-t", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-4 subject-accent-heading", children: "Questions" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-6", children: quiz.questions.map((q2, i) => {
-        var _a2;
+        var _a;
         return /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "div",
           {
-            className: `question-container p-4 rounded-lg transition-colors ${isSubmitted ? answers[i] === ((_a2 = (q2.answerOptions || []).find((o) => o.isCorrect)) == null ? void 0 : _a2.text) ? "bg-success-soft" : "bg-danger-soft" : "bg-surface-alt"}`,
+            className: `question-container p-4 rounded-lg transition-colors ${isSubmitted ? answers[i] === ((_a = (q2.answerOptions || []).find((o) => o.isCorrect)) == null ? void 0 : _a.text) ? "bg-success-soft" : "bg-danger-soft" : "bg-surface-alt"}`,
             children: [
               (() => {
                 const rawImg = !(q2.stimulusImage && q2.stimulusImage.src) && q2.imageUrl ? q2.imageUrl : null;
@@ -36293,7 +36263,7 @@ function ReadingPractice({ quiz, onComplete, onExit }) {
   ] });
 }
 function EssayGuide({ onExit }) {
-  var _a2, _b2;
+  var _a, _b;
   const [activeTab, setActiveTab] = reactExports.useState("passages");
   const [selectedTopic, setSelectedTopic] = reactExports.useState(0);
   const [timer, setTimer] = reactExports.useState(45 * 60);
@@ -36685,7 +36655,7 @@ function EssayGuide({ onExit }) {
     }
   ];
   const fillEssayTemplate = (template, passageData) => {
-    var _a3, _b3, _c, _d, _e, _f;
+    var _a2, _b2, _c, _d, _e, _f;
     if (!passageData) return template;
     const extractLastName = (title) => {
       if (!title) return "[Author]";
@@ -36743,8 +36713,8 @@ function EssayGuide({ onExit }) {
       }
       return "evidence";
     };
-    const author1LastName = extractLastName((_a3 = passageData.passage1) == null ? void 0 : _a3.title);
-    const author2LastName = extractLastName((_b3 = passageData.passage2) == null ? void 0 : _b3.title);
+    const author1LastName = extractLastName((_a2 = passageData.passage1) == null ? void 0 : _a2.title);
+    const author2LastName = extractLastName((_b2 = passageData.passage2) == null ? void 0 : _b2.title);
     const topic = passageData.topic || "[topic]";
     const isPassage1Stronger = /stronger/i.test(
       ((_c = passageData.passage1) == null ? void 0 : _c.title) || ""
@@ -36836,7 +36806,7 @@ function EssayGuide({ onExit }) {
     }
   };
   const handleGetScore = async () => {
-    var _a3, _b3, _c, _d;
+    var _a2, _b2, _c, _d;
     setIsScoring(true);
     setScoreResult(null);
     const fullEssay = essayMode === "freeform" ? (essayText.freeform || "").trim() : Object.values({
@@ -36871,7 +36841,7 @@ function EssayGuide({ onExit }) {
       let parsedScore = null;
       if (result2 && result2.trait1 && result2.trait2 && result2.trait3 && typeof result2.overallScore === "number") {
         parsedScore = result2;
-      } else if (result2 && result2.candidates && ((_d = (_c = (_b3 = (_a3 = result2.candidates[0]) == null ? void 0 : _a3.content) == null ? void 0 : _b3.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
+      } else if (result2 && result2.candidates && ((_d = (_c = (_b2 = (_a2 = result2.candidates[0]) == null ? void 0 : _a2.content) == null ? void 0 : _b2.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
         let jsonText = result2.candidates[0].content.parts[0].text;
         jsonText = jsonText.replace(/```json/g, "").replace(/```/g, "").trim();
         parsedScore = JSON.parse(jsonText);
@@ -36917,12 +36887,12 @@ function EssayGuide({ onExit }) {
     {
       id: "passage1",
       label: "Passage A",
-      title: ((_a2 = selectedPassage == null ? void 0 : selectedPassage.passage1) == null ? void 0 : _a2.title) || "Passage A"
+      title: ((_a = selectedPassage == null ? void 0 : selectedPassage.passage1) == null ? void 0 : _a.title) || "Passage A"
     },
     {
       id: "passage2",
       label: "Passage B",
-      title: ((_b2 = selectedPassage == null ? void 0 : selectedPassage.passage2) == null ? void 0 : _b2.title) || "Passage B"
+      title: ((_b = selectedPassage == null ? void 0 : selectedPassage.passage2) == null ? void 0 : _b.title) || "Passage B"
     }
   ];
   const renderOverlayBody = () => {
@@ -37813,19 +37783,7 @@ function EssayGuide({ onExit }) {
       ) : 0)
     } : null;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-8 prose max-w-none", children: fullEssay ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "div",
-        {
-          dangerouslySetInnerHTML: {
-            __html: sanitizeHtmlContent(
-              fullEssay.split(/\n\n+/).filter((p2) => p2.trim()).map(
-                (p2) => `<p style="text-indent: 2em; margin-bottom: 1em;">${p2.trim()}</p>`
-              ).join(""),
-              { normalizeSpacing: true }
-            )
-          }
-        }
-      ) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("em", { children: "You did not write anything in the practice area." }) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-8 prose max-w-none", children: fullEssay ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: fullEssay.split(/\n\n+/).filter((p2) => p2.trim()).map((p2, idx) => /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { textIndent: "2em", marginBottom: "1em" }, children: p2.trim() }, idx)) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("em", { children: "You did not write anything in the practice area." }) }) }),
       essayMode === "guided" && guidedStats && fullEssay && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-t border-b", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-lg font-bold text-indigo-900 mb-3", children: "📊 Guided Mode Practice Summary" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-2 md:grid-cols-3 gap-4 text-sm", children: [
@@ -39459,4 +39417,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-COzHrTai.js.map
+//# sourceMappingURL=main-BW2sjrGx.js.map

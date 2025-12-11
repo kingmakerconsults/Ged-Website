@@ -97,27 +97,9 @@ function hydratePremadeCatalogFromWindow() {
           window.ExpandedQuizData ||
           (window.Data && window.Data.expandedQuizData) ||
           window.AppData ||
-          null
-        : null;
-    if (!src || typeof src !== 'object') {
-      console.warn('[hydrate] No quiz source data found');
-      return;
-    }
-    const out = {};
-    SUBJECT_PROGRESS_KEYS.forEach((subject) => {
-      const node = src[subject];
-      if (!node || !node.categories) {
-        out[subject] = [];
-        return;
-      }
-      const quizzes = [];
-      Object.values(node.categories).forEach((cat) => {
-        if (!cat) return;
-        const qlist = Array.isArray(cat.quizzes) ? cat.quizzes : [];
-        qlist.forEach((q) => quizzes.push(q));
-      });
-      out[subject] = quizzes;
-    });
+          {}
+        : {};
+    const out = Object.assign({}, src);
     PREMADE_QUIZ_CATALOG = out;
     if (typeof window !== 'undefined') {
       window.PREMADE_QUIZ_CATALOG = PREMADE_QUIZ_CATALOG;
@@ -1087,29 +1069,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const {
-  tokenizeMathSegments,
-  restoreMathSegments,
-  normalizeCurrencyOutsideMath,
-  normalizeLatexMacrosInMath,
-  stripTextMacroInPlain,
-  applyPhraseSpacingRepairs,
-  addMissingBackslashesInMath,
-  fixAllMathInText,
-  collapseUnderscoredLatexMacros,
-} = window.TextSanitizer || {};
-
-// Determine API base URL: use localhost for dev, production URL otherwise
-const API_BASE_URL =
-  typeof window !== 'undefined'
-    ? window.__CLIENT_CONFIG__?.API_BASE_URL ||
-      window.__APP_CONFIG__?.apiBaseUrl ||
-      window.API_BASE_URL ||
-      (window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:3002'
-        : 'https://ged-website.onrender.com')
-    : 'https://ged-website.onrender.com';
+// (removed invalid JSX fragment)
 
 // Fallback alias for API_BASE for legacy code safety
 const API_BASE = API_BASE_URL;
@@ -38634,21 +38594,16 @@ function EssayGuide({ onExit }) {
       <>
         <div className="p-8 prose max-w-none">
           {fullEssay ? (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: sanitizeHtmlContent(
-                  fullEssay
-                    .split(/\n\n+/)
-                    .filter((p) => p.trim())
-                    .map(
-                      (p) =>
-                        `<p style="text-indent: 2em; margin-bottom: 1em;">${p.trim()}</p>`
-                    )
-                    .join(''),
-                  { normalizeSpacing: true }
-                ),
-              }}
-            />
+            <div>
+              {fullEssay
+                .split(/\n\n+/)
+                .filter((p) => p.trim())
+                .map((p, idx) => (
+                  <p key={idx} style={{ textIndent: '2em', marginBottom: '1em' }}>
+                    {p.trim()}
+                  </p>
+                ))}
+            </div>
           ) : (
             <p>
               <em>You did not write anything in the practice area.</em>
