@@ -1071,6 +1071,19 @@ class ErrorBoundary extends React.Component {
 
 // (removed invalid JSX fragment)
 
+// Pull sanitizer helpers from global window if present
+const {
+  tokenizeMathSegments,
+  restoreMathSegments,
+  normalizeCurrencyOutsideMath,
+  normalizeLatexMacrosInMath,
+  stripTextMacroInPlain,
+  applyPhraseSpacingRepairs,
+  addMissingBackslashesInMath,
+  fixAllMathInText,
+  collapseUnderscoredLatexMacros,
+} = (typeof window !== 'undefined' && window.TextSanitizer) || {};
+
 // Fallback alias for API_BASE for legacy code safety
 const API_BASE = API_BASE_URL;
 const SCORE_FETCH_INTERVAL_MS = 45000;
@@ -38599,7 +38612,10 @@ function EssayGuide({ onExit }) {
                 .split(/\n\n+/)
                 .filter((p) => p.trim())
                 .map((p, idx) => (
-                  <p key={idx} style={{ textIndent: '2em', marginBottom: '1em' }}>
+                  <p
+                    key={idx}
+                    style={{ textIndent: '2em', marginBottom: '1em' }}
+                  >
                     {p.trim()}
                   </p>
                 ))}

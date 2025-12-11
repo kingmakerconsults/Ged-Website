@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-CdwYCkRu.js";
+import { _ as __vitePreload } from "./index-ZaIIcdZ4.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -6032,6 +6032,17 @@ class ErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
+const {
+  tokenizeMathSegments,
+  restoreMathSegments,
+  normalizeCurrencyOutsideMath,
+  normalizeLatexMacrosInMath,
+  stripTextMacroInPlain,
+  applyPhraseSpacingRepairs,
+  addMissingBackslashesInMath,
+  fixAllMathInText,
+  collapseUnderscoredLatexMacros
+} = typeof window !== "undefined" && window.TextSanitizer || {};
 API_BASE_URL;
 const SCORE_FETCH_INTERVAL_MS = 45e3;
 async function generateTopicQuiz(subjectParam, topic, difficulty) {
@@ -37783,7 +37794,14 @@ function EssayGuide({ onExit }) {
       ) : 0)
     } : null;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-8 prose max-w-none", children: fullEssay ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: fullEssay.split(/\n\n+/).filter((p2) => p2.trim()).map((p2, idx) => /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { textIndent: "2em", marginBottom: "1em" }, children: p2.trim() }, idx)) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("em", { children: "You did not write anything in the practice area." }) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-8 prose max-w-none", children: fullEssay ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: fullEssay.split(/\n\n+/).filter((p2) => p2.trim()).map((p2, idx) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "p",
+        {
+          style: { textIndent: "2em", marginBottom: "1em" },
+          children: p2.trim()
+        },
+        idx
+      )) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("em", { children: "You did not write anything in the practice area." }) }) }),
       essayMode === "guided" && guidedStats && fullEssay && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-t border-b", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-lg font-bold text-indigo-900 mb-3", children: "📊 Guided Mode Practice Summary" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-2 md:grid-cols-3 gap-4 text-sm", children: [
@@ -39417,4 +39435,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-BW2sjrGx.js.map
+//# sourceMappingURL=main-DEx6hQ2G.js.map
