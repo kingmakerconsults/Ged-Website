@@ -8,6 +8,7 @@ import FormulaSheetModal from './tools/FormulaSheetModal';
 import ScienceFormulaSheet from './tools/ScienceFormulaSheet';
 import ScienceFormulaPractice from './tools/ScienceFormulaPractice';
 import ScienceConceptPractice from './tools/ScienceConceptPractice';
+import ChemistryEquationPractice from './tools/ChemistryEquationPractice';
 import Calculator from './tools/Calculator';
 
 /**
@@ -71,6 +72,12 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
         name: 'Concept Practice',
         icon: '🔬',
         component: ScienceConceptPractice,
+      },
+      {
+        id: 'chemistry-equations',
+        name: 'Chemistry Equations',
+        icon: '⚛️',
+        component: ChemistryEquationPractice,
       },
     ],
     'Reasoning Through Language Arts (RLA)': [
