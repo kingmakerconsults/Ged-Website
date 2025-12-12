@@ -4,50 +4,153 @@ export default function SuperAdminAllQuestions() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    const catalog = window.AppData || {};
+  // Build question list from the available catalog structure (flat arrays or nested categories)
+  const rebuildFromCatalog = (catalog) => {
+    if (!catalog || typeof catalog !== 'object') return [];
 
     let list = [];
 
-    // Extract ALL questions from ALL subjects/categories/quizzes
-    Object.entries(catalog).forEach(([subject, subjData]) => {
-      if (!subjData?.categories) return;
+    const addQuizQuestions = (subject, categoryLabel, quiz, quizIndex) => {
+      if (!quiz?.questions) return;
+      quiz.questions.forEach((q, questionIndex) => {
+        list.push({
+          id: `${subject}-${categoryLabel}-${quizIndex}-${questionIndex}`,
+          subject,
+          category: categoryLabel || quiz.category || 'General',
+          quizTitle: quiz.title || `Quiz ${quizIndex + 1}`,
+          source: 'premade',
+          ...q,
+        });
+      });
+    };
 
-      Object.entries(subjData.categories).forEach(([category, catData]) => {
-        catData.quizzes?.forEach((quiz, quizIndex) => {
-          quiz.questions?.forEach((q, questionIndex) => {
-            list.push({
-              id: `${subject}-${category}-${quizIndex}-${questionIndex}`,
-              subject,
-              category,
-              quizTitle: quiz.title || `Quiz ${quizIndex + 1}`,
-              source: 'premade',
-              ...q,
+    Object.entries(catalog).forEach(([subject, subjData]) => {
+      if (Array.isArray(subjData)) {
+        subjData.forEach((quiz, quizIndex) => {
+          addQuizQuestions(
+            subject,
+            quiz.category || 'General',
+            quiz,
+            quizIndex
+          );
+        });
+        return;
+      }
+
+      const categories = subjData?.categories || {};
+      Object.entries(categories).forEach(([categoryName, catData]) => {
+        catData?.quizzes?.forEach((quiz, quizIndex) => {
+          addQuizQuestions(subject, categoryName, quiz, quizIndex);
+        });
+
+        catData?.topics?.forEach((topic, topicIndex) => {
+          if (Array.isArray(topic?.quizzes)) {
+            topic.quizzes.forEach((quiz, quizIndex) => {
+              addQuizQuestions(
+                subject,
+                topic.title || categoryName,
+                quiz,
+                quizIndex
+              );
             });
-          });
+          }
+
+          if (Array.isArray(topic?.questions)) {
+            topic.questions.forEach((q, questionIndex) => {
+              list.push({
+                id: `${subject}-${categoryName}-topic-${topicIndex}-${questionIndex}`,
+                subject,
+                category: topic.title || categoryName,
+                quizTitle: topic.title || `Topic ${topicIndex + 1}`,
+                source: 'premade',
+                ...q,
+              });
+            });
+          }
         });
       });
     });
 
+    return list;
+  };
+
+  useEffect(() => {
+    const catalog =
+      window.PREMADE_QUIZ_CATALOG ||
+      window.AppData ||
+      window.ExpandedQuizData ||
+      {};
+    console.log('[SuperAdminAllQuestions] catalog on mount:', catalog);
+
+    let list = rebuildFromCatalog(catalog);
+
+    // If nothing yet, wait for quizDataLoaded event then rebuild once
+    if (list.length === 0 && typeof window !== 'undefined') {
+      const onQuizDataLoaded = (evt) => {
+        const nextCatalog =
+          window.PREMADE_QUIZ_CATALOG || window.AppData || evt?.detail || {};
+        console.log(
+          '[SuperAdminAllQuestions] quizDataLoaded event catalog:',
+          nextCatalog
+        );
+        const rebuilt = rebuildFromCatalog(nextCatalog);
+        console.log(
+          '[SuperAdminAllQuestions] Premade questions after event:',
+          rebuilt.length
+        );
+        setAllQuestions((prev) => {
+          // Only replace if still empty to avoid overwriting fetched AI
+          if (prev.length > 0) return prev;
+          return rebuilt;
+        });
+      };
+      window.addEventListener('quizDataLoaded', onQuizDataLoaded, {
+        once: true,
+      });
+    }
+
+    console.log(
+      '[SuperAdminAllQuestions] Premade questions count:',
+      list.length
+    );
+
     // Fetch AI-generated questions
     const apiBase = window.API_BASE_URL || '';
-    fetch(`${apiBase}/api/admin/all-questions`)
-      .then((res) => res.json())
-      .then((aiRows) => {
-        const aiQuestions = aiRows.map((row, idx) => ({
-          id: `ai-${row.id || idx}`,
-          subject: row.subject || 'AI Generated',
-          category: row.topic || 'AI Bank',
-          quizTitle: 'AI Generated',
-          source: 'ai',
-          ...row.question_json,
-        }));
+    const token = localStorage.getItem('appToken');
 
+    fetch(`${apiBase}/api/admin/all-questions`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to fetch AI questions: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((aiRows) => {
+        console.log('[SuperAdminAllQuestions] AI questions response:', aiRows);
+        const aiQuestions = Array.isArray(aiRows)
+          ? aiRows.map((row, idx) => ({
+              id: `ai-${row.id || idx}`,
+              subject: row.subject || 'AI Generated',
+              category: row.topic || 'AI Bank',
+              quizTitle: 'AI Generated',
+              source: 'ai',
+              ...row.question_json,
+            }))
+          : [];
+
+        console.log(
+          '[SuperAdminAllQuestions] Total questions:',
+          list.length + aiQuestions.length
+        );
         setAllQuestions([...list, ...aiQuestions]);
       })
       .catch((err) => {
         console.error('Failed to fetch AI questions:', err);
+        setError(err.message);
         setAllQuestions(list);
       })
       .finally(() => {
@@ -66,34 +169,58 @@ export default function SuperAdminAllQuestions() {
   if (loading) {
     return (
       <div className="p-6">
-        <h1 className="text-3xl font-bold mb-4">All Questions (Master List)</h1>
-        <p className="text-gray-500">Loading questions...</p>
+        <h1 className="text-3xl font-bold mb-4 dark:text-white">
+          All Questions (Master List)
+        </h1>
+        <p className="text-gray-500 dark:text-gray-400">Loading questions...</p>
       </div>
     );
   }
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">All Questions (Master List)</h1>
-      <p className="text-gray-500 mb-6">
+      <h1 className="text-3xl font-bold mb-4 dark:text-white">
+        All Questions (Master List)
+      </h1>
+
+      {error && (
+        <div className="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded text-yellow-800 dark:text-yellow-200">
+          Warning: {error}
+        </div>
+      )}
+
+      <p className="text-gray-500 dark:text-gray-400 mb-6">
         Total Loaded: {allQuestions.length} questions ({filtered.length} shown)
       </p>
 
-      <div className="mb-6">
-        <input
-          type="text"
-          placeholder="Filter by subject, category, or question text..."
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="w-full px-4 py-2 border rounded bg-white dark:bg-slate-700 dark:border-slate-600 dark:text-white"
-        />
-      </div>
+      {allQuestions.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-500 dark:text-gray-400 mb-2">
+            No questions found
+          </p>
+          <p className="text-sm text-gray-400 dark:text-gray-500">
+            Check the console for details about window.AppData
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="mb-6">
+            <input
+              type="text"
+              placeholder="Filter by subject, category, or question text..."
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="w-full px-4 py-2 border rounded bg-white dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+            />
+          </div>
 
-      <div className="space-y-4">
-        {filtered.map((q, i) => (
-          <QuestionCard key={q.id} question={q} index={i + 1} />
-        ))}
-      </div>
+          <div className="space-y-4">
+            {filtered.map((q, i) => (
+              <QuestionCard key={q.id} question={q} index={i + 1} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

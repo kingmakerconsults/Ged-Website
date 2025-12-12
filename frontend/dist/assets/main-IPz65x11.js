@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-DC8HU9BH.js";
+import { _ as __vitePreload } from "./index-Bc0cLoHC.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -34,30 +34,57 @@ var m = reactDomExports;
   client.createRoot = m.createRoot;
   client.hydrateRoot = m.hydrateRoot;
 }
-const API_BASE_URL$1 = typeof window !== "undefined" && window.API_BASE_URL || "";
+const DEV_ROLES = [
+  { value: "student", label: "Student" },
+  { value: "instructor", label: "Instructor" },
+  { value: "orgAdmin", label: "Org Admin" },
+  { value: "superAdmin", label: "Super Admin" }
+];
+const API_BASE_URL$1 = (() => {
+  var _a;
+  if (typeof window === "undefined") return "";
+  const explicit = window.API_BASE_URL || ((_a = window.__CLIENT_CONFIG__) == null ? void 0 : _a.API_BASE_URL);
+  if (explicit) return explicit;
+  const host = window.location.hostname;
+  const protocol = window.location.protocol === "https:" ? "https:" : "http:";
+  if (host === "localhost" || host === "127.0.0.1") {
+    const port = window.API_PORT || 3002;
+    return `${protocol}//localhost:${port}`;
+  }
+  return window.location.origin;
+})();
 function AuthScreen({ onLogin }) {
   const googleButton = reactExports.useRef(null);
   const [mode, setMode] = reactExports.useState("login");
   const [email, setEmail] = reactExports.useState("");
   const [password, setPassword] = reactExports.useState("");
+  const [devRole, setDevRole] = reactExports.useState("superAdmin");
   const [formError, setFormError] = reactExports.useState(null);
   const [formMessage, setFormMessage] = reactExports.useState(null);
   const [submitting, setSubmitting] = reactExports.useState(false);
   const handleDevLogin = async () => {
     try {
+      setSubmitting(true);
+      setFormError(null);
+      setFormMessage(`Attempting dev login as ${devRole}…`);
       const response = await fetch(`${API_BASE_URL$1}/api/dev-login-as`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: "dev@example.com" })
+        // Request the selected role via dev bypass
+        body: JSON.stringify({ role: devRole })
       });
       if (!response.ok) {
-        throw new Error("Dev login failed");
+        const text = await response.text();
+        throw new Error(text || "Dev login failed");
       }
       const { user, token } = await response.json();
       onLogin(user, token);
+      setFormMessage("Dev login successful. Redirecting…");
     } catch (error) {
       console.error("Dev login error:", error);
-      setFormError("Dev login failed");
+      setFormError(error instanceof Error ? error.message : "Dev login failed");
+    } finally {
+      setSubmitting(false);
     }
   };
   const handleCredentialResponse = reactExports.useCallback(
@@ -255,17 +282,31 @@ function AuthScreen({ onLogin }) {
       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Or continue with" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "h-px w-12 bg-slate-200", "aria-hidden": "true" })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-4 w-full", "data-testid": "dev-login-container", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "button",
-      {
-        type: "button",
-        onClick: handleDevLogin,
-        className: "w-full rounded-lg bg-purple-600 py-3 text-base font-bold text-white shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300",
-        "data-testid": "dev-login-button",
-        style: { minHeight: "48px" },
-        children: "🚀 DEV LOGIN BYPASS 🚀"
-      }
-    ) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 w-full", "data-testid": "dev-login-container", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300", children: "Dev role" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "select",
+          {
+            value: devRole,
+            onChange: (event) => setDevRole(event.target.value),
+            className: "w-1/2 rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-purple-400 dark:focus:ring-purple-500",
+            children: DEV_ROLES.map((roleOption) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: roleOption.value, children: roleOption.label }, roleOption.value))
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            type: "button",
+            onClick: handleDevLogin,
+            className: "w-1/2 rounded-lg bg-purple-600 py-3 text-base font-bold text-white shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300",
+            "data-testid": "dev-login-button",
+            style: { minHeight: "48px" },
+            children: "🚀 DEV LOGIN BYPASS 🚀"
+          }
+        )
+      ] })
+    ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: googleButton, className: "flex justify-center mt-4" }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-6 text-xs text-slate-500 dark:text-slate-400", children: "Admins: Sign in with Google to access your dashboard." })
   ] }) });
@@ -273,6 +314,238 @@ function AuthScreen({ onLogin }) {
 if (typeof window !== "undefined") {
   window.Components = window.Components || {};
   window.Components.AuthScreen = AuthScreen;
+}
+function SuperAdminAllQuestions() {
+  const [allQuestions, setAllQuestions] = reactExports.useState([]);
+  const [loading, setLoading] = reactExports.useState(true);
+  const [filter, setFilter] = reactExports.useState("");
+  const [error, setError] = reactExports.useState("");
+  const rebuildFromCatalog = (catalog) => {
+    if (!catalog || typeof catalog !== "object") return [];
+    let list = [];
+    const addQuizQuestions = (subject, categoryLabel, quiz, quizIndex) => {
+      if (!(quiz == null ? void 0 : quiz.questions)) return;
+      quiz.questions.forEach((q2, questionIndex) => {
+        list.push({
+          id: `${subject}-${categoryLabel}-${quizIndex}-${questionIndex}`,
+          subject,
+          category: categoryLabel || quiz.category || "General",
+          quizTitle: quiz.title || `Quiz ${quizIndex + 1}`,
+          source: "premade",
+          ...q2
+        });
+      });
+    };
+    Object.entries(catalog).forEach(([subject, subjData]) => {
+      if (Array.isArray(subjData)) {
+        subjData.forEach((quiz, quizIndex) => {
+          addQuizQuestions(
+            subject,
+            quiz.category || "General",
+            quiz,
+            quizIndex
+          );
+        });
+        return;
+      }
+      const categories = (subjData == null ? void 0 : subjData.categories) || {};
+      Object.entries(categories).forEach(([categoryName, catData]) => {
+        var _a, _b;
+        (_a = catData == null ? void 0 : catData.quizzes) == null ? void 0 : _a.forEach((quiz, quizIndex) => {
+          addQuizQuestions(subject, categoryName, quiz, quizIndex);
+        });
+        (_b = catData == null ? void 0 : catData.topics) == null ? void 0 : _b.forEach((topic, topicIndex) => {
+          if (Array.isArray(topic == null ? void 0 : topic.quizzes)) {
+            topic.quizzes.forEach((quiz, quizIndex) => {
+              addQuizQuestions(
+                subject,
+                topic.title || categoryName,
+                quiz,
+                quizIndex
+              );
+            });
+          }
+          if (Array.isArray(topic == null ? void 0 : topic.questions)) {
+            topic.questions.forEach((q2, questionIndex) => {
+              list.push({
+                id: `${subject}-${categoryName}-topic-${topicIndex}-${questionIndex}`,
+                subject,
+                category: topic.title || categoryName,
+                quizTitle: topic.title || `Topic ${topicIndex + 1}`,
+                source: "premade",
+                ...q2
+              });
+            });
+          }
+        });
+      });
+    });
+    return list;
+  };
+  reactExports.useEffect(() => {
+    const catalog = window.PREMADE_QUIZ_CATALOG || window.AppData || window.ExpandedQuizData || {};
+    console.log("[SuperAdminAllQuestions] catalog on mount:", catalog);
+    let list = rebuildFromCatalog(catalog);
+    if (list.length === 0 && typeof window !== "undefined") {
+      const onQuizDataLoaded = (evt) => {
+        const nextCatalog = window.PREMADE_QUIZ_CATALOG || window.AppData || (evt == null ? void 0 : evt.detail) || {};
+        console.log(
+          "[SuperAdminAllQuestions] quizDataLoaded event catalog:",
+          nextCatalog
+        );
+        const rebuilt = rebuildFromCatalog(nextCatalog);
+        console.log(
+          "[SuperAdminAllQuestions] Premade questions after event:",
+          rebuilt.length
+        );
+        setAllQuestions((prev) => {
+          if (prev.length > 0) return prev;
+          return rebuilt;
+        });
+      };
+      window.addEventListener("quizDataLoaded", onQuizDataLoaded, {
+        once: true
+      });
+    }
+    console.log(
+      "[SuperAdminAllQuestions] Premade questions count:",
+      list.length
+    );
+    const apiBase = window.API_BASE_URL || "";
+    const token = localStorage.getItem("appToken");
+    fetch(`${apiBase}/api/admin/all-questions`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to fetch AI questions: ${res.status}`);
+      }
+      return res.json();
+    }).then((aiRows) => {
+      console.log("[SuperAdminAllQuestions] AI questions response:", aiRows);
+      const aiQuestions = Array.isArray(aiRows) ? aiRows.map((row, idx) => ({
+        id: `ai-${row.id || idx}`,
+        subject: row.subject || "AI Generated",
+        category: row.topic || "AI Bank",
+        quizTitle: "AI Generated",
+        source: "ai",
+        ...row.question_json
+      })) : [];
+      console.log(
+        "[SuperAdminAllQuestions] Total questions:",
+        list.length + aiQuestions.length
+      );
+      setAllQuestions([...list, ...aiQuestions]);
+    }).catch((err) => {
+      console.error("Failed to fetch AI questions:", err);
+      setError(err.message);
+      setAllQuestions(list);
+    }).finally(() => {
+      setLoading(false);
+    });
+  }, []);
+  const filtered = allQuestions.filter(
+    (q2) => {
+      var _a, _b, _c, _d;
+      return ((_a = q2.subject) == null ? void 0 : _a.toLowerCase().includes(filter.toLowerCase())) || ((_b = q2.category) == null ? void 0 : _b.toLowerCase().includes(filter.toLowerCase())) || ((_c = q2.question) == null ? void 0 : _c.toLowerCase().includes(filter.toLowerCase())) || ((_d = q2.questionText) == null ? void 0 : _d.toLowerCase().includes(filter.toLowerCase()));
+    }
+  );
+  if (loading) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-4 dark:text-white", children: "All Questions (Master List)" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-gray-500 dark:text-gray-400", children: "Loading questions..." })
+    ] });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-4 dark:text-white", children: "All Questions (Master List)" }),
+    error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded text-yellow-800 dark:text-yellow-200", children: [
+      "Warning: ",
+      error
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-gray-500 dark:text-gray-400 mb-6", children: [
+      "Total Loaded: ",
+      allQuestions.length,
+      " questions (",
+      filtered.length,
+      " shown)"
+    ] }),
+    allQuestions.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-gray-500 dark:text-gray-400 mb-2", children: "No questions found" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-400 dark:text-gray-500", children: "Check the console for details about window.AppData" })
+    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "text",
+          placeholder: "Filter by subject, category, or question text...",
+          value: filter,
+          onChange: (e) => setFilter(e.target.value),
+          className: "w-full px-4 py-2 border rounded bg-white dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: filtered.map((q2, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(QuestionCard, { question: q2, index: i + 1 }, q2.id)) })
+    ] })
+  ] });
+}
+function QuestionCard({ question, index }) {
+  const questionText = question.question || question.questionText || "No question text";
+  const passage = question.passage || "";
+  const answerOptions = question.answerOptions || [];
+  const correctAnswer = question.correctAnswer;
+  const rationale = question.rationale || question.explanation || "";
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border rounded p-4 bg-white dark:bg-slate-800 shadow", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-gray-500 dark:text-gray-400 mb-2", children: [
+      "#",
+      index,
+      " • ",
+      question.source,
+      " • ",
+      question.subject,
+      " → ",
+      question.category,
+      " ",
+      "→ ",
+      question.quizTitle
+    ] }),
+    passage && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        className: "mb-3 text-sm opacity-80 dark:opacity-70",
+        dangerouslySetInnerHTML: { __html: passage }
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        className: "font-semibold mb-3 dark:text-white",
+        dangerouslySetInnerHTML: { __html: questionText }
+      }
+    ),
+    answerOptions.length > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ml-4 mb-3", children: answerOptions.map((opt, i) => {
+      const letter = String.fromCharCode(65 + i);
+      const isCorrect = opt.isCorrect;
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: `mb-1 ${isCorrect ? "text-green-600 dark:text-green-400 font-semibold" : "dark:text-gray-300"}`,
+          children: [
+            letter,
+            ". ",
+            opt.text
+          ]
+        },
+        i
+      );
+    }) }) : null,
+    correctAnswer !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 text-blue-600 dark:text-blue-400 text-sm", children: [
+      "Correct Answer: ",
+      correctAnswer
+    ] }),
+    rationale && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 text-gray-600 dark:text-gray-400 text-sm", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Rationale:" }),
+      " ",
+      rationale
+    ] })
+  ] });
 }
 const designSystem = {
   // Subject themes
@@ -25810,7 +26083,7 @@ function PracticeSessionModal({
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "select",
                   {
-                    className: "w-full rounded-md border px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100",
+                    className: "w-full rounded-md border px-3 py-2 bg-white text-slate-900",
                     style: { borderColor: "var(--modal-border)" },
                     value: duration,
                     onChange: (e) => setDuration(parseInt(e.target.value, 10)),
@@ -25834,7 +26107,7 @@ function PracticeSessionModal({
                 /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "select",
                   {
-                    className: "w-full rounded-md border px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100",
+                    className: "w-full rounded-md border px-3 py-2 bg-white text-slate-900",
                     style: { borderColor: "var(--modal-border)" },
                     value: mode,
                     onChange: (e) => setMode(e.target.value),
@@ -29728,7 +30001,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   const [orgSummary, setOrgSummary] = reactExports.useState(null);
   const [summaryLoading, setSummaryLoading] = reactExports.useState(false);
   const [summaryError, setSummaryError] = reactExports.useState("");
-  const [activeTab, setActiveTab] = reactExports.useState("organizations");
+  const [activeTab, setActiveTab] = reactExports.useState("questions");
   const usersLoadAttempted = reactExports.useRef(false);
   const activityLoadAttempted = reactExports.useRef(false);
   const loadOrganizations = reactExports.useCallback(async () => {
@@ -29967,6 +30240,15 @@ function SuperAdminDashboard({ user, token, onLogout }) {
           onClick: () => setActiveTab("activity"),
           className: `px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${activeTab === "activity" ? "bg-white dark:bg-slate-700 text-primary shadow-sm" : "text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50"}`,
           children: "Recent Activity"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          type: "button",
+          onClick: () => setActiveTab("questions"),
+          className: `px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${activeTab === "questions" ? "bg-white dark:bg-slate-700 text-primary shadow-sm" : "text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50"}`,
+          children: "Questions Catalog"
         }
       )
     ] }),
@@ -30339,6 +30621,11 @@ function OrgAdminDashboard({ user, token, onLogout }) {
           },
           act.id
         )) })
+      ] }),
+      activeTab === "questions" && /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "rounded-3xl border-subtle panel-surface shadow-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SuperAdminAllQuestions, {}) }),
+      activeTab !== "questions" && /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "rounded-3xl border-subtle panel-surface shadow-sm mt-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-2 text-xs text-amber-600", children: "Debug: Questions Catalog rendered even though tab inactive" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SuperAdminAllQuestions, {})
       ] })
     ] })
   ] }) });
@@ -34758,7 +35045,7 @@ function QuizInterface({
                           className: "text-xl font-semibold leading-relaxed",
                           style: { color: scheme.text },
                           children: [
-                            currentQ.questionNumber,
+                            currentQ.questionNumber ?? currentIndex + 1,
                             "."
                           ]
                         }
@@ -35052,7 +35339,7 @@ function QuizInterface({
                         className: "text-xl font-semibold leading-relaxed",
                         style: { color: scheme.text },
                         children: [
-                          currentQ.questionNumber,
+                          currentQ.questionNumber ?? currentIndex + 1,
                           "."
                         ]
                       }
@@ -39931,4 +40218,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-JeERv9JT.js.map
+//# sourceMappingURL=main-IPz65x11.js.map

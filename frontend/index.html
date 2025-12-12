@@ -78,6 +78,15 @@
     <script>
       (function ensureApiBase() {
         try {
+          // Dev mode: use localhost backend on port 3002
+          const isLocalhost =
+            window.location.hostname === 'localhost' ||
+            window.location.hostname === '127.0.0.1';
+          if (isLocalhost) {
+            window.API_BASE_URL = 'http://localhost:3002';
+            return;
+          }
+          // Production: use configured base or default
           const base =
             (window.__APP_CONFIG__ && window.__APP_CONFIG__.apiBaseUrl) ||
             'https://ged-website.onrender.com';

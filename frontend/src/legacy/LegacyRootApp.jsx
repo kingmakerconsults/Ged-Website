@@ -11,6 +11,7 @@
 import ReactDOM from 'react-dom/client';
 import { normalizeImageUrl } from '../../utils/normalizeImageUrl.js';
 import { AuthScreen as SharedAuthScreen } from '../../components/auth/AuthScreen.jsx';
+import SuperAdminAllQuestions from '../views/SuperAdminAllQuestions.jsx';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
 (function () {
@@ -23459,7 +23460,7 @@ function PracticeSessionModal({
               Duration
             </label>
             <select
-              className="w-full rounded-md border px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+              className="w-full rounded-md border px-3 py-2 bg-white text-slate-900"
               style={{ borderColor: 'var(--modal-border)' }}
               value={duration}
               onChange={(e) => setDuration(parseInt(e.target.value, 10))}
@@ -23480,7 +23481,7 @@ function PracticeSessionModal({
               Mode
             </label>
             <select
-              className="w-full rounded-md border px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+              className="w-full rounded-md border px-3 py-2 bg-white text-slate-900"
               style={{ borderColor: 'var(--modal-border)' }}
               value={mode}
               onChange={(e) => setMode(e.target.value)}
@@ -28195,7 +28196,8 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   const [orgSummary, setOrgSummary] = useState(null);
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [summaryError, setSummaryError] = useState('');
-  const [activeTab, setActiveTab] = useState('organizations'); // organizations, users, activity
+  // Force-load Questions tab first so the catalog component mounts for debugging
+  const [activeTab, setActiveTab] = useState('questions'); // organizations, users, activity, questions
   // Prevent repeated fetch loops when API returns empty/500
   const usersLoadAttempted = useRef(false);
   const activityLoadAttempted = useRef(false);
@@ -28476,6 +28478,17 @@ function SuperAdminDashboard({ user, token, onLogout }) {
             }`}
           >
             Recent Activity
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('questions')}
+            className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+              activeTab === 'questions'
+                ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+            }`}
+          >
+            Questions Catalog
           </button>
         </div>
 
@@ -29098,6 +29111,23 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                     ))}
                   </div>
                 )}
+              </section>
+            )}
+
+            {/* Questions Catalog Tab */}
+            {activeTab === 'questions' && (
+              <section className="rounded-3xl border-subtle panel-surface shadow-sm">
+                <SuperAdminAllQuestions />
+              </section>
+            )}
+
+            {/* TEMP: Always render catalog for debugging so logs appear even if tab state is off */}
+            {activeTab !== 'questions' && (
+              <section className="rounded-3xl border-subtle panel-surface shadow-sm mt-4">
+                <div className="mb-2 text-xs text-amber-600">
+                  Debug: Questions Catalog rendered even though tab inactive
+                </div>
+                <SuperAdminAllQuestions />
               </section>
             )}
           </>
@@ -34232,7 +34262,7 @@ function QuizInterface({
                       className="text-xl font-semibold leading-relaxed"
                       style={{ color: scheme.text }}
                     >
-                      {currentQ.questionNumber}.
+                      {currentQ.questionNumber ?? currentIndex + 1}.
                     </span>
                     <Stem item={currentQ} subject={selectedSubject} />
                   </div>
@@ -34546,7 +34576,7 @@ function QuizInterface({
                     className="text-xl font-semibold leading-relaxed"
                     style={{ color: scheme.text }}
                   >
-                    {currentQ.questionNumber}.
+                    {currentQ.questionNumber ?? currentIndex + 1}.
                   </span>
                   <Stem item={currentQ} subject={subject} />
                 </div>
