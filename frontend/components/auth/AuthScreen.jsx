@@ -1,13 +1,27 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { DEV_ROLES } from '../../src/dev/devLogin.js';
 
-const API_BASE_URL =
-  (typeof window !== 'undefined' && window.API_BASE_URL) || '';
+// Resolve API base robustly: prefer explicit config; on localhost default to backend port 3002
+const API_BASE_URL = (() => {
+  if (typeof window === 'undefined') return '';
+  const explicit =
+    window.API_BASE_URL || window.__CLIENT_CONFIG__?.API_BASE_URL;
+  if (explicit) return explicit;
+  const host = window.location.hostname;
+  const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+  if (host === 'localhost' || host === '127.0.0.1') {
+    const port = window.API_PORT || 3002;
+    return `${protocol}//localhost:${port}`;
+  }
+  return window.location.origin;
+})();
 
 export function AuthScreen({ onLogin }) {
   const googleButton = useRef(null);
   const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [devRole, setDevRole] = useState('superAdmin');
   const [formError, setFormError] = useState(null);
   const [formMessage, setFormMessage] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -15,21 +29,29 @@ export function AuthScreen({ onLogin }) {
   // Dev login handler
   const handleDevLogin = async () => {
     try {
+      setSubmitting(true);
+      setFormError(null);
+      setFormMessage(`Attempting dev login as ${devRole}…`);
       const response = await fetch(`${API_BASE_URL}/api/dev-login-as`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'dev@example.com' }),
+        // Request the selected role via dev bypass
+        body: JSON.stringify({ role: devRole }),
       });
 
       if (!response.ok) {
-        throw new Error('Dev login failed');
+        const text = await response.text();
+        throw new Error(text || 'Dev login failed');
       }
 
       const { user, token } = await response.json();
       onLogin(user, token);
+      setFormMessage('Dev login successful. Redirecting…');
     } catch (error) {
       console.error('Dev login error:', error);
-      setFormError('Dev login failed');
+      setFormError(error instanceof Error ? error.message : 'Dev login failed');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -238,15 +260,31 @@ export function AuthScreen({ onLogin }) {
         </div>
         {/* Dev Login Button - MUST BE VISIBLE */}
         <div className="mt-4 w-full" data-testid="dev-login-container">
-          <button
-            type="button"
-            onClick={handleDevLogin}
-            className="w-full rounded-lg bg-purple-600 py-3 text-base font-bold text-white shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300"
-            data-testid="dev-login-button"
-            style={{ minHeight: '48px' }}
-          >
-            🚀 DEV LOGIN BYPASS 🚀
-          </button>
+          <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
+            Dev role
+          </label>
+          <div className="flex gap-2">
+            <select
+              value={devRole}
+              onChange={(event) => setDevRole(event.target.value)}
+              className="w-1/2 rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-purple-400 dark:focus:ring-purple-500"
+            >
+              {DEV_ROLES.map((roleOption) => (
+                <option key={roleOption.value} value={roleOption.value}>
+                  {roleOption.label}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              onClick={handleDevLogin}
+              className="w-1/2 rounded-lg bg-purple-600 py-3 text-base font-bold text-white shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300"
+              data-testid="dev-login-button"
+              style={{ minHeight: '48px' }}
+            >
+              🚀 DEV LOGIN BYPASS 🚀
+            </button>
+          </div>
         </div>
 
         <div ref={googleButton} className="flex justify-center mt-4"></div>

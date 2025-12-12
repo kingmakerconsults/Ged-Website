@@ -7806,15 +7806,28 @@ app.post('/api/register', async (req, res) => {
 });
 
 // ========================================
-// DEV-ONLY LOGIN BYPASS
+// DEV LOGIN BYPASS (controlled by env flag)
+// - Enable via DEV_LOGIN_ENABLED=true or in development mode
+// - Optional: DEV_LOGIN_ALLOWED_HOSTS=localhost,127.0.0.1,kingmaker.local
 // ========================================
-if (process.env.NODE_ENV === 'development') {
+const DEV_LOGIN_ENABLED =
+  process.env.DEV_LOGIN_ENABLED === 'true' ||
+  process.env.NODE_ENV === 'development';
+
+if (DEV_LOGIN_ENABLED) {
   app.post('/api/dev-login-as', async (req, res) => {
     try {
-      // Only allow from localhost
+      // Restrict by allowed hosts if configured
       const hostname = req.hostname || req.headers.host?.split(':')[0] || '';
-      if (!['localhost', '127.0.0.1'].includes(hostname)) {
-        return res.status(403).json({ error: 'Dev login only from localhost' });
+      const allowedHostsEnv = process.env.DEV_LOGIN_ALLOWED_HOSTS || '';
+      const allowedHosts = allowedHostsEnv
+        .split(',')
+        .map((h) => h.trim())
+        .filter(Boolean);
+      if (allowedHosts.length > 0 && !allowedHosts.includes(hostname)) {
+        return res
+          .status(403)
+          .json({ error: 'Dev login not allowed from this host' });
       }
 
       const { role = 'student' } = req.body || {};
