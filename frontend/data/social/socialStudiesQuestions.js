@@ -373,7 +373,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     challenge_tags: ['social-2'],
                     type: 'image',
                     imageUrl:
-                      '/images/Social Studies/This-Question-is-based-on-the-following-graph.png',
+                      '/images/Social Studies/colonial-history-of-the-united-states_4c9dead1.png',
                     question:
                       'This map shows the New England colonies. Which economic activity would be most characteristic of this region during the colonial era?',
                     answerOptions: [
@@ -908,8 +908,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     questionNumber: 1,
                     challenge_tags: ['social-3', 'social-4'],
                     type: 'image',
-                    imageUrl:
-                      '/images/Social Studies/join_or_die_cartoon.jpg',
+                    imageUrl: '/images/Social Studies/join-or-die_a8363d6c.png',
                     question:
                       'This 1754 political cartoon by Benjamin Franklin was originally created to encourage colonial unity during the French and Indian War. How was its message re-purposed during the American Revolution?',
                     answerOptions: [
@@ -1709,8 +1708,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl:
-                      '/images/Social Studies/Louisiana_Purchase.png',
+                    imageUrl: '/images/Social Studies/Louisiana_Purchase.png',
                     question:
                       'This map illustrates the impact of the Louisiana Purchase in 1803. What was the most significant effect of this event?',
                     answerOptions: [
@@ -2575,8 +2573,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                   {
                     questionNumber: 4,
                     type: 'image',
-                    imageUrl:
-                      '/images/Social Studies/licensed-image (13).jpg',
+                    imageUrl: '/images/Social Studies/licensed-image (13).jpg',
                     question:
                       'This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:',
                     answerOptions: [
@@ -2631,8 +2628,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     questionNumber: 1,
                     challenge_tags: ['social-1', 'social-5', 'social-3'],
                     type: 'image',
-                    imageUrl:
-                      '/images/Social Studies/Bosses-of-the-Senate.jpg',
+                    imageUrl: '/images/Social Studies/Bosses-of-the-Senate.jpg',
                     question:
                       "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
                     answerOptions: [
@@ -2930,11 +2926,9 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                   },
                   {
                     questionNumber: 3,
-                    type: 'image',
-                    imageUrl:
-                      '/images/Social Studies/licensed-image (9).jpg',
+                    type: 'text',
                     question:
-                      'This map shows the new borders of Europe established by the Treaty of Versailles after World War I. Why did the U.S. Senate refuse to ratify this treaty?',
+                      'Why did the U.S. Senate refuse to ratify the Treaty of Versailles after World War I?',
                     answerOptions: [
                       {
                         text: 'They believed the treaty was too harsh on Germany.',
@@ -3034,8 +3028,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl:
-                      '/images/Social Studies/licensed-image (14).jpg',
+                    imageUrl: '/images/Social Studies/licensed-image (14).jpg',
                     question:
                       "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
                     answerOptions: [
@@ -3139,11 +3132,9 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                   },
                   {
                     questionNumber: 3,
-                    type: 'image',
-                    imageUrl:
-                      '/images/Social Studies/Questions-are-based-on-the-following-graph.-5.png',
+                    type: 'text',
                     question:
-                      "This iconic 'Rosie the Riveter' poster from World War II became a symbol of what major change on the U.S. home front?",
+                      "The famous 'Rosie the Riveter' poster from World War II became a symbol of what major change on the U.S. home front?",
                     answerOptions: [
                       {
                         text: 'The enlistment of women in combat roles.',
@@ -3493,8 +3484,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl:
-                      '/images/Social Studies/licensed-image (15).jpg',
+                    imageUrl: '/images/Social Studies/licensed-image (15).jpg',
                     question:
                       "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
                     answerOptions: [
@@ -7814,8 +7804,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                 questionNumber: 4,
                 challenge_tags: ['social-2'],
                 type: 'image',
-                imageUrl:
-                  '/images/Social Studies/political-map-of-world.jpg',
+                imageUrl: '/images/Social Studies/political-map-of-world.jpg',
                 question:
                   'This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?',
                 answerOptions: [
@@ -7847,8 +7836,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
               {
                 questionNumber: 5,
                 type: 'image',
-                imageUrl:
-                  '/images/Social Studies/political-map-of-world.jpg',
+                imageUrl: '/images/Social Studies/political-map-of-world.jpg',
                 question:
                   "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
                 answerOptions: [
@@ -8013,8 +8001,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                 questionNumber: 10,
                 challenge_tags: ['social-1'],
                 type: 'image',
-                imageUrl:
-                  '/images/Social Studies/licensed-image (16).jpg',
+                imageUrl: '/images/Social Studies/licensed-image (16).jpg',
                 question:
                   'This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?',
                 answerOptions: [
@@ -8047,8 +8034,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
               {
                 questionNumber: 11,
                 type: 'image',
-                imageUrl:
-                  '/images/Social Studies/licensed-image (16).jpg',
+                imageUrl: '/images/Social Studies/licensed-image (16).jpg',
                 question:
                   "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotá) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
@@ -8205,9 +8191,12 @@ export const SOCIAL_STUDIES_QUESTIONS = {
   },
 };
 
+// Legacy window attachment
+if (typeof window !== 'undefined') {
+  window.SOCIAL_STUDIES_QUESTIONS = SOCIAL_STUDIES_QUESTIONS;
+}
 
 // Legacy window attachment
-if (typeof window !== 'undefined') { window.SOCIAL_STUDIES_QUESTIONS = SOCIAL_STUDIES_QUESTIONS; }
-
-// Legacy window attachment
-if (typeof window !== 'undefined') { window.SOCIAL_STUDIES_QUESTIONS = SOCIAL_STUDIES_QUESTIONS; }
+if (typeof window !== 'undefined') {
+  window.SOCIAL_STUDIES_QUESTIONS = SOCIAL_STUDIES_QUESTIONS;
+}

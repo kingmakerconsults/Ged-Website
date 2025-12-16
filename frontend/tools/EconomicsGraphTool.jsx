@@ -237,7 +237,7 @@ export default function EconomicsGraphTool({ onExit }) {
   };
 
   return (
-    <div className="fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-6">
+    <div className="fade-in min-h-screen bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 p-6">
       <header className="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4 mb-6">
         <button
           onClick={onExit}
@@ -252,7 +252,7 @@ export default function EconomicsGraphTool({ onExit }) {
       </header>
 
       <div className="flex flex-col lg:flex-row gap-8">
-        <div className="flex-1 bg-white/95 dark:bg-slate-800/95 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden h-[500px] relative">
+        <div className="flex-1 bg-white/95 dark:bg-slate-600/95 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden h-[500px] relative">
           <div
             id="econ-board"
             ref={boardRef}
@@ -260,7 +260,7 @@ export default function EconomicsGraphTool({ onExit }) {
             style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
             aria-hidden="true"
           />
-          <div className="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 p-3 rounded-lg border border-slate-200 dark:border-slate-600 shadow text-sm">
+          <div className="absolute top-4 right-4 bg-white/90 dark:bg-slate-600/90 p-3 rounded-lg border border-slate-200 dark:border-slate-600 shadow text-sm">
             <div className="font-bold text-slate-500 uppercase text-xs">
               Equilibrium
             </div>
@@ -275,7 +275,7 @@ export default function EconomicsGraphTool({ onExit }) {
 
         <div className="w-full lg:w-80 space-y-6">
           {/* Training Mode */}
-          <div className="p-5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl">
+          <div className="p-5 bg-slate-50 dark:bg-slate-600/50 border border-slate-200 dark:border-slate-700 rounded-xl">
             <div className="flex items-center justify-between">
               <h3 className="font-bold">Training Mode</h3>
               <button
@@ -423,11 +423,11 @@ export default function EconomicsGraphTool({ onExit }) {
           </div>
 
           {/* Scenario Trainer */}
-          <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700">
+          <div className="p-4 bg-slate-50 dark:bg-slate-600 rounded-xl text-sm text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700">
             <div className="flex items-center justify-between mb-2">
               <p className="font-semibold">Scenario Trainer</p>
               <select
-                className="text-sm bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded px-2 py-1"
+                className="text-sm bg-white dark:bg-slate-600 border border-slate-300 dark:border-slate-600 rounded px-2 py-1"
                 value={activeScenarioIdx}
                 onChange={(e) => setActiveScenarioIdx(Number(e.target.value))}
               >

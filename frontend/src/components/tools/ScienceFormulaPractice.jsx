@@ -280,18 +280,34 @@ export default function ScienceFormulaPractice({ onClose, dark = false }) {
           </h3>
 
           {/* Formula Display */}
-          <div className="mb-3 p-3 bg-blue-50 dark:bg-blue-900 rounded text-center">
-            <strong className="text-slate-900 dark:text-slate-100">
+          <div
+            className={`mb-3 p-3 rounded text-center ${
+              dark ? 'bg-blue-900' : 'bg-white'
+            }`}
+          >
+            <strong className={dark ? 'text-slate-100' : 'text-slate-900'}>
               Formula:{' '}
             </strong>
-            <span className="font-mono text-lg text-slate-900 dark:text-slate-100">
+            <span
+              className={`font-mono text-lg ${
+                dark ? 'text-slate-100' : 'text-slate-900'
+              }`}
+            >
               {currentProblem.formulaDisplay}
             </span>
           </div>
 
           {/* Problem Text */}
-          <div className="mb-3 p-3 border-l-4 border-blue-500 bg-slate-50 dark:bg-slate-800">
-            <p className="text-base text-slate-900 dark:text-slate-100">
+          <div
+            className={`mb-3 p-3 border-l-4 border-blue-500 ${
+              dark ? 'bg-slate-800' : 'bg-white'
+            }`}
+          >
+            <p
+              className={`text-base ${
+                dark ? 'text-slate-100' : 'text-slate-900'
+              }`}
+            >
               {currentProblem.problemText}
             </p>
           </div>

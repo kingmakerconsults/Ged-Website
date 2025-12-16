@@ -56,7 +56,7 @@ export default function ConstitutionExplorer({ onExit, pack }) {
   return (
     <>
       <style>{constitutionStyles}</style>
-      <div className="fade-in min-h-screen bg-white dark:bg-slate-900 constitution-text">
+      <div className="fade-in min-h-screen bg-white dark:bg-slate-700 constitution-text">
         <div className="max-w-6xl mx-auto p-6 space-y-6">
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
             <button
@@ -93,7 +93,7 @@ export default function ConstitutionExplorer({ onExit, pack }) {
                   className={`text-left p-3 rounded-lg border transition ${
                     selectedScenario?.id === s.id
                       ? 'border-sky-400 bg-sky-50 dark:bg-sky-900/20'
-                      : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900'
+                      : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-600'
                   }`}
                   onClick={() => startScenario(s)}
                 >
@@ -167,12 +167,12 @@ export default function ConstitutionExplorer({ onExit, pack }) {
             <input
               type="text"
               placeholder="Search (e.g. 'speech', 'voting', '14th')"
-              className="w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-sky-500 outline-none transition"
+              className="w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 focus:ring-2 focus:ring-sky-500 outline-none transition"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
 
-            <div className="flex bg-white dark:bg-slate-900 rounded-lg p-1 border border-slate-200 dark:border-slate-700">
+            <div className="flex bg-white dark:bg-slate-600 rounded-lg p-1 border border-slate-200 dark:border-slate-700">
               <button
                 onClick={() => setMode('simple')}
                 className={`px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${

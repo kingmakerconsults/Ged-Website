@@ -14042,6 +14042,10 @@ const getPremadeQuestions = (subject, count) => {
                   cloned,
                   i
                 );
+                // Flatten content.questionText to question field for frontend compatibility
+                if (normalized.content && normalized.content.questionText) {
+                  normalized.question = normalized.content.questionText;
+                }
                 allQuestions.push(normalized);
               });
             }

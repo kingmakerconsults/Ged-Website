@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-Bc0cLoHC.js";
+import { _ as __vitePreload } from "./index-BmwcFNhA.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -320,19 +320,28 @@ function SuperAdminAllQuestions() {
   const [loading, setLoading] = reactExports.useState(true);
   const [filter, setFilter] = reactExports.useState("");
   const [error, setError] = reactExports.useState("");
+  const [catalogKeys, setCatalogKeys] = reactExports.useState([]);
   const rebuildFromCatalog = (catalog) => {
     if (!catalog || typeof catalog !== "object") return [];
     let list = [];
     const addQuizQuestions = (subject, categoryLabel, quiz, quizIndex) => {
-      if (!(quiz == null ? void 0 : quiz.questions)) return;
-      quiz.questions.forEach((q2, questionIndex) => {
+      var _a;
+      const questionsSources = [];
+      if (Array.isArray(quiz == null ? void 0 : quiz.questions)) questionsSources.push(quiz.questions);
+      if (Array.isArray(quiz == null ? void 0 : quiz.items)) questionsSources.push(quiz.items);
+      if (Array.isArray((_a = quiz == null ? void 0 : quiz.questionBank) == null ? void 0 : _a.questions))
+        questionsSources.push(quiz.questionBank.questions);
+      const merged = questionsSources.flat();
+      if (!Array.isArray(merged) || merged.length === 0) return;
+      merged.forEach((q2, questionIndex) => {
+        const qObj = typeof q2 === "object" ? q2 : { questionText: String(q2) };
         list.push({
           id: `${subject}-${categoryLabel}-${quizIndex}-${questionIndex}`,
           subject,
           category: categoryLabel || quiz.category || "General",
           quizTitle: quiz.title || `Quiz ${quizIndex + 1}`,
           source: "premade",
-          ...q2
+          ...qObj
         });
       });
     };
@@ -347,6 +356,16 @@ function SuperAdminAllQuestions() {
           );
         });
         return;
+      }
+      if (Array.isArray(subjData == null ? void 0 : subjData.quizzes)) {
+        subjData.quizzes.forEach((quiz, quizIndex) => {
+          addQuizQuestions(
+            subject,
+            quiz.category || "General",
+            quiz,
+            quizIndex
+          );
+        });
       }
       const categories = (subjData == null ? void 0 : subjData.categories) || {};
       Object.entries(categories).forEach(([categoryName, catData]) => {
@@ -385,7 +404,20 @@ function SuperAdminAllQuestions() {
   reactExports.useEffect(() => {
     const catalog = window.PREMADE_QUIZ_CATALOG || window.AppData || window.ExpandedQuizData || {};
     console.log("[SuperAdminAllQuestions] catalog on mount:", catalog);
+    console.log(
+      "[SuperAdminAllQuestions] Sample Math structure:",
+      catalog == null ? void 0 : catalog.Math
+    );
+    try {
+      setCatalogKeys(Object.keys(catalog || {}));
+    } catch {
+    }
     let list = rebuildFromCatalog(catalog);
+    console.log(
+      "[SuperAdminAllQuestions] Extracted questions:",
+      list.length,
+      list.slice(0, 2)
+    );
     if (list.length === 0 && typeof window !== "undefined") {
       const onQuizDataLoaded = (evt) => {
         const nextCatalog = window.PREMADE_QUIZ_CATALOG || window.AppData || (evt == null ? void 0 : evt.detail) || {};
@@ -393,6 +425,10 @@ function SuperAdminAllQuestions() {
           "[SuperAdminAllQuestions] quizDataLoaded event catalog:",
           nextCatalog
         );
+        try {
+          setCatalogKeys(Object.keys(nextCatalog || {}));
+        } catch {
+        }
         const rebuilt = rebuildFromCatalog(nextCatalog);
         console.log(
           "[SuperAdminAllQuestions] Premade questions after event:",
@@ -413,8 +449,16 @@ function SuperAdminAllQuestions() {
     );
     const apiBase = window.API_BASE_URL || "";
     const token = localStorage.getItem("appToken");
+    console.log("[SuperAdminAllQuestions] Token present:", !!token);
+    console.log(
+      "[SuperAdminAllQuestions] API URL:",
+      `${apiBase}/api/admin/all-questions`
+    );
     fetch(`${apiBase}/api/admin/all-questions`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {}
+      headers: token ? {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      } : { "Content-Type": "application/json" }
     }).then((res) => {
       if (!res.ok) {
         throw new Error(`Failed to fetch AI questions: ${res.status}`);
@@ -456,7 +500,20 @@ function SuperAdminAllQuestions() {
     ] });
   }
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-4 dark:text-white", children: "All Questions (Master List)" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-2 dark:text-white", children: "All Questions (Master List)" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4 text-xs text-slate-600 dark:text-slate-300 p-3 border-l-4 border-blue-500 bg-white dark:bg-slate-800", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Debug: Questions Catalog component mounted." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        "Catalog subjects seen:",
+        " ",
+        catalogKeys.length ? catalogKeys.join(", ") : "none"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        "Premade count:",
+        " ",
+        allQuestions.filter((q2) => q2.source === "premade").length
+      ] })
+    ] }),
     error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded text-yellow-800 dark:text-yellow-200", children: [
       "Warning: ",
       error
@@ -470,7 +527,11 @@ function SuperAdminAllQuestions() {
     ] }),
     allQuestions.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-gray-500 dark:text-gray-400 mb-2", children: "No questions found" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-400 dark:text-gray-500", children: "Check the console for details about window.AppData" })
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm text-gray-400 dark:text-gray-500", children: [
+        "Debug: subjects detected:",
+        " ",
+        catalogKeys.length ? catalogKeys.join(", ") : "none"
+      ] })
     ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         "input",
@@ -1882,14 +1943,38 @@ function ScienceFormulaPractice({ onClose: onClose2, dark = false }) {
             className: `p-4 rounded-lg mb-4 ${dark ? "bg-gray-700" : "bg-gray-50"}`,
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-2", children: currentProblem.formulaName }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-3 bg-blue-50 dark:bg-blue-900 rounded text-center", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { className: "text-slate-900 dark:text-slate-100", children: [
-                  "Formula:",
-                  " "
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-lg text-slate-900 dark:text-slate-100", children: currentProblem.formulaDisplay })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-3 p-3 border-l-4 border-blue-500 bg-slate-50 dark:bg-slate-800", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-base text-slate-900 dark:text-slate-100", children: currentProblem.problemText }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: `mb-3 p-3 rounded text-center ${dark ? "bg-blue-900" : "bg-white"}`,
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { className: dark ? "text-slate-100" : "text-slate-900", children: [
+                      "Formula:",
+                      " "
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "span",
+                      {
+                        className: `font-mono text-lg ${dark ? "text-slate-100" : "text-slate-900"}`,
+                        children: currentProblem.formulaDisplay
+                      }
+                    )
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: `mb-3 p-3 border-l-4 border-blue-500 ${dark ? "bg-slate-800" : "bg-white"}`,
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "p",
+                    {
+                      className: `text-base ${dark ? "text-slate-100" : "text-slate-900"}`,
+                      children: currentProblem.problemText
+                    }
+                  )
+                }
+              ),
               currentProblem.given && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 text-slate-900 dark:text-slate-100", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Given:" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ml-4 mt-1", children: Object.entries(currentProblem.given).map(([key, value]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
@@ -2854,6 +2939,660 @@ function ChemistryEquationPractice({ onClose: onClose2, dark = false }) {
     }
   );
 }
+const GENETICS_TRAITS = [
+  {
+    id: "plant_height",
+    name: "Plant Height",
+    dominantAllele: "T",
+    recessiveAllele: "t",
+    dominantPhenotype: "Tall",
+    recessivePhenotype: "Short"
+  },
+  {
+    id: "flower_color",
+    name: "Flower Color",
+    dominantAllele: "P",
+    recessiveAllele: "p",
+    dominantPhenotype: "Purple",
+    recessivePhenotype: "White"
+  },
+  {
+    id: "fur_color",
+    name: "Fur Color",
+    dominantAllele: "B",
+    recessiveAllele: "b",
+    dominantPhenotype: "Brown",
+    recessivePhenotype: "White"
+  },
+  {
+    id: "eye_color",
+    name: "Eye Color",
+    dominantAllele: "E",
+    recessiveAllele: "e",
+    dominantPhenotype: "Brown",
+    recessivePhenotype: "Blue"
+  }
+];
+const GENOTYPE_OPTIONS = [
+  { label: "Homozygous Dominant (e.g., TT)", value: "homozygous_dominant" },
+  { label: "Heterozygous (e.g., Tt)", value: "heterozygous" },
+  { label: "Homozygous Recessive (e.g., tt)", value: "homozygous_recessive" }
+];
+function PunnettSquarePractice({ onClose: onClose2, dark = false }) {
+  const [mode, setMode] = reactExports.useState(null);
+  const [selectedTrait, setSelectedTrait] = reactExports.useState(null);
+  const [parent1Genotype, setParent1Genotype] = reactExports.useState("");
+  const [parent2Genotype, setParent2Genotype] = reactExports.useState("");
+  const [squareCells, setSquareCells] = reactExports.useState({
+    "0-0": "",
+    "0-1": "",
+    "1-0": "",
+    "1-1": ""
+  });
+  const [currentGuidedCell, setCurrentGuidedCell] = reactExports.useState("0-0");
+  const [cellFeedback, setCellFeedback] = reactExports.useState({});
+  const [genotypeRatioAnswer, setGenotypeRatioAnswer] = reactExports.useState("");
+  const [phenotypeRatioAnswer, setPhenotypeRatioAnswer] = reactExports.useState("");
+  const [probabilityAnswer, setProbabilityAnswer] = reactExports.useState("");
+  const [finalFeedback, setFinalFeedback] = reactExports.useState(null);
+  const [showExplanation, setShowExplanation] = reactExports.useState(false);
+  const getAllelesFromType = (genotypeType, trait) => {
+    if (!trait) return [];
+    switch (genotypeType) {
+      case "homozygous_dominant":
+        return [trait.dominantAllele, trait.dominantAllele];
+      case "heterozygous":
+        return [trait.dominantAllele, trait.recessiveAllele];
+      case "homozygous_recessive":
+        return [trait.recessiveAllele, trait.recessiveAllele];
+      default:
+        return [];
+    }
+  };
+  const normalizeGenotype = (genotype, trait) => {
+    if (!trait || genotype.length !== 2) return genotype;
+    const [a, b] = genotype.split("");
+    if (a === trait.dominantAllele || a === trait.dominantAllele && b === trait.recessiveAllele) {
+      return genotype;
+    }
+    return b + a;
+  };
+  const calculateCorrectSquare = () => {
+    if (!selectedTrait) return {};
+    const p1Alleles = getAllelesFromType(parent1Genotype, selectedTrait);
+    const p2Alleles = getAllelesFromType(parent2Genotype, selectedTrait);
+    return {
+      "0-0": normalizeGenotype(p1Alleles[0] + p2Alleles[0], selectedTrait),
+      "0-1": normalizeGenotype(p1Alleles[0] + p2Alleles[1], selectedTrait),
+      "1-0": normalizeGenotype(p1Alleles[1] + p2Alleles[0], selectedTrait),
+      "1-1": normalizeGenotype(p1Alleles[1] + p2Alleles[1], selectedTrait)
+    };
+  };
+  const calculateRatios = () => {
+    const correctSquare = calculateCorrectSquare();
+    const genotypes = Object.values(correctSquare);
+    const genotypeCounts = {};
+    genotypes.forEach((g) => {
+      genotypeCounts[g] = (genotypeCounts[g] || 0) + 1;
+    });
+    const phenotypeCounts = { dominant: 0, recessive: 0 };
+    genotypes.forEach((g) => {
+      if (g.includes(selectedTrait.dominantAllele)) {
+        phenotypeCounts.dominant++;
+      } else {
+        phenotypeCounts.recessive++;
+      }
+    });
+    return { genotypeCounts, phenotypeCounts };
+  };
+  const startPractice = () => {
+    if (!mode || !selectedTrait || !parent1Genotype || !parent2Genotype) {
+      alert("Please select mode, trait, and both parent genotypes.");
+      return;
+    }
+    setSquareCells({ "0-0": "", "0-1": "", "1-0": "", "1-1": "" });
+    setCellFeedback({});
+    setCurrentGuidedCell("0-0");
+    setGenotypeRatioAnswer("");
+    setPhenotypeRatioAnswer("");
+    setProbabilityAnswer("");
+    setFinalFeedback(null);
+    setShowExplanation(false);
+  };
+  const handleCellInput = (cellKey, value) => {
+    if (mode === "guided") {
+      const correctSquare = calculateCorrectSquare();
+      const isCorrect = value.toUpperCase() === correctSquare[cellKey];
+      setCellFeedback((prev) => ({
+        ...prev,
+        [cellKey]: isCorrect ? "correct" : "incorrect"
+      }));
+      if (isCorrect) {
+        setSquareCells((prev) => ({ ...prev, [cellKey]: value.toUpperCase() }));
+        const cellOrder = ["0-0", "0-1", "1-0", "1-1"];
+        const currentIndex = cellOrder.indexOf(cellKey);
+        if (currentIndex < 3) {
+          setCurrentGuidedCell(cellOrder[currentIndex + 1]);
+        }
+      }
+    } else {
+      setSquareCells((prev) => ({ ...prev, [cellKey]: value.toUpperCase() }));
+    }
+  };
+  const submitAnswer = () => {
+    const correctSquare = calculateCorrectSquare();
+    const { genotypeCounts, phenotypeCounts } = calculateRatios();
+    let squareCorrect = true;
+    const newCellFeedback = {};
+    Object.keys(correctSquare).forEach((key) => {
+      const isCorrect = squareCells[key] === correctSquare[key];
+      newCellFeedback[key] = isCorrect ? "correct" : "incorrect";
+      if (!isCorrect) squareCorrect = false;
+    });
+    setCellFeedback(newCellFeedback);
+    if (mode === "assisted") {
+      setFinalFeedback({
+        squareCorrect,
+        correctSquare,
+        genotypeCounts,
+        phenotypeCounts
+      });
+      setShowExplanation(true);
+    }
+    if (mode === "freeform") {
+      const dominantCount = phenotypeCounts.dominant;
+      const recessiveCount = phenotypeCounts.recessive;
+      const dominantPercent = dominantCount / 4 * 100;
+      setFinalFeedback({
+        squareCorrect,
+        correctSquare,
+        genotypeCounts,
+        phenotypeCounts,
+        genotypeRatioCorrect: genotypeRatioAnswer.includes(
+          Object.keys(genotypeCounts).join(":")
+        ),
+        phenotypeRatioCorrect: phenotypeRatioAnswer === `${dominantCount}:${recessiveCount}`,
+        probabilityCorrect: Math.abs(parseFloat(probabilityAnswer) - dominantPercent) < 1,
+        dominantPercent
+      });
+      setShowExplanation(true);
+    }
+  };
+  const reset = () => {
+    setMode(null);
+    setSelectedTrait(null);
+    setParent1Genotype("");
+    setParent2Genotype("");
+    setSquareCells({ "0-0": "", "0-1": "", "1-0": "", "1-1": "" });
+    setCellFeedback({});
+    setFinalFeedback(null);
+    setShowExplanation(false);
+  };
+  const parent1Alleles = reactExports.useMemo(
+    () => selectedTrait ? getAllelesFromType(parent1Genotype, selectedTrait) : [],
+    [parent1Genotype, selectedTrait]
+  );
+  const parent2Alleles = reactExports.useMemo(
+    () => selectedTrait ? getAllelesFromType(parent2Genotype, selectedTrait) : [],
+    [parent2Genotype, selectedTrait]
+  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      className: `p-6 rounded-xl ${dark ? "bg-gray-800 text-white" : "bg-white text-gray-900"}`,
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-center mb-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-emerald-600 dark:text-emerald-400", children: "🧬 Punnett Square Practice" }),
+          onClose2 && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: onClose2,
+              className: "text-2xl font-bold hover:text-red-500 transition",
+              children: "×"
+            }
+          )
+        ] }),
+        !mode && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-4", children: "Select Practice Mode:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: () => setMode("guided"),
+              className: `w-full p-4 rounded-lg text-left transition ${dark ? "bg-gray-700 hover:bg-gray-600" : "bg-blue-50 hover:bg-blue-100"}`,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-lg mb-2", children: "🎯 Guided Mode" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "p",
+                  {
+                    className: `text-sm ${dark ? "text-gray-300" : "text-gray-700"}`,
+                    children: "Step-by-step scaffolded learning. Fill one cell at a time with immediate feedback and hints."
+                  }
+                )
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: () => setMode("assisted"),
+              className: `w-full p-4 rounded-lg text-left transition ${dark ? "bg-gray-700 hover:bg-gray-600" : "bg-green-50 hover:bg-green-100"}`,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-lg mb-2", children: "📝 Assisted Mode" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "p",
+                  {
+                    className: `text-sm ${dark ? "text-gray-300" : "text-gray-700"}`,
+                    children: "Parents' genotypes provided. Fill the entire Punnett square and identify ratios. Feedback after submission."
+                  }
+                )
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: () => setMode("freeform"),
+              className: `w-full p-4 rounded-lg text-left transition ${dark ? "bg-gray-700 hover:bg-gray-600" : "bg-purple-50 hover:bg-purple-100"}`,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-lg mb-2", children: "🎓 Freeform / Test Mode" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "p",
+                  {
+                    className: `text-sm ${dark ? "text-gray-300" : "text-gray-700"}`,
+                    children: "Full GED readiness. Complete the square and answer probability questions. No hints."
+                  }
+                )
+              ]
+            }
+          )
+        ] }),
+        mode && !finalFeedback && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-6", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-4 mb-4", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: reset,
+                className: "px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition",
+                children: "← Change Mode"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: `px-4 py-2 rounded-lg font-semibold ${mode === "guided" ? "bg-blue-500 text-white" : mode === "assisted" ? "bg-green-500 text-white" : "bg-purple-500 text-white"}`,
+                children: mode === "guided" ? "🎯 Guided" : mode === "assisted" ? "📝 Assisted" : "🎓 Freeform"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block font-semibold mb-2", children: "Select Trait:" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-2", children: GENETICS_TRAITS.map((trait) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setSelectedTrait(trait),
+                className: `px-4 py-2 rounded-lg font-semibold transition ${(selectedTrait == null ? void 0 : selectedTrait.id) === trait.id ? "bg-emerald-600 text-white" : dark ? "bg-gray-700 text-gray-200 hover:bg-gray-600" : "bg-gray-200 text-gray-800 hover:bg-gray-300"}`,
+                children: trait.name
+              },
+              trait.id
+            )) }),
+            selectedTrait && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: `mt-3 p-3 rounded-lg text-sm ${dark ? "bg-gray-700" : "bg-gray-50"}`,
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+                      "Dominant (",
+                      selectedTrait.dominantAllele,
+                      "):"
+                    ] }),
+                    " ",
+                    selectedTrait.dominantPhenotype
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+                      "Recessive (",
+                      selectedTrait.recessiveAllele,
+                      "):"
+                    ] }),
+                    " ",
+                    selectedTrait.recessivePhenotype
+                  ] })
+                ]
+              }
+            )
+          ] }),
+          selectedTrait && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block font-semibold mb-2", children: "Parent 1 Genotype:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "select",
+                {
+                  value: parent1Genotype,
+                  onChange: (e) => setParent1Genotype(e.target.value),
+                  className: `w-full px-4 py-2 rounded-lg border ${dark ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"}`,
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "-- Select --" }),
+                    GENOTYPE_OPTIONS.map((opt) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: opt.value, children: opt.label.replace(
+                      "e.g., TT",
+                      `e.g., ${getAllelesFromType(
+                        opt.value,
+                        selectedTrait
+                      ).join("")}`
+                    ) }, opt.value))
+                  ]
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block font-semibold mb-2", children: "Parent 2 Genotype:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "select",
+                {
+                  value: parent2Genotype,
+                  onChange: (e) => setParent2Genotype(e.target.value),
+                  className: `w-full px-4 py-2 rounded-lg border ${dark ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"}`,
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "-- Select --" }),
+                    GENOTYPE_OPTIONS.map((opt) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: opt.value, children: opt.label.replace(
+                      "e.g., TT",
+                      `e.g., ${getAllelesFromType(
+                        opt.value,
+                        selectedTrait
+                      ).join("")}`
+                    ) }, opt.value))
+                  ]
+                }
+              )
+            ] }),
+            parent1Genotype && parent2Genotype && /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: startPractice,
+                className: "w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition",
+                children: "Start Practice"
+              }
+            )
+          ] }),
+          parent1Alleles.length > 0 && parent2Alleles.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: `p-6 rounded-lg ${dark ? "bg-gray-700" : "bg-gray-50"}`,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-bold mb-4", children: "Punnett Square:" }),
+                mode === "guided" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "div",
+                  {
+                    className: `mb-4 p-3 rounded-lg ${dark ? "bg-blue-900/30" : "bg-blue-50"} border-l-4 border-blue-500`,
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm", children: [
+                      "💡 ",
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Hint:" }),
+                      " Use one allele from each parent. Capital letters are dominant traits."
+                    ] })
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex justify-center", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-grid grid-cols-3 gap-0", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-16 h-16" }),
+                  parent2Alleles.map((allele, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "div",
+                    {
+                      className: `w-16 h-16 flex items-center justify-center font-bold text-lg border-2 ${dark ? "border-gray-600 bg-gray-800" : "border-gray-300 bg-white"}`,
+                      children: allele
+                    },
+                    `p2-${i}`
+                  )),
+                  parent1Alleles.map((p1Allele, row) => /* @__PURE__ */ jsxRuntimeExports.jsxs(React.Fragment, { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        className: `w-16 h-16 flex items-center justify-center font-bold text-lg border-2 ${dark ? "border-gray-600 bg-gray-800" : "border-gray-300 bg-white"}`,
+                        children: p1Allele
+                      }
+                    ),
+                    [0, 1].map((col) => {
+                      const cellKey = `${row}-${col}`;
+                      const feedback = cellFeedback[cellKey];
+                      return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "div",
+                        {
+                          className: `w-16 h-16 border-2 ${feedback === "correct" ? "bg-green-100 border-green-500" : feedback === "incorrect" ? "bg-red-100 border-red-500" : mode === "guided" && cellKey === currentGuidedCell ? "border-blue-500 border-4" : dark ? "border-gray-600" : "border-gray-400"}`,
+                          children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            "input",
+                            {
+                              type: "text",
+                              maxLength: 2,
+                              value: squareCells[cellKey],
+                              onChange: (e) => handleCellInput(cellKey, e.target.value),
+                              disabled: mode === "guided" && cellKey !== currentGuidedCell,
+                              className: `w-full h-full text-center font-bold text-lg ${dark ? "bg-gray-800 text-white" : "bg-white text-gray-900"} ${mode === "guided" && cellKey !== currentGuidedCell ? "opacity-50" : ""}`
+                            }
+                          )
+                        },
+                        cellKey
+                      );
+                    })
+                  ] }, `row-${row}`))
+                ] }) }),
+                (mode === "assisted" || mode === "freeform") && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                  mode === "freeform" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 space-y-4", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block font-semibold mb-2", children: "Genotype Ratio:" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "input",
+                        {
+                          type: "text",
+                          placeholder: "e.g., 1TT:2Tt:1tt",
+                          value: genotypeRatioAnswer,
+                          onChange: (e) => setGenotypeRatioAnswer(e.target.value),
+                          className: `w-full px-4 py-2 rounded-lg border ${dark ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"}`
+                        }
+                      )
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block font-semibold mb-2", children: "Phenotype Ratio (Dominant:Recessive):" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "input",
+                        {
+                          type: "text",
+                          placeholder: "e.g., 3:1",
+                          value: phenotypeRatioAnswer,
+                          onChange: (e) => setPhenotypeRatioAnswer(e.target.value),
+                          className: `w-full px-4 py-2 rounded-lg border ${dark ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"}`
+                        }
+                      )
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "block font-semibold mb-2", children: [
+                        "Probability of ",
+                        selectedTrait.dominantPhenotype,
+                        " ",
+                        "phenotype (%):"
+                      ] }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "input",
+                        {
+                          type: "number",
+                          placeholder: "e.g., 75",
+                          value: probabilityAnswer,
+                          onChange: (e) => setProbabilityAnswer(e.target.value),
+                          className: `w-full px-4 py-2 rounded-lg border ${dark ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300"}`
+                        }
+                      )
+                    ] })
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      onClick: submitAnswer,
+                      className: "w-full mt-6 px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition",
+                      children: "Submit Answer"
+                    }
+                  )
+                ] })
+              ]
+            }
+          )
+        ] }),
+        showExplanation && finalFeedback && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4 mt-6", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: `p-4 rounded-lg ${finalFeedback.squareCorrect ? dark ? "bg-green-900/30" : "bg-green-50" : dark ? "bg-red-900/30" : "bg-red-50"} border-2 ${finalFeedback.squareCorrect ? "border-green-500" : "border-red-500"}`,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-2", children: finalFeedback.squareCorrect ? "✓ Punnett Square Correct!" : "✗ Some Errors in Punnett Square" }),
+                !finalFeedback.squareCorrect && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm space-y-1", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Correct square:" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "font-mono", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      finalFeedback.correctSquare["0-0"],
+                      " |",
+                      " ",
+                      finalFeedback.correctSquare["0-1"]
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      finalFeedback.correctSquare["1-0"],
+                      " |",
+                      " ",
+                      finalFeedback.correctSquare["1-1"]
+                    ] })
+                  ] })
+                ] })
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: `p-4 rounded-lg border-2 ${dark ? "bg-gray-700 border-gray-600" : "bg-blue-50 border-blue-200"}`,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-lg mb-3", children: "📚 Explanation:" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3 text-sm", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Step 1:" }),
+                    " Identify alleles from each parent. Parent 1 has",
+                    " ",
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: parent1Alleles.join("") }),
+                    " and Parent 2 has",
+                    " ",
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: parent2Alleles.join("") }),
+                    "."
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Step 2:" }),
+                    " Combine one allele from each parent in each square cell. Remember: capital letters (",
+                    selectedTrait.dominantAllele,
+                    ") are dominant and will mask lowercase (",
+                    selectedTrait.recessiveAllele,
+                    ") recessive traits."
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Genotype Ratio:" }),
+                    " ",
+                    Object.entries(finalFeedback.genotypeCounts).map(([genotype, count]) => `${count} ${genotype}`).join(" : ")
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Phenotype Ratio:" }),
+                    " ",
+                    finalFeedback.phenotypeCounts.dominant,
+                    " ",
+                    selectedTrait.dominantPhenotype,
+                    " :",
+                    " ",
+                    finalFeedback.phenotypeCounts.recessive,
+                    " ",
+                    selectedTrait.recessivePhenotype
+                  ] }),
+                  mode === "freeform" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+                        "Probability of ",
+                        selectedTrait.dominantPhenotype,
+                        ":"
+                      ] }),
+                      " ",
+                      finalFeedback.phenotypeCounts.dominant,
+                      "/4 =",
+                      " ",
+                      finalFeedback.dominantPercent,
+                      "%"
+                    ] }),
+                    finalFeedback.genotypeRatioCorrect !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "p",
+                      {
+                        className: finalFeedback.genotypeRatioCorrect ? "text-green-600 font-semibold" : "text-red-600 font-semibold",
+                        children: [
+                          finalFeedback.genotypeRatioCorrect ? "✓" : "✗",
+                          " Genotype ratio answer"
+                        ]
+                      }
+                    ),
+                    finalFeedback.phenotypeRatioCorrect !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "p",
+                      {
+                        className: finalFeedback.phenotypeRatioCorrect ? "text-green-600 font-semibold" : "text-red-600 font-semibold",
+                        children: [
+                          finalFeedback.phenotypeRatioCorrect ? "✓" : "✗",
+                          " ",
+                          "Phenotype ratio answer"
+                        ]
+                      }
+                    ),
+                    finalFeedback.probabilityCorrect !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "p",
+                      {
+                        className: finalFeedback.probabilityCorrect ? "text-green-600 font-semibold" : "text-red-600 font-semibold",
+                        children: [
+                          finalFeedback.probabilityCorrect ? "✓" : "✗",
+                          " Probability answer"
+                        ]
+                      }
+                    )
+                  ] })
+                ] })
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-4", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: reset,
+                className: "flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition",
+                children: "Try Another Problem"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => {
+                  setFinalFeedback(null);
+                  setShowExplanation(false);
+                  setSquareCells({ "0-0": "", "0-1": "", "1-0": "", "1-1": "" });
+                  setCellFeedback({});
+                  setGenotypeRatioAnswer("");
+                  setPhenotypeRatioAnswer("");
+                  setProbabilityAnswer("");
+                },
+                className: "flex-1 px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition",
+                children: "Practice Same Cross Again"
+              }
+            )
+          ] })
+        ] }),
+        !mode && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: `mt-6 p-4 rounded-lg text-sm ${dark ? "bg-gray-700" : "bg-gray-50"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold mb-2", children: "About Punnett Squares:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: dark ? "text-gray-300" : "text-gray-700", children: "Punnett squares help predict the genetic outcomes when two organisms reproduce. Each parent contributes one allele (gene variant) to their offspring. Dominant alleles (capital letters) mask recessive alleles (lowercase letters) in the phenotype (observable trait)." })
+            ]
+          }
+        )
+      ]
+    }
+  );
+}
 function TI30XSCalculator({ onClose }) {
   const [history, setHistory] = reactExports.useState([]);
   const [currentInput, setCurrentInput] = reactExports.useState("");
@@ -3458,969 +4197,6 @@ if (typeof window !== "undefined") {
 function Calculator({ onClose: onClose2, dark = false }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(TI30XSCalculator, { onClose: onClose2 });
 }
-function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
-  var _a;
-  const [selectedTool, setSelectedTool] = reactExports.useState(null);
-  const theme = getSubjectTheme(subject == null ? void 0 : subject.toLowerCase(), dark);
-  const toolsConfig = {
-    Math: [
-      {
-        id: "calculator",
-        name: "TI-30XS Calculator",
-        icon: "🖩",
-        component: Calculator
-      },
-      {
-        id: "geometry",
-        name: "Geometry Figures",
-        icon: "📐",
-        component: GeometryFigure$1
-      },
-      { id: "graph", name: "Graphing Tool", icon: "📊", component: GraphTool },
-      {
-        id: "solver",
-        name: "Step-by-Step Solver",
-        icon: "🧮",
-        component: StepByStepSolver
-      },
-      {
-        id: "statistics",
-        name: "Statistics Calculator",
-        icon: "📈",
-        component: StatisticsTool
-      },
-      {
-        id: "formulas",
-        name: "Formula Sheet",
-        icon: "📋",
-        component: FormulaSheetModal$1
-      }
-    ],
-    Science: [
-      {
-        id: "formulas",
-        name: "Formula Sheet",
-        icon: "🧪",
-        component: ScienceFormulaSheet$1
-      },
-      {
-        id: "formula-practice",
-        name: "Formula Practice",
-        icon: "⚗️",
-        component: ScienceFormulaPractice
-      },
-      {
-        id: "concept-practice",
-        name: "Concept Practice",
-        icon: "🔬",
-        component: ScienceConceptPractice
-      },
-      {
-        id: "chemistry-equations",
-        name: "Chemistry Equations",
-        icon: "⚛️",
-        component: ChemistryEquationPractice
-      }
-    ],
-    "Reasoning Through Language Arts (RLA)": [
-      // Future: Reading comprehension tools, grammar checkers, etc.
-    ],
-    "Social Studies": [
-      // Future: Map tools, timeline tools, etc.
-    ]
-  };
-  const tools = toolsConfig[subject] || [];
-  const ActiveToolComponent = (_a = tools.find(
-    (t) => t.id === selectedTool
-  )) == null ? void 0 : _a.component;
-  if (!subject) return null;
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "div",
-    {
-      className: "fixed inset-0 z-50 flex items-center justify-center p-4",
-      style: { backgroundColor: "rgba(0, 0, 0, 0.75)" },
-      onClick: onClose2,
-      children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          className: "w-full max-w-6xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col",
-          style: {
-            backgroundColor: dark ? "#1e293b" : "#ffffff",
-            border: `2px solid ${(theme == null ? void 0 : theme.accent) || "#64748b"}`
-          },
-          onClick: (e) => e.stopPropagation(),
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "div",
-              {
-                className: "p-6 flex items-center justify-between",
-                style: {
-                  background: (theme == null ? void 0 : theme.gradient) || "linear-gradient(135deg, #64748b 0%, #475569 100%)",
-                  color: "#ffffff"
-                },
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "text-2xl font-bold", children: [
-                      subject,
-                      " Tools"
-                    ] }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-90 mt-1", children: "Select a tool below to access practice resources" })
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      onClick: onClose2,
-                      className: "text-3xl font-bold hover:opacity-80 transition-opacity w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/20",
-                      "aria-label": "Close tools panel",
-                      children: "×"
-                    }
-                  )
-                ]
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto p-6", children: !selectedTool ? (
-              // Tool Grid - Selection View
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: tools.length > 0 ? tools.map((tool) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                "button",
-                {
-                  onClick: () => setSelectedTool(tool.id),
-                  className: "p-6 rounded-xl border-2 text-left transition-all hover:scale-105 hover:shadow-lg",
-                  style: {
-                    backgroundColor: dark ? "#334155" : "#f8fafc",
-                    borderColor: (theme == null ? void 0 : theme.accent) || "#64748b",
-                    color: dark ? "#e2e8f0" : "#1e293b"
-                  },
-                  children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-5xl mb-3", children: tool.icon }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-bold mb-2", children: tool.name }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-75", children: "Click to open" })
-                  ]
-                },
-                tool.id
-              )) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-6xl mb-4", children: "🚧" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "h3",
-                  {
-                    className: "text-xl font-semibold mb-2",
-                    style: { color: dark ? "#e2e8f0" : "#1e293b" },
-                    children: "Tools Coming Soon"
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "p",
-                  {
-                    className: "text-sm opacity-75",
-                    style: { color: dark ? "#94a3b8" : "#64748b" },
-                    children: "Subject-specific tools are being developed"
-                  }
-                )
-              ] }) })
-            ) : (
-              // Tool Display - Active Tool View
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    onClick: () => setSelectedTool(null),
-                    className: "mb-4 px-4 py-2 rounded-lg font-medium transition-colors",
-                    style: {
-                      backgroundColor: dark ? "#475569" : "#e2e8f0",
-                      color: dark ? "#e2e8f0" : "#1e293b"
-                    },
-                    children: "← Back to Tools"
-                  }
-                ),
-                ActiveToolComponent && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  ActiveToolComponent,
-                  {
-                    onClose: () => setSelectedTool(null),
-                    dark
-                  }
-                )
-              ] })
-            ) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "div",
-              {
-                className: "p-4 border-t flex justify-between items-center",
-                style: {
-                  backgroundColor: dark ? "#0f172a" : "#f8fafc",
-                  borderColor: dark ? "#334155" : "#e2e8f0",
-                  color: dark ? "#94a3b8" : "#64748b"
-                },
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-sm", children: [
-                    tools.length,
-                    " tool",
-                    tools.length !== 1 ? "s" : "",
-                    " available"
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      onClick: onClose2,
-                      className: "px-4 py-2 rounded-lg font-medium transition-colors",
-                      style: {
-                        backgroundColor: (theme == null ? void 0 : theme.accent) || "#64748b",
-                        color: "#ffffff"
-                      },
-                      children: "Close"
-                    }
-                  )
-                ]
-              }
-            )
-          ]
-        }
-      )
-    }
-  );
-}
-const AMENDMENTS_DB = [
-  {
-    id: "1st",
-    topic: "Freedoms",
-    simple: "Freedom of speech, religion, press, assembly, and petition.",
-    original: "Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances.",
-    difficulty: "easy",
-    tags: ["speech_press", "religion", "assembly", "petition"]
-  },
-  {
-    id: "2nd",
-    topic: "Arms",
-    simple: "Right to keep and bear arms (own guns).",
-    original: "A well regulated Militia, being necessary to the security of a free State, the right of the people to keep and bear Arms, shall not be infringed.",
-    difficulty: "medium",
-    tags: ["civil_rights"]
-  },
-  {
-    id: "4th",
-    topic: "Privacy",
-    simple: "Protection against unreasonable searches and seizures (need a warrant).",
-    original: "The right of the people to be secure in their persons, houses, papers, and effects, against unreasonable searches and seizures, shall not be violated, and no Warrants shall issue, but upon probable cause, supported by Oath or affirmation, and particularly describing the place to be searched, and the persons or things to be seized.",
-    difficulty: "medium",
-    tags: ["criminal_procedure", "privacy"]
-  },
-  {
-    id: "5th",
-    topic: "Due Process",
-    simple: "Right to remain silent; no double jeopardy; due process required.",
-    original: "No person shall be held to answer for a capital, or otherwise infamous crime, unless on a presentment or indictment of a Grand Jury... nor shall be compelled in any criminal case to be a witness against himself, nor be deprived of life, liberty, or property, without due process of law; nor shall private property be taken for public use, without just compensation.",
-    difficulty: "hard",
-    tags: ["criminal_procedure", "due_process", "takings"]
-  },
-  {
-    id: "6th",
-    topic: "Trial",
-    simple: "Right to a speedy, public trial and a lawyer.",
-    original: "In all criminal prosecutions, the accused shall enjoy the right to a speedy and public trial, by an impartial jury of the State and district wherein the crime shall have been committed... and to have the Assistance of Counsel for his defence.",
-    difficulty: "medium",
-    tags: ["criminal_procedure", "trial_rights"]
-  },
-  {
-    id: "8th",
-    topic: "Punishment",
-    simple: "No cruel or unusual punishment; no excessive bail.",
-    original: "Excessive bail shall not be required, nor excessive fines imposed, nor cruel and unusual punishments inflicted.",
-    difficulty: "easy",
-    tags: ["criminal_procedure", "punishment"]
-  },
-  {
-    id: "13th",
-    topic: "Slavery",
-    simple: "Abolished slavery in the United States.",
-    original: "Neither slavery nor involuntary servitude, except as a punishment for crime whereof the party shall have been duly convicted, shall exist within the United States, or any place subject to their jurisdiction.",
-    difficulty: "easy",
-    tags: ["civil_rights"]
-  },
-  {
-    id: "14th",
-    topic: "Equality",
-    simple: "Grants citizenship to anyone born in the US; guarantees equal protection under the law.",
-    original: "All persons born or naturalized in the United States... nor deny to any person within its jurisdiction the equal protection of the laws.",
-    difficulty: "hard",
-    tags: ["civil_rights", "equal_protection", "due_process"]
-  },
-  {
-    id: "19th",
-    topic: "Voting (Sex)",
-    simple: "Women's right to vote.",
-    original: "The right of citizens of the United States to vote shall not be denied or abridged by the United States or by any State on account of sex.",
-    difficulty: "medium",
-    tags: ["civil_rights", "voting"]
-  }
-];
-const PRACTICE_SCENARIOS = [
-  {
-    id: "scn_001",
-    pack: "speech_press",
-    prompt: "A city passes a law banning peaceful protests in public parks.",
-    correctAmendmentId: "1st",
-    explanation: "The First Amendment protects the right to assembly and petition, so banning peaceful protests infringes those rights.",
-    difficulty: "easy",
-    tags: ["assembly", "petition", "speech_press"]
-  },
-  {
-    id: "scn_002",
-    pack: "criminal_procedure",
-    prompt: "Police search a home without a warrant or probable cause and seize evidence.",
-    correctAmendmentId: "4th",
-    explanation: "The Fourth Amendment protects against unreasonable searches and seizures and generally requires a warrant based on probable cause.",
-    difficulty: "medium",
-    tags: ["criminal_procedure", "privacy"]
-  },
-  {
-    id: "scn_003",
-    pack: "criminal_procedure",
-    prompt: "A suspect is compelled to testify against themselves during a criminal trial.",
-    correctAmendmentId: "5th",
-    explanation: "The Fifth Amendment protects against self-incrimination and ensures due process.",
-    difficulty: "hard",
-    tags: ["criminal_procedure", "due_process"]
-  },
-  {
-    id: "scn_004",
-    pack: "civil_rights",
-    prompt: "A state denies equal protection of the laws to a group of citizens.",
-    correctAmendmentId: "14th",
-    explanation: "The Fourteenth Amendment guarantees equal protection and due process for all persons.",
-    difficulty: "hard",
-    tags: ["civil_rights", "equal_protection"]
-  }
-];
-const constitutionStyles = `
-  .constitution-text {
-    color: #0f172a !important;
-  }
-  .dark .constitution-text {
-    color: #e2e8f0 !important;
-  }
-`;
-function ConstitutionExplorer({ onExit, pack }) {
-  const [mode, setMode] = reactExports.useState("simple");
-  const [search, setSearch] = reactExports.useState("");
-  const [selectedScenario, setSelectedScenario] = reactExports.useState(null);
-  const [selectedAmendmentId, setSelectedAmendmentId] = reactExports.useState(null);
-  const [feedback, setFeedback] = reactExports.useState(null);
-  const filteredAmendments = AMENDMENTS_DB.filter(
-    (item) => item.simple.toLowerCase().includes(search.toLowerCase()) || item.topic.toLowerCase().includes(search.toLowerCase()) || item.id.toLowerCase().includes(search.toLowerCase())
-  );
-  const availableScenarios = PRACTICE_SCENARIOS.filter(
-    (s) => pack ? s.pack === pack : true
-  );
-  const startScenario = (s) => {
-    setSelectedScenario(s);
-    setSelectedAmendmentId(null);
-    setFeedback(null);
-  };
-  const answerScenario = (amendmentId) => {
-    if (!selectedScenario) return;
-    setSelectedAmendmentId(amendmentId);
-    const correct = amendmentId === selectedScenario.correctAmendmentId;
-    setFeedback({ correct });
-  };
-  const resetScenario = () => {
-    setSelectedScenario(null);
-    setSelectedAmendmentId(null);
-    setFeedback(null);
-  };
-  const isHighlighted = (amendmentId) => {
-    if (!feedback || feedback.correct) return false;
-    return amendmentId === (selectedScenario == null ? void 0 : selectedScenario.correctAmendmentId);
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: constitutionStyles }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 constitution-text", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-6xl mx-auto p-6 space-y-6", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "button",
-          {
-            onClick: onExit,
-            className: "flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400",
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold constitution-text", children: "Constitution Explorer — Rights Arbitrator" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-12" })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-bold constitution-text", children: "Practice Scenarios" }),
-          selectedScenario && /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: resetScenario,
-              className: "text-sm px-3 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 constitution-text",
-              children: "Clear"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-3", children: availableScenarios.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            className: `text-left p-3 rounded-lg border transition ${(selectedScenario == null ? void 0 : selectedScenario.id) === s.id ? "border-sky-400 bg-sky-50 dark:bg-sky-900/20" : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900"}`,
-            onClick: () => startScenario(s),
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold constitution-text", children: s.prompt }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-slate-500", children: s.difficulty })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 text-xs text-slate-500", children: s.tags.join(", ") })
-            ]
-          },
-          s.id
-        )) }),
-        selectedScenario && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 p-3 rounded-lg bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm mb-2 constitution-text", children: "Select the correct amendment:" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: AMENDMENTS_DB.map((a) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: () => answerScenario(a.id),
-              className: `px-3 py-1.5 rounded border text-sm transition ${isHighlighted(a.id) ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-200" : "border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600"}`,
-              children: a.id
-            },
-            a.id
-          )) }),
-          feedback && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 space-y-2", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "div",
-              {
-                className: `text-sm font-semibold constitution-text ${feedback.correct ? "text-emerald-700 dark:text-emerald-200" : "text-red-700 dark:text-red-300"}`,
-                children: feedback.correct ? "Correct!" : "Incorrect"
-              }
-            ),
-            !feedback.correct && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm", children: [
-              "You selected:",
-              " ",
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: selectedAmendmentId }),
-              ". Correct:",
-              " ",
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: selectedScenario.correctAmendmentId }),
-              "."
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-600 dark:text-slate-300", children: selectedScenario.explanation })
-          ] })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "input",
-          {
-            type: "text",
-            placeholder: "Search (e.g. 'speech', 'voting', '14th')",
-            className: "w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-sky-500 outline-none transition",
-            value: search,
-            onChange: (e) => setSearch(e.target.value)
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex bg-white dark:bg-slate-900 rounded-lg p-1 border border-slate-200 dark:border-slate-700", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: () => setMode("simple"),
-              className: `px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === "simple" ? "bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`,
-              children: "Plain English"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: () => setMode("original"),
-              className: `px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === "original" ? "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`,
-              children: "Original Text"
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: [
-        filteredAmendments.map((amendment) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "div",
-          {
-            className: "flex flex-col p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-800/95 shadow-sm hover:shadow-md transition-shadow",
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-start mb-3", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-xs font-bold uppercase tracking-wider constitution-text", children: [
-                  amendment.id,
-                  " Amendment"
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-medium text-sky-600 dark:text-sky-400", children: amendment.topic })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "p",
-                {
-                  className: `text-base leading-relaxed flex-grow constitution-text ${mode === "original" ? "font-serif italic" : "font-sans"}`,
-                  children: mode === "original" ? `"${amendment.original}"` : amendment.simple
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex items-center justify-between text-xs text-slate-500", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                  "Difficulty: ",
-                  amendment.difficulty
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "truncate max-w-[60%]", children: amendment.tags.join(", ") })
-              ] })
-            ]
-          },
-          amendment.id
-        )),
-        filteredAmendments.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12 text-slate-500", children: [
-          'No amendments found matching "',
-          search,
-          '".'
-        ] })
-      ] })
-    ] }) })
-  ] });
-}
-const SCENARIOS = [
-  {
-    id: "econ_001",
-    prompt: "A new technology lowers production costs across the industry. What happens?",
-    affect: "supply",
-    // training mode step 1
-    direction: "increase",
-    // training mode step 2
-    explanation: "Lower input costs increase supply (shift right), reducing price and increasing quantity.",
-    difficulty: "easy",
-    tags: ["technology", "input_costs"]
-  },
-  {
-    id: "econ_002",
-    prompt: "Consumer incomes rise sharply for a normal good. What happens?",
-    affect: "demand",
-    direction: "increase",
-    explanation: "Higher income for a normal good increases demand (shift right), raising price and quantity.",
-    difficulty: "medium",
-    tags: ["income", "tastes"]
-  },
-  {
-    id: "econ_003",
-    prompt: "A health scare reduces consumer preference for a product.",
-    affect: "demand",
-    direction: "decrease",
-    explanation: "Lower preference decreases demand (shift left), reducing price and quantity.",
-    difficulty: "medium",
-    tags: ["tastes"]
-  },
-  {
-    id: "econ_004",
-    prompt: "A tax raises input costs for producers.",
-    affect: "supply",
-    direction: "decrease",
-    explanation: "Higher input costs decrease supply (shift left), raising price and lowering quantity.",
-    difficulty: "hard",
-    tags: ["input_costs", "taxes"]
-  }
-];
-function EconomicsGraphTool({ onExit }) {
-  const boardRef = reactExports.useRef(null);
-  const boardInstance = reactExports.useRef(null);
-  const initialized = reactExports.useRef(false);
-  const [trainingMode, setTrainingMode] = reactExports.useState(false);
-  const [stepAffect, setStepAffect] = reactExports.useState(null);
-  const [stepDirection, setStepDirection] = reactExports.useState(null);
-  const [demandShift, setDemandShift] = reactExports.useState(0);
-  const [supplyShift, setSupplyShift] = reactExports.useState(0);
-  const [equilibrium, setEquilibrium] = reactExports.useState({ p: 5, q: 5 });
-  const [activeScenarioIdx, setActiveScenarioIdx] = reactExports.useState(0);
-  const scenario = SCENARIOS[activeScenarioIdx];
-  const [premadeFeedback, setPremadeFeedback] = reactExports.useState("");
-  const [showExplanation, setShowExplanation] = reactExports.useState(false);
-  const checkPremadeAnswer = (idx) => {
-    const correct = scenario.affect === "supply" && scenario.direction === "increase" ? idx === 0 : null;
-    if (correct === null) {
-      const mapping = {
-        demand_increase: 2,
-        demand_decrease: 3,
-        supply_increase: 0,
-        supply_decrease: 1
-      };
-      const key = `${scenario.affect}_${scenario.direction}`;
-      const correctIdx = mapping[key];
-      setPremadeFeedback(
-        idx === correctIdx ? "Correct!" : "Not quite. Try adjusting the curve to match the concept."
-      );
-    } else {
-      setPremadeFeedback(
-        correct ? "Correct!" : "Not quite. Try moving the supply slider right and observe equilibrium."
-      );
-    }
-  };
-  reactExports.useEffect(() => {
-    if (!window.JXG || !boardRef.current) return;
-    if (initialized.current) return;
-    initialized.current = true;
-    const board = window.JXG.JSXGraph.initBoard(boardRef.current.id, {
-      boundingbox: [-1, 12, 12, -1],
-      axis: false,
-      showCopyright: false,
-      showNavigation: false,
-      keepAspectRatio: true,
-      pan: { enabled: false },
-      zoom: { enabled: false }
-    });
-    board.on("down", () => false);
-    board.on("move", () => false);
-    board.on("up", () => false);
-    board.create(
-      "axis",
-      [
-        [0, 0],
-        [1, 0]
-      ],
-      {
-        name: "Quantity",
-        withLabel: true,
-        label: { position: "rt", offset: [-10, 10] },
-        fixed: true,
-        highlight: false,
-        strokeColor: "#64748b"
-      }
-    );
-    board.create(
-      "axis",
-      [
-        [0, 0],
-        [0, 1]
-      ],
-      {
-        name: "Price",
-        withLabel: true,
-        label: { position: "rt", offset: [-20, 0] },
-        fixed: true,
-        highlight: false,
-        strokeColor: "#64748b"
-      }
-    );
-    boardInstance.current = board;
-  }, []);
-  reactExports.useEffect(() => {
-    const board = boardInstance.current;
-    if (!board) return;
-    board.suspendUpdate();
-    const d_intercept = 10 + demandShift;
-    const s_intercept = 0 + supplyShift;
-    const eq_Q = (d_intercept - s_intercept) / 2;
-    const eq_P = eq_Q + s_intercept;
-    setEquilibrium({ p: eq_P, q: eq_Q });
-    if (board.objectsList) {
-      board.objectsList.forEach((el) => {
-        if ((el.elType === "line" || el.elType === "point" || el.elType === "text" || el.elType === "segment") && el.name !== "Quantity" && el.name !== "Price") {
-          board.removeObject(el);
-        }
-      });
-    }
-    board.create(
-      "line",
-      [
-        [0, d_intercept],
-        [10, d_intercept - 10]
-      ],
-      {
-        strokeColor: "#3b82f6",
-        strokeWidth: 3,
-        name: "Demand",
-        withLabel: true,
-        label: { position: "top", offset: [10, 10] },
-        fixed: true,
-        highlight: false
-      }
-    );
-    board.create(
-      "line",
-      [
-        [0, s_intercept],
-        [10, 10 + s_intercept]
-      ],
-      {
-        strokeColor: "#ef4444",
-        strokeWidth: 3,
-        name: "Supply",
-        withLabel: true,
-        label: { position: "top", offset: [10, -10] },
-        fixed: true,
-        highlight: false
-      }
-    );
-    board.create("point", [eq_Q, eq_P], {
-      name: "",
-      face: "o",
-      size: 5,
-      strokeColor: "#22c55e",
-      fillColor: "#22c55e",
-      fixed: true,
-      highlight: false
-    });
-    board.create(
-      "segment",
-      [
-        [eq_Q, 0],
-        [eq_Q, eq_P]
-      ],
-      {
-        strokeColor: "#94a3b8",
-        dash: 2,
-        strokeWidth: 1,
-        fixed: true,
-        highlight: false
-      }
-    );
-    board.create(
-      "segment",
-      [
-        [0, eq_P],
-        [eq_Q, eq_P]
-      ],
-      {
-        strokeColor: "#94a3b8",
-        dash: 2,
-        strokeWidth: 1,
-        fixed: true,
-        highlight: false
-      }
-    );
-    board.unsuspendUpdate();
-  }, [demandShift, supplyShift]);
-  reactExports.useEffect(
-    () => () => {
-      var _a, _b;
-      if (boardInstance.current) {
-        try {
-          (_b = (_a = window.JXG) == null ? void 0 : _a.JSXGraph) == null ? void 0 : _b.freeBoard(boardInstance.current);
-        } catch {
-        }
-        boardInstance.current = null;
-        initialized.current = false;
-      }
-    },
-    []
-  );
-  const applyTrainingSelection = () => {
-    if (!trainingMode) return;
-    if (stepAffect === "demand") {
-      setDemandShift(stepDirection === "increase" ? 2 : -2);
-    } else if (stepAffect === "supply") {
-      setSupplyShift(stepDirection === "increase" ? 2 : -2);
-    }
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-6", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4 mb-6", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: onExit,
-          className: "text-sm font-semibold text-sky-600 hover:text-sky-700",
-          children: "← Back to Social Studies"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold", children: "Market Simulator — Supply & Demand Trainer" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-16" })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col lg:flex-row gap-8", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 bg-white/95 dark:bg-slate-800/95 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden h-[500px] relative", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "div",
-          {
-            id: "econ-board",
-            ref: boardRef,
-            className: "jxgbox w-full h-full",
-            style: { width: "100%", height: "100%", pointerEvents: "none" },
-            "aria-hidden": "true"
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 p-3 rounded-lg border border-slate-200 dark:border-slate-600 shadow text-sm", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-slate-500 uppercase text-xs", children: "Equilibrium" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-emerald-600 font-mono text-lg", children: [
-            "Price: $",
-            equilibrium.p.toFixed(2)
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-emerald-600 font-mono text-lg", children: [
-            "Quantity: ",
-            equilibrium.q.toFixed(0),
-            " units"
-          ] })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full lg:w-80 space-y-6", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold", children: "Training Mode" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => {
-                  const next = !trainingMode;
-                  setTrainingMode(next);
-                  setStepAffect(null);
-                  setStepDirection(null);
-                },
-                className: `px-3 py-1 rounded text-sm ${trainingMode ? "bg-emerald-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
-                children: trainingMode ? "ON" : "OFF"
-              }
-            )
-          ] }),
-          trainingMode && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 space-y-3", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-medium mb-2", children: "Step 1: Does this affect Supply or Demand?" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    className: `px-3 py-1 rounded ${stepAffect === "supply" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
-                    onClick: () => setStepAffect("supply"),
-                    children: "Supply"
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    className: `px-3 py-1 rounded ${stepAffect === "demand" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
-                    onClick: () => setStepAffect("demand"),
-                    children: "Demand"
-                  }
-                )
-              ] })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-medium mb-2", children: "Step 2: Increase or Decrease?" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    className: `px-3 py-1 rounded ${stepDirection === "increase" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
-                    onClick: () => setStepDirection("increase"),
-                    children: "Increase"
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    className: `px-3 py-1 rounded ${stepDirection === "decrease" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
-                    onClick: () => setStepDirection("decrease"),
-                    children: "Decrease"
-                  }
-                )
-              ] })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: applyTrainingSelection,
-                className: "px-3 py-1 rounded bg-emerald-600 text-white",
-                children: "Apply Selection"
-              }
-            ) })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-blue-800 dark:text-blue-300 mb-1", children: "Demand Factors" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-blue-600 dark:text-blue-400 mb-4", children: "Examples: Consumer income, trends, population." }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-2", children: "Shift Demand Curve" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "range",
-              min: "-4",
-              max: "4",
-              step: "1",
-              value: demandShift,
-              onChange: (e) => setDemandShift(Number(e.target.value)),
-              className: "w-full accent-blue-600 cursor-pointer"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between text-xs text-slate-500 mt-1", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Decrease" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Increase" })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 rounded-xl", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-red-800 dark:text-red-300 mb-1", children: "Supply Factors" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-red-600 dark:text-red-400 mb-4", children: "Examples: Technology, cost of inputs, taxes." }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-2", children: "Shift Supply Curve" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              type: "range",
-              min: "-4",
-              max: "4",
-              step: "1",
-              value: supplyShift,
-              onChange: (e) => setSupplyShift(Number(e.target.value)),
-              className: "w-full accent-red-600 cursor-pointer"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between text-xs text-slate-500 mt-1", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-              "Increase Supply",
-              /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-              "(Lower Cost)"
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-              "Decrease Supply",
-              /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-              "(Higher Cost)"
-            ] })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-2", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: "Scenario Trainer" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "select",
-              {
-                className: "text-sm bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded px-2 py-1",
-                value: activeScenarioIdx,
-                onChange: (e) => setActiveScenarioIdx(Number(e.target.value)),
-                children: SCENARIOS.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("option", { value: i, children: [
-                  s.id,
-                  " — ",
-                  s.difficulty
-                ] }, s.id))
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-2", children: scenario.prompt }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 gap-2", children: [
-            "Price decreases; Quantity increases",
-            "Price increases; Quantity decreases",
-            "Price increases; Quantity increases",
-            "Price decreases; Quantity decreases"
-          ].map((opt, idx) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "button",
-            {
-              type: "button",
-              onClick: () => {
-                setShowExplanation(false);
-                checkPremadeAnswer(idx);
-              },
-              className: "rounded-md px-3 py-2 text-left transition bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600",
-              children: [
-                String.fromCharCode(65 + idx),
-                ". ",
-                opt
-              ]
-            },
-            idx
-          )) }),
-          premadeFeedback && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-2 p-2 rounded-md bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-200", children: premadeFeedback }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-2 flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "text-xs px-2 py-1 rounded bg-slate-200 dark:bg-slate-700",
-              onClick: () => setShowExplanation((v) => !v),
-              children: "Show Explanation"
-            }
-          ) }),
-          showExplanation && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-2 text-xs text-slate-600 dark:text-slate-300", children: [
-            "Explanation: ",
-            scenario.explanation
-          ] })
-        ] })
-      ] })
-    ] })
-  ] });
-}
 const MAP_SCENARIOS = [
   {
     id: "us_regions_midwest",
@@ -4567,6 +4343,511 @@ const MAP_SCENARIOS = [
     imageKey: "us_time_zones"
   }
 ];
+const MapVisualizer = ({ imageKey, title }) => {
+  const mapContent = {
+    us_regions_basic: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 960 600", className: "w-full h-full", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "960", height: "600", fill: "#a5d8dd" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { id: "west", fill: "#fbbf24", stroke: "#92400e", strokeWidth: "1.5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 50 150 L 70 120 L 90 110 L 100 95 L 110 90 L 125 95 L 140 100 L 150 115 L 155 130 L 160 145 L 155 170 L 145 190 L 140 210 L 130 240 L 120 265 L 110 290 L 105 315 L 100 340 L 95 360 L 85 375 L 75 385 L 65 390 L 55 385 L 50 370 L 48 350 L 50 320 L 52 290 L 53 260 L 52 230 L 50 200 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 105 315 L 120 310 L 135 315 L 145 325 L 155 340 L 160 355 L 165 370 L 165 390 L 160 405 L 150 415 L 135 420 L 120 418 L 110 410 L 105 395 L 102 375 L 103 355 L 105 335 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 165 170 L 185 165 L 205 168 L 220 175 L 235 185 L 245 200 L 250 220 L 248 240 L 242 258 L 232 272 L 218 280 L 200 282 L 180 278 L 165 270 L 155 255 L 152 235 L 155 215 L 160 195 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 250 220 L 270 215 L 290 220 L 305 230 L 315 245 L 320 265 L 318 285 L 310 300 L 295 308 L 275 310 L 255 305 L 243 295 L 238 280 L 240 260 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 320 265 L 340 260 L 360 265 L 375 275 L 385 290 L 388 310 L 383 328 L 370 340 L 352 345 L 332 342 L 318 332 L 312 315 L 315 295 Z" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { id: "midwest", fill: "#86efac", stroke: "#166534", strokeWidth: "1.5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 320 95 L 380 92 L 440 95 L 495 100 L 495 160 L 490 220 L 485 280 L 478 340 L 470 400 L 460 430 L 440 445 L 415 448 L 390 443 L 370 430 L 355 410 L 345 385 L 340 355 L 338 325 L 340 295 L 345 265 L 350 235 L 355 205 L 358 175 L 360 145 L 358 115 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 495 220 L 520 218 L 545 222 L 560 232 L 570 248 L 575 268 L 573 288 L 565 305 L 550 315 L 530 318 L 510 313 L 495 300 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 495 320 L 515 318 L 535 323 L 550 335 L 558 352 L 560 372 L 555 390 L 543 403 L 525 408 L 505 405 L 490 395 L 483 378 L 485 358 Z" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { id: "south", fill: "#fb923c", stroke: "#9a3412", strokeWidth: "1.5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 240 310 L 260 308 L 280 312 L 300 320 L 320 332 L 340 348 L 360 368 L 375 390 L 385 415 L 390 440 L 388 465 L 380 488 L 365 505 L 345 515 L 320 518 L 295 515 L 270 508 L 248 495 L 230 478 L 218 458 L 212 435 L 210 410 L 212 385 L 218 360 L 228 338 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 390 440 L 415 438 L 440 442 L 460 452 L 475 467 L 485 485 L 490 505 L 488 525 L 480 543 L 465 555 L 445 560 L 420 558 L 398 550 L 385 535 L 378 515 L 380 493 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 490 350 L 520 348 L 550 353 L 575 363 L 595 378 L 610 398 L 618 420 L 620 443 L 615 465 L 603 483 L 585 495 L 562 500 L 538 497 L 518 488 L 503 473 L 495 453 L 493 430 L 495 408 L 500 385 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 620 443 L 645 445 L 668 452 L 685 465 L 695 482 L 698 502 L 693 520 L 680 533 L 660 540 L 638 540 L 618 532 L 608 518 L 605 500 L 610 480 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 650 515 L 665 520 L 678 530 L 685 545 L 688 562 L 685 578 L 675 590 L 660 595 L 643 593 L 630 585 L 623 572 L 622 555 L 627 540 Z" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { id: "northeast", fill: "#c084fc", stroke: "#6b21a8", strokeWidth: "1.5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 575 190 L 610 185 L 645 188 L 675 195 L 700 205 L 720 220 L 730 240 L 732 262 L 725 282 L 710 297 L 688 305 L 662 308 L 635 305 L 610 295 L 590 280 L 578 260 L 573 238 L 575 215 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 700 205 L 720 195 L 738 190 L 755 192 L 770 200 L 780 213 L 785 230 L 783 248 L 775 263 L 760 272 L 740 275 L 720 270 L 708 258 L 703 242 L 705 225 Z" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 755 192 L 770 180 L 785 175 L 800 177 L 812 185 L 818 198 L 817 213 L 810 226 L 798 233 L 783 235 L 770 228 L 762 215 L 760 200 Z" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "190", y: "240", fontSize: "20", fill: "#78350f", fontWeight: "bold", children: "WEST" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "400", y: "260", fontSize: "20", fill: "#14532d", fontWeight: "bold", children: "MIDWEST" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "400", y: "450", fontSize: "20", fill: "#7c2d12", fontWeight: "bold", children: "SOUTH" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "660", y: "250", fontSize: "20", fill: "#4c1d95", fontWeight: "bold", children: "NORTHEAST" })
+    ] }),
+    world_continents: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 1000 500", className: "w-full h-full", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "1000", height: "500", fill: "#a5d8dd" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 80 80 L 120 60 L 160 55 L 190 65 L 210 85 L 220 110 L 215 140 L 200 170 L 180 190 L 150 200 L 120 195 L 95 180 L 75 155 L 65 125 L 70 100 Z M 130 210 L 160 205 L 185 215 L 200 235 L 205 260 L 195 285 L 175 300 L 145 305 L 120 295 L 105 275 L 100 250 L 108 225 Z",
+          fill: "#fbbf24",
+          stroke: "#92400e",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 220 290 L 245 285 L 265 295 L 275 315 L 280 345 L 278 375 L 270 405 L 255 430 L 235 445 L 210 450 L 190 442 L 180 420 L 178 395 L 182 370 L 190 345 L 205 320 Z",
+          fill: "#fb923c",
+          stroke: "#9a3412",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 450 95 L 485 90 L 515 95 L 540 105 L 555 120 L 560 140 L 550 160 L 530 170 L 505 172 L 480 165 L 460 150 L 448 130 L 447 110 Z",
+          fill: "#c084fc",
+          stroke: "#6b21a8",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 480 185 L 520 180 L 555 190 L 580 210 L 595 240 L 600 275 L 595 310 L 580 345 L 555 370 L 525 385 L 490 390 L 460 380 L 440 360 L 430 330 L 432 295 L 443 260 L 460 230 L 475 205 Z",
+          fill: "#86efac",
+          stroke: "#166534",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 565 65 L 620 60 L 680 65 L 740 75 L 790 90 L 830 110 L 860 135 L 880 165 L 890 200 L 885 235 L 870 265 L 845 285 L 810 295 L 770 298 L 730 292 L 690 280 L 655 260 L 625 235 L 605 205 L 595 175 L 593 145 L 600 115 L 615 90 L 635 75 Z M 850 215 L 870 210 L 885 220 L 890 238 L 883 255 L 868 262 L 853 258 L 845 245 L 847 228 Z M 800 305 L 825 300 L 845 310 L 852 328 L 845 345 L 825 352 L 805 348 L 795 330 Z",
+          fill: "#fcd34d",
+          stroke: "#92400e",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 770 340 L 810 335 L 845 345 L 870 365 L 880 390 L 875 415 L 855 432 L 825 438 L 795 432 L 770 418 L 757 395 L 758 370 Z",
+          fill: "#f472b6",
+          stroke: "#831843",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 150 460 L 850 460 L 840 475 L 750 485 L 600 488 L 450 485 L 300 482 L 160 475 Z",
+          fill: "#e0e7ff",
+          stroke: "#4c1d95",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "130", y: "150", fontSize: "18", fontWeight: "bold", fill: "#78350f", children: "North America" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "180", y: "350", fontSize: "16", fontWeight: "bold", fill: "#7c2d12", children: "South America" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "470", y: "135", fontSize: "16", fontWeight: "bold", fill: "#581c87", children: "Europe" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "490", y: "290", fontSize: "18", fontWeight: "bold", fill: "#14532d", children: "Africa" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "700", y: "200", fontSize: "20", fontWeight: "bold", fill: "#78350f", children: "Asia" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "790", y: "390", fontSize: "16", fontWeight: "bold", fill: "#831843", children: "Australia" })
+    ] }),
+    us_rivers: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 960 600", className: "w-full h-full", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "960", height: "600", fill: "#fef3c7" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 100 150 L 150 120 L 200 110 L 250 115 L 300 130 L 350 145 L 400 155 L 450 160 L 500 165 L 550 170 L 600 180 L 650 195 L 700 210 L 750 230 L 780 250 L 800 280 L 810 320 L 805 360 L 790 395 L 760 425 L 720 445 L 670 458 L 620 465 L 570 468 L 520 465 L 470 458 L 420 450 L 370 440 L 320 428 L 270 415 L 220 400 L 170 380 L 130 355 L 105 325 L 95 290 L 95 250 L 98 210 Z",
+          fill: "#d4d4d8",
+          stroke: "#52525b",
+          strokeWidth: "1",
+          opacity: "0.3"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 420 110 Q 415 150, 410 190 Q 408 230, 405 270 Q 402 310, 398 350 Q 395 390, 390 430 Q 387 460, 383 490",
+          stroke: "#1e40af",
+          strokeWidth: "8",
+          fill: "none",
+          strokeLinecap: "round"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 280 180 Q 310 170, 340 165 Q 370 162, 400 168 Q 415 172, 418 185",
+          stroke: "#2563eb",
+          strokeWidth: "6",
+          fill: "none",
+          strokeLinecap: "round"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 510 260 Q 490 265, 470 272 Q 450 280, 430 288 Q 418 293, 408 295",
+          stroke: "#3b82f6",
+          strokeWidth: "6",
+          fill: "none",
+          strokeLinecap: "round"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 320 300 Q 345 295, 370 298 Q 390 301, 402 308",
+          stroke: "#60a5fa",
+          strokeWidth: "5",
+          fill: "none",
+          strokeLinecap: "round"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 290 340 Q 320 342, 350 348 Q 375 353, 390 358",
+          stroke: "#93c5fd",
+          strokeWidth: "5",
+          fill: "none",
+          strokeLinecap: "round"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 500 310 Q 485 315, 470 322 Q 455 328, 442 332",
+          stroke: "#60a5fa",
+          strokeWidth: "5",
+          fill: "none",
+          strokeLinecap: "round"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 180 240 Q 175 280, 172 320 Q 170 360, 168 400 Q 167 430, 165 460",
+          stroke: "#2563eb",
+          strokeWidth: "5",
+          fill: "none",
+          strokeLinecap: "round"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 120 140 Q 135 145, 150 152 Q 165 158, 180 160",
+          stroke: "#3b82f6",
+          strokeWidth: "5",
+          fill: "none",
+          strokeLinecap: "round"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "425", y: "300", fontSize: "16", fontWeight: "bold", fill: "#1e3a8a", children: "Mississippi River" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "330", y: "160", fontSize: "14", fontWeight: "bold", fill: "#1e40af", children: "Missouri River" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "450", y: "268", fontSize: "14", fontWeight: "bold", fill: "#1e40af", children: "Ohio River" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "315", y: "285", fontSize: "12", fontWeight: "bold", fill: "#1e40af", children: "Arkansas R." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "300", y: "370", fontSize: "12", fontWeight: "bold", fill: "#1e40af", children: "Red River" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "130", y: "320", fontSize: "13", fontWeight: "bold", fill: "#1e40af", children: "Colorado R." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "130", y: "135", fontSize: "13", fontWeight: "bold", fill: "#1e40af", children: "Columbia R." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "750", y: "100", width: "180", height: "120", fill: "white", stroke: "#52525b", strokeWidth: "2", rx: "8" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "840", y: "125", fontSize: "16", fontWeight: "bold", fill: "#1e3a8a", textAnchor: "middle", children: "Major US Rivers" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "765", y1: "145", x2: "795", y2: "145", stroke: "#1e40af", strokeWidth: "6" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "805", y: "150", fontSize: "12", fill: "#1f2937", children: "Large Rivers" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "765", y1: "170", x2: "795", y2: "170", stroke: "#3b82f6", strokeWidth: "5" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "805", y: "175", fontSize: "12", fill: "#1f2937", children: "Medium Rivers" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "765", y1: "195", x2: "795", y2: "195", stroke: "#60a5fa", strokeWidth: "4" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "805", y: "200", fontSize: "12", fill: "#1f2937", children: "Tributaries" })
+    ] }),
+    triangular_trade_routes: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 800 500", className: "w-full h-full", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "800", height: "500", fill: "#93c5fd" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 550 80 L 600 75 L 640 85 L 670 105 L 680 130 L 670 155 L 645 170 L 610 175 L 575 165 L 555 145 L 548 115 Z",
+          fill: "#c084fc",
+          stroke: "#6b21a8",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 520 280 L 560 275 L 595 285 L 620 305 L 635 330 L 640 360 L 630 390 L 605 410 L 570 420 L 535 415 L 510 395 L 500 365 L 505 335 L 515 305 Z",
+          fill: "#fbbf24",
+          stroke: "#92400e",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 150 200 L 200 190 L 250 200 L 280 220 L 290 250 L 285 280 L 265 305 L 230 315 L 190 310 L 160 290 L 145 260 L 145 230 Z",
+          fill: "#86efac",
+          stroke: "#166534",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 610 175 Q 580 210, 560 250 L 540 280",
+          stroke: "#dc2626",
+          strokeWidth: "5",
+          fill: "none",
+          strokeDasharray: "8,4",
+          markerEnd: "url(#arrow1)"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 520 360 Q 400 340, 280 310 L 220 290",
+          stroke: "#7c2d12",
+          strokeWidth: "6",
+          fill: "none",
+          strokeDasharray: "8,4",
+          markerEnd: "url(#arrow2)"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 250 200 Q 380 140, 510 120 L 560 110",
+          stroke: "#059669",
+          strokeWidth: "5",
+          fill: "none",
+          strokeDasharray: "8,4",
+          markerEnd: "url(#arrow3)"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "610", y: "130", fontSize: "18", fontWeight: "bold", fill: "#581c87", textAnchor: "middle", children: "Europe" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "570", y: "360", fontSize: "18", fontWeight: "bold", fill: "#78350f", textAnchor: "middle", children: "West Africa" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "220", y: "255", fontSize: "18", fontWeight: "bold", fill: "#14532d", textAnchor: "middle", children: "Americas" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "550", y: "220", fontSize: "11", fill: "#7f1d1d", fontWeight: "bold", children: "Goods →" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "350", y: "310", fontSize: "11", fill: "#7c2d12", fontWeight: "bold", children: "← Enslaved People" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "380", y: "160", fontSize: "11", fill: "#065f46", fontWeight: "bold", children: "Raw Materials →" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "20", y: "20", width: "200", height: "110", fill: "white", stroke: "#1f2937", strokeWidth: "2", rx: "6" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "120", y: "42", fontSize: "14", fontWeight: "bold", fill: "#1f2937", textAnchor: "middle", children: "Triangular Trade" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "30", y1: "55", x2: "70", y2: "55", stroke: "#dc2626", strokeWidth: "4", strokeDasharray: "6,3" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "80", y: "60", fontSize: "11", fill: "#1f2937", children: "Manufactured Goods" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "30", y1: "75", x2: "70", y2: "75", stroke: "#7c2d12", strokeWidth: "4", strokeDasharray: "6,3" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "80", y: "80", fontSize: "11", fill: "#1f2937", children: "Enslaved People" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "30", y1: "95", x2: "70", y2: "95", stroke: "#059669", strokeWidth: "4", strokeDasharray: "6,3" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "80", y: "100", fontSize: "11", fill: "#1f2937", children: "Raw Materials" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "120", y: "120", fontSize: "9", fill: "#6b7280", textAnchor: "middle", fontStyle: "italic", children: "1500s-1800s" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("defs", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("marker", { id: "arrow1", markerWidth: "10", markerHeight: "10", refX: "9", refY: "3", orient: "auto", children: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "0 0, 10 3, 0 6", fill: "#dc2626" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("marker", { id: "arrow2", markerWidth: "10", markerHeight: "10", refX: "9", refY: "3", orient: "auto", children: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "0 0, 10 3, 0 6", fill: "#7c2d12" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("marker", { id: "arrow3", markerWidth: "10", markerHeight: "10", refX: "9", refY: "3", orient: "auto", children: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "0 0, 10 3, 0 6", fill: "#059669" }) })
+      ] })
+    ] }),
+    asia_map: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 900 600", className: "w-full h-full", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "900", height: "600", fill: "#bae6fd" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 100 180 L 150 150 L 200 130 L 260 120 L 320 125 L 380 135 L 440 150 L 500 165 L 560 185 L 620 210 L 680 240 L 730 275 L 770 315 L 800 360 L 820 410 L 825 460 L 810 500 L 780 530 L 740 545 L 690 550 L 640 545 L 590 535 L 540 520 L 490 500 L 440 475 L 390 445 L 340 410 L 290 370 L 240 330 L 190 290 L 150 250 L 120 210 Z\r\n              M 730 190 L 765 185 L 795 195 L 815 215 L 825 240 L 820 270 L 800 290 L 770 298 L 740 295 L 715 280 L 705 255 L 710 225 L 720 205 Z\r\n              M 620 480 L 650 475 L 675 485 L 690 505 L 692 530 L 680 550 L 655 560 L 628 555 L 610 535 L 608 510 L 615 490 Z",
+          fill: "#fef08a",
+          stroke: "#a16207",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 100 180 L 150 170 L 200 175 L 240 195 L 260 225 L 265 260 L 255 295 L 230 320 L 195 330 L 160 325 L 130 305 L 110 275 L 100 240 L 102 210 Z",
+          fill: "#fde047",
+          stroke: "#a16207",
+          strokeWidth: "1.5"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 340 280 L 375 275 L 405 285 L 425 310 L 435 345 L 430 380 L 410 410 L 380 425 L 350 420 L 325 400 L 315 370 L 318 340 L 328 310 Z",
+          fill: "#bef264",
+          stroke: "#365314",
+          strokeWidth: "1.5"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 500 165 L 550 160 L 600 170 L 640 190 L 670 220 L 685 255 L 690 295 L 680 335 L 655 365 L 620 380 L 580 385 L 545 375 L 515 355 L 495 325 L 485 290 L 488 250 L 500 210 L 515 185 Z",
+          fill: "#fca5a5",
+          stroke: "#7f1d1d",
+          strokeWidth: "1.5"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 540 400 L 570 395 L 595 405 L 610 425 L 615 450 L 605 475 L 585 490 L 560 492 L 538 482 L 528 460 L 530 435 L 537 415 Z",
+          fill: "#c084fc",
+          stroke: "#6b21a8",
+          strokeWidth: "1.5"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "180", cy: "250", r: "6", fill: "#dc2626" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "380", cy: "350", r: "6", fill: "#dc2626" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "600", cy: "280", r: "6", fill: "#dc2626" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "730", cy: "220", r: "6", fill: "#dc2626" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "575", cy: "440", r: "6", fill: "#dc2626" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "450", y: "280", fontSize: "28", fontWeight: "bold", fill: "#713f12", textAnchor: "middle", children: "ASIA" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "170", y: "230", fontSize: "14", fontWeight: "bold", fill: "#78350f", children: "Middle East" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "360", y: "360", fontSize: "14", fontWeight: "bold", fill: "#3f6212", children: "South Asia" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "600", y: "270", fontSize: "14", fontWeight: "bold", fill: "#7f1d1d", children: "East Asia" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "570", y: "445", fontSize: "12", fontWeight: "bold", fill: "#581c87", children: "SE Asia" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "730", y: "210", fontSize: "12", fontWeight: "bold", fill: "#7f1d1d", children: "Japan" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "20", y: "20", width: "160", height: "80", fill: "white", stroke: "#1f2937", strokeWidth: "2", rx: "6" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "100", y: "42", fontSize: "14", fontWeight: "bold", fill: "#1f2937", textAnchor: "middle", children: "Asia Regions" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "35", cy: "55", r: "4", fill: "#dc2626" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "50", y: "60", fontSize: "11", fill: "#1f2937", children: "Major Cities" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "30", y: "68", width: "15", height: "10", fill: "#fef08a", stroke: "#a16207" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "50", y: "77", fontSize: "11", fill: "#1f2937", children: "Continental Asia" })
+    ] }),
+    colonial_america: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 700 600", className: "w-full h-full", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "700", height: "600", fill: "#93c5fd" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 400 100 L 430 95 L 455 100 L 475 110 L 490 125 L 500 145 L 505 170 L 505 200 L 500 230 L 490 260 L 475 290 L 460 320 L 445 350 L 430 380 L 415 410 L 400 440 L 385 465 L 370 485 L 355 500 L 340 510 L 325 515 L 310 512 L 300 500 L 295 480 L 295 455 L 300 425 L 310 395 L 320 365 L 330 335 L 340 305 L 350 275 L 360 245 L 370 215 L 380 185 L 390 155 L 395 125 Z",
+          fill: "#fca5a5",
+          stroke: "#dc2626",
+          strokeWidth: "2.5"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 80 150 L 150 140 L 220 145 L 280 160 L 320 185 L 340 215 L 350 250 L 355 290 L 350 330 L 340 370 L 320 410 L 290 445 L 250 470 L 210 485 L 170 490 L 130 485 L 100 470 L 80 445 L 70 410 L 68 370 L 72 330 L 78 290 L 85 250 L 90 210 L 88 175 Z",
+          fill: "#bef264",
+          stroke: "#65a30d",
+          strokeWidth: "2",
+          opacity: "0.7"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 200 50 L 280 45 L 360 55 L 420 70 L 390 100 L 350 110 L 310 115 L 270 110 L 230 95 L 210 75 Z",
+          fill: "#c084fc",
+          stroke: "#6b21a8",
+          strokeWidth: "2",
+          opacity: "0.6"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 300 520 L 350 515 L 400 525 L 440 545 L 460 570 L 455 590 L 425 595 L 385 590 L 345 580 L 315 560 L 305 540 Z",
+          fill: "#fef08a",
+          stroke: "#a16207",
+          strokeWidth: "2",
+          opacity: "0.7"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "420", cy: "140", r: "6", fill: "#7f1d1d" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "435", y: "145", fontSize: "13", fontWeight: "bold", fill: "#7f1d1d", children: "Boston" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "430", cy: "220", r: "6", fill: "#7f1d1d" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "445", y: "225", fontSize: "13", fontWeight: "bold", fill: "#7f1d1d", children: "New York" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "425", cy: "300", r: "6", fill: "#7f1d1d" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "440", y: "305", fontSize: "13", fontWeight: "bold", fill: "#7f1d1d", children: "Philadelphia" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "405", cy: "410", r: "6", fill: "#7f1d1d" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "420", y: "415", fontSize: "13", fontWeight: "bold", fill: "#7f1d1d", children: "Charleston" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "440", y: "180", fontSize: "16", fontWeight: "bold", fill: "#991b1b", children: "New England" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "450", y: "260", fontSize: "16", fontWeight: "bold", fill: "#991b1b", children: "Middle Colonies" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "440", y: "380", fontSize: "16", fontWeight: "bold", fill: "#991b1b", children: "Southern Colonies" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "190", y: "300", fontSize: "18", fontWeight: "bold", fill: "#3f6212", children: "Native American" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "210", y: "325", fontSize: "18", fontWeight: "bold", fill: "#3f6212", children: "Territories" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "290", y: "75", fontSize: "14", fontWeight: "bold", fill: "#581c87", children: "French Canada" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "370", y: "565", fontSize: "14", fontWeight: "bold", fill: "#78350f", children: "Spanish Florida" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "20", y: "20", width: "200", height: "140", fill: "white", stroke: "#1f2937", strokeWidth: "2", rx: "8" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "120", y: "45", fontSize: "16", fontWeight: "bold", fill: "#1f2937", textAnchor: "middle", children: "Colonial America" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "120", y: "65", fontSize: "11", fill: "#6b7280", textAnchor: "middle", fontStyle: "italic", children: "circa 1770" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "30", y: "75", width: "20", height: "15", fill: "#fca5a5", stroke: "#dc2626", strokeWidth: "1.5" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "58", y: "87", fontSize: "12", fill: "#1f2937", children: "13 British Colonies" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "30", y: "95", width: "20", height: "15", fill: "#bef264", stroke: "#65a30d", strokeWidth: "1.5", opacity: "0.7" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "58", y: "107", fontSize: "12", fill: "#1f2937", children: "Native Lands" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "30", y: "115", width: "20", height: "15", fill: "#c084fc", stroke: "#6b21a8", strokeWidth: "1.5", opacity: "0.6" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "58", y: "127", fontSize: "12", fill: "#1f2937", children: "French Territory" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "30", y: "135", width: "20", height: "15", fill: "#fef08a", stroke: "#a16207", strokeWidth: "1.5", opacity: "0.7" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "58", y: "147", fontSize: "12", fill: "#1f2937", children: "Spanish Territory" })
+    ] }),
+    us_time_zones: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 960 500", className: "w-full h-full", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "960", height: "500", fill: "#f0fdf4" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "0", y: "0", width: "80", height: "500", fill: "#bae6fd" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "880", y: "0", width: "80", height: "500", fill: "#bae6fd" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 80 120 L 120 100 L 150 95 L 180 100 L 200 115 L 210 140 L 215 170 L 215 210 L 210 250 L 200 290 L 185 330 L 165 365 L 140 390 L 110 405 L 85 400 L 80 370 L 78 330 L 80 290 L 82 250 L 83 210 L 82 170 L 80 140 Z",
+          fill: "#fecaca",
+          opacity: "0.8",
+          stroke: "#dc2626",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 215 100 L 260 95 L 300 100 L 335 110 L 365 125 L 390 145 L 405 170 L 410 200 L 410 240 L 405 280 L 395 320 L 380 355 L 360 385 L 335 405 L 305 415 L 270 415 L 240 405 L 220 385 L 210 350 L 208 310 L 210 270 L 213 230 L 215 190 L 216 150 L 215 120 Z",
+          fill: "#fed7aa",
+          opacity: "0.8",
+          stroke: "#ea580c",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 410 110 L 465 105 L 520 110 L 570 120 L 610 135 L 640 155 L 660 180 L 670 210 L 675 245 L 675 285 L 670 325 L 655 365 L 635 395 L 610 415 L 575 428 L 535 435 L 495 433 L 460 423 L 430 405 L 415 380 L 408 350 L 407 315 L 409 280 L 411 245 L 412 210 L 412 175 L 411 140 Z",
+          fill: "#fef08a",
+          opacity: "0.8",
+          stroke: "#ca8a04",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M 675 130 L 730 120 L 780 125 L 820 140 L 850 165 L 870 200 L 878 240 L 880 285 L 875 330 L 860 370 L 835 400 L 800 420 L 760 430 L 720 432 L 685 422 L 665 400 L 655 370 L 652 335 L 653 300 L 656 265 L 660 230 L 665 195 L 670 160 Z",
+          fill: "#d9f99d",
+          opacity: "0.8",
+          stroke: "#65a30d",
+          strokeWidth: "2"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "215", y1: "95", x2: "215", y2: "420", stroke: "#7f1d1d", strokeWidth: "3", strokeDasharray: "10,5" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "410", y1: "105", x2: "410", y2: "435", stroke: "#7c2d12", strokeWidth: "3", strokeDasharray: "10,5" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "675", y1: "125", x2: "675", y2: "435", stroke: "#713f12", strokeWidth: "3", strokeDasharray: "10,5" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "145", y: "260", fontSize: "24", fontWeight: "bold", fill: "#7f1d1d", textAnchor: "middle", children: "Pacific" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "145", y: "290", fontSize: "16", fontWeight: "bold", fill: "#991b1b", textAnchor: "middle", children: "PST/PDT" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "145", y: "315", fontSize: "14", fill: "#7f1d1d", textAnchor: "middle", children: "UTC-8/-7" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "310", y: "260", fontSize: "24", fontWeight: "bold", fill: "#7c2d12", textAnchor: "middle", children: "Mountain" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "310", y: "290", fontSize: "16", fontWeight: "bold", fill: "#9a3412", textAnchor: "middle", children: "MST/MDT" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "310", y: "315", fontSize: "14", fill: "#7c2d12", textAnchor: "middle", children: "UTC-7/-6" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "540", y: "260", fontSize: "24", fontWeight: "bold", fill: "#713f12", textAnchor: "middle", children: "Central" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "540", y: "290", fontSize: "16", fontWeight: "bold", fill: "#854d0e", textAnchor: "middle", children: "CST/CDT" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "540", y: "315", fontSize: "14", fill: "#713f12", textAnchor: "middle", children: "UTC-6/-5" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "770", y: "260", fontSize: "24", fontWeight: "bold", fill: "#3f6212", textAnchor: "middle", children: "Eastern" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "770", y: "290", fontSize: "16", fontWeight: "bold", fill: "#4d7c0f", textAnchor: "middle", children: "EST/EDT" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "770", y: "315", fontSize: "14", fill: "#3f6212", textAnchor: "middle", children: "UTC-5/-4" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "140", cy: "200", r: "5", fill: "#dc2626" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "140", y: "185", fontSize: "11", fill: "#7f1d1d", textAnchor: "middle", fontWeight: "bold", children: "LA" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "305", cy: "220", r: "5", fill: "#ea580c" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "305", y: "205", fontSize: "11", fill: "#7c2d12", textAnchor: "middle", fontWeight: "bold", children: "Denver" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "520", cy: "230", r: "5", fill: "#ca8a04" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "520", y: "215", fontSize: "11", fill: "#713f12", textAnchor: "middle", fontWeight: "bold", children: "Chicago" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "800", cy: "210", r: "5", fill: "#65a30d" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "800", y: "195", fontSize: "11", fill: "#3f6212", textAnchor: "middle", fontWeight: "bold", children: "NYC" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "320", y: "30", width: "320", height: "50", fill: "white", stroke: "#1f2937", strokeWidth: "2", rx: "8" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "480", y: "62", fontSize: "22", fontWeight: "bold", fill: "#1f2937", textAnchor: "middle", children: "United States Time Zones" })
+    ] })
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full h-full flex items-center justify-center", children: mapContent[imageKey] || /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-6xl mb-3", children: "🗺️" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm text-slate-600 dark:text-slate-400", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: title }) })
+  ] }) });
+};
 function MapExplorer({ onExit }) {
   const [currentScenarioIndex, setCurrentScenarioIndex] = reactExports.useState(0);
   const [correctCount, setCorrectCount] = reactExports.useState(0);
@@ -4602,7 +4883,7 @@ function MapExplorer({ onExit }) {
     setFeedback(null);
     setSessionComplete(false);
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-6xl mx-auto p-6 space-y-6", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-6xl mx-auto p-6 space-y-6", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
@@ -4642,16 +4923,13 @@ function MapExplorer({ onExit }) {
       )
     ] }),
     !sessionComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 lg:grid-cols-3 gap-6", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:col-span-1 bg-slate-100 dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 flex items-center justify-center min-h-64", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-6xl mb-3", children: "🗺️" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm text-slate-600 dark:text-slate-400", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "font-semibold mb-1", children: [
-            "Map: ",
-            currentScenario.imageKey
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs", children: "(Visual maps will be displayed here in production)" })
-        ] })
-      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:col-span-1 bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 min-h-64", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        MapVisualizer,
+        {
+          imageKey: currentScenario.imageKey,
+          title: currentScenario.title
+        }
+      ) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "lg:col-span-2 space-y-6", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 mb-2", children: [
@@ -4679,7 +4957,7 @@ function MapExplorer({ onExit }) {
           {
             onClick: () => handleChoiceSelect(choice.id),
             disabled: feedback !== null,
-            className: `w-full text-left p-4 rounded-lg border-2 transition font-semibold ${selectedChoice === choice.id ? (feedback == null ? void 0 : feedback.isCorrect) ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : feedback && feedback.correctChoiceId === choice.id ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+            className: `w-full text-left p-4 rounded-lg border-2 transition font-semibold ${selectedChoice === choice.id ? (feedback == null ? void 0 : feedback.isCorrect) ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : feedback && feedback.correctChoiceId === choice.id ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-bold text-lg mr-3", children: [
                 choice.id,
@@ -4923,7 +5201,7 @@ function CivicsReasoningLab({ onExit }) {
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: civicsStyles }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 civics-text", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-6 space-y-6", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-700 civics-text", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-6 space-y-6", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
@@ -4991,7 +5269,7 @@ function CivicsReasoningLab({ onExit }) {
                 {
                   onClick: () => setSelectedBranch(option.id),
                   disabled: feedback !== null,
-                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedBranch === option.id ? feedback ? feedback.partialCorrect.branch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a.branch) && option.id === currentScenario.correctBranch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedBranch === option.id ? feedback ? feedback.partialCorrect.branch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a.branch) && option.id === currentScenario.correctBranch ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
                   children: option.label
                 },
                 option.id
@@ -5007,7 +5285,7 @@ function CivicsReasoningLab({ onExit }) {
                 {
                   onClick: () => setSelectedLevel(option.id),
                   disabled: feedback !== null,
-                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedLevel === option.id ? feedback ? feedback.partialCorrect.level ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a.level) && option.id === currentScenario.correctLevel ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold ${selectedLevel === option.id ? feedback ? feedback.partialCorrect.level ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a.level) && option.id === currentScenario.correctLevel ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
                   children: option.label
                 },
                 option.id
@@ -5023,7 +5301,7 @@ function CivicsReasoningLab({ onExit }) {
                 {
                   onClick: () => setSelectedPowerType(option.id),
                   disabled: feedback !== null,
-                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold text-sm ${selectedPowerType === option.id ? feedback ? feedback.partialCorrect.powerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a.powerType) && option.id === currentScenario.correctPowerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+                  className: `w-full text-left p-3 rounded-lg border-2 transition font-semibold text-sm ${selectedPowerType === option.id ? feedback ? feedback.partialCorrect.powerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-100" : ((_a = feedback == null ? void 0 : feedback.partialCorrect) == null ? void 0 : _a.powerType) && option.id === currentScenario.correctPowerType ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
                   children: option.label
                 },
                 option.id
@@ -5362,7 +5640,7 @@ function HistoryTimelineBuilder({ onExit }) {
     if (!feedback || feedback.isCorrect) return false;
     return events[index].id !== correctOrder[index].id;
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-6 space-y-6", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-6 space-y-6", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
@@ -5426,7 +5704,7 @@ function HistoryTimelineBuilder({ onExit }) {
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-3", children: events.map((event, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
-          className: `flex items-center gap-4 p-4 rounded-lg border-2 transition ${isMisordered(index) ? "border-red-400 dark:border-red-500 bg-red-50 dark:bg-red-900/20" : (feedback == null ? void 0 : feedback.isCorrect) ? "border-emerald-400 dark:border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800"}`,
+          className: `flex items-center gap-4 p-4 rounded-lg border-2 transition ${isMisordered(index) ? "border-red-400 dark:border-red-500 bg-red-50 dark:bg-red-900/20" : (feedback == null ? void 0 : feedback.isCorrect) ? "border-emerald-400 dark:border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600"}`,
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center font-bold text-sm", children: index + 1 }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
@@ -5806,7 +6084,7 @@ function ElectoralCollegeSimulator({ onExit }) {
     setFeedback(null);
     setSessionComplete(false);
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-6 space-y-6", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-6 space-y-6", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
@@ -5876,7 +6154,7 @@ function ElectoralCollegeSimulator({ onExit }) {
             value: numericInput,
             onChange: (e) => setNumericInput(e.target.value),
             disabled: feedback !== null,
-            className: "w-full px-4 py-3 rounded-lg border-2 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-lg font-semibold disabled:bg-slate-100 dark:disabled:bg-slate-900",
+            className: "w-full px-4 py-3 rounded-lg border-2 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 text-lg font-semibold disabled:bg-slate-100 dark:disabled:bg-slate-700",
             placeholder: "Enter a number"
           }
         )
@@ -5885,7 +6163,7 @@ function ElectoralCollegeSimulator({ onExit }) {
         {
           onClick: () => setSelectedMultiChoice(choice.id),
           disabled: feedback !== null,
-          className: `w-full text-left p-4 rounded-lg border-2 transition font-semibold ${selectedMultiChoice === choice.id ? (feedback == null ? void 0 : feedback.isCorrect) ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : feedback && choice.isCorrect ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
+          className: `w-full text-left p-4 rounded-lg border-2 transition font-semibold ${selectedMultiChoice === choice.id ? (feedback == null ? void 0 : feedback.isCorrect) ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-100" : feedback && choice.isCorrect ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100" : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer"} ${feedback !== null ? "cursor-default" : ""}`,
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-bold text-lg mr-3", children: [
               choice.id,
@@ -5935,12 +6213,719 @@ function ElectoralCollegeSimulator({ onExit }) {
           }
         )
       ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-slate-100 dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-600 dark:text-slate-400 space-y-1", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-slate-100 dark:bg-slate-600 rounded-lg p-4 border border-slate-200 dark:border-slate-700", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-600 dark:text-slate-400 space-y-1", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Quick Reference:" }),
         " 270 electoral votes needed to win the presidency. 538 total votes (435 House + 100 Senate + 3 D.C.)."
       ] }) }) })
     ] })
   ] }) });
+}
+const SCENARIOS = [
+  {
+    id: "econ_001",
+    prompt: "A new technology lowers production costs across the industry. What happens?",
+    affect: "supply",
+    // training mode step 1
+    direction: "increase",
+    // training mode step 2
+    explanation: "Lower input costs increase supply (shift right), reducing price and increasing quantity.",
+    difficulty: "easy",
+    tags: ["technology", "input_costs"]
+  },
+  {
+    id: "econ_002",
+    prompt: "Consumer incomes rise sharply for a normal good. What happens?",
+    affect: "demand",
+    direction: "increase",
+    explanation: "Higher income for a normal good increases demand (shift right), raising price and quantity.",
+    difficulty: "medium",
+    tags: ["income", "tastes"]
+  },
+  {
+    id: "econ_003",
+    prompt: "A health scare reduces consumer preference for a product.",
+    affect: "demand",
+    direction: "decrease",
+    explanation: "Lower preference decreases demand (shift left), reducing price and quantity.",
+    difficulty: "medium",
+    tags: ["tastes"]
+  },
+  {
+    id: "econ_004",
+    prompt: "A tax raises input costs for producers.",
+    affect: "supply",
+    direction: "decrease",
+    explanation: "Higher input costs decrease supply (shift left), raising price and lowering quantity.",
+    difficulty: "hard",
+    tags: ["input_costs", "taxes"]
+  }
+];
+function EconomicsGraphTool({ onExit }) {
+  const boardRef = reactExports.useRef(null);
+  const boardInstance = reactExports.useRef(null);
+  const initialized = reactExports.useRef(false);
+  const [trainingMode, setTrainingMode] = reactExports.useState(false);
+  const [stepAffect, setStepAffect] = reactExports.useState(null);
+  const [stepDirection, setStepDirection] = reactExports.useState(null);
+  const [demandShift, setDemandShift] = reactExports.useState(0);
+  const [supplyShift, setSupplyShift] = reactExports.useState(0);
+  const [equilibrium, setEquilibrium] = reactExports.useState({ p: 5, q: 5 });
+  const [activeScenarioIdx, setActiveScenarioIdx] = reactExports.useState(0);
+  const scenario = SCENARIOS[activeScenarioIdx];
+  const [premadeFeedback, setPremadeFeedback] = reactExports.useState("");
+  const [showExplanation, setShowExplanation] = reactExports.useState(false);
+  const checkPremadeAnswer = (idx) => {
+    const correct = scenario.affect === "supply" && scenario.direction === "increase" ? idx === 0 : null;
+    if (correct === null) {
+      const mapping = {
+        demand_increase: 2,
+        demand_decrease: 3,
+        supply_increase: 0,
+        supply_decrease: 1
+      };
+      const key = `${scenario.affect}_${scenario.direction}`;
+      const correctIdx = mapping[key];
+      setPremadeFeedback(
+        idx === correctIdx ? "Correct!" : "Not quite. Try adjusting the curve to match the concept."
+      );
+    } else {
+      setPremadeFeedback(
+        correct ? "Correct!" : "Not quite. Try moving the supply slider right and observe equilibrium."
+      );
+    }
+  };
+  reactExports.useEffect(() => {
+    if (!window.JXG || !boardRef.current) return;
+    if (initialized.current) return;
+    initialized.current = true;
+    const board = window.JXG.JSXGraph.initBoard(boardRef.current.id, {
+      boundingbox: [-1, 12, 12, -1],
+      axis: false,
+      showCopyright: false,
+      showNavigation: false,
+      keepAspectRatio: true,
+      pan: { enabled: false },
+      zoom: { enabled: false }
+    });
+    board.on("down", () => false);
+    board.on("move", () => false);
+    board.on("up", () => false);
+    board.create(
+      "axis",
+      [
+        [0, 0],
+        [1, 0]
+      ],
+      {
+        name: "Quantity",
+        withLabel: true,
+        label: { position: "rt", offset: [-10, 10] },
+        fixed: true,
+        highlight: false,
+        strokeColor: "#64748b"
+      }
+    );
+    board.create(
+      "axis",
+      [
+        [0, 0],
+        [0, 1]
+      ],
+      {
+        name: "Price",
+        withLabel: true,
+        label: { position: "rt", offset: [-20, 0] },
+        fixed: true,
+        highlight: false,
+        strokeColor: "#64748b"
+      }
+    );
+    boardInstance.current = board;
+  }, []);
+  reactExports.useEffect(() => {
+    const board = boardInstance.current;
+    if (!board) return;
+    board.suspendUpdate();
+    const d_intercept = 10 + demandShift;
+    const s_intercept = 0 + supplyShift;
+    const eq_Q = (d_intercept - s_intercept) / 2;
+    const eq_P = eq_Q + s_intercept;
+    setEquilibrium({ p: eq_P, q: eq_Q });
+    if (board.objectsList) {
+      board.objectsList.forEach((el) => {
+        if ((el.elType === "line" || el.elType === "point" || el.elType === "text" || el.elType === "segment") && el.name !== "Quantity" && el.name !== "Price") {
+          board.removeObject(el);
+        }
+      });
+    }
+    board.create(
+      "line",
+      [
+        [0, d_intercept],
+        [10, d_intercept - 10]
+      ],
+      {
+        strokeColor: "#3b82f6",
+        strokeWidth: 3,
+        name: "Demand",
+        withLabel: true,
+        label: { position: "top", offset: [10, 10] },
+        fixed: true,
+        highlight: false
+      }
+    );
+    board.create(
+      "line",
+      [
+        [0, s_intercept],
+        [10, 10 + s_intercept]
+      ],
+      {
+        strokeColor: "#ef4444",
+        strokeWidth: 3,
+        name: "Supply",
+        withLabel: true,
+        label: { position: "top", offset: [10, -10] },
+        fixed: true,
+        highlight: false
+      }
+    );
+    board.create("point", [eq_Q, eq_P], {
+      name: "",
+      face: "o",
+      size: 5,
+      strokeColor: "#22c55e",
+      fillColor: "#22c55e",
+      fixed: true,
+      highlight: false
+    });
+    board.create(
+      "segment",
+      [
+        [eq_Q, 0],
+        [eq_Q, eq_P]
+      ],
+      {
+        strokeColor: "#94a3b8",
+        dash: 2,
+        strokeWidth: 1,
+        fixed: true,
+        highlight: false
+      }
+    );
+    board.create(
+      "segment",
+      [
+        [0, eq_P],
+        [eq_Q, eq_P]
+      ],
+      {
+        strokeColor: "#94a3b8",
+        dash: 2,
+        strokeWidth: 1,
+        fixed: true,
+        highlight: false
+      }
+    );
+    board.unsuspendUpdate();
+  }, [demandShift, supplyShift]);
+  reactExports.useEffect(
+    () => () => {
+      var _a, _b;
+      if (boardInstance.current) {
+        try {
+          (_b = (_a = window.JXG) == null ? void 0 : _a.JSXGraph) == null ? void 0 : _b.freeBoard(boardInstance.current);
+        } catch {
+        }
+        boardInstance.current = null;
+        initialized.current = false;
+      }
+    },
+    []
+  );
+  const applyTrainingSelection = () => {
+    if (!trainingMode) return;
+    if (stepAffect === "demand") {
+      setDemandShift(stepDirection === "increase" ? 2 : -2);
+    } else if (stepAffect === "supply") {
+      setSupplyShift(stepDirection === "increase" ? 2 : -2);
+    }
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 p-6", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-4 mb-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: onExit,
+          className: "text-sm font-semibold text-sky-600 hover:text-sky-700",
+          children: "← Back to Social Studies"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold", children: "Market Simulator — Supply & Demand Trainer" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-16" })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col lg:flex-row gap-8", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 bg-white/95 dark:bg-slate-600/95 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden h-[500px] relative", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            id: "econ-board",
+            ref: boardRef,
+            className: "jxgbox w-full h-full",
+            style: { width: "100%", height: "100%", pointerEvents: "none" },
+            "aria-hidden": "true"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute top-4 right-4 bg-white/90 dark:bg-slate-600/90 p-3 rounded-lg border border-slate-200 dark:border-slate-600 shadow text-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-bold text-slate-500 uppercase text-xs", children: "Equilibrium" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-emerald-600 font-mono text-lg", children: [
+            "Price: $",
+            equilibrium.p.toFixed(2)
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-emerald-600 font-mono text-lg", children: [
+            "Quantity: ",
+            equilibrium.q.toFixed(0),
+            " units"
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full lg:w-80 space-y-6", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 bg-slate-50 dark:bg-slate-600/50 border border-slate-200 dark:border-slate-700 rounded-xl", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold", children: "Training Mode" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => {
+                  const next = !trainingMode;
+                  setTrainingMode(next);
+                  setStepAffect(null);
+                  setStepDirection(null);
+                },
+                className: `px-3 py-1 rounded text-sm ${trainingMode ? "bg-emerald-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
+                children: trainingMode ? "ON" : "OFF"
+              }
+            )
+          ] }),
+          trainingMode && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 space-y-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-medium mb-2", children: "Step 1: Does this affect Supply or Demand?" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `px-3 py-1 rounded ${stepAffect === "supply" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
+                    onClick: () => setStepAffect("supply"),
+                    children: "Supply"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `px-3 py-1 rounded ${stepAffect === "demand" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
+                    onClick: () => setStepAffect("demand"),
+                    children: "Demand"
+                  }
+                )
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-medium mb-2", children: "Step 2: Increase or Decrease?" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `px-3 py-1 rounded ${stepDirection === "increase" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
+                    onClick: () => setStepDirection("increase"),
+                    children: "Increase"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `px-3 py-1 rounded ${stepDirection === "decrease" ? "bg-sky-600 text-white" : "bg-slate-200 dark:bg-slate-700"}`,
+                    onClick: () => setStepDirection("decrease"),
+                    children: "Decrease"
+                  }
+                )
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: applyTrainingSelection,
+                className: "px-3 py-1 rounded bg-emerald-600 text-white",
+                children: "Apply Selection"
+              }
+            ) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-blue-800 dark:text-blue-300 mb-1", children: "Demand Factors" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-blue-600 dark:text-blue-400 mb-4", children: "Examples: Consumer income, trends, population." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-2", children: "Shift Demand Curve" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "range",
+              min: "-4",
+              max: "4",
+              step: "1",
+              value: demandShift,
+              onChange: (e) => setDemandShift(Number(e.target.value)),
+              className: "w-full accent-blue-600 cursor-pointer"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between text-xs text-slate-500 mt-1", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Decrease" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Increase" })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 rounded-xl", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-bold text-red-800 dark:text-red-300 mb-1", children: "Supply Factors" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-red-600 dark:text-red-400 mb-4", children: "Examples: Technology, cost of inputs, taxes." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-2", children: "Shift Supply Curve" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "range",
+              min: "-4",
+              max: "4",
+              step: "1",
+              value: supplyShift,
+              onChange: (e) => setSupplyShift(Number(e.target.value)),
+              className: "w-full accent-red-600 cursor-pointer"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between text-xs text-slate-500 mt-1", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              "Increase Supply",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+              "(Lower Cost)"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              "Decrease Supply",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+              "(Higher Cost)"
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 bg-slate-50 dark:bg-slate-600 rounded-xl text-sm text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: "Scenario Trainer" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "select",
+              {
+                className: "text-sm bg-white dark:bg-slate-600 border border-slate-300 dark:border-slate-600 rounded px-2 py-1",
+                value: activeScenarioIdx,
+                onChange: (e) => setActiveScenarioIdx(Number(e.target.value)),
+                children: SCENARIOS.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("option", { value: i, children: [
+                  s.id,
+                  " — ",
+                  s.difficulty
+                ] }, s.id))
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-2", children: scenario.prompt }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 gap-2", children: [
+            "Price decreases; Quantity increases",
+            "Price increases; Quantity decreases",
+            "Price increases; Quantity increases",
+            "Price decreases; Quantity decreases"
+          ].map((opt, idx) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              type: "button",
+              onClick: () => {
+                setShowExplanation(false);
+                checkPremadeAnswer(idx);
+              },
+              className: "rounded-md px-3 py-2 text-left transition bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600",
+              children: [
+                String.fromCharCode(65 + idx),
+                ". ",
+                opt
+              ]
+            },
+            idx
+          )) }),
+          premadeFeedback && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-2 p-2 rounded-md bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-200", children: premadeFeedback }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-2 flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              className: "text-xs px-2 py-1 rounded bg-slate-200 dark:bg-slate-700",
+              onClick: () => setShowExplanation((v) => !v),
+              children: "Show Explanation"
+            }
+          ) }),
+          showExplanation && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-2 text-xs text-slate-600 dark:text-slate-300", children: [
+            "Explanation: ",
+            scenario.explanation
+          ] })
+        ] })
+      ] })
+    ] })
+  ] });
+}
+const MapExplorerWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(MapExplorer, { onExit: onClose2 });
+const CivicsReasoningLabWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CivicsReasoningLab, { onExit: onClose2 });
+const HistoryTimelineBuilderWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(HistoryTimelineBuilder, { onExit: onClose2 });
+const ElectoralCollegeSimulatorWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(ElectoralCollegeSimulator, { onExit: onClose2 });
+const EconomicsGraphToolWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(EconomicsGraphTool, { onExit: onClose2 });
+function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
+  var _a;
+  const [selectedTool, setSelectedTool] = reactExports.useState(null);
+  const theme = getSubjectTheme(subject == null ? void 0 : subject.toLowerCase(), dark);
+  const toolsConfig = {
+    Math: [
+      {
+        id: "calculator",
+        name: "TI-30XS Calculator",
+        icon: "🖩",
+        component: Calculator
+      },
+      {
+        id: "geometry",
+        name: "Geometry Figures",
+        icon: "📐",
+        component: GeometryFigure$1
+      },
+      { id: "graph", name: "Graphing Tool", icon: "📊", component: GraphTool },
+      {
+        id: "solver",
+        name: "Step-by-Step Solver",
+        icon: "🧮",
+        component: StepByStepSolver
+      },
+      {
+        id: "statistics",
+        name: "Statistics Calculator",
+        icon: "📈",
+        component: StatisticsTool
+      },
+      {
+        id: "formulas",
+        name: "Formula Sheet",
+        icon: "📋",
+        component: FormulaSheetModal$1
+      }
+    ],
+    Science: [
+      {
+        id: "formulas",
+        name: "Formula Sheet",
+        icon: "🧪",
+        component: ScienceFormulaSheet$1
+      },
+      {
+        id: "formula-practice",
+        name: "Formula Practice",
+        icon: "⚗️",
+        component: ScienceFormulaPractice
+      },
+      {
+        id: "concept-practice",
+        name: "Concept Practice",
+        icon: "🔬",
+        component: ScienceConceptPractice
+      },
+      {
+        id: "punnett-square",
+        name: "Punnett Square Practice",
+        icon: "🧬",
+        component: PunnettSquarePractice
+      },
+      {
+        id: "chemistry-equations",
+        name: "Chemistry Equations",
+        icon: "⚛️",
+        component: ChemistryEquationPractice
+      }
+    ],
+    "Reasoning Through Language Arts (RLA)": [
+      // Future: Reading comprehension tools, grammar checkers, etc.
+    ],
+    "Social Studies": [
+      {
+        id: "map-explorer",
+        name: "Map Explorer",
+        icon: "🗺️",
+        component: MapExplorerWrapper
+      },
+      {
+        id: "civics-reasoning",
+        name: "Civics Reasoning Lab",
+        icon: "🏛️",
+        component: CivicsReasoningLabWrapper
+      },
+      {
+        id: "history-timeline",
+        name: "History Timeline Builder",
+        icon: "📜",
+        component: HistoryTimelineBuilderWrapper
+      },
+      {
+        id: "electoral-college",
+        name: "Electoral College Simulator",
+        icon: "🗳️",
+        component: ElectoralCollegeSimulatorWrapper
+      },
+      {
+        id: "economics-market",
+        name: "Economics Market Simulator",
+        icon: "💰",
+        component: EconomicsGraphToolWrapper
+      }
+    ]
+  };
+  const tools = toolsConfig[subject] || [];
+  const ActiveToolComponent = (_a = tools.find(
+    (t) => t.id === selectedTool
+  )) == null ? void 0 : _a.component;
+  if (!subject) return null;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      className: "fixed inset-0 z-50 flex items-center justify-center p-4",
+      style: { backgroundColor: "rgba(0, 0, 0, 0.75)" },
+      onClick: onClose2,
+      children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "w-full max-w-6xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col",
+          style: {
+            backgroundColor: dark ? "#1e293b" : "#ffffff",
+            border: `2px solid ${(theme == null ? void 0 : theme.accent) || "#64748b"}`
+          },
+          onClick: (e) => e.stopPropagation(),
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "p-6 flex items-center justify-between",
+                style: {
+                  background: (theme == null ? void 0 : theme.gradient) || "linear-gradient(135deg, #64748b 0%, #475569 100%)",
+                  color: "#ffffff"
+                },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "text-2xl font-bold", children: [
+                      subject,
+                      " Tools"
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-90 mt-1", children: "Select a tool below to access practice resources" })
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      onClick: onClose2,
+                      className: "text-3xl font-bold hover:opacity-80 transition-opacity w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/20",
+                      "aria-label": "Close tools panel",
+                      children: "×"
+                    }
+                  )
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto p-6", children: !selectedTool ? (
+              // Tool Grid - Selection View
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: tools.length > 0 ? tools.map((tool) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  onClick: () => setSelectedTool(tool.id),
+                  className: "p-6 rounded-xl border-2 text-left transition-all hover:scale-105 hover:shadow-lg",
+                  style: {
+                    backgroundColor: dark ? "#334155" : "#ffffff",
+                    borderColor: (theme == null ? void 0 : theme.accent) || "#64748b",
+                    color: dark ? "#e2e8f0" : "#1e293b"
+                  },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-5xl mb-3", children: tool.icon }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-bold mb-2", children: tool.name }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-75", children: "Click to open" })
+                  ]
+                },
+                tool.id
+              )) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-6xl mb-4", children: "🚧" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "h3",
+                  {
+                    className: "text-xl font-semibold mb-2",
+                    style: { color: dark ? "#e2e8f0" : "#1e293b" },
+                    children: "Tools Coming Soon"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "p",
+                  {
+                    className: "text-sm opacity-75",
+                    style: { color: dark ? "#94a3b8" : "#64748b" },
+                    children: "Subject-specific tools are being developed"
+                  }
+                )
+              ] }) })
+            ) : (
+              // Tool Display - Active Tool View
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: () => setSelectedTool(null),
+                    className: "mb-4 px-4 py-2 rounded-lg font-medium transition-colors",
+                    style: {
+                      backgroundColor: dark ? "#475569" : "#e2e8f0",
+                      color: dark ? "#e2e8f0" : "#1e293b"
+                    },
+                    children: "← Back to Tools"
+                  }
+                ),
+                ActiveToolComponent && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  ActiveToolComponent,
+                  {
+                    onClose: () => setSelectedTool(null),
+                    dark
+                  }
+                )
+              ] })
+            ) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "p-4 border-t flex justify-between items-center",
+                style: {
+                  backgroundColor: dark ? "#0f172a" : "#f8fafc",
+                  borderColor: dark ? "#334155" : "#e2e8f0",
+                  color: dark ? "#94a3b8" : "#64748b"
+                },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-sm", children: [
+                    tools.length,
+                    " tool",
+                    tools.length !== 1 ? "s" : "",
+                    " available"
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      onClick: onClose2,
+                      className: "px-4 py-2 rounded-lg font-medium transition-colors",
+                      style: {
+                        backgroundColor: (theme == null ? void 0 : theme.accent) || "#64748b",
+                        color: "#ffffff"
+                      },
+                      children: "Close"
+                    }
+                  )
+                ]
+              }
+            )
+          ]
+        }
+      )
+    }
+  );
 }
 (function() {
   try {
@@ -26219,9 +27204,8 @@ function App({ externalTheme, onThemeChange }) {
   const [quizAttempts, setQuizAttempts] = reactExports.useState([]);
   const [showFormulaSheet, setShowFormulaSheet] = reactExports.useState(false);
   const [showToolsModal, setShowToolsModal] = reactExports.useState(false);
-  const [showSocialToolsModal, setShowSocialToolsModal2] = reactExports.useState(false);
+  const [showSocialToolsModal, setShowSocialToolsModal] = reactExports.useState(false);
   const [toolsModalSubject, setToolsModalSubject] = reactExports.useState(null);
-  const [activeSocialTool, setActiveSocialTool] = reactExports.useState(null);
   const [showNamePrompt, setShowNamePrompt] = reactExports.useState(false);
   const [showPracticeModal, setShowPracticeModal] = reactExports.useState(false);
   const [mathToolsActiveTab, setMathToolsActiveTab] = reactExports.useState("graphing");
@@ -28235,24 +29219,6 @@ function App({ externalTheme, onThemeChange }) {
     if (!currentUser) {
       return /* @__PURE__ */ jsxRuntimeExports.jsx(AuthScreen, { onLogin: handleLogin });
     }
-    if (activeSocialTool === "constitution") {
-      return /* @__PURE__ */ jsxRuntimeExports.jsx(ConstitutionExplorer, { onExit: () => setActiveSocialTool(null) });
-    }
-    if (activeSocialTool === "economics") {
-      return /* @__PURE__ */ jsxRuntimeExports.jsx(EconomicsGraphTool, { onExit: () => setActiveSocialTool(null) });
-    }
-    if (activeSocialTool === "map") {
-      return /* @__PURE__ */ jsxRuntimeExports.jsx(MapExplorer, { onExit: () => setActiveSocialTool(null) });
-    }
-    if (activeSocialTool === "civics") {
-      return /* @__PURE__ */ jsxRuntimeExports.jsx(CivicsReasoningLab, { onExit: () => setActiveSocialTool(null) });
-    }
-    if (activeSocialTool === "timeline") {
-      return /* @__PURE__ */ jsxRuntimeExports.jsx(HistoryTimelineBuilder, { onExit: () => setActiveSocialTool(null) });
-    }
-    if (activeSocialTool === "electoral") {
-      return /* @__PURE__ */ jsxRuntimeExports.jsx(ElectoralCollegeSimulator, { onExit: () => setActiveSocialTool(null) });
-    }
     const normalizedRole = ((_a2 = currentUser.role) == null ? void 0 : _a2.replace("_", "")) || currentUser.role;
     if (normalizedRole === "superAdmin" || normalizedRole === "superadmin") {
       return /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -28488,7 +29454,6 @@ function App({ externalTheme, onThemeChange }) {
             setLoadingMessage,
             setShowFormulaSheet,
             onOpenMathTools: openMathTools,
-            setActiveSocialTool,
             setToolsModalSubject,
             setShowToolsModal,
             theme: preferences.theme,
@@ -28617,126 +29582,6 @@ function App({ externalTheme, onThemeChange }) {
                 setShowToolsModal(false);
                 setToolsModalSubject(null);
               }
-            }
-          ),
-          showSocialToolsModal && /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: "fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4",
-              onClick: () => setShowSocialToolsModal2(false),
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "div",
-                {
-                  className: "bg-white dark:bg-slate-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto",
-                  onClick: (e) => e.stopPropagation(),
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-6", children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold dark:text-white", children: "🏛️ Social Studies Tools" }),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(
-                        "button",
-                        {
-                          onClick: () => setShowSocialToolsModal2(false),
-                          className: "text-2xl text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200",
-                          children: "×"
-                        }
-                      )
-                    ] }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-gray-600 dark:text-gray-400 mb-6", children: "Interactive tools to master Civics, History, Geography, and Economics" }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                        "button",
-                        {
-                          onClick: () => {
-                            setActiveSocialTool("civics");
-                            setShowSocialToolsModal2(false);
-                          },
-                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
-                          children: [
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🏛️" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "Civics Reasoning Lab" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Decide which branch and level of government handles each scenario." })
-                          ]
-                        }
-                      ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                        "button",
-                        {
-                          onClick: () => {
-                            setActiveSocialTool("map");
-                            setShowSocialToolsModal2(false);
-                          },
-                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
-                          children: [
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🗺️" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "Map Explorer" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Practice geography and map-reading questions like the GED." })
-                          ]
-                        }
-                      ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                        "button",
-                        {
-                          onClick: () => {
-                            setActiveSocialTool("timeline");
-                            setShowSocialToolsModal2(false);
-                          },
-                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
-                          children: [
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📜" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "History Timeline Builder" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Put key historical events in order and see how they connect." })
-                          ]
-                        }
-                      ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                        "button",
-                        {
-                          onClick: () => {
-                            setActiveSocialTool("electoral");
-                            setShowSocialToolsModal2(false);
-                          },
-                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
-                          children: [
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "🗳️" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "Electoral College Simulator" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Practice electoral vote math and winner-takes-all scenarios." })
-                          ]
-                        }
-                      ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                        "button",
-                        {
-                          onClick: () => {
-                            setActiveSocialTool("constitution");
-                            setShowSocialToolsModal2(false);
-                          },
-                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
-                          children: [
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "📋" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "Constitution Explorer" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Interactive amendments + case study scenarios." })
-                          ]
-                        }
-                      ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                        "button",
-                        {
-                          onClick: () => {
-                            setActiveSocialTool("economics");
-                            setShowSocialToolsModal2(false);
-                          },
-                          className: "p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400",
-                          children: [
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-4xl mb-3", children: "💰" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-semibold mb-2 dark:text-white", children: "Economics Market Simulator" }),
-                            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Shift supply/demand and interpret price/quantity changes." })
-                          ]
-                        }
-                      )
-                    ] })
-                  ] })
-                }
-              )
             }
           ),
           showNamePrompt && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -30175,6 +31020,8 @@ function SuperAdminDashboard({ user, token, onLogout }) {
         )
       ] })
     ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-3 rounded-lg border border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-200 p-3", children: "Debug: Rendering Questions Catalog below to verify visibility." }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "rounded-3xl border-subtle panel-surface shadow-sm mb-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SuperAdminAllQuestions, {}) }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "grid grid-cols-1 md:grid-cols-4 gap-4", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10" }),
@@ -31628,7 +32475,6 @@ function StartScreen({
   setLoadingMessage,
   setShowFormulaSheet,
   onOpenMathTools,
-  setActiveSocialTool,
   setToolsModalSubject,
   setShowToolsModal,
   theme = "light",
@@ -33078,12 +33924,8 @@ function StartScreen({
                   "button",
                   {
                     onClick: () => {
-                      if (selectedSubject2 === "Social Studies") {
-                        setShowSocialToolsModal(true);
-                      } else {
-                        setToolsModalSubject(selectedSubject2);
-                        setShowToolsModal(true);
-                      }
+                      setToolsModalSubject(selectedSubject2);
+                      setShowToolsModal(true);
                     },
                     className: "px-4 py-2 font-semibold rounded-lg shadow-sm transition",
                     style: {
@@ -33118,33 +33960,7 @@ function StartScreen({
                     },
                     children: "View Science Formula Sheet"
                   }
-                ),
-                selectedSubject2 === "Social Studies" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      onClick: () => setActiveSocialTool("constitution"),
-                      className: "px-4 py-2 font-semibold rounded-lg shadow-sm transition",
-                      style: {
-                        backgroundColor: heroTextColor,
-                        color: heroAccentColor
-                      },
-                      children: "?? Constitution Explorer"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      onClick: () => setActiveSocialTool("economics"),
-                      className: "px-4 py-2 font-semibold rounded-lg shadow-sm transition",
-                      style: {
-                        backgroundColor: heroTextColor,
-                        color: heroAccentColor
-                      },
-                      children: "?? Economics Graphing"
-                    }
-                  )
-                ] })
+                )
               ] })
             ] }),
             subjectVocabulary.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -33645,60 +34461,18 @@ function StartScreen({
                         {
                           className: "text-sm my-2 text-center",
                           style: heroMutedTextStyle,
-                          children: "Interactive tools to master Civics and Economics."
+                          children: "Interactive tools to master Civics, Economics, Geography, and History."
                         }
                       )
                     ] }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-3 mt-3", children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(
-                        "button",
-                        {
-                          onClick: () => setActiveSocialTool("constitution"),
-                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
-                          children: "📋 Constitution Explorer"
-                        }
-                      ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(
-                        "button",
-                        {
-                          onClick: () => setActiveSocialTool("economics"),
-                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
-                          children: "💰 Economics Market Simulator"
-                        }
-                      ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(
-                        "button",
-                        {
-                          onClick: () => setActiveSocialTool("map"),
-                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
-                          children: "🗺️ Map Explorer"
-                        }
-                      ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(
-                        "button",
-                        {
-                          onClick: () => setActiveSocialTool("civics"),
-                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
-                          children: "🏛️ Civics Reasoning Lab"
-                        }
-                      ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(
-                        "button",
-                        {
-                          onClick: () => setActiveSocialTool("timeline"),
-                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
-                          children: "📜 History Timeline Builder"
-                        }
-                      ),
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(
-                        "button",
-                        {
-                          onClick: () => setActiveSocialTool("electoral"),
-                          className: "w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200",
-                          children: "🗳️ Electoral College Simulator"
-                        }
-                      )
-                    ] })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "button",
+                      {
+                        onClick: () => setShowToolsModal(true),
+                        className: "w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition",
+                        children: "🛠️ Open Social Studies Tools"
+                      }
+                    )
                   ]
                 }
               ),
@@ -37942,9 +38716,9 @@ function EssayGuide({ onExit }) {
             ] }),
             overtimeNotified && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-3 w-full sm:w-auto bg-amber-50 border border-amber-200 text-amber-800 text-sm px-3 py-2 rounded", children: "Time is up, but you can still finish your work. The timer now shows overtime." })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-lg font-semibold text-blue-900", children: "Need the prompt while you type?" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-lg font-semibold text-blue-900 dark:text-blue-100", children: "Need the prompt while you type?" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-blue-800", children: "Open the overlay to view the essay prompt or either passage without leaving the practice screen." })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -37956,7 +38730,7 @@ function EssayGuide({ onExit }) {
               }
             )
           ] }),
-          pacingMessage && essayMode === "guided" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-900 text-sm fade-in", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+          pacingMessage && essayMode === "guided" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 p-3 bg-white dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg text-blue-900 dark:text-blue-100 text-sm fade-in", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: "💡 Pacing Tip:" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: pacingMessage }),
             wordsPerMinute > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ml-auto text-xs text-blue-700", children: [
@@ -37968,7 +38742,7 @@ function EssayGuide({ onExit }) {
           !showModal && essayMode === "standard" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "practice-section bg-white p-6 rounded-lg shadow-md", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-2xl font-bold mb-3 text-gray-900", children: "Introduction Paragraph" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-gray-700", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3 p-3 bg-white dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg text-sm text-gray-700 dark:text-gray-300", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { className: "text-blue-900", children: "Essay Format:" }),
                 " ",
                 "State which author presents the stronger argument. Introduce both passages and preview your main points."
@@ -40218,4 +40992,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-IPz65x11.js.map
+//# sourceMappingURL=main-9XocBlpi.js.map
