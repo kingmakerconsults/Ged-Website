@@ -5,6 +5,7 @@ export default function SuperAdminAllQuestions() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
   const [error, setError] = useState('');
+  const [catalogKeys, setCatalogKeys] = useState([]);
 
   // Build question list from the available catalog structure (flat arrays or nested categories)
   const rebuildFromCatalog = (catalog) => {
@@ -13,15 +14,24 @@ export default function SuperAdminAllQuestions() {
     let list = [];
 
     const addQuizQuestions = (subject, categoryLabel, quiz, quizIndex) => {
-      if (!quiz?.questions) return;
-      quiz.questions.forEach((q, questionIndex) => {
+      const questionsSources = [];
+      if (Array.isArray(quiz?.questions)) questionsSources.push(quiz.questions);
+      if (Array.isArray(quiz?.items)) questionsSources.push(quiz.items);
+      if (Array.isArray(quiz?.questionBank?.questions))
+        questionsSources.push(quiz.questionBank.questions);
+
+      const merged = questionsSources.flat();
+      if (!Array.isArray(merged) || merged.length === 0) return;
+
+      merged.forEach((q, questionIndex) => {
+        const qObj = typeof q === 'object' ? q : { questionText: String(q) };
         list.push({
           id: `${subject}-${categoryLabel}-${quizIndex}-${questionIndex}`,
           subject,
           category: categoryLabel || quiz.category || 'General',
           quizTitle: quiz.title || `Quiz ${quizIndex + 1}`,
           source: 'premade',
-          ...q,
+          ...qObj,
         });
       });
     };
@@ -37,6 +47,18 @@ export default function SuperAdminAllQuestions() {
           );
         });
         return;
+      }
+
+      // Also support root-level quizzes under the subject
+      if (Array.isArray(subjData?.quizzes)) {
+        subjData.quizzes.forEach((quiz, quizIndex) => {
+          addQuizQuestions(
+            subject,
+            quiz.category || 'General',
+            quiz,
+            quizIndex
+          );
+        });
       }
 
       const categories = subjData?.categories || {};
@@ -83,8 +105,20 @@ export default function SuperAdminAllQuestions() {
       window.ExpandedQuizData ||
       {};
     console.log('[SuperAdminAllQuestions] catalog on mount:', catalog);
+    console.log(
+      '[SuperAdminAllQuestions] Sample Math structure:',
+      catalog?.Math
+    );
+    try {
+      setCatalogKeys(Object.keys(catalog || {}));
+    } catch {}
 
     let list = rebuildFromCatalog(catalog);
+    console.log(
+      '[SuperAdminAllQuestions] Extracted questions:',
+      list.length,
+      list.slice(0, 2)
+    );
 
     // If nothing yet, wait for quizDataLoaded event then rebuild once
     if (list.length === 0 && typeof window !== 'undefined') {
@@ -95,6 +129,9 @@ export default function SuperAdminAllQuestions() {
           '[SuperAdminAllQuestions] quizDataLoaded event catalog:',
           nextCatalog
         );
+        try {
+          setCatalogKeys(Object.keys(nextCatalog || {}));
+        } catch {}
         const rebuilt = rebuildFromCatalog(nextCatalog);
         console.log(
           '[SuperAdminAllQuestions] Premade questions after event:',
@@ -119,9 +156,19 @@ export default function SuperAdminAllQuestions() {
     // Fetch AI-generated questions
     const apiBase = window.API_BASE_URL || '';
     const token = localStorage.getItem('appToken');
+    console.log('[SuperAdminAllQuestions] Token present:', !!token);
+    console.log(
+      '[SuperAdminAllQuestions] API URL:',
+      `${apiBase}/api/admin/all-questions`
+    );
 
     fetch(`${apiBase}/api/admin/all-questions`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: token
+        ? {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          }
+        : { 'Content-Type': 'application/json' },
     })
       .then((res) => {
         if (!res.ok) {
@@ -179,9 +226,20 @@ export default function SuperAdminAllQuestions() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4 dark:text-white">
+      <h1 className="text-3xl font-bold mb-2 dark:text-white">
         All Questions (Master List)
       </h1>
+      <div className="mb-4 text-xs text-slate-600 dark:text-slate-300 p-3 border-l-4 border-blue-500 bg-white dark:bg-slate-800">
+        <div>Debug: Questions Catalog component mounted.</div>
+        <div>
+          Catalog subjects seen:{' '}
+          {catalogKeys.length ? catalogKeys.join(', ') : 'none'}
+        </div>
+        <div>
+          Premade count:{' '}
+          {allQuestions.filter((q) => q.source === 'premade').length}
+        </div>
+      </div>
 
       {error && (
         <div className="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded text-yellow-800 dark:text-yellow-200">
@@ -199,7 +257,8 @@ export default function SuperAdminAllQuestions() {
             No questions found
           </p>
           <p className="text-sm text-gray-400 dark:text-gray-500">
-            Check the console for details about window.AppData
+            Debug: subjects detected:{' '}
+            {catalogKeys.length ? catalogKeys.join(', ') : 'none'}
           </p>
         </div>
       ) : (

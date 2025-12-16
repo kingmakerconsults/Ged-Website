@@ -23602,7 +23602,6 @@ function App({ externalTheme, onThemeChange }) {
   const [showToolsModal, setShowToolsModal] = useState(false);
   const [showSocialToolsModal, setShowSocialToolsModal] = useState(false);
   const [toolsModalSubject, setToolsModalSubject] = useState(null);
-  const [activeSocialTool, setActiveSocialTool] = useState(null); // 'constitution' | 'economics' | 'map' | 'civics' | 'timeline' | 'electoral' | null
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [showPracticeModal, setShowPracticeModal] = useState(false);
   const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
@@ -26049,35 +26048,6 @@ function App({ externalTheme, onThemeChange }) {
       return <SharedAuthScreen onLogin={handleLogin} />;
     }
 
-    // Check for active social studies tools
-    if (activeSocialTool === 'constitution') {
-      return <ConstitutionExplorer onExit={() => setActiveSocialTool(null)} />;
-    }
-
-    if (activeSocialTool === 'economics') {
-      return <EconomicsGraphTool onExit={() => setActiveSocialTool(null)} />;
-    }
-
-    if (activeSocialTool === 'map') {
-      return <MapExplorer onExit={() => setActiveSocialTool(null)} />;
-    }
-
-    if (activeSocialTool === 'civics') {
-      return <CivicsReasoningLab onExit={() => setActiveSocialTool(null)} />;
-    }
-
-    if (activeSocialTool === 'timeline') {
-      return (
-        <HistoryTimelineBuilder onExit={() => setActiveSocialTool(null)} />
-      );
-    }
-
-    if (activeSocialTool === 'electoral') {
-      return (
-        <ElectoralCollegeSimulator onExit={() => setActiveSocialTool(null)} />
-      );
-    }
-
     // Normalize role string (handle both super_admin and superAdmin formats)
     const normalizedRole =
       currentUser.role?.replace('_', '') || currentUser.role;
@@ -26310,7 +26280,6 @@ function App({ externalTheme, onThemeChange }) {
             setLoadingMessage={setLoadingMessage}
             setShowFormulaSheet={setShowFormulaSheet}
             onOpenMathTools={openMathTools}
-            setActiveSocialTool={setActiveSocialTool}
             setToolsModalSubject={setToolsModalSubject}
             setShowToolsModal={setShowToolsModal}
             theme={preferences.theme}
@@ -26451,136 +26420,6 @@ function App({ externalTheme, onThemeChange }) {
               setToolsModalSubject(null);
             }}
           />
-        )}
-        {showSocialToolsModal && (
-          <div
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-            onClick={() => setShowSocialToolsModal(false)}
-          >
-            <div
-              className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold dark:text-white">
-                    🏛️ Social Studies Tools
-                  </h2>
-                  <button
-                    onClick={() => setShowSocialToolsModal(false)}
-                    className="text-2xl text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                  >
-                    ×
-                  </button>
-                </div>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  Interactive tools to master Civics, History, Geography, and
-                  Economics
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <button
-                    onClick={() => {
-                      setActiveSocialTool('civics');
-                      setShowSocialToolsModal(false);
-                    }}
-                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
-                  >
-                    <div className="text-4xl mb-3">🏛️</div>
-                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                      Civics Reasoning Lab
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Decide which branch and level of government handles each
-                      scenario.
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setActiveSocialTool('map');
-                      setShowSocialToolsModal(false);
-                    }}
-                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
-                  >
-                    <div className="text-4xl mb-3">🗺️</div>
-                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                      Map Explorer
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Practice geography and map-reading questions like the GED.
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setActiveSocialTool('timeline');
-                      setShowSocialToolsModal(false);
-                    }}
-                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
-                  >
-                    <div className="text-4xl mb-3">📜</div>
-                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                      History Timeline Builder
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Put key historical events in order and see how they
-                      connect.
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setActiveSocialTool('electoral');
-                      setShowSocialToolsModal(false);
-                    }}
-                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
-                  >
-                    <div className="text-4xl mb-3">🗳️</div>
-                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                      Electoral College Simulator
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Practice electoral vote math and winner-takes-all
-                      scenarios.
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setActiveSocialTool('constitution');
-                      setShowSocialToolsModal(false);
-                    }}
-                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
-                  >
-                    <div className="text-4xl mb-3">📋</div>
-                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                      Constitution Explorer
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Interactive amendments + case study scenarios.
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setActiveSocialTool('economics');
-                      setShowSocialToolsModal(false);
-                    }}
-                    className="p-6 rounded-lg text-left transition-all hover:shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400"
-                  >
-                    <div className="text-4xl mb-3">💰</div>
-                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                      Economics Market Simulator
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Shift supply/demand and interpret price/quantity changes.
-                    </p>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
         )}
         {showNamePrompt && (
           <NamePromptModal
@@ -28388,6 +28227,14 @@ function SuperAdminDashboard({ user, token, onLogout }) {
             </button>
           </div>
         </header>
+
+        {/* TEMP: Debug banner to ensure Questions Catalog is visible */}
+        <div className="mb-3 rounded-lg border border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-200 p-3">
+          Debug: Rendering Questions Catalog below to verify visibility.
+        </div>
+        <section className="rounded-3xl border-subtle panel-surface shadow-sm mb-6">
+          <SuperAdminAllQuestions />
+        </section>
 
         {/* Platform Stats Overview */}
         <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -30257,7 +30104,6 @@ function StartScreen({
   setLoadingMessage,
   setShowFormulaSheet,
   onOpenMathTools,
-  setActiveSocialTool,
   setToolsModalSubject,
   setShowToolsModal,
   theme = 'light',
@@ -32157,12 +32003,8 @@ function StartScreen({
                   selectedSubject === 'Social Studies') && (
                   <button
                     onClick={() => {
-                      if (selectedSubject === 'Social Studies') {
-                        setShowSocialToolsModal(true);
-                      } else {
-                        setToolsModalSubject(selectedSubject);
-                        setShowToolsModal(true);
-                      }
+                      setToolsModalSubject(selectedSubject);
+                      setShowToolsModal(true);
                     }}
                     className="px-4 py-2 font-semibold rounded-lg shadow-sm transition"
                     style={{
@@ -32196,30 +32038,6 @@ function StartScreen({
                   >
                     View Science Formula Sheet
                   </button>
-                )}
-                {selectedSubject === 'Social Studies' && (
-                  <>
-                    <button
-                      onClick={() => setActiveSocialTool('constitution')}
-                      className="px-4 py-2 font-semibold rounded-lg shadow-sm transition"
-                      style={{
-                        backgroundColor: heroTextColor,
-                        color: heroAccentColor,
-                      }}
-                    >
-                      ?? Constitution Explorer
-                    </button>
-                    <button
-                      onClick={() => setActiveSocialTool('economics')}
-                      className="px-4 py-2 font-semibold rounded-lg shadow-sm transition"
-                      style={{
-                        backgroundColor: heroTextColor,
-                        color: heroAccentColor,
-                      }}
-                    >
-                      ?? Economics Graphing
-                    </button>
-                  </>
                 )}
               </div>
             )}
@@ -32750,47 +32568,16 @@ function StartScreen({
                       className="text-sm my-2 text-center"
                       style={heroMutedTextStyle}
                     >
-                      Interactive tools to master Civics and Economics.
+                      Interactive tools to master Civics, Economics, Geography,
+                      and History.
                     </p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-                    <button
-                      onClick={() => setActiveSocialTool('constitution')}
-                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
-                    >
-                      📋 Constitution Explorer
-                    </button>
-                    <button
-                      onClick={() => setActiveSocialTool('economics')}
-                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
-                    >
-                      💰 Economics Market Simulator
-                    </button>
-                    <button
-                      onClick={() => setActiveSocialTool('map')}
-                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
-                    >
-                      🗺️ Map Explorer
-                    </button>
-                    <button
-                      onClick={() => setActiveSocialTool('civics')}
-                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
-                    >
-                      🏛️ Civics Reasoning Lab
-                    </button>
-                    <button
-                      onClick={() => setActiveSocialTool('timeline')}
-                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
-                    >
-                      📜 History Timeline Builder
-                    </button>
-                    <button
-                      onClick={() => setActiveSocialTool('electoral')}
-                      className="w-full px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition border border-slate-200"
-                    >
-                      🗳️ Electoral College Simulator
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setShowToolsModal(true)}
+                    className="w-full mt-2 px-4 py-2 bg-white text-slate-900 font-semibold rounded-md hover:bg-white/90 transition"
+                  >
+                    🛠️ Open Social Studies Tools
+                  </button>
                 </div>
               )}
               <div
@@ -37843,9 +37630,9 @@ function EssayGuide({ onExit }) {
               )}
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div className="bg-white dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
               <div>
-                <h4 className="text-lg font-semibold text-blue-900">
+                <h4 className="text-lg font-semibold text-blue-900 dark:text-blue-100">
                   Need the prompt while you type?
                 </h4>
                 <p className="text-sm text-blue-800">
@@ -37865,7 +37652,7 @@ function EssayGuide({ onExit }) {
 
             {/* Pacing Feedback Toast */}
             {pacingMessage && essayMode === 'guided' && (
-              <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-900 text-sm fade-in">
+              <div className="mb-4 p-3 bg-white dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg text-blue-900 dark:text-blue-100 text-sm fade-in">
                 <div className="flex items-center gap-2">
                   <span className="font-semibold">💡 Pacing Tip:</span>
                   <span>{pacingMessage}</span>
@@ -37885,7 +37672,7 @@ function EssayGuide({ onExit }) {
                   <h3 className="text-2xl font-bold mb-3 text-gray-900">
                     Introduction Paragraph
                   </h3>
-                  <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-gray-700">
+                  <div className="mb-3 p-3 bg-white dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg text-sm text-gray-700 dark:text-gray-300">
                     <strong className="text-blue-900">Essay Format:</strong>{' '}
                     State which author presents the stronger argument. Introduce
                     both passages and preview your main points.

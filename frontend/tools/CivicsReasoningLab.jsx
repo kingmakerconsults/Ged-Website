@@ -94,7 +94,7 @@ export default function CivicsReasoningLab({ onExit }) {
   return (
     <>
       <style>{civicsStyles}</style>
-      <div className="fade-in min-h-screen bg-white dark:bg-slate-900 civics-text">
+      <div className="fade-in min-h-screen bg-white dark:bg-slate-700 civics-text">
         <div className="max-w-4xl mx-auto p-6 space-y-6">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
@@ -195,7 +195,7 @@ export default function CivicsReasoningLab({ onExit }) {
                           : feedback?.partialCorrect?.branch &&
                             option.id === currentScenario.correctBranch
                           ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
-                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer'
+                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
                       } ${feedback !== null ? 'cursor-default' : ''}`}
                     >
                       {option.label}
@@ -221,7 +221,7 @@ export default function CivicsReasoningLab({ onExit }) {
                           : feedback?.partialCorrect?.level &&
                             option.id === currentScenario.correctLevel
                           ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
-                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer'
+                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
                       } ${feedback !== null ? 'cursor-default' : ''}`}
                     >
                       {option.label}
@@ -247,7 +247,7 @@ export default function CivicsReasoningLab({ onExit }) {
                           : feedback?.partialCorrect?.powerType &&
                             option.id === currentScenario.correctPowerType
                           ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-100'
-                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 civics-text hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer'
+                          : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 civics-text hover:bg-slate-50 dark:hover:bg-slate-500 cursor-pointer'
                       } ${feedback !== null ? 'cursor-default' : ''}`}
                     >
                       {option.label}

@@ -9,7 +9,34 @@ import ScienceFormulaSheet from './tools/ScienceFormulaSheet';
 import ScienceFormulaPractice from './tools/ScienceFormulaPractice';
 import ScienceConceptPractice from './tools/ScienceConceptPractice';
 import ChemistryEquationPractice from './tools/ChemistryEquationPractice';
+import PunnettSquarePractice from './tools/PunnettSquarePractice';
 import Calculator from './tools/Calculator';
+import MapExplorer from '../../tools/MapExplorer';
+import CivicsReasoningLab from '../../tools/CivicsReasoningLab';
+import HistoryTimelineBuilder from '../../tools/HistoryTimelineBuilder';
+import ElectoralCollegeSimulator from '../../tools/ElectoralCollegeSimulator';
+import ConstitutionExplorer from '../../tools/ConstitutionExplorer';
+import EconomicsGraphTool from '../../tools/EconomicsGraphTool';
+
+// Wrapper components to adapt onExit to onClose
+const MapExplorerWrapper = ({ onClose, dark }) => (
+  <MapExplorer onExit={onClose} />
+);
+const CivicsReasoningLabWrapper = ({ onClose, dark }) => (
+  <CivicsReasoningLab onExit={onClose} />
+);
+const HistoryTimelineBuilderWrapper = ({ onClose, dark }) => (
+  <HistoryTimelineBuilder onExit={onClose} />
+);
+const ElectoralCollegeSimulatorWrapper = ({ onClose, dark }) => (
+  <ElectoralCollegeSimulator onExit={onClose} />
+);
+const ConstitutionExplorerWrapper = ({ onClose, dark }) => (
+  <ConstitutionExplorer onExit={onClose} pack={null} />
+);
+const EconomicsGraphToolWrapper = ({ onClose, dark }) => (
+  <EconomicsGraphTool onExit={onClose} />
+);
 
 /**
  * SubjectToolsModal - Centralized tools panel for each subject
@@ -74,6 +101,12 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
         component: ScienceConceptPractice,
       },
       {
+        id: 'punnett-square',
+        name: 'Punnett Square Practice',
+        icon: '🧬',
+        component: PunnettSquarePractice,
+      },
+      {
         id: 'chemistry-equations',
         name: 'Chemistry Equations',
         icon: '⚛️',
@@ -84,7 +117,36 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
       // Future: Reading comprehension tools, grammar checkers, etc.
     ],
     'Social Studies': [
-      // Future: Map tools, timeline tools, etc.
+      {
+        id: 'map-explorer',
+        name: 'Map Explorer',
+        icon: '🗺️',
+        component: MapExplorerWrapper,
+      },
+      {
+        id: 'civics-reasoning',
+        name: 'Civics Reasoning Lab',
+        icon: '🏛️',
+        component: CivicsReasoningLabWrapper,
+      },
+      {
+        id: 'history-timeline',
+        name: 'History Timeline Builder',
+        icon: '📜',
+        component: HistoryTimelineBuilderWrapper,
+      },
+      {
+        id: 'electoral-college',
+        name: 'Electoral College Simulator',
+        icon: '🗳️',
+        component: ElectoralCollegeSimulatorWrapper,
+      },
+      {
+        id: 'economics-market',
+        name: 'Economics Market Simulator',
+        icon: '💰',
+        component: EconomicsGraphToolWrapper,
+      },
     ],
   };
 
@@ -146,7 +208,7 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
                     onClick={() => setSelectedTool(tool.id)}
                     className="p-6 rounded-xl border-2 text-left transition-all hover:scale-105 hover:shadow-lg"
                     style={{
-                      backgroundColor: dark ? '#334155' : '#f8fafc',
+                      backgroundColor: dark ? '#334155' : '#ffffff',
                       borderColor: theme?.accent || '#64748b',
                       color: dark ? '#e2e8f0' : '#1e293b',
                     }}
