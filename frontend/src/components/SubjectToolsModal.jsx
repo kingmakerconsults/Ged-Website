@@ -173,7 +173,10 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
         className="w-full max-w-6xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col"
         style={{
           backgroundColor: dark ? '#1e293b' : '#ffffff',
+          backgroundClip: 'padding-box',
           border: `2px solid ${theme?.accent || '#64748b'}`,
+          backdropFilter: 'none',
+          WebkitBackdropFilter: 'none',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -181,10 +184,11 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
         <div
           className="p-6 flex items-center justify-between"
           style={{
-            background:
-              theme?.gradient ||
-              'linear-gradient(135deg, #64748b 0%, #475569 100%)',
-            color: '#ffffff',
+            background: dark
+              ? theme?.gradient ||
+                'linear-gradient(135deg, #64748b 0%, #475569 100%)'
+              : '#f0f9ff !important',
+            color: dark ? '#ffffff' : '#0f172a !important',
           }}
         >
           <div>
@@ -203,7 +207,10 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div
+          className="flex-1 overflow-y-auto p-6"
+          style={{ backgroundColor: dark ? '#1e293b' : '#ffffff' }}
+        >
           {!selectedTool ? (
             // Tool Grid - Selection View
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -214,9 +221,11 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
                     onClick={() => setSelectedTool(tool.id)}
                     className="p-6 rounded-xl border-2 text-left transition-all hover:scale-105 hover:shadow-lg"
                     style={{
-                      backgroundColor: dark ? '#4b5563' : '#ffffff',
-                      borderColor: theme?.accent || '#64748b',
-                      color: dark ? '#e2e8f0' : '#1e293b',
+                      backgroundColor: dark ? '#4b5563' : '#f1f5f9',
+                      borderColor: dark
+                        ? theme?.accent || '#64748b'
+                        : '#cbd5e1',
+                      color: dark ? '#e2e8f0' : '#0f172a',
                     }}
                   >
                     <div className="text-5xl mb-3">{tool.icon}</div>

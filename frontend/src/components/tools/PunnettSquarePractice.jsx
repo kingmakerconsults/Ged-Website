@@ -163,9 +163,13 @@ export default function PunnettSquarePractice({ onClose, dark = false }) {
   // Handle cell input (for guided mode)
   const handleCellInput = (cellKey, value) => {
     if (mode === 'guided') {
+      const formatted = value.toUpperCase();
       // Validate immediately
       const correctSquare = calculateCorrectSquare();
-      const isCorrect = value.toUpperCase() === correctSquare[cellKey];
+      const isCorrect = formatted === correctSquare[cellKey];
+
+      // Keep user input visible even before it is correct
+      setSquareCells((prev) => ({ ...prev, [cellKey]: formatted }));
 
       setCellFeedback((prev) => ({
         ...prev,
@@ -173,8 +177,6 @@ export default function PunnettSquarePractice({ onClose, dark = false }) {
       }));
 
       if (isCorrect) {
-        setSquareCells((prev) => ({ ...prev, [cellKey]: value.toUpperCase() }));
-
         // Move to next cell
         const cellOrder = ['0-0', '0-1', '1-0', '1-1'];
         const currentIndex = cellOrder.indexOf(cellKey);

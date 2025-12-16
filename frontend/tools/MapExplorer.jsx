@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import USRegionsMap from '../components/maps/USRegionsMap.jsx';
 import { MAP_SCENARIOS } from '../data/social/map_scenarios.js';
 
 /**
@@ -7,56 +8,17 @@ import { MAP_SCENARIOS } from '../data/social/map_scenarios.js';
 const MapVisualizer = ({ imageKey, title }) => {
   const mapContent = {
     us_regions_basic: (
-      <svg viewBox="0 0 960 600" className="w-full h-full">
-        {/* Ocean background */}
-        <rect width="960" height="600" fill="#a5d8dd" />
-
-        {/* West Region - CA, OR, WA, NV, ID, MT, WY, CO, UT, AK, HI */}
-        <g id="west" fill="#fbbf24" stroke="#92400e" strokeWidth="1.5">
-          <path d="M 50 150 L 70 120 L 90 110 L 100 95 L 110 90 L 125 95 L 140 100 L 150 115 L 155 130 L 160 145 L 155 170 L 145 190 L 140 210 L 130 240 L 120 265 L 110 290 L 105 315 L 100 340 L 95 360 L 85 375 L 75 385 L 65 390 L 55 385 L 50 370 L 48 350 L 50 320 L 52 290 L 53 260 L 52 230 L 50 200 Z" />
-          <path d="M 105 315 L 120 310 L 135 315 L 145 325 L 155 340 L 160 355 L 165 370 L 165 390 L 160 405 L 150 415 L 135 420 L 120 418 L 110 410 L 105 395 L 102 375 L 103 355 L 105 335 Z" />
-          <path d="M 165 170 L 185 165 L 205 168 L 220 175 L 235 185 L 245 200 L 250 220 L 248 240 L 242 258 L 232 272 L 218 280 L 200 282 L 180 278 L 165 270 L 155 255 L 152 235 L 155 215 L 160 195 Z" />
-          <path d="M 250 220 L 270 215 L 290 220 L 305 230 L 315 245 L 320 265 L 318 285 L 310 300 L 295 308 L 275 310 L 255 305 L 243 295 L 238 280 L 240 260 Z" />
-          <path d="M 320 265 L 340 260 L 360 265 L 375 275 L 385 290 L 388 310 L 383 328 L 370 340 L 352 345 L 332 342 L 318 332 L 312 315 L 315 295 Z" />
-        </g>
-
-        {/* Midwest Region - ND, SD, NE, KS, MN, IA, MO, WI, IL, MI, IN, OH */}
-        <g id="midwest" fill="#86efac" stroke="#166534" strokeWidth="1.5">
-          <path d="M 320 95 L 380 92 L 440 95 L 495 100 L 495 160 L 490 220 L 485 280 L 478 340 L 470 400 L 460 430 L 440 445 L 415 448 L 390 443 L 370 430 L 355 410 L 345 385 L 340 355 L 338 325 L 340 295 L 345 265 L 350 235 L 355 205 L 358 175 L 360 145 L 358 115 Z" />
-          <path d="M 495 220 L 520 218 L 545 222 L 560 232 L 570 248 L 575 268 L 573 288 L 565 305 L 550 315 L 530 318 L 510 313 L 495 300 Z" />
-          <path d="M 495 320 L 515 318 L 535 323 L 550 335 L 558 352 L 560 372 L 555 390 L 543 403 L 525 408 L 505 405 L 490 395 L 483 378 L 485 358 Z" />
-        </g>
-
-        {/* South Region - TX, OK, AR, LA, MS, AL, TN, KY, WV, VA, NC, SC, GA, FL */}
-        <g id="south" fill="#fb923c" stroke="#9a3412" strokeWidth="1.5">
-          <path d="M 240 310 L 260 308 L 280 312 L 300 320 L 320 332 L 340 348 L 360 368 L 375 390 L 385 415 L 390 440 L 388 465 L 380 488 L 365 505 L 345 515 L 320 518 L 295 515 L 270 508 L 248 495 L 230 478 L 218 458 L 212 435 L 210 410 L 212 385 L 218 360 L 228 338 Z" />
-          <path d="M 390 440 L 415 438 L 440 442 L 460 452 L 475 467 L 485 485 L 490 505 L 488 525 L 480 543 L 465 555 L 445 560 L 420 558 L 398 550 L 385 535 L 378 515 L 380 493 Z" />
-          <path d="M 490 350 L 520 348 L 550 353 L 575 363 L 595 378 L 610 398 L 618 420 L 620 443 L 615 465 L 603 483 L 585 495 L 562 500 L 538 497 L 518 488 L 503 473 L 495 453 L 493 430 L 495 408 L 500 385 Z" />
-          <path d="M 620 443 L 645 445 L 668 452 L 685 465 L 695 482 L 698 502 L 693 520 L 680 533 L 660 540 L 638 540 L 618 532 L 608 518 L 605 500 L 610 480 Z" />
-          <path d="M 650 515 L 665 520 L 678 530 L 685 545 L 688 562 L 685 578 L 675 590 L 660 595 L 643 593 L 630 585 L 623 572 L 622 555 L 627 540 Z" />
-        </g>
-
-        {/* Northeast Region - PA, NY, NJ, DE, MD, CT, RI, MA, VT, NH, ME */}
-        <g id="northeast" fill="#c084fc" stroke="#6b21a8" strokeWidth="1.5">
-          <path d="M 575 190 L 610 185 L 645 188 L 675 195 L 700 205 L 720 220 L 730 240 L 732 262 L 725 282 L 710 297 L 688 305 L 662 308 L 635 305 L 610 295 L 590 280 L 578 260 L 573 238 L 575 215 Z" />
-          <path d="M 700 205 L 720 195 L 738 190 L 755 192 L 770 200 L 780 213 L 785 230 L 783 248 L 775 263 L 760 272 L 740 275 L 720 270 L 708 258 L 703 242 L 705 225 Z" />
-          <path d="M 755 192 L 770 180 L 785 175 L 800 177 L 812 185 L 818 198 L 817 213 L 810 226 L 798 233 L 783 235 L 770 228 L 762 215 L 760 200 Z" />
-        </g>
-
-        {/* Labels */}
-        <text x="190" y="240" fontSize="20" fill="#78350f" fontWeight="bold">
-          WEST
-        </text>
-        <text x="400" y="260" fontSize="20" fill="#14532d" fontWeight="bold">
-          MIDWEST
-        </text>
-        <text x="400" y="450" fontSize="20" fill="#7c2d12" fontWeight="bold">
-          SOUTH
-        </text>
-        <text x="660" y="250" fontSize="20" fill="#4c1d95" fontWeight="bold">
-          NORTHEAST
-        </text>
-      </svg>
+      <div className="w-full">
+        <USRegionsMap
+          selectedRegion={null}
+          onRegionSelect={() => {}}
+          disabled={false}
+          showLabels={true}
+        />
+        <p className="mt-2 text-xs text-gray-600 dark:text-gray-300">
+          Hover a state to see regional grouping; click selects region.
+        </p>
+      </div>
     ),
     world_continents: (
       <svg viewBox="0 0 1000 500" className="w-full h-full">

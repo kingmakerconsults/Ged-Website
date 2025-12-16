@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-BmwcFNhA.js";
+import { _ as __vitePreload } from "./index-DsQsZ79K.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -3061,14 +3061,15 @@ function PunnettSquarePractice({ onClose: onClose2, dark = false }) {
   };
   const handleCellInput = (cellKey, value) => {
     if (mode === "guided") {
+      const formatted = value.toUpperCase();
       const correctSquare = calculateCorrectSquare();
-      const isCorrect = value.toUpperCase() === correctSquare[cellKey];
+      const isCorrect = formatted === correctSquare[cellKey];
+      setSquareCells((prev) => ({ ...prev, [cellKey]: formatted }));
       setCellFeedback((prev) => ({
         ...prev,
         [cellKey]: isCorrect ? "correct" : "incorrect"
       }));
       if (isCorrect) {
-        setSquareCells((prev) => ({ ...prev, [cellKey]: value.toUpperCase() }));
         const cellOrder = ["0-0", "0-1", "1-0", "1-1"];
         const currentIndex = cellOrder.indexOf(cellKey);
         if (currentIndex < 3) {
@@ -4197,6 +4198,180 @@ if (typeof window !== "undefined") {
 function Calculator({ onClose: onClose2, dark = false }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(TI30XSCalculator, { onClose: onClose2 });
 }
+function USRegionsMap({
+  selectedRegion = null,
+  onRegionSelect = () => {
+  },
+  disabled = false,
+  showLabels = false,
+  className = ""
+}) {
+  const containerRef = reactExports.useRef(null);
+  const [svgMarkup, setSvgMarkup] = reactExports.useState("");
+  const [regions, setRegions] = reactExports.useState({
+    midwest: [],
+    northeast: [],
+    south: [],
+    west: []
+  });
+  const [hoverRegion, setHoverRegion] = reactExports.useState(null);
+  reactExports.useEffect(() => {
+    let cancelled = false;
+    fetch("/maps/us-regions.svg").then(
+      (r) => r.ok ? r.text() : Promise.reject(new Error("SVG not found"))
+    ).then((text) => {
+      if (cancelled) return;
+      setSvgMarkup(text);
+    }).catch((err) => {
+      console.warn("[USRegionsMap] Failed to load SVG:", (err == null ? void 0 : err.message) || err);
+      setSvgMarkup(
+        '<svg viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="US Regions Map (placeholder)"><rect x="0" y="0" width="960" height="600" class="usrg-placeholder"/></svg>'
+      );
+    });
+    fetch("/data/usRegions.json").then(
+      (r) => r.ok ? r.json() : Promise.reject(new Error("usRegions.json not found"))
+    ).then((json) => {
+      if (cancelled) return;
+      setRegions(json || {});
+    }).catch(
+      (err) => console.warn(
+        "[USRegionsMap] Failed to load region metadata:",
+        (err == null ? void 0 : err.message) || err
+      )
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  reactExports.useEffect(() => {
+    const root = containerRef.current;
+    if (!root || !svgMarkup) return;
+    root.innerHTML = svgMarkup;
+    const svg = root.querySelector("svg");
+    if (!svg) return;
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "U.S. Regions map");
+    svg.classList.add("usrg-svg");
+    const statePaths = svg.querySelectorAll("path");
+    const stateToRegion = /* @__PURE__ */ new Map();
+    const regionToStates = new Map(
+      Object.entries(regions).map(([k2, arr]) => [k2, new Set(arr)])
+    );
+    statePaths.forEach((p2) => {
+      const code = (p2.getAttribute("data-state") || p2.getAttribute("id") || p2.getAttribute("name") || "").toUpperCase();
+      if (code && !p2.getAttribute("data-state")) {
+        p2.setAttribute("data-state", code);
+      }
+      let region = p2.getAttribute("data-region");
+      if (!region && code) {
+        for (const [rName, set] of regionToStates.entries()) {
+          if (set.has(code)) {
+            region = rName;
+            break;
+          }
+        }
+      }
+      if (region) {
+        p2.setAttribute("data-region", region);
+        stateToRegion.set(code, region);
+      }
+      p2.setAttribute("tabindex", disabled ? "-1" : "0");
+      p2.setAttribute("role", "button");
+      p2.classList.add("usrg-state");
+    });
+    const getRegionFromTarget = (el) => {
+      if (!el) return null;
+      const state = el.getAttribute("data-state");
+      return state ? stateToRegion.get(state) || null : el.getAttribute("data-region");
+    };
+    const applyHighlight = (regionName) => {
+      statePaths.forEach((p2) => {
+        const r = p2.getAttribute("data-region");
+        p2.classList.toggle("hovered", Boolean(regionName && r === regionName));
+        p2.classList.toggle(
+          "selected",
+          Boolean(selectedRegion && r === selectedRegion)
+        );
+        p2.classList.toggle("disabled", Boolean(disabled));
+      });
+      svg.setAttribute("data-selected-region", selectedRegion || "");
+      svg.setAttribute("data-hover-region", regionName || "");
+      svg.setAttribute("data-disabled", disabled ? "true" : "false");
+    };
+    const onEnterRegion = (e) => {
+      if (disabled) return;
+      const regionName = getRegionFromTarget(e.currentTarget);
+      setHoverRegion(regionName);
+      applyHighlight(regionName);
+    };
+    const onLeaveRegion = () => {
+      if (disabled) return;
+      setHoverRegion(null);
+      applyHighlight(null);
+    };
+    const onClickRegion = (e) => {
+      if (disabled) return;
+      const regionName = getRegionFromTarget(e.currentTarget);
+      if (regionName) onRegionSelect(regionName);
+    };
+    const onKeyDownRegion = (e) => {
+      if (disabled) return;
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        const regionName = getRegionFromTarget(e.currentTarget);
+        if (regionName) onRegionSelect(regionName);
+      }
+    };
+    statePaths.forEach((p2) => {
+      p2.addEventListener("mouseenter", onEnterRegion);
+      p2.addEventListener("mouseleave", onLeaveRegion);
+      p2.addEventListener("click", onClickRegion);
+      p2.addEventListener("keydown", onKeyDownRegion);
+    });
+    if (showLabels) {
+      const ns = "http://www.w3.org/2000/svg";
+      const labelsLayer = document.createElementNS(ns, "g");
+      labelsLayer.setAttribute("class", "usrg-labels");
+      svg.appendChild(labelsLayer);
+      statePaths.forEach((p2) => {
+        const code = p2.getAttribute("data-state");
+        if (!code) return;
+        try {
+          const bbox = p2.getBBox();
+          const tx = document.createElementNS(ns, "text");
+          tx.setAttribute("x", String(bbox.x + bbox.width / 2));
+          tx.setAttribute("y", String(bbox.y + bbox.height / 2));
+          tx.setAttribute("text-anchor", "middle");
+          tx.setAttribute("class", "usrg-label");
+          tx.textContent = code;
+          labelsLayer.appendChild(tx);
+        } catch {
+        }
+      });
+    }
+    applyHighlight(hoverRegion);
+    return () => {
+      statePaths.forEach((p2) => {
+        p2.removeEventListener("mouseenter", onEnterRegion);
+        p2.removeEventListener("mouseleave", onLeaveRegion);
+        p2.removeEventListener("click", onClickRegion);
+        p2.removeEventListener("keydown", onKeyDownRegion);
+      });
+    };
+  }, [svgMarkup, regions, selectedRegion, disabled, showLabels]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      ref: containerRef,
+      className: [
+        "usrg-container",
+        className,
+        disabled ? "is-disabled" : ""
+      ].join(" "),
+      "aria-disabled": disabled ? "true" : "false"
+    }
+  );
+}
 const MAP_SCENARIOS = [
   {
     id: "us_regions_midwest",
@@ -4345,36 +4520,18 @@ const MAP_SCENARIOS = [
 ];
 const MapVisualizer = ({ imageKey, title }) => {
   const mapContent = {
-    us_regions_basic: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 960 600", className: "w-full h-full", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "960", height: "600", fill: "#a5d8dd" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { id: "west", fill: "#fbbf24", stroke: "#92400e", strokeWidth: "1.5", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 50 150 L 70 120 L 90 110 L 100 95 L 110 90 L 125 95 L 140 100 L 150 115 L 155 130 L 160 145 L 155 170 L 145 190 L 140 210 L 130 240 L 120 265 L 110 290 L 105 315 L 100 340 L 95 360 L 85 375 L 75 385 L 65 390 L 55 385 L 50 370 L 48 350 L 50 320 L 52 290 L 53 260 L 52 230 L 50 200 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 105 315 L 120 310 L 135 315 L 145 325 L 155 340 L 160 355 L 165 370 L 165 390 L 160 405 L 150 415 L 135 420 L 120 418 L 110 410 L 105 395 L 102 375 L 103 355 L 105 335 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 165 170 L 185 165 L 205 168 L 220 175 L 235 185 L 245 200 L 250 220 L 248 240 L 242 258 L 232 272 L 218 280 L 200 282 L 180 278 L 165 270 L 155 255 L 152 235 L 155 215 L 160 195 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 250 220 L 270 215 L 290 220 L 305 230 L 315 245 L 320 265 L 318 285 L 310 300 L 295 308 L 275 310 L 255 305 L 243 295 L 238 280 L 240 260 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 320 265 L 340 260 L 360 265 L 375 275 L 385 290 L 388 310 L 383 328 L 370 340 L 352 345 L 332 342 L 318 332 L 312 315 L 315 295 Z" })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { id: "midwest", fill: "#86efac", stroke: "#166534", strokeWidth: "1.5", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 320 95 L 380 92 L 440 95 L 495 100 L 495 160 L 490 220 L 485 280 L 478 340 L 470 400 L 460 430 L 440 445 L 415 448 L 390 443 L 370 430 L 355 410 L 345 385 L 340 355 L 338 325 L 340 295 L 345 265 L 350 235 L 355 205 L 358 175 L 360 145 L 358 115 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 495 220 L 520 218 L 545 222 L 560 232 L 570 248 L 575 268 L 573 288 L 565 305 L 550 315 L 530 318 L 510 313 L 495 300 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 495 320 L 515 318 L 535 323 L 550 335 L 558 352 L 560 372 L 555 390 L 543 403 L 525 408 L 505 405 L 490 395 L 483 378 L 485 358 Z" })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { id: "south", fill: "#fb923c", stroke: "#9a3412", strokeWidth: "1.5", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 240 310 L 260 308 L 280 312 L 300 320 L 320 332 L 340 348 L 360 368 L 375 390 L 385 415 L 390 440 L 388 465 L 380 488 L 365 505 L 345 515 L 320 518 L 295 515 L 270 508 L 248 495 L 230 478 L 218 458 L 212 435 L 210 410 L 212 385 L 218 360 L 228 338 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 390 440 L 415 438 L 440 442 L 460 452 L 475 467 L 485 485 L 490 505 L 488 525 L 480 543 L 465 555 L 445 560 L 420 558 L 398 550 L 385 535 L 378 515 L 380 493 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 490 350 L 520 348 L 550 353 L 575 363 L 595 378 L 610 398 L 618 420 L 620 443 L 615 465 L 603 483 L 585 495 L 562 500 L 538 497 L 518 488 L 503 473 L 495 453 L 493 430 L 495 408 L 500 385 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 620 443 L 645 445 L 668 452 L 685 465 L 695 482 L 698 502 L 693 520 L 680 533 L 660 540 L 638 540 L 618 532 L 608 518 L 605 500 L 610 480 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 650 515 L 665 520 L 678 530 L 685 545 L 688 562 L 685 578 L 675 590 L 660 595 L 643 593 L 630 585 L 623 572 L 622 555 L 627 540 Z" })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { id: "northeast", fill: "#c084fc", stroke: "#6b21a8", strokeWidth: "1.5", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 575 190 L 610 185 L 645 188 L 675 195 L 700 205 L 720 220 L 730 240 L 732 262 L 725 282 L 710 297 L 688 305 L 662 308 L 635 305 L 610 295 L 590 280 L 578 260 L 573 238 L 575 215 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 700 205 L 720 195 L 738 190 L 755 192 L 770 200 L 780 213 L 785 230 L 783 248 L 775 263 L 760 272 L 740 275 L 720 270 L 708 258 L 703 242 L 705 225 Z" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M 755 192 L 770 180 L 785 175 L 800 177 L 812 185 L 818 198 L 817 213 L 810 226 L 798 233 L 783 235 L 770 228 L 762 215 L 760 200 Z" })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "190", y: "240", fontSize: "20", fill: "#78350f", fontWeight: "bold", children: "WEST" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "400", y: "260", fontSize: "20", fill: "#14532d", fontWeight: "bold", children: "MIDWEST" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "400", y: "450", fontSize: "20", fill: "#7c2d12", fontWeight: "bold", children: "SOUTH" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "660", y: "250", fontSize: "20", fill: "#4c1d95", fontWeight: "bold", children: "NORTHEAST" })
+    us_regions_basic: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        USRegionsMap,
+        {
+          selectedRegion: null,
+          onRegionSelect: () => {
+          },
+          disabled: false,
+          showLabels: true
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-xs text-gray-600 dark:text-gray-300", children: "Hover a state to see regional grouping; click selects region." })
     ] }),
     world_continents: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 1000 500", className: "w-full h-full", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "1000", height: "500", fill: "#a5d8dd" }),
@@ -4547,13 +4704,66 @@ const MapVisualizer = ({ imageKey, title }) => {
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "300", y: "370", fontSize: "12", fontWeight: "bold", fill: "#1e40af", children: "Red River" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "130", y: "320", fontSize: "13", fontWeight: "bold", fill: "#1e40af", children: "Colorado R." }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "130", y: "135", fontSize: "13", fontWeight: "bold", fill: "#1e40af", children: "Columbia R." }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "750", y: "100", width: "180", height: "120", fill: "white", stroke: "#52525b", strokeWidth: "2", rx: "8" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "840", y: "125", fontSize: "16", fontWeight: "bold", fill: "#1e3a8a", textAnchor: "middle", children: "Major US Rivers" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "765", y1: "145", x2: "795", y2: "145", stroke: "#1e40af", strokeWidth: "6" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "rect",
+        {
+          x: "750",
+          y: "100",
+          width: "180",
+          height: "120",
+          fill: "white",
+          stroke: "#52525b",
+          strokeWidth: "2",
+          rx: "8"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "840",
+          y: "125",
+          fontSize: "16",
+          fontWeight: "bold",
+          fill: "#1e3a8a",
+          textAnchor: "middle",
+          children: "Major US Rivers"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "line",
+        {
+          x1: "765",
+          y1: "145",
+          x2: "795",
+          y2: "145",
+          stroke: "#1e40af",
+          strokeWidth: "6"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "805", y: "150", fontSize: "12", fill: "#1f2937", children: "Large Rivers" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "765", y1: "170", x2: "795", y2: "170", stroke: "#3b82f6", strokeWidth: "5" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "line",
+        {
+          x1: "765",
+          y1: "170",
+          x2: "795",
+          y2: "170",
+          stroke: "#3b82f6",
+          strokeWidth: "5"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "805", y: "175", fontSize: "12", fill: "#1f2937", children: "Medium Rivers" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "765", y1: "195", x2: "795", y2: "195", stroke: "#60a5fa", strokeWidth: "4" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "line",
+        {
+          x1: "765",
+          y1: "195",
+          x2: "795",
+          y2: "195",
+          stroke: "#60a5fa",
+          strokeWidth: "4"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "805", y: "200", fontSize: "12", fill: "#1f2937", children: "Tributaries" })
     ] }),
     triangular_trade_routes: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 800 500", className: "w-full h-full", children: [
@@ -4618,25 +4828,158 @@ const MapVisualizer = ({ imageKey, title }) => {
           markerEnd: "url(#arrow3)"
         }
       ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "610", y: "130", fontSize: "18", fontWeight: "bold", fill: "#581c87", textAnchor: "middle", children: "Europe" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "570", y: "360", fontSize: "18", fontWeight: "bold", fill: "#78350f", textAnchor: "middle", children: "West Africa" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "220", y: "255", fontSize: "18", fontWeight: "bold", fill: "#14532d", textAnchor: "middle", children: "Americas" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "610",
+          y: "130",
+          fontSize: "18",
+          fontWeight: "bold",
+          fill: "#581c87",
+          textAnchor: "middle",
+          children: "Europe"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "570",
+          y: "360",
+          fontSize: "18",
+          fontWeight: "bold",
+          fill: "#78350f",
+          textAnchor: "middle",
+          children: "West Africa"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "220",
+          y: "255",
+          fontSize: "18",
+          fontWeight: "bold",
+          fill: "#14532d",
+          textAnchor: "middle",
+          children: "Americas"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "550", y: "220", fontSize: "11", fill: "#7f1d1d", fontWeight: "bold", children: "Goods →" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "350", y: "310", fontSize: "11", fill: "#7c2d12", fontWeight: "bold", children: "← Enslaved People" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "380", y: "160", fontSize: "11", fill: "#065f46", fontWeight: "bold", children: "Raw Materials →" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "20", y: "20", width: "200", height: "110", fill: "white", stroke: "#1f2937", strokeWidth: "2", rx: "6" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "120", y: "42", fontSize: "14", fontWeight: "bold", fill: "#1f2937", textAnchor: "middle", children: "Triangular Trade" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "30", y1: "55", x2: "70", y2: "55", stroke: "#dc2626", strokeWidth: "4", strokeDasharray: "6,3" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "rect",
+        {
+          x: "20",
+          y: "20",
+          width: "200",
+          height: "110",
+          fill: "white",
+          stroke: "#1f2937",
+          strokeWidth: "2",
+          rx: "6"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "120",
+          y: "42",
+          fontSize: "14",
+          fontWeight: "bold",
+          fill: "#1f2937",
+          textAnchor: "middle",
+          children: "Triangular Trade"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "line",
+        {
+          x1: "30",
+          y1: "55",
+          x2: "70",
+          y2: "55",
+          stroke: "#dc2626",
+          strokeWidth: "4",
+          strokeDasharray: "6,3"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "80", y: "60", fontSize: "11", fill: "#1f2937", children: "Manufactured Goods" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "30", y1: "75", x2: "70", y2: "75", stroke: "#7c2d12", strokeWidth: "4", strokeDasharray: "6,3" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "line",
+        {
+          x1: "30",
+          y1: "75",
+          x2: "70",
+          y2: "75",
+          stroke: "#7c2d12",
+          strokeWidth: "4",
+          strokeDasharray: "6,3"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "80", y: "80", fontSize: "11", fill: "#1f2937", children: "Enslaved People" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "30", y1: "95", x2: "70", y2: "95", stroke: "#059669", strokeWidth: "4", strokeDasharray: "6,3" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "line",
+        {
+          x1: "30",
+          y1: "95",
+          x2: "70",
+          y2: "95",
+          stroke: "#059669",
+          strokeWidth: "4",
+          strokeDasharray: "6,3"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "80", y: "100", fontSize: "11", fill: "#1f2937", children: "Raw Materials" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "120", y: "120", fontSize: "9", fill: "#6b7280", textAnchor: "middle", fontStyle: "italic", children: "1500s-1800s" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "120",
+          y: "120",
+          fontSize: "9",
+          fill: "#6b7280",
+          textAnchor: "middle",
+          fontStyle: "italic",
+          children: "1500s-1800s"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("defs", { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("marker", { id: "arrow1", markerWidth: "10", markerHeight: "10", refX: "9", refY: "3", orient: "auto", children: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "0 0, 10 3, 0 6", fill: "#dc2626" }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("marker", { id: "arrow2", markerWidth: "10", markerHeight: "10", refX: "9", refY: "3", orient: "auto", children: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "0 0, 10 3, 0 6", fill: "#7c2d12" }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("marker", { id: "arrow3", markerWidth: "10", markerHeight: "10", refX: "9", refY: "3", orient: "auto", children: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "0 0, 10 3, 0 6", fill: "#059669" }) })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "marker",
+          {
+            id: "arrow1",
+            markerWidth: "10",
+            markerHeight: "10",
+            refX: "9",
+            refY: "3",
+            orient: "auto",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "0 0, 10 3, 0 6", fill: "#dc2626" })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "marker",
+          {
+            id: "arrow2",
+            markerWidth: "10",
+            markerHeight: "10",
+            refX: "9",
+            refY: "3",
+            orient: "auto",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "0 0, 10 3, 0 6", fill: "#7c2d12" })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "marker",
+          {
+            id: "arrow3",
+            markerWidth: "10",
+            markerHeight: "10",
+            refX: "9",
+            refY: "3",
+            orient: "auto",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "0 0, 10 3, 0 6", fill: "#059669" })
+          }
+        )
       ] })
     ] }),
     asia_map: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 900 600", className: "w-full h-full", children: [
@@ -4691,17 +5034,61 @@ const MapVisualizer = ({ imageKey, title }) => {
       /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "600", cy: "280", r: "6", fill: "#dc2626" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "730", cy: "220", r: "6", fill: "#dc2626" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "575", cy: "440", r: "6", fill: "#dc2626" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "450", y: "280", fontSize: "28", fontWeight: "bold", fill: "#713f12", textAnchor: "middle", children: "ASIA" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "450",
+          y: "280",
+          fontSize: "28",
+          fontWeight: "bold",
+          fill: "#713f12",
+          textAnchor: "middle",
+          children: "ASIA"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "170", y: "230", fontSize: "14", fontWeight: "bold", fill: "#78350f", children: "Middle East" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "360", y: "360", fontSize: "14", fontWeight: "bold", fill: "#3f6212", children: "South Asia" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "600", y: "270", fontSize: "14", fontWeight: "bold", fill: "#7f1d1d", children: "East Asia" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "570", y: "445", fontSize: "12", fontWeight: "bold", fill: "#581c87", children: "SE Asia" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "730", y: "210", fontSize: "12", fontWeight: "bold", fill: "#7f1d1d", children: "Japan" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "20", y: "20", width: "160", height: "80", fill: "white", stroke: "#1f2937", strokeWidth: "2", rx: "6" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "100", y: "42", fontSize: "14", fontWeight: "bold", fill: "#1f2937", textAnchor: "middle", children: "Asia Regions" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "rect",
+        {
+          x: "20",
+          y: "20",
+          width: "160",
+          height: "80",
+          fill: "white",
+          stroke: "#1f2937",
+          strokeWidth: "2",
+          rx: "6"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "100",
+          y: "42",
+          fontSize: "14",
+          fontWeight: "bold",
+          fill: "#1f2937",
+          textAnchor: "middle",
+          children: "Asia Regions"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "35", cy: "55", r: "4", fill: "#dc2626" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "50", y: "60", fontSize: "11", fill: "#1f2937", children: "Major Cities" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "30", y: "68", width: "15", height: "10", fill: "#fef08a", stroke: "#a16207" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "rect",
+        {
+          x: "30",
+          y: "68",
+          width: "15",
+          height: "10",
+          fill: "#fef08a",
+          stroke: "#a16207"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "50", y: "77", fontSize: "11", fill: "#1f2937", children: "Continental Asia" })
     ] }),
     colonial_america: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 700 600", className: "w-full h-full", children: [
@@ -4760,16 +5147,97 @@ const MapVisualizer = ({ imageKey, title }) => {
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "210", y: "325", fontSize: "18", fontWeight: "bold", fill: "#3f6212", children: "Territories" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "290", y: "75", fontSize: "14", fontWeight: "bold", fill: "#581c87", children: "French Canada" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "370", y: "565", fontSize: "14", fontWeight: "bold", fill: "#78350f", children: "Spanish Florida" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "20", y: "20", width: "200", height: "140", fill: "white", stroke: "#1f2937", strokeWidth: "2", rx: "8" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "120", y: "45", fontSize: "16", fontWeight: "bold", fill: "#1f2937", textAnchor: "middle", children: "Colonial America" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "120", y: "65", fontSize: "11", fill: "#6b7280", textAnchor: "middle", fontStyle: "italic", children: "circa 1770" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "30", y: "75", width: "20", height: "15", fill: "#fca5a5", stroke: "#dc2626", strokeWidth: "1.5" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "rect",
+        {
+          x: "20",
+          y: "20",
+          width: "200",
+          height: "140",
+          fill: "white",
+          stroke: "#1f2937",
+          strokeWidth: "2",
+          rx: "8"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "120",
+          y: "45",
+          fontSize: "16",
+          fontWeight: "bold",
+          fill: "#1f2937",
+          textAnchor: "middle",
+          children: "Colonial America"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "120",
+          y: "65",
+          fontSize: "11",
+          fill: "#6b7280",
+          textAnchor: "middle",
+          fontStyle: "italic",
+          children: "circa 1770"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "rect",
+        {
+          x: "30",
+          y: "75",
+          width: "20",
+          height: "15",
+          fill: "#fca5a5",
+          stroke: "#dc2626",
+          strokeWidth: "1.5"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "58", y: "87", fontSize: "12", fill: "#1f2937", children: "13 British Colonies" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "30", y: "95", width: "20", height: "15", fill: "#bef264", stroke: "#65a30d", strokeWidth: "1.5", opacity: "0.7" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "rect",
+        {
+          x: "30",
+          y: "95",
+          width: "20",
+          height: "15",
+          fill: "#bef264",
+          stroke: "#65a30d",
+          strokeWidth: "1.5",
+          opacity: "0.7"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "58", y: "107", fontSize: "12", fill: "#1f2937", children: "Native Lands" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "30", y: "115", width: "20", height: "15", fill: "#c084fc", stroke: "#6b21a8", strokeWidth: "1.5", opacity: "0.6" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "rect",
+        {
+          x: "30",
+          y: "115",
+          width: "20",
+          height: "15",
+          fill: "#c084fc",
+          stroke: "#6b21a8",
+          strokeWidth: "1.5",
+          opacity: "0.6"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "58", y: "127", fontSize: "12", fill: "#1f2937", children: "French Territory" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "30", y: "135", width: "20", height: "15", fill: "#fef08a", stroke: "#a16207", strokeWidth: "1.5", opacity: "0.7" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "rect",
+        {
+          x: "30",
+          y: "135",
+          width: "20",
+          height: "15",
+          fill: "#fef08a",
+          stroke: "#a16207",
+          strokeWidth: "1.5",
+          opacity: "0.7"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "58", y: "147", fontSize: "12", fill: "#1f2937", children: "Spanish Territory" })
     ] }),
     us_time_zones: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { viewBox: "0 0 960 500", className: "w-full h-full", children: [
@@ -4816,31 +5284,219 @@ const MapVisualizer = ({ imageKey, title }) => {
           strokeWidth: "2"
         }
       ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "215", y1: "95", x2: "215", y2: "420", stroke: "#7f1d1d", strokeWidth: "3", strokeDasharray: "10,5" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "410", y1: "105", x2: "410", y2: "435", stroke: "#7c2d12", strokeWidth: "3", strokeDasharray: "10,5" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "675", y1: "125", x2: "675", y2: "435", stroke: "#713f12", strokeWidth: "3", strokeDasharray: "10,5" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "145", y: "260", fontSize: "24", fontWeight: "bold", fill: "#7f1d1d", textAnchor: "middle", children: "Pacific" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "145", y: "290", fontSize: "16", fontWeight: "bold", fill: "#991b1b", textAnchor: "middle", children: "PST/PDT" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "line",
+        {
+          x1: "215",
+          y1: "95",
+          x2: "215",
+          y2: "420",
+          stroke: "#7f1d1d",
+          strokeWidth: "3",
+          strokeDasharray: "10,5"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "line",
+        {
+          x1: "410",
+          y1: "105",
+          x2: "410",
+          y2: "435",
+          stroke: "#7c2d12",
+          strokeWidth: "3",
+          strokeDasharray: "10,5"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "line",
+        {
+          x1: "675",
+          y1: "125",
+          x2: "675",
+          y2: "435",
+          stroke: "#713f12",
+          strokeWidth: "3",
+          strokeDasharray: "10,5"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "145",
+          y: "260",
+          fontSize: "24",
+          fontWeight: "bold",
+          fill: "#7f1d1d",
+          textAnchor: "middle",
+          children: "Pacific"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "145",
+          y: "290",
+          fontSize: "16",
+          fontWeight: "bold",
+          fill: "#991b1b",
+          textAnchor: "middle",
+          children: "PST/PDT"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "145", y: "315", fontSize: "14", fill: "#7f1d1d", textAnchor: "middle", children: "UTC-8/-7" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "310", y: "260", fontSize: "24", fontWeight: "bold", fill: "#7c2d12", textAnchor: "middle", children: "Mountain" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "310", y: "290", fontSize: "16", fontWeight: "bold", fill: "#9a3412", textAnchor: "middle", children: "MST/MDT" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "310",
+          y: "260",
+          fontSize: "24",
+          fontWeight: "bold",
+          fill: "#7c2d12",
+          textAnchor: "middle",
+          children: "Mountain"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "310",
+          y: "290",
+          fontSize: "16",
+          fontWeight: "bold",
+          fill: "#9a3412",
+          textAnchor: "middle",
+          children: "MST/MDT"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "310", y: "315", fontSize: "14", fill: "#7c2d12", textAnchor: "middle", children: "UTC-7/-6" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "540", y: "260", fontSize: "24", fontWeight: "bold", fill: "#713f12", textAnchor: "middle", children: "Central" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "540", y: "290", fontSize: "16", fontWeight: "bold", fill: "#854d0e", textAnchor: "middle", children: "CST/CDT" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "540",
+          y: "260",
+          fontSize: "24",
+          fontWeight: "bold",
+          fill: "#713f12",
+          textAnchor: "middle",
+          children: "Central"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "540",
+          y: "290",
+          fontSize: "16",
+          fontWeight: "bold",
+          fill: "#854d0e",
+          textAnchor: "middle",
+          children: "CST/CDT"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "540", y: "315", fontSize: "14", fill: "#713f12", textAnchor: "middle", children: "UTC-6/-5" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "770", y: "260", fontSize: "24", fontWeight: "bold", fill: "#3f6212", textAnchor: "middle", children: "Eastern" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "770", y: "290", fontSize: "16", fontWeight: "bold", fill: "#4d7c0f", textAnchor: "middle", children: "EST/EDT" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "770",
+          y: "260",
+          fontSize: "24",
+          fontWeight: "bold",
+          fill: "#3f6212",
+          textAnchor: "middle",
+          children: "Eastern"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "770",
+          y: "290",
+          fontSize: "16",
+          fontWeight: "bold",
+          fill: "#4d7c0f",
+          textAnchor: "middle",
+          children: "EST/EDT"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "770", y: "315", fontSize: "14", fill: "#3f6212", textAnchor: "middle", children: "UTC-5/-4" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "140", cy: "200", r: "5", fill: "#dc2626" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "140", y: "185", fontSize: "11", fill: "#7f1d1d", textAnchor: "middle", fontWeight: "bold", children: "LA" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "140",
+          y: "185",
+          fontSize: "11",
+          fill: "#7f1d1d",
+          textAnchor: "middle",
+          fontWeight: "bold",
+          children: "LA"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "305", cy: "220", r: "5", fill: "#ea580c" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "305", y: "205", fontSize: "11", fill: "#7c2d12", textAnchor: "middle", fontWeight: "bold", children: "Denver" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "305",
+          y: "205",
+          fontSize: "11",
+          fill: "#7c2d12",
+          textAnchor: "middle",
+          fontWeight: "bold",
+          children: "Denver"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "520", cy: "230", r: "5", fill: "#ca8a04" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "520", y: "215", fontSize: "11", fill: "#713f12", textAnchor: "middle", fontWeight: "bold", children: "Chicago" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "520",
+          y: "215",
+          fontSize: "11",
+          fill: "#713f12",
+          textAnchor: "middle",
+          fontWeight: "bold",
+          children: "Chicago"
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "800", cy: "210", r: "5", fill: "#65a30d" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "800", y: "195", fontSize: "11", fill: "#3f6212", textAnchor: "middle", fontWeight: "bold", children: "NYC" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "320", y: "30", width: "320", height: "50", fill: "white", stroke: "#1f2937", strokeWidth: "2", rx: "8" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "480", y: "62", fontSize: "22", fontWeight: "bold", fill: "#1f2937", textAnchor: "middle", children: "United States Time Zones" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "800",
+          y: "195",
+          fontSize: "11",
+          fill: "#3f6212",
+          textAnchor: "middle",
+          fontWeight: "bold",
+          children: "NYC"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "rect",
+        {
+          x: "320",
+          y: "30",
+          width: "320",
+          height: "50",
+          fill: "white",
+          stroke: "#1f2937",
+          strokeWidth: "2",
+          rx: "8"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "text",
+        {
+          x: "480",
+          y: "62",
+          fontSize: "22",
+          fontWeight: "bold",
+          fill: "#1f2937",
+          textAnchor: "middle",
+          children: "United States Time Zones"
+        }
+      )
     ] })
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full h-full flex items-center justify-center", children: mapContent[imageKey] || /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center", children: [
@@ -6220,6 +6876,302 @@ function ElectoralCollegeSimulator({ onExit }) {
     ] })
   ] }) });
 }
+const AMENDMENTS_DB = [
+  {
+    id: "1st",
+    topic: "Freedoms",
+    simple: "Freedom of speech, religion, press, assembly, and petition.",
+    original: "Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances.",
+    difficulty: "easy",
+    tags: ["speech_press", "religion", "assembly", "petition"]
+  },
+  {
+    id: "2nd",
+    topic: "Arms",
+    simple: "Right to keep and bear arms (own guns).",
+    original: "A well regulated Militia, being necessary to the security of a free State, the right of the people to keep and bear Arms, shall not be infringed.",
+    difficulty: "medium",
+    tags: ["civil_rights"]
+  },
+  {
+    id: "4th",
+    topic: "Privacy",
+    simple: "Protection against unreasonable searches and seizures (need a warrant).",
+    original: "The right of the people to be secure in their persons, houses, papers, and effects, against unreasonable searches and seizures, shall not be violated, and no Warrants shall issue, but upon probable cause, supported by Oath or affirmation, and particularly describing the place to be searched, and the persons or things to be seized.",
+    difficulty: "medium",
+    tags: ["criminal_procedure", "privacy"]
+  },
+  {
+    id: "5th",
+    topic: "Due Process",
+    simple: "Right to remain silent; no double jeopardy; due process required.",
+    original: "No person shall be held to answer for a capital, or otherwise infamous crime, unless on a presentment or indictment of a Grand Jury... nor shall be compelled in any criminal case to be a witness against himself, nor be deprived of life, liberty, or property, without due process of law; nor shall private property be taken for public use, without just compensation.",
+    difficulty: "hard",
+    tags: ["criminal_procedure", "due_process", "takings"]
+  },
+  {
+    id: "6th",
+    topic: "Trial",
+    simple: "Right to a speedy, public trial and a lawyer.",
+    original: "In all criminal prosecutions, the accused shall enjoy the right to a speedy and public trial, by an impartial jury of the State and district wherein the crime shall have been committed... and to have the Assistance of Counsel for his defence.",
+    difficulty: "medium",
+    tags: ["criminal_procedure", "trial_rights"]
+  },
+  {
+    id: "8th",
+    topic: "Punishment",
+    simple: "No cruel or unusual punishment; no excessive bail.",
+    original: "Excessive bail shall not be required, nor excessive fines imposed, nor cruel and unusual punishments inflicted.",
+    difficulty: "easy",
+    tags: ["criminal_procedure", "punishment"]
+  },
+  {
+    id: "13th",
+    topic: "Slavery",
+    simple: "Abolished slavery in the United States.",
+    original: "Neither slavery nor involuntary servitude, except as a punishment for crime whereof the party shall have been duly convicted, shall exist within the United States, or any place subject to their jurisdiction.",
+    difficulty: "easy",
+    tags: ["civil_rights"]
+  },
+  {
+    id: "14th",
+    topic: "Equality",
+    simple: "Grants citizenship to anyone born in the US; guarantees equal protection under the law.",
+    original: "All persons born or naturalized in the United States... nor deny to any person within its jurisdiction the equal protection of the laws.",
+    difficulty: "hard",
+    tags: ["civil_rights", "equal_protection", "due_process"]
+  },
+  {
+    id: "19th",
+    topic: "Voting (Sex)",
+    simple: "Women's right to vote.",
+    original: "The right of citizens of the United States to vote shall not be denied or abridged by the United States or by any State on account of sex.",
+    difficulty: "medium",
+    tags: ["civil_rights", "voting"]
+  }
+];
+const PRACTICE_SCENARIOS = [
+  {
+    id: "scn_001",
+    pack: "speech_press",
+    prompt: "A city passes a law banning peaceful protests in public parks.",
+    correctAmendmentId: "1st",
+    explanation: "The First Amendment protects the right to assembly and petition, so banning peaceful protests infringes those rights.",
+    difficulty: "easy",
+    tags: ["assembly", "petition", "speech_press"]
+  },
+  {
+    id: "scn_002",
+    pack: "criminal_procedure",
+    prompt: "Police search a home without a warrant or probable cause and seize evidence.",
+    correctAmendmentId: "4th",
+    explanation: "The Fourth Amendment protects against unreasonable searches and seizures and generally requires a warrant based on probable cause.",
+    difficulty: "medium",
+    tags: ["criminal_procedure", "privacy"]
+  },
+  {
+    id: "scn_003",
+    pack: "criminal_procedure",
+    prompt: "A suspect is compelled to testify against themselves during a criminal trial.",
+    correctAmendmentId: "5th",
+    explanation: "The Fifth Amendment protects against self-incrimination and ensures due process.",
+    difficulty: "hard",
+    tags: ["criminal_procedure", "due_process"]
+  },
+  {
+    id: "scn_004",
+    pack: "civil_rights",
+    prompt: "A state denies equal protection of the laws to a group of citizens.",
+    correctAmendmentId: "14th",
+    explanation: "The Fourteenth Amendment guarantees equal protection and due process for all persons.",
+    difficulty: "hard",
+    tags: ["civil_rights", "equal_protection"]
+  }
+];
+const constitutionStyles = `
+  .constitution-text {
+    color: #0f172a !important;
+  }
+  .dark .constitution-text {
+    color: #e2e8f0 !important;
+  }
+`;
+function ConstitutionExplorer({ onExit, pack }) {
+  const [mode, setMode] = reactExports.useState("simple");
+  const [search, setSearch] = reactExports.useState("");
+  const [selectedScenario, setSelectedScenario] = reactExports.useState(null);
+  const [selectedAmendmentId, setSelectedAmendmentId] = reactExports.useState(null);
+  const [feedback, setFeedback] = reactExports.useState(null);
+  const filteredAmendments = AMENDMENTS_DB.filter(
+    (item) => item.simple.toLowerCase().includes(search.toLowerCase()) || item.topic.toLowerCase().includes(search.toLowerCase()) || item.id.toLowerCase().includes(search.toLowerCase())
+  );
+  const availableScenarios = PRACTICE_SCENARIOS.filter(
+    (s) => pack ? s.pack === pack : true
+  );
+  const startScenario = (s) => {
+    setSelectedScenario(s);
+    setSelectedAmendmentId(null);
+    setFeedback(null);
+  };
+  const answerScenario = (amendmentId) => {
+    if (!selectedScenario) return;
+    setSelectedAmendmentId(amendmentId);
+    const correct = amendmentId === selectedScenario.correctAmendmentId;
+    setFeedback({ correct });
+  };
+  const resetScenario = () => {
+    setSelectedScenario(null);
+    setSelectedAmendmentId(null);
+    setFeedback(null);
+  };
+  const isHighlighted = (amendmentId) => {
+    if (!feedback || feedback.correct) return false;
+    return amendmentId === (selectedScenario == null ? void 0 : selectedScenario.correctAmendmentId);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: constitutionStyles }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fade-in min-h-screen bg-white dark:bg-slate-700 constitution-text", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-6xl mx-auto p-6 space-y-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: onExit,
+            className: "flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "← Back" })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold constitution-text", children: "Constitution Explorer — Rights Arbitrator" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-12" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-bold constitution-text", children: "Practice Scenarios" }),
+          selectedScenario && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: resetScenario,
+              className: "text-sm px-3 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 constitution-text",
+              children: "Clear"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-3", children: availableScenarios.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            className: `text-left p-3 rounded-lg border transition ${(selectedScenario == null ? void 0 : selectedScenario.id) === s.id ? "border-sky-400 bg-sky-50 dark:bg-sky-900/20" : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-600"}`,
+            onClick: () => startScenario(s),
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold constitution-text", children: s.prompt }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-slate-500", children: s.difficulty })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-1 text-xs text-slate-500", children: s.tags.join(", ") })
+            ]
+          },
+          s.id
+        )) }),
+        selectedScenario && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 p-3 rounded-lg bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm mb-2 constitution-text", children: "Select the correct amendment:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: AMENDMENTS_DB.map((a) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => answerScenario(a.id),
+              className: `px-3 py-1.5 rounded border text-sm transition ${isHighlighted(a.id) ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-200" : "border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600"}`,
+              children: a.id
+            },
+            a.id
+          )) }),
+          feedback && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 space-y-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: `text-sm font-semibold constitution-text ${feedback.correct ? "text-emerald-700 dark:text-emerald-200" : "text-red-700 dark:text-red-300"}`,
+                children: feedback.correct ? "Correct!" : "Incorrect"
+              }
+            ),
+            !feedback.correct && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm", children: [
+              "You selected:",
+              " ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: selectedAmendmentId }),
+              ". Correct:",
+              " ",
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono", children: selectedScenario.correctAmendmentId }),
+              "."
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-600 dark:text-slate-300", children: selectedScenario.explanation })
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            type: "text",
+            placeholder: "Search (e.g. 'speech', 'voting', '14th')",
+            className: "w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 focus:ring-2 focus:ring-sky-500 outline-none transition",
+            value: search,
+            onChange: (e) => setSearch(e.target.value)
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex bg-white dark:bg-slate-600 rounded-lg p-1 border border-slate-200 dark:border-slate-700", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setMode("simple"),
+              className: `px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === "simple" ? "bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`,
+              children: "Plain English"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setMode("original"),
+              className: `px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${mode === "original" ? "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`,
+              children: "Original Text"
+            }
+          )
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: [
+        filteredAmendments.map((amendment) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "flex flex-col p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-800/95 shadow-sm hover:shadow-md transition-shadow",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-start mb-3", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-xs font-bold uppercase tracking-wider constitution-text", children: [
+                  amendment.id,
+                  " Amendment"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-medium text-sky-600 dark:text-sky-400", children: amendment.topic })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "p",
+                {
+                  className: `text-base leading-relaxed flex-grow constitution-text ${mode === "original" ? "font-serif italic" : "font-sans"}`,
+                  children: mode === "original" ? `"${amendment.original}"` : amendment.simple
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex items-center justify-between text-xs text-slate-500", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                  "Difficulty: ",
+                  amendment.difficulty
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "truncate max-w-[60%]", children: amendment.tags.join(", ") })
+              ] })
+            ]
+          },
+          amendment.id
+        )),
+        filteredAmendments.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12 text-slate-500", children: [
+          'No amendments found matching "',
+          search,
+          '".'
+        ] })
+      ] })
+    ] }) })
+  ] });
+}
 const SCENARIOS = [
   {
     id: "econ_001",
@@ -6672,6 +7624,7 @@ const MapExplorerWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxR
 const CivicsReasoningLabWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CivicsReasoningLab, { onExit: onClose2 });
 const HistoryTimelineBuilderWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(HistoryTimelineBuilder, { onExit: onClose2 });
 const ElectoralCollegeSimulatorWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(ElectoralCollegeSimulator, { onExit: onClose2 });
+const ConstitutionExplorerWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(ConstitutionExplorer, { onExit: onClose2, pack: null });
 const EconomicsGraphToolWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(EconomicsGraphTool, { onExit: onClose2 });
 function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
   var _a;
@@ -6766,6 +7719,12 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
         component: HistoryTimelineBuilderWrapper
       },
       {
+        id: "constitution-explorer",
+        name: "Constitution Explorer",
+        icon: "📋",
+        component: ConstitutionExplorerWrapper
+      },
+      {
         id: "electoral-college",
         name: "Electoral College Simulator",
         icon: "🗳️",
@@ -6796,7 +7755,10 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
           className: "w-full max-w-6xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col",
           style: {
             backgroundColor: dark ? "#1e293b" : "#ffffff",
-            border: `2px solid ${(theme == null ? void 0 : theme.accent) || "#64748b"}`
+            backgroundClip: "padding-box",
+            border: `2px solid ${(theme == null ? void 0 : theme.accent) || "#64748b"}`,
+            backdropFilter: "none",
+            WebkitBackdropFilter: "none"
           },
           onClick: (e) => e.stopPropagation(),
           children: [
@@ -6805,8 +7767,8 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
               {
                 className: "p-6 flex items-center justify-between",
                 style: {
-                  background: (theme == null ? void 0 : theme.gradient) || "linear-gradient(135deg, #64748b 0%, #475569 100%)",
-                  color: "#ffffff"
+                  background: dark ? (theme == null ? void 0 : theme.gradient) || "linear-gradient(135deg, #64748b 0%, #475569 100%)" : "#f0f9ff !important",
+                  color: dark ? "#ffffff" : "#0f172a !important"
                 },
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
@@ -6828,68 +7790,75 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
                 ]
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto p-6", children: !selectedTool ? (
-              // Tool Grid - Selection View
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: tools.length > 0 ? tools.map((tool) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                "button",
-                {
-                  onClick: () => setSelectedTool(tool.id),
-                  className: "p-6 rounded-xl border-2 text-left transition-all hover:scale-105 hover:shadow-lg",
-                  style: {
-                    backgroundColor: dark ? "#334155" : "#ffffff",
-                    borderColor: (theme == null ? void 0 : theme.accent) || "#64748b",
-                    color: dark ? "#e2e8f0" : "#1e293b"
-                  },
-                  children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-5xl mb-3", children: tool.icon }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-bold mb-2", children: tool.name }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-75", children: "Click to open" })
-                  ]
-                },
-                tool.id
-              )) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-6xl mb-4", children: "🚧" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "h3",
-                  {
-                    className: "text-xl font-semibold mb-2",
-                    style: { color: dark ? "#e2e8f0" : "#1e293b" },
-                    children: "Tools Coming Soon"
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "p",
-                  {
-                    className: "text-sm opacity-75",
-                    style: { color: dark ? "#94a3b8" : "#64748b" },
-                    children: "Subject-specific tools are being developed"
-                  }
-                )
-              ] }) })
-            ) : (
-              // Tool Display - Active Tool View
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    onClick: () => setSelectedTool(null),
-                    className: "mb-4 px-4 py-2 rounded-lg font-medium transition-colors",
-                    style: {
-                      backgroundColor: dark ? "#475569" : "#e2e8f0",
-                      color: dark ? "#e2e8f0" : "#1e293b"
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: "flex-1 overflow-y-auto p-6",
+                style: { backgroundColor: dark ? "#1e293b" : "#ffffff" },
+                children: !selectedTool ? (
+                  // Tool Grid - Selection View
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: tools.length > 0 ? tools.map((tool) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    "button",
+                    {
+                      onClick: () => setSelectedTool(tool.id),
+                      className: "p-6 rounded-xl border-2 text-left transition-all hover:scale-105 hover:shadow-lg",
+                      style: {
+                        backgroundColor: dark ? "#4b5563" : "#f1f5f9",
+                        borderColor: dark ? (theme == null ? void 0 : theme.accent) || "#64748b" : "#cbd5e1",
+                        color: dark ? "#e2e8f0" : "#0f172a"
+                      },
+                      children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-5xl mb-3", children: tool.icon }),
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-bold mb-2", children: tool.name }),
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-75", children: "Click to open" })
+                      ]
                     },
-                    children: "← Back to Tools"
-                  }
-                ),
-                ActiveToolComponent && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  ActiveToolComponent,
-                  {
-                    onClose: () => setSelectedTool(null),
-                    dark
-                  }
+                    tool.id
+                  )) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-full text-center py-12", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-6xl mb-4", children: "🚧" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "h3",
+                      {
+                        className: "text-xl font-semibold mb-2",
+                        style: { color: dark ? "#e2e8f0" : "#1e293b" },
+                        children: "Tools Coming Soon"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "p",
+                      {
+                        className: "text-sm opacity-75",
+                        style: { color: dark ? "#94a3b8" : "#64748b" },
+                        children: "Subject-specific tools are being developed"
+                      }
+                    )
+                  ] }) })
+                ) : (
+                  // Tool Display - Active Tool View
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "button",
+                      {
+                        onClick: () => setSelectedTool(null),
+                        className: "mb-4 px-4 py-2 rounded-lg font-medium transition-colors",
+                        style: {
+                          backgroundColor: dark ? "#475569" : "#e2e8f0",
+                          color: dark ? "#e2e8f0" : "#1e293b"
+                        },
+                        children: "← Back to Tools"
+                      }
+                    ),
+                    ActiveToolComponent && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      ActiveToolComponent,
+                      {
+                        onClose: () => setSelectedTool(null),
+                        dark
+                      }
+                    )
+                  ] })
                 )
-              ] })
-            ) }),
+              }
+            ),
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "div",
               {
@@ -40992,4 +41961,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-9XocBlpi.js.map
+//# sourceMappingURL=main-Qr0Yk8mW.js.map

@@ -8,6 +8,7 @@ import {
 import { MathText } from '../math/MathText.jsx';
 import { GeometryFigure } from '../geometry/GeometryFigure.jsx';
 import { ChartDisplay } from '../charts/ChartDisplay.jsx';
+import USRegionsMap from '../maps/USRegionsMap.jsx';
 import { renderQuestionTextForDisplay } from '../../utils/mathUtils.js';
 import {
   getOptionText,
@@ -190,6 +191,13 @@ export function QuizInterface({
   };
   const currentQ = questions[currentIndex];
   if (!currentQ) return <div>Loading question...</div>;
+  // Detect interactive US regions map usage
+  const hasUSRegionsMap = Boolean(
+    currentQ?.interactive?.type === 'us-regions' || currentQ?.widget === 'us-regions' || /\[\[US_REGIONS_MAP\]\]/.test(String(currentQ?.question || ''))
+  );
+
+  const regionAnswer = typeof answers[currentIndex] === 'string' ? answers[currentIndex] : null;
+
 
   const baseFillIn =
     currentQ.type === 'fill-in-the-blank' ||
@@ -599,7 +607,7 @@ export function QuizInterface({
                     ? currentQ.imageUrl
                     : null;
                 const imgSrc = resolveAssetUrl(rawImgSrc);
-                return imgSrc ? (
+                return imgSrc && !hasUSRegionsMap ? (
                   <img
                     src={imgSrc}
                     alt={`Visual for question ${currentQ.questionNumber}`}
@@ -630,6 +638,24 @@ export function QuizInterface({
                   />
                 ) : null;
               })()}
+
+              {hasUSRegionsMap && (
+                <div className="my-4">
+                  <USRegionsMap
+                    selectedRegion={regionAnswer || null}
+                    onRegionSelect={(r) => {
+                      const newAnswers = [...answers];
+                      newAnswers[currentIndex] = r;
+                      setAnswers(newAnswers);
+                    }}
+                    disabled={false}
+                    showLabels={false}
+                  />
+                  <p className="mt-2 text-xs" style={{ color: scheme.mutedText }}>
+                    Click a region (Midwest, Northeast, South, West). Your selection will sync below.
+                  </p>
+                </div>
+              )}
               {GEOMETRY_FIGURES_ENABLED && currentQ.geometrySpec && (
                 <div
                   className="my-4 mx-auto max-w-md rounded-md p-4 shadow-sm bg-white text-black dark:bg-slate-900 dark:text-slate-100"
@@ -882,7 +908,8 @@ export function QuizInterface({
                       optionStyles.backgroundColor = scheme.optionSelectedBg;
                       optionStyles.borderColor = scheme.optionSelectedBorder;
                       optionStyles.color = scheme.accentText;
-                    }
+                    const isRegionOption = hasUSRegionsMap && /^(midwest|northeast|south|west)$/i.test(optText);
+                    return (
                     // MULTIPLE-SELECT ENHANCEMENT: Add class for multiple-select mode
                     const optionClassNames = [
                       'option',

@@ -1,0 +1,14 @@
+<!-- Placeholder file for US Regions SVG.
+
+Replace this file with a public-domain, geographically accurate SVG map in which each state is an individual <path> with data-state and data-region attributes. Suggested source: US Census TIGER/Line derived SVG or Wikimedia Commons (public domain) such as "Blank US map (states only).svg".
+
+Required per-path attributes:
+  data-state="IL"
+  data-region="midwest"
+
+This placeholder renders a neutral rectangle so the component mounts safely while awaiting the final asset.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="US Regions Map (placeholder)">
+  <rect x="0" y="0" width="960" height="600" class="usrg-placeholder" />
+  <text x="480" y="300" text-anchor="middle" fill="#6b7280" font-size="18" font-family="system-ui, sans-serif">US Regions SVG placeholder</text>
+</svg>
