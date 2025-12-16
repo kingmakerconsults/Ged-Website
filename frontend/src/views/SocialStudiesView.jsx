@@ -100,12 +100,12 @@ export default function SocialStudiesView({ dark = false }) {
               onClick={() => navigate(card.href)}
               className="tool-card p-6 rounded-lg text-left transition-all hover:shadow-lg"
               style={{
-                backgroundColor: dark ? '#334155' : '#f1f5f9',
+                backgroundColor: dark ? '#4b5563' : '#f1f5f9',
                 border: `2px solid ${
                   card.status === 'active'
                     ? theme.primary
                     : dark
-                    ? '#334155'
+                    ? '#475569'
                     : '#e2e8f0'
                 }`,
                 cursor: 'pointer',
