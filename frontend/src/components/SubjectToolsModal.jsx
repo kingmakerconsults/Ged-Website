@@ -136,6 +136,12 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
         component: HistoryTimelineBuilderWrapper,
       },
       {
+        id: 'constitution-explorer',
+        name: 'Constitution Explorer',
+        icon: '📋',
+        component: ConstitutionExplorerWrapper,
+      },
+      {
         id: 'electoral-college',
         name: 'Electoral College Simulator',
         icon: '🗳️',
@@ -208,7 +214,7 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
                     onClick={() => setSelectedTool(tool.id)}
                     className="p-6 rounded-xl border-2 text-left transition-all hover:scale-105 hover:shadow-lg"
                     style={{
-                      backgroundColor: dark ? '#334155' : '#ffffff',
+                      backgroundColor: dark ? '#4b5563' : '#ffffff',
                       borderColor: theme?.accent || '#64748b',
                       color: dark ? '#e2e8f0' : '#1e293b',
                     }}

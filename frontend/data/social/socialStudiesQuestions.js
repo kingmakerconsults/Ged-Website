@@ -2572,10 +2572,9 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                   },
                   {
                     questionNumber: 4,
-                    type: 'image',
-                    imageUrl: '/images/Social Studies/licensed-image (13).jpg',
+                    type: 'text',
                     question:
-                      'This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:',
+                      'Immigrants arriving at Ellis Island in the early 20th century most commonly went through which process upon arrival?',
                     answerOptions: [
                       {
                         text: 'a welcoming ceremony with city officials.',
@@ -2599,9 +2598,9 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     questionNumber: 5,
                     type: 'image',
                     imageUrl:
-                      '/images/Social Studies/Questions-are-based-on-the-following-graph.-7.png',
+                      '/images/Social Studies/Screenshot 2025-10-03 133324.png',
                     question:
-                      'This graph shows a significant trend of population growth, similar to the urbanization seen in the U.S. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?',
+                      'This graph shows the long-term shift toward an urban majority in the United States. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?',
                     answerOptions: [
                       { text: 'A shortage of factory jobs.', isCorrect: false },
                       {
@@ -3027,10 +3026,9 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                   },
                   {
                     questionNumber: 3,
-                    type: 'image',
-                    imageUrl: '/images/Social Studies/licensed-image (14).jpg',
+                    type: 'text',
                     question:
-                      "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
+                      "In the 1930s, 'Hoovervilles' sprang up across the United States. What did this term refer to?",
                     answerOptions: [
                       {
                         text: 'Government-built housing projects for the poor.',
@@ -6857,8 +6855,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                 questionNumber: 6,
                 challenge_tags: ['social-5'],
                 type: 'image',
-                imageUrl:
-                  '/images/Social Studies/Questions-are-based-on-the-following-graph.-7 (1).png',
+                imageUrl: '/images/Social Studies/ged-grsph-2.png',
                 question:
                   'This graph shows a standard supply and demand model. The point where the supply curve and the demand curve intersect is known as:',
                 answerOptions: [
@@ -7564,7 +7561,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                 challenge_tags: ['social-5'],
                 type: 'image',
                 imageUrl:
-                  '/images/Social Studies/Questions-are-based-on-the-following-graph.-6 (1).png',
+                  '/images/Social Studies/Screenshot 2025-10-03 134615.png',
                 question:
                   'This chart shows the unemployment rate in the U.S. over time. A sharp spike in the unemployment rate, like the ones seen around 2009 and 2020, is typically associated with which phase of the business cycle?',
                 answerOptions: [
@@ -7803,65 +7800,64 @@ export const SOCIAL_STUDIES_QUESTIONS = {
               {
                 questionNumber: 4,
                 challenge_tags: ['social-2'],
-                type: 'image',
-                imageUrl: '/images/Social Studies/political-map-of-world.jpg',
+                type: 'text',
                 question:
-                  'This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?',
+                  'Globally, which regions generally have the highest GDP per capita?',
                 answerOptions: [
                   {
                     text: 'Central Africa',
                     rationale:
-                      'Central Africa is shown in the lightest shades, indicating lower GDP per capita.',
+                      'Central Africa contains many low-income economies with comparatively low GDP per capita.',
                     isCorrect: false,
                   },
                   {
                     text: 'South America',
                     rationale:
-                      'South America is shown in light to medium shades.',
+                      'South America includes several middle-income economies, but not the highest per capita incomes overall.',
                     isCorrect: false,
                   },
                   {
                     text: 'North America and Western Europe',
                     rationale:
-                      'Correct. The United States, Canada, and countries in Western Europe are shown in the darkest shades, indicating the highest GDP per capita.',
+                      'Correct. These regions contain many advanced, high-income economies with some of the highest GDP per capita figures in the world.',
                     isCorrect: true,
                   },
                   {
                     text: 'Southeast Asia',
-                    rationale: 'Southeast Asia is shown in lighter shades.',
+                    rationale:
+                      'While several Southeast Asian economies are growing, as a region it does not lead in GDP per capita.',
                     isCorrect: false,
                   },
                 ],
               },
               {
                 questionNumber: 5,
-                type: 'image',
-                imageUrl: '/images/Social Studies/political-map-of-world.jpg',
+                type: 'text',
                 question:
-                  "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
+                  'Considering global income patterns, what can be inferred about Australia’s GDP per capita?',
                 answerOptions: [
                   {
                     text: 'It has one of the lowest GDPs per capita in the world.',
                     rationale:
-                      'Australia is shown in one of the darkest shades.',
+                      'Australia is a high-income, developed economy, so this statement is inaccurate.',
                     isCorrect: false,
                   },
                   {
                     text: 'It has a GDP per capita comparable to that of Western Europe and North America.',
                     rationale:
-                      'Correct. Australia is shaded with the same dark color as the United States, Canada, and Western European countries, indicating a similar high level of GDP per capita.',
+                      'Correct. Australia is a developed, high-income country with GDP per capita similar to other advanced economies.',
                     isCorrect: true,
                   },
                   {
                     text: 'It has a GDP per capita similar to that of most countries in Africa.',
                     rationale:
-                      'Most countries in Africa are shown in the lightest shades, indicating much lower GDP per capita.',
+                      'Most African countries have significantly lower GDP per capita than Australia.',
                     isCorrect: false,
                   },
                   {
                     text: "The map does not provide enough information to determine Australia's economic status.",
                     rationale:
-                      'The map clearly shows Australia and provides a key for interpretation.',
+                      'Australia’s development status is well-established and its GDP per capita is clearly high relative to most regions.',
                     isCorrect: false,
                   },
                 ],
