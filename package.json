@@ -7,6 +7,7 @@
     "dev:frontend": "vite --config vite.config.mts",
     "build:frontend": "vite build --config vite.config.mts",
     "preview:frontend": "vite preview --config vite.config.mts",
+    "maps:fetch:us-regions": "node scripts/fetch-us-regions-svg.mjs",
     "start": "node backend/server.js",
     "start:prod": "cross-env NODE_ENV=production node backend/server.js",
     "harvest:science": "node tools/gov-image-harvester/index.mjs --subject Science",

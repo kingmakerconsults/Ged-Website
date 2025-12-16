@@ -16,3 +16,4 @@ export {
 export { MathText } from './math/MathText.jsx';
 export { GeometryFigure } from './geometry/GeometryFigure.jsx';
 export { ChartDisplay } from './charts/ChartDisplay.jsx';
+export { default as USRegionsMap } from './maps/USRegionsMap.jsx';

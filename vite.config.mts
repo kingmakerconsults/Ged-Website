@@ -15,10 +15,12 @@ export default defineConfig({
         // Copy Science practice tool data files
         const distDir = resolve(rootDir, 'dist');
         const dataDir = resolve(distDir, 'data');
+        const mapsDir = resolve(distDir, 'maps');
         const componentsDir = resolve(distDir, 'components', 'practice-tools');
 
         try {
           mkdirSync(dataDir, { recursive: true });
+          mkdirSync(mapsDir, { recursive: true });
           mkdirSync(componentsDir, { recursive: true });
 
           copyFileSync(
@@ -54,6 +56,28 @@ export default defineConfig({
             ),
             resolve(componentsDir, 'ChemistryEquationTool.jsx')
           );
+
+          // Copy canonical US regions metadata from repo root to dist
+          try {
+            copyFileSync(
+              resolve(process.cwd(), 'data', 'usRegions.json'),
+              resolve(dataDir, 'usRegions.json')
+            );
+            console.log('✓ usRegions.json copied to dist/data');
+          } catch (e) {
+            console.warn('Warning: usRegions.json not found at /data');
+          }
+
+          // Copy map asset from repo root public (if present) to dist
+          try {
+            copyFileSync(
+              resolve(process.cwd(), 'public', 'maps', 'us-regions.svg'),
+              resolve(mapsDir, 'us-regions.svg')
+            );
+            console.log('✓ us-regions.svg copied to dist/maps');
+          } catch (e) {
+            // Frontend/public version will be copied automatically by Vite if present
+          }
 
           console.log('✓ Legacy Science tool assets copied to dist');
         } catch (err) {
