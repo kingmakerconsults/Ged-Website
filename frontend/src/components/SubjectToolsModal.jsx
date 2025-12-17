@@ -177,6 +177,7 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
           border: `2px solid ${theme?.accent || '#64748b'}`,
           backdropFilter: 'none',
           WebkitBackdropFilter: 'none',
+          opacity: 1,
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -187,8 +188,9 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
             background: dark
               ? theme?.gradient ||
                 'linear-gradient(135deg, #64748b 0%, #475569 100%)'
-              : '#f0f9ff !important',
-            color: dark ? '#ffffff' : '#0f172a !important',
+              : '#f0f9ff',
+            color: dark ? '#ffffff' : '#0f172a',
+            opacity: 1,
           }}
         >
           <div>
@@ -209,7 +211,10 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
         {/* Content Area */}
         <div
           className="flex-1 overflow-y-auto p-6"
-          style={{ backgroundColor: dark ? '#1e293b' : '#ffffff' }}
+          style={{ 
+            backgroundColor: dark ? '#1e293b' : '#ffffff',
+            opacity: 1,
+          }}
         >
           {!selectedTool ? (
             // Tool Grid - Selection View
@@ -226,6 +231,7 @@ export default function SubjectToolsModal({ subject, dark = false, onClose }) {
                         ? theme?.accent || '#64748b'
                         : '#cbd5e1',
                       color: dark ? '#e2e8f0' : '#0f172a',
+                      opacity: 1,
                     }}
                   >
                     <div className="text-5xl mb-3">{tool.icon}</div>

@@ -12,6 +12,7 @@ import ReactDOM from 'react-dom/client';
 import { normalizeImageUrl } from '../../utils/normalizeImageUrl.js';
 import { AuthScreen as SharedAuthScreen } from '../../components/auth/AuthScreen.jsx';
 import SuperAdminAllQuestions from '../views/SuperAdminAllQuestions.jsx';
+import SuperAdminQuestionBrowser from '../views/SuperAdminQuestionBrowser.jsx';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
 (function () {
@@ -23910,6 +23911,15 @@ function App({ externalTheme, onThemeChange }) {
       theme: resolveInitialTheme(DEFAULT_PREFERENCES.theme),
     };
   });
+
+  // Keep the document/root theme in sync with preference changes so the Tailwind
+  // `dark:` classes stop applying when the user selects light mode.
+  useEffect(() => {
+    if (typeof onThemeChange === 'function') {
+      const nextTheme = preferences.theme === 'dark' ? 'dark' : 'light';
+      onThemeChange(nextTheme);
+    }
+  }, [onThemeChange, preferences.theme]);
   const [localProfile, setLocalProfile] = useState(() => {
     if (typeof window === 'undefined') {
       return cloneDefaultLocalProfile();
@@ -24605,6 +24615,13 @@ function App({ externalTheme, onThemeChange }) {
     onThemeChange(preferences.theme);
     pendingThemeSyncRef.current = null;
   }, [onThemeChange, preferences.theme, externalTheme]);
+
+  // Always keep document theme in sync with current preference
+  useEffect(() => {
+    if (typeof onThemeChange === 'function') {
+      onThemeChange(preferences.theme === 'dark' ? 'dark' : 'light');
+    }
+  }, [onThemeChange, preferences.theme]);
 
   const handleSettingsInstantChange = useCallback(
     (partialPrefs) => {
@@ -28035,8 +28052,8 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   const [orgSummary, setOrgSummary] = useState(null);
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [summaryError, setSummaryError] = useState('');
-  // Force-load Questions tab first so the catalog component mounts for debugging
-  const [activeTab, setActiveTab] = useState('questions'); // organizations, users, activity, questions
+  // Force-load Question Browser tab first for super admin
+  const [activeTab, setActiveTab] = useState('question-browser'); // organizations, users, activity, questions, question-browser
   // Prevent repeated fetch loops when API returns empty/500
   const usersLoadAttempted = useRef(false);
   const activityLoadAttempted = useRef(false);
@@ -28325,6 +28342,17 @@ function SuperAdminDashboard({ user, token, onLogout }) {
             }`}
           >
             Recent Activity
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('question-browser')}
+            className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
+              activeTab === 'question-browser'
+                ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
+                : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
+            }`}
+          >
+            Question Browser
           </button>
           <button
             type="button"
@@ -28958,6 +28986,13 @@ function OrgAdminDashboard({ user, token, onLogout }) {
                     ))}
                   </div>
                 )}
+              </section>
+            )}
+
+            {/* Question Browser Tab */}
+            {activeTab === 'question-browser' && (
+              <section className="rounded-3xl border-subtle panel-surface shadow-sm">
+                <SuperAdminQuestionBrowser />
               </section>
             )}
 

@@ -48,8 +48,12 @@ export default function Modal({
       <div
         className={`relative w-full ${sizeClasses[size]} rounded-lg p-6 shadow-2xl`}
         style={{
-          backgroundColor: 'var(--modal-surface)',
+          backgroundColor: `var(--modal-surface)`,
           border: `1px solid var(--modal-border)`,
+          backgroundClip: 'padding-box',
+          backdropFilter: 'none',
+          WebkitBackdropFilter: 'none',
+          color: 'inherit',
         }}
         onClick={(e) => e.stopPropagation()}
       >

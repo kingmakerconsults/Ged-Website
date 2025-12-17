@@ -59,7 +59,10 @@ export default function StepByStepSolver({
   };
 
   return (
-    <div className="step-by-step-solver w-full bg-white dark:bg-slate-800 rounded-lg p-6 shadow-lg">
+    <div
+      className="step-by-step-solver w-full rounded-lg p-6 shadow-lg"
+      style={{ backgroundColor: 'rgba(255, 255, 255, 1)' }}
+    >
       <h3 className="text-xl font-bold mb-4 text-blue-700 dark:text-blue-400">
         📐 Step-by-Step Math Solver
       </h3>
@@ -78,7 +81,11 @@ export default function StepByStepSolver({
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && handleSolve()}
           placeholder="e.g., 2x + 5 = 13"
-          className="w-full px-4 py-2 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+          className="w-full px-4 py-2 rounded border dark:border-slate-600 dark:text-slate-100"
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 1)',
+            color: '#000000',
+          }}
           aria-label="Math problem input"
         />
       </div>

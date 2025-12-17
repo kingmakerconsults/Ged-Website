@@ -269,7 +269,11 @@ export default function SuperAdminAllQuestions() {
               placeholder="Filter by subject, category, or question text..."
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="w-full px-4 py-2 border rounded bg-white dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+              className="w-full px-4 py-2 border rounded dark:border-slate-600 dark:text-white"
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 1)',
+                color: '#000000',
+              }}
             />
           </div>
 

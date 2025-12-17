@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-DsQsZ79K.js";
+import { _ as __vitePreload } from "./index-DSqGTsg1.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -540,7 +540,11 @@ function SuperAdminAllQuestions() {
           placeholder: "Filter by subject, category, or question text...",
           value: filter,
           onChange: (e) => setFilter(e.target.value),
-          className: "w-full px-4 py-2 border rounded bg-white dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+          className: "w-full px-4 py-2 border rounded dark:border-slate-600 dark:text-white",
+          style: {
+            backgroundColor: "rgba(255, 255, 255, 1)",
+            color: "#000000"
+          }
         }
       ) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: filtered.map((q2, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(QuestionCard, { question: q2, index: i + 1 }, q2.id)) })
@@ -606,6 +610,131 @@ function QuestionCard({ question, index }) {
       " ",
       rationale
     ] })
+  ] });
+}
+function SuperAdminQuestionBrowser() {
+  console.log("[SuperAdminQuestionBrowser] Component mounting...");
+  const [selectedSubject2, setSelectedSubject] = reactExports.useState("");
+  const [questions, setQuestions] = reactExports.useState([]);
+  const [loading, setLoading] = reactExports.useState(false);
+  const [error, setError] = reactExports.useState("");
+  const [totalCount, setTotalCount] = reactExports.useState(0);
+  const subjects = [
+    { key: "math", label: "Math" },
+    { key: "science", label: "Science" },
+    { key: "rla", label: "Reasoning Through Language Arts (RLA)" },
+    { key: "social", label: "Social Studies" }
+  ];
+  const loadQuestions = async (subject) => {
+    var _a;
+    if (!subject) return;
+    setLoading(true);
+    setError("");
+    setSelectedSubject(subject);
+    try {
+      const apiBase = window.API_BASE_URL || "";
+      const token = localStorage.getItem("appToken");
+      const url = `${apiBase}/api/admin/questions-by-subject?subject=${encodeURIComponent(
+        subject
+      )}`;
+      console.log("[QuestionBrowser] Fetching:", url);
+      console.log("[QuestionBrowser] Token present:", !!token);
+      const response = await fetch(url, {
+        headers: token ? {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        } : { "Content-Type": "application/json" }
+      });
+      console.log("[QuestionBrowser] Response status:", response.status);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("[QuestionBrowser] Error response:", errorText);
+        throw new Error(`Failed to load questions: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log("[QuestionBrowser] Received data:", data);
+      console.log("[QuestionBrowser] Questions count:", (_a = data.questions) == null ? void 0 : _a.length);
+      setQuestions(data.questions || []);
+      setTotalCount(data.totalQuestions || 0);
+    } catch (err) {
+      console.error("[QuestionBrowser] Error loading questions:", err);
+      setError(err.message);
+      setQuestions([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const renderQuestion = (q2, index) => {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        className: "mb-6 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center font-bold text-blue-700 dark:text-blue-300", children: q2.displayNumber || index + 1 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "prose dark:prose-invert max-w-none mb-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg font-medium", children: q2.question || q2.questionText || "No question text" }) }),
+            q2.answerOptions && Array.isArray(q2.answerOptions) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-2 mt-3", children: q2.answerOptions.map((option, optIdx) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: `p-3 rounded border ${option.isCorrect ? "bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700" : "bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"}`,
+                children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-semibold", children: [
+                    String.fromCharCode(65 + optIdx),
+                    "."
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: option.text || option.answerText }),
+                  option.isCorrect && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ml-auto text-green-600 dark:text-green-400 font-bold", children: "✓ Correct" })
+                ] })
+              },
+              optIdx
+            )) }),
+            q2.explanation && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 dark:border-blue-400", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold text-blue-900 dark:text-blue-100", children: "Explanation:" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-blue-800 dark:text-blue-200", children: q2.explanation })
+            ] })
+          ] })
+        ] })
+      },
+      q2.displayNumber || index
+    );
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 max-w-6xl mx-auto", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-6 dark:text-white", children: "Question Browser" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-2 dark:text-gray-200", children: "Select Subject Area:" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-3", children: subjects.map((subj) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: () => loadQuestions(subj.key),
+          disabled: loading,
+          className: `px-6 py-3 rounded-lg font-medium transition-colors ${selectedSubject2 === subj.key ? "bg-blue-600 text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600"} ${loading ? "opacity-50 cursor-not-allowed" : ""}`,
+          children: subj.label
+        },
+        subj.key
+      )) })
+    ] }),
+    error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded text-red-800 dark:text-red-200", children: [
+      "Error: ",
+      error
+    ] }),
+    loading && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-blue-600" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-gray-600 dark:text-gray-400", children: "Loading questions..." })
+    ] }),
+    !loading && questions.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-blue-900 dark:text-blue-100 font-medium", children: [
+        "Showing ",
+        totalCount,
+        " questions from ",
+        selectedSubject2
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: questions.map((q2, idx) => renderQuestion(q2, idx)) })
+    ] }),
+    !loading && !error && questions.length === 0 && selectedSubject2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12 text-gray-500 dark:text-gray-400", children: [
+      "No questions found for ",
+      selectedSubject2
+    ] }),
+    !loading && !selectedSubject2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-center py-12 text-gray-500 dark:text-gray-400", children: "Select a subject to view questions" })
   ] });
 }
 const designSystem = {
@@ -1035,73 +1164,84 @@ function StepByStepSolver({
     setInput("");
     setSteps([]);
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "step-by-step-solver w-full bg-white dark:bg-slate-800 rounded-lg p-6 shadow-lg", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-blue-700 dark:text-blue-400", children: "📐 Step-by-Step Math Solver" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "input-section mb-4", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "label",
-        {
-          htmlFor: "math-input",
-          className: "block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300",
-          children: "Enter your problem:"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "input",
-        {
-          id: "math-input",
-          type: "text",
-          value: input,
-          onChange: (e) => setInput(e.target.value),
-          onKeyPress: (e) => e.key === "Enter" && handleSolve(),
-          placeholder: "e.g., 2x + 5 = 13",
-          className: "w-full px-4 py-2 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100",
-          "aria-label": "Math problem input"
-        }
-      )
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-group flex gap-2 mb-6", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: handleSolve,
-          disabled: !input.trim() || isLoading2,
-          className: "px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded font-medium transition-colors",
-          children: isLoading2 ? "Solving..." : "Solve"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: handleClear2,
-          disabled: !input && steps.length === 0,
-          className: "px-6 py-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-900 dark:text-slate-100 rounded font-medium transition-colors",
-          children: "Clear"
-        }
-      )
-    ] }),
-    steps.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "solution-steps space-y-3", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-semibold text-lg text-slate-900 dark:text-slate-100 mb-3", children: "Solution Steps:" }),
-      steps.map((step) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          className: "step-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600",
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "step-header flex items-center gap-2 mb-2", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "step-number inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold", children: step.step }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "step-description font-medium text-slate-800 dark:text-slate-200", children: step.description })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "step-equation font-mono text-base text-slate-700 dark:text-slate-300 ml-10", children: step.equation })
-          ]
-        },
-        step.step
-      ))
-    ] }),
-    steps.length === 0 && !isLoading2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state text-center py-8 text-slate-500 dark:text-slate-400", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg", children: "Enter a math problem above to see step-by-step solutions" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-2", children: "Supports equations, inequalities, and more" })
-    ] })
-  ] });
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      className: "step-by-step-solver w-full rounded-lg p-6 shadow-lg",
+      style: { backgroundColor: "rgba(255, 255, 255, 1)" },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-blue-700 dark:text-blue-400", children: "📐 Step-by-Step Math Solver" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "input-section mb-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "label",
+            {
+              htmlFor: "math-input",
+              className: "block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300",
+              children: "Enter your problem:"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              id: "math-input",
+              type: "text",
+              value: input,
+              onChange: (e) => setInput(e.target.value),
+              onKeyPress: (e) => e.key === "Enter" && handleSolve(),
+              placeholder: "e.g., 2x + 5 = 13",
+              className: "w-full px-4 py-2 rounded border dark:border-slate-600 dark:text-slate-100",
+              style: {
+                backgroundColor: "rgba(255, 255, 255, 1)",
+                color: "#000000"
+              },
+              "aria-label": "Math problem input"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-group flex gap-2 mb-6", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: handleSolve,
+              disabled: !input.trim() || isLoading2,
+              className: "px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded font-medium transition-colors",
+              children: isLoading2 ? "Solving..." : "Solve"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: handleClear2,
+              disabled: !input && steps.length === 0,
+              className: "px-6 py-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-900 dark:text-slate-100 rounded font-medium transition-colors",
+              children: "Clear"
+            }
+          )
+        ] }),
+        steps.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "solution-steps space-y-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-semibold text-lg text-slate-900 dark:text-slate-100 mb-3", children: "Solution Steps:" }),
+          steps.map((step) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: "step-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "step-header flex items-center gap-2 mb-2", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "step-number inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold", children: step.step }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "step-description font-medium text-slate-800 dark:text-slate-200", children: step.description })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "step-equation font-mono text-base text-slate-700 dark:text-slate-300 ml-10", children: step.equation })
+              ]
+            },
+            step.step
+          ))
+        ] }),
+        steps.length === 0 && !isLoading2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state text-center py-8 text-slate-500 dark:text-slate-400", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg", children: "Enter a math problem above to see step-by-step solutions" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-2", children: "Supports equations, inequalities, and more" })
+        ] })
+      ]
+    }
+  );
 }
 const STATS_PRACTICE_PROBLEMS = [
   {
@@ -7758,7 +7898,8 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
             backgroundClip: "padding-box",
             border: `2px solid ${(theme == null ? void 0 : theme.accent) || "#64748b"}`,
             backdropFilter: "none",
-            WebkitBackdropFilter: "none"
+            WebkitBackdropFilter: "none",
+            opacity: 1
           },
           onClick: (e) => e.stopPropagation(),
           children: [
@@ -7767,8 +7908,9 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
               {
                 className: "p-6 flex items-center justify-between",
                 style: {
-                  background: dark ? (theme == null ? void 0 : theme.gradient) || "linear-gradient(135deg, #64748b 0%, #475569 100%)" : "#f0f9ff !important",
-                  color: dark ? "#ffffff" : "#0f172a !important"
+                  background: dark ? (theme == null ? void 0 : theme.gradient) || "linear-gradient(135deg, #64748b 0%, #475569 100%)" : "#f0f9ff",
+                  color: dark ? "#ffffff" : "#0f172a",
+                  opacity: 1
                 },
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
@@ -7794,7 +7936,10 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
               "div",
               {
                 className: "flex-1 overflow-y-auto p-6",
-                style: { backgroundColor: dark ? "#1e293b" : "#ffffff" },
+                style: {
+                  backgroundColor: dark ? "#1e293b" : "#ffffff",
+                  opacity: 1
+                },
                 children: !selectedTool ? (
                   // Tool Grid - Selection View
                   /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: tools.length > 0 ? tools.map((tool) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -7805,7 +7950,8 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
                       style: {
                         backgroundColor: dark ? "#4b5563" : "#f1f5f9",
                         borderColor: dark ? (theme == null ? void 0 : theme.accent) || "#64748b" : "#cbd5e1",
-                        color: dark ? "#e2e8f0" : "#0f172a"
+                        color: dark ? "#e2e8f0" : "#0f172a",
+                        opacity: 1
                       },
                       children: [
                         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-5xl mb-3", children: tool.icon }),
@@ -28423,6 +28569,12 @@ function App({ externalTheme, onThemeChange }) {
       theme: resolveInitialTheme(DEFAULT_PREFERENCES.theme)
     };
   });
+  reactExports.useEffect(() => {
+    if (typeof onThemeChange === "function") {
+      const nextTheme = preferences.theme === "dark" ? "dark" : "light";
+      onThemeChange(nextTheme);
+    }
+  }, [onThemeChange, preferences.theme]);
   const [localProfile, setLocalProfile] = reactExports.useState(() => {
     if (typeof window === "undefined") {
       return cloneDefaultLocalProfile();
@@ -28980,6 +29132,11 @@ function App({ externalTheme, onThemeChange }) {
     onThemeChange(preferences.theme);
     pendingThemeSyncRef.current = null;
   }, [onThemeChange, preferences.theme, externalTheme]);
+  reactExports.useEffect(() => {
+    if (typeof onThemeChange === "function") {
+      onThemeChange(preferences.theme === "dark" ? "dark" : "light");
+    }
+  }, [onThemeChange, preferences.theme]);
   const handleSettingsInstantChange = reactExports.useCallback(
     (partialPrefs) => {
       setSettingsStatus("");
@@ -31815,7 +31972,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   const [orgSummary, setOrgSummary] = reactExports.useState(null);
   const [summaryLoading, setSummaryLoading] = reactExports.useState(false);
   const [summaryError, setSummaryError] = reactExports.useState("");
-  const [activeTab, setActiveTab] = reactExports.useState("questions");
+  const [activeTab, setActiveTab] = reactExports.useState("question-browser");
   const usersLoadAttempted = reactExports.useRef(false);
   const activityLoadAttempted = reactExports.useRef(false);
   const loadOrganizations = reactExports.useCallback(async () => {
@@ -32056,6 +32213,15 @@ function SuperAdminDashboard({ user, token, onLogout }) {
           onClick: () => setActiveTab("activity"),
           className: `px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${activeTab === "activity" ? "bg-white dark:bg-slate-700 text-primary shadow-sm" : "text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50"}`,
           children: "Recent Activity"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          type: "button",
+          onClick: () => setActiveTab("question-browser"),
+          className: `px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${activeTab === "question-browser" ? "bg-white dark:bg-slate-700 text-primary shadow-sm" : "text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50"}`,
+          children: "Question Browser"
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -32438,6 +32604,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
           act.id
         )) })
       ] }),
+      activeTab === "question-browser" && /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "rounded-3xl border-subtle panel-surface shadow-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SuperAdminQuestionBrowser, {}) }),
       activeTab === "questions" && /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "rounded-3xl border-subtle panel-surface shadow-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SuperAdminAllQuestions, {}) }),
       activeTab !== "questions" && /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "rounded-3xl border-subtle panel-surface shadow-sm mt-4", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-2 text-xs text-amber-600", children: "Debug: Questions Catalog rendered even though tab inactive" }),
@@ -41961,4 +42128,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-Qr0Yk8mW.js.map
+//# sourceMappingURL=main-BowDJg9L.js.map
