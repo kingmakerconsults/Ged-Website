@@ -17648,6 +17648,98 @@ if (require.main === module) {
       }
     });
 
+    // ========================================
+    // ADMIN API: Browse all questions by subject
+    // ========================================
+    app.get(
+      '/api/admin/questions-by-subject',
+      devAuth,
+      requireSuperAdmin,
+      (req, res) => {
+        try {
+          const { subject } = req.query;
+
+          console.log(
+            '[questions-by-subject] Request from user:',
+            req.user?.id,
+            'role:',
+            req.user?.role,
+            'subject:',
+            subject
+          );
+
+          // Map subject aliases to standard keys
+          const subjectMap = {
+            math: 'Math',
+            Math: 'Math',
+            science: 'Science',
+            Science: 'Science',
+            rla: 'Reasoning Through Language Arts (RLA)',
+            RLA: 'Reasoning Through Language Arts (RLA)',
+            'Reasoning Through Language Arts (RLA)':
+              'Reasoning Through Language Arts (RLA)',
+            social: 'Social Studies',
+            Social: 'Social Studies',
+            'Social Studies': 'Social Studies',
+            ss: 'Social Studies',
+          };
+
+          const subjectKey = subject ? subjectMap[subject] : null;
+
+          if (!subjectKey) {
+            return res.status(400).json({
+              error: 'Invalid subject. Use: math, science, rla, or social',
+            });
+          }
+
+          console.log(
+            '[questions-by-subject] ALL_QUIZZES keys:',
+            Object.keys(ALL_QUIZZES || {})
+          );
+          console.log(
+            '[questions-by-subject] Looking for subjectKey:',
+            subjectKey
+          );
+          console.log(
+            '[questions-by-subject] Subject exists:',
+            !!ALL_QUIZZES[subjectKey]
+          );
+          if (ALL_QUIZZES[subjectKey]) {
+            console.log(
+              '[questions-by-subject] Categories:',
+              Object.keys(ALL_QUIZZES[subjectKey].categories || {})
+            );
+          }
+
+          // Flatten all questions from the subject
+          const questions = flattenSubjectQuestions(subjectKey);
+
+          console.log(
+            '[questions-by-subject] Found',
+            questions.length,
+            'questions for',
+            subjectKey
+          );
+
+          // Add metadata for display
+          const enriched = questions.map((q, idx) => ({
+            ...q,
+            displayNumber: idx + 1,
+            subject: subjectKey,
+          }));
+
+          return res.json({
+            subject: subjectKey,
+            totalQuestions: enriched.length,
+            questions: enriched,
+          });
+        } catch (err) {
+          console.error('Failed to fetch questions by subject:', err);
+          res.status(500).json({ error: 'Unable to load questions' });
+        }
+      }
+    );
+
     const server = app.listen(port, '0.0.0.0', () => {
       console.log(`Your service is live 🚀`);
       console.log(`Server listening on port ${port}`);
