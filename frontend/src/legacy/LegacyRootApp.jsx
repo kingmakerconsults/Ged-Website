@@ -31952,8 +31952,8 @@ function StartScreen({
       : SUBJECT_LIGHT_TINTS[selectedSubject] || 'rgba(148,163,184,0.35)';
     const panelBaseStyle = {
       borderColor: panelBorderColor,
-      backgroundColor: isDarkMode ? 'rgba(255,255,255,0.08)' : '#ffffff',
-      color: heroTextColor,
+      backgroundColor: isDarkMode ? 'rgba(51, 65, 85, 0.9)' : '#ffffff',
+      color: isDarkMode ? '#f8fafc' : '#0f172a',
     };
 
     const panelBackground =
