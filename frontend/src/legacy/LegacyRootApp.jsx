@@ -29971,7 +29971,7 @@ function ScienceFormulaSheet({ onClose }) {
           aria-label="Close science formula sheet"
           style={{ color: 'inherit' }}
         >
-          �
+          ×
         </button>
 
         <h2 className="formula-sheet-title text-xl font-bold mb-4">
@@ -30151,6 +30151,12 @@ function StartScreen({
 }) {
   const [aiQuizTopic, setAiQuizTopic] = useState('');
   const [detailedViewSubject, setDetailedViewSubject] = useState(null);
+  
+  // Back button handler to return to dashboard from progress view
+  const handleBackToProgress = useCallback(() => {
+    setDetailedViewSubject(null);
+  }, []);
+  
   // weekly coach
   const [weeklyCoachPlan, setWeeklyCoachPlan] = useState(null);
   const [coachLoading, setCoachLoading] = useState(false);
@@ -31316,7 +31322,7 @@ function StartScreen({
       <DetailedProgressView
         subject={detailedViewSubject}
         progressData={progress[detailedViewSubject]}
-        onBack={onBack}
+        onBack={handleBackToProgress}
         rlaEssayAvgDisplay={rlaEssayAvgDisplayForDetails}
       />
     );
@@ -33630,6 +33636,7 @@ function QuizInterface({
 
   const isFillInTheBlank =
     currentQ.type === 'fill-in-the-blank' ||
+    currentQ.type === 'fillIn' ||
     !currentQ.answerOptions ||
     currentQ.answerOptions.length === 0;
 
@@ -33890,7 +33897,7 @@ function QuizInterface({
                     style={timerStyle}
                   >
                     <span role="img" aria-label="timer">
-                      ??
+                      ⏱️
                     </span>
                     <span>{formatTime(timeLeft)}</span>
                     {isPaused && (

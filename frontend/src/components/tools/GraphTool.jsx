@@ -64,13 +64,11 @@ export default function GraphTool({
   }, [boardId, config, onBoardReady]);
 
   return (
-    <div className="graph-tool-container w-full h-full bg-white dark:bg-slate-800 rounded-lg p-4">
-      <h3 className="text-xl font-bold mb-4 text-blue-700 dark:text-blue-400">
-        📊 Graphing Tool
-      </h3>
+    <div className="graph-tool-container w-full h-full bg-white rounded-lg p-4">
+      <h3 className="text-xl font-bold mb-4 text-blue-700">📊 Graphing Tool</h3>
       {typeof window.JXG === 'undefined' && (
-        <div className="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg">
-          <p className="text-yellow-800 dark:text-yellow-200 font-semibold">
+        <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <p className="text-yellow-800 font-semibold">
             ⚠️ JSXGraph library not loaded. Please refresh the page.
           </p>
         </div>
@@ -78,7 +76,7 @@ export default function GraphTool({
       <div
         id={boardId}
         ref={containerRef}
-        className="jxgbox w-full h-full min-h-[400px] rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900"
+        className="jxgbox w-full h-full min-h-[400px] rounded border border-slate-300 bg-white"
         role="img"
         aria-label="Interactive graph for plotting mathematical objects"
       />
