@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-CmxakwEm.js";
+import { _ as __vitePreload } from "./index-CZl17gx4.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -1110,15 +1110,15 @@ function GraphTool({
       }
     };
   }, [boardId, config, onBoardReady]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "graph-tool-container w-full h-full bg-white dark:bg-slate-800 rounded-lg p-4", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-blue-700 dark:text-blue-400", children: "📊 Graphing Tool" }),
-    typeof window.JXG === "undefined" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 p-4 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-yellow-800 dark:text-yellow-200 font-semibold", children: "⚠️ JSXGraph library not loaded. Please refresh the page." }) }),
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "graph-tool-container w-full h-full bg-white rounded-lg p-4", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-blue-700", children: "📊 Graphing Tool" }),
+    typeof window.JXG === "undefined" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-yellow-800 font-semibold", children: "⚠️ JSXGraph library not loaded. Please refresh the page." }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       "div",
       {
         id: boardId,
         ref: containerRef,
-        className: "jxgbox w-full h-full min-h-[400px] rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900",
+        className: "jxgbox w-full h-full min-h-[400px] rounded border border-slate-300 bg-white",
         role: "img",
         "aria-label": "Interactive graph for plotting mathematical objects"
       }
@@ -33455,7 +33455,7 @@ function ScienceFormulaSheet({ onClose: onClose2 }) {
             type: "button",
             "aria-label": "Close science formula sheet",
             style: { color: "inherit" },
-            children: "�"
+            children: "×"
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "formula-sheet-title text-xl font-bold mb-4", children: "Science Formula Sheet" }),
@@ -33631,6 +33631,9 @@ function StartScreen({
   var _a;
   const [aiQuizTopic, setAiQuizTopic] = reactExports.useState("");
   const [detailedViewSubject, setDetailedViewSubject] = reactExports.useState(null);
+  const handleBackToProgress = reactExports.useCallback(() => {
+    setDetailedViewSubject(null);
+  }, []);
   const [weeklyCoachPlan, setWeeklyCoachPlan] = reactExports.useState(null);
   const [coachLoading, setCoachLoading] = reactExports.useState(false);
   const [coachError, setCoachError] = reactExports.useState("");
@@ -34538,7 +34541,7 @@ function StartScreen({
       {
         subject: detailedViewSubject,
         progressData: progress[detailedViewSubject],
-        onBack,
+        onBack: handleBackToProgress,
         rlaEssayAvgDisplay: rlaEssayAvgDisplayForDetails
       }
     );
@@ -36565,7 +36568,7 @@ function QuizInterface({
   };
   const currentQ = questions[currentIndex];
   if (!currentQ) return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Loading question..." });
-  const isFillInTheBlank = currentQ.type === "fill-in-the-blank" || !currentQ.answerOptions || currentQ.answerOptions.length === 0;
+  const isFillInTheBlank = currentQ.type === "fill-in-the-blank" || currentQ.type === "fillIn" || !currentQ.answerOptions || currentQ.answerOptions.length === 0;
   const TOOL_PANEL_ENABLED = true;
   const hasGraphDataForRender = Boolean(
     currentQ && (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane)
@@ -36771,7 +36774,7 @@ function QuizInterface({
                         className: "flex items-center gap-2 rounded-full px-3 py-1 font-mono text-lg font-semibold",
                         style: timerStyle,
                         children: [
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { role: "img", "aria-label": "timer", children: "??" }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { role: "img", "aria-label": "timer", children: "⏱️" }),
                           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: formatTime(timeLeft) }),
                           isPaused && /* @__PURE__ */ jsxRuntimeExports.jsx(
                             "span",
@@ -42135,4 +42138,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-5Y_G-Smj.js.map
+//# sourceMappingURL=main-hB0chtxQ.js.map
