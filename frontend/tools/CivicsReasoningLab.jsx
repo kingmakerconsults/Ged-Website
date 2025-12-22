@@ -94,7 +94,10 @@ export default function CivicsReasoningLab({ onExit }) {
   return (
     <>
       <style>{civicsStyles}</style>
-      <div className="fade-in min-h-screen bg-white dark:bg-slate-700 civics-text">
+      <div
+        className="fade-in min-h-screen civics-text"
+        style={{ backgroundColor: '#ffffff' }}
+      >
         <div className="max-w-4xl mx-auto p-6 space-y-6">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
