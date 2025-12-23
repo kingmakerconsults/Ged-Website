@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/main-hB0chtxQ.js","assets/vendor-react-DS8qr_A4.js","assets/main-urIGi14X.css"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/main-BOotjip6.js","assets/vendor-react-DS8qr_A4.js","assets/main-urIGi14X.css"])))=>i.map(i=>d[i]);
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -103,7 +103,7 @@ const __vitePreload = function preload(baseModule, deps, importerUrl) {
 async function startApp() {
   if (window.AppData && Object.keys(window.AppData).length > 0) {
     console.log("[app] Quiz data already loaded, starting React app");
-    await __vitePreload(() => import("./main-hB0chtxQ.js"), true ? __vite__mapDeps([0,1,2]) : void 0);
+    await __vitePreload(() => import("./main-BOotjip6.js"), true ? __vite__mapDeps([0,1,2]) : void 0);
     return;
   }
   console.log("[app] Waiting for quiz data...");
@@ -122,10 +122,10 @@ async function startApp() {
       { once: true }
     );
   });
-  await __vitePreload(() => import("./main-hB0chtxQ.js"), true ? __vite__mapDeps([0,1,2]) : void 0);
+  await __vitePreload(() => import("./main-BOotjip6.js"), true ? __vite__mapDeps([0,1,2]) : void 0);
 }
 startApp();
 export {
   __vitePreload as _
 };
-//# sourceMappingURL=index-CZl17gx4.js.map
+//# sourceMappingURL=index-1zfoU73f.js.map

@@ -33534,10 +33534,16 @@ function StartScreen({
 
 function Stem({ item }) {
   const passageContent =
-    typeof item.passage === 'string' ? item.passage.trim() : '';
+    typeof item.passage === 'string'
+      ? item.passage.trim()
+      : typeof item.content?.passage === 'string'
+      ? item.content.passage.trim()
+      : '';
   const questionContent =
     typeof (item.questionText || item.question) === 'string'
       ? (item.questionText || item.question).trim()
+      : typeof item.content?.questionText === 'string'
+      ? item.content.questionText.trim()
       : '';
 
   const displaySource =
