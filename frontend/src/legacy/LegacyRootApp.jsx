@@ -30151,12 +30151,12 @@ function StartScreen({
 }) {
   const [aiQuizTopic, setAiQuizTopic] = useState('');
   const [detailedViewSubject, setDetailedViewSubject] = useState(null);
-  
+
   // Back button handler to return to dashboard from progress view
   const handleBackToProgress = useCallback(() => {
     setDetailedViewSubject(null);
   }, []);
-  
+
   // weekly coach
   const [weeklyCoachPlan, setWeeklyCoachPlan] = useState(null);
   const [coachLoading, setCoachLoading] = useState(false);
@@ -33342,10 +33342,16 @@ function StartScreen({
 
 function Stem({ item, subject = null, isReview = false }) {
   const passageContent =
-    typeof item.passage === 'string' ? item.passage.trim() : '';
+    typeof item.passage === 'string'
+      ? item.passage.trim()
+      : typeof item.content?.passage === 'string'
+      ? item.content.passage.trim()
+      : '';
   const questionContent =
     typeof (item.questionText || item.question) === 'string'
       ? (item.questionText || item.question).trim()
+      : typeof item.content?.questionText === 'string'
+      ? item.content.questionText.trim()
       : '';
 
   const displaySource =

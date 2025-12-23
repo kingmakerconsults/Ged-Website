@@ -14046,6 +14046,10 @@ const getPremadeQuestions = (subject, count) => {
                 if (normalized.content && normalized.content.questionText) {
                   normalized.question = normalized.content.questionText;
                 }
+                // Flatten content.passage to passage field for frontend compatibility
+                if (normalized.content && normalized.content.passage) {
+                  normalized.passage = normalized.content.passage;
+                }
                 allQuestions.push(normalized);
               });
             }

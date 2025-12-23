@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-CZl17gx4.js";
+import { _ as __vitePreload } from "./index-1zfoU73f.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -36334,12 +36334,12 @@ function StartScreen({
   ] });
 }
 function Stem({ item, subject = null, isReview = false }) {
-  var _a;
-  const passageContent = typeof item.passage === "string" ? item.passage.trim() : "";
-  const questionContent = typeof (item.questionText || item.question) === "string" ? (item.questionText || item.question).trim() : "";
+  var _a, _b, _c;
+  const passageContent = typeof item.passage === "string" ? item.passage.trim() : typeof ((_a = item.content) == null ? void 0 : _a.passage) === "string" ? item.content.passage.trim() : "";
+  const questionContent = typeof (item.questionText || item.question) === "string" ? (item.questionText || item.question).trim() : typeof ((_b = item.content) == null ? void 0 : _b.questionText) === "string" ? item.content.questionText.trim() : "";
   const displaySource = (item == null ? void 0 : item.asset) && item.asset.displaySource || item.displaySource || item.source || "";
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "stem space-y-4", children: [
-    ((_a = item.stimulusImage) == null ? void 0 : _a.src) && (() => {
+    ((_c = item.stimulusImage) == null ? void 0 : _c.src) && (() => {
       const resolved = resolveAssetUrl(item.stimulusImage.src, subject);
       return resolved ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         "img",
@@ -42138,4 +42138,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-hB0chtxQ.js.map
+//# sourceMappingURL=main-BOotjip6.js.map
