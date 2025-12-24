@@ -23599,6 +23599,11 @@ function App({ externalTheme, onThemeChange }) {
   const currentUserRef = useRef(null);
   const [progress, setProgress] = useState(() => createEmptyProgress());
   const [quizAttempts, setQuizAttempts] = useState([]);
+  const [profileTab, setProfileTab] = useState('profile');
+  const [coverageSubject, setCoverageSubject] = useState('math');
+  const [coverageData, setCoverageData] = useState(null);
+  const [coverageLoading, setCoverageLoading] = useState(false);
+  const [coverageError, setCoverageError] = useState(null);
   const [showFormulaSheet, setShowFormulaSheet] = useState(false);
   const [showToolsModal, setShowToolsModal] = useState(false);
   const [showSocialToolsModal, setShowSocialToolsModal] = useState(false);
@@ -24435,6 +24440,61 @@ function App({ externalTheme, onThemeChange }) {
     }
   }, []);
 
+  const COVERAGE_SUBJECTS = useMemo(
+    () => [
+      { slug: 'math', label: 'Math' },
+      { slug: 'rla', label: 'RLA' },
+      { slug: 'science', label: 'Science' },
+      { slug: 'social_studies', label: 'Social Studies' },
+    ],
+    []
+  );
+
+  const loadContentCoverage = useCallback(
+    async (subjectSlug = coverageSubject) => {
+      setCoverageLoading(true);
+      setCoverageError(null);
+      const token =
+        (typeof window !== 'undefined' && window.localStorage
+          ? window.localStorage.getItem('appToken')
+          : null) ||
+        authToken ||
+        null;
+      const normalized = subjectSlug || 'math';
+      if (!token) {
+        setCoverageLoading(false);
+        setCoverageError('Sign in to view content coverage.');
+        return null;
+      }
+      try {
+        const data = await fetchJSON(
+          `${API_BASE_URL}/api/profile/content-coverage?subject=${encodeURIComponent(
+            normalized
+          )}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setCoverageData(data);
+        return data;
+      } catch (error) {
+        console.warn('[coverage] failed to load:', error?.message || error);
+        setCoverageError('Unable to load content coverage right now.');
+        return null;
+      } finally {
+        setCoverageLoading(false);
+      }
+    },
+    [coverageSubject, authToken]
+  );
+
+  const handleCoverageSubjectChange = useCallback(
+    async (slug) => {
+      const next = slug || 'math';
+      setCoverageSubject(next);
+      await loadContentCoverage(next);
+    },
+    [loadContentCoverage]
+  );
+
   // Top-level navigation shortcuts using hardJump (reset history and browser depth)
   const goToDashboard = useCallback(
     () => hardJump('dashboard', { scrollTarget: '__top' }),
@@ -24448,7 +24508,10 @@ function App({ externalTheme, onThemeChange }) {
     () => hardJump('progress', { scrollTarget: 'progress' }),
     [hardJump]
   );
-  const goToProfile = useCallback(() => hardJump('profile'), [hardJump]);
+  const goToProfile = useCallback(() => {
+    setProfileTab('profile');
+    hardJump('profile');
+  }, [hardJump]);
   const goToSettings = useCallback(() => {
     navigateTo('settings');
     if (!profileData) {
@@ -24489,6 +24552,12 @@ function App({ externalTheme, onThemeChange }) {
     },
     [activeView, view, selectedSubject, selectedCategory]
   );
+
+  useEffect(() => {
+    if (activeView === 'profile' && profileTab === 'coverage') {
+      loadContentCoverage(coverageSubject);
+    }
+  }, [activeView, profileTab, coverageSubject, loadContentCoverage]);
 
   // Navigate to a dashboard section (e.g., #quizzes or #progress) from anywhere
   const navigateToSection = useCallback(
@@ -25970,6 +26039,12 @@ function App({ externalTheme, onThemeChange }) {
       return;
     }
 
+    const isPremadeQuiz = quizDetails.isPremade === true;
+    const quizVersion =
+      typeof quizDetails.version === 'number'
+        ? quizDetails.version
+        : quizDetails.quizVersion || null;
+
     // Persist to local progress history
     persistQuizAttempt({
       subject,
@@ -26006,6 +26081,8 @@ function App({ externalTheme, onThemeChange }) {
             typeof results.scaledScore === 'number'
               ? results.scaledScore >= GED_PASSING_SCORE
               : undefined,
+          isPremade: isPremadeQuiz,
+          quizVersion,
           ...(responses.length ? { responses } : {}),
           ...(quizDetails && (quizDetails.assigned_by || quizDetails.assignedBy)
             ? { assigned_by: quizDetails.assigned_by || quizDetails.assignedBy }
@@ -26019,6 +26096,35 @@ function App({ externalTheme, onThemeChange }) {
           },
           body: JSON.stringify(payload),
         });
+
+        if (isPremadeQuiz) {
+          try {
+            await fetch(
+              `${API_BASE_URL}/api/premade-quizzes/${encodeURIComponent(
+                quizCode
+              )}/attempt`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  score: results?.score,
+                  scaledScore: results?.scaledScore,
+                  subject,
+                  isPremade: true,
+                  quizVersion,
+                }),
+              }
+            );
+          } catch (err) {
+            console.warn(
+              '[quiz] failed to POST /api/premade-quizzes/:id/attempt:',
+              err?.message || err
+            );
+          }
+        }
       }
     } catch (e) {
       console.warn(
@@ -26262,6 +26368,15 @@ function App({ externalTheme, onThemeChange }) {
               onIconChange={setSelectedIcon}
               onSaveIcon={handleSaveIcon}
               iconSaving={iconSaving}
+              activeTab={profileTab}
+              onTabChange={setProfileTab}
+              coverageSubject={coverageSubject}
+              coverageData={coverageData}
+              coverageLoading={coverageLoading}
+              coverageError={coverageError}
+              onCoverageSubjectChange={handleCoverageSubjectChange}
+              onReloadCoverage={loadContentCoverage}
+              coverageSubjects={COVERAGE_SUBJECTS}
             />
           );
         }
@@ -26540,11 +26655,30 @@ function ProfileView({
   onCompleteLater,
   finishingOnboarding,
   onboardingComplete,
+  activeTab = 'profile',
+  onTabChange,
+  coverageSubject,
+  coverageData,
+  coverageLoading,
+  coverageError,
+  onCoverageSubjectChange,
+  onReloadCoverage,
+  coverageSubjects = [],
 }) {
   const profile = data?.profile || {};
   const challengeOptions = Array.isArray(data?.challengeOptions)
     ? data.challengeOptions
     : [];
+  const tabId = activeTab || 'profile';
+  const coverageSubjectOptions =
+    Array.isArray(coverageSubjects) && coverageSubjects.length
+      ? coverageSubjects
+      : [
+          { slug: 'math', label: 'Math' },
+          { slug: 'rla', label: 'RLA' },
+          { slug: 'science', label: 'Science' },
+          { slug: 'social_studies', label: 'Social Studies' },
+        ];
   const totalChallenges = challengeOptions.length;
   const recentSummary = data?.recentScoresDashboard || {};
   const legacyScores = data?.scores || {};
@@ -26676,6 +26810,230 @@ function ProfileView({
   const timezoneLabel = profile.timezone || 'America/New_York';
   const reminderLabel = profile.reminderEnabled === false ? 'Off' : 'On';
 
+  const renderCoverageTab = () => {
+    const areas = Array.isArray(coverageData?.contentAreas)
+      ? coverageData.contentAreas
+      : [];
+    const vocabSummary = coverageData?.vocab || {};
+    const masteredTotal = Number(coverageData?.totals?.mastered || 0);
+    const totalQuizzes = Number(coverageData?.totals?.total || 0);
+    const subjectLabel =
+      coverageData?.subject?.label || 'Selected Subject Coverage';
+    const coverageAvailable =
+      typeof coverageData?.coverageAvailable === 'boolean'
+        ? coverageData.coverageAvailable
+        : areas.length > 0;
+
+    return (
+      <div className="space-y-4">
+        {coverageError && !coverageLoading && (
+          <div
+            className="rounded-xl border-danger bg-danger-soft p-4 text-sm text-danger"
+            role="alert"
+          >
+            {coverageError}
+          </div>
+        )}
+        <div className="panel-surface rounded-2xl border p-5 shadow-sm space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-xl font-semibold text-primary">
+                Content Coverage
+              </h2>
+              <p className="text-sm text-muted">
+                Premade quizzes mapped to content areas for {subjectLabel}.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              {coverageSubjectOptions.map((opt) => {
+                const selected = (coverageSubject || 'math') === opt.slug;
+                return (
+                  <button
+                    key={opt.slug}
+                    type="button"
+                    className={`px-3 py-1.5 rounded-lg text-sm font-semibold border ${
+                      selected
+                        ? 'btn-primary text-white'
+                        : 'btn-ghost text-secondary border-subtle'
+                    }`}
+                    onClick={() => onCoverageSubjectChange?.(opt.slug)}
+                    aria-pressed={selected ? 'true' : 'false'}
+                    disabled={coverageLoading}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
+              <button
+                type="button"
+                className="inline-flex items-center justify-center rounded-lg btn-info px-3 py-1.5 text-sm font-semibold disabled:opacity-60"
+                onClick={() => onReloadCoverage?.(coverageSubject || 'math')}
+                disabled={coverageLoading}
+              >
+                {coverageLoading ? 'Loading...' : 'Refresh'}
+              </button>
+            </div>
+          </div>
+          {coverageLoading ? (
+            <p className="text-sm text-secondary">Loading coverage...</p>
+          ) : !coverageAvailable ? (
+            <p className="text-sm text-secondary">
+              Coverage mapping is not configured yet for this subject.
+            </p>
+          ) : (
+            <div className="flex flex-wrap gap-4 text-sm text-secondary">
+              <div className="rounded-xl bg-surface-soft px-4 py-3 border-subtle">
+                <div className="text-xs uppercase tracking-wide text-muted">
+                  Premade coverage
+                </div>
+                <div className="text-lg font-semibold text-primary">
+                  {masteredTotal} mastered / {totalQuizzes} mapped
+                </div>
+              </div>
+              <div className="rounded-xl bg-surface-soft px-4 py-3 border-subtle">
+                <div className="text-xs uppercase tracking-wide text-muted">
+                  Vocabulary
+                </div>
+                <div className="text-lg font-semibold text-primary">
+                  {Number(vocabSummary.learned || 0)} learned /{' '}
+                  {Number(vocabSummary.total || 0)} total
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {coverageLoading ? (
+          <div className="panel-surface rounded-2xl border p-5 shadow-sm text-sm text-secondary">
+            Loading content areas...
+          </div>
+        ) : areas.length === 0 ? (
+          <div className="panel-surface rounded-2xl border p-5 shadow-sm text-sm text-secondary">
+            No content areas found for this subject.
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            {areas.map((area) => (
+              <div
+                key={area.id || area.key}
+                className="panel-surface rounded-2xl border p-4 shadow-sm space-y-2"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="text-base font-semibold text-primary">
+                      {area.label || area.key || 'Content Area'}
+                    </h3>
+                    {area.description ? (
+                      <p className="text-sm text-secondary line-clamp-3">
+                        {area.description}
+                      </p>
+                    ) : null}
+                  </div>
+                  <div className="text-right text-sm text-secondary whitespace-nowrap">
+                    {area.masteredCount || 0}/{area.totalCount || 0} mastered
+                  </div>
+                </div>
+                {area.totalCount ? (
+                  <div className="h-2 w-full rounded-full bg-surface-soft overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-success"
+                      style={{
+                        width: `${Math.min(
+                          100,
+                          ((area.masteredCount || 0) / (area.totalCount || 1)) *
+                            100
+                        ).toFixed(1)}%`,
+                      }}
+                      aria-label={`${area.masteredCount || 0} of ${
+                        area.totalCount || 0
+                      } mastered`}
+                    />
+                  </div>
+                ) : (
+                  <p className="text-xs text-muted">No quizzes mapped yet.</p>
+                )}
+                <div className="flex flex-wrap gap-2">
+                  {Array.isArray(area.quizzes) && area.quizzes.length ? (
+                    area.quizzes.map((quiz) => (
+                      <span
+                        key={quiz.quizId}
+                        className={`rounded-full px-3 py-1 text-xs font-semibold border ${
+                          quiz.mastered
+                            ? 'border-success text-success'
+                            : 'border-subtle text-secondary'
+                        }`}
+                      >
+                        {quiz.title || quiz.quizId}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-xs text-muted">
+                      No premade quizzes linked.
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="panel-surface rounded-2xl border p-5 shadow-sm space-y-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-base font-semibold text-primary">
+                Vocabulary Progress
+              </h3>
+              <p className="text-sm text-secondary">
+                Learned terms for this subject.
+              </p>
+            </div>
+          </div>
+          {coverageLoading ? (
+            <p className="text-sm text-secondary">Syncing vocabulary...</p>
+          ) : (
+            <>
+              <div className="h-2 w-full rounded-full bg-surface-soft overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-info"
+                  style={{
+                    width: `${Math.min(
+                      100,
+                      Number(vocabSummary.total || 0) > 0
+                        ? ((Number(vocabSummary.learned || 0) || 0) /
+                            Math.max(1, Number(vocabSummary.total || 0))) *
+                            100
+                        : 0
+                    ).toFixed(1)}%`,
+                  }}
+                  aria-label={`${Number(vocabSummary.learned || 0)} of ${Number(
+                    vocabSummary.total || 0
+                  )} learned`}
+                />
+              </div>
+              {Array.isArray(vocabSummary.recent) &&
+              vocabSummary.recent.length ? (
+                <div className="flex flex-wrap gap-2">
+                  {vocabSummary.recent.map((term) => (
+                    <span
+                      key={term.vocabId}
+                      className="rounded-full bg-surface-soft border-subtle border px-3 py-1 text-xs text-secondary"
+                    >
+                      {term.term}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted">
+                  No vocabulary progress yet.
+                </p>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section
       id="profileView"
@@ -26720,395 +27078,457 @@ function ProfileView({
           </div>
         </div>
 
-        {error && !loading && (
-          <div
-            className="rounded-xl border-danger bg-danger-soft p-4 text-sm text-danger"
-            role="alert"
-          >
-            {error}
-          </div>
-        )}
-
-        {!onboardingComplete && (
-          <div
-            className="onboarding-banner text-slate-900"
-            style={{
-              border: '1px solid #f6c',
-              background: '#fff0f6',
-              padding: '1rem',
-              borderRadius: '0.5rem',
-              color: '#0f172a',
-            }}
-          >
-            <strong>Welcome!</strong> Before we start, fill this out so we can
-            build you a plan:
-            <ol className="list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2">
-              <li>Pick the areas you struggle with</li>
-              <li>Set your test date (or mark "I passed")</li>
-              <li>Choose a display name</li>
-            </ol>
-            <div className="mt-3 flex flex-col sm:flex-row gap-2">
-              <button
-                id="finishOnboardingBtn"
-                type="button"
-                onClick={onFinishOnboarding}
-                className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
-                disabled={finishingOnboarding}
-              >
-                {finishingOnboarding ? 'Checking' : "I'm Done"}
-              </button>
-              <button
-                id="completeLaterBtn"
-                type="button"
-                onClick={onCompleteLater}
-                className="inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold text-slate-900"
-                aria-label="Skip onboarding for now"
-              >
-                Complete Later
-              </button>
-            </div>
-          </div>
-        )}
-
-        <form
-          onSubmit={onSubmitName}
-          className={`panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${
-            highlightName ? 'border-danger' : 'border-subtle'
-          }`}
-          aria-labelledby="profile-name-heading"
+        <div
+          className="flex flex-wrap gap-2"
+          role="tablist"
+          aria-label="Profile tabs"
         >
-          <div>
-            <h2
-              id="profile-name-heading"
-              className="text-xl font-semibold text-primary"
-            >
-              Display Name
-            </h2>
-            <p className="text-sm text-muted">
-              This name appears across the app.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <label className="w-full sm:flex-1">
-              <span className="sr-only">Display name</span>
-              <input
-                type="text"
-                value={nameDraft}
-                onChange={(event) => onNameDraftChange(event.target.value)}
-                maxLength={80}
-                placeholder="Your name"
-                className="w-full rounded-lg border-subtle px-3 py-2 text-base focus-ring-primary focus:border-primary"
-              />
-            </label>
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
-              disabled={nameSaving}
-            >
-              {nameSaving ? 'Saving' : 'Save Name'}
-            </button>
-          </div>
-          <p className="text-xs text-muted">Maximum 80 characters.</p>
-          {nameStatus && (
-            <p
-              className="text-sm text-secondary"
-              role="status"
-              aria-live="polite"
-            >
-              {nameStatus}
-            </p>
-          )}
-        </form>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <section
-            id="testPlanCard"
-            className={`panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${
-              highlightTest ? 'border-danger' : 'border-subtle'
+          <button
+            type="button"
+            onClick={() => onTabChange?.('profile')}
+            className={`px-3 py-1.5 rounded-lg border text-sm font-semibold ${
+              tabId === 'profile'
+                ? 'btn-primary text-white'
+                : 'btn-ghost text-secondary border-subtle'
             }`}
+            aria-pressed={tabId === 'profile' ? 'true' : 'false'}
           >
-            <h2 className="text-lg font-semibold text-primary">
-              Upcoming Tests
-            </h2>
-            <div
-              id="nextUpcomingSummary"
-              className="note text-sm text-secondary"
-            >
-              {nextUpcomingSummary}
-            </div>
-            <div id="testPlanList" className="grid gap-4 md:grid-cols-2">
-              {normalizedTestPlan.length === 0 ? (
-                <p className="col-span-full text-sm text-muted">
-                  No subjects available yet.
-                </p>
-              ) : (
-                normalizedTestPlan.map((entry) => {
-                  const edits = (subjectEdits &&
-                    subjectEdits[entry.subject]) || {
-                    testDate: '',
-                    testLocation: '',
-                    passed: false,
-                    notScheduled: false,
-                  };
-                  const savingThisSubject = testSaving === entry.subject;
-                  const isNotScheduled =
-                    typeof edits.notScheduled === 'boolean'
-                      ? edits.notScheduled
-                      : !!entry.notScheduled;
-                  const countdownLabel = (() => {
-                    if (isNotScheduled || !entry.testDate || edits.passed) {
-                      return null;
-                    }
-                    if (entry.daysUntil != null) {
-                      const value = entry.daysUntil;
-                      return `${value} day${value === 1 ? '' : 's'} remaining`;
-                    }
-                    return 'Countdown not available';
-                  })();
-
-                  return (
-                    <div
-                      key={entry.subject}
-                      className="subject-test-block profile-test-card rounded-xl border-subtle panel-surface p-4 space-y-3 shadow-sm"
-                    >
-                      <h3 className="text-base font-semibold text-secondary">
-                        {entry.subject}
-                      </h3>
-                      <label className="flex flex-col gap-1 text-sm text-secondary">
-                        Date
-                        <input
-                          type="date"
-                          className="tp-date profile-date-input rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary"
-                          data-subject={entry.subject}
-                          value={isNotScheduled ? '' : edits.testDate || ''}
-                          onChange={(event) =>
-                            onSubjectFieldChange?.(
-                              entry.subject,
-                              'testDate',
-                              event.target.value
-                            )
-                          }
-                          disabled={savingThisSubject || isNotScheduled}
-                        />
-                      </label>
-                      <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-secondary">
-                        <input
-                          type="checkbox"
-                          className="tp-not-scheduled h-4 w-4 rounded border-subtle text-info focus-ring-primary"
-                          data-subject={entry.subject}
-                          checked={!!isNotScheduled}
-                          onChange={(event) =>
-                            onSubjectFieldChange?.(
-                              entry.subject,
-                              'notScheduled',
-                              event.target.checked
-                            )
-                          }
-                          disabled={savingThisSubject}
-                        />
-                        <span>I have not scheduled this test yet</span>
-                      </label>
-                      <label className="flex flex-col gap-1 text-sm text-secondary">
-                        Location
-                        <input
-                          type="text"
-                          className="tp-location rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary"
-                          placeholder="Test center (optional)"
-                          data-subject={entry.subject}
-                          value={edits.testLocation || ''}
-                          onChange={(event) =>
-                            onSubjectFieldChange?.(
-                              entry.subject,
-                              'testLocation',
-                              event.target.value
-                            )
-                          }
-                          disabled={savingThisSubject}
-                        />
-                      </label>
-                      <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-secondary">
-                        <input
-                          type="checkbox"
-                          className="tp-passed h-4 w-4 rounded border-subtle text-info focus-ring-primary"
-                          data-subject={entry.subject}
-                          checked={!!edits.passed}
-                          onChange={(event) =>
-                            onSubjectFieldChange?.(
-                              entry.subject,
-                              'passed',
-                              event.target.checked
-                            )
-                          }
-                          disabled={savingThisSubject}
-                        />
-                        <span>I already passed this subject</span>
-                      </label>
-                      <button
-                        type="button"
-                        className="btn tp-save inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
-                        data-subject={entry.subject}
-                        onClick={() => onSubjectSave?.(entry.subject)}
-                        disabled={savingThisSubject}
-                      >
-                        {savingThisSubject ? 'Saving' : `Save ${entry.subject}`}
-                      </button>
-                      {edits.passed ? (
-                        <p className="text-xs text-success">
-                          Great job! We marked this subject as passed.
-                        </p>
-                      ) : isNotScheduled ? (
-                        <p className="text-xs text-muted">
-                          We'll remind you to set a date when you're ready.
-                        </p>
-                      ) : countdownLabel ? (
-                        <p className="text-xs text-muted">{countdownLabel}</p>
-                      ) : null}
-                    </div>
-                  );
-                })
-              )}
-            </div>
-            <p className="text-xs text-muted">
-              Dates saved here will also appear on your dashboard.
-            </p>
-          </section>
-          <article className="glass rounded-2xl border-subtle panel-surface p-5 shadow-lg space-y-3">
-            <h2 className="text-lg font-semibold text-primary">
-              Preferences Snapshot
-            </h2>
-            <dl className="space-y-2 text-sm text-secondary">
-              <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
-                <dt className="font-medium text-secondary">Font Size</dt>
-                <dd className="capitalize text-primary">
-                  {profile.fontSize || 'md'}
-                </dd>
-              </div>
-              <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
-                <dt className="font-medium text-secondary">Color Contrast</dt>
-                <dd className="capitalize text-primary">Automatic</dd>
-              </div>
-              <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
-                <dt className="font-medium text-secondary">Timezone</dt>
-                <dd className="text-primary">{timezoneLabel}</dd>
-              </div>
-              <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
-                <dt className="font-medium text-secondary">Test Reminders</dt>
-                <dd className="text-primary">{reminderLabel}</dd>
-              </div>
-            </dl>
-            <p className="text-xs text-muted">
-              Adjust these settings anytime from the Settings panel.
-            </p>
-          </article>
+            Profile Settings
+          </button>
+          <button
+            type="button"
+            onClick={() => onTabChange?.('coverage')}
+            className={`px-3 py-1.5 rounded-lg border text-sm font-semibold ${
+              tabId === 'coverage'
+                ? 'btn-primary text-white'
+                : 'btn-ghost text-secondary border-subtle'
+            }`}
+            aria-pressed={tabId === 'coverage' ? 'true' : 'false'}
+          >
+            Content Coverage
+          </button>
         </div>
 
-        <form
-          onSubmit={handleChallengesSubmit}
-          className={`panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${
-            highlightChallenges ? 'border-danger' : 'border-subtle'
-          }`}
-        >
-          <div className="flex items-center justify-between gap-2">
-            <h2 className="text-lg font-semibold text-primary">
-              Learning Challenges
-            </h2>
-            <button
-              type="button"
-              onClick={() => setShowAllChallenges((v) => !v)}
-              className="inline-flex items-center justify-center rounded-lg btn-ghost px-2.5 py-1.5 text-xs font-semibold challenges-toggle-btn"
-              aria-expanded={showAllChallenges ? 'true' : 'false'}
-              aria-controls="challengeList"
-            >
-              {showAllChallenges ? 'Collapse list' : 'Show all'}
-              {totalChallenges ? ` (${totalChallenges})` : ''}
-            </button>
-          </div>
-          <p className="text-sm text-secondary">
-            Select the areas you find tough. We'll use this later to build a
-            study plan for you.
-          </p>
-          <div
-            id="challengeList"
-            className={`${
-              showAllChallenges ? 'max-h-none' : 'max-h-64 overflow-y-auto'
-            } rounded-lg border-subtle p-2`}
-          >
-            {Object.keys(groupedChallenges).length === 0 ? (
-              <p className="text-sm text-muted">
-                No challenge options available yet.
-              </p>
-            ) : (
-              Object.keys(groupedChallenges)
-                .sort()
-                .map((subject) => (
-                  <div key={subject} className="mb-3">
-                    <div className="challenge-subject font-semibold text-secondary">
-                      {subject}
-                    </div>
-                    {Object.keys(groupedChallenges[subject])
-                      .sort()
-                      .map((subtopic) => (
-                        <div key={`${subject}-${subtopic}`} className="mt-1">
-                          <div className="challenge-subtopic ml-4 text-sm italic text-muted">
-                            {subtopic}
-                          </div>
-                          {groupedChallenges[subject][subtopic].map((opt) => {
-                            const isChecked = selectedIds.includes(opt.id);
-                            return (
-                              <label
-                                key={opt.id}
-                                className={`ml-8 mt-2 flex items-start gap-2 text-sm rounded-md border px-2 py-1 transition ${
-                                  isChecked
-                                    ? 'bg-info-soft border-info text-secondary shadow-sm'
-                                    : 'panel-surface border-subtle hover:bg-surface-soft text-muted'
-                                }`}
-                                data-selected={isChecked ? 'true' : 'false'}
-                              >
-                                <input
-                                  type="checkbox"
-                                  className="challengeBox mt-1 h-4 w-4 rounded border-subtle text-info focus-ring-primary"
-                                  data-id={opt.id}
-                                  checked={isChecked}
-                                  onChange={() => handleChallengeToggle(opt.id)}
-                                  aria-checked={isChecked}
-                                  aria-label={
-                                    opt.label || opt.subtopic || opt.subject
-                                  }
-                                />
-                                <span>
-                                  {opt.label || opt.subtopic || opt.subject}
-                                </span>
-                              </label>
-                            );
-                          })}
-                        </div>
-                      ))}
-                  </div>
-                ))
+        {tabId === 'coverage' ? (
+          renderCoverageTab()
+        ) : (
+          <>
+            {error && !loading && (
+              <div
+                className="rounded-xl border-danger bg-danger-soft p-4 text-sm text-danger"
+                role="alert"
+              >
+                {error}
+              </div>
             )}
-          </div>
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs text-muted">
-              Selected: {selectedCount}
-              {totalChallenges ? ` / ${totalChallenges}` : ''}
-            </p>
-            <button
-              id="saveChallengesBtn"
-              type="submit"
-              className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
-              disabled={challengesSaving}
-            >
-              {challengesSaving ? 'Saving' : 'Save Challenges'}
-            </button>
-          </div>
-        </form>
 
-        <RecentScoresPanel
-          title="Recent Scores"
-          summary={recentSummary}
-          legacyScores={legacyScores}
-          loading={loading}
-        />
+            {!onboardingComplete && (
+              <div
+                className="onboarding-banner text-slate-900"
+                style={{
+                  border: '1px solid #f6c',
+                  background: '#fff0f6',
+                  padding: '1rem',
+                  borderRadius: '0.5rem',
+                  color: '#0f172a',
+                }}
+              >
+                <strong>Welcome!</strong> Before we start, fill this out so we
+                can build you a plan:
+                <ol className="list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2">
+                  <li>Pick the areas you struggle with</li>
+                  <li>Set your test date (or mark "I passed")</li>
+                  <li>Choose a display name</li>
+                </ol>
+                <div className="mt-3 flex flex-col sm:flex-row gap-2">
+                  <button
+                    id="finishOnboardingBtn"
+                    type="button"
+                    onClick={onFinishOnboarding}
+                    className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
+                    disabled={finishingOnboarding}
+                  >
+                    {finishingOnboarding ? 'Checking' : "I'm Done"}
+                  </button>
+                  <button
+                    id="completeLaterBtn"
+                    type="button"
+                    onClick={onCompleteLater}
+                    className="inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold text-slate-900"
+                    aria-label="Skip onboarding for now"
+                  >
+                    Complete Later
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <form
+              onSubmit={onSubmitName}
+              className={`panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${
+                highlightName ? 'border-danger' : 'border-subtle'
+              }`}
+              aria-labelledby="profile-name-heading"
+            >
+              <div>
+                <h2
+                  id="profile-name-heading"
+                  className="text-xl font-semibold text-primary"
+                >
+                  Display Name
+                </h2>
+                <p className="text-sm text-muted">
+                  This name appears across the app.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <label className="w-full sm:flex-1">
+                  <span className="sr-only">Display name</span>
+                  <input
+                    type="text"
+                    value={nameDraft}
+                    onChange={(event) => onNameDraftChange(event.target.value)}
+                    maxLength={80}
+                    placeholder="Your name"
+                    className="w-full rounded-lg border-subtle px-3 py-2 text-base focus-ring-primary focus:border-primary"
+                  />
+                </label>
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
+                  disabled={nameSaving}
+                >
+                  {nameSaving ? 'Saving' : 'Save Name'}
+                </button>
+              </div>
+              <p className="text-xs text-muted">Maximum 80 characters.</p>
+              {nameStatus && (
+                <p
+                  className="text-sm text-secondary"
+                  role="status"
+                  aria-live="polite"
+                >
+                  {nameStatus}
+                </p>
+              )}
+            </form>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <section
+                id="testPlanCard"
+                className={`panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${
+                  highlightTest ? 'border-danger' : 'border-subtle'
+                }`}
+              >
+                <h2 className="text-lg font-semibold text-primary">
+                  Upcoming Tests
+                </h2>
+                <div
+                  id="nextUpcomingSummary"
+                  className="note text-sm text-secondary"
+                >
+                  {nextUpcomingSummary}
+                </div>
+                <div id="testPlanList" className="grid gap-4 md:grid-cols-2">
+                  {normalizedTestPlan.length === 0 ? (
+                    <p className="col-span-full text-sm text-muted">
+                      No subjects available yet.
+                    </p>
+                  ) : (
+                    normalizedTestPlan.map((entry) => {
+                      const edits = (subjectEdits &&
+                        subjectEdits[entry.subject]) || {
+                        testDate: '',
+                        testLocation: '',
+                        passed: false,
+                        notScheduled: false,
+                      };
+                      const savingThisSubject = testSaving === entry.subject;
+                      const isNotScheduled =
+                        typeof edits.notScheduled === 'boolean'
+                          ? edits.notScheduled
+                          : !!entry.notScheduled;
+                      const countdownLabel = (() => {
+                        if (isNotScheduled || !entry.testDate || edits.passed) {
+                          return null;
+                        }
+                        if (entry.daysUntil != null) {
+                          const value = entry.daysUntil;
+                          return `${value} day${
+                            value === 1 ? '' : 's'
+                          } remaining`;
+                        }
+                        return 'Countdown not available';
+                      })();
+
+                      return (
+                        <div
+                          key={entry.subject}
+                          className="subject-test-block profile-test-card rounded-xl border-subtle panel-surface p-4 space-y-3 shadow-sm"
+                        >
+                          <h3 className="text-base font-semibold text-secondary">
+                            {entry.subject}
+                          </h3>
+                          <label className="flex flex-col gap-1 text-sm text-secondary">
+                            Date
+                            <input
+                              type="date"
+                              className="tp-date profile-date-input rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary"
+                              data-subject={entry.subject}
+                              value={isNotScheduled ? '' : edits.testDate || ''}
+                              onChange={(event) =>
+                                onSubjectFieldChange?.(
+                                  entry.subject,
+                                  'testDate',
+                                  event.target.value
+                                )
+                              }
+                              disabled={savingThisSubject || isNotScheduled}
+                            />
+                          </label>
+                          <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-secondary">
+                            <input
+                              type="checkbox"
+                              className="tp-not-scheduled h-4 w-4 rounded border-subtle text-info focus-ring-primary"
+                              data-subject={entry.subject}
+                              checked={!!isNotScheduled}
+                              onChange={(event) =>
+                                onSubjectFieldChange?.(
+                                  entry.subject,
+                                  'notScheduled',
+                                  event.target.checked
+                                )
+                              }
+                              disabled={savingThisSubject}
+                            />
+                            <span>I have not scheduled this test yet</span>
+                          </label>
+                          <label className="flex flex-col gap-1 text-sm text-secondary">
+                            Location
+                            <input
+                              type="text"
+                              className="tp-location rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary"
+                              placeholder="Test center (optional)"
+                              data-subject={entry.subject}
+                              value={edits.testLocation || ''}
+                              onChange={(event) =>
+                                onSubjectFieldChange?.(
+                                  entry.subject,
+                                  'testLocation',
+                                  event.target.value
+                                )
+                              }
+                              disabled={savingThisSubject}
+                            />
+                          </label>
+                          <label className="inline-row checkbox-row flex items-center gap-2 text-sm text-secondary">
+                            <input
+                              type="checkbox"
+                              className="tp-passed h-4 w-4 rounded border-subtle text-info focus-ring-primary"
+                              data-subject={entry.subject}
+                              checked={!!edits.passed}
+                              onChange={(event) =>
+                                onSubjectFieldChange?.(
+                                  entry.subject,
+                                  'passed',
+                                  event.target.checked
+                                )
+                              }
+                              disabled={savingThisSubject}
+                            />
+                            <span>I already passed this subject</span>
+                          </label>
+                          <button
+                            type="button"
+                            className="btn tp-save inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
+                            data-subject={entry.subject}
+                            onClick={() => onSubjectSave?.(entry.subject)}
+                            disabled={savingThisSubject}
+                          >
+                            {savingThisSubject
+                              ? 'Saving'
+                              : `Save ${entry.subject}`}
+                          </button>
+                          {edits.passed ? (
+                            <p className="text-xs text-success">
+                              Great job! We marked this subject as passed.
+                            </p>
+                          ) : isNotScheduled ? (
+                            <p className="text-xs text-muted">
+                              We'll remind you to set a date when you're ready.
+                            </p>
+                          ) : countdownLabel ? (
+                            <p className="text-xs text-muted">
+                              {countdownLabel}
+                            </p>
+                          ) : null}
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+                <p className="text-xs text-muted">
+                  Dates saved here will also appear on your dashboard.
+                </p>
+              </section>
+              <article className="glass rounded-2xl border-subtle panel-surface p-5 shadow-lg space-y-3">
+                <h2 className="text-lg font-semibold text-primary">
+                  Preferences Snapshot
+                </h2>
+                <dl className="space-y-2 text-sm text-secondary">
+                  <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
+                    <dt className="font-medium text-secondary">Font Size</dt>
+                    <dd className="capitalize text-primary">
+                      {profile.fontSize || 'md'}
+                    </dd>
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
+                    <dt className="font-medium text-secondary">
+                      Color Contrast
+                    </dt>
+                    <dd className="capitalize text-primary">Automatic</dd>
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
+                    <dt className="font-medium text-secondary">Timezone</dt>
+                    <dd className="text-primary">{timezoneLabel}</dd>
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row">
+                    <dt className="font-medium text-secondary">
+                      Test Reminders
+                    </dt>
+                    <dd className="text-primary">{reminderLabel}</dd>
+                  </div>
+                </dl>
+                <p className="text-xs text-muted">
+                  Adjust these settings anytime from the Settings panel.
+                </p>
+              </article>
+            </div>
+
+            <form
+              onSubmit={handleChallengesSubmit}
+              className={`panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${
+                highlightChallenges ? 'border-danger' : 'border-subtle'
+              }`}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="text-lg font-semibold text-primary">
+                  Learning Challenges
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setShowAllChallenges((v) => !v)}
+                  className="inline-flex items-center justify-center rounded-lg btn-ghost px-2.5 py-1.5 text-xs font-semibold challenges-toggle-btn"
+                  aria-expanded={showAllChallenges ? 'true' : 'false'}
+                  aria-controls="challengeList"
+                >
+                  {showAllChallenges ? 'Collapse list' : 'Show all'}
+                  {totalChallenges ? ` (${totalChallenges})` : ''}
+                </button>
+              </div>
+              <p className="text-sm text-secondary">
+                Select the areas you find tough. We'll use this later to build a
+                study plan for you.
+              </p>
+              <div
+                id="challengeList"
+                className={`${
+                  showAllChallenges ? 'max-h-none' : 'max-h-64 overflow-y-auto'
+                } rounded-lg border-subtle p-2`}
+              >
+                {Object.keys(groupedChallenges).length === 0 ? (
+                  <p className="text-sm text-muted">
+                    No challenge options available yet.
+                  </p>
+                ) : (
+                  Object.keys(groupedChallenges)
+                    .sort()
+                    .map((subject) => (
+                      <div key={subject} className="mb-3">
+                        <div className="challenge-subject font-semibold text-secondary">
+                          {subject}
+                        </div>
+                        {Object.keys(groupedChallenges[subject])
+                          .sort()
+                          .map((subtopic) => (
+                            <div
+                              key={`${subject}-${subtopic}`}
+                              className="mt-1"
+                            >
+                              <div className="challenge-subtopic ml-4 text-sm italic text-muted">
+                                {subtopic}
+                              </div>
+                              {groupedChallenges[subject][subtopic].map(
+                                (opt) => {
+                                  const isChecked = selectedIds.includes(
+                                    opt.id
+                                  );
+                                  return (
+                                    <label
+                                      key={opt.id}
+                                      className={`ml-8 mt-2 flex items-start gap-2 text-sm rounded-md border px-2 py-1 transition ${
+                                        isChecked
+                                          ? 'bg-info-soft border-info text-secondary shadow-sm'
+                                          : 'panel-surface border-subtle hover:bg-surface-soft text-muted'
+                                      }`}
+                                      data-selected={
+                                        isChecked ? 'true' : 'false'
+                                      }
+                                    >
+                                      <input
+                                        type="checkbox"
+                                        className="challengeBox mt-1 h-4 w-4 rounded border-subtle text-info focus-ring-primary"
+                                        data-id={opt.id}
+                                        checked={isChecked}
+                                        onChange={() =>
+                                          handleChallengeToggle(opt.id)
+                                        }
+                                        aria-checked={isChecked}
+                                        aria-label={
+                                          opt.label ||
+                                          opt.subtopic ||
+                                          opt.subject
+                                        }
+                                      />
+                                      <span>
+                                        {opt.label ||
+                                          opt.subtopic ||
+                                          opt.subject}
+                                      </span>
+                                    </label>
+                                  );
+                                }
+                              )}
+                            </div>
+                          ))}
+                      </div>
+                    ))
+                )}
+              </div>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs text-muted">
+                  Selected: {selectedCount}
+                  {totalChallenges ? ` / ${totalChallenges}` : ''}
+                </p>
+                <button
+                  id="saveChallengesBtn"
+                  type="submit"
+                  className="inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60"
+                  disabled={challengesSaving}
+                >
+                  {challengesSaving ? 'Saving' : 'Save Challenges'}
+                </button>
+              </div>
+            </form>
+
+            <RecentScoresPanel
+              title="Recent Scores"
+              summary={recentSummary}
+              legacyScores={legacyScores}
+              loading={loading}
+            />
+          </>
+        )}
       </div>
     </section>
   );
