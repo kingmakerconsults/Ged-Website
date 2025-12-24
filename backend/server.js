@@ -13506,9 +13506,122 @@ function toScaledFromPercent(pct) {
   }
 }
 
+const SUBJECT_LABELS_BY_SLUG = {
+  math: 'Math',
+  rla: 'Reasoning Through Language Arts (RLA)',
+  science: 'Science',
+  social_studies: 'Social Studies',
+};
+
+const SUBJECT_ALIAS_MAP = {
+  math: ['math', 'mathematics'],
+  rla: [
+    'rla',
+    'reasoning through language arts',
+    'reasoning through language arts (rla)',
+    'language arts',
+  ],
+  science: ['science'],
+  social_studies: [
+    'social studies',
+    'social_studies',
+    'social-studies',
+    'history',
+  ],
+};
+
+function normalizeSubjectSlug(subject) {
+  if (!subject) return null;
+  const normalized = String(subject).trim().toLowerCase();
+  for (const [slug, aliases] of Object.entries(SUBJECT_ALIAS_MAP)) {
+    if (slug === normalized || aliases.includes(normalized)) {
+      return slug;
+    }
+  }
+  for (const [slug, label] of Object.entries(SUBJECT_LABELS_BY_SLUG)) {
+    if (label && label.toLowerCase() === normalized) {
+      return slug;
+    }
+  }
+  return null;
+}
+
+function subjectAliases(slug) {
+  const base = SUBJECT_ALIAS_MAP[slug] || [];
+  const label = SUBJECT_LABELS_BY_SLUG[slug] || slug;
+  const set = new Set([...base, slug, label.toLowerCase()]);
+  return Array.from(set);
+}
+
+function getNumericUserId(raw) {
+  const n = Number(raw);
+  return Number.isInteger(n) ? n : null;
+}
+
+function resolveBestScore({ scaledScore, score }) {
+  const scaled = Number.isFinite(scaledScore) ? Math.round(scaledScore) : null;
+  const raw = Number.isFinite(score) ? Math.round(score) : null;
+  return scaled != null ? scaled : raw;
+}
+
+async function recordPremadeMastery({
+  userId,
+  quizId,
+  subject,
+  score,
+  scaledScore,
+}) {
+  const numericUserId = getNumericUserId(userId);
+  if (!numericUserId || !quizId) {
+    return { skipped: 'missing_user_or_quiz' };
+  }
+  const bestScore = resolveBestScore({ scaledScore, score });
+  if (!Number.isFinite(bestScore)) {
+    return { skipped: 'missing_score' };
+  }
+  const mastered = bestScore >= 150;
+  const quizKey = String(quizId).trim();
+  const quizRow = await db.oneOrNone(
+    `SELECT COALESCE(quiz_id::text, id::text) AS quiz_uid, subject
+       FROM premade_quizzes
+      WHERE (quiz_id = $1 OR id::text = $1)
+        AND (is_active IS NULL OR is_active = TRUE)
+      LIMIT 1`,
+    [quizKey]
+  );
+  if (!quizRow || !quizRow.quiz_uid) {
+    return { skipped: 'quiz_not_found_or_inactive' };
+  }
+  const now = new Date();
+  const masteredAt = mastered ? now : null;
+  const normalizedSubject = normalizeSubjectSlug(subject || quizRow.subject);
+  await db.query(
+    `INSERT INTO user_premade_quiz_mastery (user_id, quiz_id, best_score, mastered, first_mastered_at, last_attempt_at, updated_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $6)
+       ON CONFLICT (user_id, quiz_id) DO UPDATE SET
+         best_score = GREATEST(COALESCE(user_premade_quiz_mastery.best_score, -1), EXCLUDED.best_score),
+         mastered = user_premade_quiz_mastery.mastered OR EXCLUDED.mastered,
+         first_mastered_at = CASE
+           WHEN user_premade_quiz_mastery.mastered THEN user_premade_quiz_mastery.first_mastered_at
+           WHEN EXCLUDED.mastered THEN COALESCE(user_premade_quiz_mastery.first_mastered_at, EXCLUDED.first_mastered_at)
+           ELSE user_premade_quiz_mastery.first_mastered_at
+         END,
+         last_attempt_at = EXCLUDED.last_attempt_at,
+         updated_at = EXCLUDED.updated_at;
+    `,
+    [numericUserId, quizRow.quiz_uid, bestScore, mastered, masteredAt, now]
+  );
+  return {
+    quizId: quizRow.quiz_uid,
+    subject: normalizedSubject || quizRow.subject || null,
+    bestScore,
+    mastered,
+  };
+}
+
 app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
   try {
-    const userId = req.user?.userId || req.user?.sub;
+    const userId = getNumericUserId(req.user?.userId || req.user?.sub);
     if (!userId) {
       console.error('[quiz-attempts] ✗ Unauthorized access attempt');
       return res.status(401).json({ error: 'Unauthorized' });
@@ -13523,9 +13636,12 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
       totalQuestions,
       scaledScore,
       passed,
+      isPremade = false,
+      quizVersion = null,
     } = req.body || {};
 
     const normalizedSubject = typeof subject === 'string' ? subject.trim() : '';
+    const subjectSlug = normalizeSubjectSlug(normalizedSubject);
     const normalizedQuizCode =
       typeof quizCode === 'string' ? quizCode.trim() : '';
     const normalizedQuizTitle =
@@ -13549,6 +13665,7 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
     const numericScore = toRoundedNumber(score);
     const numericTotal = toRoundedNumber(totalQuestions);
     let numericScaled = toRoundedNumber(scaledScore);
+    const isPremadeAttempt = isPremade === true;
 
     // If client didn't send scaled but did send score/total, compute it
     if (
@@ -13594,6 +13711,24 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
         `[quiz-attempts] Saved ${normalizedQuizCode} for user ${userId} (ID: ${result.rows[0]?.id})`
       );
     }
+
+    if (isPremadeAttempt) {
+      try {
+        await recordPremadeMastery({
+          userId,
+          quizId: normalizedQuizCode,
+          subject: subjectSlug || normalizedSubject,
+          score: numericScore,
+          scaledScore: numericScaled,
+        });
+      } catch (err) {
+        console.warn(
+          '[quiz-attempts] mastery upsert failed:',
+          err?.message || err
+        );
+      }
+    }
+
     // Process optional per-question responses for challenge tags
     try {
       const { responses } = req.body || {};
@@ -13764,6 +13899,346 @@ app.post('/api/quiz-attempts', authenticateBearerToken, async (req, res) => {
     res.status(500).json({ error: 'Failed to save quiz attempt.' });
   }
 });
+
+app.post(
+  '/api/premade-quizzes/:quizId/attempt',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      const quizId = (req.params.quizId || '').trim();
+      if (!quizId) {
+        return res.status(400).json({ error: 'quizId is required' });
+      }
+      const { score, scaledScore, subject, isPremade = true } = req.body || {};
+      if (isPremade === false) {
+        return res.json({ skipped: 'non_premade' });
+      }
+      const result = await recordPremadeMastery({
+        userId,
+        quizId,
+        subject,
+        score,
+        scaledScore,
+      });
+      if (result.skipped === 'quiz_not_found_or_inactive') {
+        return res.status(404).json(result);
+      }
+      return res.json({ ok: true, ...result });
+    } catch (error) {
+      console.error(
+        '[premade-attempt] Failed to record mastery:',
+        error?.message || error
+      );
+      return res
+        .status(500)
+        .json({ error: 'Failed to record premade mastery.' });
+    }
+  }
+);
+
+app.get(
+  '/api/profile/content-coverage',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      const subjectSlug =
+        normalizeSubjectSlug(req.query?.subject) ||
+        normalizeSubjectSlug('math');
+      if (!subjectSlug) {
+        return res.status(400).json({ error: 'Invalid subject' });
+      }
+      const aliases = subjectAliases(subjectSlug).map((s) => s.toLowerCase());
+
+      const coverageRows = await db.query(
+        `WITH subject_aliases AS (
+           SELECT $2::text[] AS aliases
+         ),
+         content AS (
+           SELECT id, key, label, description
+             FROM content_areas, subject_aliases sa
+            WHERE (is_active IS NULL OR is_active = TRUE)
+              AND LOWER(subject) = ANY(sa.aliases)
+         ),
+         quizzes AS (
+           SELECT COALESCE(quiz_id::text, id::text) AS quiz_uid, title, version
+             FROM premade_quizzes, subject_aliases sa
+            WHERE (is_active IS NULL OR is_active = TRUE)
+              AND LOWER(subject) = ANY(sa.aliases)
+         ),
+         mapping AS (
+           SELECT c.id AS content_area_id,
+                  c.key,
+                  c.label,
+                  c.description,
+                  pqc.quiz_id::text AS quiz_uid
+             FROM content c
+             LEFT JOIN premade_quiz_content_areas pqc
+               ON pqc.content_area_id = c.id
+         )
+         SELECT
+           m.content_area_id,
+           m.key AS content_area_key,
+           m.label AS content_area_label,
+           m.description AS content_area_description,
+           q.quiz_uid,
+           q.title AS quiz_title,
+           q.version AS quiz_version,
+           upqm.best_score,
+           upqm.mastered,
+           upqm.last_attempt_at
+         FROM mapping m
+         LEFT JOIN quizzes q ON q.quiz_uid = m.quiz_uid
+         LEFT JOIN user_premade_quiz_mastery upqm
+           ON upqm.quiz_id = q.quiz_uid AND upqm.user_id = $1
+         ORDER BY m.content_area_label NULLS LAST, q.quiz_title NULLS LAST;`,
+        [userId, aliases]
+      );
+
+      const areaMap = new Map();
+      const uniqueQuizMastery = new Map();
+      for (const row of coverageRows) {
+        if (!row) continue;
+        const areaId = row.content_area_id;
+        if (!areaMap.has(areaId)) {
+          areaMap.set(areaId, {
+            id: areaId,
+            key: row.content_area_key,
+            label: row.content_area_label,
+            description: row.content_area_description,
+            quizzes: [],
+          });
+        }
+        const area = areaMap.get(areaId);
+        if (row.quiz_uid) {
+          const bestScore = Number.isFinite(row.best_score)
+            ? Number(row.best_score)
+            : null;
+          const mastered = row.mastered === true || (bestScore ?? 0) >= 150;
+          const quizEntry = {
+            quizId: row.quiz_uid,
+            title: row.quiz_title || 'Quiz',
+            version: row.quiz_version || null,
+            bestScore,
+            mastered,
+            lastAttemptAt: row.last_attempt_at || null,
+          };
+          area.quizzes.push(quizEntry);
+          const prev = uniqueQuizMastery.get(row.quiz_uid);
+          uniqueQuizMastery.set(row.quiz_uid, prev || mastered);
+        }
+      }
+
+      const contentAreas = Array.from(areaMap.values()).map((area) => {
+        const masteredCount = area.quizzes.filter((q) => q.mastered).length;
+        const totalCount = area.quizzes.length;
+        return {
+          ...area,
+          masteredCount,
+          totalCount,
+        };
+      });
+
+      const totals = {
+        mastered: Array.from(uniqueQuizMastery.values()).filter(Boolean).length,
+        total: uniqueQuizMastery.size,
+      };
+
+      const vocabTotalsRow = await db.oneOrNone(
+        `SELECT COUNT(*) AS total
+           FROM vocabulary_terms
+          WHERE (is_active IS NULL OR is_active = TRUE)
+            AND LOWER(subject) = ANY($2)`,
+        [userId, aliases]
+      );
+      const vocabLearnedRow = await db.oneOrNone(
+        `SELECT COUNT(*) AS learned
+           FROM user_vocab_progress uvp
+           JOIN vocabulary_terms vt ON vt.id = uvp.vocab_id
+          WHERE uvp.user_id = $1
+            AND uvp.status IN ('learned', 'mastered')
+            AND (vt.is_active IS NULL OR vt.is_active = TRUE)
+            AND LOWER(vt.subject) = ANY($2)`,
+        [userId, aliases]
+      );
+      const vocabRecent = await db.query(
+        `SELECT uvp.vocab_id, vt.term, uvp.learned_at
+           FROM user_vocab_progress uvp
+           JOIN vocabulary_terms vt ON vt.id = uvp.vocab_id
+          WHERE uvp.user_id = $1
+            AND uvp.status IN ('learned', 'mastered')
+            AND uvp.learned_at IS NOT NULL
+            AND (vt.is_active IS NULL OR vt.is_active = TRUE)
+            AND LOWER(vt.subject) = ANY($2)
+          ORDER BY uvp.learned_at DESC NULLS LAST
+          LIMIT 10;`,
+        [userId, aliases]
+      );
+
+      return res.json({
+        subject: {
+          slug: subjectSlug,
+          label: SUBJECT_LABELS_BY_SLUG[subjectSlug] || subjectSlug,
+        },
+        contentAreas,
+        totals,
+        coverageAvailable: contentAreas.length > 0,
+        vocab: {
+          total: Number(vocabTotalsRow?.total || 0),
+          learned: Number(vocabLearnedRow?.learned || 0),
+          recent: (vocabRecent || []).map((row) => ({
+            vocabId: row.vocab_id,
+            term: row.term,
+            learnedAt: row.learned_at,
+          })),
+        },
+      });
+    } catch (error) {
+      console.error(
+        '[content-coverage] Failed to load coverage:',
+        error?.message || error
+      );
+      return res
+        .status(500)
+        .json({ error: 'Unable to load content coverage right now.' });
+    }
+  }
+);
+
+async function upsertVocabProgress({ userId, vocabId, status }) {
+  const numericUserId = getNumericUserId(userId);
+  if (!numericUserId) throw new Error('missing_user');
+  const vocabNumericId = Number(vocabId);
+  if (!Number.isInteger(vocabNumericId)) throw new Error('invalid_vocab_id');
+  const allowed = new Set(['seen', 'learned', 'mastered']);
+  const normalizedStatus = allowed.has(status) ? status : 'seen';
+  const now = new Date();
+  const learnedAt = normalizedStatus === 'seen' ? null : now;
+
+  const term = await db.oneOrNone(
+    `SELECT id
+       FROM vocabulary_terms
+      WHERE id = $1
+        AND (is_active IS NULL OR is_active = TRUE)
+      LIMIT 1`,
+    [vocabNumericId]
+  );
+  if (!term) {
+    const error = new Error('not_found');
+    error.code = 'NOT_FOUND';
+    throw error;
+  }
+
+  await db.query(
+    `INSERT INTO user_vocab_progress (user_id, vocab_id, status, learned_at, last_seen_at)
+       VALUES ($1, $2, $3, $4, $5)
+       ON CONFLICT (user_id, vocab_id) DO UPDATE SET
+         status = CASE
+           WHEN user_vocab_progress.status = 'mastered' THEN 'mastered'
+           WHEN user_vocab_progress.status = 'learned' AND $3 = 'seen' THEN 'learned'
+           ELSE EXCLUDED.status
+         END,
+         learned_at = CASE
+           WHEN user_vocab_progress.learned_at IS NOT NULL THEN user_vocab_progress.learned_at
+           WHEN EXCLUDED.status IN ('learned', 'mastered') THEN COALESCE(EXCLUDED.learned_at, user_vocab_progress.learned_at, $4)
+           ELSE user_vocab_progress.learned_at
+         END,
+         last_seen_at = EXCLUDED.last_seen_at;`,
+    [numericUserId, vocabNumericId, normalizedStatus, learnedAt, now]
+  );
+
+  return {
+    vocabId: vocabNumericId,
+    status: normalizedStatus,
+    learnedAt: learnedAt || null,
+    lastSeenAt: now,
+  };
+}
+
+app.post(
+  '/api/vocab/:vocabId/seen',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      const vocabId = req.params.vocabId;
+      const result = await upsertVocabProgress({
+        userId,
+        vocabId,
+        status: 'seen',
+      });
+      return res.json({ ok: true, ...result });
+    } catch (error) {
+      if (error?.code === 'NOT_FOUND') {
+        return res.status(404).json({ error: 'Vocabulary term not found' });
+      }
+      console.error('[vocab/seen] failed:', error?.message || error);
+      return res
+        .status(500)
+        .json({ error: 'Unable to update vocabulary progress.' });
+    }
+  }
+);
+
+app.post(
+  '/api/vocab/:vocabId/learned',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      const vocabId = req.params.vocabId;
+      const result = await upsertVocabProgress({
+        userId,
+        vocabId,
+        status: 'learned',
+      });
+      return res.json({ ok: true, ...result });
+    } catch (error) {
+      if (error?.code === 'NOT_FOUND') {
+        return res.status(404).json({ error: 'Vocabulary term not found' });
+      }
+      console.error('[vocab/learned] failed:', error?.message || error);
+      return res
+        .status(500)
+        .json({ error: 'Unable to update vocabulary progress.' });
+    }
+  }
+);
+
+app.post(
+  '/api/vocab/:vocabId/mastered',
+  authenticateBearerToken,
+  async (req, res) => {
+    try {
+      const userId = getNumericUserId(req.user?.userId || req.user?.sub);
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      const vocabId = req.params.vocabId;
+      const result = await upsertVocabProgress({
+        userId,
+        vocabId,
+        status: 'mastered',
+      });
+      return res.json({ ok: true, ...result });
+    } catch (error) {
+      if (error?.code === 'NOT_FOUND') {
+        return res.status(404).json({ error: 'Vocabulary term not found' });
+      }
+      console.error('[vocab/mastered] failed:', error?.message || error);
+      return res
+        .status(500)
+        .json({ error: 'Unable to update vocabulary progress.' });
+    }
+  }
+);
 
 // Submit practice test and return category analytics (no DB write required here)
 app.post('/api/submit-test', express.json(), async (req, res) => {
