@@ -22506,27 +22506,40 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
       const subject = data?.[subjectName];
       if (!subject) throw new Error('Subject dataset not found');
       let found = null;
+      let foundContext = { categoryName: null, topic: null };
       // search helper
-      const setIfMatch = (obj) => {
+      const setIfMatch = (obj, ctx = null) => {
         if (found) return;
         if (!obj) return;
-        if (obj.quizCode && obj.quizCode === quizCode) found = obj;
+        if (obj.quizCode && obj.quizCode === quizCode) {
+          found = obj;
+          if (ctx) foundContext = ctx;
+        }
       };
       // subject-level quizzes
-      if (Array.isArray(subject.quizzes)) subject.quizzes.forEach(setIfMatch);
+      if (Array.isArray(subject.quizzes))
+        subject.quizzes.forEach((q) =>
+          setIfMatch(q, { categoryName: null, topic: null })
+        );
       // categories
       const cats = subject.categories || {};
       for (const catName of Object.keys(cats)) {
         const cat = cats[catName];
         if (!cat) continue;
-        if (Array.isArray(cat.quizzes)) cat.quizzes.forEach(setIfMatch);
+        if (Array.isArray(cat.quizzes))
+          cat.quizzes.forEach((q) =>
+            setIfMatch(q, { categoryName: catName, topic: null })
+          );
         const topics = Array.isArray(cat.topics) ? cat.topics : [];
         for (const t of topics) {
           if (!t) continue;
           // topic as a direct quiz
-          setIfMatch(t);
+          setIfMatch(t, { categoryName: catName, topic: t });
           // topic quiz sets
-          if (Array.isArray(t.quizzes)) t.quizzes.forEach(setIfMatch);
+          if (Array.isArray(t.quizzes))
+            t.quizzes.forEach((q) =>
+              setIfMatch(q, { categoryName: catName, topic: t })
+            );
         }
       }
       if (!found) {
@@ -22534,10 +22547,20 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         return;
       }
       // Build a prepared quiz similar to topic/quizStart
-      const originTopic = found.topicId
-        ? getTopicById(subjectName, found.topicId)
-        : null;
-      const baseTitle = found.title || originTopic?.title || 'Premade Quiz';
+      const originTopic =
+        foundContext?.topic ||
+        (found.topicId ? getTopicById(subjectName, found.topicId) : null);
+      const topicTitle =
+        originTopic?.title ||
+        found.topic ||
+        found.area ||
+        foundContext?.categoryName ||
+        null;
+      const setLabel = found.label || found.setLabel || null;
+      const baseTitle =
+        found.title ||
+        (topicTitle && setLabel ? `${topicTitle} (${setLabel})` : topicTitle) ||
+        'Premade Quiz';
       const prepared = {
         ...found,
         id: found.quizCode || found.quizId || sanitizeCodeSegment(baseTitle),
@@ -22574,7 +22597,19 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
       ).map((q, qi) => {
         const withNum =
           q && typeof q === 'object'
-            ? { ...q, questionNumber: q.questionNumber ?? qi + 1 }
+            ? {
+                ...q,
+                questionNumber: q.questionNumber ?? qi + 1,
+                topic: q.topic ?? topicTitle,
+                originTopicId: q.originTopicId ?? originTopic?.id ?? null,
+                originTopicTitle: q.originTopicTitle ?? topicTitle,
+                originCategoryName:
+                  q.originCategoryName ?? foundContext?.categoryName ?? null,
+                quizTitle: q.quizTitle ?? baseTitle,
+                originQuizTitle: q.originQuizTitle ?? baseTitle,
+                originQuizId:
+                  q.originQuizId ?? found.quizCode ?? found.quizId ?? null,
+              }
             : q;
         return normalizeQuestionAssets(withNum, subjectName);
       });
@@ -30996,41 +31031,67 @@ function StartScreen({
         data?.[displaySubjectName(subject)] || data?.[subject] || null;
       if (!subjectData) throw new Error('Subject dataset not found');
       let found = null;
-      const setIfMatch = (obj) => {
+      let foundContext = { categoryName: null, topic: null };
+      const setIfMatch = (obj, ctx = null) => {
         if (found) return;
         if (!obj) return;
-        if (obj.quizCode && obj.quizCode === quizCode) found = obj;
+        if (obj.quizCode && obj.quizCode === quizCode) {
+          found = obj;
+          if (ctx) foundContext = ctx;
+        }
       };
       if (Array.isArray(subjectData.quizzes))
-        subjectData.quizzes.forEach(setIfMatch);
+        subjectData.quizzes.forEach((q) =>
+          setIfMatch(q, { categoryName: null, topic: null })
+        );
       const cats = subjectData.categories || {};
       for (const catName of Object.keys(cats)) {
         const cat = cats[catName];
         if (!cat) continue;
-        if (Array.isArray(cat.quizzes)) cat.quizzes.forEach(setIfMatch);
+        if (Array.isArray(cat.quizzes))
+          cat.quizzes.forEach((q) =>
+            setIfMatch(q, { categoryName: catName, topic: null })
+          );
         const topics = Array.isArray(cat.topics) ? cat.topics : [];
         for (const t of topics) {
-          setIfMatch(t);
-          if (Array.isArray(t?.quizzes)) t.quizzes.forEach(setIfMatch);
+          setIfMatch(t, { categoryName: catName, topic: t });
+          if (Array.isArray(t?.quizzes))
+            t.quizzes.forEach((q) =>
+              setIfMatch(q, { categoryName: catName, topic: t })
+            );
         }
       }
       if (!found) throw new Error('not_found');
-      const baseTitle = found.title || 'Premade Quiz';
+      const originTopic =
+        foundContext?.topic ||
+        (() => {
+          const locateTopicById = (id) => {
+            if (!id) return null;
+            for (const cat of Object.values(cats)) {
+              const topics = Array.isArray(cat?.topics) ? cat.topics : [];
+              for (const t of topics)
+                if (t && (t.id === id || t.quizCode === id)) return t;
+            }
+            return null;
+          };
+          return locateTopicById(found.topicId) || null;
+        })();
+      const topicTitle =
+        originTopic?.title ||
+        found.topic ||
+        found.area ||
+        foundContext?.categoryName ||
+        null;
+      const setLabel = found.label || found.setLabel || null;
+      const baseTitle =
+        found.title ||
+        (topicTitle && setLabel ? `${topicTitle} (${setLabel})` : topicTitle) ||
+        'Premade Quiz';
       let questions = [];
       if (Array.isArray(found.questions) && found.questions.length) {
         questions = found.questions;
       } else {
         // try origin topic
-        const locateTopicById = (id) => {
-          if (!id) return null;
-          for (const cat of Object.values(cats)) {
-            const topics = Array.isArray(cat?.topics) ? cat.topics : [];
-            for (const t of topics)
-              if (t && (t.id === id || t.quizCode === id)) return t;
-          }
-          return null;
-        };
-        const originTopic = locateTopicById(found.topicId) || null;
         if (
           originTopic &&
           Array.isArray(originTopic.questions) &&
@@ -31049,7 +31110,19 @@ function StartScreen({
       const normalized = (questions || []).map((q, i) =>
         normalizeQuestionAssets(
           q && typeof q === 'object'
-            ? { ...q, questionNumber: q.questionNumber ?? i + 1 }
+            ? {
+                ...q,
+                questionNumber: q.questionNumber ?? i + 1,
+                topic: q.topic ?? topicTitle,
+                originTopicId: q.originTopicId ?? originTopic?.id ?? null,
+                originTopicTitle: q.originTopicTitle ?? topicTitle,
+                originCategoryName:
+                  q.originCategoryName ?? foundContext?.categoryName ?? null,
+                quizTitle: q.quizTitle ?? baseTitle,
+                originQuizTitle: q.originQuizTitle ?? baseTitle,
+                originQuizId:
+                  q.originQuizId ?? found.quizCode ?? found.quizId ?? null,
+              }
             : q,
           displaySubjectName(subject)
         )
@@ -33999,6 +34072,7 @@ function QuizInterface({
     // Record in history
     const historyEntry = {
       questionId: currentQ.id || currentIndex,
+      questionIndex: currentIndex,
       subject: currentQ.subject || subject || 'Unknown',
       topic: currentQ.topic || currentQ.area || null,
       premadeQuizId: currentQ.originQuizId || currentQ.quizId || null,
@@ -34098,14 +34172,12 @@ function QuizInterface({
     (quizSubject === 'Science' ||
       subjectForRender === 'Science' ||
       (currentQ && currentQ.subject === 'Science'));
-  // Calculator is available for Math/Science when question allows it (non-calculator questions set calculator: false)
+  // Calculator is available for all Math/Science quizzes
   const calculatorAllowed =
-    currentQ &&
-    currentQ.calculator !== false &&
-    (subjectForRender === 'Math' ||
-      quizSubject === 'Math' ||
-      subjectForRender === 'Science' ||
-      quizSubject === 'Science');
+    subjectForRender === 'Math' ||
+    quizSubject === 'Math' ||
+    subjectForRender === 'Science' ||
+    quizSubject === 'Science';
   const subjectColors = SUBJECT_COLORS[subjectForRender] || {};
   const scheme = { ...DEFAULT_COLOR_SCHEME, ...subjectColors };
   const timerStyle =
@@ -36204,6 +36276,18 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
       : typeof results.totalAnswered === 'number'
       ? results.totalAnswered
       : 0;
+
+    const attemptedIndices = (
+      Array.isArray(results.olympicsHistory) ? results.olympicsHistory : []
+    )
+      .map((e) => (typeof e?.questionIndex === 'number' ? e.questionIndex : -1))
+      .filter((i) => i >= 0 && i < (quiz?.questions?.length || 0))
+      .filter((i, pos, arr) => arr.indexOf(i) === pos);
+
+    const olympicsAnswers = Array.isArray(results.answers)
+      ? results.answers
+      : [];
+
     return (
       <div className="text-center fade-in results-screen olympics-summary">
         <div className="mb-8">
@@ -36303,6 +36387,214 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             </table>
           </div>
         </div>
+
+        {attemptedIndices.length > 0 && (
+          <div className="mb-8 max-w-4xl mx-auto">
+            <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">
+              Detailed Question Review
+            </h3>
+            <div className="space-y-4 text-left">
+              {attemptedIndices.map((questionIndex, attemptOrder) => {
+                const question = (quiz.questions || [])[questionIndex];
+                const userAnswer = olympicsAnswers[questionIndex];
+                const correctMC = (question?.answerOptions || []).find(
+                  (opt) => opt && opt.isCorrect
+                );
+
+                const normalizeRaw = (val) => {
+                  if (val === null || val === undefined) return '';
+                  return String(val)
+                    .replace(/\u00A0/g, ' ')
+                    .replace(/\s+/g, ' ')
+                    .trim();
+                };
+                const numericValue = (raw) => {
+                  const s = normalizeRaw(raw);
+                  if (!s) return null;
+                  if (/^[-+]?\d+(?:\.\d+)?%$/.test(s)) {
+                    const n = Number(s.replace('%', ''));
+                    return Number.isFinite(n) ? n / 100 : null;
+                  }
+                  if (/^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/.test(s)) {
+                    const n = Number(s.replace(/^\$/, '').replace(/,/g, ''));
+                    return Number.isFinite(n) ? n : null;
+                  }
+                  if (/^[-+]?\d+\s+\d+\s*\/\s*\d+$/.test(s)) {
+                    const parts = s.split(/\s+/);
+                    const whole = Number(parts[0]);
+                    const fracParts = parts.slice(1).join(' ').split('/');
+                    const num = Number(fracParts[0]);
+                    const den = Number(fracParts[1]);
+                    if (
+                      !Number.isFinite(whole) ||
+                      !Number.isFinite(num) ||
+                      !Number.isFinite(den) ||
+                      den === 0
+                    )
+                      return null;
+                    const frac = num / den;
+                    return whole >= 0 ? whole + frac : whole - frac;
+                  }
+                  if (/^[-+]?\d+\s*\/\s*\d+$/.test(s)) {
+                    const [a, b] = s.split('/').map((t) => t.trim());
+                    const num = Number(a),
+                      den = Number(b);
+                    if (
+                      !Number.isFinite(num) ||
+                      !Number.isFinite(den) ||
+                      den === 0
+                    )
+                      return null;
+                    return num / den;
+                  }
+                  if (/^[-+]?\d+\s*:\s*[-+]?\d+$/.test(s)) {
+                    const [a, b] = s.split(':').map((t) => t.trim());
+                    const na = Number(a),
+                      nb = Number(b);
+                    if (
+                      !Number.isFinite(na) ||
+                      !Number.isFinite(nb) ||
+                      nb === 0
+                    )
+                      return null;
+                    return na / nb;
+                  }
+                  const plain = s.replace(/,/g, '');
+                  const num = Number(plain);
+                  return Number.isFinite(num) ? num : null;
+                };
+                const isNumericEqual = (a, b) => {
+                  const na = numericValue(a);
+                  const nb = numericValue(b);
+                  return na !== null && nb !== null && Math.abs(na - nb) < 1e-9;
+                };
+                const tokenize = (raw) => {
+                  const s = normalizeRaw(raw);
+                  if (!s) return [];
+                  if (s.includes(','))
+                    return s
+                      .split(/\s*,\s*/)
+                      .filter(Boolean)
+                      .map(normalizeRaw);
+                  return [s];
+                };
+                const setsEqual = (a, b) => {
+                  if (a.length !== b.length) return false;
+                  const sa = [...a].sort();
+                  const sb = [...b].sort();
+                  return sa.every((v, i) => v === sb[i]);
+                };
+
+                let isCorrect;
+                if (correctMC) {
+                  isCorrect = userAnswer === correctMC.text;
+                } else if (
+                  question?.type === 'fill-in-the-blank' ||
+                  !(question?.answerOptions || []).length
+                ) {
+                  const expected = question?.correctAnswer;
+                  const ue = normalizeRaw(userAnswer);
+                  const ex = normalizeRaw(expected);
+                  isCorrect =
+                    Boolean(ex) &&
+                    Boolean(ue) &&
+                    (ue === ex ||
+                      isNumericEqual(ue, ex) ||
+                      setsEqual(tokenize(ue), tokenize(ex)));
+                } else {
+                  isCorrect = false;
+                }
+
+                return (
+                  <div
+                    key={questionIndex}
+                    className={`p-4 rounded-lg border ${
+                      isCorrect ? 'bg-success-soft' : 'bg-danger-soft'
+                    } border-subtle text-slate-900 dark:text-slate-100`}
+                  >
+                    <div className="mb-2 flex items-start gap-3">
+                      <span className="font-semibold question-stem leading-relaxed">
+                        {attemptOrder + 1}.
+                      </span>
+                      <Stem item={question} subject={selectedSubject} />
+                    </div>
+
+                    {(() => {
+                      const rawImg =
+                        !question?.stimulusImage?.src && question?.imageUrl
+                          ? question.imageUrl
+                          : null;
+                      const imgSrc = resolveAssetUrl(rawImg);
+                      return imgSrc ? (
+                        <img
+                          src={imgSrc}
+                          alt={`Visual for question ${
+                            question?.questionNumber ?? questionIndex + 1
+                          }`}
+                          className="my-2 rounded-md border max-w-xs h-auto"
+                        />
+                      ) : null;
+                    })()}
+
+                    {GEOMETRY_FIGURES_ENABLED && question?.geometrySpec && (
+                      <div className="my-3 max-w-md">
+                        <GeometryFigure
+                          spec={question.geometrySpec}
+                          className="w-full h-auto"
+                        />
+                      </div>
+                    )}
+
+                    <p
+                      className={`mt-2 ${
+                        isCorrect ? 'text-success' : 'text-danger'
+                      }`}
+                    >
+                      Your answer:{' '}
+                      <span
+                        className="question-stem"
+                        dangerouslySetInnerHTML={renderQuestionTextForDisplay(
+                          userAnswer || 'No answer',
+                          question?.isPremade === true
+                        )}
+                      />{' '}
+                      {isCorrect ? '✓' : '✗'}
+                    </p>
+
+                    {!isCorrect &&
+                      ((correctMC && correctMC.text) ||
+                        question?.correctAnswer) && (
+                        <p className="text-success question-stem">
+                          Correct answer:{' '}
+                          <span
+                            className="question-stem"
+                            dangerouslySetInnerHTML={renderQuestionTextForDisplay(
+                              (correctMC && correctMC.text) ||
+                                question.correctAnswer,
+                              question?.isPremade === true
+                            )}
+                          />
+                        </p>
+                      )}
+
+                    {correctMC && correctMC.rationale && (
+                      <div className="explanation">
+                        <span className="font-semibold">Rationale:</span>{' '}
+                        <span
+                          className="question-stem"
+                          dangerouslySetInnerHTML={renderQuestionTextForDisplay(
+                            correctMC.rationale,
+                            question?.isPremade === true
+                          )}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
