@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-loDVzygz.js";
+import { _ as __vitePreload } from "./index-B0N14MGy.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -35906,30 +35906,38 @@ function StartScreen({
       const subjectData = (data == null ? void 0 : data[displaySubjectName(subject)]) || (data == null ? void 0 : data[subject]) || null;
       if (!subjectData) throw new Error("Subject dataset not found");
       let found = null;
-      const setIfMatch = (obj) => {
+      let foundContext = { categoryName: null, topic: null };
+      const setIfMatch = (obj, ctx = null) => {
         if (found) return;
         if (!obj) return;
-        if (obj.quizCode && obj.quizCode === quizCode) found = obj;
+        if (obj.quizCode && obj.quizCode === quizCode) {
+          found = obj;
+          if (ctx) foundContext = ctx;
+        }
       };
       if (Array.isArray(subjectData.quizzes))
-        subjectData.quizzes.forEach(setIfMatch);
+        subjectData.quizzes.forEach(
+          (q2) => setIfMatch(q2, { categoryName: null, topic: null })
+        );
       const cats = subjectData.categories || {};
       for (const catName of Object.keys(cats)) {
         const cat = cats[catName];
         if (!cat) continue;
-        if (Array.isArray(cat.quizzes)) cat.quizzes.forEach(setIfMatch);
+        if (Array.isArray(cat.quizzes))
+          cat.quizzes.forEach(
+            (q2) => setIfMatch(q2, { categoryName: catName, topic: null })
+          );
         const topics = Array.isArray(cat.topics) ? cat.topics : [];
         for (const t of topics) {
-          setIfMatch(t);
-          if (Array.isArray(t == null ? void 0 : t.quizzes)) t.quizzes.forEach(setIfMatch);
+          setIfMatch(t, { categoryName: catName, topic: t });
+          if (Array.isArray(t == null ? void 0 : t.quizzes))
+            t.quizzes.forEach(
+              (q2) => setIfMatch(q2, { categoryName: catName, topic: t })
+            );
         }
       }
       if (!found) throw new Error("not_found");
-      const baseTitle = found.title || "Premade Quiz";
-      let questions = [];
-      if (Array.isArray(found.questions) && found.questions.length) {
-        questions = found.questions;
-      } else {
+      const originTopic = (foundContext == null ? void 0 : foundContext.topic) || (() => {
         const locateTopicById = (id) => {
           if (!id) return null;
           for (const cat of Object.values(cats)) {
@@ -35939,7 +35947,15 @@ function StartScreen({
           }
           return null;
         };
-        const originTopic = locateTopicById(found.topicId) || null;
+        return locateTopicById(found.topicId) || null;
+      })();
+      const topicTitle = (originTopic == null ? void 0 : originTopic.title) || found.topic || found.area || (foundContext == null ? void 0 : foundContext.categoryName) || null;
+      const setLabel = found.label || found.setLabel || null;
+      const baseTitle = found.title || (topicTitle && setLabel ? `${topicTitle} (${setLabel})` : topicTitle) || "Premade Quiz";
+      let questions = [];
+      if (Array.isArray(found.questions) && found.questions.length) {
+        questions = found.questions;
+      } else {
         if (originTopic && Array.isArray(originTopic.questions) && originTopic.questions.length) {
           questions = originTopic.questions;
         } else if (originTopic && Array.isArray(originTopic.quizzes)) {
@@ -35952,7 +35968,17 @@ function StartScreen({
       }
       const normalized = (questions || []).map(
         (q2, i) => normalizeQuestionAssets(
-          q2 && typeof q2 === "object" ? { ...q2, questionNumber: q2.questionNumber ?? i + 1 } : q2,
+          q2 && typeof q2 === "object" ? {
+            ...q2,
+            questionNumber: q2.questionNumber ?? i + 1,
+            topic: q2.topic ?? topicTitle,
+            originTopicId: q2.originTopicId ?? (originTopic == null ? void 0 : originTopic.id) ?? null,
+            originTopicTitle: q2.originTopicTitle ?? topicTitle,
+            originCategoryName: q2.originCategoryName ?? (foundContext == null ? void 0 : foundContext.categoryName) ?? null,
+            quizTitle: q2.quizTitle ?? baseTitle,
+            originQuizTitle: q2.originQuizTitle ?? baseTitle,
+            originQuizId: q2.originQuizId ?? found.quizCode ?? found.quizId ?? null
+          } : q2,
           displaySubjectName(subject)
         )
       );
@@ -38468,6 +38494,7 @@ function QuizInterface({
     const currentQ2 = questions[currentIndex];
     const historyEntry = {
       questionId: currentQ2.id || currentIndex,
+      questionIndex: currentIndex,
       subject: currentQ2.subject || subject || "Unknown",
       topic: currentQ2.topic || currentQ2.area || null,
       premadeQuizId: currentQ2.originQuizId || currentQ2.quizId || null,
@@ -38531,7 +38558,7 @@ function QuizInterface({
   const quizSubject = subject || "Default";
   const canShowMathFormulas = quizSubject === "Math" || subjectForRender === "Math" || currentQ && currentQ.subject === "Math";
   const canShowScienceFormulas = quizSubject === "Science" || subjectForRender === "Science" || currentQ && currentQ.subject === "Science";
-  const calculatorAllowed = currentQ && currentQ.calculator !== false && (subjectForRender === "Math" || quizSubject === "Math" || subjectForRender === "Science" || quizSubject === "Science");
+  const calculatorAllowed = subjectForRender === "Math" || quizSubject === "Math" || subjectForRender === "Science" || quizSubject === "Science";
   const subjectColors = SUBJECT_COLORS[subjectForRender] || {};
   const scheme = { ...DEFAULT_COLOR_SCHEME, ...subjectColors };
   const timerStyle = timeLeft <= 60 ? { backgroundColor: scheme.timerLowBg, color: scheme.timerLowText } : {
@@ -40304,6 +40331,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   }
   if (results.olympicsMode && results.olympicsHistory) {
     const attemptedCount = Array.isArray(results.olympicsHistory) ? results.olympicsHistory.length : typeof results.totalAnswered === "number" ? results.totalAnswered : 0;
+    const attemptedIndices = (Array.isArray(results.olympicsHistory) ? results.olympicsHistory : []).map((e) => typeof (e == null ? void 0 : e.questionIndex) === "number" ? e.questionIndex : -1).filter((i) => {
+      var _a2;
+      return i >= 0 && i < (((_a2 = quiz == null ? void 0 : quiz.questions) == null ? void 0 : _a2.length) || 0);
+    }).filter((i, pos, arr) => arr.indexOf(i) === pos);
+    const olympicsAnswers = Array.isArray(results.answers) ? results.answers : [];
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center fade-in results-screen olympics-summary", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-8", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2", children: "Olympics Session Complete" }),
@@ -40360,6 +40392,175 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
             index
           )) })
         ] }) })
+      ] }),
+      attemptedIndices.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-8 max-w-4xl mx-auto", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-gray-800 dark:text-gray-200", children: "Detailed Question Review" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4 text-left", children: attemptedIndices.map((questionIndex, attemptOrder) => {
+          const question = (quiz.questions || [])[questionIndex];
+          const userAnswer = olympicsAnswers[questionIndex];
+          const correctMC = ((question == null ? void 0 : question.answerOptions) || []).find(
+            (opt) => opt && opt.isCorrect
+          );
+          const normalizeRaw = (val) => {
+            if (val === null || val === void 0) return "";
+            return String(val).replace(/\u00A0/g, " ").replace(/\s+/g, " ").trim();
+          };
+          const numericValue = (raw) => {
+            const s = normalizeRaw(raw);
+            if (!s) return null;
+            if (/^[-+]?\d+(?:\.\d+)?%$/.test(s)) {
+              const n2 = Number(s.replace("%", ""));
+              return Number.isFinite(n2) ? n2 / 100 : null;
+            }
+            if (/^\$\s*[-+]?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/.test(s)) {
+              const n2 = Number(s.replace(/^\$/, "").replace(/,/g, ""));
+              return Number.isFinite(n2) ? n2 : null;
+            }
+            if (/^[-+]?\d+\s+\d+\s*\/\s*\d+$/.test(s)) {
+              const parts = s.split(/\s+/);
+              const whole = Number(parts[0]);
+              const fracParts = parts.slice(1).join(" ").split("/");
+              const num2 = Number(fracParts[0]);
+              const den = Number(fracParts[1]);
+              if (!Number.isFinite(whole) || !Number.isFinite(num2) || !Number.isFinite(den) || den === 0)
+                return null;
+              const frac = num2 / den;
+              return whole >= 0 ? whole + frac : whole - frac;
+            }
+            if (/^[-+]?\d+\s*\/\s*\d+$/.test(s)) {
+              const [a, b] = s.split("/").map((t) => t.trim());
+              const num2 = Number(a), den = Number(b);
+              if (!Number.isFinite(num2) || !Number.isFinite(den) || den === 0)
+                return null;
+              return num2 / den;
+            }
+            if (/^[-+]?\d+\s*:\s*[-+]?\d+$/.test(s)) {
+              const [a, b] = s.split(":").map((t) => t.trim());
+              const na = Number(a), nb = Number(b);
+              if (!Number.isFinite(na) || !Number.isFinite(nb) || nb === 0)
+                return null;
+              return na / nb;
+            }
+            const plain = s.replace(/,/g, "");
+            const num = Number(plain);
+            return Number.isFinite(num) ? num : null;
+          };
+          const isNumericEqual = (a, b) => {
+            const na = numericValue(a);
+            const nb = numericValue(b);
+            return na !== null && nb !== null && Math.abs(na - nb) < 1e-9;
+          };
+          const tokenize2 = (raw) => {
+            const s = normalizeRaw(raw);
+            if (!s) return [];
+            if (s.includes(","))
+              return s.split(/\s*,\s*/).filter(Boolean).map(normalizeRaw);
+            return [s];
+          };
+          const setsEqual = (a, b) => {
+            if (a.length !== b.length) return false;
+            const sa = [...a].sort();
+            const sb = [...b].sort();
+            return sa.every((v, i) => v === sb[i]);
+          };
+          let isCorrect;
+          if (correctMC) {
+            isCorrect = userAnswer === correctMC.text;
+          } else if ((question == null ? void 0 : question.type) === "fill-in-the-blank" || !((question == null ? void 0 : question.answerOptions) || []).length) {
+            const expected = question == null ? void 0 : question.correctAnswer;
+            const ue = normalizeRaw(userAnswer);
+            const ex = normalizeRaw(expected);
+            isCorrect = Boolean(ex) && Boolean(ue) && (ue === ex || isNumericEqual(ue, ex) || setsEqual(tokenize2(ue), tokenize2(ex)));
+          } else {
+            isCorrect = false;
+          }
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: `p-4 rounded-lg border ${isCorrect ? "bg-success-soft" : "bg-danger-soft"} border-subtle text-slate-900 dark:text-slate-100`,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-2 flex items-start gap-3", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-semibold question-stem leading-relaxed", children: [
+                    attemptOrder + 1,
+                    "."
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Stem, { item: question, subject: selectedSubject2 })
+                ] }),
+                (() => {
+                  var _a2;
+                  const rawImg = !((_a2 = question == null ? void 0 : question.stimulusImage) == null ? void 0 : _a2.src) && (question == null ? void 0 : question.imageUrl) ? question.imageUrl : null;
+                  const imgSrc = resolveAssetUrl(rawImg);
+                  return imgSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "img",
+                    {
+                      src: imgSrc,
+                      alt: `Visual for question ${(question == null ? void 0 : question.questionNumber) ?? questionIndex + 1}`,
+                      className: "my-2 rounded-md border max-w-xs h-auto"
+                    }
+                  ) : null;
+                })(),
+                GEOMETRY_FIGURES_ENABLED && (question == null ? void 0 : question.geometrySpec) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "my-3 max-w-md", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  GeometryFigure,
+                  {
+                    spec: question.geometrySpec,
+                    className: "w-full h-auto"
+                  }
+                ) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "p",
+                  {
+                    className: `mt-2 ${isCorrect ? "text-success" : "text-danger"}`,
+                    children: [
+                      "Your answer:",
+                      " ",
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "span",
+                        {
+                          className: "question-stem",
+                          dangerouslySetInnerHTML: renderQuestionTextForDisplay(
+                            userAnswer || "No answer",
+                            (question == null ? void 0 : question.isPremade) === true
+                          )
+                        }
+                      ),
+                      " ",
+                      isCorrect ? "✓" : "✗"
+                    ]
+                  }
+                ),
+                !isCorrect && (correctMC && correctMC.text || (question == null ? void 0 : question.correctAnswer)) && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-success question-stem", children: [
+                  "Correct answer:",
+                  " ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "span",
+                    {
+                      className: "question-stem",
+                      dangerouslySetInnerHTML: renderQuestionTextForDisplay(
+                        correctMC && correctMC.text || question.correctAnswer,
+                        (question == null ? void 0 : question.isPremade) === true
+                      )
+                    }
+                  )
+                ] }),
+                correctMC && correctMC.rationale && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "explanation", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: "Rationale:" }),
+                  " ",
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "span",
+                    {
+                      className: "question-stem",
+                      dangerouslySetInnerHTML: renderQuestionTextForDisplay(
+                        correctMC.rationale,
+                        (question == null ? void 0 : question.isPremade) === true
+                      )
+                    }
+                  )
+                ] })
+              ]
+            },
+            questionIndex
+          );
+        }) })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-center", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -44124,4 +44325,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-FPEUkY79.js.map
+//# sourceMappingURL=main-CU_KvRwZ.js.map

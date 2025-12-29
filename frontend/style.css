@@ -145,10 +145,19 @@
   color: var(--modal-text);
 }
 
+[data-theme='light'] .practice-session-modal select,
+[data-theme='light'] .practice-session-modal button,
+[data-theme='light'] .practice-session-modal input,
+[data-theme='light'] .practice-session-modal textarea {
+  background-color: #ffffff;
+}
+
 /* Base theme text colors - Light Mode */
 [data-theme='light'] body {
   color: var(--text-primary);
-  background-color: var(--bg-page);
+  background: #ffffff;
+  background-image: none;
+  animation: none;
 }
 
 [data-theme='light'] .content-card,
@@ -361,6 +370,16 @@ body[data-theme='dark'] .vocab-text {
 
 body {
   font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* Aurora background only in dark mode */
+:root[data-theme='dark'] body,
+[data-theme='dark'] body,
+.dark body,
+:root.dark body,
+html.dark body {
   background: linear-gradient(
     135deg,
     #0f172a 0%,
@@ -371,8 +390,6 @@ body {
   );
   background-size: 400% 400%;
   animation: aurora 20s ease infinite;
-  color: var(--text-primary);
-  min-height: 100vh;
 }
 
 /* Glassmorphism Panel */
