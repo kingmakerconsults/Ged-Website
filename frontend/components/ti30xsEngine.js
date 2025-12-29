@@ -90,7 +90,7 @@ function isAlpha(ch) {
   return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
 }
 
-function parseBalancedGroup(src, startIndex) {
+function parseBalancedGroup(src, startIndex, strict = true) {
   // Parses a single parenthesized group starting at startIndex (must be '(')
   // Returns { content, endIndex } where endIndex is the index after the closing ')'.
   if (src[startIndex] !== '(') {
@@ -109,7 +109,10 @@ function parseBalancedGroup(src, startIndex) {
       }
     }
   }
-  throw new Error('Mismatched parentheses');
+  if (strict) throw new Error('Mismatched parentheses');
+  // Non-strict: treat end of string as closing paren
+  const content = src.slice(startIndex + 1);
+  return { content, endIndex: src.length };
 }
 
 function normalizeTemplatePart(s) {
@@ -232,7 +235,7 @@ function atomToLatex(src, startIndex, caretIndex) {
   }
 
   if (ch === '(') {
-    const g = parseBalancedGroup(src, startIndex);
+    const g = parseBalancedGroup(src, startIndex, false);
     return {
       latex: `(${segmentToLatex(g.content, caretIndex - (startIndex + 1))})`,
       endIndex: g.endIndex,
@@ -250,9 +253,11 @@ function atomToLatex(src, startIndex, caretIndex) {
 
     // template forms
     if (ident === 'frac' && src[j] === '(') {
-      const g1 = parseBalancedGroup(src, j);
+      const g1 = parseBalancedGroup(src, j, false);
       const g2 =
-        src[g1.endIndex] === '(' ? parseBalancedGroup(src, g1.endIndex) : null;
+        src[g1.endIndex] === '('
+          ? parseBalancedGroup(src, g1.endIndex, false)
+          : null;
       if (!g2) {
         return { latex: 'frac', endIndex: j };
       }
@@ -268,12 +273,14 @@ function atomToLatex(src, startIndex, caretIndex) {
     }
 
     if (ident === 'mixed' && src[j] === '(') {
-      const gW = parseBalancedGroup(src, j);
+      const gW = parseBalancedGroup(src, j, false);
       const gN =
-        src[gW.endIndex] === '(' ? parseBalancedGroup(src, gW.endIndex) : null;
+        src[gW.endIndex] === '('
+          ? parseBalancedGroup(src, gW.endIndex, false)
+          : null;
       const gD =
         gN && src[gN.endIndex] === '('
-          ? parseBalancedGroup(src, gN.endIndex)
+          ? parseBalancedGroup(src, gN.endIndex, false)
           : null;
       if (!gN || !gD) {
         return { latex: 'mixed', endIndex: j };
@@ -288,9 +295,11 @@ function atomToLatex(src, startIndex, caretIndex) {
     }
 
     if (ident === 'root' && src[j] === '(') {
-      const gX = parseBalancedGroup(src, j);
+      const gX = parseBalancedGroup(src, j, false);
       const gY =
-        src[gX.endIndex] === '(' ? parseBalancedGroup(src, gX.endIndex) : null;
+        src[gX.endIndex] === '('
+          ? parseBalancedGroup(src, gX.endIndex, false)
+          : null;
       if (!gY) {
         // legacy root(x)
         const xLatex = segmentToLatex(gX.content, caretIndex - (j + 1));
@@ -310,7 +319,7 @@ function atomToLatex(src, startIndex, caretIndex) {
 
     // function calls (sqrt, sin, ...)
     if (src[j] === '(') {
-      const g = parseBalancedGroup(src, j);
+      const g = parseBalancedGroup(src, j, false);
       const argLatex = segmentToLatex(g.content, caretIndex - (j + 1));
       if (ident === 'sqrt') {
         return { latex: `\\sqrt{${argLatex || '0'}}`, endIndex: g.endIndex };

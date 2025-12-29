@@ -1444,7 +1444,7 @@ export function TI30XSCalculator({ onClose }) {
 
   // Fixed unit-based sizing (NO responsive math)
   const calculatorStyle = {
-    '--u': '58px', // Base unit: EVERYTHING derives from this (scaled up to avoid label overlap)
+    '--u': `calc(58px * ${uiScale})`, // Base unit: EVERYTHING derives from this (scaled up to avoid label overlap)
     '--rowH': 'calc(var(--u) * 0.92)', // Key row height
     '--gap': 'calc(var(--u) * 0.22)', // Gap between keys
     '--pad': 'calc(var(--u) * 0.4)', // Interior padding
