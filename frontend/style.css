@@ -335,12 +335,15 @@
 
 /* Vocabulary text color fix for dark/light mode */
 .vocab-text {
-  color: #0f172a !important;
+  color: var(--text-primary) !important;
 }
 .dark .vocab-text,
 :root.dark .vocab-text,
-html.dark .vocab-text {
-  color: #e2e8f0 !important;
+html.dark .vocab-text,
+:root[data-theme='dark'] .vocab-text,
+html[data-theme='dark'] .vocab-text,
+body[data-theme='dark'] .vocab-text {
+  color: var(--text-primary) !important;
 }
 
 /* Aurora Background Animation */
@@ -405,7 +408,6 @@ h1 {
   font-family: 'Poppins', 'Inter', system-ui, sans-serif;
   font-size: 2.25rem;
   font-weight: 700;
-  color: var(--text-primary);
   line-height: 1.2;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
@@ -413,14 +415,12 @@ h2 {
   font-family: 'Poppins', 'Inter', system-ui, sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--text-secondary, #1f2937);
   line-height: 1.3;
 }
 h3 {
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--text-tertiary, #0f172a);
   line-height: 1.4;
   word-break: break-word;
 }
@@ -429,7 +429,6 @@ li {
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 1rem;
   line-height: 1.7;
-  color: var(--text-tertiary, #0f172a);
 }
 
 /* Auth screen should always have dark text in light mode - FORCE with !important */
@@ -438,19 +437,19 @@ li {
   color: #0f172a !important;
 }
 
-[data-theme='light'] h2,
-[data-theme='light'] p {
+:root[data-theme='light']:not(.dark) h2,
+:root[data-theme='light']:not(.dark) p {
   color: #0f172a !important;
 }
 
 /* Explicitly force Tailwind text utilities to work in light mode */
 :root:not(.dark):not([data-theme='dark']) .text-slate-900,
-[data-theme='light'] .text-slate-900 {
+:root[data-theme='light']:not(.dark) .text-slate-900 {
   color: rgb(15 23 42) !important;
 }
 
 :root:not(.dark):not([data-theme='dark']) .text-black,
-[data-theme='light'] .text-black {
+:root[data-theme='light']:not(.dark) .text-black {
   color: #000000 !important;
 }
 body::before {

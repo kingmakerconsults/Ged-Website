@@ -82,7 +82,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Evaluate: $3^3 - 2  imes 5$.',
+    question: 'Evaluate: $3^3 - 2 \\times 5$.',
     correctAnswer: '17',
     rationale:
       'Order of operations (PEMDAS): Exponents first ($3^3$ = 27), then multiplication (2*5 = 10), then subtraction (27 - 10 = 17).',
@@ -218,7 +218,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'What is the result of $1.2  imes 10^3$?',
+    question: 'What is the result of $1.2 \\times 10^3$?',
     answerOptions: [
       {
         text: '12',

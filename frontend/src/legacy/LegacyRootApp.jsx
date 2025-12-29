@@ -23099,6 +23099,7 @@ async function fetchJSON(url, options = {}) {
 // --- App Structure Components ---
 import SubjectCard from '../components/subject/SubjectCard.jsx';
 import SubjectToolsModal from '../components/SubjectToolsModal.jsx';
+import { TI30XSCalculator } from '../../components/TI30XSCalculator.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
 import MapExplorer from '../../tools/MapExplorer.jsx';
@@ -23416,12 +23417,16 @@ function PracticeSessionModal({
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState('');
 
-  const handleSubmit = async () => {
+  const startSession = async (practiceMode) => {
     if (submitting) return;
     setError('');
     setSubmitting(true);
     try {
-      await onStart({ mode, durationMinutes: Number(duration) });
+      await onStart({
+        mode,
+        durationMinutes: Number(duration),
+        practiceMode,
+      });
     } catch (e) {
       const msg =
         e && e.message ? e.message : 'Failed to start practice session.';
@@ -23461,7 +23466,7 @@ function PracticeSessionModal({
               Duration
             </label>
             <select
-              className="w-full rounded-md border px-3 py-2 bg-white text-slate-900"
+              className="w-full rounded-md border px-3 py-2 bg-white text-slate-900 dark:bg-slate-800 dark:text-white"
               style={{ borderColor: 'var(--modal-border)' }}
               value={duration}
               onChange={(e) => setDuration(parseInt(e.target.value, 10))}
@@ -23482,7 +23487,7 @@ function PracticeSessionModal({
               Mode
             </label>
             <select
-              className="w-full rounded-md border px-3 py-2 bg-white text-slate-900"
+              className="w-full rounded-md border px-3 py-2 bg-white text-slate-900 dark:bg-slate-800 dark:text-white"
               style={{ borderColor: 'var(--modal-border)' }}
               value={mode}
               onChange={(e) => setMode(e.target.value)}
@@ -23501,10 +23506,9 @@ function PracticeSessionModal({
           <button
             type="button"
             onClick={onDismiss}
-            className="px-4 py-2 rounded-md border"
+            className="px-4 py-2 rounded-md border bg-white text-slate-900 dark:bg-slate-800 dark:text-white"
             style={{
               borderColor: 'var(--modal-border)',
-              color: 'var(--text-primary)',
             }}
             disabled={submitting}
           >
@@ -23512,7 +23516,7 @@ function PracticeSessionModal({
           </button>
           <button
             type="button"
-            onClick={handleSubmit}
+            onClick={() => startSession(undefined)}
             className={`px-4 py-2 rounded-md font-semibold ${
               submitting ? 'opacity-70' : ''
             }`}
@@ -23520,6 +23524,16 @@ function PracticeSessionModal({
             disabled={submitting}
           >
             {submitting ? 'Starting' : 'Start'}
+          </button>
+          <button
+            type="button"
+            onClick={() => startSession('olympics')}
+            className={`px-4 py-2 rounded-md font-semibold bg-amber-600 text-white ${
+              submitting ? 'opacity-70' : ''
+            }`}
+            disabled={submitting}
+          >
+            {submitting ? 'Starting' : 'Start Olympics'}
           </button>
         </div>
       </div>
@@ -23608,6 +23622,7 @@ function App({ externalTheme, onThemeChange }) {
   const [showToolsModal, setShowToolsModal] = useState(false);
   const [showSocialToolsModal, setShowSocialToolsModal] = useState(false);
   const [toolsModalSubject, setToolsModalSubject] = useState(null);
+  const [showCalculator, setShowCalculator] = useState(false);
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [showPracticeModal, setShowPracticeModal] = useState(false);
   const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
@@ -24657,15 +24672,6 @@ function App({ externalTheme, onThemeChange }) {
   }, []);
 
   useEffect(() => {
-    if (!VALID_THEMES.has(externalTheme)) {
-      return;
-    }
-    if (preferences.theme !== externalTheme) {
-      applyPreferenceUpdate({ theme: externalTheme });
-    }
-  }, [externalTheme, preferences.theme, applyPreferenceUpdate]);
-
-  useEffect(() => {
     if (preferences.theme === externalTheme) {
       pendingThemeSyncRef.current = null;
       return;
@@ -24684,13 +24690,6 @@ function App({ externalTheme, onThemeChange }) {
     onThemeChange(preferences.theme);
     pendingThemeSyncRef.current = null;
   }, [onThemeChange, preferences.theme, externalTheme]);
-
-  // Always keep document theme in sync with current preference
-  useEffect(() => {
-    if (typeof onThemeChange === 'function') {
-      onThemeChange(preferences.theme === 'dark' ? 'dark' : 'light');
-    }
-  }, [onThemeChange, preferences.theme]);
 
   const handleSettingsInstantChange = useCallback(
     (partialPrefs) => {
@@ -26456,6 +26455,7 @@ function App({ externalTheme, onThemeChange }) {
                   // Enable formula sheet for Math & Science topic quizzes
                   config: {
                     formulaSheet: subject === 'Math' || subject === 'Science',
+                    calculator: subject === 'Math' || subject === 'Science',
                   },
                 };
 
@@ -27273,7 +27273,7 @@ function ProfileView({
                             Date
                             <input
                               type="date"
-                              className="tp-date profile-date-input rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary"
+                              className="tp-date profile-date-input rounded-lg border-subtle px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus-ring-primary focus:border-primary"
                               data-subject={entry.subject}
                               value={isNotScheduled ? '' : edits.testDate || ''}
                               onChange={(event) =>
@@ -27307,7 +27307,7 @@ function ProfileView({
                             Location
                             <input
                               type="text"
-                              className="tp-location rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary"
+                              className="tp-location rounded-lg border-subtle px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus-ring-primary focus:border-primary"
                               placeholder="Test center (optional)"
                               data-subject={entry.subject}
                               value={edits.testLocation || ''}
@@ -33857,6 +33857,7 @@ function QuizInterface({
   const handleSubmitRef = useRef(() => {});
   const [showMathFormulas, setShowMathFormulas] = useState(false);
   const [showScienceFormulas, setShowScienceFormulas] = useState(false);
+  const [showCalculator, setShowCalculator] = useState(false);
   const [showArticle, setShowArticle] = useState(Boolean(article));
   const toolPanelRef = useRef(null);
   const toolInstanceRef = useRef(null);
@@ -34086,9 +34087,25 @@ function QuizInterface({
   const subjectForRender = currentQ.subject || subject || 'Default';
   const quizSubject = subject || 'Default';
   const formulaSheetEnabled = true;
-  const canShowMathFormulas = formulaSheetEnabled && quizSubject === 'Math';
+  // Gate by the current question's subject as well so practice sessions show formulas
+  const canShowMathFormulas =
+    formulaSheetEnabled &&
+    (quizSubject === 'Math' ||
+      subjectForRender === 'Math' ||
+      (currentQ && currentQ.subject === 'Math'));
   const canShowScienceFormulas =
-    formulaSheetEnabled && quizSubject === 'Science';
+    formulaSheetEnabled &&
+    (quizSubject === 'Science' ||
+      subjectForRender === 'Science' ||
+      (currentQ && currentQ.subject === 'Science'));
+  // Calculator is available for Math/Science when question allows it (non-calculator questions set calculator: false)
+  const calculatorAllowed =
+    currentQ &&
+    currentQ.calculator !== false &&
+    (subjectForRender === 'Math' ||
+      quizSubject === 'Math' ||
+      subjectForRender === 'Science' ||
+      quizSubject === 'Science');
   const subjectColors = SUBJECT_COLORS[subjectForRender] || {};
   const scheme = { ...DEFAULT_COLOR_SCHEME, ...subjectColors };
   const timerStyle =
@@ -34255,6 +34272,9 @@ function QuizInterface({
       {canShowScienceFormulas && showScienceFormulas && (
         <ScienceFormulaSheet onClose={() => setShowScienceFormulas(false)} />
       )}
+      {showCalculator && (
+        <TI30XSCalculator onClose={() => setShowCalculator(false)} />
+      )}
       <div
         className="quiz-panel rounded-2xl p-4 sm:p-6 shadow-lg"
         data-subject={quizSubject}
@@ -34290,14 +34310,14 @@ function QuizInterface({
                   <div className="flex items-center gap-3 text-sm font-medium">
                     <span style={{ color: scheme.text }}>Olympics</span>
                     <span className="text-base">
-                      {'?'.repeat(livesRemaining)}
-                      {'?'.repeat(3 - livesRemaining)}
+                      {'♥'.repeat(livesRemaining)}
+                      {'♡'.repeat(3 - livesRemaining)}
                     </span>
                     <span
                       style={{ color: scheme.mutedText }}
                       className="opacity-80"
                     >
-                      Questions: {totalAnswered}
+                      Attempted: {totalAnswered}
                     </span>
                   </div>
                   {showingExplanation && lastAnswerCorrect !== null && (
@@ -34308,10 +34328,10 @@ function QuizInterface({
                           : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700'
                       }`}
                     >
-                      {lastAnswerCorrect ? '? Correct!' : '? Incorrect'}
+                      {lastAnswerCorrect ? '✓ Correct!' : '✗ Incorrect'}
                       {!lastAnswerCorrect &&
                         livesRemaining > 0 &&
-                        ' � Lives remaining: ' + livesRemaining}
+                        ' • Lives remaining: ' + livesRemaining}
                     </div>
                   )}
                 </>
@@ -34395,6 +34415,21 @@ function QuizInterface({
                       }}
                     >
                       View Science Formula Sheet
+                    </button>
+                  )}
+                  {calculatorAllowed && (
+                    <button
+                      type="button"
+                      onClick={() => setShowCalculator(true)}
+                      className="rounded-md px-3 py-1.5 text-sm font-semibold shadow-sm transition"
+                      data-role="secondary"
+                      style={{
+                        color: scheme.accentText,
+                        borderColor: scheme.accent,
+                      }}
+                      aria-label="Open Calculator"
+                    >
+                      Open Calculator
                     </button>
                   )}
                 </div>
@@ -34985,15 +35020,14 @@ function QuizInterface({
                   ) : (
                     <button
                       onClick={handleOlympicsQuestionSubmit}
-                      disabled={!answers[currentIndex] && !hasNoOptions}
+                      disabled={!answers[currentIndex]}
                       className="rounded-md px-6 py-2 font-semibold"
                       data-role="primary"
                       style={{
                         backgroundColor: scheme.accent,
                         color: scheme.accentText,
                         borderColor: scheme.accent,
-                        opacity:
-                          !answers[currentIndex] && !hasNoOptions ? 0.6 : 1,
+                        opacity: !answers[currentIndex] ? 0.6 : 1,
                       }}
                     >
                       Submit Answer
@@ -35257,6 +35291,22 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
   };
 
   const handleComplete = (result) => {
+    if (result?.olympicsMode) {
+      const attemptedCount = Array.isArray(result.olympicsHistory)
+        ? result.olympicsHistory.length
+        : typeof result.totalAnswered === 'number'
+        ? result.totalAnswered
+        : 0;
+
+      onComplete({
+        ...result,
+        quiz,
+        subject: quiz.subject,
+        totalAnswered: attemptedCount,
+        totalQuestions: attemptedCount,
+      });
+      return;
+    }
     // 1) helper: normalize text
     const normalizeText = (val) => (val ?? '').toString().trim().toLowerCase();
 
@@ -36149,11 +36199,16 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 
   // Olympics mode summary screen
   if (results.olympicsMode && results.olympicsHistory) {
+    const attemptedCount = Array.isArray(results.olympicsHistory)
+      ? results.olympicsHistory.length
+      : typeof results.totalAnswered === 'number'
+      ? results.totalAnswered
+      : 0;
     return (
       <div className="text-center fade-in results-screen olympics-summary">
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2">
-            ?? Olympics Session Complete
+            Olympics Session Complete
           </h2>
           {results.livesRemaining === 0 ? (
             <p className="text-lg text-gray-700 dark:text-gray-300">
@@ -36170,10 +36225,10 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto">
           <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700">
             <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
-              {results.totalAnswered}
+              {attemptedCount}
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
-              Questions Completed
+              Questions Attempted
             </div>
           </div>
           <div className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700">
@@ -36234,11 +36289,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                             : 'text-red-600 dark:text-red-400'
                         }
                       >
-                        {entry.correct ? '?' : '?'}
+                        {entry.correct ? '✓' : '✗'}
                       </span>
                     </td>
                     <td className="px-4 py-2">{entry.subject}</td>
-                    <td className="px-4 py-2">{entry.topic || '�'}</td>
+                    <td className="px-4 py-2">{entry.topic || '-'}</td>
                     <td className="px-4 py-2 text-sm">
                       {entry.premadeQuizTitle || 'Premade Quiz'}
                     </td>
@@ -40603,6 +40658,12 @@ function useThemeController() {
         root.classList.toggle('dark', normalized === 'dark');
         root.setAttribute('data-theme', normalized);
       }
+      try {
+        if (document.body) {
+          document.body.classList.toggle('dark', normalized === 'dark');
+          document.body.setAttribute('data-theme', normalized);
+        }
+      } catch {}
     }
     try {
       if (typeof window !== 'undefined' && window.localStorage) {

@@ -16,6 +16,12 @@ export function useThemeController() {
         root.classList.toggle('dark', normalized === 'dark');
         root.setAttribute('data-theme', normalized);
       }
+      try {
+        if (document.body) {
+          document.body.classList.toggle('dark', normalized === 'dark');
+          document.body.setAttribute('data-theme', normalized);
+        }
+      } catch {}
     }
     try {
       if (typeof window !== 'undefined' && window.localStorage) {

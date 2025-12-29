@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 
 /**
  * StepByStepSolver - Math problem solver with step-by-step explanations
- *
- * This component provides a UI for solving math problems with detailed
- * step-by-step breakdowns. Currently a placeholder for future implementation.
- *
- * @param {Object} props
- * @param {string} props.problemType - Type of problem (equation, inequality, etc.)
- * @param {Function} props.onSolutionFound - Callback when solution is generated
+ * (Currently a UI placeholder; returns example steps.)
  */
 export default function StepByStepSolver({
   problemType = 'equation',
@@ -23,15 +17,9 @@ export default function StepByStepSolver({
 
     setIsLoading(true);
 
-    // TODO: Implement actual solver logic
-    // For now, this is a placeholder that demonstrates the UI structure
     setTimeout(() => {
       const exampleSteps = [
-        {
-          step: 1,
-          description: 'Parse the problem',
-          equation: input,
-        },
+        { step: 1, description: 'Parse the problem', equation: input },
         {
           step: 2,
           description: 'Identify problem type',
@@ -59,33 +47,26 @@ export default function StepByStepSolver({
   };
 
   return (
-    <div
-      className="step-by-step-solver w-full rounded-lg p-6 shadow-lg"
-      style={{ backgroundColor: 'rgba(255, 255, 255, 1)' }}
-    >
+    <div className="step-by-step-solver w-full rounded-lg p-6 shadow-lg bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100">
       <h3 className="text-xl font-bold mb-4 text-blue-700 dark:text-blue-400">
         📐 Step-by-Step Math Solver
       </h3>
 
-      <div className="input-section mb-4">
+      <div className="input-group mb-6">
         <label
           htmlFor="math-input"
-          className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300"
+          className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2"
         >
-          Enter your problem:
+          Enter a problem
         </label>
         <input
           id="math-input"
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleSolve()}
+          onKeyDown={(e) => e.key === 'Enter' && handleSolve()}
           placeholder="e.g., 2x + 5 = 13"
-          className="w-full px-4 py-2 rounded border dark:border-slate-600 dark:text-slate-100"
-          style={{
-            backgroundColor: 'rgba(255, 255, 255, 1)',
-            color: '#000000',
-          }}
+          className="w-full px-4 py-2 rounded border border-slate-300 dark:border-slate-600 bg-white text-slate-900 dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           aria-label="Math problem input"
         />
       </div>

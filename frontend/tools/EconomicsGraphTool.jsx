@@ -427,7 +427,7 @@ export default function EconomicsGraphTool({ onExit }) {
             <div className="flex items-center justify-between mb-2">
               <p className="font-semibold">Scenario Trainer</p>
               <select
-                className="text-sm bg-white dark:bg-slate-600 border border-slate-300 dark:border-slate-600 rounded px-2 py-1"
+                className="text-sm bg-white dark:bg-slate-600 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 rounded px-2 py-1"
                 value={activeScenarioIdx}
                 onChange={(e) => setActiveScenarioIdx(Number(e.target.value))}
               >

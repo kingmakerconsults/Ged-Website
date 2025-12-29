@@ -167,7 +167,7 @@ export default function ConstitutionExplorer({ onExit, pack }) {
             <input
               type="text"
               placeholder="Search (e.g. 'speech', 'voting', '14th')"
-              className="w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 focus:ring-2 focus:ring-sky-500 outline-none transition"
+              className="w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500 outline-none transition"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />

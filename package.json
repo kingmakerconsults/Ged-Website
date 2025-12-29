@@ -17,6 +17,7 @@
     "img:verify": "node tools/gov-image-harvester/inspect.mjs --verify-paths",
     "validate:math": "node scripts/validate_math_quizzes.js",
     "test:math": "node tests/math_quizzes.test.js",
+    "test:ti30xs": "node tests/ti30xs_engine.test.js",
     "quizzes:import-expanded": "node scripts/import_expanded_quizzes.js",
     "quizzes:build-frontend-expanded": "node scripts/build_frontend_expanded_bundle.cjs",
     "quizzes:integrate-frontend": "npm run quizzes:import-expanded ; npm run quizzes:build-frontend-expanded",

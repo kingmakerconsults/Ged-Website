@@ -5,6 +5,31 @@ const fs = require('fs');
 const path = require('path');
 const legacy = require('../premade-questions.js');
 
+function normalizeQuizText(str) {
+  if (typeof str !== 'string' || !str) return str;
+  return str
+    .replace(/\u00C2\u00B2|Â²/g, '²')
+    .replace(/\u00C2\u00B3|Â³/g, '³')
+    .replace(/\u00C2\u00B0|Â°/g, '°')
+    .replace(/Ã·/g, '÷')
+    .replace(/Ã—/g, '×')
+    .replace(/â‰ˆ/g, '≈')
+    .replace(/â‰¤/g, '≤')
+    .replace(/â‰¥/g, '≥')
+    .replace(/â‰ /g, '≠');
+}
+
+function normalizeDeep(value) {
+  if (typeof value === 'string') return normalizeQuizText(value);
+  if (Array.isArray(value)) return value.map(normalizeDeep);
+  if (value && typeof value === 'object') {
+    for (const key of Object.keys(value)) {
+      value[key] = normalizeDeep(value[key]);
+    }
+  }
+  return value;
+}
+
 function deepClone(obj) {
   try {
     return JSON.parse(JSON.stringify(obj));
@@ -44,7 +69,10 @@ function loadQuestions(subjectFolder, topicId) {
   const p = path.join(__dirname, subjectFolder, `${topicId}.js`);
   if (!fs.existsSync(p)) return null;
   try {
-    return require(p);
+    const loaded = require(p);
+    // Many legacy topic files contain mojibake sequences like "Â³".
+    // Normalize them here so the frontend renders clean units/symbols.
+    return normalizeDeep(loaded);
   } catch (e) {
     return null;
   }
