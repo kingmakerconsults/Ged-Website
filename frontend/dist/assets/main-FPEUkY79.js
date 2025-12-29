@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-1zfoU73f.js";
+import { _ as __vitePreload } from "./index-loDVzygz.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -143,7 +143,7 @@ function AuthScreen({ onLogin }) {
     };
   }, [handleCredentialResponse]);
   const modeLabel = mode === "login" ? "Log In" : "Register";
-  const toggleMode2 = () => {
+  const toggleMode = () => {
     setMode((prev) => prev === "login" ? "register" : "login");
     setFormError(null);
     setFormMessage(null);
@@ -271,7 +271,7 @@ function AuthScreen({ onLogin }) {
         "button",
         {
           type: "button",
-          onClick: toggleMode2,
+          onClick: toggleMode,
           className: "font-semibold text-sky-600 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200",
           children: mode === "login" ? "Register" : "Log in"
         }
@@ -540,11 +540,7 @@ function SuperAdminAllQuestions() {
           placeholder: "Filter by subject, category, or question text...",
           value: filter,
           onChange: (e) => setFilter(e.target.value),
-          className: "w-full px-4 py-2 border rounded dark:border-slate-600 dark:text-white",
-          style: {
-            backgroundColor: "rgba(255, 255, 255, 1)",
-            color: "#000000"
-          }
+          className: "w-full px-4 py-2 border rounded bg-white text-slate-900 dark:bg-slate-800 dark:text-white border-slate-300 dark:border-slate-600"
         }
       ) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: filtered.map((q2, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(QuestionCard, { question: q2, index: i + 1 }, q2.id)) })
@@ -1137,11 +1133,7 @@ function StepByStepSolver({
     setIsLoading(true);
     setTimeout(() => {
       const exampleSteps = [
-        {
-          step: 1,
-          description: "Parse the problem",
-          equation: input
-        },
+        { step: 1, description: "Parse the problem", equation: input },
         {
           step: 2,
           description: "Identify problem type",
@@ -1160,88 +1152,77 @@ function StepByStepSolver({
       }
     }, 1e3);
   };
-  const handleClear2 = () => {
+  const handleClear = () => {
     setInput("");
     setSteps([]);
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "div",
-    {
-      className: "step-by-step-solver w-full rounded-lg p-6 shadow-lg",
-      style: { backgroundColor: "rgba(255, 255, 255, 1)" },
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-blue-700 dark:text-blue-400", children: "📐 Step-by-Step Math Solver" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "input-section mb-4", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "label",
-            {
-              htmlFor: "math-input",
-              className: "block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300",
-              children: "Enter your problem:"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              id: "math-input",
-              type: "text",
-              value: input,
-              onChange: (e) => setInput(e.target.value),
-              onKeyPress: (e) => e.key === "Enter" && handleSolve(),
-              placeholder: "e.g., 2x + 5 = 13",
-              className: "w-full px-4 py-2 rounded border dark:border-slate-600 dark:text-slate-100",
-              style: {
-                backgroundColor: "rgba(255, 255, 255, 1)",
-                color: "#000000"
-              },
-              "aria-label": "Math problem input"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-group flex gap-2 mb-6", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: handleSolve,
-              disabled: !input.trim() || isLoading2,
-              className: "px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded font-medium transition-colors",
-              children: isLoading2 ? "Solving..." : "Solve"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: handleClear2,
-              disabled: !input && steps.length === 0,
-              className: "px-6 py-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-900 dark:text-slate-100 rounded font-medium transition-colors",
-              children: "Clear"
-            }
-          )
-        ] }),
-        steps.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "solution-steps space-y-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-semibold text-lg text-slate-900 dark:text-slate-100 mb-3", children: "Solution Steps:" }),
-          steps.map((step) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "div",
-            {
-              className: "step-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600",
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "step-header flex items-center gap-2 mb-2", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "step-number inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold", children: step.step }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "step-description font-medium text-slate-800 dark:text-slate-200", children: step.description })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "step-equation font-mono text-base text-slate-700 dark:text-slate-300 ml-10", children: step.equation })
-              ]
-            },
-            step.step
-          ))
-        ] }),
-        steps.length === 0 && !isLoading2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state text-center py-8 text-slate-500 dark:text-slate-400", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg", children: "Enter a math problem above to see step-by-step solutions" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-2", children: "Supports equations, inequalities, and more" })
-        ] })
-      ]
-    }
-  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "step-by-step-solver w-full rounded-lg p-6 shadow-lg bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-4 text-blue-700 dark:text-blue-400", children: "📐 Step-by-Step Math Solver" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "input-group mb-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "label",
+        {
+          htmlFor: "math-input",
+          className: "block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2",
+          children: "Enter a problem"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          id: "math-input",
+          type: "text",
+          value: input,
+          onChange: (e) => setInput(e.target.value),
+          onKeyDown: (e) => e.key === "Enter" && handleSolve(),
+          placeholder: "e.g., 2x + 5 = 13",
+          className: "w-full px-4 py-2 rounded border border-slate-300 dark:border-slate-600 bg-white text-slate-900 dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500",
+          "aria-label": "Math problem input"
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-group flex gap-2 mb-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleSolve,
+          disabled: !input.trim() || isLoading2,
+          className: "px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white rounded font-medium transition-colors",
+          children: isLoading2 ? "Solving..." : "Solve"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleClear,
+          disabled: !input && steps.length === 0,
+          className: "px-6 py-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-900 dark:text-slate-100 rounded font-medium transition-colors",
+          children: "Clear"
+        }
+      )
+    ] }),
+    steps.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "solution-steps space-y-3", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-semibold text-lg text-slate-900 dark:text-slate-100 mb-3", children: "Solution Steps:" }),
+      steps.map((step) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "step-card p-4 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "step-header flex items-center gap-2 mb-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "step-number inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold", children: step.step }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "step-description font-medium text-slate-800 dark:text-slate-200", children: step.description })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "step-equation font-mono text-base text-slate-700 dark:text-slate-300 ml-10", children: step.equation })
+          ]
+        },
+        step.step
+      ))
+    ] }),
+    steps.length === 0 && !isLoading2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "empty-state text-center py-8 text-slate-500 dark:text-slate-400", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg", children: "Enter a math problem above to see step-by-step solutions" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-2", children: "Supports equations, inequalities, and more" })
+    ] })
+  ] });
 }
 const STATS_PRACTICE_PROBLEMS = [
   {
@@ -1372,7 +1353,7 @@ function StatisticsTool({ onCalculate = null }) {
     setResults(stats);
     if (onCalculate) onCalculate(stats);
   };
-  const handleClear2 = () => {
+  const handleClear = () => {
     setInput("");
     setResults(null);
     setError("");
@@ -1462,7 +1443,7 @@ function StatisticsTool({ onCalculate = null }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
-            onClick: handleClear2,
+            onClick: handleClear,
             disabled: !input && !results,
             className: "px-6 py-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-500 text-slate-900 dark:text-slate-100 rounded font-medium transition-colors",
             children: "Clear"
@@ -1620,13 +1601,13 @@ const MATH_FORMULAS = [
     description: "Sum of all values divided by count"
   }
 ];
-function FormulaSheetModal$1({ onClose: onClose2 }) {
+function FormulaSheetModal$1({ onClose }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
       className: "fixed inset-0 z-50 flex items-center justify-center p-4",
       style: { backgroundColor: "rgba(0,0,0,0.7)" },
-      onClick: onClose2,
+      onClick: onClose,
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
@@ -1638,7 +1619,7 @@ function FormulaSheetModal$1({ onClose: onClose2 }) {
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
-                  onClick: onClose2,
+                  onClick: onClose,
                   className: "text-white hover:text-gray-200 text-2xl font-bold",
                   "aria-label": "Close formula sheet",
                   children: "×"
@@ -1738,6 +1719,9 @@ function sanitizeUnicode$1(s) {
     return s;
   }
 }
+function isKatexAvailable() {
+  return typeof katex !== "undefined" && typeof katex.renderToString === "function";
+}
 const SCIENCE_FORMULAS = [
   {
     name: "Density",
@@ -1803,7 +1787,7 @@ function FormulaDisplay$1({ latex, className = "" }) {
     }
   );
 }
-function ScienceFormulaSheet$1({ onClose: onClose2 }) {
+function ScienceFormulaSheet$1({ onClose }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
@@ -1817,7 +1801,7 @@ function ScienceFormulaSheet$1({ onClose: onClose2 }) {
           "button",
           {
             className: "formula-sheet-close absolute top-3 right-3 text-2xl font-bold hover:opacity-80 transition-opacity text-slate-600 dark:text-slate-300",
-            onClick: onClose2,
+            onClick: onClose,
             type: "button",
             "aria-label": "Close science formula sheet",
             children: "×"
@@ -2003,7 +1987,7 @@ const SCIENCE_FORMULA_PRACTICE = [
     ]
   }
 ];
-function ScienceFormulaPractice({ onClose: onClose2, dark = false }) {
+function ScienceFormulaPractice({ onClose, dark = false }) {
   const [selectedCategory, setSelectedCategory] = reactExports.useState("");
   const [currentProblem, setCurrentProblem] = reactExports.useState(null);
   const [studentAnswer, setStudentAnswer] = reactExports.useState("");
@@ -2419,7 +2403,7 @@ const SCIENCE_CONCEPT_QUESTIONS = [
     explanation: "Heat-driven convection currents in the mantle cause tectonic plates to move across Earth's surface."
   }
 ];
-function ScienceConceptPractice({ onClose: onClose2, dark = false }) {
+function ScienceConceptPractice({ onClose, dark = false }) {
   const [selectedCategory, setSelectedCategory] = reactExports.useState("");
   const [selectedDifficulty, setSelectedDifficulty] = reactExports.useState("all");
   const [currentQuestion, setCurrentQuestion] = reactExports.useState(null);
@@ -2590,7 +2574,7 @@ function ScienceConceptPractice({ onClose: onClose2, dark = false }) {
   );
 }
 const SCIENCE_CHEMISTRY_EQUATIONS = window.SCIENCE_CHEMISTRY_EQUATIONS || [];
-function ChemistryEquationPractice({ onClose: onClose2, dark = false }) {
+function ChemistryEquationPractice({ onClose, dark = false }) {
   const [mode, setMode] = reactExports.useState("guided");
   const [currentEquation, setCurrentEquation] = reactExports.useState(null);
   const [studentCoefficients, setStudentCoefficients] = reactExports.useState([]);
@@ -3118,7 +3102,7 @@ const GENOTYPE_OPTIONS = [
   { label: "Heterozygous (e.g., Tt)", value: "heterozygous" },
   { label: "Homozygous Recessive (e.g., tt)", value: "homozygous_recessive" }
 ];
-function PunnettSquarePractice({ onClose: onClose2, dark = false }) {
+function PunnettSquarePractice({ onClose, dark = false }) {
   const [mode, setMode] = reactExports.useState(null);
   const [selectedTrait, setSelectedTrait] = reactExports.useState(null);
   const [parent1Genotype, setParent1Genotype] = reactExports.useState("");
@@ -3284,10 +3268,10 @@ function PunnettSquarePractice({ onClose: onClose2, dark = false }) {
       children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-center mb-4", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-emerald-600 dark:text-emerald-400", children: "🧬 Punnett Square Practice" }),
-          onClose2 && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          onClose && /* @__PURE__ */ jsxRuntimeExports.jsx(
             "button",
             {
-              onClick: onClose2,
+              onClick: onClose,
               className: "text-2xl font-bold hover:text-red-500 transition",
               children: "×"
             }
@@ -3734,35 +3718,1160 @@ function PunnettSquarePractice({ onClose: onClose2, dark = false }) {
     }
   );
 }
+const OPS = /* @__PURE__ */ new Set(["+", "-", "*", "/", "^"]);
+function gcdInt(a, b) {
+  let x = Math.abs(Math.trunc(a));
+  let y = Math.abs(Math.trunc(b));
+  while (y !== 0) {
+    const t = x % y;
+    x = y;
+    y = t;
+  }
+  return x === 0 ? 1 : x;
+}
+function approxRational(x, maxDen = 1e3) {
+  if (!Number.isFinite(x)) return null;
+  if (maxDen < 1) maxDen = 1;
+  const sign = x < 0 ? -1 : 1;
+  let v = Math.abs(x);
+  if (Number.isInteger(v)) return { num: sign * v, den: 1 };
+  let a = Math.floor(v);
+  let h1 = 1;
+  let k1 = 0;
+  let h = a;
+  let k2 = 1;
+  let frac = v - a;
+  let iter = 0;
+  while (k2 <= maxDen && frac !== 0 && iter < 32) {
+    iter++;
+    frac = 1 / frac;
+    a = Math.floor(frac);
+    const h2 = h1;
+    const k22 = k1;
+    h1 = h;
+    k1 = k2;
+    h = a * h1 + h2;
+    k2 = a * k1 + k22;
+    frac = frac - a;
+    if (k2 > maxDen) {
+      h = h1;
+      k2 = k1;
+      break;
+    }
+  }
+  if (!k2) return null;
+  const g = gcdInt(h, k2);
+  return { num: sign * (h / g), den: k2 / g };
+}
+function decimalToFractionTemplate(value, { mixed = false, maxDen = 1e3 } = {}) {
+  const n2 = typeof value === "number" ? value : Number(String(value));
+  if (!Number.isFinite(n2)) return null;
+  if (Number.isInteger(n2)) return String(n2);
+  const r = approxRational(n2, maxDen);
+  if (!r) return null;
+  const num = Math.trunc(r.num);
+  const den = Math.trunc(r.den);
+  if (!den) return null;
+  if (mixed && Math.abs(n2) >= 1) {
+    const whole = Math.trunc(num / den);
+    const rem = Math.abs(num % den);
+    if (rem === 0) return String(whole);
+    return `mixed(${whole})(${rem})(${den})`;
+  }
+  return `frac(${num})(${den})`;
+}
+function isAlpha(ch) {
+  return ch >= "a" && ch <= "z" || ch >= "A" && ch <= "Z";
+}
+function parseBalancedGroup(src, startIndex) {
+  if (src[startIndex] !== "(") {
+    throw new Error("Expected (");
+  }
+  let depth = 0;
+  let i = startIndex;
+  for (; i < src.length; i++) {
+    const ch = src[i];
+    if (ch === "(") depth++;
+    else if (ch === ")") {
+      depth--;
+      if (depth === 0) {
+        const content = src.slice(startIndex + 1, i);
+        return { content, endIndex: i + 1 };
+      }
+    }
+  }
+  throw new Error("Mismatched parentheses");
+}
+function normalizeTemplatePart(s) {
+  const t = String(s ?? "").trim();
+  return t.length ? t : "0";
+}
+function expandTemplates(expr) {
+  if (typeof expr !== "string" || expr.length === 0) return expr;
+  let out = "";
+  let i = 0;
+  while (i < expr.length) {
+    if (expr.startsWith("frac", i) && expr[i + 4] === "(") {
+      const g1 = parseBalancedGroup(expr, i + 4);
+      const after1 = g1.endIndex;
+      if (expr[after1] !== "(") {
+        out += "frac";
+        i += 4;
+        continue;
+      }
+      const g2 = parseBalancedGroup(expr, after1);
+      const num = normalizeTemplatePart(expandTemplates(g1.content));
+      const den = normalizeTemplatePart(expandTemplates(g2.content));
+      out += `((${num})/(${den}))`;
+      i = g2.endIndex;
+      continue;
+    }
+    if (expr.startsWith("mixed", i) && expr[i + 5] === "(") {
+      const gW = parseBalancedGroup(expr, i + 5);
+      const afterW = gW.endIndex;
+      if (expr[afterW] !== "(") {
+        out += "mixed";
+        i += 5;
+        continue;
+      }
+      const gN = parseBalancedGroup(expr, afterW);
+      const afterN = gN.endIndex;
+      if (expr[afterN] !== "(") {
+        out += "mixed";
+        i += 5;
+        continue;
+      }
+      const gD = parseBalancedGroup(expr, afterN);
+      const whole = normalizeTemplatePart(expandTemplates(gW.content));
+      const num = normalizeTemplatePart(expandTemplates(gN.content));
+      const den = normalizeTemplatePart(expandTemplates(gD.content));
+      out += `((${whole})+((${num})/(${den})))`;
+      i = gD.endIndex;
+      continue;
+    }
+    if (expr.startsWith("root", i) && expr[i + 4] === "(") {
+      const gX = parseBalancedGroup(expr, i + 4);
+      const afterX = gX.endIndex;
+      if (expr[afterX] !== "(") {
+        out += "root";
+        i += 4;
+        continue;
+      }
+      const gY = parseBalancedGroup(expr, afterX);
+      const x = normalizeTemplatePart(expandTemplates(gX.content));
+      const yRaw = String(gY.content ?? "").trim();
+      const y = yRaw.length ? normalizeTemplatePart(expandTemplates(yRaw)) : "2";
+      out += `((${x})^(1/(${y})))`;
+      i = gY.endIndex;
+      continue;
+    }
+    out += expr[i];
+    i++;
+  }
+  return out;
+}
+function escapeLatexText(ch) {
+  switch (ch) {
+    case "#":
+    case "$":
+    case "%":
+    case "&":
+    case "_":
+    case "{":
+    case "}":
+      return `\\${ch}`;
+    case "\\":
+      return `\\textbackslash{}`;
+    default:
+      return ch;
+  }
+}
+function atomToLatex(src, startIndex, caretIndex) {
+  const ch = src[startIndex];
+  if (ch === "|") {
+    return { latex: "\\color{#6B7280}{\\vert}", endIndex: startIndex + 1 };
+  }
+  if (isDigit(ch) || ch === ".") {
+    let j = startIndex;
+    while (j < src.length && (isDigit(src[j]) || src[j] === ".")) j++;
+    return { latex: src.slice(startIndex, j), endIndex: j };
+  }
+  if (ch === "(") {
+    const g = parseBalancedGroup(src, startIndex);
+    return {
+      latex: `(${segmentToLatex(g.content, caretIndex - (startIndex + 1))})`,
+      endIndex: g.endIndex
+    };
+  }
+  if (isAlpha(ch)) {
+    let j = startIndex;
+    while (j < src.length && (isAlpha(src[j]) || src[j] === "⁻" || src[j] === "¹"))
+      j++;
+    const ident = src.slice(startIndex, j);
+    if (ident === "frac" && src[j] === "(") {
+      const g1 = parseBalancedGroup(src, j);
+      const g2 = src[g1.endIndex] === "(" ? parseBalancedGroup(src, g1.endIndex) : null;
+      if (!g2) {
+        return { latex: "frac", endIndex: j };
+      }
+      const numLatex = segmentToLatex(g1.content, caretIndex - (j + 1));
+      const denLatex = segmentToLatex(
+        g2.content,
+        caretIndex - (g1.endIndex + 1)
+      );
+      return {
+        latex: `\\frac{${numLatex || "0"}}{${denLatex || "0"}}`,
+        endIndex: g2.endIndex
+      };
+    }
+    if (ident === "mixed" && src[j] === "(") {
+      const gW = parseBalancedGroup(src, j);
+      const gN = src[gW.endIndex] === "(" ? parseBalancedGroup(src, gW.endIndex) : null;
+      const gD = gN && src[gN.endIndex] === "(" ? parseBalancedGroup(src, gN.endIndex) : null;
+      if (!gN || !gD) {
+        return { latex: "mixed", endIndex: j };
+      }
+      const wLatex = segmentToLatex(gW.content, caretIndex - (j + 1));
+      const nLatex = segmentToLatex(gN.content, caretIndex - (gW.endIndex + 1));
+      const dLatex = segmentToLatex(gD.content, caretIndex - (gN.endIndex + 1));
+      return {
+        latex: `${wLatex || "0"}\\,\\frac{${nLatex || "0"}}{${dLatex || "0"}}`,
+        endIndex: gD.endIndex
+      };
+    }
+    if (ident === "root" && src[j] === "(") {
+      const gX = parseBalancedGroup(src, j);
+      const gY = src[gX.endIndex] === "(" ? parseBalancedGroup(src, gX.endIndex) : null;
+      if (!gY) {
+        const xLatex2 = segmentToLatex(gX.content, caretIndex - (j + 1));
+        return { latex: `\\sqrt{${xLatex2 || "0"}}`, endIndex: gX.endIndex };
+      }
+      const xLatex = segmentToLatex(gX.content, caretIndex - (j + 1));
+      const yLatex = segmentToLatex(gY.content, caretIndex - (gX.endIndex + 1));
+      return {
+        latex: `\\sqrt[${yLatex || "2"}]{${xLatex || "0"}}`,
+        endIndex: gY.endIndex
+      };
+    }
+    if (ident === "pi") return { latex: "\\pi", endIndex: j };
+    if (ident === "ans" || ident === "Ans")
+      return { latex: "\\mathrm{Ans}", endIndex: j };
+    if (src[j] === "(") {
+      const g = parseBalancedGroup(src, j);
+      const argLatex = segmentToLatex(g.content, caretIndex - (j + 1));
+      if (ident === "sqrt") {
+        return { latex: `\\sqrt{${argLatex || "0"}}`, endIndex: g.endIndex };
+      }
+      const fn = ident === "asin" ? "\\sin^{-1}" : ident === "acos" ? "\\cos^{-1}" : ident === "atan" ? "\\tan^{-1}" : ident;
+      return {
+        latex: `\\${fn}(${argLatex})`,
+        endIndex: g.endIndex
+      };
+    }
+    return { latex: `\\mathrm{${ident}}`, endIndex: j };
+  }
+  switch (ch) {
+    case "*":
+      return { latex: "\\times", endIndex: startIndex + 1 };
+    case "/":
+      return { latex: "/", endIndex: startIndex + 1 };
+    case "^":
+      return { latex: "^", endIndex: startIndex + 1 };
+    default:
+      return { latex: escapeLatexText(ch), endIndex: startIndex + 1 };
+  }
+}
+function segmentToLatex(segment, caretIndexInSegment) {
+  const src = segment;
+  let i = 0;
+  let latex = "";
+  while (i < src.length) {
+    const { latex: atom, endIndex } = atomToLatex(src, i, caretIndexInSegment);
+    latex += atom;
+    i = endIndex;
+    if (i < src.length && src[i] === "^") {
+      i += 1;
+      const next = atomToLatex(src, i, caretIndexInSegment);
+      latex += `^{${next.latex}}`;
+      i = next.endIndex;
+    }
+  }
+  if (caretIndexInSegment === src.length) {
+    latex += "\\color{#6B7280}{\\vert}";
+  }
+  return latex;
+}
+function exprToLatex(expr, cursorIndex = null) {
+  if (typeof expr !== "string") return "";
+  const cursor = typeof cursorIndex === "number" ? clampCursor(expr, cursorIndex) : null;
+  const src = cursor == null ? expr : expr.slice(0, cursor) + "|" + expr.slice(cursor);
+  return segmentToLatex(src, cursor == null ? -1 : cursor);
+}
+function isDigit(ch) {
+  return ch >= "0" && ch <= "9";
+}
+function isNumberChar(ch) {
+  return isDigit(ch) || ch === ".";
+}
+function clampCursor(expr, cursor) {
+  return Math.max(0, Math.min(cursor, expr.length));
+}
+function backspaceToken(expr, cursor) {
+  cursor = clampCursor(expr, cursor);
+  if (cursor === 0) return { expr, cursor };
+  if (cursor >= 2 && expr.slice(cursor - 2, cursor) === "pi") {
+    return {
+      expr: expr.slice(0, cursor - 2) + expr.slice(cursor),
+      cursor: cursor - 2
+    };
+  }
+  return {
+    expr: expr.slice(0, cursor - 1) + expr.slice(cursor),
+    cursor: cursor - 1
+  };
+}
+function deleteForwardToken(expr, cursor) {
+  cursor = clampCursor(expr, cursor);
+  if (cursor >= expr.length) return { expr, cursor };
+  if (expr.slice(cursor, cursor + 2) === "pi") {
+    return { expr: expr.slice(0, cursor) + expr.slice(cursor + 2), cursor };
+  }
+  return { expr: expr.slice(0, cursor) + expr.slice(cursor + 1), cursor };
+}
+function insertText(expr, cursor, text) {
+  cursor = clampCursor(expr, cursor);
+  const nextExpr = expr.slice(0, cursor) + text + expr.slice(cursor);
+  return { expr: nextExpr, cursor: cursor + text.length };
+}
+function findNumberSegment(expr, cursor) {
+  cursor = clampCursor(expr, cursor);
+  let left = cursor;
+  while (left > 0 && isNumberChar(expr[left - 1])) left--;
+  let right = cursor;
+  while (right < expr.length && isNumberChar(expr[right])) right++;
+  return { start: left, end: right };
+}
+function insertDecimal(expr, cursor) {
+  const { start, end } = findNumberSegment(expr, cursor);
+  const seg = expr.slice(start, end);
+  if (seg.includes(".")) return { expr, cursor };
+  if (seg.length === 0) {
+    return insertText(expr, cursor, "0.");
+  }
+  return insertText(expr, cursor, ".");
+}
+function insertRightParen(expr, cursor) {
+  cursor = clampCursor(expr, cursor);
+  const before = expr.slice(0, cursor);
+  const open = (before.match(/\(/g) || []).length;
+  const close = (before.match(/\)/g) || []).length;
+  if (open <= close) return { expr, cursor };
+  const prev = cursor > 0 ? expr[cursor - 1] : "";
+  if (prev === "(" || OPS.has(prev)) return { expr, cursor };
+  return insertText(expr, cursor, ")");
+}
+function insertOperator(expr, cursor, op, ansValue = "") {
+  cursor = clampCursor(expr, cursor);
+  const prev = cursor > 0 ? expr[cursor - 1] : "";
+  const needsAns = expr.length === 0 && ansValue && op !== "-";
+  if (needsAns) {
+    return insertText(expr, cursor, `${ansValue}${op}`);
+  }
+  if (op === "-") {
+    if (cursor === 0) return insertText(expr, cursor, "-");
+    if (prev === "(" || OPS.has(prev)) return insertText(expr, cursor, "-");
+    return insertText(expr, cursor, "-");
+  }
+  if (cursor > 0 && OPS.has(prev)) {
+    const nextExpr = expr.slice(0, cursor - 1) + op + expr.slice(cursor);
+    return { expr: nextExpr, cursor };
+  }
+  return insertText(expr, cursor, op);
+}
+function isUnaryContext(expr, index) {
+  if (index === 0) return true;
+  const prev = expr[index - 1];
+  return prev === "(" || OPS.has(prev);
+}
+function toggleNegative(expr, cursor) {
+  cursor = clampCursor(expr, cursor);
+  const { start, end } = findNumberSegment(expr, cursor);
+  if (end > start) {
+    if (start > 0 && expr[start - 1] === "-" && isUnaryContext(expr, start - 1)) {
+      const nextExpr2 = expr.slice(0, start - 1) + expr.slice(start);
+      const nextCursor2 = cursor > start - 1 ? cursor - 1 : cursor;
+      return { expr: nextExpr2, cursor: clampCursor(nextExpr2, nextCursor2) };
+    }
+    const nextExpr = expr.slice(0, start) + "-" + expr.slice(start);
+    const nextCursor = cursor >= start ? cursor + 1 : cursor;
+    return { expr: nextExpr, cursor: clampCursor(nextExpr, nextCursor) };
+  }
+  if (cursor < expr.length && expr[cursor] === "-" && isUnaryContext(expr, cursor)) {
+    return { expr: expr.slice(0, cursor) + expr.slice(cursor + 1), cursor };
+  }
+  if (cursor > 0 && expr[cursor - 1] === "-" && isUnaryContext(expr, cursor - 1)) {
+    return {
+      expr: expr.slice(0, cursor - 1) + expr.slice(cursor),
+      cursor: cursor - 1
+    };
+  }
+  return insertText(expr, cursor, "-");
+}
+function findPrevOperandRange(expr, cursor) {
+  cursor = clampCursor(expr, cursor);
+  if (cursor === 0) return null;
+  let end = cursor;
+  if (expr[end - 1] === ")") {
+    let depth = 0;
+    for (let i = end - 1; i >= 0; i--) {
+      if (expr[i] === ")") depth++;
+      else if (expr[i] === "(") {
+        depth--;
+        if (depth === 0) return { start: i, end };
+      }
+    }
+    return null;
+  }
+  if (end >= 2 && expr.slice(end - 2, end) === "pi") {
+    return { start: end - 2, end };
+  }
+  let start = end;
+  while (start > 0 && isNumberChar(expr[start - 1])) start--;
+  if (start !== end) {
+    if (start > 0 && expr[start - 1] === "-" && isUnaryContext(expr, start - 1)) {
+      start--;
+    }
+    return { start, end };
+  }
+  const ch = expr[end - 1];
+  if (ch >= "a" && ch <= "z" || ch >= "A" && ch <= "Z") {
+    return { start: end - 1, end };
+  }
+  return null;
+}
+function applySquare(expr, cursor) {
+  const range = findPrevOperandRange(expr, cursor);
+  if (!range) return { expr, cursor };
+  const before = expr.slice(0, range.end);
+  const after = expr.slice(range.end);
+  const nextExpr = before + "^2" + after;
+  return { expr: nextExpr, cursor: cursor + 2 };
+}
+function applyReciprocal(expr, cursor) {
+  const range = findPrevOperandRange(expr, cursor);
+  if (!range) return { expr, cursor };
+  const operand = expr.slice(range.start, range.end);
+  const wrapped = `1/(${operand})`;
+  const nextExpr = expr.slice(0, range.start) + wrapped + expr.slice(range.end);
+  const delta = wrapped.length - operand.length;
+  return { expr: nextExpr, cursor: clampCursor(nextExpr, cursor + delta) };
+}
+function toDisplay(expr) {
+  return expr.replace(/sqrt\(/g, "√(").replace(/pi/g, "π").replace(/\*/g, "×").replace(/\//g, "÷").replace(/-/g, "−");
+}
+function autoCloseParens(expr) {
+  const open = (expr.match(/\(/g) || []).length;
+  const close = (expr.match(/\)/g) || []).length;
+  if (open <= close) return expr;
+  return expr + ")".repeat(open - close);
+}
+function evaluateExpression(expr, { angleMode = "DEG", ans = 0, variables = {} } = {}) {
+  const expanded = expandTemplates(expr);
+  const normalized = autoCloseParens(expanded);
+  const tokens = tokenize(normalized);
+  const rpn = toRpn(tokens);
+  return evalRpn(rpn, { angleMode, ans, variables });
+}
+function tokenize(expr) {
+  const tokens = [];
+  let i = 0;
+  const pushOp = (op) => tokens.push({ type: "op", value: op });
+  while (i < expr.length) {
+    const ch = expr[i];
+    if (ch === " ") {
+      i++;
+      continue;
+    }
+    if (isDigit(ch) || ch === ".") {
+      let j = i;
+      while (j < expr.length && (isDigit(expr[j]) || expr[j] === ".")) j++;
+      const raw = expr.slice(i, j);
+      if (raw === ".") throw new Error("Invalid number");
+      tokens.push({ type: "num", value: Number(raw) });
+      i = j;
+      continue;
+    }
+    if (ch === "(" || ch === ")") {
+      tokens.push({ type: "paren", value: ch });
+      i++;
+      continue;
+    }
+    if (ch === "%") {
+      tokens.push({ type: "op", value: "pct" });
+      i++;
+      continue;
+    }
+    if (OPS.has(ch)) {
+      if (ch === "-") {
+        const prevTok = tokens[tokens.length - 1];
+        const isUnary = !prevTok || prevTok.type === "op" || prevTok.type === "paren" && prevTok.value === "(";
+        pushOp(isUnary ? "u-" : "-");
+      } else {
+        pushOp(ch);
+      }
+      i++;
+      continue;
+    }
+    if (ch >= "a" && ch <= "z" || ch >= "A" && ch <= "Z") {
+      let j = i;
+      while (j < expr.length && (expr[j] >= "a" && expr[j] <= "z" || expr[j] >= "A" && expr[j] <= "Z" || expr[j] === "⁻"))
+        j++;
+      let ident = expr.slice(i, j);
+      ident = ident.replace("sin⁻¹", "asin").replace("cos⁻¹", "acos").replace("tan⁻¹", "atan");
+      if (expr[j] === "(") {
+        tokens.push({ type: "fn", value: ident });
+        i = j;
+        continue;
+      }
+      tokens.push({ type: "id", value: ident });
+      i = j;
+      continue;
+    }
+    throw new Error(`Unexpected character: ${ch}`);
+  }
+  return tokens;
+}
+function precedence(op) {
+  switch (op) {
+    case "pct":
+      return 6;
+    case "u-":
+      return 5;
+    case "^":
+      return 4;
+    case "*":
+    case "/":
+      return 3;
+    case "+":
+    case "-":
+      return 2;
+    default:
+      return 0;
+  }
+}
+function isRightAssociative(op) {
+  return op === "^" || op === "u-";
+}
+function toRpn(tokens) {
+  const out = [];
+  const stack = [];
+  for (let idx = 0; idx < tokens.length; idx++) {
+    const t = tokens[idx];
+    if (t.type === "num" || t.type === "id") {
+      out.push(t);
+      continue;
+    }
+    if (t.type === "fn") {
+      stack.push(t);
+      continue;
+    }
+    if (t.type === "op") {
+      while (stack.length) {
+        const top = stack[stack.length - 1];
+        if (top.type === "op") {
+          const pTop = precedence(top.value);
+          const pCur = precedence(t.value);
+          if (isRightAssociative(t.value) && pCur < pTop || !isRightAssociative(t.value) && pCur <= pTop) {
+            out.push(stack.pop());
+            continue;
+          }
+        }
+        if (top.type === "fn") {
+          out.push(stack.pop());
+          continue;
+        }
+        break;
+      }
+      stack.push(t);
+      continue;
+    }
+    if (t.type === "paren" && t.value === "(") {
+      stack.push(t);
+      continue;
+    }
+    if (t.type === "paren" && t.value === ")") {
+      while (stack.length && !(stack[stack.length - 1].type === "paren" && stack[stack.length - 1].value === "(")) {
+        out.push(stack.pop());
+      }
+      if (!stack.length) throw new Error("Mismatched parentheses");
+      stack.pop();
+      if (stack.length && stack[stack.length - 1].type === "fn") {
+        out.push(stack.pop());
+      }
+      continue;
+    }
+    throw new Error("Invalid token");
+  }
+  while (stack.length) {
+    const t = stack.pop();
+    if (t.type === "paren") throw new Error("Mismatched parentheses");
+    out.push(t);
+  }
+  return out;
+}
+function degToRad(deg) {
+  return deg * Math.PI / 180;
+}
+function radToDeg(rad) {
+  return rad * 180 / Math.PI;
+}
+function evalFn(name, x, ctx) {
+  switch (name) {
+    case "sin":
+      return Math.sin(ctx.angleMode === "DEG" ? degToRad(x) : x);
+    case "cos":
+      return Math.cos(ctx.angleMode === "DEG" ? degToRad(x) : x);
+    case "tan":
+      return Math.tan(ctx.angleMode === "DEG" ? degToRad(x) : x);
+    case "asin": {
+      const v = Math.asin(x);
+      return ctx.angleMode === "DEG" ? radToDeg(v) : v;
+    }
+    case "acos": {
+      const v = Math.acos(x);
+      return ctx.angleMode === "DEG" ? radToDeg(v) : v;
+    }
+    case "atan": {
+      const v = Math.atan(x);
+      return ctx.angleMode === "DEG" ? radToDeg(v) : v;
+    }
+    case "log":
+      return Math.log10(x);
+    case "ln":
+      return Math.log(x);
+    case "sqrt":
+      return Math.sqrt(x);
+    case "root":
+      return Math.sqrt(x);
+    default:
+      throw new Error(`Unknown function: ${name}`);
+  }
+}
+function evalRpn(rpn, { angleMode, ans, variables }) {
+  const stack = [];
+  const ctx = { angleMode };
+  for (const t of rpn) {
+    if (t.type === "num") {
+      stack.push(t.value);
+      continue;
+    }
+    if (t.type === "id") {
+      const id = t.value;
+      if (id === "pi") {
+        stack.push(Math.PI);
+        continue;
+      }
+      if (id === "e") {
+        stack.push(Math.E);
+        continue;
+      }
+      if (id === "ans" || id === "Ans") {
+        stack.push(Number(ans));
+        continue;
+      }
+      if (id in variables) {
+        stack.push(Number(variables[id]));
+        continue;
+      }
+      stack.push(0);
+      continue;
+    }
+    if (t.type === "fn") {
+      if (stack.length < 1) throw new Error("Missing function arg");
+      const x = stack.pop();
+      stack.push(evalFn(t.value, x, ctx));
+      continue;
+    }
+    if (t.type === "op") {
+      if (t.value === "u-") {
+        if (stack.length < 1) throw new Error("Missing unary arg");
+        stack.push(-stack.pop());
+        continue;
+      }
+      if (t.value === "pct") {
+        if (stack.length < 1) throw new Error("Missing percent arg");
+        stack.push(stack.pop() / 100);
+        continue;
+      }
+      if (stack.length < 2) throw new Error("Missing operands");
+      const b = stack.pop();
+      const a = stack.pop();
+      switch (t.value) {
+        case "+":
+          stack.push(a + b);
+          break;
+        case "-":
+          stack.push(a - b);
+          break;
+        case "*":
+          stack.push(a * b);
+          break;
+        case "/":
+          stack.push(a / b);
+          break;
+        case "^":
+          stack.push(a ** b);
+          break;
+        default:
+          throw new Error(`Unknown op: ${t.value}`);
+      }
+      continue;
+    }
+    throw new Error("Invalid RPN token");
+  }
+  if (stack.length !== 1) throw new Error("Invalid expression");
+  return stack[0];
+}
+const KEY_LAYOUT = {
+  // Main grid: 5 columns x 9 rows (strict physical layout)
+  gridRows: [
+    // ROW 1: Top system row
+    [
+      {
+        id: "k_2nd",
+        primary: "2nd",
+        secondary: null,
+        type: "accent pill",
+        action: "toggleShift2nd"
+      },
+      {
+        id: "k_mode",
+        primary: "mode",
+        secondary: "quit",
+        type: "sys pill",
+        action: "openModeMenu"
+      },
+      {
+        id: "k_del",
+        primary: "delete",
+        secondary: "insert",
+        type: "sys pill",
+        action: "backspace"
+      },
+      null,
+      null
+    ],
+    // ROW 2
+    [
+      {
+        id: "k_log",
+        primary: "log",
+        secondary: "10^x",
+        type: "fn",
+        action: "log"
+      },
+      {
+        id: "k_prb",
+        primary: "prb",
+        secondary: "angle",
+        type: "fn",
+        action: "noop"
+      },
+      {
+        id: "k_data",
+        primary: "data",
+        secondary: "stat",
+        type: "fn",
+        action: "noop"
+      },
+      null,
+      null
+    ],
+    // ROW 3
+    [
+      { id: "k_ln", primary: "ln", secondary: "e^x", type: "fn", action: "ln" },
+      {
+        id: "k_frac",
+        primary: "n/d",
+        secondary: "U n/d",
+        type: "fn",
+        action: "fraction"
+      },
+      {
+        id: "k_x10n",
+        primary: "x10^n",
+        secondary: "n/d ↔ U n/d",
+        type: "fn",
+        action: "sci"
+      },
+      {
+        id: "k_table",
+        primary: "table",
+        secondary: "f↔d",
+        type: "fn",
+        action: "noop"
+      },
+      {
+        id: "k_clear",
+        primary: "clear",
+        secondary: null,
+        type: "sys pill",
+        action: "clearAll"
+      }
+    ],
+    // ROW 4
+    [
+      {
+        id: "k_pi",
+        primary: "π",
+        secondary: "hyp",
+        type: "fn",
+        action: "pi"
+      },
+      {
+        id: "k_sin",
+        primary: "sin",
+        secondary: "sin⁻¹",
+        type: "fn",
+        action: "sin"
+      },
+      {
+        id: "k_cos",
+        primary: "cos",
+        secondary: "cos⁻¹",
+        type: "fn",
+        action: "cos"
+      },
+      {
+        id: "k_tan",
+        primary: "tan",
+        secondary: "tan⁻¹",
+        type: "fn",
+        action: "tan"
+      },
+      {
+        id: "op_div",
+        primary: "÷",
+        secondary: "K",
+        row: 4,
+        type: "op pill",
+        action: "divide"
+      }
+    ],
+    // ROW 5
+    [
+      {
+        id: "k_pow",
+        primary: "^",
+        secondary: "x√y",
+        type: "fn",
+        action: "power"
+      },
+      {
+        id: "k_inv",
+        primary: "x⁻¹",
+        secondary: "√",
+        type: "fn",
+        action: "reciprocal"
+      },
+      {
+        id: "k_lpar",
+        primary: "(",
+        secondary: "%",
+        type: "fn",
+        action: "leftParen"
+      },
+      {
+        id: "k_rpar",
+        primary: ")",
+        secondary: "▶%",
+        type: "fn",
+        action: "rightParen"
+      },
+      {
+        id: "op_mul",
+        primary: "×",
+        row: 5,
+        type: "op pill",
+        action: "multiply"
+      }
+    ],
+    // ROW 6
+    [
+      {
+        id: "k_sq",
+        primary: "x²",
+        secondary: "√",
+        type: "fn",
+        action: "square"
+      },
+      {
+        id: "k_7",
+        primary: "7",
+        secondary: null,
+        type: "num",
+        action: "digit"
+      },
+      {
+        id: "k_8",
+        primary: "8",
+        secondary: null,
+        type: "num",
+        action: "digit"
+      },
+      {
+        id: "k_9",
+        primary: "9",
+        secondary: null,
+        type: "num",
+        action: "digit"
+      },
+      {
+        id: "op_sub",
+        primary: "−",
+        secondary: "◄0",
+        row: 6,
+        type: "op pill",
+        action: "subtract"
+      }
+    ],
+    // ROW 7
+    [
+      {
+        id: "k_var",
+        primary: "x y z",
+        secondary: "clear var",
+        type: "fn",
+        action: "variable"
+      },
+      {
+        id: "k_4",
+        primary: "4",
+        secondary: null,
+        type: "num",
+        action: "digit"
+      },
+      {
+        id: "k_5",
+        primary: "5",
+        secondary: null,
+        type: "num",
+        action: "digit"
+      },
+      {
+        id: "k_6",
+        primary: "6",
+        secondary: null,
+        type: "num",
+        action: "digit"
+      },
+      {
+        id: "op_add",
+        primary: "+",
+        secondary: "▶0",
+        row: 7,
+        type: "op pill",
+        action: "add"
+      }
+    ],
+    // ROW 8
+    [
+      {
+        id: "k_sto",
+        primary: "sto→",
+        secondary: "recall",
+        type: "fn",
+        action: "store"
+      },
+      {
+        id: "k_1",
+        primary: "1",
+        secondary: null,
+        type: "num",
+        action: "digit"
+      },
+      {
+        id: "k_2",
+        primary: "2",
+        secondary: null,
+        type: "num",
+        action: "digit"
+      },
+      {
+        id: "k_3",
+        primary: "3",
+        secondary: null,
+        type: "num",
+        action: "digit"
+      },
+      {
+        id: "k_lr",
+        primary: "◄►",
+        secondary: null,
+        type: "fn pill",
+        action: "cursorJump"
+      }
+    ],
+    // ROW 9: Bottom row
+    [
+      {
+        id: "k_on",
+        primary: "on",
+        secondary: "off",
+        type: "sys pill",
+        action: "noop"
+      },
+      {
+        id: "k_0",
+        primary: "0",
+        secondary: "reset",
+        type: "num wide",
+        action: "digit"
+      },
+      {
+        id: "k_dot",
+        primary: ".",
+        secondary: ",",
+        type: "num",
+        action: "dot"
+      },
+      {
+        id: "k_neg",
+        primary: "(-)",
+        secondary: "ans",
+        type: "num",
+        action: "negative"
+      },
+      {
+        id: "k_enter",
+        primary: "enter",
+        secondary: null,
+        type: "sys wide pill",
+        action: "evaluate"
+      }
+    ]
+  ]
+};
+const KEY_CONFIG = {
+  k_mode: { secondaryAction: "quitMenu" },
+  k_del: { secondaryAction: "toggleInsertMode" },
+  k_log: { secondaryAction: "insert10Pow" },
+  k_ln: { secondaryAction: "insertEPow" },
+  k_frac: { secondaryAction: "toggleMixedNumberMode" },
+  k_x10n: { secondaryAction: "convertFracMixedNoop" },
+  k_table: { secondaryAction: "toggleFracDec" },
+  k_pi: { secondaryAction: "toggleHypMode" },
+  op_div: { secondaryAction: "toggleConstMode" },
+  k_pow: { secondaryAction: "insertRoot" },
+  k_inv: { secondaryAction: "insertSqrt" },
+  k_lpar: { secondaryAction: "insertPercent" },
+  k_rpar: { secondaryAction: "percentHelperNoop" },
+  k_sq: { secondaryAction: "insertSqrt" },
+  op_sub: { secondaryAction: "cursorLeft" },
+  op_add: { secondaryAction: "cursorRight" },
+  k_var: { secondaryAction: "clearVarsNoop" },
+  k_sto: { secondaryAction: "recallArm" },
+  k_on: { secondaryAction: "powerOff" },
+  k_0: { secondaryAction: "resetAll" },
+  k_dot: { secondaryAction: "commaNoop" },
+  k_neg: { secondaryAction: "insertAns" }
+};
+for (const row of KEY_LAYOUT.gridRows) {
+  for (const keyData of row) {
+    if (!keyData) continue;
+    const cfg = KEY_CONFIG[keyData.id];
+    if (!cfg) continue;
+    keyData.secondaryAction = cfg.secondaryAction;
+  }
+}
+const KEYPAD_MATRIX_IDS = [
+  ["k_2nd", "k_mode", "k_del", null, null],
+  ["k_log", "k_prb", "k_data", null, null],
+  ["k_ln", "k_frac", "k_x10n", "k_table", "k_clear"],
+  ["k_pi", "k_sin", "k_cos", "k_tan", "op_div"],
+  ["k_pow", "k_inv", "k_lpar", "k_rpar", "op_mul"],
+  ["k_sq", "k_7", "k_8", "k_9", "op_sub"],
+  ["k_var", "k_4", "k_5", "k_6", "op_add"],
+  ["k_sto", "k_1", "k_2", "k_3", "k_lr"],
+  ["k_on", "k_0", "k_dot", "k_neg", "k_enter"]
+];
+const KEY_BY_ID = (() => {
+  const map = /* @__PURE__ */ new Map();
+  for (const row of KEY_LAYOUT.gridRows) {
+    for (const keyData of row) {
+      if (!keyData) continue;
+      map.set(keyData.id, keyData);
+    }
+  }
+  return map;
+})();
 function TI30XSCalculator({ onClose }) {
-  const [history, setHistory] = reactExports.useState([]);
   const [currentInput, setCurrentInput] = reactExports.useState("");
+  const [cursorIndex, setCursorIndex] = reactExports.useState(0);
   const [result, setResult] = reactExports.useState("");
-  const [isSecond, setIsSecond] = reactExports.useState(false);
-  const [isDegrees, setIsDegrees] = reactExports.useState(true);
+  const [lastAnswer, setLastAnswer] = reactExports.useState("0");
+  const [shift2nd, setShift2nd] = reactExports.useState(false);
+  const [angleMode, setAngleMode] = reactExports.useState("DEG");
+  const [showModeMenu, setShowModeMenu] = reactExports.useState(false);
+  const [showSettings, setShowSettings] = reactExports.useState(false);
+  const [memory, setMemory] = reactExports.useState({});
+  const [storeArmed, setStoreArmed] = reactExports.useState(false);
+  const [recallArmed, setRecallArmed] = reactExports.useState(false);
+  const [insertMode, setInsertMode] = reactExports.useState(true);
+  const [mixedNumberMode, setMixedNumberMode] = reactExports.useState(false);
+  const [hypMode, setHypMode] = reactExports.useState(false);
+  const [constMode, setConstMode] = reactExports.useState(false);
   const [position, setPosition] = reactExports.useState({ x: 100, y: 100 });
   const [isDragging, setIsDragging] = reactExports.useState(false);
   const [opacity, setOpacity] = reactExports.useState(1);
-  const [dpadIndex, setDpadIndex] = reactExports.useState(-1);
-  const [scale, setScale] = reactExports.useState(1.8);
+  const [uiScale, setUiScale] = reactExports.useState(1);
   const dragStart = reactExports.useRef({ x: 0, y: 0 });
+  const lcdRef = reactExports.useRef(null);
+  const calcRootRef = reactExports.useRef(null);
+  const [kbdActive, setKbdActive] = reactExports.useState(false);
+  const kbdActiveRef = reactExports.useRef(false);
+  const memoryHasAnyValue = Object.keys(memory).length > 0;
   reactExports.useEffect(() => {
-    const calculateScale = () => {
-      const maxWidth = window.innerWidth - 20;
-      const maxHeight = window.innerHeight - 20;
-      const calcWidth = 340;
-      const calcHeight = 680;
-      const scaleByWidth = maxWidth / calcWidth;
-      const scaleByHeight = maxHeight / calcHeight;
-      const newScale = Math.min(1.8, scaleByWidth, scaleByHeight);
-      setScale(newScale);
+    kbdActiveRef.current = kbdActive;
+  }, [kbdActive]);
+  reactExports.useEffect(() => {
+    const onDocMouseDown = (e) => {
+      const root = calcRootRef.current;
+      const inside = root && root.contains(e.target);
+      setKbdActive(Boolean(inside));
+      if (inside) {
+        requestAnimationFrame(() => {
+          var _a;
+          (_a = lcdRef.current) == null ? void 0 : _a.focus();
+        });
+      }
     };
-    calculateScale();
-    window.addEventListener("resize", calculateScale);
-    return () => window.removeEventListener("resize", calculateScale);
+    document.addEventListener("mousedown", onDocMouseDown, true);
+    return () => document.removeEventListener("mousedown", onDocMouseDown, true);
+  }, []);
+  reactExports.useEffect(() => {
+    const handleResize = () => {
+      setPosition((prevPos) => {
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const calcWidth = 560;
+        const calcHeight = Math.min(560 * 1.4, window.innerHeight - 40);
+        const nx = Math.max(
+          10,
+          Math.min(prevPos.x, windowWidth - calcWidth - 10)
+        );
+        const ny = Math.max(
+          10,
+          Math.min(prevPos.y, windowHeight - calcHeight - 10)
+        );
+        return { x: nx, y: ny };
+      });
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   const handleMouseDown = (e) => {
-    if (e.target.tagName === "BUTTON" || e.target.closest(".calc-opacity-control"))
+    if (e.target.tagName === "BUTTON" || e.target.closest(".settings-panel") || e.target.closest("[data-ti30xs-nodrag]"))
       return;
     setIsDragging(true);
     dragStart.current = {
@@ -3788,546 +4897,1072 @@ function TI30XSCalculator({ onClose }) {
       window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [isDragging]);
-  const handlePress = (val) => {
-    if (result !== "") {
-      if (["+", "-", "", "", "^"].includes(val)) setCurrentInput(result + val);
-      else setCurrentInput(val);
-      setResult("");
-    } else {
-      setCurrentInput((prev) => prev + val);
-    }
-  };
-  const handleClear = () => {
-    setCurrentInput("");
-    setResult("");
-    if (currentInput === "" && result === "") setHistory([]);
-  };
-  const handleDelete = () => {
-    setCurrentInput((prev) => prev.slice(0, -1));
-  };
-  const handleEnter = () => {
-    if (!currentInput) return;
-    try {
-      let expr = currentInput.replace(/\u00D7/g, "*").replace(/\u00F7/g, "/").replace(/\^/g, "**").replace(/\u03C0/g, "Math.PI").replace(/\u221A/g, "Math.sqrt");
-      if (isDegrees) {
-        expr = expr.replace(/sin\(/g, "Math.sin(Math.PI/180*").replace(/cos\(/g, "Math.cos(Math.PI/180*").replace(/tan\(/g, "Math.tan(Math.PI/180*");
-      } else {
-        expr = expr.replace(/sin\(/g, "Math.sin(").replace(/cos\(/g, "Math.cos(").replace(/tan\(/g, "Math.tan(");
-      }
-      const evalResult = eval(expr);
-      const formattedResult = typeof evalResult === "number" ? Math.abs(evalResult) < 1e-4 && evalResult !== 0 ? evalResult.toExponential(4) : evalResult.toString().slice(0, 12) : String(evalResult);
-      setHistory((prev) => [
-        ...prev.slice(-2),
-        { exp: currentInput, ans: formattedResult }
-      ]);
-      setResult(formattedResult);
-      setCurrentInput("");
-      setDpadIndex(-1);
-    } catch (e) {
-      setResult("SYNTAX ERROR");
-      setTimeout(() => setResult(""), 2e3);
-    }
-  };
-  const handleFunction = (fn) => setCurrentInput((prev) => prev + fn + "(");
-  const toggleMode = () => setIsDegrees((prev) => !prev);
-  const recallHistoryAt = (index) => {
-    if (history.length === 0) return;
-    if (index >= 0 && index < history.length) {
-      setCurrentInput(history[index].exp);
-      setResult("");
-      setDpadIndex(index);
-    } else if (index < 0) {
-      setDpadIndex(-1);
-      setCurrentInput("");
-      setResult("");
-    }
-  };
-  const handleDpadUp = () => {
-    if (history.length === 0) return;
-    const nextIndex = dpadIndex === -1 ? history.length - 1 : Math.max(0, dpadIndex - 1);
-    recallHistoryAt(nextIndex);
-  };
-  const handleDpadDown = () => {
-    if (history.length === 0) return;
-    if (dpadIndex === -1) return;
-    const nextIndex = dpadIndex + 1;
-    if (nextIndex < history.length) recallHistoryAt(nextIndex);
-    else recallHistoryAt(-1);
-  };
-  const handleDpadLeft = () => {
-    handleDelete();
-  };
-  const handleDpadRight = () => {
-    handleEnter();
-  };
   reactExports.useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Backspace") {
-        e.preventDefault();
-        handleDelete();
-      } else if (e.key === "Enter") {
-        e.preventDefault();
-        handleEnter();
-      } else if (e.key === "Escape") {
-        e.preventDefault();
-        handleClear();
-      } else if (/^[0-9]$/.test(e.key)) {
-        e.preventDefault();
-        handlePress(e.key);
-      } else if (["+", "-", "(", ")", "."].includes(e.key)) {
-        e.preventDefault();
-        handlePress(e.key);
-      } else if (e.key === "*") {
-        e.preventDefault();
-        handlePress("×");
-      } else if (e.key === "/") {
-        e.preventDefault();
-        handlePress("÷");
+      if ((e.ctrlKey || e.metaKey) && e.key === "Escape") {
+        onClose();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentInput, result]);
-  const CalcBtn = ({
-    label,
-    color = "black",
-    onClick,
-    className = "",
-    span = 1
-  }) => {
-    const baseStyle = "h-9 text-xs font-semibold rounded-lg shadow-md active:scale-95 active:shadow-sm transition-all flex flex-col items-center justify-center calc-btn leading-none py-0.5 px-1 overflow-hidden";
-    const colorStyles = {
-      green: "bg-gradient-to-b from-[#4a8b73] to-[#3a7563] text-white border-b-[3px] border-[#2f594a] hover:from-[#5a9b83] hover:to-[#4a8b73]",
-      black: "bg-gradient-to-b from-slate-800 to-slate-900 text-white border-b-[3px] border-black hover:from-slate-700 hover:to-slate-800",
-      white: "bg-gradient-to-b from-white to-slate-100 text-slate-900 border-b-[3px] border-slate-300 hover:from-slate-50 hover:to-slate-200 font-bold",
-      red: "bg-gradient-to-b from-red-700 to-red-800 text-white border-b-[3px] border-red-950 hover:from-red-600 hover:to-red-700",
-      gray: "bg-gradient-to-b from-slate-600 to-slate-700 text-white border-b-[3px] border-slate-800 hover:from-slate-500 hover:to-slate-600"
+  }, [onClose]);
+  const clearShift = () => setShift2nd(false);
+  const applyEdit = (editFn) => {
+    setCurrentInput((prevExpr) => {
+      const prevCursor = Math.max(0, Math.min(cursorIndex, prevExpr.length));
+      const next = editFn({ expr: prevExpr, cursor: prevCursor });
+      setCursorIndex(next.cursor);
+      return next.expr;
+    });
+  };
+  const displayInput = toDisplay(currentInput);
+  const katexOn = isKatexAvailable();
+  const latexInput = exprToLatex(currentInput, cursorIndex);
+  const latexResult = result ? exprToLatex(String(result)) : "";
+  const parseGroup = (src, openIndex) => {
+    if (src[openIndex] !== "(") return null;
+    let depth = 0;
+    for (let i = openIndex; i < src.length; i++) {
+      const ch = src[i];
+      if (ch === "(") depth++;
+      else if (ch === ")") {
+        depth--;
+        if (depth === 0) {
+          return {
+            openIndex,
+            closeIndex: i,
+            innerStart: openIndex + 1,
+            innerEnd: i,
+            endIndex: i + 1
+          };
+        }
+      }
+    }
+    return null;
+  };
+  const findTemplateAtCursor = (expr, cursor) => {
+    const contexts = [];
+    let i = 0;
+    while (i < expr.length) {
+      if (expr.startsWith("frac", i) && expr[i + 4] === "(") {
+        const g1 = parseGroup(expr, i + 4);
+        const g2 = g1 && expr[g1.endIndex] === "(" ? parseGroup(expr, g1.endIndex) : null;
+        if (g1 && g2) {
+          contexts.push({
+            kind: "frac",
+            start: i,
+            end: g2.endIndex,
+            segments: [
+              { name: "num", start: g1.innerStart, end: g1.innerEnd },
+              { name: "den", start: g2.innerStart, end: g2.innerEnd }
+            ]
+          });
+          i = g2.endIndex;
+          continue;
+        }
+      }
+      if (expr.startsWith("mixed", i) && expr[i + 5] === "(") {
+        const gW = parseGroup(expr, i + 5);
+        const gN = gW && expr[gW.endIndex] === "(" ? parseGroup(expr, gW.endIndex) : null;
+        const gD = gN && expr[gN.endIndex] === "(" ? parseGroup(expr, gN.endIndex) : null;
+        if (gW && gN && gD) {
+          contexts.push({
+            kind: "mixed",
+            start: i,
+            end: gD.endIndex,
+            segments: [
+              { name: "whole", start: gW.innerStart, end: gW.innerEnd },
+              { name: "num", start: gN.innerStart, end: gN.innerEnd },
+              { name: "den", start: gD.innerStart, end: gD.innerEnd }
+            ]
+          });
+          i = gD.endIndex;
+          continue;
+        }
+      }
+      i++;
+    }
+    const containing = contexts.filter((c) => cursor >= c.start && cursor <= c.end).sort((a, b) => a.end - a.start - (b.end - b.start));
+    const ctx = containing[0];
+    if (!ctx) return null;
+    const seg = ctx.segments.find((s) => cursor >= s.start && cursor <= s.end);
+    return { ...ctx, segment: (seg == null ? void 0 : seg.name) ?? null };
+  };
+  const jumpTemplateSegment = (direction) => {
+    const ctx = findTemplateAtCursor(currentInput, cursorIndex);
+    if (!ctx) return false;
+    if (ctx.kind === "frac") {
+      const num = ctx.segments[0];
+      const den = ctx.segments[1];
+      if (direction === "up") {
+        setCursorIndex(num.start);
+        return true;
+      }
+      if (direction === "down") {
+        setCursorIndex(den.start);
+        return true;
+      }
+      if (direction === "next") {
+        if (ctx.segment === "num") {
+          setCursorIndex(den.start);
+          return true;
+        }
+        if (ctx.segment === "den") {
+          setCursorIndex(ctx.end);
+          return true;
+        }
+      }
+      if (direction === "prev") {
+        if (ctx.segment === "den") {
+          setCursorIndex(num.start);
+          return true;
+        }
+        if (ctx.segment === "num") {
+          setCursorIndex(ctx.start);
+          return true;
+        }
+      }
+      return false;
+    }
+    if (ctx.kind === "mixed") {
+      const whole = ctx.segments[0];
+      const num = ctx.segments[1];
+      const den = ctx.segments[2];
+      if (direction === "up") {
+        if (ctx.segment === "den") {
+          setCursorIndex(num.start);
+          return true;
+        }
+        if (ctx.segment === "num") {
+          setCursorIndex(whole.start);
+          return true;
+        }
+        setCursorIndex(whole.start);
+        return true;
+      }
+      if (direction === "down") {
+        if (ctx.segment === "whole") {
+          setCursorIndex(num.start);
+          return true;
+        }
+        if (ctx.segment === "num") {
+          setCursorIndex(den.start);
+          return true;
+        }
+        setCursorIndex(den.start);
+        return true;
+      }
+      if (direction === "next") {
+        if (ctx.segment === "whole") {
+          setCursorIndex(num.start);
+          return true;
+        }
+        if (ctx.segment === "num") {
+          setCursorIndex(den.start);
+          return true;
+        }
+        if (ctx.segment === "den") {
+          setCursorIndex(ctx.end);
+          return true;
+        }
+      }
+      if (direction === "prev") {
+        if (ctx.segment === "den") {
+          setCursorIndex(num.start);
+          return true;
+        }
+        if (ctx.segment === "num") {
+          setCursorIndex(whole.start);
+          return true;
+        }
+        if (ctx.segment === "whole") {
+          setCursorIndex(ctx.start);
+          return true;
+        }
+      }
+      return false;
+    }
+    return false;
+  };
+  const handleLcdKeyDown = (e) => {
+    var _a;
+    if (e.key === "ArrowLeft") {
+      if (jumpTemplateSegment("prev")) {
+        e.preventDefault();
+        return;
+      }
+      e.preventDefault();
+      setCursorIndex(Math.max(0, cursorIndex - 1));
+    } else if (e.key === "ArrowRight") {
+      if (jumpTemplateSegment("next")) {
+        e.preventDefault();
+        return;
+      }
+      e.preventDefault();
+      setCursorIndex(Math.min(currentInput.length, cursorIndex + 1));
+    } else if (e.key === "ArrowUp") {
+      if (jumpTemplateSegment("up")) {
+        e.preventDefault();
+      }
+    } else if (e.key === "ArrowDown") {
+      if (jumpTemplateSegment("down")) {
+        e.preventDefault();
+      }
+    } else if (e.key === "Tab") {
+      if (jumpTemplateSegment(e.shiftKey ? "prev" : "next")) {
+        e.preventDefault();
+      }
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      setCursorIndex(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      setCursorIndex(currentInput.length);
+    } else if (e.key === "Backspace") {
+      e.preventDefault();
+      applyEdit(({ expr, cursor }) => backspaceToken(expr, cursor));
+    } else if (e.key === "Delete") {
+      e.preventDefault();
+      applyEdit(({ expr, cursor }) => deleteForwardToken(expr, cursor));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      handleEvaluate();
+    } else if (e.key === "Escape") {
+      (_a = lcdRef.current) == null ? void 0 : _a.blur();
+      setKbdActive(false);
+    }
+  };
+  reactExports.useEffect(() => {
+    const onWindowKeyDown = (e) => {
+      var _a;
+      if (!kbdActiveRef.current) return;
+      const key = e.key;
+      const handled = key === "Backspace" || key === "Delete" || key === "ArrowLeft" || key === "ArrowRight" || key === "ArrowUp" || key === "ArrowDown" || key === "Tab" || key === "Home" || key === "End" || key === "Enter" || key === "Escape";
+      if (!handled) return;
+      e.preventDefault();
+      e.stopPropagation();
+      (_a = lcdRef.current) == null ? void 0 : _a.focus();
+      handleLcdKeyDown(e);
     };
-    const colSpan = span > 1 ? "col-span-" + span : "";
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    window.addEventListener("keydown", onWindowKeyDown, true);
+    return () => window.removeEventListener("keydown", onWindowKeyDown, true);
+  }, [
+    currentInput,
+    cursorIndex,
+    angleMode,
+    lastAnswer,
+    memory,
+    mixedNumberMode,
+    insertMode,
+    hypMode,
+    constMode,
+    shift2nd,
+    showModeMenu,
+    showSettings
+  ]);
+  const findNumberSegmentAtCursor = (expr, cursor) => {
+    const isNumChar = (ch) => ch >= "0" && ch <= "9" || ch === ".";
+    let start = cursor;
+    while (start > 0 && isNumChar(expr[start - 1])) start--;
+    let end = cursor;
+    while (end < expr.length && isNumChar(expr[end])) end++;
+    if (start > 0 && expr[start - 1] === "-") {
+      const prev = start - 2 >= 0 ? expr[start - 2] : "";
+      const unary = start - 1 === 0 || prev === "(" || ["+", "-", "*", "/", "^"].includes(prev);
+      if (unary) start--;
+    }
+    if (end <= start) return null;
+    return { start, end, text: expr.slice(start, end) };
+  };
+  (() => {
+    let i = 0;
+    let d = 0;
+    while (i < currentInput.length && i < cursorIndex) {
+      if (currentInput.startsWith("sqrt(", i)) {
+        i += 5;
+        d += 2;
+        continue;
+      }
+      if (currentInput.startsWith("pi", i)) {
+        i += 2;
+        d += 1;
+        continue;
+      }
+      i += 1;
+      d += 1;
+    }
+    return d;
+  })();
+  const handleAction = (action, keyData) => {
+    const primary = keyData.primary;
+    switch (action) {
+      case "toggleShift2nd":
+        setShift2nd((prev) => !prev);
+        break;
+      case "quitMenu":
+        setShowModeMenu(false);
+        setShowSettings(false);
+        break;
+      case "toggleInsertMode":
+        setInsertMode((prev) => !prev);
+        break;
+      case "openModeMenu":
+        setShowModeMenu(true);
+        break;
+      case "backspace":
+        applyEdit(({ expr, cursor }) => backspaceToken(expr, cursor));
+        clearShift();
+        break;
+      case "clearAll":
+        setCurrentInput("");
+        setCursorIndex(0);
+        setResult("");
+        break;
+      case "log":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, "log("));
+        break;
+      case "insert10Pow":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, "10^("));
+        break;
+      case "ln":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, "ln("));
+        break;
+      case "insertEPow":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, "e^("));
+        break;
+      case "fraction":
+        {
+          const ctx = findTemplateAtCursor(currentInput, cursorIndex);
+          if ((ctx == null ? void 0 : ctx.kind) === "frac") {
+            if (ctx.segment === "num") {
+              setCursorIndex(ctx.segments[1].start);
+              break;
+            }
+            if (ctx.segment === "den") {
+              setCursorIndex(ctx.end);
+              break;
+            }
+          }
+          if ((ctx == null ? void 0 : ctx.kind) === "mixed") {
+            if (ctx.segment === "whole") {
+              setCursorIndex(ctx.segments[1].start);
+              break;
+            }
+            if (ctx.segment === "num") {
+              setCursorIndex(ctx.segments[2].start);
+              break;
+            }
+            if (ctx.segment === "den") {
+              setCursorIndex(ctx.end);
+              break;
+            }
+          }
+        }
+        if (mixedNumberMode) {
+          applyEdit(({ expr, cursor }) => {
+            const inserted = insertText(expr, cursor, "mixed()()()");
+            return {
+              expr: inserted.expr,
+              cursor: inserted.cursor - "()()()".length + 1
+            };
+          });
+        } else {
+          applyEdit(({ expr, cursor }) => {
+            const inserted = insertText(expr, cursor, "frac()()");
+            return {
+              expr: inserted.expr,
+              cursor: inserted.cursor - "()()".length + 1
+            };
+          });
+        }
+        break;
+      case "toggleMixedNumberMode":
+        if (!mixedNumberMode) {
+          setMixedNumberMode(true);
+          applyEdit(({ expr, cursor }) => {
+            const inserted = insertText(expr, cursor, "mixed()()()");
+            return {
+              expr: inserted.expr,
+              cursor: inserted.cursor - "()()()".length + 1
+            };
+          });
+        } else {
+          setMixedNumberMode(false);
+        }
+        break;
+      case "convertFracMixedNoop":
+        break;
+      case "toggleFracDec":
+        applyEdit(({ expr, cursor }) => {
+          const ctx = findTemplateAtCursor(expr, cursor);
+          if (ctx) {
+            try {
+              const templateExpr = expr.slice(ctx.start, ctx.end);
+              const v = evaluateExpression(templateExpr, {
+                angleMode,
+                ans: lastAnswer,
+                variables: memory
+              });
+              const s = String(v);
+              const nextExpr2 = expr.slice(0, ctx.start) + s + expr.slice(ctx.end);
+              return { expr: nextExpr2, cursor: ctx.start + s.length };
+            } catch {
+              return { expr, cursor };
+            }
+          }
+          const seg = findNumberSegmentAtCursor(expr, cursor);
+          if (!seg) return { expr, cursor };
+          const templ = decimalToFractionTemplate(seg.text, {
+            mixed: mixedNumberMode,
+            maxDen: 1e3
+          });
+          if (!templ || templ === seg.text) return { expr, cursor };
+          const nextExpr = expr.slice(0, seg.start) + templ + expr.slice(seg.end);
+          return { expr: nextExpr, cursor: seg.start + templ.length };
+        });
+        break;
+      case "pi":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, "pi"));
+        break;
+      case "toggleHypMode":
+        setHypMode((prev) => !prev);
+        break;
+      case "sin":
+      case "cos":
+      case "tan":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, `${action}(`));
+        break;
+      case "asin":
+      case "acos":
+      case "atan":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, `${action}(`));
+        break;
+      case "power":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, "^"));
+        break;
+      case "insertRoot":
+        applyEdit(({ expr, cursor }) => {
+          const inserted = insertText(expr, cursor, "root()()");
+          return {
+            expr: inserted.expr,
+            cursor: inserted.cursor - "()()".length + 1
+          };
+        });
+        break;
+      case "reciprocal":
+        applyEdit(({ expr, cursor }) => applyReciprocal(expr, cursor));
+        break;
+      case "insertSqrt":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, "sqrt("));
+        break;
+      case "leftParen":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, "("));
+        break;
+      case "insertPercent":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, "%"));
+        break;
+      case "rightParen":
+        applyEdit(({ expr, cursor }) => insertRightParen(expr, cursor));
+        break;
+      case "percentHelperNoop":
+        break;
+      case "square":
+        applyEdit(({ expr, cursor }) => applySquare(expr, cursor));
+        break;
+      case "digit":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, primary));
+        break;
+      case "dot":
+        applyEdit(({ expr, cursor }) => insertDecimal(expr, cursor));
+        break;
+      case "negative":
+        applyEdit(({ expr, cursor }) => toggleNegative(expr, cursor));
+        break;
+      case "insertAns":
+        applyEdit(
+          ({ expr, cursor }) => insertText(expr, cursor, lastAnswer ? String(lastAnswer) : "0")
+        );
+        break;
+      case "sci":
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, "*10^("));
+        break;
+      case "variable":
+        if (storeArmed) {
+          setMemory((prev) => ({ ...prev, x: lastAnswer }));
+          setStoreArmed(false);
+          break;
+        }
+        if (recallArmed) {
+          const v = memory == null ? void 0 : memory.x;
+          applyEdit(
+            ({ expr, cursor }) => insertText(expr, cursor, v != null ? String(v) : "0")
+          );
+          setRecallArmed(false);
+          break;
+        }
+        applyEdit(({ expr, cursor }) => insertText(expr, cursor, "x"));
+        break;
+      case "clearVarsNoop":
+        break;
+      case "store":
+        setStoreArmed(true);
+        setRecallArmed(false);
+        break;
+      case "recallArm":
+        setRecallArmed(true);
+        setStoreArmed(false);
+        break;
+      case "cursorJump":
+        break;
+      case "cursorLeft":
+        setCursorIndex((prev) => Math.max(0, prev - 1));
+        break;
+      case "cursorRight":
+        setCursorIndex((prev) => Math.min(currentInput.length, prev + 1));
+        break;
+      case "evaluate":
+        handleEvaluate();
+        break;
+      case "divide":
+        applyEdit(
+          ({ expr, cursor }) => insertOperator(expr, cursor, "/", lastAnswer)
+        );
+        break;
+      case "toggleConstMode":
+        setConstMode((prev) => !prev);
+        break;
+      case "multiply":
+        applyEdit(
+          ({ expr, cursor }) => insertOperator(expr, cursor, "*", lastAnswer)
+        );
+        break;
+      case "subtract":
+        applyEdit(
+          ({ expr, cursor }) => insertOperator(expr, cursor, "-", lastAnswer)
+        );
+        break;
+      case "add":
+        applyEdit(
+          ({ expr, cursor }) => insertOperator(expr, cursor, "+", lastAnswer)
+        );
+        break;
+      case "powerOff":
+        onClose();
+        break;
+      case "resetAll":
+        setCurrentInput("");
+        setCursorIndex(0);
+        setResult("");
+        setLastAnswer("0");
+        setMemory({});
+        setStoreArmed(false);
+        setRecallArmed(false);
+        setAngleMode("DEG");
+        setShowModeMenu(false);
+        setShowSettings(false);
+        setInsertMode(true);
+        setMixedNumberMode(false);
+        setHypMode(false);
+        setConstMode(false);
+        break;
+      case "navUp":
+      case "navDown":
+      case "navLeft":
+      case "navRight":
+      case "navOk":
+        clearShift();
+        break;
+    }
+  };
+  const handleKeyPress = (keyData) => {
+    if (!keyData) return;
+    if (keyData.id === "k_2nd") {
+      handleAction("toggleShift2nd", keyData);
+      return;
+    }
+    const actionToRun = shift2nd && keyData.secondaryAction ? keyData.secondaryAction : keyData.action;
+    if (shift2nd && !keyData.secondaryAction) {
+      if (keyData.id === "k_sin") {
+        handleAction("asin", keyData);
+        setShift2nd(false);
+        return;
+      }
+      if (keyData.id === "k_cos") {
+        handleAction("acos", keyData);
+        setShift2nd(false);
+        return;
+      }
+      if (keyData.id === "k_tan") {
+        handleAction("atan", keyData);
+        setShift2nd(false);
+        return;
+      }
+    }
+    handleAction(actionToRun, keyData);
+    setShift2nd(false);
+  };
+  const handleEvaluate = () => {
+    if (!currentInput) return;
+    try {
+      const computed = evaluateExpression(currentInput, {
+        angleMode,
+        ans: lastAnswer,
+        variables: memory
+      });
+      const resultStr = String(computed);
+      setResult(resultStr);
+      setLastAnswer(resultStr);
+      setCurrentInput("");
+      setCursorIndex(0);
+    } catch (error) {
+      setResult("ERR");
+    }
+  };
+  const renderKey = (keyData) => {
+    if (!keyData) {
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { visibility: "hidden" } });
+    }
+    const isAccent = keyData.type.includes("accent");
+    const isSys = keyData.type.includes("sys");
+    const isFn = keyData.type.includes("fn");
+    const isNum = keyData.type.includes("num");
+    const isOp = keyData.type.includes("op");
+    const isNav = keyData.type.includes("nav");
+    let bgClass = "bg-gray-800 hover:bg-gray-700 active:bg-gray-600";
+    let textClass = "text-white";
+    if (isAccent) {
+      bgClass = "bg-gray-700 hover:bg-gray-600 active:bg-gray-500";
+    } else if (isSys) {
+      bgClass = "bg-gray-600 hover:bg-gray-500 active:bg-gray-400";
+    } else if (isFn) {
+      bgClass = "bg-gray-800 hover:bg-gray-700 active:bg-gray-600";
+    } else if (isNum) {
+      bgClass = "bg-gray-900 hover:bg-gray-800 active:bg-gray-700";
+      textClass = "text-white font-bold";
+    } else if (isOp) {
+      bgClass = "bg-blue-600 hover:bg-blue-500 active:bg-blue-400";
+      textClass = "text-white font-bold";
+    } else if (isNav) {
+      bgClass = "bg-gray-700 hover:bg-gray-600 active:bg-gray-500";
+    }
+    if (isOp) {
+      return renderOperatorKey(keyData);
+    }
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "button",
       {
-        className: baseStyle + " " + colorStyles[color] + " " + className + " " + colSpan,
-        onClick: onClick || (() => handlePress(label)),
-        children: label
-      }
-    );
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "div",
-    {
-      className: "fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-30",
-      style: { pointerEvents: "none" },
-      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "div",
-        {
-          className: "relative",
-          style: {
-            left: position.x,
-            top: position.y,
-            position: "fixed",
-            opacity,
-            pointerEvents: "auto",
-            cursor: isDragging ? "grabbing" : "grab"
-          },
-          onMouseDown: handleMouseDown,
-          children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "div",
+        className: `key ${keyData.id === "k_enter" ? "key--enter" : ""} relative ${bgClass} ${textClass} w-full h-full flex flex-col items-stretch font-medium shadow-sm transition-colors duration-150`,
+        style: {
+          width: "var(--u)",
+          height: "var(--rowH)",
+          borderRadius: "calc(var(--rowH) * 0.28)",
+          fontSize: isNum ? "calc(var(--u) * 0.42)" : "calc(var(--u) * 0.28)",
+          paddingTop: keyData.secondary ? "calc(var(--rowH) * 0.10)" : "calc(var(--rowH) * 0.06)",
+          paddingBottom: "calc(var(--rowH) * 0.08)"
+        },
+        onMouseDown: (e) => {
+          var _a;
+          e.preventDefault();
+          setKbdActive(true);
+          (_a = lcdRef.current) == null ? void 0 : _a.focus();
+        },
+        onClick: () => handleKeyPress(keyData),
+        children: [
+          keyData.secondary ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
             {
-              className: "relative bg-[#3b4c5f] shadow-2xl rounded-[30px] p-5",
+              className: "text-green-400 font-normal text-left leading-tight",
               style: {
-                width: "340px",
-                height: "680px",
-                transform: `scale(${scale})`,
-                transformOrigin: "top left"
+                fontSize: "calc(var(--u) * 0.145)",
+                minHeight: "calc(var(--rowH) * 0.28)",
+                paddingLeft: "calc(var(--u) * 0.12)",
+                paddingRight: "calc(var(--u) * 0.08)",
+                overflowWrap: "anywhere"
               },
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center mb-2", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-white text-2xl font-bold tracking-wider", children: "TI-30XS" }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-slate-300 text-xs tracking-widest", children: "MultiView" })
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full h-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded-sm border border-slate-700 shadow-inner mb-2" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-center gap-2 mb-2", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-red-600 text-lg font-bold" }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-white text-[10px] font-bold tracking-widest", children: "TEXAS INSTRUMENTS" })
-                  ] })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-[#e3e9d9] h-44 rounded-xl mb-4 border-4 border-slate-600 p-4 font-mono text-slate-900 flex flex-col relative shadow-inner", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute top-2 right-3 text-[8px] flex gap-2 opacity-60", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: isDegrees ? "font-bold" : "", children: isDegrees ? "DEG" : "RAD" }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "FLO" })
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 flex flex-col justify-end overflow-hidden", children: history.map((item, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                    "div",
-                    {
-                      className: "text-[11px] opacity-50 leading-tight mb-1",
-                      children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-left", children: item.exp }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-right font-bold mb-1", children: [
-                          "=",
-                          item.ans
-                        ] })
-                      ]
-                    },
-                    i
-                  )) }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-left text-2xl font-bold mt-2 min-h-[36px] border-t border-slate-400/30 pt-2", children: result !== "" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-right", children: result }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center", children: [
-                    currentInput || "0",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block w-1 h-6 bg-slate-900 animate-pulse ml-1", children: "|" })
-                  ] }) })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "calc-opacity-control mb-3 flex items-center gap-2 px-1", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-slate-400 text-xs", children: "Opacity:" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "input",
-                    {
-                      type: "range",
-                      min: "0.3",
-                      max: "1",
-                      step: "0.1",
-                      value: opacity,
-                      onChange: (e) => setOpacity(parseFloat(e.target.value)),
-                      className: "flex-1 h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      onClick: onClose,
-                      className: "ml-2 px-3 py-1 bg-red-700 hover:bg-red-600 text-white text-xs font-bold rounded shadow"
-                    }
-                  )
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-4 gap-2", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      className: "h-7 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-[#4a8b73] text-white",
-                      onClick: () => setIsSecond(!isSecond),
-                      children: "2nd"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      className: "h-7 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-slate-700 text-white",
-                      onClick: toggleMode,
-                      children: "mode"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      className: "h-7 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-slate-700 text-white",
-                      onClick: handleDelete,
-                      children: "del"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      className: "h-7 text-xs font-semibold rounded-md shadow-md active:scale-95 transition-all flex items-center justify-center bg-slate-900 text-white",
-                      onClick: handleClear,
-                      children: "clear"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[7px]", children: "e^x" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        "log"
-                      ] }),
-                      color: "gray",
-                      className: "text-[9px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[7px]", children: "LRN" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        "prb"
-                      ] }),
-                      color: "gray",
-                      className: "text-[8px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[7px]", children: "stat" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        "data"
-                      ] }),
-                      color: "gray",
-                      className: "text-[8px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "col-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative w-full h-14 bg-slate-700 rounded-full border-2 border-slate-800 shadow-md", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      "button",
-                      {
-                        "aria-label": "up",
-                        className: "absolute top-0 left-1/2 -translate-x-1/2 h-1/2 w-1/3 bg-transparent",
-                        onClick: handleDpadUp
-                      }
-                    ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      "button",
-                      {
-                        "aria-label": "down",
-                        className: "absolute bottom-0 left-1/2 -translate-x-1/2 h-1/2 w-1/3 bg-transparent",
-                        onClick: handleDpadDown
-                      }
-                    ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      "button",
-                      {
-                        "aria-label": "left",
-                        className: "absolute top-1/2 -translate-y-1/2 left-0 h-1/3 w-1/2 bg-transparent",
-                        onClick: handleDpadLeft
-                      }
-                    ),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      "button",
-                      {
-                        "aria-label": "right",
-                        className: "absolute top-1/2 -translate-y-1/2 right-0 h-1/3 w-1/2 bg-transparent",
-                        onClick: handleDpadRight
-                      }
-                    )
-                  ] }) }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[7px]", children: "10^x" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        "ln"
-                      ] }),
-                      color: "gray",
-                      className: "text-[9px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[7px]", children: "n/d" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("sub", { className: "text-[7px]", children: "d" })
-                      ] }),
-                      color: "gray",
-                      className: "text-[9px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[7px]", children: "10^n" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        "10",
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("sup", { className: "text-[7px]", children: "n" })
-                      ] }),
-                      color: "gray",
-                      className: "text-[8px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: "",
-                      color: "black",
-                      onClick: () => handlePress(""),
-                      className: "text-base font-bold"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "π" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-green-400 text-[6px]", children: [
-                          "x",
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("sup", { className: "text-[6px]", children: "π" })
-                        ] })
-                      ] }),
-                      color: "gray",
-                      onClick: () => handlePress("π"),
-                      className: "text-sm"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "sin" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[6px]", children: "sin" })
-                      ] }),
-                      color: "gray",
-                      onClick: () => handleFunction("sin"),
-                      className: "text-[10px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "cos" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[6px]", children: "cos" })
-                      ] }),
-                      color: "gray",
-                      onClick: () => handleFunction("cos"),
-                      className: "text-[10px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "tan" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[6px]", children: "tan" })
-                      ] }),
-                      color: "gray",
-                      onClick: () => handleFunction("tan"),
-                      className: "text-[10px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[8px]" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        "^"
-                      ] }),
-                      color: "gray",
-                      onClick: () => handlePress("^"),
-                      className: "text-base"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                          "x",
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("sup", { className: "text-[7px]", children: "-1" })
-                        ] }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[6px]", children: "nCr/nPr" })
-                      ] }),
-                      color: "gray",
-                      className: "text-[9px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: "(",
-                      color: "gray",
-                      onClick: () => handlePress("("),
-                      className: "text-lg"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: ")",
-                      color: "gray",
-                      onClick: () => handlePress(")"),
-                      className: "text-lg"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                          "x",
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("sup", { className: "text-[7px]", children: "2" })
-                        ] }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400 text-[6px]" })
-                      ] }),
-                      color: "gray",
-                      onClick: () => handlePress("^2"),
-                      className: "text-sm"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "7", color: "white", className: "text-lg font-bold" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "8", color: "white", className: "text-lg font-bold" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "9", color: "white", className: "text-lg font-bold" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[6px]", children: "clear var" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm", children: "x abc" })
-                      ] }),
-                      color: "gray",
-                      className: "text-[8px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "4", color: "white", className: "text-lg font-bold" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "5", color: "white", className: "text-lg font-bold" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "6", color: "white", className: "text-lg font-bold" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[7px]", children: "recall" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        "sto"
-                      ] }),
-                      color: "gray",
-                      className: "text-[9px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "1", color: "white", className: "text-lg font-bold" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "2", color: "white", className: "text-lg font-bold" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "3", color: "white", className: "text-lg font-bold" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "on" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[7px]", children: "reset" })
-                      ] }),
-                      color: "gray",
-                      className: "text-[9px]"
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "col-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: "0", color: "white", className: "text-lg font-bold" }) }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(CalcBtn, { label: ".", color: "white", className: "text-xl font-bold" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "row-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    CalcBtn,
-                    {
-                      label: "enter",
-                      color: "black",
-                      onClick: handleEnter,
-                      className: "h-full text-sm font-bold"
-                    }
-                  ) })
-                ] })
-              ]
+              children: keyData.secondary
+            }
+          ) : /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { minHeight: "calc(var(--rowH) * 0.18)" } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
+            {
+              className: "flex-1 flex items-center justify-center leading-none",
+              style: { lineHeight: 1.05 },
+              children: keyData.primary
             }
           )
+        ]
+      },
+      keyData.id
+    );
+  };
+  const renderOperatorKey = (keyData) => {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "button",
+      {
+        className: "opKey relative text-white font-bold flex flex-col items-stretch shadow-sm transition-colors duration-150",
+        style: {
+          fontSize: "calc(var(--u) * 0.38)",
+          paddingTop: keyData.secondary ? "calc(var(--rowH) * 0.10)" : "calc(var(--rowH) * 0.06)",
+          paddingBottom: "calc(var(--rowH) * 0.08)"
+        },
+        onMouseDown: (e) => {
+          var _a;
+          e.preventDefault();
+          setKbdActive(true);
+          (_a = lcdRef.current) == null ? void 0 : _a.focus();
+        },
+        onClick: () => handleKeyPress(keyData),
+        children: [
+          keyData.secondary ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
+            {
+              className: "text-green-400 font-normal text-left leading-tight",
+              style: {
+                fontSize: "calc(var(--u) * 0.135)",
+                minHeight: "calc(var(--rowH) * 0.26)",
+                paddingLeft: "calc(var(--u) * 0.12)",
+                paddingRight: "calc(var(--u) * 0.08)",
+                overflowWrap: "anywhere"
+              },
+              children: keyData.secondary
+            }
+          ) : /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { minHeight: "calc(var(--rowH) * 0.18)" } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex-1 flex items-center justify-center leading-none", children: keyData.primary })
+        ]
+      },
+      keyData.id
+    );
+  };
+  const gridMatrix = KEYPAD_MATRIX_IDS.map(
+    (row) => row.map((id) => id ? KEY_BY_ID.get(id) ?? null : null)
+  );
+  const calculatorStyle = {
+    "--u": "58px",
+    // Base unit: EVERYTHING derives from this (scaled up to avoid label overlap)
+    "--rowH": "calc(var(--u) * 0.92)",
+    // Key row height
+    "--gap": "calc(var(--u) * 0.22)",
+    // Gap between keys
+    "--pad": "calc(var(--u) * 0.4)"
+    // Interior padding
+  };
+  const shellStyle = {
+    width: "calc(var(--u) * 8.6)",
+    // ~446px (8.6 × 52px)
+    // Ensure LCD + full 9x5 keypad fit without flexbox squeezing the LCD
+    height: "calc(var(--u) * 13.4)",
+    padding: "calc(var(--u) * 0.4)",
+    borderRadius: "calc(var(--u) * 0.6)"
+  };
+  const lcdStyle = {
+    height: "calc(var(--u) * 2)",
+    // Exactly 2 rows tall
+    marginBottom: "calc(var(--u) * 0.4)"
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      className: "fixed z-[9999] select-none",
+      style: {
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        opacity
+      },
+      onMouseDown: handleMouseDown,
+      ref: calcRootRef,
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+        /* TI-30XS Polish CSS */
+        @keyframes blink {
+          0%, 49% { opacity: 1; }
+          50%, 100% { opacity: 0; }
         }
-      )
+        .ti30xs-calc .row1 .key {
+          width: calc(var(--u) * 0.92);
+          /* Reduce effective gap for row 1 by shrinking margins into the grid gap */
+          margin-left: calc(var(--gap) * -0.125);
+          margin-right: calc(var(--gap) * -0.125);
+        }
+        /* Fallback targeting first row items even without row class */
+        .ti30xs-calc .keypadArea > :nth-child(-n+5) .key {
+          width: calc(var(--u) * 0.92);
+          margin-left: calc(var(--gap) * -0.125);
+          margin-right: calc(var(--gap) * -0.125);
+        }
+        .ti30xs-calc .row2 .key {
+          width: var(--u);
+          height: var(--rowH);
+        }
+        .ti30xs-calc .opKey {
+          width: calc(var(--u) * 0.78);
+          height: calc(var(--rowH) * 0.92);
+          border-radius: calc(var(--rowH) * 0.55);
+          background: rgba(60, 70, 85, 0.9);
+        }
+        .ti30xs-calc .opKey:hover {
+          background: rgba(80, 90, 105, 0.95);
+        }
+        .ti30xs-calc .opKey:active {
+          background: rgba(50, 60, 75, 0.85);
+        }
+        .ti30xs-calc .key--enter {
+          width: calc(var(--u) * 1.25);
+          justify-self: start;
+          border-radius: calc(var(--rowH) * 0.6);
+        }
+      ` }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "ti30xs-calc bg-gradient-to-b from-gray-800 to-gray-900 shadow-2xl flex flex-col relative",
+            style: {
+              ...shellStyle,
+              ...calculatorStyle
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: onClose,
+                  className: "absolute top-2 right-2 w-6 h-6 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs font-bold z-10",
+                  "aria-label": "Close Calculator",
+                  children: "×"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => setShowSettings(!showSettings),
+                  className: "absolute top-2 left-2 w-6 h-6 rounded-full bg-gray-600 hover:bg-gray-500 text-white text-xs font-bold z-10",
+                  "aria-label": "Settings",
+                  children: "⚙"
+                }
+              ),
+              showSettings && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: "settings-panel absolute top-12 left-2 bg-gray-700 rounded-lg p-3 shadow-lg z-20",
+                  "data-ti30xs-nodrag": true,
+                  style: { width: "clamp(200px, 30vw, 280px)" },
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-white text-xs", children: "Opacity" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "input",
+                        {
+                          type: "range",
+                          min: "0.3",
+                          max: "1",
+                          step: "0.1",
+                          value: opacity,
+                          onChange: (e) => setOpacity(parseFloat(e.target.value)),
+                          className: "w-full"
+                        }
+                      )
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-white text-xs", children: "UI Scale" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "input",
+                        {
+                          type: "range",
+                          min: "0.8",
+                          max: "1.8",
+                          step: "0.1",
+                          value: uiScale,
+                          onChange: (e) => setUiScale(parseFloat(e.target.value)),
+                          className: "w-full"
+                        }
+                      )
+                    ] })
+                  ] })
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: "text-center text-gray-400",
+                  style: {
+                    fontSize: "calc(var(--u) * 0.35)",
+                    fontWeight: "bold",
+                    marginBottom: "calc(var(--u) * 0.3)"
+                  },
+                  children: "TI-30XS"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  ref: lcdRef,
+                  tabIndex: 0,
+                  "aria-label": "Calculator input",
+                  "data-ti30xs-nodrag": true,
+                  className: "bg-gray-900 rounded-lg overflow-hidden border-2 border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500",
+                  style: lcdStyle,
+                  onClick: (e) => {
+                    var _a, _b;
+                    (_a = lcdRef.current) == null ? void 0 : _a.focus();
+                    setKbdActive(true);
+                    const rect = (_b = lcdRef.current) == null ? void 0 : _b.getBoundingClientRect();
+                    const clickX = e.clientX - ((rect == null ? void 0 : rect.left) || 0);
+                    const charWidth = 8;
+                    const approxIndex = Math.floor(clickX / charWidth);
+                    let internal = 0;
+                    let display = 0;
+                    while (internal < currentInput.length && display < approxIndex) {
+                      if (currentInput.startsWith("sqrt(", internal)) {
+                        internal += 5;
+                        display += 2;
+                        continue;
+                      }
+                      if (currentInput.startsWith("pi", internal)) {
+                        internal += 2;
+                        display += 1;
+                        continue;
+                      }
+                      internal += 1;
+                      display += 1;
+                    }
+                    setCursorIndex(
+                      Math.max(0, Math.min(internal, currentInput.length))
+                    );
+                  },
+                  onKeyDown: handleLcdKeyDown,
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "div",
+                      {
+                        className: "bg-black flex items-center justify-between px-2 text-gray-400",
+                        style: { height: "18%", fontSize: "calc(var(--u) * 0.16)" },
+                        children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: angleMode }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "flex items-center gap-2", children: [
+                            shift2nd && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-green-400", children: "2nd" }),
+                            insertMode && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "INS" }),
+                            hypMode && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "HYP" }),
+                            mixedNumberMode && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "MIX" }),
+                            constMode && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "K" }),
+                            memoryHasAnyValue && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "M" })
+                          ] })
+                        ]
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-green-50 text-gray-900 flex-1 p-2 flex flex-col justify-end relative", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "div",
+                        {
+                          style: {
+                            fontSize: "calc(var(--u) * 0.24)",
+                            marginBottom: "2px",
+                            position: "relative",
+                            minHeight: "1.2em"
+                          },
+                          children: katexOn ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            "span",
+                            {
+                              dangerouslySetInnerHTML: {
+                                __html: renderLatexToHtml$1(latexInput || "\\;")
+                              }
+                            }
+                          ) : /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: displayInput || " " })
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "div",
+                        {
+                          style: {
+                            fontSize: "calc(var(--u) * 0.36)",
+                            fontWeight: "bold",
+                            textAlign: "right"
+                          },
+                          children: katexOn ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            "span",
+                            {
+                              dangerouslySetInnerHTML: {
+                                __html: renderLatexToHtml$1(latexResult || "\\;")
+                              }
+                            }
+                          ) : /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: result || " " })
+                        }
+                      )
+                    ] })
+                  ]
+                }
+              ),
+              showModeMenu && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: "absolute top-32 left-8 bg-gray-800 rounded-lg p-3 shadow-xl z-30 border border-gray-600",
+                  "data-ti30xs-nodrag": true,
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-white text-xs font-bold mb-2", children: "Mode Settings" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "button",
+                      {
+                        className: `block w-full text-left px-3 py-1 rounded ${angleMode === "DEG" ? "bg-blue-600" : "bg-gray-700"} text-white text-xs mb-1`,
+                        onClick: () => {
+                          setAngleMode("DEG");
+                          setShowModeMenu(false);
+                        },
+                        children: "Degrees"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "button",
+                      {
+                        className: `block w-full text-left px-3 py-1 rounded ${angleMode === "RAD" ? "bg-blue-600" : "bg-gray-700"} text-white text-xs`,
+                        onClick: () => {
+                          setAngleMode("RAD");
+                          setShowModeMenu(false);
+                        },
+                        children: "Radians"
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "button",
+                      {
+                        className: "block w-full text-center px-3 py-1 rounded bg-gray-600 hover:bg-gray-500 text-white text-xs mt-2",
+                        onClick: () => {
+                          setShowModeMenu(false);
+                        },
+                        children: "Close"
+                      }
+                    )
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: "keypadArea",
+                  "data-ti30xs-nodrag": true,
+                  style: {
+                    display: "grid",
+                    width: "fit-content",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    gridTemplateColumns: "repeat(5, var(--u))",
+                    gridTemplateRows: "repeat(9, var(--rowH))",
+                    gap: "var(--gap)"
+                  },
+                  children: gridMatrix.map((row, rowIdx) => {
+                    return row.map((keyData, colIdx) => {
+                      return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "div",
+                        {
+                          className: rowIdx === 0 ? "row1" : rowIdx === 1 ? "row2" : "",
+                          children: renderKey(keyData)
+                        },
+                        `${rowIdx}-${colIdx}`
+                      );
+                    });
+                  })
+                }
+              )
+            ]
+          }
+        )
+      ]
     }
   );
 }
@@ -4335,8 +5970,8 @@ if (typeof window !== "undefined") {
   window.Components = window.Components || {};
   window.Components.TI30XSCalculator = TI30XSCalculator;
 }
-function Calculator({ onClose: onClose2, dark = false }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(TI30XSCalculator, { onClose: onClose2 });
+function Calculator({ onClose, dark = false }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(TI30XSCalculator, { onClose });
 }
 function USRegionsMap({
   selectedRegion = null,
@@ -7255,7 +8890,7 @@ function ConstitutionExplorer({ onExit, pack }) {
           {
             type: "text",
             placeholder: "Search (e.g. 'speech', 'voting', '14th')",
-            className: "w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 focus:ring-2 focus:ring-sky-500 outline-none transition",
+            className: "w-full sm:w-72 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-600 text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500 outline-none transition",
             value: search,
             onChange: (e) => setSearch(e.target.value)
           }
@@ -7715,7 +9350,7 @@ function EconomicsGraphTool({ onExit }) {
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "select",
               {
-                className: "text-sm bg-white dark:bg-slate-600 border border-slate-300 dark:border-slate-600 rounded px-2 py-1",
+                className: "text-sm bg-white dark:bg-slate-600 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 rounded px-2 py-1",
                 value: activeScenarioIdx,
                 onChange: (e) => setActiveScenarioIdx(Number(e.target.value)),
                 children: SCENARIOS.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("option", { value: i, children: [
@@ -7767,13 +9402,13 @@ function EconomicsGraphTool({ onExit }) {
     ] })
   ] });
 }
-const MapExplorerWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(MapExplorer, { onExit: onClose2 });
-const CivicsReasoningLabWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CivicsReasoningLab, { onExit: onClose2 });
-const HistoryTimelineBuilderWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(HistoryTimelineBuilder, { onExit: onClose2 });
-const ElectoralCollegeSimulatorWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(ElectoralCollegeSimulator, { onExit: onClose2 });
-const ConstitutionExplorerWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(ConstitutionExplorer, { onExit: onClose2, pack: null });
-const EconomicsGraphToolWrapper = ({ onClose: onClose2, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(EconomicsGraphTool, { onExit: onClose2 });
-function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
+const MapExplorerWrapper = ({ onClose, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(MapExplorer, { onExit: onClose });
+const CivicsReasoningLabWrapper = ({ onClose, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CivicsReasoningLab, { onExit: onClose });
+const HistoryTimelineBuilderWrapper = ({ onClose, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(HistoryTimelineBuilder, { onExit: onClose });
+const ElectoralCollegeSimulatorWrapper = ({ onClose, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(ElectoralCollegeSimulator, { onExit: onClose });
+const ConstitutionExplorerWrapper = ({ onClose, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(ConstitutionExplorer, { onExit: onClose, pack: null });
+const EconomicsGraphToolWrapper = ({ onClose, dark }) => /* @__PURE__ */ jsxRuntimeExports.jsx(EconomicsGraphTool, { onExit: onClose });
+function SubjectToolsModal({ subject, dark = false, onClose }) {
   var _a;
   const [selectedTool, setSelectedTool] = reactExports.useState(null);
   const theme = getSubjectTheme(subject == null ? void 0 : subject.toLowerCase(), dark);
@@ -7895,7 +9530,7 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
     {
       className: "fixed inset-0 z-50 flex items-center justify-center p-4",
       style: { backgroundColor: "rgba(0, 0, 0, 0.75)" },
-      onClick: onClose2,
+      onClick: onClose,
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
@@ -7930,7 +9565,7 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
                   /* @__PURE__ */ jsxRuntimeExports.jsx(
                     "button",
                     {
-                      onClick: onClose2,
+                      onClick: onClose,
                       className: "text-3xl font-bold hover:opacity-80 transition-opacity w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/20",
                       "aria-label": "Close tools panel",
                       children: "×"
@@ -8031,7 +9666,7 @@ function SubjectToolsModal({ subject, dark = false, onClose: onClose2 }) {
                   /* @__PURE__ */ jsxRuntimeExports.jsx(
                     "button",
                     {
-                      onClick: onClose2,
+                      onClick: onClose,
                       className: "px-4 py-2 rounded-lg font-medium transition-colors",
                       style: {
                         backgroundColor: (theme == null ? void 0 : theme.accent) || "#64748b",
@@ -8861,9 +10496,9 @@ function normalizeVocabularyEntry(entry) {
   return normalized;
 }
 function mergeVocabularyData(base, override) {
-  const result2 = { ...base };
+  const result = { ...base };
   if (!override || typeof override !== "object") {
-    return result2;
+    return result;
   }
   Object.entries(override).forEach(([subject, entries]) => {
     if (!Array.isArray(entries)) {
@@ -8871,10 +10506,10 @@ function mergeVocabularyData(base, override) {
     }
     const normalizedEntries = entries.map(normalizeVocabularyEntry).filter(Boolean);
     if (normalizedEntries.length) {
-      result2[subject] = normalizedEntries;
+      result[subject] = normalizedEntries;
     }
   });
-  return result2;
+  return result;
 }
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -9753,10 +11388,10 @@ const rectPrismNetRenderer = (params = {}, style) => {
   if (!Number.isFinite(length) || !Number.isFinite(width) || !Number.isFinite(height))
     return null;
   const padding = 10;
-  const scale2 = 1;
-  const L = length * scale2;
-  const W = width * scale2;
-  const H = height * scale2;
+  const scale = 1;
+  const L = length * scale;
+  const W = width * scale;
+  const H = height * scale;
   const elements = [];
   const pointsForBounds = [];
   const drawRect = (x, y, w, h, key, label) => {
@@ -9950,7 +11585,7 @@ function surroundOperatorWithSpaces(source, match, offset) {
 }
 function normalizePunctuationSpacing(value) {
   if (typeof value !== "string") return value;
-  let result2 = value.replace(
+  let result = value.replace(
     /([.,;:!?])(?=\S)/g,
     (match, punct, offset, string) => {
       const nextChar = string[offset + match.length];
@@ -9968,19 +11603,19 @@ function normalizePunctuationSpacing(value) {
   const wordOperators = ["plus", "minus", "times"];
   wordOperators.forEach((op) => {
     const regex = new RegExp(op, "gi");
-    result2 = result2.replace(
+    result = result.replace(
       regex,
       (match, offset, string) => surroundOperatorWithSpaces(string, match, offset)
     );
   });
   const dividedRegex = /divided\s+by/gi;
-  result2 = result2.replace(
+  result = result.replace(
     dividedRegex,
     (match, offset, string) => surroundOperatorWithSpaces(string, match, offset)
   );
-  result2 = result2.replace(/[^\S\r\n]+([.,;:!?])/g, "$1");
-  result2 = result2.replace(/[^\S\r\n]{2,}/g, " ");
-  return result2;
+  result = result.replace(/[^\S\r\n]+([.,;:!?])/g, "$1");
+  result = result.replace(/[^\S\r\n]{2,}/g, " ");
+  return result;
 }
 const LATEX_CONTROL_CHAR_ESCAPE = {
   "\f": "f",
@@ -10244,11 +11879,11 @@ function sanitizeHtmlContent(content, {
     trusted = convertTailwindTableClassesToInlineCss(trusted);
     return trusted;
   }
-  let result2 = formatFractions(
+  let result = formatFractions(
     working.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
   );
-  result2 = convertTailwindTableClassesToInlineCss(result2);
-  return result2;
+  result = convertTailwindTableClassesToInlineCss(result);
+  return result;
 }
 function convertTailwindTableClassesToInlineCss(html) {
   if (typeof html !== "string" || !/<table/i.test(html)) return html;
@@ -26364,9 +27999,9 @@ const QUIZ_GROUPING = {
   // Social Studies: categories are already tidy; no grouping needed
 };
 function buildQuizLibraryFromAppData(data) {
-  const result2 = {};
+  const result = {};
   if (!data || typeof data !== "object") {
-    return result2;
+    return result;
   }
   Object.entries(data).forEach(([subjectName2, subject]) => {
     if (!subject || typeof subject !== "object" || !subject.categories) {
@@ -26441,9 +28076,9 @@ function buildQuizLibraryFromAppData(data) {
         }
       );
     }
-    result2[subjectName2] = { clusters };
+    result[subjectName2] = { clusters };
   });
-  return result2;
+  return result;
 }
 const QUIZ_LIBRARY = buildQuizLibraryFromAppData(AppData);
 if (typeof window !== "undefined") {
@@ -28139,12 +29774,16 @@ function PracticeSessionModal({
   const [duration, setDuration] = React.useState(defaultDuration);
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState("");
-  const handleSubmit = async () => {
+  const startSession = async (practiceMode) => {
     if (submitting) return;
     setError("");
     setSubmitting(true);
     try {
-      await onStart({ mode, durationMinutes: Number(duration) });
+      await onStart({
+        mode,
+        durationMinutes: Number(duration),
+        practiceMode
+      });
     } catch (e) {
       const msg = e && e.message ? e.message : "Failed to start practice session.";
       setError(msg);
@@ -28190,7 +29829,7 @@ function PracticeSessionModal({
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "select",
                   {
-                    className: "w-full rounded-md border px-3 py-2 bg-white text-slate-900",
+                    className: "w-full rounded-md border px-3 py-2 bg-white text-slate-900 dark:bg-slate-800 dark:text-white",
                     style: { borderColor: "var(--modal-border)" },
                     value: duration,
                     onChange: (e) => setDuration(parseInt(e.target.value, 10)),
@@ -28214,7 +29853,7 @@ function PracticeSessionModal({
                 /* @__PURE__ */ jsxRuntimeExports.jsxs(
                   "select",
                   {
-                    className: "w-full rounded-md border px-3 py-2 bg-white text-slate-900",
+                    className: "w-full rounded-md border px-3 py-2 bg-white text-slate-900 dark:bg-slate-800 dark:text-white",
                     style: { borderColor: "var(--modal-border)" },
                     value: mode,
                     onChange: (e) => setMode(e.target.value),
@@ -28237,10 +29876,9 @@ function PracticeSessionModal({
                 {
                   type: "button",
                   onClick: onDismiss,
-                  className: "px-4 py-2 rounded-md border",
+                  className: "px-4 py-2 rounded-md border bg-white text-slate-900 dark:bg-slate-800 dark:text-white",
                   style: {
-                    borderColor: "var(--modal-border)",
-                    color: "var(--text-primary)"
+                    borderColor: "var(--modal-border)"
                   },
                   disabled: submitting,
                   children: "Cancel"
@@ -28250,11 +29888,21 @@ function PracticeSessionModal({
                 "button",
                 {
                   type: "button",
-                  onClick: handleSubmit,
+                  onClick: () => startSession(void 0),
                   className: `px-4 py-2 rounded-md font-semibold ${submitting ? "opacity-70" : ""}`,
                   style: { backgroundColor: "#2563eb", color: "white" },
                   disabled: submitting,
                   children: submitting ? "Starting" : "Start"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  onClick: () => startSession("olympics"),
+                  className: `px-4 py-2 rounded-md font-semibold bg-amber-600 text-white ${submitting ? "opacity-70" : ""}`,
+                  disabled: submitting,
+                  children: submitting ? "Starting" : "Start Olympics"
                 }
               )
             ] })
@@ -28324,10 +29972,16 @@ function App({ externalTheme, onThemeChange }) {
   const currentUserRef = reactExports.useRef(null);
   const [progress, setProgress] = reactExports.useState(() => createEmptyProgress());
   const [quizAttempts, setQuizAttempts] = reactExports.useState([]);
+  const [profileTab, setProfileTab] = reactExports.useState("profile");
+  const [coverageSubject, setCoverageSubject] = reactExports.useState("math");
+  const [coverageData, setCoverageData] = reactExports.useState(null);
+  const [coverageLoading, setCoverageLoading] = reactExports.useState(false);
+  const [coverageError, setCoverageError] = reactExports.useState(null);
   const [showFormulaSheet, setShowFormulaSheet] = reactExports.useState(false);
   const [showToolsModal, setShowToolsModal] = reactExports.useState(false);
   const [showSocialToolsModal, setShowSocialToolsModal] = reactExports.useState(false);
   const [toolsModalSubject, setToolsModalSubject] = reactExports.useState(null);
+  const [showCalculator, setShowCalculator] = reactExports.useState(false);
   const [showNamePrompt, setShowNamePrompt] = reactExports.useState(false);
   const [showPracticeModal, setShowPracticeModal] = reactExports.useState(false);
   const [mathToolsActiveTab, setMathToolsActiveTab] = reactExports.useState("graphing");
@@ -28986,6 +30640,53 @@ function App({ externalTheme, onThemeChange }) {
       return null;
     }
   }, []);
+  const COVERAGE_SUBJECTS = reactExports.useMemo(
+    () => [
+      { slug: "math", label: "Math" },
+      { slug: "rla", label: "RLA" },
+      { slug: "science", label: "Science" },
+      { slug: "social_studies", label: "Social Studies" }
+    ],
+    []
+  );
+  const loadContentCoverage = reactExports.useCallback(
+    async (subjectSlug = coverageSubject) => {
+      setCoverageLoading(true);
+      setCoverageError(null);
+      const token = (typeof window !== "undefined" && window.localStorage ? window.localStorage.getItem("appToken") : null) || authToken || null;
+      const normalized = subjectSlug || "math";
+      if (!token) {
+        setCoverageLoading(false);
+        setCoverageError("Sign in to view content coverage.");
+        return null;
+      }
+      try {
+        const data = await fetchJSON(
+          `${API_BASE_URL}/api/profile/content-coverage?subject=${encodeURIComponent(
+            normalized
+          )}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setCoverageData(data);
+        return data;
+      } catch (error) {
+        console.warn("[coverage] failed to load:", (error == null ? void 0 : error.message) || error);
+        setCoverageError("Unable to load content coverage right now.");
+        return null;
+      } finally {
+        setCoverageLoading(false);
+      }
+    },
+    [coverageSubject, authToken]
+  );
+  const handleCoverageSubjectChange = reactExports.useCallback(
+    async (slug) => {
+      const next = slug || "math";
+      setCoverageSubject(next);
+      await loadContentCoverage(next);
+    },
+    [loadContentCoverage]
+  );
   const goToDashboard = reactExports.useCallback(
     () => hardJump("dashboard", { scrollTarget: "__top" }),
     [hardJump]
@@ -28998,7 +30699,10 @@ function App({ externalTheme, onThemeChange }) {
     () => hardJump("progress", { scrollTarget: "progress" }),
     [hardJump]
   );
-  const goToProfile = reactExports.useCallback(() => hardJump("profile"), [hardJump]);
+  const goToProfile = reactExports.useCallback(() => {
+    setProfileTab("profile");
+    hardJump("profile");
+  }, [hardJump]);
   const goToSettings = reactExports.useCallback(() => {
     navigateTo("settings");
     if (!profileData) {
@@ -29036,6 +30740,11 @@ function App({ externalTheme, onThemeChange }) {
     },
     [activeView, view, selectedSubject2, selectedCategory]
   );
+  reactExports.useEffect(() => {
+    if (activeView === "profile" && profileTab === "coverage") {
+      loadContentCoverage(coverageSubject);
+    }
+  }, [activeView, profileTab, coverageSubject, loadContentCoverage]);
   reactExports.useCallback(
     (targetId) => {
       const id = typeof targetId === "string" ? targetId.replace(/^#/, "") : "";
@@ -29113,14 +30822,6 @@ function App({ externalTheme, onThemeChange }) {
     }
   }, []);
   reactExports.useEffect(() => {
-    if (!VALID_THEMES.has(externalTheme)) {
-      return;
-    }
-    if (preferences.theme !== externalTheme) {
-      applyPreferenceUpdate({ theme: externalTheme });
-    }
-  }, [externalTheme, preferences.theme, applyPreferenceUpdate]);
-  reactExports.useEffect(() => {
     if (preferences.theme === externalTheme) {
       pendingThemeSyncRef.current = null;
       return;
@@ -29139,11 +30840,6 @@ function App({ externalTheme, onThemeChange }) {
     onThemeChange(preferences.theme);
     pendingThemeSyncRef.current = null;
   }, [onThemeChange, preferences.theme, externalTheme]);
-  reactExports.useEffect(() => {
-    if (typeof onThemeChange === "function") {
-      onThemeChange(preferences.theme === "dark" ? "dark" : "light");
-    }
-  }, [onThemeChange, preferences.theme]);
   const handleSettingsInstantChange = reactExports.useCallback(
     (partialPrefs) => {
       setSettingsStatus("");
@@ -30280,6 +31976,8 @@ function App({ externalTheme, onThemeChange }) {
     if (!quizCode) {
       return;
     }
+    const isPremadeQuiz = quizDetails.isPremade === true;
+    const quizVersion = typeof quizDetails.version === "number" ? quizDetails.version : quizDetails.quizVersion || null;
     persistQuizAttempt({
       subject,
       quizCode,
@@ -30302,6 +32000,8 @@ function App({ externalTheme, onThemeChange }) {
           totalQuestions: results.totalQuestions,
           scaledScore: results.scaledScore,
           passed: typeof results.scaledScore === "number" ? results.scaledScore >= GED_PASSING_SCORE : void 0,
+          isPremade: isPremadeQuiz,
+          quizVersion,
           ...responses.length ? { responses } : {},
           ...quizDetails && (quizDetails.assigned_by || quizDetails.assignedBy) ? { assigned_by: quizDetails.assigned_by || quizDetails.assignedBy } : {}
         };
@@ -30313,6 +32013,34 @@ function App({ externalTheme, onThemeChange }) {
           },
           body: JSON.stringify(payload)
         });
+        if (isPremadeQuiz) {
+          try {
+            await fetch(
+              `${API_BASE_URL}/api/premade-quizzes/${encodeURIComponent(
+                quizCode
+              )}/attempt`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                  score: results == null ? void 0 : results.score,
+                  scaledScore: results == null ? void 0 : results.scaledScore,
+                  subject,
+                  isPremade: true,
+                  quizVersion
+                })
+              }
+            );
+          } catch (err) {
+            console.warn(
+              "[quiz] failed to POST /api/premade-quizzes/:id/attempt:",
+              (err == null ? void 0 : err.message) || err
+            );
+          }
+        }
       }
     } catch (e) {
       console.warn(
@@ -30550,7 +32278,16 @@ function App({ externalTheme, onThemeChange }) {
               selectedIcon,
               onIconChange: setSelectedIcon,
               onSaveIcon: handleSaveIcon,
-              iconSaving
+              iconSaving,
+              activeTab: profileTab,
+              onTabChange: setProfileTab,
+              coverageSubject,
+              coverageData,
+              coverageLoading,
+              coverageError,
+              onCoverageSubjectChange: handleCoverageSubjectChange,
+              onReloadCoverage: loadContentCoverage,
+              coverageSubjects: COVERAGE_SUBJECTS
             }
           );
         }
@@ -30622,7 +32359,8 @@ function App({ externalTheme, onThemeChange }) {
                   questions,
                   // Enable formula sheet for Math & Science topic quizzes
                   config: {
-                    formulaSheet: subject === "Math" || subject === "Science"
+                    formulaSheet: subject === "Math" || subject === "Science",
+                    calculator: subject === "Math" || subject === "Science"
                   }
                 };
                 startQuiz2(generatedQuiz, subject);
@@ -30805,10 +32543,26 @@ function ProfileView({
   onFinishOnboarding,
   onCompleteLater,
   finishingOnboarding,
-  onboardingComplete
+  onboardingComplete,
+  activeTab = "profile",
+  onTabChange,
+  coverageSubject,
+  coverageData,
+  coverageLoading,
+  coverageError,
+  onCoverageSubjectChange,
+  onReloadCoverage,
+  coverageSubjects = []
 }) {
   const profile = (data == null ? void 0 : data.profile) || {};
   const challengeOptions = Array.isArray(data == null ? void 0 : data.challengeOptions) ? data.challengeOptions : [];
+  const tabId = activeTab || "profile";
+  const coverageSubjectOptions = Array.isArray(coverageSubjects) && coverageSubjects.length ? coverageSubjects : [
+    { slug: "math", label: "Math" },
+    { slug: "rla", label: "RLA" },
+    { slug: "science", label: "Science" },
+    { slug: "social_studies", label: "Social Studies" }
+  ];
   const totalChallenges = challengeOptions.length;
   const recentSummary = (data == null ? void 0 : data.recentScoresDashboard) || {};
   const legacyScores = (data == null ? void 0 : data.scores) || {};
@@ -30849,19 +32603,19 @@ function ProfileView({
       )
     ];
     const seen = /* @__PURE__ */ new Set();
-    const result2 = [];
+    const result = [];
     orderedSubjects.forEach((subject) => {
       if (!seen.has(subject) && map.has(subject)) {
-        result2.push(map.get(subject));
+        result.push(map.get(subject));
         seen.add(subject);
       }
     });
     map.forEach((value, subject) => {
       if (!seen.has(subject)) {
-        result2.push(value);
+        result.push(value);
       }
     });
-    return result2;
+    return result;
   }, [rawTestPlan, SUBJECT_ORDER]);
   const nextUpcoming = (data == null ? void 0 : data.nextUpcomingTest) || null;
   const formatDayCount = (value) => {
@@ -30925,6 +32679,158 @@ function ProfileView({
   };
   const timezoneLabel = profile.timezone || "America/New_York";
   const reminderLabel = profile.reminderEnabled === false ? "Off" : "On";
+  const renderCoverageTab = () => {
+    var _a, _b, _c;
+    const areas = Array.isArray(coverageData == null ? void 0 : coverageData.contentAreas) ? coverageData.contentAreas : [];
+    const vocabSummary = (coverageData == null ? void 0 : coverageData.vocab) || {};
+    const masteredTotal = Number(((_a = coverageData == null ? void 0 : coverageData.totals) == null ? void 0 : _a.mastered) || 0);
+    const totalQuizzes = Number(((_b = coverageData == null ? void 0 : coverageData.totals) == null ? void 0 : _b.total) || 0);
+    const subjectLabel = ((_c = coverageData == null ? void 0 : coverageData.subject) == null ? void 0 : _c.label) || "Selected Subject Coverage";
+    const coverageAvailable = typeof (coverageData == null ? void 0 : coverageData.coverageAvailable) === "boolean" ? coverageData.coverageAvailable : areas.length > 0;
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+      coverageError && !coverageLoading && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: "rounded-xl border-danger bg-danger-soft p-4 text-sm text-danger",
+          role: "alert",
+          children: coverageError
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "panel-surface rounded-2xl border p-5 shadow-sm space-y-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center justify-between gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-semibold text-primary", children: "Content Coverage" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm text-muted", children: [
+              "Premade quizzes mapped to content areas for ",
+              subjectLabel,
+              "."
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center gap-2", children: [
+            coverageSubjectOptions.map((opt) => {
+              const selected = (coverageSubject || "math") === opt.slug;
+              return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  className: `px-3 py-1.5 rounded-lg text-sm font-semibold border ${selected ? "btn-primary text-white" : "btn-ghost text-secondary border-subtle"}`,
+                  onClick: () => onCoverageSubjectChange == null ? void 0 : onCoverageSubjectChange(opt.slug),
+                  "aria-pressed": selected ? "true" : "false",
+                  disabled: coverageLoading,
+                  children: opt.label
+                },
+                opt.slug
+              );
+            }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                type: "button",
+                className: "inline-flex items-center justify-center rounded-lg btn-info px-3 py-1.5 text-sm font-semibold disabled:opacity-60",
+                onClick: () => onReloadCoverage == null ? void 0 : onReloadCoverage(coverageSubject || "math"),
+                disabled: coverageLoading,
+                children: coverageLoading ? "Loading..." : "Refresh"
+              }
+            )
+          ] })
+        ] }),
+        coverageLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-secondary", children: "Loading coverage..." }) : !coverageAvailable ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-secondary", children: "Coverage mapping is not configured yet for this subject." }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap gap-4 text-sm text-secondary", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl bg-surface-soft px-4 py-3 border-subtle", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs uppercase tracking-wide text-muted", children: "Premade coverage" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-lg font-semibold text-primary", children: [
+              masteredTotal,
+              " mastered / ",
+              totalQuizzes,
+              " mapped"
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl bg-surface-soft px-4 py-3 border-subtle", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs uppercase tracking-wide text-muted", children: "Vocabulary" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-lg font-semibold text-primary", children: [
+              Number(vocabSummary.learned || 0),
+              " learned /",
+              " ",
+              Number(vocabSummary.total || 0),
+              " total"
+            ] })
+          ] })
+        ] })
+      ] }),
+      coverageLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel-surface rounded-2xl border p-5 shadow-sm text-sm text-secondary", children: "Loading content areas..." }) : areas.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "panel-surface rounded-2xl border p-5 shadow-sm text-sm text-secondary", children: "No content areas found for this subject." }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid gap-4 md:grid-cols-2", children: areas.map((area) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "panel-surface rounded-2xl border p-4 shadow-sm space-y-2",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start justify-between gap-3", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-base font-semibold text-primary", children: area.label || area.key || "Content Area" }),
+                area.description ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-secondary line-clamp-3", children: area.description }) : null
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-right text-sm text-secondary whitespace-nowrap", children: [
+                area.masteredCount || 0,
+                "/",
+                area.totalCount || 0,
+                " mastered"
+              ] })
+            ] }),
+            area.totalCount ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-2 w-full rounded-full bg-surface-soft overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: "h-full rounded-full bg-success",
+                style: {
+                  width: `${Math.min(
+                    100,
+                    (area.masteredCount || 0) / (area.totalCount || 1) * 100
+                  ).toFixed(1)}%`
+                },
+                "aria-label": `${area.masteredCount || 0} of ${area.totalCount || 0} mastered`
+              }
+            ) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted", children: "No quizzes mapped yet." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: Array.isArray(area.quizzes) && area.quizzes.length ? area.quizzes.map((quiz) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "span",
+              {
+                className: `rounded-full px-3 py-1 text-xs font-semibold border ${quiz.mastered ? "border-success text-success" : "border-subtle text-secondary"}`,
+                children: quiz.title || quiz.quizId
+              },
+              quiz.quizId
+            )) : /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-muted", children: "No premade quizzes linked." }) })
+          ]
+        },
+        area.id || area.key
+      )) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "panel-surface rounded-2xl border p-5 shadow-sm space-y-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center justify-between", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-base font-semibold text-primary", children: "Vocabulary Progress" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-secondary", children: "Learned terms for this subject." })
+        ] }) }),
+        coverageLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-secondary", children: "Syncing vocabulary..." }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-2 w-full rounded-full bg-surface-soft overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "h-full rounded-full bg-info",
+              style: {
+                width: `${Math.min(
+                  100,
+                  Number(vocabSummary.total || 0) > 0 ? (Number(vocabSummary.learned || 0) || 0) / Math.max(1, Number(vocabSummary.total || 0)) * 100 : 0
+                ).toFixed(1)}%`
+              },
+              "aria-label": `${Number(vocabSummary.learned || 0)} of ${Number(
+                vocabSummary.total || 0
+              )} learned`
+            }
+          ) }),
+          Array.isArray(vocabSummary.recent) && vocabSummary.recent.length ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: vocabSummary.recent.map((term) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
+            {
+              className: "rounded-full bg-surface-soft border-subtle border px-3 py-1 text-xs text-secondary",
+              children: term.term
+            },
+            term.vocabId
+          )) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted", children: "No vocabulary progress yet." })
+        ] })
+      ] })
+    ] });
+  };
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "section",
     {
@@ -30970,366 +32876,409 @@ function ProfileView({
             )
           ] })
         ] }),
-        error && !loading && /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "div",
-          {
-            className: "rounded-xl border-danger bg-danger-soft p-4 text-sm text-danger",
-            role: "alert",
-            children: error
-          }
-        ),
-        !onboardingComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "div",
-          {
-            className: "onboarding-banner text-slate-900",
-            style: {
-              border: "1px solid #f6c",
-              background: "#fff0f6",
-              padding: "1rem",
-              borderRadius: "0.5rem",
-              color: "#0f172a"
-            },
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Welcome!" }),
-              " Before we start, fill this out so we can build you a plan:",
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("ol", { className: "list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Pick the areas you struggle with" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: 'Set your test date (or mark "I passed")' }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Choose a display name" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex flex-col sm:flex-row gap-2", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    id: "finishOnboardingBtn",
-                    type: "button",
-                    onClick: onFinishOnboarding,
-                    className: "inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60",
-                    disabled: finishingOnboarding,
-                    children: finishingOnboarding ? "Checking" : "I'm Done"
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    id: "completeLaterBtn",
-                    type: "button",
-                    onClick: onCompleteLater,
-                    className: "inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold text-slate-900",
-                    "aria-label": "Skip onboarding for now",
-                    children: "Complete Later"
-                  }
-                )
-              ] })
-            ]
-          }
-        ),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "form",
+          "div",
           {
-            onSubmit: onSubmitName,
-            className: `panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${highlightName ? "border-danger" : "border-subtle"}`,
-            "aria-labelledby": "profile-name-heading",
+            className: "flex flex-wrap gap-2",
+            role: "tablist",
+            "aria-label": "Profile tabs",
             children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "h2",
-                  {
-                    id: "profile-name-heading",
-                    className: "text-xl font-semibold text-primary",
-                    children: "Display Name"
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted", children: "This name appears across the app." })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3 sm:flex-row sm:items-center", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "w-full sm:flex-1", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sr-only", children: "Display name" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "input",
-                    {
-                      type: "text",
-                      value: nameDraft,
-                      onChange: (event) => onNameDraftChange(event.target.value),
-                      maxLength: 80,
-                      placeholder: "Your name",
-                      className: "w-full rounded-lg border-subtle px-3 py-2 text-base focus-ring-primary focus:border-primary"
-                    }
-                  )
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    type: "submit",
-                    className: "inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60",
-                    disabled: nameSaving,
-                    children: nameSaving ? "Saving" : "Save Name"
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted", children: "Maximum 80 characters." }),
-              nameStatus && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "p",
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
                 {
-                  className: "text-sm text-secondary",
-                  role: "status",
-                  "aria-live": "polite",
-                  children: nameStatus
+                  type: "button",
+                  onClick: () => onTabChange == null ? void 0 : onTabChange("profile"),
+                  className: `px-3 py-1.5 rounded-lg border text-sm font-semibold ${tabId === "profile" ? "btn-primary text-white" : "btn-ghost text-secondary border-subtle"}`,
+                  "aria-pressed": tabId === "profile" ? "true" : "false",
+                  children: "Profile Settings"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  onClick: () => onTabChange == null ? void 0 : onTabChange("coverage"),
+                  className: `px-3 py-1.5 rounded-lg border text-sm font-semibold ${tabId === "coverage" ? "btn-primary text-white" : "btn-ghost text-secondary border-subtle"}`,
+                  "aria-pressed": tabId === "coverage" ? "true" : "false",
+                  children: "Content Coverage"
                 }
               )
             ]
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-4 md:grid-cols-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "section",
+        tabId === "coverage" ? renderCoverageTab() : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          error && !loading && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
             {
-              id: "testPlanCard",
-              className: `panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${highlightTest ? "border-danger" : "border-subtle"}`,
+              className: "rounded-xl border-danger bg-danger-soft p-4 text-sm text-danger",
+              role: "alert",
+              children: error
+            }
+          ),
+          !onboardingComplete && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              className: "onboarding-banner text-slate-900",
+              style: {
+                border: "1px solid #f6c",
+                background: "#fff0f6",
+                padding: "1rem",
+                borderRadius: "0.5rem",
+                color: "#0f172a"
+              },
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-semibold text-primary", children: "Upcoming Tests" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "div",
-                  {
-                    id: "nextUpcomingSummary",
-                    className: "note text-sm text-secondary",
-                    children: nextUpcomingSummary
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "testPlanList", className: "grid gap-4 md:grid-cols-2", children: normalizedTestPlan.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "col-span-full text-sm text-muted", children: "No subjects available yet." }) : normalizedTestPlan.map((entry) => {
-                  const edits = subjectEdits && subjectEdits[entry.subject] || {
-                    testDate: "",
-                    testLocation: "",
-                    passed: false,
-                    notScheduled: false
-                  };
-                  const savingThisSubject = testSaving === entry.subject;
-                  const isNotScheduled = typeof edits.notScheduled === "boolean" ? edits.notScheduled : !!entry.notScheduled;
-                  const countdownLabel = (() => {
-                    if (isNotScheduled || !entry.testDate || edits.passed) {
-                      return null;
-                    }
-                    if (entry.daysUntil != null) {
-                      const value = entry.daysUntil;
-                      return `${value} day${value === 1 ? "" : "s"} remaining`;
-                    }
-                    return "Countdown not available";
-                  })();
-                  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                    "div",
+                /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Welcome!" }),
+                " Before we start, fill this out so we can build you a plan:",
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("ol", { className: "list-decimal pl-5 text-sm text-slate-700 space-y-1 mt-2", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Pick the areas you struggle with" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: 'Set your test date (or mark "I passed")' }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Choose a display name" })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex flex-col sm:flex-row gap-2", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
                     {
-                      className: "subject-test-block profile-test-card rounded-xl border-subtle panel-surface p-4 space-y-3 shadow-sm",
-                      children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-base font-semibold text-secondary", children: entry.subject }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex flex-col gap-1 text-sm text-secondary", children: [
-                          "Date",
-                          /* @__PURE__ */ jsxRuntimeExports.jsx(
-                            "input",
-                            {
-                              type: "date",
-                              className: "tp-date profile-date-input rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary",
-                              "data-subject": entry.subject,
-                              value: isNotScheduled ? "" : edits.testDate || "",
-                              onChange: (event) => onSubjectFieldChange == null ? void 0 : onSubjectFieldChange(
-                                entry.subject,
-                                "testDate",
-                                event.target.value
-                              ),
-                              disabled: savingThisSubject || isNotScheduled
-                            }
-                          )
-                        ] }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "inline-row checkbox-row flex items-center gap-2 text-sm text-secondary", children: [
-                          /* @__PURE__ */ jsxRuntimeExports.jsx(
-                            "input",
-                            {
-                              type: "checkbox",
-                              className: "tp-not-scheduled h-4 w-4 rounded border-subtle text-info focus-ring-primary",
-                              "data-subject": entry.subject,
-                              checked: !!isNotScheduled,
-                              onChange: (event) => onSubjectFieldChange == null ? void 0 : onSubjectFieldChange(
-                                entry.subject,
-                                "notScheduled",
-                                event.target.checked
-                              ),
-                              disabled: savingThisSubject
-                            }
-                          ),
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "I have not scheduled this test yet" })
-                        ] }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex flex-col gap-1 text-sm text-secondary", children: [
-                          "Location",
-                          /* @__PURE__ */ jsxRuntimeExports.jsx(
-                            "input",
-                            {
-                              type: "text",
-                              className: "tp-location rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary",
-                              placeholder: "Test center (optional)",
-                              "data-subject": entry.subject,
-                              value: edits.testLocation || "",
-                              onChange: (event) => onSubjectFieldChange == null ? void 0 : onSubjectFieldChange(
-                                entry.subject,
-                                "testLocation",
-                                event.target.value
-                              ),
-                              disabled: savingThisSubject
-                            }
-                          )
-                        ] }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "inline-row checkbox-row flex items-center gap-2 text-sm text-secondary", children: [
-                          /* @__PURE__ */ jsxRuntimeExports.jsx(
-                            "input",
-                            {
-                              type: "checkbox",
-                              className: "tp-passed h-4 w-4 rounded border-subtle text-info focus-ring-primary",
-                              "data-subject": entry.subject,
-                              checked: !!edits.passed,
-                              onChange: (event) => onSubjectFieldChange == null ? void 0 : onSubjectFieldChange(
-                                entry.subject,
-                                "passed",
-                                event.target.checked
-                              ),
-                              disabled: savingThisSubject
-                            }
-                          ),
-                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "I already passed this subject" })
-                        ] }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx(
-                          "button",
-                          {
-                            type: "button",
-                            className: "btn tp-save inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60",
-                            "data-subject": entry.subject,
-                            onClick: () => onSubjectSave == null ? void 0 : onSubjectSave(entry.subject),
-                            disabled: savingThisSubject,
-                            children: savingThisSubject ? "Saving" : `Save ${entry.subject}`
-                          }
-                        ),
-                        edits.passed ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-success", children: "Great job! We marked this subject as passed." }) : isNotScheduled ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted", children: "We'll remind you to set a date when you're ready." }) : countdownLabel ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted", children: countdownLabel }) : null
-                      ]
-                    },
-                    entry.subject
-                  );
-                }) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted", children: "Dates saved here will also appear on your dashboard." })
+                      id: "finishOnboardingBtn",
+                      type: "button",
+                      onClick: onFinishOnboarding,
+                      className: "inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60",
+                      disabled: finishingOnboarding,
+                      children: finishingOnboarding ? "Checking" : "I'm Done"
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      id: "completeLaterBtn",
+                      type: "button",
+                      onClick: onCompleteLater,
+                      className: "inline-flex items-center justify-center rounded-lg btn-ghost px-4 py-2 text-sm font-semibold text-slate-900",
+                      "aria-label": "Skip onboarding for now",
+                      children: "Complete Later"
+                    }
+                  )
+                ] })
               ]
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "glass rounded-2xl border-subtle panel-surface p-5 shadow-lg space-y-3", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-semibold text-primary", children: "Preferences Snapshot" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("dl", { className: "space-y-2 text-sm text-secondary", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "font-medium text-secondary", children: "Font Size" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "capitalize text-primary", children: profile.fontSize || "md" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "font-medium text-secondary", children: "Color Contrast" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "capitalize text-primary", children: "Automatic" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "font-medium text-secondary", children: "Timezone" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "text-primary", children: timezoneLabel })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "font-medium text-secondary", children: "Test Reminders" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "text-primary", children: reminderLabel })
-              ] })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted", children: "Adjust these settings anytime from the Settings panel." })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "form",
-          {
-            onSubmit: handleChallengesSubmit,
-            className: `panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${highlightChallenges ? "border-danger" : "border-subtle"}`,
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between gap-2", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-semibold text-primary", children: "Learning Challenges" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                  "button",
-                  {
-                    type: "button",
-                    onClick: () => setShowAllChallenges((v) => !v),
-                    className: "inline-flex items-center justify-center rounded-lg btn-ghost px-2.5 py-1.5 text-xs font-semibold challenges-toggle-btn",
-                    "aria-expanded": showAllChallenges ? "true" : "false",
-                    "aria-controls": "challengeList",
-                    children: [
-                      showAllChallenges ? "Collapse list" : "Show all",
-                      totalChallenges ? ` (${totalChallenges})` : ""
-                    ]
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-secondary", children: "Select the areas you find tough. We'll use this later to build a study plan for you." }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "div",
-                {
-                  id: "challengeList",
-                  className: `${showAllChallenges ? "max-h-none" : "max-h-64 overflow-y-auto"} rounded-lg border-subtle p-2`,
-                  children: Object.keys(groupedChallenges).length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted", children: "No challenge options available yet." }) : Object.keys(groupedChallenges).sort().map((subject) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "challenge-subject font-semibold text-secondary", children: subject }),
-                    Object.keys(groupedChallenges[subject]).sort().map((subtopic) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-1", children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "challenge-subtopic ml-4 text-sm italic text-muted", children: subtopic }),
-                      groupedChallenges[subject][subtopic].map((opt) => {
-                        const isChecked = selectedIds.includes(opt.id);
-                        return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                          "label",
-                          {
-                            className: `ml-8 mt-2 flex items-start gap-2 text-sm rounded-md border px-2 py-1 transition ${isChecked ? "bg-info-soft border-info text-secondary shadow-sm" : "panel-surface border-subtle hover:bg-surface-soft text-muted"}`,
-                            "data-selected": isChecked ? "true" : "false",
-                            children: [
-                              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                                "input",
-                                {
-                                  type: "checkbox",
-                                  className: "challengeBox mt-1 h-4 w-4 rounded border-subtle text-info focus-ring-primary",
-                                  "data-id": opt.id,
-                                  checked: isChecked,
-                                  onChange: () => handleChallengeToggle(opt.id),
-                                  "aria-checked": isChecked,
-                                  "aria-label": opt.label || opt.subtopic || opt.subject
-                                }
-                              ),
-                              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: opt.label || opt.subtopic || opt.subject })
-                            ]
-                          },
-                          opt.id
-                        );
-                      })
-                    ] }, `${subject}-${subtopic}`))
-                  ] }, subject))
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-muted", children: [
-                  "Selected: ",
-                  selectedCount,
-                  totalChallenges ? ` / ${totalChallenges}` : ""
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "form",
+            {
+              onSubmit: onSubmitName,
+              className: `panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${highlightName ? "border-danger" : "border-subtle"}`,
+              "aria-labelledby": "profile-name-heading",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "h2",
+                    {
+                      id: "profile-name-heading",
+                      className: "text-xl font-semibold text-primary",
+                      children: "Display Name"
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted", children: "This name appears across the app." })
                 ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3 sm:flex-row sm:items-center", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "w-full sm:flex-1", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sr-only", children: "Display name" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "input",
+                      {
+                        type: "text",
+                        value: nameDraft,
+                        onChange: (event) => onNameDraftChange(event.target.value),
+                        maxLength: 80,
+                        placeholder: "Your name",
+                        className: "w-full rounded-lg border-subtle px-3 py-2 text-base focus-ring-primary focus:border-primary"
+                      }
+                    )
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      type: "submit",
+                      className: "inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60",
+                      disabled: nameSaving,
+                      children: nameSaving ? "Saving" : "Save Name"
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted", children: "Maximum 80 characters." }),
+                nameStatus && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "p",
                   {
-                    id: "saveChallengesBtn",
-                    type: "submit",
-                    className: "inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60",
-                    disabled: challengesSaving,
-                    children: challengesSaving ? "Saving" : "Save Challenges"
+                    className: "text-sm text-secondary",
+                    role: "status",
+                    "aria-live": "polite",
+                    children: nameStatus
                   }
                 )
-              ] })
-            ]
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          RecentScoresPanel,
-          {
-            title: "Recent Scores",
-            summary: recentSummary,
-            legacyScores,
-            loading
-          }
-        )
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-4 md:grid-cols-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "section",
+              {
+                id: "testPlanCard",
+                className: `panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${highlightTest ? "border-danger" : "border-subtle"}`,
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-semibold text-primary", children: "Upcoming Tests" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "div",
+                    {
+                      id: "nextUpcomingSummary",
+                      className: "note text-sm text-secondary",
+                      children: nextUpcomingSummary
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { id: "testPlanList", className: "grid gap-4 md:grid-cols-2", children: normalizedTestPlan.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "col-span-full text-sm text-muted", children: "No subjects available yet." }) : normalizedTestPlan.map((entry) => {
+                    const edits = subjectEdits && subjectEdits[entry.subject] || {
+                      testDate: "",
+                      testLocation: "",
+                      passed: false,
+                      notScheduled: false
+                    };
+                    const savingThisSubject = testSaving === entry.subject;
+                    const isNotScheduled = typeof edits.notScheduled === "boolean" ? edits.notScheduled : !!entry.notScheduled;
+                    const countdownLabel = (() => {
+                      if (isNotScheduled || !entry.testDate || edits.passed) {
+                        return null;
+                      }
+                      if (entry.daysUntil != null) {
+                        const value = entry.daysUntil;
+                        return `${value} day${value === 1 ? "" : "s"} remaining`;
+                      }
+                      return "Countdown not available";
+                    })();
+                    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "div",
+                      {
+                        className: "subject-test-block profile-test-card rounded-xl border-subtle panel-surface p-4 space-y-3 shadow-sm",
+                        children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-base font-semibold text-secondary", children: entry.subject }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex flex-col gap-1 text-sm text-secondary", children: [
+                            "Date",
+                            /* @__PURE__ */ jsxRuntimeExports.jsx(
+                              "input",
+                              {
+                                type: "date",
+                                className: "tp-date profile-date-input rounded-lg border-subtle px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus-ring-primary focus:border-primary",
+                                "data-subject": entry.subject,
+                                value: isNotScheduled ? "" : edits.testDate || "",
+                                onChange: (event) => onSubjectFieldChange == null ? void 0 : onSubjectFieldChange(
+                                  entry.subject,
+                                  "testDate",
+                                  event.target.value
+                                ),
+                                disabled: savingThisSubject || isNotScheduled
+                              }
+                            )
+                          ] }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "inline-row checkbox-row flex items-center gap-2 text-sm text-secondary", children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx(
+                              "input",
+                              {
+                                type: "checkbox",
+                                className: "tp-not-scheduled h-4 w-4 rounded border-subtle text-info focus-ring-primary",
+                                "data-subject": entry.subject,
+                                checked: !!isNotScheduled,
+                                onChange: (event) => onSubjectFieldChange == null ? void 0 : onSubjectFieldChange(
+                                  entry.subject,
+                                  "notScheduled",
+                                  event.target.checked
+                                ),
+                                disabled: savingThisSubject
+                              }
+                            ),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "I have not scheduled this test yet" })
+                          ] }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex flex-col gap-1 text-sm text-secondary", children: [
+                            "Location",
+                            /* @__PURE__ */ jsxRuntimeExports.jsx(
+                              "input",
+                              {
+                                type: "text",
+                                className: "tp-location rounded-lg border-subtle px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus-ring-primary focus:border-primary",
+                                placeholder: "Test center (optional)",
+                                "data-subject": entry.subject,
+                                value: edits.testLocation || "",
+                                onChange: (event) => onSubjectFieldChange == null ? void 0 : onSubjectFieldChange(
+                                  entry.subject,
+                                  "testLocation",
+                                  event.target.value
+                                ),
+                                disabled: savingThisSubject
+                              }
+                            )
+                          ] }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "inline-row checkbox-row flex items-center gap-2 text-sm text-secondary", children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx(
+                              "input",
+                              {
+                                type: "checkbox",
+                                className: "tp-passed h-4 w-4 rounded border-subtle text-info focus-ring-primary",
+                                "data-subject": entry.subject,
+                                checked: !!edits.passed,
+                                onChange: (event) => onSubjectFieldChange == null ? void 0 : onSubjectFieldChange(
+                                  entry.subject,
+                                  "passed",
+                                  event.target.checked
+                                ),
+                                disabled: savingThisSubject
+                              }
+                            ),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "I already passed this subject" })
+                          ] }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            "button",
+                            {
+                              type: "button",
+                              className: "btn tp-save inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60",
+                              "data-subject": entry.subject,
+                              onClick: () => onSubjectSave == null ? void 0 : onSubjectSave(entry.subject),
+                              disabled: savingThisSubject,
+                              children: savingThisSubject ? "Saving" : `Save ${entry.subject}`
+                            }
+                          ),
+                          edits.passed ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-success", children: "Great job! We marked this subject as passed." }) : isNotScheduled ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted", children: "We'll remind you to set a date when you're ready." }) : countdownLabel ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted", children: countdownLabel }) : null
+                        ]
+                      },
+                      entry.subject
+                    );
+                  }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted", children: "Dates saved here will also appear on your dashboard." })
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "glass rounded-2xl border-subtle panel-surface p-5 shadow-lg space-y-3", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-semibold text-primary", children: "Preferences Snapshot" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("dl", { className: "space-y-2 text-sm text-secondary", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "font-medium text-secondary", children: "Font Size" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "capitalize text-primary", children: profile.fontSize || "md" })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "font-medium text-secondary", children: "Color Contrast" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "capitalize text-primary", children: "Automatic" })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "font-medium text-secondary", children: "Timezone" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "text-primary", children: timezoneLabel })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between rounded-lg bg-surface-soft px-3 py-2 pref-row", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { className: "font-medium text-secondary", children: "Test Reminders" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("dd", { className: "text-primary", children: reminderLabel })
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted", children: "Adjust these settings anytime from the Settings panel." })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "form",
+            {
+              onSubmit: handleChallengesSubmit,
+              className: `panel-surface rounded-2xl border p-5 shadow-sm space-y-4 ${highlightChallenges ? "border-danger" : "border-subtle"}`,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between gap-2", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-semibold text-primary", children: "Learning Challenges" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    "button",
+                    {
+                      type: "button",
+                      onClick: () => setShowAllChallenges((v) => !v),
+                      className: "inline-flex items-center justify-center rounded-lg btn-ghost px-2.5 py-1.5 text-xs font-semibold challenges-toggle-btn",
+                      "aria-expanded": showAllChallenges ? "true" : "false",
+                      "aria-controls": "challengeList",
+                      children: [
+                        showAllChallenges ? "Collapse list" : "Show all",
+                        totalChallenges ? ` (${totalChallenges})` : ""
+                      ]
+                    }
+                  )
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-secondary", children: "Select the areas you find tough. We'll use this later to build a study plan for you." }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "div",
+                  {
+                    id: "challengeList",
+                    className: `${showAllChallenges ? "max-h-none" : "max-h-64 overflow-y-auto"} rounded-lg border-subtle p-2`,
+                    children: Object.keys(groupedChallenges).length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted", children: "No challenge options available yet." }) : Object.keys(groupedChallenges).sort().map((subject) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "challenge-subject font-semibold text-secondary", children: subject }),
+                      Object.keys(groupedChallenges[subject]).sort().map((subtopic) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "div",
+                        {
+                          className: "mt-1",
+                          children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "challenge-subtopic ml-4 text-sm italic text-muted", children: subtopic }),
+                            groupedChallenges[subject][subtopic].map(
+                              (opt) => {
+                                const isChecked = selectedIds.includes(
+                                  opt.id
+                                );
+                                return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                                  "label",
+                                  {
+                                    className: `ml-8 mt-2 flex items-start gap-2 text-sm rounded-md border px-2 py-1 transition ${isChecked ? "bg-info-soft border-info text-secondary shadow-sm" : "panel-surface border-subtle hover:bg-surface-soft text-muted"}`,
+                                    "data-selected": isChecked ? "true" : "false",
+                                    children: [
+                                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                                        "input",
+                                        {
+                                          type: "checkbox",
+                                          className: "challengeBox mt-1 h-4 w-4 rounded border-subtle text-info focus-ring-primary",
+                                          "data-id": opt.id,
+                                          checked: isChecked,
+                                          onChange: () => handleChallengeToggle(opt.id),
+                                          "aria-checked": isChecked,
+                                          "aria-label": opt.label || opt.subtopic || opt.subject
+                                        }
+                                      ),
+                                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: opt.label || opt.subtopic || opt.subject })
+                                    ]
+                                  },
+                                  opt.id
+                                );
+                              }
+                            )
+                          ]
+                        },
+                        `${subject}-${subtopic}`
+                      ))
+                    ] }, subject))
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-muted", children: [
+                    "Selected: ",
+                    selectedCount,
+                    totalChallenges ? ` / ${totalChallenges}` : ""
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      id: "saveChallengesBtn",
+                      type: "submit",
+                      className: "inline-flex items-center justify-center rounded-lg btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-60",
+                      disabled: challengesSaving,
+                      children: challengesSaving ? "Saving" : "Save Challenges"
+                    }
+                  )
+                ] })
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            RecentScoresPanel,
+            {
+              title: "Recent Scores",
+              summary: recentSummary,
+              legacyScores,
+              loading
+            }
+          )
+        ] })
       ] })
     }
   );
@@ -33440,7 +35389,7 @@ function FormulaDisplay({ latex, className = "" }) {
     }
   );
 }
-function ScienceFormulaSheet({ onClose: onClose2 }) {
+function ScienceFormulaSheet({ onClose }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
@@ -33451,7 +35400,7 @@ function ScienceFormulaSheet({ onClose: onClose2 }) {
           "button",
           {
             className: "formula-sheet-close absolute top-3 right-3 font-bold hover:opacity-80 transition-opacity",
-            onClick: onClose2,
+            onClick: onClose,
             type: "button",
             "aria-label": "Close science formula sheet",
             style: { color: "inherit" },
@@ -33483,7 +35432,7 @@ function ScienceFormulaSheet({ onClose: onClose2 }) {
     }
   );
 }
-function FormulaSheetModal({ onClose: onClose2 }) {
+function FormulaSheetModal({ onClose }) {
   const Formula = ({ title, formula, description }) => {
     const sanitizedFormula = typeof formula === "string" ? (() => {
       let working = formula;
@@ -33529,7 +35478,7 @@ function FormulaSheetModal({ onClose: onClose2 }) {
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
-                  onClick: onClose2,
+                  onClick: onClose,
                   className: "formula-sheet-close text-3xl hover:opacity-80 transition-opacity",
                   style: { color: "inherit" },
                   children: "×"
@@ -36410,6 +38359,7 @@ function QuizInterface({
   });
   const [showMathFormulas, setShowMathFormulas] = reactExports.useState(false);
   const [showScienceFormulas, setShowScienceFormulas] = reactExports.useState(false);
+  const [showCalculator, setShowCalculator] = reactExports.useState(false);
   const [showArticle, setShowArticle] = reactExports.useState(Boolean(article));
   const toolPanelRef = reactExports.useRef(null);
   const toolInstanceRef = reactExports.useRef(null);
@@ -36579,8 +38529,9 @@ function QuizInterface({
   );
   const subjectForRender = currentQ.subject || subject || "Default";
   const quizSubject = subject || "Default";
-  const canShowMathFormulas = quizSubject === "Math";
-  const canShowScienceFormulas = quizSubject === "Science";
+  const canShowMathFormulas = quizSubject === "Math" || subjectForRender === "Math" || currentQ && currentQ.subject === "Math";
+  const canShowScienceFormulas = quizSubject === "Science" || subjectForRender === "Science" || currentQ && currentQ.subject === "Science";
+  const calculatorAllowed = currentQ && currentQ.calculator !== false && (subjectForRender === "Math" || quizSubject === "Math" || subjectForRender === "Science" || quizSubject === "Science");
   const subjectColors = SUBJECT_COLORS[subjectForRender] || {};
   const scheme = { ...DEFAULT_COLOR_SCHEME, ...subjectColors };
   const timerStyle = timeLeft <= 60 ? { backgroundColor: scheme.timerLowBg, color: scheme.timerLowText } : {
@@ -36632,7 +38583,7 @@ function QuizInterface({
       try {
         if (!TOOL_PANEL_ENABLED) ;
         if (nextType === "graph") {
-          const mod = await __vitePreload(() => import("./GraphCanvas-BkYFk9Ia.js"), true ? [] : void 0);
+          const mod = await __vitePreload(() => import("./GraphCanvas-DaYgmv8X.js"), true ? [] : void 0);
           const mount = mod && mod.mount;
           const unmount = mod && mod.unmount;
           const GraphCanvas = mod && (mod.default || mod.GraphCanvas);
@@ -36701,6 +38652,7 @@ function QuizInterface({
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fade-in", children: [
     canShowMathFormulas && showMathFormulas && /* @__PURE__ */ jsxRuntimeExports.jsx(FormulaSheetModal, { onClose: () => setShowMathFormulas(false) }),
     canShowScienceFormulas && showScienceFormulas && /* @__PURE__ */ jsxRuntimeExports.jsx(ScienceFormulaSheet, { onClose: () => setShowScienceFormulas(false) }),
+    showCalculator && /* @__PURE__ */ jsxRuntimeExports.jsx(TI30XSCalculator, { onClose: () => setShowCalculator(false) }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
@@ -36742,8 +38694,8 @@ function QuizInterface({
                     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 text-sm font-medium", children: [
                       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: scheme.text }, children: "Olympics" }),
                       /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-base", children: [
-                        "?".repeat(livesRemaining),
-                        "?".repeat(3 - livesRemaining)
+                        "♥".repeat(livesRemaining),
+                        "♡".repeat(3 - livesRemaining)
                       ] }),
                       /* @__PURE__ */ jsxRuntimeExports.jsxs(
                         "span",
@@ -36751,7 +38703,7 @@ function QuizInterface({
                           style: { color: scheme.mutedText },
                           className: "opacity-80",
                           children: [
-                            "Questions: ",
+                            "Attempted: ",
                             totalAnswered
                           ]
                         }
@@ -36762,8 +38714,8 @@ function QuizInterface({
                       {
                         className: `mt-2 px-4 py-2 rounded-lg text-sm font-medium ${lastAnswerCorrect ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 border border-green-300 dark:border-green-700" : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700"}`,
                         children: [
-                          lastAnswerCorrect ? "? Correct!" : "? Incorrect",
-                          !lastAnswerCorrect && livesRemaining > 0 && " � Lives remaining: " + livesRemaining
+                          lastAnswerCorrect ? "✓ Correct!" : "✗ Incorrect",
+                          !lastAnswerCorrect && livesRemaining > 0 && " • Lives remaining: " + livesRemaining
                         ]
                       }
                     )
@@ -36850,6 +38802,21 @@ function QuizInterface({
                           borderColor: "var(--danger-border)"
                         },
                         children: "View Science Formula Sheet"
+                      }
+                    ),
+                    calculatorAllowed && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "button",
+                      {
+                        type: "button",
+                        onClick: () => setShowCalculator(true),
+                        className: "rounded-md px-3 py-1.5 text-sm font-semibold shadow-sm transition",
+                        "data-role": "secondary",
+                        style: {
+                          color: scheme.accentText,
+                          borderColor: scheme.accent
+                        },
+                        "aria-label": "Open Calculator",
+                        children: "Open Calculator"
                       }
                     )
                   ] })
@@ -37415,14 +39382,14 @@ function QuizInterface({
                 "button",
                 {
                   onClick: handleOlympicsQuestionSubmit,
-                  disabled: !answers[currentIndex] && !hasNoOptions,
+                  disabled: !answers[currentIndex],
                   className: "rounded-md px-6 py-2 font-semibold",
                   "data-role": "primary",
                   style: {
                     backgroundColor: scheme.accent,
                     color: scheme.accentText,
                     borderColor: scheme.accent,
-                    opacity: !answers[currentIndex] && !hasNoOptions ? 0.6 : 1
+                    opacity: !answers[currentIndex] ? 0.6 : 1
                   },
                   children: "Submit Answer"
                 }
@@ -37637,14 +39604,25 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
   const checkFillInQuestionCorrect = (q2, userAns) => {
     return isEquivalentAnswer(q2.correctAnswer, userAns);
   };
-  const handleComplete = (result2) => {
+  const handleComplete = (result) => {
+    if (result == null ? void 0 : result.olympicsMode) {
+      const attemptedCount = Array.isArray(result.olympicsHistory) ? result.olympicsHistory.length : typeof result.totalAnswered === "number" ? result.totalAnswered : 0;
+      onComplete({
+        ...result,
+        quiz,
+        subject: quiz.subject,
+        totalAnswered: attemptedCount,
+        totalQuestions: attemptedCount
+      });
+      return;
+    }
     const normalizeText = (val) => (val ?? "").toString().trim().toLowerCase();
     let earnedPoints = 0;
     let possiblePoints = 0;
     (quiz.questions || []).forEach((q2, idx) => {
       const pts = typeof q2.points === "number" && q2.points > 0 ? q2.points : 1;
       possiblePoints += pts;
-      const userAns = result2.answers[idx];
+      const userAns = result.answers[idx];
       let isCorrect = false;
       if (Array.isArray(q2.answerOptions) && q2.answerOptions.length > 0) {
         const correctOpts = q2.answerOptions.filter((o) => o && o.isCorrect);
@@ -37686,11 +39664,11 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       percentage,
       scaledScore,
       passed,
-      answers: result2.answers,
+      answers: result.answers,
       // include raw answers so ResultsScreen can display them
       subject: quiz.subject,
-      marked: result2.marked,
-      confidence: result2.confidence,
+      marked: result.marked,
+      confidence: result.confidence,
       quiz
     });
   };
@@ -37723,21 +39701,21 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
   const [part2Answers, setPart2Answers] = reactExports.useState(
     Array(part2Questions.length).fill(null)
   );
-  const handlePart1Complete = (result2) => {
-    setPart1Result(result2);
+  const handlePart1Complete = (result) => {
+    setPart1Result(result);
     setPart("interstitial");
   };
-  const handlePart2Complete = (result2) => {
+  const handlePart2Complete = (result) => {
     const p1 = part1Result || {
       answers: Array(part1Questions.length).fill(null),
       marked: Array(part1Questions.length).fill(false),
       confidence: Array(part1Questions.length).fill(null)
     };
-    const finalAnswers = [...p1.answers || [], ...result2.answers || []];
-    const finalMarked = [...p1.marked || [], ...result2.marked || []];
+    const finalAnswers = [...p1.answers || [], ...result.answers || []];
+    const finalMarked = [...p1.marked || [], ...result.marked || []];
     const finalConfidence = [
       ...p1.confidence || [],
-      ...result2.confidence || []
+      ...result.confidence || []
     ];
     const normalizeRaw = (val) => {
       if (val === null || val === void 0) return "";
@@ -37787,7 +39765,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
       const na = numericValue(a), nb = numericValue(b);
       return na !== null && nb !== null && Math.abs(na - nb) < 1e-9;
     };
-    const tokenize = (raw) => {
+    const tokenize2 = (raw) => {
       const s = normalizeRaw(raw);
       if (!s) return [];
       if (s.includes(","))
@@ -37813,7 +39791,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
           if (!correct) missing.push(i + 1);
           return;
         }
-        if (user === correct || isNumericEqual(user, correct) || setsEqual(tokenize(user), tokenize(correct))) ;
+        if (user === correct || isNumericEqual(user, correct) || setsEqual(tokenize2(user), tokenize2(correct))) ;
       }
     });
     if (missing.length) {
@@ -37847,7 +39825,7 @@ function MultiPartMathRunner({ quiz, onComplete, onExit }) {
         const user = normalizeRaw(userAns);
         const correct = normalizeRaw(q2.correctAnswer);
         if (user && correct) {
-          isCorrect = user === correct || isNumericEqual(user, correct) || setsEqual(tokenize(user), tokenize(correct));
+          isCorrect = user === correct || isNumericEqual(user, correct) || setsEqual(tokenize2(user), tokenize2(correct));
         }
       }
       if (isCorrect) {
@@ -37996,14 +39974,14 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     }
   };
   const formatTime = (seconds) => `${Math.floor(Math.max(0, seconds) / 60)}:${(Math.max(0, seconds) % 60).toString().padStart(2, "0")}`;
-  const handlePart1Complete = (result2) => {
-    setPart1Result(result2);
+  const handlePart1Complete = (result) => {
+    setPart1Result(result);
     setCurrentPart(2);
   };
   const handlePart2Complete = async () => {
     if (isScoring) return;
-    const result2 = await handleScoreEssay();
-    if (!result2) return;
+    const result = await handleScoreEssay();
+    if (!result) return;
     setCurrentPart(3);
   };
   const handleFinalSubmit = (part3Result) => {
@@ -38092,12 +40070,12 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
         body: JSON.stringify({ essayText, completion: "5/5" })
       });
       if (!response.ok) throw new Error("Failed to score essay.");
-      const result2 = await response.json();
+      const result = await response.json();
       let parsedScore = null;
-      if (result2 && result2.trait1 && result2.trait2 && result2.trait3 && typeof result2.overallScore === "number") {
-        parsedScore = result2;
-      } else if (result2 && result2.candidates && ((_d = (_c = (_b = (_a = result2.candidates[0]) == null ? void 0 : _a.content) == null ? void 0 : _b.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
-        let jsonText = result2.candidates[0].content.parts[0].text.replace(/```json/g, "").replace(/```/g, "").trim();
+      if (result && result.trait1 && result.trait2 && result.trait3 && typeof result.overallScore === "number") {
+        parsedScore = result;
+      } else if (result && result.candidates && ((_d = (_c = (_b = (_a = result.candidates[0]) == null ? void 0 : _a.content) == null ? void 0 : _b.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
+        let jsonText = result.candidates[0].content.parts[0].text.replace(/```json/g, "").replace(/```/g, "").trim();
         parsedScore = JSON.parse(jsonText);
       } else {
         throw new Error("Unexpected essay score format");
@@ -38325,9 +40303,10 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     ] });
   }
   if (results.olympicsMode && results.olympicsHistory) {
+    const attemptedCount = Array.isArray(results.olympicsHistory) ? results.olympicsHistory.length : typeof results.totalAnswered === "number" ? results.totalAnswered : 0;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center fade-in results-screen olympics-summary", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-8", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2", children: "?? Olympics Session Complete" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2", children: "Olympics Session Complete" }),
         results.livesRemaining === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg text-gray-700 dark:text-gray-300", children: "You used all 3 lives." }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-lg text-gray-700 dark:text-gray-300", children: [
           "You ended the session with ",
           results.livesRemaining,
@@ -38338,8 +40317,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-3xl font-bold text-blue-600 dark:text-blue-400", children: results.totalAnswered }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Questions Completed" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-3xl font-bold text-blue-600 dark:text-blue-400", children: attemptedCount }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm text-gray-600 dark:text-gray-400", children: "Questions Attempted" })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-3xl font-bold text-green-600 dark:text-green-400", children: results.totalCorrect }),
@@ -38370,11 +40349,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
                   "span",
                   {
                     className: entry.correct ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400",
-                    children: entry.correct ? "?" : "?"
+                    children: entry.correct ? "✓" : "✗"
                   }
                 ) }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2", children: entry.subject }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2", children: entry.topic || "�" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2", children: entry.topic || "-" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2 text-sm", children: entry.premadeQuizTitle || "Premade Quiz" })
               ]
             },
@@ -38649,7 +40628,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               const na = numericValue(a), nb = numericValue(b);
               return na !== null && nb !== null && Math.abs(na - nb) < 1e-9;
             };
-            const tokenize = (raw) => {
+            const tokenize2 = (raw) => {
               const s = normalizeRaw(raw);
               if (!s) return [];
               if (s.includes(","))
@@ -38669,7 +40648,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               const expected = question.correctAnswer;
               const ue = normalizeRaw(userAnswer);
               const ex = normalizeRaw(expected);
-              isCorrect = Boolean(ex) && Boolean(ue) && (ue === ex || isNumericEqual(ue, ex) || setsEqual(tokenize(ue), tokenize(ex)));
+              isCorrect = Boolean(ex) && Boolean(ue) && (ue === ex || isNumericEqual(ue, ex) || setsEqual(tokenize2(ue), tokenize2(ex)));
             } else {
               isCorrect = false;
             }
@@ -39551,12 +41530,12 @@ function EssayGuide({ onExit }) {
         })
       });
       if (!response.ok) throw new Error("Failed to get score from the server.");
-      const result2 = await response.json();
+      const result = await response.json();
       let parsedScore = null;
-      if (result2 && result2.trait1 && result2.trait2 && result2.trait3 && typeof result2.overallScore === "number") {
-        parsedScore = result2;
-      } else if (result2 && result2.candidates && ((_d = (_c = (_b2 = (_a2 = result2.candidates[0]) == null ? void 0 : _a2.content) == null ? void 0 : _b2.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
-        let jsonText = result2.candidates[0].content.parts[0].text;
+      if (result && result.trait1 && result.trait2 && result.trait3 && typeof result.overallScore === "number") {
+        parsedScore = result;
+      } else if (result && result.candidates && ((_d = (_c = (_b2 = (_a2 = result.candidates[0]) == null ? void 0 : _a2.content) == null ? void 0 : _b2.parts) == null ? void 0 : _c[0]) == null ? void 0 : _d.text)) {
+        let jsonText = result.candidates[0].content.parts[0].text;
         jsonText = jsonText.replace(/```json/g, "").replace(/```/g, "").trim();
         parsedScore = JSON.parse(jsonText);
       } else {
@@ -41273,11 +43252,11 @@ function GeometryPracticeTool({ onExit }) {
       }),
       render: ({ a, b }, context = {}) => {
         const hidden = context.hiddenLabels || [];
-        const scale2 = 10;
+        const scale = 10;
         const startX = 60;
         const startY = 200;
-        const pointB = [startX + a * scale2, startY];
-        const pointC = [startX, startY - b * scale2];
+        const pointB = [startX + a * scale, startY];
+        const pointC = [startX, startY - b * scale];
         return /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { stroke: "currentColor", fill: "none", strokeWidth: "2", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "polygon",
@@ -41295,7 +43274,7 @@ function GeometryPracticeTool({ onExit }) {
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "text",
             {
-              x: startX + a * scale2 / 2,
+              x: startX + a * scale / 2,
               y: startY + 20,
               textAnchor: "middle",
               fill: "currentColor",
@@ -41306,7 +43285,7 @@ function GeometryPracticeTool({ onExit }) {
             "text",
             {
               x: startX - 20,
-              y: startY - b * scale2 / 2,
+              y: startY - b * scale / 2,
               textAnchor: "end",
               dominantBaseline: "middle",
               fill: "currentColor",
@@ -41682,7 +43661,7 @@ function GraphingTool({ onExit }) {
       setError(e.message || "Could not plot equation.");
     }
   };
-  const handleClear2 = () => {
+  const handleClear = () => {
     clearPlottedObjects();
     setError("");
     setTableData([]);
@@ -41798,7 +43777,7 @@ function GraphingTool({ onExit }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
-            onClick: handleClear2,
+            onClick: handleClear,
             className: "w-full p-2 mt-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition",
             children: "Clear All"
           }
@@ -42055,6 +44034,13 @@ function useThemeController() {
         root.classList.toggle("dark", normalized === "dark");
         root.setAttribute("data-theme", normalized);
       }
+      try {
+        if (document.body) {
+          document.body.classList.toggle("dark", normalized === "dark");
+          document.body.setAttribute("data-theme", normalized);
+        }
+      } catch {
+      }
     }
     try {
       if (typeof window !== "undefined" && window.localStorage) {
@@ -42138,4 +44124,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-BOotjip6.js.map
+//# sourceMappingURL=main-FPEUkY79.js.map

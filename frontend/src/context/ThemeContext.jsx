@@ -51,9 +51,21 @@ function applyTheme(theme) {
   if (theme === 'dark') {
     root.classList.add('dark');
     root.setAttribute('data-theme', 'dark');
+    try {
+      if (document.body) {
+        document.body.classList.add('dark');
+        document.body.setAttribute('data-theme', 'dark');
+      }
+    } catch {}
   } else {
     root.classList.remove('dark');
     root.setAttribute('data-theme', 'light');
+    try {
+      if (document.body) {
+        document.body.classList.remove('dark');
+        document.body.setAttribute('data-theme', 'light');
+      }
+    } catch {}
   }
 
   try {

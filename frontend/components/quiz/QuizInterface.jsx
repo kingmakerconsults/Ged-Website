@@ -223,6 +223,13 @@ export function QuizInterface({
       : []
     : [currentAnswer];
 
+  const subjectForRender = currentQ.subject || subject || 'Default';
+  const quizSubject = subject || 'Default';
+
+  const isMathOrScienceQuiz = /^(math|science)$/i.test(String(quizSubject)) ||
+    /^(math|science)$/i.test(String(subjectForRender)) ||
+    /^(math|science)$/i.test(String(currentQ?.subject || ''));
+
   // Enable interactive tool panel only for Math questions (was hard-disabled)
   const TOOL_PANEL_ENABLED = /math/i.test(subjectForRender || subject || '');
 
@@ -233,12 +240,16 @@ export function QuizInterface({
   );
   const hasGeometryDataForRender = Boolean(currentQ && currentQ.geometrySpec);
 
-  const subjectForRender = currentQ.subject || subject || 'Default';
-  const quizSubject = subject || 'Default';
   const formulaSheetEnabled = Boolean(quizConfig?.formulaSheet);
   const canShowMathFormulas = formulaSheetEnabled && quizSubject === 'Math';
   const canShowScienceFormulas =
     formulaSheetEnabled && quizSubject === 'Science';
+
+  // Calculator default-on for Math/Science quizzes unless explicitly disabled.
+  const calculatorAllowed =
+    isMathOrScienceQuiz &&
+    quizConfig?.calculator !== false &&
+    currentQ?.calculator !== false;
   const subjectColors = SUBJECT_COLORS[subjectForRender] || {};
   const scheme = { ...DEFAULT_COLOR_SCHEME, ...subjectColors };
   const timerStyle =
@@ -356,9 +367,9 @@ export function QuizInterface({
                   left
                 </span>
               </div>
-              {formulaSheetEnabled && (
+              {(formulaSheetEnabled || calculatorAllowed) && (
                 <div className="flex flex-wrap justify-end gap-2">
-                  {canShowMathFormulas && (
+                  {formulaSheetEnabled && canShowMathFormulas && (
                     <button
                       type="button"
                       onClick={() => setShowMathFormulas(true)}
@@ -372,7 +383,7 @@ export function QuizInterface({
                       📐 Formula Sheet
                     </button>
                   )}
-                  {canShowScienceFormulas && (
+                  {formulaSheetEnabled && canShowScienceFormulas && (
                     <button
                       type="button"
                       onClick={() => setShowScienceFormulas(true)}
@@ -386,7 +397,7 @@ export function QuizInterface({
                       🧪 Science Formulas
                     </button>
                   )}
-                  {quizConfig?.calculator && (
+                  {calculatorAllowed && (
                     <button
                       type="button"
                       onClick={() => setShowCalculator(true)}
@@ -400,24 +411,26 @@ export function QuizInterface({
                       🧮 Calculator
                     </button>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => setZenMode((prev) => !prev)}
-                    className="rounded-md px-3 py-1.5 text-sm font-semibold shadow-sm transition"
-                    data-role="secondary"
-                    style={{
-                      color: zenMode ? scheme.accent : scheme.text,
-                      borderColor: scheme.accent,
-                      backgroundColor: zenMode
-                        ? `${scheme.accent}22`
-                        : 'transparent',
-                    }}
-                    title={
-                      zenMode ? 'Exit Zen Mode' : 'Zen Mode: Hide distractions'
-                    }
-                  >
-                    {zenMode ? '👁️ Exit Zen' : '🧘 Zen Mode'}
-                  </button>
+                  {formulaSheetEnabled && (
+                    <button
+                      type="button"
+                      onClick={() => setZenMode((prev) => !prev)}
+                      className="rounded-md px-3 py-1.5 text-sm font-semibold shadow-sm transition"
+                      data-role="secondary"
+                      style={{
+                        color: zenMode ? scheme.accent : scheme.text,
+                        borderColor: scheme.accent,
+                        backgroundColor: zenMode
+                          ? `${scheme.accent}22`
+                          : 'transparent',
+                      }}
+                      title={
+                        zenMode ? 'Exit Zen Mode' : 'Zen Mode: Hide distractions'
+                      }
+                    >
+                      {zenMode ? '👁️ Exit Zen' : '🧘 Zen Mode'}
+                    </button>
+                  )}
                 </div>
               )}
             </div>

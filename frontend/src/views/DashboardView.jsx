@@ -21,11 +21,7 @@ export default function DashboardView() {
               window.history.pushState({}, '', '/tools/constitution-explorer');
               window.dispatchEvent(new PopStateEvent('popstate'));
             }}
-            className="block p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition"
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 1)',
-              color: '#1f2937',
-            }}
+            className="block p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition bg-white text-slate-900 dark:bg-slate-800 dark:text-white"
           >
             <div className="font-bold">
               Constitution Explorer — “Rights Arbitrator”
@@ -46,11 +42,7 @@ export default function DashboardView() {
               );
               window.dispatchEvent(new PopStateEvent('popstate'));
             }}
-            className="block p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition"
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 1)',
-              color: '#1f2937',
-            }}
+            className="block p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition bg-white text-slate-900 dark:bg-slate-800 dark:text-white"
           >
             <div className="font-bold">
               Market Simulator — “Supply & Demand Trainer”

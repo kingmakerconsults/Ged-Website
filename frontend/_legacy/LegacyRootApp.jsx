@@ -23226,8 +23226,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
               id="firstName"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600"
-              style={{ color: 'var(--text-primary)' }}
+              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
             />
           </div>
           <div>
@@ -23243,8 +23242,7 @@ function NamePromptModal({ user, onSave, onDismiss }) {
               id="lastName"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600"
-              style={{ color: 'var(--text-primary)' }}
+              className="mt-1 block w-full rounded-md px-3 py-2 shadow-sm focus:outline-none bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
             />
           </div>
         </div>
@@ -23288,12 +23286,16 @@ function PracticeSessionModal({
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState('');
 
-  const handleSubmit = async () => {
+  const startSession = async (practiceMode) => {
     if (submitting) return;
     setError('');
     setSubmitting(true);
     try {
-      await onStart({ mode, durationMinutes: Number(duration) });
+      await onStart({
+        mode,
+        durationMinutes: Number(duration),
+        practiceMode,
+      });
     } catch (e) {
       const msg =
         e && e.message ? e.message : 'Failed to start practice session.';
@@ -23390,7 +23392,7 @@ function PracticeSessionModal({
           </button>
           <button
             type="button"
-            onClick={handleSubmit}
+            onClick={() => startSession(undefined)}
             className={`px-4 py-2 rounded-md font-semibold ${
               submitting ? 'opacity-70' : ''
             }`}
@@ -23398,6 +23400,16 @@ function PracticeSessionModal({
             disabled={submitting}
           >
             {submitting ? 'Starting' : 'Start'}
+          </button>
+          <button
+            type="button"
+            onClick={() => startSession('olympics')}
+            className={`px-4 py-2 rounded-md font-semibold bg-amber-600 text-white ${
+              submitting ? 'opacity-70' : ''
+            }`}
+            disabled={submitting}
+          >
+            {submitting ? 'Starting' : 'Start Olympics'}
           </button>
         </div>
       </div>
@@ -26739,7 +26751,7 @@ function ProfileView({
                         Date
                         <input
                           type="date"
-                          className="tp-date profile-date-input rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary"
+                          className="tp-date profile-date-input rounded-lg border-subtle px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus-ring-primary focus:border-primary"
                           data-subject={entry.subject}
                           value={isNotScheduled ? '' : edits.testDate || ''}
                           onChange={(event) =>
@@ -26773,7 +26785,7 @@ function ProfileView({
                         Location
                         <input
                           type="text"
-                          className="tp-location rounded-lg border-subtle px-3 py-2 focus-ring-primary focus:border-primary"
+                          className="tp-location rounded-lg border-subtle px-3 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus-ring-primary focus:border-primary"
                           placeholder="Test center (optional)"
                           data-subject={entry.subject}
                           value={edits.testLocation || ''}
@@ -27602,8 +27614,7 @@ function AuthScreen({ onLogin }) {
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary"
-              style={{ color: 'var(--text-primary)' }}
+              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 bg-white dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary text-slate-900 dark:text-white"
               autoComplete="email"
               placeholder="you@example.com"
               required
@@ -27622,8 +27633,7 @@ function AuthScreen({ onLogin }) {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary"
-              style={{ color: 'var(--text-primary)' }}
+              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 bg-white dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary text-slate-900 dark:text-white"
               autoComplete={
                 mode === 'login' ? 'current-password' : 'new-password'
               }
@@ -34772,15 +34782,14 @@ function QuizInterface({
                   ) : (
                     <button
                       onClick={handleOlympicsQuestionSubmit}
-                      disabled={!answers[currentIndex] && !hasNoOptions}
+                      disabled={!answers[currentIndex]}
                       className="rounded-md px-6 py-2 font-semibold"
                       data-role="primary"
                       style={{
                         backgroundColor: scheme.accent,
                         color: scheme.accentText,
                         borderColor: scheme.accent,
-                        opacity:
-                          !answers[currentIndex] && !hasNoOptions ? 0.6 : 1,
+                        opacity: !answers[currentIndex] ? 0.6 : 1,
                       }}
                     >
                       Submit Answer
@@ -34997,6 +35006,23 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
   };
 
   const handleComplete = (result) => {
+    if (result?.olympicsMode) {
+      const attemptedCount = Array.isArray(result.olympicsHistory)
+        ? result.olympicsHistory.length
+        : typeof result.totalAnswered === 'number'
+        ? result.totalAnswered
+        : 0;
+
+      onComplete({
+        ...result,
+        quiz,
+        subject: quiz.subject,
+        totalAnswered: attemptedCount,
+        totalQuestions: attemptedCount,
+      });
+      return;
+    }
+
     // 1) helper: normalize text
     const normalizeText = (val) => (val ?? '').toString().trim().toLowerCase();
 
@@ -39603,6 +39629,12 @@ function useThemeController() {
         root.classList.toggle('dark', normalized === 'dark');
         root.setAttribute('data-theme', normalized);
       }
+      try {
+        if (document.body) {
+          document.body.classList.toggle('dark', normalized === 'dark');
+          document.body.setAttribute('data-theme', normalized);
+        }
+      } catch {}
     }
     try {
       if (typeof window !== 'undefined' && window.localStorage) {

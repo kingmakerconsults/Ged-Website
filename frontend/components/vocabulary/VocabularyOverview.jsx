@@ -3,12 +3,15 @@ const { SUBJECT_COLORS, SUBJECT_BG_GRADIENTS } = SubjectVisuals;
 
 const vocabStyles = `
   .vocab-text {
-    color: #0f172a !important;
+    color: var(--text-primary) !important;
   }
   .dark .vocab-text,
   :root.dark .vocab-text,
-  html.dark .vocab-text {
-    color: #e2e8f0 !important;
+  html.dark .vocab-text,
+  :root[data-theme='dark'] .vocab-text,
+  html[data-theme='dark'] .vocab-text,
+  body[data-theme='dark'] .vocab-text {
+    color: var(--text-primary) !important;
   }
 `;
 

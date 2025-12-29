@@ -522,7 +522,7 @@ function ProfileView({
                         Date
                         <input
                           type="date"
-                          className="tp-date profile-date-input rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                          className="tp-date profile-date-input rounded-lg border border-slate-300 px-3 py-2 bg-white text-slate-900 dark:bg-slate-800 dark:text-white dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                           data-subject={entry.subject}
                           value={isNotScheduled ? '' : edits.testDate || ''}
                           onChange={(event) =>
@@ -556,7 +556,7 @@ function ProfileView({
                         Location
                         <input
                           type="text"
-                          className="tp-location rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                          className="tp-location rounded-lg border border-slate-300 px-3 py-2 bg-white text-slate-900 dark:bg-slate-800 dark:text-white dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                           placeholder="Test center (optional)"
                           data-subject={entry.subject}
                           value={edits.testLocation || ''}

@@ -6,6 +6,7 @@ import {
   setViewport,
   subscribe,
 } from './graphStore.js';
+import GraphToolbar from './GraphToolbar.js';
 import {
   determineTickStep,
   evaluateFunctionAt,
@@ -137,7 +138,10 @@ class GraphCanvas {
     this.svg.setAttribute('class', 'graph-canvas-svg');
     this.svg.setAttribute('role', 'application');
     this.svg.setAttribute('aria-label', 'Interactive graphing canvas');
-    this.svg.setAttribute('viewBox', `${this.viewBox.x} ${this.viewBox.y} ${this.viewBox.width} ${this.viewBox.height}`);
+    this.svg.setAttribute(
+      'viewBox',
+      `${this.viewBox.x} ${this.viewBox.y} ${this.viewBox.width} ${this.viewBox.height}`
+    );
     this.root.appendChild(this.svg);
 
     this.gridLayer = document.createElementNS(SVG_NS, 'g');
@@ -160,8 +164,10 @@ class GraphCanvas {
     this.svg.addEventListener('pointerdown', this.handlePointerDown.bind(this));
     this.svg.addEventListener('pointermove', this.handlePointerMove.bind(this));
     window.addEventListener('pointerup', this.handlePointerUp.bind(this));
-    this.svg.addEventListener('wheel', this.handleWheel.bind(this), { passive: false });
-    this.svg.addEventListener('click', evt => {
+    this.svg.addEventListener('wheel', this.handleWheel.bind(this), {
+      passive: false,
+    });
+    this.svg.addEventListener('click', (evt) => {
       if (evt.target === this.svg) {
         setSelected(null);
       }
@@ -169,12 +175,27 @@ class GraphCanvas {
 
     this.panContext = null;
 
-    this.unsubscribe = subscribe(snapshot => {
+    this.unsubscribe = subscribe((snapshot) => {
       this.state = snapshot;
       this.viewBox = { ...snapshot.viewport };
       this.updateViewBox();
       this.render();
     });
+
+    // Load objects from spec if provided
+    if (
+      options.spec &&
+      options.spec.objects &&
+      Array.isArray(options.spec.objects)
+    ) {
+      options.spec.objects.forEach((obj) => {
+        try {
+          addObject(obj);
+        } catch (e) {
+          console.warn('[GraphCanvas] Failed to add object from spec:', e);
+        }
+      });
+    }
 
     this.render();
   }
@@ -271,8 +292,14 @@ class GraphCanvas {
   }
 
   updateViewBox() {
-    this.svg.setAttribute('viewBox', `${this.viewBox.x} ${this.viewBox.y} ${this.viewBox.width} ${this.viewBox.height}`);
-    this.root.style.setProperty('--graph-canvas-background', THEME_TOKENS[this.state.theme].background);
+    this.svg.setAttribute(
+      'viewBox',
+      `${this.viewBox.x} ${this.viewBox.y} ${this.viewBox.width} ${this.viewBox.height}`
+    );
+    this.root.style.setProperty(
+      '--graph-canvas-background',
+      THEME_TOKENS[this.state.theme].background
+    );
   }
 
   screenToGraph(evt) {
@@ -302,12 +329,18 @@ class GraphCanvas {
   }
 
   updateTraceTooltip(evt) {
-    const functions = this.state.objects.filter(obj => obj.type === 'function' || obj.type === 'line');
+    const functions = this.state.objects.filter(
+      (obj) => obj.type === 'function' || obj.type === 'line'
+    );
     if (functions.length === 0) {
       this.hideTraceTooltip();
       return;
     }
-    const selected = this.state.objects.find(obj => obj.id === this.state.selectedId && (obj.type === 'function' || obj.type === 'line'));
+    const selected = this.state.objects.find(
+      (obj) =>
+        obj.id === this.state.selectedId &&
+        (obj.type === 'function' || obj.type === 'line')
+    );
     const target = selected || functions[0];
     const graphPoint = this.screenToGraph(evt);
     let yValue = null;
@@ -319,14 +352,22 @@ class GraphCanvas {
         yValue = metadata.slope * graphPoint.x + metadata.intercept;
       }
     } else {
-      yValue = evaluateFunctionAt({ subtype: target.metadata.subtype, coefficients: target.metadata.coefficients }, graphPoint.x);
+      yValue = evaluateFunctionAt(
+        {
+          subtype: target.metadata.subtype,
+          coefficients: target.metadata.coefficients,
+        },
+        graphPoint.x
+      );
     }
     if (yValue === null || !Number.isFinite(yValue)) {
       this.hideTraceTooltip();
       return;
     }
     const bounds = this.root.getBoundingClientRect();
-    this.traceTooltip.textContent = `(${formatNumber(graphPoint.x)}, ${formatNumber(yValue)})`;
+    this.traceTooltip.textContent = `(${formatNumber(
+      graphPoint.x
+    )}, ${formatNumber(yValue)})`;
     this.traceTooltip.style.left = `${evt.clientX - bounds.left}px`;
     this.traceTooltip.style.top = `${evt.clientY - bounds.top}px`;
     this.traceTooltip.classList.add('visible');
@@ -335,11 +376,16 @@ class GraphCanvas {
   render() {
     const theme = THEME_TOKENS[this.state.theme];
     this.root.style.setProperty('--graph-canvas-background', theme.background);
-    this.traceTooltip.style.background = this.state.theme === 'dark' ? 'rgba(15, 23, 42, 0.92)' : 'rgba(255, 255, 255, 0.95)';
-    this.traceTooltip.style.color = this.state.theme === 'dark' ? '#f8fafc' : '#0f172a';
-    this.traceTooltip.style.boxShadow = this.state.theme === 'dark'
-      ? '0 12px 24px rgba(14, 165, 233, 0.25)'
-      : '0 12px 24px rgba(15, 23, 42, 0.18)';
+    this.traceTooltip.style.background =
+      this.state.theme === 'dark'
+        ? 'rgba(15, 23, 42, 0.92)'
+        : 'rgba(255, 255, 255, 0.95)';
+    this.traceTooltip.style.color =
+      this.state.theme === 'dark' ? '#f8fafc' : '#0f172a';
+    this.traceTooltip.style.boxShadow =
+      this.state.theme === 'dark'
+        ? '0 12px 24px rgba(14, 165, 233, 0.25)'
+        : '0 12px 24px rgba(15, 23, 42, 0.18)';
     this.renderGrid(theme);
     this.renderAxes(theme);
     this.renderObjects(theme);
@@ -462,11 +508,11 @@ class GraphCanvas {
 
   renderObjects(theme) {
     this.objectsLayer.replaceChildren();
-    this.state.objects.forEach(object => {
+    this.state.objects.forEach((object) => {
       const element = this.renderObject(object, theme);
       if (element) {
         element.dataset.id = object.id;
-        element.addEventListener('click', evt => {
+        element.addEventListener('click', (evt) => {
           evt.stopPropagation();
           setSelected(object.id);
         });
@@ -492,10 +538,18 @@ class GraphCanvas {
 
   renderPoint(object, theme) {
     const group = document.createElementNS(SVG_NS, 'g');
-    group.setAttribute('class', `graph-object ${object.id === this.state.selectedId ? 'selected' : ''}`.trim());
+    group.setAttribute(
+      'class',
+      `graph-object ${
+        object.id === this.state.selectedId ? 'selected' : ''
+      }`.trim()
+    );
     group.setAttribute('role', 'img');
     group.setAttribute('aria-label', object.ariaLabel);
-    const svgPoint = this.graphToSvg({ x: object.metadata.x, y: object.metadata.y });
+    const svgPoint = this.graphToSvg({
+      x: object.metadata.x,
+      y: object.metadata.y,
+    });
     const circle = document.createElementNS(SVG_NS, 'circle');
     circle.setAttribute('cx', `${svgPoint.x}`);
     circle.setAttribute('cy', `${svgPoint.y}`);
@@ -521,7 +575,12 @@ class GraphCanvas {
     line.setAttribute('y2', `${svgB.y}`);
     line.setAttribute('stroke', theme.objectStroke);
     line.setAttribute('stroke-width', '0.06');
-    line.setAttribute('class', `graph-object ${object.id === this.state.selectedId ? 'selected' : ''}`.trim());
+    line.setAttribute(
+      'class',
+      `graph-object ${
+        object.id === this.state.selectedId ? 'selected' : ''
+      }`.trim()
+    );
     line.setAttribute('role', 'img');
     line.setAttribute('aria-label', object.ariaLabel);
     return line;
@@ -529,12 +588,19 @@ class GraphCanvas {
 
   renderFunction(object, theme) {
     const range = [this.viewBox.x, this.viewBox.x + this.viewBox.width];
-    const points = sampleFunction({ subtype: object.metadata.subtype, coefficients: object.metadata.coefficients }, range, 260);
+    const points = sampleFunction(
+      {
+        subtype: object.metadata.subtype,
+        coefficients: object.metadata.coefficients,
+      },
+      range,
+      260
+    );
     if (points.length < 2) return null;
     const polyline = document.createElementNS(SVG_NS, 'polyline');
     const svgPoints = points
-      .filter(pt => Number.isFinite(pt.y))
-      .map(pt => {
+      .filter((pt) => Number.isFinite(pt.y))
+      .map((pt) => {
         const svgPt = this.graphToSvg(pt);
         return `${svgPt.x},${svgPt.y}`;
       })
@@ -543,7 +609,12 @@ class GraphCanvas {
     polyline.setAttribute('fill', 'none');
     polyline.setAttribute('stroke', theme.objectStroke);
     polyline.setAttribute('stroke-width', '0.06');
-    polyline.setAttribute('class', `graph-object ${object.id === this.state.selectedId ? 'selected' : ''}`.trim());
+    polyline.setAttribute(
+      'class',
+      `graph-object ${
+        object.id === this.state.selectedId ? 'selected' : ''
+      }`.trim()
+    );
     polyline.setAttribute('role', 'img');
     polyline.setAttribute('aria-label', object.ariaLabel);
     return polyline;
@@ -559,7 +630,12 @@ class GraphCanvas {
 
     const polygon = this.buildInequalityPolygon(coeffs);
     const group = document.createElementNS(SVG_NS, 'g');
-    group.setAttribute('class', `graph-object ${object.id === this.state.selectedId ? 'selected' : ''}`.trim());
+    group.setAttribute(
+      'class',
+      `graph-object ${
+        object.id === this.state.selectedId ? 'selected' : ''
+      }`.trim()
+    );
     group.setAttribute('role', 'img');
     group.setAttribute('aria-label', object.ariaLabel);
     boundary.setAttribute('aria-label', object.ariaLabel);
@@ -569,11 +645,11 @@ class GraphCanvas {
       poly.setAttribute(
         'points',
         polygon
-          .map(pt => {
+          .map((pt) => {
             const svgPt = this.graphToSvg(pt);
             return `${svgPt.x},${svgPt.y}`;
           })
-          .join(' '),
+          .join(' ')
       );
       poly.setAttribute('fill', theme.shadeFill);
       poly.setAttribute('class', 'graph-inequality-fill');
@@ -605,7 +681,7 @@ class GraphCanvas {
     };
 
     const points = [];
-    corners.forEach(pt => {
+    corners.forEach((pt) => {
       const graphPt = { x: pt.x, y: pt.y };
       if (satisfies(graphPt.x, graphPt.y)) {
         points.push(graphPt);
@@ -613,18 +689,31 @@ class GraphCanvas {
     });
 
     const intersections = this.computeBoundaryIntersections(coeffs, bounds);
-    intersections.forEach(pt => {
-      if (!points.some(existing => Math.abs(existing.x - pt.x) < 1e-6 && Math.abs(existing.y - pt.y) < 1e-6)) {
+    intersections.forEach((pt) => {
+      if (
+        !points.some(
+          (existing) =>
+            Math.abs(existing.x - pt.x) < 1e-6 &&
+            Math.abs(existing.y - pt.y) < 1e-6
+        )
+      ) {
         points.push(pt);
       }
     });
 
     if (points.length < 3) return [];
     const centroid = points.reduce(
-      (acc, pt) => ({ x: acc.x + pt.x / points.length, y: acc.y + pt.y / points.length }),
-      { x: 0, y: 0 },
+      (acc, pt) => ({
+        x: acc.x + pt.x / points.length,
+        y: acc.y + pt.y / points.length,
+      }),
+      { x: 0, y: 0 }
     );
-    points.sort((a, b) => Math.atan2(a.y - centroid.y, a.x - centroid.x) - Math.atan2(b.y - centroid.y, b.x - centroid.x));
+    points.sort(
+      (a, b) =>
+        Math.atan2(a.y - centroid.y, a.x - centroid.x) -
+        Math.atan2(b.y - centroid.y, b.x - centroid.x)
+    );
     return points;
   }
 
@@ -646,14 +735,18 @@ class GraphCanvas {
 
     const yAtMinX = slope * minX + intercept;
     const yAtMaxX = slope * maxX + intercept;
-    if (yAtMinX >= minY && yAtMinX <= maxY) points.push({ x: minX, y: yAtMinX });
-    if (yAtMaxX >= minY && yAtMaxX <= maxY) points.push({ x: maxX, y: yAtMaxX });
+    if (yAtMinX >= minY && yAtMinX <= maxY)
+      points.push({ x: minX, y: yAtMinX });
+    if (yAtMaxX >= minY && yAtMaxX <= maxY)
+      points.push({ x: maxX, y: yAtMaxX });
 
     if (Math.abs(slope) > 1e-9) {
       const xAtMinY = (minY - intercept) / slope;
       const xAtMaxY = (maxY - intercept) / slope;
-      if (xAtMinY >= minX && xAtMinY <= maxX) points.push({ x: xAtMinY, y: minY });
-      if (xAtMaxY >= minX && xAtMaxY <= maxX) points.push({ x: xAtMaxY, y: maxY });
+      if (xAtMinY >= minX && xAtMinY <= maxX)
+        points.push({ x: xAtMinY, y: minY });
+      if (xAtMaxY >= minX && xAtMaxY <= maxX)
+        points.push({ x: xAtMaxY, y: maxY });
     }
 
     return points;
@@ -661,3 +754,66 @@ class GraphCanvas {
 }
 
 export default GraphCanvas;
+
+// Module API for mounting from quiz panel
+export function mount(el, payload = {}) {
+  try {
+    const spec = payload.spec || payload.graphSpec || null;
+
+    // Create wrapper for canvas and toolbar
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText =
+      'display: grid; gap: 16px; width: 100%; height: 100%;';
+    el.appendChild(wrapper);
+
+    // Create toolbar container
+    const toolbarContainer = document.createElement('div');
+    wrapper.appendChild(toolbarContainer);
+
+    // Create canvas container
+    const canvasContainer = document.createElement('div');
+    canvasContainer.style.cssText = 'flex: 1; min-height: 400px;';
+    wrapper.appendChild(canvasContainer);
+
+    // Initialize toolbar and canvas
+    const toolbar = new GraphToolbar(toolbarContainer);
+    const canvas = new GraphCanvas(canvasContainer, { spec });
+
+    // Store instances for cleanup
+    el.__graphToolbar = toolbar;
+    el.__graphCanvas = canvas;
+    el.__graphWrapper = wrapper;
+
+    return { toolbar, canvas };
+  } catch (e) {
+    console.warn('[GraphCanvas] mount failed:', e?.message || e);
+    throw e;
+  }
+}
+
+export function unmount(el) {
+  try {
+    if (
+      el &&
+      el.__graphToolbar &&
+      typeof el.__graphToolbar.destroy === 'function'
+    ) {
+      el.__graphToolbar.destroy();
+    }
+    if (
+      el &&
+      el.__graphCanvas &&
+      typeof el.__graphCanvas.destroy === 'function'
+    ) {
+      el.__graphCanvas.destroy();
+    }
+    if (el && el.__graphWrapper) {
+      el.__graphWrapper.remove();
+    }
+  } catch {}
+  if (el) {
+    delete el.__graphToolbar;
+    delete el.__graphCanvas;
+    delete el.__graphWrapper;
+  }
+}
