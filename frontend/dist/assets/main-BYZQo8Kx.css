@@ -602,7 +602,8 @@
   --text-primary: #0f172a;
   --text-secondary: #1f2937;
   --panel-text: #0f172a;
-  --modal-overlay: rgba(15, 23, 42, 0.55);
+  /* Use the theme's overlay surface in light mode (prevents a black backdrop) */
+  --modal-overlay: var(--bg-overlay);
   --modal-surface: #ffffff;
   --modal-border: rgba(148, 163, 184, 0.35);
   --modal-text: #0f172a;

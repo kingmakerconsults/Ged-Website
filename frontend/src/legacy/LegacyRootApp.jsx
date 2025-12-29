@@ -2400,10 +2400,31 @@ function wrapInlineMathForKatex(text) {
         /(\d+)\s*\/\s*(\d+)([A-Za-z])/g,
         (_m, num, den, trailing) => `\\(\\frac{${num}}{${den}}${trailing}\\)`
       );
-      value = value.replace(
-        /(\d+|[A-Za-z])\s*\/\s*(\d+|[A-Za-z])/g,
-        (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
-      );
+      // Only convert a/b into a fraction when it is NOT inside a word.
+      // This prevents corrupting strings like "true/false" -> "tru\frac{e}{f}alse".
+      value = value
+        .replace(
+          /(?<![A-Za-z0-9])([A-Za-z])\s*\/\s*([A-Za-z])(?![A-Za-z0-9])/g,
+          (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+        )
+        .replace(
+          /(?<![A-Za-z0-9])(\d+)\s*\/\s*(\d+)(?![A-Za-z0-9])/g,
+          (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+        )
+        .replace(
+          /(?<![A-Za-z0-9])(\d+)\s*\/\s*([A-Za-z])(?![A-Za-z0-9])/g,
+          (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+        )
+        .replace(
+          /(?<![A-Za-z0-9])([A-Za-z])\s*\/\s*(\d+)(?![A-Za-z0-9])/g,
+          (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+        );
+
+      // Wrap bare LaTeX macros that appear without $...$ or \(...\) delimiters
+      // so KaTeX will actually render them.
+      value = value
+        .replace(/\\frac\s*\{[^{}]+\}\s*\{[^{}]+\}/g, (m) => `\\(${m}\\)`)
+        .replace(/\\sqrt\s*\{[^{}]+\}/g, (m) => `\\(${m}\\)`);
 
       return value;
     })
@@ -34069,14 +34090,33 @@ function QuizInterface({
     const isCorrect = checkOlympicsAnswer(currentIndex);
     const currentQ = questions[currentIndex];
 
+    const historyTopic =
+      currentQ.topic || currentQ.originTopicTitle || currentQ.area || null;
+    const historySourceQuizId =
+      currentQ.originQuizId || currentQ.quizId || currentQ.id || null;
+    const originCategoryName = currentQ.originCategoryName || null;
+    const originTopicTitle = currentQ.originTopicTitle || historyTopic || null;
+    const originQuizTitle =
+      currentQ.originQuizTitle || currentQ.quizTitle || currentQ.title || null;
+    const originPath =
+      currentQ.originPath ||
+      (originCategoryName || originTopicTitle || originQuizTitle
+        ? [originCategoryName, originTopicTitle, originQuizTitle]
+            .filter(Boolean)
+            .join(' / ')
+        : null);
+
     // Record in history
     const historyEntry = {
       questionId: currentQ.id || currentIndex,
       questionIndex: currentIndex,
       subject: currentQ.subject || subject || 'Unknown',
-      topic: currentQ.topic || currentQ.area || null,
-      premadeQuizId: currentQ.originQuizId || currentQ.quizId || null,
-      premadeQuizTitle: currentQ.originQuizTitle || currentQ.quizTitle || null,
+      topic: historyTopic,
+      premadeQuizId: historySourceQuizId,
+      premadeQuizTitle: originPath || originQuizTitle || null,
+      originCategoryName,
+      originTopicTitle,
+      originQuizTitle,
       correct: isCorrect,
     };
 

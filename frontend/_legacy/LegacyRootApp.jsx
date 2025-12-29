@@ -2436,6 +2436,53 @@ function sanitizeUnicode(s) {
   }
 }
 
+// Wrap caret exponents and safe fractions/bare LaTeX macros inside inline math delimiters
+// so KaTeX renders them instead of showing raw "\\frac{...}{...}".
+function wrapInlineMathForKatex(text) {
+  if (typeof text !== 'string' || text.length === 0) return text;
+
+  const segments = extractMathSegments(text);
+  const source = segments.length ? segments : [{ type: 'text', value: text }];
+
+  return source
+    .map((seg) => {
+      if (seg.type === 'math') {
+        return seg.raw || seg.value;
+      }
+
+      let value = seg.value;
+
+      // Wrap bare LaTeX macros that appear without $...$ or \(...\) delimiters.
+      value = value
+        .replace(/\\frac\s*\{[^{}]+\}\s*\{[^{}]+\}/g, (m) => `\\(${m}\\)`)
+        .replace(/\\sqrt\s*\{[^{}]+\}/g, (m) => `\\(${m}\\)`);
+
+      // exponents like x^2
+      value = value.replace(
+        /([A-Za-z0-9)]+)\^(\d+)/g,
+        (_m, base, exp) => `\\(${base}^{${exp}}\\)`
+      );
+
+      // numeric and simple token fractions like 1/2, 3/x, x/4 (avoid words like true/false)
+      value = value
+        .replace(
+          /(?<![A-Za-z0-9])(\d+)\s*\/\s*(\d+)(?![A-Za-z0-9])/g,
+          (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+        )
+        .replace(
+          /(?<![A-Za-z0-9])(\d+)\s*\/\s*([A-Za-z])(?![A-Za-z0-9])/g,
+          (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+        )
+        .replace(
+          /(?<![A-Za-z0-9])([A-Za-z])\s*\/\s*(\d+)(?![A-Za-z0-9])/g,
+          (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+        );
+
+      return value;
+    })
+    .join('');
+}
+
 function renderQuestionTextForDisplay(text, isPremade) {
   // If text contains HTML table tags, render as HTML
   if (
@@ -2455,7 +2502,8 @@ function renderQuestionTextForDisplay(text, isPremade) {
   );
   // Premade path: keep original raw math delimiters and render with KaTeX
   if (useKatex) {
-    return { __html: renderStemWithKatex(sanitizeUnicode(text)) };
+    const prepared = wrapInlineMathForKatex(sanitizeUnicode(text));
+    return { __html: renderStemWithKatex(prepared) };
   }
   // Non-premade path: wrap math expressions with ^ in LaTeX delimiters for KaTeX rendering
   let processedText = sanitizeUnicode(text);
@@ -33849,14 +33897,33 @@ function QuizInterface({
     const isCorrect = checkOlympicsAnswer(currentIndex);
     const currentQ = questions[currentIndex];
 
+    const historyTopic =
+      currentQ.topic || currentQ.originTopicTitle || currentQ.area || null;
+    const historySourceQuizId =
+      currentQ.originQuizId || currentQ.quizId || currentQ.id || null;
+    const originCategoryName = currentQ.originCategoryName || null;
+    const originTopicTitle = currentQ.originTopicTitle || historyTopic || null;
+    const originQuizTitle =
+      currentQ.originQuizTitle || currentQ.quizTitle || currentQ.title || null;
+    const originPath =
+      currentQ.originPath ||
+      (originCategoryName || originTopicTitle || originQuizTitle
+        ? [originCategoryName, originTopicTitle, originQuizTitle]
+            .filter(Boolean)
+            .join(' / ')
+        : null);
+
     // Record in history
     const historyEntry = {
       questionId: currentQ.id || currentIndex,
       questionIndex: currentIndex,
       subject: currentQ.subject || subject || 'Unknown',
-      topic: currentQ.topic || currentQ.area || null,
-      premadeQuizId: currentQ.originQuizId || currentQ.quizId || null,
-      premadeQuizTitle: currentQ.originQuizTitle || currentQ.quizTitle || null,
+      topic: historyTopic,
+      premadeQuizId: historySourceQuizId,
+      premadeQuizTitle: originPath || originQuizTitle || null,
+      originCategoryName,
+      originTopicTitle,
+      originQuizTitle,
       correct: isCorrect,
     };
 

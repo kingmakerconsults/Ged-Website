@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-B0N14MGy.js";
+import { _ as __vitePreload } from "./index-upFwnwEM.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -3783,7 +3783,7 @@ function decimalToFractionTemplate(value, { mixed = false, maxDen = 1e3 } = {}) 
 function isAlpha(ch) {
   return ch >= "a" && ch <= "z" || ch >= "A" && ch <= "Z";
 }
-function parseBalancedGroup(src, startIndex) {
+function parseBalancedGroup(src, startIndex, strict = true) {
   if (src[startIndex] !== "(") {
     throw new Error("Expected (");
   }
@@ -3795,12 +3795,14 @@ function parseBalancedGroup(src, startIndex) {
     else if (ch === ")") {
       depth--;
       if (depth === 0) {
-        const content = src.slice(startIndex + 1, i);
-        return { content, endIndex: i + 1 };
+        const content2 = src.slice(startIndex + 1, i);
+        return { content: content2, endIndex: i + 1 };
       }
     }
   }
-  throw new Error("Mismatched parentheses");
+  if (strict) throw new Error("Mismatched parentheses");
+  const content = src.slice(startIndex + 1);
+  return { content, endIndex: src.length };
 }
 function normalizeTemplatePart(s) {
   const t = String(s ?? "").trim();
@@ -3897,7 +3899,7 @@ function atomToLatex(src, startIndex, caretIndex) {
     return { latex: src.slice(startIndex, j), endIndex: j };
   }
   if (ch === "(") {
-    const g = parseBalancedGroup(src, startIndex);
+    const g = parseBalancedGroup(src, startIndex, false);
     return {
       latex: `(${segmentToLatex(g.content, caretIndex - (startIndex + 1))})`,
       endIndex: g.endIndex
@@ -3909,8 +3911,8 @@ function atomToLatex(src, startIndex, caretIndex) {
       j++;
     const ident = src.slice(startIndex, j);
     if (ident === "frac" && src[j] === "(") {
-      const g1 = parseBalancedGroup(src, j);
-      const g2 = src[g1.endIndex] === "(" ? parseBalancedGroup(src, g1.endIndex) : null;
+      const g1 = parseBalancedGroup(src, j, false);
+      const g2 = src[g1.endIndex] === "(" ? parseBalancedGroup(src, g1.endIndex, false) : null;
       if (!g2) {
         return { latex: "frac", endIndex: j };
       }
@@ -3925,9 +3927,9 @@ function atomToLatex(src, startIndex, caretIndex) {
       };
     }
     if (ident === "mixed" && src[j] === "(") {
-      const gW = parseBalancedGroup(src, j);
-      const gN = src[gW.endIndex] === "(" ? parseBalancedGroup(src, gW.endIndex) : null;
-      const gD = gN && src[gN.endIndex] === "(" ? parseBalancedGroup(src, gN.endIndex) : null;
+      const gW = parseBalancedGroup(src, j, false);
+      const gN = src[gW.endIndex] === "(" ? parseBalancedGroup(src, gW.endIndex, false) : null;
+      const gD = gN && src[gN.endIndex] === "(" ? parseBalancedGroup(src, gN.endIndex, false) : null;
       if (!gN || !gD) {
         return { latex: "mixed", endIndex: j };
       }
@@ -3940,8 +3942,8 @@ function atomToLatex(src, startIndex, caretIndex) {
       };
     }
     if (ident === "root" && src[j] === "(") {
-      const gX = parseBalancedGroup(src, j);
-      const gY = src[gX.endIndex] === "(" ? parseBalancedGroup(src, gX.endIndex) : null;
+      const gX = parseBalancedGroup(src, j, false);
+      const gY = src[gX.endIndex] === "(" ? parseBalancedGroup(src, gX.endIndex, false) : null;
       if (!gY) {
         const xLatex2 = segmentToLatex(gX.content, caretIndex - (j + 1));
         return { latex: `\\sqrt{${xLatex2 || "0"}}`, endIndex: gX.endIndex };
@@ -3957,7 +3959,7 @@ function atomToLatex(src, startIndex, caretIndex) {
     if (ident === "ans" || ident === "Ans")
       return { latex: "\\mathrm{Ans}", endIndex: j };
     if (src[j] === "(") {
-      const g = parseBalancedGroup(src, j);
+      const g = parseBalancedGroup(src, j, false);
       const argLatex = segmentToLatex(g.content, caretIndex - (j + 1));
       if (ident === "sqrt") {
         return { latex: `\\sqrt{${argLatex || "0"}}`, endIndex: g.endIndex };
@@ -5637,7 +5639,7 @@ function TI30XSCalculator({ onClose }) {
     (row) => row.map((id) => id ? KEY_BY_ID.get(id) ?? null : null)
   );
   const calculatorStyle = {
-    "--u": "58px",
+    "--u": `calc(58px * ${uiScale})`,
     // Base unit: EVERYTHING derives from this (scaled up to avoid label overlap)
     "--rowH": "calc(var(--u) * 0.92)",
     // Key row height
@@ -11527,9 +11529,19 @@ function wrapInlineMathForKatex(text) {
       (_m, num, den, trailing) => `\\(\\frac{${num}}{${den}}${trailing}\\)`
     );
     value = value.replace(
-      /(\d+|[A-Za-z])\s*\/\s*(\d+|[A-Za-z])/g,
+      new RegExp("(?<![A-Za-z0-9])([A-Za-z])\\s*\\/\\s*([A-Za-z])(?![A-Za-z0-9])", "g"),
+      (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+    ).replace(
+      new RegExp("(?<![A-Za-z0-9])(\\d+)\\s*\\/\\s*(\\d+)(?![A-Za-z0-9])", "g"),
+      (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+    ).replace(
+      new RegExp("(?<![A-Za-z0-9])(\\d+)\\s*\\/\\s*([A-Za-z])(?![A-Za-z0-9])", "g"),
+      (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
+    ).replace(
+      new RegExp("(?<![A-Za-z0-9])([A-Za-z])\\s*\\/\\s*(\\d+)(?![A-Za-z0-9])", "g"),
       (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
     );
+    value = value.replace(/\\frac\s*\{[^{}]+\}\s*\{[^{}]+\}/g, (m2) => `\\(${m2}\\)`).replace(/\\sqrt\s*\{[^{}]+\}/g, (m2) => `\\(${m2}\\)`);
     return value;
   }).join("");
 }
@@ -38492,13 +38504,22 @@ function QuizInterface({
     }
     const isCorrect = checkOlympicsAnswer(currentIndex);
     const currentQ2 = questions[currentIndex];
+    const historyTopic = currentQ2.topic || currentQ2.originTopicTitle || currentQ2.area || null;
+    const historySourceQuizId = currentQ2.originQuizId || currentQ2.quizId || currentQ2.id || null;
+    const originCategoryName = currentQ2.originCategoryName || null;
+    const originTopicTitle = currentQ2.originTopicTitle || historyTopic || null;
+    const originQuizTitle = currentQ2.originQuizTitle || currentQ2.quizTitle || currentQ2.title || null;
+    const originPath = currentQ2.originPath || (originCategoryName || originTopicTitle || originQuizTitle ? [originCategoryName, originTopicTitle, originQuizTitle].filter(Boolean).join(" / ") : null);
     const historyEntry = {
       questionId: currentQ2.id || currentIndex,
       questionIndex: currentIndex,
       subject: currentQ2.subject || subject || "Unknown",
-      topic: currentQ2.topic || currentQ2.area || null,
-      premadeQuizId: currentQ2.originQuizId || currentQ2.quizId || null,
-      premadeQuizTitle: currentQ2.originQuizTitle || currentQ2.quizTitle || null,
+      topic: historyTopic,
+      premadeQuizId: historySourceQuizId,
+      premadeQuizTitle: originPath || originQuizTitle || null,
+      originCategoryName,
+      originTopicTitle,
+      originQuizTitle,
       correct: isCorrect
     };
     setOlympicsHistory((prev) => [...prev, historyEntry]);
@@ -44325,4 +44346,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-CU_KvRwZ.js.map
+//# sourceMappingURL=main-joPpCGY_.js.map

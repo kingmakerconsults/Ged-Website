@@ -14502,11 +14502,128 @@ app.get('/api/all-quizzes', (req, res) => {
 // normalizing challenge_tags using subtopic/category mapping when absent.
 const getPremadeQuestions = (subject, count) => {
   const allQuestions = [];
+  const slugify = (value) =>
+    (value || '')
+      .toString()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '');
+
+  const pushQuestion = (
+    normalized,
+    {
+      categoryName,
+      topicTitle,
+      topicId = null,
+      originQuizId,
+      originQuizTitle,
+      originQuizSetLabel = null,
+    }
+  ) => {
+    if (!normalized || typeof normalized !== 'object') return;
+
+    // Ensure topic is never null by falling back to categoryName
+    const safeTopic =
+      normalized.topic || topicTitle || categoryName || 'General';
+
+    // Ensure quiz title is specific, falling back to topic or category
+    const safeOriginQuizTitle =
+      originQuizTitle ||
+      normalized.originQuizTitle ||
+      normalized.quizTitle ||
+      topicTitle ||
+      categoryName ||
+      'Premade Quiz';
+
+    const pathParts = [categoryName, safeTopic];
+    if (
+      safeOriginQuizTitle &&
+      safeOriginQuizTitle !== safeTopic &&
+      safeOriginQuizTitle !== categoryName
+    ) {
+      pathParts.push(safeOriginQuizTitle);
+    }
+
+    allQuestions.push({
+      ...normalized,
+      subject: normalized.subject || subject,
+      topic: safeTopic,
+      originCategoryName: normalized.originCategoryName || categoryName || null,
+      originTopicId: normalized.originTopicId || topicId || null,
+      originTopicTitle: normalized.originTopicTitle || safeTopic,
+      originQuizId:
+        normalized.originQuizId ||
+        originQuizId ||
+        normalized.quizCode ||
+        normalized.quizId ||
+        normalized.id ||
+        null,
+      originQuizTitle: normalized.originQuizTitle || safeOriginQuizTitle,
+      originQuizSetLabel: normalized.originQuizSetLabel || originQuizSetLabel,
+      originPath:
+        normalized.originPath || pathParts.filter(Boolean).join(' / '),
+    });
+  };
+
   if (ALL_QUIZZES[subject] && ALL_QUIZZES[subject].categories) {
     Object.entries(ALL_QUIZZES[subject].categories).forEach(
       ([categoryName, category]) => {
         if (category && Array.isArray(category.topics)) {
           category.topics.forEach((topic) => {
+            const topicTitle =
+              topic?.title || topic?.topic || topic?.name || categoryName;
+            const topicId = topic?.id || null;
+
+            // If quiz sets exist, attach origin quiz metadata per set.
+            const quizzes = Array.isArray(topic?.quizzes) ? topic.quizzes : [];
+            quizzes.forEach((quiz) => {
+              if (!quiz) return;
+              const setLabel = quiz.label || quiz.setLabel || null;
+              const quizTitle =
+                quiz.title ||
+                quiz.name ||
+                (topicTitle && setLabel
+                  ? `${topicTitle} (${setLabel})`
+                  : topicTitle) ||
+                'Premade Quiz';
+              const quizId =
+                quiz.quizCode ||
+                quiz.quizId ||
+                quiz.id ||
+                `${subject}:${slugify(categoryName)}:${slugify(
+                  topicTitle
+                )}:${slugify(setLabel || quizTitle)}`;
+
+              const questions = Array.isArray(quiz.questions)
+                ? quiz.questions
+                : [];
+              questions.forEach((q, i) => {
+                const cloned = q && typeof q === 'object' ? { ...q } : q;
+                const normalized = ensureQuestionTags(
+                  subject,
+                  categoryName,
+                  topic,
+                  cloned,
+                  i
+                );
+                if (normalized.content && normalized.content.questionText) {
+                  normalized.question = normalized.content.questionText;
+                }
+                if (normalized.content && normalized.content.passage) {
+                  normalized.passage = normalized.content.passage;
+                }
+                pushQuestion(normalized, {
+                  categoryName,
+                  topicTitle,
+                  topicId,
+                  originQuizId: quizId,
+                  originQuizTitle: quizTitle,
+                  originQuizSetLabel: setLabel,
+                });
+              });
+            });
+
             if (Array.isArray(topic?.questions)) {
               topic.questions.forEach((q, i) => {
                 const cloned = q && typeof q === 'object' ? { ...q } : q;
@@ -14525,7 +14642,16 @@ const getPremadeQuestions = (subject, count) => {
                 if (normalized.content && normalized.content.passage) {
                   normalized.passage = normalized.content.passage;
                 }
-                allQuestions.push(normalized);
+                const originQuizId = `${subject}:${slugify(
+                  categoryName
+                )}:${slugify(topicTitle)}`;
+                pushQuestion(normalized, {
+                  categoryName,
+                  topicTitle,
+                  topicId,
+                  originQuizId,
+                  originQuizTitle: topicTitle,
+                });
               });
             }
           });
@@ -14882,12 +15008,32 @@ app.post(
         const pulled = getPremadeQuestions(subj, questionsNeeded * 2); // pull extra to allow shuffle
         if (Array.isArray(pulled)) {
           pulled.forEach((q) => {
+            const originCategoryName = q.originCategoryName || null;
+            const originTopicTitle =
+              q.originTopicTitle || q.topic || q.area || null;
+            const originQuizTitle =
+              q.originQuizTitle ||
+              q.quizTitle ||
+              q.title ||
+              originTopicTitle ||
+              null;
+            const originPath =
+              q.originPath ||
+              (originCategoryName || originTopicTitle || originQuizTitle
+                ? [originCategoryName, originTopicTitle, originQuizTitle]
+                    .filter(Boolean)
+                    .join(' / ')
+                : null);
             pool.push({
               ...q,
               subject: q.subject || subj,
-              // Add origin metadata for Olympics mode
-              originQuizId: q.quizId || q.id || null,
-              originQuizTitle: q.quizTitle || q.title || null,
+              topic: q.topic || originTopicTitle || null,
+              originCategoryName,
+              originTopicTitle,
+              originQuizId:
+                q.originQuizId || q.quizCode || q.quizId || q.id || null,
+              originQuizTitle,
+              originPath,
             });
           });
         } else {
