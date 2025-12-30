@@ -29,9 +29,10 @@ export function normalizeImageUrl(url) {
   if (!filename) return '';
 
   // If already under images/<Subject>/..., preserve subject
-  let subjectFolder = segments.length >= 3 && segments[0].toLowerCase() === 'images'
-    ? segments[1]
-    : null;
+  let subjectFolder =
+    segments.length >= 3 && segments[0].toLowerCase() === 'images'
+      ? segments[1]
+      : null;
 
   // Otherwise infer subject from any segment
   if (!subjectFolder) {
