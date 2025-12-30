@@ -56,41 +56,30 @@ export function normalizeLineBreaks(value) {
   if (typeof value !== 'string') return value;
   return value
     .replace(/\r\n?/g, '\n')
-    .replace(/([^\n])\n(?!\n)/g, '$1 ')
-    .replace(/\n{3,}/g, '\n\n');
-}
+  // Strip any domain
+  p = p.replace(/^https?:\/\/[^/]+/i, '');
+  // Remove leading/trailing whitespace and slashes
+  p = p.replace(/^\s+|\s+$/g, '').replace(/^\/+|\/+$/g, '');
 
-export function surroundOperatorWithSpaces(source, match, offset) {
-  const before = offset > 0 ? source[offset - 1] : '';
-  const after =
-    offset + match.length < source.length ? source[offset + match.length] : '';
-  const isAlphaBefore = before && /[A-Za-z]/.test(before);
-  const isAlphaAfter = after && /[A-Za-z]/.test(after);
-  if (isAlphaBefore || isAlphaAfter) {
-    return match;
+  // Convert legacy prefixes to /images
+  p = p.replace(/^frontend\/(?:Images|images)\//i, 'images/');
+  p = p.replace(/^frontend\/(?:Images|images)/i, 'images');
+  p = p.replace(/^(?:Images|images)\//i, 'images/');
+
+  // If it's still not under images/, treat it as a bare filename
+  if (!p.toLowerCase().startsWith('images/')) {
+    p = 'images/' + p;
   }
-  const trimmed = match.replace(/\s+/g, ' ').trim();
-  const leading = before && !/[\s\n]/.test(before) ? ' ' : '';
-  const trailing = after && !/[\s\n]/.test(after) ? ' ' : '';
-  return `${leading}${trimmed}${trailing}`;
-}
 
-export function normalizePunctuationSpacing(value) {
-  if (typeof value !== 'string') return value;
-  let result = value.replace(
-    /([.,;:!?])(?=\S)/g,
-    (match, punct, offset, string) => {
-      const nextChar = string[offset + match.length];
-      if (!nextChar) return match;
-      if (/\s/.test(nextChar)) return match;
-      if (
-        (punct === ':' || punct === ',' || punct === '.') &&
-        /[0-9]/.test(nextChar)
-      ) {
-        return match;
-      }
-      if ((punct === ':' || punct === '.') && nextChar === '/') {
-        return match;
+  // Normalize common subject folder variant
+  p = p.replace(/^images\/Social_Studies\//i, 'images/Social Studies/');
+
+  // Ensure leading slash
+  if (!p.startsWith('/')) p = '/' + p;
+
+  // Remove duplicate slashes
+  p = p.replace(/\/+/, '/');
+  return p;
       }
       return `${punct} `;
     }
@@ -524,33 +513,18 @@ export function resolveAssetUrl(src) {
     s = pathAndRest;
   }
 
-  // Already absolute and NOT one of our legacy hosts? keep it as-is
-  if (
-    /^https?:\/\//i.test(s) ||
-    s.startsWith('data:') ||
-    s.startsWith('blob:')
-  ) {
-    return s;
-  }
+  // Keep data: and blob: URLs unchanged
+  if (s.startsWith('data:') || s.startsWith('blob:')) return s;
 
-  // normalize to our internal pattern first
-  const normalized = normalizeImagePath(s); // e.g. /frontend/Images/Social Studies/foo.png
+  // Convert Netlify-hosted legacy quiz images to internal paths
+  s = s.replace(/^https?:\/\/[^/]+\/(?:frontend)\/(?:Images|images)\//i, 'images/');
 
-  // our working CDN / static host
-  const NETLIFY_ROOT = 'https://ezged.netlify.app';
+  // Already absolute and not one of our legacy forms? keep it as-is
+  if (/^https?:\/\//i.test(s)) return s;
 
-  // if it's one of our quiz images, serve it from Netlify and KEEP /frontend/Images path
-  if (normalized.startsWith('/frontend/Images/')) {
-    return `${NETLIFY_ROOT}${normalized}`;
-  }
-
-  // fallback: current origin
-  const origin =
-    (typeof window !== 'undefined' &&
-      window.location &&
-      window.location.origin) ||
-    '';
-  return origin + normalized;
+  // normalize to our internal pattern
+  const normalized = normalizeImagePath(s); // e.g. /images/Social Studies/foo.png
+  return normalized;
 }
 
 export function getOptionText(opt) {

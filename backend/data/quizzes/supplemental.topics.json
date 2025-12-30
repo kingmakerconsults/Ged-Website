@@ -6089,6 +6089,23 @@
     }
   },
   {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Quantitative Problem Solving",
+    "topic": {
+      "id": "math_quant_bar_graph_pizza",
+      "title": "Interpreting Bar Graphs",
+      "description": "Read a bar chart and answer basic comparison questions.",
+      "config": {
+        "totalTime": 300,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [{ "name": "Quiz", "questionCount": 2 }]
+      },
+      "file": "backend/data/quizzes/math/math_quant_bar_graph_pizza.js"
+    }
+  },
+  {
     "subjectKey": "Social Studies",
     "subjectFolder": "social-studies",
     "categoryName": "U.S. History",

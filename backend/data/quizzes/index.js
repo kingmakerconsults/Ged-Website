@@ -16,7 +16,27 @@ function normalizeQuizText(str) {
     .replace(/â‰ˆ/g, '≈')
     .replace(/â‰¤/g, '≤')
     .replace(/â‰¥/g, '≥')
-    .replace(/â‰ /g, '≠');
+    .replace(/â‰ /g, '≠')
+    // Normalize image/static asset paths used by quizzes.
+    // Desired format is absolute-from-web-root: /images/...
+    .replace(/src="(?:Images|images)\//g, 'src="/images/')
+    .replace(/src='(?:Images|images)\//g, "src='/images/")
+    .replace(/href="(?:Images|images)\//g, 'href="/images/')
+    .replace(/href='(?:Images|images)\//g, "href='/images/")
+    // Convert absolute Netlify-hosted legacy paths to /images
+    .replace(/https?:\/\/[^\s"']+\/frontend\/(?:Images|images)\//gi, '/images/')
+    // Convert legacy backend-served /frontend/Images paths to /images
+    .replace(/\/(?:frontend)\/(?:Images|images)\//g, '/images/')
+    .replace(/^(?:frontend)\/(?:Images|images)\//i, '/images/')
+    // Fix common subject folder variant
+    .replace(/\/images\/Social_Studies\//g, '/images/Social Studies/')
+    // Normalize image/static asset paths used by quizzes.
+    // Desired format is absolute-from-web-root: /images/...
+    .replace(/src="(?:\/frontend\/)?(?:Images|images)\//g, 'src="/images/')
+    .replace(/src='(?:\/frontend\/)?(?:Images|images)\//g, "src='/images/")
+    .replace(/href="(?:\/frontend\/)?(?:Images|images)\//g, 'href="/images/')
+    .replace(/href='(?:\/frontend\/)?(?:Images|images)\//g, "href='/images/")
+    .replace(/^(?:Images|images)\//, '/images/');
 }
 
 function normalizeDeep(value) {
