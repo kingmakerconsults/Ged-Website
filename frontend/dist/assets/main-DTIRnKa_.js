@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-CG_9EDgE.js";
+import { _ as __vitePreload } from "./index-NC5JImRB.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -38,34 +38,36 @@ function normalizeImageUrl(url) {
   if (!url) return "";
   let cleaned = String(url).trim();
   cleaned = cleaned.replace(/^https?:\/\/[^/]+/i, "");
+  cleaned = cleaned.replace(/\\+/g, "/").replace(/\/+/, "/");
   cleaned = cleaned.replace(/^\/+/, "");
-  const segments = cleaned.split("/").filter((s) => s);
+  cleaned = cleaned.replace(/^frontend\/(?:Images|images)\//i, "images/");
+  cleaned = cleaned.replace(/^frontend\/(?:Images|images)/i, "images");
+  cleaned = cleaned.replace(/^(?:Images|images)\//i, "images/");
+  const segments = cleaned.split("/").filter(Boolean);
   if (segments.length === 0) return "";
   const filename = segments[segments.length - 1];
   if (!filename) return "";
-  let subject = "Social_Studies";
-  for (const segment of segments) {
-    const lower = segment.toLowerCase().replace(/[_\s-]+/g, "");
-    if (lower.includes("math")) {
-      subject = "Math";
-      break;
-    } else if (lower.includes("science")) {
-      subject = "Science";
-      break;
-    } else if (lower.includes("social") || lower.includes("studies")) {
-      subject = "Social_Studies";
-      break;
-    } else if (lower.includes("rla") || lower.includes("language")) {
-      subject = "RLA";
-      break;
-    } else if (lower.includes("workforce")) {
-      subject = "Workforce_Readiness";
-      break;
+  let subjectFolder = segments.length >= 3 && segments[0].toLowerCase() === "images" ? segments[1] : null;
+  if (!subjectFolder) {
+    subjectFolder = "Social Studies";
+    for (const segment of segments) {
+      const lower = segment.toLowerCase().replace(/[_\s-]+/g, "");
+      if (lower.includes("math")) {
+        subjectFolder = "Math";
+        break;
+      }
+      if (lower.includes("science") || lower === "scince") {
+        subjectFolder = "Science";
+        break;
+      }
+      if (lower.includes("social") || lower.includes("studies")) {
+        subjectFolder = "Social Studies";
+        break;
+      }
     }
   }
-  const result = `https://ezged.netlify.app/frontend/Images/${subject}/${filename}`;
-  console.log(`[normalizeImageUrl] ${url} → ${result}`);
-  return result;
+  if (subjectFolder === "Social_Studies") subjectFolder = "Social Studies";
+  return `/images/${subjectFolder}/${filename}`;
 }
 const DEV_ROLES = [
   { value: "student", label: "Student" },
@@ -44554,4 +44556,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-DWQRWLtd.js.map
+//# sourceMappingURL=main-DTIRnKa_.js.map

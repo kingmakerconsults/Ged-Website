@@ -1,7 +1,6 @@
 /**
- * NETLIFY-LOCKED IMAGE URL NORMALIZER
- * Ensures ALL images load from the canonical Netlify CDN path
- * Strips any legacy domains (quiz.ez-ged.com, render.com, localhost, etc.)
+ * IMAGE URL NORMALIZER
+ * Always returns a deployment-friendly internal path: /images/<Subject>/<filename>
  */
 
 export function normalizeImageUrl(url) {
@@ -9,49 +8,53 @@ export function normalizeImageUrl(url) {
 
   let cleaned = String(url).trim();
 
-  // Remove any domain completely
+  // Strip any domain
   cleaned = cleaned.replace(/^https?:\/\/[^/]+/i, '');
 
-  // Remove leading slashes
+  // Normalize slashes
+  cleaned = cleaned.replace(/\\+/g, '/').replace(/\/+/, '/');
+
+  // Drop leading slashes for easier parsing
   cleaned = cleaned.replace(/^\/+/, '');
 
-  // Split the path into segments
-  const segments = cleaned.split('/').filter((s) => s);
+  // Convert legacy prefixes
+  cleaned = cleaned.replace(/^frontend\/(?:Images|images)\//i, 'images/');
+  cleaned = cleaned.replace(/^frontend\/(?:Images|images)/i, 'images');
+  cleaned = cleaned.replace(/^(?:Images|images)\//i, 'images/');
 
+  const segments = cleaned.split('/').filter(Boolean);
   if (segments.length === 0) return '';
 
-  // Extract filename (last segment)
   const filename = segments[segments.length - 1];
-
   if (!filename) return '';
 
-  // Determine subject from path
-  let subject = 'Social_Studies'; // default
+  // If already under images/<Subject>/..., preserve subject
+  let subjectFolder = segments.length >= 3 && segments[0].toLowerCase() === 'images'
+    ? segments[1]
+    : null;
 
-  // Check all segments for subject indicators
-  for (const segment of segments) {
-    const lower = segment.toLowerCase().replace(/[_\s-]+/g, '');
-
-    if (lower.includes('math')) {
-      subject = 'Math';
-      break;
-    } else if (lower.includes('science')) {
-      subject = 'Science';
-      break;
-    } else if (lower.includes('social') || lower.includes('studies')) {
-      subject = 'Social_Studies';
-      break;
-    } else if (lower.includes('rla') || lower.includes('language')) {
-      subject = 'RLA';
-      break;
-    } else if (lower.includes('workforce')) {
-      subject = 'Workforce_Readiness';
-      break;
+  // Otherwise infer subject from any segment
+  if (!subjectFolder) {
+    subjectFolder = 'Social Studies';
+    for (const segment of segments) {
+      const lower = segment.toLowerCase().replace(/[_\s-]+/g, '');
+      if (lower.includes('math')) {
+        subjectFolder = 'Math';
+        break;
+      }
+      if (lower.includes('science') || lower === 'scince') {
+        subjectFolder = 'Science';
+        break;
+      }
+      if (lower.includes('social') || lower.includes('studies')) {
+        subjectFolder = 'Social Studies';
+        break;
+      }
     }
   }
 
-  // Always return Netlify-locked canonical URL
-  const result = `https://ezged.netlify.app/frontend/Images/${subject}/${filename}`;
-  console.log(`[normalizeImageUrl] ${url} → ${result}`);
-  return result;
+  // Normalize common variants
+  if (subjectFolder === 'Social_Studies') subjectFolder = 'Social Studies';
+
+  return `/images/${subjectFolder}/${filename}`;
 }
