@@ -28528,8 +28528,8 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   const [orgSummary, setOrgSummary] = useState(null);
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [summaryError, setSummaryError] = useState('');
-  // Force-load Question Browser tab first for super admin
-  const [activeTab, setActiveTab] = useState('question-browser'); // organizations, users, activity, questions, question-browser
+  // Force-load Question Audit tab first for super admin
+  const [activeTab, setActiveTab] = useState('question-audit'); // organizations, users, activity, question-audit
   // Prevent repeated fetch loops when API returns empty/500
   const usersLoadAttempted = useRef(false);
   const activityLoadAttempted = useRef(false);
@@ -28821,25 +28821,14 @@ function SuperAdminDashboard({ user, token, onLogout }) {
           </button>
           <button
             type="button"
-            onClick={() => setActiveTab('question-browser')}
+            onClick={() => setActiveTab('question-audit')}
             className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
-              activeTab === 'question-browser'
+              activeTab === 'question-audit'
                 ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
                 : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
             }`}
           >
-            Question Browser
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('questions')}
-            className={`px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${
-              activeTab === 'questions'
-                ? 'bg-white dark:bg-slate-700 text-primary shadow-sm'
-                : 'text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50'
-            }`}
-          >
-            Questions Catalog
+            Question Audit
           </button>
         </div>
 
@@ -29465,26 +29454,9 @@ function OrgAdminDashboard({ user, token, onLogout }) {
               </section>
             )}
 
-            {/* Question Browser Tab */}
-            {activeTab === 'question-browser' && (
+            {/* Question Audit Tab */}
+            {activeTab === 'question-audit' && (
               <section className="rounded-3xl border-subtle panel-surface shadow-sm">
-                <SuperAdminQuestionBrowser />
-              </section>
-            )}
-
-            {/* Questions Catalog Tab */}
-            {activeTab === 'questions' && (
-              <section className="rounded-3xl border-subtle panel-surface shadow-sm">
-                <SuperAdminAllQuestions />
-              </section>
-            )}
-
-            {/* TEMP: Always render catalog for debugging so logs appear even if tab state is off */}
-            {activeTab !== 'questions' && (
-              <section className="rounded-3xl border-subtle panel-surface shadow-sm mt-4">
-                <div className="mb-2 text-xs text-amber-600">
-                  Debug: Questions Catalog rendered even though tab inactive
-                </div>
                 <SuperAdminAllQuestions />
               </section>
             )}

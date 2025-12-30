@@ -4515,19 +4515,33 @@ try {
       },
     })
   );
-  app.use(
-    '/quizzes',
-    express.static(path.join(__dirname, 'quizzes'), {
-      maxAge: '1h',
-      setHeaders(res, filePath) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        // Force UTF-8 for quiz JSON files
-        if (filePath.endsWith('.json')) {
-          res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        }
-      },
-    })
-  );
+  // IMPORTANT: Avoid serving backend-local quiz overrides by default.
+  // This prevents stale files in backend/quizzes from masking the canonical
+  // build artifacts in public/quizzes.
+  const allowBackendQuizOverrides =
+    String(process.env.ALLOW_BACKEND_QUIZ_OVERRIDES || '').trim() === 'true';
+  if (allowBackendQuizOverrides) {
+    app.use(
+      '/quizzes',
+      express.static(path.join(__dirname, 'quizzes'), {
+        maxAge: '1h',
+        setHeaders(res, filePath) {
+          res.setHeader('Access-Control-Allow-Origin', '*');
+          // Force UTF-8 for quiz JSON files
+          if (filePath.endsWith('.json')) {
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+          }
+        },
+      })
+    );
+    console.log(
+      '[static] Backend quiz overrides ENABLED (ALLOW_BACKEND_QUIZ_OVERRIDES=true)'
+    );
+  } else {
+    console.log(
+      '[static] Backend quiz overrides disabled (serving only public/quizzes)'
+    );
+  }
   // Serve subject badge assets at a stable path
   app.use(
     '/badges',

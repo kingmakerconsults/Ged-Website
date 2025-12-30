@@ -93,7 +93,13 @@
             window.location.hostname === 'localhost' ||
             window.location.hostname === '127.0.0.1';
           if (isLocalhost) {
-            window.API_BASE_URL = 'http://localhost:3002';
+            // If running on Vite (5173), point to backend (3002 default)
+            if (window.location.port === '5173') {
+              window.API_BASE_URL = 'http://localhost:3002';
+            } else {
+              // If running on backend port (3002, 3003, etc), use relative path
+              window.API_BASE_URL = window.location.origin;
+            }
             return;
           }
           // Production: use configured base or default
@@ -255,6 +261,9 @@
             'rla.quizzes.part2.json',
             'science.quizzes.part1.json',
             'science.quizzes.part2.json',
+            // Social Studies can be split into parts; keep the legacy single-file name as a fallback.
+            'social-studies.quizzes.part1.json',
+            'social-studies.quizzes.part2.json',
             'social-studies.quizzes.json',
             'social-studies.extras.json',
             'workforce.quizzes.json',

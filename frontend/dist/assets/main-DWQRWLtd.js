@@ -1,5 +1,5 @@
 import { r as reactExports, a as reactDomExports, R as React } from "./vendor-react-DS8qr_A4.js";
-import { _ as __vitePreload } from "./index-upFwnwEM.js";
+import { _ as __vitePreload } from "./index-CG_9EDgE.js";
 var jsxRuntime = { exports: {} };
 var reactJsxRuntime_production_min = {};
 /**
@@ -33,6 +33,39 @@ var m = reactDomExports;
 {
   client.createRoot = m.createRoot;
   client.hydrateRoot = m.hydrateRoot;
+}
+function normalizeImageUrl(url) {
+  if (!url) return "";
+  let cleaned = String(url).trim();
+  cleaned = cleaned.replace(/^https?:\/\/[^/]+/i, "");
+  cleaned = cleaned.replace(/^\/+/, "");
+  const segments = cleaned.split("/").filter((s) => s);
+  if (segments.length === 0) return "";
+  const filename = segments[segments.length - 1];
+  if (!filename) return "";
+  let subject = "Social_Studies";
+  for (const segment of segments) {
+    const lower = segment.toLowerCase().replace(/[_\s-]+/g, "");
+    if (lower.includes("math")) {
+      subject = "Math";
+      break;
+    } else if (lower.includes("science")) {
+      subject = "Science";
+      break;
+    } else if (lower.includes("social") || lower.includes("studies")) {
+      subject = "Social_Studies";
+      break;
+    } else if (lower.includes("rla") || lower.includes("language")) {
+      subject = "RLA";
+      break;
+    } else if (lower.includes("workforce")) {
+      subject = "Workforce_Readiness";
+      break;
+    }
+  }
+  const result = `https://ezged.netlify.app/frontend/Images/${subject}/${filename}`;
+  console.log(`[normalizeImageUrl] ${url} → ${result}`);
+  return result;
 }
 const DEV_ROLES = [
   { value: "student", label: "Student" },
@@ -90,7 +123,7 @@ function AuthScreen({ onLogin }) {
   const handleCredentialResponse = reactExports.useCallback(
     async (response) => {
       try {
-        const res = await fetch(`${API_BASE_URL$1}/api/auth/google`, {
+        const res2 = await fetch(`${API_BASE_URL$1}/api/auth/google`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -98,11 +131,11 @@ function AuthScreen({ onLogin }) {
           credentials: "include",
           body: JSON.stringify({ credential: response.credential })
         });
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(text || `Server responded with ${res.status}`);
+        if (!res2.ok) {
+          const text = await res2.text();
+          throw new Error(text || `Server responded with ${res2.status}`);
         }
-        const { user, token } = await res.json();
+        const { user, token } = await res2.json();
         onLogin(user, token);
       } catch (error) {
         console.error("Login Error:", error);
@@ -318,9 +351,46 @@ if (typeof window !== "undefined") {
 function SuperAdminAllQuestions() {
   const [allQuestions, setAllQuestions] = reactExports.useState([]);
   const [loading, setLoading] = reactExports.useState(true);
-  const [filter, setFilter] = reactExports.useState("");
+  const [selectedSubject2, setSelectedSubject] = reactExports.useState(null);
+  const [selectedIndex, setSelectedIndex] = reactExports.useState(0);
+  const [filterType, setFilterType] = reactExports.useState("all");
   const [error, setError] = reactExports.useState("");
-  const [catalogKeys, setCatalogKeys] = reactExports.useState([]);
+  const normalizeSubjectKey = (value) => String(value || "").toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
+  const stringLooksLikeHasImage = (value) => {
+    if (typeof value !== "string") return false;
+    const s = value.toLowerCase();
+    if (s.includes("<img")) return true;
+    if (s.includes("/images/") || s.includes("images/")) return true;
+    if (/(?:^|[^a-z])images\//i.test(value)) return true;
+    if (/\.(png|jpe?g|gif|svg|webp)(\?|#|$)/i.test(value)) return true;
+    return false;
+  };
+  const questionHasImage = (q2) => {
+    if (!q2 || typeof q2 !== "object") return false;
+    const content = q2.content && typeof q2.content === "object" ? q2.content : {};
+    const direct = q2.image || q2.imageUrl || q2.imageURL || q2.graphic || q2.stimulusImage && q2.stimulusImage.src || q2.stimulusImage || content.image || content.imageURL || content.imageUrl;
+    if (typeof direct === "string") {
+      if (direct.trim()) return true;
+    } else if (direct) {
+      return true;
+    }
+    if (String(q2.type || "").toLowerCase() === "image") return true;
+    if (typeof q2.stimulus === "object" && q2.stimulus) {
+      const stim = q2.stimulus;
+      if (typeof stim.image === "string" && stim.image.trim()) return true;
+      if (typeof stim.src === "string" && stim.src.trim()) return true;
+    }
+    if (stringLooksLikeHasImage(q2.stimulus)) return true;
+    const maybeHtml = [
+      q2.passage,
+      q2.question,
+      q2.questionText,
+      content.passage,
+      content.question,
+      content.questionText
+    ];
+    return maybeHtml.some(stringLooksLikeHasImage);
+  };
   const rebuildFromCatalog = (catalog) => {
     if (!catalog || typeof catalog !== "object") return [];
     let list = [];
@@ -403,35 +473,49 @@ function SuperAdminAllQuestions() {
   };
   reactExports.useEffect(() => {
     const catalog = window.PREMADE_QUIZ_CATALOG || window.AppData || window.ExpandedQuizData || {};
-    console.log("[SuperAdminAllQuestions] catalog on mount:", catalog);
     console.log(
-      "[SuperAdminAllQuestions] Sample Math structure:",
-      catalog == null ? void 0 : catalog.Math
+      "[SuperAdminAllQuestions] Initial catalog keys:",
+      Object.keys(catalog)
     );
-    try {
-      setCatalogKeys(Object.keys(catalog || {}));
-    } catch {
-    }
     let list = rebuildFromCatalog(catalog);
     console.log(
-      "[SuperAdminAllQuestions] Extracted questions:",
-      list.length,
-      list.slice(0, 2)
+      "[SuperAdminAllQuestions] Initial rebuilt list length:",
+      list.length
     );
+    setAllQuestions(list);
+    (async () => {
+      try {
+        const apiBase2 = window.API_BASE_URL || "";
+        const res2 = await fetch(`${apiBase2}/api/all-quizzes`, {
+          cache: "no-store"
+        });
+        if (!res2.ok) return;
+        const data = await res2.json();
+        const rebuilt = rebuildFromCatalog(data);
+        if (!Array.isArray(rebuilt) || rebuilt.length === 0) return;
+        console.log(
+          `[SuperAdminAllQuestions] Rebuilt ${rebuilt.length} questions from /api/all-quizzes`
+        );
+        setAllQuestions((prev) => {
+          const existingIds = new Set((prev || []).map((q2) => q2.id));
+          const uniqueNew = rebuilt.filter((q2) => !existingIds.has(q2.id));
+          return [...prev || [], ...uniqueNew];
+        });
+      } catch (e) {
+        console.warn("[SuperAdminAllQuestions] /api/all-quizzes fetch failed");
+      }
+    })();
     if (list.length === 0 && typeof window !== "undefined") {
       const onQuizDataLoaded = (evt) => {
+        console.log("[SuperAdminAllQuestions] quizDataLoaded event received");
         const nextCatalog = window.PREMADE_QUIZ_CATALOG || window.AppData || (evt == null ? void 0 : evt.detail) || {};
         console.log(
-          "[SuperAdminAllQuestions] quizDataLoaded event catalog:",
-          nextCatalog
+          "[SuperAdminAllQuestions] Event catalog keys:",
+          Object.keys(nextCatalog)
         );
-        try {
-          setCatalogKeys(Object.keys(nextCatalog || {}));
-        } catch {
-        }
         const rebuilt = rebuildFromCatalog(nextCatalog);
         console.log(
-          "[SuperAdminAllQuestions] Premade questions after event:",
+          "[SuperAdminAllQuestions] Rebuilt list from event:",
           rebuilt.length
         );
         setAllQuestions((prev) => {
@@ -442,30 +526,97 @@ function SuperAdminAllQuestions() {
       window.addEventListener("quizDataLoaded", onQuizDataLoaded, {
         once: true
       });
+      (async () => {
+        try {
+          console.log(
+            "[SuperAdminAllQuestions] Attempting direct fetch of quiz files..."
+          );
+          const apiBase2 = window.API_BASE_URL || "";
+          const QUIZ_FILENAMES = [
+            "math.quizzes.part1.json",
+            "math.quizzes.part2.json",
+            "rla.quizzes.part1.json",
+            "rla.quizzes.part2.json",
+            "science.quizzes.part1.json",
+            "science.quizzes.part2.json",
+            "social-studies.quizzes.json",
+            "social-studies.extras.json",
+            "workforce.quizzes.json"
+          ];
+          const fetches = QUIZ_FILENAMES.map(
+            (f2) => fetch(`${apiBase2}/quizzes/${f2}`).then((r) => r.ok ? r.json() : null).catch((e) => null)
+          );
+          const results = await Promise.all(fetches);
+          const validResults = results.filter(
+            (r) => r && typeof r === "object"
+          );
+          if (validResults.length > 0) {
+            console.log(
+              `[SuperAdminAllQuestions] Directly fetched ${validResults.length} quiz files`
+            );
+            const tempCatalog = {};
+            validResults.forEach((data) => {
+              if (!data.subject) return;
+              if (!tempCatalog[data.subject]) {
+                tempCatalog[data.subject] = { categories: {} };
+              }
+              if (data.categories) {
+                Object.entries(data.categories).forEach(
+                  ([catName, catData]) => {
+                    if (!tempCatalog[data.subject].categories[catName]) {
+                      tempCatalog[data.subject].categories[catName] = {
+                        quizzes: [],
+                        topics: []
+                      };
+                    }
+                    const targetCat = tempCatalog[data.subject].categories[catName];
+                    if (Array.isArray(catData.topics)) {
+                      catData.topics.forEach((topic) => {
+                        targetCat.topics.push(topic);
+                        if (Array.isArray(topic.quizzes)) {
+                          targetCat.quizzes.push(...topic.quizzes);
+                        }
+                      });
+                    }
+                    if (Array.isArray(catData.quizzes)) {
+                      targetCat.quizzes.push(...catData.quizzes);
+                    }
+                  }
+                );
+              }
+            });
+            const directList = rebuildFromCatalog(tempCatalog);
+            console.log(
+              `[SuperAdminAllQuestions] Rebuilt ${directList.length} questions from direct fetch`
+            );
+            if (directList.length > 0) {
+              setAllQuestions((prev) => {
+                const existingIds = new Set(prev.map((q2) => q2.id));
+                const uniqueNew = directList.filter(
+                  (q2) => !existingIds.has(q2.id)
+                );
+                return [...prev, ...uniqueNew];
+              });
+            }
+          }
+        } catch (err) {
+          console.error("[SuperAdminAllQuestions] Direct fetch failed:", err);
+        }
+      })();
     }
-    console.log(
-      "[SuperAdminAllQuestions] Premade questions count:",
-      list.length
-    );
     const apiBase = window.API_BASE_URL || "";
     const token = localStorage.getItem("appToken");
-    console.log("[SuperAdminAllQuestions] Token present:", !!token);
-    console.log(
-      "[SuperAdminAllQuestions] API URL:",
-      `${apiBase}/api/admin/all-questions`
-    );
     fetch(`${apiBase}/api/admin/all-questions`, {
       headers: token ? {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
       } : { "Content-Type": "application/json" }
-    }).then((res) => {
-      if (!res.ok) {
-        throw new Error(`Failed to fetch AI questions: ${res.status}`);
+    }).then((res2) => {
+      if (!res2.ok) {
+        throw new Error(`Failed to fetch AI questions: ${res2.status}`);
       }
-      return res.json();
+      return res2.json();
     }).then((aiRows) => {
-      console.log("[SuperAdminAllQuestions] AI questions response:", aiRows);
       const aiQuestions = Array.isArray(aiRows) ? aiRows.map((row, idx) => ({
         id: `ai-${row.id || idx}`,
         subject: row.subject || "AI Generated",
@@ -474,263 +625,334 @@ function SuperAdminAllQuestions() {
         source: "ai",
         ...row.question_json
       })) : [];
-      console.log(
-        "[SuperAdminAllQuestions] Total questions:",
-        list.length + aiQuestions.length
-      );
-      setAllQuestions([...list, ...aiQuestions]);
+      setAllQuestions((prev) => {
+        const base = Array.isArray(prev) && prev.length > 0 ? prev : list;
+        const existingIds = new Set(base.map((q2) => q2.id));
+        const uniqueAi = aiQuestions.filter((q2) => !existingIds.has(q2.id));
+        return [...base, ...uniqueAi];
+      });
     }).catch((err) => {
       console.error("Failed to fetch AI questions:", err);
       setError(err.message);
-      setAllQuestions(list);
+      setAllQuestions((prev) => {
+        if (Array.isArray(prev) && prev.length > 0) return prev;
+        return list;
+      });
     }).finally(() => {
       setLoading(false);
     });
   }, []);
-  const filtered = allQuestions.filter(
-    (q2) => {
-      var _a, _b, _c, _d;
-      return ((_a = q2.subject) == null ? void 0 : _a.toLowerCase().includes(filter.toLowerCase())) || ((_b = q2.category) == null ? void 0 : _b.toLowerCase().includes(filter.toLowerCase())) || ((_c = q2.question) == null ? void 0 : _c.toLowerCase().includes(filter.toLowerCase())) || ((_d = q2.questionText) == null ? void 0 : _d.toLowerCase().includes(filter.toLowerCase()));
+  const subjectQuestions = reactExports.useMemo(() => {
+    if (!selectedSubject2) return [];
+    let filtered = allQuestions.filter((q2) => {
+      const s = normalizeSubjectKey(q2.subject);
+      const sel = normalizeSubjectKey(selectedSubject2);
+      if (sel === "rla")
+        return s.includes("rla") || s.includes("language arts");
+      return s.includes(sel);
+    });
+    if (filterType === "images") {
+      filtered = filtered.filter(questionHasImage);
+    } else if (filterType === "missing-images") {
+      filtered = filtered.filter((q2) => {
+        return q2.content && q2.content.imageURL === "" || q2.content && q2.content.image === "" || q2.image === "" || q2.imageUrl === "";
+      });
+    } else if (filterType === "no-images") {
+      filtered = filtered.filter((q2) => {
+        return !questionHasImage(q2);
+      });
+    } else if (filterType === "passage") {
+      filtered = filtered.filter((q2) => !!q2.passage);
+    } else if (filterType === "standalone") {
+      filtered = filtered.filter((q2) => !q2.passage);
     }
-  );
+    return filtered;
+  }, [allQuestions, selectedSubject2, filterType]);
+  reactExports.useEffect(() => {
+    setSelectedIndex(0);
+  }, [filterType]);
+  const currentQuestion = subjectQuestions[selectedIndex];
   if (loading) {
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-4 dark:text-white", children: "All Questions (Master List)" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-4 dark:text-white", children: "Question Audit System" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-gray-500 dark:text-gray-400", children: "Loading questions..." })
     ] });
   }
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-2 dark:text-white", children: "All Questions (Master List)" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4 text-xs text-slate-600 dark:text-slate-300 p-3 border-l-4 border-blue-500 bg-white dark:bg-slate-800", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Debug: Questions Catalog component mounted." }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        "Catalog subjects seen:",
-        " ",
-        catalogKeys.length ? catalogKeys.join(", ") : "none"
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        "Premade count:",
-        " ",
-        allQuestions.filter((q2) => q2.source === "premade").length
-      ] })
-    ] }),
-    error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded text-yellow-800 dark:text-yellow-200", children: [
-      "Warning: ",
-      error
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-gray-500 dark:text-gray-400 mb-6", children: [
-      "Total Loaded: ",
-      allQuestions.length,
-      " questions (",
-      filtered.length,
-      " shown)"
-    ] }),
-    allQuestions.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-gray-500 dark:text-gray-400 mb-2", children: "No questions found" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm text-gray-400 dark:text-gray-500", children: [
-        "Debug: subjects detected:",
-        " ",
-        catalogKeys.length ? catalogKeys.join(", ") : "none"
-      ] })
-    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "input",
+  if (!selectedSubject2) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-8 dark:text-white", children: "Question Audit System" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl", children: ["Math", "RLA", "Social Studies", "Science"].map((subj) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
         {
-          type: "text",
-          placeholder: "Filter by subject, category, or question text...",
-          value: filter,
-          onChange: (e) => setFilter(e.target.value),
-          className: "w-full px-4 py-2 border rounded bg-white text-slate-900 dark:bg-slate-800 dark:text-white border-slate-300 dark:border-slate-600"
+          onClick: () => {
+            setSelectedSubject(subj);
+            setSelectedIndex(0);
+          },
+          className: "p-10 text-2xl font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 shadow-sm hover:shadow-md transition-all text-slate-800 dark:text-white",
+          children: subj
+        },
+        subj
+      )) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 text-slate-500", children: [
+        "Total Questions Loaded: ",
+        allQuestions.length
+      ] })
+    ] });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 max-w-6xl mx-auto", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "button",
+      {
+        onClick: () => setSelectedSubject(null),
+        className: "mb-6 text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-2 font-medium",
+        children: "← Back to Subject Selection"
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-3xl font-bold dark:text-white", children: [
+        selectedSubject2,
+        " Audit"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center gap-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "font-medium text-slate-700 dark:text-slate-300 pl-2 text-sm", children: "Filter:" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "select",
+            {
+              value: filterType,
+              onChange: (e) => setFilterType(e.target.value),
+              className: "border-none bg-transparent py-1 pl-2 pr-8 font-medium text-sm focus:ring-0 cursor-pointer dark:text-white",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", className: "dark:bg-slate-800", children: "All Questions" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "images", className: "dark:bg-slate-800", children: "With Images" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "missing-images", className: "dark:bg-slate-800", children: "Missing Images (Empty Field)" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "no-images", className: "dark:bg-slate-800", children: "Text Only" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "passage", className: "dark:bg-slate-800", children: "Passage Based" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "standalone", className: "dark:bg-slate-800", children: "Standalone" })
+              ]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setSelectedIndex(Math.max(0, selectedIndex - 1)),
+              disabled: selectedIndex === 0,
+              className: "p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed text-slate-600 dark:text-slate-400",
+              title: "Previous Question",
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "svg",
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  className: "h-5 w-5",
+                  viewBox: "0 0 20 20",
+                  fill: "currentColor",
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "path",
+                    {
+                      fillRule: "evenodd",
+                      d: "M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z",
+                      clipRule: "evenodd"
+                    }
+                  )
+                }
+              )
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "font-medium text-slate-700 dark:text-slate-300 pl-2 hidden sm:inline", children: "Question:" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "select",
+              {
+                value: selectedIndex,
+                onChange: (e) => setSelectedIndex(Number(e.target.value)),
+                className: "border-none bg-transparent py-1 pl-2 pr-8 font-bold text-lg focus:ring-0 cursor-pointer dark:text-white",
+                children: subjectQuestions.map((_, idx) => /* @__PURE__ */ jsxRuntimeExports.jsxs("option", { value: idx, className: "dark:bg-slate-800", children: [
+                  idx + 1,
+                  " of ",
+                  subjectQuestions.length
+                ] }, idx))
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setSelectedIndex(
+                Math.min(subjectQuestions.length - 1, selectedIndex + 1)
+              ),
+              disabled: selectedIndex === subjectQuestions.length - 1,
+              className: "p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed text-slate-600 dark:text-slate-400",
+              title: "Next Question",
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "svg",
+                {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  className: "h-5 w-5",
+                  viewBox: "0 0 20 20",
+                  fill: "currentColor",
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "path",
+                    {
+                      fillRule: "evenodd",
+                      d: "M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z",
+                      clipRule: "evenodd"
+                    }
+                  )
+                }
+              )
+            }
+          )
+        ] })
+      ] })
+    ] }),
+    currentQuestion ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AuditQuestionDisplay,
+      {
+        question: currentQuestion,
+        index: selectedIndex + 1
+      }
+    ) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-12 text-center bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-700", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xl text-slate-500 mb-4", children: [
+        "No questions found for ",
+        selectedSubject2,
+        "."
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: () => window.location.reload(),
+          className: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors mr-2",
+          children: "Reload Page"
         }
-      ) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: filtered.map((q2, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(QuestionCard, { question: q2, index: i + 1 }, q2.id)) })
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: async () => {
+            console.log("Attempting debug fetch...");
+            try {
+              const urls = [
+                "/quizzes/math.quizzes.part1.json",
+                "http://localhost:3002/quizzes/math.quizzes.part1.json",
+                "http://localhost:3003/quizzes/math.quizzes.part1.json"
+              ];
+              for (const url of urls) {
+                try {
+                  "social-studies.quizzes.part1.json", "social-studies.quizzes.part2.json", "social-studies.quizzes.json", console.log(
+                    `Fetch ${url}: ${res.status} ${res.statusText}`
+                  );
+                  if (res.ok) {
+                    const data = await res.json();
+                    console.log("Data sample:", data);
+                    alert(`Success fetching ${url}`);
+                  }
+                } catch (e) {
+                  console.error(`Failed to fetch ${url}:`, e);
+                }
+              }
+            } catch (e) {
+              console.error("Debug error:", e);
+            }
+          },
+          className: "px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors",
+          children: "Debug Fetch"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 text-xs text-slate-400 text-left max-w-md mx-auto overflow-auto max-h-40", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Debug Info:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+          "Total Questions: ",
+          allQuestions.length
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+          "Catalog Keys:",
+          " ",
+          Object.keys(window.PREMADE_QUIZ_CATALOG || {}).join(", ")
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+          "AppData Keys: ",
+          Object.keys(window.AppData || {}).join(", ")
+        ] })
+      ] })
     ] })
   ] });
 }
-function QuestionCard({ question, index }) {
-  const questionText = question.question || question.questionText || "No question text";
-  const passage = question.passage || "";
+function AuditQuestionDisplay({ question, index }) {
+  var _a;
+  const content = question.content || {};
+  const questionText = question.question || question.questionText || content.questionText || content.question || "No question text";
+  const passage = question.passage || content.passage || "";
+  const image = question.image || question.imageUrl || question.imageURL || question.graphic || ((_a = question.stimulusImage) == null ? void 0 : _a.src) || question.stimulusImage || content.imageURL || content.image || (typeof question.stimulus === "object" ? question.stimulus.image || question.stimulus.src : null) || null;
   const answerOptions = question.answerOptions || [];
   const correctAnswer = question.correctAnswer;
   const rationale = question.rationale || question.explanation || "";
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border rounded p-4 bg-white dark:bg-slate-800 shadow", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-gray-500 dark:text-gray-400 mb-2", children: [
-      "#",
-      index,
-      " • ",
-      question.source,
-      " • ",
-      question.subject,
-      " → ",
-      question.category,
-      " ",
-      "→ ",
-      question.quizTitle
-    ] }),
-    passage && /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "div",
-      {
-        className: "mb-3 text-sm opacity-80 dark:opacity-70",
-        dangerouslySetInnerHTML: { __html: passage }
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "div",
-      {
-        className: "font-semibold mb-3 dark:text-white",
-        dangerouslySetInnerHTML: { __html: questionText }
-      }
-    ),
-    answerOptions.length > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ml-4 mb-3", children: answerOptions.map((opt, i) => {
-      const letter = String.fromCharCode(65 + i);
-      const isCorrect = opt.isCorrect;
-      return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 lg:grid-cols-3 gap-8", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:col-span-2 space-y-6", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white dark:bg-slate-800 p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide dark:bg-blue-900/30 dark:text-blue-300", children: "Question Preview" }) }),
+      passage && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-8 p-6 bg-slate-50 dark:bg-slate-900/50 rounded-lg border-l-4 border-slate-300 dark:border-slate-600 italic text-slate-700 dark:text-slate-300 leading-relaxed", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { dangerouslySetInnerHTML: { __html: passage } }) }),
+      image && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-8 flex justify-center bg-slate-50 dark:bg-black/20 p-4 rounded-lg", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "img",
         {
-          className: `mb-1 ${isCorrect ? "text-green-600 dark:text-green-400 font-semibold" : "dark:text-gray-300"}`,
-          children: [
-            letter,
-            ". ",
-            opt.text
-          ]
-        },
-        i
-      );
-    }) }) : null,
-    correctAnswer !== void 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 text-blue-600 dark:text-blue-400 text-sm", children: [
-      "Correct Answer: ",
-      correctAnswer
-    ] }),
-    rationale && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 text-gray-600 dark:text-gray-400 text-sm", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Rationale:" }),
-      " ",
-      rationale
-    ] })
-  ] });
-}
-function SuperAdminQuestionBrowser() {
-  console.log("[SuperAdminQuestionBrowser] Component mounting...");
-  const [selectedSubject2, setSelectedSubject] = reactExports.useState("");
-  const [questions, setQuestions] = reactExports.useState([]);
-  const [loading, setLoading] = reactExports.useState(false);
-  const [error, setError] = reactExports.useState("");
-  const [totalCount, setTotalCount] = reactExports.useState(0);
-  const subjects = [
-    { key: "math", label: "Math" },
-    { key: "science", label: "Science" },
-    { key: "rla", label: "Reasoning Through Language Arts (RLA)" },
-    { key: "social", label: "Social Studies" }
-  ];
-  const loadQuestions = async (subject) => {
-    var _a;
-    if (!subject) return;
-    setLoading(true);
-    setError("");
-    setSelectedSubject(subject);
-    try {
-      const apiBase = window.API_BASE_URL || "";
-      const token = localStorage.getItem("appToken");
-      const url = `${apiBase}/api/admin/questions-by-subject?subject=${encodeURIComponent(
-        subject
-      )}`;
-      console.log("[QuestionBrowser] Fetching:", url);
-      console.log("[QuestionBrowser] Token present:", !!token);
-      const response = await fetch(url, {
-        headers: token ? {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
-        } : { "Content-Type": "application/json" }
-      });
-      console.log("[QuestionBrowser] Response status:", response.status);
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("[QuestionBrowser] Error response:", errorText);
-        throw new Error(`Failed to load questions: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log("[QuestionBrowser] Received data:", data);
-      console.log("[QuestionBrowser] Questions count:", (_a = data.questions) == null ? void 0 : _a.length);
-      setQuestions(data.questions || []);
-      setTotalCount(data.totalQuestions || 0);
-    } catch (err) {
-      console.error("[QuestionBrowser] Error loading questions:", err);
-      setError(err.message);
-      setQuestions([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const renderQuestion = (q2, index) => {
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "div",
-      {
-        className: "mb-6 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800",
-        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center font-bold text-blue-700 dark:text-blue-300", children: q2.displayNumber || index + 1 }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "prose dark:prose-invert max-w-none mb-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-lg font-medium", children: q2.question || q2.questionText || "No question text" }) }),
-            q2.answerOptions && Array.isArray(q2.answerOptions) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-2 mt-3", children: q2.answerOptions.map((option, optIdx) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "div",
-              {
-                className: `p-3 rounded border ${option.isCorrect ? "bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700" : "bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"}`,
-                children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-semibold", children: [
-                    String.fromCharCode(65 + optIdx),
-                    "."
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: option.text || option.answerText }),
-                  option.isCorrect && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ml-auto text-green-600 dark:text-green-400 font-bold", children: "✓ Correct" })
-                ] })
-              },
-              optIdx
-            )) }),
-            q2.explanation && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 dark:border-blue-400", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold text-blue-900 dark:text-blue-100", children: "Explanation:" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-blue-800 dark:text-blue-200", children: q2.explanation })
+          src: normalizeImageUrl(image),
+          alt: "Question",
+          className: "max-w-full max-h-[400px] h-auto rounded shadow-sm"
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xl mb-8 font-medium text-slate-900 dark:text-white leading-relaxed", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { dangerouslySetInnerHTML: { __html: questionText } }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: answerOptions.map((opt, i) => {
+        const optText = typeof opt === "object" ? opt.text : opt;
+        const isCorrect = typeof opt === "object" && opt.isCorrect || correctAnswer === optText || correctAnswer === String.fromCharCode(65 + i);
+        return /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: `p-4 rounded-lg border-2 transition-colors ${isCorrect ? "bg-green-50 border-green-500 dark:bg-green-900/10 dark:border-green-500/50" : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"}`,
+            children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: `w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full font-bold text-sm border-2 ${isCorrect ? "bg-green-500 text-white border-green-500" : "bg-slate-100 text-slate-500 border-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600"}`,
+                  children: String.fromCharCode(65 + i)
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pt-1 text-lg text-slate-800 dark:text-slate-200", children: optText }),
+              isCorrect && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ml-auto text-xs font-bold text-green-700 dark:text-green-400 px-2 py-1 bg-green-100 dark:bg-green-900/30 rounded uppercase tracking-wider", children: "Correct Answer" })
             ] })
-          ] })
+          },
+          i
+        );
+      }) }),
+      rationale && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 pt-8 border-t border-slate-200 dark:border-slate-700", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-sm text-slate-500 uppercase tracking-wider mb-3", children: "Explanation / Rationale" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-slate-700 dark:text-slate-300 leading-relaxed bg-blue-50 dark:bg-blue-900/10 p-4 rounded-lg border border-blue-100 dark:border-blue-900/20", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { dangerouslySetInnerHTML: { __html: rationale } }) })
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:col-span-1", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-slate-100 dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-700 sticky top-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 border-b border-slate-200 dark:border-slate-700 pb-2", children: "Source Location" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4 text-sm", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-500 mb-1", children: "Subject" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-semibold text-slate-900 dark:text-white text-lg", children: question.subject })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-500 mb-1", children: "Category" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-medium text-slate-800 dark:text-slate-200", children: question.category })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-500 mb-1", children: "Quiz / Topic Title" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-medium text-slate-800 dark:text-slate-200", children: question.quizTitle })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pt-2 border-t border-slate-200 dark:border-slate-700", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-500 mb-1", children: "System ID" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-mono text-xs bg-slate-200 dark:bg-slate-800 p-1 rounded break-all", children: question.id })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-slate-500 mb-1", children: "Source Type" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "inline-block px-2 py-1 rounded text-xs font-medium bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 capitalize", children: question.source })
         ] })
-      },
-      q2.displayNumber || index
-    );
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 max-w-6xl mx-auto", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-bold mb-6 dark:text-white", children: "Question Browser" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium mb-2 dark:text-gray-200", children: "Select Subject Area:" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-3", children: subjects.map((subj) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: () => loadQuestions(subj.key),
-          disabled: loading,
-          className: `px-6 py-3 rounded-lg font-medium transition-colors ${selectedSubject2 === subj.key ? "bg-blue-600 text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600"} ${loading ? "opacity-50 cursor-not-allowed" : ""}`,
-          children: subj.label
-        },
-        subj.key
-      )) })
-    ] }),
-    error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded text-red-800 dark:text-red-200", children: [
-      "Error: ",
-      error
-    ] }),
-    loading && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-blue-600" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-gray-600 dark:text-gray-400", children: "Loading questions..." })
-    ] }),
-    !loading && questions.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-blue-900 dark:text-blue-100 font-medium", children: [
-        "Showing ",
-        totalCount,
-        " questions from ",
-        selectedSubject2
-      ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: questions.map((q2, idx) => renderQuestion(q2, idx)) })
-    ] }),
-    !loading && !error && questions.length === 0 && selectedSubject2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12 text-gray-500 dark:text-gray-400", children: [
-      "No questions found for ",
-      selectedSubject2
-    ] }),
-    !loading && !selectedSubject2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-center py-12 text-gray-500 dark:text-gray-400", children: "Select a subject to view questions" })
+      ] })
+    ] }) })
   ] });
 }
 const designSystem = {
@@ -33940,7 +34162,7 @@ function SuperAdminDashboard({ user, token, onLogout }) {
   const [orgSummary, setOrgSummary] = reactExports.useState(null);
   const [summaryLoading, setSummaryLoading] = reactExports.useState(false);
   const [summaryError, setSummaryError] = reactExports.useState("");
-  const [activeTab, setActiveTab] = reactExports.useState("question-browser");
+  const [activeTab, setActiveTab] = reactExports.useState("question-audit");
   const usersLoadAttempted = reactExports.useRef(false);
   const activityLoadAttempted = reactExports.useRef(false);
   const loadOrganizations = reactExports.useCallback(async () => {
@@ -34187,18 +34409,9 @@ function SuperAdminDashboard({ user, token, onLogout }) {
         "button",
         {
           type: "button",
-          onClick: () => setActiveTab("question-browser"),
-          className: `px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${activeTab === "question-browser" ? "bg-white dark:bg-slate-700 text-primary shadow-sm" : "text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50"}`,
-          children: "Question Browser"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          type: "button",
-          onClick: () => setActiveTab("questions"),
-          className: `px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${activeTab === "questions" ? "bg-white dark:bg-slate-700 text-primary shadow-sm" : "text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50"}`,
-          children: "Questions Catalog"
+          onClick: () => setActiveTab("question-audit"),
+          className: `px-6 py-2.5 text-sm font-semibold transition-all rounded-lg ${activeTab === "question-audit" ? "bg-white dark:bg-slate-700 text-primary shadow-sm" : "text-muted hover:text-secondary hover:bg-white/50 dark:hover:bg-slate-700/50"}`,
+          children: "Question Audit"
         }
       )
     ] }),
@@ -34572,12 +34785,7 @@ function OrgAdminDashboard({ user, token, onLogout }) {
           act.id
         )) })
       ] }),
-      activeTab === "question-browser" && /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "rounded-3xl border-subtle panel-surface shadow-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SuperAdminQuestionBrowser, {}) }),
-      activeTab === "questions" && /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "rounded-3xl border-subtle panel-surface shadow-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SuperAdminAllQuestions, {}) }),
-      activeTab !== "questions" && /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "rounded-3xl border-subtle panel-surface shadow-sm mt-4", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-2 text-xs text-amber-600", children: "Debug: Questions Catalog rendered even though tab inactive" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(SuperAdminAllQuestions, {})
-      ] })
+      activeTab === "question-audit" && /* @__PURE__ */ jsxRuntimeExports.jsx("section", { className: "rounded-3xl border-subtle panel-surface shadow-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SuperAdminAllQuestions, {}) })
     ] })
   ] }) });
 }
@@ -35612,14 +35820,14 @@ function StartScreen({
       setIsLoading(true);
       setLoadingMessage("Preparing your diagnostic test...");
       const token = localStorage.getItem("appToken");
-      const res = await fetch("/api/diagnostic-test", {
+      const res2 = await fetch("/api/diagnostic-test", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      if (!res.ok) throw new Error("Failed to start diagnostic");
-      const quiz = await res.json();
+      if (!res2.ok) throw new Error("Failed to start diagnostic");
+      const quiz = await res2.json();
       onSelectQuiz(quiz, "Diagnostic");
     } catch (err) {
       console.error(err);
@@ -35741,7 +35949,7 @@ function StartScreen({
         setWeeklyCoachSummary([]);
         return;
       }
-      const res = await fetch(
+      const res2 = await fetch(
         `${API_BASE_URL}/api/coach/weekly?t=${Date.now()}`,
         {
           method: "GET",
@@ -35749,15 +35957,15 @@ function StartScreen({
           cache: "no-store"
         }
       );
-      if (!res.ok) {
+      if (!res2.ok) {
         setWeeklyCoachPlan(
           (prev) => prev || { weekStart: null, weekEnd: null, days: [] }
         );
-        if (res.status !== 404)
+        if (res2.status !== 404)
           setCoachError("Unable to load weekly coach plan.");
         return;
       }
-      const data = await res.json();
+      const data = await res2.json();
       try {
         console.log("Weekly coach data:", data);
       } catch (_) {
@@ -35784,7 +35992,7 @@ function StartScreen({
         setCoachDailySubjects([]);
         return;
       }
-      const res = await fetch(
+      const res2 = await fetch(
         `${API_BASE_URL}/api/coach/daily?t=${Date.now()}`,
         {
           method: "GET",
@@ -35792,8 +36000,8 @@ function StartScreen({
           cache: "no-store"
         }
       );
-      if (res.ok) {
-        const data = await res.json();
+      if (res2.ok) {
+        const data = await res2.json();
         try {
           console.log("Daily coach data:", data);
         } catch (_) {
@@ -35833,7 +36041,7 @@ function StartScreen({
     setCoachError("");
     const apiSubject = subjectParam === "social-studies" ? "Social Studies" : subjectParam === "rla" ? "RLA" : subjectParam === "math" ? "Math" : "Science";
     try {
-      const res = await fetch(
+      const res2 = await fetch(
         `${API_BASE_URL}/api/coach/${encodeURIComponent(
           apiSubject
         )}/generate-week`,
@@ -35846,7 +36054,7 @@ function StartScreen({
           body: JSON.stringify({})
         }
       );
-      if (!res.ok) {
+      if (!res2.ok) {
         setCoachError("Unable to generate weekly coach plan.");
         return;
       }
@@ -35871,7 +36079,7 @@ function StartScreen({
     try {
       for (const subj of subjects) {
         try {
-          const res = await fetch(
+          const res2 = await fetch(
             `${API_BASE_URL}/api/coach/${encodeURIComponent(
               subj
             )}/generate-week`,
@@ -35884,12 +36092,12 @@ function StartScreen({
               body: JSON.stringify({})
             }
           );
-          if (res.status === 429) {
+          if (res2.status === 429) {
             results.push(`${subj}: already generated`);
             continue;
           }
-          if (!res.ok) {
-            results.push(`${subj}: error (${res.status})`);
+          if (!res2.ok) {
+            results.push(`${subj}: error (${res2.status})`);
             continue;
           }
           results.push(`${subj}: ok`);
@@ -36113,7 +36321,7 @@ function StartScreen({
         mode: "single-subject",
         subject: practiceSubjectParam(subject)
       };
-      const res = await fetch(`${API_BASE_URL}/api/practice-session`, {
+      const res2 = await fetch(`${API_BASE_URL}/api/practice-session`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36121,10 +36329,10 @@ function StartScreen({
         },
         body: JSON.stringify(body)
       });
-      if (!res.ok) {
-        throw new Error(`Server responded ${res.status}`);
+      if (!res2.ok) {
+        throw new Error(`Server responded ${res2.status}`);
       }
-      const session = await res.json();
+      const session = await res2.json();
       const today = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
       const quizId = `coach-smith:${subject}:${today}`;
       const displaySubject = displaySubjectName(subject);
@@ -36153,7 +36361,7 @@ function StartScreen({
       }
       setIsLoading(true);
       setLoadingMessage(`Asking Coach for a custom ${subject} mix`);
-      const res = await fetch(
+      const res2 = await fetch(
         `${API_BASE_URL}/api/coach/${encodeURIComponent(
           practiceSubjectParam(subject)
         )}/daily-composite`,
@@ -36166,9 +36374,9 @@ function StartScreen({
           body: JSON.stringify({ focusTag })
         }
       );
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !(data == null ? void 0 : data.ok)) {
-        throw new Error((data == null ? void 0 : data.error) || `HTTP ${res.status}`);
+      const data = await res2.json().catch(() => ({}));
+      if (!res2.ok || !(data == null ? void 0 : data.ok)) {
+        throw new Error((data == null ? void 0 : data.error) || `HTTP ${res2.status}`);
       }
       const quiz = data.quiz || null;
       if (!quiz || !Array.isArray(quiz.questions)) throw new Error("no_quiz");
@@ -36409,13 +36617,13 @@ function StartScreen({
     if (!subject) return;
     try {
       const normalizedSubject = subject.toLowerCase().replace(/\s+/g, "-").replace(/[()]/g, "");
-      const res = await fetch(
+      const res2 = await fetch(
         `${API_BASE_URL}/api/vocabulary-quiz/${normalizedSubject}`
       );
-      if (!res.ok) {
-        throw new Error(`Failed to fetch vocabulary quiz: ${res.status}`);
+      if (!res2.ok) {
+        throw new Error(`Failed to fetch vocabulary quiz: ${res2.status}`);
       }
-      const data = await res.json();
+      const data = await res2.json();
       if (data && data.quiz) {
         onSelectQuiz(data.quiz, subject);
       } else {
@@ -40617,11 +40825,11 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
           setSuggestions([]);
           return;
         }
-        const res = await fetch(`${API_BASE_URL}/api/challenges/suggestions`, {
+        const res2 = await fetch(`${API_BASE_URL}/api/challenges/suggestions`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        if (res.ok) {
-          const data = await res.json();
+        if (res2.ok) {
+          const data = await res2.json();
           if (isActive)
             setSuggestions(Array.isArray(data == null ? void 0 : data.items) ? data.items : []);
         }
@@ -40645,7 +40853,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     try {
       const token = typeof localStorage !== "undefined" && localStorage.getItem("appToken") || null;
       if (!token) return;
-      const res = await fetch(`${API_BASE_URL}/api/challenges/resolve`, {
+      const res2 = await fetch(`${API_BASE_URL}/api/challenges/resolve`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40653,7 +40861,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
         },
         body: JSON.stringify({ suggestion_id: id, action })
       });
-      if (res.ok) {
+      if (res2.ok) {
         setSuggestions((prev) => prev.filter((s) => s.id !== id));
       }
     } catch (_e) {
@@ -44207,10 +44415,10 @@ function LifeChoicesSimulation({ srcPath }) {
     let cancelled = false;
     async function load() {
       try {
-        const res = await fetch(srcPath, { cache: "no-store" });
-        if (!res.ok)
-          throw new Error(`Failed to load ${srcPath}: ${res.status}`);
-        const html = await res.text();
+        const res2 = await fetch(srcPath, { cache: "no-store" });
+        if (!res2.ok)
+          throw new Error(`Failed to load ${srcPath}: ${res2.status}`);
+        const html = await res2.text();
         if (!cancelled) setSrcDoc(html);
       } catch (e) {
         console.warn(
@@ -44346,4 +44554,4 @@ if (typeof window !== "undefined" && typeof window.getSmithAQuizTopics !== "func
 client.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(React.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(RootApp, {}) })
 );
-//# sourceMappingURL=main-joPpCGY_.js.map
+//# sourceMappingURL=main-DWQRWLtd.js.map

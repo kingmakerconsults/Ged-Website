@@ -26,6 +26,7 @@
     "validate-quizzes": "node tests/quizValidation.test.js",
     "counts:premade": "node scripts/print_premade_counts.js",
     "counts:ss:everywhere": "node scripts/count_social_studies_everywhere.js",
+    "report:question-housing": "node scripts/report_question_housing.mjs",
     "quizzes:build-json": "node scripts/build-quizzes.js",
     "quizzes:ensure-min": "node scripts/ensure_min_quiz_questions.js",
     "sanitize:math:katex": "node scripts/sanitize_math_katex.mjs",
