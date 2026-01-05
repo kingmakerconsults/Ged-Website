@@ -551,7 +551,7 @@
                 questionNumber: 3,
                 challenge_tags: ['science-3', 'science-2'],
                 type: 'image',
-                imageUrl: '/images/Science/ged-scince-fig-12.png',
+                imageUrl: '/images/Science/ged_scince_fig_12_0001.png',
                 question:
                   'In this food web, which organism is a primary consumer?',
                 answerOptions: [
@@ -1084,7 +1084,7 @@
               {
                 questionNumber: 4,
                 type: 'image',
-                imageUrl: '/images/Science/licensed-image (5).jpg',
+                imageUrl: '/images/Science/licensed_image_0007.jpg',
                 question:
                   'This image shows a typical entry on the periodic table for the element Carbon (C). What is the atomic number of Carbon?',
                 answerOptions: [
@@ -4546,7 +4546,7 @@
               {
                 questionNumber: 14,
                 type: 'image',
-                imageUrl: '/images/Science/ged-scince-fig-7.png',
+                imageUrl: '//images/Science/earth_and_space_systems_0001.png',
                 question:
                   'This diagram illustrates the rock cycle. What process is required to turn a sedimentary rock into a metamorphic rock?',
                 answerOptions: [

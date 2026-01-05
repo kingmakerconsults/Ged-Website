@@ -4,7 +4,7 @@
   Usage: node tools/auditImages.js
 
   - Loads backend/image_metadata_final.json (same file server.js prefers)
-  - Walks frontend/Images/{Science,SocialStudies,Social_Studies,Social}
+  - Walks frontend/public/images/{Science,Social Studies,Math,RLA}
   - Compares both directions
   - Emits a JSON report to tools/image_audit_report.json
 */
@@ -17,10 +17,20 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const BACKEND_DIR = path.join(REPO_ROOT, 'backend');
 const FRONTEND_DIR = path.join(REPO_ROOT, 'frontend');
 const METADATA_PRIMARY = path.join(BACKEND_DIR, 'image_metadata_final.json');
-const METADATA_FALLBACK = path.join(BACKEND_DIR, 'data', 'image_metadata_final.json');
+const METADATA_FALLBACK = path.join(
+  BACKEND_DIR,
+  'data',
+  'image_metadata_final.json'
+);
 const REPORT_FILE = path.join(REPO_ROOT, 'tools', 'image_audit_report.json');
 
-const VALID_SUBJECTS = new Set(['Science', 'Social Studies', 'Math', 'RLA', 'Simulations']);
+const VALID_SUBJECTS = new Set([
+  'Science',
+  'Social Studies',
+  'Math',
+  'RLA',
+  'Simulations',
+]);
 const IMG_EXTS = new Set(['.png', '.jpg', '.jpeg', '.webp']);
 
 function readJsonSafe(file) {
@@ -47,15 +57,22 @@ function walkDir(dir, files = []) {
 }
 
 function existsFile(p) {
-  try { return fs.existsSync(p) && fs.statSync(p).isFile(); } catch { return false; }
+  try {
+    return fs.existsSync(p) && fs.statSync(p).isFile();
+  } catch {
+    return false;
+  }
 }
 
 function normalizeForServer(rawPath) {
   if (!rawPath) return { normalized: '', variants: [] };
-  const clean = String(rawPath).replace(/^\/frontend/i, '');
+  const raw = String(rawPath);
+  const clean = raw
+    .replace(/^\/frontend\/\/images\//i, '/images/')
+    .replace(/^\/frontend\/(?:Images|images)\//i, '/images/');
   const normalized = clean.startsWith('/') ? clean : `/${clean}`;
   // server indexes these three forms
-  const variants = [normalized, normalized.slice(1), String(rawPath)];
+  const variants = [normalized, normalized.slice(1), raw];
   return { normalized, variants };
 }
 
@@ -67,7 +84,12 @@ function uuid() {
 function inferSubjectFromPath(p) {
   const pLower = String(p).toLowerCase().replace(/\\/g, '/');
   if (pLower.includes('/science/')) return 'Science';
-  if (pLower.includes('/socialstudies/') || pLower.includes('/social_studies/') || pLower.includes('/social/')) return 'Social Studies';
+  if (
+    pLower.includes('/socialstudies/') ||
+    pLower.includes('/social_studies/') ||
+    pLower.includes('/social/')
+  )
+    return 'Social Studies';
   return '';
 }
 
@@ -78,13 +100,14 @@ function lastSegment(p) {
 }
 
 function buildExpectedFilePath(absPath, subjectRootAbs, subjectName) {
-  // Return /frontend/Images/<Subject>/<relativePathUnderSubject>
+  // Return /images/<Subject>/<relativePathUnderSubject>
   const rel = path.relative(subjectRootAbs, absPath).split(path.sep).join('/');
-  return `/frontend/Images/${subjectName}/${rel}`;
+  return `/images/${subjectName}/${rel}`;
 }
 
 function main() {
-  const db = readJsonSafe(METADATA_PRIMARY) || readJsonSafe(METADATA_FALLBACK) || [];
+  const db =
+    readJsonSafe(METADATA_PRIMARY) || readJsonSafe(METADATA_FALLBACK) || [];
   if (!Array.isArray(db)) {
     console.error('Metadata file is not an array. Aborting.');
     process.exit(2);
@@ -109,26 +132,31 @@ function main() {
     }
     const fn = im.fileName || lastSegment(filePathStr);
     if (fn) byFileName.set(fn, (byFileName.get(fn) || []).concat(im));
-    if (im.sha1) idsBySha1.set(im.sha1.toLowerCase(), (idsBySha1.get(im.sha1.toLowerCase()) || []).concat(im.id || '(no-id)'));
+    if (im.sha1)
+      idsBySha1.set(
+        im.sha1.toLowerCase(),
+        (idsBySha1.get(im.sha1.toLowerCase()) || []).concat(im.id || '(no-id)')
+      );
   }
 
   // Directories to walk
-  const sciRoot = path.join(FRONTEND_DIR, 'Images', 'Science');
-  const socRootA = path.join(FRONTEND_DIR, 'Images', 'SocialStudies');
-  const socRootB = path.join(FRONTEND_DIR, 'Images', 'Social_Studies');
-  const socRootC = path.join(FRONTEND_DIR, 'Images', 'Social');
+  const sciRoot = path.join(FRONTEND_DIR, 'public', 'images', 'Science');
+  const mathRoot = path.join(FRONTEND_DIR, 'public', 'images', 'Math');
+  const rlaRoot = path.join(FRONTEND_DIR, 'public', 'images', 'RLA');
+  const socRoot = path.join(FRONTEND_DIR, 'public', 'images', 'Social Studies');
 
   const roots = [
     { root: sciRoot, subject: 'Science' },
-    { root: socRootA, subject: 'Social Studies' },
-    { root: socRootB, subject: 'Social Studies' },
-    { root: socRootC, subject: 'Social Studies' },
-  ].filter(r => fs.existsSync(r.root));
+    { root: mathRoot, subject: 'Math' },
+    { root: rlaRoot, subject: 'RLA' },
+    { root: socRoot, subject: 'Social Studies' },
+  ].filter((r) => fs.existsSync(r.root));
 
   const diskFiles = [];
   for (const r of roots) {
-    const files = walkDir(r.root, [])
-      .filter(f => IMG_EXTS.has(path.extname(f).toLowerCase()));
+    const files = walkDir(r.root, []).filter((f) =>
+      IMG_EXTS.has(path.extname(f).toLowerCase())
+    );
     for (const abs of files) {
       diskFiles.push({ abs, subject: r.subject, root: r.root });
     }
@@ -141,7 +169,11 @@ function main() {
     if (!filePathStr) continue;
     const abs = path.join(REPO_ROOT, filePathStr.replace(/^\//, ''));
     if (!existsFile(abs)) {
-      missingFiles.push({ filePath: filePathStr, id: im.id || '', subject: im.subject || '' });
+      missingFiles.push({
+        filePath: filePathStr,
+        id: im.id || '',
+        subject: im.subject || '',
+      });
     }
   }
 
@@ -150,7 +182,7 @@ function main() {
   for (const rec of diskFiles) {
     const expectedPath = buildExpectedFilePath(rec.abs, rec.root, rec.subject);
     const { variants } = normalizeForServer(expectedPath);
-    const found = variants.some(v => byNormalizedKey.has(v));
+    const found = variants.some((v) => byNormalizedKey.has(v));
     if (!found) {
       const stub = {
         id: uuid(),
@@ -169,9 +201,14 @@ function main() {
         license: '',
         collectedAt: new Date().toISOString(),
         category: '',
-        usageDirectives: ''
+        usageDirectives: '',
       };
-      unlistedImages.push({ path: rec.abs, expectedFilePath: expectedPath, subject: rec.subject, stub });
+      unlistedImages.push({
+        path: rec.abs,
+        expectedFilePath: expectedPath,
+        subject: rec.subject,
+        stub,
+      });
     }
   }
 
@@ -187,8 +224,8 @@ function main() {
       issues.push(`Unexpected subject: ${subject}`);
     }
     const filePathStr = im.filePath || im.src || im.path || '';
-    if (!filePathStr.startsWith('/frontend/')) {
-      issues.push('filePath should start with /frontend/');
+    if (!filePathStr.startsWith('/images/')) {
+      issues.push('filePath should start with /images/');
     }
     const fn = im.fileName || lastSegment(filePathStr);
     const tail = lastSegment(filePathStr);
@@ -208,7 +245,11 @@ function main() {
   // duplicates by filePath
   for (const [fp, arr] of byFilePath.entries()) {
     if (arr.length > 1) {
-      duplicates.push({ type: 'filePath', filePath: fp, ids: arr.map(e => e.id || '') });
+      duplicates.push({
+        type: 'filePath',
+        filePath: fp,
+        ids: arr.map((e) => e.id || ''),
+      });
     }
   }
   // duplicates by sha1
@@ -231,17 +272,27 @@ function main() {
   // Console report
   console.log('--- Image Audit Report ---');
   console.log(`Total metadata entries: ${summary.totalMetadata}`);
-  console.log(`Total image files on disk (Science + Social Studies): ${summary.totalDiskImages}`);
-  console.log(`Missing files (in metadata but not on disk): ${summary.missingFiles}`);
-  console.log(`Unlisted images (on disk but not in metadata): ${summary.unlistedImages}`);
+  console.log(
+    `Total image files on disk (Science + Social Studies): ${summary.totalDiskImages}`
+  );
+  console.log(
+    `Missing files (in metadata but not on disk): ${summary.missingFiles}`
+  );
+  console.log(
+    `Unlisted images (on disk but not in metadata): ${summary.unlistedImages}`
+  );
   console.log(`Duplicate metadata entries: ${summary.duplicates}`);
-  console.log(`Entries with weak metadata (missing alt/description/license/source): ${summary.weakMetadata}`);
+  console.log(
+    `Entries with weak metadata (missing alt/description/license/source): ${summary.weakMetadata}`
+  );
 
   // Save JSON report
   const report = { missingFiles, unlistedImages, duplicates, weakMetadata };
   try {
     fs.writeFileSync(REPORT_FILE, JSON.stringify(report, null, 2), 'utf8');
-    console.log(`Saved detailed report to ${path.relative(REPO_ROOT, REPORT_FILE)}`);
+    console.log(
+      `Saved detailed report to ${path.relative(REPO_ROOT, REPORT_FILE)}`
+    );
   } catch (e) {
     console.warn('Failed to write report file:', e.message);
   }

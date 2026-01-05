@@ -691,16 +691,17 @@ function getImageDimensions(filePath) {
 }
 
 function normalizePathForMetadata(absPath, subject) {
-  // Build /frontend/Images/<Subject>/<relative...>
+  // Build /images/<Subject>/<relative...> (served from frontend/public/images)
   const parts = absPath.split(path.sep);
-  const idx = parts.lastIndexOf('Images');
+  const idx = parts.lastIndexOf('images');
   if (idx >= 0) {
-    const rel = parts.slice(idx).join('/');
-    return '/' + ['frontend', rel].join('/');
+    // e.g. .../frontend/public/images/<Subject>/file.png
+    const rel = parts.slice(idx + 1).join('/');
+    return '/' + ['images', rel].join('/');
   }
   // fallback: prefix subject
   const fname = path.basename(absPath);
-  return `/frontend/Images/${subject}/${fname}`;
+  return `/images/${subject}/${fname}`;
 }
 
 function detectCategory(absPath, subject) {
@@ -908,7 +909,7 @@ async function loadAndAugmentImageMetadata() {
   db = db.map((img) => {
     if (!img.filePath) {
       const subjectPart = (img.subject || 'Misc').replace(/\s+/g, ' ');
-      img.filePath = `/frontend/Images/${subjectPart}/${img.fileName}`;
+      img.filePath = `/images/${subjectPart}/${img.fileName}`;
     }
     return img;
   });
@@ -935,9 +936,9 @@ async function loadAndAugmentImageMetadata() {
 
   // root of repo (same as old code)
   const repoRoot = path.resolve(__dirname, '..');
-  const imagesRoot = path.join(repoRoot, 'frontend', 'Images');
+  const imagesRoot = path.join(repoRoot, 'frontend', 'public', 'images');
 
-  // collect candidates from ALL subject folders under frontend/Images
+  // collect candidates from ALL subject folders under frontend/public/images
   const candidates = [];
   if (fs.existsSync(imagesRoot)) {
     const subjectDirs = fs.readdirSync(imagesRoot, { withFileTypes: true });
@@ -2812,9 +2813,69 @@ Rules:
 
 const norm = (s) => (s || '').toLowerCase();
 
+const TOPIC_STOPWORDS = new Set([
+  'a',
+  'an',
+  'and',
+  'are',
+  'as',
+  'at',
+  'by',
+  'for',
+  'from',
+  'in',
+  'into',
+  'is',
+  'it',
+  'of',
+  'on',
+  'or',
+  'the',
+  'to',
+  'with',
+  // common low-signal curriculum words
+  'basics',
+  'basic',
+  'intro',
+  'introduction',
+  'overview',
+  'skills',
+  'skill',
+  'practice',
+  'review',
+]);
+
+function topicTokens(topic) {
+  return norm(topic)
+    .split(/[^a-z0-9]+/g)
+    .map((t) => t.trim())
+    .filter((t) => t && t.length >= 3 && !TOPIC_STOPWORDS.has(t));
+}
+
+function imageTokenBag(img) {
+  const parts = [
+    img && img.fileName,
+    img && img.category,
+    img && img.altText,
+    img && img.detailedDescription,
+    Array.isArray(img && img.keywords) ? img.keywords.join(' ') : '',
+  ]
+    .map((x) => norm(x))
+    .join(' ');
+
+  const tokens = new Set(
+    parts
+      .split(/[^a-z0-9]+/g)
+      .map((t) => t.trim())
+      .filter((t) => t && t.length >= 3)
+  );
+  return tokens;
+}
+
 function findImagesForSubjectTopic(subject, topic, limit = 5) {
   const s = norm(subject);
   const t = norm(topic);
+  const tTokens = topicTokens(topic);
 
   // First, try a strict match on both subject and category (topic)
   let pool = IMAGE_DB.filter(
@@ -2824,16 +2885,33 @@ function findImagesForSubjectTopic(subject, topic, limit = 5) {
   // If no strict matches, fall back to searching keywords within the correct subject
   if (pool.length < limit) {
     const subjectPool = IMAGE_DB.filter((img) => norm(img.subject).includes(s));
-    const keywordMatches = subjectPool.filter((img) => {
-      const bag = [
-        norm(img.altText),
-        norm((img.keywords || []).join(' ')),
-        norm(img.detailedDescription),
-        norm(img.category),
-      ].join(' ');
-      // Check if any part of the topic name is in the keyword bag
-      return t.split(/[\s,&/|]+/g).some((tok) => tok && bag.includes(tok));
-    });
+
+    // Score matches by counting how many meaningful topic tokens appear in the image token bag.
+    // This avoids over-matching on tiny/common words like "and", "of", etc.
+    const scored = [];
+    for (const img of subjectPool) {
+      const bag = imageTokenBag(img);
+      let score = 0;
+      for (const tok of tTokens) {
+        if (bag.has(tok)) score++;
+      }
+
+      // If topic has no meaningful tokens, do not broaden matching.
+      if (tTokens.length === 0) continue;
+
+      // Require stronger evidence:
+      // - 2+ token matches, OR
+      // - 1 token match only if the token is long (>=6 chars)
+      const hasEnoughSignal =
+        score >= 2 ||
+        (score === 1 && tTokens.some((x) => x.length >= 6 && bag.has(x)));
+
+      if (hasEnoughSignal) scored.push({ img, score });
+    }
+
+    scored.sort((a, b) => b.score - a.score);
+    const keywordMatches = scored.map((x) => x.img);
+
     // Combine strict matches with keyword matches, avoiding duplicates
     const existingIds = new Set(pool.map((p) => p.id));
     keywordMatches.forEach((match) => {
@@ -4392,19 +4470,24 @@ app.get(
     ];
 
     const repoRoot = path.resolve(__dirname, '..');
-    const frontendRoot = path.join(repoRoot, 'frontend');
+    const publicImagesRoot = path.join(
+      repoRoot,
+      'frontend',
+      'public',
+      'images'
+    );
 
-    // 1) try local disk under any subject variant
+    // 1) try local disk under any subject variant (PUBLIC images only)
     for (const subj of subjectCandidates) {
-      const localPath = path.join(frontendRoot, 'Images', subj, file);
+      const localPath = path.join(publicImagesRoot, subj, file);
       if (fs.existsSync(localPath)) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         return res.sendFile(localPath);
       }
     }
 
-    // 2) try just by filename anywhere under /frontend/Images
-    const imagesRoot = path.join(frontendRoot, 'Images');
+    // 2) try just by filename anywhere under /images
+    const imagesRoot = publicImagesRoot;
     if (fs.existsSync(imagesRoot)) {
       try {
         const allSubjects = fs
@@ -4423,7 +4506,7 @@ app.get(
 
     // 3) final fallback: redirect to Netlify copy
     const pickedSubject = subjectCandidates[1] || subject; // prefer the one with spaces
-    const netlifyUrl = `https://ezged.netlify.app/Images/${encodeURIComponent(
+    const netlifyUrl = `https://ezged.netlify.app/images/${encodeURIComponent(
       pickedSubject
     )}/${encodeURIComponent(file)}`;
     return res.redirect(302, netlifyUrl);
@@ -4472,10 +4555,10 @@ try {
       },
     })
   );
-  // Serve images from /frontend/Images with CORS headers (legacy)
+  // Serve legacy /frontend/Images from the canonical public image library
   app.use(
     '/frontend/Images',
-    express.static(path.join(frontendRoot, 'Images'), {
+    express.static(path.join(__dirname, '../frontend/public/images'), {
       maxAge: '1h',
       setHeaders(res) {
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -14514,6 +14597,89 @@ app.get('/api/all-quizzes', (req, res) => {
 
 // Helper function to get random questions from the premade data,
 // normalizing challenge_tags using subtopic/category mapping when absent.
+const IMAGE_PUBLIC_ROOT = path.join(__dirname, '..', 'frontend', 'public');
+const _imageExistsCache = new Map();
+
+function normalizeImageUrlToPublicPath(imgUrl) {
+  if (!imgUrl || typeof imgUrl !== 'string') return null;
+  const raw = imgUrl.trim();
+  if (!raw) return null;
+  // ignore external URLs for now (don't block questions on remote assets)
+  if (/^https?:\/\//i.test(raw)) return null;
+  // remove query/hash
+  const noQuery = raw.split('?')[0].split('#')[0];
+  let rel = noQuery;
+  if (rel.startsWith('/')) rel = rel.slice(1);
+  try {
+    rel = decodeURIComponent(rel);
+  } catch (_) {
+    // keep original if decode fails
+  }
+  return rel || null;
+}
+
+function imageExistsForUrl(imgUrl) {
+  const rel = normalizeImageUrlToPublicPath(imgUrl);
+  if (!rel) return true;
+  if (_imageExistsCache.has(rel)) return _imageExistsCache.get(rel);
+  const fullPath = path.join(IMAGE_PUBLIC_ROOT, rel);
+  const exists = fs.existsSync(fullPath);
+  _imageExistsCache.set(rel, exists);
+  return exists;
+}
+
+function extractImageUrlsFromText(text) {
+  if (typeof text !== 'string' || !text) return [];
+  const out = [];
+  const regex = /src=["']([^"']+)["']/g;
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    out.push(match[1]);
+  }
+  return out;
+}
+
+function collectQuestionImageUrls(q) {
+  if (!q || typeof q !== 'object') return [];
+  const content = q.content && typeof q.content === 'object' ? q.content : null;
+  const urls = [];
+
+  // Direct/common fields
+  const direct = [
+    q.imageUrl,
+    q.imageURL,
+    q.image,
+    q.graphic,
+    q.stimulusImage && q.stimulusImage.src,
+    q.stimulusImage,
+    content && (content.imageURL || content.imageUrl || content.image),
+  ];
+  direct.forEach((u) => {
+    if (typeof u === 'string' && u.trim()) urls.push(u.trim());
+  });
+
+  // Embedded <img src="..."> in text fields
+  const textFields = [
+    q.passage,
+    q.question,
+    q.questionText,
+    content && content.passage,
+    content && (content.questionText || content.question),
+    q.stimulus,
+  ];
+  textFields.forEach((t) => {
+    extractImageUrlsFromText(t).forEach((u) => urls.push(u));
+  });
+
+  return urls;
+}
+
+function questionHasMissingLocalImage(q) {
+  const urls = collectQuestionImageUrls(q);
+  if (!urls.length) return false;
+  return urls.some((u) => !imageExistsForUrl(u));
+}
+
 const getPremadeQuestions = (subject, count) => {
   const allQuestions = [];
   const slugify = (value) =>
@@ -14621,6 +14787,8 @@ const getPremadeQuestions = (subject, count) => {
                   cloned,
                   i
                 );
+                // Option B: drop questions that reference missing local images
+                if (questionHasMissingLocalImage(normalized)) return;
                 if (normalized.content && normalized.content.questionText) {
                   normalized.question = normalized.content.questionText;
                 }
@@ -14648,6 +14816,8 @@ const getPremadeQuestions = (subject, count) => {
                   cloned,
                   i
                 );
+                // Option B: drop questions that reference missing local images
+                if (questionHasMissingLocalImage(normalized)) return;
                 // Flatten content.questionText to question field for frontend compatibility
                 if (normalized.content && normalized.content.questionText) {
                   normalized.question = normalized.content.questionText;
@@ -14864,6 +15034,8 @@ function flattenSubjectQuestions(subjectKey) {
       questions.forEach((raw) => {
         const q = cloneQuestion(raw);
         if (!isValidMC(q)) return;
+        // Option B: drop questions that reference missing local images
+        if (questionHasMissingLocalImage(q)) return;
         // Ensure subject property present
         if (!q.subject) q.subject = subjectKey;
         out.push(q);

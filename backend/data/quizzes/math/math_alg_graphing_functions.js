@@ -7,70 +7,6 @@
 module.exports = [
   {
     "questionNumber": 1,
-    "calculator": false,
-    "type": "image",
-    "imageUrl": "Images/Math/math_graph_1.png",
-    "question": "What is the slope of the line shown in the graph?",
-    "answerOptions": [
-      {
-        "text": "2",
-        "isCorrect": true,
-        "rationale": "The line passes through $(0,-1)$ and $(2,3)$. The slope is $(y_2 - y_1) / (x_2 - x_1) = (3 - (-1)) / (2 - 0) = 4 / 2 = 2$."
-      },
-      {
-        "text": "$\\frac{1}{2}$",
-        "isCorrect": false,
-        "rationale": "This is run/rise, not rise/run."
-      },
-      {
-        "text": "-2",
-        "isCorrect": false,
-        "rationale": "The line is rising, so the slope is positive."
-      },
-      {
-        "text": "1",
-        "isCorrect": false,
-        "rationale": "This is an incorrect calculation."
-      }
-    ],
-    "challenge_tags": [
-      "math-4"
-    ]
-  },
-  {
-    "questionNumber": 2,
-    "calculator": false,
-    "type": "image",
-    "imageUrl": "Images/Math/math_graph_1.png",
-    "question": "What is the y-intercept of the line shown in the graph?",
-    "answerOptions": [
-      {
-        "text": "$(2, 0)$",
-        "isCorrect": false,
-        "rationale": "This is the x-intercept."
-      },
-      {
-        "text": "$(0, -1)$",
-        "isCorrect": true,
-        "rationale": "The y-intercept is the point where the line crosses the y-axis, which is at $(0, -1)$."
-      },
-      {
-        "text": "$(0, 2)$",
-        "isCorrect": false,
-        "rationale": "This is an incorrect point."
-      },
-      {
-        "text": "$(-1, 0)$",
-        "isCorrect": false,
-        "rationale": "This is an incorrect point."
-      }
-    ],
-    "challenge_tags": [
-      "math-4"
-    ]
-  },
-  {
-    "questionNumber": 3,
     "challenge_tags": [
       "math-2"
     ],
@@ -100,7 +36,7 @@ module.exports = [
     ]
   },
   {
-    "questionNumber": 4,
+    "questionNumber": 2,
     "calculator": false,
     "question": "If $f(x) = 3x + 5$, what is $f(4)$?",
     "answerOptions": [
@@ -130,7 +66,7 @@ module.exports = [
     ]
   },
   {
-    "questionNumber": 5,
+    "questionNumber": 3,
     "calculator": false,
     "question": "What is the slope of the line with the equation $y = -2x + 7$?",
     "answerOptions": [
@@ -160,7 +96,7 @@ module.exports = [
     ]
   },
   {
-    "questionNumber": 6,
+    "questionNumber": 4,
     "calculator": true,
     "question": "Find the slope of the line that passes through the points $(2, 3)$ and $(5, 9)$.",
     "answerOptions": [
@@ -190,39 +126,7 @@ module.exports = [
     ]
   },
   {
-    "questionNumber": 7,
-    "calculator": true,
-    "type": "image",
-    "imageUrl": "Images/Math/math_graph_2.png",
-    "question": "Which point is located in Quadrant IV?",
-    "answerOptions": [
-      {
-        "text": "Point A",
-        "isCorrect": false,
-        "rationale": "Point A is in Quadrant II (x is negative, y is positive)."
-      },
-      {
-        "text": "Point B",
-        "isCorrect": true,
-        "rationale": "Point B is in Quadrant IV (x is positive, y is negative)."
-      },
-      {
-        "text": "Point C",
-        "isCorrect": false,
-        "rationale": "Point C is in Quadrant III (x is negative, y is negative)."
-      },
-      {
-        "text": "Point D",
-        "isCorrect": false,
-        "rationale": "Point D is in Quadrant I (x is positive, y is positive)."
-      }
-    ],
-    "challenge_tags": [
-      "math-4"
-    ]
-  },
-  {
-    "questionNumber": 8,
+    "questionNumber": 5,
     "calculator": true,
     "question": "If a line has a slope of 3 and passes through the point $(1, 2)$, what is its equation in point-slope form?",
     "answerOptions": [
@@ -252,7 +156,7 @@ module.exports = [
     ]
   },
   {
-    "questionNumber": 9,
+    "questionNumber": 6,
     "calculator": true,
     "question": "What is the y-intercept of the line with the equation $4x + 2y = 10$?",
     "answerOptions": [
@@ -282,7 +186,7 @@ module.exports = [
     ]
   },
   {
-    "questionNumber": 10,
+    "questionNumber": 7,
     "calculator": true,
     "question": "If $g(x) = x^2 - 10$, what is $g(3)$?",
     "answerOptions": [
@@ -312,39 +216,7 @@ module.exports = [
     ]
   },
   {
-    "questionNumber": 11,
-    "challenge_tags": [
-      "science-1"
-    ],
-    "calculator": true,
-    "type": "image",
-    "imageUrl": "Images/Math/math_graph_3.png",
-    "question": "The graph shows the cost of renting a car based on the number of miles driven. What does the y-intercept of the graph represent?",
-    "answerOptions": [
-      {
-        "text": "The cost per mile.",
-        "isCorrect": false,
-        "rationale": "The cost per mile is the slope of the line."
-      },
-      {
-        "text": "The flat fee or initial cost of the rental.",
-        "isCorrect": true,
-        "rationale": "The y-intercept represents the cost when the miles driven (x) is zero, which is the base rental fee."
-      },
-      {
-        "text": "The total cost of the rental.",
-        "isCorrect": false,
-        "rationale": "The total cost depends on the miles driven."
-      },
-      {
-        "text": "The maximum number of miles you can drive.",
-        "isCorrect": false,
-        "rationale": "The graph does not show a maximum."
-      }
-    ]
-  },
-  {
-    "questionNumber": 12,
+    "questionNumber": 8,
     "calculator": true,
     "question": "Which of the following lines is parallel to the line $y = 4x - 1$?",
     "answerOptions": [
@@ -374,7 +246,7 @@ module.exports = [
     ]
   },
   {
-    "questionNumber": 13,
+    "questionNumber": 9,
     "calculator": true,
     "question": "The function $C(t) = 20t + 50$ represents the cost of a plumber's visit, where $t$ is the number of hours. What is the cost of a 3-hour visit?",
     "answerOptions": [
@@ -404,7 +276,7 @@ module.exports = [
     ]
   },
   {
-    "questionNumber": 14,
+    "questionNumber": 10,
     "calculator": true,
     "question": "What is the x-intercept of the line $3x + 6y = 18$?",
     "answerOptions": [
@@ -427,38 +299,6 @@ module.exports = [
         "text": "18",
         "isCorrect": false,
         "rationale": "This is the constant in the equation."
-      }
-    ],
-    "challenge_tags": [
-      "math-4"
-    ]
-  },
-  {
-    "questionNumber": 15,
-    "calculator": true,
-    "type": "image",
-    "imageUrl": "Images/Math/math_graph_4.png",
-    "question": "The graph shows a parabola. What are the coordinates of the vertex?",
-    "answerOptions": [
-      {
-        "text": "$(0, 4)$",
-        "isCorrect": false,
-        "rationale": "This is the y-intercept."
-      },
-      {
-        "text": "$(2, 0)$",
-        "isCorrect": false,
-        "rationale": "This is one of the x-intercepts."
-      },
-      {
-        "text": "$(3, -2)$",
-        "isCorrect": true,
-        "rationale": "The vertex is the lowest point of the parabola, which is at $(3, -2)$."
-      },
-      {
-        "text": "$(-2, 3)$",
-        "isCorrect": false,
-        "rationale": "This point is not on the graph."
       }
     ],
     "challenge_tags": [

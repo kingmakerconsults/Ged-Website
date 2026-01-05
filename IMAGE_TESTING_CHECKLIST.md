@@ -11,7 +11,7 @@ All image questions in quizzes now load images from the correct `/images/{Subjec
 Open Developer Tools (F12) and look for these logs:
 
 ```
-[IMG FIX] Images/ged-scince-fig-12.png -> /images/Science/ged-scince-fig-12.png (context: Science)
+[IMG FIX] Images/ged-scince-fig-12.png -> /images/Science/ged_scince_fig_12_0001.png (context: Science)
 [IMG FIX] Images/math-image.png -> /images/Math/math-image.png (context: Math)
 ```
 

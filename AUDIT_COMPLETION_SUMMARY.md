@@ -242,10 +242,10 @@ SS_EXTRAS_Q20_IMG - 20th image question in Social Studies Extras
 /Images/SUBJECT/filename
 
 Examples:
-/Images/Science/punnett-square_044598f7.png
-/Images/Science/how-does-nasa-study-hurricanes-nasa_00225935.png
-/Images/Social Studies/Bosses-of-the-Senate.jpg
-/Images/Social Studies/territorial-evolution-of-the-united-states_0037a8d3.png
+//images/Science/punnett_square_0001.png
+//images/Science/how_does_nasa_study_hurricanes_nasa_0001.png
+//images/Social Studies/industrial_america_0001.jpg
+//images/Social Studies/territorial_evolution_of_the_united_states_0001.png
 ```
 
 ---

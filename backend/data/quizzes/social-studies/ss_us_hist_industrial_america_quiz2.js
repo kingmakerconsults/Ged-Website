@@ -9,7 +9,7 @@ module.exports = [
     questionNumber: 1,
     challenge_tags: ['social-1', 'social-5', 'social-3'],
     type: 'image',
-    imageUrl: 'Images/Social Studies/Bosses-of-the-Senate.jpg',
+    imageUrl: '//images/Social Studies/industrial_america_0001.jpg',
     question:
       "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
     answerOptions: [
@@ -213,7 +213,7 @@ module.exports = [
     challenge_tags: ['social-1'],
     type: 'image',
     imageUrl:
-      'Images/Social Studies/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg',
+      '//images/Social Studies/industrial_america_0003.jpg',
     question:
       "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
     answerOptions: [
@@ -280,7 +280,7 @@ module.exports = [
   {
     questionNumber: 9,
     type: 'image',
-    imageUrl: 'Images/Social Studies/licensed-image (13).jpg',
+    imageUrl: '//images/Social Studies/industrial_america_0002.jpg',
     question:
       'This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:',
     answerOptions: [
@@ -315,7 +315,7 @@ module.exports = [
     questionNumber: 10,
     type: 'image',
     imageUrl:
-      'Images/Science/Questions-are-based-on-the-following-graph.-7.png',
+      '//images/Social Studies/industrial_america_0004.png',
     question:
       'This graph shows a significant trend of population growth, similar to the urbanization seen in the U.S. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?',
     answerOptions: [

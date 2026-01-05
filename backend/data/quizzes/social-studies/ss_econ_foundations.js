@@ -173,7 +173,7 @@ module.exports = [
     challenge_tags: ['social-5'],
     type: 'image',
     imageUrl:
-      'Images/Science/Questions-are-based-on-the-following-graph.-7 (1).png',
+      '//images/Social Studies/foundational_concepts_0001.png',
     question:
       'This graph shows a standard supply and demand model. The point where the supply curve and the demand curve intersect is known as:',
     answerOptions: [

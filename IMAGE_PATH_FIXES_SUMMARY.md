@@ -110,8 +110,8 @@ All 4 instances of `<Stem />` component now pass subject:
 
 ### Input Formats
 
-- `Images/ged-scince-fig-12.png` → `/images/Science/ged-scince-fig-12.png`
-- `Images/ged-scince-fig-13.png` → `/images/Science/ged-scince-fig-13.png`
+- `Images/ged-scince-fig-12.png` → `/images/Science/ged_scince_fig_12_0001.png`
+- `Images/ged-scince-fig-13.png` → `/images/Science/ged_scince_fig_13_0001.png`
 - `/frontend/Images/Math/someimage.png` → `/images/Math/someimage.png`
 - `https://quiz.ez-ged.com/Images/Science/fig.png` → `/images/Science/fig.png`
 
@@ -144,7 +144,7 @@ All 4 instances of `<Stem />` component now pass subject:
 Look for `[IMG FIX]` logs to verify image path corrections are working:
 
 ```
-[IMG FIX] Images/ged-scince-fig-12.png -> /images/Science/ged-scince-fig-12.png (context: Science)
+[IMG FIX] Images/ged-scince-fig-12.png -> /images/Science/ged_scince_fig_12_0001.png (context: Science)
 ```
 
 ## Verification Steps

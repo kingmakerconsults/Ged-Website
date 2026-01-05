@@ -76,7 +76,7 @@ module.exports = [
     questionNumber: 3,
     type: 'image',
     imageUrl:
-      'Images/Science/Questions-are-based-on-the-following-graph.-5.png',
+      '//images/Social Studies/global_conflicts_0003.png',
     question:
       "This iconic 'Rosie the Riveter' poster from World War II became a symbol of what major change on the U.S. home front?",
     answerOptions: [
@@ -177,7 +177,7 @@ module.exports = [
   {
     questionNumber: 6,
     type: 'image',
-    imageUrl: 'Images/Social Studies/licensed-image (9).jpg',
+    imageUrl: '//images/Social Studies/global_conflicts_0002.jpg',
     question:
       'This map shows the new borders of Europe established by the Treaty of Versailles after World War I. Why did the U.S. Senate refuse to ratify this treaty?',
     answerOptions: [
@@ -274,7 +274,7 @@ module.exports = [
   {
     questionNumber: 9,
     type: 'image',
-    imageUrl: 'Images/Social Studies/licensed-image (14).jpg',
+    imageUrl: '//images/Social Studies/global_conflicts_0001.jpg',
     question:
       "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
     answerOptions: [

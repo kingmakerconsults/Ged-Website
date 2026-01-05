@@ -8,7 +8,7 @@ module.exports = [
     questionNumber: 1,
     type: 'chart',
     passage:
-      '<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>',
+      '<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="//images/Math/interpreting_bar_graphs_0001.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>',
     question:
       'According to the bar chart, which two toppings are the most popular?',
     answerOptions: [
@@ -40,7 +40,7 @@ module.exports = [
     questionNumber: 2,
     type: 'chart',
     passage:
-      '<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>',
+      '<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="//images/Math/interpreting_bar_graphs_0001.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>',
     question: 'How many more students chose Pepperoni than chose Sausage?',
     answerOptions: [
       {

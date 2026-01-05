@@ -373,7 +373,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     challenge_tags: ['social-2'],
                     type: 'image',
                     imageUrl:
-                      '/images/Social Studies/colonial-history-of-the-united-states_4c9dead1.png',
+                      '/images/Social Studies/colonial_history_of_the_united_states_0001.png',
                     question:
                       'This map shows the New England colonies. Which economic activity would be most characteristic of this region during the colonial era?',
                     answerOptions: [
@@ -407,7 +407,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     questionNumber: 2,
                     type: 'image',
                     imageUrl:
-                      '/images/Social Studies/A map of the Triangular Trade routes..jpg',
+                      '/images/Social Studies/a_map_of_the_triangular_trade_routes_0001.jpg',
                     question:
                       'This map shows the Triangular Trade. The route that transported enslaved Africans from Africa to the Americas was known as the:',
                     answerOptions: [
@@ -476,7 +476,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     challenge_tags: ['social-1'],
                     type: 'image',
                     imageUrl:
-                      '/images/Social Studies/American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg',
+                      '/images/Social Studies/american_school_join_or_die_drawing_considers_th_0001.jpg',
                     question:
                       'This political cartoon by Benjamin Franklin, created in 1754, was used to promote the Albany Plan of Union. What was the primary goal of this plan?',
                     answerOptions: [
@@ -908,7 +908,8 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     questionNumber: 1,
                     challenge_tags: ['social-3', 'social-4'],
                     type: 'image',
-                    imageUrl: '/images/Social Studies/join-or-die_a8363d6c.png',
+                    imageUrl:
+                      '//images/Social Studies/american_school_join_or_die_drawing_considers_th_0001.jpg',
                     question:
                       'This 1754 political cartoon by Benjamin Franklin was originally created to encourage colonial unity during the French and Indian War. How was its message re-purposed during the American Revolution?',
                     answerOptions: [
@@ -1708,7 +1709,8 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '/images/Social Studies/Louisiana_Purchase.png',
+                    imageUrl:
+                      '//images/Social Studies/a_new_nation_quiz_2_0001.png',
                     question:
                       'This map illustrates the impact of the Louisiana Purchase in 1803. What was the most significant effect of this event?',
                     answerOptions: [
@@ -2024,8 +2026,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
               {
                 questionNumber: 2,
                 type: 'image',
-                imageUrl:
-                  '/images/Social Studies/territorial-gains-by-the-us.jpg',
+                imageUrl: '//images/Social Studies/a_nation_divided_0001.jpg',
                 question:
                   'This map shows the territorial expansion of the United States. The belief that it was the divine destiny of the U.S. to expand across the continent, as depicted here, was known as:',
                 answerOptions: [
@@ -2534,7 +2535,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     challenge_tags: ['social-1'],
                     type: 'image',
                     imageUrl:
-                      '/images/Social Studies/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg',
+                      '//images/Social Studies/industrial_america_0003.jpg',
                     question:
                       "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
                     answerOptions: [
@@ -2597,8 +2598,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                   {
                     questionNumber: 5,
                     type: 'image',
-                    imageUrl:
-                      '/images/Social Studies/Screenshot 2025-10-03 133324.png',
+                    imageUrl: '/images/Social Studies/unclassified_0003.png',
                     question:
                       'This graph shows the long-term shift toward an urban majority in the United States. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?',
                     answerOptions: [
@@ -2627,7 +2627,8 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     questionNumber: 1,
                     challenge_tags: ['social-1', 'social-5', 'social-3'],
                     type: 'image',
-                    imageUrl: '/images/Social Studies/Bosses-of-the-Senate.jpg',
+                    imageUrl:
+                      '//images/Social Studies/industrial_america_0001.jpg',
                     question:
                       "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
                     answerOptions: [
@@ -3482,7 +3483,8 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '/images/Social Studies/licensed-image (15).jpg',
+                    imageUrl:
+                      '//images/Social Studies/the_cold_war_era_0001.jpg',
                     question:
                       "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
                     answerOptions: [
@@ -6855,7 +6857,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                 questionNumber: 6,
                 challenge_tags: ['social-5'],
                 type: 'image',
-                imageUrl: '/images/Social Studies/ged-grsph-2.png',
+                imageUrl: '/images/Social Studies/ged_grsph_2_0001.png',
                 question:
                   'This graph shows a standard supply and demand model. The point where the supply curve and the demand curve intersect is known as:',
                 answerOptions: [
@@ -7560,8 +7562,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                 questionNumber: 12,
                 challenge_tags: ['social-5'],
                 type: 'image',
-                imageUrl:
-                  '/images/Social Studies/Screenshot 2025-10-03 134615.png',
+                imageUrl: '/images/Social Studies/unclassified_0045.png',
                 question:
                   'This chart shows the unemployment rate in the U.S. over time. A sharp spike in the unemployment rate, like the ones seen around 2009 and 2020, is typically associated with which phase of the business cycle?',
                 answerOptions: [
@@ -7866,7 +7867,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                 questionNumber: 6,
                 challenge_tags: ['rla-7'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/Social Studies/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/Social Studies/social_studies_bar_graph_0001.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the bar chart, which two toppings are the most popular?',
                 answerOptions: [
@@ -7898,7 +7899,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                 questionNumber: 7,
                 challenge_tags: ['rla-4'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/Social Studies/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/Social Studies/social_studies_bar_graph_0001.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
                   'How many more students chose Pepperoni than chose Sausage?',
                 answerOptions: [
@@ -7932,7 +7933,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                 questionNumber: 8,
                 challenge_tags: ['math-6', 'science-1'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/Social Studies/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/Social Studies/world_energy_consuption_line_graph_0001.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
                 question:
                   "According to the line graph, in which year did the company's profits decrease compared to the previous year?",
                 answerOptions: [
@@ -7965,7 +7966,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
               {
                 questionNumber: 9,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/Social Studies/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/Social Studies/world_energy_consuption_line_graph_0001.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
                 question:
                   'What was the approximate total profit for the company over the 5-year period shown?',
                 answerOptions: [
@@ -7997,7 +7998,8 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                 questionNumber: 10,
                 challenge_tags: ['social-1'],
                 type: 'image',
-                imageUrl: '/images/Social Studies/licensed-image (16).jpg',
+                imageUrl:
+                  '//images/Social Studies/map_and_data_skills_0002.jpg',
                 question:
                   'This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?',
                 answerOptions: [
@@ -8030,7 +8032,8 @@ export const SOCIAL_STUDIES_QUESTIONS = {
               {
                 questionNumber: 11,
                 type: 'image',
-                imageUrl: '/images/Social Studies/licensed-image (16).jpg',
+                imageUrl:
+                  '//images/Social Studies/map_and_data_skills_0002.jpg',
                 question:
                   "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotá) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
@@ -8150,7 +8153,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                 questionNumber: 15,
                 challenge_tags: ['rla-7'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="/images/Social Studies/035fa172-2083-4c13-9485-a5f4bfa28340.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="/images/Social Studies/035fa172_2083_4c13_9485_0001.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the pie chart, how much money is allocated to Housing each month?',
                 answerOptions: [

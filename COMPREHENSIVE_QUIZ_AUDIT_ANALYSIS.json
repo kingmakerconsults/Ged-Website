@@ -174,7 +174,7 @@
         "difficulty": "medium",
         "question": "The diagram below shows a Punnett square used to predict genetic outcomes. Which of the following best describes what a Punnett square represents?",
         "stimulusImage": {
-          "src": "/Images/Science/punnett-square_044598f7.png",
+          "src": "//images/Science/punnett_square_0001.png",
           "alt": "Punnett square showing genetic cross",
           "width": 400,
           "height": 350
@@ -209,7 +209,7 @@
         "difficulty": "medium",
         "question": "The image below shows a NASA photograph of hurricane formation. Based on the visual information, which statement about hurricanes is most accurate?",
         "stimulusImage": {
-          "src": "/Images/Science/how-does-nasa-study-hurricanes-nasa_00225935.png",
+          "src": "//images/Science/how_does_nasa_study_hurricanes_nasa_0001.png",
           "alt": "NASA satellite image of hurricane formation",
           "width": 400,
           "height": 300
@@ -244,7 +244,7 @@
         "difficulty": "easy",
         "question": "The diagram below illustrates different systems in the human body. Which system is primarily responsible for circulating oxygen throughout the body?",
         "stimulusImage": {
-          "src": "/Images/Science/human-body_0a194f0f.png",
+          "src": "//images/Science/human_body_0001.png",
           "alt": "Diagram of human body systems",
           "width": 350,
           "height": 450
@@ -279,7 +279,7 @@
         "difficulty": "medium",
         "question": "The diagram below shows a physics apparatus. Which principle does this equipment demonstrate?",
         "stimulusImage": {
-          "src": "/Images/Science/ged-scince-fig-2.png",
+          "src": "//images/Science/ged_scince_fig_2_0001.png",
           "alt": "Physics demonstration equipment",
           "width": 400,
           "height": 320
@@ -316,7 +316,7 @@
         "difficulty": "medium",
         "question": "The image shows a cross between two organisms. If this represents a Mendelian inheritance pattern, what can be concluded?",
         "stimulusImage": {
-          "src": "/Images/Science/mendelian-inheritance_25031e87.png",
+          "src": "//images/Science/mendelian_inheritance_0001.png",
           "alt": "Mendelian inheritance diagram",
           "width": 400,
           "height": 350
@@ -351,7 +351,7 @@
         "difficulty": "medium",
         "question": "Based on the satellite data shown, which factor most directly affects hurricane intensity?",
         "stimulusImage": {
-          "src": "/Images/Science/five-questions-to-help-you-understand-hurricanes-and-climate-change-nasa_0eede8d4.png",
+          "src": "//images/Science/five_questions_to_help_you_understand_hurricanes_0001.png",
           "alt": "NASA hurricane intensity analysis",
           "width": 400,
           "height": 300
@@ -386,7 +386,7 @@
         "difficulty": "easy",
         "question": "The diagram below shows matter in different states. Which statement is supported by the image?",
         "stimulusImage": {
-          "src": "/Images/Science/matter_bad6b569.png",
+          "src": "//images/Science/matter_0001.png",
           "alt": "States of matter diagram",
           "width": 400,
           "height": 300
@@ -423,7 +423,7 @@
         "difficulty": "medium",
         "question": "The map below shows the territorial expansion of the United States. Which statement best explains the significance of this expansion?",
         "stimulusImage": {
-          "src": "/Images/Social Studies/territorial-evolution-of-the-united-states_0037a8d3.png",
+          "src": "//images/Social Studies/territorial_evolution_of_the_united_states_0001.png",
           "alt": "Map of US territorial expansion",
           "width": 500,
           "height": 400
@@ -458,7 +458,7 @@
         "difficulty": "medium",
         "question": "The political cartoon below critiques the influence of political machines. What is the primary message of this cartoon?",
         "stimulusImage": {
-          "src": "/Images/Social Studies/Bosses-of-the-Senate.jpg",
+          "src": "//images/Social Studies/industrial_america_0001.jpg",
           "alt": "Political cartoon showing Senate bosses",
           "width": 450,
           "height": 350
@@ -493,7 +493,7 @@
         "difficulty": "easy",
         "question": "The chart below displays data about a historical event. What trend does this data most clearly demonstrate?",
         "stimulusImage": {
-          "src": "/Images/Social Studies/Questions-are-based-on-the-following-graph.-1.png",
+          "src": "//images/Social Studies/questions_are_based_on_the_following_graph_1_0001.png",
           "alt": "Historical data chart",
           "width": 500,
           "height": 350
@@ -528,7 +528,7 @@
         "difficulty": "medium",
         "question": "The image below shows a political cartoon from the early 20th century. What historical event or movement does this cartoon most likely reference?",
         "stimulusImage": {
-          "src": "/Images/Social Studies/political-cartoon_090c22af.png",
+          "src": "//images/Social Studies/political_cartoon_0001.png",
           "alt": "Early 20th century political cartoon",
           "width": 450,
           "height": 350
@@ -565,7 +565,7 @@
         "difficulty": "medium",
         "question": "Based on the territorial map shown, which of the following was a consequence of westward expansion?",
         "stimulusImage": {
-          "src": "/Images/Social Studies/territorial-evolution-of-the-united-states_03abb99d.png",
+          "src": "//images/Social Studies/territorial_evolution_of_the_united_states_0002.png",
           "alt": "US territorial expansion map",
           "width": 500,
           "height": 400
@@ -600,7 +600,7 @@
         "difficulty": "medium",
         "question": "The political cartoon below is typical of wartime propaganda. What audience was this cartoon designed to influence?",
         "stimulusImage": {
-          "src": "/Images/Social Studies/FDR-cartoon-photoshoped.gif",
+          "src": "//images/Social Studies/fdr_cartoon_photoshoped_0001.gif",
           "alt": "Wartime propaganda cartoon",
           "width": 450,
           "height": 350
@@ -635,7 +635,7 @@
         "difficulty": "easy",
         "question": "The 'Join or Die' cartoon shown below was used to symbolize something. What did the fragmented snake most likely represent?",
         "stimulusImage": {
-          "src": "/Images/Social Studies/join-or-die_a8363d6c.png",
+          "src": "//images/Social Studies/the_american_revolution_0001.png",
           "alt": "Join or Die political cartoon",
           "width": 450,
           "height": 280

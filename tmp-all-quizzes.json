@@ -1,0 +1,56 @@
+﻿{
+    "Science":  {
+                    "icon":  "BeakerIcon",
+                    "categories":  {
+                                       "Life Science":  "@{description=Explore the fundamental principles of living organisms, from the cellular level to entire ecosystems.; topics=System.Object[]; quizSets=System.Object[]}",
+                                       "Physical Science":  "@{description=Investigate the principles of chemistry and physics that govern the world around us.; topics=System.Object[]; quizSets=System.Object[]}",
+                                       "Scientific Numeracy":  "@{description=Math-in-science skills: density, speed, force, interpreting tables/graphs. No long reading.; topics=System.Object[]; quizSets=System.Object[]}",
+                                       "Earth \u0026 Space Science":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                       "Scientific Practices / Data Reasoning":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                       "Earth and Space Science":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                       "Scientific Practices":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                       "Science Topics":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}"
+                                   }
+                },
+    "Math":  {
+                 "icon":  "CalculatorIcon",
+                 "categories":  {
+                                    "Quantitative Problem Solving":  "@{description=Solve problems using basic math skills like fractions, decimals, percentages, and data analysis.; topics=System.Object[]; quizSets=System.Object[]}",
+                                    "Algebra \u0026 Linear Equations":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                    "Data, Statistics \u0026 Probability":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                    "Geometry \u0026 Measurement":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                    "Graphs \u0026 Functions":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                    "Number Sense \u0026 Operations":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                    "Ratios \u0026 Proportions":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                    "Ratios \u0026 Proportions / Percent Applications":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                    "Math Concepts":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}"
+                                }
+             },
+    "Social Studies":  {
+                           "icon":  "GlobeIcon",
+                           "categories":  {
+                                              "U.S. History":  "@{description=Explore the events, figures, and ideas that shaped the United States, from its origins to the present day.; topics=System.Object[]; quizSets=System.Object[]}",
+                                              "Civics \u0026 Government":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                              "Civil Rights movement and modern era":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                              "Civil War \u0026 Reconstruction":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                              "Colonial era and early United States":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                              "Economics / Geography":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                              "Reading Primary / Secondary Sources":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                              "Westward expansion / industrialization":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                              "Social Studies Topics":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}"
+                                          }
+                       },
+    "Reasoning Through Language Arts (RLA)":  {
+                                                  "icon":  "BookOpenIcon",
+                                                  "categories":  {
+                                                                     "Language \u0026 Grammar":  "@{description=Master the rules of standard English grammar, punctuation, and sentence structure.; topics=System.Object[]; quizSets=System.Object[]}",
+                                                                     "Reading Comprehension: Informational Texts":  "@{description=Practice analyzing non-fiction texts to find main ideas, evaluate arguments, and interpret graphics.; topics=System.Object[]; quizSets=System.Object[]}",
+                                                                     "Evidence Selection":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                                                     "Grammar, Clarity, and Revision":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                                                     "Inference, Tone, and Purpose":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                                                     "Main Idea":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                                                     "Vocabulary in Context":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}",
+                                                                     "RLA Topics":  "@{description=; topics=System.Object[]; quizSets=System.Object[]}"
+                                                                 }
+                                              }
+}

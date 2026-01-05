@@ -92,7 +92,7 @@ Image questions were failing because:
 
 ```javascript
 // Should see these logs:
-[IMG FIX] Images/ged-scince-fig-12.png -> /images/Science/ged-scince-fig-12.png (context: Science)
+[IMG FIX] Images/ged-scince-fig-12.png -> /images/Science/ged_scince_fig_12_0001.png (context: Science)
 
 // All images should load:
 document.querySelectorAll('img').forEach(img =>
@@ -104,7 +104,7 @@ document.querySelectorAll('img').forEach(img =>
 
 ```
 Expected requests:
-GET /images/Science/ged-scince-fig-12.png         200 OK
+GET /images/Science/ged_scince_fig_12_0001.png         200 OK
 GET /images/Math/ged-math-calc.png                200 OK
 GET /images/RLA/grammar-img.png                   200 OK
 GET /images/Social Studies/history-photo.png      200 OK

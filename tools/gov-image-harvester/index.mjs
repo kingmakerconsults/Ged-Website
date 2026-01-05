@@ -3,22 +3,41 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { XMLParser } from 'fast-xml-parser';
 import { fetchHtml, extractPageInfo } from './crawler.mjs';
-import { downloadAndNormalize, createSha1, decideFileName, writeImage } from './image-pipeline.mjs';
-import { loadMetadata, buildIndexes, upsertEntry, saveMetadata } from './metadata.mjs';
+import {
+  downloadAndNormalize,
+  createSha1,
+  decideFileName,
+  writeImage,
+} from './image-pipeline.mjs';
+import {
+  loadMetadata,
+  buildIndexes,
+  upsertEntry,
+  saveMetadata,
+} from './metadata.mjs';
 import crypto from 'node:crypto';
 
 const SUBJECT_CONFIG = {
   Science: {
     folder: 'Science',
-    allowedDomains: new Set(['nasa.gov', 'climate.nasa.gov', 'noaa.gov', 'nhc.noaa.gov', 'usgs.gov', 'epa.gov', 'nih.gov', 'ncbi.nlm.nih.gov']),
+    allowedDomains: new Set([
+      'nasa.gov',
+      'climate.nasa.gov',
+      'noaa.gov',
+      'nhc.noaa.gov',
+      'usgs.gov',
+      'epa.gov',
+      'nih.gov',
+      'ncbi.nlm.nih.gov',
+    ]),
     sitemaps: [
       'https://www.nasa.gov/sitemap.xml',
       'https://climate.nasa.gov/sitemap.xml',
       'https://www.noaa.gov/sitemap.xml',
       'https://www.usgs.gov/sitemap.xml',
       'https://www.epa.gov/sitemap.xml',
-      'https://www.nih.gov/sitemap.xml'
-    ]
+      'https://www.nih.gov/sitemap.xml',
+    ],
   },
   'Social Studies': {
     folder: 'Social Studies',
@@ -50,7 +69,7 @@ const SUBJECT_CONFIG = {
       'smithsonianmag.com',
       'teachinghistory.org',
       'ed.gov',
-      'opendata.arcgis.com'
+      'opendata.arcgis.com',
     ]),
     sitemaps: [
       'https://www.loc.gov/sitemap.xml',
@@ -58,9 +77,9 @@ const SUBJECT_CONFIG = {
       'https://www.census.gov/sitemap.xml',
       'https://www.bls.gov/sitemap.xml',
       'https://www.nps.gov/sitemap.xml',
-      'https://www.data.gov/sitemap.xml'
-    ]
-  }
+      'https://www.data.gov/sitemap.xml',
+    ],
+  },
 };
 
 const METADATA_PATH = path.resolve('image_metadata_final.json');
@@ -148,7 +167,9 @@ async function collectSeedUrls(subject, topics, limit) {
       const parsed = xmlParser.parse(xml);
       let urls = [];
       if (parsed.urlset?.url) {
-        urls = Array.isArray(parsed.urlset.url) ? parsed.urlset.url : [parsed.urlset.url];
+        urls = Array.isArray(parsed.urlset.url)
+          ? parsed.urlset.url
+          : [parsed.urlset.url];
       } else if (parsed.sitemapindex?.sitemap) {
         const nested = Array.isArray(parsed.sitemapindex.sitemap)
           ? parsed.sitemapindex.sitemap
@@ -161,7 +182,9 @@ async function collectSeedUrls(subject, topics, limit) {
             const childXml = await fetchSitemap(childLoc);
             const childParsed = xmlParser.parse(childXml);
             const childUrls = childParsed.urlset?.url || [];
-            const normalized = Array.isArray(childUrls) ? childUrls : [childUrls];
+            const normalized = Array.isArray(childUrls)
+              ? childUrls
+              : [childUrls];
             for (const entry of normalized) {
               if (entry?.loc) {
                 urls.push(entry);
@@ -176,9 +199,13 @@ async function collectSeedUrls(subject, topics, limit) {
         urls
           .map((entry) => ({
             loc: entry?.loc,
-            lastmod: entry?.lastmod || ''
+            lastmod: entry?.lastmod || '',
           }))
-          .filter((entry) => entry.loc && shouldAcceptHost(subject, new URL(entry.loc).hostname)),
+          .filter(
+            (entry) =>
+              entry.loc &&
+              shouldAcceptHost(subject, new URL(entry.loc).hostname)
+          ),
         topics
       ).slice(0, MAX_SEED_PER_SITEMAP);
       for (const entry of filtered) {
@@ -197,8 +224,12 @@ async function collectSeedUrls(subject, topics, limit) {
 
 function generateAltText(image, pageInfo, dominantType) {
   const baseText = image.caption || image.alt || pageInfo.title;
-  const prefix = dominantType ? dominantType.charAt(0).toUpperCase() + dominantType.slice(1) : 'Image';
-  let candidate = baseText ? baseText : `${prefix} from ${new URL(image.srcAbs).hostname}`;
+  const prefix = dominantType
+    ? dominantType.charAt(0).toUpperCase() + dominantType.slice(1)
+    : 'Image';
+  let candidate = baseText
+    ? baseText
+    : `${prefix} from ${new URL(image.srcAbs).hostname}`;
   candidate = candidate.replace(/\s+/g, ' ').trim();
   if (!candidate.toLowerCase().startsWith(prefix.toLowerCase())) {
     candidate = `${prefix}: ${candidate}`;
@@ -228,10 +259,15 @@ function generateDetailedDescription(image, pageInfo, dominantType) {
   if (image.alt && (!image.caption || sentences.length < 2)) {
     sentences.push(image.alt.trim());
   }
-  const contextSentences = summarizeContext(image.context, 2 - sentences.length);
+  const contextSentences = summarizeContext(
+    image.context,
+    2 - sentences.length
+  );
   sentences.push(...contextSentences);
   if (sentences.length < 2) {
-    const fallback = `${prefix.charAt(0).toUpperCase() + prefix.slice(1)} related to ${pageInfo.title || 'the topic'} with explanatory details.`;
+    const fallback = `${
+      prefix.charAt(0).toUpperCase() + prefix.slice(1)
+    } related to ${pageInfo.title || 'the topic'} with explanatory details.`;
     sentences.push(fallback);
   }
   while (sentences.length < 2) {
@@ -299,14 +335,18 @@ function ensureLicense(pageInfo, hostname, subject) {
   }
   let licenseNote = pageInfo.licenseNote || '';
   if (lowerHost.includes('statista.com')) {
-    licenseNote = licenseNote ? `${licenseNote}; Verify Statista licensing before use.` : 'Verify Statista licensing before use.';
+    licenseNote = licenseNote
+      ? `${licenseNote}; Verify Statista licensing before use.`
+      : 'Verify Statista licensing before use.';
   }
   if (lowerHost.includes('reuters.com')) {
-    licenseNote = licenseNote ? `${licenseNote}; Credit Reuters Graphics when used.` : 'Credit Reuters Graphics when used.';
+    licenseNote = licenseNote
+      ? `${licenseNote}; Credit Reuters Graphics when used.`
+      : 'Credit Reuters Graphics when used.';
   }
   return {
     license,
-    licenseNote
+    licenseNote,
   };
 }
 
@@ -326,11 +366,18 @@ async function main() {
   const argv = parseArgs(process.argv.slice(2));
   const subject = argv.subject;
   if (!subject || !SUBJECT_CONFIG[subject]) {
-    console.error('Usage: node tools/gov-image-harvester/index.mjs --subject <Science|"Social Studies"> [--topics "..." --limit N --dry]');
+    console.error(
+      'Usage: node tools/gov-image-harvester/index.mjs --subject <Science|"Social Studies"> [--topics "..." --limit N --dry]'
+    );
     process.exitCode = 1;
     return;
   }
-  const topics = argv.topics ? argv.topics.split(',').map((t) => t.trim()).filter(Boolean) : [];
+  const topics = argv.topics
+    ? argv.topics
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean)
+    : [];
   const limit = argv.limit ? Math.max(1, parseInt(argv.limit, 10)) : 40;
   const dryRun = Boolean(argv.dry);
 
@@ -385,29 +432,53 @@ async function main() {
             continue;
           }
           const { dominantType, metaText } = inferDominantType(image, pageInfo);
-          const { buffer, width, height } = await downloadAndNormalize(image.srcAbs);
+          const { buffer, width, height } = await downloadAndNormalize(
+            image.srcAbs
+          );
           const sha1 = createSha1(buffer);
           if (metadataIndexes.bySha.has(sha1) || state.sha1[sha1]) {
             duplicates += 1;
             continue;
           }
           const imageHost = new URL(image.srcAbs).hostname.toLowerCase();
-          const targetDir = path.resolve('frontend', 'Images', SUBJECT_CONFIG[subject].folder);
+          const targetDir = path.resolve(
+            'frontend',
+            'public',
+            'images',
+            SUBJECT_CONFIG[subject].folder
+          );
           const fileName = await decideFileName(
             {
               sourceTitle: pageInfo.title,
               alt: image.alt,
               pageTitle: pageInfo.title,
-              sha1
+              sha1,
             },
             targetDir
           );
           const filePathFs = path.join(targetDir, fileName);
-          const filePathMeta = path.posix.join('/frontend/Images', SUBJECT_CONFIG[subject].folder, fileName);
+          const filePathMeta = path.posix.join(
+            '/images',
+            SUBJECT_CONFIG[subject].folder,
+            fileName
+          );
           const altText = generateAltText(image, pageInfo, dominantType);
-          const detailedDescription = generateDetailedDescription(image, pageInfo, dominantType);
-          const keywords = generateKeywords(image, pageInfo, dominantType, metaText);
-          const { license, licenseNote } = ensureLicense(pageInfo, imageHost, subject);
+          const detailedDescription = generateDetailedDescription(
+            image,
+            pageInfo,
+            dominantType
+          );
+          const keywords = generateKeywords(
+            image,
+            pageInfo,
+            dominantType,
+            metaText
+          );
+          const { license, licenseNote } = ensureLicense(
+            pageInfo,
+            imageHost,
+            subject
+          );
 
           let record = acceptedPerPage.get(canonicalSource);
           if (!record) {
@@ -436,14 +507,16 @@ async function main() {
             licenseNote,
             educationalUse: 'instructional',
             sha1,
-            collectedAt: new Date().toISOString()
+            collectedAt: new Date().toISOString(),
           };
 
           record.entries.push(metadataEntry);
 
           if (record.count > 1) {
             if (!record.groupId) {
-              record.groupId = `${new URL(canonicalSource).hostname}:${new URL(canonicalSource).pathname}`;
+              record.groupId = `${new URL(canonicalSource).hostname}:${
+                new URL(canonicalSource).pathname
+              }`;
             }
             metadataEntry.groupId = record.groupId;
             if (previousCount === 1 && record.entries.length >= 2) {
@@ -457,19 +530,30 @@ async function main() {
               delete metadataEntry.groupId;
             }
             upsertEntry(metadataEntries, metadataIndexes, metadataEntry);
-            if (record.groupId && previousCount === 1 && record.entries.length >= 2) {
+            if (
+              record.groupId &&
+              previousCount === 1 &&
+              record.entries.length >= 2
+            ) {
               upsertEntry(metadataEntries, metadataIndexes, record.entries[0]);
             }
             state.sha1[sha1] = true;
             subjectState.sourceUrls[imageCanonical] = true;
           }
 
-          console.log(`[+] ${subject} ${filePathMeta} (${width}x${height}) ${host} sha1=${sha1.slice(0, 10)}`);
+          console.log(
+            `[+] ${subject} ${filePathMeta} (${width}x${height}) ${host} sha1=${sha1.slice(
+              0,
+              10
+            )}`
+          );
           saved += 1;
           perSeedCount += 1;
         } catch (imageErr) {
           errors += 1;
-          console.error(`  [!] Image error for ${image.srcAbs}: ${imageErr.message}`);
+          console.error(
+            `  [!] Image error for ${image.srcAbs}: ${imageErr.message}`
+          );
         }
       }
       subjectState.visitedPages[pageUrl] = Date.now();
@@ -485,8 +569,9 @@ async function main() {
     await saveState(state, dryRun);
   }
 
-  console.log(`Saved ${saved} new images, skipped ${duplicates} duplicates, ${errors} errors.`);
-
+  console.log(
+    `Saved ${saved} new images, skipped ${duplicates} duplicates, ${errors} errors.`
+  );
 }
 
 main().catch((err) => {

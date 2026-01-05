@@ -3984,7 +3984,7 @@ const AppData = {
               {
                 questionNumber: 3,
                 type: 'image',
-                imageUrl: '/images/Science/ged-scince-fig-12.png',
+                imageUrl: '/images/Science/ged_scince_fig_12_0001.png',
                 question:
                   'In this food web, which organism is a primary consumer?',
                 answerOptions: [
@@ -5801,7 +5801,7 @@ const AppData = {
               {
                 questionNumber: 14,
                 type: 'image',
-                imageUrl: '/images/Science/ged-scince-fig-7.png',
+                imageUrl: '//images/Science/earth_and_space_systems_0001.png',
                 question:
                   'This diagram illustrates the rock cycle. What process is required to turn a sedimentary rock into a metamorphic rock?',
                 answerOptions: [
@@ -9943,7 +9943,7 @@ const AppData = {
                     questionNumber: 1,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/This-Question-is-based-on-the-following-graph.png',
+                      '/images/Social Studies/this_question_is_based_on_the_following_graph_0001.png',
                     question:
                       'This map shows the New England colonies. Which economic activity would be most characteristic of this region during the colonial era?',
                     answerOptions: [
@@ -9977,7 +9977,7 @@ const AppData = {
                     questionNumber: 2,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/A map of the Triangular Trade routes..jpg',
+                      '/images/Social Studies/a_map_of_the_triangular_trade_routes_0001.jpg',
                     question:
                       'This map shows the Triangular Trade. The route that transported enslaved Africans from Africa to the Americas was known as the:',
                     answerOptions: [
@@ -10045,7 +10045,7 @@ const AppData = {
                     questionNumber: 4,
                     type: 'image',
                     imageUrl:
-                      'Images/Social Studies/American_School_-_Join_or_Die_drawing_considers_the_first_political_cartoon_published_in_the_Penns_-_(MeisterDrucke-971488).jpg',
+                      '/images/Social Studies/american_school_join_or_die_drawing_considers_th_0001.jpg',
                     question:
                       'This political cartoon by Benjamin Franklin, created in 1754, was used to promote the Albany Plan of Union. What was the primary goal of this plan?',
                     answerOptions: [
@@ -11251,7 +11251,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '/images/Social Studies/Louisiana_Purchase.png',
+                    imageUrl: '//images/Social Studies/a_new_nation_quiz_2_0001.png',
                     question:
                       'This map illustrates the impact of the Louisiana Purchase in 1803. What was the most significant effect of this event?',
                     answerOptions: [
@@ -11566,8 +11566,7 @@ const AppData = {
               {
                 questionNumber: 2,
                 type: 'image',
-                imageUrl:
-                  'Images/Social Studies/territorial-gains-by-the-us.jpg',
+                imageUrl: '//images/Social Studies/a_nation_divided_0001.jpg',
                 question:
                   'This map shows the territorial expansion of the United States. The belief that it was the divine destiny of the U.S. to expand across the continent, as depicted here, was known as:',
                 answerOptions: [
@@ -12065,8 +12064,7 @@ const AppData = {
                   {
                     questionNumber: 2,
                     type: 'image',
-                    imageUrl:
-                      'Images/Social Studies/Protectors-of-Our-Industries-Political-Cartoon-e1608514567301.jpg',
+                    imageUrl: '//images/Social Studies/industrial_america_0003.jpg',
                     question:
                       "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
                     answerOptions: [
@@ -12105,7 +12103,7 @@ const AppData = {
                   {
                     questionNumber: 4,
                     type: 'image',
-                    imageUrl: '/images/Social Studies/licensed-image (13).jpg',
+                    imageUrl: '//images/Social Studies/industrial_america_0002.jpg',
                     question:
                       'This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:',
                     answerOptions: [
@@ -12159,7 +12157,7 @@ const AppData = {
                   {
                     questionNumber: 1,
                     type: 'image',
-                    imageUrl: '/images/Social Studies/Bosses-of-the-Senate.jpg',
+                    imageUrl: '//images/Social Studies/industrial_america_0001.jpg',
                     question:
                       "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
                     answerOptions: [
@@ -12451,7 +12449,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '/images/Social Studies/licensed-image (9).jpg',
+                    imageUrl: '//images/Social Studies/global_conflicts_0002.jpg',
                     question:
                       'This map shows the new borders of Europe established by the Treaty of Versailles after World War I. Why did the U.S. Senate refuse to ratify this treaty?',
                     answerOptions: [
@@ -12553,7 +12551,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '/images/Social Studies/licensed-image (14).jpg',
+                    imageUrl: '//images/Social Studies/global_conflicts_0001.jpg',
                     question:
                       "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
                     answerOptions: [
@@ -13005,7 +13003,7 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '/images/Social Studies/licensed-image (15).jpg',
+                    imageUrl: '//images/Social Studies/the_cold_war_era_0001.jpg',
                     question:
                       "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
                     answerOptions: [
@@ -17245,7 +17243,7 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: 'image',
-                imageUrl: '/images/Social Studies/political-map-of-world.jpg',
+                imageUrl: '//images/Social Studies/map_and_data_skills_0003.jpg',
                 question:
                   'This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?',
                 answerOptions: [
@@ -17277,7 +17275,7 @@ const AppData = {
               {
                 questionNumber: 5,
                 type: 'image',
-                imageUrl: '/images/Social Studies/political-map-of-world.jpg',
+                imageUrl: '//images/Social Studies/map_and_data_skills_0003.jpg',
                 question:
                   "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
                 answerOptions: [
@@ -17310,7 +17308,7 @@ const AppData = {
               {
                 questionNumber: 6,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="//images/Math/interpreting_bar_graphs_0001.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the bar chart, which two toppings are the most popular?',
                 answerOptions: [
@@ -17341,7 +17339,7 @@ const AppData = {
               {
                 questionNumber: 7,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="/images/social studies bar graph.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Favorite Pizza Toppings of 100 Students</b><br><img src="//images/Math/interpreting_bar_graphs_0001.png" alt="A bar chart showing pizza topping preferences. Pepperoni is at 45, Mushrooms at 20, Onions at 15, Sausage at 12, and Olives at 8." class="bg-white p-2 rounded"></div>`,
                 question:
                   'How many more students chose Pepperoni than chose Sausage?',
                 answerOptions: [
@@ -17374,7 +17372,7 @@ const AppData = {
               {
                 questionNumber: 8,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="//images/Social Studies/map_and_data_skills_0004.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
                 question:
                   "According to the line graph, in which year did the company's profits decrease compared to the previous year?",
                 answerOptions: [
@@ -17407,7 +17405,7 @@ const AppData = {
               {
                 questionNumber: 9,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/World energy consuption line graph.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="//images/Social Studies/map_and_data_skills_0004.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>`,
                 question:
                   'What was the approximate total profit for the company over the 5-year period shown?',
                 answerOptions: [
@@ -17438,7 +17436,7 @@ const AppData = {
               {
                 questionNumber: 10,
                 type: 'image',
-                imageUrl: '/images/Social Studies/licensed-image (16).jpg',
+                imageUrl: '//images/Social Studies/map_and_data_skills_0002.jpg',
                 question:
                   'This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?',
                 answerOptions: [
@@ -17471,7 +17469,7 @@ const AppData = {
               {
                 questionNumber: 11,
                 type: 'image',
-                imageUrl: '/images/Social Studies/licensed-image (16).jpg',
+                imageUrl: '//images/Social Studies/map_and_data_skills_0002.jpg',
                 question:
                   "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogot�) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
@@ -17590,7 +17588,7 @@ const AppData = {
               {
                 questionNumber: 15,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="/images/Social Studies/035fa172-2083-4c13-9485-a5f4bfa28340.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="/images/Social Studies/035fa172_2083_4c13_9485_0001.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the pie chart, how much money is allocated to Housing each month?',
                 answerOptions: [
@@ -18973,7 +18971,7 @@ const AppData = {
               {
                 questionNumber: 1,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/RLA/interpreting_graphics_0003_0001.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the pie chart, which two Allied nations suffered the highest number of military deaths in World War II?',
                 answerOptions: [
@@ -19006,7 +19004,7 @@ const AppData = {
               {
                 questionNumber: 2,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/RLA/interpreting_graphics_0003_0001.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'The combined military deaths of the United States and the United Kingdom make up approximately what percentage of the total Allied deaths shown?',
                 answerOptions: [
@@ -19039,7 +19037,7 @@ const AppData = {
               {
                 questionNumber: 3,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/RLA/interpreting_graphics_0003_0001.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'What can be inferred from the pie chart about the human cost of World War II for the Soviet Union?',
                 answerOptions: [
@@ -19072,7 +19070,7 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="/images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="/images/RLA/interpreting_graphics_0001_0001.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'Which sector is the largest consumer of electricity according to the bar chart?',
                 answerOptions: [
@@ -19085,7 +19083,7 @@ const AppData = {
               {
                 questionNumber: 5,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="/images/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="/images/RLA/interpreting_graphics_0001_0001.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'What is the combined percentage of electricity consumed by the Residential and Commercial sectors?',
                 answerOptions: [
@@ -19098,7 +19096,7 @@ const AppData = {
               {
                 questionNumber: 6,
                 type: 'multi-source',
-                passage: `<div class="passage-text">Refer to both the article text and the "Electricity Consumption by Sector" bar chart.</div><img src="/images/Social Studies/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded">`,
+                passage: `<div class="passage-text">Refer to both the article text and the "Electricity Consumption by Sector" bar chart.</div><img src="/images/Social Studies/ged_grsph_1_0001.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded">`,
                 question:
                   'The article states that electricity use for transportation is expected to grow. Based on the chart, why would this growth be significant?',
                 answerOptions: [
@@ -19147,7 +19145,7 @@ const AppData = {
               {
                 questionNumber: 9,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="/images/Questions-are-based-on-the-following-graph.-7.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="/images/RLA/interpreting_graphics_0002_0001.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
                 question:
                   'During which 5-year period is the population of City X projected to grow the most?',
                 answerOptions: [
@@ -19160,7 +19158,7 @@ const AppData = {
               {
                 questionNumber: 10,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="/images/Questions-are-based-on-the-following-graph.-7.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Projected Population Growth of City X</b><br><img src="/images/RLA/interpreting_graphics_0002_0001.png" alt="A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k." class="bg-white p-2 rounded"></div>`,
                 question: 'What is the overall trend shown in the graph?',
                 answerOptions: [
                   {
@@ -21134,6 +21132,65 @@ if (typeof window !== 'undefined') {
   window.initPremades = initPremades;
 }
 initPremades();
+
+// Hydrate the expanded quiz catalog from the backend so the full question pool
+// is available for general quizzes (not just the admin audit view).
+if (typeof window !== 'undefined') {
+  (async () => {
+    try {
+      // If we already have expanded data, don't overwrite it.
+      const existing =
+        (window.MergedExpandedQuizData &&
+          Object.keys(window.MergedExpandedQuizData).length) ||
+        (window.ExpandedQuizData &&
+          Object.keys(window.ExpandedQuizData).length) ||
+        (window.__ESM_ExpandedQuizData &&
+          Object.keys(window.__ESM_ExpandedQuizData).length) ||
+        0;
+      if (existing > 0) return;
+
+      const apiBase = window.API_BASE_URL ? String(window.API_BASE_URL) : '';
+      const res = await fetch(`${apiBase}/api/all-quizzes`, {
+        cache: 'no-store',
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data || typeof data !== 'object' || Object.keys(data).length === 0)
+        return;
+
+      // Keep multiple globals in sync because different parts of the legacy app
+      // look at different ones.
+      window.__ESM_ExpandedQuizData = data;
+      if (!window.ExpandedQuizData) window.ExpandedQuizData = data;
+      if (!window.MergedExpandedQuizData) window.MergedExpandedQuizData = data;
+      window.UnifiedQuizCatalog = data;
+
+      // Merge into AppData so the quiz browser can see the full catalog.
+      try {
+        if (typeof integrateExpandedQuizData === 'function') {
+          integrateExpandedQuizData(AppData, data);
+        }
+      } catch (_) {}
+
+      // Rebuild derived catalogs and notify listeners.
+      try {
+        if (typeof window.hydratePremadeCatalogFromWindow === 'function') {
+          window.hydratePremadeCatalogFromWindow();
+        }
+      } catch (_) {}
+      try {
+        if (typeof window.initPremades === 'function') window.initPremades();
+      } catch (_) {}
+      try {
+        window.dispatchEvent(
+          new CustomEvent('quizDataLoaded', { detail: data })
+        );
+      } catch (_) {}
+    } catch (_) {
+      // Silent: legacy app has multiple fallback sources.
+    }
+  })();
+}
 
 // --- QUIZ LIBRARY (clusters) ---
 // Build a centralized cluster library from AppData categories to power a two-level browser.

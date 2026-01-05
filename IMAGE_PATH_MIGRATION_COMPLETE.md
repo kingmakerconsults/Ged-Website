@@ -29,7 +29,7 @@ Updated all image path references in:
 **Old Format:**
 
 ```
-imageUrl: 'Images/Science/ged-scince-fig-12.png'
+imageUrl: '/images/Science/ged_scince_fig_12_0001.png'
 imageUrl: '/Images/Social Studies/...'
 src="Images/Social Studies/..."
 ```
@@ -37,7 +37,7 @@ src="Images/Social Studies/..."
 **New Format:**
 
 ```
-imageUrl: '/images/Science/ged-scince-fig-12.png'
+imageUrl: '/images/Science/ged_scince_fig_12_0001.png'
 imageUrl: '/images/Social Studies/...'
 src="/images/Social Studies/..."
 ```
@@ -91,14 +91,14 @@ npm run dev
 
 Then verify images load at:
 
-- `http://localhost:5173/images/Science/ged-scince-fig-12.png`
+- `http://localhost:5173/images/Science/ged_scince_fig_12_0001.png`
 - `http://localhost:5173/images/Social Studies/...`
 
 ### Production Testing
 
 After deployment to Netlify/Render, verify:
 
-- `https://quiz.ez-ged.com/images/Science/ged-scince-fig-12.png`
+- `https://quiz.ez-ged.com/images/Science/ged_scince_fig_12_0001.png`
 - `https://quiz.ez-ged.com/images/Social Studies/...`
 
 ## Deployment Instructions

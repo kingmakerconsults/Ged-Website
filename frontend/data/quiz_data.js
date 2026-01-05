@@ -1494,7 +1494,7 @@ export const expandedQuizData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '/images/Science/ged-scince-fig-12.png',
+                    imageUrl: '/images/Science/ged_scince_fig_12_0001.png',
                     question:
                       'In this food web, which organism is a primary consumer?',
                     answerOptions: [
@@ -3039,7 +3039,7 @@ export const expandedQuizData = {
                   {
                     questionNumber: 6,
                     type: 'image',
-                    imageUrl: '/images/Science/ged-scince-fig-13.png',
+                    imageUrl: '/images/Science/ged_scince_fig_13_0001.png',
                     question:
                       'This diagram, which is used to predict the genotypes of a particular cross or breeding experiment, is called what?',
                     answerOptions: [
@@ -4474,7 +4474,7 @@ export const expandedQuizData = {
                   {
                     questionNumber: 6,
                     type: 'image',
-                    imageUrl: '/images/Science/ged-scince-fig-8.png',
+                    imageUrl: '/images/Science/ged_scince_fig_8_0001.png',
                     question:
                       'If the person pushes the box with a force of 50 Newtons and the box moves 5 meters, how much work has been done?',
                     answerOptions: [

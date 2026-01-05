@@ -1,0 +1,284 @@
+{
+  "generatedAt": "2025-12-30T16:59:47.254Z",
+  "planned": [
+    {
+      "subjectFolder": "Science",
+      "topicTitle": "Earth & Space Systems",
+      "topicSlug": "earth_and_space_systems",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Science\\SCI_0001.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Science\\earth_and_space_systems_0001.png",
+      "oldUrls": [
+        "/images/Science/SCI_0001.png"
+      ],
+      "newUrl": "/images/Science/earth_and_space_systems_0001.png"
+    },
+    {
+      "subjectFolder": "Math",
+      "topicTitle": "Interpreting Bar Graphs",
+      "topicSlug": "interpreting_bar_graphs",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Math\\MATH_0001.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Math\\interpreting_bar_graphs_0001.png",
+      "oldUrls": [
+        "/images/Math/MATH_0001.png"
+      ],
+      "newUrl": "/images/Math/interpreting_bar_graphs_0001.png"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "The American Revolution (1763-1783)",
+      "topicSlug": "the_american_revolution",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0003.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\the_american_revolution_0001.png",
+      "oldUrls": [
+        "/images/Social Studies/SS_0003.png"
+      ],
+      "newUrl": "/images/Social Studies/the_american_revolution_0001.png"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "A New Nation: Quiz 2",
+      "topicSlug": "a_new_nation_quiz_2",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0009.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\a_new_nation_quiz_2_0001.png",
+      "oldUrls": [
+        "/images/Social Studies/SS_0009.png"
+      ],
+      "newUrl": "/images/Social Studies/a_new_nation_quiz_2_0001.png"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "A Nation Divided (1824-1877)",
+      "topicSlug": "a_nation_divided",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0016.jpg",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\a_nation_divided_0001.jpg",
+      "oldUrls": [
+        "/images/Social Studies/SS_0016.jpg"
+      ],
+      "newUrl": "/images/Social Studies/a_nation_divided_0001.jpg"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Industrial America (1877-1914)",
+      "topicSlug": "industrial_america",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0002.jpg",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\industrial_america_0001.jpg",
+      "oldUrls": [
+        "/images/Social Studies/SS_0002.jpg"
+      ],
+      "newUrl": "/images/Social Studies/industrial_america_0001.jpg"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Industrial America (1877-1914)",
+      "topicSlug": "industrial_america",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0004.jpg",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\industrial_america_0002.jpg",
+      "oldUrls": [
+        "/images/Social Studies/SS_0004.jpg"
+      ],
+      "newUrl": "/images/Social Studies/industrial_america_0002.jpg"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Industrial America (1877-1914)",
+      "topicSlug": "industrial_america",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0011.jpg",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\industrial_america_0003.jpg",
+      "oldUrls": [
+        "/images/Social Studies/SS_0011.jpg"
+      ],
+      "newUrl": "/images/Social Studies/industrial_america_0003.jpg"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Industrial America (1877-1914)",
+      "topicSlug": "industrial_america",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0015.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\industrial_america_0004.png",
+      "oldUrls": [
+        "/images/Social Studies/SS_0015.png"
+      ],
+      "newUrl": "/images/Social Studies/industrial_america_0004.png"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Global Conflicts (1914-1945)",
+      "topicSlug": "global_conflicts",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0005.jpg",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\global_conflicts_0001.jpg",
+      "oldUrls": [
+        "/images/Social Studies/SS_0005.jpg"
+      ],
+      "newUrl": "/images/Social Studies/global_conflicts_0001.jpg"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Global Conflicts (1914-1945)",
+      "topicSlug": "global_conflicts",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0008.jpg",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\global_conflicts_0002.jpg",
+      "oldUrls": [
+        "/images/Social Studies/SS_0008.jpg"
+      ],
+      "newUrl": "/images/Social Studies/global_conflicts_0002.jpg"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Global Conflicts (1914-1945)",
+      "topicSlug": "global_conflicts",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0012.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\global_conflicts_0003.png",
+      "oldUrls": [
+        "/images/Social Studies/SS_0012.png"
+      ],
+      "newUrl": "/images/Social Studies/global_conflicts_0003.png"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "The Cold War Era (1945-1991)",
+      "topicSlug": "the_cold_war_era",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0006.jpg",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\the_cold_war_era_0001.jpg",
+      "oldUrls": [
+        "/images/Social Studies/SS_0006.jpg"
+      ],
+      "newUrl": "/images/Social Studies/the_cold_war_era_0001.jpg"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Foundational Concepts",
+      "topicSlug": "foundational_concepts",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0014.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\foundational_concepts_0001.png",
+      "oldUrls": [
+        "/images/Social Studies/SS_0014.png"
+      ],
+      "newUrl": "/images/Social Studies/foundational_concepts_0001.png"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "The U.S. Economy",
+      "topicSlug": "the_u_s_economy",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0013.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\the_u_s_economy_0001.png",
+      "oldUrls": [
+        "/images/Social Studies/SS_0013.png"
+      ],
+      "newUrl": "/images/Social Studies/the_u_s_economy_0001.png"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Map & Data Skills",
+      "topicSlug": "map_and_data_skills",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0001.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\map_and_data_skills_0001.png",
+      "oldUrls": [
+        "/images/Social Studies/SS_0001.png"
+      ],
+      "newUrl": "/images/Social Studies/map_and_data_skills_0001.png"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Map & Data Skills",
+      "topicSlug": "map_and_data_skills",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0007.jpg",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\map_and_data_skills_0002.jpg",
+      "oldUrls": [
+        "/images/Social Studies/SS_0007.jpg"
+      ],
+      "newUrl": "/images/Social Studies/map_and_data_skills_0002.jpg"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Map & Data Skills",
+      "topicSlug": "map_and_data_skills",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0010.jpg",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\map_and_data_skills_0003.jpg",
+      "oldUrls": [
+        "/images/Social Studies/SS_0010.jpg"
+      ],
+      "newUrl": "/images/Social Studies/map_and_data_skills_0003.jpg"
+    },
+    {
+      "subjectFolder": "Social Studies",
+      "topicTitle": "Map & Data Skills",
+      "topicSlug": "map_and_data_skills",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\SS_0017.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\Social Studies\\map_and_data_skills_0004.png",
+      "oldUrls": [
+        "/images/Social Studies/SS_0017.png"
+      ],
+      "newUrl": "/images/Social Studies/map_and_data_skills_0004.png"
+    },
+    {
+      "subjectFolder": "RLA",
+      "topicTitle": "Interpreting Graphics",
+      "topicSlug": "interpreting_graphics",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\RLA\\RLA_0001.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\RLA\\interpreting_graphics_0001.png",
+      "oldUrls": [
+        "/images/RLA/RLA_0001.png"
+      ],
+      "newUrl": "/images/RLA/interpreting_graphics_0001.png"
+    },
+    {
+      "subjectFolder": "RLA",
+      "topicTitle": "Interpreting Graphics",
+      "topicSlug": "interpreting_graphics",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\RLA\\RLA_0002.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\RLA\\interpreting_graphics_0002.png",
+      "oldUrls": [
+        "/images/RLA/RLA_0002.png"
+      ],
+      "newUrl": "/images/RLA/interpreting_graphics_0002.png"
+    },
+    {
+      "subjectFolder": "RLA",
+      "topicTitle": "Interpreting Graphics",
+      "topicSlug": "interpreting_graphics",
+      "oldAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\RLA\\RLA_0003.png",
+      "newAbs": "C:\\Users\\Zacha\\Ged-Website\\frontend\\public\\images\\RLA\\interpreting_graphics_0003.png",
+      "oldUrls": [
+        "/images/RLA/RLA_0003.png"
+      ],
+      "newUrl": "/images/RLA/interpreting_graphics_0003.png"
+    }
+  ],
+  "changedFiles": [
+    "C:\\Users\\Zacha\\Ged-Website\\AUDIT_COMPLETION_SUMMARY.md",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\image_metadata_final.json",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\math\\math_quant_bar_graph_pizza.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\rla\\rla_info_graphics.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\science\\sci_earth_space.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_econ_foundations.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_econ_us_economy.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_geo_map_skills.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_cold_war.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_cold_war_quiz3.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_divided_nation.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_global_conflicts.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_global_conflicts_quiz1.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_global_conflicts_quiz2.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_global_conflicts_quiz3.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_industrial_america.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_industrial_america_quiz1.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_industrial_america_quiz2.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_industrial_america_quiz3.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_new_nation.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_new_nation_quiz2.js",
+    "C:\\Users\\Zacha\\Ged-Website\\backend\\data\\quizzes\\social-studies\\ss_us_hist_revolution.js",
+    "C:\\Users\\Zacha\\Ged-Website\\Codex Patches\\Image metadata update.txt",
+    "C:\\Users\\Zacha\\Ged-Website\\COMPREHENSIVE_QUIZ_AUDIT_ANALYSIS.json",
+    "C:\\Users\\Zacha\\Ged-Website\\DOCUMENT_INDEX.md",
+    "C:\\Users\\Zacha\\Ged-Website\\frontend\\data\\science\\scienceQuestions.js",
+    "C:\\Users\\Zacha\\Ged-Website\\frontend\\data\\social\\socialStudiesQuestions.js",
+    "C:\\Users\\Zacha\\Ged-Website\\frontend\\src\\legacy\\LegacyRootApp.jsx",
+    "C:\\Users\\Zacha\\Ged-Website\\frontend\\_legacy\\LegacyRootApp.jsx",
+    "C:\\Users\\Zacha\\Ged-Website\\PHASE_IMPLEMENTATION_DATA.json",
+    "C:\\Users\\Zacha\\Ged-Website\\public\\quizzes\\math.quizzes.part2.json",
+    "C:\\Users\\Zacha\\Ged-Website\\public\\quizzes\\rla.quizzes.part2.json",
+    "C:\\Users\\Zacha\\Ged-Website\\public\\quizzes\\science.quizzes.part1.json",
+    "C:\\Users\\Zacha\\Ged-Website\\public\\quizzes\\social-studies.quizzes.part1.json",
+    "C:\\Users\\Zacha\\Ged-Website\\scripts\\rename_quiz_images_subject_number.cjs"
+  ]
+}

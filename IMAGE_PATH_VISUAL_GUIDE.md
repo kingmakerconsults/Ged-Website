@@ -24,9 +24,9 @@ resolveAssetUrl(src, selectedSubject)
   2. Check filename pattern → "scince" found
   3. → Subject = "Science"
     ↓
-Return: "/images/Science/ged-scince-fig-12.png"
+Return: "/images/Science/ged_scince_fig_12_0001.png"
     ↓
-<img src="/images/Science/ged-scince-fig-12.png" />
+<img src="/images/Science/ged_scince_fig_12_0001.png" />
     ↓
 ✅ Browser loads image successfully
 ```
@@ -112,7 +112,7 @@ __html: sanitizeHtmlContent(paragraph, {
 ```
 Input: "Images/ged-scince-fig-12.png"
 Detection: Filename contains "scince"
-Output: "/images/Science/ged-scince-fig-12.png"
+Output: "/images/Science/ged_scince_fig_12_0001.png"
 ```
 
 ### Math Images
@@ -145,7 +145,7 @@ Output: "/images/Social Studies/random-graphic.png" (default)
 ### What You'll See
 
 ```
-GET /images/Science/ged-scince-fig-12.png        200 OK ✓
+GET /images/Science/ged_scince_fig_12_0001.png        200 OK ✓
 GET /images/Math/ged-math-calc.png               200 OK ✓
 GET /images/RLA/grammar-rules.png                200 OK ✓
 GET /images/Social Studies/civil-war.png         200 OK ✓
@@ -164,8 +164,8 @@ GET /images/Social Studies/civil-war.png         200 OK ✓
 ### In Browser DevTools Console
 
 ```
-[IMG FIX] Images/ged-scince-fig-12.png -> /images/Science/ged-scince-fig-12.png (context: Science)
-[IMG FIX] Images/ged-scince-fig-13.png -> /images/Science/ged-scince-fig-13.png (context: Science)
+[IMG FIX] Images/ged-scince-fig-12.png -> /images/Science/ged_scince_fig_12_0001.png (context: Science)
+[IMG FIX] Images/ged-scince-fig-13.png -> /images/Science/ged_scince_fig_13_0001.png (context: Science)
 [IMG FIX] Images/math-calc.png -> /images/Math/math-calc.png (context: Math)
 [sanitizeHtmlContent] Rewriting: Images/economy.png -> /images/Social Studies/economy.png
 ```

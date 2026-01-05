@@ -62,7 +62,7 @@ https://quiz.ez-ged.com/Images/history.png → ❌ External reference
 ### After (Fixed)
 
 ```
-Images/ged-scince-fig-12.png → ✅ /images/Science/ged-scince-fig-12.png
+Images/ged-scince-fig-12.png → ✅ /images/Science/ged_scince_fig_12_0001.png
 /frontend/Images/math-graph.png → ✅ /images/Math/math-graph.png
 https://quiz.ez-ged.com/Images/history.png → ✅ /images/Social Studies/history.png
 ```
@@ -105,7 +105,7 @@ https://quiz.ez-ged.com/Images/history.png → ✅ /images/Social Studies/histor
 Expected logs:
 
 ```javascript
-[IMG FIX] Images/ged-scince-fig-12.png -> /images/Science/ged-scince-fig-12.png (context: Science)
+[IMG FIX] Images/ged-scince-fig-12.png -> /images/Science/ged_scince_fig_12_0001.png (context: Science)
 [IMG FIX] Images/ged-math-calc.png -> /images/Math/ged-math-calc.png (context: Math)
 [IMG FIX] Images/civil-war.png -> /images/Social Studies/civil-war.png (context: Social Studies)
 ```

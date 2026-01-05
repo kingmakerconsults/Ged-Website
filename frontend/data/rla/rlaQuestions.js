@@ -1358,7 +1358,7 @@
                 questionNumber: 1,
                 challenge_tags: ['rla-7'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/Social Studies/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/Social Studies/worldwarii_militarydeaths_allies_piechart_0001.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'According to the pie chart, which two Allied nations suffered the highest number of military deaths in World War II?',
                 answerOptions: [
@@ -1392,7 +1392,7 @@
                 questionNumber: 2,
                 challenge_tags: ['math-1'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/Social Studies/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/Social Studies/worldwarii_militarydeaths_allies_piechart_0001.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'The combined military deaths of the United States and the United Kingdom make up approximately what percentage of the total Allied deaths shown?',
                 answerOptions: [
@@ -1425,7 +1425,7 @@
               {
                 questionNumber: 3,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="Images/Social Studies/WorldWarII-MilitaryDeaths-Allies-Piechart.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src="/images/Social Studies/worldwarii_militarydeaths_allies_piechart_0001.png" alt="A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'What can be inferred from the pie chart about the human cost of World War II for the Soviet Union?',
                 answerOptions: [
@@ -1459,7 +1459,7 @@
                 questionNumber: 4,
                 challenge_tags: ['rla-7'],
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="Images/Social Studies/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="/images/Social Studies/ged_grsph_1_0001.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'Which sector is the largest consumer of electricity according to the bar chart?',
                 answerOptions: [
@@ -1472,7 +1472,7 @@
               {
                 questionNumber: 5,
                 type: 'chart',
-                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="Images/Social Studies/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
+                passage: `<div class="passage-text"><b>Electricity Consumption by Sector</b><br><img src="/images/Social Studies/ged_grsph_1_0001.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded"></div>`,
                 question:
                   'What is the combined percentage of electricity consumed by the Residential and Commercial sectors?',
                 answerOptions: [
@@ -1486,7 +1486,7 @@
                 questionNumber: 6,
                 challenge_tags: ['rla-3'],
                 type: 'multi-source',
-                passage: `<div class="passage-text">Refer to both the article text and the "Electricity Consumption by Sector" bar chart.</div><img src="Images/Social Studies/ged-grsph-1.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded">`,
+                passage: `<div class="passage-text">Refer to both the article text and the "Electricity Consumption by Sector" bar chart.</div><img src="/images/Social Studies/ged_grsph_1_0001.png" alt="A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%." class="bg-white p-2 rounded">`,
                 question:
                   'The article states that electricity use for transportation is expected to grow. Based on the chart, why would this growth be significant?',
                 answerOptions: [

@@ -41,11 +41,32 @@ export default function App() {
 
   useEffect(() => {
     // Initialize premade quizzes once data is available.
-    initPremades(
-      typeof window !== 'undefined' ? window.PREMADE_SOURCE_DATA : null
-    );
+    // Prefer backend catalog so the full question pool is available for general quizzes.
+    (async () => {
+      try {
+        const apiBase =
+          typeof window !== 'undefined' && window.API_BASE_URL
+            ? String(window.API_BASE_URL)
+            : '';
+        const res = await fetch(`${apiBase}/api/all-quizzes`, {
+          cache: 'no-store',
+        });
+        if (res.ok) {
+          const catalog = await res.json();
+          if (typeof window !== 'undefined') {
+            window.PREMADE_SOURCE_DATA = catalog;
+          }
+          initPremades(catalog);
+          setReady(true);
+          return;
+        }
+      } catch (_) {}
 
-    setReady(true);
+      initPremades(
+        typeof window !== 'undefined' ? window.PREMADE_SOURCE_DATA : null
+      );
+      setReady(true);
+    })();
   }, []);
 
   if (!ready) return <div className="p-4">Loading...</div>;

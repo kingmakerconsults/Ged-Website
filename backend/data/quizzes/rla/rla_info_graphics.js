@@ -11,7 +11,7 @@ module.exports = [
       "rla-7"
     ],
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"/images/RLA/interpreting_graphics_0003_0001.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%.\" class=\"bg-white p-2 rounded\"></div>",
     "question": "According to the pie chart, which two Allied nations suffered the highest number of military deaths in World War II?",
     "answerOptions": [
       {
@@ -42,7 +42,7 @@ module.exports = [
       "math-1"
     ],
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"/images/RLA/interpreting_graphics_0003_0001.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%.\" class=\"bg-white p-2 rounded\"></div>",
     "question": "The combined military deaths of the United States and the United Kingdom make up approximately what percentage of the total Allied deaths shown?",
     "answerOptions": [
       {
@@ -70,7 +70,7 @@ module.exports = [
   {
     "questionNumber": 3,
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"Images/WorldWarII-MilitaryDeaths-Allies-Piechart.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"/images/RLA/interpreting_graphics_0003_0001.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%.\" class=\"bg-white p-2 rounded\"></div>",
     "question": "What can be inferred from the pie chart about the human cost of World War II for the Soviet Union?",
     "answerOptions": [
       {
@@ -104,7 +104,7 @@ module.exports = [
       "rla-7"
     ],
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Electricity Consumption by Sector</b><br><img src=\"Images/ged-grsph-1.png\" alt=\"A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Electricity Consumption by Sector</b><br><img src=\"/images/RLA/interpreting_graphics_0001_0001.png\" alt=\"A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%.\" class=\"bg-white p-2 rounded\"></div>",
     "question": "Which sector is the largest consumer of electricity according to the bar chart?",
     "answerOptions": [
       {
@@ -132,7 +132,7 @@ module.exports = [
   {
     "questionNumber": 5,
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Electricity Consumption by Sector</b><br><img src=\"Images/ged-grsph-1.png\" alt=\"A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Electricity Consumption by Sector</b><br><img src=\"/images/RLA/interpreting_graphics_0001_0001.png\" alt=\"A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%.\" class=\"bg-white p-2 rounded\"></div>",
     "question": "What is the combined percentage of electricity consumed by the Residential and Commercial sectors?",
     "answerOptions": [
       {
@@ -166,7 +166,7 @@ module.exports = [
       "rla-3"
     ],
     "type": "multi-source",
-    "passage": "<div class=\"passage-text\">Refer to both the article text and the \"Electricity Consumption by Sector\" bar chart.</div><img src=\"Images/ged-grsph-1.png\" alt=\"A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%.\" class=\"bg-white p-2 rounded\">",
+    "passage": "<div class=\"passage-text\">Refer to both the article text and the \"Electricity Consumption by Sector\" bar chart.</div><img src=\"/images/RLA/interpreting_graphics_0001_0001.png\" alt=\"A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%.\" class=\"bg-white p-2 rounded\">",
     "question": "The article states that electricity use for transportation is expected to grow. Based on the chart, why would this growth be significant?",
     "answerOptions": [
       {
@@ -259,7 +259,7 @@ module.exports = [
       "social-3"
     ],
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Projected Population Growth of City X</b><br><img src=\"Images/Questions-are-based-on-the-following-graph.-7.png\" alt=\"A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Projected Population Growth of City X</b><br><img src=\"/images/RLA/interpreting_graphics_0002_0001.png\" alt=\"A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k.\" class=\"bg-white p-2 rounded\"></div>",
     "question": "During which 5-year period is the population of City X projected to grow the most?",
     "answerOptions": [
       {
@@ -287,7 +287,7 @@ module.exports = [
   {
     "questionNumber": 10,
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Projected Population Growth of City X</b><br><img src=\"Images/Questions-are-based-on-the-following-graph.-7.png\" alt=\"A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Projected Population Growth of City X</b><br><img src=\"/images/RLA/interpreting_graphics_0002_0001.png\" alt=\"A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k.\" class=\"bg-white p-2 rounded\"></div>",
     "question": "What is the overall trend shown in the graph?",
     "answerOptions": [
       {

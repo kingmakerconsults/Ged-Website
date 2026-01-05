@@ -198,8 +198,8 @@ Example: SCI_P1_Q01_IMG
 /Images/SUBJECT/filename
 
 Examples:
-/Images/Science/punnett-square_044598f7.png
-/Images/Social Studies/Bosses-of-the-Senate.jpg
+//images/Science/punnett_square_0001.png
+//images/Social Studies/industrial_america_0001.jpg
 ```
 
 ### Required Fields for Image Questions

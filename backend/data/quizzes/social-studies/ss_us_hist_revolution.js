@@ -350,7 +350,8 @@ module.exports = [
     questionNumber: 1,
     challenge_tags: ['social-3', 'social-4'],
     type: 'image',
-    imageUrl: 'Images/Social Studies/join-or-die_a8363d6c.png',
+    imageUrl:
+      '//images/Social Studies/american_school_join_or_die_drawing_considers_th_0001.jpg',
     question:
       'This 1754 political cartoon by Benjamin Franklin was originally created to encourage colonial unity during the French and Indian War. How was its message re-purposed during the American Revolution?',
     answerOptions: [

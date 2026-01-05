@@ -7,7 +7,7 @@
     "quiz": "Science — Life Science Set 2",
     "questionIndex": 2,
     "questionNumber": 3,
-    "imageUrl": "/images/Science/ged-scince-fig-12.png",
+    "imageUrl": "/images/Science/ged_scince_fig_12_0001.png",
     "imageName": "ged-scince-fig-12.png",
     "exists": true,
     "questionText": "In this food web, which organism is a primary consumer?"
@@ -20,7 +20,7 @@
     "quiz": "Science — Life Science Set 3",
     "questionIndex": 5,
     "questionNumber": 6,
-    "imageUrl": "/images/Science/ged-scince-fig-13.png",
+    "imageUrl": "/images/Science/ged_scince_fig_13_0001.png",
     "imageName": "ged-scince-fig-13.png",
     "exists": true,
     "questionText": "This diagram, which is used to predict the genotypes of a particular cross or breeding experiment, i"
@@ -33,7 +33,7 @@
     "quiz": "Science — Physical Science Set 1",
     "questionIndex": 5,
     "questionNumber": 6,
-    "imageUrl": "/images/Science/ged-scince-fig-8.png",
+    "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
     "imageName": "ged-scince-fig-8.png",
     "exists": true,
     "questionText": "If the person pushes the box with a force of 50 Newtons and the box moves 5 meters, how much work ha"
