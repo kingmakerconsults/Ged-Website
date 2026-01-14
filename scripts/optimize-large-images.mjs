@@ -25,10 +25,10 @@ async function getFileSizeMB(filePath) {
 
 async function findLargeImages(dir, results = []) {
   const entries = await readdir(dir, { withFileTypes: true });
-  
+
   for (const entry of entries) {
     const fullPath = join(dir, entry.name);
-    
+
     if (entry.isDirectory()) {
       await findLargeImages(fullPath, results);
     } else if (entry.isFile() && extname(entry.name).toLowerCase() === '.png') {
@@ -38,7 +38,7 @@ async function findLargeImages(dir, results = []) {
       }
     }
   }
-  
+
   return results;
 }
 
@@ -46,70 +46,80 @@ async function optimizeImage(imagePath) {
   const originalSize = await getFileSizeMB(imagePath);
   console.log(`\n📸 Processing: ${imagePath}`);
   console.log(`   Original size: ${originalSize.toFixed(2)} MB`);
-  
+
   // Load image and get metadata
   const image = sharp(imagePath);
   const metadata = await image.metadata();
-  
+
   console.log(`   Dimensions: ${metadata.width}x${metadata.height}`);
-  
+
   // Calculate resize dimensions if needed
   let resizeWidth = metadata.width;
   if (metadata.width > TARGET_MAX_WIDTH) {
     resizeWidth = TARGET_MAX_WIDTH;
     console.log(`   Resizing to max width: ${TARGET_MAX_WIDTH}px`);
   }
-  
+
   // Convert to JPEG with optimization
   const outputPath = imagePath.replace('.png', '.jpg');
-  
+
   await image
-    .resize(resizeWidth, null, { 
+    .resize(resizeWidth, null, {
       fit: 'inside',
-      withoutEnlargement: true 
+      withoutEnlargement: true,
     })
-    .jpeg({ 
+    .jpeg({
       quality: JPEG_QUALITY,
       progressive: true,
-      mozjpeg: true
+      mozjpeg: true,
     })
     .toFile(outputPath);
-  
+
   const newSize = await getFileSizeMB(outputPath);
-  const reduction = ((originalSize - newSize) / originalSize * 100).toFixed(1);
-  
+  const reduction = (((originalSize - newSize) / originalSize) * 100).toFixed(
+    1
+  );
+
   console.log(`   ✓ Created: ${outputPath}`);
-  console.log(`   New size: ${newSize.toFixed(2)} MB (${reduction}% reduction)`);
-  
+  console.log(
+    `   New size: ${newSize.toFixed(2)} MB (${reduction}% reduction)`
+  );
+
   if (newSize < TARGET_MAX_SIZE_MB) {
     console.log(`   ✓ Under ${TARGET_MAX_SIZE_MB}MB target`);
   } else {
     console.log(`   ⚠ Still over ${TARGET_MAX_SIZE_MB}MB target`);
   }
-  
-  return { originalPath: imagePath, outputPath, originalSize, newSize, reduction };
+
+  return {
+    originalPath: imagePath,
+    outputPath,
+    originalSize,
+    newSize,
+    reduction,
+  };
 }
 
 async function main() {
   const imagesDir = join(__dirname, '..', 'frontend', 'public', 'images');
-  
+
   console.log('🔍 Scanning for large PNG files...');
   console.log(`Directory: ${imagesDir}\n`);
-  
+
   const largeImages = await findLargeImages(imagesDir);
-  
+
   if (largeImages.length === 0) {
     console.log('✓ No large PNG files found (all under 10MB)');
     return;
   }
-  
+
   console.log(`Found ${largeImages.length} large PNG file(s):\n`);
-  largeImages.forEach(img => {
+  largeImages.forEach((img) => {
     console.log(`  - ${img.path} (${img.sizeMB.toFixed(2)} MB)`);
   });
-  
+
   console.log('\n🔧 Starting optimization...');
-  
+
   const results = [];
   for (const img of largeImages) {
     try {
@@ -119,37 +129,46 @@ async function main() {
       console.error(`   ✗ Error processing ${img.path}:`, err.message);
     }
   }
-  
+
   console.log('\n' + '='.repeat(60));
   console.log('📊 OPTIMIZATION SUMMARY');
   console.log('='.repeat(60));
-  
+
   let totalOriginal = 0;
   let totalNew = 0;
-  
-  results.forEach(r => {
+
+  results.forEach((r) => {
     totalOriginal += r.originalSize;
     totalNew += r.newSize;
     console.log(`\n${r.originalPath.split('\\').pop()}`);
-    console.log(`  ${r.originalSize.toFixed(2)} MB → ${r.newSize.toFixed(2)} MB (${r.reduction}% reduction)`);
+    console.log(
+      `  ${r.originalSize.toFixed(2)} MB → ${r.newSize.toFixed(2)} MB (${
+        r.reduction
+      }% reduction)`
+    );
   });
-  
-  const totalReduction = ((totalOriginal - totalNew) / totalOriginal * 100).toFixed(1);
-  
+
+  const totalReduction = (
+    ((totalOriginal - totalNew) / totalOriginal) *
+    100
+  ).toFixed(1);
+
   console.log('\n' + '='.repeat(60));
   console.log(`Total original: ${totalOriginal.toFixed(2)} MB`);
   console.log(`Total optimized: ${totalNew.toFixed(2)} MB`);
   console.log(`Total reduction: ${totalReduction}%`);
   console.log('='.repeat(60));
-  
+
   console.log('\n📝 Next steps:');
   console.log('1. Review the generated .jpg files');
-  console.log('2. Update image references in JSON/code to use .jpg instead of .png');
+  console.log(
+    '2. Update image references in JSON/code to use .jpg instead of .png'
+  );
   console.log('3. Delete the original .png files once confirmed');
   console.log('4. Commit the optimized .jpg files');
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Error:', err);
   process.exit(1);
 });

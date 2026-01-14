@@ -640,9 +640,10 @@ export function QuizInterface({
                         '';
                       const idx = src.indexOf('/Images/');
                       if (idx !== -1) {
+                        // Convert legacy /Images/ to canonical /images/
                         const rel = src
                           .substring(idx)
-                          .replace('/Images/', '/frontend/Images/');
+                          .replace('/Images/', '/images/');
                         e.target.src = origin + rel;
                       } else {
                         e.target.style.display = 'none';

@@ -4476,8 +4476,9 @@ async function buildProfileBundle(userId) {
 
 const app = express();
 // Flexible image resolver with Netlify fallback
+// Support both /images/ (canonical) and legacy /frontend/Images/ paths
 app.get(
-  ['/frontend/images/:subject/:file(*)', '/frontend/Images/:subject/:file(*)'],
+  ['/images/:subject/:file(*)', '/frontend/images/:subject/:file(*)', '/frontend/Images/:subject/:file(*)'],
   (req, res) => {
     let { subject, file } = req.params;
     if (!subject || !file) return res.status(404).send('Not found');
@@ -4583,7 +4584,18 @@ try {
       },
     })
   );
-  // Serve legacy /frontend/Images from the canonical public image library
+  // Serve images from the canonical public image library at /images
+  app.use(
+    '/images',
+    express.static(path.join(__dirname, '../frontend/public/images'), {
+      maxAge: '1h',
+      setHeaders(res) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+      },
+    })
+  );
+  
+  // Legacy compatibility: also serve at /frontend/Images
   app.use(
     '/frontend/Images',
     express.static(path.join(__dirname, '../frontend/public/images'), {

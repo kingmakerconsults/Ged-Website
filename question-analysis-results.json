@@ -768,14 +768,14 @@
     "type": "UNPAIRED_LATEX_DELIMITER",
     "description": "Possible unpaired $ delimiter in LaTeX formula",
     "severity": "MEDIUM",
-    "preview": "passage: `<div class=\"passage-text\"><b>Company Profits (in millions)</b><br><img src=\"Images/Social "
+    "preview": "passage: `<div class=\"passage-text\"><b>Company Profits (in millions)</b><br><img src=\"/images/Social "
   },
   {
     "line": 18537,
     "type": "UNPAIRED_LATEX_DELIMITER",
     "description": "Possible unpaired $ delimiter in LaTeX formula",
     "severity": "MEDIUM",
-    "preview": "passage: `<div class=\"passage-text\"><b>Company Profits (in millions)</b><br><img src=\"Images/Social "
+    "preview": "passage: `<div class=\"passage-text\"><b>Company Profits (in millions)</b><br><img src=\"/images/Social "
   },
   {
     "line": 18542,

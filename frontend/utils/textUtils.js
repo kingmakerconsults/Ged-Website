@@ -460,39 +460,29 @@ export function sanitizeCodeSegment(value, fallback = '') {
 export function normalizeImagePath(path) {
   if (!path) return '';
   let p = String(path).trim().replace(/\\+/g, '/').replace(/\/+/g, '/');
-  p = p.replace(/\/+/g, '/');
-  // Remove leading/trailing whitespace and slashes
-  p = p.replace(/^\s+|\s+$/g, '').replace(/^\/+|\/+$/g, '');
-  // Lowercase /frontend/images and /frontend/images/subject segments only
-  p = p.replace(/^frontend\//i, 'frontend/');
-  p = p.replace(/^frontend\/images\//i, 'frontend/Images/');
-  // If path starts with /frontend/images (any case), normalize to /frontend/Images
-  p = p.replace(/^frontend\/images/i, 'frontend/Images');
-  // Always ensure /frontend/Images/Subject/FileName.png format
-  const parts = p.split('/');
-  if (
-    parts[0].toLowerCase() === 'frontend' &&
-    parts[1] &&
-    parts[1].toLowerCase() === 'images'
-  ) {
-    // Capitalize subject if present
-    if (parts[2]) {
-      parts[2] = parts[2].charAt(0).toUpperCase() + parts[2].slice(1);
-    }
-    p = '/frontend/Images/' + parts.slice(2).join('/');
-  } else if (p.toLowerCase().startsWith('images/')) {
-    // If path starts with images/subject/file, normalize
-    const subparts = p.split('/');
-    if (subparts[1]) {
-      subparts[1] = subparts[1].charAt(0).toUpperCase() + subparts[1].slice(1);
-    }
-    p = '/frontend/Images/' + subparts.slice(1).join('/');
-  } else if (!p.startsWith('/frontend/Images/')) {
-    // Fallback: just ensure it starts with /frontend/Images/
-    p = '/frontend/Images/' + p.replace(/^\/+/, '');
-  } else {
-    p = '/' + p.replace(/^\/+/, '');
+  // Remove leading/trailing whitespace
+  p = p.replace(/^\s+|\s+$/g, '');
+  
+  // Convert legacy /frontend/Images/ to /images/
+  p = p.replace(/^\/frontend\/[Ii]mages\//i, '/images/');
+  p = p.replace(/^frontend\/[Ii]mages\//i, '/images/');
+  
+  // Ensure path starts with /images/
+  if (!p.startsWith('/images/')) {
+    // Remove leading slashes and ensure /images/ prefix
+    p = '/images/' + p.replace(/^\/+/, '');
   }
+  
+  // Normalize subject folder capitalization (e.g., "social studies" -> "Social Studies")
+  const parts = p.split('/');
+  if (parts[0] === '' && parts[1] === 'images' && parts[2]) {
+    // Capitalize each word in subject folder
+    parts[2] = parts[2].split(' ').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    ).join(' ');
+    p = parts.join('/');
+  }
+  
   // Remove duplicate slashes
   p = p.replace(/\/+/g, '/');
   return p;

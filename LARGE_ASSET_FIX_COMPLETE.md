@@ -12,18 +12,22 @@ Successfully resolved large asset problems that were causing GitHub warnings and
 ## Problems Fixed
 
 ### ✅ 1. Build Output Tracking
+
 **Issue:** 622 files in `frontend/dist/` were tracked by Git, including the problematic 87MB and 83MB PNG files.  
 **Root Cause:** Build artifacts were being committed instead of generated during deployment.
 
 **Solution:**
+
 - Removed `frontend/dist/` from Git tracking (`git rm -r --cached frontend/dist`)
 - Updated `.gitignore` to prevent future tracking
 - Build now generates `dist/` fresh on each deployment
 
 ### ✅ 2. Large Image Files
+
 **Issue:** 19 Social Studies PNG images totaling 545MB were tracked, with 2 files exceeding GitHub's warning threshold (50MB+).
 
 **Solution:**
+
 - Created optimization script: [scripts/optimize-large-images.mjs](scripts/optimize-large-images.mjs)
 - Converted 19 large PNGs to optimized JPEGs
 - **Result: 545MB → 12MB (97.8% reduction)**
@@ -31,9 +35,11 @@ Successfully resolved large asset problems that were causing GitHub warnings and
 - Deleted original PNG files
 
 ### ✅ 3. Archive Prevention
+
 **Issue:** Risk of committing large ZIP archives that exceed GitHub's 100MB limit.
 
 **Solution:**
+
 - Added `*.zip`, `*.7z`, `*.tar`, `*.gz`, `*.rar` to `.gitignore`
 - Archives must be stored externally or excluded from Git
 
@@ -44,6 +50,7 @@ Successfully resolved large asset problems that were causing GitHub warnings and
 ### Files Modified
 
 #### [.gitignore](.gitignore)
+
 ```gitignore
 # Build outputs (generated during deploy)
 dist/
@@ -62,13 +69,16 @@ frontend/build/
 ```
 
 #### Image Optimization
+
 - **19 PNGs** → **19 JPGs** in `frontend/public/images/Social Studies/`
 - Resized to max 2000px wide
 - JPEG quality: 85%
 - All under 2MB each
 
 #### Reference Updates
+
 Updated 301 image references in:
+
 - `backend/data/image_metadata_final.json`
 - `backend/image_metadata_final.json`
 - `backend/quizzes/social-studies.quizzes.json`
@@ -78,12 +88,14 @@ Updated 301 image references in:
 ### New Scripts Created
 
 1. **[scripts/optimize-large-images.mjs](scripts/optimize-large-images.mjs)**
+
    - Scans for PNGs > 10MB
    - Converts to optimized JPEGs
    - Resizes to max 2000px wide
    - Reports compression statistics
 
 2. **[scripts/update-image-references.mjs](scripts/update-image-references.mjs)**
+
    - Updates all JSON files
    - Changes `.png` → `.jpg` for optimized images
    - Handles URL-encoded and standard paths
@@ -98,13 +110,16 @@ Updated 301 image references in:
 ## Deployment Verification
 
 ### Build Configuration ✅
+
 - **Build command:** `npm run build:frontend`
 - **Publish directory:** `frontend/dist`
 - **Source images:** `frontend/public/images/`
 - **Build copies:** Public assets automatically copied to `dist/` during build
 
 ### Netlify Configuration ✅
+
 File: [netlify.toml](netlify.toml)
+
 ```toml
 [build]
   command = "npm run build:frontend"
@@ -115,7 +130,9 @@ File: [netlify.toml](netlify.toml)
 ```
 
 ### Vite Configuration ✅
+
 File: [vite.config.mts](vite.config.mts)
+
 - Root: `frontend/`
 - Output: `frontend/dist/`
 - Public assets: Automatically copied from `frontend/public/`
@@ -125,11 +142,13 @@ File: [vite.config.mts](vite.config.mts)
 ## Results
 
 ### Repository Size Reduction
+
 - **Before:** 622 tracked dist files + 545MB of large images
 - **After:** 0 dist files + 12MB of optimized images
 - **Net reduction:** ~533MB removed from repository
 
 ### Current State
+
 ```bash
 # Check tracked files over 50MB
 git ls-files | ForEach-Object { ... }
@@ -137,11 +156,12 @@ git ls-files | ForEach-Object { ... }
 ```
 
 ### Image Performance
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| Total Size | 545 MB | 12 MB | 97.8% reduction |
+
+| Metric       | Before   | After   | Improvement     |
+| ------------ | -------- | ------- | --------------- |
+| Total Size   | 545 MB   | 12 MB   | 97.8% reduction |
 | Largest File | 87.65 MB | 1.56 MB | 98.2% reduction |
-| Average Size | 28.7 MB | 0.63 MB | 97.8% reduction |
+| Average Size | 28.7 MB  | 0.63 MB | 97.8% reduction |
 
 ---
 
@@ -159,26 +179,29 @@ git ls-files | ForEach-Object { ... }
 ## How to Use
 
 ### Run Optimization (if needed in future)
+
 ```bash
 node scripts/optimize-large-images.mjs
 node scripts/update-image-references.mjs
 ```
 
 ### Audit Repository
+
 ```bash
 # PowerShell
 .\scripts\audit-large-files.ps1
 
 # Or manually
-git ls-files | ForEach-Object { 
+git ls-files | ForEach-Object {
   $size = (Get-Item $_ -ErrorAction SilentlyContinue).Length
-  if ($size -gt 50MB) { 
-    [PSCustomObject]@{File=$_; SizeMB=[math]::Round($size/1MB, 2)} 
-  } 
+  if ($size -gt 50MB) {
+    [PSCustomObject]@{File=$_; SizeMB=[math]::Round($size/1MB, 2)}
+  }
 }
 ```
 
 ### Verify Build
+
 ```bash
 npm run build:frontend
 # Check that frontend/dist/ is generated with all assets
@@ -189,6 +212,7 @@ npm run build:frontend
 ## Prevention Checklist
 
 Going forward, ensure:
+
 - [ ] Never commit files from `dist/` or `build/` directories
 - [ ] Keep source images in `frontend/public/` under 10MB
 - [ ] Run optimization script for any new large images
@@ -201,6 +225,7 @@ Going forward, ensure:
 ## Technical Details
 
 ### Optimized Images List
+
 1. american_civil_war_0004.png → .jpg (87.65 MB → 0.71 MB)
 2. gilded_age_0003.png → .jpg (83.31 MB → 0.38 MB)
 3. history_of_propaganda_0001.png → .jpg (46.47 MB → 0.60 MB)

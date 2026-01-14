@@ -31,22 +31,29 @@ const OPTIMIZED_IMAGES = [
   'political_ideologies_in_the_united_states_0002',
   'puck_magazine_0007',
   'puck_magazine_0010',
-  'robber_baron_industrialist_0001'
+  'robber_baron_industrialist_0001',
 ];
 
 async function findJsonFiles(dir, results = []) {
   const entries = await readdir(dir, { withFileTypes: true });
-  
+
   for (const entry of entries) {
     const fullPath = join(dir, entry.name);
-    
-    if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
+
+    if (
+      entry.isDirectory() &&
+      !entry.name.startsWith('.') &&
+      entry.name !== 'node_modules'
+    ) {
       await findJsonFiles(fullPath, results);
-    } else if (entry.isFile() && extname(entry.name).toLowerCase() === '.json') {
+    } else if (
+      entry.isFile() &&
+      extname(entry.name).toLowerCase() === '.json'
+    ) {
       results.push(fullPath);
     }
   }
-  
+
   return results;
 }
 
@@ -54,7 +61,7 @@ async function updateImageReferences(filePath) {
   const content = await readFile(filePath, 'utf8');
   let updated = content;
   let replacements = 0;
-  
+
   // Update each optimized image reference
   for (const imageName of OPTIMIZED_IMAGES) {
     // Handle both encoded and non-encoded paths
@@ -64,14 +71,14 @@ async function updateImageReferences(filePath) {
       new RegExp(`\\\\images\\\\Social Studies\\\\${imageName}\\.png`, 'g'),
       new RegExp(`"fileName": "${imageName}\\.png"`, 'g'),
     ];
-    
+
     const replacements_map = [
       `/images/Social Studies/${imageName}.jpg`,
       `/images/Social%20Studies/${imageName}.jpg`,
       `\\images\\Social Studies\\${imageName}.jpg`,
       `"fileName": "${imageName}.jpg"`,
     ];
-    
+
     patterns.forEach((pattern, idx) => {
       const matches = (updated.match(pattern) || []).length;
       if (matches > 0) {
@@ -80,30 +87,32 @@ async function updateImageReferences(filePath) {
       }
     });
   }
-  
+
   return { updated, replacements };
 }
 
 async function main() {
   const rootDir = join(__dirname, '..');
-  
+
   console.log('🔍 Scanning for JSON files...\n');
-  
+
   const jsonFiles = await findJsonFiles(rootDir);
-  
+
   console.log(`Found ${jsonFiles.length} JSON files\n`);
   console.log('🔧 Updating image references from .png to .jpg...\n');
-  
+
   let totalReplacements = 0;
   const updatedFiles = [];
-  
+
   for (const filePath of jsonFiles) {
     try {
       const { updated, replacements } = await updateImageReferences(filePath);
-      
+
       if (replacements > 0) {
         await writeFile(filePath, updated, 'utf8');
-        const relativePath = filePath.replace(rootDir, '').replace(/^[\\/]/, '');
+        const relativePath = filePath
+          .replace(rootDir, '')
+          .replace(/^[\\/]/, '');
         console.log(`✓ ${relativePath}: ${replacements} reference(s) updated`);
         updatedFiles.push({ path: relativePath, count: replacements });
         totalReplacements += replacements;
@@ -112,25 +121,25 @@ async function main() {
       console.error(`✗ Error processing ${filePath}:`, err.message);
     }
   }
-  
+
   console.log('\n' + '='.repeat(60));
   console.log('📊 UPDATE SUMMARY');
   console.log('='.repeat(60));
   console.log(`Files updated: ${updatedFiles.length}`);
   console.log(`Total replacements: ${totalReplacements}`);
   console.log('='.repeat(60));
-  
+
   if (updatedFiles.length > 0) {
     console.log('\nUpdated files:');
-    updatedFiles.forEach(f => {
+    updatedFiles.forEach((f) => {
       console.log(`  - ${f.path} (${f.count})`);
     });
   }
-  
+
   console.log('\n✓ Image references updated successfully!');
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Error:', err);
   process.exit(1);
 });

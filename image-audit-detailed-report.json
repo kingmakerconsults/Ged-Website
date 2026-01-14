@@ -599,7 +599,7 @@
   "brokenReferences": [],
   "recommendations": [
     "1. Images should be placed in: frontend/public/images/{Subject}/",
-    "2. Quiz data should reference: imageUrl: \"Images/filename.png\"",
+    "2. Quiz data should reference: imageUrl: \"/images/filename.png\"",
     "3. Frontend converts to: /images/{Subject}/filename.png",
     "4. Backend serves from: /images route"
   ]
