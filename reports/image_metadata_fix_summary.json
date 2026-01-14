@@ -1,0 +1,13 @@
+{
+  "summary": {
+    "imageFilesOnDisk": 560,
+    "inputMetadataEntries": 560,
+    "outputMetadataEntries": 560,
+    "kept": 560,
+    "moved": 0,
+    "pruned": 0,
+    "addedMissing": 0
+  },
+  "backupPath": "C:\\Users\\Zacha\\Ged-Website\\reports\\image_metadata_final.backup.2026-01-05T20-00-42-316Z.json",
+  "wrote": true
+}

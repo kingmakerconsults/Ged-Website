@@ -6083,7 +6083,12 @@
         "totalTime": 900,
         "calculator": true,
         "formulaSheet": true,
-        "parts": [{ "name": "Quiz", "questionCount": 12 }]
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
       },
       "file": "backend/data/quizzes/math/math_quant_numbers.js"
     }
@@ -6100,7 +6105,12 @@
         "totalTime": 300,
         "calculator": true,
         "formulaSheet": true,
-        "parts": [{ "name": "Quiz", "questionCount": 2 }]
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 2
+          }
+        ]
       },
       "file": "backend/data/quizzes/math/math_quant_bar_graph_pizza.js"
     }
@@ -6117,9 +6127,2408 @@
         "totalTime": 900,
         "calculator": false,
         "formulaSheet": false,
-        "parts": [{ "name": "Quiz", "questionCount": 12 }]
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 12
+          }
+        ]
       },
       "file": "backend/data/quizzes/social-studies/ss_us_hist_foundations.js"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "math_img_bar_graphs",
+      "title": "bar-graphs Visual Practice",
+      "description": "Image-based practice questions for bar-graphs.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_img_bar_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "RLA",
+    "subjectFolder": "rla",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "rla_img_us_history_maps",
+      "title": "US-history-maps Visual Practice",
+      "description": "Image-based practice questions for US-history-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_img_us_history_maps.js"
+    }
+  },
+  {
+    "subjectKey": "RLA",
+    "subjectFolder": "rla",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "rla_img_historical_charts",
+      "title": "historical-charts Visual Practice",
+      "description": "Image-based practice questions for historical-charts.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/rla_img_historical_charts.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_genetics_diagrams",
+      "title": "genetics-diagrams Visual Practice",
+      "description": "Image-based practice questions for genetics-diagrams.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 4
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_genetics_diagrams.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_chemistry_tables",
+      "title": "chemistry-tables Visual Practice",
+      "description": "Image-based practice questions for chemistry-tables.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_chemistry_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_earth_science_data",
+      "title": "earth-science-data Visual Practice",
+      "description": "Image-based practice questions for earth-science-data.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_earth_science_data.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_labor_statistics_charts",
+      "title": "labor statistics charts Visual Practice",
+      "description": "Image-based practice questions for labor statistics charts.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_labor_statistics_charts.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_physics_diagrams",
+      "title": "physics-diagrams Visual Practice",
+      "description": "Image-based practice questions for physics-diagrams.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 10
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_physics_diagrams.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_biology_diagrams",
+      "title": "biology-diagrams Visual Practice",
+      "description": "Image-based practice questions for biology-diagrams.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 24
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_biology_diagrams.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_anatomy_diagrams",
+      "title": "anatomy-diagrams Visual Practice",
+      "description": "Image-based practice questions for anatomy-diagrams.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_anatomy_diagrams.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_chemistry_diagrams",
+      "title": "chemistry-diagrams Visual Practice",
+      "description": "Image-based practice questions for chemistry-diagrams.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 10
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_chemistry_diagrams.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_atomic_structure",
+      "title": "atomic-structure Visual Practice",
+      "description": "Image-based practice questions for atomic-structure.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_atomic_structure.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_earth_science_diagrams",
+      "title": "earth-science-diagrams Visual Practice",
+      "description": "Image-based practice questions for earth-science-diagrams.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 4
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_earth_science_diagrams.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_astronomy_diagrams",
+      "title": "astronomy-diagrams Visual Practice",
+      "description": "Image-based practice questions for astronomy-diagrams.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 4
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_astronomy_diagrams.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_plant_cell_diagrams",
+      "title": "plant-cell-diagrams Visual Practice",
+      "description": "Image-based practice questions for plant-cell-diagrams.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_plant_cell_diagrams.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_astronomy_diagram",
+      "title": "astronomy-diagram Visual Practice",
+      "description": "Image-based practice questions for astronomy-diagram.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_astronomy_diagram.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_chemistry_graphs",
+      "title": "chemistry-graphs Visual Practice",
+      "description": "Image-based practice questions for chemistry-graphs.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_chemistry_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_science_graphs",
+      "title": "science-graphs Visual Practice",
+      "description": "Image-based practice questions for science-graphs.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_science_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_biology_pie_charts",
+      "title": "biology-pie-charts Visual Practice",
+      "description": "Image-based practice questions for biology-pie-charts.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_biology_pie_charts.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_physiology_graphs",
+      "title": "physiology-graphs Visual Practice",
+      "description": "Image-based practice questions for physiology-graphs.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_physiology_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_tables",
+      "title": "tables Visual Practice",
+      "description": "Image-based practice questions for tables.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_biology_definitions",
+      "title": "biology-definitions Visual Practice",
+      "description": "Image-based practice questions for biology-definitions.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_biology_definitions.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_biology_experiments",
+      "title": "biology-experiments Visual Practice",
+      "description": "Image-based practice questions for biology-experiments.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_biology_experiments.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_health_data_tables",
+      "title": "health-data-tables Visual Practice",
+      "description": "Image-based practice questions for health-data-tables.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_health_data_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_physics_graphs",
+      "title": "physics-graphs Visual Practice",
+      "description": "Image-based practice questions for physics-graphs.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_physics_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_general",
+      "title": "General Visual Practice",
+      "description": "Image-based practice questions for General.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_general.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_energy_statistics",
+      "title": "energy-statistics Visual Practice",
+      "description": "Image-based practice questions for energy-statistics.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_energy_statistics.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_geology_maps",
+      "title": "geology-maps Visual Practice",
+      "description": "Image-based practice questions for geology-maps.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 1
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_geology_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_geology_diagrams",
+      "title": "geology-diagrams Visual Practice",
+      "description": "Image-based practice questions for geology-diagrams.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_geology_diagrams.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_chemistry_definitions",
+      "title": "chemistry-definitions Visual Practice",
+      "description": "Image-based practice questions for chemistry-definitions.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_chemistry_definitions.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_physics_concepts",
+      "title": "physics-concepts Visual Practice",
+      "description": "Image-based practice questions for physics-concepts.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_physics_concepts.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_line_graphs",
+      "title": "line-graphs Visual Practice",
+      "description": "Image-based practice questions for line-graphs.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_line_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "science_img_biology_tables",
+      "title": "biology-tables Visual Practice",
+      "description": "Image-based practice questions for biology-tables.",
+      "config": {
+        "calculator": true,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/science_img_biology_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historical_maps",
+      "title": "historical-maps Visual Practice",
+      "description": "Image-based practice questions for historical-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 165
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_history_maps",
+      "title": "history-maps Visual Practice",
+      "description": "Image-based practice questions for history-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 13
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_general",
+      "title": "General Visual Practice",
+      "description": "Image-based practice questions for General.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_general.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historical_maps_civil_war_cartoons",
+      "title": "historical-maps, civil-war-cartoons Visual Practice",
+      "description": "Image-based practice questions for historical-maps, civil-war-cartoons.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_maps_civil_war_cartoons.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historical_cartoons",
+      "title": "historical-cartoons Visual Practice",
+      "description": "Image-based practice questions for historical-cartoons.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_cartoons.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_political_cartoons",
+      "title": "political-cartoons Visual Practice",
+      "description": "Image-based practice questions for political-cartoons.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 52
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_political_cartoons.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_economic_maps",
+      "title": "economic-maps Visual Practice",
+      "description": "Image-based practice questions for economic-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_economic_graphs",
+      "title": "economic-graphs Visual Practice",
+      "description": "Image-based practice questions for economic-graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_renaissance_art",
+      "title": "renaissance-art Visual Practice",
+      "description": "Image-based practice questions for renaissance-art.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_renaissance_art.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historical_photos",
+      "title": "historical-photos Visual Practice",
+      "description": "Image-based practice questions for historical-photos.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_photos.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_history_photos",
+      "title": "history-photos Visual Practice",
+      "description": "Image-based practice questions for history-photos.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_photos.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_social_protests",
+      "title": "social-protests Visual Practice",
+      "description": "Image-based practice questions for social-protests.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_protests.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_history_civil_unrest",
+      "title": "history-civil-unrest Visual Practice",
+      "description": "Image-based practice questions for history-civil-unrest.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_civil_unrest.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_political_cartoons_wwii_history",
+      "title": "political-cartoons-WWII-history Visual Practice",
+      "description": "Image-based practice questions for political-cartoons-WWII-history.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_political_cartoons_wwii_history.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_us_history_political_cartoons",
+      "title": "US-history, political-cartoons Visual Practice",
+      "description": "Image-based practice questions for US-history, political-cartoons.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_history_political_cartoons.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_cold_war_alliances_map",
+      "title": "cold-war-alliances-map Visual Practice",
+      "description": "Image-based practice questions for cold-war-alliances-map.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_cold_war_alliances_map.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_graphs",
+      "title": "graphs Visual Practice",
+      "description": "Image-based practice questions for graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_bar_graphs",
+      "title": "bar-graphs Visual Practice",
+      "description": "Image-based practice questions for bar-graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_bar_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_economics_graphs",
+      "title": "economics-graphs Visual Practice",
+      "description": "Image-based practice questions for economics-graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 15
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_demographics_graphs",
+      "title": "demographics-graphs Visual Practice",
+      "description": "Image-based practice questions for demographics-graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_health_charts",
+      "title": "health-charts Visual Practice",
+      "description": "Image-based practice questions for health-charts.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_health_charts.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_economic_line_graphs",
+      "title": "economic-line-graphs Visual Practice",
+      "description": "Image-based practice questions for economic-line-graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_line_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historical_urban_scene",
+      "title": "historical-urban-scene Visual Practice",
+      "description": "Image-based practice questions for historical-urban-scene.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_urban_scene.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_political_cartoons",
+      "title": "Political-cartoons Visual Practice",
+      "description": "Image-based practice questions for Political-cartoons.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_political_cartoons.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_civil_rights_movement_photographs",
+      "title": "civil-rights-movement-photographs Visual Practice",
+      "description": "Image-based practice questions for civil-rights-movement-photographs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civil_rights_movement_photographs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_state_flags",
+      "title": "state-flags Visual Practice",
+      "description": "Image-based practice questions for state-flags.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_state_flags.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_political_maps",
+      "title": "political-maps Visual Practice",
+      "description": "Image-based practice questions for political-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_political_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_pie_charts",
+      "title": "pie-charts Visual Practice",
+      "description": "Image-based practice questions for pie-charts.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_pie_charts.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_world_maps",
+      "title": "world-maps Visual Practice",
+      "description": "Image-based practice questions for world-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_world_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historic_photos",
+      "title": "historic-photos Visual Practice",
+      "description": "Image-based practice questions for historic-photos.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historic_photos.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historical_illustration",
+      "title": "historical-illustration Visual Practice",
+      "description": "Image-based practice questions for historical-illustration.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_illustration.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_data_tables",
+      "title": "data-tables Visual Practice",
+      "description": "Image-based practice questions for data-tables.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 4
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_data_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_us_history_maps",
+      "title": "US-history-maps Visual Practice",
+      "description": "Image-based practice questions for US-history-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 62
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_history_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historical_maps_territorial_changes",
+      "title": "historical-maps, territorial-changes Visual Practice",
+      "description": "Image-based practice questions for historical-maps, territorial-changes.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_maps_territorial_changes.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_us_history_historical_maps",
+      "title": "US-history, historical-maps Visual Practice",
+      "description": "Image-based practice questions for US-history, historical-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_history_historical_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historical_map",
+      "title": "historical-map Visual Practice",
+      "description": "Image-based practice questions for historical-map.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_map.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_us_historical_maps",
+      "title": "US-historical-maps Visual Practice",
+      "description": "Image-based practice questions for US-historical-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_historical_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_u_s_history_maps",
+      "title": "U.S.-history-maps Visual Practice",
+      "description": "Image-based practice questions for U.S.-history-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_u_s_history_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_line_graphs",
+      "title": "line-graphs Visual Practice",
+      "description": "Image-based practice questions for line-graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 8
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_line_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_economics_pie_chart",
+      "title": "economics-pie-chart Visual Practice",
+      "description": "Image-based practice questions for economics-pie-chart.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_pie_chart.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_timelines",
+      "title": "timelines Visual Practice",
+      "description": "Image-based practice questions for timelines.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_timelines.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_civics_tables",
+      "title": "civics-tables Visual Practice",
+      "description": "Image-based practice questions for civics-tables.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civics_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_civics_flowcharts",
+      "title": "civics-flowcharts Visual Practice",
+      "description": "Image-based practice questions for civics-flowcharts.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 4
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civics_flowcharts.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_government_structures_table",
+      "title": "government-structures-table Visual Practice",
+      "description": "Image-based practice questions for government-structures-table.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_government_structures_table.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_civics_documents",
+      "title": "civics-documents Visual Practice",
+      "description": "Image-based practice questions for civics-documents.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civics_documents.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historical_illustrations",
+      "title": "historical-illustrations Visual Practice",
+      "description": "Image-based practice questions for historical-illustrations.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_illustrations.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_demographics_tables",
+      "title": "demographics-tables Visual Practice",
+      "description": "Image-based practice questions for demographics-tables.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_history_timeline",
+      "title": "history-timeline Visual Practice",
+      "description": "Image-based practice questions for history-timeline.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_timeline.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_history_concept_maps",
+      "title": "history-concept-maps Visual Practice",
+      "description": "Image-based practice questions for history-concept-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_concept_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_history_tables",
+      "title": "history-tables Visual Practice",
+      "description": "Image-based practice questions for history-tables.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_economic_line_graph",
+      "title": "economic-line-graph Visual Practice",
+      "description": "Image-based practice questions for economic-line-graph.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_line_graph.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_income_types",
+      "title": "income-types Visual Practice",
+      "description": "Image-based practice questions for income-types.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_income_types.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_economics_tables",
+      "title": "economics-tables Visual Practice",
+      "description": "Image-based practice questions for economics-tables.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_economic_data_graphs",
+      "title": "economic-data-graphs Visual Practice",
+      "description": "Image-based practice questions for economic-data-graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_data_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_economic_diagrams",
+      "title": "economic-diagrams Visual Practice",
+      "description": "Image-based practice questions for economic-diagrams.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_diagrams.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_financial_tables",
+      "title": "financial-tables Visual Practice",
+      "description": "Image-based practice questions for financial-tables.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_financial_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_history_diagrams",
+      "title": "history-diagrams Visual Practice",
+      "description": "Image-based practice questions for history-diagrams.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_diagrams.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_bar_charts",
+      "title": "bar-charts Visual Practice",
+      "description": "Image-based practice questions for bar-charts.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 9
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_bar_charts.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_maps",
+      "title": "maps Visual Practice",
+      "description": "Image-based practice questions for maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_demographics_bar_charts",
+      "title": "demographics-bar-charts Visual Practice",
+      "description": "Image-based practice questions for demographics-bar-charts.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_bar_charts.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_geography_tables",
+      "title": "geography-tables Visual Practice",
+      "description": "Image-based practice questions for geography-tables.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 4
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_geography_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_pictographs",
+      "title": "pictographs Visual Practice",
+      "description": "Image-based practice questions for pictographs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_pictographs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_social_studies_terminology_table",
+      "title": "social-studies-terminology-table Visual Practice",
+      "description": "Image-based practice questions for social-studies-terminology-table.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_terminology_table.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_demographics_charts",
+      "title": "demographics-charts Visual Practice",
+      "description": "Image-based practice questions for demographics-charts.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_charts.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_geography_map",
+      "title": "geography-map Visual Practice",
+      "description": "Image-based practice questions for geography-map.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_geography_map.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_social_studies_data_tables",
+      "title": "social-studies-data-tables Visual Practice",
+      "description": "Image-based practice questions for social-studies-data-tables.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_data_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_election_maps",
+      "title": "election-maps Visual Practice",
+      "description": "Image-based practice questions for election-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_election_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_social_studies_tables",
+      "title": "social-studies-tables Visual Practice",
+      "description": "Image-based practice questions for social-studies-tables.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_tables",
+      "title": "tables Visual Practice",
+      "description": "Image-based practice questions for tables.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historical_photographs",
+      "title": "historical-photographs Visual Practice",
+      "description": "Image-based practice questions for historical-photographs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_photographs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_multiple_graphs",
+      "title": "multiple-graphs Visual Practice",
+      "description": "Image-based practice questions for multiple-graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_multiple_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_civics_maps",
+      "title": "civics-maps Visual Practice",
+      "description": "Image-based practice questions for civics-maps.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 6
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civics_maps.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_historical_posters",
+      "title": "historical-posters Visual Practice",
+      "description": "Image-based practice questions for historical-posters.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_posters.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_economics_bar_graphs",
+      "title": "economics-bar-graphs Visual Practice",
+      "description": "Image-based practice questions for economics-bar-graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_bar_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_history_graphs",
+      "title": "history-graphs Visual Practice",
+      "description": "Image-based practice questions for history-graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_population_tables",
+      "title": "population-tables Visual Practice",
+      "description": "Image-based practice questions for population-tables.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_population_tables.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_social_statistics_table",
+      "title": "social-statistics-table Visual Practice",
+      "description": "Image-based practice questions for social-statistics-table.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_statistics_table.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_social_studies_graphs",
+      "title": "social-studies-graphs Visual Practice",
+      "description": "Image-based practice questions for social-studies-graphs.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_graphs.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_economic_charts",
+      "title": "economic-charts Visual Practice",
+      "description": "Image-based practice questions for economic-charts.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_charts.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_energy_line_graph",
+      "title": "energy-line-graph Visual Practice",
+      "description": "Image-based practice questions for energy-line-graph.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 3
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_energy_line_graph.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Image Based Practice",
+    "generatedBy": "image-metadata-generator-v2",
+    "topic": {
+      "id": "social_studies_img_history_pie_chart",
+      "title": "history-pie-chart Visual Practice",
+      "description": "Image-based practice questions for history-pie-chart.",
+      "config": {
+        "calculator": false,
+        "parts": [
+          {
+            "name": "Visual Practice",
+            "questionCount": 2
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_pie_chart.js"
     }
   }
 ]

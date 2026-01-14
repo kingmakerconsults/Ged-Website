@@ -36,7 +36,35 @@ const {
   getRandomScienceNumeracyItem,
   getRandomScienceShortResponse,
 } = require('./data/scienceTemplates');
-const { ALL_QUIZZES } = require('./data/quizzes/index.js');
+let ALL_QUIZZES = require('./data/quizzes/index.js').ALL_QUIZZES;
+
+const QUIZZES_DIR_ABS = path.join(__dirname, 'data', 'quizzes');
+const QUIZZES_INDEX_ABS = path.join(QUIZZES_DIR_ABS, 'index.js');
+
+function shouldHotReloadAllQuizzes() {
+  // In dev, quiz content (supplemental.topics.json + topic files) changes frequently.
+  // Keep prod stable unless explicitly enabled.
+  const explicit = String(process.env.HOT_RELOAD_ALL_QUIZZES || '').trim();
+  if (explicit) return explicit === 'true';
+  return String(process.env.NODE_ENV || '').trim() !== 'production';
+}
+
+function refreshAllQuizzes() {
+  try {
+    const prefix = QUIZZES_DIR_ABS + path.sep;
+    for (const key of Object.keys(require.cache || {})) {
+      if (key === QUIZZES_INDEX_ABS || key.startsWith(prefix)) {
+        delete require.cache[key];
+      }
+    }
+    // Re-require after clearing caches so updated supplemental topics + topic files load.
+    const mod = require(QUIZZES_INDEX_ABS);
+    if (mod && mod.ALL_QUIZZES) ALL_QUIZZES = mod.ALL_QUIZZES;
+  } catch (_) {
+    // keep last-known ALL_QUIZZES
+  }
+  return ALL_QUIZZES;
+}
 
 // MATH FORMATTING SYSTEM (PREMIUM UPGRADE)
 // Enforces strict LaTeX delimiters for consistent frontend rendering
@@ -14540,10 +14568,10 @@ function chunkInto3(list = []) {
   return out;
 }
 
-function buildAllQuizzesWithTags() {
+function buildAllQuizzesWithTags(allQuizzes = ALL_QUIZZES) {
   // Deep-ish clone with tag normalization; keep structure intact
   const out = {};
-  for (const [subjectKey, subj] of Object.entries(ALL_QUIZZES || {})) {
+  for (const [subjectKey, subj] of Object.entries(allQuizzes || {})) {
     const subjCopy = { icon: subj.icon || null, categories: {} };
     for (const [catName, cat] of Object.entries(subj.categories || {})) {
       const catCopy = { description: cat.description || '', topics: [] };
@@ -14589,7 +14617,8 @@ function buildAllQuizzesWithTags() {
 app.get('/api/all-quizzes', (req, res) => {
   try {
     res.set('Cache-Control', 'no-store');
-    return res.json(buildAllQuizzesWithTags());
+    const src = shouldHotReloadAllQuizzes() ? refreshAllQuizzes() : ALL_QUIZZES;
+    return res.json(buildAllQuizzesWithTags(src));
   } catch (e) {
     return res.json(ALL_QUIZZES);
   }
@@ -14970,7 +14999,8 @@ async function ensureDefaultChallengeTags() {
 app.get('/api/all-quizzes', (req, res) => {
   try {
     res.set('Cache-Control', 'no-store');
-    return res.json(buildAllQuizzesWithTags());
+    const src = shouldHotReloadAllQuizzes() ? refreshAllQuizzes() : ALL_QUIZZES;
+    return res.json(buildAllQuizzesWithTags(src));
   } catch (e) {
     console.warn('[api] /api/all-quizzes failed:', e?.message || e);
     return res.status(500).json({ error: 'Failed to load quiz catalog' });

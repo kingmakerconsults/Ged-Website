@@ -1,11 +1,193 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { normalizeImageUrl } from '../../utils/normalizeImageUrl.js';
 
+function extractMathSegments(text) {
+  if (typeof text !== 'string' || text.length === 0) {
+    return [];
+  }
+
+  const segments = [];
+  let buffer = '';
+
+  const flushText = () => {
+    if (buffer) {
+      segments.push({ type: 'text', value: buffer });
+      buffer = '';
+    }
+  };
+
+  const isEscapedAt = (s, idx) => {
+    let backslashes = 0;
+    for (let k = idx - 1; k >= 0 && s[k] === '\\'; k--) backslashes++;
+    return backslashes % 2 === 1;
+  };
+
+  let i = 0;
+  while (i < text.length) {
+    // escaped dollar sign: \$
+    if (text[i] === '\\' && text[i + 1] === '$') {
+      buffer += '$';
+      i += 2;
+      continue;
+    }
+
+    // \( ... \) inline math
+    if (text[i] === '\\' && text[i + 1] === '(') {
+      const close = text.indexOf('\\)', i + 2);
+      if (close !== -1) {
+        flushText();
+        const raw = text.slice(i, close + 2);
+        const body = text.slice(i + 2, close);
+        segments.push({ type: 'math', raw, value: body, displayMode: false });
+        i = close + 2;
+        continue;
+      }
+    }
+
+    // \[ ... \] display math
+    if (text[i] === '\\' && text[i + 1] === '[') {
+      const close = text.indexOf('\\]', i + 2);
+      if (close !== -1) {
+        flushText();
+        const raw = text.slice(i, close + 2);
+        const body = text.slice(i + 2, close);
+        segments.push({ type: 'math', raw, value: body, displayMode: true });
+        i = close + 2;
+        continue;
+      }
+    }
+
+    // $$ ... $$ display math
+    if (text[i] === '$' && text[i + 1] === '$' && !isEscapedAt(text, i)) {
+      const close = text.indexOf('$$', i + 2);
+      if (close !== -1) {
+        flushText();
+        const raw = text.slice(i, close + 2);
+        const body = text.slice(i + 2, close);
+        segments.push({ type: 'math', raw, value: body, displayMode: true });
+        i = close + 2;
+        continue;
+      }
+    }
+
+    // $ ... $ inline math
+    if (text[i] === '$' && !isEscapedAt(text, i) && text[i + 1] !== '$') {
+      let j = i + 1;
+      while (j < text.length) {
+        if (text[j] === '$' && !isEscapedAt(text, j) && text[j + 1] !== '$') {
+          break;
+        }
+        j++;
+      }
+      if (j < text.length && text[j] === '$') {
+        flushText();
+        const raw = text.slice(i, j + 1);
+        const body = text.slice(i + 1, j);
+        segments.push({ type: 'math', raw, value: body, displayMode: false });
+        i = j + 1;
+        continue;
+      }
+    }
+
+    buffer += text[i];
+    i += 1;
+  }
+
+  flushText();
+  return segments;
+}
+
+// Sanitize and render text with KaTeX for math formulas
+function renderTextWithKatex(text) {
+  if (typeof text !== 'string') return '';
+
+  // First apply sanitization to fix broken LaTeX
+  let sanitized = text;
+  if (typeof window !== 'undefined' && window.TextSanitizer) {
+    if (typeof window.TextSanitizer.fixAllMathInText === 'function') {
+      sanitized = window.TextSanitizer.fixAllMathInText(text);
+    } else if (
+      typeof window.TextSanitizer.addMissingBackslashesInMath === 'function'
+    ) {
+      sanitized = window.TextSanitizer.addMissingBackslashesInMath(text);
+    }
+  } else {
+    // Fallback: basic LaTeX corruption repair
+    sanitized = sanitized.replace(/(?:\^|\f)rac\{/gi, '\\frac{');
+    sanitized = sanitized.replace(/(?:\^|\f)sqrt\{/gi, '\\sqrt{');
+  }
+
+  // Extract math and non-math segments
+  const segments = extractMathSegments(sanitized);
+  const parts = [];
+
+  const katexImpl =
+    typeof globalThis !== 'undefined' && globalThis.katex
+      ? globalThis.katex
+      : typeof window !== 'undefined' && window.katex
+      ? window.katex
+      : null;
+
+  for (const seg of segments.length
+    ? segments
+    : [{ type: 'text', value: sanitized }]) {
+    if (seg.type !== 'math') {
+      // Plain text - just escape HTML
+      const escaped = seg.value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+      parts.push(escaped);
+      continue;
+    }
+
+    const body = (seg.value || '').trim();
+    if (!body) {
+      parts.push('');
+      continue;
+    }
+
+    // Render with KaTeX if available
+    if (katexImpl && typeof katexImpl.renderToString === 'function') {
+      try {
+        const html = katexImpl.renderToString(body, {
+          throwOnError: false,
+          displayMode: Boolean(seg.displayMode),
+        });
+        parts.push(html);
+      } catch (e) {
+        // Fallback to plain text if KaTeX fails
+        const escaped = body
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+        parts.push(`<span class="math-inline">${escaped}</span>`);
+      }
+    } else {
+      // No KaTeX available - show as plain text
+      const escaped = body
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+      parts.push(`<span class="math-inline">${escaped}</span>`);
+    }
+  }
+
+  return parts.join('');
+}
+
 export default function SuperAdminAllQuestions() {
   const [allQuestions, setAllQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [jumpTo, setJumpTo] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [error, setError] = useState('');
 
@@ -424,6 +606,15 @@ export default function SuperAdminAllQuestions() {
 
   const currentQuestion = subjectQuestions[selectedIndex];
 
+  const goToQuestionNumber = (raw) => {
+    const total = subjectQuestions.length;
+    if (!total) return;
+    const n = Number(raw);
+    if (!Number.isFinite(n)) return;
+    const clamped = Math.min(total, Math.max(1, Math.floor(n)));
+    setSelectedIndex(clamped - 1);
+  };
+
   if (loading) {
     return (
       <div className="p-6">
@@ -545,6 +736,30 @@ export default function SuperAdminAllQuestions() {
               </select>
             </div>
 
+            <div className="hidden md:flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-slate-700">
+              <label className="font-medium text-slate-700 dark:text-slate-300 text-sm">
+                Go to:
+              </label>
+              <input
+                type="number"
+                min={1}
+                max={subjectQuestions.length}
+                value={jumpTo}
+                onChange={(e) => setJumpTo(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') goToQuestionNumber(jumpTo);
+                }}
+                className="w-24 px-2 py-1 text-sm rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
+                placeholder="#"
+              />
+              <button
+                onClick={() => goToQuestionNumber(jumpTo)}
+                className="px-3 py-1 text-sm font-medium rounded bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+              >
+                Go
+              </button>
+            </div>
+
             <button
               onClick={() =>
                 setSelectedIndex(
@@ -641,14 +856,18 @@ function AuditQuestionDisplay({ question, index }) {
   // Handle nested content object (found in some Social Studies quizzes)
   const content = question.content || {};
 
-  const questionText =
+  const rawQuestionText =
     question.question ||
     question.questionText ||
     content.questionText ||
     content.question ||
     'No question text';
 
-  const passage = question.passage || content.passage || '';
+  const rawPassage = question.passage || content.passage || '';
+
+  // Render text with KaTeX for proper math formula display
+  const questionText = renderTextWithKatex(rawQuestionText);
+  const passage = renderTextWithKatex(rawPassage);
 
   const image =
     question.image ||
@@ -701,10 +920,11 @@ function AuditQuestionDisplay({ question, index }) {
 
           <div className="space-y-4">
             {answerOptions.map((opt, i) => {
-              const optText = typeof opt === 'object' ? opt.text : opt;
+              const rawOptText = typeof opt === 'object' ? opt.text : opt;
+              const optText = renderTextWithKatex(rawOptText);
               const isCorrect =
                 (typeof opt === 'object' && opt.isCorrect) ||
-                correctAnswer === optText ||
+                correctAnswer === rawOptText ||
                 correctAnswer === String.fromCharCode(65 + i); // Fallback check
 
               return (
@@ -727,7 +947,7 @@ function AuditQuestionDisplay({ question, index }) {
                       {String.fromCharCode(65 + i)}
                     </div>
                     <div className="pt-1 text-lg text-slate-800 dark:text-slate-200">
-                      {optText}
+                      <div dangerouslySetInnerHTML={{ __html: optText }} />
                     </div>
                     {isCorrect && (
                       <span className="ml-auto text-xs font-bold text-green-700 dark:text-green-400 px-2 py-1 bg-green-100 dark:bg-green-900/30 rounded uppercase tracking-wider">

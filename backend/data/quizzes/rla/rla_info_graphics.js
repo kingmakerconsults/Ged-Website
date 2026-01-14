@@ -11,7 +11,7 @@ module.exports = [
       "rla-7"
     ],
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"/images/RLA/interpreting_graphics_0003_0001.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"/images/RLA/interpreting_graphics_0003_0001.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 65%, China: 23%, Yugoslavia: 3%, United States: 2%, United Kingdom: 2%, France: 1%, Poland: 1%, Others: 3%.\" class=\"bg-white p-2 rounded\"></div>",
     "question": "According to the pie chart, which two Allied nations suffered the highest number of military deaths in World War II?",
     "answerOptions": [
       {
@@ -42,26 +42,26 @@ module.exports = [
       "math-1"
     ],
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"/images/RLA/interpreting_graphics_0003_0001.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"/images/RLA/interpreting_graphics_0003_0001.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 65%, China: 23%, Yugoslavia: 3%, United States: 2%, United Kingdom: 2%, France: 1%, Poland: 1%, Others: 3%.\" class=\"bg-white p-2 rounded\"></div>",
     "question": "The combined military deaths of the United States and the United Kingdom make up approximately what percentage of the total Allied deaths shown?",
     "answerOptions": [
       {
-        "text": "5%",
+        "text": "2%",
         "rationale": "This is the approximate percentage for each country individually, not combined.",
         "isCorrect": false
       },
       {
-        "text": "10%",
-        "rationale": "Correct. The chart shows the U.S. at 5% and the U.K. at 5%, for a combined total of 10%.",
+        "text": "4%",
+        "rationale": "Correct. The chart shows the U.S. at 2% and the U.K. at 2%, for a combined total of 4%.",
         "isCorrect": true
       },
       {
-        "text": "22%",
+        "text": "23%",
         "rationale": "This is the approximate percentage for China alone.",
         "isCorrect": false
       },
       {
-        "text": "48%",
+        "text": "65%",
         "rationale": "This is the approximate percentage for the Soviet Union alone.",
         "isCorrect": false
       }
@@ -70,7 +70,7 @@ module.exports = [
   {
     "questionNumber": 3,
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"/images/RLA/interpreting_graphics_0003_0001.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 48%, China: 22%, United States: 5%, United Kingdom: 5%, Other Allies: 20%.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"/images/RLA/interpreting_graphics_0003_0001.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 65%, China: 23%, Yugoslavia: 3%, United States: 2%, United Kingdom: 2%, France: 1%, Poland: 1%, Others: 3%.\" class=\"bg-white p-2 rounded\"></div>",
     "question": "What can be inferred from the pie chart about the human cost of World War II for the Soviet Union?",
     "answerOptions": [
       {
@@ -79,8 +79,8 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "It was immense, accounting for nearly half of all Allied military deaths shown.",
-        "rationale": "Correct. The Soviet Union's slice of the pie is 48%, which is almost half, indicating a staggering human cost.",
+        "text": "It was immense, accounting for nearly two-thirds of all Allied military deaths shown.",
+        "rationale": "Correct. The Soviet Union's slice of the pie is 65%, which is nearly two-thirds, indicating a staggering human cost.",
         "isCorrect": true
       },
       {
@@ -90,7 +90,7 @@ module.exports = [
       },
       {
         "text": "It was roughly equal to the losses of China.",
-        "rationale": "The chart shows the Soviet Union's losses were more than double those of China.",
+        "rationale": "The chart shows the Soviet Union's losses were nearly three times those of China.",
         "isCorrect": false
       }
     ],
@@ -104,8 +104,8 @@ module.exports = [
       "rla-7"
     ],
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Electricity Consumption by Sector</b><br><img src=\"/images/RLA/interpreting_graphics_0001_0001.png\" alt=\"A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%.\" class=\"bg-white p-2 rounded\"></div>",
-    "question": "Which sector is the largest consumer of electricity according to the bar chart?",
+    "passage": "<div class=\"passage-text\"><b>Electricity Consumption by Sector</b><br><table class=\"w-full text-left mt-2 bg-white\"><thead><tr><th class=\"p-2 border-b\">Sector</th><th class=\"p-2 border-b\">Percentage</th></tr></thead><tbody><tr class=\"border-b\"><td class=\"p-2\">Industrial</td><td class=\"p-2\">40%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Residential</td><td class=\"p-2\">35%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Commercial</td><td class=\"p-2\">24%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Transportation</td><td class=\"p-2\">1%</td></tr></tbody></table></div>",
+    "question": "Which sector is the largest consumer of electricity according to the data?",
     "answerOptions": [
       {
         "text": "Residential",
@@ -132,7 +132,7 @@ module.exports = [
   {
     "questionNumber": 5,
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Electricity Consumption by Sector</b><br><img src=\"/images/RLA/interpreting_graphics_0001_0001.png\" alt=\"A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Electricity Consumption by Sector</b><br><table class=\"w-full text-left mt-2 bg-white\"><thead><tr><th class=\"p-2 border-b\">Sector</th><th class=\"p-2 border-b\">Percentage</th></tr></thead><tbody><tr class=\"border-b\"><td class=\"p-2\">Industrial</td><td class=\"p-2\">40%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Residential</td><td class=\"p-2\">35%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Commercial</td><td class=\"p-2\">24%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Transportation</td><td class=\"p-2\">1%</td></tr></tbody></table></div>",
     "question": "What is the combined percentage of electricity consumed by the Residential and Commercial sectors?",
     "answerOptions": [
       {
@@ -166,8 +166,8 @@ module.exports = [
       "rla-3"
     ],
     "type": "multi-source",
-    "passage": "<div class=\"passage-text\">Refer to both the article text and the \"Electricity Consumption by Sector\" bar chart.</div><img src=\"/images/RLA/interpreting_graphics_0001_0001.png\" alt=\"A bar chart showing electricity consumption. Industrial: 40%, Residential: 35%, Commercial: 24%, Transportation: 1%.\" class=\"bg-white p-2 rounded\">",
-    "question": "The article states that electricity use for transportation is expected to grow. Based on the chart, why would this growth be significant?",
+    "passage": "<div class=\"passage-text\">Refer to the \"Electricity Consumption by Sector\" table.<br><br><table class=\"w-full text-left mt-2 bg-white\"><thead><tr><th class=\"p-2 border-b\">Sector</th><th class=\"p-2 border-b\">Percentage</th></tr></thead><tbody><tr class=\"border-b\"><td class=\"p-2\">Industrial</td><td class=\"p-2\">40%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Residential</td><td class=\"p-2\">35%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Commercial</td><td class=\"p-2\">24%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Transportation</td><td class=\"p-2\">1%</td></tr></tbody></table><br>Note: Electricity use for transportation is expected to grow significantly with the adoption of electric vehicles.</div>",
+    "question": "Based on the table, why would growth in transportation electricity use be significant?",
     "answerOptions": [
       {
         "text": "Because transportation already uses the most electricity.",
@@ -259,7 +259,7 @@ module.exports = [
       "social-3"
     ],
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Projected Population Growth of City X</b><br><img src=\"/images/RLA/interpreting_graphics_0002_0001.png\" alt=\"A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k.\" class=\"bg-white p-2 rounded\"></div>",
+    "passage": "<div class=\"passage-text\"><b>Projected Population Growth of City X</b><br><table class=\"w-full text-left mt-2 bg-white\"><thead><tr><th class=\"p-2 border-b\">Year</th><th class=\"p-2 border-b\">Population</th></tr></thead><tbody><tr class=\"border-b\"><td class=\"p-2\">2020</td><td class=\"p-2\">100,000</td></tr><tr class=\"border-b\"><td class=\"p-2\">2025</td><td class=\"p-2\">110,000</td></tr><tr class=\"border-b\"><td class=\"p-2\">2030</td><td class=\"p-2\">125,000</td></tr><tr class=\"border-b\"><td class=\"p-2\">2035</td><td class=\"p-2\">145,000</td></tr><tr class=\"border-b\"><td class=\"p-2\">2040</td><td class=\"p-2\">170,000</td></tr></tbody></table></div>",
     "question": "During which 5-year period is the population of City X projected to grow the most?",
     "answerOptions": [
       {
@@ -287,8 +287,8 @@ module.exports = [
   {
     "questionNumber": 10,
     "type": "chart",
-    "passage": "<div class=\"passage-text\"><b>Projected Population Growth of City X</b><br><img src=\"/images/RLA/interpreting_graphics_0002_0001.png\" alt=\"A line graph showing population over time. 2020: 100k, 2025: 110k, 2030: 125k, 2035: 145k, 2040: 170k.\" class=\"bg-white p-2 rounded\"></div>",
-    "question": "What is the overall trend shown in the graph?",
+    "passage": "<div class=\"passage-text\"><b>Projected Population Growth of City X</b><br><table class=\"w-full text-left mt-2 bg-white\"><thead><tr><th class=\"p-2 border-b\">Year</th><th class=\"p-2 border-b\">Population</th></tr></thead><tbody><tr class=\"border-b\"><td class=\"p-2\">2020</td><td class=\"p-2\">100,000</td></tr><tr class=\"border-b\"><td class=\"p-2\">2025</td><td class=\"p-2\">110,000</td></tr><tr class=\"border-b\"><td class=\"p-2\">2030</td><td class=\"p-2\">125,000</td></tr><tr class=\"border-b\"><td class=\"p-2\">2035</td><td class=\"p-2\">145,000</td></tr><tr class=\"border-b\"><td class=\"p-2\">2040</td><td class=\"p-2\">170,000</td></tr></tbody></table></div>",
+    "question": "What is the overall trend shown in the data?",
     "answerOptions": [
       {
         "text": "The population is projected to decrease over time.",

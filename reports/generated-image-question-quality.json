@@ -1,0 +1,18 @@
+{
+  "generatedBy": "image-metadata-generator-v2",
+  "topicsChecked": 111,
+  "totalQuestions": 599,
+  "flagged": 0,
+  "flaggedPercent": 0,
+  "perSubject": {
+    "Science": {
+      "total": 109,
+      "flagged": 0
+    },
+    "Social Studies": {
+      "total": 490,
+      "flagged": 0
+    }
+  },
+  "sampleFlagged": []
+}

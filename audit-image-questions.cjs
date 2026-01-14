@@ -50,50 +50,81 @@ quizFiles.forEach((file) => {
   if (file.includes('rla')) subject = 'RLA';
   if (file.includes('workforce')) subject = 'Workforce Readiness';
 
-  // Process quizzes
-  if (Array.isArray(data)) {
-    data.forEach((quiz, qi) => {
-      if (quiz.questions && Array.isArray(quiz.questions)) {
-        quiz.questions.forEach((q, qidx) => {
-          totalQuestions++;
-          const imageUrl = q.imageUrl || q.imageURL || q.stimulusImage?.src;
-          if (imageUrl) {
-            questionsWithImages++;
-            const filename = path.basename(imageUrl).toLowerCase();
-            const availableImages = imageMap[subject] || [];
+  // Helper to process a list of questions
+  const processQuestions = (qs, contextInfo) => {
+    if (!Array.isArray(qs)) return;
+    qs.forEach((q) => {
+      totalQuestions++;
+      const imageUrl = q.imageUrl || q.imageURL || q.stimulusImage?.src;
+      if (imageUrl) {
+        questionsWithImages++;
+        const filename = path.basename(imageUrl).toLowerCase();
+        const availableImages = imageMap[subject] || [];
 
-            // Check if image exists
-            const exists = availableImages.some(
-              (img) =>
-                img === filename ||
-                img.includes(filename.replace(/\.(png|jpg|jpeg|gif)$/, ''))
-            );
+        // Check if image exists
+        const exists = availableImages.some(
+          (img) =>
+            img === filename ||
+            img.includes(filename.replace(/\.(png|jpg|jpeg|gif)$/, ''))
+        );
 
-            if (!exists) {
-              if (!brokenReferences[subject]) {
-                brokenReferences[subject] = [];
-              }
-              missingImages.push({
-                quiz: quiz.title || 'Unknown',
-                questionNum: q.questionNumber || 'Unknown',
-                imageUrl,
-                subject,
-                file,
-                question: (q.question || q.questionText || '').substring(
-                  0,
-                  100
-                ),
-              });
-              brokenReferences[subject].push({
-                questionNum: q.questionNumber || 'Unknown',
-                imageUrl,
-                file,
-              });
-            }
+        if (!exists) {
+          if (!brokenReferences[subject]) {
+            brokenReferences[subject] = [];
           }
-        });
+          missingImages.push({
+            quiz: contextInfo.quizTitle || 'Unknown',
+            questionNum: q.questionNumber || 'Unknown',
+            imageUrl,
+            subject,
+            file,
+            question: (q.question || q.questionText || '').substring(0, 100),
+          });
+          brokenReferences[subject].push({
+            questionNum: q.questionNumber || 'Unknown',
+            imageUrl,
+            file,
+          });
+        }
       }
     });
+  };
+
+  // Process quizzes
+  if (Array.isArray(data)) {
+    // Legacy Array Format
+    data.forEach((quiz) => {
+      if (quiz.questions)
+        processQuestions(quiz.questions, { quizTitle: quiz.title });
+    });
+  } else if (data && typeof data === 'object') {
+    // New Object Format (Subject -> Categories -> Topics -> Quizzes -> Questions)
+    const categories = data.categories || {};
+    Object.keys(categories).forEach((catName) => {
+      const topics = categories[catName].topics || [];
+      topics.forEach((topic) => {
+        // Topic can have quizzes array
+        if (Array.isArray(topic.quizzes)) {
+          topic.quizzes.forEach((quiz) => {
+            if (quiz.questions)
+              processQuestions(quiz.questions, {
+                quizTitle: quiz.title || topic.title,
+              });
+          });
+        }
+        // Or direct questions array (sometimes)
+        if (Array.isArray(topic.questions)) {
+          processQuestions(topic.questions, { quizTitle: topic.title });
+        }
+      });
+    });
+    // Also check top-level quizzes if any
+    if (Array.isArray(data.quizzes)) {
+      data.quizzes.forEach((quiz) => {
+        if (quiz.questions)
+          processQuestions(quiz.questions, { quizTitle: quiz.title });
+      });
+    }
   }
 });
 

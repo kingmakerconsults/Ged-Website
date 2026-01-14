@@ -3,17 +3,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const quizFiles = [
-  'public/quizzes/math.quizzes.part1.json',
-  'public/quizzes/math.quizzes.part2.json',
-  'public/quizzes/rla.quizzes.part1.json',
-  'public/quizzes/rla.quizzes.part2.json',
-  'public/quizzes/science.quizzes.part1.json',
-  'public/quizzes/science.quizzes.part2.json',
-  'public/quizzes/social-studies.quizzes.json',
-  'public/quizzes/social-studies.extras.json',
-  'public/quizzes/workforce.quizzes.json'
-];
+const quizFiles = fs
+  .readdirSync('public/quizzes')
+  .filter((f) => f.endsWith('.json'))
+  .map((f) => `public/quizzes/${f}`)
+  .sort();
 
 const imageDir = 'frontend/public/images';
 const scienceImagesDir = path.join(imageDir, 'Science');
@@ -22,9 +16,10 @@ const socialStudiesImagesDir = path.join(imageDir, 'Social Studies');
 // Get all images
 const getImages = (dir) => {
   if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir, { withFileTypes: true })
-    .filter(f => f.isFile())
-    .map(f => f.name);
+  return fs
+    .readdirSync(dir, { withFileTypes: true })
+    .filter((f) => f.isFile())
+    .map((f) => f.name);
 };
 
 const scienceImages = getImages(scienceImagesDir);
@@ -34,22 +29,22 @@ console.log('Science Images:', scienceImages.length);
 console.log('Social Studies Images:', ssImages.length);
 
 const subjectMap = {
-  'math': 'MATH',
-  'rla': 'RLA',
-  'science': 'SCI',
+  math: 'MATH',
+  rla: 'RLA',
+  science: 'SCI',
   'social-studies': 'SS',
-  'workforce': 'WF'
+  workforce: 'WF',
 };
 
 const fileData = {};
 
-quizFiles.forEach(filePath => {
+quizFiles.forEach((filePath) => {
   try {
     const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     let questionCount = 0;
     let hasUAM = false;
     let hasImageQuestions = false;
-    
+
     const traverse = (obj) => {
       if (Array.isArray(obj)) {
         obj.forEach(traverse);
@@ -57,29 +52,38 @@ quizFiles.forEach(filePath => {
         if (obj.questionNumber !== undefined) {
           questionCount++;
           if (obj.uam) hasUAM = true;
-          if (obj.stimulusImage) hasImageQuestions = true;
+          if (obj.stimulusImage || obj.imageURL || obj.imageUrl)
+            hasImageQuestions = true;
         }
         Object.values(obj).forEach(traverse);
       }
     };
-    
+
     traverse(data);
-    
+
     // Extract subject and part from filename
-    const match = filePath.match(/\/([^/]+)\.(quizzes\.(part[12])|quizzes|extras)/);
+    const match = filePath.match(
+      /\/([^/]+)\.(quizzes\.(part[12])|quizzes|extras)/
+    );
     const subject = match ? match[1] : 'unknown';
-    const part = filePath.includes('part1') ? 'P1' : filePath.includes('part2') ? 'P2' : 'N/A';
-    
+    const part = filePath.includes('part1')
+      ? 'P1'
+      : filePath.includes('part2')
+      ? 'P2'
+      : 'N/A';
+
     fileData[filePath] = {
       subject,
       part,
       questionCount,
       hasUAM,
       hasImageQuestions,
-      path: filePath
+      path: filePath,
     };
-    
-    console.log(`${filePath}: ${questionCount} questions, UAM: ${hasUAM}, Images: ${hasImageQuestions}`);
+
+    console.log(
+      `${filePath}: ${questionCount} questions, UAM: ${hasUAM}, Images: ${hasImageQuestions}`
+    );
   } catch (e) {
     console.log(`${filePath}: ERROR - ${e.message}`);
   }
@@ -87,72 +91,148 @@ quizFiles.forEach(filePath => {
 
 // Categorize science images
 const scienceCategories = {
-  genetics: scienceImages.filter(f => 
-    f.includes('punnett') || f.includes('genetics') || f.includes('genotype') || 
-    f.includes('phenotype') || f.includes('mendelian') || f.includes('reginald')
+  genetics: scienceImages.filter(
+    (f) =>
+      f.includes('punnett') ||
+      f.includes('genetics') ||
+      f.includes('genotype') ||
+      f.includes('phenotype') ||
+      f.includes('mendelian') ||
+      f.includes('reginald')
   ),
-  physics: scienceImages.filter(f => f.includes('ged-scince-fig')),
-  weather: scienceImages.filter(f => 
-    f.includes('hurricane') || f.includes('nasa') || f.includes('weather') ||
-    f.includes('Questions-are-based') // Graph questions
+  physics: scienceImages.filter((f) => f.includes('ged-scince-fig')),
+  weather: scienceImages.filter(
+    (f) =>
+      f.includes('hurricane') ||
+      f.includes('nasa') ||
+      f.includes('weather') ||
+      f.includes('Questions-are-based') // Graph questions
   ),
-  humanBiology: scienceImages.filter(f => 
-    f.includes('human-') || f.includes('human_')
+  humanBiology: scienceImages.filter(
+    (f) => f.includes('human-') || f.includes('human_')
   ),
-  general: scienceImages.filter(f => 
-    !f.includes('punnett') && !f.includes('genetics') && !f.includes('genotype') && 
-    !f.includes('phenotype') && !f.includes('mendelian') && !f.includes('reginald') &&
-    !f.includes('ged-scince-fig') && !f.includes('hurricane') && !f.includes('nasa') &&
-    !f.includes('human-') && !f.includes('human_') && !f.includes('Questions-are-based') &&
-    !f.includes('Screenshot') && !f.includes('licensed-image') && !f.includes('ged-SCIENCE') &&
-    !f.includes('ged-sci-1')
-  )
+  general: scienceImages.filter(
+    (f) =>
+      !f.includes('punnett') &&
+      !f.includes('genetics') &&
+      !f.includes('genotype') &&
+      !f.includes('phenotype') &&
+      !f.includes('mendelian') &&
+      !f.includes('reginald') &&
+      !f.includes('ged-scince-fig') &&
+      !f.includes('hurricane') &&
+      !f.includes('nasa') &&
+      !f.includes('human-') &&
+      !f.includes('human_') &&
+      !f.includes('Questions-are-based') &&
+      !f.includes('Screenshot') &&
+      !f.includes('licensed-image') &&
+      !f.includes('ged-SCIENCE') &&
+      !f.includes('ged-sci-1')
+  ),
 };
 
 // Categorize social studies images
 const ssCategories = {
-  maps: ssImages.filter(f => 
-    f.includes('territorial') || f.includes('map') || f.includes('Louisiana') || 
-    f.includes('World') || f.includes('world')
+  maps: ssImages.filter(
+    (f) =>
+      f.includes('territorial') ||
+      f.includes('map') ||
+      f.includes('Louisiana') ||
+      f.includes('World') ||
+      f.includes('world')
   ),
-  politicalCartoons: ssImages.filter(f => 
-    f.includes('Bosses') || f.includes('political-cartoon') || f.includes('cartoon') ||
-    f.includes('puck-magazine') || f.includes('political-ideologies') || f.includes('join-or-die') ||
-    f.includes('cartoonist') || f.includes('clifford') || f.includes('king-andrew') ||
-    f.includes('Protectors')
+  politicalCartoons: ssImages.filter(
+    (f) =>
+      f.includes('Bosses') ||
+      f.includes('political-cartoon') ||
+      f.includes('cartoon') ||
+      f.includes('puck-magazine') ||
+      f.includes('political-ideologies') ||
+      f.includes('join-or-die') ||
+      f.includes('cartoonist') ||
+      f.includes('clifford') ||
+      f.includes('king-andrew') ||
+      f.includes('Protectors')
   ),
-  chartsGraphs: ssImages.filter(f => 
-    f.includes('Questions-are-based') || f.includes('This-Question') || 
-    f.includes('bar graph') || f.includes('graph') || f.includes('statistics') ||
-    f.includes('WorldWarII')
+  chartsGraphs: ssImages.filter(
+    (f) =>
+      f.includes('Questions-are-based') ||
+      f.includes('This-Question') ||
+      f.includes('bar graph') ||
+      f.includes('graph') ||
+      f.includes('statistics') ||
+      f.includes('WorldWarII')
   ),
-  historical: ssImages.filter(f => 
-    f.includes('civil-war') || f.includes('civil-rights') || f.includes('american-civil-war') ||
-    f.includes('reconstruction') || f.includes('slavery') || f.includes('abolition') ||
-    f.includes('gilded-age') || f.includes('great-depression') || f.includes('robber-baron') ||
-    f.includes('industrial') || f.includes('propagand') || f.includes('jews-in')
+  historical: ssImages.filter(
+    (f) =>
+      f.includes('civil-war') ||
+      f.includes('civil-rights') ||
+      f.includes('american-civil-war') ||
+      f.includes('reconstruction') ||
+      f.includes('slavery') ||
+      f.includes('abolition') ||
+      f.includes('gilded-age') ||
+      f.includes('great-depression') ||
+      f.includes('robber-baron') ||
+      f.includes('industrial') ||
+      f.includes('propagand') ||
+      f.includes('jews-in')
   ),
-  wars: ssImages.filter(f => 
-    f.includes('cold-war') || f.includes('world-war') || f.includes('wartime') ||
-    f.includes('defense') || f.includes('war-death')
+  wars: ssImages.filter(
+    (f) =>
+      f.includes('cold-war') ||
+      f.includes('world-war') ||
+      f.includes('wartime') ||
+      f.includes('defense') ||
+      f.includes('war-death')
   ),
-  general: ssImages.filter(f => 
-    !f.includes('territorial') && !f.includes('map') && !f.includes('Louisiana') &&
-    !f.includes('World') && !f.includes('world') && !f.includes('Bosses') &&
-    !f.includes('political-cartoon') && !f.includes('cartoon') && !f.includes('puck-magazine') &&
-    !f.includes('political-ideologies') && !f.includes('join-or-die') && !f.includes('cartoonist') &&
-    !f.includes('clifford') && !f.includes('king-andrew') && !f.includes('Protectors') &&
-    !f.includes('Questions-are-based') && !f.includes('This-Question') && !f.includes('bar graph') &&
-    !f.includes('graph') && !f.includes('statistics') && !f.includes('WorldWarII') &&
-    !f.includes('civil-war') && !f.includes('civil-rights') && !f.includes('american-civil-war') &&
-    !f.includes('reconstruction') && !f.includes('slavery') && !f.includes('abolition') &&
-    !f.includes('gilded-age') && !f.includes('great-depression') && !f.includes('robber-baron') &&
-    !f.includes('industrial') && !f.includes('propagand') && !f.includes('jews-in') &&
-    !f.includes('cold-war') && !f.includes('world-war') && !f.includes('wartime') &&
-    !f.includes('defense') && !f.includes('war-death') && !f.includes('Screenshot') &&
-    !f.includes('licensed-image') && !f.includes('ged-') && !f.includes('FDR') &&
-    !f.includes('035fa172')
-  )
+  general: ssImages.filter(
+    (f) =>
+      !f.includes('territorial') &&
+      !f.includes('map') &&
+      !f.includes('Louisiana') &&
+      !f.includes('World') &&
+      !f.includes('world') &&
+      !f.includes('Bosses') &&
+      !f.includes('political-cartoon') &&
+      !f.includes('cartoon') &&
+      !f.includes('puck-magazine') &&
+      !f.includes('political-ideologies') &&
+      !f.includes('join-or-die') &&
+      !f.includes('cartoonist') &&
+      !f.includes('clifford') &&
+      !f.includes('king-andrew') &&
+      !f.includes('Protectors') &&
+      !f.includes('Questions-are-based') &&
+      !f.includes('This-Question') &&
+      !f.includes('bar graph') &&
+      !f.includes('graph') &&
+      !f.includes('statistics') &&
+      !f.includes('WorldWarII') &&
+      !f.includes('civil-war') &&
+      !f.includes('civil-rights') &&
+      !f.includes('american-civil-war') &&
+      !f.includes('reconstruction') &&
+      !f.includes('slavery') &&
+      !f.includes('abolition') &&
+      !f.includes('gilded-age') &&
+      !f.includes('great-depression') &&
+      !f.includes('robber-baron') &&
+      !f.includes('industrial') &&
+      !f.includes('propagand') &&
+      !f.includes('jews-in') &&
+      !f.includes('cold-war') &&
+      !f.includes('world-war') &&
+      !f.includes('wartime') &&
+      !f.includes('defense') &&
+      !f.includes('war-death') &&
+      !f.includes('Screenshot') &&
+      !f.includes('licensed-image') &&
+      !f.includes('ged-') &&
+      !f.includes('FDR') &&
+      !f.includes('035fa172')
+  ),
 };
 
 console.log('\n=== SCIENCE IMAGES ===');
@@ -181,8 +261,8 @@ const report = {
         physics: scienceCategories.physics,
         weather: scienceCategories.weather,
         humanBiology: scienceCategories.humanBiology,
-        general: scienceCategories.general
-      }
+        general: scienceCategories.general,
+      },
     },
     socialStudies: {
       total: ssImages.length,
@@ -192,10 +272,10 @@ const report = {
         chartsGraphs: ssCategories.chartsGraphs,
         historical: ssCategories.historical,
         wars: ssCategories.wars,
-        general: ssCategories.general
-      }
-    }
-  }
+        general: ssCategories.general,
+      },
+    },
+  },
 };
 
 fs.writeFileSync('audit-quiz-report.json', JSON.stringify(report, null, 2));

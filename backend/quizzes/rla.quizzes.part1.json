@@ -28284,6 +28284,94 @@
           }
         ]
       }
+    },
+    "Image Based Practice": {
+      "topics": [
+        {
+          "id": "rla_img_ushistorymaps",
+          "title": "US-history-maps Visuals",
+          "quizzes": [
+            {
+              "quizId": "rla_img_ushistorymaps_quiz",
+              "title": "US-history-maps Practice",
+              "label": "Visual Practice",
+              "description": "Practice questions for US-history-maps based on images.",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multiple-choice",
+                  "question": "Identify the largest territorial acquisition by the United States.",
+                  "imageURL": "/images/RLA/interpreting_graphics_0001_0001.png",
+                  "answerOptions": [
+                    {
+                      "text": "Option A (Placeholder)",
+                      "rationale": "Correct answer placeholder.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "Option B (Placeholder)",
+                      "rationale": "Incorrect answer placeholder.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Option C (Placeholder)",
+                      "rationale": "Incorrect answer placeholder.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Option D (Placeholder)",
+                      "rationale": "Incorrect answer placeholder.",
+                      "isCorrect": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rla_img_historicalcharts",
+          "title": "historical-charts Visuals",
+          "quizzes": [
+            {
+              "quizId": "rla_img_historicalcharts_quiz",
+              "title": "historical-charts Practice",
+              "label": "Visual Practice",
+              "description": "Practice questions for historical-charts based on images.",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multiple-choice",
+                  "question": "Identify the country that suffered the highest percentage of military deaths among the Allies.",
+                  "imageURL": "/images/RLA/interpreting_graphics_0003_0001.png",
+                  "answerOptions": [
+                    {
+                      "text": "Option A (Placeholder)",
+                      "rationale": "Correct answer placeholder.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "Option B (Placeholder)",
+                      "rationale": "Incorrect answer placeholder.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Option C (Placeholder)",
+                      "rationale": "Incorrect answer placeholder.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Option D (Placeholder)",
+                      "rationale": "Incorrect answer placeholder.",
+                      "isCorrect": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "meta": {

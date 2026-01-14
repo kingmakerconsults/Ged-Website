@@ -35974,6 +35974,52 @@
           }
         ]
       }
+    },
+    "Image Based Practice": {
+      "topics": [
+        {
+          "id": "math_img_bargraphs",
+          "title": "bar-graphs Visuals",
+          "quizzes": [
+            {
+              "quizId": "math_img_bargraphs_quiz",
+              "title": "bar-graphs Practice",
+              "label": "Visual Practice",
+              "description": "Practice questions for bar-graphs based on images.",
+              "questions": [
+                {
+                  "questionNumber": 1,
+                  "type": "multiple-choice",
+                  "question": "Compare the time spent on 'Watching TV' for children aged 2-7 versus 8-18.",
+                  "imageURL": "/images/Math/interpreting_bar_graphs_0001.png",
+                  "answerOptions": [
+                    {
+                      "text": "Option A (Placeholder)",
+                      "rationale": "Correct answer placeholder.",
+                      "isCorrect": true
+                    },
+                    {
+                      "text": "Option B (Placeholder)",
+                      "rationale": "Incorrect answer placeholder.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Option C (Placeholder)",
+                      "rationale": "Incorrect answer placeholder.",
+                      "isCorrect": false
+                    },
+                    {
+                      "text": "Option D (Placeholder)",
+                      "rationale": "Incorrect answer placeholder.",
+                      "isCorrect": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   "meta": {
