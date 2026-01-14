@@ -14,3 +14,20 @@ __pycache__/
 *.pyc
 
 backend/gcloud-credentials.json
+
+# Build outputs (should be generated during deploy, not committed)
+dist/
+frontend/dist/
+build/
+frontend/build/
+.vite/
+.turbo/
+
+# Archives / large bundles (backup externally, not in Git)
+*.zip
+archive/*.zip
+**/*.zip
+*.7z
+*.tar
+*.gz
+*.rar

@@ -2005,7 +2005,7 @@
                   "questionNumber": 1,
                   "type": "multiple-choice",
                   "question": "Analyze the image and answer the question.",
-                  "imageURL": "/images/Social%20Studies/american_civil_war_0004.png",
+                  "imageURL": "/images/Social%20Studies/american_civil_war_0004.jpg",
                   "answerOptions": [
                     {
                       "text": "Option A (Placeholder)",
@@ -2033,7 +2033,7 @@
                   "questionNumber": 2,
                   "type": "multiple-choice",
                   "question": "Analyze the image and answer the question.",
-                  "imageURL": "/images/Social%20Studies/history_of_propaganda_0001.png",
+                  "imageURL": "/images/Social%20Studies/history_of_propaganda_0001.jpg",
                   "answerOptions": [
                     {
                       "text": "Option A (Placeholder)",
@@ -2187,7 +2187,7 @@
                   "questionNumber": 1,
                   "type": "multiple-choice",
                   "question": "Analyze the symbolism of the 'Great Snake' on the map.",
-                  "imageURL": "/images/Social%20Studies/american_civil_war_0006.png",
+                  "imageURL": "/images/Social%20Studies/american_civil_war_0006.jpg",
                   "answerOptions": [
                     {
                       "text": "Option A (Placeholder)",
@@ -2327,7 +2327,7 @@
                   "questionNumber": 3,
                   "type": "multiple-choice",
                   "question": "Explain the historical context and purpose of this political cartoon.",
-                  "imageURL": "/images/Social%20Studies/cartoonist_0001.png",
+                  "imageURL": "/images/Social%20Studies/cartoonist_0001.jpg",
                   "answerOptions": [
                     {
                       "text": "Option A (Placeholder)",
@@ -2579,7 +2579,7 @@
                   "questionNumber": 12,
                   "type": "multiple-choice",
                   "question": "Describe how the cartoon visually represents the Monroe Doctrine.",
-                  "imageURL": "/images/Social%20Studies/monroe_doctrine_0005.png",
+                  "imageURL": "/images/Social%20Studies/monroe_doctrine_0005.jpg",
                   "answerOptions": [
                     {
                       "text": "Option A (Placeholder)",
@@ -2635,7 +2635,7 @@
                   "questionNumber": 14,
                   "type": "multiple-choice",
                   "question": "Explain the historical context behind the relationship depicted between Roosevelt and Taft in this cartoon.",
-                  "imageURL": "/images/Social%20Studies/political_cartoon_0004.png",
+                  "imageURL": "/images/Social%20Studies/political_cartoon_0004.jpg",
                   "answerOptions": [
                     {
                       "text": "Option A (Placeholder)",
@@ -2775,7 +2775,7 @@
                   "questionNumber": 19,
                   "type": "multiple-choice",
                   "question": "Analyze the satirical message conveyed by the train's destination and passengers.",
-                  "imageURL": "/images/Social%20Studies/puck_magazine_0010.png",
+                  "imageURL": "/images/Social%20Studies/puck_magazine_0010.jpg",
                   "answerOptions": [
                     {
                       "text": "Option A (Placeholder)",
@@ -3307,7 +3307,7 @@
                   "questionNumber": 1,
                   "type": "multiple-choice",
                   "question": "Identify the main message the protesters are trying to convey.",
-                  "imageURL": "/images/Social%20Studies/civil_rights_movement_0005.png",
+                  "imageURL": "/images/Social%20Studies/civil_rights_movement_0005.jpg",
                   "answerOptions": [
                     {
                       "text": "Option A (Placeholder)",
@@ -3349,7 +3349,7 @@
                   "questionNumber": 1,
                   "type": "multiple-choice",
                   "question": "Describe the historical context that might lead to a scene like the one depicted.",
-                  "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.png",
+                  "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
                   "answerOptions": [
                     {
                       "text": "Option A (Placeholder)",
@@ -4217,7 +4217,7 @@
                   "questionNumber": 1,
                   "type": "multiple-choice",
                   "question": "Identify the central figure in the photograph and their role in American history.",
-                  "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.png",
+                  "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
                   "answerOptions": [
                     {
                       "text": "Option A (Placeholder)",
