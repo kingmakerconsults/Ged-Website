@@ -4478,7 +4478,11 @@ const app = express();
 // Flexible image resolver with Netlify fallback
 // Support both /images/ (canonical) and legacy /frontend/Images/ paths
 app.get(
-  ['/images/:subject/:file(*)', '/frontend/images/:subject/:file(*)', '/frontend/Images/:subject/:file(*)'],
+  [
+    '/images/:subject/:file(*)',
+    '/frontend/images/:subject/:file(*)',
+    '/frontend/Images/:subject/:file(*)',
+  ],
   (req, res) => {
     let { subject, file } = req.params;
     if (!subject || !file) return res.status(404).send('Not found');
@@ -4594,7 +4598,7 @@ try {
       },
     })
   );
-  
+
   // Legacy compatibility: also serve at /frontend/Images
   app.use(
     '/frontend/Images',
