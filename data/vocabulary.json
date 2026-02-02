@@ -578,6 +578,194 @@
     {
       "term": "Diffraction",
       "definition": "The bending of waves around obstacles."
+    },
+    {
+      "term": "Biodiversity",
+      "definition": "The variety of living species in a habitat or ecosystem."
+    },
+    {
+      "term": "Carrying Capacity",
+      "definition": "The largest population an environment can support sustainably."
+    },
+    {
+      "term": "Food Chain",
+      "definition": "A sequence showing energy transfer as organisms eat and are eaten."
+    },
+    {
+      "term": "Food Web",
+      "definition": "A network of interconnected food chains in an ecosystem."
+    },
+    {
+      "term": "Trophic Level",
+      "definition": "A feeding position in a food chain or food web."
+    },
+    {
+      "term": "Ecological Succession",
+      "definition": "Gradual change in an ecosystem's species over time."
+    },
+    {
+      "term": "Keystone Species",
+      "definition": "A species that has a large impact on its ecosystem."
+    },
+    {
+      "term": "Symbiosis",
+      "definition": "A close relationship between two different species."
+    },
+    {
+      "term": "Mutualism",
+      "definition": "A symbiotic relationship where both organisms benefit."
+    },
+    {
+      "term": "Commensalism",
+      "definition": "A symbiotic relationship where one benefits and the other is unaffected."
+    },
+    {
+      "term": "Parasitism",
+      "definition": "A symbiotic relationship where one benefits and the other is harmed."
+    },
+    {
+      "term": "Population",
+      "definition": "All members of the same species living in an area."
+    },
+    {
+      "term": "Community",
+      "definition": "All the different populations living in an area."
+    },
+    {
+      "term": "Biome",
+      "definition": "A large region with similar climate and ecosystems."
+    },
+    {
+      "term": "Limiting Factor",
+      "definition": "A resource or condition that restricts population growth."
+    },
+    {
+      "term": "Renewable Resource",
+      "definition": "A resource that can be naturally replenished."
+    },
+    {
+      "term": "Nonrenewable Resource",
+      "definition": "A resource that forms slowly and can be depleted."
+    },
+    {
+      "term": "Fossil Fuel",
+      "definition": "Fuel formed from ancient organisms, like coal, oil, and gas."
+    },
+    {
+      "term": "Greenhouse Effect",
+      "definition": "Warming caused by gases that trap heat in the atmosphere."
+    },
+    {
+      "term": "Climate",
+      "definition": "Long-term patterns of temperature and precipitation in a region."
+    },
+    {
+      "term": "Weather",
+      "definition": "Short-term conditions of the atmosphere in a place."
+    },
+    {
+      "term": "Ozone Layer",
+      "definition": "A layer of atmosphere that absorbs harmful ultraviolet radiation."
+    },
+    {
+      "term": "Radiation",
+      "definition": "Energy transfer by waves or particles, like light."
+    },
+    {
+      "term": "Conduction",
+      "definition": "Heat transfer through direct contact."
+    },
+    {
+      "term": "Kinetic Energy",
+      "definition": "Energy of motion."
+    },
+    {
+      "term": "Potential Energy",
+      "definition": "Stored energy due to position or configuration."
+    },
+    {
+      "term": "Chemical Reaction",
+      "definition": "Process that changes substances into new substances."
+    },
+    {
+      "term": "Reactant",
+      "definition": "A starting substance in a chemical reaction."
+    },
+    {
+      "term": "Product",
+      "definition": "A substance formed in a chemical reaction."
+    },
+    {
+      "term": "Catalyst",
+      "definition": "A substance that speeds a reaction without being used up."
+    },
+    {
+      "term": "pH",
+      "definition": "A scale that measures how acidic or basic a solution is."
+    },
+    {
+      "term": "Acid",
+      "definition": "A substance with pH below 7 that releases hydrogen ions."
+    },
+    {
+      "term": "Base",
+      "definition": "A substance with pH above 7 that accepts hydrogen ions."
+    },
+    {
+      "term": "Neutralization",
+      "definition": "Reaction where an acid and base form water and a salt."
+    },
+    {
+      "term": "Ion",
+      "definition": "An atom or molecule with an electric charge."
+    },
+    {
+      "term": "Isotope",
+      "definition": "Atoms of the same element with different numbers of neutrons."
+    },
+    {
+      "term": "Electric Current",
+      "definition": "The flow of electric charge through a conductor."
+    },
+    {
+      "term": "Circuit",
+      "definition": "A closed path through which electric current flows."
+    },
+    {
+      "term": "Voltage",
+      "definition": "The electric potential difference that drives current."
+    },
+    {
+      "term": "Resistance",
+      "definition": "Opposition to the flow of electric current."
+    },
+    {
+      "term": "Magnetic Field",
+      "definition": "Region around a magnet or current where magnetic force acts."
+    },
+    {
+      "term": "Velocity",
+      "definition": "Speed in a given direction."
+    },
+    {
+      "term": "Acceleration",
+      "definition": "Rate at which velocity changes over time."
+    },
+    {
+      "term": "Force",
+      "definition": "A push or pull that can change motion."
+    },
+    {
+      "term": "Newton's First Law",
+      "definition": "Objects remain at rest or in motion unless acted on by a net force."
+    },
+    {
+      "term": "Newton's Second Law",
+      "definition": "Force equals mass times acceleration (F = ma)."
+    },
+    {
+      "term": "Newton's Third Law",
+      "definition": "For every action, there is an equal and opposite reaction."
     }
   ],
   "Math": [
@@ -1014,6 +1202,342 @@
     {
       "term": "Least Common Denominator",
       "definition": "Smallest number that all denominators divide into evenly."
+    },
+    {
+      "term": "Complementary Angles",
+      "definition": "Two angles that add up to 90 degrees."
+    },
+    {
+      "term": "Supplementary Angles",
+      "definition": "Two angles that add up to 180 degrees."
+    },
+    {
+      "term": "Vertical Angles",
+      "definition": "Opposite angles formed by intersecting lines."
+    },
+    {
+      "term": "Linear Pair",
+      "definition": "Adjacent angles that form a straight line."
+    },
+    {
+      "term": "Transversal",
+      "definition": "A line that crosses two or more other lines."
+    },
+    {
+      "term": "Parallel Lines",
+      "definition": "Lines in a plane that never intersect."
+    },
+    {
+      "term": "Perpendicular Lines",
+      "definition": "Lines that intersect at a right angle."
+    },
+    {
+      "term": "Angle Bisector",
+      "definition": "A line or ray that divides an angle into two equal parts."
+    },
+    {
+      "term": "Midpoint",
+      "definition": "The point exactly halfway between two endpoints."
+    },
+    {
+      "term": "Midpoint Formula",
+      "definition": "Formula that finds the midpoint of a line segment."
+    },
+    {
+      "term": "Distance Formula",
+      "definition": "Formula that finds the distance between two points."
+    },
+    {
+      "term": "Slope Formula",
+      "definition": "Formula for slope: (y2 - y1) / (x2 - x1)."
+    },
+    {
+      "term": "Rate of Change",
+      "definition": "How much one quantity changes relative to another."
+    },
+    {
+      "term": "Proportional Relationship",
+      "definition": "A relationship with constant ratio between variables."
+    },
+    {
+      "term": "Scale",
+      "definition": "A ratio comparing measurements in a drawing to real life."
+    },
+    {
+      "term": "Scale Factor",
+      "definition": "The factor used to enlarge or reduce a figure."
+    },
+    {
+      "term": "Scientific Notation",
+      "definition": "Writing numbers as a product of a number 1–10 and a power of 10."
+    },
+    {
+      "term": "Significant Digits",
+      "definition": "Digits in a number that contribute to its precision."
+    },
+    {
+      "term": "Repeating Decimal",
+      "definition": "A decimal with a digit or pattern that repeats forever."
+    },
+    {
+      "term": "Terminating Decimal",
+      "definition": "A decimal that ends after a finite number of digits."
+    },
+    {
+      "term": "Mixed Number",
+      "definition": "A whole number and a fraction written together."
+    },
+    {
+      "term": "Improper Fraction",
+      "definition": "A fraction with a numerator greater than or equal to its denominator."
+    },
+    {
+      "term": "Equivalent Fractions",
+      "definition": "Different fractions that represent the same value."
+    },
+    {
+      "term": "Prime Factorization",
+      "definition": "Writing a number as a product of prime numbers."
+    },
+    {
+      "term": "Divisibility Rule",
+      "definition": "A quick test to determine if a number divides evenly."
+    },
+    {
+      "term": "Rational Number",
+      "definition": "A number that can be written as a fraction of integers."
+    },
+    {
+      "term": "Real Number",
+      "definition": "Any number on the number line, including rational and irrational."
+    },
+    {
+      "term": "X-Intercept",
+      "definition": "Point where a graph crosses the x-axis."
+    },
+    {
+      "term": "Y-Intercept",
+      "definition": "Point where a graph crosses the y-axis."
+    },
+    {
+      "term": "Vertex Form",
+      "definition": "Quadratic form y = a(x - h)^2 + k."
+    },
+    {
+      "term": "Intercept Form",
+      "definition": "Quadratic form y = a(x - p)(x - q)."
+    },
+    {
+      "term": "Quadratic Formula",
+      "definition": "Formula to solve ax^2 + bx + c = 0."
+    },
+    {
+      "term": "Discriminant",
+      "definition": "b^2 - 4ac, which tells how many real solutions exist."
+    },
+    {
+      "term": "Leading Coefficient",
+      "definition": "The coefficient of the term with highest degree."
+    },
+    {
+      "term": "Constant Term",
+      "definition": "The term without a variable in an expression."
+    },
+    {
+      "term": "Radical",
+      "definition": "An expression with a root sign, such as a square root."
+    },
+    {
+      "term": "Rationalize",
+      "definition": "Rewrite an expression to remove radicals from the denominator."
+    },
+    {
+      "term": "Absolute Value Equation",
+      "definition": "An equation that contains absolute value."
+    },
+    {
+      "term": "Absolute Value Inequality",
+      "definition": "An inequality that contains absolute value."
+    },
+    {
+      "term": "Inequality Solution Set",
+      "definition": "All values that satisfy an inequality."
+    },
+    {
+      "term": "Interval Notation",
+      "definition": "A notation for describing sets of numbers on a line."
+    },
+    {
+      "term": "Function Notation",
+      "definition": "Writing outputs as f(x) for input x."
+    },
+    {
+      "term": "Piecewise Function",
+      "definition": "A function defined by different rules on different intervals."
+    },
+    {
+      "term": "Linear Regression",
+      "definition": "A method for modeling a linear relationship in data."
+    },
+    {
+      "term": "Correlation Coefficient",
+      "definition": "A number that measures strength and direction of correlation."
+    },
+    {
+      "term": "Positive Correlation",
+      "definition": "Both variables increase or decrease together."
+    },
+    {
+      "term": "Negative Correlation",
+      "definition": "One variable increases while the other decreases."
+    },
+    {
+      "term": "No Correlation",
+      "definition": "No apparent relationship between variables."
+    },
+    {
+      "term": "Bar Graph",
+      "definition": "A graph using bars to compare categories."
+    },
+    {
+      "term": "Line Graph",
+      "definition": "A graph that shows change over time with connected points."
+    },
+    {
+      "term": "Circle Graph",
+      "definition": "A graph that shows parts of a whole as a circle."
+    },
+    {
+      "term": "Venn Diagram",
+      "definition": "A diagram that shows relationships among sets."
+    },
+    {
+      "term": "Sample Space",
+      "definition": "The set of all possible outcomes in a probability experiment."
+    },
+    {
+      "term": "Independent Events",
+      "definition": "Events where one does not affect the other."
+    },
+    {
+      "term": "Dependent Events",
+      "definition": "Events where one affects the probability of the other."
+    },
+    {
+      "term": "Complementary Events",
+      "definition": "Two events that together include all outcomes."
+    },
+    {
+      "term": "Geometric Probability",
+      "definition": "Probability found by comparing lengths, areas, or volumes."
+    },
+    {
+      "term": "Simple Event",
+      "definition": "An event with a single outcome."
+    },
+    {
+      "term": "Compound Event",
+      "definition": "An event that combines two or more outcomes."
+    },
+    {
+      "term": "Probability Model",
+      "definition": "A representation of possible outcomes and their probabilities."
+    },
+    {
+      "term": "Relative Frequency",
+      "definition": "The ratio of an event's occurrences to total trials."
+    },
+    {
+      "term": "Permutation Formula",
+      "definition": "Formula for ordered arrangements of n items."
+    },
+    {
+      "term": "Combination Formula",
+      "definition": "Formula for unordered selections of n items."
+    },
+    {
+      "term": "Sine",
+      "definition": "In a right triangle, opposite side divided by hypotenuse."
+    },
+    {
+      "term": "Cosine",
+      "definition": "In a right triangle, adjacent side divided by hypotenuse."
+    },
+    {
+      "term": "Tangent",
+      "definition": "In a right triangle, opposite side divided by adjacent side."
+    },
+    {
+      "term": "Angle of Elevation",
+      "definition": "The angle from the horizontal up to a line of sight."
+    },
+    {
+      "term": "Angle of Depression",
+      "definition": "The angle from the horizontal down to a line of sight."
+    },
+    {
+      "term": "Radian",
+      "definition": "An angle measure where 2π radians equals 360 degrees."
+    },
+    {
+      "term": "Degree Measure",
+      "definition": "An angle measure where a full circle is 360 degrees."
+    },
+    {
+      "term": "Polygon",
+      "definition": "A closed plane figure with straight sides."
+    },
+    {
+      "term": "Regular Polygon",
+      "definition": "A polygon with equal sides and equal angles."
+    },
+    {
+      "term": "Triangle Inequality",
+      "definition": "Any two side lengths of a triangle sum to more than the third."
+    },
+    {
+      "term": "Equilateral Triangle",
+      "definition": "A triangle with three equal sides."
+    },
+    {
+      "term": "Isosceles Triangle",
+      "definition": "A triangle with at least two equal sides."
+    },
+    {
+      "term": "Scalene Triangle",
+      "definition": "A triangle with no equal sides."
+    },
+    {
+      "term": "Acute Triangle",
+      "definition": "A triangle with all angles less than 90 degrees."
+    },
+    {
+      "term": "Obtuse Triangle",
+      "definition": "A triangle with one angle greater than 90 degrees."
+    },
+    {
+      "term": "Right Prism",
+      "definition": "A prism whose lateral edges are perpendicular to the bases."
+    },
+    {
+      "term": "Rectangular Prism",
+      "definition": "A prism with rectangular faces."
+    },
+    {
+      "term": "Cylinder",
+      "definition": "A solid with two parallel circular bases."
+    },
+    {
+      "term": "Cone",
+      "definition": "A solid with a circular base tapering to a point."
+    },
+    {
+      "term": "Sphere",
+      "definition": "A perfectly round 3D shape with all points equal from the center."
+    },
+    {
+      "term": "Surface Area",
+      "definition": "The total area of all the outer surfaces of a 3D object."
     }
   ],
   "Reasoning Through Language Arts (RLA)": [
@@ -1425,6 +1949,295 @@
     {
       "term": "Blank Verse",
       "definition": "Poetry written in unrhymed iambic pentameter."
+    },
+    {
+      "term": "Noun",
+      "definition": "A word that names a person, place, thing, or idea."
+    },
+    {
+      "term": "Verb",
+      "definition": "A word that shows action or state of being."
+    },
+    {
+      "term": "Adjective",
+      "definition": "A word that describes a noun or pronoun."
+    },
+    {
+      "term": "Adverb",
+      "definition": "A word that modifies a verb, adjective, or adverb."
+    },
+    {
+      "term": "Preposition",
+      "definition": "A word showing the relationship between a noun and another word."
+    },
+    {
+      "term": "Conjunction",
+      "definition": "A word that connects words, phrases, or clauses."
+    },
+    {
+      "term": "Coordinating Conjunction",
+      "definition": "A conjunction that joins equal parts (for, and, nor, but, or, yet, so)."
+    },
+    {
+      "term": "Subordinating Conjunction",
+      "definition": "A conjunction that introduces a dependent clause."
+    },
+    {
+      "term": "Correlative Conjunction",
+      "definition": "A paired conjunction such as either/or or neither/nor."
+    },
+    {
+      "term": "Interjection",
+      "definition": "A word or phrase expressing emotion."
+    },
+    { "term": "Article", "definition": "A, an, or the; used before nouns." },
+    {
+      "term": "Determiner",
+      "definition": "A word that specifies or limits a noun (this, some, each)."
+    },
+    {
+      "term": "Subject",
+      "definition": "The part of a sentence that performs the action."
+    },
+    {
+      "term": "Predicate",
+      "definition": "The part of a sentence that tells about the subject."
+    },
+    {
+      "term": "Direct Object",
+      "definition": "The noun that receives the action of a verb."
+    },
+    {
+      "term": "Indirect Object",
+      "definition": "The noun that tells to whom or for whom the action is done."
+    },
+    {
+      "term": "Subject Complement",
+      "definition": "A word that follows a linking verb and describes the subject."
+    },
+    {
+      "term": "Predicate Nominative",
+      "definition": "A noun or pronoun that renames the subject after a linking verb."
+    },
+    {
+      "term": "Predicate Adjective",
+      "definition": "An adjective that follows a linking verb to describe the subject."
+    },
+    {
+      "term": "Appositive",
+      "definition": "A noun that renames another noun next to it."
+    },
+    {
+      "term": "Appositive Phrase",
+      "definition": "An appositive with its modifiers."
+    },
+    {
+      "term": "Gerund",
+      "definition": "A verb form ending in -ing used as a noun."
+    },
+    { "term": "Participle", "definition": "A verb form used as an adjective." },
+    {
+      "term": "Infinitive",
+      "definition": "The to + verb form used as a noun, adjective, or adverb."
+    },
+    {
+      "term": "Verb Tense",
+      "definition": "The time of an action shown by a verb."
+    },
+    {
+      "term": "Consistent Tense",
+      "definition": "Keeping the same verb tense within context."
+    },
+    {
+      "term": "Homophone",
+      "definition": "Words that sound alike but have different meanings."
+    },
+    {
+      "term": "Homonym",
+      "definition": "Words with the same spelling or pronunciation but different meanings."
+    },
+    {
+      "term": "Homograph",
+      "definition": "Words spelled the same but with different meanings or pronunciations."
+    },
+    { "term": "Synonym", "definition": "A word with a similar meaning." },
+    { "term": "Antonym", "definition": "A word with the opposite meaning." },
+    {
+      "term": "Prefix",
+      "definition": "A word part added to the beginning of a word."
+    },
+    {
+      "term": "Suffix",
+      "definition": "A word part added to the end of a word."
+    },
+    {
+      "term": "Root Word",
+      "definition": "The base part of a word with its core meaning."
+    },
+    {
+      "term": "Affix",
+      "definition": "A prefix or suffix added to a root word."
+    },
+    {
+      "term": "Compound Word",
+      "definition": "A word formed by joining two words together."
+    },
+    {
+      "term": "Contraction",
+      "definition": "A shortened form of words using an apostrophe."
+    },
+    {
+      "term": "Apostrophe",
+      "definition": "Punctuation showing possession or omission."
+    },
+    {
+      "term": "Comma",
+      "definition": "Punctuation used to separate ideas or items in a list."
+    },
+    {
+      "term": "Semicolon",
+      "definition": "Punctuation that links closely related independent clauses."
+    },
+    {
+      "term": "Colon",
+      "definition": "Punctuation that introduces a list or explanation."
+    },
+    {
+      "term": "Dash",
+      "definition": "Punctuation used for emphasis or interruption."
+    },
+    {
+      "term": "Parentheses",
+      "definition": "Punctuation that encloses extra information."
+    },
+    {
+      "term": "Quotation Marks",
+      "definition": "Punctuation that shows exact words spoken or quoted."
+    },
+    {
+      "term": "Capitalization",
+      "definition": "Using uppercase letters in the correct places."
+    },
+    {
+      "term": "Simple Sentence",
+      "definition": "A sentence with one independent clause."
+    },
+    {
+      "term": "Compound Sentence",
+      "definition": "A sentence with two independent clauses."
+    },
+    {
+      "term": "Complex Sentence",
+      "definition": "A sentence with one independent and one dependent clause."
+    },
+    {
+      "term": "Compound-Complex Sentence",
+      "definition": "A sentence with at least two independent clauses and one dependent clause."
+    },
+    {
+      "term": "Phrase",
+      "definition": "A group of words without a subject and verb."
+    },
+    {
+      "term": "Prepositional Phrase",
+      "definition": "A phrase that begins with a preposition and ends with a noun or pronoun."
+    },
+    {
+      "term": "Participial Phrase",
+      "definition": "A phrase that begins with a participle and modifies a noun."
+    },
+    {
+      "term": "Gerund Phrase",
+      "definition": "A phrase that begins with a gerund and acts as a noun."
+    },
+    {
+      "term": "Infinitive Phrase",
+      "definition": "A phrase that begins with an infinitive and functions as a noun, adjective, or adverb."
+    },
+    {
+      "term": "Transition Signal",
+      "definition": "A word or phrase that shows how ideas relate."
+    },
+    {
+      "term": "Hook",
+      "definition": "An opening sentence meant to grab attention."
+    },
+    {
+      "term": "Concluding Sentence",
+      "definition": "A final sentence that wraps up a paragraph."
+    },
+    {
+      "term": "Summary Sentence",
+      "definition": "A sentence that briefly restates main ideas."
+    },
+    {
+      "term": "Topic Development",
+      "definition": "Adding details and explanations to support a topic."
+    },
+    {
+      "term": "Coherence",
+      "definition": "Logical flow and connection of ideas."
+    },
+    {
+      "term": "Unity",
+      "definition": "All parts of a text support one main idea."
+    },
+    {
+      "term": "Tone Shift",
+      "definition": "A change in the writer's attitude or voice."
+    },
+    {
+      "term": "Point of View Shift",
+      "definition": "A change in narrative perspective."
+    },
+    {
+      "term": "Perspective",
+      "definition": "A viewpoint from which something is considered."
+    },
+    {
+      "term": "Objectivity",
+      "definition": "Presenting information without personal bias."
+    },
+    {
+      "term": "Subjectivity",
+      "definition": "Presenting information influenced by personal feelings."
+    },
+    {
+      "term": "Commentary",
+      "definition": "Explanation or analysis that interprets evidence."
+    },
+    {
+      "term": "In-text Citation",
+      "definition": "A brief source reference within the text."
+    },
+    {
+      "term": "Bibliography",
+      "definition": "A list of sources used for research."
+    },
+    {
+      "term": "Works Cited",
+      "definition": "A formatted list of sources referenced in a text."
+    },
+    {
+      "term": "Annotation",
+      "definition": "A note that explains or summarizes a source."
+    },
+    {
+      "term": "Word Choice",
+      "definition": "Selecting words to match purpose, audience, and tone."
+    },
+    { "term": "Clarity", "definition": "Writing that is easy to understand." },
+    {
+      "term": "Concision",
+      "definition": "Expressing ideas in as few words as needed."
+    },
+    {
+      "term": "Redundancy",
+      "definition": "Unnecessary repetition of ideas or words."
+    },
+    {
+      "term": "Ambiguity",
+      "definition": "Unclear meaning that allows multiple interpretations."
     }
   ],
   "Social Studies": [
@@ -1862,6 +2675,305 @@
     {
       "term": "Compromise",
       "definition": "Settlement where each side gives up something."
+    },
+    {
+      "term": "Rule of Law",
+      "definition": "Principle that laws apply equally to all people."
+    },
+    {
+      "term": "Limited Government",
+      "definition": "Government power is restricted by law and a constitution."
+    },
+    {
+      "term": "Popular Sovereignty",
+      "definition": "The idea that government power comes from the people."
+    },
+    { "term": "Bicameral", "definition": "Having two legislative chambers." },
+    { "term": "Unicameral", "definition": "Having one legislative chamber." },
+    {
+      "term": "Quorum",
+      "definition": "Minimum number needed to conduct official business."
+    },
+    { "term": "Veto", "definition": "Power to reject a proposed law." },
+    {
+      "term": "Veto Override",
+      "definition": "Legislative action to overturn a veto."
+    },
+    {
+      "term": "Impeachment",
+      "definition": "Formal charges against a public official."
+    },
+    {
+      "term": "Referendum",
+      "definition": "A direct vote by citizens on a law or issue."
+    },
+    {
+      "term": "Initiative",
+      "definition": "A process that lets citizens propose laws."
+    },
+    {
+      "term": "Recall",
+      "definition": "A process to remove an elected official before term ends."
+    },
+    { "term": "Census", "definition": "An official count of a population." },
+    {
+      "term": "Demographics",
+      "definition": "Statistical data about a population."
+    },
+    {
+      "term": "Population Density",
+      "definition": "The number of people living in a given area."
+    },
+    {
+      "term": "Constituency",
+      "definition": "The people represented by an elected official."
+    },
+    {
+      "term": "Term Limits",
+      "definition": "Legal limits on how long officials can serve."
+    },
+    {
+      "term": "Public Opinion",
+      "definition": "The views of a population on public issues."
+    },
+    {
+      "term": "Interest Group",
+      "definition": "An organization seeking to influence policy."
+    },
+    {
+      "term": "Advocacy",
+      "definition": "Public support or action for a cause."
+    },
+    {
+      "term": "Petition",
+      "definition": "A formal written request to an authority."
+    },
+    {
+      "term": "Ballot",
+      "definition": "A method for casting and recording votes."
+    },
+    {
+      "term": "Electoral District",
+      "definition": "A geographic area represented by an elected official."
+    },
+    {
+      "term": "Representative",
+      "definition": "An elected official who speaks for constituents."
+    },
+    {
+      "term": "Senator",
+      "definition": "An elected official serving in the Senate."
+    },
+    {
+      "term": "House of Representatives",
+      "definition": "The lower chamber of the U.S. Congress."
+    },
+    {
+      "term": "Senate",
+      "definition": "The upper chamber of the U.S. Congress."
+    },
+    {
+      "term": "Constitutionality",
+      "definition": "The quality of being consistent with a constitution."
+    },
+    {
+      "term": "Precedent",
+      "definition": "A prior example used as a guide for decisions."
+    },
+    {
+      "term": "Federalist",
+      "definition": "Supporter of a strong national government."
+    },
+    {
+      "term": "Anti-Federalist",
+      "definition": "Opponent of a strong national government."
+    },
+    {
+      "term": "Confederation",
+      "definition": "A loose alliance of independent states."
+    },
+    {
+      "term": "Articles of Confederation",
+      "definition": "The first U.S. national government framework."
+    },
+    {
+      "term": "Declaration of Independence",
+      "definition": "1776 document declaring U.S. independence from Britain."
+    },
+    {
+      "term": "Executive Order",
+      "definition": "A directive issued by a president or governor."
+    },
+    {
+      "term": "Bill (Legislation)",
+      "definition": "A proposed law introduced in a legislature."
+    },
+    {
+      "term": "Law",
+      "definition": "A rule created and enforced by a government."
+    },
+    {
+      "term": "Policy",
+      "definition": "A guiding plan or course of action by a government."
+    },
+    {
+      "term": "Bureaucracy",
+      "definition": "A system of government agencies and officials."
+    },
+    {
+      "term": "Civil Liberties",
+      "definition": "Freedoms protected from government interference."
+    },
+    {
+      "term": "Equal Protection",
+      "definition": "Requirement that laws apply equally to all people."
+    },
+    {
+      "term": "Majority Rule",
+      "definition": "The will of the majority determines decisions."
+    },
+    {
+      "term": "Minority Rights",
+      "definition": "Protections for groups not in the majority."
+    },
+    {
+      "term": "Due Process Clause",
+      "definition": "Constitutional guarantee of fair legal procedures."
+    },
+    {
+      "term": "Jurisdiction",
+      "definition": "The authority to make legal decisions."
+    },
+    {
+      "term": "Federal Court",
+      "definition": "A court that interprets federal law."
+    },
+    {
+      "term": "State Government",
+      "definition": "Government of an individual state."
+    },
+    {
+      "term": "Local Government",
+      "definition": "Government at city or county level."
+    },
+    { "term": "Mayor", "definition": "The elected leader of a city or town." },
+    { "term": "Governor", "definition": "The elected leader of a state." },
+    {
+      "term": "Public Goods",
+      "definition": "Goods and services provided for public benefit."
+    },
+    {
+      "term": "Scarcity",
+      "definition": "Limited resources compared to unlimited wants."
+    },
+    {
+      "term": "Opportunity Cost",
+      "definition": "The value of the next best alternative given up."
+    },
+    {
+      "term": "Supply",
+      "definition": "The amount of a good available at various prices."
+    },
+    {
+      "term": "Demand",
+      "definition": "The desire and ability to buy a good at various prices."
+    },
+    {
+      "term": "Market Economy",
+      "definition": "An economy driven by supply, demand, and private ownership."
+    },
+    {
+      "term": "Command Economy",
+      "definition": "An economy controlled by a central authority."
+    },
+    {
+      "term": "Mixed Economy",
+      "definition": "An economy combining market and government control."
+    },
+    {
+      "term": "Consumer",
+      "definition": "A person who buys goods or services."
+    },
+    {
+      "term": "Producer",
+      "definition": "A person or company that makes goods or services."
+    },
+    {
+      "term": "Goods",
+      "definition": "Physical items made to be sold or used."
+    },
+    {
+      "term": "Services",
+      "definition": "Actions or labor provided for others."
+    },
+    {
+      "term": "Human Capital",
+      "definition": "Skills and knowledge that workers bring to a job."
+    },
+    {
+      "term": "Entrepreneurship",
+      "definition": "Organizing resources to start a business."
+    },
+    {
+      "term": "Profit",
+      "definition": "Money earned after costs are subtracted from revenue."
+    },
+    {
+      "term": "Competition",
+      "definition": "Rivalry among sellers for customers."
+    },
+    {
+      "term": "Subsidy",
+      "definition": "Government payment to support an activity or industry."
+    },
+    {
+      "term": "Quota",
+      "definition": "A limit on the quantity of goods that can be imported."
+    },
+    {
+      "term": "Balance of Trade",
+      "definition": "Difference between a country's exports and imports."
+    },
+    {
+      "term": "Deflation",
+      "definition": "A general decrease in prices over time."
+    },
+    {
+      "term": "Interest Rate",
+      "definition": "The cost of borrowing money, expressed as a percent."
+    },
+    { "term": "Savings", "definition": "Money set aside for future use." },
+    {
+      "term": "Credit",
+      "definition": "The ability to borrow money for purchases."
+    },
+    {
+      "term": "Loan",
+      "definition": "Money borrowed that must be repaid with interest."
+    },
+    {
+      "term": "Tax Revenue",
+      "definition": "Money collected by government through taxes."
+    },
+    {
+      "term": "Gross National Product",
+      "definition": "Total value produced by a nation's people and businesses."
+    },
+    {
+      "term": "GDP per Capita",
+      "definition": "Gross domestic product divided by population."
+    },
+    {
+      "term": "Labor Force",
+      "definition": "People available for work in an economy."
+    },
+    {
+      "term": "Productivity",
+      "definition": "Output produced per unit of input or labor."
+    },
+    {
+      "term": "Standard of Living",
+      "definition": "Overall quality of life based on income and goods."
     }
   ]
 }

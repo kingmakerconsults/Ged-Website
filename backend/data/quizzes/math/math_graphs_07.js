@@ -4,7 +4,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "Which ordered pair is a solution to the equation \(y = x + 5\)?",
+    "question": "Which ordered pair is a solution to the equation \\(y = x + 5\\)?",
     "answerOptions": [
       {
         "text": "(2, 7)",
@@ -50,7 +50,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "Given the function \(f(x) = 3x^2 - 5\), what is the value of \(f(-2)\)?",
+    "question": "Given the function \\(f(x) = 3x^2 - 5\\), what is the value of \\(f(-2)\\)?",
     "answerOptions": [
       {
         "text": "-11",
@@ -65,7 +65,7 @@ module.exports = [
       {
         "text": "7",
         "isCorrect": true,
-        "rationale": "f(-2) = 3\((-2)^2\) - 5 = 3(4) - 5 = 12 - 5 = 7."
+        "rationale": "f(-2) = 3\\((-2)^2\\) - 5 = 3(4) - 5 = 12 - 5 = 7."
       },
       {
         "text": "31",
@@ -73,7 +73,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Substitute -2 for x in the function: f(-2) = 3\((-2)^2\) - 5 = 3(4) - 5 = 12 - 5 = 7.",
+    "rationale": "Substitute -2 for x in the function: f(-2) = 3\\((-2)^2\\) - 5 = 3(4) - 5 = 12 - 5 = 7.",
     "challenge_tags": [
       "math-4"
     ]
@@ -84,7 +84,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "What is the y-intercept of the line \(2x - 3y = 12\)?",
+    "question": "What is the y-intercept of the line \\(2x - 3y = 12\\)?",
     "correctAnswer": "-4",
     "rationale": "To find the y-intercept, set x = 0. The equation becomes -3y = 12. Divide by -3 to get y = -4.",
     "challenge_tags": [
@@ -96,25 +96,25 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "Which of the following lines is parallel to the line \(y = 4x - 1\)?",
+    "question": "Which of the following lines is parallel to the line \\(y = 4x - 1\\)?",
     "answerOptions": [
       {
-        "text": "\(y = -4x + 2\)",
+        "text": "\\(y = -4x + 2\\)",
         "isCorrect": false,
         "rationale": "This line has a different slope."
       },
       {
-        "text": "\(y = 4x + 5\)",
+        "text": "\\(y = 4x + 5\\)",
         "isCorrect": true,
         "rationale": "Parallel lines have the same slope. This line also has a slope of 4."
       },
       {
-        "text": "\(y = (\\(\frac{1}{4}\)\))x - 1",
+        "text": "\\(y = (\\(\frac{1}{4}\\))x - 1",
         "isCorrect": false,
         "rationale": "This is a perpendicular line."
       },
       {
-        "text": "\(y = x + 4\)",
+        "text": "\\(y = x + 4\\)",
         "isCorrect": false,
         "rationale": "This line has a different slope."
       }
@@ -132,22 +132,22 @@ module.exports = [
     "question": "What is the equation of the line that passes through the origin and has a slope of -3?",
     "answerOptions": [
       {
-        "text": "\(y = -3x\)",
+        "text": "\\(y = -3x\\)",
         "isCorrect": true,
         "rationale": "A line passing through the origin has a y-intercept of 0. So, y = -3x + 0."
       },
       {
-        "text": "\(y = -3x + 1\)",
+        "text": "\\(y = -3x + 1\\)",
         "isCorrect": false,
         "rationale": "This line does not pass through the origin."
       },
       {
-        "text": "\(y = x - 3\)",
+        "text": "\\(y = x - 3\\)",
         "isCorrect": false,
         "rationale": "This has the wrong slope."
       },
       {
-        "text": "\(y = 3x\)",
+        "text": "\\(y = 3x\\)",
         "isCorrect": false,
         "rationale": "This has the wrong slope."
       }
@@ -163,7 +163,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "If \(f(x) = 2x and g(x) = x - 1\), find \(f(g(4))\).",
+    "question": "If \\(f(x) = 2x and g(x) = x - 1\\), find \\(f(g(4))\\).",
     "correctAnswer": "6",
     "rationale": "First, find g(4): g(4) = 4 - 1 = 3. Then, find f(3): f(3) = 2 * 3 = 6.",
     "challenge_tags": [
@@ -209,9 +209,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "A bank account balance B(t) after t years is modeled by \(B(t) = 500(1.03)^t\). What is the balance after 2 years?",
-    "correctAnswer": "\(530.45\)",
-    "rationale": "Substitute 2 for t: B(2) = 500 * \((1.03)^2\) = 500 * 1.0609 = 530.45.",
+    "question": "A bank account balance B(t) after t years is modeled by \\(B(t) = 500(1.03)^t\\). What is the balance after 2 years?",
+    "correctAnswer": "\\(530.45\\)",
+    "rationale": "Substitute 2 for t: B(2) = 500 * \\((1.03)^2\\) = 500 * 1.0609 = 530.45.",
     "challenge_tags": [
       "math-4"
     ]
@@ -226,7 +226,7 @@ module.exports = [
       {
         "text": "(2, 6)",
         "isCorrect": true,
-        "rationale": "Midpoint = ((-2+6)/2, (4+8)/2) = (\(\\(\frac{4}{2}\)\)\(, \)\\(\frac{12}{2}\)) = (2, 6)."
+        "rationale": "Midpoint = ((-2+6)/2, (4+8)/2) = (\\(\\(\frac{4}{2}\\)\\(, \\)\\(\frac{12}{2}\\)) = (2, 6)."
       },
       {
         "text": "(4, 12)",
@@ -244,7 +244,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The midpoint formula is \((\\(\frac{x_1+x_2}{2}\)\), \\(\frac{y_1+y_2}{2}\))\(. So, the midpoint is \)(\\(\frac{-2+6}{2}\), \\(\frac{4+8}{2}\)) = (\\(\frac{4}{2}\), \\(\frac{12}{2}\)) = (2, 6).",
+    "rationale": "The midpoint formula is \\((\\(\frac{x_1+x_2}{2}\\), \\(\frac{y_1+y_2}{2}\\))\\(. So, the midpoint is \\)(\\(\frac{-2+6}{2}\\), \\(\frac{4+8}{2}\\)) = (\\(\frac{4}{2}\\), \\(\frac{12}{2}\\)) = (2, 6).",
     "challenge_tags": [
       "math-4"
     ]
@@ -257,22 +257,22 @@ module.exports = [
     "question": "Which of the following functions has a y-intercept of -2?",
     "answerOptions": [
       {
-        "text": "\(y = -2x\)",
+        "text": "\\(y = -2x\\)",
         "isCorrect": false,
         "rationale": "The y-intercept is 0."
       },
       {
-        "text": "\(y = x - 2\)",
+        "text": "\\(y = x - 2\\)",
         "isCorrect": true,
         "rationale": "In y=mx+b form, b=-2."
       },
       {
-        "text": "\(y = 2x + 1\)",
+        "text": "\\(y = 2x + 1\\)",
         "isCorrect": false,
         "rationale": "The y-intercept is 1."
       },
       {
-        "text": "\(2x + 3y = 6\)",
+        "text": "\\(2x + 3y = 6\\)",
         "isCorrect": false,
         "rationale": "The y-intercept is 2."
       }
@@ -287,7 +287,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "A linear function passes through (0, 5) and has a slope of -\\(\frac{1}{2}\). What is its value at x=4?",
+    "question": "A linear function passes through (0, 5) and has a slope of -\\(\frac{1}{2}\\). What is its value at x=4?",
     "answerOptions": [
       {
         "text": "1",
@@ -297,7 +297,7 @@ module.exports = [
       {
         "text": "3",
         "isCorrect": true,
-        "rationale": "The equation is y = (-\(\\(\frac{1}{2}\)\)\()x + 5. At x=4, y = (-\)\\(\frac{1}{2}\))(4) + 5 = -2 + 5 = 3."
+        "rationale": "The equation is y = (-\\(\\(\frac{1}{2}\\)\\()x + 5. At x=4, y = (-\\)\\(\frac{1}{2}\\))(4) + 5 = -2 + 5 = 3."
       },
       {
         "text": "4",
@@ -310,7 +310,7 @@ module.exports = [
         "rationale": "This is the y-intercept."
       }
     ],
-    "rationale": "The equation of the line is y = mx + b. We are given m = -\)\\(\frac{1}{2}\)\( and the y-intercept b = 5. So, y = (-\)\\(\frac{1}{2}\)\()x + 5. To find the value at x=4, substitute it into the equation: y = (-\)\\(\(\(\frac{1}{2}\)\))(4) + 5 = -2 + 5 = 3.",
+    "rationale": "The equation of the line is y = mx + b. We are given m = -\\)\\(\frac{1}{2}\\)\\( and the y-intercept b = 5. So, y = (-\\)\\(\frac{1}{2}\\)\\()x + 5. To find the value at x=4, substitute it into the equation: y = (-\\)\\(\\(\frac{1}{2}\\))(4) + 5 = -2 + 5 = 3.",
     "challenge_tags": [
       "math-4"
     ]

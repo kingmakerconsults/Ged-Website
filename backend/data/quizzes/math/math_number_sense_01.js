@@ -43,7 +43,7 @@ module.exports = [
         text: '3.14',
         isCorrect: false,
         rationale:
-          'This is an approximation of pi, not the decimal for \(\\(\frac{1}{4}\)\).',
+          'This is an approximation of pi, not the decimal for \\(\\frac{1}{4}\\).',
       },
       {
         text: '3.25',
@@ -289,7 +289,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Estimate the result of \(48.7\) \\(\times 10.2.\)',
+    question: 'Estimate the result of \\(48.7\\) \\(\times 10.2.\\)',
     answerOptions: [
       {
         text: '50',

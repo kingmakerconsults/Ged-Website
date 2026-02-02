@@ -4,7 +4,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Which of the following is equal to $5^3$?',
+    question: 'Which of the following is equal to \\(5^3\\)?',
     answerOptions: [
       {
         text: '15',
@@ -14,21 +14,21 @@ module.exports = [
       {
         text: '25',
         isCorrect: false,
-        rationale: 'This is $5^2$.',
+        rationale: 'This is \\(5^2\\).',
       },
       {
         text: '125',
         isCorrect: true,
-        rationale: '$5^3$ = 5 * 5 * 5 = 125.',
+        rationale: '\\(5^3\\) = 5 * 5 * 5 = 125.',
       },
       {
         text: '625',
         isCorrect: false,
-        rationale: 'This is $5^4$.',
+        rationale: 'This is \\(5^4\\).',
       },
     ],
     rationale:
-      'The expression $5^3$ means 5 multiplied by itself three times: 5 x 5 x 5 = 125.',
+      'The expression \\(5^3\\) means 5 multiplied by itself three times: 5 x 5 x 5 = 125.',
     challenge_tags: ['math-1'],
   },
   {
@@ -82,10 +82,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Evaluate: $5 \\times (6 - 2) + 3^2$.',
+    question: 'Evaluate: \\(5 \\times (6 - 2) + 3^2\\).',
     correctAnswer: '29',
     rationale:
-      'Order of operations (PEMDAS): Parentheses (6-2=4), Exponents ($3^2$=9), Multiplication (5*4=20), Addition (20+9=29).',
+      'Order of operations (PEMDAS): Parentheses (6-2=4), Exponents (\\(3^2\\)=9), Multiplication (5*4=20), Addition (20+9=29).',
     challenge_tags: ['math-1'],
   },
   {

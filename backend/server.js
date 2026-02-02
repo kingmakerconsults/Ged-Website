@@ -12412,6 +12412,142 @@ PASSAGE:\n${picked.text}\n`;
 });
 
 // --- DIAGNOSTIC TEST ENDPOINT (PREMIUM UPGRADE) ---
+function getDiagnosticQuestionText(question) {
+  return (
+    question?.question ||
+    question?.questionText ||
+    question?.content?.questionText ||
+    question?.content?.question ||
+    ''
+  );
+}
+
+function isValidDiagnosticQuestion(question) {
+  if (!question) return false;
+  const stem = String(getDiagnosticQuestionText(question) || '').trim();
+  if (!stem) return false;
+  const hasOptions = Array.isArray(question.answerOptions)
+    ? question.answerOptions.length > 0
+    : false;
+  const hasCorrect = Boolean(question.correctAnswer || question.correctAnswers);
+  return hasOptions || hasCorrect;
+}
+
+function buildQuestionKey(question, subjectKey) {
+  const stem = String(getDiagnosticQuestionText(question) || '').trim();
+  const opts = Array.isArray(question?.answerOptions)
+    ? question.answerOptions.map((o) => o?.text || '').join('|')
+    : '';
+  const correct = question?.correctAnswer || '';
+  return `${subjectKey}::${stem}::${correct}::${opts}`;
+}
+
+function shuffleArray(list) {
+  const arr = Array.isArray(list) ? [...list] : [];
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function collectSubjectQuestions(source, subjectKey) {
+  const subject = source?.[subjectKey];
+  const categories = Object.values(subject?.categories || {});
+  const questions = categories.flatMap((category) =>
+    Array.isArray(category?.topics)
+      ? category.topics.flatMap((topic) =>
+          Array.isArray(topic?.questions) ? topic.questions : []
+        )
+      : []
+  );
+  return questions
+    .filter(isValidDiagnosticQuestion)
+    .map((q) => ({ ...q, subject: q.subject || subjectKey }));
+}
+
+function buildDiagnosticFromBank({ bankSize = 100, testSize = 30 } = {}) {
+  const source = shouldHotReloadAllQuizzes()
+    ? refreshAllQuizzes()
+    : ALL_QUIZZES;
+  const subjects = ['Math', 'RLA', 'Science', 'Social Studies'];
+  const bankPerSubject = Math.floor(bankSize / subjects.length);
+  const selectedKeys = new Set();
+  const bank = [];
+
+  subjects.forEach((subjectKey) => {
+    const pool = shuffleArray(collectSubjectQuestions(source, subjectKey));
+    const slice = pool.slice(0, bankPerSubject);
+    slice.forEach((q) => {
+      const key = buildQuestionKey(q, subjectKey);
+      if (!selectedKeys.has(key)) {
+        selectedKeys.add(key);
+        bank.push(q);
+      }
+    });
+  });
+
+  if (bank.length < bankSize) {
+    const allPool = subjects.flatMap((subjectKey) =>
+      collectSubjectQuestions(source, subjectKey)
+    );
+    for (const q of shuffleArray(allPool)) {
+      if (bank.length >= bankSize) break;
+      const key = buildQuestionKey(q, q.subject || 'Unknown');
+      if (!selectedKeys.has(key)) {
+        selectedKeys.add(key);
+        bank.push(q);
+      }
+    }
+  }
+
+  const targets = {
+    Math: 8,
+    RLA: 8,
+    Science: 7,
+    'Social Studies': 7,
+  };
+  const bySubject = subjects.reduce((acc, subjectKey) => {
+    acc[subjectKey] = shuffleArray(
+      bank.filter((q) => (q.subject || subjectKey) === subjectKey)
+    );
+    return acc;
+  }, {});
+
+  const selected = [];
+  subjects.forEach((subjectKey) => {
+    const needed = targets[subjectKey] || 0;
+    const pool = bySubject[subjectKey] || [];
+    selected.push(...pool.slice(0, needed));
+  });
+
+  if (selected.length < testSize) {
+    const remaining = shuffleArray(
+      bank.filter((q) => !selected.includes(q))
+    );
+    selected.push(...remaining.slice(0, testSize - selected.length));
+  }
+
+  const numbered = selected.slice(0, testSize).map((q, idx) => ({
+    ...q,
+    questionNumber: idx + 1,
+  }));
+
+  return {
+    id: `diagnostic_bank_${Date.now()}`,
+    title: 'GED Diagnostic (30 Questions)',
+    subject: 'Composite',
+    isDiagnostic: true,
+    quizType: 'diagnostic',
+    type: 'diagnostic',
+    questions: numbered,
+    config: {
+      formulaSheet: true,
+      calculator: true,
+    },
+  };
+}
+
 app.post('/api/diagnostic-test', authenticateBearerToken, async (req, res) => {
   try {
     const userId = req.user?.userId ?? req.user?.id;
@@ -12448,27 +12584,33 @@ app.post('/api/diagnostic-test', authenticateBearerToken, async (req, res) => {
       });
     }
 
-    // Load the static diagnostic catalog (v1)
+    // Build a 30-question diagnostic from a 100-question bank
     let diagnosticQuiz;
     try {
-      const {
-        buildDiagnosticQuizV1,
-      } = require('./data/diagnostic/diagnostic_catalog_v1.js');
-      diagnosticQuiz = buildDiagnosticQuizV1();
+      diagnosticQuiz = buildDiagnosticFromBank({ bankSize: 100, testSize: 30 });
     } catch (err) {
-      console.error(
-        '[Diagnostic] Failed to load diagnostic catalog v1:',
-        err.message
-      );
-      // Fallback to composite diagnostic if catalog fails
-      console.log('[Diagnostic] Falling back to composite diagnostic...');
-      diagnosticQuiz = buildCompositeDiagnosticQuiz({ size: 'standard' });
+      console.error('[Diagnostic] Failed to build bank diagnostic:', err.message);
+      // Fallback to static diagnostic catalog (v1)
+      try {
+        const {
+          buildDiagnosticQuizV1,
+        } = require('./data/diagnostic/diagnostic_catalog_v1.js');
+        diagnosticQuiz = buildDiagnosticQuizV1();
+        diagnosticQuiz.type = 'diagnostic';
+        diagnosticQuiz.quizType = 'diagnostic';
+        diagnosticQuiz.isDiagnostic = true;
+      } catch (fallbackErr) {
+        console.error(
+          '[Diagnostic] Failed to load diagnostic catalog v1:',
+          fallbackErr.message
+        );
+        console.log('[Diagnostic] Falling back to composite diagnostic...');
+        diagnosticQuiz = buildCompositeDiagnosticQuiz({ size: 'standard' });
+        diagnosticQuiz.type = 'diagnostic';
+        diagnosticQuiz.quizType = 'diagnostic';
+        diagnosticQuiz.isDiagnostic = true;
+      }
     }
-
-    // Ensure diagnostic fields are set correctly
-    diagnosticQuiz.type = 'diagnostic';
-    diagnosticQuiz.quizType = 'diagnostic';
-    diagnosticQuiz.isDiagnostic = true;
 
     console.log(
       `[Diagnostic] Returning diagnostic_v1 with ${diagnosticQuiz.questions?.length || 0} questions to user ${userId}`
@@ -12602,9 +12744,21 @@ function buildCompositeQuestions(subjectKey, size = 'standard') {
   const source = shouldHotReloadAllQuizzes()
     ? refreshAllQuizzes()
     : ALL_QUIZZES;
+  if (!subjectKey) return [];
   const topicId = DIAG_COMPOSITE_IDS[subjectKey];
-  const topic = findTopicById(source, subjectKey, topicId);
-  const baseQuestions = Array.isArray(topic?.questions) ? topic.questions : [];
+  const topic = topicId ? findTopicById(source, subjectKey, topicId) : null;
+  let baseQuestions = Array.isArray(topic?.questions) ? topic.questions : [];
+  if (baseQuestions.length === 0) {
+    const subject = source?.[subjectKey];
+    const categories = Object.values(subject?.categories || {});
+    baseQuestions = categories.flatMap((category) =>
+      Array.isArray(category?.topics)
+        ? category.topics.flatMap((t) =>
+            Array.isArray(t?.questions) ? t.questions : []
+          )
+        : []
+    );
+  }
   const desiredCount =
     size === 'quick' ? 6 : size === 'standard' ? 10 : baseQuestions.length;
   const trimmed = baseQuestions.slice(0, desiredCount).map((q) => ({ ...q }));

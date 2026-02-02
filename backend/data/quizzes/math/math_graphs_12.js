@@ -4,7 +4,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'What is the slope of a line that is parallel to \(y = 5x - 3\)?',
+    question: 'What is the slope of a line that is parallel to \\(y = 5x - 3\\)?',
     answerOptions: [
       {
         text: '5',
@@ -17,7 +17,7 @@ module.exports = [
         rationale: 'This is the y-intercept.',
       },
       {
-        text: '\(-\\(\frac{1}{5}\)\)',
+        text: '\\(-\\(\frac{1}{5}\\)',
         isCorrect: false,
         rationale: 'This is the slope of a perpendicular line.',
       },
@@ -37,7 +37,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'If \(f(x) = 15 - x\), what is \(f(15)\)?',
+    question: 'If \\(f(x) = 15 - x\\), what is \\(f(15)\\)?',
     correctAnswer: '0',
     rationale: 'Substitute 15 for x: f(15) = 15 - 15 = 0.',
     challenge_tags: ['math-1'],
@@ -47,7 +47,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Which point lies on the line \(y = 3x + 1\)?',
+    question: 'Which point lies on the line \\(y = 3x + 1\\)?',
     answerOptions: [
       {
         text: '(1, 4)',
@@ -82,7 +82,7 @@ module.exports = [
     difficulty: 'medium',
     question: 'What is the slope of a line passing through (4, 2) and (6, 10)?',
     correctAnswer: '4',
-    rationale: 'Slope = (10-2)/(6-4) = \(\\(\frac{8}{2}\)\) = 4.',
+    rationale: 'Slope = (10-2)/(6-4) = \\(\\(\frac{8}{2}\\) = 4.',
     challenge_tags: ['math-1'],
   },
   {
@@ -90,7 +90,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'What is the y-intercept of the function \(f(x) = x^2 - 9\)?',
+    question: 'What is the y-intercept of the function \\(f(x) = x^2 - 9\\)?',
     answerOptions: [
       {
         text: '3',
@@ -122,7 +122,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A function is defined by \(f(x) = 2x - 3\). If \(f(x) = 7\), what is the value of x?',
+      'A function is defined by \\(f(x) = 2x - 3\\). If \\(f(x) = 7\\), what is the value of x?',
     answerOptions: [
       {
         text: '2',
@@ -155,7 +155,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'What is the x-intercept of the line \(y = 5x + 15\)?',
+    question: 'What is the x-intercept of the line \\(y = 5x + 15\\)?',
     correctAnswer: '-3',
     rationale: 'Set y=0: 0 = 5x + 15 -> -15 = 5x -> x=-3.',
     challenge_tags: ['math-1'],
@@ -166,7 +166,7 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'The graph of \(y = (x+1)^2 - 2 is a parabola. What is its vertex?\)',
+      'The graph of \\(y = (x+1)^2 - 2 is a parabola. What is its vertex?\\)',
     answerOptions: [
       {
         text: '(1, -2)',
@@ -277,7 +277,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'What is the slope of the line \(3x - y = 2\)?',
+    question: 'What is the slope of the line \\(3x - y = 2\\)?',
     answerOptions: [
       {
         text: '3',
@@ -295,7 +295,7 @@ module.exports = [
         rationale: 'This is the y-intercept.',
       },
       {
-        text: '\)\\(\(\(\frac{2}{3}\)\)',
+        text: '\\)\\(\\(\frac{2}{3}\\)',
         isCorrect: false,
         rationale: 'This is the x-intercept.',
       },

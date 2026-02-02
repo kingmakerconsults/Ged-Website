@@ -115,7 +115,7 @@ module.exports = [
         text: '$24',
         isCorrect: true,
         rationale:
-          'The markup is 0.60 \(\times\) 15 = 9. The selling price is 15 + 9 = 24.',
+          'The markup is 0.60 \\(\times\\) 15 = 9. The selling price is 15 + 9 = 24.',
       },
       {
         text: '$30',
@@ -124,7 +124,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Calculate the markup amount: 60% of $15 is 0.60 \(\times\) 15 = 9. Add the markup to the original cost: $15 + $9 = $24.',
+      'Calculate the markup amount: 60% of $15 is 0.60 \\(\times\\) 15 = 9. Add the markup to the original cost: $15 + $9 = $24.',
     challenge_tags: ['math-1'],
   },
   {
@@ -136,7 +136,7 @@ module.exports = [
       'If 3 pounds of apples cost 4.50, what is the cost of 5 pounds of apples?',
     answerOptions: [
       {
-        text: '\(1.50\)',
+        text: '\\(1.50\\)',
         isCorrect: false,
         rationale: 'This is the price per pound.',
       },
@@ -146,10 +146,10 @@ module.exports = [
         rationale: 'This is the cost for 4 pounds.',
       },
       {
-        text: '\(7.50\)',
+        text: '\\(7.50\\)',
         isCorrect: true,
         rationale:
-          'The price per pound is \)4.50 / 3 = 1.50. So, 5 pounds cost 5 * \(1.50 = 7.50.',
+          'The price per pound is \\)4.50 / 3 = 1.50. So, 5 pounds cost 5 * \\(1.50 = 7.50.',
       },
       {
         text: '9.00',
@@ -158,7 +158,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, find the unit price: \)4.50 / 3 pounds = \(1.50 per pound. Then multiply by the desired quantity: \)1.50 * 5 = \(7.50.',
+      'First, find the unit price: \\)4.50 / 3 pounds = \\(1.50 per pound. Then multiply by the desired quantity: \\)1.50 * 5 = \\(7.50.',
     challenge_tags: ['math-1'],
   },
   {
@@ -180,7 +180,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A restaurant bill is \)62.50. If you want to leave a 20% tip, what is the total amount you will pay?',
+      'A restaurant bill is \\)62.50. If you want to leave a 20% tip, what is the total amount you will pay?',
     answerOptions: [
       {
         text: '12.50',
@@ -188,7 +188,7 @@ module.exports = [
         rationale: 'This is the amount of the tip, not the total bill.',
       },
       {
-        text: '\(70.00\)',
+        text: '\\(70.00\\)',
         isCorrect: false,
         rationale: 'This is the result of a calculation error.',
       },
@@ -196,7 +196,7 @@ module.exports = [
         text: '75.00',
         isCorrect: true,
         rationale:
-          'The tip is 0.20 * \(62.50 = \)12.50. The total amount is \(62.50 + \)12.50 = \(75.00.',
+          'The tip is 0.20 * \\(62.50 = \\)12.50. The total amount is \\(62.50 + \\)12.50 = \\(75.00.',
       },
       {
         text: '82.50',
@@ -214,10 +214,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve the proportion: \(\frac{x}{9}\) = \(\frac{10}{15}\)',
+    question: 'Solve the proportion: \\(\frac{x}{9}\\) = \\(\frac{10}{15}\\)',
     correctAnswer: '6',
     rationale:
-      'To solve for x, you can cross-multiply: 15 * x = 9 * 10, which gives 15x = 90. Divide by 15 to get x = 6. Alternatively, simplify \(\frac{10}{15}\) to \(\frac{2}{3}\) and solve x/9 = \(\frac{2}{3}\).',
+      'To solve for x, you can cross-multiply: 15 * x = 9 * 10, which gives 15x = 90. Divide by 15 to get x = 6. Alternatively, simplify \\(\frac{10}{15}\\) to \\(\frac{2}{3}\\) and solve x/9 = \\(\frac{2}{3}\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -270,7 +270,7 @@ module.exports = [
         text: '0.5%',
         isCorrect: true,
         rationale:
-          'The ratio is \(\frac{5}{1000}\) = 0.005. To convert to a percentage, multiply by 100, which gives 0.5%.',
+          'The ratio is \\(\frac{5}{1000}\\) = 0.005. To convert to a percentage, multiply by 100, which gives 0.5%.',
       },
       {
         text: '5%',
@@ -284,7 +284,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The ratio of defective to total is \(\frac{5}{1000}\). As a decimal, this is 0.005. To express this as a percentage, multiply by 100: 0.005 * 100 = 0.5%.',
+      'The ratio of defective to total is \\(\frac{5}{1000}\\). As a decimal, this is 0.005. To express this as a percentage, multiply by 100: 0.005 * 100 = 0.5%.',
     challenge_tags: ['math-1'],
   },
   {

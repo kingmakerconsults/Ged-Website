@@ -275,7 +275,7 @@ module.exports = [
       {
         text: '25',
         isCorrect: false,
-        rationale: 'This is \(5^{2}\).',
+        rationale: 'This is \\(5^{2}\\).',
       },
       {
         text: '7',

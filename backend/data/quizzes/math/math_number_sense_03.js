@@ -48,7 +48,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      "A bookstore has a 20% off sale. If a book's original price is \(28.00, what is the sale price?",
+      "A bookstore has a 20% off sale. If a book's original price is \\(28.00, what is the sale price?",
     answerOptions: [
       {
         text: '5.60',
@@ -56,13 +56,13 @@ module.exports = [
         rationale: 'This is the discount amount, not the final price.',
       },
       {
-        text: '\(22.40\)',
+        text: '\\(22.40\\)',
         isCorrect: true,
         rationale:
-          'The discount is 0.20 * \)28 = \(5.60. The sale price is \)28 - \(5.60 = 22.40.',
+          'The discount is 0.20 * \\)28 = \\(5.60. The sale price is \\)28 - \\(5.60 = 22.40.',
       },
       {
-        text: '\(27.80\)',
+        text: '\\(27.80\\)',
         isCorrect: false,
         rationale: 'This is the result of subtracting only 20 cents.',
       },
@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Calculate the discount: 20% of \)28.00 is \(5.60. Subtract the discount from the original price: \)28.00 - \(5.60 = \)22.40.',
+      'Calculate the discount: 20% of \\)28.00 is \\(5.60. Subtract the discount from the original price: \\)28.00 - \\(5.60 = \\)22.40.',
     challenge_tags: ['math-1'],
   },
   {
@@ -82,10 +82,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Evaluate: \(3^3 - 2 \\(\times\) 5\).',
+    question: 'Evaluate: \\(3^3 - 2 \\(\times\\) 5\\).',
     correctAnswer: '17',
     rationale:
-      'Order of operations (PEMDAS): Exponents first (\(3^3\) = 27), then multiplication (2*5 = 10), then subtraction (27 - 10 = 17).',
+      'Order of operations (PEMDAS): Exponents first (\\(3^3\\) = 27), then multiplication (2*5 = 10), then subtraction (27 - 10 = 17).',
     challenge_tags: ['math-1'],
   },
   {
@@ -96,29 +96,29 @@ module.exports = [
     question: 'Which of the following is equivalent to 0.65?',
     answerOptions: [
       {
-        text: '\(\\(\frac{6}{5}\)\)',
+        text: '\\(\\(\frac{6}{5}\\)',
         isCorrect: false,
-        rationale: '\(\\(\frac{6}{5}\) is equal to 1.2.\)',
+        rationale: '\\(\\(\frac{6}{5}\\) is equal to 1.2.\\)',
       },
       {
-        text: '\(\\(\frac{13}{20}\)\)',
+        text: '\\(\\(\frac{13}{20}\\)',
         isCorrect: true,
         rationale:
-          '0.65 can be written as \(\\(\frac{65}{100}\)\)\(, which simplifies to \)\\(\frac{13}{20}\).',
+          '0.65 can be written as \\(\\(\frac{65}{100}\\)\\(, which simplifies to \\)\\(\frac{13}{20}\\).',
       },
       {
-        text: '\(\\(\frac{2}{3}\)\)',
+        text: '\\(\\(\frac{2}{3}\\)',
         isCorrect: false,
-        rationale: '\(\\(\frac{2}{3}\) is approximately 0.67.\)',
+        rationale: '\\(\\(\frac{2}{3}\\) is approximately 0.67.\\)',
       },
       {
-        text: '\(\\(\frac{65}{10}\)\)',
+        text: '\\(\\(\frac{65}{10}\\)',
         isCorrect: false,
-        rationale: '\(\\(\frac{65}{10}\) is equal to 6.5.\)',
+        rationale: '\\(\\(\frac{65}{10}\\) is equal to 6.5.\\)',
       },
     ],
     rationale:
-      'The decimal 0.65 means 65 hundredths, or \(\\(\frac{65}{100}\)\)\(. This fraction can be simplified by dividing both the numerator and denominator by 5, which results in \)\\(\frac{13}{20}\).',
+      'The decimal 0.65 means 65 hundredths, or \\(\\(\frac{65}{100}\\)\\(. This fraction can be simplified by dividing both the numerator and denominator by 5, which results in \\)\\(\frac{13}{20}\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -138,12 +138,12 @@ module.exports = [
         text: '15%',
         isCorrect: true,
         rationale:
-          'The price decreased by \(120. The percent decrease is (\\(\frac{120}{800}\)) * 100 = 15%.',
+          'The price decreased by \\(120. The percent decrease is (\\(\frac{120}{800}\\)) * 100 = 15%.',
       },
       {
         text: '20%',
         isCorrect: false,
-        rationale: 'This would be a decrease of \(160.\)',
+        rationale: 'This would be a decrease of \\(160.\\)',
       },
       {
         text: '85%',
@@ -152,7 +152,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The amount of decrease is \)800 - \(680 = \)120. The percent decrease is (decrease / original price) * 100 = (\(120 / 800) * 100 = 0.15 * 100 = 15%.',
+      'The amount of decrease is \\)800 - \\(680 = \\)120. The percent decrease is (decrease / original price) * 100 = (\\(120 / 800) * 100 = 0.15 * 100 = 15%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -218,7 +218,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'What is the result of \(1.2 \\(\times\) \)\(10^3\)?',
+    question: 'What is the result of \\(1.2 \\times 10^3\\)?',
     answerOptions: [
       {
         text: '12',
@@ -255,29 +255,29 @@ module.exports = [
       'A car rental costs $40 per day plus a one-time fee of $25. What is the total cost to rent the car for 5 days?',
     answerOptions: [
       {
-        text: '\(200\)',
+        text: '$200',
         isCorrect: false,
         rationale: 'This is the cost for the days, without the one-time fee.',
       },
       {
-        text: '225',
+        text: '$225',
         isCorrect: true,
         rationale:
-          'The daily cost is 5 * \)40 = \(200. Add the one-time fee: \)200 + \(25 = \)225.',
+          'The daily cost is 5 * $40 = $200. Add the one-time fee: $200 + $25 = $225.',
       },
       {
-        text: '325',
+        text: '$325',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '\(65\)',
+        text: '$65',
         isCorrect: false,
         rationale: 'This is the cost for one day.',
       },
     ],
     rationale:
-      'The total cost is calculated as (cost per day * number of days) + one-time fee. So, (\(40 * 5) + \)25 = \(200 + \)25 = 225.',
+      'The total cost is calculated as (cost per day * number of days) + one-time fee. So, ($40 * 5) + $25 = $200 + $25 = $225.',
     challenge_tags: ['math-1'],
   },
   {
@@ -285,7 +285,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Simplify the expression: \(|-8| + |3 - 5|\).',
+    question: 'Simplify the expression: \\(|-8| + |3 - 5|\\).',
     answerOptions: [
       {
         text: '6',

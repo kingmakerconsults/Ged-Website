@@ -4,7 +4,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'What is the result of \(25 \\(\times\) 100?\)',
+    question: 'What is the result of \\(25 \\(\times\\) 100?\\)',
     answerOptions: [
       {
         text: '250',
@@ -85,10 +85,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'Convert the improper fraction \(\\(\frac{11}{4}\) to a mixed number.\)',
-    correctAnswer: '2 \\(\frac{3}{4}\)',
+      'Convert the improper fraction \\(\\(\frac{11}{4}\\) to a mixed number.\\)',
+    correctAnswer: '2 \\(\frac{3}{4}\\)',
     rationale:
-      'Divide 11 by 4. It goes in 2 times (2 * 4 = 8) with a remainder of 3. So the mixed number is 2 \(\\(\frac{3}{4}\)\).',
+      'Divide 11 by 4. It goes in 2 times (2 * 4 = 8) with a remainder of 3. So the mixed number is 2 \\(\\(\frac{3}{4}\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -131,16 +131,16 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "A company's stock was valued at \(75 per share. It dropped by 12% on Monday and then increased by 5% on Tuesday. What was the price after Tuesday's increase?",
+      "A company's stock was valued at \\(75 per share. It dropped by 12% on Monday and then increased by 5% on Tuesday. What was the price after Tuesday's increase?",
     answerOptions: [
       {
         text: '69.30',
         isCorrect: true,
         rationale:
-          'Monday: \(75 * (1 - 0.12) =  66. Tuesday: \(66 * (1 + 0.05) =  69.30.\)\)',
+          'Monday: \\(75 * (1 - 0.12) =  66. Tuesday: \\(66 * (1 + 0.05) =  69.30.\\)\\)',
       },
       {
-        text: '\(70.88\)',
+        text: '\\(70.88\\)',
         isCorrect: false,
         rationale: 'This is a 7% decrease from the original price.',
       },
@@ -150,13 +150,13 @@ module.exports = [
         rationale: 'The price would not return to the original value.',
       },
       {
-        text: '\(66.00\)',
+        text: '\\(66.00\\)',
         isCorrect: false,
         rationale: "This is the price after Monday's drop only.",
       },
     ],
     rationale:
-      'First, calculate the price after the drop: \)75 * (1 - 0.12) = 75 * 0.88 = \(66. Then, calculate the price after the increase: \)66 * (1 + 0.05) = \(66 * 1.05 = 69.30.',
+      'First, calculate the price after the drop: \\)75 * (1 - 0.12) = 75 * 0.88 = \\(66. Then, calculate the price after the increase: \\)66 * (1 + 0.05) = \\(66 * 1.05 = 69.30.',
     challenge_tags: ['math-1'],
   },
   {
@@ -288,21 +288,21 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Find the sum of \(\\(\frac{1}{4}\) and \\(\frac{2}{3}\)\).',
+    question: 'Find the sum of \\(\\(\frac{1}{4}\\) and \\(\frac{2}{3}\\).',
     answerOptions: [
       {
-        text: '\(\\(\frac{3}{7}\)\)',
+        text: '\\(\\(\frac{3}{7}\\)',
         isCorrect: false,
         rationale: 'This is the result of adding numerators and denominators.',
       },
       {
-        text: '\(\\(\frac{11}{12}\)\)',
+        text: '\\(\\(\frac{11}{12}\\)',
         isCorrect: true,
         rationale:
-          'The common denominator is 12. The sum is \(\\(\frac{3}{12}\)\) + \(\\(\frac{8}{12}\)\) = \(\\(\frac{11}{12}\)\).',
+          'The common denominator is 12. The sum is \\(\\(\frac{3}{12}\\) + \\(\\(\frac{8}{12}\\) = \\(\\(\frac{11}{12}\\).',
       },
       {
-        text: '\(\\(\frac{1}{2}\)\)',
+        text: '\\(\\(\frac{1}{2}\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -313,7 +313,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To add these fractions, find a common denominator, which is 12. Convert the fractions: \(\\(\frac{1}{4}\)\) = \\(\frac{3}{12} and \\(\frac{2}{3}\)\) = \\(\frac{8}{12}\). Now add them: \(\\(\frac{3}{12}\)\) + \\(\frac{8}{12}\) = \\(\frac{11}{12}\).',
+      'To add these fractions, find a common denominator, which is 12. Convert the fractions: \\(\\(\frac{1}{4}\\) = \\(\frac{3}{12} and \\(\frac{2}{3}\\) = \\(\frac{8}{12}\\). Now add them: \\(\\(\frac{3}{12}\\) + \\(\frac{8}{12}\\) = \\(\frac{11}{12}\\).',
     challenge_tags: ['math-1'],
   },
 ];

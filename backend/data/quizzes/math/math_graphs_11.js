@@ -8,29 +8,29 @@ module.exports = [
       'What is the slope of a line that goes down 2 units for every 3 units it moves to the right?',
     answerOptions: [
       {
-        text: '\(\\(\frac{2}{3}\)\)',
+        text: '\\(\\(\frac{2}{3}\\)',
         isCorrect: false,
         rationale: 'This is a positive slope.',
       },
       {
-        text: '\(-\\(\frac{2}{3}\)\)',
+        text: '\\(-\\(\frac{2}{3}\\)',
         isCorrect: true,
         rationale:
           'Slope is rise over run. Down 2 is a rise of -2, and right 3 is a run of 3.',
       },
       {
-        text: '\(\\(\frac{3}{2}\)\)',
+        text: '\\(\\(\frac{3}{2}\\)',
         isCorrect: false,
         rationale: 'This is the reciprocal.',
       },
       {
-        text: '\(-\\(\frac{3}{2}\)\)',
+        text: '\\(-\\(\frac{3}{2}\\)',
         isCorrect: false,
         rationale: 'This is the negative reciprocal.',
       },
     ],
     rationale:
-      "Slope is defined as 'rise over run'. A downward movement is a negative rise. So, the slope is \(-\frac{2}{3}\).",
+      "Slope is defined as 'rise over run'. A downward movement is a negative rise. So, the slope is \\(-\frac{2}{3}\\).",
     challenge_tags: ['math-3'],
   },
   {
@@ -39,7 +39,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'If \(f(x) = 3x\), what is \(f(10)\)?',
+    question: 'If \\(f(x) = 3x\\), what is \\(f(10)\\)?',
     correctAnswer: '30',
     rationale: 'Substitute 10 for x: f(10) = 3 * 10 = 30.',
     challenge_tags: ['math-3'],
@@ -69,7 +69,7 @@ module.exports = [
         rationale: 'This does not have the correct slope.',
       },
       {
-        text: 'y = \\(\frac{1}{2} x + 0.5\)',
+        text: 'y = \\(\frac{1}{2} x + 0.5\\)',
         isCorrect: false,
         rationale: 'This has the wrong slope.',
       },
@@ -84,7 +84,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'What is the y-intercept of the line \(4x - 2y = 8\)?',
+    question: 'What is the y-intercept of the line \\(4x - 2y = 8\\)?',
     correctAnswer: '-4',
     rationale: 'To find the y-intercept, set x = 0. -2y = 8. y = -4.',
     challenge_tags: ['math-3'],
@@ -127,7 +127,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'If a function is defined by \(f(x) = x^2 - 4x + 3, what is its y-intercept\)?',
+      'If a function is defined by \\(f(x) = x^2 - 4x + 3, what is its y-intercept\\)?',
     answerOptions: [
       {
         text: '(0, 3)',
@@ -161,10 +161,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'What is the slope of a line perpendicular to \(y = -\\(\frac{1}{5}\) x + 2?\)',
+      'What is the slope of a line perpendicular to \\(y = -\\frac{1}{5} x + 2\\)?',
     correctAnswer: '5',
     rationale:
-      'The slope of the given line is -\(\\(\frac{1}{5}\)\). The slope of a perpendicular line is the negative reciprocal, which is 5.',
+      'The slope of the given line is -\\(\\frac{1}{5}\\). The slope of a perpendicular line is the negative reciprocal, which is 5.',
     challenge_tags: ['math-3'],
   },
   {
@@ -173,7 +173,7 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'Which of the following points is a solution to the system of inequalities: \(y > x and x > 2\)?',
+      'Which of the following points is a solution to the system of inequalities: \\(y > x and x > 2\\)?',
     answerOptions: [
       {
         text: '(1, 3)',
@@ -217,7 +217,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'What is the x-intercept of the function \(f(x) = 2x - 6\)?',
+    question: 'What is the x-intercept of the function \\(f(x) = 2x - 6\\)?',
     answerOptions: [
       {
         text: '-6',
@@ -250,25 +250,25 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'The graph of \(y = x^2 is shifted 3 units down. What is the new equation?\)',
+      'The graph of \\(y = x^2 is shifted 3 units down. What is the new equation?\\)',
     answerOptions: [
       {
-        text: '\(y = x^2 - 3\)',
+        text: '\\(y = x^2 - 3\\)',
         isCorrect: true,
         rationale: 'A vertical shift down by k units is f(x)-k.',
       },
       {
-        text: '\(y = x^2 + 3\)',
+        text: '\\(y = x^2 + 3\\)',
         isCorrect: false,
         rationale: 'This is a shift up.',
       },
       {
-        text: '\(y = (x-3)^2\)',
+        text: '\\(y = (x-3)^2\\)',
         isCorrect: false,
         rationale: 'This is a shift right.',
       },
       {
-        text: '\(y = (x+3)^2\)',
+        text: '\\(y = (x+3)^2\\)',
         isCorrect: false,
         rationale: 'This is a shift left.',
       },

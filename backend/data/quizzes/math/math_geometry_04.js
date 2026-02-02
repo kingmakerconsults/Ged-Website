@@ -42,7 +42,7 @@ module.exports = [
       'Find the area of a triangle with a base of 15 cm and a height of 10 cm.',
     correctAnswer: '75 cm^2',
     rationale:
-      'The area of a triangle is A = \(\frac{1}{2}\) * b * h. So, A = \(\frac{1}{2}\) * 15 cm * 10 cm = 75 cm^2.',
+      'The area of a triangle is A = \\(\frac{1}{2}\\) * b * h. So, A = \\(\frac{1}{2}\\) * 15 cm * 10 cm = 75 cm^2.',
     challenge_tags: ['math-5'],
   },
   {
@@ -51,7 +51,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A circle has a diameter of 20 inches. What is its circumference? Use 3.14 for \(\\pi\).',
+      'A circle has a diameter of 20 inches. What is its circumference? Use 3.14 for \\(\\pi\\).',
     answerOptions: [
       {
         text: '31.4 inches',

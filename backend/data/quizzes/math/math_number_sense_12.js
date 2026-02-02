@@ -57,7 +57,7 @@ module.exports = [
       {
         text: '$8.40',
         isCorrect: true,
-        rationale: 'A 20% tip is 0.20 \(\times\) 42.00 = 8.40.',
+        rationale: 'A 20% tip is 0.20 \\(\times\\) 42.00 = 8.40.',
       },
       {
         text: '$6.30',
@@ -71,7 +71,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To calculate the tip, convert the percentage to a decimal and multiply by the bill amount: 0.20 \(\times\) 42.00 = 8.40.',
+      'To calculate the tip, convert the percentage to a decimal and multiply by the bill amount: 0.20 \\(\times\\) 42.00 = 8.40.',
     challenge_tags: ['math-1'],
   },
   {
@@ -80,10 +80,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Evaluate: \(60 \\(\div\) (5 \\(\times\) 3) + 2\).',
+    question: 'Evaluate: \\(60 \\(\div\\) (5 \\(\times\\) 3) + 2\\).',
     correctAnswer: '6',
     rationale:
-      'Order of operations (PEMDAS): Parentheses (5 × 3 = 15), Division (\(\\(\frac{60}{15}\)\) = 4), Addition (4 + 2 = 6).',
+      'Order of operations (PEMDAS): Parentheses (5 × 3 = 15), Division (\\(\\(\frac{60}{15}\\) = 4), Addition (4 + 2 = 6).',
     challenge_tags: ['math-1'],
   },
   {
@@ -99,9 +99,9 @@ module.exports = [
         rationale: 'This is the largest.',
       },
       {
-        text: '\(\frac{1}{3}\)',
+        text: '\\(\frac{1}{3}\\)',
         isCorrect: true,
-        rationale: '\(\frac{1}{3}\) is approx 0.333, which is the smallest.',
+        rationale: '\\(\frac{1}{3}\\) is approx 0.333, which is the smallest.',
       },
       {
         text: '40%',
@@ -115,7 +115,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To compare, convert all values to decimals: \(\frac{1}{3}\) ≈ 0.333, 40% = 0.4. The smallest value is 0.333..., which is \(\frac{1}{3}\).',
+      'To compare, convert all values to decimals: \\(\frac{1}{3}\\) ≈ 0.333, 40% = 0.4. The smallest value is 0.333..., which is \\(\frac{1}{3}\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -159,10 +159,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'What is the result of multiplying \(\frac{1}{2}\) by \(\frac{3}{4}\)?',
-    correctAnswer: '\(\frac{3}{8}\)',
+      'What is the result of multiplying \\(\frac{1}{2}\\) by \\(\frac{3}{4}\\)?',
+    correctAnswer: '\\(\frac{3}{8}\\)',
     rationale:
-      'To multiply fractions, multiply the numerators together and the denominators together: (1*3) / (2*4) = \(\frac{3}{8}\).',
+      'To multiply fractions, multiply the numerators together and the denominators together: (1*3) / (2*4) = \\(\frac{3}{8}\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -208,7 +208,7 @@ module.exports = [
       "A company's total expenses are 30,000. If salaries account for 65% of the expenses, how much is spent on salaries?",
     correctAnswer: '19,500',
     rationale:
-      'To find the amount spent on salaries, multiply the total expenses by the percentage: 30,000 \(\times\) 0.65 = 19,500.',
+      'To find the amount spent on salaries, multiply the total expenses by the percentage: 30,000 \\(\times\\) 0.65 = 19,500.',
     challenge_tags: ['math-1'],
   },
   {
@@ -216,7 +216,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'What is \(\sqrt{49}\) + \(3^2\)?',
+    question: 'What is \\(\sqrt{49}\\) + \\(3^2\\)?',
     answerOptions: [
       {
         text: '13',
@@ -226,12 +226,12 @@ module.exports = [
       {
         text: '16',
         isCorrect: true,
-        rationale: '\(\sqrt{49}\) = 7 and \(3^2\) = 9. So, 7 + 9 = 16.',
+        rationale: '\\(\sqrt{49}\\) = 7 and \\(3^2\\) = 9. So, 7 + 9 = 16.',
       },
       {
         text: '25',
         isCorrect: false,
-        rationale: 'This is \((7+3)^2\).',
+        rationale: 'This is \\((7+3)^2\\).',
       },
       {
         text: '58',
@@ -240,7 +240,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, evaluate the square root and the exponent: \(\sqrt{49}\) = 7 and \(3^2\) = 9. Then, add the results: 7 + 9 = 16.',
+      'First, evaluate the square root and the exponent: \\(\sqrt{49}\\) = 7 and \\(3^2\\) = 9. Then, add the results: 7 + 9 = 16.',
     challenge_tags: ['math-1'],
   },
   {
@@ -260,12 +260,12 @@ module.exports = [
         text: '16',
         isCorrect: true,
         rationale:
-          'The ratio is 24 cookies / 1.5 cups. With 1 cup, you can make 24 \(\div\) 1.5 = 16 cookies.',
+          'The ratio is 24 cookies / 1.5 cups. With 1 cup, you can make 24 \\(\div\\) 1.5 = 16 cookies.',
       },
       {
         text: '18',
         isCorrect: false,
-        rationale: 'This is \(\frac{3}{4}\) of the recipe.',
+        rationale: 'This is \\(\frac{3}{4}\\) of the recipe.',
       },
       {
         text: '20',

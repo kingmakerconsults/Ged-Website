@@ -137,13 +137,13 @@ module.exports = [
       {
         text: '25',
         isCorrect: false,
-        rationale: 'This is \(5^{2}\).',
+        rationale: 'This is \\(5^2\\).',
       },
       {
         text: '32',
         isCorrect: true,
         rationale:
-          'There are 2 choices for each of the 5 questions. 2*2*2*2*2 = \(2^{5}\) = 32.',
+          'There are 2 choices for each of the 5 questions. \\(2 \\times 2 \\times 2 \\times 2 \\times 2 = 2^5 = 32\\).',
       },
       {
         text: '120',

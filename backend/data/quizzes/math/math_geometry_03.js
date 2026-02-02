@@ -21,7 +21,7 @@ module.exports = [
       {
         text: '16 in',
         isCorrect: false,
-        rationale: 'This is \(\\(\frac{64}{4}\)\).',
+        rationale: 'This is \\(\\(\frac{64}{4}\\).',
       },
       {
         text: '32 in',
@@ -40,10 +40,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'What is the area of a circle with a radius of 10 cm? Use 3.14 for \(\\pi\).',
-    correctAnswer: '314 \(cm^2\)',
+      'What is the area of a circle with a radius of 10 cm? Use 3.14 for \\(\\pi\\).',
+    correctAnswer: '314 \\(cm^2\\)',
     rationale:
-      'Area of a circle is A = pi * \(r^{2}\). So, A = 3.14 * (10 cm)\(^2\) = 3.14 * 100 = 314 \(cm^{2}\).',
+      'Area of a circle is A = pi * \\(r^{2}\\). So, A = 3.14 * (10 cm)\\(^2\\) = 3.14 * 100 = 314 \\(cm^{2}\\).',
     challenge_tags: ['math-5'],
   },
   {
@@ -55,29 +55,29 @@ module.exports = [
       'A rectangular swimming pool is 50 meters long, 25 meters wide, and 2 meters deep. What is its volume?',
     answerOptions: [
       {
-        text: '77 \(m^3\)',
+        text: '77 \\(m^3\\)',
         isCorrect: false,
         rationale: 'This is the sum of the dimensions.',
       },
       {
-        text: '150 \(m^3\)',
+        text: '150 \\(m^3\\)',
         isCorrect: false,
         rationale: 'This is the perimeter.',
       },
       {
-        text: '1250 \(m^3\)',
+        text: '1250 \\(m^3\\)',
         isCorrect: false,
         rationale: 'This is the surface area of the water.',
       },
       {
-        text: '2500 \(m^3\)',
+        text: '2500 \\(m^3\\)',
         isCorrect: true,
         rationale:
-          'Volume = length * width * depth = 50 * 25 * 2 = 2500 \(m^{3}\).',
+          'Volume = length * width * depth = 50 * 25 * 2 = 2500 \\(m^{3}\\).',
       },
     ],
     rationale:
-      'The volume of a rectangular prism is length x width x height (or depth). V = 50 m * 25 m * 2 m = 2500 \(m^{3}\).',
+      'The volume of a rectangular prism is length x width x height (or depth). V = 50 m * 25 m * 2 m = 2500 \\(m^{3}\\).',
     challenge_tags: ['math-5'],
   },
   {
@@ -139,13 +139,13 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A cylindrical container has a volume of 314 cubic inches and a height of 4 inches. What is its radius? Use 3.14 for \(\\pi\).',
+      'A cylindrical container has a volume of 314 cubic inches and a height of 4 inches. What is its radius? Use 3.14 for \\(\\pi\\).',
     answerOptions: [
       {
         text: '5 inches',
         isCorrect: true,
         rationale:
-          'Volume = pi * \(r^{2}\) * h. 314 = 3.14 * \(r^{2}\) * 4. 100 = 4\(r^{2}\). 25 = \(r^{2}\). r = 5.',
+          'Volume = pi * \\(r^{2}\\) * h. 314 = 3.14 * \\(r^{2}\\) * 4. 100 = 4\\(r^{2}\\). 25 = \\(r^{2}\\). r = 5.',
       },
       {
         text: '10 inches',
@@ -155,7 +155,7 @@ module.exports = [
       {
         text: '25 inches',
         isCorrect: false,
-        rationale: 'This is \(r^{2}\).',
+        rationale: 'This is \\(r^{2}\\).',
       },
       {
         text: '78.5 inches',
@@ -164,7 +164,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The formula for the volume of a cylinder is V = pi * \(r^{2}\) * h. We have 314 = 3.14 * \(r^{2}\) * 4. Divide by 3.14: 100 = 4\(r^{2}\). Divide by 4: 25 = \(r^{2}\). Take the square root: r = 5 inches.',
+      'The formula for the volume of a cylinder is V = pi * \\(r^{2}\\) * h. We have 314 = 3.14 * \\(r^{2}\\) * 4. Divide by 3.14: 100 = 4\\(r^{2}\\). Divide by 4: 25 = \\(r^{2}\\). Take the square root: r = 5 inches.',
     challenge_tags: ['math-5'],
   },
   {
@@ -188,29 +188,29 @@ module.exports = [
     question: 'Find the surface area of a cube with a side length of 5 inches.',
     answerOptions: [
       {
-        text: '25 \(in^2\)',
+        text: '25 \\(in^2\\)',
         isCorrect: false,
         rationale: 'This is the area of one face.',
       },
       {
-        text: '100 \(in^2\)',
+        text: '100 \\(in^2\\)',
         isCorrect: false,
         rationale: 'This is the area of four faces.',
       },
       {
-        text: '125 \(in^3\)',
+        text: '125 \\(in^3\\)',
         isCorrect: false,
         rationale: 'This is the volume of the cube.',
       },
       {
-        text: '150 \(in^2\)',
+        text: '150 \\(in^2\\)',
         isCorrect: true,
         rationale:
-          'A cube has 6 faces. The area of each face is 5*5=25 \(in^{2}\). Total surface area is 6 * 25 = 150 \(in^{2}\).',
+          'A cube has 6 faces. The area of each face is 5*5=25 \\(in^{2}\\). Total surface area is 6 * 25 = 150 \\(in^{2}\\).',
       },
     ],
     rationale:
-      'A cube has 6 identical square faces. The area of one face is 5 inches * 5 inches = 25 \(in^{2}\). The total surface area is 6 * 25 \(in^{2}\) = 150 \(in^{2}\).',
+      'A cube has 6 identical square faces. The area of one face is 5 inches * 5 inches = 25 \\(in^{2}\\). The total surface area is 6 * 25 \\(in^{2}\\) = 150 \\(in^{2}\\).',
     challenge_tags: ['math-5'],
   },
   {
@@ -223,7 +223,7 @@ module.exports = [
       'A ladder leaning against a wall forms a right triangle. If the ladder is 10 feet long and the base is 6 feet from the wall, how high up the wall does the ladder reach?',
     correctAnswer: '8 feet',
     rationale:
-      'Using the Pythagorean theorem, \(a^{2} + b^{2} = c^{2}\). \(a^{2} + 6^{2} = 10^{2}\). \(a^{2} + 36 = 100\). \(a^{2} = 64\). a = 8 feet.',
+      'Using the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). \\(a^{2} + 6^{2} = 10^{2}\\). \\(a^{2} + 36 = 100\\). \\(a^{2} = 64\\). a = 8 feet.',
     challenge_tags: ['math-5'],
   },
   {
@@ -295,32 +295,32 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A circular pizza has a diameter of 14 inches. What is its area? Use 3.14 for \(\\pi\).',
+      'A circular pizza has a diameter of 14 inches. What is its area? Use 3.14 for \\(\\pi\\).',
     answerOptions: [
       {
-        text: '43.96 \(in^2\)',
+        text: '43.96 \\(in^2\\)',
         isCorrect: false,
         rationale: 'This is the circumference of the pizza.',
       },
       {
-        text: '153.86 \(in^2\)',
+        text: '153.86 \\(in^2\\)',
         isCorrect: true,
         rationale:
-          'The radius is 7 inches. Area = pi * \(r^{2}\) = 3.14 * \(7^{2}\) = 153.86.',
+          'The radius is 7 inches. Area = pi * \\(r^{2}\\) = 3.14 * \\(7^{2}\\) = 153.86.',
       },
       {
-        text: '615.44 \(in^2\)',
+        text: '615.44 \\(in^2\\)',
         isCorrect: false,
         rationale: 'This is the area if the radius was 14 inches.',
       },
       {
-        text: '196 \(in^2\)',
+        text: '196 \\(in^2\\)',
         isCorrect: false,
         rationale: 'This is the result of squaring the diameter.',
       },
     ],
     rationale:
-      'The radius is half the diameter, so r = 14 / 2 = 7 inches. The area is A = pi * \(r^{2}\) = 3.14 * (7 inches)\(^2\) = 3.14 * 49 = 153.86 \(in^{2}\).',
+      'The radius is half the diameter, so r = 14 / 2 = 7 inches. The area is A = pi * \\(r^{2}\\) = 3.14 * (7 inches)\\(^2\\) = 3.14 * 49 = 153.86 \\(in^{2}\\).',
     challenge_tags: ['math-5'],
   },
 ];

@@ -39,7 +39,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A circle has a radius of 20 meters. What is its circumference? Use 3.14 for \(\\pi\).',
+      'A circle has a radius of 20 meters. What is its circumference? Use 3.14 for \\(\\pi\\).',
     correctAnswer: '125.6 meters',
     rationale:
       'Circumference = 2 * pi * r. C = 2 * 3.14 * 20 meters = 125.6 meters.',
@@ -51,7 +51,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'Find the volume of a cylinder with radius 4 and height 10. Use 3.14 for \(\\pi\).',
+      'Find the volume of a cylinder with radius 4 and height 10. Use 3.14 for \\(\\pi\\).',
     answerOptions: [
       {
         text: '125.6',
@@ -62,7 +62,7 @@ module.exports = [
         text: '502.4',
         isCorrect: true,
         rationale:
-          'Volume = pi * \(r^{2}\) * h = 3.14 * \(4^{2}\) * 10 = 502.4.',
+          'Volume = pi * \\(r^{2}\\) * h = 3.14 * \\(4^{2}\\) * 10 = 502.4.',
       },
       {
         text: '1256',
@@ -76,7 +76,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The formula for the volume of a cylinder is V = pi * \(r^{2}\) * h. V = 3.14 * (4)\(^2\) * 10 = 3.14 * 16 * 10 = 502.4.',
+      'The formula for the volume of a cylinder is V = pi * \\(r^{2}\\) * h. V = 3.14 * (4)\\(^2\\) * 10 = 3.14 * 16 * 10 = 502.4.',
     challenge_tags: ['math-5'],
   },
   {
@@ -133,29 +133,29 @@ module.exports = [
       'A cube has a surface area of 24 square feet. What is its volume?',
     answerOptions: [
       {
-        text: '4 \(ft^3\)',
+        text: '4 \\(ft^3\\)',
         isCorrect: false,
         rationale: 'This is the area of one face.',
       },
       {
-        text: '8 \(ft^3\)',
+        text: '8 \\(ft^3\\)',
         isCorrect: true,
         rationale:
-          'Surface area is 6\(s^{2}\). 24=6\(s^{2}\), so \(s^{2}\)=4 and s=2. Volume = \(s^{3}\) = \(2^{3}\) = 8.',
+          'Surface area is 6\\(s^{2}\\). 24=6\\(s^{2}\\), so \\(s^{2}\\)=4 and s=2. Volume = \\(s^{3}\\) = \\(2^{3}\\) = 8.',
       },
       {
-        text: '16 \(ft^3\)',
+        text: '16 \\(ft^3\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '64 \(ft^3\)',
+        text: '64 \\(ft^3\\)',
         isCorrect: false,
         rationale: 'This is the volume if s=4.',
       },
     ],
     rationale:
-      'The surface area of a cube is 6\(s^{2}\), where s is the side length. 24 = 6\(s^{2}\), so \(s^{2}\) = 4, and s = 2 feet. The volume is \(s^{3}\), so V = \(2^{3}\) = 8 cubic feet.',
+      'The surface area of a cube is 6\\(s^{2}\\), where s is the side length. 24 = 6\\(s^{2}\\), so \\(s^{2}\\) = 4, and s = 2 feet. The volume is \\(s^{3}\\), so V = \\(2^{3}\\) = 8 cubic feet.',
     challenge_tags: ['math-5'],
   },
   {
@@ -188,7 +188,7 @@ module.exports = [
         text: '40',
         isCorrect: true,
         rationale:
-          '\(a^{2} + 9^{2} = 41^{2}\). \(a^{2} + 81 = 1681\). \(a^{2} = 1600\). a = 40.',
+          '\\(a^{2} + 9^{2} = 41^{2}\\). \\(a^{2} + 81 = 1681\\). \\(a^{2} = 1600\\). a = 40.',
       },
       {
         text: '50',
@@ -198,11 +198,11 @@ module.exports = [
       {
         text: '1600',
         isCorrect: false,
-        rationale: 'This is \(a^{2}\).',
+        rationale: 'This is \\(a^{2}\\).',
       },
     ],
     rationale:
-      'Using the Pythagorean theorem (\(a^{2} + b^{2} = c^{2}\)), we have \(a^{2} + 9^{2} = 41^{2}\). \(a^{2} + 81 = 1681\). \(a^{2} = 1681 - 81 = 1600\). So, \(a = \\(\sqrt{1600}\)\) = 40.',
+      'Using the Pythagorean theorem (\\(a^{2} + b^{2} = c^{2}\\)), we have \\(a^{2} + 9^{2} = 41^{2}\\). \\(a^{2} + 81 = 1681\\). \\(a^{2} = 1681 - 81 = 1600\\). So, \\(a = \\(\sqrt{1600}\\) = 40.',
     challenge_tags: ['math-5'],
   },
   {
@@ -212,7 +212,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for \(\\pi\).',
+      'A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for \\(\\pi\\).',
     correctAnswer: '560 rotations',
     rationale:
       'The circumference of the wheel is C = 2 * 3.14 * 1.5 = 9.42 feet. The number of rotations is the total distance divided by the circumference: 5280 / 9.42 ≈ 560.5. The number of full rotations is 560.',
@@ -291,7 +291,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'What is the area of a regular hexagon with a side length of 6? Use the formula A = \(\\frac{3\\(\sqrt{3}\)\)}{2}\(s^2\).',
+      'What is the area of a regular hexagon with a side length of 6? Use the formula A = \\(\\frac{3\\(\sqrt{3}\\)}{2}\\(s^2\\).',
     answerOptions: [
       {
         text: '54',
@@ -315,7 +315,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Using the formula, A = \(\\frac{3\\(\sqrt{3}\)\)}{2}$s^{2}\). A = \(\\frac{3\\(\sqrt{3}\)\)}{2}(6)\)^2\( = \\frac{3\\(\sqrt{3}\)}{2}(36) = 54\\(\(\(\sqrt{3}\)\) \\approx 93.53.',
+      'Using the formula, A = \\(\\frac{3\\(\sqrt{3}\\)}{2}$s^{2}\\). A = \\(\\frac{3\\(\sqrt{3}\\)}{2}(6)\\)^2\\( = \\frac{3\\(\sqrt{3}\\)}{2}(36) = 54\\(\\(\sqrt{3}\\) \\approx 93.53.',
     challenge_tags: ['math-5'],
   },
 ];

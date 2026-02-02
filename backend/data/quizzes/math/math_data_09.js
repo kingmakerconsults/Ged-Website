@@ -40,9 +40,9 @@ module.exports = [
     difficulty: 'easy',
     question:
       'What is the probability of rolling an odd number on a standard six-sided die?',
-    correctAnswer: '\(\frac{1}{2}\)',
+    correctAnswer: '\\(\frac{1}{2}\\)',
     rationale:
-      'There are three odd numbers (1, 3, 5) out of six possible outcomes. The probability is \(\frac{3}{6}\), which simplifies to \(\frac{1}{2}\).',
+      'There are three odd numbers (1, 3, 5) out of six possible outcomes. The probability is \\(\frac{3}{6}\\), which simplifies to \\(\frac{1}{2}\\).',
     challenge_tags: ['math-6'],
   },
   {
@@ -60,7 +60,7 @@ module.exports = [
       {
         text: '9',
         isCorrect: true,
-        rationale: 'The sum is 45. \(\frac{45}{5}\) = 9.',
+        rationale: 'The sum is 45. \\(\frac{45}{5}\\) = 9.',
       },
       {
         text: '13',
@@ -95,23 +95,23 @@ module.exports = [
     calculator: false,
     difficulty: 'medium',
     question:
-      'A bag contains 20 marbles. If the probability of drawing a red marble is \\(\frac{1}{4}\), how many red marbles are in the bag?',
+      'A bag contains 20 marbles. If the probability of drawing a red marble is \\(\frac{1}{4}\\), how many red marbles are in the bag?',
     answerOptions: [
       {
         text: '4',
         isCorrect: false,
-        rationale: 'This would be a probability of \(\frac{1}{5}\).',
+        rationale: 'This would be a probability of \\(\frac{1}{5}\\).',
       },
       {
         text: '5',
         isCorrect: true,
         rationale:
-          '\(\frac{1}{4}\) of 20 is \(\frac{1}{4}\) \(\times\) 20 = 5.',
+          '\\(\frac{1}{4}\\) of 20 is \\(\frac{1}{4}\\) \\(\times\\) 20 = 5.',
       },
       {
         text: '10',
         isCorrect: false,
-        rationale: 'This would be a probability of \(\frac{1}{2}\).',
+        rationale: 'This would be a probability of \\(\frac{1}{2}\\).',
       },
       {
         text: '15',
@@ -120,7 +120,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the number of red marbles, multiply the total number of marbles by the probability of drawing a red one: 20 \(\times\) \(\frac{1}{4}\) = 5 red marbles.',
+      'To find the number of red marbles, multiply the total number of marbles by the probability of drawing a red one: 20 \\(\times\\) \\(\frac{1}{4}\\) = 5 red marbles.',
     challenge_tags: ['math-6'],
   },
   {
@@ -140,7 +140,7 @@ module.exports = [
         text: '2',
         isCorrect: true,
         rationale:
-          'The score is 10 points above the mean. Since the standard deviation is 5, this is \(\frac{10}{5}\) = 2 standard deviations.',
+          'The score is 10 points above the mean. Since the standard deviation is 5, this is \\(\frac{10}{5}\\) = 2 standard deviations.',
       },
       {
         text: '3',
@@ -178,32 +178,32 @@ module.exports = [
       'What is the probability of drawing a face card (Jack, Queen, or King) from a standard 52-card deck?',
     answerOptions: [
       {
-        text: '\(\frac{3}{52}\)',
+        text: '\\(\frac{3}{52}\\)',
         isCorrect: false,
         rationale:
           'This is the probability of drawing a Jack of a specific suit.',
       },
       {
-        text: '\(\frac{1}{13}\)',
+        text: '\\(\frac{1}{13}\\)',
         isCorrect: false,
         rationale:
           'This is the probability of drawing a card of a specific rank.',
       },
       {
-        text: '\(\frac{3}{13}\)',
+        text: '\\(\frac{3}{13}\\)',
         isCorrect: true,
         rationale:
-          'There are 12 face cards (3 in each of 4 suits) in a deck of 52 cards. \(\frac{12}{52}\) simplifies to \(\frac{3}{13}\).',
+          'There are 12 face cards (3 in each of 4 suits) in a deck of 52 cards. \\(\frac{12}{52}\\) simplifies to \\(\frac{3}{13}\\).',
       },
       {
-        text: '\(\frac{1}{4}\)',
+        text: '\\(\frac{1}{4}\\)',
         isCorrect: false,
         rationale:
           'This is the probability of drawing a card of a specific suit.',
       },
     ],
     rationale:
-      'There are 3 face cards (Jack, Queen, King) in each of the 4 suits, so there are a total of 12 face cards. The probability is \(\frac{12}{52}\), which simplifies to \(\frac{3}{13}\).',
+      'There are 3 face cards (Jack, Queen, King) in each of the 4 suits, so there are a total of 12 face cards. The probability is \\(\frac{12}{52}\\), which simplifies to \\(\frac{3}{13}\\).',
     challenge_tags: ['math-6'],
   },
   {

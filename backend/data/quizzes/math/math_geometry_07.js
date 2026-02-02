@@ -16,7 +16,7 @@ module.exports = [
         text: '24',
         isCorrect: true,
         rationale:
-          'Area = (\(\\(\frac{1}{2}\)\)) * base * height = (\(\\(\frac{1}{2}\)\)) * 6 * 8 = 24.',
+          'Area = (\\(\\(\frac{1}{2}\\)) * base * height = (\\(\\(\frac{1}{2}\\)) * 6 * 8 = 24.',
       },
       {
         text: '28',
@@ -27,11 +27,11 @@ module.exports = [
         text: '48',
         isCorrect: false,
         rationale:
-          'This is base * height, without multiplying by \(\\(\frac{1}{2}\)\).',
+          'This is base * height, without multiplying by \\(\\(\frac{1}{2}\\).',
       },
     ],
     rationale:
-      'The area of a triangle is given by the formula A = \(\\(\frac{1}{2}\)\) * b * h. So, A = \(\\(\frac{1}{2}\)\) * 6 * 8 = 24.',
+      'The area of a triangle is given by the formula A = \\(\\(\frac{1}{2}\\) * b * h. So, A = \\(\\(\frac{1}{2}\\) * 6 * 8 = 24.',
     challenge_tags: ['math-5'],
   },
   {
@@ -41,7 +41,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'What is the circumference of a circle with a diameter of 15 cm? Use 3.14 for \(\\pi\).',
+      'What is the circumference of a circle with a diameter of 15 cm? Use 3.14 for \\(\\pi\\).',
     correctAnswer: '47.1 cm',
     rationale: 'Circumference = pi * diameter. C = 3.14 * 15 cm = 47.1 cm.',
     challenge_tags: ['math-5'],
@@ -198,7 +198,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Using the Pythagorean theorem (\(a^{2} + b^{2} = c^{2}\)), we have \(7^{2} + 24^{2} = c^{2}\). This becomes \(49 + 576 = 625\). So, \(c = \\(\sqrt{625}\)\) = 25.',
+      'Using the Pythagorean theorem (\\(a^{2} + b^{2} = c^{2}\\)), we have \\(7^{2} + 24^{2} = c^{2}\\). This becomes \\(49 + 576 = 625\\). So, \\(c = \\(\sqrt{625}\\) = 25.',
     challenge_tags: ['math-5'],
   },
   {
@@ -286,7 +286,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A circular track has a circumference of 400 meters. What is its radius, to the nearest meter? Use 3.14 for \(\\pi\).',
+      'A circular track has a circumference of 400 meters. What is its radius, to the nearest meter? Use 3.14 for \\(\\pi\\).',
     answerOptions: [
       {
         text: '64 meters',

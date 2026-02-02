@@ -30,7 +30,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The ratio of boys to girls is 16 to 14. To simplify, find the greatest common divisor, which is 2. Divide both parts of the ratio by 2: \(\\(\frac{16}{2}\)\) = 8 and \(\\(\frac{14}{2}\)\) = 7. The simplified ratio is 8:7.',
+      'The ratio of boys to girls is 16 to 14. To simplify, find the greatest common divisor, which is 2. Divide both parts of the ratio by 2: \\(\\(\frac{16}{2}\\) = 8 and \\(\\(\frac{14}{2}\\) = 7. The simplified ratio is 8:7.',
     challenge_tags: ['math-1'],
   },
   {
@@ -40,10 +40,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A dinner bill is \(85. You want to leave an 18% tip. How much is the tip?',
+      'A dinner bill is \\(85. You want to leave an 18% tip. How much is the tip?',
     correctAnswer: '15.30',
     rationale:
-      'To find the tip amount, convert the percentage to a decimal and multiply by the bill: 0.18 * \)85 = \(15.30.',
+      'To find the tip amount, convert the percentage to a decimal and multiply by the bill: 0.18 * \\)85 = \\(15.30.',
     challenge_tags: ['math-1'],
   },
   {
@@ -86,7 +86,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Solve for y: \(\\(\frac{5}{2}\)\) = \\(\frac{y}{10}\).',
+    question: 'Solve for y: \\(\\(\frac{5}{2}\\) = \\(\frac{y}{10}\\).',
     correctAnswer: '25',
     rationale:
       'To get from 2 to 10 in the denominator, you multiply by 5. So, multiply the numerator by 5 as well: 5 * 5 = 25.',
@@ -170,7 +170,7 @@ module.exports = [
       'A product is marked up 25% from its wholesale price of $80. What is the retail price?',
     correctAnswer: '100',
     rationale:
-      'The markup is 25% of $80, which is 0.25 \(\times\) 80 = 20. The retail price is the wholesale price plus the markup: $80 + $20 = $100.',
+      'The markup is 25% of $80, which is 0.25 \\(\times\\) 80 = 20. The retail price is the wholesale price plus the markup: $80 + $20 = $100.',
     challenge_tags: ['math-1'],
   },
   {
@@ -204,7 +204,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The ratio is 6 to 10. Both numbers are divisible by 2. \(\frac{6}{2}\) = 3 and \(\frac{10}{2}\) = 5. The simplified ratio is 3:5.',
+      'The ratio is 6 to 10. Both numbers are divisible by 2. \\(\frac{6}{2}\\) = 3 and \\(\frac{10}{2}\\) = 5. The simplified ratio is 3:5.',
     challenge_tags: ['math-1'],
   },
   {
@@ -229,7 +229,7 @@ module.exports = [
       'If a 12-ounce bottle of shampoo costs 3.60, what is the price per ounce?',
     answerOptions: [
       {
-        text: '\(0.25\)',
+        text: '\\(0.25\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -240,7 +240,7 @@ module.exports = [
           'Divide the total cost by the number of ounces: 3.60 / 12 oz = 0.30 per oz.',
       },
       {
-        text: '\(0.36\)',
+        text: '\\(0.36\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -271,7 +271,7 @@ module.exports = [
         text: '72 pounds',
         isCorrect: true,
         rationale:
-          'Set up the proportion \(\\(\frac{2}{5}\)\) = x/180. 5x = 360. x = 72.',
+          'Set up the proportion \\(\\(\frac{2}{5}\\) = x/180. 5x = 360. x = 72.',
       },
       {
         text: '90 pounds',
@@ -285,7 +285,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Set up a proportion: \(\\frac{2 \\text{ (Mars)}}{5 \\text{ (Earth)}} = \\frac{x \\text{ pounds (Mars)}}{180 \\text{ pounds (Earth)}}\). Cross-multiply: \(5x = 2 \\(\times\) 180\), so \(5x = 360\). Divide by 5: \(x = 72 pounds.\)',
+      'Set up a proportion: \\(\\frac{2 \\text{ (Mars)}}{5 \\text{ (Earth)}} = \\frac{x \\text{ pounds (Mars)}}{180 \\text{ pounds (Earth)}}\\). Cross-multiply: \\(5x = 2 \\(\times\\) 180\\), so \\(5x = 360\\). Divide by 5: \\(x = 72 pounds.\\)',
     challenge_tags: ['math-1'],
   },
   {
@@ -304,7 +304,7 @@ module.exports = [
       {
         text: '12.5%',
         isCorrect: false,
-        rationale: 'This is \(\\(\frac{24}{192}\)\).',
+        rationale: 'This is \\(\\(\frac{24}{192}\\).',
       },
       {
         text: '24%',

@@ -40,10 +40,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A circle has a diameter of 8. What is its area? Use 3.14 for \(\\pi\).',
+      'A circle has a diameter of 8. What is its area? Use 3.14 for \\(\\pi\\).',
     correctAnswer: '50.24',
     rationale:
-      'The radius is half the diameter, so r=4. Area = pi * \(r^{2}\) = 3.14 * \(4^{2}\) = 50.24.',
+      'The radius is half the diameter, so r=4. Area = pi * \\(r^{2}\\) = 3.14 * \\(4^{2}\\) = 50.24.',
     challenge_tags: ['math-5'],
   },
   {
@@ -66,16 +66,16 @@ module.exports = [
       {
         text: '216',
         isCorrect: true,
-        rationale: 'Volume = \(6^{3}\) = 216.',
+        rationale: 'Volume = \\(6^{3}\\) = 216.',
       },
       {
         text: '1296',
         isCorrect: false,
-        rationale: 'This is \(6^{4}\).',
+        rationale: 'This is \\(6^{4}\\).',
       },
     ],
     rationale:
-      'The volume of a cube is the side length cubed. V = \(6^{3}\) = 6 * 6 * 6 = 216.',
+      'The volume of a cube is the side length cubed. V = \\(6^{3}\\) = 6 * 6 * 6 = 216.',
     challenge_tags: ['math-5'],
   },
   {
@@ -171,7 +171,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'What is the area of a circle with a circumference of 18.84? Use 3.14 for \(\\pi\).',
+      'What is the area of a circle with a circumference of 18.84? Use 3.14 for \\(\\pi\\).',
     answerOptions: [
       {
         text: '28.26',

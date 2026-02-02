@@ -4,7 +4,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "For the function \(f(x) = 7x + 2\), what is \(f(3)\)?",
+    "question": "For the function \\(f(x) = 7x + 2\\), what is \\(f(3)\\)?",
     "answerOptions": [
       {
         "text": "12",
@@ -38,7 +38,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "easy",
-    "question": "What is the y-intercept of the line \(y = \\(\frac{1}{2}\) x - 6?\)",
+    "question": "What is the y-intercept of the line \\(y = \\(\frac{1}{2}\\) x - 6?\\)",
     "correctAnswer": "-6",
     "rationale": "In the slope-intercept form y = mx + b, 'b' represents the y-intercept. In this case, b = -6.",
     "challenge_tags": [
@@ -58,7 +58,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation of the slope."
       },
       {
-        "text": "\(\\(\frac{1}{2}\)\)",
+        "text": "\\(\\(\frac{1}{2}\\)",
         "isCorrect": false,
         "rationale": "This is the reciprocal of the slope."
       },
@@ -73,7 +73,7 @@ module.exports = [
         "rationale": "This is the change in y, not the slope."
       }
     ],
-    "rationale": "The slope is calculated as the change in y divided by the change in x: \(m = \\(\frac{y_2 - y_1}{x_2 - x_1}\)\) = \\(\frac{3 - (-1)}{5 - 3}\) = \\(\frac{4}{2}\) = 2.",
+    "rationale": "The slope is calculated as the change in y divided by the change in x: \\(m = \\(\frac{y_2 - y_1}{x_2 - x_1}\\) = \\(\frac{3 - (-1)}{5 - 3}\\) = \\(\frac{4}{2}\\) = 2.",
     "challenge_tags": [
       "math-7"
     ]
@@ -84,7 +84,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "Given the function \(f(x) = 10\), what is the value of \(f(7)\)?",
+    "question": "Given the function \\(f(x) = 10\\), what is the value of \\(f(7)\\)?",
     "correctAnswer": "10",
     "rationale": "This is a constant function, which means the output is always 10, regardless of the input value for x.",
     "challenge_tags": [
@@ -96,7 +96,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "Which of the following points is on the line \(y = 4x - 5\)?",
+    "question": "Which of the following points is on the line \\(y = 4x - 5\\)?",
     "answerOptions": [
       {
         "text": "(1, -1)",
@@ -129,7 +129,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "A personal trainer charges a one-time consultation fee of \(60 and \)35 per session. What function C(s) represents the total cost for 's' sessions?",
+    "question": "A personal trainer charges a one-time consultation fee of \\(60 and \\)35 per session. What function C(s) represents the total cost for 's' sessions?",
     "answerOptions": [
       {
         "text": "C(s) = 60s + 35",
@@ -152,7 +152,7 @@ module.exports = [
         "rationale": "This is an incorrect representation."
       }
     ],
-    "rationale": "The total cost C(s) is the sum of the one-time fee (\(60) and the cost per session (\)35) multiplied by the number of sessions (s). So, C(s) = 35s + 60.",
+    "rationale": "The total cost C(s) is the sum of the one-time fee (\\(60) and the cost per session (\\)35) multiplied by the number of sessions (s). So, C(s) = 35s + 60.",
     "challenge_tags": [
       "math-7"
     ]
@@ -163,7 +163,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "What is the x-intercept of the line \(y = -3x + 9\)?",
+    "question": "What is the x-intercept of the line \\(y = -3x + 9\\)?",
     "correctAnswer": "3",
     "rationale": "To find the x-intercept, set y = 0. 0 = -3x + 9. Add 3x to both sides: 3x = 9. Divide by 3: x = 3.",
     "challenge_tags": [
@@ -190,7 +190,7 @@ module.exports = [
       {
         "text": "Parabola",
         "isCorrect": true,
-        "rationale": "A quadratic function (e.g., y=\(x^{2}\)) creates a U-shaped curve called a parabola."
+        "rationale": "A quadratic function (e.g., y=\\(x^{2}\\)) creates a U-shaped curve called a parabola."
       },
       {
         "text": "Circle",
@@ -198,7 +198,7 @@ module.exports = [
         "rationale": "A circle is not a function."
       }
     ],
-    "rationale": "The graph of a quadratic equation of the form \(y = ax^{2} + bx + c is a parabola.\)",
+    "rationale": "The graph of a quadratic equation of the form \\(y = ax^{2} + bx + c is a parabola.\\)",
     "challenge_tags": [
       "math-7"
     ]
@@ -221,7 +221,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "What is the slope of the line represented by the equation \(6x - 2y = 8\)?",
+    "question": "What is the slope of the line represented by the equation \\(6x - 2y = 8\\)?",
     "answerOptions": [
       {
         "text": "-3",
@@ -254,25 +254,25 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "Given \(g(x) = x+3\), what is the new function if the graph is shifted down by 5 units?",
+    "question": "Given \\(g(x) = x+3\\), what is the new function if the graph is shifted down by 5 units?",
     "answerOptions": [
       {
-        "text": "\(h(x) = x + 8\)",
+        "text": "\\(h(x) = x + 8\\)",
         "isCorrect": false,
         "rationale": "This is a shift up by 5 units."
       },
       {
-        "text": "\(h(x) = x - 2\)",
+        "text": "\\(h(x) = x - 2\\)",
         "isCorrect": true,
         "rationale": "To shift down by 5, subtract 5 from the function: (x+3) - 5 = x - 2."
       },
       {
-        "text": "\(h(x) = x - 5\)",
+        "text": "\\(h(x) = x - 5\\)",
         "isCorrect": false,
         "rationale": "This would be a shift down of x, not x+3."
       },
       {
-        "text": "\(h(x) = -5x + 3\)",
+        "text": "\\(h(x) = -5x + 3\\)",
         "isCorrect": false,
         "rationale": "This changes the slope."
       }

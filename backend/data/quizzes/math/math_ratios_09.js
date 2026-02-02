@@ -27,7 +27,7 @@ module.exports = [
         "rationale": "This is the ratio of trucks to total vehicles."
       }
     ],
-    "rationale": "The ratio of trucks to cars is 8 to 12. To simplify, find the greatest common divisor, which is 4. Divide both parts of the ratio by 4: \(\\(\frac{8}{4}\)\) = 2 and \(\\(\frac{12}{4}\)\) = 3. The simplified ratio is 2:3.",
+    "rationale": "The ratio of trucks to cars is 8 to 12. To simplify, find the greatest common divisor, which is 4. Divide both parts of the ratio by 4: \\(\\(\frac{8}{4}\\) = 2 and \\(\\(\frac{12}{4}\\) = 3. The simplified ratio is 2:3.",
     "challenge_tags": [
       "math-1"
     ]
@@ -38,9 +38,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "A product's price increased by 8%. If the original price was \(75, what is the new price?",
+    "question": "A product's price increased by 8%. If the original price was \\(75, what is the new price?",
     "correctAnswer": "81",
-    "rationale": "The price increase is 8% of \)75, which is 0.08 * 75 = \(6. The new price is the original price plus the increase: \)75 + \(6 = \)81.",
+    "rationale": "The price increase is 8% of \\)75, which is 0.08 * 75 = \\(6. The new price is the original price plus the increase: \\)75 + \\(6 = \\)81.",
     "challenge_tags": [
       "math-1"
     ]
@@ -86,7 +86,7 @@ module.exports = [
     "difficulty": "easy",
     "question": "A recipe requires a 3:2 ratio of flour to sugar. If you use 6 cups of sugar, how much flour do you need?",
     "correctAnswer": "9 cups",
-    "rationale": "The amount of sugar is 3 times the ratio amount (\(\\(\frac{6}{2}\)\)=3). So you need 3 times the flour (3*3=9).",
+    "rationale": "The amount of sugar is 3 times the ratio amount (\\(\\(\frac{6}{2}\\)=3). So you need 3 times the flour (3*3=9).",
     "challenge_tags": [
       "math-1"
     ]
@@ -99,17 +99,17 @@ module.exports = [
     "question": "A customer pays a total of 52.50 for an item, which includes a 5% sales tax. What was the original price of the item?",
     "answerOptions": [
       {
-        "text": "\(49.88\)",
+        "text": "\\(49.88\\)",
         "isCorrect": false,
         "rationale": "This is the result of subtracting 5% of 52.50."
       },
       {
-        "text": "\(50.00\)",
+        "text": "\\(50.00\\)",
         "isCorrect": true,
-        "rationale": "Let P be the original price. P * 1.05 = \(52.50. P = \)52.50 / 1.05 = 50."
+        "rationale": "Let P be the original price. P * 1.05 = \\(52.50. P = \\)52.50 / 1.05 = 50."
       },
       {
-        "text": "\(51.98\)",
+        "text": "\\(51.98\\)",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },
@@ -119,7 +119,7 @@ module.exports = [
         "rationale": "This is the price after adding another 5% tax."
       }
     ],
-    "rationale": "Let P be the original price. The total cost is P + 0.05P = 1.05P. So, 1.05P = \(52.50. To find P, divide \)52.50 by 1.05: P = $50.",
+    "rationale": "Let P be the original price. The total cost is P + 0.05P = 1.05P. So, 1.05P = \\(52.50. To find P, divide \\)52.50 by 1.05: P = $50.",
     "challenge_tags": [
       "math-1"
     ]
@@ -165,7 +165,7 @@ module.exports = [
     "difficulty": "hard",
     "question": "The ratio of cats to dogs at a shelter is 3:7. If there are 90 animals in total, how many are dogs?",
     "correctAnswer": "63",
-    "rationale": "The total ratio parts are 3+7=10. Each part represents \(\\(\frac{90}{10}\)\) = 9 animals. There are 7 parts dogs, so 7 * 9 = 63 dogs.",
+    "rationale": "The total ratio parts are 3+7=10. Each part represents \\(\\(\frac{90}{10}\\) = 9 animals. There are 7 parts dogs, so 7 * 9 = 63 dogs.",
     "challenge_tags": [
       "math-1"
     ]
@@ -175,7 +175,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "Solve the proportion: \(\\(\frac{x}{4}\)\) = \\(\frac{9}{12}\).",
+    "question": "Solve the proportion: \\(\\(\frac{x}{4}\\) = \\(\frac{9}{12}\\).",
     "answerOptions": [
       {
         "text": "1",
@@ -185,7 +185,7 @@ module.exports = [
       {
         "text": "3",
         "isCorrect": true,
-        "rationale": "Simplify \(\\(\frac{9}{12}\)\)\( to \)\\(\frac{3}{4}\)\(. So x/4 = \)\\(\frac{3}{4}\), which means x=3."
+        "rationale": "Simplify \\(\\(\frac{9}{12}\\)\\( to \\)\\(\frac{3}{4}\\)\\(. So x/4 = \\)\\(\frac{3}{4}\\), which means x=3."
       },
       {
         "text": "4",
@@ -198,7 +198,7 @@ module.exports = [
         "rationale": "This is 9*4."
       }
     ],
-    "rationale": "The fraction \(\\(\frac{9}{12}\)\)\( can be simplified to \)\\(\frac{3}{4}\)\(. The proportion is then x/4 = \)\\(\frac{3}{4}\), which means x must be 3.",
+    "rationale": "The fraction \\(\\(\frac{9}{12}\\)\\( can be simplified to \\)\\(\frac{3}{4}\\)\\(. The proportion is then x/4 = \\)\\(\frac{3}{4}\\), which means x must be 3.",
     "challenge_tags": [
       "math-1"
     ]
@@ -211,7 +211,7 @@ module.exports = [
     "difficulty": "medium",
     "question": "A painter can paint 3 rooms in 5 hours. At this rate, how many hours will it take to paint 12 rooms?",
     "correctAnswer": "20 hours",
-    "rationale": "To paint 12 rooms, the painter needs to work 4 times as long as for 3 rooms (\(\\(\frac{12}{3}\)\)=4). So, 5 hours * 4 = 20 hours.",
+    "rationale": "To paint 12 rooms, the painter needs to work 4 times as long as for 3 rooms (\\(\\(\frac{12}{3}\\)=4). So, 5 hours * 4 = 20 hours.",
     "challenge_tags": [
       "math-1"
     ]
@@ -264,7 +264,7 @@ module.exports = [
       {
         "text": "48",
         "isCorrect": true,
-        "rationale": "The ratio is 5:8. The smaller part (5) is 30, so the multiplier is \(\\(\frac{30}{5}\)\)=6. The larger number is 8*6=48."
+        "rationale": "The ratio is 5:8. The smaller part (5) is 30, so the multiplier is \\(\\(\frac{30}{5}\\)=6. The larger number is 8*6=48."
       },
       {
         "text": "64",
@@ -277,7 +277,7 @@ module.exports = [
         "rationale": "This is the smaller number."
       }
     ],
-    "rationale": "Set up a proportion: \(\\(\frac{5}{8}\)\) = \\(\frac{30}{x}\)\(. Cross-multiply:  5x = 240\(. Divide by 5:  x = 48.\)\)",
+    "rationale": "Set up a proportion: \\(\\(\frac{5}{8}\\) = \\(\frac{30}{x}\\)\\(. Cross-multiply:  5x = 240\\(. Divide by 5:  x = 48.\\)\\)",
     "challenge_tags": [
       "math-1"
     ]
@@ -292,7 +292,7 @@ module.exports = [
       {
         "text": "2 miles",
         "isCorrect": false,
-        "rationale": "This is \)\\(\(\(\frac{30}{15}\)\)."
+        "rationale": "This is \\)\\(\\(\frac{30}{15}\\)."
       },
       {
         "text": "300 miles",

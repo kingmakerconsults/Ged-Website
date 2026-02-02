@@ -4,7 +4,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "What is the y-intercept of the line \(y = x\)? ",
+    "question": "What is the y-intercept of the line \\(y = x\\)? ",
     "answerOptions": [
       {
         "text": "1",
@@ -38,7 +38,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "easy",
-    "question": "If \(f(x) = 100 / x\), what is \(f(20)\)?",
+    "question": "If \\(f(x) = 100 / x\\), what is \\(f(20)\\)?",
     "correctAnswer": "5",
     "rationale": "Substitute 20 for x: f(20) = 100 / 20 = 5.",
     "challenge_tags": [
@@ -73,7 +73,7 @@ module.exports = [
         "rationale": "This is the y-coordinate."
       }
     ],
-    "rationale": "The slope is the change in y divided by the change in x. \(m = \\(\frac{7 - 7}{5 - 3}\)\) = \\(\frac{0}{2}\) = 0. This indicates a horizontal line.",
+    "rationale": "The slope is the change in y divided by the change in x. \\(m = \\(\frac{7 - 7}{5 - 3}\\) = \\(\frac{0}{2}\\) = 0. This indicates a horizontal line.",
     "challenge_tags": [
       "math-1"
     ]
@@ -96,30 +96,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "Which of these points is NOT on the graph of the function \(y = x^2 + 1\)?",
+    "question": "Which of these points is NOT on the graph of the function \\(y = x^2 + 1\\)?",
     "answerOptions": [
       {
         "text": "(0, 1)",
         "isCorrect": false,
-        "rationale": "If x=0, y = \(0^{2}\)+1=1. This point is on the graph."
+        "rationale": "If x=0, y = \\(0^{2}\\)+1=1. This point is on the graph."
       },
       {
         "text": "(2, 5)",
         "isCorrect": false,
-        "rationale": "If x=2, y = \(2^{2}\)+1=5. This point is on the graph."
+        "rationale": "If x=2, y = \\(2^{2}\\)+1=5. This point is on the graph."
       },
       {
         "text": "(-1, 2)",
         "isCorrect": false,
-        "rationale": "If x=-1, y = \((-1)^2\)+1=2. This point is on the graph."
+        "rationale": "If x=-1, y = \\((-1)^2\\)+1=2. This point is on the graph."
       },
       {
         "text": "(1, 3)",
         "isCorrect": true,
-        "rationale": "If x=1, y = \(1^{2}\)+1=2. So (1, 3) is not on the graph."
+        "rationale": "If x=1, y = \\(1^{2}\\)+1=2. So (1, 3) is not on the graph."
       }
     ],
-    "rationale": "Plug the x-coordinate of each point into the equation to see if it produces the correct y-coordinate. For (1, 3): y = \((1)^2\) + 1 = 2. Since 2 is not equal to 3, this point is not on the graph.",
+    "rationale": "Plug the x-coordinate of each point into the equation to see if it produces the correct y-coordinate. For (1, 3): y = \\((1)^2\\) + 1 = 2. Since 2 is not equal to 3, this point is not on the graph.",
     "challenge_tags": [
       "math-1"
     ]
@@ -129,10 +129,10 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "The cost to produce 'x' items is given by the function \(C(x) = 20x + 1000\). What is the cost of producing 200 items?",
+    "question": "The cost to produce 'x' items is given by the function \\(C(x) = 20x + 1000\\). What is the cost of producing 200 items?",
     "answerOptions": [
       {
-        "text": "\(1020\)",
+        "text": "\\(1020\\)",
         "isCorrect": false,
         "rationale": "This is C(1)."
       },
@@ -142,7 +142,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       },
       {
-        "text": "\(5000\)",
+        "text": "\\(5000\\)",
         "isCorrect": true,
         "rationale": "C(200) = 20(200) + 1000 = 4000 + 1000 = 5000."
       },
@@ -152,7 +152,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Substitute 200 for x in the cost function: C(200) = 20(200) + 1000 = 4000 + 1000 = \(5,000.",
+    "rationale": "Substitute 200 for x in the cost function: C(200) = 20(200) + 1000 = 4000 + 1000 = \\(5,000.",
     "challenge_tags": [
       "math-1"
     ]
@@ -163,7 +163,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "Find the x-intercept for the line \(5x + 2y = 20\).",
+    "question": "Find the x-intercept for the line \\(5x + 2y = 20\\).",
     "correctAnswer": "4",
     "rationale": "To find the x-intercept, set y = 0. 5x + 2(0) = 20. 5x = 20. x = 4.",
     "challenge_tags": [
@@ -175,7 +175,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "A function is defined by \(f(x) = 2^x\). What type of function is this?",
+    "question": "A function is defined by \\(f(x) = 2^x\\). What type of function is this?",
     "answerOptions": [
       {
         "text": "Linear",
@@ -185,7 +185,7 @@ module.exports = [
       {
         "text": "Quadratic",
         "isCorrect": false,
-        "rationale": "A quadratic function has the form y = a\(x^{2}\) + bx + c."
+        "rationale": "A quadratic function has the form y = a\\(x^{2}\\) + bx + c."
       },
       {
         "text": "Exponential",
@@ -221,7 +221,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "What is the vertex of the parabola \(y = -(x+2)^2\)?",
+    "question": "What is the vertex of the parabola \\(y = -(x+2)^2\\)?",
     "answerOptions": [
       {
         "text": "(2, 0)",
@@ -231,7 +231,7 @@ module.exports = [
       {
         "text": "(-2, 0)",
         "isCorrect": true,
-        "rationale": "In vertex form y=a\((x-h)^2\)+k, the vertex is (h,k). Here, h=-2 and k=0."
+        "rationale": "In vertex form y=a\\((x-h)^2\\)+k, the vertex is (h,k). Here, h=-2 and k=0."
       },
       {
         "text": "(0, -4)",
@@ -244,7 +244,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The vertex form of a parabola is y = a(x - h)^2\) + k, where the vertex is (h, k). In this equation, h = -2 and k = 0.",
+    "rationale": "The vertex form of a parabola is y = a(x - h)^2\\) + k, where the vertex is (h, k). In this equation, h = -2 and k = 0.",
     "challenge_tags": [
       "math-1"
     ]

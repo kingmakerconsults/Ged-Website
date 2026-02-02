@@ -5,7 +5,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Solve for x: \(x - 7 = 11\).',
+    question: 'Solve for x: \\(x - 7 = 11\\).',
     correctAnswer: '18',
     rationale: 'Add 7 to both sides of the equation: 11 + 7 = 18.',
     challenge_tags: ['math-3'],
@@ -15,7 +15,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Evaluate \(5c + 4 for c = 3\).',
+    question: 'Evaluate \\(5c + 4 for c = 3\\).',
     answerOptions: [
       {
         text: '12',
@@ -46,7 +46,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve for p: \(6p + 5 = 41\).',
+    question: 'Solve for p: \\(6p + 5 = 41\\).',
     answerOptions: [
       {
         text: '6',
@@ -56,7 +56,7 @@ module.exports = [
       {
         text: '7.67',
         isCorrect: false,
-        rationale: 'This is \(\\(\frac{46}{6}\)\).',
+        rationale: 'This is \\(\\frac{46}{6}\\).',
       },
       {
         text: '9',
@@ -79,7 +79,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Simplify the expression: \(8(y - 2) - 3y\).',
+    question: 'Simplify the expression: \\(8(y - 2) - 3y\\).',
     correctAnswer: '5y - 16',
     rationale:
       'First, distribute the 8: 8y - 16 - 3y. Then, combine like terms: (8y - 3y) - 16 = 5y - 16.',
@@ -91,26 +91,26 @@ module.exports = [
     calculator: false,
     difficulty: 'medium',
     question:
-      'Which of the following is the equation of a line parallel to \(y = -2x + 1\)?',
+      'Which of the following is the equation of a line parallel to \\(y = -2x + 1\\)?',
     answerOptions: [
       {
-        text: '\(y = 2x + 3\)',
+        text: '\\(y = 2x + 3\\)',
         isCorrect: false,
         rationale: 'This line has a different slope.',
       },
       {
-        text: '\(y = -2x - 5\)',
+        text: '\\(y = -2x - 5\\)',
         isCorrect: true,
         rationale:
           'Parallel lines have the same slope. This line also has a slope of -2.',
       },
       {
-        text: '\(y = (\\(\frac{1}{2}\)\))x + 1',
+        text: '\\(y = (\\(\frac{1}{2}\\))x + 1',
         isCorrect: false,
         rationale: 'This is a perpendicular line.',
       },
       {
-        text: '\(y = x - 2\)',
+        text: '\\(y = x - 2\\)',
         isCorrect: false,
         rationale: 'This line has a different slope.',
       },
@@ -124,32 +124,32 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'hard',
-    question: 'Factor the expression: \(2x^2 + 7x + 3\).',
+    question: 'Factor the expression: \\(2x^2 + 7x + 3\\).',
     answerOptions: [
       {
-        text: '\((2x + 1)(x + 3)\)',
+        text: '\\((2x + 1)(x + 3)\\)',
         isCorrect: true,
         rationale:
-          'Using FOIL, (2x)(x) = 2\(x^{2}\), (2x)(3) = 6x, (1)(x) = x, (1)(3) = 3. 2\(x^{2}\) + 6x + x + 3 = 2\(x^{2}\) + 7x + 3.',
+          'Using FOIL, (2x)(x) = 2\\(x^{2}\\), (2x)(3) = 6x, (1)(x) = x, (1)(3) = 3. 2\\(x^{2}\\) + 6x + x + 3 = 2\\(x^{2}\\) + 7x + 3.',
       },
       {
-        text: '\((2x + 3)(x + 1)\)',
+        text: '\\((2x + 3)(x + 1)\\)',
         isCorrect: false,
         rationale: 'This gives a middle term of 5x.',
       },
       {
-        text: '\((2x - 1)(x - 3)\)',
+        text: '\\((2x - 1)(x - 3)\\)',
         isCorrect: false,
         rationale: 'This gives a middle term of -7x.',
       },
       {
-        text: '\((x + 1)(x + 3)\)',
+        text: '\\((x + 1)(x + 3)\\)',
         isCorrect: false,
-        rationale: 'This would be for \(x^{2}\).',
+        rationale: 'This would be for \\(x^{2}\\).',
       },
     ],
     rationale:
-      'To factor this trinomial, we look for two binomials that multiply to give the original expression. By trial and error (or other factoring methods), we find that (2x + 1)(x + 3) expands to 2\(x^{2}\) + 7x + 3.',
+      'To factor this trinomial, we look for two binomials that multiply to give the original expression. By trial and error (or other factoring methods), we find that (2x + 1)(x + 3) expands to 2\\(x^{2}\\) + 7x + 3.',
     challenge_tags: ['math-3'],
   },
   {
@@ -169,7 +169,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'Solve for x: \(|x - 4| = 9\).',
+    question: 'Solve for x: \\(|x - 4| = 9\\).',
     answerOptions: [
       {
         text: 'x = 13',
@@ -203,7 +203,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Given \(f(x) = (x+2)^2\), find \(f(4)\).',
+    question: 'Given \\(f(x) = (x+2)^2\\), find \\(f(4)\\).',
     correctAnswer: '36',
     rationale: 'Substitute 4 for x: f(4) = (4 + 2)^2 = 6^2 = 36.',
     challenge_tags: ['math-3'],
@@ -246,7 +246,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'What is the vertex of the parabola \(y = 2(x + 1)^2 - 4\)?',
+    question: 'What is the vertex of the parabola \\(y = 2(x + 1)^2 - 4\\)?',
     answerOptions: [
       {
         text: '(1, -4)',
@@ -279,25 +279,26 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Which of the following expressions is equivalent to \(4(3x)\)?',
+    question:
+      'Which of the following expressions is equivalent to \\(4(3x)\\)?',
     answerOptions: [
       {
-        text: '\(7x\)',
+        text: '\\(7x\\)',
         isCorrect: false,
         rationale: 'This is the sum, not the product.',
       },
       {
-        text: '\(12x\)',
+        text: '\\(12x\\)',
         isCorrect: true,
         rationale: 'This is the product of 4 and 3x.',
       },
       {
-        text: '\(43x\)',
+        text: '\\(43x\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '\(12x^2\)',
+        text: '\\(12x^2\\)',
         isCorrect: false,
         rationale: 'There is only one x.',
       },

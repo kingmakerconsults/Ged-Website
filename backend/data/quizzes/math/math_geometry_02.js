@@ -40,7 +40,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A circle has a circumference of 50.24 cm. What is its radius? Use 3.14 for \(\\pi\).',
+      'A circle has a circumference of 50.24 cm. What is its radius? Use 3.14 for \\(\\pi\\).',
     correctAnswer: '8 cm',
     rationale:
       'Circumference C = 2 * pi * r. So, 50.24 = 2 * 3.14 * r. 50.24 = 6.28 * r. Divide by 6.28 to find r = 8 cm.',
@@ -140,7 +140,7 @@ module.exports = [
         text: '15',
         isCorrect: true,
         rationale:
-          'Using the Pythagorean theorem, \(a^2 + 8^2 = 17^2\). \(a^2 + 64 = 289\). \(a^2 = 225\). a = 15.',
+          'Using the Pythagorean theorem, \\(a^2 + 8^2 = 17^2\\). \\(a^2 + 64 = 289\\). \\(a^2 = 225\\). a = 15.',
       },
       {
         text: '25',
@@ -150,11 +150,11 @@ module.exports = [
       {
         text: '225',
         isCorrect: false,
-        rationale: 'This is \(a^2 not a.\)',
+        rationale: 'This is \\(a^2 not a.\\)',
       },
     ],
     rationale:
-      'Using the Pythagorean theorem, \(a^2 + b^2 = c^2\). We have \(a^2 + 8^2 = 17^2\), so \(a^2 + 64 = 289\). Subtract 64 from both sides: \(a^2 = 225\). The square root of 225 is 15.',
+      'Using the Pythagorean theorem, \\(a^2 + b^2 = c^2\\). We have \\(a^2 + 8^2 = 17^2\\), so \\(a^2 + 64 = 289\\). Subtract 64 from both sides: \\(a^2 = 225\\). The square root of 225 is 15.',
     challenge_tags: ['math-5'],
   },
   {

@@ -39,10 +39,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A jacket is on sale for \(72 after a 20% discount. What was the original price?',
+      'A jacket is on sale for \\(72 after a 20% discount. What was the original price?',
     correctAnswer: '90',
     rationale:
-      'If the jacket is 20% off, the sale price is 80% of the original price. Let P be the original price. 0.80 * P = \)72. P = \(72 / 0.80 = \)90.',
+      'If the jacket is 20% off, the sale price is 80% of the original price. Let P be the original price. 0.80 * P = \\)72. P = \\(72 / 0.80 = \\)90.',
     challenge_tags: ['math-1'],
   },
   {
@@ -101,7 +101,7 @@ module.exports = [
       'A investment of 500 earns 4% simple interest per year. How much interest is earned after 3 years?',
     answerOptions: [
       {
-        text: '\(20\)',
+        text: '\\(20\\)',
         isCorrect: false,
         rationale: 'This is the interest earned in only one year.',
       },
@@ -111,10 +111,10 @@ module.exports = [
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '\(60\)',
+        text: '\\(60\\)',
         isCorrect: true,
         rationale:
-          'Interest per year is 0.04 * \(500 = 20. Over 3 years, the total interest is \)20 * 3 = 60.',
+          'Interest per year is 0.04 * \\(500 = 20. Over 3 years, the total interest is \\)20 * 3 = 60.',
       },
       {
         text: '560',
@@ -124,7 +124,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Simple interest is calculated as I = P * r * t. So, I = \(500 * 0.04 * 3 =  60.\)',
+      'Simple interest is calculated as I = P * r * t. So, I = \\(500 * 0.04 * 3 =  60.\\)',
     challenge_tags: ['math-1'],
   },
   {
@@ -205,7 +205,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The ratio is 18 rose bushes to 6 lily plants. To simplify, divide both numbers by 6. \(\\(\frac{18}{6}\)\) = 3, and \(\\(\frac{6}{6}\)\) = 1. The simplified ratio is 3:1.',
+      'The ratio is 18 rose bushes to 6 lily plants. To simplify, divide both numbers by 6. \\(\\(\frac{18}{6}\\) = 3, and \\(\\(\frac{6}{6}\\) = 1. The simplified ratio is 3:1.',
     challenge_tags: ['math-1'],
   },
   {
@@ -215,10 +215,10 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'An item costs \(120. With sales tax, the total cost is \)127.20. What is the sales tax rate?',
+      'An item costs \\(120. With sales tax, the total cost is \\)127.20. What is the sales tax rate?',
     correctAnswer: '6%',
     rationale:
-      'The tax amount is $127.20 - $120 = \(7.20. The tax rate is (tax amount / original price) * 100 = (\)7.20 / \(120) * 100 = 0.06 * 100 = 6%.',
+      'The tax amount is $127.20 - $120 = \\(7.20. The tax rate is (tax amount / original price) * 100 = (\\)7.20 / \\(120) * 100 = 0.06 * 100 = 6%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -238,7 +238,7 @@ module.exports = [
         text: '2.5 miles',
         isCorrect: true,
         rationale:
-          'Set up a proportion: \(\\(\frac{120}{1}\)\)\( = 300/x. 120x = 300. x = \)\\(\frac{300}{120}\) = 2.5.',
+          'Set up a proportion: \\(\\(\frac{120}{1}\\)\\( = 300/x. 120x = 300. x = \\)\\(\frac{300}{120}\\) = 2.5.',
       },
       {
         text: '3 miles',
@@ -265,26 +265,26 @@ module.exports = [
       {
         text: '3 apples for 1.50',
         isCorrect: false,
-        rationale: 'This is \(0.50 per apple.\)',
+        rationale: 'This is \\(0.50 per apple.\\)',
       },
       {
         text: '4 apples for 1.80',
         isCorrect: true,
-        rationale: 'This is \)0.45 per apple, which is the lowest price.',
+        rationale: 'This is \\)0.45 per apple, which is the lowest price.',
       },
       {
         text: '5 apples for 2.50',
         isCorrect: false,
-        rationale: 'This is \(0.50 per apple.\)',
+        rationale: 'This is \\(0.50 per apple.\\)',
       },
       {
         text: '2 apples for 1.00',
         isCorrect: false,
-        rationale: 'This is \(0.50 per apple.\)',
+        rationale: 'This is \\(0.50 per apple.\\)',
       },
     ],
     rationale:
-      'To find the best value, calculate the unit price for each option: A) \(1.\\(\frac{50}{3}\) = \)0.50/apple, B) \(1.\\(\frac{80}{4}\) = \)0.45/apple, C) \(2.\\(\frac{50}{5}\) = \)0.50/apple, D) \(1.\\(\frac{00}{2}\) = \)0.50/apple. The lowest price per apple is 0.45.',
+      'To find the best value, calculate the unit price for each option: A) \\(1.\\(\frac{50}{3}\\) = \\)0.50/apple, B) \\(1.\\(\frac{80}{4}\\) = \\)0.45/apple, C) \\(2.\\(\frac{50}{5}\\) = \\)0.50/apple, D) \\(1.\\(\frac{00}{2}\\) = \\)0.50/apple. The lowest price per apple is 0.45.',
     challenge_tags: ['math-1'],
   },
   {
@@ -314,11 +314,11 @@ module.exports = [
       {
         text: '100000000',
         isCorrect: false,
-        rationale: 'This is \(100^{4}\).',
+        rationale: 'This is \\(100^{4}\\).',
       },
     ],
     rationale:
-      'This is an example of exponential growth. The population is multiplied by 2 each hour. After 4 hours, the population will be \(100 \\(\times\)\)\(2^4\) = 100 \\(\times\)\(16\) = 1600.',
+      'This is an example of exponential growth. The population is multiplied by 2 each hour. After 4 hours, the population will be \\(100 \\(\times\\)\\)\\(2^4\\) = 100 \\(\times\\)\\(16\\) = 1600.',
     challenge_tags: ['math-1'],
   },
 ];

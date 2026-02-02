@@ -10,30 +10,30 @@ module.exports = [
     challenge_tags: ['math-1'],
     calculator: false,
     question:
-      'A construction project requires \(\\(\frac{5}{8}\) inch bolts. If a worker has a bolt that is \(\\(\frac{3}{4}\) inch, is it too large or too small, and by how much?\)\)',
+      'A construction project requires \\(\\(\frac{5}{8}\\) inch bolts. If a worker has a bolt that is \\(\\(\frac{3}{4}\\) inch, is it too large or too small, and by how much?\\)\\)',
     answerOptions: [
       {
-        text: 'The bolt is \(\\(\frac{1}{8}\) inch too large.\)',
+        text: 'The bolt is \\(\\(\frac{1}{8}\\) inch too large.\\)',
         isCorrect: true,
         rationale:
-          'To compare \(\\(\frac{3}{4}\) and \\(\frac{5}{8}\)\), find a common denominator, which is 8. \(\\(\frac{3}{4}\) is equal to \\(\frac{6}{8}\)\), so it exceeds \(\\(\frac{5}{8}\) by \\(\frac{1}{8}\)\).',
+          'To compare \\(\\(\frac{3}{4}\\) and \\(\frac{5}{8}\\), find a common denominator, which is 8. \\(\\(\frac{3}{4}\\) is equal to \\(\frac{6}{8}\\), so it exceeds \\(\\(\frac{5}{8}\\) by \\(\frac{1}{8}\\).',
       },
       {
-        text: 'The bolt is \(\\(\frac{1}{8}\) inch too small.\)',
+        text: 'The bolt is \\(\\frac{1}{8}\\) inch too small.',
         isCorrect: false,
         rationale:
-          '\(\\(\frac{3}{4}\) is equal to \\(\frac{6}{8}\)\), which is larger than \(\\(\frac{5}{8}\)\), not smaller.',
+          '\\(\\frac{3}{4}\\) is equal to \\(\\frac{6}{8}\\), which is larger than \\(\\frac{5}{8}\\), not smaller.',
       },
       {
-        text: 'The bolt is \(\\(\frac{1}{4}\) inch too large.\)',
+        text: 'The bolt is \\(\\frac{1}{4}\\) inch too large.',
         isCorrect: false,
         rationale:
-          'The difference between \(\\(\frac{3}{4}\) and \(\\(\frac{5}{8}\) is \(\\(\frac{1}{8}\) inch, not \(\\(\frac{1}{4}\) inch.\)\)\)\)',
+          'The difference between \\(\\frac{3}{4}\\) and \\(\\frac{5}{8}\\) is \\(\\frac{1}{8}\\) inch, not \\(\\frac{1}{4}\\) inch.',
       },
       {
         text: 'The bolt matches the required size exactly.',
         isCorrect: false,
-        rationale: 'The sizes differ by \(\\(\frac{1}{8}\) inch.\)',
+        rationale: 'The sizes differ by \\(\\frac{1}{8}\\) inch.',
       },
     ],
   },
@@ -42,26 +42,26 @@ module.exports = [
     challenge_tags: ['math-1'],
     calculator: false,
     question:
-      'A recipe calls for \(2 \\(\frac{1}{2}\) cups of flour. If you want to make half the recipe, how much flour do you need?\)',
+      'A recipe calls for \\(2 \\(\frac{1}{2}\\) cups of flour. If you want to make half the recipe, how much flour do you need?\\)',
     answerOptions: [
       {
-        text: '\(\\(\frac{5}{4}\) cups\)',
+        text: '\\(\\(\frac{5}{4}\\) cups\\)',
         isCorrect: true,
         rationale:
-          'Half of \(2 \\(\frac{1}{2}\) is \\left(\\(\frac{5}{2}\)\)\\right) \\(\div 2 = \\(\frac{5}{4} cups.\)\)',
+          'Half of \\(2 \\(\frac{1}{2}\\) is \\left(\\(\frac{5}{2}\\)\\right) \\(\div 2 = \\(\frac{5}{4} cups.\\)\\)',
       },
       {
-        text: '\(\\(\frac{3}{2}\) cups\)',
+        text: '\\(\\(\frac{3}{2}\\) cups\\)',
         isCorrect: false,
         rationale: 'This would be more than half of the original amount.',
       },
       {
-        text: '\(1 cup\)',
+        text: '\\(1 cup\\)',
         isCorrect: false,
-        rationale: 'This is less than half of \(2 \\(\frac{1}{2}\) cups.\)',
+        rationale: 'This is less than half of \\(2 \\(\frac{1}{2}\\) cups.\\)',
       },
       {
-        text: '\(\\(\frac{7}{4}\) cups\)',
+        text: '\\(\\(\frac{7}{4}\\) cups\\)',
         isCorrect: false,
         rationale: 'This is greater than the correct amount.',
       },
@@ -77,7 +77,7 @@ module.exports = [
         text: 'A gain of 1.25 dollars',
         isCorrect: true,
         rationale:
-          'The net change is \(-1.25 + 2.50 = 1.25\), so the stock gained 1.25 dollars.',
+          'The net change is \\(-1.25 + 2.50 = 1.25\\), so the stock gained 1.25 dollars.',
       },
       {
         text: 'A loss of 1.25 dollars',
@@ -107,23 +107,23 @@ module.exports = [
       'If a pizza is cut into 8 slices and you eat 3 of them, what fraction of the pizza is left?',
     answerOptions: [
       {
-        text: '\(\\(\frac{3}{8}\)\)',
+        text: '\\(\\(\frac{3}{8}\\)',
         isCorrect: false,
         rationale: 'This is the fraction eaten.',
       },
       {
-        text: '\(\\(\frac{5}{8}\)\)',
+        text: '\\(\\(\frac{5}{8}\\)',
         isCorrect: true,
         rationale:
-          'If 3 out of 8 slices are eaten, \(8 - 3 = 5 slices are left.\)',
+          'If 3 out of 8 slices are eaten, \\(8 - 3 = 5 slices are left.\\)',
       },
       {
-        text: '\(\\(\frac{1}{2}\)\)',
+        text: '\\(\\(\frac{1}{2}\\)',
         isCorrect: false,
-        rationale: '\(\\(\frac{1}{2}\) would be 4 slices.\)',
+        rationale: '\\(\\(\frac{1}{2}\\) would be 4 slices.\\)',
       },
       {
-        text: '\(\\(\frac{3}{5}\)\)',
+        text: '\\(\\(\frac{3}{5}\\)',
         isCorrect: false,
         rationale: 'This incorrectly uses the eaten slices as the denominator.',
       },
@@ -168,7 +168,7 @@ module.exports = [
       {
         text: '2 feet',
         isCorrect: true,
-        rationale: '\(8 \\text{ feet} / 4 = 2 \\text{ feet}\).',
+        rationale: '\\(8 \\text{ feet} / 4 = 2 \\text{ feet}\\).',
       },
       {
         text: '4 feet',
@@ -194,23 +194,23 @@ module.exports = [
     question: 'What is 0.75 expressed as a fraction in simplest form?',
     answerOptions: [
       {
-        text: '\(\\(\frac{75}{100}\)\)',
+        text: '\\(\\(\frac{75}{100}\\)',
         isCorrect: false,
         rationale: 'This is correct but not in simplest form.',
       },
       {
-        text: '\(\\(\frac{3}{4}\)\)',
+        text: '\\(\\(\frac{3}{4}\\)',
         isCorrect: true,
         rationale:
-          '\(0.75 is \\(\frac{75}{100}\)\), which simplifies to \(\\(\frac{3}{4}\) by dividing both numerator and denominator by 25.\)',
+          '\\(0.75 is \\(\frac{75}{100}\\), which simplifies to \\(\\(\frac{3}{4}\\) by dividing both numerator and denominator by 25.\\)',
       },
       {
-        text: '\(\\(\frac{1}{2}\)\)',
+        text: '\\(\\(\frac{1}{2}\\)',
         isCorrect: false,
-        rationale: '\(\\(\frac{1}{2}\) is 0.50.\)',
+        rationale: '\\(\\(\frac{1}{2}\\) is 0.50.\\)',
       },
       {
-        text: '\(\\(\frac{4}{3}\)\)',
+        text: '\\(\\(\frac{4}{3}\\)',
         isCorrect: false,
         rationale: 'This is the reciprocal of the correct answer.',
       },
@@ -221,7 +221,7 @@ module.exports = [
     questionNumber: 8,
     calculator: true,
     question:
-      'The temperature was \(-5�F in the morning and rose to \(12�F in the afternoon. How many degrees did the temperature increase?\)\)',
+      'The temperature was \\(-5�F in the morning and rose to \\(12�F in the afternoon. How many degrees did the temperature increase?\\)\\)',
     answerOptions: [
       {
         text: '7 degrees',
@@ -231,7 +231,7 @@ module.exports = [
       {
         text: '17 degrees',
         isCorrect: true,
-        rationale: 'The increase is \(12 - (-5) = 12 + 5 = 17 degrees.\)',
+        rationale: 'The increase is \\(12 - (-5) = 12 + 5 = 17 degrees.\\)',
       },
       {
         text: '-17 degrees',
@@ -250,25 +250,25 @@ module.exports = [
     questionNumber: 9,
     calculator: true,
     question:
-      'A carpenter has a board that is \(10 \\(\frac{1}{2}\) feet long. He needs to cut a piece that is \(3 \\(\frac{3}{4}\) feet long. How much of the board is left?\)\)',
+      'A carpenter has a board that is \\(10 \\(\frac{1}{2}\\) feet long. He needs to cut a piece that is \\(3 \\(\frac{3}{4}\\) feet long. How much of the board is left?\\)\\)',
     answerOptions: [
       {
-        text: '\(\\(\frac{27}{4}\) feet\)',
+        text: '\\(\\(\frac{27}{4}\\) feet\\)',
         isCorrect: true,
         rationale:
-          '\(10 \\(\frac{1}{2}\)\) - 3 \\(\frac{3}{4}\) = \\(\frac{21}{2}\) - \\(\frac{15}{4}\) = \\(\frac{42}{4}\) - \\(\frac{15}{4}\) = \\(\frac{27}{4} feet.\)',
+          '\\(10 \\(\frac{1}{2}\\) - 3 \\(\frac{3}{4}\\) = \\(\frac{21}{2}\\) - \\(\frac{15}{4}\\) = \\(\frac{42}{4}\\) - \\(\frac{15}{4}\\) = \\(\frac{27}{4} feet.\\)',
       },
       {
-        text: '\(\\(\frac{29}{4}\) feet\)',
+        text: '\\(\\(\frac{29}{4}\\) feet\\)',
         isCorrect: false,
         rationale:
-          'This would come from subtracting \(3 \\(\frac{1}{4}\) instead of 3 \\(\frac{3}{4}\)\).',
+          'This would come from subtracting \\(3 \\(\frac{1}{4}\\) instead of 3 \\(\frac{3}{4}\\).',
       },
       {
-        text: '\(\\(\frac{13}{2}\) feet\)',
+        text: '\\(\\(\frac{13}{2}\\) feet\\)',
         isCorrect: false,
         rationale:
-          'This corresponds to \(6 \\(\frac{1}{2}\) feet, which is too small.\)',
+          'This corresponds to \\(6 \\(\frac{1}{2}\\) feet, which is too small.\\)',
       },
       {
         text: '7 feet',
@@ -288,7 +288,7 @@ module.exports = [
       {
         text: '12.9 miles',
         isCorrect: true,
-        rationale: '\(4.5 + 2.3 + 6.1 = 12.9 miles.\)',
+        rationale: '\\(4.5 + 2.3 + 6.1 = 12.9 miles.\\)',
       },
       {
         text: '11.9 miles',
@@ -370,7 +370,7 @@ module.exports = [
     questionNumber: 13,
     calculator: true,
     question:
-      'If a baker has 12 cups of sugar and each cake requires \(1 \\(\frac{1}{2}\) cups of sugar, how many cakes can the baker make?\)',
+      'If a baker has 12 cups of sugar and each cake requires \\(1 \\(\frac{1}{2}\\) cups of sugar, how many cakes can the baker make?\\)',
     answerOptions: [
       {
         text: '6 cakes',
@@ -381,7 +381,7 @@ module.exports = [
         text: '8 cakes',
         isCorrect: true,
         rationale:
-          '\(12 / (1 \\(\frac{1}{2}\)\)) = 12 / (\\(\frac{3}{2}\)) = 12 * (\\(\frac{2}{3}\)) = 24 / 3 = 8 cakes.',
+          '\\(12 / (1 \\(\frac{1}{2}\\)) = 12 / (\\(\frac{3}{2}\\)) = 12 * (\\(\frac{2}{3}\\)) = 24 / 3 = 8 cakes.',
       },
       {
         text: '9 cakes',
@@ -401,27 +401,27 @@ module.exports = [
     challenge_tags: ['math-1'],
     calculator: true,
     question:
-      'Order the following fractions from smallest to largest: \(\\(\frac{1}{2}\)\), \\(\frac{3}{5}\), \\(\frac{2}{3}\).',
+      'Order the following fractions from smallest to largest: \\(\\(\frac{1}{2}\\), \\(\frac{3}{5}\\), \\(\frac{2}{3}\\).',
     answerOptions: [
       {
-        text: '\(\\(\frac{3}{5}\)\), \\(\frac{1}{2}\), \\(\frac{2}{3}\)',
+        text: '\\(\\(\frac{3}{5}\\), \\(\frac{1}{2}\\), \\(\frac{2}{3}\\)',
         isCorrect: false,
         rationale:
-          'Find a common denominator (30): \(\\(\frac{1}{2}\)\)=\\(\frac{15}{30}\), \\(\frac{3}{5}\)=\\(\frac{18}{30}\), \\(\frac{2}{3}\)=\\(\frac{20}{30}\).',
+          'Find a common denominator (30): \\(\\(\frac{1}{2}\\)=\\(\frac{15}{30}\\), \\(\frac{3}{5}\\)=\\(\frac{18}{30}\\), \\(\frac{2}{3}\\)=\\(\frac{20}{30}\\).',
       },
       {
-        text: '\(\\(\frac{1}{2}\)\), \\(\frac{3}{5}\), \\(\frac{2}{3}\)',
+        text: '\\(\\(\frac{1}{2}\\), \\(\frac{3}{5}\\), \\(\frac{2}{3}\\)',
         isCorrect: true,
         rationale:
-          'In decimal form: \(\\(\frac{1}{2}\)\)=0.5, \\(\frac{3}{5}\)=0.6, \\(\frac{2}{3}\) \\approx 0.66...\( The correct order is \\(\frac{1}{2}\)\), \\(\frac{3}{5}\), \\(\frac{2}{3}\).',
+          'In decimal form: \\(\\(\frac{1}{2}\\)=0.5, \\(\frac{3}{5}\\)=0.6, \\(\frac{2}{3}\\) \\approx 0.66...\\( The correct order is \\(\frac{1}{2}\\), \\(\frac{3}{5}\\), \\(\frac{2}{3}\\).',
       },
       {
-        text: '\(\\(\frac{2}{3}\)\), \\(\frac{3}{5}\), \\(\frac{1}{2}\)',
+        text: '\\(\\(\frac{2}{3}\\), \\(\frac{3}{5}\\), \\(\frac{1}{2}\\)',
         isCorrect: false,
         rationale: 'This is largest to smallest.',
       },
       {
-        text: '\(\\(\frac{1}{2}\)\), \\(\frac{2}{3}\), \\(\frac{3}{5}\)',
+        text: '\\(\\(\frac{1}{2}\\), \\(\frac{2}{3}\\), \\(\frac{3}{5}\\)',
         isCorrect: false,
         rationale: 'This order is incorrect.',
       },
@@ -441,7 +441,7 @@ module.exports = [
       {
         text: '-230 feet',
         isCorrect: true,
-        rationale: '\(-350 + 120 = -230 feet.\)',
+        rationale: '\\(-350 + 120 = -230 feet.\\)',
       },
       {
         text: '230 feet',
@@ -460,7 +460,7 @@ module.exports = [
     questionNumber: 16,
     calculator: true,
     question:
-      'A baker uses \(\\(\frac{1}{4}\) of a bag of flour for a batch of cookies. If the bag originally contained 20 cups of flour, how many cups are left?\)',
+      'A baker uses \\(\\(\frac{1}{4}\\) of a bag of flour for a batch of cookies. If the bag originally contained 20 cups of flour, how many cups are left?\\)',
     answerOptions: [
       {
         text: '5 cups',
@@ -471,7 +471,7 @@ module.exports = [
         text: '15 cups',
         isCorrect: true,
         rationale:
-          'The baker used \(\\(\frac{1}{4}\)\) \\(\times20 = 5 cups. The amount left is 20 - 5 = 15 cups.\)',
+          'The baker used \\(\\(\frac{1}{4}\\) \\(\times20 = 5 cups. The amount left is 20 - 5 = 15 cups.\\)',
       },
       {
         text: '10 cups',
@@ -495,7 +495,7 @@ module.exports = [
       {
         text: '98.7�F',
         isCorrect: true,
-        rationale: '\(102.5 - 3.8 = 98.7\)�F.',
+        rationale: '\\(102.5 - 3.8 = 98.7\\)�F.',
       },
       {
         text: '99.7�F',
@@ -549,21 +549,21 @@ module.exports = [
     questionNumber: 19,
     calculator: true,
     question:
-      'A recipe requires \(\\(\frac{3}{4}\) cup of sugar. If you want to make a triple batch, how much sugar do you need?\)',
+      'A recipe requires \\(\\(\frac{3}{4}\\) cup of sugar. If you want to make a triple batch, how much sugar do you need?\\)',
     answerOptions: [
       {
-        text: '\(\\(\frac{9}{4}\) cups\)',
+        text: '\\(\\(\frac{9}{4}\\) cups\\)',
         isCorrect: true,
         rationale:
-          'Triple batch means multiplying by 3: \(3 \\(\times\)\) \\(\frac{3}{4}\) = \\(\frac{9}{4} cups.\)',
+          'Triple batch means multiplying by 3: \\(3 \\(\times\\)\\) \\(\frac{3}{4}\\) = \\(\frac{9}{4} cups.\\)',
       },
       {
-        text: '\(\\(\frac{3}{2}\) cups\)',
+        text: '\\(\\(\frac{3}{2}\\) cups\\)',
         isCorrect: false,
         rationale: 'This represents only doubling the recipe.',
       },
       {
-        text: '\(\\(\frac{15}{4}\) cups\)',
+        text: '\\(\\(\frac{15}{4}\\) cups\\)',
         isCorrect: false,
         rationale: 'This would correspond to five times the original amount.',
       },

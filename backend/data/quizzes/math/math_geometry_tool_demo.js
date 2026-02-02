@@ -40,7 +40,7 @@ module.exports = [
       {
         "text": "30",
         "isCorrect": true,
-        "rationale": "A = \(\(\frac{1}{2}\)\)·b·h = \(\(\frac{1}{2}\)\)·10·6 = 30."
+        "rationale": "A = \\(\\frac{1}{2}\\)·b·h = \\(\\frac{1}{2}\\)·10·6 = 30."
       },
       {
         "text": "60",
@@ -55,7 +55,7 @@ module.exports = [
       {
         "text": "36",
         "isCorrect": false,
-        "rationale": "Incorrect multiplication or missing \(\(\frac{1}{2}\) factor.\)"
+        "rationale": "Incorrect multiplication or missing \\(\\frac{1}{2}\\) factor.\\)"
       }
     ],
     "challenge_tags": [
@@ -71,7 +71,7 @@ module.exports = [
       {
         "text": "78.5",
         "isCorrect": true,
-        "rationale": "A = π\(r^{2}\) = 3.14×25 = 78.5."
+        "rationale": "A = π\\(r^{2}\\) = 3.14×25 = 78.5."
       },
       {
         "text": "31.4",
@@ -86,7 +86,7 @@ module.exports = [
       {
         "text": "25",
         "isCorrect": false,
-        "rationale": "25 is \(r^{2}\); multiply by π to get area."
+        "rationale": "25 is \\(r^{2}\\); multiply by π to get area."
       }
     ],
     "challenge_tags": [
@@ -102,17 +102,17 @@ module.exports = [
       {
         "text": "10",
         "isCorrect": true,
-        "rationale": "c = √(\(6^{2}\) + \(8^{2}\)) = √(36+64) = √100 = 10."
+        "rationale": "c = √(\\(6^{2}\\) + \\(8^{2}\\)) = √(36+64) = √100 = 10."
       },
       {
         "text": "12",
         "isCorrect": false,
-        "rationale": "\(12^{2}\) = 144; legs give 100 under the square root."
+        "rationale": "\\(12^{2}\\) = 144; legs give 100 under the square root."
       },
       {
         "text": "7",
         "isCorrect": false,
-        "rationale": "\(7^{2}\) = 49; too small."
+        "rationale": "\\(7^{2}\\) = 49; too small."
       },
       {
         "text": "14",
@@ -133,7 +133,7 @@ module.exports = [
       {
         "text": "It is a right triangle.",
         "isCorrect": true,
-        "rationale": "\(5^{2}\) + \(12^{2}\) = 25 + 144 = 169 = \(13^{2}\)."
+        "rationale": "\\(5^{2}\\) + \\(12^{2}\\) = 25 + 144 = 169 = \\(13^{2}\\)."
       },
       {
         "text": "It is an acute triangle.",
@@ -195,22 +195,22 @@ module.exports = [
       {
         "text": "54",
         "isCorrect": true,
-        "rationale": "SA = \(6a^{2}\) = 6×9 = 54."
+        "rationale": "SA = \\(6a^{2}\\) = 6×9 = 54."
       },
       {
         "text": "27",
         "isCorrect": false,
-        "rationale": "27 is the volume (\(3^{3}\)), not surface area."
+        "rationale": "27 is the volume (\\(3^{3}\\)), not surface area."
       },
       {
         "text": "18",
         "isCorrect": false,
-        "rationale": "18 would be \(2a^{2} for a=3, not 6a^{2}\)."
+        "rationale": "18 would be \\(2a^{2} for a=3, not 6a^{2}\\)."
       },
       {
         "text": "36",
         "isCorrect": false,
-        "rationale": "36 is \(4a^{2} for a=3; a cube has 6 faces.\)"
+        "rationale": "36 is \\(4a^{2} for a=3; a cube has 6 faces.\\)"
       }
     ],
     "challenge_tags": [

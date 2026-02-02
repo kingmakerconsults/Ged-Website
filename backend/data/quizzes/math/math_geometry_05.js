@@ -7,29 +7,29 @@ module.exports = [
     question: 'What is the area of a square with a perimeter of 32 cm?',
     answerOptions: [
       {
-        text: '8 \(cm^2\)',
+        text: '8 \\(cm^2\\)',
         isCorrect: false,
         rationale: 'This is the side length.',
       },
       {
-        text: '32 \(cm^2\)',
+        text: '32 \\(cm^2\\)',
         isCorrect: false,
         rationale: 'This is the perimeter.',
       },
       {
-        text: '64 \(cm^2\)',
+        text: '64 \\(cm^2\\)',
         isCorrect: true,
         rationale:
-          'The side length is \(\\(\frac{32}{4}\)\) = 8 cm. The area is 8*8 = 64 \(cm^{2}\).',
+          'The side length is \\(\\(\frac{32}{4}\\) = 8 cm. The area is 8*8 = 64 \\(cm^{2}\\).',
       },
       {
-        text: '256 \(cm^2\)',
+        text: '256 \\(cm^2\\)',
         isCorrect: false,
         rationale: 'This is 32 * 8.',
       },
     ],
     rationale:
-      'First, find the length of one side by dividing the perimeter by 4: 32 cm / 4 = 8 cm. Then, find the area by squaring the side length: 8 cm * 8 cm = 64 \(cm^{2}\).',
+      'First, find the length of one side by dividing the perimeter by 4: 32 cm / 4 = 8 cm. Then, find the area by squaring the side length: 8 cm * 8 cm = 64 \\(cm^{2}\\).',
     challenge_tags: ['math-5'],
   },
   {
@@ -39,7 +39,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'Find the circumference of a circle with a radius of 4.5 inches. Use 3.14 for \(\\pi\).',
+      'Find the circumference of a circle with a radius of 4.5 inches. Use 3.14 for \\(\\pi\\).',
     correctAnswer: '28.26 inches',
     rationale:
       'Circumference C = 2 * pi * r. So, C = 2 * 3.14 * 4.5 inches = 28.26 inches.',
@@ -62,7 +62,7 @@ module.exports = [
         text: '24 m',
         isCorrect: true,
         rationale:
-          'Using Pythagorean theorem, \(a^{2} + 10^{2} = 26^{2}\). \(a^{2} + 100 = 676\). \(a^{2} = 576\). a = 24.',
+          'Using Pythagorean theorem, \\(a^{2} + 10^{2} = 26^{2}\\). \\(a^{2} + 100 = 676\\). \\(a^{2} = 576\\). a = 24.',
       },
       {
         text: '36 m',
@@ -72,11 +72,11 @@ module.exports = [
       {
         text: '576 m',
         isCorrect: false,
-        rationale: 'This is \(a^{2}\), not a.',
+        rationale: 'This is \\(a^{2}\\), not a.',
       },
     ],
     rationale:
-      'Using the Pythagorean theorem, \(a^{2} + b^{2} = c^{2}\). We have \(a^{2} + 10^{2} = 26^{2}\), so \(a^{2} + 100 = 676\). Subtract 100 from both sides: \(a^{2} = 576\). The square root of 576 is 24.',
+      'Using the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). We have \\(a^{2} + 10^{2} = 26^{2}\\), so \\(a^{2} + 100 = 676\\). Subtract 100 from both sides: \\(a^{2} = 576\\). The square root of 576 is 24.',
     challenge_tags: ['math-5'],
   },
   {
@@ -129,32 +129,32 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'What is the volume of a cylinder with a diameter of 10 ft and a height of 8 ft? Use 3.14 for \(\\pi\).',
+      'What is the volume of a cylinder with a diameter of 10 ft and a height of 8 ft? Use 3.14 for \\(\\pi\\).',
     answerOptions: [
       {
-        text: '251.2 \(ft^3\)',
+        text: '251.2 \\(ft^3\\)',
         isCorrect: false,
         rationale: 'This is the volume if the radius was 10.',
       },
       {
-        text: '628 \(ft^3\)',
+        text: '628 \\(ft^3\\)',
         isCorrect: true,
         rationale:
-          'The radius is 5 ft. Volume = pi * \(r^{2}\) * h = 3.14 * \(5^{2}\) * 8 = 628.',
+          'The radius is 5 ft. Volume = pi * \\(r^{2}\\) * h = 3.14 * \\(5^{2}\\) * 8 = 628.',
       },
       {
-        text: '1256 \(ft^3\)',
+        text: '1256 \\(ft^3\\)',
         isCorrect: false,
         rationale: 'This is double the volume.',
       },
       {
-        text: '2512 \(ft^3\)',
+        text: '2512 \\(ft^3\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'First, find the radius from the diameter: r = 10 ft / 2 = 5 ft. The formula for the volume of a cylinder is V = pi * \(r^{2}\) * h. So, V = 3.14 * (5 ft)\(^2\) * 8 ft = 3.14 * 25 * 8 = 628 \(ft^{3}\).',
+      'First, find the radius from the diameter: r = 10 ft / 2 = 5 ft. The formula for the volume of a cylinder is V = pi * \\(r^{2}\\) * h. So, V = 3.14 * (5 ft)\\(^2\\) * 8 ft = 3.14 * 25 * 8 = 628 \\(ft^{3}\\).',
     challenge_tags: ['math-5'],
   },
   {
@@ -209,10 +209,10 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A circular pool has an area of 200.96 square feet. What is its diameter? Use 3.14 for \(\\pi\).',
+      'A circular pool has an area of 200.96 square feet. What is its diameter? Use 3.14 for \\(\\pi\\).',
     correctAnswer: '16 feet',
     rationale:
-      'Area = pi * \(r^{2}\). 200.96 = 3.14 * \(r^{2}\). \(r^{2}\) = 200.96 / 3.14 = 64. r = 8. The diameter is 2 * r = 16 feet.',
+      'Area = pi * \\(r^{2}\\). 200.96 = 3.14 * \\(r^{2}\\). \\(r^{2}\\) = 200.96 / 3.14 = 64. r = 8. The diameter is 2 * r = 16 feet.',
     challenge_tags: ['math-5'],
   },
   {
@@ -292,29 +292,29 @@ module.exports = [
       'A box in the shape of a rectangular prism has a length of 20cm, a width of 10cm, and a height of 5cm. What is its surface area?',
     answerOptions: [
       {
-        text: '1000 \(cm^2\)',
+        text: '1000 \\(cm^2\\)',
         isCorrect: false,
         rationale: 'This is the volume of the box.',
       },
       {
-        text: '700 \(cm^2\)',
+        text: '700 \\(cm^2\\)',
         isCorrect: true,
         rationale:
           'SA = 2(20*10 + 20*5 + 10*5) = 2(200 + 100 + 50) = 2(350) = 700.',
       },
       {
-        text: '350 \(cm^2\)',
+        text: '350 \\(cm^2\\)',
         isCorrect: false,
         rationale: 'This is half of the surface area.',
       },
       {
-        text: '250 \(cm^2\)',
+        text: '250 \\(cm^2\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'The surface area of a rectangular prism is given by the formula SA = 2(lw + lh + wh). SA = 2((20)(10) + (20)(5) + (10)(5)) = 2(200 + 100 + 50) = 2(350) = 700 \(cm^{2}\).',
+      'The surface area of a rectangular prism is given by the formula SA = 2(lw + lh + wh). SA = 2((20)(10) + (20)(5) + (10)(5)) = 2(200 + 100 + 50) = 2(350) = 700 \\(cm^{2}\\).',
     challenge_tags: ['math-5'],
   },
 ];

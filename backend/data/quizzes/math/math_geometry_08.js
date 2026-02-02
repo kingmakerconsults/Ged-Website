@@ -38,10 +38,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'Find the area of a circle with a diameter of 12 inches. Use 3.14 for \(\\pi\).',
-    correctAnswer: '113.04 \(in^2\)',
+      'Find the area of a circle with a diameter of 12 inches. Use 3.14 for \\(\\pi\\).',
+    correctAnswer: '113.04 \\(in^2\\)',
     rationale:
-      'The radius is half the diameter, so r = 6 inches. Area = pi * \(r^{2}\) = 3.14 * \(6^{2}\) = 113.04 \(in^{2}\).',
+      'The radius is half the diameter, so r = 6 inches. Area = pi * \\(r^{2}\\) = 3.14 * \\(6^{2}\\) = 113.04 \\(in^{2}\\).',
     challenge_tags: ['math-5'],
   },
   {
@@ -50,25 +50,25 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'What is the volume of a sphere with a radius of 5 cm? Use 3.14 for \(\\pi and the formula V = \\(\frac{4}{3}\)\)\\pi \(r^3\).',
+      'What is the volume of a sphere with a radius of 5 cm? Use 3.14 for \\(\\pi and the formula V = \\(\frac{4}{3}\\)\\pi \\(r^3\\).',
     answerOptions: [
       {
-        text: '314 \(cm^2\)',
+        text: '314 \\(cm^2\\)',
         isCorrect: false,
         rationale: 'This is the surface area.',
       },
       {
-        text: '523.33 \(cm^3\)',
+        text: '523.33 \\(cm^3\\)',
         isCorrect: true,
         rationale: 'V = (4/3) * 3.14 * 5^3 = 523.33.',
       },
       {
-        text: '1256 \(cm^3\)',
+        text: '1256 \\(cm^3\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '1570 \(cm^3\)',
+        text: '1570 \\(cm^3\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -135,7 +135,7 @@ module.exports = [
         text: '47.17 feet',
         isCorrect: true,
         rationale:
-          'Using the Pythagorean theorem, \(d^{2} = 25^{2} + 40^{2}\) = 625 + 1600 = 2225. d = sqrt(2225) ≈ 47.17.',
+          'Using the Pythagorean theorem, \\(d^{2} = 25^{2} + 40^{2}\\) = 625 + 1600 = 2225. d = sqrt(2225) ≈ 47.17.',
       },
       {
         text: '65 feet',
@@ -154,7 +154,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The diagonal of a rectangle forms the hypotenuse of a right triangle with the length and width as its legs. Using the Pythagorean theorem: \(d^{2} = 25^{2} + 40^{2}\) = 625 + 1600 = 2225. d = sqrt(2225) ≈ 47.17 feet.',
+      'The diagonal of a rectangle forms the hypotenuse of a right triangle with the length and width as its legs. Using the Pythagorean theorem: \\(d^{2} = 25^{2} + 40^{2}\\) = 625 + 1600 = 2225. d = sqrt(2225) ≈ 47.17 feet.',
     challenge_tags: ['math-5'],
   },
   {
@@ -209,7 +209,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "A car's wheel has a diameter of 24 inches. How many feet does the car travel in one full rotation of the wheel? Use 3.14 for \(\\pi\).",
+      "A car's wheel has a diameter of 24 inches. How many feet does the car travel in one full rotation of the wheel? Use 3.14 for \\(\\pi\\).",
     correctAnswer: '6.28 feet',
     rationale:
       'The distance of one rotation is the circumference. C = pi * d = 3.14 * 24 = 75.36 inches. To convert to feet, divide by 12: 75.36 / 12 = 6.28 feet.',
@@ -296,7 +296,7 @@ module.exports = [
         text: '240',
         isCorrect: true,
         rationale:
-          'Area of the triangular base = (\(\\(\frac{1}{2}\)\))*6*8 = 24. Volume of the prism = base area * height = 24 * 10 = 240.',
+          'Area of the triangular base = (\\(\\(\frac{1}{2}\\))*6*8 = 24. Volume of the prism = base area * height = 24 * 10 = 240.',
       },
       {
         text: '480',
@@ -311,7 +311,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, find the area of the triangular base: A = \(\\(\frac{1}{2}\)\) * base * height = \(\\(\frac{1}{2}\)\) * 6 * 8 = 24. Then, multiply the base area by the height of the prism to find the volume: V = 24 * 10 = 240.',
+      'First, find the area of the triangular base: A = \\(\\(\frac{1}{2}\\) * base * height = \\(\\(\frac{1}{2}\\) * 6 * 8 = 24. Then, multiply the base area by the height of the prism to find the volume: V = 24 * 10 = 240.',
     challenge_tags: ['math-5'],
   },
 ];

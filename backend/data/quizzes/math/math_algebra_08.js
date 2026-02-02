@@ -5,7 +5,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Solve for m: \(m + 11 = 30\).',
+    question: 'Solve for m: \\(m + 11 = 30\\).',
     correctAnswer: '19',
     rationale: 'Subtract 11 from both sides of the equation: 30 - 11 = 19.',
     challenge_tags: ['math-3'],
@@ -15,7 +15,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Evaluate \(10 - 3x for x = 2\).',
+    question: 'Evaluate \\(10 - 3x for x = 2\\).',
     answerOptions: [
       {
         text: '1',
@@ -61,7 +61,8 @@ module.exports = [
       {
         text: '21',
         isCorrect: true,
-        rationale: 'Add 2 to both sides: y/3 = 7. Multiply by 3: y = 21.',
+        rationale:
+          'Add 2 to both sides: \\(y/3 = 7\\). Multiply by 3: \\(y = 21\\).',
       },
       {
         text: '1',
@@ -70,7 +71,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, add 2 to both sides: y/3 = 5 + 2, so y/3 = 7. Then, multiply by 3: y = 7 * 3 = 21.',
+      'First, add 2 to both sides: \\(y/3 = 5 + 2\\), so \\(y/3 = 7\\). Then, multiply by 3: \\(y = 7 \\times 3 = 21\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -79,10 +80,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Simplify the expression: \(5a + 2b - 3a + 4b\).',
+    question: 'Simplify the expression: \\(5a + 2b - 3a + 4b\\).',
     correctAnswer: '2a + 6b',
     rationale:
-      "Combine the 'a' terms: 5a - 3a = 2a. Combine the 'b' terms: 2b + 4b = 6b. The result is 2a + 6b.",
+      "Combine the 'a' terms: \\(5a - 3a = 2a\\). Combine the 'b' terms: \\(2b + 4b = 6b\\). The result is \\(2a + 6b\\).",
     challenge_tags: ['math-3'],
   },
   {
@@ -90,7 +91,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'What is the slope of a line perpendicular to \(y = 3x - 1\)?',
+    question: 'What is the slope of a line perpendicular to \\(y = 3x - 1\\)?',
     answerOptions: [
       {
         text: '3',
@@ -123,7 +124,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'hard',
-    question: 'Solve for x: \(4(x + 1) = 2(x + 6)\).',
+    question: 'Solve for x: \\(4(x + 1) = 2(x + 6)\\).',
     answerOptions: [
       {
         text: '1',
@@ -156,10 +157,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Factor the expression \(x^2 - 100\).',
+    question: 'Factor the expression \\(x^2 - 100\\).',
     correctAnswer: '(x - 10)(x + 10)',
     rationale:
-      'This is a difference of squares, \(a^2 - b^2\), which factors to \((a-b)(a+b)\). Here, a=x and b=10.',
+      'This is a difference of squares, \\(a^2 - b^2\\), which factors to \\((a-b)(a+b)\\). Here, \\(a=x\\) and \\(b=10\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -167,32 +168,32 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'Solve the inequality: \(10 - x \\geq 15\).',
+    question: 'Solve the inequality: \\(10 - x \\geq 15\\).',
     answerOptions: [
       {
-        text: '\(x \\geq 5\)',
+        text: '\\(x \\geq 5\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '\(x \\leq 5\)',
+        text: '\\(x \\leq 5\\)',
         isCorrect: false,
         rationale: 'The sign on 5 should be negative.',
       },
       {
-        text: '\(x \\geq -5\)',
+        text: '\\(x \\geq -5\\)',
         isCorrect: false,
         rationale: 'The inequality should be reversed.',
       },
       {
-        text: '\(x \\leq -5\)',
+        text: '\\(x \\leq -5\\)',
         isCorrect: true,
         rationale:
-          'Subtract 10: -\(x\geq5\). Multiply by -1 and reverse the inequality: x <= -5.',
+          'Subtract 10: \\(-x \\ge 5\\). Multiply by -1 and reverse the inequality: \\(x \\leq -5\\).',
       },
     ],
     rationale:
-      'First, subtract 10 from both sides: -x \\geq 5. Then, multiply by -1 to solve for x, and remember to reverse the inequality sign: x \\leq -5.',
+      'First, subtract 10 from both sides: \\(-x \\geq 5\\). Then, multiply by -1 to solve for x, and remember to reverse the inequality sign: \\(x \\leq -5\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -201,7 +202,8 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'If \(f(x) = 2x - 7\), what is the value of x when \(f(x) = 11\)?',
+    question:
+      'If \\(f(x) = 2x - 7\\), what is the value of x when \\(f(x) = 11\\)?',
     correctAnswer: '9',
     rationale:
       'Set the function equal to 11: 2x - 7 = 11. Add 7 to both sides: 2x = 18. Divide by 2: x = 9.',
@@ -245,26 +247,26 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'Factor the trinomial: \(x^2 - 3x - 10\).',
+    question: 'Factor the trinomial: \\(x^2 - 3x - 10\\).',
     answerOptions: [
       {
-        text: '\((x - 5)(x + 2)\)',
+        text: '\\((x - 5)(x + 2)\\)',
         isCorrect: true,
         rationale:
           'We need two numbers that multiply to -10 and add to -3. These are -5 and 2.',
       },
       {
-        text: '\((x + 5)(x - 2)\)',
+        text: '\\((x + 5)(x - 2)\\)',
         isCorrect: false,
         rationale: 'This gives a middle term of +3x.',
       },
       {
-        text: '\((x - 10)(x + 1)\)',
+        text: '\\((x - 10)(x + 1)\\)',
         isCorrect: false,
         rationale: 'This gives a middle term of -9x.',
       },
       {
-        text: '\((x - 2)(x - 5)\)',
+        text: '\\((x - 2)(x - 5)\\)',
         isCorrect: false,
         rationale: 'This gives a constant term of +10.',
       },

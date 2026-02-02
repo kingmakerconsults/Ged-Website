@@ -4,7 +4,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'What is the y-intercept of the function \(f(x) = 4x - 8\)?',
+    question: 'What is the y-intercept of the function \\(f(x) = 4x - 8\\)?',
     answerOptions: [
       {
         text: '4',
@@ -38,7 +38,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'If \(f(x) = 10 - 3x\), what is the value of \(f(2)\)?',
+    question: 'If \\(f(x) = 10 - 3x\\), what is the value of \\(f(2)\\)?',
     correctAnswer: '4',
     rationale:
       'Substitute 2 for x in the function: f(2) = 10 - 3(2) = 10 - 6 = 4.',
@@ -53,7 +53,7 @@ module.exports = [
       'Find the slope of the line that passes through the points (-1, 3) and (2, 9).',
     answerOptions: [
       {
-        text: '\(\\(\frac{1}{2}\)\)',
+        text: '\\(\\(\frac{1}{2}\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -75,7 +75,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The formula for the slope is \(m = \\(\frac{y_2 - y_1}{x_2 - x_1}\)\). So, \(m = \\(\frac{9 - 3}{2 - (-1)}\)\) = \\(\frac{6}{3}\) = 2.',
+      'The formula for the slope is \\(m = \\(\frac{y_2 - y_1}{x_2 - x_1}\\). So, \\(m = \\(\frac{9 - 3}{2 - (-1)}\\) = \\(\frac{6}{3}\\) = 2.',
     challenge_tags: ['math-3'],
   },
   {
@@ -84,7 +84,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'What is the x-intercept of the function \(f(x) = 5x - 15\)?',
+    question: 'What is the x-intercept of the function \\(f(x) = 5x - 15\\)?',
     correctAnswer: '3',
     rationale:
       'The x-intercept is the point where f(x) = 0. So, 0 = 5x - 15. Add 15 to both sides: 15 = 5x. Divide by 5: x = 3.',
@@ -129,7 +129,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "The cost of renting a car is a flat fee of \(50 plus \)0.25 per mile. Which function represents the total cost, C(m), for driving 'm' miles?",
+      "The cost of renting a car is a flat fee of \\(50 plus \\)0.25 per mile. Which function represents the total cost, C(m), for driving 'm' miles?",
     answerOptions: [
       {
         text: 'C(m) = 50.25m',
@@ -154,7 +154,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The total cost is the sum of the fixed fee (\(50) and the variable cost, which is \)0.25 times the number of miles (m). So, C(m) = 50 + 0.25m.',
+      'The total cost is the sum of the fixed fee (\\(50) and the variable cost, which is \\)0.25 times the number of miles (m). So, C(m) = 50 + 0.25m.',
     challenge_tags: ['math-3'],
   },
   {
@@ -175,7 +175,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'What is the domain of the function \(f(x) = \\(\sqrt{x-2}\)\)?',
+    question: 'What is the domain of the function \\(f(x) = \\(\sqrt{x-2}\\)?',
     answerOptions: [
       {
         text: 'x > 2',
@@ -184,10 +184,10 @@ module.exports = [
           'The value under the square root can be zero, so x can be equal to 2.',
       },
       {
-        text: '\(x\geq2\)',
+        text: '\\(x\\geq2\\)',
         isCorrect: true,
         rationale:
-          'The expression under a square root must be non-negative. So, x - \(2\geq0\), which means \(x\geq2\).',
+          'The expression under a square root must be non-negative. So, x - \\(2\\geq0\\), which means \\(x\\geq2\\).',
       },
       {
         text: 'All real numbers',
@@ -196,14 +196,14 @@ module.exports = [
           'If x < 2, the value under the square root would be negative.',
       },
       {
-        text: '\(x\leq2\)',
+        text: '\\(x\\leq2\\)',
         isCorrect: false,
         rationale:
           'This would result in a negative value under the square root for x < 2.',
       },
     ],
     rationale:
-      'For the function to have a real value, the expression inside the square root must be greater than or equal to zero. So, \(x-2 \\geq 0\), which simplifies to \(x \\geq 2\).',
+      'For the function to have a real value, the expression inside the square root must be greater than or equal to zero. So, \\(x-2 \\geq 0\\), which simplifies to \\(x \\geq 2\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -213,7 +213,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'Find the value of \(f(g(2)) when f(x) = 3x and g(x) = x + 5\).',
+      'Find the value of \\(f(g(2)) when f(x) = 3x and g(x) = x + 5\\).',
     correctAnswer: '21',
     rationale:
       'First, find g(2): g(2) = 2 + 5 = 7. Then, find f(7): f(7) = 3 * 7 = 21.',
@@ -250,7 +250,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, find the slope: \(m = \\(\frac{0 - 4}{2 - 0}\)\) = -2. The y-intercept is the point where x=0, which is (0, 4). So, b = 4. The equation is y = -2x + 4.',
+      'First, find the slope: \\(m = \\(\frac{0 - 4}{2 - 0}\\) = -2. The y-intercept is the point where x=0, which is (0, 4). So, b = 4. The equation is y = -2x + 4.',
     challenge_tags: ['math-3'],
   },
   {
@@ -258,7 +258,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'Which of the following describes the graph of \(y = x^2 - 1\)?',
+    question: 'Which of the following describes the graph of \\(y = x^2 - 1\\)?',
     answerOptions: [
       {
         text: 'A line that passes through the origin.',
@@ -269,12 +269,12 @@ module.exports = [
         text: 'A parabola that opens upward with its vertex at (0, -1).',
         isCorrect: true,
         rationale:
-          "The \(x^2 term means it's a parabola opening upward. The -1 shifts the vertex down one unit from the origin.\)",
+          "The \\(x^2 term means it's a parabola opening upward. The -1 shifts the vertex down one unit from the origin.\\)",
       },
       {
         text: 'A parabola that opens downward with its vertex at (0, 1).',
         isCorrect: false,
-        rationale: 'The coefficient of \(x^2 is positive, so it opens upward.\)',
+        rationale: 'The coefficient of \\(x^2 is positive, so it opens upward.\\)',
       },
       {
         text: 'A circle with a radius of 1.',
@@ -283,7 +283,7 @@ module.exports = [
       },
     ],
     rationale:
-      "The \(x^2 term indicates a parabola. Since the coefficient of \(x^2 is positive, it opens upward. The '-1' term shifts the vertex of the parabola down by one unit from the origin to (0, -1).\)\)",
+      "The \\(x^2 term indicates a parabola. Since the coefficient of \\(x^2 is positive, it opens upward. The '-1' term shifts the vertex of the parabola down by one unit from the origin to (0, -1).\\)\\)",
     challenge_tags: ['math-3'],
   },
   {

@@ -43,7 +43,7 @@ module.exports = [
       'A phone is discounted by 30%. If the original price was $600, what is the discount amount?',
     correctAnswer: '180',
     rationale:
-      'To find the discount amount, multiply the original price by the discount percentage: 600 \(\times\) 0.30 = 180.',
+      'To find the discount amount, multiply the original price by the discount percentage: 600 \\(\times\\) 0.30 = 180.',
     challenge_tags: ['math-1'],
   },
   {
@@ -58,7 +58,7 @@ module.exports = [
         text: '28 Euros',
         isCorrect: true,
         rationale:
-          'Set up a proportion: \(\frac{5}{4}\) = 35/x. Cross-multiply to get 5x = 140. Solve for x to get x = 28.',
+          'Set up a proportion: \\(\frac{5}{4}\\) = 35/x. Cross-multiply to get 5x = 140. Solve for x to get x = 28.',
       },
       {
         text: '34 Euros',
@@ -68,7 +68,7 @@ module.exports = [
       {
         text: '43.75 Euros',
         isCorrect: false,
-        rationale: 'This is the result of dividing 35 by \(\frac{4}{5}\).',
+        rationale: 'This is the result of dividing 35 by \\(\frac{4}{5}\\).',
       },
       {
         text: '30 Euros',
@@ -77,7 +77,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Set up a proportion: \(\\frac{5 \\text{ dollars}}{4 \\text{ Euros}} = \\frac{35 \\text{ dollars}}{x \\text{ Euros}}\). Cross-multiply: 5x = 4 \(\\times\) 35, so 5x = 140. Divide by 5: x = 28 Euros.',
+      'Set up a proportion: \\(\\frac{5 \\text{ dollars}}{4 \\text{ Euros}} = \\frac{35 \\text{ dollars}}{x \\text{ Euros}}\\). Cross-multiply: 5x = 4 \\(\\times\\) 35, so 5x = 140. Divide by 5: x = 28 Euros.',
     challenge_tags: ['math-1'],
   },
   {
@@ -110,7 +110,7 @@ module.exports = [
         text: '9 cups',
         isCorrect: true,
         rationale:
-          'The ratio is 3:5. Since she is using 3 times the flour (\(\frac{15}{5}\)=3), she needs 3 times the sugar (3*3=9).',
+          'The ratio is 3:5. Since she is using 3 times the flour (\\(\frac{15}{5}\\)=3), she needs 3 times the sugar (3*3=9).',
       },
       {
         text: '12 cups',
@@ -149,16 +149,16 @@ module.exports = [
         text: '150',
         isCorrect: true,
         rationale:
-          '\(\frac{3}{5}\) of 250 is \(\frac{3}{5}\) \(\times\) 250 = 750 / 5 = 150.',
+          '\\(\frac{3}{5}\\) of 250 is \\(\frac{3}{5}\\) \\(\times\\) 250 = 750 / 5 = 150.',
       },
       {
         text: '200',
         isCorrect: false,
-        rationale: 'This is \(\frac{4}{5}\) of the people.',
+        rationale: 'This is \\(\frac{4}{5}\\) of the people.',
       },
     ],
     rationale:
-      'The fraction of people who prefer Brand A is \(\frac{3}{5}\). To find the number of people, multiply this fraction by the total number surveyed: \(\frac{3}{5}\) \(\times\) 250 = 150 people.',
+      'The fraction of people who prefer Brand A is \\(\frac{3}{5}\\). To find the number of people, multiply this fraction by the total number surveyed: \\(\frac{3}{5}\\) \\(\times\\) 250 = 150 people.',
     challenge_tags: ['math-1'],
   },
   {
@@ -171,7 +171,7 @@ module.exports = [
       'Sales tax is 7.5%. If you purchase an item for $80, what is the total cost including tax?',
     correctAnswer: '86.00',
     rationale:
-      'First, calculate the tax amount: 7.5% of $80 is 0.075 \(\times\) 80 = 6. Then, add the tax to the original price: $80 + $6 = $86.',
+      'First, calculate the tax amount: 7.5% of $80 is 0.075 \\(\times\\) 80 = 6. Then, add the tax to the original price: $80 + $6 = $86.',
     challenge_tags: ['math-1'],
   },
   {
@@ -205,7 +205,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Set up a proportion: \(\\frac{1 \\text{ cm}}{20 \\text{ km}} = \\frac{x \\text{ cm}}{150 \\text{ km}}. Solve for x: x = \(\frac{150}{20}\) = 7.5 cm.',
+      'Set up a proportion: \\(\\frac{1 \\text{ cm}}{20 \\text{ km}} = \\frac{x \\text{ cm}}{150 \\text{ km}}. Solve for x: x = \\(\frac{150}{20}\\) = 7.5 cm.',
     challenge_tags: ['math-1'],
   },
   {
@@ -217,7 +217,7 @@ module.exports = [
     question: 'Simplify the ratio 24:36.',
     correctAnswer: '2:3',
     rationale:
-      'The greatest common divisor of 24 and 36 is 12. Divide both parts of the ratio by 12: \(\frac{24}{12}\) = 2 and \(\frac{36}{12}\) = 3. The simplified ratio is 2:3.',
+      'The greatest common divisor of 24 and 36 is 12. Divide both parts of the ratio by 12: \\(\frac{24}{12}\\) = 2 and \\(\frac{36}{12}\\) = 3. The simplified ratio is 2:3.',
     challenge_tags: ['math-1'],
   },
   {
@@ -287,7 +287,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The decrease in profit is $120,000 - $90,000 = $30,000. The percent decrease is (30,000 / 120,000) \(\times\) 100 = 25%.',
+      'The decrease in profit is $120,000 - $90,000 = $30,000. The percent decrease is (30,000 / 120,000) \\(\times\\) 100 = 25%.',
     challenge_tags: ['math-1'],
   },
   {

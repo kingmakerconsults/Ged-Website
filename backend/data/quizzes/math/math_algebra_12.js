@@ -5,9 +5,9 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Solve for b: \(b - 6 = 14\).',
+    question: 'Solve for b: \\(b - 6 = 14\\).',
     correctAnswer: '20',
-    rationale: 'Add 6 to both sides of the equation: 14 + 6 = 20.',
+    rationale: 'Add 6 to both sides of the equation: \\(14 + 6 = 20\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -15,31 +15,31 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Simplify: \(8x - x + 3x\).',
+    question: 'Simplify: \\(8x - x + 3x\\).',
     answerOptions: [
       {
-        text: '\(10x\)',
+        text: '\\(10x\\)',
         isCorrect: true,
-        rationale: '8 - 1 + 3 = 10. So, 10x.',
+        rationale: '\\(8 - 1 + 3 = 10\\). So, \\(10x\\).',
       },
       {
-        text: '\(11x\)',
+        text: '\\(11x\\)',
         isCorrect: false,
-        rationale: 'This is 8+3.',
+        rationale: 'This is \\(8+3\\).',
       },
       {
-        text: '\(12x\)',
+        text: '\\(12x\\)',
         isCorrect: false,
-        rationale: 'This is 8+x+3x.',
+        rationale: 'This is \\(8+x+3x\\).',
       },
       {
-        text: '\(9x\)',
+        text: '\\(9x\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'Combine the coefficients of the like terms: 8 - 1 + 3 = 10. The simplified expression is 10x.',
+      'Combine the coefficients of the like terms: \\(8 - 1 + 3 = 10\\). The simplified expression is \\(10x\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -47,22 +47,22 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve for n: \(4n + 7 = 35\).',
+    question: 'Solve for n: \\(4n + 7 = 35\\).',
     answerOptions: [
       {
         text: '7',
         isCorrect: true,
-        rationale: 'Subtract 7: 4n = 28. Divide by 4: n = 7.',
+        rationale: 'Subtract 7: \\(4n = 28\\). Divide by 4: \\(n = 7\\).',
       },
       {
         text: '10.5',
         isCorrect: false,
-        rationale: 'This is \(\\(\frac{42}{4}\)\).',
+        rationale: 'This is \\(\\frac{42}{4}\\).',
       },
       {
         text: '28',
         isCorrect: false,
-        rationale: 'This is 4n.',
+        rationale: 'This is \\(4n\\).',
       },
       {
         text: '24',
@@ -71,7 +71,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, subtract 7 from both sides: 4n = 35 - 7, so 4n = 28. Then, divide by 4: n = 28 / 4 = 7.',
+      'First, subtract 7 from both sides: \\(4n = 35 - 7\\), so \\(4n = 28\\). Then, divide by 4: \\(n = 28 / 4 = 7\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -80,10 +80,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Find the slope of a line with the equation \(2x + y = 5\).',
+    question: 'Find the slope of a line with the equation \\(2x + y = 5\\).',
     correctAnswer: '-2',
     rationale:
-      'Rewrite the equation in slope-intercept form (y = mx + b). y = -2x + 5. The slope is -2.',
+      'Rewrite the equation in slope-intercept form (\\(y = mx + b\\)). \\(y = -2x + 5\\). The slope is -2.',
     challenge_tags: ['math-3'],
   },
   {
@@ -94,28 +94,28 @@ module.exports = [
     question: "What is the equation for 'a number squared is 25'?",
     answerOptions: [
       {
-        text: '\(2n = 25\)',
+        text: '\\(2n = 25\\)',
         isCorrect: false,
         rationale: "This is 'twice a number'.",
       },
       {
-        text: '\(n^2 = 25\)',
+        text: '\\(n^2 = 25\\)',
         isCorrect: true,
-        rationale: "'A number squared' is \(n^2\).",
+        rationale: "'A number squared' is \\(n^2\\).",
       },
       {
-        text: '\(n + 2 = 25\)',
+        text: '\\(n + 2 = 25\\)',
         isCorrect: false,
         rationale: "This is 'a number plus 2'.",
       },
       {
-        text: '\(\\(\sqrt{n}\)\) = 25',
+        text: '\\(\\sqrt{n} = 25\\)',
         isCorrect: false,
         rationale: "This is 'the square root of a number'.",
       },
     ],
     rationale:
-      "Let 'n' be the number. 'A number squared' is written as \(n^2\). The equation is \(n^2\) = 25.",
+      "Let 'n' be the number. 'A number squared' is written as \\(n^2\\). The equation is \\(n^2 = 25\\).",
     challenge_tags: ['math-3'],
   },
   {
@@ -123,32 +123,32 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'hard',
-    question: 'Solve for x: \(5x - 3 = 2x + 9\).',
+    question: 'Solve for x: \\(5x - 3 = 2x + 9\\).',
     answerOptions: [
       {
         text: '2',
         isCorrect: false,
-        rationale: 'This is \(\\(\frac{6}{3}\)\).',
+        rationale: 'This is \\(\\frac{6}{3}\\).',
       },
       {
         text: '3',
         isCorrect: false,
-        rationale: 'This is \(\\(\frac{12}{4}\)\).',
+        rationale: 'This is \\(\\frac{12}{4}\\).',
       },
       {
         text: '4',
         isCorrect: true,
         rationale:
-          'Subtract 2x: 3x - 3 = 9. Add 3: 3x = 12. Divide by 3: x = 4.',
+          'Subtract 2x: \\(3x - 3 = 9\\). Add 3: \\(3x = 12\\). Divide by 3: \\(x = 4\\).',
       },
       {
         text: '12',
         isCorrect: false,
-        rationale: 'This is 3x.',
+        rationale: 'This is \\(3x\\).',
       },
     ],
     rationale:
-      'First, get the x terms on one side by subtracting 2x from both sides: 3x - 3 = 9. Then, isolate the x term by adding 3 to both sides: 3x = 12. Finally, divide by 3: x = 4.',
+      'First, get the x terms on one side by subtracting 2x from both sides: \\(3x - 3 = 9\\). Then, isolate the x term by adding 3 to both sides: \\(3x = 12\\). Finally, divide by 3: \\(x = 4\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -157,10 +157,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'If \(f(x) = 2x - 10\), what is \(f(x) when x=5\)?',
+    question: 'If \\(f(x) = 2x - 10\\), what is \\(f(5)\\)?',
     correctAnswer: '0',
     rationale:
-      'Substitute 5 for x: f(5) = 2(5) - 10 = 10 - 10 = 0. This is the x-intercept.',
+      'Substitute 5 for x: \\(f(5) = 2(5) - 10 = 10 - 10 = 0\\). This is the x-intercept.',
     challenge_tags: ['math-3'],
   },
   {
@@ -169,28 +169,28 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'Which of the following is a solution to the inequality \(3x - 5 \\geq 10\)?',
+      'Which of the following is a solution to the inequality \\(3x - 5 \\geq 10\\)?',
     answerOptions: [
       {
         text: '4',
         isCorrect: false,
-        rationale: '3(4)-5 = 7, which is \(not\geq10\).',
+        rationale: '3(4)-5 = 7, which is not \\(\\geq 10\\).',
       },
       {
         text: '5',
         isCorrect: true,
         rationale:
-          '3(5)-5 = 10, which \(is\geq10\). The solution is \(x\geq5\).',
+          '3(5)-5 = 10, which is \\(\\geq 10\\). The solution is \\(x \\geq 5\\).',
       },
       {
         text: '0',
         isCorrect: false,
-        rationale: '3(0)-5 = -5, which is \(not\geq10\).',
+        rationale: '3(0)-5 = -5, which is not \\(\\geq 10\\).',
       },
       {
         text: '-5',
         isCorrect: false,
-        rationale: '3(-5)-5 = -20, which is \(not\geq10\).',
+        rationale: '3(-5)-5 = -20, which is not \\(\\geq 10\\).',
       },
     ],
     rationale:
@@ -205,7 +205,7 @@ module.exports = [
     difficulty: 'medium',
     question: 'A line passes through (1, 2) and (5, 10). What is its slope?',
     correctAnswer: '2',
-    rationale: 'Slope = (10-2)/(5-1) = \(\\(\frac{8}{4}\)\) = 2.',
+    rationale: 'Slope = \\(\\frac{10-2}{5-1} = \\frac{8}{4} = 2\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -220,7 +220,7 @@ module.exports = [
         text: '10 feet',
         isCorrect: true,
         rationale:
-          'Let W be width, L=W+5. P=2(W+5+W)=2(2W+5)=4W+10. 50=4W+10 -> 40=4W -> W=10.',
+          'Let \\(W\\) be width, \\(L=W+5\\). \\(P=2(W+W+5)=2(2W+5)=4W+10\\). \\(50=4W+10 \\Rightarrow 40=4W \\Rightarrow W=10\\).',
       },
       {
         text: '15 feet',
@@ -239,7 +239,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Let W be the width and L be the length. L = W + 5. The perimeter is P = 2(L + W). 50 = 2((W + 5) + W). 50 = 2(2W + 5). 50 = 4W + 10. 40 = 4W. W = 10 feet.',
+      'Let \\(W\\) be the width and \\(L\\) be the length. \\(L = W + 5\\). The perimeter is \\(P = 2(L + W)\\). \\(50 = 2((W + 5) + W) = 2(2W + 5) = 4W + 10\\). \\(40 = 4W\\). \\(W = 10\\) feet.',
     challenge_tags: ['math-3'],
   },
   {
@@ -247,7 +247,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'Find the solutions to \(x^2 = 81\).',
+    question: 'Find the solutions to \\(x^2 = 81\\).',
     answerOptions: [
       {
         text: '{9}',
@@ -262,7 +262,8 @@ module.exports = [
       {
         text: '{9, -9}',
         isCorrect: true,
-        rationale: 'Taking the square root of both sides gives x = ±9.',
+        rationale:
+          'Taking the square root of both sides gives \\(x = \\pm 9\\).',
       },
       {
         text: '{81, -81}',
@@ -271,7 +272,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To solve for x, take the square root of both sides. Remember to include both the positive and negative roots. \(x = \\pm\\(\sqrt{81}\)\), so x = 9 and x = -9.',
+      'To solve for x, take the square root of both sides. Remember to include both the positive and negative roots. \\(x = \\pm \\sqrt{81}\\), so \\(x = 9\\) and \\(x = -9\\).',
     challenge_tags: ['math-3'],
   },
   {
@@ -279,17 +280,17 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: "Which term describes the '3' in the expression \(3x^2\)?",
+    question: "Which term describes the '3' in the expression \\(3x^2\\)?",
     answerOptions: [
       {
         text: 'Variable',
         isCorrect: false,
-        rationale: 'x is the variable.',
+        rationale: '\\(x\\) is the variable.',
       },
       {
         text: 'Exponent',
         isCorrect: false,
-        rationale: '2 is the exponent.',
+        rationale: '\\(2\\) is the exponent.',
       },
       {
         text: 'Coefficient',

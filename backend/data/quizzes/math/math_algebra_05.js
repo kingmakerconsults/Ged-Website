@@ -5,7 +5,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Solve for n: \(5n = 45\).',
+    question: 'Solve for n: \\(5n = 45\\).',
     correctAnswer: '9',
     rationale:
       'To solve for n, divide both sides of the equation by 5. n = 45 / 5 = 9.',
@@ -16,26 +16,26 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Simplify the expression \(10y - 4y + y\).',
+    question: 'Simplify the expression \\(10y - 4y + y\\).',
     answerOptions: [
       {
-        text: '\(6y\)',
+        text: '\\(6y\\)',
         isCorrect: false,
         rationale: 'This is 10y - 4y, but does not add the final y.',
       },
       {
-        text: '\(7y\)',
+        text: '\\(7y\\)',
         isCorrect: true,
         rationale:
           'Combine the coefficients: 10 - 4 + 1 = 7. The result is 7y.',
       },
       {
-        text: '\(5y\)',
+        text: '\\(5y\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '\(15y\)',
+        text: '\\(15y\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -49,7 +49,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve for a: \(2(a + 5) = 16\).',
+    question: 'Solve for a: \\(2(a + 5) = 16\\).',
     answerOptions: [
       {
         text: '3',
@@ -99,23 +99,23 @@ module.exports = [
       "Translate 'the product of a number and 6, increased by 3' into an algebraic expression.",
     answerOptions: [
       {
-        text: '\(6(n + 3)\)',
+        text: '\\(6(n + 3)\\)',
         isCorrect: false,
         rationale: "This is '6 times the sum of a number and 3'.",
       },
       {
-        text: '\(6n + 3\)',
+        text: '\\(6n + 3\\)',
         isCorrect: true,
         rationale:
           "The product of a number and 6 is 6n. 'Increased by 3' means to add 3.",
       },
       {
-        text: '\(n + 6 + 3\)',
+        text: '\\(n + 6 + 3\\)',
         isCorrect: false,
         rationale: 'This is a sum, not a product.',
       },
       {
-        text: '\(3n + 6\)',
+        text: '\\(3n + 6\\)',
         isCorrect: false,
         rationale: 'This reverses the numbers.',
       },
@@ -129,26 +129,26 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'hard',
-    question: 'Solve the inequality: \(7 - 2x < 1\).',
+    question: 'Solve the inequality: \\(7 - 2x < 1\\).',
     answerOptions: [
       {
-        text: '\(x < 3\)',
+        text: '\\(x < 3\\)',
         isCorrect: false,
         rationale: 'The inequality sign should be reversed.',
       },
       {
-        text: '\(x > 3\)',
+        text: '\\(x > 3\\)',
         isCorrect: true,
         rationale:
           'Subtract 7: -2x < -6. Divide by -2 and reverse the inequality: x > 3.',
       },
       {
-        text: '\(x < -3\)',
+        text: '\\(x < -3\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '\(x > -3\)',
+        text: '\\(x > -3\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -163,9 +163,9 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'If \(g(x) = 5 - x^2\), what is \(g(3)\)?',
+    question: 'If \\(g(x) = 5 - x^2\\), what is \\(g(3)\\)?',
     correctAnswer: '-4',
-    rationale: 'Substitute 3 for x: g(3) = 5 - (3)\(^2\) = 5 - 9 = -4.',
+    rationale: 'Substitute 3 for x: g(3) = 5 - (3)\\(^2\\) = 5 - 9 = -4.',
     challenge_tags: ['math-3'],
   },
   {
@@ -173,27 +173,27 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'What is the greatest common factor (GCF) of \(12x^2 and 18x\)?',
+    question: 'What is the greatest common factor (GCF) of \\(12x^2 and 18x\\)?',
     answerOptions: [
       {
-        text: '\(6\)',
+        text: '\\(6\\)',
         isCorrect: false,
         rationale:
           'This is the GCF of the coefficients, but ignores the variable.',
       },
       {
-        text: '\(6x\)',
+        text: '\\(6x\\)',
         isCorrect: true,
         rationale:
           'The GCF of 12 and 18 is 6. The GCF of x^2 and x is x. So, the GCF is 6x.',
       },
       {
-        text: '\(3x\)',
+        text: '\\(3x\\)',
         isCorrect: false,
         rationale: 'This is a common factor, but not the greatest.',
       },
       {
-        text: '\(36x^2\)',
+        text: '\\(36x^2\\)',
         isCorrect: false,
         rationale: 'This is the least common multiple (LCM).',
       },
@@ -253,26 +253,26 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'Solve the system of equations: \(x + y = 10 and x - y = 4\).',
+    question: 'Solve the system of equations: \\(x + y = 10 and x - y = 4\\).',
     answerOptions: [
       {
-        text: '\(x=7, y=3\)',
+        text: '\\(x=7, y=3\\)',
         isCorrect: true,
         rationale:
           'Add the two equations to get 2x = 14, so x=7. Substitute x=7 into the first equation: 7+y=10, so y=3.',
       },
       {
-        text: '\(x=3, y=7\)',
+        text: '\\(x=3, y=7\\)',
         isCorrect: false,
         rationale: 'The values are reversed.',
       },
       {
-        text: '\(x=6, y=4\)',
+        text: '\\(x=6, y=4\\)',
         isCorrect: false,
         rationale: 'This satisfies the second equation but not the first.',
       },
       {
-        text: '\(x=10, y=-6\)',
+        text: '\\(x=10, y=-6\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -286,33 +286,33 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'What is the value of \((5^2)^3\)?',
+    question: 'What is the value of \\((5^2)^3\\)?',
     answerOptions: [
       {
-        text: '\(5^5\)',
+        text: '\\(5^5\\)',
         isCorrect: false,
         rationale: 'This is the result of adding the exponents.',
       },
       {
-        text: '\(5^6\)',
+        text: '\\(5^6\\)',
         isCorrect: true,
         rationale:
           'When raising a power to a power, you multiply the exponents: 2 * 3 = 6.',
       },
       {
-        text: '\(10^3\)',
+        text: '\\(10^3\\)',
         isCorrect: false,
         rationale: 'The base does not change.',
       },
       {
-        text: '\(25^3\)',
+        text: '\\(25^3\\)',
         isCorrect: false,
         rationale:
           'This is an intermediate step, not the final simplified form.',
       },
     ],
     rationale:
-      'The rule for raising a power to another power is to multiply the exponents. So, \((5^2)^3 = 5^{2 \\(\times\)3} = 5^6.\)',
+      'The rule for raising a power to another power is to multiply the exponents. So, \\((5^2)^3 = 5^{2 \\(\times\\)3} = 5^6.\\)',
     challenge_tags: ['math-3'],
   },
 ];

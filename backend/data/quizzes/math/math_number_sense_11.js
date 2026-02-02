@@ -254,7 +254,7 @@ module.exports = [
       'You have a loan of 5000 with a simple interest rate of 6% per year. How much interest will you pay in total over 4 years?',
     answerOptions: [
       {
-        text: '\(300\)',
+        text: '\\(300\\)',
         isCorrect: false,
         rationale: 'This is the interest for one year.',
       },
