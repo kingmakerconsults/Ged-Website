@@ -132,7 +132,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "The argument against the new downtown development is that it will cause traffic congestion and strain public services. However, the developers have presented a comprehensive plan that seems to address these concerns. The plan includes the construction of a new public parking garage and a direct contribution of $2 million to the city's infrastructure fund. Furthermore, a traffic impact study conducted by an independent engineering firm concluded that the project would add less than 5% to peak-hour traffic after the proposed road improvements are made.",
+    "passage": "The argument against the new downtown development is that it will cause traffic congestion and strain public services. However, the developers have presented a comprehensive plan that seems to address these concerns. The plan includes the construction of a new public parking garage and a direct contribution of \(2 million to the city's infrastructure fund. Furthermore, a traffic impact study conducted by an independent engineering firm concluded that the project would add less than 5% to peak-hour traffic after the proposed road improvements are made.",
     "question": "Which piece of evidence most effectively counters the argument that the development will cause traffic congestion?",
     "answerOptions": [
       {
@@ -141,7 +141,7 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "The developers will contribute $2 million to the infrastructure fund.",
+        "text": "The developers will contribute \)2 million to the infrastructure fund.",
         "rationale": "This could be used for many things it's not a direct counterargument to the traffic issue.",
         "isCorrect": false
       },

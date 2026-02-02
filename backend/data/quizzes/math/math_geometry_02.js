@@ -5,33 +5,33 @@ module.exports = [
     calculator: false,
     difficulty: 'easy',
     question:
-      'What is the perimeter of a square with a side length of 7 meters?',
+      'What is the volume of a sphere with a radius of 3 inches? Use 3.14 for \\(\\pi\\) and the formula \\(V = \\frac{4}{3}\\pi r^3\\).',
     answerOptions: [
       {
-        text: '14 m',
+        text: '60 cm^2',
         isCorrect: false,
         rationale: 'This is the sum of only two sides.',
-      },
+          'Area = (1/2) * (base1 + base2) * height = (1/2) * (10 + 14) * 5 = 60.',
       {
-        text: '21 m',
-        isCorrect: false,
+        text: '113.04 in^3',
+        text: '120 cm^2',
         rationale: 'This is the sum of only three sides.',
-      },
+        rationale: 'This omits the (1/2) from the formula.',
       {
         text: '28 m',
-        isCorrect: true,
+        text: '29 cm^2',
         rationale:
           'A square has 4 equal sides, so the perimeter is 4 * 7 = 28 m.',
       },
       {
-        text: '49 m',
+        text: '70 cm^2',
         isCorrect: false,
-        rationale: 'This is the area of the square.',
-      },
+         rationale:
+           'The side lengths do not satisfy the Pythagorean theorem (5^2 + 5^2 != 7^2).',
     ],
     rationale:
-      'The perimeter of a square is 4 times the side length. P = 4 * 7 m = 28 m.',
-    challenge_tags: ['math-5'],
+      'Using the formula, V = \\(\\frac{4}{3}\\) * 3.14 * (3 inches)^3 = \\(\\frac{4}{3}\\) * 3.14 * 27 = 113.04 in^3.',
+      'The formula for the area of a trapezoid is A = (1/2)(b_1 + b_2)h. So, A = (1/2)(10 + 14) * 5 = (1/2) * 24 * 5 = 60 cm^2.',
   },
   {
     questionNumber: 2,
@@ -40,7 +40,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A circle has a circumference of 50.24 cm. What is its radius? Use 3.14 for $\\pi$.',
+      'A circle has a circumference of 50.24 cm. What is its radius? Use 3.14 for \(\\pi\).',
     correctAnswer: '8 cm',
     rationale:
       'Circumference C = 2 * pi * r. So, 50.24 = 2 * 3.14 * r. 50.24 = 6.28 * r. Divide by 6.28 to find r = 8 cm.',
@@ -52,32 +52,32 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'What is the volume of a sphere with a radius of 3 inches? Use 3.14 for $\\pi$ and the formula V = $\\frac{4}{3}\\pi r^3$.',
+      'What is the volume of a sphere with a radius of 3 inches? Use 3.14 for \\(\\pi\\) and the formula \\(V = \\frac{4}{3}\\pi r^3\\).',
     answerOptions: [
       {
-        text: '37.68 inÂ³',
+        text: '37.68 in^3',
         isCorrect: false,
         rationale: 'This is the surface area of the sphere.',
       },
       {
-        text: '113.04 inÂ³',
+        text: '113.04 in^3',
         isCorrect: true,
         rationale:
-          'V = ($\\frac{4}{3}$) * 3.14 * 3Â³ = ($\\frac{4}{3}$) * 3.14 * 27 = 113.04.',
+          'V = \\(\\frac{4}{3}\\) * 3.14 * 3^3 = \\(\\frac{4}{3}\\) * 3.14 * 27 = 113.04.',
       },
       {
-        text: '254.34 inÂ³',
+        text: '254.34 in^3',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '904.32 inÂ³',
+        text: '904.32 in^3',
         isCorrect: false,
         rationale: 'This is the volume of a sphere with a much larger radius.',
       },
     ],
     rationale:
-      'Using the formula, V = ($\\frac{4}{3}$) * 3.14 * (3 inches)Â³ = ($\\frac{4}{3}$) * 3.14 * 27 = 113.04 inÂ³.',
+      'Using the formula, V = \\(\\frac{4}{3}\\) * 3.14 * (3 inches)^3 = \\(\\frac{4}{3}\\) * 3.14 * 27 = 113.04 in^3.',
     challenge_tags: ['math-5'],
   },
   {
@@ -86,9 +86,9 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'An angle measuring 45Â° is what type of angle?',
+    question: 'An angle measuring 45° is what type of angle?',
     correctAnswer: 'Acute',
-    rationale: 'An acute angle is an angle that measures less than 90Â°.',
+    rationale: 'An acute angle is an angle that measures less than 90°.',
     challenge_tags: ['math-5'],
   },
   {
@@ -106,7 +106,7 @@ module.exports = [
       {
         text: 'Perpendicular lines',
         isCorrect: true,
-        rationale: 'Perpendicular lines intersect at a 90Â° angle.',
+        rationale: 'Perpendicular lines intersect at a 90° angle.',
       },
       {
         text: 'Skew lines',
@@ -120,7 +120,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The definition of perpendicular lines is that they intersect at a right (90Â°) angle.',
+      'The definition of perpendicular lines is that they intersect at a right (90°) angle.',
     challenge_tags: ['math-5'],
   },
   {
@@ -140,7 +140,7 @@ module.exports = [
         text: '15',
         isCorrect: true,
         rationale:
-          'Using the Pythagorean theorem, $a^2 + 8^2 = 17^2$. $a^2 + 64 = 289$. $a^2 = 225$. a = 15.',
+          'Using the Pythagorean theorem, \(a^2 + 8^2 = 17^2\). \(a^2 + 64 = 289\). \(a^2 = 225\). a = 15.',
       },
       {
         text: '25',
@@ -150,11 +150,11 @@ module.exports = [
       {
         text: '225',
         isCorrect: false,
-        rationale: 'This is $a^2$ not a.',
+        rationale: 'This is \(a^2 not a.\)',
       },
     ],
     rationale:
-      'Using the Pythagorean theorem, $a^2 + b^2 = c^2$. We have $a^2 + 8^2 = 17^2$, so $a^2 + 64 = 289$. Subtract 64 from both sides: $a^2 = 225$. The square root of 225 is 15.',
+      'Using the Pythagorean theorem, \(a^2 + b^2 = c^2\). We have \(a^2 + 8^2 = 17^2\), so \(a^2 + 64 = 289\). Subtract 64 from both sides: \(a^2 = 225\). The square root of 225 is 15.',
     challenge_tags: ['math-5'],
   },
   {
@@ -164,9 +164,9 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question: 'What is the sum of the interior angles of a quadrilateral?',
-    correctAnswer: '360Â°',
+    correctAnswer: '360°',
     rationale:
-      'A quadrilateral can be divided into two triangles, and the sum of angles in each triangle is 180Â°. So, the total is 180Â° * 2 = 360Â°.',
+      'A quadrilateral can be divided into two triangles, and the sum of angles in each triangle is 180°. So, the total is 180° * 2 = 360°.',
     challenge_tags: ['math-5'],
   },
   {
@@ -223,30 +223,30 @@ module.exports = [
       'Find the area of a trapezoid with bases of 10 cm and 14 cm and a height of 5 cm.',
     answerOptions: [
       {
-        text: '60 cmÂ²',
+        text: '60 cm^2',
         isCorrect: true,
         rationale:
-          'Area = ($\\frac{1}{2}$) * (base1 + base2) * height = ($\\frac{1}{2}$) * (10 + 14) * 5 = 60.',
+          'Area = \\(\\frac{1}{2}\\) * (base1 + base2) * height = \\(\\frac{1}{2}\\) * (10 + 14) * 5 = 60.',
       },
       {
-        text: '120 cmÂ²',
+        text: '120 cm^2',
         isCorrect: false,
-        rationale: 'This omits the ($\\frac{1}{2}$) from the formula.',
+        rationale: 'This omits the \\(\\frac{1}{2}\\) from the formula.',
       },
       {
-        text: '29 cmÂ²',
+        text: '29 cm^2',
         isCorrect: false,
         rationale: 'This is the sum of the bases and the height.',
       },
       {
-        text: '70 cmÂ²',
+        text: '70 cm^2',
         isCorrect: false,
         rationale:
           'This is the result of multiplying the larger base by the height.',
       },
     ],
     rationale:
-      'The formula for the area of a trapezoid is A = $\\frac{1}{2}(b_1 + b_2)h$. So, A = $\\frac{1}{2}(10 + 14) \\times 5 = \\frac{1}{2}(24) \\times 5 = 12 \\times 5 = 60$ cm².',
+      'The formula for the area of a trapezoid is A = (1/2)(b_1 + b_2)h. So, A = (1/2)(10 + 14) * 5 = (1/2) * 24 * 5 = 60 cm^2.',
     challenge_tags: ['math-5'],
   },
   {
@@ -276,7 +276,7 @@ module.exports = [
         text: 'Right',
         isCorrect: false,
         rationale:
-          'The side lengths do not satisfy the Pythagorean theorem (5Â²+5Â² != 7Â²).',
+          'The side lengths do not satisfy the Pythagorean theorem (5^2 + 5^2 != 7^2).',
       },
     ],
     rationale:
@@ -289,32 +289,32 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'If two angles are supplementary and one angle is 110Â°, what is the measure of the other angle?',
+      'If two angles are supplementary and one angle is 110°, what is the measure of the other angle?',
     answerOptions: [
       {
-        text: '-20Â°',
+        text: '-20°',
         isCorrect: false,
         rationale: 'Angle measures cannot be negative.',
       },
       {
-        text: '20Â°',
+        text: '20°',
         isCorrect: false,
         rationale: 'This is the complement of 70.',
       },
       {
-        text: '70Â°',
+        text: '70°',
         isCorrect: true,
         rationale:
-          'Supplementary angles add up to 180Â°. So, 180Â° - 110Â° = 70Â°.',
+          'Supplementary angles add up to 180°. So, 180° - 110° = 70°.',
       },
       {
-        text: '250Â°',
+        text: '250°',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'Supplementary angles are two angles whose measures add up to 180Â°. The other angle is 180Â° - 110Â° = 70Â°.',
+      'Supplementary angles are two angles whose measures add up to 180°. The other angle is 180° - 110° = 70°.',
     challenge_tags: ['math-5'],
   },
 ];

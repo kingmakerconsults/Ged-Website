@@ -1,0 +1,132 @@
+{
+  "source": "backend/data/quizzes/index.js",
+  "scope": "premade/static runtime",
+  "datasetHash": "db71d1ed236d5429d636808c7955d50aa6d2a3b32e61387135f8c7cdfe0ac12a",
+  "summary": {
+    "totalQuestions": 3825,
+    "flaggedQuestions": 2,
+    "issueCounts": {
+      "SHORT_STEM": 1,
+      "DUPLICATE_OPTIONS": 1
+    },
+    "externalFlags": 15
+  },
+  "externalFlags": [
+    {
+      "questionRef": "reasoning_through_language_arts_rla|inference_tone_and_purpose|rla_inference_01|q11",
+      "fingerprint": "e6f6ae0a20f82ea4a9b5d355961d8c0e5c299d64d861d0695b610d9d3d0e1183",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|inference_tone_and_purpose|rla_inference_03|q7",
+      "fingerprint": "18d74e6564566b21a12aab5c99a00c4786274b68383b389351b1e5d6265e916c",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|inference_tone_and_purpose|rla_inference_03|q11",
+      "fingerprint": "ca83c833f1d435e94d3af069325295cb8cc5d9cfbb91678662da51e19278ee8a",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|inference_tone_and_purpose|rla_inference_04|q6",
+      "fingerprint": "1583349386fbc8ad5700df57307d823f9034a956735863f6c5248708292fa2cc",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|inference_tone_and_purpose|rla_inference_05|q5",
+      "fingerprint": "08bb2e04ca139ce4947fedaf7bfe3f8845b44a9e121267cde1b0c083627db957",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|inference_tone_and_purpose|rla_inference_05|q9",
+      "fingerprint": "29d64e7d0be56d6718b5d5c9e2e27444504d894a37a4a3fb2916ba9b8fef8272",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|inference_tone_and_purpose|rla_inference_06|q3",
+      "fingerprint": "bedfab9d5bfb135956b868c6cd5edf81b52db32e7c4d9560c892c680a47e7c20",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|inference_tone_and_purpose|rla_inference_07|q5",
+      "fingerprint": "cf60444414a9e1f482a3c8c08d674a817ee0fa5fa7a08e19a40ae7786c0b6fe3",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|inference_tone_and_purpose|rla_inference_09|q2",
+      "fingerprint": "06bfa6466aab0cb97713fb0f9c36c2a887ae1b7b001af0f6c6c6a44a902c6dc4",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|inference_tone_and_purpose|rla_inference_10|q2",
+      "fingerprint": "6997df571652c648ef4acad623a9f22d7abbcf9032dda83ab21647c9519ceb6f",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|rla_topics|rla_info_graphics|q2",
+      "fingerprint": "1b1db1a8bf89afc443275f5a85be3c7bdb537bb19d2e649929e085b0e32a6355",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|rla_topics|rla_info_graphics|q4",
+      "fingerprint": "47b77aeaad0b5234ad5f6f7367c600b7ac1f1c8653bb2511697bbbd37a16dd0a",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|rla_topics|rla_info_graphics|q5",
+      "fingerprint": "e1322d5dec39bf6876d4277c38c62b44a879fcf84b3a6e28280e1eb058741376",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|rla_topics|rla_info_graphics|q7",
+      "fingerprint": "3c7b793e28a274a504fcdeb70df0766070fb2223728ab1758b94c424b9a97cfa",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    },
+    {
+      "questionRef": "reasoning_through_language_arts_rla|rla_topics|rla_info_graphics|q8",
+      "fingerprint": "d2fad92bb92213173e25954b1432d158d62f3d6e3cdb6ce4ce3c622b6e50fc11",
+      "sourceReport": "reports/rla_filler_mismatch_review_1768974101542.json",
+      "reason": "RLA_FILLER_MISMATCH_REVIEW"
+    }
+  ],
+  "reviewItems": [
+    {
+      "questionRef": "math|algebra_linear_equations|math_algebra_04|q12",
+      "fingerprint": "cf6c5d4039248e713f343c83e2ca76af74cfb60a436e6408e7e22e3a66198d8b",
+      "subject": "Math",
+      "category": "Algebra & Linear Equations",
+      "topicId": "math_algebra_04",
+      "topicTitle": "Algebra & Linear Equations: Quiz 4",
+      "questionIndex": 12,
+      "issues": [
+        "SHORT_STEM"
+      ]
+    },
+    {
+      "questionRef": "social_studies|image_based_practice|social_studies_img_history_maps|q4",
+      "fingerprint": "1896878963f2fc7cc9c9c184c01eed1916b92caef4d2a969a66400bd9fe586f3",
+      "subject": "Social Studies",
+      "category": "Image Based Practice",
+      "topicId": "social_studies_img_history_maps",
+      "topicTitle": "history-maps Visual Practice",
+      "questionIndex": 4,
+      "issues": [
+        "DUPLICATE_OPTIONS"
+      ]
+    }
+  ]
+}

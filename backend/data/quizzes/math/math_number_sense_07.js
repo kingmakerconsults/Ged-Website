@@ -93,31 +93,32 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'What is the improper fraction equivalent of $3\\frac{2}{5}$?',
+    question:
+      'What is the improper fraction equivalent of \\(3 \\frac{2}{5}\\)?',
     answerOptions: [
       {
-        text: '$\\frac{10}{5}$',
+        text: '\\(\\frac{10}{5}\\)',
         isCorrect: false,
         rationale: 'This is equal to 2.',
       },
       {
-        text: '$\\frac{17}{5}$',
+        text: '\\(\\frac{17}{5}\\)',
         isCorrect: true,
-        rationale: '(3 * 5 + 2) / 5 = $\\frac{17}{5}$.',
+        rationale: '(3 * 5 + 2) / 5 = \\(\\frac{17}{5}\\).',
       },
       {
-        text: '$\\frac{6}{5}$',
+        text: '\\(\\frac{6}{5}\\)',
         isCorrect: false,
-        rationale: 'This is 3*$\\frac{2}{5}$.',
+        rationale: 'This is 3*\\(\\frac{2}{5}\\).',
       },
       {
-        text: '$\\frac{32}{5}$',
+        text: '\\(\\frac{32}{5}\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'To convert a mixed number to an improper fraction, multiply the whole number by the denominator, add the numerator, and keep the same denominator: (3 * 5 + 2) / 5 = $\\frac{17}{5}$.',
+      'To convert a mixed number to an improper fraction, multiply the whole number by the denominator, add the numerator, and keep the same denominator: (3 * 5 + 2) / 5 = \\(\\frac{17}{5}\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -161,7 +162,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'What is the least common denominator for the fractions $\\frac{1}{6}$ and $\\frac{3}{8}$?',
+      'What is the least common denominator for the fractions \\(\\frac{1}{6}\\) and \\(\\frac{3}{8}\\)?',
     correctAnswer: '24',
     rationale:
       'The least common denominator is the least common multiple (LCM) of the denominators 6 and 8. The LCM of 6 and 8 is 24.',
@@ -218,7 +219,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'What is $\\sqrt{144}$?',
+    question: 'What is \\(\\sqrt{144}\\)?',
     answerOptions: [
       {
         text: '10',
@@ -238,7 +239,7 @@ module.exports = [
       {
         text: '72',
         isCorrect: false,
-        rationale: 'This is $\\frac{144}{2}$.',
+        rationale: 'This is \\(\\frac{144}{2}\\).',
       },
     ],
     rationale:
@@ -251,32 +252,33 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'You have \\frac{3}{4} of a pizza left. If you eat 1/3 of the leftover pizza, what fraction of the original pizza did you eat?',
+      'You have \\(\\frac{3}{4}\\) of a pizza left. If you eat \\(\\frac{1}{3}\\) of the leftover pizza, what fraction of the original pizza did you eat?',
     answerOptions: [
       {
-        text: '$\\frac{1}{4}$',
+        text: '\\(\\frac{1}{4}\\)',
         isCorrect: true,
         rationale:
-          'You ate $\\frac{1}{3}$ of $\\frac{3}{4}$, which is ($\\frac{1}{3}$) * ($\\frac{3}{4}$) = $\\frac{3}{12}$ = $\\frac{1}{4}$.',
+          'You ate \\(\\frac{1}{3}\\) of \\(\\frac{3}{4}\\), which is \\(\\frac{1}{3}\\) * \\(\\frac{3}{4}\\) = \\(\\frac{3}{12}\\) = \\(\\frac{1}{4}\\).',
       },
       {
-        text: '$\\frac{1}{3}$',
+        text: '\\(\\frac{1}{3}\\)',
         isCorrect: false,
         rationale: 'This is the fraction of the leftover pizza you ate.',
       },
       {
-        text: '$\\frac{5}{12}$',
+        text: '\\(\\frac{5}{12}\\)',
         isCorrect: false,
-        rationale: 'This is the result of $\\frac{3}{4}$ - $\\frac{1}{3}$.',
+        rationale:
+          'This is the result of \\(\\frac{3}{4}\\) - \\(\\frac{1}{3}\\).',
       },
       {
-        text: '$\\frac{1}{2}$',
+        text: '\\(\\frac{1}{2}\\)',
         isCorrect: false,
         rationale: "This is what's left after you ate.",
       },
     ],
     rationale:
-      'To find the fraction of the original pizza you ate, you need to calculate $\\frac{1}{3}$ of $\\frac{3}{4}$. This is a multiplication problem: $\\frac{1}{3} \\times \\frac{3}{4} = \\frac{3}{12}$, which simplifies to $\\frac{1}{4}$.',
+      'To find the fraction of the original pizza you ate, you need to calculate \\(\\frac{1}{3}\\) of \\(\\frac{3}{4}\\). This is a multiplication problem: \\(\\frac{1}{3}\\) \\times \\(\\frac{3}{4}\\) = \\(\\frac{3}{12}\\), which simplifies to \\(\\frac{1}{4}\\).',
     challenge_tags: ['math-1'],
   },
   {

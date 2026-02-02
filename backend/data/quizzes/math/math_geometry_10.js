@@ -7,28 +7,28 @@ module.exports = [
     question: 'What is the area of a square with a side length of 9 meters?',
     answerOptions: [
       {
-        text: '18 $m^2$',
+        text: '18 \(m^2\)',
         isCorrect: false,
         rationale: 'This is the sum of two sides.',
       },
       {
-        text: '36 $m^2$',
+        text: '36 \(m^2\)',
         isCorrect: false,
         rationale: 'This is the perimeter.',
       },
       {
-        text: '81 $m^2$',
+        text: '81 \(m^2\)',
         isCorrect: true,
         rationale: 'Area = 9 * 9 = 81.',
       },
       {
-        text: '90 $m^2$',
+        text: '90 \(m^2\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'The area of a square is the side length multiplied by itself. Area = 9 m * 9 m = 81 $m^2$.',
+      'The area of a square is the side length multiplied by itself. Area = 9 m * 9 m = 81 \(m^2\).',
     challenge_tags: ['math-5'],
   },
   {
@@ -38,7 +38,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A circle has a circumference of 31.4 inches. What is its radius? Use 3.14 for $\\pi$.',
+      'A circle has a circumference of 31.4 inches. What is its radius? Use 3.14 for \(\\pi\).',
     correctAnswer: '5 inches',
     rationale:
       'C = 2 * pi * r. 31.4 = 2 * 3.14 * r. 31.4 = 6.28 * r. r = 31.4 / 6.28 = 5.',
@@ -70,7 +70,7 @@ module.exports = [
       {
         text: '30 feet',
         isCorrect: false,
-        rationale: 'This is $\\frac{300}{10}$.',
+        rationale: 'This is \(\\(\frac{300}{10}\)\).',
       },
     ],
     rationale:
@@ -83,11 +83,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question:
-      'A triangle has angles of 20Â° and 80Â°. What is the third angle?',
-    correctAnswer: '80Â°',
+    question: 'A triangle has angles of 20° and 80°. What is the third angle?',
+    correctAnswer: '80°',
     rationale:
-      'The sum of the angles in a triangle is 180Â°. 180 - 20 - 80 = 80Â°.',
+      'The sum of the angles in a triangle is 180°. 180 - 20 - 80 = 80°.',
     challenge_tags: ['math-5'],
   },
   {
@@ -128,7 +127,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A wheel has a radius of 1 foot. How many feet does it travel in 10 rotations? Use 3.14 for $\\pi$.',
+      'A wheel has a radius of 1 foot. How many feet does it travel in 10 rotations? Use 3.14 for \(\\pi\).',
     answerOptions: [
       {
         text: '31.4 feet',
@@ -180,7 +179,7 @@ module.exports = [
       {
         text: '20',
         isCorrect: true,
-        rationale: '12Â² + 16Â² = 144 + 256 = 400. sqrt(400) = 20.',
+        rationale: '12^2 + 16^2 = 144 + 256 = 400. sqrt(400) = 20.',
       },
       {
         text: '28',
@@ -199,7 +198,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Using the Pythagorean theorem ($a^2 + b^2 = c^2$), we have $12^2 + 16^2 = c^2$. This becomes $144 + 256 = 400$. So, $c = \\sqrt{400} = 20$.',
+      'Using the Pythagorean theorem (\(a^2 + b^2 = c^2\)), we have \(12^2 + 16^2 = c^2\). This becomes \(144 + 256 = 400\). So, \(c = \\(\sqrt{400}\)\) = 20.',
     challenge_tags: ['math-5'],
   },
   {
@@ -209,9 +208,9 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A cylindrical tank is 10 feet tall and has a radius of 3 feet. What is its volume? Use 3.14 for $\\pi$.',
+      'A cylindrical tank is 10 feet tall and has a radius of 3 feet. What is its volume? Use 3.14 for \(\\pi\).',
     correctAnswer: '282.6 cubic feet',
-    rationale: 'Volume = pi * rÂ² * h = 3.14 * 3Â² * 10 = 282.6.',
+    rationale: 'Volume = pi * r^2 * h = 3.14 * 3^2 * 10 = 282.6.',
     challenge_tags: ['math-5'],
   },
   {
@@ -271,7 +270,7 @@ module.exports = [
       {
         text: 'Complementary',
         isCorrect: false,
-        rationale: 'They do not necessarily add to 90Â°.',
+        rationale: 'They do not necessarily add to 90°.',
       },
       {
         text: 'Unequal',
@@ -300,12 +299,12 @@ module.exports = [
         text: '12 units',
         isCorrect: true,
         rationale:
-          '100 = ($\\frac{1}{2}$)(8+b2)*10. 100 = 5(8+b2). 20 = 8+b2. b2 = 12.',
+          '100 = (\(\\(\frac{1}{2}\)\))(8+b2)*10. 100 = 5(8+b2). 20 = 8+b2. b2 = 12.',
       },
       {
         text: '20 units',
         isCorrect: false,
-        rationale: 'This is $\\frac{100}{5}$.',
+        rationale: 'This is \(\\(\frac{100}{5}\)\).',
       },
       {
         text: '28 units',
@@ -314,7 +313,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Using the area formula for a trapezoid, A = $\\frac{1}{2}(b_1 + b_2)h$. We have 100 = $\\frac{1}{2}(8 + b_2) \\times 10$. 100 = $5(8 + b_2)$. 20 = $8 + b_2$. So, $b_2 = 12$ units.',
+      'Using the area formula for a trapezoid, A = \(\\(\frac{1}{2}\)\)(b_1 + b_2)h\). We have 100 = \(\\(\frac{1}{2}\)\)(8 + b_2) \\(\times10\). 100 = \(5(8 + b_2). 20 =  8 + b_2. So, \(b_2 = 12 units.\)',
     challenge_tags: ['math-5'],
   },
 ];

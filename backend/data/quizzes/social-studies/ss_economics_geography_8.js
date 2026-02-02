@@ -230,7 +230,7 @@ module.exports = [
     "questionNumber": 8,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "Country A: Imports $50 billion, Exports $70 billion\nCountry B: Imports $80 billion, Exports $60 billion",
+    "passage": "Country A: Imports \(50 billion, Exports \)70 billion\nCountry B: Imports \(80 billion, Exports \)60 billion",
     "question": "Based on the data provided, which statement is correct?",
     "answerOptions": [
       {

@@ -311,7 +311,7 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "A statement noting that the bike lanes cost $400,000 to build.",
+        "text": "A statement noting that the bike lanes cost \(400,000 to build.",
         "rationale": "Cost information may be relevant to budgeting but does not address the revenue claim.",
         "isCorrect": false
       }
@@ -356,7 +356,7 @@ module.exports = [
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "An environmental group responds to critics who say the city's tree-planting initiative wastes money. The group points out that utility data show summer energy use dropped 8% on tree-lined blocks, asthma-related ER visits fell by 15% in the same neighborhoods, and maintenance costs average only $30 per tree annually.",
+    "passage": "An environmental group responds to critics who say the city's tree-planting initiative wastes money. The group points out that utility data show summer energy use dropped 8% on tree-lined blocks, asthma-related ER visits fell by 15% in the same neighborhoods, and maintenance costs average only \)30 per tree annually.",
     "question": "Which detail most directly counters the critics' claim that the tree program is a waste of money?",
     "answerOptions": [
       {

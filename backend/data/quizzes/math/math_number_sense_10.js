@@ -36,10 +36,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'What is $\\frac{2}{5}$ of 40?',
+    question: 'What is \(\\(\frac{2}{5}\) of 40?\)',
     correctAnswer: '16',
     rationale:
-      'To find the fraction of a number, multiply the number by the fraction. ($\\frac{2}{5}$) * 40 = $\\frac{80}{5}$ = 16.',
+      'To find the fraction of a number, multiply the number by the fraction. (\(\\(\frac{2}{5}\)\)) * 40 = \(\\(\frac{80}{5}\)\) = 16.',
     challenge_tags: ['math-1'],
   },
   {
@@ -48,32 +48,32 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'The price of a concert ticket is $110. A 10% service fee is added. What is the total cost?',
+      'The price of a concert ticket is \(110. A 10% service fee is added. What is the total cost?',
     answerOptions: [
       {
-        text: '$11',
+        text: '11',
         isCorrect: false,
         rationale: 'This is the fee amount.',
       },
       {
-        text: '$121',
+        text: '\(121\)',
         isCorrect: true,
         rationale:
-          'The fee is 0.10 * $110 = $11. Total cost = $110 + $11 = $121.',
+          'The fee is 0.10 * \)110 = \(11. Total cost = \)110 + \(11 = 121.',
       },
       {
-        text: '$120',
+        text: '\(120\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '$99',
+        text: '99',
         isCorrect: false,
         rationale: 'This is a 10% discount.',
       },
     ],
     rationale:
-      'First, calculate the service fee: 10% of $110 is 0.10 * 110 = $11. Then, add this to the ticket price: $110 + $11 = $121.',
+      'First, calculate the service fee: 10% of \)110 is 0.10 * 110 = \(11. Then, add this to the ticket price: \)110 + \(11 = \)121.',
     challenge_tags: ['math-1'],
   },
   {
@@ -82,10 +82,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Evaluate: $2 \\times (3+4)^2$.',
+    question: 'Evaluate: \(2 \\(\times\) (3+4)^2\).',
     correctAnswer: '98',
     rationale:
-      'Order of operations: Parentheses (3+4=7), Exponents ($7^2$=49), Multiplication (2*49=98).',
+      'Order of operations: Parentheses (3+4=7), Exponents (\(7^2\)=49), Multiplication (2*49=98).',
     challenge_tags: ['math-1'],
   },
   {
@@ -126,22 +126,22 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "A company's profits increased from $300,000 to $360,000. What was the percent increase?",
+      "A company's profits increased from \(300,000 to  360,000. What was the percent increase?\)",
     answerOptions: [
       {
         text: '15%',
         isCorrect: false,
-        rationale: 'This would be an increase of $45,000.',
+        rationale: 'This would be an increase of 45,000.',
       },
       {
         text: '20%',
         isCorrect: true,
-        rationale: 'The increase was $60,000. (60,000 / 300,000) * 100 = 20%.',
+        rationale: 'The increase was \(60,000. (60,000 / 300,000) * 100 = 20%.\)',
       },
       {
         text: '25%',
         isCorrect: false,
-        rationale: 'This would be an increase of $75,000.',
+        rationale: 'This would be an increase of 75,000.',
       },
       {
         text: '60%',
@@ -216,23 +216,23 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'What is the result of $\\frac{3}{4} + \\frac{1}{8}$?',
+    question: 'What is the result of \(\\(\frac{3}{4}\)\) + \\(\frac{1}{8}\)?',
     answerOptions: [
       {
-        text: '$\\frac{1}{2}$',
+        text: '\(\\(\frac{1}{2}\)\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '$\\frac{5}{8}$',
+        text: '\(\\(\frac{5}{8}\)\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '$\\frac{7}{8}$',
+        text: '\(\\(\frac{7}{8}\)\)',
         isCorrect: true,
         rationale:
-          'The common denominator is 8. $\\frac{3}{4}$ = $\\frac{6}{8}$. $\\frac{6}{8}$ + $\\frac{1}{8}$ = $\\frac{7}{8}$.',
+          'The common denominator is 8. \(\\(\frac{3}{4}\)\)\( = \)\\(\frac{6}{8}\)\(. \)\\(\frac{6}{8}\)\( + \)\\(\frac{1}{8}\)\( = \)\\(\frac{7}{8}\).',
       },
       {
         text: '1',
@@ -241,7 +241,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To add the fractions, find a common denominator, which is 8. Convert $\\frac{3}{4}$ to $\\frac{6}{8}$. Then add: $\\frac{6}{8} + \\frac{1}{8} = \\frac{7}{8}$.',
+      'To add the fractions, find a common denominator, which is 8. Convert \(\\(\frac{3}{4}\)\)\( to \)\\(\frac{6}{8}\)\(. Then add: \)\\(\frac{6}{8}\) + \\(\frac{1}{8}\) = \\(\frac{7}{8}\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -250,31 +250,31 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'An account with $4000 earns 5% compound interest annually. What will be the balance after 2 years?',
+      'An account with 4000 earns 5% compound interest annually. What will be the balance after 2 years?',
     answerOptions: [
       {
-        text: '$4200',
+        text: '\(4200\)',
         isCorrect: false,
         rationale: 'This is the balance after one year.',
       },
       {
-        text: '$4400',
+        text: '4400',
         isCorrect: false,
         rationale: 'This is simple interest for two years.',
       },
       {
-        text: '$4410',
+        text: '\(4410\)',
         isCorrect: true,
         rationale: 'Year 1: 4000*1.05=4200. Year 2: 4200*1.05=4410.',
       },
       {
-        text: '$4500',
+        text: '4500',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'This is a compound interest problem. After year 1, the balance is $4000 * 1.05 = $4200. After year 2, the balance is $4200 * 1.05 = $4410.',
+      'This is a compound interest problem. After year 1, the balance is \(4000 * 1.05 =  4200. After year 2, the balance is \(4200 * 1.05 =  4410.\)\)',
     challenge_tags: ['math-1'],
   },
   {
@@ -282,7 +282,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Evaluate: $|-3| \\times |4 - 9|$.',
+    question: 'Evaluate: \(|-3| \\(\times\) |4 - 9|\).',
     answerOptions: [
       {
         text: '-15',

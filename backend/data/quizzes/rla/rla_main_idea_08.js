@@ -132,7 +132,7 @@ module.exports = [
     "questionNumber": 5,
     "type": "multipleChoice",
     "difficulty": "easy",
-    "passage": "An internal memo describes the results of a three-month remote-work pilot at Jasper Design. The memo notes that 60 percent of employees participated, the company saved $4,500 in utility bills, and customer response times stayed at under two hours. It concludes by recommending that staff be allowed to work from home twice per week.",
+    "passage": "An internal memo describes the results of a three-month remote-work pilot at Jasper Design. The memo notes that 60 percent of employees participated, the company saved \(4,500 in utility bills, and customer response times stayed at under two hours. It concludes by recommending that staff be allowed to work from home twice per week.",
     "question": "What is the main point of the memo?",
     "answerOptions": [
       {
@@ -141,7 +141,7 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Utility bills were reduced by $4,500 while some employees worked remotely.",
+        "text": "Utility bills were reduced by \)4,500 while some employees worked remotely.",
         "rationale": "This supports the memo's claim but does not express the central message.",
         "isCorrect": false
       },

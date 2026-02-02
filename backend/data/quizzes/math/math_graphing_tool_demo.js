@@ -65,9 +65,9 @@ module.exports = [
         rationale: '-1 is the y-intercept, not the slope.',
       },
       {
-        text: '$\\frac{1}{2}$',
+        text: '\(\\(\frac{1}{2}\)\)',
         isCorrect: false,
-        rationale: 'The slope is 2, not $\\frac{1}{2}$.',
+        rationale: 'The slope is 2, not \(\\(\frac{1}{2}\)\).',
       },
       {
         text: '-2',
@@ -168,19 +168,19 @@ module.exports = [
       {
         text: '2',
         isCorrect: true,
-        rationale: 'Slope = (9−3)/(5−2) = $\\frac{6}{3}$ = 2.',
+        rationale: 'Slope = (9−3)/(5−2) = \(\\(\frac{6}{3}\)\) = 2.',
       },
       {
-        text: '$\\frac{3}{2}$',
+        text: '\(\\(\frac{3}{2}\)\)',
         isCorrect: false,
         rationale:
-          'Swapped rise/run; correct is $\\frac{6}{3}$, not $\\frac{3}{2}$.',
+          'Swapped rise/run; correct is \(\\(\frac{6}{3}\)\), not \(\\(\frac{3}{2}\)\).',
       },
       {
-        text: '$\\frac{1}{2}$',
+        text: '\(\\(\frac{1}{2}\)\)',
         isCorrect: false,
         rationale:
-          'This would be $\\frac{3}{6}$, but rise/run is $\\frac{6}{3}$.',
+          'This would be \(\\(\frac{3}{6}\)\), but rise/run is \(\\(\frac{6}{3}\)\).',
       },
       {
         text: '-2',
@@ -224,26 +224,26 @@ module.exports = [
     type: 'multipleChoice',
     difficulty: 'medium',
     question:
-      'Which equation represents a line parallel to y = −($\\frac{1}{3}$)x + 2 and passing through (0, 5)?',
+      'Which equation represents a line parallel to y = −(\(\\(\frac{1}{3}\)\))x + 2 and passing through (0, 5)?',
     answerOptions: [
       {
-        text: 'y = −($\\frac{1}{3}$)x + 5',
+        text: 'y = −(\(\\(\frac{1}{3}\)\))x + 5',
         isCorrect: true,
         rationale:
-          'Parallel lines have the same slope (−$\\frac{1}{3}$) and (0,5) implies b=5.',
+          'Parallel lines have the same slope (−\(\\(\frac{1}{3}\)\)) and (0,5) implies b=5.',
       },
       {
-        text: 'y = ($\\frac{1}{3}$)x + 5',
+        text: 'y = (\(\\(\frac{1}{3}\)\))x + 5',
         isCorrect: false,
         rationale: 'This has the opposite slope; not parallel.',
       },
       {
         text: 'y = −3x + 5',
         isCorrect: false,
-        rationale: 'Slope −3 is not equal to −$\\frac{1}{3}$.',
+        rationale: 'Slope −3 is not equal to −\(\\(\frac{1}{3}\)\).',
       },
       {
-        text: 'y = −($\\frac{1}{3}$)x − 5',
+        text: 'y = −(\(\\(\frac{1}{3}\)\))x − 5',
         isCorrect: false,
         rationale: 'This crosses the y-axis at −5, not at 5.',
       },
@@ -258,10 +258,10 @@ module.exports = [
       'A line is perpendicular to y = 2x + 1 and has a y-intercept of 3. Which is its equation?',
     answerOptions: [
       {
-        text: 'y = −($\\frac{1}{2}$)x + 3',
+        text: 'y = −(\(\\(\frac{1}{2}\)\))x + 3',
         isCorrect: true,
         rationale:
-          'Perpendicular slope is the negative reciprocal of 2, which is −$\\frac{1}{2}$.',
+          'Perpendicular slope is the negative reciprocal of 2, which is −\(\\(\frac{1}{2}\)\).',
       },
       {
         text: 'y = 2x + 3',
@@ -269,7 +269,7 @@ module.exports = [
         rationale: 'This would be parallel, not perpendicular.',
       },
       {
-        text: 'y = ($\\frac{1}{2}$)x + 3',
+        text: 'y = (\(\\(\frac{1}{2}\)\))x + 3',
         isCorrect: false,
         rationale: 'Reciprocal is correct but sign must be negative.',
       },
@@ -349,10 +349,10 @@ module.exports = [
       {
         text: '2',
         isCorrect: true,
-        rationale: 'Using any two points: slope = (5-1)/(2-0) = 4/2 = 2.',
+        rationale: 'Using any two points: slope = (5-1)/(2-0) = \(\(\frac{4}{2}\)\) = 2.',
       },
       {
-        text: '$\\frac{1}{2}$',
+        text: '\(\\(\frac{1}{2}\)\)',
         isCorrect: false,
         rationale: 'This is the reciprocal of the correct slope.',
       },
@@ -410,7 +410,7 @@ module.exports = [
         text: 'y = −2x − 3',
         isCorrect: true,
         rationale:
-          'Slope = (−11−1)/(4−(−2)) = −$\\frac{12}{6}$ = −2; solve b with 1 = −2(−2) + b ⇒ b = −3.',
+          'Slope = (−11−1)/(4−(−2)) = −\(\\(\frac{12}{6}\)\) = −2; solve b with 1 = −2(−2) + b ⇒ b = −3.',
       },
       {
         text: 'y = −2x + 3',

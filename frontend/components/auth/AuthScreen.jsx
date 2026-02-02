@@ -18,24 +18,16 @@ const API_BASE_URL = (() => {
 
 export function AuthScreen({ onLogin }) {
   const googleButton = useRef(null);
-  const [mode, setMode] = useState('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [devRole, setDevRole] = useState('superAdmin');
-  const [formError, setFormError] = useState(null);
-  const [formMessage, setFormMessage] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
+  const [devSubmitting, setDevSubmitting] = useState(false);
 
   // Dev login handler
   const handleDevLogin = async () => {
     try {
-      setSubmitting(true);
-      setFormError(null);
-      setFormMessage(`Attempting dev login as ${devRole}…`);
+      setDevSubmitting(true);
       const response = await fetch(`${API_BASE_URL}/api/dev-login-as`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // Request the selected role via dev bypass
         body: JSON.stringify({ role: devRole }),
       });
 
@@ -46,12 +38,11 @@ export function AuthScreen({ onLogin }) {
 
       const { user, token } = await response.json();
       onLogin(user, token);
-      setFormMessage('Dev login successful. Redirecting…');
     } catch (error) {
       console.error('Dev login error:', error);
-      setFormError(error instanceof Error ? error.message : 'Dev login failed');
+      alert(error instanceof Error ? error.message : 'Dev login failed');
     } finally {
-      setSubmitting(false);
+      setDevSubmitting(false);
     }
   };
 
@@ -117,68 +108,7 @@ export function AuthScreen({ onLogin }) {
     };
   }, [handleCredentialResponse]);
 
-  const modeLabel = mode === 'login' ? 'Log In' : 'Register';
-
-  const toggleMode = () => {
-    setMode((prev) => (prev === 'login' ? 'register' : 'login'));
-    setFormError(null);
-    setFormMessage(null);
-    setPassword('');
-  };
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    setFormError(null);
-    setFormMessage(null);
-
-    if (!email.trim() || !password.trim()) {
-      setFormError('Email and password are required');
-      return;
-    }
-
-    setSubmitting(true);
-
-    try {
-      const endpoint = mode === 'login' ? '/api/login' : '/api/register';
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: email.trim(), password }),
-      });
-
-      let body = {};
-      try {
-        body = await response.json();
-      } catch (err) {
-        body = {};
-      }
-
-      if (!response.ok) {
-        throw new Error(body?.error || 'Unable to complete request');
-      }
-
-      if (body?.user && body?.token) {
-        onLogin(body.user, body.token);
-        setEmail('');
-        setPassword('');
-      } else {
-        setFormMessage(body?.message || 'Success. You can now sign in.');
-        if (mode === 'register') {
-          setMode('login');
-        }
-      }
-    } catch (error) {
-      setFormError(
-        error instanceof Error ? error.message : 'Unable to complete request'
-      );
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  console.log('[AuthScreen] Rendering with dev login button');
+  console.log('[AuthScreen] Rendering with Gmail login');
 
   return (
     <>
@@ -189,85 +119,20 @@ export function AuthScreen({ onLogin }) {
         <p className="text-black dark:text-slate-300 mb-6">
           Sign in to save your progress across devices.
         </p>
-        <form
-          onSubmit={handleFormSubmit}
-          className="bg-white dark:bg-slate-900/80 rounded-2xl shadow-md p-6 text-left space-y-4 border border-transparent dark:border-slate-700/60"
+
+        {/* Dev Login Section */}
+        <div
+          className="mt-4 w-full mb-6 p-4 border border-purple-200 dark:border-purple-700 rounded-lg bg-purple-50 dark:bg-purple-900/20"
+          data-testid="dev-login-container"
         >
-          <div>
-            <label
-              htmlFor="auth-email"
-              className="block text-sm font-medium text-slate-900 dark:text-slate-300"
-            >
-              Email
-            </label>
-            <input
-              id="auth-email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-sky-400 dark:focus:ring-sky-500"
-              autoComplete="email"
-              placeholder="you@example.com"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="auth-password"
-              className="block text-sm font-medium text-slate-900 dark:text-slate-300"
-            >
-              Password
-            </label>
-            <input
-              id="auth-password"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-700 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-sky-400 dark:focus:ring-sky-500"
-              autoComplete={
-                mode === 'login' ? 'current-password' : 'new-password'
-              }
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-          {formError && <p className="text-sm text-red-600">{formError}</p>}
-          {formMessage && (
-            <p className="text-sm text-green-600">{formMessage}</p>
-          )}
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full rounded-lg bg-sky-600 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700 disabled:opacity-60"
-          >
-            {submitting ? 'Please wait…' : modeLabel}
-          </button>
-        </form>
-        <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">
-          {mode === 'login' ? 'Need an account?' : 'Already have an account?'}{' '}
-          <button
-            type="button"
-            onClick={toggleMode}
-            className="font-semibold text-sky-600 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200"
-          >
-            {mode === 'login' ? 'Register' : 'Log in'}
-          </button>
-        </p>
-        <div className="my-6 flex items-center justify-center gap-3 text-xs uppercase tracking-wide text-slate-400 dark:text-slate-500">
-          <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
-          <span>Or continue with</span>
-          <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
-        </div>
-        {/* Dev Login Button - MUST BE VISIBLE */}
-        <div className="mt-4 w-full" data-testid="dev-login-container">
-          <label className="mb-1 block text-xs font-semibold text-slate-600 dark:text-slate-300">
+          <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">
             Dev role
           </label>
           <div className="flex gap-2">
             <select
               value={devRole}
               onChange={(event) => setDevRole(event.target.value)}
-              className="w-1/2 rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-purple-400 dark:focus:ring-purple-500"
+              className="dev-role-select w-1/2 rounded-lg border border-slate-300 px-3 py-2 text-sm text-black shadow-sm focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-purple-400 dark:focus:ring-purple-500"
             >
               {DEV_ROLES.map((roleOption) => (
                 <option key={roleOption.value} value={roleOption.value}>
@@ -278,13 +143,20 @@ export function AuthScreen({ onLogin }) {
             <button
               type="button"
               onClick={handleDevLogin}
-              className="w-1/2 rounded-lg bg-purple-600 py-3 text-base font-bold text-white shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300"
+              disabled={devSubmitting}
+              className="w-1/2 rounded-lg bg-purple-600 py-3 text-base font-bold text-white shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300 disabled:opacity-60"
               data-testid="dev-login-button"
               style={{ minHeight: '48px' }}
             >
-              🚀 DEV LOGIN BYPASS 🚀
+              🚀 DEV LOGIN 🚀
             </button>
           </div>
+        </div>
+
+        <div className="my-6 flex items-center justify-center gap-3 text-xs uppercase tracking-wide text-slate-400 dark:text-slate-500">
+          <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
+          <span>Sign in</span>
+          <span className="h-px w-12 bg-slate-200" aria-hidden="true"></span>
         </div>
 
         <div ref={googleButton} className="flex justify-center mt-4"></div>

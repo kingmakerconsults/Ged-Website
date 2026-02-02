@@ -1,0 +1,64 @@
+{
+  "generatedAt": "2026-01-26T00:00:00.000Z",
+  "entries": [
+    {
+      "timestamp": "2026-01-26T00:00:00.000Z",
+      "phase": "Remediation",
+      "category": "syntax_fix",
+      "files": [
+        "backend/data/quizzes/social-studies/ss_us_hist_revolution_quiz1.js",
+        "backend/data/quizzes/rla/rla_info_structure_purpose.js"
+      ],
+      "actions": [
+        "Inserted missing comma between question objects in ss_us_hist_revolution_quiz1.js.",
+        "Replaced invalid smart-quote sequence in RLA passage strings and normalized missing space in 'intermittency it'."
+      ],
+      "notes": "Fixes restore valid JS parsing for admin-source audits."
+    },
+    {
+      "timestamp": "2026-01-27T03:25:17.617Z",
+      "phase": "Remediation",
+      "category": "katex_inline_wrap",
+      "files": ["backend/data/quizzes"],
+      "actions": [
+        "Converted inline $...$ math to \\(...\\) in backend quiz sources (currency-only cases skipped).",
+        "Report: reports/phase5_katex_fixes.json"
+      ],
+      "notes": "93 files updated; 2,580 inline replacements applied."
+    },
+    {
+      "timestamp": "2026-01-27T03:28:24.242Z",
+      "phase": "Remediation",
+      "category": "katex_bare_wrap_currency",
+      "files": ["backend/data/quizzes"],
+      "actions": [
+        "Wrapped bare \\frac{..}{..} and \\sqrt{..} in \\(...\\) when not already wrapped.",
+        "Converted $5$-style currency math to plain currency ($5).",
+        "Report: reports/phase5_math_wrap_fixes.json"
+      ],
+      "notes": "14 files updated; 12 wrap fixes, 9 currency fixes."
+    },
+    {
+      "timestamp": "2026-01-27T03:30:37.547Z",
+      "phase": "Remediation",
+      "category": "katex_inline_remaining",
+      "files": ["backend/data/quizzes/math/math_quant_basics.js"],
+      "actions": [
+        "Converted remaining inline $...$ math to \\(...\\).",
+        "Report: reports/phase5_math_symbol_fixes.json"
+      ],
+      "notes": "1 file updated; 5 inline conversions."
+    },
+    {
+      "timestamp": "2026-01-27T03:32:05.176Z",
+      "phase": "Remediation",
+      "category": "katex_bare_wrap_macro",
+      "files": ["backend/data/quizzes"],
+      "actions": [
+        "Wrapped bare \\frac/\\sqrt/\\times/\\div tokens not already inside \\(...\\).",
+        "Report: reports/phase5_math_wrap_fixes.json"
+      ],
+      "notes": "6 files updated; 44 wrap fixes."
+    }
+  ]
+}

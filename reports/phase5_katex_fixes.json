@@ -1,0 +1,141 @@
+{
+  "generatedAt": "2026-01-29T15:02:42.407Z",
+  "root": "backend/data/quizzes",
+  "filesScanned": 397,
+  "filesChanged": 33,
+  "totalReplacements": 199,
+  "changes": [
+    {
+      "file": "backend/data/quizzes/math/math_algebra_03.js",
+      "replacements": 7
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_04.js",
+      "replacements": 2
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_07.js",
+      "replacements": 7
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geom_basics.js",
+      "replacements": 1
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_02.js",
+      "replacements": 2
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_04.js",
+      "replacements": 2
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_05.js",
+      "replacements": 1
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_10.js",
+      "replacements": 1
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_01.js",
+      "replacements": 8
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_02.js",
+      "replacements": 7
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_03.js",
+      "replacements": 13
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_04.js",
+      "replacements": 9
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_05.js",
+      "replacements": 5
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_07.js",
+      "replacements": 9
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_08.js",
+      "replacements": 7
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_09.js",
+      "replacements": 5
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_10.js",
+      "replacements": 5
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_11.js",
+      "replacements": 4
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_12.js",
+      "replacements": 2
+    },
+    {
+      "file": "backend/data/quizzes/math/math_quant_ratios_percents.js",
+      "replacements": 9
+    },
+    {
+      "file": "backend/data/quizzes/math/math_quant_stats_probability.js",
+      "replacements": 3
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_01.js",
+      "replacements": 14
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_02.js",
+      "replacements": 8
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_03.js",
+      "replacements": 10
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_04.js",
+      "replacements": 7
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_05.js",
+      "replacements": 9
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_06.js",
+      "replacements": 4
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_07.js",
+      "replacements": 8
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_08.js",
+      "replacements": 10
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_09.js",
+      "replacements": 5
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_10.js",
+      "replacements": 5
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_11.js",
+      "replacements": 2
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_12.js",
+      "replacements": 8
+    }
+  ]
+}

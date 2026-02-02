@@ -49,13 +49,13 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'What is the equation of a line with slope 1/3 that passes through the point (3, 2)?',
+      'What is the equation of a line with slope \(\(\frac{1}{3}\) that passes through the point (3, 2)?\)',
     answerOptions: [
       {
-        text: 'y = (1/3)x + 1',
+        text: 'y = (\(\(\frac{1}{3}\)\))x + 1',
         isCorrect: true,
         rationale:
-          'Using y=mx+b: 2 = ($\\frac{1}{3}$)(3) + b -> 2 = 1 + b -> b=1.',
+          'Using y=mx+b: 2 = (\(\\(\frac{1}{3}\)\))(3) + b -> 2 = 1 + b -> b=1.',
       },
       {
         text: 'y = 3x - 7',
@@ -63,18 +63,18 @@ module.exports = [
         rationale: 'This uses the reciprocal of the slope.',
       },
       {
-        text: 'y = (\\frac{1}{3})x + 3',
+        text: 'y = (\\(\frac{1}{3}\))x + 3',
         isCorrect: false,
         rationale: 'This does not pass through the given point.',
       },
       {
-        text: 'y = (1/3)x - 1',
+        text: 'y = (\(\(\frac{1}{3}\)\))x - 1',
         isCorrect: false,
         rationale: 'This has the wrong y-intercept.',
       },
     ],
     rationale:
-      'Use the point-slope form y - y1 = m(x - x1): y - 2 = ($\\frac{1}{3}$)(x - 3). This simplifies to y - 2 = ($\\frac{1}{3}$)x - 1, so y = ($\\frac{1}{3}$)x + 1.',
+      'Use the point-slope form y - y1 = m(x - x1): y - 2 = (\(\\(\frac{1}{3}\)\))(x - 3). This simplifies to y - 2 = (\(\\(\frac{1}{3}\)\))x - 1, so y = (\(\\(\frac{1}{3}\)\))x + 1.',
     challenge_tags: ['math-4'],
   },
   {
@@ -136,10 +136,10 @@ module.exports = [
         rationale: 'This line is parallel.',
       },
       {
-        text: 'y = $\\frac{1}{3}x - 1$',
+        text: 'y = \(\\(\frac{1}{3}\) x - 1\)',
         isCorrect: true,
         rationale:
-          'The original line has a slope of -3. The perpendicular slope is the negative reciprocal, $\\frac{1}{3}$.',
+          'The original line has a slope of -3. The perpendicular slope is the negative reciprocal, \(\\(\frac{1}{3}\)\).',
       },
       {
         text: 'y = 3x + 5',
@@ -147,13 +147,13 @@ module.exports = [
         rationale: 'This has an incorrect slope.',
       },
       {
-        text: 'y = $-\\frac{1}{3}x + 4$',
+        text: 'y = \(-\\(\frac{1}{3}\) x + 4\)',
         isCorrect: false,
         rationale: 'This is the reciprocal, but not the negative reciprocal.',
       },
     ],
     rationale:
-      'First, find the slope of the given line by rewriting it in slope-intercept form: y = -3x + 5. The slope is -3. The slope of a perpendicular line is the negative reciprocal, which is $\\frac{1}{3}$.',
+      'First, find the slope of the given line by rewriting it in slope-intercept form: y = -3x + 5. The slope is -3. The slope of a perpendicular line is the negative reciprocal, which is \(\\(\frac{1}{3}\)\).',
     challenge_tags: ['math-4'],
   },
   {
@@ -162,9 +162,9 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Given $f(x) = x^3 - 1$, find $f(2)$.',
+    question: 'Given \(f(x) = x^3 - 1\), find \(f(2)\).',
     correctAnswer: '7',
-    rationale: 'Substitute 2 for x: f(2) = $(2)^3$ - 1 = 8 - 1 = 7.',
+    rationale: 'Substitute 2 for x: f(2) = \((2)^3\) - 1 = 8 - 1 = 7.',
     challenge_tags: ['math-4'],
   },
   {
@@ -173,7 +173,7 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'What is the axis of symmetry for the parabola $y = x^2 - 6x + 8$?',
+      'What is the axis of symmetry for the parabola \(y = x^2 - 6x + 8\)?',
     answerOptions: [
       {
         text: 'x = -6',
@@ -184,7 +184,7 @@ module.exports = [
         text: 'x = 3',
         isCorrect: true,
         rationale:
-          'The axis of symmetry is x = -b/(2a). Here, x = -(-6)/(2*1) = $\\frac{6}{2}$ = 3.',
+          'The axis of symmetry is x = -b/(2a). Here, x = -(-6)/(2*1) = \(\\(\frac{6}{2}\)\) = 3.',
       },
       {
         text: 'x = 6',
@@ -198,7 +198,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The formula for the axis of symmetry of a parabola in the form $y = ax^2 + bx + c$ is $x = \\frac{-b}{2a}$. For this equation, a=1 and b=-6. So, $x = \\frac{-(-6)}{2(1)} = \\frac{6}{2} = 3$.',
+      'The formula for the axis of symmetry of a parabola in the form \(y = ax^2 + bx + c is x = \\(\frac{-b}{2a}\)\). For this equation, a=1 and b=-6. So, \(x = \\(\frac{-(-6)}{2(1)}\)\) = \\(\frac{6}{2}\) = 3.',
     challenge_tags: ['math-4'],
   },
   {
@@ -211,7 +211,7 @@ module.exports = [
       "A company's profit P(t) in thousands of dollars, t years after 2010, is modeled by P(t) = 50t + 200. What was the profit in 2015?",
     correctAnswer: '450 thousand dollars',
     rationale:
-      'The year 2015 is 5 years after 2010, so t=5. P(5) = 50(5) + 200 = 250 + 200 = 450. The profit is $450,000.',
+      'The year 2015 is 5 years after 2010, so t=5. P(5) = 50(5) + 200 = 250 + 200 = 450. The profit is \(450,000.',
     challenge_tags: ['math-4'],
   },
   {
@@ -235,7 +235,7 @@ module.exports = [
         text: '5',
         isCorrect: true,
         rationale:
-          'Using the distance formula, sqrt($(4-1)^2 + (6-2)^2$) = sqrt($3^2 + 4^2$) = sqrt(9 + 16) = sqrt(25) = 5.',
+          'Using the distance formula, sqrt(\((4-1)^2 + (6-2)^2) = sqrt(\)\(3^2\) + \(4^2\)) = sqrt(9 + 16) = sqrt(25) = 5.',
       },
       {
         text: '7',
@@ -244,7 +244,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Use the distance formula: $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$. $d = \\sqrt{(4-1)^2 + (6-2)^2} = \\sqrt{3^2 + 4^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$.',
+      'Use the distance formula: \(d = \\(\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}\)\)\(.  d = \\(\sqrt{(4-1)^2 + (6-2)^2}\)\) = \\(\sqrt{3^2 + 4^2}\) = \\(\sqrt{9 + 16}\) = \\(\sqrt{25}\) = 5.',
     challenge_tags: ['math-4'],
   },
   {
@@ -278,7 +278,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The graph of an exponential function, like $y = 2^x$, is a curve that shows rapid increase (growth) or decrease (decay).',
+      'The graph of an exponential function, like \(y = 2^x\), is a curve that shows rapid increase (growth) or decrease (decay).',
     challenge_tags: ['math-4'],
   },
   {
@@ -301,18 +301,18 @@ module.exports = [
           'The points are (0, 4) and (-2, 0). Slope = (0 - 4) / (-2 - 0) = -4 / -2 = 2.',
       },
       {
-        text: '$\\frac{1}{2}$',
+        text: '\(\\(\frac{1}{2}\)\)',
         isCorrect: false,
         rationale: 'This is the reciprocal of the slope.',
       },
       {
-        text: '$-\\frac{1}{2}$',
+        text: '\(-\\(\frac{1}{2}\)\)',
         isCorrect: false,
         rationale: 'This is the negative reciprocal of the slope.',
       },
     ],
     rationale:
-      'The y-intercept is the point (0, 4) and the x-intercept is the point (-2, 0). The slope is the change in y over the change in x: $m = \\frac{4 - 0}{0 - (-2)} = \\frac{4}{2} = 2$.',
+      'The y-intercept is the point (0, 4) and the x-intercept is the point (-2, 0). The slope is the change in y over the change in x: \(m = \\(\frac{4 - 0}{0 - (-2)}\)\) = \\(\frac{4}{2}\) = 2\).',
     challenge_tags: ['math-4'],
   },
 ];

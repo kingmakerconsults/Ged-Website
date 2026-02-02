@@ -5,9 +5,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "easy",
-    "question": "Evaluate the expression $x/3 + 2$ for $x = 12$.",
+    "question": "Evaluate the expression \(x/3 + 2 for x = 12\).",
     "correctAnswer": "6",
-    "rationale": "Substitute 12 for x: $\\frac{12}{3}$ + 2 = 4 + 2 = 6.",
+    "rationale": "Substitute 12 for x: \(\\(\frac{12}{3}\)\) + 2 = 4 + 2 = 6.",
     "challenge_tags": [
       "math-3"
     ]
@@ -17,7 +17,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "Solve for x: $7x = 42$.",
+    "question": "Solve for x: \(7x = 42\).",
     "answerOptions": [
       {
         "text": "6",
@@ -50,7 +50,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "Simplify the expression: $4(x - 3) + 2(x + 1)$.",
+    "question": "Simplify the expression: \(4(x - 3) + 2(x + 1)\).",
     "answerOptions": [
       {
         "text": "6x - 11",
@@ -96,7 +96,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "Which of the following ordered pairs is a solution to the equation $y = 3x - 2$?",
+    "question": "Which of the following ordered pairs is a solution to the equation \(y = 3x - 2\)?",
     "answerOptions": [
       {
         "text": "(1, 1)",
@@ -129,7 +129,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "Solve for x: $3x + 8 = 5x - 6$.",
+    "question": "Solve for x: \(3x + 8 = 5x - 6\).",
     "answerOptions": [
       {
         "text": "1",
@@ -163,7 +163,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "Factor the expression: $x^2 - 49$.",
+    "question": "Factor the expression: \(x^2 - 49\).",
     "correctAnswer": "(x - 7)(x + 7)",
     "rationale": "This is a difference of squares, which factors into (a - b)(a + b). Here, a=x and b=7.",
     "challenge_tags": [
@@ -175,30 +175,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "The equation of a line is $y = \\frac{1}{2}x + 3$. What is the equation of a line that is parallel to it and passes through the origin (0,0)?",
+    "question": "The equation of a line is \(y = \\(\frac{1}{2}\) x + 3. What is the equation of a line that is parallel to it and passes through the origin (0,0)?\)",
     "answerOptions": [
       {
-        "text": "$y = -2x$",
+        "text": "\(y = -2x\)",
         "isCorrect": false,
         "rationale": "This is a perpendicular line."
       },
       {
-        "text": "$y = \\frac{1}{2}x$",
+        "text": "\(y = \\(\frac{1}{2}\) x\)",
         "isCorrect": true,
-        "rationale": "A parallel line has the same slope ($\\frac{1}{2}$). A line passing through the origin has a y-intercept of 0."
+        "rationale": "A parallel line has the same slope (\(\\(\frac{1}{2}\)\)). A line passing through the origin has a y-intercept of 0."
       },
       {
-        "text": "$y = 2x$",
+        "text": "\(y = 2x\)",
         "isCorrect": false,
         "rationale": "This is an incorrect slope."
       },
       {
-        "text": "$y = \\frac{1}{2}x - 3$",
+        "text": "\(y = \\(\frac{1}{2}\) x - 3\)",
         "isCorrect": false,
         "rationale": "This does not pass through the origin."
       }
     ],
-    "rationale": "A parallel line must have the same slope, which is $\\frac{1}{2}$. A line that passes through the origin has a y-intercept of 0. So the equation is y = ($\\frac{1}{2}$)x + 0, or y = ($\\frac{1}{2}$)x.",
+    "rationale": "A parallel line must have the same slope, which is \(\\(\frac{1}{2}\)\). A line that passes through the origin has a y-intercept of 0. So the equation is y = (\(\\(\frac{1}{2}\)\))x + 0, or y = (\(\\(\frac{1}{2}\)\))x.",
     "challenge_tags": [
       "math-3"
     ]
@@ -209,9 +209,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "If $f(x) = 2x^2 - 3x + 1$, find $f(4)$.",
+    "question": "If \(f(x) = 2x^2 - 3x + 1\), find \(f(4)\).",
     "correctAnswer": "21",
-    "rationale": "Substitute 4 for x: f(4) = 2(4)$^2$ - 3(4) + 1 = 2(16) - 12 + 1 = 32 - 12 + 1 = 21.",
+    "rationale": "Substitute 4 for x: f(4) = 2(4)\(^2\) - 3(4) + 1 = 2(16) - 12 + 1 = 32 - 12 + 1 = 21.",
     "challenge_tags": [
       "math-3"
     ]
@@ -221,30 +221,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "Tickets to a concert cost $15 for adults and $10 for children. If a group of 4 adults and 3 children buy tickets, what is the total cost?",
+    "question": "Tickets to a concert cost \(15 for adults and \)10 for children. If a group of 4 adults and 3 children buy tickets, what is the total cost?",
     "answerOptions": [
       {
-        "text": "$75",
+        "text": "\(75\)",
         "isCorrect": false,
         "rationale": "This is the cost for 5 adults."
       },
       {
-        "text": "$80",
+        "text": "80",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },
       {
-        "text": "$90",
+        "text": "\(90\)",
         "isCorrect": true,
-        "rationale": "Cost for adults: 4 * $15 = $60. Cost for children: 3 * $10 = $30. Total cost: $60 + $30 = $90."
+        "rationale": "Cost for adults: 4 * \(15 = \)60. Cost for children: 3 * \(10 = \)30. Total cost: \(60 + \)30 = 90."
       },
       {
-        "text": "$105",
+        "text": "\(105\)",
         "isCorrect": false,
         "rationale": "This is the cost for 7 adults."
       }
     ],
-    "rationale": "Calculate the cost for each group and then add them together. Adult cost = 4 * $15 = $60. Child cost = 3 * $10 = $30. Total = $60 + $30 = $90.",
+    "rationale": "Calculate the cost for each group and then add them together. Adult cost = 4 * \(15 = \)60. Child cost = 3 * \(10 = \)30. Total = \(60 + \)30 = 90.",
     "challenge_tags": [
       "math-3"
     ]
@@ -254,25 +254,25 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "Factor the trinomial: $x^2 + 8x + 15$.",
+    "question": "Factor the trinomial: \(x^2 + 8x + 15\).",
     "answerOptions": [
       {
-        "text": "$(x + 8)(x + 15)$",
+        "text": "\((x + 8)(x + 15)\)",
         "isCorrect": false,
         "rationale": "The constants would multiply to 120."
       },
       {
-        "text": "$(x + 3)(x + 5)$",
+        "text": "\((x + 3)(x + 5)\)",
         "isCorrect": true,
         "rationale": "We need two numbers that multiply to 15 and add to 8. These numbers are 3 and 5."
       },
       {
-        "text": "$(x - 3)(x - 5)$",
+        "text": "\((x - 3)(x - 5)\)",
         "isCorrect": false,
         "rationale": "This would result in a middle term of -8x."
       },
       {
-        "text": "$(x + 1)(x + 15)$",
+        "text": "\((x + 1)(x + 15)\)",
         "isCorrect": false,
         "rationale": "The middle term would be 16x."
       }
@@ -290,27 +290,27 @@ module.exports = [
     "question": "Which of the following inequalities corresponds to the statement 'x is at least 12'?",
     "answerOptions": [
       {
-        "text": "$x < 12$",
+        "text": "\(x < 12\)",
         "isCorrect": false,
         "rationale": "This means x is less than 12."
       },
       {
-        "text": "$x > 12$",
+        "text": "\(x > 12\)",
         "isCorrect": false,
         "rationale": "This means x is strictly greater than 12."
       },
       {
-        "text": "$x \\leq 12$",
+        "text": "\(x \\leq 12\)",
         "isCorrect": false,
         "rationale": "This means x is at most 12."
       },
       {
-        "text": "$x \\geq 12$",
+        "text": "\(x \\geq 12\)",
         "isCorrect": true,
         "rationale": "'At least' means greater than or equal to."
       }
     ],
-    "rationale": "The phrase 'at least 12' means that x can be 12 or any number greater than 12. This is represented by the inequality $x \\geq 12$.",
+    "rationale": "The phrase 'at least 12' means that x can be 12 or any number greater than 12. This is represented by the inequality \(x \\geq 12\).",
     "challenge_tags": [
       "math-3"
     ]

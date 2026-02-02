@@ -1,0 +1,12 @@
+{
+  "source": "backend/data/quizzes/index.js",
+  "scope": "premade/static runtime",
+  "datasetHash": "160ba2393e4430a8cb1b72d17f69df0ad7046ee0b7fc8c0dca299938ddddf5f4",
+  "summary": {
+    "latexIssues": 0,
+    "tableIssues": 0,
+    "imageIssues": 0,
+    "totalQuestions": 3884
+  },
+  "issues": []
+}

@@ -5,7 +5,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "easy",
-    "question": "Solve for y: $y + 12 = 20$.",
+    "question": "Solve for y: \(y + 12 = 20\).",
     "correctAnswer": "8",
     "rationale": "Subtract 12 from both sides of the equation: 20 - 12 = 8.",
     "challenge_tags": [
@@ -17,7 +17,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "Evaluate $15 - 2b$ for $b = 6$.",
+    "question": "Evaluate \(15 - 2b for b = 6\).",
     "answerOptions": [
       {
         "text": "3",
@@ -50,7 +50,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "Solve for x: $-5x - 4 = 11$.",
+    "question": "Solve for x: \(-5x - 4 = 11\).",
     "answerOptions": [
       {
         "text": "-3",
@@ -84,9 +84,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "Simplify: $x(x + 5) - 3x$.",
-    "correctAnswer": "$x^2$ + 2x",
-    "rationale": "First, distribute x: $x^2$ + 5x - 3x. Then, combine like terms: $x^2$ + 2x.",
+    "question": "Simplify: \(x(x + 5) - 3x\).",
+    "correctAnswer": "\(x^2\) + 2x",
+    "rationale": "First, distribute x: \(x^{2}\) + 5x - 3x. Then, combine like terms: \(x^{2}\) + 2x.",
     "challenge_tags": [
       "math-3"
     ]
@@ -99,22 +99,22 @@ module.exports = [
     "question": "Which of the following equations has a slope of 2 and a y-intercept of -3?",
     "answerOptions": [
       {
-        "text": "$y = -3x + 2$",
+        "text": "\(y = -3x + 2\)",
         "isCorrect": false,
         "rationale": "This has a slope of -3 and a y-intercept of 2."
       },
       {
-        "text": "$y = 2x - 3$",
+        "text": "\(y = 2x - 3\)",
         "isCorrect": true,
         "rationale": "This matches the slope-intercept form y = mx + b with m=2 and b=-3."
       },
       {
-        "text": "$y = 2x + 3$",
+        "text": "\(y = 2x + 3\)",
         "isCorrect": false,
         "rationale": "This has a y-intercept of 3."
       },
       {
-        "text": "$y = 3x - 2$",
+        "text": "\(y = 3x - 2\)",
         "isCorrect": false,
         "rationale": "This has a slope of 3 and a y-intercept of -2."
       }
@@ -129,7 +129,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "Find the x-intercept of the line $5x - 3y = 15$.",
+    "question": "Find the x-intercept of the line \(5x - 3y = 15\).",
     "answerOptions": [
       {
         "text": "3",
@@ -163,7 +163,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "Solve the inequality: $4x - 5 < 11$.",
+    "question": "Solve the inequality: \(4x - 5 < 11\).",
     "correctAnswer": "x < 4",
     "rationale": "Add 5 to both sides: 4x < 16. Divide by 4: x < 4.",
     "challenge_tags": [
@@ -175,7 +175,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "If $f(x) = |2x - 8|$, what is $f(3)$?",
+    "question": "If \(f(x) = |2x - 8|\), what is \(f(3)\)?",
     "answerOptions": [
       {
         "text": "-2",
@@ -210,8 +210,8 @@ module.exports = [
     "calculator": true,
     "difficulty": "medium",
     "question": "What is the slope of the line that is perpendicular to the line passing through (2, 2) and (5, 8)?",
-    "correctAnswer": "$-\\frac{1}{2}$",
-    "rationale": "First, find the slope of the line: m = (8-2)/(5-2) = $\\frac{6}{3}$ = 2. The slope of a perpendicular line is the negative reciprocal, which is -$\\frac{1}{2}$.",
+    "correctAnswer": "\(-\\(\frac{1}{2}\)\)",
+    "rationale": "First, find the slope of the line: m = (8-2)/(5-2) = \(\\(\frac{6}{3}\)\) = 2. The slope of a perpendicular line is the negative reciprocal, which is -\(\\(\frac{1}{2}\)\).",
     "challenge_tags": [
       "math-3"
     ]
@@ -221,7 +221,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "A taxi charges a $3 flat fee plus $2 per mile. Which equation represents the total cost C for a trip of 'm' miles?",
+    "question": "A taxi charges a \(3 flat fee plus \)2 per mile. Which equation represents the total cost C for a trip of 'm' miles?",
     "answerOptions": [
       {
         "text": "C = 3m + 2",
@@ -244,7 +244,7 @@ module.exports = [
         "rationale": "This is an incorrect representation."
       }
     ],
-    "rationale": "The total cost is the sum of the flat fee ($3) and the variable charge, which is $2 per mile times the number of miles (m). So, C = 2m + 3.",
+    "rationale": "The total cost is the sum of the flat fee (\(3) and the variable charge, which is \)2 per mile times the number of miles (m). So, C = 2m + 3.",
     "challenge_tags": [
       "math-3"
     ]
@@ -254,7 +254,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "What is the solution set for the equation $x^2 - 6x + 5 = 0$?",
+    "question": "What is the solution set for the equation \(x^2 - 6x + 5 = 0\)?",
     "answerOptions": [
       {
         "text": "{1, 5}",
@@ -287,30 +287,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "Simplify: $\\frac{x^8}{x^2}$",
+    "question": "Simplify: \(\\(\frac{x^8}{x^2}\)\)",
     "answerOptions": [
       {
-        "text": "$x^4$",
+        "text": "\(x^4\)",
         "isCorrect": false,
         "rationale": "This is the result of dividing the exponents."
       },
       {
-        "text": "$x^6$",
+        "text": "\(x^6\)",
         "isCorrect": true,
         "rationale": "When dividing powers with the same base, subtract the exponents: 8 - 2 = 6."
       },
       {
-        "text": "$x^{10}$",
+        "text": "\(x^{10}\)",
         "isCorrect": false,
         "rationale": "This is the result of adding the exponents."
       },
       {
-        "text": "$x^{16}$",
+        "text": "\(x^{16}\)",
         "isCorrect": false,
         "rationale": "This is the result of multiplying the exponents."
       }
     ],
-    "rationale": "When dividing exponential expressions with the same base, you subtract the exponents. So, $\\frac{x^8}{x^2} = x^{8-2} = x^6$.",
+    "rationale": "When dividing exponential expressions with the same base, you subtract the exponents. So, \(\\frac{x^{8}}{x^{2}}\) = x^{8-2} = $x^{6}.",
     "challenge_tags": [
       "math-3"
     ]

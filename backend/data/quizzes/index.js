@@ -9,6 +9,9 @@ function normalizeQuizText(str) {
   if (typeof str !== 'string' || !str) return str;
   return (
     str
+      // Fix double-wrapped inline math delimiters like \(\( ... \)\)
+      .replace(/\\\(\s*\\\(/g, '\\(')
+      .replace(/\\\)\s*\\\)/g, '\\)')
       .replace(/\u00C2\u00B2|Â²/g, '²')
       .replace(/\u00C2\u00B3|Â³/g, '³')
       .replace(/\u00C2\u00B0|Â°/g, '°')
@@ -148,6 +151,8 @@ function buildAllQuizzes() {
       cat.topics.push(topic);
     }
   }
+  // Normalize legacy + supplemental content to fix math delimiters and mojibake.
+  normalizeDeep(target);
   return target;
 }
 

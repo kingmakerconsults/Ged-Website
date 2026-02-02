@@ -22,7 +22,7 @@ module.exports = [
         rationale: 'This is 15-8.',
       },
       {
-        text: '23',
+          question: 'What is \\(\\frac{1}{2}\\) of 50?',
         isCorrect: false,
         rationale: 'This is 15+8.',
       },
@@ -38,42 +38,42 @@ module.exports = [
     calculator: true,
     difficulty: 'easy',
     question: 'Convert 2.5 to a fraction.',
-    correctAnswer: '$\\frac{5}{2}$',
+    correctAnswer: '\(\\(\frac{5}{2}\)\)',
     rationale:
-      '2.5 is two and a half, which can be written as the mixed number 2 $\\frac{1}{2}$. As an improper fraction, this is (2*2+1)/2 = $\\frac{5}{2}$.',
+      '2.5 is two and a half, which can be written as the mixed number 2 \(\\(\frac{1}{2}\)\). As an improper fraction, this is (2*2+1)/2 = \(\\(\frac{5}{2}\)\).',
     challenge_tags: ['math-1'],
   },
   {
     questionNumber: 3,
     type: 'multipleChoice',
-    calculator: true,
+            'Taking \\(\\frac{1}{2}\\) of a number is the same as dividing it by 2. 50 / 2 = 25.',
     difficulty: 'medium',
     question:
-      'A television costs $650. If there is a 7% sales tax, what is the total cost?',
+      'A television costs \(650. If there is a 7% sales tax, what is the total cost?',
     answerOptions: [
       {
-        text: '$45.50',
+        text: '45.50',
         isCorrect: false,
         rationale: 'This is the tax amount.',
       },
       {
-        text: '$695.50',
+        text: '\(695.50\)',
         isCorrect: true,
-        rationale: 'Tax = 0.07 * 650 = $45.50. Total = 650 + 45.50 = $695.50.',
+        rationale: 'Tax = 0.07 * 650 = \)45.50. Total = 650 + 45.50 = \(695.50.',
       },
       {
-        text: '$657.00',
+        text: '657.00',
         isCorrect: false,
         rationale: 'This is a 1% tax.',
       },
       {
-        text: '$700.00',
+        text: '\(700.00\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'First, calculate the sales tax: 7% of $650 is 0.07 * 650 = $45.50. Then, add the tax to the original price: $650 + $45.50 = $695.50.',
+      'First, calculate the sales tax: 7% of \)650 is 0.07 * 650 = \(45.50. Then, add the tax to the original price: \)650 + \(45.50 = 695.50.',
     challenge_tags: ['math-1'],
   },
   {
@@ -82,10 +82,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Evaluate: $100 \\div 5^2$.',
+    question: 'Evaluate: \(100 \\(\div\) 5^2\).',
     correctAnswer: '4',
     rationale:
-      'Order of operations: Exponents first ($5^2$ = 25), then division (100 / 25 = 4).',
+      'Order of operations: Exponents first (\(5^2\) = 25), then division (100 / 25 = 4).',
     challenge_tags: ['math-1'],
   },
   {
@@ -170,7 +170,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'What is $\\frac{1}{2}$ of 50?',
+    question: 'What is \\(\\frac{1}{2}\\) of 50?',
     answerOptions: [
       {
         text: '20',
@@ -194,7 +194,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Taking $\\frac{1}{2}$ of a number is the same as dividing it by 2. 50 / 2 = 25.',
+      'Taking \\(\\frac{1}{2}\\) of a number is the same as dividing it by 2. 50 / 2 = 25.',
     challenge_tags: ['math-1'],
   },
   {
@@ -228,18 +228,18 @@ module.exports = [
         rationale: '75% is 0.75.',
       },
       {
-        text: '$\\frac{3}{5}$',
+        text: '\(\\(\frac{3}{5}\)\)',
         isCorrect: false,
-        rationale: '$\\frac{3}{5}$ is 0.6.',
+        rationale: '\(\\(\frac{3}{5}\) is 0.6.\)',
       },
       {
-        text: '$\\frac{1}{2}$',
+        text: '\(\\(\frac{1}{2}\)\)',
         isCorrect: false,
-        rationale: '$\\frac{1}{2}$ is 0.5.',
+        rationale: '\(\\(\frac{1}{2}\) is 0.5.\)',
       },
     ],
     rationale:
-      'To compare, convert all values to decimals: 75% = 0.75, $\\frac{3}{5}$ = 0.6, $\\frac{1}{2}$ = 0.5. The largest value is 0.8.',
+      'To compare, convert all values to decimals: 75% = 0.75, \(\\(\frac{3}{5}\)\) = 0.6, \(\\(\frac{1}{2}\)\) = 0.5. The largest value is 0.8.',
     challenge_tags: ['math-1'],
   },
   {
@@ -248,32 +248,32 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "A person's salary is $50,000 per year. If they get a 4% raise, what is their new salary?",
+      "A person's salary is \)50,000 per year. If they get a 4% raise, what is their new salary?",
     answerOptions: [
       {
-        text: '$50,400',
+        text: '50,400',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '$52,000',
+        text: '\(52,000\)',
         isCorrect: true,
         rationale:
-          'The raise is 0.04 * 50000 = $2000. New salary is 50000 + 2000 = $52,000.',
+          'The raise is 0.04 * 50000 = \(2000. New salary is 50000 + 2000 = \)52,000.',
       },
       {
-        text: '$54,000',
+        text: '54,000',
         isCorrect: false,
         rationale: 'This would be an 8% raise.',
       },
       {
-        text: '$70,000',
+        text: '\(70,000\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'First, calculate the raise amount: 4% of $50,000 is 0.04 * 50000 = $2,000. Then, add the raise to the original salary: $50,000 + $2,000 = $52,000.',
+      'First, calculate the raise amount: 4% of \(50,000 is 0.04 * 50000 = \)2,000. Then, add the raise to the original salary: \(50,000 + \)2,000 = 52,000.',
     challenge_tags: ['math-1'],
   },
   {
@@ -281,7 +281,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Evaluate: $\\sqrt{81} \\times 2$.',
+    question: 'Evaluate: \(\\(\sqrt{81}\) \\(\times\) 2\).',
     answerOptions: [
       {
         text: '9',

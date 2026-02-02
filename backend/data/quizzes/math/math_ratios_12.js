@@ -29,7 +29,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The ratio of boys to girls is 20:25. The greatest common divisor is 5. $\\frac{20}{5}$ = 4 and $\\frac{25}{5}$ = 5. The simplified ratio is 4:5.',
+      'The ratio of boys to girls is 20:25. The greatest common divisor is 5. \(\\(\frac{20}{5}\)\) = 4 and \(\\(\frac{25}{5}\)\) = 5. The simplified ratio is 4:5.',
     challenge_tags: ['math-1'],
   },
   {
@@ -38,10 +38,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'A book costs $18. The sales tax is 5%. What is the total cost?',
-    correctAnswer: '$18.90',
+    question: 'A book costs \(18. The sales tax is 5%. What is the total cost?',
+    correctAnswer: '18.90',
     rationale:
-      'The tax is 0.05 * $18 = $0.90. The total cost is $18 + $0.90 = $18.90.',
+      'The tax is 0.05 * \)18 = \(0.90. The total cost is \)18 + \(0.90 = \)18.90.',
     challenge_tags: ['math-1'],
   },
   {
@@ -96,31 +96,31 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'An item is priced at $150. It is on sale for 20% off. What is the final price after the discount?',
+      'An item is priced at 150. It is on sale for 20% off. What is the final price after the discount?',
     answerOptions: [
       {
-        text: '$120',
+        text: '\(120\)',
         isCorrect: true,
-        rationale: 'The discount is 0.20 * 150 = $30. 150 - 30 = $120.',
+        rationale: 'The discount is 0.20 * 150 = \(30. 150 - 30 = \)120.',
       },
       {
-        text: '$30',
+        text: '30',
         isCorrect: false,
         rationale: 'This is the discount amount.',
       },
       {
-        text: '$130',
+        text: '\(130\)',
         isCorrect: false,
-        rationale: 'This is a $20 discount.',
+        rationale: 'This is a 20 discount.',
       },
       {
-        text: '$180',
+        text: '\(180\)',
         isCorrect: false,
         rationale: 'This is a 20% markup.',
       },
     ],
     rationale:
-      'Calculate the discount: 20% of $150 is 0.20 * 150 = $30. Subtract the discount from the original price: $150 - $30 = $120.',
+      'Calculate the discount: 20% of \(150 is 0.20 * 150 = \)30. Subtract the discount from the original price: $150 - $30 = 120.',
     challenge_tags: ['math-1'],
   },
   {
@@ -173,7 +173,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Solve the proportion: $\\frac{1}{6} = \\frac{5}{x}$.',
+    question: 'Solve the proportion: \(\\(\frac{1}{6}\)\) = \\(\frac{5}{x}\).',
     answerOptions: [
       {
         text: '5',
@@ -193,7 +193,7 @@ module.exports = [
       {
         text: '1.2',
         isCorrect: false,
-        rationale: 'This is $\\frac{6}{5}$.',
+        rationale: 'This is \(\\(\frac{6}{5}\)\).',
       },
     ],
     rationale:
@@ -218,7 +218,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A store buys a hat for $10 and sells it for $16. What is the percent markup?',
+      'A store buys a hat for \(10 and sells it for \)16. What is the percent markup?',
     answerOptions: [
       {
         text: '6%',
@@ -228,12 +228,12 @@ module.exports = [
       {
         text: '37.5%',
         isCorrect: false,
-        rationale: 'This is $\\frac{6}{16}$.',
+        rationale: 'This is \(\\(\frac{6}{16}\)\).',
       },
       {
         text: '60%',
         isCorrect: true,
-        rationale: 'The markup is $6. (\\frac{6}{10})*100 = 60%.',
+        rationale: 'The markup is \(6. (\\(\frac{6}{10}\))*100 = 60%.',
       },
       {
         text: '160%',
@@ -242,7 +242,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The markup amount is $16 - $10 = $6. The percent markup is (markup / original cost) * 100 = ($6 / $10) * 100 = 0.6 * 100 = 60%.',
+      'The markup amount is \)16 - \(10 = \)6. The percent markup is (markup / original cost) * 100 = ($6 / 10) * 100 = 0.6 * 100 = 60%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -257,7 +257,7 @@ module.exports = [
         text: '15',
         isCorrect: true,
         rationale:
-          'The ratio of blue marbles is 5 times the ratio number ($\\frac{25}{5}$=5), so the number of red marbles is 3*5=15.',
+          'The ratio of blue marbles is 5 times the ratio number (\(\\(\frac{25}{5}\)\)=5), so the number of red marbles is 3*5=15.',
       },
       {
         text: '25',
@@ -276,7 +276,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Set up the proportion: $\\frac{3 \\text{ red}}{5 \\text{ blue}} = \\frac{x \\text{ red}}{25 \\text{ blue}}$. Cross-multiply: $5x = 3 \\times 25 = 75$. Divide by 5: $x = 15$.',
+      'Set up the proportion: \(\\frac{3 \\text{ red}}{5 \\text{ blue}} = \\frac{x \\text{ red}}{25 \\text{ blue}}\). Cross-multiply: \(5x = 3 \\(\times\) 25 = 75\). Divide by 5: \(x = 15.\)',
     challenge_tags: ['math-1'],
   },
   {

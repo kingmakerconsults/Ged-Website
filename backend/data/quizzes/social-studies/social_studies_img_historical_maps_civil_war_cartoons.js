@@ -4,11 +4,11 @@ module.exports = [
     "type": "multiple-choice-text",
     "difficulty": "easy",
     "imageUrl": "/images/Social%20Studies/american_civil_war_0006.png",
-    "imageURL": "/images/Social%20Studies/american_civil_war_0006.png",
-    "content": {
+    "imageUrl": "/images/Social%20Studies/american_civil_war_0006.jpg",
+    "imageURL": "/images/Social%20Studies/american_civil_war_0006.jpg",
       "passage": "Alt text: 1861 political cartoon map 'Scott's Great Snake' showing the Anaconda Plan as a snake constricting the Confederate states.\n\nDescription: This historical political cartoon map from 1861, titled 'Scott's Great Snake,' visually represents the Union's Anaconda Plan during the American Civil War. A large dark snake coils around the southern Confederate states, symbolizing a naval blockade and terri…",
       "imageURL": "/images/Social%20Studies/american_civil_war_0006.png",
-      "questionText": "Which term or label appears in the visual?"
+      "imageURL": "/images/Social%20Studies/american_civil_war_0006.jpg",
     },
     "answerOptions": [
       {
@@ -41,11 +41,11 @@ module.exports = [
     "type": "multiple-choice-text",
     "difficulty": "hard",
     "imageUrl": "/images/Social%20Studies/american_civil_war_0006.png",
-    "imageURL": "/images/Social%20Studies/american_civil_war_0006.png",
-    "content": {
+    "imageUrl": "/images/Social%20Studies/american_civil_war_0006.jpg",
+    "imageURL": "/images/Social%20Studies/american_civil_war_0006.jpg",
       "passage": "Alt text: 1861 political cartoon map 'Scott's Great Snake' showing the Anaconda Plan as a snake constricting the Confederate states.\n\nDescription: This historical political cartoon map from 1861, titled 'Scott's Great Snake,' visually represents the Union's Anaconda Plan during the American Civil War. A large dark snake coils around the southern Confederate states, symbolizing a naval blockade and terri…",
       "imageURL": "/images/Social%20Studies/american_civil_war_0006.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "imageURL": "/images/Social%20Studies/american_civil_war_0006.jpg",
     },
     "answerOptions": [
       {

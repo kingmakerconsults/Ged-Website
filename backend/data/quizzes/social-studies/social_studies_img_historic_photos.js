@@ -4,11 +4,11 @@ module.exports = [
     "type": "multiple-choice-text",
     "difficulty": "easy",
     "imageUrl": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.png",
-    "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.png",
-    "content": {
+    "imageUrl": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
+    "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
       "passage": "Alt text: A black and white photograph depicting President Franklin D. Roosevelt seated at a desk, signing a document, surrounded by observers.\n\nDescription: This black and white photograph captures President Franklin D. Roosevelt seated at a desk, focused on signing a document with a pen. He is surrounded by a group of individuals, mostly men in suits and one woman, who are observing the event intently. The setti…",
       "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.png",
-      "questionText": "Which term or label appears in the visual?"
+      "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
     },
     "answerOptions": [
       {
@@ -41,11 +41,11 @@ module.exports = [
     "type": "multiple-choice-text",
     "difficulty": "hard",
     "imageUrl": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.png",
-    "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.png",
-    "content": {
+    "imageUrl": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
+    "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
       "passage": "Alt text: A black and white photograph depicting President Franklin D. Roosevelt seated at a desk, signing a document, surrounded by observers.\n\nDescription: This black and white photograph captures President Franklin D. Roosevelt seated at a desk, focused on signing a document with a pen. He is surrounded by a group of individuals, mostly men in suits and one woman, who are observing the event intently. The setti…",
       "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
     },
     "answerOptions": [
       {

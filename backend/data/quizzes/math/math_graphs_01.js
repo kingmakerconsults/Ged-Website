@@ -4,7 +4,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "In the function $f(x) = 2x - 3$, what is the value of $f(4)$?",
+    "question": "In the function \(f(x) = 2x - 3\), what is the value of \(f(4)\)?",
     "answerOptions": [
       {
         "text": "1",
@@ -38,7 +38,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "easy",
-    "question": "What is the slope of the line given by the equation $y = 5x + 2$?",
+    "question": "What is the slope of the line given by the equation \(y = 5x + 2\)?",
     "correctAnswer": "5",
     "rationale": "The equation is in slope-intercept form (y = mx + b), where 'm' is the slope. In this case, the slope is 5.",
     "challenge_tags": [
@@ -96,7 +96,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "Which of the following points lies on the line $y = -2x + 6$?",
+    "question": "Which of the following points lies on the line \(y = -2x + 6\)?",
     "answerOptions": [
       {
         "text": "(1, 4)",
@@ -129,7 +129,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "What is the equation of a line that is parallel to $y = 3x - 1$ and passes through the point (2, 5)?",
+    "question": "What is the equation of a line that is parallel to \(y = 3x - 1 and passes through the point (2, 5)?\)",
     "answerOptions": [
       {
         "text": "y = 3x + 1",
@@ -137,7 +137,7 @@ module.exports = [
         "rationale": "This line has the correct slope, but does not pass through (2,5)."
       },
       {
-        "text": "y = -\\frac{1}{3}x + 5",
+        "text": "y = -\\(\frac{1}{3} x + 5\)",
         "isCorrect": false,
         "rationale": "This line has the slope of a perpendicular line."
       },
@@ -163,9 +163,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "Given $f(x) = x^2 + 3$, find $f(-2)$.",
+    "question": "Given \(f(x) = x^2 + 3\), find \(f(-2)\).",
     "correctAnswer": "7",
-    "rationale": "Substitute -2 for x: f(-2) = $(-2)^2 + 3 = 4 + 3 = 7$.",
+    "rationale": "Substitute -2 for x: f(-2) = \((-2)^2 + 3 = 4 + 3 = 7\).",
     "challenge_tags": [
       "math-4"
     ]
@@ -209,7 +209,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "What is the x-intercept of the line $2x + 4y = 8$?",
+    "question": "What is the x-intercept of the line \(2x + 4y = 8\)?",
     "correctAnswer": "(4, 0)",
     "rationale": "To find the x-intercept, set y = 0. The equation becomes 2x + 4(0) = 8, so 2x = 8. Solve for x to get x = 4. The x-intercept is the point (4, 0).",
     "challenge_tags": [
@@ -254,15 +254,15 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "What is the slope of a line that is perpendicular to the line $y = -\\frac{1}{4}x + 2$?",
+    "question": "What is the slope of a line that is perpendicular to the line \(y = -\\(\frac{1}{4}\) x + 2?\)",
     "answerOptions": [
       {
-        "text": "$-\\frac{1}{4}$",
+        "text": "\(-\\(\frac{1}{4}\)\)",
         "isCorrect": false,
         "rationale": "This is the slope of a parallel line."
       },
       {
-        "text": "$\\frac{1}{4}$",
+        "text": "\(\\(\frac{1}{4}\)\)",
         "isCorrect": false,
         "rationale": "This is the reciprocal, but not the negative reciprocal."
       },
@@ -274,10 +274,10 @@ module.exports = [
       {
         "text": "4",
         "isCorrect": true,
-        "rationale": "The slope of a perpendicular line is the negative reciprocal of the original slope. The negative reciprocal of -$\\frac{1}{4}$ is 4."
+        "rationale": "The slope of a perpendicular line is the negative reciprocal of the original slope. The negative reciprocal of -\(\\(\frac{1}{4}\) is 4.\)"
       }
     ],
-    "rationale": "Perpendicular lines have slopes that are negative reciprocals of each other. The slope of the given line is -$\\frac{1}{4}$. The negative reciprocal is $-(\\frac{1}{-$\\frac{1}{4}$}) = 4$.",
+    "rationale": "Perpendicular lines have slopes that are negative reciprocals of each other. The slope of the given line is -\(\\(\frac{1}{4}\)\). The negative reciprocal is \(-(\\(\frac{1}{-\)\\frac{1}\)\){4}\(}) = 4.",
     "challenge_tags": [
       "math-4"
     ]
@@ -287,7 +287,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "If a function is defined as $g(x) = 3x + 1$, for which value of x does $g(x) = 10$?",
+    "question": "If a function is defined as \(g(x) = 3x + 1\), for which value of x does \(g(x) = 10\)?",
     "answerOptions": [
       {
         "text": "1",

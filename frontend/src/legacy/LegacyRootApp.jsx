@@ -13,6 +13,7 @@ import { normalizeImageUrl } from '../../utils/normalizeImageUrl.js';
 import { AuthScreen as SharedAuthScreen } from '../../components/auth/AuthScreen.jsx';
 import SuperAdminAllQuestions from '../views/SuperAdminAllQuestions.jsx';
 import SuperAdminQuestionBrowser from '../views/SuperAdminQuestionBrowser.jsx';
+import WorkforceHub from '../../components/workforce/CareerDocumentStudio.jsx';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
 (function () {
@@ -130,12 +131,9 @@ try {
     !Array.isArray(PREMADE_QUIZ_CATALOG?.['Math']) ||
     PREMADE_QUIZ_CATALOG['Math'].length === 0
   ) {
-    console.warn(
-      '[progress] Math premade catalog is empty - progress bars will show 0/0'
-    );
+    console.warn('[hydrate] Premade catalog appears empty.');
   }
 } catch {}
-
 const getPremadeQuizTotal = (subject) => {
   try {
     // Prefer hydrated catalog derived from ExpandedQuizData
@@ -146,8 +144,8 @@ const getPremadeQuizTotal = (subject) => {
       typeof window !== 'undefined' && window.UnifiedQuizCatalog
         ? window.UnifiedQuizCatalog
         : typeof window !== 'undefined'
-        ? window.AppData
-        : AppData;
+          ? window.AppData
+          : AppData;
     const subjectData = src?.[subject];
     if (!subjectData) return 0;
     let total = 0;
@@ -213,16 +211,16 @@ const buildProgressFromAttempts = (attempts = []) => {
         typeof entry?.totalQuestions === 'number'
           ? entry.totalQuestions
           : Number.isFinite(Number(entry?.total_questions))
-          ? Math.round(Number(entry.total_questions))
-          : Number.isFinite(Number(entry?.totalQuestions))
-          ? Math.round(Number(entry.totalQuestions))
-          : null,
+            ? Math.round(Number(entry.total_questions))
+            : Number.isFinite(Number(entry?.totalQuestions))
+              ? Math.round(Number(entry.totalQuestions))
+              : null,
       scaledScore:
         typeof entry?.scaledScore === 'number'
           ? Math.round(entry.scaledScore)
           : Number.isFinite(Number(entry?.scaled_score))
-          ? Math.round(Number(entry.scaled_score))
-          : null,
+            ? Math.round(Number(entry.scaled_score))
+            : null,
       attemptedAt:
         entry?.attemptedAt || entry?.attempted_at || entry?.takenAt || null,
     };
@@ -296,8 +294,8 @@ const ensureUserProfile = (user) => {
     user.name && typeof user.name === 'string' && user.name.trim()
       ? user.name.trim()
       : email.includes('@')
-      ? email.split('@')[0]
-      : email || 'Learner';
+        ? email.split('@')[0]
+        : email || 'Learner';
   const picture =
     user.picture && typeof user.picture === 'string' && user.picture.trim()
       ? user.picture.trim()
@@ -1151,6 +1149,20 @@ function applySafeMathFix(text) {
   if (typeof addMissingBackslashesInMath === 'function') {
     return addMissingBackslashesInMath(working);
   }
+  // Local fallback: add missing backslashes for common LaTeX macros
+  working = working.replace(
+    /(^|[^\\])\b(frac|sqrt|times|div|cdot|leq|geq|le|ge|lt|gt|pi|sin|cos|tan|log|ln|pm|mp|neq|approx|theta|alpha|beta|gamma)\b/g,
+    (_m, p1, macro) => `${p1}\\${macro}`
+  );
+  // Normalize parenthesized macros into brace form
+  working = working.replace(
+    /\\sqrt\s*\(([^()]+)\)/g,
+    (_m, inner) => `\\sqrt{${inner}}`
+  );
+  working = working.replace(
+    /\\frac\s*\(([^()]+)\)\s*\(([^()]+)\)/g,
+    (_m, num, den) => `\\frac{${num}}{${den}}`
+  );
   const legacy =
     typeof window !== 'undefined' &&
     window.TextSanitizer &&
@@ -1595,8 +1607,8 @@ function renderStemWithKatex(text) {
 
 const GEOMETRY_FIGURES_ENABLED = Boolean(
   typeof window !== 'undefined' &&
-    window.__APP_CONFIG__ &&
-    window.__APP_CONFIG__.geometryFiguresEnabled
+  window.__APP_CONFIG__ &&
+  window.__APP_CONFIG__.geometryFiguresEnabled
 );
 
 const DEFAULT_FIGURE_STYLE = {
@@ -2380,8 +2392,40 @@ function formatMathText(html) {
 function wrapInlineMathForKatex(text) {
   if (typeof text !== 'string' || text.length === 0) return text;
 
-  const segments = extractMathSegments(text);
-  const source = segments.length ? segments : [{ type: 'text', value: text }];
+  const normalized = text
+    // Collapse double-escaped LaTeX delimiters/macros (\\( -> \(, \\\frac -> \frac)
+    .replace(/\\\\\(/g, '\\(')
+    .replace(/\\\\\)/g, '\\)')
+    .replace(/\\\\\[/g, '\\[')
+    .replace(/\\\\\]/g, '\\]')
+    .replace(/\\\\([A-Za-z]+)/g, '\\$1')
+    // Collapse double-wrapped inline math delimiters like \(\( ... \)\)
+    .replace(/\\\(\s*\\\(/g, '\\(')
+    .replace(/\\\)\s*\\\)/g, '\\)')
+    // Remove stray dollar delimiters inside \( ... \)
+    .replace(/\\\(\s*\$+/g, '\\(')
+    .replace(/\$+\\\)/g, '\\)');
+
+  const balanced = (() => {
+    let working = normalized;
+    const openCount = (working.match(/\\\(/g) || []).length;
+    const closeCount = (working.match(/\\\)/g) || []).length;
+    if (openCount > closeCount) {
+      working += '\\)'.repeat(openCount - closeCount);
+    } else if (closeCount > openCount) {
+      let extras = closeCount - openCount;
+      while (extras > 0) {
+        working = working.replace(/\\\)(?!.*\\\))/g, '');
+        extras -= 1;
+      }
+    }
+    return working;
+  })();
+
+  const segments = extractMathSegments(balanced);
+  const source = segments.length
+    ? segments
+    : [{ type: 'text', value: balanced }];
 
   return source
     .map((seg) => {
@@ -2389,8 +2433,24 @@ function wrapInlineMathForKatex(text) {
         return seg.raw || seg.value;
       }
 
+      // Normalize common inequality shorthands in plain text
+      let value = seg.value
+        .replace(
+          /([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)\s*(>=|<=)\s*([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)/g,
+          (_m, left, op, right) =>
+            `\\(${left}${op === '>=' ? '\\geq' : '\\leq'}${right}\\)`
+        )
+        .replace(
+          /([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)\s+geq\s+([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)/gi,
+          (_m, left, right) => `\\(${left}\\geq${right}\\)`
+        )
+        .replace(
+          /([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)\s+leq\s+([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)/gi,
+          (_m, left, right) => `\\(${left}\\leq${right}\\)`
+        );
+
       // exponents like x^2 or (x+1)^3
-      let value = seg.value.replace(
+      value = value.replace(
         /([A-Za-z0-9)]+)\^(\d+)/g,
         (_m, base, exp) => `\\(${base}^{${exp}}\\)`
       );
@@ -2463,9 +2523,10 @@ function sanitizeUnicode(s) {
 
 function renderQuestionTextForDisplay(text, isPremade) {
   const sanitized = sanitizeUnicode(text);
+  const safeMath = applySafeMathFix(sanitized);
 
   // Normalize caret/fraction math into inline KaTeX delimiters for all content
-  const katexReady = wrapInlineMathForKatex(sanitized);
+  const katexReady = wrapInlineMathForKatex(safeMath);
 
   try {
     const html = renderStemWithKatex(katexReady);
@@ -11251,7 +11312,8 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/a_new_nation_quiz_2_0001.png',
+                    imageUrl:
+                      '//images/Social Studies/a_new_nation_quiz_2_0001.png',
                     question:
                       'This map illustrates the impact of the Louisiana Purchase in 1803. What was the most significant effect of this event?',
                     answerOptions: [
@@ -12064,7 +12126,8 @@ const AppData = {
                   {
                     questionNumber: 2,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/industrial_america_0003.jpg',
+                    imageUrl:
+                      '//images/Social Studies/industrial_america_0003.jpg',
                     question:
                       "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
                     answerOptions: [
@@ -12103,7 +12166,8 @@ const AppData = {
                   {
                     questionNumber: 4,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/industrial_america_0002.jpg',
+                    imageUrl:
+                      '//images/Social Studies/industrial_america_0002.jpg',
                     question:
                       'This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:',
                     answerOptions: [
@@ -12157,7 +12221,8 @@ const AppData = {
                   {
                     questionNumber: 1,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/industrial_america_0001.jpg',
+                    imageUrl:
+                      '//images/Social Studies/industrial_america_0001.jpg',
                     question:
                       "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
                     answerOptions: [
@@ -12449,7 +12514,8 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/global_conflicts_0002.jpg',
+                    imageUrl:
+                      '//images/Social Studies/global_conflicts_0002.jpg',
                     question:
                       'This map shows the new borders of Europe established by the Treaty of Versailles after World War I. Why did the U.S. Senate refuse to ratify this treaty?',
                     answerOptions: [
@@ -12551,7 +12617,8 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/global_conflicts_0001.jpg',
+                    imageUrl:
+                      '//images/Social Studies/global_conflicts_0001.jpg',
                     question:
                       "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
                     answerOptions: [
@@ -13003,7 +13070,8 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/the_cold_war_era_0001.jpg',
+                    imageUrl:
+                      '//images/Social Studies/the_cold_war_era_0001.jpg',
                     question:
                       "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
                     answerOptions: [
@@ -17243,7 +17311,8 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: 'image',
-                imageUrl: '//images/Social Studies/map_and_data_skills_0003.jpg',
+                imageUrl:
+                  '//images/Social Studies/map_and_data_skills_0003.jpg',
                 question:
                   'This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?',
                 answerOptions: [
@@ -17275,7 +17344,8 @@ const AppData = {
               {
                 questionNumber: 5,
                 type: 'image',
-                imageUrl: '//images/Social Studies/map_and_data_skills_0003.jpg',
+                imageUrl:
+                  '//images/Social Studies/map_and_data_skills_0003.jpg',
                 question:
                   "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
                 answerOptions: [
@@ -17436,7 +17506,8 @@ const AppData = {
               {
                 questionNumber: 10,
                 type: 'image',
-                imageUrl: '//images/Social Studies/map_and_data_skills_0002.jpg',
+                imageUrl:
+                  '//images/Social Studies/map_and_data_skills_0002.jpg',
                 question:
                   'This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?',
                 answerOptions: [
@@ -17469,7 +17540,8 @@ const AppData = {
               {
                 questionNumber: 11,
                 type: 'image',
-                imageUrl: '//images/Social Studies/map_and_data_skills_0002.jpg',
+                imageUrl:
+                  '//images/Social Studies/map_and_data_skills_0002.jpg',
                 question:
                   "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogot�) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
@@ -20123,8 +20195,8 @@ function buildCanonicalTopics(subjectName, categoryName, rawTopics) {
         typeof indexWithinTopic === 'number'
           ? indexWithinTopic
           : Array.isArray(group.quizzes)
-          ? group.quizzes.length
-          : 0;
+            ? group.quizzes.length
+            : 0;
       variant.label = `Quiz ${String.fromCharCode(65 + (idx % 26))}`;
     }
     group.quizzes.push(variant);
@@ -20445,8 +20517,8 @@ const expandedQuizDataSource =
   typeof window !== 'undefined' && window.ExpandedQuizData
     ? window.ExpandedQuizData
     : typeof globalThis !== 'undefined'
-    ? globalThis.ExpandedQuizData
-    : null;
+      ? globalThis.ExpandedQuizData
+      : null;
 if (expandedQuizDataSource) {
   integrateExpandedQuizData(AppData, expandedQuizDataSource);
 }
@@ -22231,8 +22303,8 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
       const passedStyle = isPassed
         ? { backgroundColor: 'rgba(22,163,74,0.12)', borderColor: '#16a34a' }
         : isCompleted
-        ? { backgroundColor: 'rgba(59,130,246,0.09)' }
-        : {};
+          ? { backgroundColor: 'rgba(59,130,246,0.09)' }
+          : {};
 
       return (
         <div
@@ -23181,8 +23253,8 @@ async function fetchJSON(url, options = {}) {
     const targetUrl = isAbsolute
       ? url
       : typeof url === 'string' && url.startsWith('/')
-      ? `${BASE}${url}`
-      : url;
+        ? `${BASE}${url}`
+        : url;
     const response = await fetch(targetUrl, {
       credentials: 'include',
       ...rest,
@@ -23553,7 +23625,7 @@ function PracticeSessionModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-[70] flex items-center justify-center p-4"
+      className="practice-session-modal fixed inset-0 z-[70] flex items-center justify-center p-4"
       style={{ backgroundColor: 'var(--modal-overlay)' }}
     >
       <div
@@ -25126,8 +25198,8 @@ function App({ externalTheme, onThemeChange }) {
       const normalizedDate = normalizedNotScheduled
         ? ''
         : typeof edits.testDate === 'string'
-        ? edits.testDate.trim()
-        : '';
+          ? edits.testDate.trim()
+          : '';
       const normalizedLocation =
         typeof edits.testLocation === 'string' ? edits.testLocation.trim() : '';
       const normalizedPassed = normalizedNotScheduled ? false : !!edits.passed;
@@ -26042,7 +26114,9 @@ function App({ externalTheme, onThemeChange }) {
       preparedQuiz.type === 'multi-part-rla' ||
       preparedQuiz.type === 'multi-part-math';
     const normalizedType =
-      preparedQuiz.type === 'reading' ? 'quiz' : preparedQuiz.type || 'quiz';
+      preparedQuiz.type === 'reading' || preparedQuiz.type === 'diagnostic'
+        ? 'quiz'
+        : preparedQuiz.type || 'quiz';
     const viewType = requiresStandardView ? 'quiz' : normalizedType;
     setView(viewType);
   };
@@ -26056,6 +26130,7 @@ function App({ externalTheme, onThemeChange }) {
     }
 
     const { subject } = results;
+    const answers = Array.isArray(results?.answers) ? results.answers : [];
 
     // Build per-question responses (correct + challenge_tags) when we have answers/questions
     let responses = [];
@@ -26064,7 +26139,6 @@ function App({ externalTheme, onThemeChange }) {
       const questions = Array.isArray(quizObj?.questions)
         ? quizObj.questions
         : [];
-      const answers = Array.isArray(results?.answers) ? results.answers : [];
       if (
         questions.length &&
         answers.length &&
@@ -26158,12 +26232,18 @@ function App({ externalTheme, onThemeChange }) {
         : quizDetails.quizVersion || null;
 
     // Persist to local progress history
+    // Determine quizType robustly: check quizType first, then type, then isDiagnostic flag
+    const resolvedQuizType =
+      quizDetails.quizType ||
+      quizDetails.type ||
+      (quizDetails.isDiagnostic ? 'diagnostic' : null);
+
     persistQuizAttempt({
       subject,
       quizCode,
       quizTitle:
         quizDetails.title || quizDetails.topicTitle || 'GED Practice Exam',
-      quizType: quizDetails.type,
+      quizType: resolvedQuizType,
       score: results.score,
       totalQuestions: results.totalQuestions,
       scaledScore: results.scaledScore,
@@ -26185,7 +26265,7 @@ function App({ externalTheme, onThemeChange }) {
           quizCode,
           quizTitle:
             quizDetails.title || quizDetails.topicTitle || 'GED Practice Exam',
-          quizType: quizDetails.type,
+          quizType: resolvedQuizType,
           score: results.score,
           totalQuestions: results.totalQuestions,
           scaledScore: results.scaledScore,
@@ -26208,6 +26288,47 @@ function App({ externalTheme, onThemeChange }) {
           },
           body: JSON.stringify(payload),
         });
+
+        const isDiagnosticQuiz =
+          quizDetails?.isDiagnostic === true ||
+          /diagnostic/i.test(quizDetails?.quizType || '') ||
+          /diagnostic/i.test(quizDetails?.quizCode || '') ||
+          /diagnostic/i.test(quizDetails?.title || '');
+
+        if (isDiagnosticQuiz && answers.length) {
+          await fetch(`${API_BASE_URL}/api/diagnostic-test/submit`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ quiz: quizDetails, answers }),
+          });
+        }
+
+        // If this was a diagnostic test, refresh the profile immediately so updated challenges appear
+        if (resolvedQuizType === 'diagnostic') {
+          console.log(
+            '[Diagnostic] Refreshing profile after diagnostic completion...'
+          );
+          try {
+            // Add a small delay to ensure backend has updated challenge data
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            loadProfileOnce();
+            // Show success toast/banner
+            if (typeof window !== 'undefined' && window.showNotification) {
+              window.showNotification?.(
+                'Diagnostic complete — your learning challenges have been updated.',
+                'success'
+              );
+            }
+          } catch (err) {
+            console.warn(
+              '[Diagnostic] Profile refresh after completion failed:',
+              err
+            );
+          }
+        }
 
         if (isPremadeQuiz) {
           try {
@@ -26412,6 +26533,26 @@ function App({ externalTheme, onThemeChange }) {
           </div>
         );
       case 'results':
+        // Check if this is a diagnostic result and render the specialized diagnostic report
+        const isDiagnosticResult =
+          activeQuiz?.isDiagnostic === true ||
+          activeQuiz?.quizType === 'diagnostic' ||
+          activeQuiz?.type === 'diagnostic';
+        if (isDiagnosticResult) {
+          // Import DiagnosticReport dynamically to avoid circular dependencies
+          const {
+            DiagnosticReport,
+          } = require('../../components/diagnostic/DiagnosticReport.jsx');
+          return (
+            <DiagnosticReport
+              results={quizResults}
+              quiz={activeQuiz}
+              onHome={navigateHome}
+              onViewProfile={goToProfile}
+            />
+          );
+        }
+        // Standard results screen for regular quizzes
         return (
           <ResultsScreen
             results={quizResults}
@@ -26634,8 +26775,8 @@ function App({ externalTheme, onThemeChange }) {
             activeView === 'profile'
               ? 'profile'
               : activeView === 'settings'
-              ? 'settings'
-              : null
+                ? 'settings'
+                : null
           }
           theme={preferences.theme}
           onToggleTheme={toggleThemePreference}
@@ -28116,18 +28257,18 @@ function AdminRoleBadge({ role }) {
     normalizedRole === 'superAdmin' || normalizedRole === 'super_admin'
       ? 'Super Admin'
       : normalizedRole === 'orgAdmin' || normalizedRole === 'org_admin'
-      ? 'Organization Admin'
-      : normalizedRole === 'instructor'
-      ? 'Instructor'
-      : 'Student';
+        ? 'Organization Admin'
+        : normalizedRole === 'instructor'
+          ? 'Instructor'
+          : 'Student';
   const palette =
     normalizedRole === 'superAdmin' || normalizedRole === 'super_admin'
       ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-200'
       : normalizedRole === 'orgAdmin' || normalizedRole === 'org_admin'
-      ? 'bg-info-soft text-info'
-      : normalizedRole === 'instructor'
-      ? 'bg-success-soft text-success'
-      : 'bg-surface-soft text-secondary';
+        ? 'bg-info-soft text-info'
+        : normalizedRole === 'instructor'
+          ? 'bg-success-soft text-success'
+          : 'bg-surface-soft text-secondary';
   return (
     <span
       className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${palette}`}
@@ -28602,8 +28743,8 @@ function SuperAdminDashboard({ user, token, onLogout }) {
       const list = Array.isArray(data?.organizations)
         ? data.organizations
         : Array.isArray(data)
-        ? data
-        : [];
+          ? data
+          : [];
       setOrganizations(list);
     } catch (error) {
       setOrgError(error?.message || 'Unable to load organizations');
@@ -29737,12 +29878,12 @@ function DashboardProgressSummary({
             id === 'rla'
               ? 'Reasoning Through Language Arts (RLA)'
               : id === 'social_studies'
-              ? 'Social Studies'
-              : id === 'math'
-              ? 'Math'
-              : id === 'science'
-              ? 'Science'
-              : null;
+                ? 'Social Studies'
+                : id === 'math'
+                  ? 'Math'
+                  : id === 'science'
+                    ? 'Science'
+                    : null;
           if (label) set.add(label);
         });
       }
@@ -29923,7 +30064,10 @@ function DashboardProgressSummary({
                   }}
                 ></div>
               </div>
-              <p className="mt-2 text-sm" style={{ color: cardStyle.color }}>
+              <p
+                className="mt-2 text-sm"
+                style={{ color: isDark ? '#ffffff' : cardStyle.color }}
+              >
                 {Number.isFinite(totalPremade) && totalPremade > 0
                   ? `${completedCount} of ${totalPremade} exams passed`
                   : `0 of 0 (no quizzes loaded yet)`}
@@ -30681,24 +30825,55 @@ function StartScreen({
   const [adviceLoading, setAdviceLoading] = useState(false);
   const [adviceText, setAdviceText] = useState('');
   const [adviceError, setAdviceError] = useState('');
+  const [showDiagnosticModal, setShowDiagnosticModal] = useState(false);
+  const [selectedDiagnosticSubject, setSelectedDiagnosticSubject] =
+    useState('Math');
+
+  const DIAGNOSTIC_SUBJECTS = [
+    { id: 'Math', label: 'Math' },
+    { id: 'RLA', label: 'RLA' },
+    { id: 'Science', label: 'Science' },
+    { id: 'Social Studies', label: 'Social Studies' },
+  ];
 
   // Diagnostic Test Handler
-  const handleStartDiagnostic = async () => {
+  const handleStartDiagnostic = async (subject) => {
     try {
       setIsLoading(true);
       setLoadingMessage('Preparing your diagnostic test...');
 
       const token = localStorage.getItem('appToken');
-      const res = await fetch('/api/diagnostic-test', {
+      if (!token) {
+        alert('Please sign in again to start the diagnostic test.');
+        return;
+      }
+
+      const res = await fetch(`${API_BASE_URL}/api/diagnostic-test/subject`, {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({ subject }),
       });
 
-      if (!res.ok) throw new Error('Failed to start diagnostic');
+      if (!res.ok) {
+        const errData = await res.json();
+        // Check if diagnostic already completed
+        if (errData.alreadyCompleted) {
+          alert(
+            'You have already completed the GED Diagnostic. Each student may take it only once.'
+          );
+          return;
+        }
+        throw new Error(errData.error || 'Failed to start diagnostic');
+      }
 
       const quiz = await res.json();
+
+      if (!quiz || !quiz.questions?.length) {
+        throw new Error('No diagnostic quiz was returned.');
+      }
 
       // Use onSelectQuiz to launch it
       onSelectQuiz(quiz, 'Diagnostic');
@@ -30710,6 +30885,9 @@ function StartScreen({
       setLoadingMessage('');
     }
   };
+
+  const openDiagnosticModal = () => setShowDiagnosticModal(true);
+  const closeDiagnosticModal = () => setShowDiagnosticModal(false);
 
   // Weekly coach helpers (top-level)
   const canonicalSubjectId = (value) => {
@@ -30767,8 +30945,8 @@ function StartScreen({
     const focus = Array.isArray(task.focus)
       ? task.focus
       : task.focus
-      ? [task.focus]
-      : [];
+        ? [task.focus]
+        : [];
     const minutesFromTask = Number(task.minutes);
     const minutesFallback = Number(dayFallback.minutes);
     return {
@@ -30786,8 +30964,8 @@ function StartScreen({
       minutes: Number.isFinite(minutesFromTask)
         ? minutesFromTask
         : Number.isFinite(minutesFallback)
-        ? minutesFallback
-        : 20,
+          ? minutesFallback
+          : 20,
       quizId: task.quizId || task.quizCode || null,
       quizPath: task.quizPath || null,
       focus,
@@ -30968,10 +31146,10 @@ function StartScreen({
       subjectParam === 'social-studies'
         ? 'Social Studies'
         : subjectParam === 'rla'
-        ? 'RLA'
-        : subjectParam === 'math'
-        ? 'Math'
-        : 'Science';
+          ? 'RLA'
+          : subjectParam === 'math'
+            ? 'Math'
+            : 'Science';
 
     try {
       const res = await fetch(
@@ -31791,8 +31969,8 @@ function StartScreen({
       const passedCount = Array.isArray(p?.passedExamCodes)
         ? p.passedExamCodes.length
         : typeof p?.completedCount === 'number'
-        ? p.completedCount
-        : 0;
+          ? p.completedCount
+          : 0;
       if (passedCount > 0) map[id] = true;
     });
     return map;
@@ -31829,8 +32007,8 @@ function StartScreen({
           id === 'rla'
             ? 'Reasoning Through Language Arts (RLA)'
             : id === 'social_studies'
-            ? 'Social Studies'
-            : id.charAt(0).toUpperCase() + id.slice(1).replace('_', ' '),
+              ? 'Social Studies'
+              : id.charAt(0).toUpperCase() + id.slice(1).replace('_', ' '),
         img: BADGE_IMG_PATHS[id],
       }));
   }, [profilePassedMap, progressPassedMap]);
@@ -31954,6 +32132,16 @@ function StartScreen({
     );
   };
 
+  if (selectedSubject === 'Workforce Readiness') {
+    const workforceUserId =
+      currentUser?.id ||
+      currentUser?.userId ||
+      currentUser?._id ||
+      currentUser?.email ||
+      'guest';
+    return <WorkforceHub onBack={handleBack} userId={workforceUserId} />;
+  }
+
   // View 3: Topic Selection (with Category Sets)
   if (selectedSubject && selectedCategory) {
     const [variantExpanded, setVariantExpanded] = React.useState({});
@@ -31984,8 +32172,8 @@ function StartScreen({
       ? gradientBackground
         ? { backgroundImage: gradientBackground }
         : subjectColors.background
-        ? { backgroundColor: subjectColors.background }
-        : { backgroundColor: DEFAULT_COLOR_SCHEME.background }
+          ? { backgroundColor: subjectColors.background }
+          : { backgroundColor: DEFAULT_COLOR_SCHEME.background }
       : {
           backgroundColor: '#ffffff',
           backgroundImage:
@@ -32477,8 +32665,8 @@ function StartScreen({
       ? gradientBackground
         ? { backgroundImage: gradientBackground }
         : subjectColors.background
-        ? { backgroundColor: subjectColors.background }
-        : { backgroundColor: DEFAULT_COLOR_SCHEME.background }
+          ? { backgroundColor: subjectColors.background }
+          : { backgroundColor: DEFAULT_COLOR_SCHEME.background }
       : {
           backgroundColor: '#ffffff',
           backgroundImage:
@@ -32725,10 +32913,10 @@ function StartScreen({
                                 task.type === 'coach-quiz'
                                   ? `Start Coach Quiz`
                                   : task.quizId || task.quizPath
-                                  ? `Start ${
-                                      group.subjectLabel.split(' ')[0]
-                                    } Practice`
-                                  : '';
+                                    ? `Start ${
+                                        group.subjectLabel.split(' ')[0]
+                                      } Practice`
+                                    : '';
                               return (
                                 <div
                                   key={task.id}
@@ -32935,10 +33123,10 @@ function StartScreen({
                   subjectId === 'science'
                     ? 'science'
                     : subjectId === 'math'
-                    ? 'math'
-                    : subjectId === 'rla'
-                    ? 'rla'
-                    : 'social';
+                      ? 'math'
+                      : subjectId === 'rla'
+                        ? 'rla'
+                        : 'social';
                 const match = Array.isArray(weeklyCoachSummary)
                   ? weeklyCoachSummary.find(
                       (ws) =>
@@ -33401,12 +33589,12 @@ function StartScreen({
                 className="text-slate-900 dark:text-slate-300 mb-4 max-w-2xl"
                 style={{ color: 'inherit' }}
               >
-                Start your journey with a comprehensive 40-question assessment
-                covering all 4 subjects. This sets your baseline and helps Coach
-                Smith build your personalized learning plan.
+                Choose a subject to take a one-time diagnostic built from
+                curated, static questions. This helps identify strengths and
+                weaknesses for that subject.
               </p>
               <button
-                onClick={handleStartDiagnostic}
+                onClick={openDiagnosticModal}
                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               >
                 Start Diagnostic Test
@@ -33709,10 +33897,10 @@ function StartScreen({
                       label === 'Math'
                         ? 'math'
                         : label.startsWith('Reasoning')
-                        ? 'rla'
-                        : label === 'Science'
-                        ? 'science'
-                        : 'social';
+                          ? 'rla'
+                          : label === 'Science'
+                            ? 'science'
+                            : 'social';
 
                     return (
                       <div
@@ -33841,7 +34029,73 @@ function StartScreen({
           </section>
         </div>
       </div>
-      {/* Test reminder modal/toast (scoped to StartScreen) */}
+      {/* Diagnostic subject modal (scoped to StartScreen) */}
+      {showDiagnosticModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          style={{ backgroundColor: 'var(--modal-overlay)' }}
+        >
+          <div
+            className="rounded-lg shadow-2xl w-full max-w-lg p-6"
+            style={{
+              backgroundColor: 'var(--modal-surface)',
+              color: 'var(--modal-text)',
+              border: '1px solid var(--modal-border)',
+            }}
+          >
+            <h2 className="text-xl font-bold mb-2">Choose a subject</h2>
+            <p className="text-sm mb-4" style={{ opacity: 0.8 }}>
+              Each subject diagnostic can be taken once. Select a subject to
+              begin.
+            </p>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {DIAGNOSTIC_SUBJECTS.map((subject) => {
+                const isSelected = selectedDiagnosticSubject === subject.id;
+                return (
+                  <button
+                    key={subject.id}
+                    type="button"
+                    onClick={() => setSelectedDiagnosticSubject(subject.id)}
+                    className={`px-4 py-2 rounded-md border text-sm font-semibold transition-colors ${
+                      isSelected
+                        ? 'bg-indigo-600 text-white border-indigo-600'
+                        : 'bg-white text-slate-900 border-slate-200 hover:bg-slate-50'
+                    }`}
+                  >
+                    {subject.label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={closeDiagnosticModal}
+                className="px-4 py-2 rounded-md font-semibold border"
+                style={{
+                  background: 'transparent',
+                  color: 'var(--text-primary)',
+                  borderColor: 'var(--border-subtle)',
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  closeDiagnosticModal();
+                  handleStartDiagnostic(selectedDiagnosticSubject);
+                }}
+                className="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700"
+              >
+                Start {selectedDiagnosticSubject} Diagnostic
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {showTestReminder && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -33888,14 +34142,14 @@ function Stem({ item, subject = null, isReview = false }) {
     typeof item.passage === 'string'
       ? item.passage.trim()
       : typeof item.content?.passage === 'string'
-      ? item.content.passage.trim()
-      : '';
+        ? item.content.passage.trim()
+        : '';
   const questionContent =
     typeof (item.questionText || item.question) === 'string'
       ? (item.questionText || item.question).trim()
       : typeof item.content?.questionText === 'string'
-      ? item.content.questionText.trim()
-      : '';
+        ? item.content.questionText.trim()
+        : '';
 
   const displaySource =
     (item?.asset && item.asset.displaySource) ||
@@ -34216,15 +34470,15 @@ function QuizInterface({
   // Precompute if the question would need a tool (ignored when flag is false)
   const hasGraphDataForRender = Boolean(
     currentQ &&
-      (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane)
+    (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane)
   );
   const hasGeometryDataForRender = Boolean(currentQ && currentQ.geometrySpec);
   const needsToolPanel = Boolean(
     currentQ &&
-      (currentQ.useGraphTool ||
-        currentQ.useGeometryTool ||
-        hasGraphDataForRender ||
-        hasGeometryDataForRender)
+    (currentQ.useGraphTool ||
+      currentQ.useGeometryTool ||
+      hasGraphDataForRender ||
+      hasGeometryDataForRender)
   );
 
   const subjectForRender = currentQ.subject || subject || 'Default';
@@ -34655,14 +34909,14 @@ function QuizInterface({
                           color: scheme.onBackgroundText,
                         }
                       : isAnswered
-                      ? {
-                          backgroundColor: scheme.navAnsweredBg,
-                          color: scheme.navAnsweredText,
-                        }
-                      : {
-                          backgroundColor: scheme.navDefaultBg,
-                          color: scheme.navDefaultText,
-                        };
+                        ? {
+                            backgroundColor: scheme.navAnsweredBg,
+                            color: scheme.navAnsweredText,
+                          }
+                        : {
+                            backgroundColor: scheme.navDefaultBg,
+                            color: scheme.navDefaultText,
+                          };
                     if (marked[i]) {
                       navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
                     }
@@ -34969,14 +35223,14 @@ function QuizInterface({
                         color: scheme.onBackgroundText,
                       }
                     : isAnswered
-                    ? {
-                        backgroundColor: scheme.navAnsweredBg,
-                        color: scheme.navAnsweredText,
-                      }
-                    : {
-                        backgroundColor: scheme.navDefaultBg,
-                        color: scheme.navDefaultText,
-                      };
+                      ? {
+                          backgroundColor: scheme.navAnsweredBg,
+                          color: scheme.navAnsweredText,
+                        }
+                      : {
+                          backgroundColor: scheme.navDefaultBg,
+                          color: scheme.navDefaultText,
+                        };
                   if (marked[i]) {
                     navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
                   }
@@ -35436,8 +35690,8 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       const attemptedCount = Array.isArray(result.olympicsHistory)
         ? result.olympicsHistory.length
         : typeof result.totalAnswered === 'number'
-        ? result.totalAnswered
-        : 0;
+          ? result.totalAnswered
+          : 0;
 
       onComplete({
         ...result,
@@ -36343,8 +36597,8 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     const attemptedCount = Array.isArray(results.olympicsHistory)
       ? results.olympicsHistory.length
       : typeof results.totalAnswered === 'number'
-      ? results.totalAnswered
-      : 0;
+        ? results.totalAnswered
+        : 0;
 
     const attemptedIndices = (
       Array.isArray(results.olympicsHistory) ? results.olympicsHistory : []
@@ -37572,8 +37826,8 @@ function EssayGuide({ onExit }) {
     const stance = /stronger/i.test(title)
       ? 'stronger'
       : /weaker/i.test(title)
-      ? 'weaker'
-      : 'stronger';
+        ? 'weaker'
+        : 'stronger';
     // Append one or more generic expansions until within range
     const add = genericExpansion[stance];
     while (wc < MIN) {
@@ -37608,7 +37862,7 @@ function EssayGuide({ onExit }) {
       passage2: {
         title: 'Marcus heavyweight, Political Analyst (Weaker Argument)',
         content: sanitizeEssayHtml(
-          "<p>While the idealism behind lowering the voting age is appealing, the practical realities suggest it would be a mistake. The adolescent brain is still undergoing significant development, particularly in areas related to long-term decision-making and impulse control. The political landscape is complex, requiring a level of experience and cognitive maturity that most 16-year-olds have not yet developed.</p><p>We risk trivializing the profound responsibility of voting by extending it to a demographic that is, by and large, not yet equipped to handle it. <span class='bad-evidence'>I remember being 16, and my friends and I were far more concerned with prom dates and getting a driver's license than with monetary policy.</span> Their priorities are simply not aligned with the serious nature of national governance.</p><p>The current age of 18 strikes a reasonable balance, marking a clear transition into legal adulthood and the full spectrum of responsibilities that come with it. To change this is to experiment with the foundation of our republic for no clear gain.</p>"
+          "<p>While the idealism behind lowering the voting age is appealing, the practical realities suggest it would be a mistake. <span class='bad-evidence'>The adolescent brain is still undergoing significant development, particularly in areas related to long-term decision-making and impulse control.</span> The political landscape is complex, requiring a level of experience and cognitive maturity that most 16-year-olds have not yet developed.</p><p>We risk trivializing the profound responsibility of voting by extending it to a demographic that is, by and large, not yet equipped to handle it. <span class='bad-evidence'>I remember being 16, and my friends and I were far more concerned with prom dates and getting a driver's license than with monetary policy.</span> Their priorities are simply not aligned with the serious nature of national governance.</p><p>The current age of 18 strikes a reasonable balance, marking a clear transition into legal adulthood and the full spectrum of responsibilities that come with it. <span class='bad-evidence'>To change this is to experiment with the foundation of our republic for no clear gain.</span></p>"
         ),
       },
     },
@@ -38487,8 +38741,8 @@ function EssayGuide({ onExit }) {
                     timer <= 0
                       ? 'text-red-600'
                       : timer < 300
-                      ? 'text-red-500'
-                      : 'text-gray-800'
+                        ? 'text-red-500'
+                        : 'text-gray-800'
                   }`}
                 >
                   {formatTime(timer)}
@@ -40338,8 +40592,8 @@ function GeometryPracticeTool({ onExit }) {
                     currentProblem?.shape === shape
                       ? 'bg-sky-600 text-white shadow border-transparent'
                       : isDarkMode
-                      ? 'bg-slate-800 text-slate-100 hover:bg-slate-700 border-slate-600'
-                      : 'bg-slate-700 text-white hover:bg-slate-600 border-slate-500'
+                        ? 'bg-slate-800 text-slate-100 hover:bg-slate-700 border-slate-600'
+                        : 'bg-slate-700 text-white hover:bg-slate-600 border-slate-500'
                   }`}
                 >
                   {shape.replace('_', ' ')}

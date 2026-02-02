@@ -14,7 +14,7 @@ module.exports = [
       {
         "text": "6",
         "isCorrect": true,
-        "rationale": "The sum is 30. $\\frac{30}{5}$ = 6. Since the numbers are evenly spaced, the mean is the middle number."
+        "rationale": "The sum is 30. \(\\(\frac{30}{5}\)\) = 6. Since the numbers are evenly spaced, the mean is the middle number."
       },
       {
         "text": "8",
@@ -85,8 +85,8 @@ module.exports = [
     "calculator": true,
     "difficulty": "medium",
     "question": "A spinner has 10 equal sections, numbered 1 to 10. What is the probability of spinning a prime number?",
-    "correctAnswer": "$\\frac{2}{5}$",
-    "rationale": "The prime numbers between 1 and 10 are 2, 3, 5, and 7. There are 4 prime numbers out of 10 total. The probability is $\\frac{4}{10}$, which simplifies to $\\frac{2}{5}$.",
+    "correctAnswer": "\(\\(\frac{2}{5}\)\)",
+    "rationale": "The prime numbers between 1 and 10 are 2, 3, 5, and 7. There are 4 prime numbers out of 10 total. The probability is \(\\(\frac{4}{10}\)\), which simplifies to \(\\(\frac{2}{5}\)\).",
     "challenge_tags": [
       "math-6"
     ]
@@ -178,27 +178,27 @@ module.exports = [
     "question": "A die is rolled. What is the probability of rolling a number that is a multiple of 3?",
     "answerOptions": [
       {
-        "text": "$\\frac{1}{6}$",
+        "text": "\(\\(\frac{1}{6}\)\)",
         "isCorrect": false,
         "rationale": "This is the probability of rolling a 3."
       },
       {
-        "text": "$\\frac{1}{3}$",
+        "text": "\(\\(\frac{1}{3}\)\)",
         "isCorrect": true,
-        "rationale": "The multiples of 3 are 3 and 6. There are 2 favorable outcomes out of 6 total. $\\frac{2}{6}$ = $\\frac{1}{3}$."
+        "rationale": "The multiples of 3 are 3 and 6. There are 2 favorable outcomes out of 6 total. \(\\(\frac{2}{6}\)\) = \(\\(\frac{1}{3}\)\)."
       },
       {
-        "text": "$\\frac{1}{2}$",
+        "text": "\(\\(\frac{1}{2}\)\)",
         "isCorrect": false,
         "rationale": "This is the probability of rolling an even number."
       },
       {
-        "text": "$\\frac{2}{3}$",
+        "text": "\(\\(\frac{2}{3}\)\)",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "On a standard six-sided die, the multiples of 3 are 3 and 6. This means there are 2 favorable outcomes out of 6 possible outcomes. The probability is $\\frac{2}{6}$, which simplifies to $\\frac{1}{3}$.",
+    "rationale": "On a standard six-sided die, the multiples of 3 are 3 and 6. This means there are 2 favorable outcomes out of 6 possible outcomes. The probability is \(\\(\frac{2}{6}\)\), which simplifies to \(\\(\frac{1}{3}\)\).",
     "challenge_tags": [
       "math-6"
     ]
@@ -274,7 +274,7 @@ module.exports = [
       {
         "text": "49",
         "isCorrect": false,
-        "rationale": "This is $7^2$."
+        "rationale": "This is \(7^{2}\)."
       }
     ],
     "rationale": "This is a permutation because the order of selection matters (president is different from vice-president). There are 7 choices for president. Once the president is chosen, there are 6 people left to be vice-president. The total number of ways is 7 * 6 = 42.",
@@ -287,20 +287,20 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "If the probability of an event is \\frac{3}{8}, what is the probability that the event will NOT happen?",
+    "question": "If the probability of an event is \\(\frac{3}{8}\), what is the probability that the event will NOT happen?",
     "answerOptions": [
       {
-        "text": "$\\frac{3}{8}$",
+        "text": "\(\\(\frac{3}{8}\)\)",
         "isCorrect": false,
         "rationale": "This is the probability of the event happening."
       },
       {
-        "text": "$\\frac{5}{8}$",
+        "text": "\(\\(\frac{5}{8}\)\)",
         "isCorrect": true,
-        "rationale": "The total probability is 1. 1 - $\\frac{3}{8}$ = $\\frac{8}{8}$ - $\\frac{3}{8}$ = $\\frac{5}{8}$."
+        "rationale": "The total probability is 1. 1 - \(\\(\frac{3}{8}\)\) = \(\\(\frac{8}{8}\)\) - \(\\(\frac{3}{8}\)\) = \(\\(\frac{5}{8}\)\)."
       },
       {
-        "text": "$\\frac{8}{3}$",
+        "text": "\(\\(\frac{8}{3}\)\)",
         "isCorrect": false,
         "rationale": "This is the reciprocal."
       },
@@ -310,7 +310,7 @@ module.exports = [
         "rationale": "This represents certainty."
       }
     ],
-    "rationale": "The sum of the probability of an event happening and the probability of it not happening is 1. So, the probability of the event not happening is 1 - $\\frac{3}{8}$ = $\\frac{5}{8}$.",
+    "rationale": "The sum of the probability of an event happening and the probability of it not happening is 1. So, the probability of the event not happening is 1 - \(\\(\frac{3}{8}\)\) = \(\\(\frac{5}{8}\)\).",
     "challenge_tags": [
       "math-6"
     ]

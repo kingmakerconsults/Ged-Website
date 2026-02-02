@@ -17,12 +17,12 @@ module.exports = [
       {
         "text": "24 sq units",
         "isCorrect": true,
-        "rationale": "Area of a triangle is $\\frac{1}{2} \\times base \\times height$. $A = 0.5 \\times 8 \\times 6 = 24$."
+        "rationale": "Area of a triangle is \(\\(\frac{1}{2}\)\) \\(\times base \\(\times\) height\). \(A = 0.5 \\(\times\) 8 \\(\times 6 = 24.\)\)"
       },
       {
         "text": "48 sq units",
         "isCorrect": false,
-        "rationale": "This is base times height, without multiplying by $\\frac{1}{2}$."
+        "rationale": "This is base times height, without multiplying by \(\\(\frac{1}{2}\)\)."
       },
       {
         "text": "14 sq units",
@@ -52,7 +52,7 @@ module.exports = [
       {
         "text": "72 cubic inches",
         "isCorrect": true,
-        "rationale": "Volume of a rectangular prism is length $\\times$ width $\\times$ height. $V = 6 \\times 4 \\times 3 = 72$."
+        "rationale": "Volume of a rectangular prism is length \(\\(\times\) width \(\\(\times\) height. \(V = 6 \\(\times\) 4 \\(\times 3 = 72.\)\)\)\)"
       },
       {
         "text": "24 cubic inches",
@@ -82,12 +82,12 @@ module.exports = [
       {
         "text": "28 cm",
         "isCorrect": true,
-        "rationale": "Perimeter of a square is $4s$. $P = 4 \\times 7 = 28$."
+        "rationale": "Perimeter of a square is \(4s\). \(P = 4 \\(\times\) 7 = 28.\)"
       },
       {
         "text": "49 cm",
         "isCorrect": false,
-        "rationale": "This is the area of the square ($s^2$)."
+        "rationale": "This is the area of the square (\(s^{2}\))."
       },
       {
         "text": "21 cm",
@@ -99,7 +99,7 @@ module.exports = [
   {
     "questionNumber": 4,
     "calculator": true,
-    "question": "A cylinder has a radius of 3 meters and a height of 10 meters. What is its volume? (Use $\\pi \\approx 3.14$)",
+    "question": "A cylinder has a radius of 3 meters and a height of 10 meters. What is its volume? (Use \(\\pi \\approx 3.14\))",
     "answerOptions": [
       {
         "text": "94.2 cubic meters",
@@ -109,7 +109,7 @@ module.exports = [
       {
         "text": "282.6 cubic meters",
         "isCorrect": true,
-        "rationale": "Volume of a cylinder is $\\pi r^2 h$. $V = 3.14 \\times (3^2) \\times 10 = 3.14 \\times 9 \\times 10 = 282.6$."
+        "rationale": "Volume of a cylinder is \(\\pi r^{2} h\). \(V = 3.14 \\(\times\)\) (\(3^{2}\)) \\(\times10 = 3.14 \\(\times\)9 \\(\times\)10 = 282.6.\)"
       },
       {
         "text": "90 cubic meters",
@@ -137,7 +137,7 @@ module.exports = [
       {
         "text": "10 feet",
         "isCorrect": true,
-        "rationale": "Perimeter $P = 2l + 2w$. $30 = 2l + 2(5)$. $30 = 2l + 10$. $20 = 2l$. $l = 10$."
+        "rationale": "Perimeter \(P = 2l + 2w\). \(30 = 2l + 2(5)\). \(30 = 2l + 10\). \(20 = 2l\). \(l = 10\)."
       },
       {
         "text": "12.5 feet",
@@ -162,7 +162,7 @@ module.exports = [
       "math-5"
     ],
     "calculator": true,
-    "question": "What is the area of a circle with a diameter of 10 inches? (Use $\\pi \\approx 3.14$)",
+    "question": "What is the area of a circle with a diameter of 10 inches? (Use \(\\pi \\approx 3.14\))",
     "answerOptions": [
       {
         "text": "31.4 sq inches",
@@ -172,7 +172,7 @@ module.exports = [
       {
         "text": "78.5 sq inches",
         "isCorrect": true,
-        "rationale": "The diameter is 10, so the radius is 5. Area is $\\pi r^2$. $A = 3.14 \\times 5^2 = 3.14 \\times 25 = 78.5$."
+        "rationale": "The diameter is 10, so the radius is 5. Area is \(\\pi r^{2}\). \(A = 3.14 \\(\times\)\) \(5^{2}\) = 3.14 \\(\times25 = 78.5.\)"
       },
       {
         "text": "100 sq inches",
@@ -189,7 +189,7 @@ module.exports = [
   {
     "questionNumber": 7,
     "calculator": true,
-    "question": "Find the volume of a sphere with a radius of 3 cm. (Use $\\pi \\approx 3.14$ and formula $V = \\frac{4}{3}\\pi r^3$)",
+    "question": "Find the volume of a sphere with a radius of 3 cm. (Use \(\\pi \\approx 3.14 and formula V = \\(\frac{4}{3}\)\)\\pi \(r^3\))",
     "answerOptions": [
       {
         "text": "37.68 cubic cm",
@@ -199,7 +199,7 @@ module.exports = [
       {
         "text": "113.04 cubic cm",
         "isCorrect": true,
-        "rationale": "$V = \\frac{4}{3} \\times 3.14 \\times (3^3) = \\frac{4}{3} \\times 3.14 \\times 27 = 4 \\times 3.14 \\times 9 = 113.04$."
+        "rationale": "\(V = \\(\frac{4}{3}\)\) \\(\times3.14 \\(\times\)\) (\(3^{3}\)) = \\(\frac{4}{3}\) \\(\times3.14 \\(\times\)27 = 4 \\(\times\)3.14 \\(\times\)9 = 113.04.\)"
       },
       {
         "text": "84.78 cubic cm",
@@ -224,7 +224,7 @@ module.exports = [
       {
         "text": "13",
         "isCorrect": true,
-        "rationale": "Using the Pythagorean theorem, $a^2 + b^2 = c^2$. $5^2 + 12^2 = 25 + 144 = 169$. The square root of 169 is 13."
+        "rationale": "Using the Pythagorean theorem, \(a^{2} + b^{2} = c^{2}\). \(5^{2} + 12^{2} = 25 + 144 = 169\). The square root of 169 is 13."
       },
       {
         "text": "17",
@@ -262,7 +262,7 @@ module.exports = [
       {
         "text": "96 sq inches",
         "isCorrect": true,
-        "rationale": "A cube has 6 faces. The area of one face is $4 \\times 4 = 16$. The total surface area is $6 \\times 16 = 96$."
+        "rationale": "A cube has 6 faces. The area of one face is \(4 \\(\times\)\)4 = 16. The total surface area is $6 \\(\times\) 16 = 96."
       },
       {
         "text": "16 sq inches",
@@ -292,7 +292,7 @@ module.exports = [
       {
         "text": "6 meters",
         "isCorrect": true,
-        "rationale": "Area = $\\frac{1}{2}bh$. $30 = \\frac{1}{2}(10)h$. $30 = 5h$. $h = 6$."
+        "rationale": "Area = \(\\(\frac{1}{2}\) bh\). \(30 = \\(\frac{1}{2}\)(10)h.  30 = 5h. \(h = 6.\)\)"
       },
       {
         "text": "15 meters",
@@ -309,12 +309,12 @@ module.exports = [
   {
     "questionNumber": 11,
     "calculator": true,
-    "question": "The circumference of a circle is 18.84 cm. What is its radius? (Use $\\pi \\approx 3.14$)",
+    "question": "The circumference of a circle is 18.84 cm. What is its radius? (Use \(\\pi \\approx 3.14\))",
     "answerOptions": [
       {
         "text": "3 cm",
         "isCorrect": true,
-        "rationale": "$C = 2 \\pi r$. $18.84 = 2 \\times 3.14 \\times r$. $18.84 = 6.28r$. $r = 18.84 / 6.28 = 3$."
+        "rationale": "\(C = 2 \\pi r\). \(18.84 = 2 \\(\times\) 3.14 \\(\times\) r\). \(18.84 = 6.28r\). \(r = 18.84 / 6.28 = 3.\)"
       },
       {
         "text": "6 cm",
@@ -352,7 +352,7 @@ module.exports = [
       {
         "text": "60 sq inches",
         "isCorrect": true,
-        "rationale": "Area of a parallelogram is base $\\times$ height. $A = 12 \\times 5 = 60$."
+        "rationale": "Area of a parallelogram is base \(\\(\times\) height. \(A = 12 \\(\times\) 5 = 60.\)\)"
       },
       {
         "text": "30 sq inches",
@@ -374,12 +374,12 @@ module.exports = [
       {
         "text": "60",
         "isCorrect": true,
-        "rationale": "Area of a trapezoid is $\\frac{1}{2}h(b_1 + b_2)$. $A = 0.5 \\times 6 \\times (8 + 12) = 3 \\times 20 = 60$."
+        "rationale": "Area of a trapezoid is \(\\(\frac{1}{2}\) h(b_1 + b_2)\). \(A = 0.5 \\(\times\) 6 \\(\times\)\) (8 + 12) = 3 \\(\times 20 = 60.\)"
       },
       {
         "text": "120",
         "isCorrect": false,
-        "rationale": "Forgot to multiply by $\\frac{1}{2}$."
+        "rationale": "Forgot to multiply by \(\\(\frac{1}{2}\)\)."
       },
       {
         "text": "26",

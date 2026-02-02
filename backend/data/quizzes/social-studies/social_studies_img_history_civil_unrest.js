@@ -4,11 +4,11 @@ module.exports = [
     "type": "multiple-choice-text",
     "difficulty": "easy",
     "imageUrl": "/images/Social%20Studies/civil_rights_movement_0007.png",
-    "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.png",
-    "content": {
+    "imageUrl": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
+    "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
       "passage": "Alt text: Black and white photo of a soldier in uniform standing in a street with smoke rising from a damaged building.\n\nDescription: This monochrome photograph captures a tense urban scene, likely during a period of civil unrest. A uniformed soldier stands in the foreground, back to the viewer, facing a street where a fire truck can be seen in the distance. To the right, a large brick buil…\n\nText in image: LIQUOR, NO PARKING ANYTIME, WASH DC NEWS, FURNITURE, NEW & USED",
       "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.png",
-      "questionText": "Which term or label appears in the visual?"
+      "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
     },
     "answerOptions": [
       {
@@ -41,11 +41,11 @@ module.exports = [
     "type": "multiple-choice-text",
     "difficulty": "hard",
     "imageUrl": "/images/Social%20Studies/civil_rights_movement_0007.png",
-    "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.png",
-    "content": {
+    "imageUrl": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
+    "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
       "passage": "Alt text: Black and white photo of a soldier in uniform standing in a street with smoke rising from a damaged building.\n\nDescription: This monochrome photograph captures a tense urban scene, likely during a period of civil unrest. A uniformed soldier stands in the foreground, back to the viewer, facing a street where a fire truck can be seen in the distance. To the right, a large brick buil…\n\nText in image: LIQUOR, NO PARKING ANYTIME, WASH DC NEWS, FURNITURE, NEW & USED",
       "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
     },
     "answerOptions": [
       {

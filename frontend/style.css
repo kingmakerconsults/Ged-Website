@@ -150,7 +150,23 @@
 [data-theme='light'] .practice-session-modal button,
 [data-theme='light'] .practice-session-modal input,
 [data-theme='light'] .practice-session-modal textarea {
-  background-color: #ffffff;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Progress cards: force summary text white in dark mode (override inline) */
+[data-theme='dark'] .progress-subjects .subject-card p.mt-2.text-sm,
+html[data-theme='dark'] .progress-subjects .subject-card p.mt-2.text-sm {
+  color: #ffffff !important;
+}
+
+/* Light mode: force explicit white bg utility classes to stay white */
+[data-theme='light'] select.bg-white,
+[data-theme='light'] button.bg-white,
+html[data-theme='light'] select.bg-white,
+html[data-theme='light'] button.bg-white {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
 }
 
 /* Base theme text colors - Light Mode */
@@ -2158,6 +2174,44 @@ h3 {
   border-color: var(--subject-workforce-border);
 }
 
+.workforce-doc-preview {
+  min-height: 420px;
+  border-color: var(--subject-workforce-border);
+  font-family: 'Times New Roman', Times, serif;
+  line-height: 1.45;
+}
+
+.workforce-doc-preview h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.workforce-doc-preview h3 {
+  font-size: 1.05rem;
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  .workforce-doc-preview,
+  .workforce-doc-preview * {
+    visibility: visible;
+  }
+  .workforce-doc-preview {
+    position: absolute;
+    inset: 0;
+    padding: 24px;
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
+
 /* Workforce Hub light mode: force black text except header */
 [data-theme='light'] .workforce-hub section,
 [data-theme='light'] .workforce-hub .workforce-tool-card,
@@ -2620,6 +2674,18 @@ select {
   border: 1px solid var(--border-subtle);
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
+}
+
+/* Dev role select: force light mode styling */
+select.dev-role-select {
+  color-scheme: light !important;
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+select.dev-role-select option {
+  color: #000000 !important;
+  background-color: #ffffff !important;
 }
 
 /* Countdown chip for Upcoming Test UI */

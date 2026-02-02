@@ -4,11 +4,11 @@ module.exports = [
     "type": "multiple-choice-text",
     "difficulty": "easy",
     "imageUrl": "/images/Social%20Studies/civil_rights_movement_0005.png",
-    "imageURL": "/images/Social%20Studies/civil_rights_movement_0005.png",
-    "content": {
+    "imageUrl": "/images/Social%20Studies/civil_rights_movement_0005.jpg",
+    "imageURL": "/images/Social%20Studies/civil_rights_movement_0005.jpg",
       "passage": "Alt text: Black and white photo of a crowd protesting 'race mixing' with signs and American flags outside a building with columns.\n\nDescription: A black and white photograph captures a crowd of individuals, mostly adults, gathered outdoors in front of a grand building featuring large columns. Several protesters hold signs with anti-integration messages, including 'RACE MIXING IS COMMUNISM,' while othe…\n\nText in image: RACE MIXING IS COMMUNISM, STOP THE RACE MIXING MARCH OF THE CHRIST",
       "imageURL": "/images/Social%20Studies/civil_rights_movement_0005.png",
-      "questionText": "Which term or label appears in the visual?"
+      "imageURL": "/images/Social%20Studies/civil_rights_movement_0005.jpg",
     },
     "answerOptions": [
       {
@@ -41,11 +41,11 @@ module.exports = [
     "type": "multiple-choice-text",
     "difficulty": "hard",
     "imageUrl": "/images/Social%20Studies/civil_rights_movement_0005.png",
-    "imageURL": "/images/Social%20Studies/civil_rights_movement_0005.png",
-    "content": {
+    "imageUrl": "/images/Social%20Studies/civil_rights_movement_0005.jpg",
+    "imageURL": "/images/Social%20Studies/civil_rights_movement_0005.jpg",
       "passage": "Alt text: Black and white photo of a crowd protesting 'race mixing' with signs and American flags outside a building with columns.\n\nDescription: A black and white photograph captures a crowd of individuals, mostly adults, gathered outdoors in front of a grand building featuring large columns. Several protesters hold signs with anti-integration messages, including 'RACE MIXING IS COMMUNISM,' while othe…\n\nText in image: RACE MIXING IS COMMUNISM, STOP THE RACE MIXING MARCH OF THE CHRIST",
       "imageURL": "/images/Social%20Studies/civil_rights_movement_0005.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "imageURL": "/images/Social%20Studies/civil_rights_movement_0005.jpg",
     },
     "answerOptions": [
       {

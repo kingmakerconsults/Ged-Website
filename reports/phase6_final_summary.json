@@ -1,0 +1,1755 @@
+{
+  "source": "backend/data/quizzes/index.js",
+  "scope": "premade/static runtime",
+  "datasetHash": "90a2691a3ae15eac7ed3a61317514c72651aea16870087dde83d019787d5973f",
+  "phaseHashes": {
+    "phase1": "db71d1ed236d5429d636808c7955d50aa6d2a3b32e61387135f8c7cdfe0ac12a",
+    "phase2": "db71d1ed236d5429d636808c7955d50aa6d2a3b32e61387135f8c7cdfe0ac12a",
+    "phase3": "db71d1ed236d5429d636808c7955d50aa6d2a3b32e61387135f8c7cdfe0ac12a",
+    "phase4": "24db5d717c7b16b83c3a2d705b589f677d083687a77e737bee700958a64263a2",
+    "phase5": "fda3776eb5634ca7fd175150fb2ad3f97c71924f186bc8fc19f40a8989c3565d",
+    "baseline": "db71d1ed236d5429d636808c7955d50aa6d2a3b32e61387135f8c7cdfe0ac12a"
+  },
+  "counts": {
+    "Math": {
+      "total": 984,
+      "categories": {
+        "Algebra & Linear Equations": {
+          "total": 132,
+          "topics": {
+            "math_algebra_02": {
+              "title": "Algebra & Linear Equations: Quiz 2",
+              "total": 12
+            },
+            "math_algebra_03": {
+              "title": "Algebra & Linear Equations: Quiz 3",
+              "total": 12
+            },
+            "math_algebra_04": {
+              "title": "Algebra & Linear Equations: Quiz 4",
+              "total": 12
+            },
+            "math_algebra_05": {
+              "title": "Algebra & Linear Equations: Quiz 5",
+              "total": 12
+            },
+            "math_algebra_06": {
+              "title": "Algebra & Linear Equations: Quiz 6",
+              "total": 12
+            },
+            "math_algebra_07": {
+              "title": "Algebra & Linear Equations: Quiz 7",
+              "total": 12
+            },
+            "math_algebra_08": {
+              "title": "Algebra & Linear Equations: Quiz 8",
+              "total": 12
+            },
+            "math_algebra_09": {
+              "title": "Algebra & Linear Equations: Quiz 9",
+              "total": 12
+            },
+            "math_algebra_10": {
+              "title": "Algebra & Linear Equations: Quiz 10",
+              "total": 12
+            },
+            "math_algebra_11": {
+              "title": "Algebra & Linear Equations: Quiz 11",
+              "total": 12
+            },
+            "math_algebra_12": {
+              "title": "Algebra & Linear Equations: Quiz 12",
+              "total": 12
+            }
+          }
+        },
+        "Data, Statistics & Probability": {
+          "total": 144,
+          "topics": {
+            "math_data_01": {
+              "title": "Data, Statistics & Probability: Quiz 1",
+              "total": 12
+            },
+            "math_data_02": {
+              "title": "Data, Statistics & Probability: Quiz 2",
+              "total": 12
+            },
+            "math_data_03": {
+              "title": "Data, Statistics & Probability: Quiz 3",
+              "total": 12
+            },
+            "math_data_04": {
+              "title": "Data, Statistics & Probability: Quiz 4",
+              "total": 12
+            },
+            "math_data_05": {
+              "title": "Data, Statistics & Probability: Quiz 5",
+              "total": 12
+            },
+            "math_data_06": {
+              "title": "Data, Statistics & Probability: Quiz 6",
+              "total": 12
+            },
+            "math_data_07": {
+              "title": "Data, Statistics & Probability: Quiz 7",
+              "total": 12
+            },
+            "math_data_08": {
+              "title": "Data, Statistics & Probability: Quiz 8",
+              "total": 12
+            },
+            "math_data_09": {
+              "title": "Data, Statistics & Probability: Quiz 9",
+              "total": 12
+            },
+            "math_data_10": {
+              "title": "Data, Statistics & Probability: Quiz 10",
+              "total": 12
+            },
+            "math_data_11": {
+              "title": "Data, Statistics & Probability: Quiz 11",
+              "total": 12
+            },
+            "math_data_12": {
+              "title": "Data, Statistics & Probability: Quiz 12",
+              "total": 12
+            }
+          }
+        },
+        "Geometry & Measurement": {
+          "total": 144,
+          "topics": {
+            "math_geometry_01": {
+              "title": "Geometry & Measurement: Quiz 1",
+              "total": 12
+            },
+            "math_geometry_02": {
+              "title": "Geometry & Measurement: Quiz 2",
+              "total": 12
+            },
+            "math_geometry_03": {
+              "title": "Geometry & Measurement: Quiz 3",
+              "total": 12
+            },
+            "math_geometry_04": {
+              "title": "Geometry & Measurement: Quiz 4",
+              "total": 12
+            },
+            "math_geometry_05": {
+              "title": "Geometry & Measurement: Quiz 5",
+              "total": 12
+            },
+            "math_geometry_06": {
+              "title": "Geometry & Measurement: Quiz 6",
+              "total": 12
+            },
+            "math_geometry_07": {
+              "title": "Geometry & Measurement: Quiz 7",
+              "total": 12
+            },
+            "math_geometry_08": {
+              "title": "Geometry & Measurement: Quiz 8",
+              "total": 12
+            },
+            "math_geometry_09": {
+              "title": "Geometry & Measurement: Quiz 9",
+              "total": 12
+            },
+            "math_geometry_10": {
+              "title": "Geometry & Measurement: Quiz 10",
+              "total": 12
+            },
+            "math_geometry_11": {
+              "title": "Geometry & Measurement: Quiz 11",
+              "total": 12
+            },
+            "math_geometry_12": {
+              "title": "Geometry & Measurement: Quiz 12",
+              "total": 12
+            }
+          }
+        },
+        "Graphs & Functions": {
+          "total": 144,
+          "topics": {
+            "math_graphs_01": {
+              "title": "Graphs & Functions: Quiz 1",
+              "total": 12
+            },
+            "math_graphs_02": {
+              "title": "Graphs & Functions: Quiz 2",
+              "total": 12
+            },
+            "math_graphs_03": {
+              "title": "Graphs & Functions: Quiz 3",
+              "total": 12
+            },
+            "math_graphs_04": {
+              "title": "Graphs & Functions: Quiz 4",
+              "total": 12
+            },
+            "math_graphs_05": {
+              "title": "Graphs & Functions: Quiz 5",
+              "total": 12
+            },
+            "math_graphs_06": {
+              "title": "Graphs & Functions: Quiz 6",
+              "total": 12
+            },
+            "math_graphs_07": {
+              "title": "Graphs & Functions: Quiz 7",
+              "total": 12
+            },
+            "math_graphs_08": {
+              "title": "Graphs & Functions: Quiz 8",
+              "total": 12
+            },
+            "math_graphs_09": {
+              "title": "Graphs & Functions: Quiz 9",
+              "total": 12
+            },
+            "math_graphs_10": {
+              "title": "Graphs & Functions: Quiz 10",
+              "total": 12
+            },
+            "math_graphs_11": {
+              "title": "Graphs & Functions: Quiz 11",
+              "total": 12
+            },
+            "math_graphs_12": {
+              "title": "Graphs & Functions: Quiz 12",
+              "total": 12
+            }
+          }
+        },
+        "Image Based Practice": {
+          "total": 2,
+          "topics": {
+            "math_img_bar_graphs": {
+              "title": "bar-graphs Visual Practice",
+              "total": 2
+            }
+          }
+        },
+        "Math Concepts": {
+          "total": 116,
+          "topics": {
+            "math_alg_equations_inequalities": {
+              "title": "Equations & Inequalities",
+              "total": 15
+            },
+            "math_alg_expressions": {
+              "title": "Expressions & Polynomials",
+              "total": 15
+            },
+            "math_alg_graphing_functions": {
+              "title": "Graphing & Functions",
+              "total": 10
+            },
+            "math_geom_basics": {
+              "title": "Geometry Basics",
+              "total": 13
+            },
+            "math_quant_basics": {
+              "title": "Whole Numbers, Fractions & Decimals",
+              "total": 21
+            },
+            "math_quant_ratios_percents": {
+              "title": "Ratios, Proportions & Percents",
+              "total": 18
+            },
+            "math_quant_stats_probability": {
+              "title": "Statistics & Probability",
+              "total": 24
+            }
+          }
+        },
+        "Number Sense & Operations": {
+          "total": 144,
+          "topics": {
+            "math_number_sense_01": {
+              "title": "Number Sense & Operations: Quiz 1",
+              "total": 12
+            },
+            "math_number_sense_02": {
+              "title": "Number Sense & Operations: Quiz 2",
+              "total": 12
+            },
+            "math_number_sense_03": {
+              "title": "Number Sense & Operations: Quiz 3",
+              "total": 12
+            },
+            "math_number_sense_04": {
+              "title": "Number Sense & Operations: Quiz 4",
+              "total": 12
+            },
+            "math_number_sense_05": {
+              "title": "Number Sense & Operations: Quiz 5",
+              "total": 12
+            },
+            "math_number_sense_06": {
+              "title": "Number Sense & Operations: Quiz 6",
+              "total": 12
+            },
+            "math_number_sense_07": {
+              "title": "Number Sense & Operations: Quiz 7",
+              "total": 12
+            },
+            "math_number_sense_08": {
+              "title": "Number Sense & Operations: Quiz 8",
+              "total": 12
+            },
+            "math_number_sense_09": {
+              "title": "Number Sense & Operations: Quiz 9",
+              "total": 12
+            },
+            "math_number_sense_10": {
+              "title": "Number Sense & Operations: Quiz 10",
+              "total": 12
+            },
+            "math_number_sense_11": {
+              "title": "Number Sense & Operations: Quiz 11",
+              "total": 12
+            },
+            "math_number_sense_12": {
+              "title": "Number Sense & Operations: Quiz 12",
+              "total": 12
+            }
+          }
+        },
+        "Quantitative Problem Solving": {
+          "total": 14,
+          "topics": {
+            "math_quant_bar_graph_pizza": {
+              "title": "Interpreting Bar Graphs",
+              "total": 2
+            },
+            "math_quant_numbers": {
+              "title": "Number Sense & Operations",
+              "total": 12
+            }
+          }
+        },
+        "Ratios & Proportions": {
+          "total": 12,
+          "topics": {
+            "math_ratios_01": {
+              "title": "Ratios & Proportions: Quiz 1",
+              "total": 12
+            }
+          }
+        },
+        "Ratios & Proportions / Percent Applications": {
+          "total": 132,
+          "topics": {
+            "math_ratios_02": {
+              "title": "Ratios & Proportions: Quiz 2",
+              "total": 12
+            },
+            "math_ratios_03": {
+              "title": "Ratios & Proportions: Quiz 3",
+              "total": 12
+            },
+            "math_ratios_04": {
+              "title": "Ratios & Proportions: Quiz 4",
+              "total": 12
+            },
+            "math_ratios_05": {
+              "title": "Ratios & Proportions: Quiz 5",
+              "total": 12
+            },
+            "math_ratios_06": {
+              "title": "Ratios & Proportions: Quiz 6",
+              "total": 12
+            },
+            "math_ratios_07": {
+              "title": "Ratios & Proportions: Quiz 7",
+              "total": 12
+            },
+            "math_ratios_08": {
+              "title": "Ratios & Proportions: Quiz 8",
+              "total": 12
+            },
+            "math_ratios_09": {
+              "title": "Ratios & Proportions: Quiz 9",
+              "total": 12
+            },
+            "math_ratios_10": {
+              "title": "Ratios & Proportions: Quiz 10",
+              "total": 12
+            },
+            "math_ratios_11": {
+              "title": "Ratios & Proportions: Quiz 11",
+              "total": 12
+            },
+            "math_ratios_12": {
+              "title": "Ratios & Proportions: Quiz 12",
+              "total": 12
+            }
+          }
+        }
+      }
+    },
+    "Reasoning Through Language Arts (RLA)": {
+      "total": 711,
+      "categories": {
+        "Evidence Selection": {
+          "total": 120,
+          "topics": {
+            "rla_evidence_01": {
+              "title": "Selecting Evidence",
+              "total": 12
+            },
+            "rla_evidence_02": {
+              "title": "Supporting Claims with Evidence",
+              "total": 12
+            },
+            "rla_evidence_03": {
+              "title": "Evaluating Supporting Evidence",
+              "total": 12
+            },
+            "rla_evidence_04": {
+              "title": "Identifying Supporting Details",
+              "total": 12
+            },
+            "rla_evidence_05": {
+              "title": "Connecting Evidence to Claims",
+              "total": 12
+            },
+            "rla_evidence_06": {
+              "title": "Using Evidence to Support Arguments",
+              "total": 12
+            },
+            "rla_evidence_07": {
+              "title": "Locating Key Evidence",
+              "total": 12
+            },
+            "rla_evidence_08": {
+              "title": "Justifying Claims with Evidence",
+              "total": 12
+            },
+            "rla_evidence_09": {
+              "title": "Advanced Evidence Analysis",
+              "total": 12
+            },
+            "rla_evidence_10": {
+              "title": "Comprehensive Evidence Review",
+              "total": 12
+            }
+          }
+        },
+        "Grammar, Clarity, and Revision": {
+          "total": 120,
+          "topics": {
+            "rla_grammar_01": {
+              "title": "Grammar and Sentence Clarity",
+              "total": 12
+            },
+            "rla_grammar_02": {
+              "title": "Effective Sentence Construction",
+              "total": 12
+            },
+            "rla_grammar_03": {
+              "title": "Clarity and Concision",
+              "total": 12
+            },
+            "rla_grammar_04": {
+              "title": "Advanced Grammar and Style",
+              "total": 12
+            },
+            "rla_grammar_05": {
+              "title": "Precision in Writing",
+              "total": 12
+            },
+            "rla_grammar_06": {
+              "title": "Mastering Sentence Structure",
+              "total": 12
+            },
+            "rla_grammar_07": {
+              "title": "Advanced Sentence Revision",
+              "total": 12
+            },
+            "rla_grammar_08": {
+              "title": "Polishing and Refining Sentences",
+              "total": 12
+            },
+            "rla_grammar_09": {
+              "title": "Effective Writing Strategies",
+              "total": 12
+            },
+            "rla_grammar_10": {
+              "title": "Comprehensive Grammar Review",
+              "total": 12
+            }
+          }
+        },
+        "Inference, Tone, and Purpose": {
+          "total": 120,
+          "topics": {
+            "rla_inference_01": {
+              "title": "Inference, Tone, and Purpose",
+              "total": 12
+            },
+            "rla_inference_02": {
+              "title": "Reading Between the Lines",
+              "total": 12
+            },
+            "rla_inference_03": {
+              "title": "Deducing Meaning and Intent",
+              "total": 12
+            },
+            "rla_inference_04": {
+              "title": "Analyzing Author's Intent",
+              "total": 12
+            },
+            "rla_inference_05": {
+              "title": "Discerning Authorial Intent",
+              "total": 12
+            },
+            "rla_inference_06": {
+              "title": "Uncovering Implicit Meaning",
+              "total": 12
+            },
+            "rla_inference_07": {
+              "title": "Reading for Implied Meaning",
+              "total": 12
+            },
+            "rla_inference_08": {
+              "title": "Analyzing Tone and Purpose",
+              "total": 12
+            },
+            "rla_inference_09": {
+              "title": "Advanced Analysis of Tone and Purpose",
+              "total": 12
+            },
+            "rla_inference_10": {
+              "title": "Comprehensive Inference and Tone Review",
+              "total": 12
+            }
+          }
+        },
+        "Language & Grammar": {
+          "total": 12,
+          "topics": {
+            "rla_grammar_usage": {
+              "title": "Grammar & Usage",
+              "total": 12
+            }
+          }
+        },
+        "Main Idea": {
+          "total": 132,
+          "topics": {
+            "rla_main_idea_01": {
+              "title": "Identifying the Main Idea",
+              "total": 12
+            },
+            "rla_main_idea_02": {
+              "title": "Finding the Central Point",
+              "total": 12
+            },
+            "rla_main_idea_03": {
+              "title": "Summarizing Central Ideas",
+              "total": 12
+            },
+            "rla_main_idea_04": {
+              "title": "Identifying the Main Idea in Various Texts",
+              "total": 12
+            },
+            "rla_main_idea_05": {
+              "title": "Grasping the Central Theme",
+              "total": 12
+            },
+            "rla_main_idea_06": {
+              "title": "Synthesizing the Main Idea",
+              "total": 12
+            },
+            "rla_main_idea_07": {
+              "title": "Extracting the Core Message",
+              "total": 12
+            },
+            "rla_main_idea_08": {
+              "title": "Identifying Core Concepts",
+              "total": 12
+            },
+            "rla_main_idea_09": {
+              "title": "Discerning the Primary Message",
+              "total": 12
+            },
+            "rla_main_idea_10": {
+              "title": "Comprehensive Main Idea Review",
+              "total": 12
+            },
+            "rla_main_idea_11": {
+              "title": "Final Main Idea Challenge",
+              "total": 12
+            }
+          }
+        },
+        "Reading Comprehension: Informational Texts": {
+          "total": 12,
+          "topics": {
+            "rla_info_main_idea": {
+              "title": "Main Idea & Details",
+              "total": 12
+            }
+          }
+        },
+        "RLA Topics": {
+          "total": 75,
+          "topics": {
+            "rla_info_arguments": {
+              "title": "Analyzing Arguments",
+              "total": 15
+            },
+            "rla_info_graphics": {
+              "title": "Interpreting Graphics",
+              "total": 15
+            },
+            "rla_info_pov": {
+              "title": "Point of View & Purpose",
+              "total": 15
+            },
+            "rla_lit_plot_character": {
+              "title": "Plot & Character",
+              "total": 15
+            },
+            "rla_lit_theme_figurative_language": {
+              "title": "Poetry & Figurative Language",
+              "total": 15
+            }
+          }
+        },
+        "Vocabulary in Context": {
+          "total": 120,
+          "topics": {
+            "rla_vocabulary_01": {
+              "title": "Vocabulary in Context",
+              "total": 12
+            },
+            "rla_vocabulary_02": {
+              "title": "Understanding Word Meanings",
+              "total": 12
+            },
+            "rla_vocabulary_03": {
+              "title": "Words in Context",
+              "total": 12
+            },
+            "rla_vocabulary_04": {
+              "title": "Advanced Vocabulary in Context",
+              "total": 12
+            },
+            "rla_vocabulary_05": {
+              "title": "Meaning from Context",
+              "total": 12
+            },
+            "rla_vocabulary_06": {
+              "title": "Determining Word Meanings",
+              "total": 12
+            },
+            "rla_vocabulary_07": {
+              "title": "Understanding Vocabulary from Context",
+              "total": 12
+            },
+            "rla_vocabulary_08": {
+              "title": "Advanced Vocabulary",
+              "total": 12
+            },
+            "rla_vocabulary_09": {
+              "title": "Challenging Vocabulary",
+              "total": 12
+            },
+            "rla_vocabulary_10": {
+              "title": "Comprehensive Vocabulary Review",
+              "total": 12
+            }
+          }
+        }
+      }
+    },
+    "RLA": {
+      "total": 5,
+      "categories": {
+        "Image Based Practice": {
+          "total": 5,
+          "topics": {
+            "rla_img_historical_charts": {
+              "title": "historical-charts Visual Practice",
+              "total": 2
+            },
+            "rla_img_us_history_maps": {
+              "title": "US-history-maps Visual Practice",
+              "total": 3
+            }
+          }
+        }
+      }
+    },
+    "Science": {
+      "total": 726,
+      "categories": {
+        "Earth & Space Science": {
+          "total": 62,
+          "topics": {
+            "sci_earth_space_1": {
+              "title": "Earth and Space Systems",
+              "total": 12
+            },
+            "sci_earth_space_2": {
+              "title": "Climate and Geology",
+              "total": 12
+            },
+            "sci_earth_space_3": {
+              "title": "Earth's Systems and Human Impact",
+              "total": 14
+            },
+            "sci_earth_space_4": {
+              "title": "Geology and Planetary Science",
+              "total": 12
+            },
+            "sci_earth_space_5": {
+              "title": "Astronomy and Earth's Cycles",
+              "total": 12
+            }
+          }
+        },
+        "Earth and Space Science": {
+          "total": 60,
+          "topics": {
+            "sci_earth_space_science_ecosystems_19": {
+              "title": "Earth & Space Science: Ecosystems",
+              "total": 12
+            },
+            "sci_earth_space_science_geological_time_7": {
+              "title": "Earth & Space Science: Geological Time",
+              "total": 12
+            },
+            "sci_earth_space_science_rock_cycle_3": {
+              "title": "Earth & Space Science: The Rock Cycle",
+              "total": 12
+            },
+            "sci_earth_space_science_weather_climate_11": {
+              "title": "Earth & Space Science: Weather and Climate",
+              "total": 12
+            },
+            "sci_earth_space_science_weather_climate_15": {
+              "title": "Earth & Space Science: Weather and Climate",
+              "total": 12
+            }
+          }
+        },
+        "Image Based Practice": {
+          "total": 109,
+          "topics": {
+            "science_img_anatomy_diagrams": {
+              "title": "anatomy-diagrams Visual Practice",
+              "total": 2
+            },
+            "science_img_astronomy_diagram": {
+              "title": "astronomy-diagram Visual Practice",
+              "total": 2
+            },
+            "science_img_astronomy_diagrams": {
+              "title": "astronomy-diagrams Visual Practice",
+              "total": 4
+            },
+            "science_img_atomic_structure": {
+              "title": "atomic-structure Visual Practice",
+              "total": 2
+            },
+            "science_img_biology_definitions": {
+              "title": "biology-definitions Visual Practice",
+              "total": 2
+            },
+            "science_img_biology_diagrams": {
+              "title": "biology-diagrams Visual Practice",
+              "total": 24
+            },
+            "science_img_biology_experiments": {
+              "title": "biology-experiments Visual Practice",
+              "total": 2
+            },
+            "science_img_biology_pie_charts": {
+              "title": "biology-pie-charts Visual Practice",
+              "total": 2
+            },
+            "science_img_biology_tables": {
+              "title": "biology-tables Visual Practice",
+              "total": 2
+            },
+            "science_img_chemistry_definitions": {
+              "title": "chemistry-definitions Visual Practice",
+              "total": 2
+            },
+            "science_img_chemistry_diagrams": {
+              "title": "chemistry-diagrams Visual Practice",
+              "total": 10
+            },
+            "science_img_chemistry_graphs": {
+              "title": "chemistry-graphs Visual Practice",
+              "total": 2
+            },
+            "science_img_chemistry_tables": {
+              "title": "chemistry-tables Visual Practice",
+              "total": 2
+            },
+            "science_img_earth_science_data": {
+              "title": "earth-science-data Visual Practice",
+              "total": 2
+            },
+            "science_img_earth_science_diagrams": {
+              "title": "earth-science-diagrams Visual Practice",
+              "total": 4
+            },
+            "science_img_energy_statistics": {
+              "title": "energy-statistics Visual Practice",
+              "total": 3
+            },
+            "science_img_general": {
+              "title": "General Visual Practice",
+              "total": 2
+            },
+            "science_img_genetics_diagrams": {
+              "title": "genetics-diagrams Visual Practice",
+              "total": 4
+            },
+            "science_img_geology_diagrams": {
+              "title": "geology-diagrams Visual Practice",
+              "total": 3
+            },
+            "science_img_geology_maps": {
+              "title": "geology-maps Visual Practice",
+              "total": 1
+            },
+            "science_img_health_data_tables": {
+              "title": "health-data-tables Visual Practice",
+              "total": 2
+            },
+            "science_img_labor_statistics_charts": {
+              "title": "labor statistics charts Visual Practice",
+              "total": 2
+            },
+            "science_img_line_graphs": {
+              "title": "line-graphs Visual Practice",
+              "total": 2
+            },
+            "science_img_physics_concepts": {
+              "title": "physics-concepts Visual Practice",
+              "total": 2
+            },
+            "science_img_physics_diagrams": {
+              "title": "physics-diagrams Visual Practice",
+              "total": 10
+            },
+            "science_img_physics_graphs": {
+              "title": "physics-graphs Visual Practice",
+              "total": 2
+            },
+            "science_img_physiology_graphs": {
+              "title": "physiology-graphs Visual Practice",
+              "total": 2
+            },
+            "science_img_plant_cell_diagrams": {
+              "title": "plant-cell-diagrams Visual Practice",
+              "total": 2
+            },
+            "science_img_science_graphs": {
+              "title": "science-graphs Visual Practice",
+              "total": 6
+            },
+            "science_img_tables": {
+              "title": "tables Visual Practice",
+              "total": 2
+            }
+          }
+        },
+        "Life Science": {
+          "total": 184,
+          "topics": {
+            "sci_ecosystems_environment": {
+              "title": "Ecosystems & Environment",
+              "total": 12
+            },
+            "sci_life_science_1": {
+              "title": "Life Science Concepts",
+              "total": 12
+            },
+            "sci_life_science_2": {
+              "title": "Heredity and Ecosystems",
+              "total": 13
+            },
+            "sci_life_science_3": {
+              "title": "Human Body Systems",
+              "total": 12
+            },
+            "sci_life_science_4": {
+              "title": "Cells, Genetics, and Evolution",
+              "total": 14
+            },
+            "sci_life_science_5": {
+              "title": "Ecosystems and Cell Biology",
+              "total": 13
+            },
+            "sci_life_science_6": {
+              "title": "Ecology and Human Impact",
+              "total": 12
+            },
+            "sci_life_science_basics": {
+              "title": "Life Science Basics",
+              "total": 12
+            },
+            "sci_life_science_cells_organelles_1": {
+              "title": "Life Science: Cells and Organelles",
+              "total": 12
+            },
+            "sci_life_science_ecosystems_5": {
+              "title": "Life Science: Ecosystems",
+              "total": 12
+            },
+            "sci_life_science_genetics_heredity_20": {
+              "title": "Life Science: Genetics and Heredity",
+              "total": 12
+            },
+            "sci_life_science_human_body_systems_16": {
+              "title": "Life Science: Human Body Systems",
+              "total": 12
+            },
+            "sci_life_science_human_body_systems_8": {
+              "title": "Life Science: Human Body Systems",
+              "total": 12
+            },
+            "sci_life_science_natural_selection_22": {
+              "title": "Life Science: Natural Selection",
+              "total": 12
+            },
+            "sci_life_science_photosynthesis_respiration_12": {
+              "title": "Life Science: Photosynthesis & Respiration",
+              "total": 12
+            }
+          }
+        },
+        "Physical Science": {
+          "total": 159,
+          "topics": {
+            "sci_chem_fundamentals": {
+              "title": "Chemistry Fundamentals",
+              "total": 12
+            },
+            "sci_physical_science_1": {
+              "title": "Physical Science Principles",
+              "total": 12
+            },
+            "sci_physical_science_2": {
+              "title": "Matter, Energy, and Waves",
+              "total": 13
+            },
+            "sci_physical_science_3": {
+              "title": "Electricity and Magnetism",
+              "total": 12
+            },
+            "sci_physical_science_4": {
+              "title": "Chemical Reactions and Properties of Matter",
+              "total": 12
+            },
+            "sci_physical_science_5": {
+              "title": "Forces, Motion, and Energy Applications",
+              "total": 14
+            },
+            "sci_physical_science_6": {
+              "title": "Thermodynamics and Modern Physics",
+              "total": 12
+            },
+            "sci_physical_science_chemical_reactions_17": {
+              "title": "Physical Science: Chemical Reactions",
+              "total": 12
+            },
+            "sci_physical_science_chemistry_6": {
+              "title": "Physical Science: Chemistry",
+              "total": 12
+            },
+            "sci_physical_science_energy_transformations_14": {
+              "title": "Physical Science: Energy Transformations",
+              "total": 12
+            },
+            "sci_physical_science_forces_motion_21": {
+              "title": "Physical Science: Forces and Motion",
+              "total": 12
+            },
+            "sci_physical_science_matter_energy_2": {
+              "title": "Physical Science: Matter and Energy",
+              "total": 12
+            },
+            "sci_physical_science_newtons_laws_10": {
+              "title": "Physical Science: Newton's Laws of Motion",
+              "total": 12
+            }
+          }
+        },
+        "Science Topics": {
+          "total": 30,
+          "topics": {
+            "sci_earth_space": {
+              "title": "Earth & Space Systems",
+              "total": 15
+            },
+            "sci_physics_motion": {
+              "title": "Physics in Motion",
+              "total": 15
+            }
+          }
+        },
+        "Scientific Numeracy": {
+          "total": 12,
+          "topics": {
+            "sci_scientific_numeracy_core": {
+              "title": "Scientific Numeracy Core Skills",
+              "total": 12
+            }
+          }
+        },
+        "Scientific Practices": {
+          "total": 48,
+          "topics": {
+            "sci_scientific_practices_data_interpretation_18": {
+              "title": "Scientific Practices: Data Interpretation",
+              "total": 12
+            },
+            "sci_scientific_practices_data_reasoning_9": {
+              "title": "Scientific Practices: Data Reasoning",
+              "total": 12
+            },
+            "sci_scientific_practices_experimental_design_13": {
+              "title": "Scientific Practices: Experimental Design",
+              "total": 12
+            },
+            "sci_scientific_practices_method_4": {
+              "title": "Scientific Practices: The Scientific Method",
+              "total": 12
+            }
+          }
+        },
+        "Scientific Practices / Data Reasoning": {
+          "total": 62,
+          "topics": {
+            "sci_data_reasoning_1": {
+              "title": "Scientific Reasoning and Data Analysis",
+              "total": 12
+            },
+            "sci_data_reasoning_2": {
+              "title": "Experimental Design and Interpretation",
+              "total": 13
+            },
+            "sci_data_reasoning_3": {
+              "title": "Interpreting Experiments and Data",
+              "total": 13
+            },
+            "sci_data_reasoning_4": {
+              "title": "Data Representation and Scientific Inquiry",
+              "total": 12
+            },
+            "sci_data_reasoning_5": {
+              "title": "Scientific Method and Conclusions",
+              "total": 12
+            }
+          }
+        }
+      }
+    },
+    "Social Studies": {
+      "total": 1399,
+      "categories": {
+        "Civics & Government": {
+          "total": 96,
+          "topics": {
+            "ss_civics_bill_of_rights_15": {
+              "title": "The Bill of Rights",
+              "total": 12
+            },
+            "ss_civics_citizen_rights_7": {
+              "title": "Rights and Responsibilities of Citizens",
+              "total": 12
+            },
+            "ss_civics_elections_17": {
+              "title": "Political Parties and Elections",
+              "total": 12
+            },
+            "ss_civics_federalism_6": {
+              "title": "Federal vs. State Powers",
+              "total": 12
+            },
+            "ss_civics_gov_structure_16": {
+              "title": "Structure of the U.S. Government",
+              "total": 12
+            },
+            "ss_civics_lawmaking_10": {
+              "title": "How Laws and Policies are Made",
+              "total": 12
+            },
+            "ss_civics_separation_of_powers_5": {
+              "title": "Separation of Powers and Checks & Balances",
+              "total": 12
+            },
+            "ss_civics_supreme_court_18": {
+              "title": "Landmark Supreme Court Cases",
+              "total": 12
+            }
+          }
+        },
+        "Civil Rights movement and modern era": {
+          "total": 24,
+          "topics": {
+            "ss_civil_rights_14": {
+              "title": "Struggles for Equality in Modern America",
+              "total": 12
+            },
+            "ss_civil_rights_4": {
+              "title": "The Civil Rights Movement",
+              "total": 12
+            }
+          }
+        },
+        "Civil War & Reconstruction": {
+          "total": 24,
+          "topics": {
+            "ss_civil_war_11": {
+              "title": "Key Aspects of the Civil War",
+              "total": 12
+            },
+            "ss_civil_war_3": {
+              "title": "The Civil War and Reconstruction Era",
+              "total": 12
+            }
+          }
+        },
+        "Colonial era and early United States": {
+          "total": 24,
+          "topics": {
+            "ss_colonial_era_1": {
+              "title": "Colonial Foundations and Early America",
+              "total": 12
+            },
+            "ss_colonial_era_12": {
+              "title": "The Early American Republic",
+              "total": 12
+            }
+          }
+        },
+        "Economics / Geography": {
+          "total": 12,
+          "topics": {
+            "ss_economics_geography_8": {
+              "title": "Economic Principles and Geographic Skills",
+              "total": 12
+            }
+          }
+        },
+        "Image Based Practice": {
+          "total": 488,
+          "topics": {
+            "social_studies_img_bar_charts": {
+              "title": "bar-charts Visual Practice",
+              "total": 9
+            },
+            "social_studies_img_bar_graphs": {
+              "title": "bar-graphs Visual Practice",
+              "total": 5
+            },
+            "social_studies_img_civics_documents": {
+              "title": "civics-documents Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_civics_flowcharts": {
+              "title": "civics-flowcharts Visual Practice",
+              "total": 4
+            },
+            "social_studies_img_civics_maps": {
+              "title": "civics-maps Visual Practice",
+              "total": 6
+            },
+            "social_studies_img_civics_tables": {
+              "title": "civics-tables Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_civil_rights_movement_photographs": {
+              "title": "civil-rights-movement-photographs Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_cold_war_alliances_map": {
+              "title": "cold-war-alliances-map Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_data_tables": {
+              "title": "data-tables Visual Practice",
+              "total": 4
+            },
+            "social_studies_img_demographics_bar_charts": {
+              "title": "demographics-bar-charts Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_demographics_charts": {
+              "title": "demographics-charts Visual Practice",
+              "total": 5
+            },
+            "social_studies_img_demographics_graphs": {
+              "title": "demographics-graphs Visual Practice",
+              "total": 6
+            },
+            "social_studies_img_demographics_tables": {
+              "title": "demographics-tables Visual Practice",
+              "total": 6
+            },
+            "social_studies_img_economic_charts": {
+              "title": "economic-charts Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_economic_data_graphs": {
+              "title": "economic-data-graphs Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_economic_diagrams": {
+              "title": "economic-diagrams Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_economic_graphs": {
+              "title": "economic-graphs Visual Practice",
+              "total": 6
+            },
+            "social_studies_img_economic_line_graph": {
+              "title": "economic-line-graph Visual Practice",
+              "total": 6
+            },
+            "social_studies_img_economic_line_graphs": {
+              "title": "economic-line-graphs Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_economic_maps": {
+              "title": "economic-maps Visual Practice",
+              "total": 6
+            },
+            "social_studies_img_economics_bar_graphs": {
+              "title": "economics-bar-graphs Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_economics_graphs": {
+              "title": "economics-graphs Visual Practice",
+              "total": 15
+            },
+            "social_studies_img_economics_pie_chart": {
+              "title": "economics-pie-chart Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_economics_tables": {
+              "title": "economics-tables Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_election_maps": {
+              "title": "election-maps Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_energy_line_graph": {
+              "title": "energy-line-graph Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_financial_tables": {
+              "title": "financial-tables Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_general": {
+              "title": "General Visual Practice",
+              "total": 6
+            },
+            "social_studies_img_geography_map": {
+              "title": "geography-map Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_geography_tables": {
+              "title": "geography-tables Visual Practice",
+              "total": 4
+            },
+            "social_studies_img_government_structures_table": {
+              "title": "government-structures-table Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_graphs": {
+              "title": "graphs Visual Practice",
+              "total": 5
+            },
+            "social_studies_img_health_charts": {
+              "title": "health-charts Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_historic_photos": {
+              "title": "historic-photos Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_historical_cartoons": {
+              "title": "historical-cartoons Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_historical_illustration": {
+              "title": "historical-illustration Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_historical_illustrations": {
+              "title": "historical-illustrations Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_historical_map": {
+              "title": "historical-map Visual Practice",
+              "total": 5
+            },
+            "social_studies_img_historical_maps": {
+              "title": "historical-maps Visual Practice",
+              "total": 165
+            },
+            "social_studies_img_historical_maps_civil_war_cartoons": {
+              "title": "historical-maps, civil-war-cartoons Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_historical_maps_territorial_changes": {
+              "title": "historical-maps, territorial-changes Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_historical_photographs": {
+              "title": "historical-photographs Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_historical_photos": {
+              "title": "historical-photos Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_historical_posters": {
+              "title": "historical-posters Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_historical_urban_scene": {
+              "title": "historical-urban-scene Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_history_civil_unrest": {
+              "title": "history-civil-unrest Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_history_concept_maps": {
+              "title": "history-concept-maps Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_history_diagrams": {
+              "title": "history-diagrams Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_history_graphs": {
+              "title": "history-graphs Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_history_maps": {
+              "title": "history-maps Visual Practice",
+              "total": 13
+            },
+            "social_studies_img_history_photos": {
+              "title": "history-photos Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_history_pie_chart": {
+              "title": "history-pie-chart Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_history_tables": {
+              "title": "history-tables Visual Practice",
+              "total": 5
+            },
+            "social_studies_img_history_timeline": {
+              "title": "history-timeline Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_income_types": {
+              "title": "income-types Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_line_graphs": {
+              "title": "line-graphs Visual Practice",
+              "total": 8
+            },
+            "social_studies_img_maps": {
+              "title": "maps Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_multiple_graphs": {
+              "title": "multiple-graphs Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_pictographs": {
+              "title": "pictographs Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_pie_charts": {
+              "title": "pie-charts Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_political_cartoons": {
+              "title": "Political-cartoons Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_political_cartoons_wwii_history": {
+              "title": "political-cartoons-WWII-history Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_political_maps": {
+              "title": "political-maps Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_population_tables": {
+              "title": "population-tables Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_renaissance_art": {
+              "title": "renaissance-art Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_social_protests": {
+              "title": "social-protests Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_social_statistics_table": {
+              "title": "social-statistics-table Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_social_studies_data_tables": {
+              "title": "social-studies-data-tables Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_social_studies_graphs": {
+              "title": "social-studies-graphs Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_social_studies_tables": {
+              "title": "social-studies-tables Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_social_studies_terminology_table": {
+              "title": "social-studies-terminology-table Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_state_flags": {
+              "title": "state-flags Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_tables": {
+              "title": "tables Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_timelines": {
+              "title": "timelines Visual Practice",
+              "total": 2
+            },
+            "social_studies_img_u_s_history_maps": {
+              "title": "U.S.-history-maps Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_us_historical_maps": {
+              "title": "US-historical-maps Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_us_history_historical_maps": {
+              "title": "US-history, historical-maps Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_us_history_maps": {
+              "title": "US-history-maps Visual Practice",
+              "total": 62
+            },
+            "social_studies_img_us_history_political_cartoons": {
+              "title": "US-history, political-cartoons Visual Practice",
+              "total": 3
+            },
+            "social_studies_img_world_maps": {
+              "title": "world-maps Visual Practice",
+              "total": 2
+            }
+          }
+        },
+        "Reading Primary / Secondary Sources": {
+          "total": 12,
+          "topics": {
+            "ss_reading_sources_9": {
+              "title": "Analyzing Primary and Secondary Sources",
+              "total": 12
+            }
+          }
+        },
+        "Social Studies Topics": {
+          "total": 683,
+          "topics": {
+            "ss_civics_constitution": {
+              "title": "The Constitution",
+              "total": 15
+            },
+            "ss_civics_constitution_quiz1": {
+              "title": "The Constitution: Quiz 1",
+              "total": 12
+            },
+            "ss_civics_constitution_quiz2": {
+              "title": "The Constitution: Quiz 2",
+              "total": 12
+            },
+            "ss_civics_constitution_quiz3": {
+              "title": "The Constitution: Quiz 3",
+              "total": 12
+            },
+            "ss_civics_executive": {
+              "title": "The Executive Branch",
+              "total": 15
+            },
+            "ss_civics_executive_quiz1": {
+              "title": "The Executive Branch: Quiz 1",
+              "total": 12
+            },
+            "ss_civics_executive_quiz2": {
+              "title": "The Executive Branch: Quiz 2",
+              "total": 12
+            },
+            "ss_civics_executive_quiz3": {
+              "title": "The Executive Branch: Quiz 3",
+              "total": 12
+            },
+            "ss_civics_federalism_elections": {
+              "title": "Federalism & Elections",
+              "total": 15
+            },
+            "ss_civics_federalism_elections_quiz1": {
+              "title": "Federalism & Elections: Quiz 1",
+              "total": 12
+            },
+            "ss_civics_federalism_elections_quiz2": {
+              "title": "Federalism & Elections: Quiz 2",
+              "total": 12
+            },
+            "ss_civics_federalism_elections_quiz3": {
+              "title": "Federalism & Elections: Quiz 3",
+              "total": 12
+            },
+            "ss_civics_judicial": {
+              "title": "The Judicial Branch",
+              "total": 15
+            },
+            "ss_civics_judicial_quiz1": {
+              "title": "The Judicial Branch: Quiz 1",
+              "total": 12
+            },
+            "ss_civics_judicial_quiz2": {
+              "title": "The Judicial Branch: Quiz 2",
+              "total": 12
+            },
+            "ss_civics_judicial_quiz3": {
+              "title": "The Judicial Branch: Quiz 3",
+              "total": 12
+            },
+            "ss_civics_legislative": {
+              "title": "The Legislative Branch",
+              "total": 15
+            },
+            "ss_civics_legislative_quiz1": {
+              "title": "The Legislative Branch: Quiz 1",
+              "total": 12
+            },
+            "ss_civics_legislative_quiz2": {
+              "title": "The Legislative Branch: Quiz 2",
+              "total": 12
+            },
+            "ss_civics_legislative_quiz3": {
+              "title": "The Legislative Branch: Quiz 3",
+              "total": 12
+            },
+            "ss_econ_foundations": {
+              "title": "Foundational Concepts",
+              "total": 15
+            },
+            "ss_econ_us_economy": {
+              "title": "The U.S. Economy",
+              "total": 15
+            },
+            "ss_geo_map_skills": {
+              "title": "Map & Data Skills",
+              "total": 13
+            },
+            "ss_us_hist_cold_war": {
+              "title": "The Cold War Era (1945-1991)",
+              "total": 13
+            },
+            "ss_us_hist_cold_war_quiz1": {
+              "title": "The Cold War: Quiz 1",
+              "total": 10
+            },
+            "ss_us_hist_cold_war_quiz2": {
+              "title": "The Cold War: Quiz 2",
+              "total": 10
+            },
+            "ss_us_hist_cold_war_quiz3": {
+              "title": "The Cold War: Quiz 3",
+              "total": 10
+            },
+            "ss_us_hist_contemporary_america": {
+              "title": "Contemporary America (1991-Present)",
+              "total": 15
+            },
+            "ss_us_hist_contemporary_america_quiz1": {
+              "title": "Contemporary America: Quiz 1",
+              "total": 12
+            },
+            "ss_us_hist_contemporary_america_quiz2": {
+              "title": "Contemporary America: Quiz 2",
+              "total": 12
+            },
+            "ss_us_hist_contemporary_america_quiz3": {
+              "title": "Contemporary America: Quiz 3",
+              "total": 12
+            },
+            "ss_us_hist_divided_nation": {
+              "title": "A Nation Divided (1824-1877)",
+              "total": 15
+            },
+            "ss_us_hist_foundations_quiz1": {
+              "title": "Foundations: Quiz 1",
+              "total": 12
+            },
+            "ss_us_hist_foundations_quiz2": {
+              "title": "Foundations: Quiz 2",
+              "total": 12
+            },
+            "ss_us_hist_foundations_quiz3": {
+              "title": "Foundations: Quiz 3",
+              "total": 12
+            },
+            "ss_us_hist_global_conflicts": {
+              "title": "Global Conflicts (1914-1945)",
+              "total": 12
+            },
+            "ss_us_hist_global_conflicts_quiz1": {
+              "title": "Global Conflicts: Quiz 1",
+              "total": 12
+            },
+            "ss_us_hist_global_conflicts_quiz2": {
+              "title": "Global Conflicts: Quiz 2",
+              "total": 12
+            },
+            "ss_us_hist_global_conflicts_quiz3": {
+              "title": "Global Conflicts: Quiz 3",
+              "total": 12
+            },
+            "ss_us_hist_industrial_america": {
+              "title": "Industrial America (1877-1914)",
+              "total": 15
+            },
+            "ss_us_hist_industrial_america_quiz1": {
+              "title": "Industrial America: Quiz 1",
+              "total": 12
+            },
+            "ss_us_hist_industrial_america_quiz2": {
+              "title": "Industrial America: Quiz 2",
+              "total": 12
+            },
+            "ss_us_hist_industrial_america_quiz3": {
+              "title": "Industrial America: Quiz 3",
+              "total": 12
+            },
+            "ss_us_hist_new_nation": {
+              "title": "Westward Expansion",
+              "total": 30
+            },
+            "ss_us_hist_new_nation_quiz1": {
+              "title": "A New Nation: Quiz 1",
+              "total": 12
+            },
+            "ss_us_hist_new_nation_quiz2": {
+              "title": "A New Nation: Quiz 2",
+              "total": 12
+            },
+            "ss_us_hist_new_nation_quiz3": {
+              "title": "A New Nation: Quiz 3",
+              "total": 12
+            },
+            "ss_us_hist_revolution": {
+              "title": "The American Revolution (1763-1783)",
+              "total": 15
+            },
+            "ss_us_hist_revolution_quiz2": {
+              "title": "The American Revolution: Quiz 2",
+              "total": 12
+            },
+            "ss_us_hist_revolution_quiz3": {
+              "title": "The American Revolution: Quiz 3",
+              "total": 12
+            },
+            "ss_us_hist_westward_expansion_quiz1": {
+              "title": "Westward Expansion: Quiz 1",
+              "total": 12
+            },
+            "ss_us_hist_westward_expansion_quiz2": {
+              "title": "Westward Expansion: Quiz 2",
+              "total": 12
+            },
+            "ss_us_hist_westward_expansion_quiz3": {
+              "title": "Westward Expansion: Quiz 3",
+              "total": 12
+            }
+          }
+        },
+        "U.S. History": {
+          "total": 12,
+          "topics": {
+            "ss_us_hist_foundations": {
+              "title": "Foundations (1491-1763)",
+              "total": 12
+            }
+          }
+        },
+        "Westward expansion / industrialization": {
+          "total": 24,
+          "topics": {
+            "ss_westward_expansion_13": {
+              "title": "Growth and Change in the 19th Century",
+              "total": 12
+            },
+            "ss_westward_expansion_2": {
+              "title": "Manifest Destiny and Industrialization",
+              "total": 12
+            }
+          }
+        }
+      }
+    }
+  },
+  "completeness": {
+    "PASSED": 3825,
+    "INCOMPLETE": 0
+  },
+  "logicalReview": {
+    "totalQuestions": 3825,
+    "flaggedQuestions": 2,
+    "issueCounts": {
+      "SHORT_STEM": 1,
+      "DUPLICATE_OPTIONS": 1
+    },
+    "externalFlags": 15
+  },
+  "alignment": {
+    "totalQuestions": 3825,
+    "flagged": 26
+  },
+  "technical": {
+    "latexIssues": 445,
+    "tableIssues": 0,
+    "imageIssues": 653,
+    "totalQuestions": 3825
+  },
+  "auditStatus": {
+    "missingFields": 0,
+    "logicalFlags": 2,
+    "alignmentFlags": 26,
+    "technicalIssues": 1096
+  },
+  "notes": [
+    "No edits performed during Phase 1-5. Change-map baseline captured.",
+    "Phase 5 issues require remediation before certification as clean."
+  ]
+}

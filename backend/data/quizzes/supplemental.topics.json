@@ -8530,5 +8530,93 @@
       },
       "file": "backend/data/quizzes/social-studies/social_studies_img_history_pie_chart.js"
     }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
+    "categoryName": "Diagnostic Composites",
+    "topic": {
+      "id": "diag_math_composite_v1",
+      "title": "Diagnostic Composite (Math) V1",
+      "description": "Composite diagnostic covering number operations, algebra, geometry, and data/probability.",
+      "config": {
+        "totalTime": 1200,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Composite",
+            "questionCount": 10
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/diag_math_composite_v1.js"
+    }
+  },
+  {
+    "subjectKey": "RLA",
+    "subjectFolder": "rla",
+    "categoryName": "Diagnostic Composites",
+    "topic": {
+      "id": "diag_rla_composite_v1",
+      "title": "Diagnostic Composite (RLA) V1",
+      "description": "Composite diagnostic covering main idea, inference, evidence, and argument.",
+      "config": {
+        "totalTime": 1200,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Composite",
+            "questionCount": 10
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/rla/diag_rla_composite_v1.js"
+    }
+  },
+  {
+    "subjectKey": "Science",
+    "subjectFolder": "science",
+    "categoryName": "Diagnostic Composites",
+    "topic": {
+      "id": "diag_science_composite_v1",
+      "title": "Diagnostic Composite (Science) V1",
+      "description": "Composite diagnostic covering life science, physical science, earth/space, and data interpretation.",
+      "config": {
+        "totalTime": 1200,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Composite",
+            "questionCount": 10
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/science/diag_science_composite_v1.js"
+    }
+  },
+  {
+    "subjectKey": "Social Studies",
+    "subjectFolder": "social-studies",
+    "categoryName": "Diagnostic Composites",
+    "topic": {
+      "id": "diag_ss_composite_v1",
+      "title": "Diagnostic Composite (Social Studies) V1",
+      "description": "Composite diagnostic covering civics, U.S. history, economics, geography, and data interpretation.",
+      "config": {
+        "totalTime": 1200,
+        "calculator": false,
+        "formulaSheet": false,
+        "parts": [
+          {
+            "name": "Composite",
+            "questionCount": 10
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/social-studies/diag_ss_composite_v1.js"
+    }
   }
 ]

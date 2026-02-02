@@ -14,7 +14,7 @@ module.exports = [
       {
         "text": "8",
         "isCorrect": true,
-        "rationale": "The sum is 40. $\\frac{40}{5}$ = 8."
+        "rationale": "The sum is 40. \(\\(\frac{40}{5}\)\) = 8."
       },
       {
         "text": "10",
@@ -39,8 +39,8 @@ module.exports = [
     "calculator": true,
     "difficulty": "easy",
     "question": "A drawer has 8 blue socks and 4 black socks. What is the probability of picking a black sock?",
-    "correctAnswer": "$\\frac{1}{3}$",
-    "rationale": "There are 4 black socks and a total of 12 socks. The probability is $\\frac{4}{12}$, which simplifies to $\\frac{1}{3}$.",
+    "correctAnswer": "\(\\(\frac{1}{3}\)\)",
+    "rationale": "There are 4 black socks and a total of 12 socks. The probability is \(\\(\frac{4}{12}\)\), which simplifies to \(\\(\frac{1}{3}\)\).",
     "challenge_tags": [
       "math-6"
     ]
@@ -134,7 +134,7 @@ module.exports = [
       {
         "text": "1.67",
         "isCorrect": false,
-        "rationale": "This is $\\frac{10}{6}$."
+        "rationale": "This is \(\\(\frac{10}{6}\)\)."
       },
       {
         "text": "16",
@@ -178,27 +178,27 @@ module.exports = [
     "question": "What is the probability of drawing a red Queen from a standard 52-card deck?",
     "answerOptions": [
       {
-        "text": "$\\frac{1}{52}$",
+        "text": "\(\\(\frac{1}{52}\)\)",
         "isCorrect": false,
         "rationale": "This is for a specific red queen."
       },
       {
-        "text": "$\\frac{1}{26}$",
+        "text": "\(\\(\frac{1}{26}\)\)",
         "isCorrect": true,
-        "rationale": "There are 2 red Queens (Hearts and Diamonds) out of 52 cards. $\\frac{2}{52}$ = $\\frac{1}{26}$."
+        "rationale": "There are 2 red Queens (Hearts and Diamonds) out of 52 cards. \(\\(\frac{2}{52}\)\) = \(\\(\frac{1}{26}\)\)."
       },
       {
-        "text": "$\\frac{1}{13}$",
+        "text": "\(\\(\frac{1}{13}\)\)",
         "isCorrect": false,
         "rationale": "This is the probability of drawing any Queen."
       },
       {
-        "text": "$\\frac{1}{4}$",
+        "text": "\(\\(\frac{1}{4}\)\)",
         "isCorrect": false,
         "rationale": "This is the probability of drawing a card from a specific suit."
       }
     ],
-    "rationale": "There are two red Queens in a deck of 52 cards (the Queen of Hearts and the Queen of Diamonds). The probability is $\\frac{2}{52}$, which simplifies to $\\frac{1}{26}$.",
+    "rationale": "There are two red Queens in a deck of 52 cards (the Queen of Hearts and the Queen of Diamonds). The probability is \(\\(\frac{2}{52}\)\), which simplifies to \(\\(\frac{1}{26}\)\).",
     "challenge_tags": [
       "math-6"
     ]
@@ -236,7 +236,7 @@ module.exports = [
       {
         "text": "0.5",
         "isCorrect": true,
-        "rationale": "0.5 or $\\frac{1}{2}$ represents a 50% chance, which is equally likely."
+        "rationale": "0.5 or \(\\(\frac{1}{2}\) represents a 50% chance, which is equally likely.\)"
       },
       {
         "text": "0.25",
@@ -244,7 +244,7 @@ module.exports = [
         "rationale": "This is a 1 in 4 chance."
       }
     ],
-    "rationale": "An event that is equally likely to happen as not to happen has a 50% chance of occurring, which is a probability of 0.5 or $\\frac{1}{2}$.",
+    "rationale": "An event that is equally likely to happen as not to happen has a 50% chance of occurring, which is a probability of 0.5 or \(\\(\frac{1}{2}\)\).",
     "challenge_tags": [
       "math-6"
     ]
@@ -257,27 +257,27 @@ module.exports = [
     "question": "A bag contains 5 red balls and 3 blue balls. You draw one ball, do not replace it, and then draw a second ball. What is the probability that both balls are red?",
     "answerOptions": [
       {
-        "text": "$\\frac{25}{64}$",
+        "text": "\(\\(\frac{25}{64}\)\)",
         "isCorrect": false,
         "rationale": "This is if you replace the ball."
       },
       {
-        "text": "$\\frac{5}{14}$",
+        "text": "\(\\(\frac{5}{14}\)\)",
         "isCorrect": true,
-        "rationale": "P(1st is red) = $\\frac{5}{8}$. P(2nd is red) = $\\frac{4}{7}$. P(both) = ($\\frac{5}{8}$)*($\\frac{4}{7}$) = $\\frac{20}{56}$ = $\\frac{5}{14}$."
+        "rationale": "P(1st is red) = \(\\(\frac{5}{8}\)\). P(2nd is red) = \(\\(\frac{4}{7}\)\). P(both) = (\(\\(\frac{5}{8}\)\))*(\(\\(\frac{4}{7}\)\)) = \(\\(\frac{20}{56}\)\) = \(\\(\frac{5}{14}\)\)."
       },
       {
-        "text": "$\\frac{15}{56}$",
+        "text": "\(\\(\frac{15}{56}\)\)",
         "isCorrect": false,
         "rationale": "This is P(red then blue)."
       },
       {
-        "text": "$\\frac{9}{64}$",
+        "text": "\(\\(\frac{9}{64}\)\)",
         "isCorrect": false,
         "rationale": "This is P(blue then blue with replacement)."
       }
     ],
-    "rationale": "The probability of the first ball being red is $\\frac{5}{8}$. After drawing one red ball, there are 4 red balls left and a total of 7 balls. The probability of the second ball being red is $\\frac{4}{7}$. The total probability is ($\\frac{5}{8}$) * ($\\frac{4}{7}$) = $\\frac{20}{56}$, which simplifies to $\\frac{5}{14}$.",
+    "rationale": "The probability of the first ball being red is \(\\(\frac{5}{8}\)\). After drawing one red ball, there are 4 red balls left and a total of 7 balls. The probability of the second ball being red is \(\\(\frac{4}{7}\)\). The total probability is (\(\\(\frac{5}{8}\)\)) * (\(\\(\frac{4}{7}\)\)) = \(\\(\frac{20}{56}\)\), which simplifies to \(\\(\frac{5}{14}\)\).",
     "challenge_tags": [
       "math-6"
     ]

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getApiBaseUrl } from '../../src/utils/apiBase.js';
 import LearningPlanCard from './LearningPlanCard.jsx';
 import MasteryPanel from './MasteryPanel.jsx';
 import StudyLevelBar from './StudyLevelBar.jsx';
@@ -105,11 +106,12 @@ export default function StudentHomeRoom({ user, onNavigate }) {
       // We don't set global loading here to avoid unmounting the dashboard if it fails quickly
       // But we can show a loading state on the button
 
-      const token = localStorage.getItem('token');
-      const res = await fetch('/api/diagnostic-test', {
+      const token =
+        localStorage.getItem('token') || localStorage.getItem('appToken');
+      const res = await fetch(`${getApiBaseUrl()}/api/diagnostic-test`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: token ? `Bearer ${token}` : '',
         },
       });
 

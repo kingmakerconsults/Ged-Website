@@ -1,0 +1,456 @@
+{
+  "totalFlagged": 30,
+  "generatedAt": "2026-01-21T05:41:41.540Z",
+  "items": [
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-0",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Select the verb that correctly completes the sentence.",
+      "passage": "Read the following sentence: The management team, after reviewing the quarterly reports, [CHOICE] ready to announce its decision.",
+      "answers": [
+        "is",
+        "are",
+        "were",
+        "have been"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-1",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Which option correctly completes the sentence?",
+      "passage": "Choose the verb that completes the sentence: Neither the players nor the coach [CHOICE] willing to postpone the tournament.",
+      "answers": [
+        "is",
+        "are",
+        "be",
+        "were"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-2",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Which option correctly completes the sentence?",
+      "passage": "Choose the verb that completes the sentence: The boxes of donated books [CHOICE] stacked neatly in the hallway.",
+      "answers": [
+        "are",
+        "is",
+        "was",
+        "has been"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-3",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Which option correctly completes the sentence?",
+      "passage": "Choose the verb that completes the sentence: Each of the applicants [CHOICE] submitted a portfolio for review.",
+      "answers": [
+        "has",
+        "have",
+        "were",
+        "are"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-4",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Which option correctly completes the sentence?",
+      "passage": "Choose the verb that completes the sentence: My brother, along with his friends, [CHOICE] planning a surprise party.",
+      "answers": [
+        "is",
+        "are",
+        "be",
+        "were"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-5",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Which option correctly completes the sentence?",
+      "passage": "Choose the verb that completes the sentence: Either the printers or the fax machine [CHOICE] responsible for the noise in the office.",
+      "answers": [
+        "is",
+        "are",
+        "were",
+        "have been"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-6",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Which option correctly completes the sentence?",
+      "passage": "Choose the verb that completes the sentence: The data from the latest studies [CHOICE] especially promising for future treatments.",
+      "answers": [
+        "are",
+        "is",
+        "was",
+        "be"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-7",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Which option correctly completes the sentence?",
+      "passage": "Choose the verb that completes the sentence: The number of volunteers [CHOICE] increasing every week as the event approaches.",
+      "answers": [
+        "is",
+        "are",
+        "have",
+        "were"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-8",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Which option correctly completes the sentence?",
+      "passage": "Choose the verb that completes the sentence: A bouquet of roses [CHOICE] waiting on the table when we arrived.",
+      "answers": [
+        "was",
+        "were",
+        "are",
+        "be"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-9",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Which option correctly completes the sentence?",
+      "passage": "Choose the verb that completes the sentence: Neither of the solutions [CHOICE] acceptable to the client.",
+      "answers": [
+        "is",
+        "are",
+        "have been",
+        "were"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-10",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Which option correctly completes the sentence?",
+      "passage": "Choose the verb that completes the sentence: The team of engineers [CHOICE] completing its prototype ahead of schedule.",
+      "answers": [
+        "is",
+        "are",
+        "be",
+        "were"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Language & Grammar-topic-0-11",
+      "category": "Grammar & Usage",
+      "quizTitle": "Grammar & Usage",
+      "questionText": "Which option correctly completes the sentence?",
+      "passage": "Choose the verb that completes the sentence: Both the manager and the assistants [CHOICE] attending the regional conference this month.",
+      "answers": [
+        "are",
+        "is",
+        "was",
+        "has been"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Inference, Tone, and Purpose-topic-0-10",
+      "category": "Inference, Tone, and Purpose",
+      "quizTitle": "Inference, Tone, and Purpose",
+      "questionText": "What is the author's tone toward the committee's report?",
+      "passage": "The committee's final report was a masterpiece of neutrality. It meticulously detailed the arguments from all sides, presented data without interpretation, and offered a list of possible actions without recommending a single one. It was thorough, precise, and ultimately, completely useless.",
+      "answers": [
+        "Admiring and respectful",
+        "Confused and uncertain",
+        "Sarcastic and critical",
+        "Enthusiastic and supportive"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Inference, Tone, and Purpose-topic-2-6",
+      "category": "Deducing Meaning and Intent",
+      "quizTitle": "Deducing Meaning and Intent",
+      "questionText": "What is the author's tone toward the company's press release?",
+      "passage": "The company's press release was a torrent of corporate jargon, speaking of 'synergistic alignments' and 'leveraging core competencies.' It celebrated a 'strategic reorganization' which, on the last page, was revealed to involve the termination of 500 employees. The final sentence wished the departing employees 'success in their future endeavors.'",
+      "answers": [
+        "Supportive and enthusiastic",
+        "Neutral and objective",
+        "Sarcastic and critical",
+        "Confused and bewildered"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Inference, Tone, and Purpose-topic-2-10",
+      "category": "Deducing Meaning and Intent",
+      "quizTitle": "Deducing Meaning and Intent",
+      "questionText": "What is the author's tone toward King Frederick?",
+      "passage": "The historian wrote, 'King Frederick was a master of the grand gesture. He built palaces and funded operas, but he neglected the kingdom's crumbling roads and empty granaries. He gave the people circuses, but he failed to give them bread.'",
+      "answers": [
+        "Admiring",
+        "Neutral",
+        "Critical",
+        "Sympathetic"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Inference, Tone, and Purpose-topic-3-5",
+      "category": "Analyzing Author's Intent",
+      "quizTitle": "Analyzing Author's Intent",
+      "questionText": "What is the author's tone toward the 'beautification' project?",
+      "passage": "The city's 'beautification' project involved cutting down a grove of 100-year-old oak trees to make way for a concrete plaza with a few minimalist benches. The press release praised the 'clean, modern aesthetic' and 'enhanced public space.'",
+      "answers": [
+        "Supportive",
+        "Neutral",
+        "Ironic and critical",
+        "Enthusiastic"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Inference, Tone, and Purpose-topic-4-4",
+      "category": "Discerning Authorial Intent",
+      "quizTitle": "Discerning Authorial Intent",
+      "questionText": "What is the author's tone toward the historian's new book?",
+      "passage": "The historian’s new book is a triumph of scholarship. It meticulously documents the lives of ordinary people during the war, using their own letters and diaries as primary sources. It avoids grand pronouncements and instead, through a mosaic of small, personal stories, builds a powerful and deeply human portrait of the era.",
+      "answers": [
+        "Critical and dismissive",
+        "Admiring and respectful",
+        "Sarcastic and ironic",
+        "Neutral and indifferent"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Inference, Tone, and Purpose-topic-4-8",
+      "category": "Discerning Authorial Intent",
+      "quizTitle": "Discerning Authorial Intent",
+      "questionText": "What is the author's tone toward the candidate?",
+      "passage": "The candidate's platform is built on a foundation of 'common sense.' He uses this phrase to justify every proposal, from tax policy to foreign affairs. Yet, he never seems to define what 'common sense' entails, leaving one to wonder if it's simply a substitute for a well-researched plan.",
+      "answers": [
+        "Trusting and supportive",
+        "Skeptical and critical",
+        "Neutral and objective",
+        "Confused and lost"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Inference, Tone, and Purpose-topic-5-2",
+      "category": "Uncovering Implicit Meaning",
+      "quizTitle": "Uncovering Implicit Meaning",
+      "questionText": "What is the author's tone toward the bookstore?",
+      "passage": "The old bookstore was a labyrinth of towering shelves and narrow aisles, the air thick with the scent of aging paper. Every corner held a new discovery—a forgotten classic, a dusty poetry collection, a book of maps from a world that no longer existed. It was a place where time seemed to slow down, and every book was a doorway to another life.",
+      "answers": [
+        "Anxious and claustrophobic",
+        "Wondrous and affectionate",
+        "Critical and dismissive",
+        "Modern and efficient"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Inference, Tone, and Purpose-topic-6-4",
+      "category": "Reading for Implied Meaning",
+      "quizTitle": "Reading for Implied Meaning",
+      "questionText": "What is the author's tone toward the restaurant?",
+      "passage": "He called his new restaurant 'The Connoisseur's Kitchen.' The menu was filled with exotic, difficult-to-pronounce dishes. The waiters were trained to correct your pronunciation if you mispronounced them. The portions were minuscule, and the prices were astronomical. After one visit, I decided I preferred my kitchen.",
+      "answers": [
+        "Admiring and impressed",
+        "Sarcastic and disdainful",
+        "Neutral and objective",
+        "Envious and jealous"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Inference, Tone, and Purpose-topic-8-1",
+      "category": "Advanced Analysis of Tone and Purpose",
+      "quizTitle": "Advanced Analysis of Tone and Purpose",
+      "questionText": "What is the author's tone toward the candidate?",
+      "passage": "The candidate's speech was a masterclass in ambiguity. He promised 'prosperity for all' without detailing any economic policies. He vowed to 'strengthen our communities' without mentioning a single specific program. He spoke of 'a brighter future' but offered no roadmap to get there. He left the stage to thunderous applause.",
+      "answers": [
+        "Admiring and supportive",
+        "Critical and skeptical",
+        "Neutral and objective",
+        "Confused and puzzled"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-Inference, Tone, and Purpose-topic-9-1",
+      "category": "Comprehensive Inference and Tone Review",
+      "quizTitle": "Comprehensive Inference and Tone Review",
+      "questionText": "What is the author's tone toward the old theater?",
+      "passage": "The old theater was a glorious ruin. Velvet ropes, once a rich crimson, were now a dusty pink. Gold leaf peeled from the ornate ceiling, and the stage was a dark, silent mouth. It was a place where memories of thunderous applause and standing ovations echoed in the silence.",
+      "answers": [
+        "Modern and minimalist",
+        "Nostalgic and melancholic",
+        "Angry and critical",
+        "Humorous and lighthearted"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-RLA Topics-topic-0-4",
+      "category": "Point of View & Purpose",
+      "quizTitle": "Point of View & Purpose",
+      "questionText": "The author's tone can best be described as:",
+      "passage": "",
+      "answers": [
+        "uncertain and questioning.",
+        "humorous and lighthearted.",
+        "objective and detached.",
+        "passionate and urgent."
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-RLA Topics-topic-2-1",
+      "category": "Interpreting Graphics",
+      "quizTitle": "Interpreting Graphics",
+      "questionText": "The combined military deaths of the United States and the United Kingdom make up approximately what percentage of the total Allied deaths shown?",
+      "passage": "<div class=\"passage-text\"><b>Allied Military Deaths in World War II (Approximate)</b><br><img src=\"/images/RLA/interpreting_graphics_0003_0001.png\" alt=\"A pie chart showing approximate Allied military deaths in WWII. Soviet Union: 65%, China: 23%, Yugoslavia: 3%, United States: 2%, United Kingdom: 2%, France: 1%, Poland: 1%, Others: 3%.\" class=\"bg-white p-2 rounded\"></div>",
+      "answers": [
+        "2%",
+        "4%",
+        "23%",
+        "65%"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-RLA Topics-topic-2-3",
+      "category": "Interpreting Graphics",
+      "quizTitle": "Interpreting Graphics",
+      "questionText": "Which sector is the largest consumer of electricity according to the data?",
+      "passage": "<div class=\"passage-text\"><b>Electricity Consumption by Sector</b><br><table class=\"w-full text-left mt-2 bg-white\"><thead><tr><th class=\"p-2 border-b\">Sector</th><th class=\"p-2 border-b\">Percentage</th></tr></thead><tbody><tr class=\"border-b\"><td class=\"p-2\">Industrial</td><td class=\"p-2\">40%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Residential</td><td class=\"p-2\">35%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Commercial</td><td class=\"p-2\">24%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Transportation</td><td class=\"p-2\">1%</td></tr></tbody></table></div>",
+      "answers": [
+        "Residential",
+        "Commercial",
+        "Transportation",
+        "Industrial"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-RLA Topics-topic-2-4",
+      "category": "Interpreting Graphics",
+      "quizTitle": "Interpreting Graphics",
+      "questionText": "What is the combined percentage of electricity consumed by the Residential and Commercial sectors?",
+      "passage": "<div class=\"passage-text\"><b>Electricity Consumption by Sector</b><br><table class=\"w-full text-left mt-2 bg-white\"><thead><tr><th class=\"p-2 border-b\">Sector</th><th class=\"p-2 border-b\">Percentage</th></tr></thead><tbody><tr class=\"border-b\"><td class=\"p-2\">Industrial</td><td class=\"p-2\">40%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Residential</td><td class=\"p-2\">35%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Commercial</td><td class=\"p-2\">24%</td></tr><tr class=\"border-b\"><td class=\"p-2\">Transportation</td><td class=\"p-2\">1%</td></tr></tbody></table></div>",
+      "answers": [
+        "40%",
+        "59%",
+        "75%",
+        "99%"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-RLA Topics-topic-2-6",
+      "category": "Interpreting Graphics",
+      "quizTitle": "Interpreting Graphics",
+      "questionText": "Which subject has the highest average test score?",
+      "passage": "<div class=\"passage-text\"><b>Average Test Scores by Subject</b><br><table class=\"w-full text-left mt-2\"><thead><tr><th class=\"p-2 border-b\">Subject</th><th class=\"p-2 border-b\">Score</th></tr></thead><tbody><tr class=\"border-b\"><td class=\"p-2\">Math</td><td class=\"p-2\">82</td></tr><tr class=\"border-b\"><td class=\"p-2\">Reading</td><td class=\"p-2\">88</td></tr><tr class=\"border-b\"><td class=\"p-2\">Science</td><td class=\"p-2\">85</td></tr><tr class=\"border-b\"><td class=\"p-2\">Social Studies</td><td class=\"p-2\">83</td></tr></tbody></table></div>",
+      "answers": [
+        "Math",
+        "Reading",
+        "Science",
+        "Social Studies"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-RLA Topics-topic-2-7",
+      "category": "Interpreting Graphics",
+      "quizTitle": "Interpreting Graphics",
+      "questionText": "What is the range of the average test scores?",
+      "passage": "<div class=\"passage-text\"><b>Average Test Scores by Subject</b><br><table class=\"w-full text-left mt-2\"><thead><tr><th class=\"p-2 border-b\">Subject</th><th class=\"p-2 border-b\">Score</th></tr></thead><tbody><tr class=\"border-b\"><td class=\"p-2\">Math</td><td class=\"p-2\">82</td></tr><tr class=\"border-b\"><td class=\"p-2\">Reading</td><td class=\"p-2\">88</td></tr><tr class=\"border-b\"><td class=\"p-2\">Science</td><td class=\"p-2\">85</td></tr><tr class=\"border-b\"><td class=\"p-2\">Social Studies</td><td class=\"p-2\">83</td></tr></tbody></table></div>",
+      "answers": [
+        "6",
+        "82",
+        "84.5",
+        "88"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-RLA Topics-topic-3-8",
+      "category": "Plot & Character",
+      "quizTitle": "Plot & Character",
+      "questionText": "The author's comparison of Della's hair to the Queen of Sheba's jewels and Jim's watch to King Solomon's treasures is an example of what literary device?",
+      "passage": "",
+      "answers": [
+        "Metaphor",
+        "Personification",
+        "Allusion",
+        "Onomatopoeia"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    },
+    {
+      "id": "Reasoning Through Language Arts (RLA)-RLA Topics-topic-4-12",
+      "category": "Poetry & Figurative Language",
+      "quizTitle": "Poetry & Figurative Language",
+      "questionText": "Which of the following words best describes the overall mood of the poem?",
+      "passage": "",
+      "answers": [
+        "Joyful and carefree",
+        "Angry and bitter",
+        "Reflective and contemplative",
+        "Frightened and anxious"
+      ],
+      "genericCount": 0,
+      "shortCount": 4
+    }
+  ]
+}

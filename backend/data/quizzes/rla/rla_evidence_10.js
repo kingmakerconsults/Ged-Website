@@ -356,11 +356,11 @@ module.exports = [
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A budget presentation defends funding for a community solar garden by arguing it saves residents money. The presentation shows average electric bills for participating households dropped from $118 to $92 per month, that the installation cost was covered by federal grants, and that maintenance expenses are projected at $8 per household annually.",
+    "passage": "A budget presentation defends funding for a community solar garden by arguing it saves residents money. The presentation shows average electric bills for participating households dropped from \(118 to \)92 per month, that the installation cost was covered by federal grants, and that maintenance expenses are projected at \(8 per household annually.",
     "question": "Which fact most directly supports the claim that the solar garden saves residents money?",
     "answerOptions": [
       {
-        "text": "Participating households saw their average electric bills fall from $118 to $92 per month.",
+        "text": "Participating households saw their average electric bills fall from \)118 to \(92 per month.",
         "rationale": "Correct. Lower utility bills clearly demonstrate savings for residents.",
         "isCorrect": true
       },
@@ -370,7 +370,7 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Maintenance expenses are projected at $8 per household annually.",
+        "text": "Maintenance expenses are projected at \)8 per household annually.",
         "rationale": "Low maintenance costs are helpful but do not explicitly quantify resident savings like the bill reduction does.",
         "isCorrect": false
       },

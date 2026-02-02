@@ -1,0 +1,415 @@
+{
+  "generatedAt": "2026-01-29T15:02:51.503Z",
+  "root": "backend/data/quizzes",
+  "filesScanned": 397,
+  "filesChanged": 81,
+  "totalWrapped": 999,
+  "totalCurrencyFixes": 0,
+  "changes": [
+    {
+      "file": "backend/data/quizzes/math/math_algebra_02.js",
+      "wrapped": 11,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_03.js",
+      "wrapped": 8,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_04.js",
+      "wrapped": 4,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_05.js",
+      "wrapped": 1,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_06.js",
+      "wrapped": 2,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_07.js",
+      "wrapped": 3,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_08.js",
+      "wrapped": 5,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_09.js",
+      "wrapped": 3,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_10.js",
+      "wrapped": 4,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_11.js",
+      "wrapped": 8,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_12.js",
+      "wrapped": 6,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_alg_equations_inequalities.js",
+      "wrapped": 7,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_alg_expressions.js",
+      "wrapped": 4,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_alg_graphing_functions.js",
+      "wrapped": 4,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_01.js",
+      "wrapped": 32,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_02.js",
+      "wrapped": 16,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_03.js",
+      "wrapped": 31,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_04.js",
+      "wrapped": 27,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_05.js",
+      "wrapped": 29,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_06.js",
+      "wrapped": 21,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_07.js",
+      "wrapped": 9,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_08.js",
+      "wrapped": 20,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_09.js",
+      "wrapped": 18,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_10.js",
+      "wrapped": 21,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_11.js",
+      "wrapped": 12,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_data_12.js",
+      "wrapped": 31,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_01.js",
+      "wrapped": 6,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_02.js",
+      "wrapped": 11,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_03.js",
+      "wrapped": 1,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_04.js",
+      "wrapped": 3,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_05.js",
+      "wrapped": 1,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_06.js",
+      "wrapped": 10,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_07.js",
+      "wrapped": 13,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_08.js",
+      "wrapped": 8,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_09.js",
+      "wrapped": 5,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_10.js",
+      "wrapped": 6,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_11.js",
+      "wrapped": 1,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_12.js",
+      "wrapped": 6,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_tool_demo.js",
+      "wrapped": 3,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geom_basics.js",
+      "wrapped": 30,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphing_tool_demo.js",
+      "wrapped": 21,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_01.js",
+      "wrapped": 6,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_02.js",
+      "wrapped": 5,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_03.js",
+      "wrapped": 6,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_04.js",
+      "wrapped": 3,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_05.js",
+      "wrapped": 19,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_06.js",
+      "wrapped": 5,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_07.js",
+      "wrapped": 5,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_08.js",
+      "wrapped": 17,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_09.js",
+      "wrapped": 18,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_10.js",
+      "wrapped": 1,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_11.js",
+      "wrapped": 7,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_12.js",
+      "wrapped": 3,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_01.js",
+      "wrapped": 15,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_02.js",
+      "wrapped": 33,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_03.js",
+      "wrapped": 11,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_04.js",
+      "wrapped": 19,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_05.js",
+      "wrapped": 20,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_06.js",
+      "wrapped": 16,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_07.js",
+      "wrapped": 21,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_08.js",
+      "wrapped": 14,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_09.js",
+      "wrapped": 7,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_10.js",
+      "wrapped": 11,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_11.js",
+      "wrapped": 20,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_12.js",
+      "wrapped": 12,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_quant_basics.js",
+      "wrapped": 64,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_quant_numbers.js",
+      "wrapped": 34,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_quant_ratios_percents.js",
+      "wrapped": 20,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_quant_stats_probability.js",
+      "wrapped": 47,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_01.js",
+      "wrapped": 4,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_02.js",
+      "wrapped": 11,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_03.js",
+      "wrapped": 5,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_04.js",
+      "wrapped": 4,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_05.js",
+      "wrapped": 2,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_06.js",
+      "wrapped": 9,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_07.js",
+      "wrapped": 7,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_08.js",
+      "wrapped": 8,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_09.js",
+      "wrapped": 11,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_10.js",
+      "wrapped": 4,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_11.js",
+      "wrapped": 6,
+      "currencyFixes": 0
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_12.js",
+      "wrapped": 7,
+      "currencyFixes": 0
+    }
+  ]
+}

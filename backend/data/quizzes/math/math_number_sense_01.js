@@ -37,33 +37,33 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Which of the following is equivalent to $3 \\frac{1}{4}$?',
+    question: 'Which of the following is equivalent to \\(3 \\frac{1}{4}\\)?',
     answerOptions: [
       {
         text: '3.14',
         isCorrect: false,
         rationale:
-          'This is an approximation of pi, not the decimal for $\\frac{1}{4}$.',
+          'This is an approximation of pi, not the decimal for \(\\(\frac{1}{4}\)\).',
       },
       {
         text: '3.25',
         isCorrect: true,
         rationale:
-          'The fraction $\\frac{1}{4}$ is equal to 0.25, so 3 $\\frac{1}{4}$ is 3.25.',
+          'The fraction \\(\\frac{1}{4}\\) is equal to 0.25, so \\(3 \\frac{1}{4}\\) is 3.25.',
       },
       {
         text: '3.50',
         isCorrect: false,
-        rationale: '3.50 is equivalent to 3 $\\frac{1}{2}$.',
+        rationale: '3.50 is equivalent to \\(3 \\frac{1}{2}\\).',
       },
       {
         text: '3.75',
         isCorrect: false,
-        rationale: '3.75 is equivalent to 3 $\\frac{3}{4}$.',
+        rationale: '3.75 is equivalent to \\(3 \\frac{3}{4}\\).',
       },
     ],
     rationale:
-      'To convert the fraction $\\frac{1}{4}$ to a decimal, divide 1 by 4, which equals 0.25. Add this to the whole number 3 to get 3.25.',
+      'To convert the fraction \\(\\frac{1}{4}\\) to a decimal, divide 1 by 4, which equals 0.25. Add this to the whole number 3 to get 3.25.',
     challenge_tags: ['math-1'],
   },
   {
@@ -72,10 +72,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Evaluate the expression: $12 + (5 - 2) \\times 3^2$.',
+    question: 'Evaluate the expression: \\(12 + (5 - 2) \\times 3^2\\).',
     correctAnswer: '39',
     rationale:
-      'Following the order of operations (PEMDAS): Parentheses (5-2=3), Exponents ($3^2$=9), Multiplication (3*9=27), Addition (12+27=39).',
+      'Following the order of operations (PEMDAS): Parentheses (5-2=3), Exponents (\\(3^2\\)=9), Multiplication (3*9=27), Addition (12+27=39).',
     challenge_tags: ['math-1'],
   },
   {
@@ -118,7 +118,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'What is $\\frac{3}{5}$ as a percentage?',
+    question: 'What is \\(\\frac{3}{5}\\) as a percentage?',
     correctAnswer: '60%',
     rationale:
       'To convert a fraction to a percentage, divide the numerator by the denominator and multiply by 100. (3 / 5) * 100 = 0.6 * 100 = 60%.',
@@ -146,7 +146,7 @@ module.exports = [
         text: '16%',
         isCorrect: true,
         rationale:
-          'The increase is $8. The percent increase is (8 / 50) * 100 = 16%.',
+          'The increase is 8. The percent increase is (8 / 50) * 100 = 16%.',
       },
       {
         text: '84%',
@@ -155,7 +155,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The formula for percent increase is [(New Price - Original Price) / Original Price] * 100. So, [($58 - $50) / $50] * 100 = ($8 / $50) * 100 = 0.16 * 100 = 16%.',
+      'The formula for percent increase is [(New Price - Original Price) / Original Price] * 100. So, [($58 - $50) / $50] * 100 = (8 / 50) * 100 = 0.16 * 100 = 16%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -163,7 +163,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Simplify the expression: $5 \\times (4 + 2) - 10 \\div 2$.',
+    question: 'Simplify the expression: \\(5 \\times (4 + 2) - 10 \\div 2\\).',
     answerOptions: [
       {
         text: '10',
@@ -188,7 +188,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Using PEMDAS: Parentheses (4+2=6), then Multiplication/Division from left to right (5*6=30, $\\frac{10}{2}$=5), then Addition/Subtraction (30-5=25).',
+      'Using PEMDAS: Parentheses (4+2=6), then Multiplication/Division from left to right (5*6=30, \\(\\frac{10}{2}\\)=5), then Addition/Subtraction (30-5=25).',
     challenge_tags: ['math-1'],
   },
   {
@@ -198,10 +198,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A recipe calls for $2 \\frac{1}{2}$ cups of flour, but you only want to make half the recipe. How many cups of flour do you need?',
+      'A recipe calls for \\(2 \\frac{1}{2}\\) cups of flour, but you only want to make half the recipe. How many cups of flour do you need?',
     correctAnswer: '1.25 cups',
     rationale:
-      'First, convert $2 \\frac{1}{2}$ to a decimal, which is 2.5. Then, divide by 2 to make half the recipe: 2.5 / 2 = 1.25 cups.',
+      'First, convert \\(2 \\frac{1}{2}\\) to a decimal, which is 2.5. Then, divide by 2 to make half the recipe: 2.5 / 2 = 1.25 cups.',
     challenge_tags: ['math-1'],
   },
   {
@@ -217,7 +217,7 @@ module.exports = [
         rationale: 'This is a decimal, not an integer.',
       },
       {
-        text: '$\\frac{1}{2}$',
+        text: '\\(\\frac{1}{2}\\)',
         isCorrect: false,
         rationale: 'This is a fraction, not an integer.',
       },
@@ -227,7 +227,7 @@ module.exports = [
         rationale: 'Integers are whole numbers, including negatives.',
       },
       {
-        text: '$\\sqrt{2}$',
+        text: '\\(\\sqrt{2}\\)',
         isCorrect: false,
         rationale: 'This is an irrational number.',
       },
@@ -289,7 +289,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Estimate the result of $48.7 \\times 10.2$.',
+    question: 'Estimate the result of \(48.7\) \\(\times 10.2.\)',
     answerOptions: [
       {
         text: '50',

@@ -14,7 +14,7 @@ module.exports = [
       {
         text: '12.5',
         isCorrect: true,
-        rationale: 'The sum is 50. $\\frac{50}{4}$ = 12.5.',
+        rationale: 'The sum is 50. \(\\(\frac{50}{4}\)\) = 12.5.',
       },
       {
         text: '15',
@@ -39,7 +39,7 @@ module.exports = [
     difficulty: 'easy',
     question:
       'A spinner has 8 equal sections, 3 of which are blue. What is the probability of landing on blue?',
-    correctAnswer: '$\\frac{3}{8}$',
+    correctAnswer: '\(\\(\frac{3}{8}\)\)',
     rationale:
       'The probability is the number of favorable outcomes (3 blue sections) divided by the total number of outcomes (8 sections).',
     challenge_tags: ['math-6'],
@@ -164,9 +164,9 @@ module.exports = [
     difficulty: 'hard',
     question:
       'A car is chosen at random from a lot containing 15 red cars, 20 blue cars, and 10 green cars. What is the probability that the car is NOT red?',
-    correctAnswer: '$\\frac{2}{3}$',
+    correctAnswer: '\(\\(\frac{2}{3}\)\)',
     rationale:
-      'There are 30 non-red cars (20 blue + 10 green) and a total of 45 cars. The probability is $\\frac{30}{45}$, which simplifies to $\\frac{2}{3}$.',
+      'There are 30 non-red cars (20 blue + 10 green) and a total of 45 cars. The probability is \(\\(\frac{30}{45}\)\), which simplifies to \(\\(\frac{2}{3}\)\).',
     challenge_tags: ['math-6'],
   },
   {
@@ -304,7 +304,7 @@ module.exports = [
         text: '20',
         isCorrect: true,
         rationale:
-          '$\\frac{2}{3}$ of 30 is ($\\frac{2}{3}$) * 30 = $\\frac{60}{3}$ = 20.',
+          '\(\\(\frac{2}{3}\) of 30 is (\\(\frac{2}{3}\)\)) * 30 = \(\\(\frac{60}{3}\)\) = 20.',
       },
       {
         text: '30',
@@ -313,7 +313,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the number of people who prefer dogs, multiply the fraction by the total number of people: $\\frac{2}{3} \\times 30 = 20$ people.',
+      'To find the number of people who prefer dogs, multiply the fraction by the total number of people: \(\\(\frac{2}{3}\)\) \\(\times30 = 20 people.\)',
     challenge_tags: ['math-6'],
   },
 ];

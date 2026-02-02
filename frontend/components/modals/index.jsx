@@ -415,7 +415,7 @@ export function PracticeSessionModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-[70] flex items-center justify-center p-4"
+      className="practice-session-modal fixed inset-0 z-[70] flex items-center justify-center p-4"
       style={{ backgroundColor: 'var(--modal-overlay)' }}
     >
       <div
@@ -562,8 +562,8 @@ export function PracticeSessionModal({
             {submitting
               ? 'Starting…'
               : practiceMode === 'olympics'
-              ? 'Start Olympics'
-              : 'Start'}
+                ? 'Start Olympics'
+                : 'Start'}
           </button>
         </div>
       </div>

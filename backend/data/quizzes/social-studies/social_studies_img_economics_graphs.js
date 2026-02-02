@@ -6,7 +6,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/ged_grsph_2_0001.png",
     "imageURL": "/images/Social%20Studies/ged_grsph_2_0001.png",
     "content": {
-      "passage": "Alt text: Line graph showing supply and demand curves for a breakfast sandwich market.\n\nDescription: This line graph illustrates the relationship between price and quantity for breakfast sandwiches in a market setting. The x-axis represents Price, ranging from $0.00 to $2.50, while the y-axis represents Quantity, from 0 to 100. It features a downward-sloping…\n\nText in image: Breakfast Sandwich Market, Quantity, Price, Demand, Supply, $0.00, $0.50, $1.00, $1.50, $2.00, $2.50",
+      "passage": "Alt text: Line graph showing supply and demand curves for a breakfast sandwich market.\n\nDescription: This line graph illustrates the relationship between price and quantity for breakfast sandwiches in a market setting. The x-axis represents Price, ranging from \(0.00 to \)2.50, while the y-axis represents Quantity, from 0 to 100. It features a downward-sloping…\n\nText in image: Breakfast Sandwich Market, Quantity, Price, Demand, Supply, $0.00, $0.50, $1.00, $1.50, $2.00, $2.50",
       "imageURL": "/images/Social%20Studies/ged_grsph_2_0001.png",
       "questionText": "Which term or label appears in the visual?"
     },
@@ -43,7 +43,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/ged_grsph_2_0001.png",
     "imageURL": "/images/Social%20Studies/ged_grsph_2_0001.png",
     "content": {
-      "passage": "Alt text: Line graph showing supply and demand curves for a breakfast sandwich market.\n\nDescription: This line graph illustrates the relationship between price and quantity for breakfast sandwiches in a market setting. The x-axis represents Price, ranging from $0.00 to $2.50, while the y-axis represents Quantity, from 0 to 100. It features a downward-sloping…\n\nText in image: Breakfast Sandwich Market, Quantity, Price, Demand, Supply, $0.00, $0.50, $1.00, $1.50, $2.00, $2.50",
+      "passage": "Alt text: Line graph showing supply and demand curves for a breakfast sandwich market.\n\nDescription: This line graph illustrates the relationship between price and quantity for breakfast sandwiches in a market setting. The x-axis represents Price, ranging from \(0.00 to \)2.50, while the y-axis represents Quantity, from 0 to 100. It features a downward-sloping…\n\nText in image: Breakfast Sandwich Market, Quantity, Price, Demand, Supply, $0.00, $0.50, $1.00, $1.50, $2.00, $2.50",
       "imageURL": "/images/Social%20Studies/ged_grsph_2_0001.png",
       "questionText": "Which pair of labels both appears in the visual?"
     },
@@ -265,7 +265,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/unclassified_0007.png",
     "imageURL": "/images/Social%20Studies/unclassified_0007.png",
     "content": {
-      "passage": "Alt text: A line graph showing demand and supply curves for breakfast sandwiches, with price on x-axis and quantity on y-axis.\n\nDescription: This is a black and white line graph titled 'Breakfast Sandwich Market'. The horizontal x-axis is labeled 'Price' and ranges from $0.00 to $2.50 in $0.25 increments. The vertical y-axis is labeled 'Quantity' and ranges from 0 to 100 in increments of 10. A dow…\n\nText in image: Breakfast Sandwich Market, Quantity, Price, Demand, Supply",
+      "passage": "Alt text: A line graph showing demand and supply curves for breakfast sandwiches, with price on x-axis and quantity on y-axis.\n\nDescription: This is a black and white line graph titled 'Breakfast Sandwich Market'. The horizontal x-axis is labeled 'Price' and ranges from \(0.00 to \)2.50 in \(0.25 increments. The vertical y-axis is labeled 'Quantity' and ranges from 0 to 100 in increments of 10. A dow…\n\nText in image: Breakfast Sandwich Market, Quantity, Price, Demand, Supply",
       "imageURL": "/images/Social%20Studies/unclassified_0007.png",
       "questionText": "Which term or label appears in the visual?"
     },
@@ -302,7 +302,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/unclassified_0007.png",
     "imageURL": "/images/Social%20Studies/unclassified_0007.png",
     "content": {
-      "passage": "Alt text: A line graph showing demand and supply curves for breakfast sandwiches, with price on x-axis and quantity on y-axis.\n\nDescription: This is a black and white line graph titled 'Breakfast Sandwich Market'. The horizontal x-axis is labeled 'Price' and ranges from $0.00 to $2.50 in $0.25 increments. The vertical y-axis is labeled 'Quantity' and ranges from 0 to 100 in increments of 10. A dow…\n\nText in image: Breakfast Sandwich Market, Quantity, Price, Demand, Supply",
+      "passage": "Alt text: A line graph showing demand and supply curves for breakfast sandwiches, with price on x-axis and quantity on y-axis.\n\nDescription: This is a black and white line graph titled 'Breakfast Sandwich Market'. The horizontal x-axis is labeled 'Price' and ranges from \)0.00 to \(2.50 in \)0.25 increments. The vertical y-axis is labeled 'Quantity' and ranges from 0 to 100 in increments of 10. A dow…\n\nText in image: Breakfast Sandwich Market, Quantity, Price, Demand, Supply",
       "imageURL": "/images/Social%20Studies/unclassified_0007.png",
       "questionText": "Which pair of labels both appears in the visual?"
     },
@@ -413,7 +413,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/unclassified_0083.png",
     "imageURL": "/images/Social%20Studies/unclassified_0083.png",
     "content": {
-      "passage": "Alt text: Line graph showing US demand for Brazilian coffee before and after a $1 tariff.\n\nDescription: The image displays a line graph titled 'Demand for Brazilian Coffee'. It illustrates two hypothetical demand curves for Brazilian coffee in the U.S.: one before and one after a $1 tariff was imposed. The x-axis represents the price per pound in dollars, rangi…\n\nText in image: Demand for Brazilian Coffee Millions of Pounds Price per Pound ($) US Demand (no tariff) US Demand (tariff)",
+      "passage": "Alt text: Line graph showing US demand for Brazilian coffee before and after a \(1 tariff.\n\nDescription: The image displays a line graph titled 'Demand for Brazilian Coffee'. It illustrates two hypothetical demand curves for Brazilian coffee in the U.S.: one before and one after a \)1 tariff was imposed. The x-axis represents the price per pound in dollars, rangi…\n\nText in image: Demand for Brazilian Coffee Millions of Pounds Price per Pound (\() US Demand (no tariff) US Demand (tariff)",
       "imageURL": "/images/Social%20Studies/unclassified_0083.png",
       "questionText": "Which term or label appears in the visual?"
     },
@@ -450,7 +450,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/unclassified_0083.png",
     "imageURL": "/images/Social%20Studies/unclassified_0083.png",
     "content": {
-      "passage": "Alt text: Line graph showing US demand for Brazilian coffee before and after a $1 tariff.\n\nDescription: The image displays a line graph titled 'Demand for Brazilian Coffee'. It illustrates two hypothetical demand curves for Brazilian coffee in the U.S.: one before and one after a $1 tariff was imposed. The x-axis represents the price per pound in dollars, rangi…\n\nText in image: Demand for Brazilian Coffee Millions of Pounds Price per Pound ($) US Demand (no tariff) US Demand (tariff)",
+      "passage": "Alt text: Line graph showing US demand for Brazilian coffee before and after a \)1 tariff.\n\nDescription: The image displays a line graph titled 'Demand for Brazilian Coffee'. It illustrates two hypothetical demand curves for Brazilian coffee in the U.S.: one before and one after a \(1 tariff was imposed. The x-axis represents the price per pound in dollars, rangi…\n\nText in image: Demand for Brazilian Coffee Millions of Pounds Price per Pound (\)) US Demand (no tariff) US Demand (tariff)",
       "imageURL": "/images/Social%20Studies/unclassified_0083.png",
       "questionText": "Which pair of labels both appears in the visual?"
     },

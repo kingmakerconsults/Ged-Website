@@ -38,9 +38,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "A TV is priced at $450. A 10% sales tax is added. What is the total cost?",
-    "correctAnswer": "$495",
-    "rationale": "Calculate the sales tax: 10% of $450 is 0.10 * 450 = $45. Add the tax to the original price: $450 + $45 = $495.",
+    "question": "A TV is priced at \(450. A 10% sales tax is added. What is the total cost?",
+    "correctAnswer": "495",
+    "rationale": "Calculate the sales tax: 10% of \)450 is 0.10 * 450 = \(45. Add the tax to the original price: \)450 + \(45 = \)495.",
     "challenge_tags": [
       "math-1"
     ]
@@ -84,9 +84,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "easy",
-    "question": "If a box of 12 pencils costs $3, what is the cost per pencil in cents?",
+    "question": "If a box of 12 pencils costs 3, what is the cost per pencil in cents?",
     "correctAnswer": "25 cents",
-    "rationale": "$3 is equal to 300 cents. The cost per pencil is 300 cents / 12 pencils = 25 cents.",
+    "rationale": "\(3 is equal to 300 cents. The cost per pencil is 300 cents / 12 pencils = 25 cents.",
     "challenge_tags": [
       "math-1"
     ]
@@ -96,30 +96,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "A store increases the price of a $20 item by 20%, and then offers a 20% discount on the new price. What is the final price?",
+    "question": "A store increases the price of a 20 item by 20%, and then offers a 20% discount on the new price. What is the final price?",
     "answerOptions": [
       {
-        "text": "$19.20",
+        "text": "\(19.20\)",
         "isCorrect": true,
-        "rationale": "New price: $20 * 1.20 = $24. Discounted price: $24 * 0.80 = $19.20."
+        "rationale": "New price: \)20 * 1.20 = 24. Discounted price: \(24 * 0.80 = 19.20."
       },
       {
-        "text": "$20.00",
+        "text": "20.00",
         "isCorrect": false,
         "rationale": "The discount is taken on the higher price, so the final price is lower."
       },
       {
-        "text": "$20.80",
+        "text": "\(20.80\)",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },
       {
-        "text": "$24.00",
+        "text": "24.00",
         "isCorrect": false,
         "rationale": "This is the price after the markup, before the discount."
       }
     ],
-    "rationale": "First, the price is increased by 20%: $20 * 1.20 = $24. Then, this new price is discounted by 20%: $24 * (1 - 0.20) = $24 * 0.80 = $19.20.",
+    "rationale": "First, the price is increased by 20%: \)20 * 1.20 = \(24. Then, this new price is discounted by 20%: \)24 * (1 - 0.20) = \(24 * 0.80 = \)19.20.",
     "challenge_tags": [
       "math-1"
     ]
@@ -163,9 +163,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "hard",
-    "question": "A car's value decreased from $15,000 to $12,000. What was the percent decrease?",
+    "question": "A car's value decreased from \(15,000 to  12,000. What was the percent decrease?\)",
     "correctAnswer": "20%",
-    "rationale": "The decrease in value is $15,000 - $12,000 = $3,000. The percent decrease is (decrease / original value) * 100 = ($3,000 / $15,000) * 100 = 0.20 * 100 = 20%.",
+    "rationale": "The decrease in value is \(15,000 -  12,000 = \(3,000. The percent decrease is (decrease / original value) * 100 = ( 3,000 / 15,000) * 100 = 0.20 * 100 = 20%.\)\)",
     "challenge_tags": [
       "math-1"
     ]
@@ -231,7 +231,7 @@ module.exports = [
       {
         "text": "6 feet",
         "isCorrect": true,
-        "rationale": "The ratio of height to shadow is 6:4 or 3:2. So, for a 9-foot signpost, the shadow is ($\\frac{2}{3}$)*9 = 6 feet."
+        "rationale": "The ratio of height to shadow is 6:4 or 3:2. So, for a 9-foot signpost, the shadow is (\(\\(\frac{2}{3}\)\))*9 = 6 feet."
       },
       {
         "text": "9 feet",
@@ -244,7 +244,7 @@ module.exports = [
         "rationale": "This is the height of an object that would cast a 9-foot shadow."
       }
     ],
-    "rationale": "Set up a proportion of height to shadow length: $\\frac{6}{4} = \\frac{9}{x}$. Cross-multiply: $6x = 36$. Divide by 6: $x = 6$ feet.",
+    "rationale": "Set up a proportion of height to shadow length: \(\\(\frac{6}{4}\)\) = \\(\frac{9}{x}\). Cross-multiply: \(6x = 36\). Divide by 6: \(x = 6 feet.\)",
     "challenge_tags": [
       "math-1"
     ]
@@ -254,30 +254,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "You get a 15% commission on all sales. If you want to earn $600 in commission, how much must you sell?",
+    "question": "You get a 15% commission on all sales. If you want to earn \(600 in commission, how much must you sell?",
     "answerOptions": [
       {
-        "text": "$90",
+        "text": "90",
         "isCorrect": false,
-        "rationale": "This is 15% of $600."
+        "rationale": "This is 15% of \(600.\)"
       },
       {
-        "text": "$4000",
+        "text": "4000",
         "isCorrect": true,
-        "rationale": "Let S be the total sales. 0.15 * S = $600. S = $600 / 0.15 = $4000."
+        "rationale": "Let S be the total sales. 0.15 * S = \)600. S = \(600 / 0.15 = \)4000."
       },
       {
-        "text": "$6000",
+        "text": "6000",
         "isCorrect": false,
         "rationale": "This would be a 10% commission rate."
       },
       {
-        "text": "$9000",
+        "text": "\(9000\)",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Let S be the total sales. The commission is 15% of S, so 0.15 * S = $600. To find S, divide $600 by 0.15: S = 4000.",
+    "rationale": "Let S be the total sales. The commission is 15% of S, so 0.15 * S = 600. To find S, divide $600 by 0.15: S = 4000.",
     "challenge_tags": [
       "math-1"
     ]

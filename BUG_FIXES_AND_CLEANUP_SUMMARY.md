@@ -119,6 +119,20 @@ All 6 extracted components now:
 
 ---
 
+## UI Note: Hard-to-Override Light Mode Styles ✅
+
+**Issue**: Some legacy modal controls (e.g., `select` and `button` with `bg-white`) still rendered dark in light mode due to CSS specificity and class-based dark mode behavior.
+
+**Resolution**:
+
+- Added a **light-mode override** in global CSS using `[data-theme='light'] ... !important` for modal controls.
+- Added a **global safeguard** for `bg-white` utility on `select`/`button` in light mode to override any dark-mode class leakage.
+- Mirrored the safeguard in the built stylesheet to ensure the change holds in production builds.
+
+**Takeaway**: For legacy UI that resists theming changes, prefer **explicit light-mode overrides with higher specificity** (and `!important` when needed), and ensure the **built CSS** receives the same override if the app is serving prebuilt assets.
+
+---
+
 ## Task 4: Top-Level Views Externalization ✅
 
 ### Views Checked
@@ -181,7 +195,6 @@ All major constants verified as single-source-of-truth:
 ### Files Modified
 
 1. **frontend/app.jsx**
-
    - Dedented 477 lines (removed 4-space indent to bring to top level)
    - Added 2 closing braces at end for balance
    - Added SUBJECT_NAMES to imports
@@ -189,27 +202,21 @@ All major constants verified as single-source-of-truth:
    - **Result**: 24,761 lines (48.2% smaller than original 47,764)
 
 2. **frontend/config/subjectVisuals.js**
-
    - Added `export const SUBJECT_NAMES = ['Math', 'RLA', 'Science', 'Social Studies'];`
 
 3. **frontend/components/profile/ProfileView.jsx**
-
    - Fixed import path from `subjectConfig.js` to `subjectVisuals.js`
 
 4. **frontend/components/profile/SettingsView.jsx**
-
    - No changes needed (already clean)
 
 5. **frontend/components/admin/OrganizationSummaryView.jsx**
-
    - Removed empty `const { } = React;` line
 
 6. **frontend/components/progress/DetailedProgressView.jsx**
-
    - Removed empty `const { } = React;` line
 
 7. **frontend/components/vocabulary/VocabularyOverview.jsx**
-
    - Fixed import path from `subjectConfig.js` to `subjectVisuals.js`
    - Removed empty `const { } = React;` line
 

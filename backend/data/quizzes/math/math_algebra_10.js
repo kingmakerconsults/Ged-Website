@@ -5,7 +5,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Solve for y: $y - 15 = 2$.',
+    question: 'Solve for y: \(y - 15 = 2\).',
     correctAnswer: '17',
     rationale: 'Add 15 to both sides of the equation: 2 + 15 = 17.',
     challenge_tags: ['math-3'],
@@ -15,17 +15,18 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Evaluate $a/4 + 1$ for $a = 16$.',
+    question: 'Evaluate \(a/4 + 1 for a = 16\).',
     answerOptions: [
       {
         text: '4',
         isCorrect: false,
-        rationale: 'This is $\\frac{16}{4}$.',
+        rationale: 'This is \(\\(\frac{16}{4}\)\).',
       },
       {
         text: '5',
         isCorrect: true,
-        rationale: 'Substitute 16 for a: $\\frac{16}{4}$ + 1 = 4 + 1 = 5.',
+        rationale:
+          'Substitute 16 for a: \(\\(\frac{16}{4}\)\) + 1 = 4 + 1 = 5.',
       },
       {
         text: '17',
@@ -39,7 +40,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Substitute 16 for a in the expression: $\\frac{16}{4}$ + 1 = 4 + 1 = 5.',
+      'Substitute 16 for a in the expression: \(\\(\frac{16}{4}\)\) + 1 = 4 + 1 = 5.',
     challenge_tags: ['math-3'],
   },
   {
@@ -47,7 +48,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve for x: $10 - 2x = 4$.',
+    question: 'Solve for x: \(10 - 2x = 4\).',
     answerOptions: [
       {
         text: '-3',
@@ -62,7 +63,7 @@ module.exports = [
       {
         text: '5',
         isCorrect: false,
-        rationale: 'This is $\\frac{10}{2}$.',
+        rationale: 'This is \(\\(\frac{10}{2}\)\).',
       },
       {
         text: '7',
@@ -95,22 +96,22 @@ module.exports = [
       "Which expression represents '10 less than the quotient of a number and 2'?",
     answerOptions: [
       {
-        text: '$10 - n/2$',
+        text: '\(10 - n/2\)',
         isCorrect: false,
         rationale: "This is '10 minus the quotient'.",
       },
       {
-        text: '$n/2 - 10$',
+        text: '\(n/2 - 10\)',
         isCorrect: true,
         rationale: "The quotient is n/2, and '10 less than' means subtract 10.",
       },
       {
-        text: '$(n-10)/2$',
+        text: '\((n-10)/2\)',
         isCorrect: false,
         rationale: "This is 'the quotient of 10 less than a number and 2'.",
       },
       {
-        text: '$2n - 10$',
+        text: '\(2n - 10\)',
         isCorrect: false,
         rationale: "This is '10 less than twice a number'.",
       },
@@ -124,7 +125,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'hard',
-    question: 'Solve for x: $2(3x - 1) = 4(x + 3)$.',
+    question: 'Solve for x: \(2(3x - 1) = 4(x + 3)\).',
     answerOptions: [
       {
         text: '5',
@@ -157,10 +158,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Factor: $4x^2 - 25$.',
+    question: 'Factor: \(4x^2 - 25\).',
     correctAnswer: '(2x - 5)(2x + 5)',
     rationale:
-      'This is a difference of squares, $a^2 - b^2$, which factors to $(a-b)(a+b)$. Here, a=2x and b=5.',
+      'This is a difference of squares, \(a^2 - b^2\), which factors to \((a-b)(a+b)\). Here, a=2x and b=5.',
     challenge_tags: ['math-3'],
   },
   {
@@ -169,7 +170,7 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'Which of the following values of x is a solution to the inequality $5 - 3x > 11$?',
+      'Which of the following values of x is a solution to the inequality \(5 - 3x > 11\)?',
     answerOptions: [
       {
         text: '-1',
@@ -203,9 +204,9 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'If $f(x) = (x-4)^2 + 3$, find $f(1)$.',
+    question: 'If \(f(x) = (x-4)^2 + 3\), find \(f(1)\).',
     correctAnswer: '12',
-    rationale: 'f(1) = (1-4)Â² + 3 = (-3)Â² + 3 = 9 + 3 = 12.',
+    rationale: 'f(1) = (1-4)^2 + 3 = (-3)^2 + 3 = 9 + 3 = 12.',
     challenge_tags: ['math-3'],
   },
   {
@@ -247,7 +248,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'What are the solutions to $x^2 + 5x = 0$?',
+    question: 'What are the solutions to \(x^2 + 5x = 0\)?',
     answerOptions: [
       {
         text: '{0, -5}',
@@ -280,31 +281,31 @@ module.exports = [
     calculator: false,
     difficulty: 'easy',
     question:
-      'Which of the following is equivalent to $y \\cdot y \\cdot y \\cdot y$?',
+      'Which of the following is equivalent to \(y \\cdot y \\cdot y \\cdot y\)?',
     answerOptions: [
       {
-        text: '$4y$',
+        text: '\(4y\)',
         isCorrect: false,
         rationale: 'This is y+y+y+y.',
       },
       {
-        text: '$y^4$',
+        text: '\(y^4\)',
         isCorrect: true,
         rationale: 'Exponents represent repeated multiplication.',
       },
       {
-        text: '$y+4$',
+        text: '\(y+4\)',
         isCorrect: false,
         rationale: 'This is addition.',
       },
       {
-        text: '$4^y$',
+        text: '\(4^y\)',
         isCorrect: false,
         rationale: 'This reverses the base and exponent.',
       },
     ],
     rationale:
-      "Exponents are used to denote repeated multiplication. Since 'y' is multiplied by itself 4 times, it can be written as yâ´.",
+      "Exponents are used to denote repeated multiplication. Since 'y' is multiplied by itself 4 times, it can be written as y^4.",
     challenge_tags: ['math-3'],
   },
 ];

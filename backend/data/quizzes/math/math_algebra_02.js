@@ -5,7 +5,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Solve for b: $b - 9 = 2$.',
+    question: 'Solve for b: \(b - 9 = 2\).',
     correctAnswer: '11',
     rationale:
       'To solve for b, add 9 to both sides of the equation: 2 + 9 = 11.',
@@ -16,25 +16,25 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Which expression is equivalent to $5x + 3x - x$?',
+    question: 'Which expression is equivalent to \(5x + 3x - x\)?',
     answerOptions: [
       {
-        text: '$8x$',
+        text: '\(8x\)',
         isCorrect: false,
         rationale: 'This is the result of 5x + 3x, but does not subtract x.',
       },
       {
-        text: '$7x$',
+        text: '\(7x\)',
         isCorrect: true,
         rationale: 'Combine the like terms: 5 + 3 - 1 = 7. So, 7x.',
       },
       {
-        text: '$9x$',
+        text: '\(9x\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '$x^7$',
+        text: '\(x^7\)',
         isCorrect: false,
         rationale: 'This is an incorrect application of exponent rules.',
       },
@@ -48,7 +48,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve for z: $\\frac{z}{5} + 3 = 7$.',
+    question: 'Solve for z: \\(\\frac{z}{5}\\) + 3 = 7.',
     answerOptions: [
       {
         text: '4',
@@ -83,10 +83,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Expand the expression: $(x - 4)(x + 4)$.',
-    correctAnswer: '$x^2$ - 16',
+    question: 'Expand the expression: \((x - 4)(x + 4)\).',
+    correctAnswer: '\(x^2\) - 16',
     rationale:
-      'This is a difference of squares. Using the FOIL method: First (x*x = $x^2$), Outer (x*4 = 4x), Inner (-4*x = -4x), Last (-4*4 = -16). The middle terms cancel out: $x^2$ + 4x - 4x - 16 = $x^2$ - 16.',
+      'This is a difference of squares. Using the FOIL method: First (x*x = \(x^2\)), Outer (x*4 = 4x), Inner (-4*x = -4x), Last (-4*4 = -16). The middle terms cancel out: \(x^2\) + 4x - 4x - 16 = \(x^2\) - 16.',
     challenge_tags: ['math-3'],
   },
   {
@@ -129,7 +129,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'hard',
-    question: 'Solve the equation for x: $5(x - 2) = 2(x + 4)$.',
+    question: 'Solve the equation for x: \(5(x - 2) = 2(x + 4)\).',
     answerOptions: [
       {
         text: '2',
@@ -163,7 +163,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'If $f(x) = -4x + 7$, what is $f(-3)$?',
+    question: 'If \(f(x) = -4x + 7\), what is \(f(-3)\)?',
     correctAnswer: '19',
     rationale: 'Substitute -3 for x: f(-3) = -4(-3) + 7 = 12 + 7 = 19.',
     challenge_tags: ['math-3'],
@@ -173,7 +173,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'Solve the inequality: $-3x + 4 \\leq 16$.',
+    question: 'Solve the inequality: \(-3x + 4 \\leq 16\).',
     answerOptions: [
       {
         text: 'x \\leq -4',
@@ -185,7 +185,7 @@ module.exports = [
         text: 'x \\geq -4',
         isCorrect: true,
         rationale:
-          'Subtract 4: -3x <= 12. Divide by -3 and reverse the inequality sign: x >= -4.',
+          'Subtract 4: -\(3x\leq12\). Divide by -3 and reverse the inequality sign: x >= -4.',
       },
       {
         text: 'x \\leq 4',
@@ -199,7 +199,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, subtract 4 from both sides: -3x leq 12. Then, divide by -3. Remember to reverse the inequality sign when dividing by a negative number: x geq -4.',
+      'First, subtract 4 from both sides: -\(3x\leq12\). Then, divide by -3. Remember to reverse the inequality sign when dividing by a negative number: x geq -4.',
     challenge_tags: ['math-3'],
   },
   {
@@ -208,7 +208,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'What is the y-intercept of the line $3x - 2y = 6$?',
+    question: 'What is the y-intercept of the line \(3x - 2y = 6\)?',
     correctAnswer: '-3',
     rationale:
       'To find the y-intercept, set x = 0. The equation becomes 3(0) - 2y = 6, so -2y = 6. Solve for y to get y = -3.',
@@ -253,32 +253,32 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'What is the slope of a line perpendicular to $2x + 3y = 6$?',
+    question: 'What is the slope of a line perpendicular to \(2x + 3y = 6\)?',
     answerOptions: [
       {
-        text: '$-\\frac{2}{3}$',
+        text: '\(-\\(\frac{2}{3}\)\)',
         isCorrect: false,
         rationale: 'This is the slope of the original line.',
       },
       {
-        text: '$\\frac{2}{3}$',
+        text: '\(\\(\frac{2}{3}\)\)',
         isCorrect: false,
         rationale: 'This is the negative of the slope.',
       },
       {
-        text: '$-\\frac{3}{2}$',
+        text: '\(-\\(\frac{3}{2}\)\)',
         isCorrect: false,
         rationale: 'This is the reciprocal, but not the negative reciprocal.',
       },
       {
-        text: '$\\frac{3}{2}$',
+        text: '\(\\(\frac{3}{2}\)\)',
         isCorrect: true,
         rationale:
-          'First, find the slope of the line by rewriting in y=mx+b form: y = (-$\\frac{2}{3}$)x + 2. The slope is -$\\frac{2}{3}$. The perpendicular slope is the negative reciprocal, which is $\\frac{3}{2}$.',
+          'First, find the slope of the line by rewriting in y=mx+b form: y = (-\(\\(\frac{2}{3}\)\))x + 2. The slope is -\(\\(\frac{2}{3}\)\). The perpendicular slope is the negative reciprocal, which is \(\\(\frac{3}{2}\)\).',
       },
     ],
     rationale:
-      'First, convert the equation to slope-intercept form (y = mx + b). 3y = -2x + 6, so y = (-$\\frac{2}{3}$)x + 2. The slope of this line is -$\\frac{2}{3}$. The slope of a perpendicular line is the negative reciprocal, which is $\\frac{3}{2}$.',
+      'First, convert the equation to slope-intercept form (y = mx + b). 3y = -2x + 6, so y = (-\(\\(\frac{2}{3}\)\))x + 2. The slope of this line is -\(\\(\frac{2}{3}\)\). The slope of a perpendicular line is the negative reciprocal, which is \(\\(\frac{3}{2}\)\).',
     challenge_tags: ['math-3'],
   },
   {

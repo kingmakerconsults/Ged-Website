@@ -4,7 +4,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "What is the y-intercept of the line $y = -4x + 8$?",
+    "question": "What is the y-intercept of the line \(y = -4x + 8\)?",
     "answerOptions": [
       {
         "text": "-4",
@@ -38,7 +38,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "easy",
-    "question": "Given $f(x) = 20 - 3x$, find $f(5)$.",
+    "question": "Given \(f(x) = 20 - 3x\), find \(f(5)\).",
     "correctAnswer": "5",
     "rationale": "Substitute 5 for x: f(5) = 20 - 3(5) = 20 - 15 = 5.",
     "challenge_tags": [
@@ -53,17 +53,17 @@ module.exports = [
     "question": "What is the slope of a line passing through (-2, -1) and (4, 3)?",
     "answerOptions": [
       {
-        "text": "$\\frac{2}{3}$",
+        "text": "\(\\(\frac{2}{3}\)\)",
         "isCorrect": true,
-        "rationale": "Slope = (3 - (-1)) / (4 - (-2)) = 4 / 6 = $\\frac{2}{3}$."
+        "rationale": "Slope = (3 - (-1)) / (4 - (-2)) = 4 / 6 = \(\\(\frac{2}{3}\)\)."
       },
       {
-        "text": "$\\frac{3}{2}$",
+        "text": "\(\\(\frac{3}{2}\)\)",
         "isCorrect": false,
         "rationale": "This is the reciprocal of the slope."
       },
       {
-        "text": "$-\\frac{2}{3}$",
+        "text": "\(-\\(\frac{2}{3}\)\)",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       },
@@ -73,7 +73,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The slope is the change in y divided by the change in x. $m = \\frac{3 - (-1)}{4 - (-2)} = \\frac{4}{6} = \\frac{2}{3}$.",
+    "rationale": "The slope is the change in y divided by the change in x. \(m = \\(\frac{3 - (-1)}{4 - (-2)}\)\) = \\(\frac{4}{6}\) = \\(\frac{2}{3}\).",
     "challenge_tags": [
       "math-4"
     ]
@@ -84,7 +84,7 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "Find the x-intercept of the line $y = 2x - 10$.",
+    "question": "Find the x-intercept of the line \(y = 2x - 10\).",
     "correctAnswer": "5",
     "rationale": "Set y=0: 0 = 2x - 10. 10 = 2x. x = 5.",
     "challenge_tags": [
@@ -99,22 +99,22 @@ module.exports = [
     "question": "Which of the following functions is linear?",
     "answerOptions": [
       {
-        "text": "$y = x^2 + 1$",
+        "text": "\(y = x^2 + 1\)",
         "isCorrect": false,
         "rationale": "This is a quadratic function."
       },
       {
-        "text": "$y = 3x - 4$",
+        "text": "\(y = 3x - 4\)",
         "isCorrect": true,
         "rationale": "A linear function has a constant rate of change (slope)."
       },
       {
-        "text": "$y = 1/x$",
+        "text": "\(y = 1/x\)",
         "isCorrect": false,
         "rationale": "This is a rational function."
       },
       {
-        "text": "$y = |x|$",
+        "text": "\(y = |x|\)",
         "isCorrect": false,
         "rationale": "This is an absolute value function."
       }
@@ -129,30 +129,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "A line is perpendicular to $y = -4x + 1$ and passes through (8, 2). What is its equation?",
+    "question": "A line is perpendicular to \(y = -4x + 1 and passes through (8, 2). What is its equation?\)",
     "answerOptions": [
       {
-        "text": "$y = 4x - 30$",
+        "text": "\(y = 4x - 30\)",
         "isCorrect": false,
         "rationale": "This has an incorrect slope."
       },
       {
-        "text": "$y = (-\\frac{1}{4})x + 4$",
+        "text": "\(y = (-\\(\frac{1}{4}\)\))x + 4",
         "isCorrect": false,
         "rationale": "This is a parallel line."
       },
       {
-        "text": "$y = (\\frac{1}{4})x$",
+        "text": "\(y = (\\(\frac{1}{4}\)\))x",
         "isCorrect": true,
-        "rationale": "The perpendicular slope is $\\frac{1}{4}$. Using y=mx+b: 2 = ($\\frac{1}{4}$)(8) + b -> 2 = 2 + b -> b=0."
+        "rationale": "The perpendicular slope is \(\\(\frac{1}{4}\)\). Using y=mx+b: 2 = (\(\\(\frac{1}{4}\)\))(8) + b -> 2 = 2 + b -> b=0."
       },
       {
-        "text": "$y = (\\frac{1}{4})x + 2$",
+        "text": "\(y = (\\(\frac{1}{4}\)\))x + 2",
         "isCorrect": false,
         "rationale": "This does not pass through the given point."
       }
     ],
-    "rationale": "The slope of the given line is -4. The slope of a perpendicular line is the negative reciprocal, which is $\\frac{1}{4}$. Use the point-slope form y - y1 = m(x - x1): y - 2 = ($\\frac{1}{4}$)(x - 8). y - 2 = ($\\frac{1}{4}$)x - 2. So, y = ($\\frac{1}{4}$)x.",
+    "rationale": "The slope of the given line is -4. The slope of a perpendicular line is the negative reciprocal, which is \(\\(\frac{1}{4}\)\). Use the point-slope form y - y1 = m(x - x1): y - 2 = (\(\\(\frac{1}{4}\)\))(x - 8). y - 2 = (\(\\(\frac{1}{4}\)\))x - 2. So, y = (\(\\(\frac{1}{4}\)\))x.",
     "challenge_tags": [
       "math-4"
     ]
@@ -163,9 +163,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "Find the value of $f(x) = x^2 - 3x$ when $x=-4$.",
+    "question": "Find the value of \(f(x) = x^2 - 3x when x=-4\).",
     "correctAnswer": "28",
-    "rationale": "f(-4) = $(-4)^2$ - 3(-4) = 16 + 12 = 28.",
+    "rationale": "f(-4) = \((-4)^2\) - 3(-4) = 16 + 12 = 28.",
     "challenge_tags": [
       "math-4"
     ]
@@ -175,7 +175,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "Which of these points is in the solution set of the inequality $y < 2x - 1$?",
+    "question": "Which of these points is in the solution set of the inequality \(y < 2x - 1\)?",
     "answerOptions": [
       {
         "text": "(3, 5)",
@@ -209,8 +209,8 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "A phone's value V(t) after t years is given by $V(t) = 800 - 150t$. What is the phone's value after 3 years?",
-    "correctAnswer": "$350",
+    "question": "A phone's value V(t) after t years is given by \(V(t) = 800 - 150t\). What is the phone's value after 3 years?",
+    "correctAnswer": "\(350\)",
     "rationale": "V(3) = 800 - 150(3) = 800 - 450 = 350.",
     "challenge_tags": [
       "math-4"
@@ -231,7 +231,7 @@ module.exports = [
       {
         "text": "10",
         "isCorrect": true,
-        "rationale": "d = sqrt($(3 - (-3))^2 + (10 - 2)^2$) = sqrt($6^2 + 8^2$) = sqrt(36+64) = sqrt(100) = 10."
+        "rationale": "d = sqrt(\((3 - (-3))^2 + (10 - 2)^2) = sqrt(\)\(6^{2}\) + \(8\)^{2}) = sqrt(36+64) = sqrt(100) = 10."
       },
       {
         "text": "14",
@@ -244,7 +244,7 @@ module.exports = [
         "rationale": "This is the distance squared."
       }
     ],
-    "rationale": "Use the distance formula: $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$. $d = \\sqrt{(3 - (-3))^2 + (10 - 2)^2} = \\sqrt{6^2 + 8^2} = \\sqrt{36 + 64} = \\sqrt{100} = 10$.",
+    "rationale": "Use the distance formula: \(d = \\(\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}\)\)\(.  d = \\(\sqrt{(3 - (-3))^2 + (10 - 2)^2}\)\) = \\(\sqrt{6^{2} + 8^{2}}\) = \\(\sqrt{36 + 64}\) = \\(\sqrt{100}\) = 10.",
     "challenge_tags": [
       "math-4"
     ]
@@ -254,7 +254,7 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "What is the domain of the function $f(x) = \\frac{1}{x-5}$?",
+    "question": "What is the domain of the function \(f(x) = \\(\frac{1}{x-5}\)\)?",
     "answerOptions": [
       {
         "text": "All real numbers",
@@ -297,7 +297,7 @@ module.exports = [
       {
         "text": "Linear function",
         "isCorrect": true,
-        "rationale": "A linear function is defined by its constant slope."
+        "rationale": "A linear function is defined by \(its constant slope\)."
       },
       {
         "text": "Exponential function",

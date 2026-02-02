@@ -6,7 +6,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/great_depression_0002.png",
     "imageURL": "/images/Social%20Studies/great_depression_0002.png",
     "content": {
-      "passage": "Alt text: Line graph showing per capita income for ten countries, 1925-1940, with markers indicating when each left the Gold Standard.\n\nDescription: This line graph displays per capita income in 1996 international dollars (at PPP) for ten different countries from 1925 to 1940. Each country's income trend is represented by a distinct line style and color. Black triangular markers on specific lines indicate…\n\nText in image: Per capita income, 1996 international dollars (at PPP) $10 000 $8 000 $6 000 $4 000 $2 000 1925 1930 1935 1940 United States United Kingdom Belgium France Argentina Germany Italy Hungary Japan Brazil marks point at whic…",
+      "passage": "Alt text: Line graph showing per capita income for ten countries, 1925-1940, with markers indicating when each left the Gold Standard.\n\nDescription: This line graph displays per capita income in 1996 international dollars (at PPP) for ten different countries from 1925 to 1940. Each country's income trend is represented by a distinct line style and color. Black triangular markers on specific lines indicate…\n\nText in image: Per capita income, 1996 international dollars (at PPP) $10 000 $8 000 $6 000 $4 000 \(2 000 1925 1930 1935 1940 United States United Kingdom Belgium France Argentina Germany Italy Hungary Japan Brazil marks point at whic…",
       "imageURL": "/images/Social%20Studies/great_depression_0002.png",
       "questionText": "Which term or label appears in the visual?"
     },
@@ -43,7 +43,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/great_depression_0002.png",
     "imageURL": "/images/Social%20Studies/great_depression_0002.png",
     "content": {
-      "passage": "Alt text: Line graph showing per capita income for ten countries, 1925-1940, with markers indicating when each left the Gold Standard.\n\nDescription: This line graph displays per capita income in 1996 international dollars (at PPP) for ten different countries from 1925 to 1940. Each country's income trend is represented by a distinct line style and color. Black triangular markers on specific lines indicate…\n\nText in image: Per capita income, 1996 international dollars (at PPP) $10 000 $8 000 $6 000 $4 000 $2 000 1925 1930 1935 1940 United States United Kingdom Belgium France Argentina Germany Italy Hungary Japan Brazil marks point at whic…",
+      "passage": "Alt text: Line graph showing per capita income for ten countries, 1925-1940, with markers indicating when each left the Gold Standard.\n\nDescription: This line graph displays per capita income in 1996 international dollars (at PPP) for ten different countries from 1925 to 1940. Each country's income trend is represented by a distinct line style and color. Black triangular markers on specific lines indicate…\n\nText in image: Per capita income, 1996 international dollars (at PPP) \)10 000 $8 000 $6 000 $4 000 $2 000 1925 1930 1935 1940 United States United Kingdom Belgium France Argentina Germany Italy Hungary Japan Brazil marks point at whic…",
       "imageURL": "/images/Social%20Studies/great_depression_0002.png",
       "questionText": "Which year appears in the visual text/labels?"
     },

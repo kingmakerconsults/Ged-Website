@@ -104,7 +104,7 @@ module.exports = [
     questionNumber: 4,
     challenge_tags: ['social-2'],
     type: 'image',
-    imageUrl: '//images/Social Studies/map_and_data_skills_0003.jpg',
+    imageUrl: '/images/Social%20Studies/map_and_data_skills_0003.jpg',
     question:
       'This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?',
     answerOptions: [
@@ -135,7 +135,7 @@ module.exports = [
   {
     questionNumber: 5,
     type: 'image',
-    imageUrl: '//images/Social Studies/map_and_data_skills_0003.jpg',
+    imageUrl: '/images/Social%20Studies/map_and_data_skills_0003.jpg',
     question:
       "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
     answerOptions: [
@@ -170,29 +170,29 @@ module.exports = [
     challenge_tags: ['math-6', 'science-1'],
     type: 'chart',
     passage:
-      '<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="//images/Social Studies/map_and_data_skills_0004.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>',
+      '<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/Social%20Studies/map_and_data_skills_0004.png" alt="A line graph showing profits over time. 2016: \(1.5M, 2017: \)1.8M, 2018: \(1.7M, 2019: \)2.1M, 2020: \(2.5M" class="bg-white p-2 rounded"></div>',
     question:
       "According to the line graph, in which year did the company's profits decrease compared to the previous year?",
     answerOptions: [
       {
         text: '2017',
-        rationale: 'In 2017, profits increased from $1.5M to $1.8M.',
+        rationale: 'In 2017, profits increased from \)1.5M to \(1.8M.',
         isCorrect: false,
       },
       {
         text: '2018',
         rationale:
-          'Correct. In 2018, profits fell to $1.7M from $1.8M in 2017.',
+          'Correct. In 2018, profits fell to \)1.7M from \(1.8M in 2017.',
         isCorrect: true,
       },
       {
         text: '2019',
-        rationale: 'In 2019, profits increased from $1.7M to $2.1M.',
+        rationale: 'In 2019, profits increased from \)1.7M to \(2.1M.',
         isCorrect: false,
       },
       {
         text: '2020',
-        rationale: 'In 2020, profits increased from $2.1M to $2.5M.',
+        rationale: 'In 2020, profits increased from \)2.1M to \(2.5M.',
         isCorrect: false,
       },
     ],
@@ -201,28 +201,28 @@ module.exports = [
     questionNumber: 9,
     type: 'chart',
     passage:
-      '<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="//images/Social Studies/map_and_data_skills_0004.png" alt="A line graph showing profits over time. 2016: $1.5M, 2017: $1.8M, 2018: $1.7M, 2019: $2.1M, 2020: $2.5M" class="bg-white p-2 rounded"></div>',
+      '<div class="passage-text"><b>Company Profits (in millions)</b><br><img src="/images/Social%20Studies/map_and_data_skills_0004.png" alt="A line graph showing profits over time. 2016: \)1.5M, 2017: \(1.8M, 2018: \)1.7M, 2019: \(2.1M, 2020: \)2.5M" class="bg-white p-2 rounded"></div>',
     question:
       'What was the approximate total profit for the company over the 5-year period shown?',
     answerOptions: [
       {
-        text: '$2.5 million',
+        text: '\(2.5 million',
         rationale: 'This was the profit for 2020 alone.',
         isCorrect: false,
       },
       {
-        text: '$5.3 million',
+        text: '\)5.3 million',
         rationale: 'This is an incorrect sum.',
         isCorrect: false,
       },
       {
-        text: '$9.6 million',
+        text: '\(9.6 million',
         rationale:
           'Correct. Adding the approximate profits for each year: 1.5 + 1.8 + 1.7 + 2.1 + 2.5 = 9.6.',
         isCorrect: true,
       },
       {
-        text: '$1.92 million',
+        text: '\)1.92 million',
         rationale: 'This is the mean (average) profit, not the total.',
         isCorrect: false,
       },
@@ -233,7 +233,7 @@ module.exports = [
     questionNumber: 10,
     challenge_tags: ['social-1'],
     type: 'image',
-    imageUrl: '//images/Social Studies/map_and_data_skills_0002.jpg',
+    imageUrl: '/images/Social%20Studies/map_and_data_skills_0002.jpg',
     question:
       'This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?',
     answerOptions: [
@@ -264,7 +264,7 @@ module.exports = [
   {
     questionNumber: 11,
     type: 'image',
-    imageUrl: '//images/Social Studies/map_and_data_skills_0002.jpg',
+    imageUrl: '/images/Social%20Studies/map_and_data_skills_0002.jpg',
     question:
       "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotá) to the capital of Venezuela (Caracas) is:",
     answerOptions: [
@@ -391,23 +391,23 @@ module.exports = [
     challenge_tags: ['rla-7'],
     type: 'chart',
     passage:
-      '<div class="passage-text"><b>Household Budget (Total: $3,000/month)</b><br><img src="//images/Social Studies/map_and_data_skills_0001.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>',
+      '<div class="passage-text"><b>Household Budget (Total: \(3,000/month)</b><br><img src="/images/Social%20Studies/map_and_data_skills_0001.png" alt="A pie chart showing a budget. Housing: 35%, Transportation: 15%, Food: 20%, Savings: 10%, Utilities: 5%, Other: 15%" class="bg-white p-2 rounded"></div>',
     question:
       'According to the pie chart, how much money is allocated to Housing each month?',
     answerOptions: [
       {
-        text: '$700',
+        text: '\)700',
         rationale: 'This would be approximately 23%.',
         isCorrect: false,
       },
       {
-        text: '$1,050',
+        text: '\(1,050',
         rationale:
-          'Correct. Housing accounts for 35% of the budget. 35% of $3,000 is (0.35 * 3000), which equals $1,050.',
+          'Correct. Housing accounts for 35% of the budget. 35% of \)3,000 is (0.35 * 3000), which equals \(1,050.',
         isCorrect: true,
       },
       {
-        text: '$600',
+        text: '\)600',
         rationale: 'This is 20% of the budget, the amount for Food.',
         isCorrect: false,
       },

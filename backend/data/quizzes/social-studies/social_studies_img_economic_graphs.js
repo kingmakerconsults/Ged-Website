@@ -6,7 +6,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/blogimage_globaldefense_fig1_010323_0001.png",
     "imageURL": "/images/Social%20Studies/blogimage_globaldefense_fig1_010323_0001.png",
     "content": {
-      "passage": "Alt text: A dual Y-axis line graph showing economic data for six countries from 1992 to 2020.\n\nDescription: This line graph displays economic figures in billions of constant 2020 U.S. dollars for China, Russia, U.K., India, Saudi Arabia, and the U.S. over the period 1992-2020. A left Y-axis (0-$300 billion) is used for five countries, while a right Y-axis ($400-$10…\n\nText in image: Billions of Constant 2020 U.S. Dollars. China (Left Axis), Russia (Left Axis), U.K. (Left Axis), India (Left Axis), Saudi Arabia (Left Axis), U.S. (Right Axis). Federal Reserve Bank of St. Louis.",
+      "passage": "Alt text: A dual Y-axis line graph showing economic data for six countries from 1992 to 2020.\n\nDescription: This line graph displays economic figures in billions of constant 2020 U.S. dollars for China, Russia, U.K., India, Saudi Arabia, and the U.S. over the period 1992-2020. A left Y-axis (0-\(300 billion) is used for five countries, while a right Y-axis (\)400-\(10…\n\nText in image: Billions of Constant 2020 U.S. Dollars. China (Left Axis), Russia (Left Axis), U.K. (Left Axis), India (Left Axis), Saudi Arabia (Left Axis), U.S. (Right Axis). Federal Reserve Bank of St. Louis.",
       "imageURL": "/images/Social%20Studies/blogimage_globaldefense_fig1_010323_0001.png",
       "questionText": "Which term or label appears in the visual?"
     },
@@ -43,7 +43,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/blogimage_globaldefense_fig1_010323_0001.png",
     "imageURL": "/images/Social%20Studies/blogimage_globaldefense_fig1_010323_0001.png",
     "content": {
-      "passage": "Alt text: A dual Y-axis line graph showing economic data for six countries from 1992 to 2020.\n\nDescription: This line graph displays economic figures in billions of constant 2020 U.S. dollars for China, Russia, U.K., India, Saudi Arabia, and the U.S. over the period 1992-2020. A left Y-axis (0-$300 billion) is used for five countries, while a right Y-axis ($400-$10…\n\nText in image: Billions of Constant 2020 U.S. Dollars. China (Left Axis), Russia (Left Axis), U.K. (Left Axis), India (Left Axis), Saudi Arabia (Left Axis), U.S. (Right Axis). Federal Reserve Bank of St. Louis.",
+      "passage": "Alt text: A dual Y-axis line graph showing economic data for six countries from 1992 to 2020.\n\nDescription: This line graph displays economic figures in billions of constant 2020 U.S. dollars for China, Russia, U.K., India, Saudi Arabia, and the U.S. over the period 1992-2020. A left Y-axis (0-\)300 billion) is used for five countries, while a right Y-axis ($400-$10…\n\nText in image: Billions of Constant 2020 U.S. Dollars. China (Left Axis), Russia (Left Axis), U.K. (Left Axis), India (Left Axis), Saudi Arabia (Left Axis), U.S. (Right Axis). Federal Reserve Bank of St. Louis.",
       "imageURL": "/images/Social%20Studies/blogimage_globaldefense_fig1_010323_0001.png",
       "questionText": "Which year appears in the visual text/labels?"
     },
@@ -80,7 +80,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/blogimage_globaldefense_fig1_010323_0001.png",
     "imageURL": "/images/Social%20Studies/blogimage_globaldefense_fig1_010323_0001.png",
     "content": {
-      "passage": "Alt text: A dual Y-axis line graph showing economic data for six countries from 1992 to 2020.\n\nDescription: This line graph displays economic figures in billions of constant 2020 U.S. dollars for China, Russia, U.K., India, Saudi Arabia, and the U.S. over the period 1992-2020. A left Y-axis (0-$300 billion) is used for five countries, while a right Y-axis ($400-$10…\n\nText in image: Billions of Constant 2020 U.S. Dollars. China (Left Axis), Russia (Left Axis), U.K. (Left Axis), India (Left Axis), Saudi Arabia (Left Axis), U.S. (Right Axis). Federal Reserve Bank of St. Louis.",
+      "passage": "Alt text: A dual Y-axis line graph showing economic data for six countries from 1992 to 2020.\n\nDescription: This line graph displays economic figures in billions of constant 2020 U.S. dollars for China, Russia, U.K., India, Saudi Arabia, and the U.S. over the period 1992-2020. A left Y-axis (0-\(300 billion) is used for five countries, while a right Y-axis (\)400-\(10…\n\nText in image: Billions of Constant 2020 U.S. Dollars. China (Left Axis), Russia (Left Axis), U.K. (Left Axis), India (Left Axis), Saudi Arabia (Left Axis), U.S. (Right Axis). Federal Reserve Bank of St. Louis.",
       "imageURL": "/images/Social%20Studies/blogimage_globaldefense_fig1_010323_0001.png",
       "questionText": "Which pair of labels both appears in the visual?"
     },
@@ -117,7 +117,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/how_timing_and_world_events_affect_price_statist_0001.png",
     "imageURL": "/images/Social%20Studies/how_timing_and_world_events_affect_price_statist_0001.png",
     "content": {
-      "passage": "Alt text: Line graph showing daily price per barrel of West Texas Intermediate Crude from January to March 2022.\n\nDescription: This line graph illustrates the daily price of West Texas Intermediate Crude oil in dollars per barrel, spanning from January 3 to March 30, 2022. The y-axis shows prices from $0 to $140, while the x-axis represents dates. Three vertical grey lines indicate P…\n\nText in image: Daily price per barrel of West Texas Intermediate Crude, January to March 2022. Jan 3, Jan 20, Feb 7, Feb 24, Mar 14, Mar 30.",
+      "passage": "Alt text: Line graph showing daily price per barrel of West Texas Intermediate Crude from January to March 2022.\n\nDescription: This line graph illustrates the daily price of West Texas Intermediate Crude oil in dollars per barrel, spanning from January 3 to March 30, 2022. The y-axis shows prices from \)0 to \(140, while the x-axis represents dates. Three vertical grey lines indicate P…\n\nText in image: Daily price per barrel of West Texas Intermediate Crude, January to March 2022. Jan 3, Jan 20, Feb 7, Feb 24, Mar 14, Mar 30.",
       "imageURL": "/images/Social%20Studies/how_timing_and_world_events_affect_price_statist_0001.png",
       "questionText": "Which term or label appears in the visual?"
     },
@@ -154,7 +154,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/how_timing_and_world_events_affect_price_statist_0001.png",
     "imageURL": "/images/Social%20Studies/how_timing_and_world_events_affect_price_statist_0001.png",
     "content": {
-      "passage": "Alt text: Line graph showing daily price per barrel of West Texas Intermediate Crude from January to March 2022.\n\nDescription: This line graph illustrates the daily price of West Texas Intermediate Crude oil in dollars per barrel, spanning from January 3 to March 30, 2022. The y-axis shows prices from $0 to $140, while the x-axis represents dates. Three vertical grey lines indicate P…\n\nText in image: Daily price per barrel of West Texas Intermediate Crude, January to March 2022. Jan 3, Jan 20, Feb 7, Feb 24, Mar 14, Mar 30.",
+      "passage": "Alt text: Line graph showing daily price per barrel of West Texas Intermediate Crude from January to March 2022.\n\nDescription: This line graph illustrates the daily price of West Texas Intermediate Crude oil in dollars per barrel, spanning from January 3 to March 30, 2022. The y-axis shows prices from \)0 to \(140, while the x-axis represents dates. Three vertical grey lines indicate P…\n\nText in image: Daily price per barrel of West Texas Intermediate Crude, January to March 2022. Jan 3, Jan 20, Feb 7, Feb 24, Mar 14, Mar 30.",
       "imageURL": "/images/Social%20Studies/how_timing_and_world_events_affect_price_statist_0001.png",
       "questionText": "Which year appears in the visual text/labels?"
     },
@@ -191,7 +191,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/how_timing_and_world_events_affect_price_statist_0001.png",
     "imageURL": "/images/Social%20Studies/how_timing_and_world_events_affect_price_statist_0001.png",
     "content": {
-      "passage": "Alt text: Line graph showing daily price per barrel of West Texas Intermediate Crude from January to March 2022.\n\nDescription: This line graph illustrates the daily price of West Texas Intermediate Crude oil in dollars per barrel, spanning from January 3 to March 30, 2022. The y-axis shows prices from $0 to $140, while the x-axis represents dates. Three vertical grey lines indicate P…\n\nText in image: Daily price per barrel of West Texas Intermediate Crude, January to March 2022. Jan 3, Jan 20, Feb 7, Feb 24, Mar 14, Mar 30.",
+      "passage": "Alt text: Line graph showing daily price per barrel of West Texas Intermediate Crude from January to March 2022.\n\nDescription: This line graph illustrates the daily price of West Texas Intermediate Crude oil in dollars per barrel, spanning from January 3 to March 30, 2022. The y-axis shows prices from \)0 to $140, while the x-axis represents dates. Three vertical grey lines indicate P…\n\nText in image: Daily price per barrel of West Texas Intermediate Crude, January to March 2022. Jan 3, Jan 20, Feb 7, Feb 24, Mar 14, Mar 30.",
       "imageURL": "/images/Social%20Studies/how_timing_and_world_events_affect_price_statist_0001.png",
       "questionText": "Which pair of labels both appears in the visual?"
     },

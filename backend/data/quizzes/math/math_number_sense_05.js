@@ -4,7 +4,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'What is the result of $25 \\times 100$?',
+    question: 'What is the result of \(25 \\(\times\) 100?\)',
     answerOptions: [
       {
         text: '250',
@@ -50,32 +50,32 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'You buy items costing $3.50, $8.25, and $12.00. If you pay with a $30 bill, how much change should you receive?',
+      'You buy items costing 3.50 dollars, 8.25 dollars, and 12.00 dollars. If you pay with a 30-dollar bill, how much change should you receive?',
     answerOptions: [
       {
-        text: '$6.25',
+        text: '6.25 dollars',
         isCorrect: true,
         rationale:
-          'The total cost is $3.50 + $8.25 + $12.00 = $23.75. The change is $30.00 - $23.75 = $6.25.',
+          'The total cost is 3.50 + 8.25 + 12.00 = 23.75 dollars. The change is 30.00 - 23.75 = 6.25 dollars.',
       },
       {
-        text: '$7.75',
+        text: '7.75 dollars',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '$23.75',
+        text: '23.75 dollars',
         isCorrect: false,
         rationale: 'This is the total cost of the items.',
       },
       {
-        text: '$53.75',
+        text: '53.75 dollars',
         isCorrect: false,
         rationale: 'This is the result of adding the bill to the total.',
       },
     ],
     rationale:
-      'First, find the total cost of the items: $3.50 + $8.25 + $12.00 = $23.75. Then, subtract the total cost from the amount paid: $30.00 - $23.75 = $6.25.',
+      'First, find the total cost of the items: 3.50 + 8.25 + 12.00 = 23.75 dollars. Then, subtract the total cost from the amount paid: 30.00 - 23.75 = 6.25 dollars.',
     challenge_tags: ['math-1'],
   },
   {
@@ -85,10 +85,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'Convert the improper fraction $\\frac{11}{4}$ to a mixed number.',
-    correctAnswer: '2 \\frac{3}{4}',
+      'Convert the improper fraction \(\\(\frac{11}{4}\) to a mixed number.\)',
+    correctAnswer: '2 \\(\frac{3}{4}\)',
     rationale:
-      'Divide 11 by 4. It goes in 2 times (2 * 4 = 8) with a remainder of 3. So the mixed number is 2 $\\frac{3}{4}$.',
+      'Divide 11 by 4. It goes in 2 times (2 * 4 = 8) with a remainder of 3. So the mixed number is 2 \(\\(\frac{3}{4}\)\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -131,32 +131,32 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "A company's stock was valued at $75 per share. It dropped by 12% on Monday and then increased by 5% on Tuesday. What was the price after Tuesday's increase?",
+      "A company's stock was valued at \(75 per share. It dropped by 12% on Monday and then increased by 5% on Tuesday. What was the price after Tuesday's increase?",
     answerOptions: [
       {
-        text: '$69.30',
+        text: '69.30',
         isCorrect: true,
         rationale:
-          'Monday: $75 * (1 - 0.12) = $66. Tuesday: $66 * (1 + 0.05) = $69.30.',
+          'Monday: \(75 * (1 - 0.12) =  66. Tuesday: \(66 * (1 + 0.05) =  69.30.\)\)',
       },
       {
-        text: '$70.88',
+        text: '\(70.88\)',
         isCorrect: false,
         rationale: 'This is a 7% decrease from the original price.',
       },
       {
-        text: '$75.00',
+        text: '75.00',
         isCorrect: false,
         rationale: 'The price would not return to the original value.',
       },
       {
-        text: '$66.00',
+        text: '\(66.00\)',
         isCorrect: false,
         rationale: "This is the price after Monday's drop only.",
       },
     ],
     rationale:
-      'First, calculate the price after the drop: $75 * (1 - 0.12) = $75 * 0.88 = $66. Then, calculate the price after the increase: $66 * (1 + 0.05) = $66 * 1.05 = $69.30.',
+      'First, calculate the price after the drop: \)75 * (1 - 0.12) = 75 * 0.88 = \(66. Then, calculate the price after the increase: \)66 * (1 + 0.05) = \(66 * 1.05 = 69.30.',
     challenge_tags: ['math-1'],
   },
   {
@@ -176,7 +176,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'What is $20 \\div 4 + 6$?',
+    question: 'What is \\(20 \\div 4 + 6\\)?',
     answerOptions: [
       {
         text: '2',
@@ -187,7 +187,7 @@ module.exports = [
         text: '11',
         isCorrect: true,
         rationale:
-          'Following order of operations, division comes first: $\\frac{20}{4}$ = 5. Then addition: 5 + 6 = 11.',
+          'Following order of operations, division comes first: \\(\\frac{20}{4}\\) = 5. Then addition: 5 + 6 = 11.',
       },
       {
         text: '10',
@@ -201,7 +201,7 @@ module.exports = [
       },
     ],
     rationale:
-      'According to the order of operations (PEMDAS), division is performed before addition. So, 20 Ã· 4 = 5, and then 5 + 6 = 11.',
+      'According to the order of operations (PEMDAS), division is performed before addition. So, 20 ÷ 4 = 5, and then 5 + 6 = 11.',
     challenge_tags: ['math-1'],
   },
   {
@@ -225,22 +225,22 @@ module.exports = [
     question: 'What is the scientific notation for 3,450,000?',
     answerOptions: [
       {
-        text: '$3.45 \\times 10^4$',
+        text: '\\(3.45 \\times 10^4\\)',
         isCorrect: false,
         rationale: 'The exponent should be 6.',
       },
       {
-        text: '$3.45 \\times 10^5$',
+        text: '\\(3.45 \\times 10^5\\)',
         isCorrect: false,
         rationale: 'The exponent should be 6.',
       },
       {
-        text: '$3.45 \\times 10^6$',
+        text: '\\(3.45 \\times 10^6\\)',
         isCorrect: true,
         rationale: 'The decimal point is moved 6 places to the left.',
       },
       {
-        text: '$34.5 \\times 10^5$',
+        text: '\\(34.5 \\times 10^5\\)',
         isCorrect: false,
         rationale: "The number before the 'x' must be between 1 and 10.",
       },
@@ -263,7 +263,7 @@ module.exports = [
         rationale: 'This is your weekly income.',
       },
       {
-        text: '$1200',
+        text: '1200',
         isCorrect: false,
         rationale: 'This is your bi-weekly income.',
       },
@@ -274,7 +274,7 @@ module.exports = [
           'Weekly income is 40 * $15 = $600. Monthly income is $600 * 4 = $2400.',
       },
       {
-        text: '$3000',
+        text: '3000',
         isCorrect: false,
         rationale: 'This is the income for 5 weeks.',
       },
@@ -288,21 +288,21 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Find the sum of $\\frac{1}{4}$ and $\\frac{2}{3}$.',
+    question: 'Find the sum of \(\\(\frac{1}{4}\) and \\(\frac{2}{3}\)\).',
     answerOptions: [
       {
-        text: '$\\frac{3}{7}$',
+        text: '\(\\(\frac{3}{7}\)\)',
         isCorrect: false,
         rationale: 'This is the result of adding numerators and denominators.',
       },
       {
-        text: '$\\frac{11}{12}$',
+        text: '\(\\(\frac{11}{12}\)\)',
         isCorrect: true,
         rationale:
-          'The common denominator is 12. The sum is $\\frac{3}{12}$ + $\\frac{8}{12}$ = $\\frac{11}{12}$.',
+          'The common denominator is 12. The sum is \(\\(\frac{3}{12}\)\) + \(\\(\frac{8}{12}\)\) = \(\\(\frac{11}{12}\)\).',
       },
       {
-        text: '$\\frac{1}{2}$',
+        text: '\(\\(\frac{1}{2}\)\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -313,7 +313,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To add these fractions, find a common denominator, which is 12. Convert the fractions: $\\frac{1}{4} = \\frac{3}{12}$ and $\\frac{2}{3} = \\frac{8}{12}$. Now add them: $\\frac{3}{12} + \\frac{8}{12} = \\frac{11}{12}$.',
+      'To add these fractions, find a common denominator, which is 12. Convert the fractions: \(\\(\frac{1}{4}\)\) = \\(\frac{3}{12} and \\(\frac{2}{3}\)\) = \\(\frac{8}{12}\). Now add them: \(\\(\frac{3}{12}\)\) + \\(\frac{8}{12}\) = \\(\frac{11}{12}\).',
     challenge_tags: ['math-1'],
   },
 ];

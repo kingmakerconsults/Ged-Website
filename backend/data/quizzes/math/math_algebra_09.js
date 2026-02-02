@@ -5,7 +5,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Solve for x: $x + 9 = 17$.',
+    question: 'Solve for x: \(x + 9 = 17\).',
     correctAnswer: '8',
     rationale: 'Subtract 9 from both sides of the equation: 17 - 9 = 8.',
     challenge_tags: ['math-3'],
@@ -15,7 +15,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Evaluate $4w - 3$ for $w = 5$.',
+    question: 'Evaluate \(4w - 3 for w = 5\).',
     answerOptions: [
       {
         text: '1',
@@ -46,7 +46,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve for z: $2z + 11 = 3$.',
+    question: 'Solve for z: \(2z + 11 = 3\).',
     answerOptions: [
       {
         text: '7',
@@ -79,7 +79,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Simplify the expression: $9x - (2x - 4)$.',
+    question: 'Simplify the expression: \(9x - (2x - 4)\).',
     correctAnswer: '7x + 4',
     rationale:
       'Distribute the negative sign: 9x - 2x + 4. Then, combine like terms: 7x + 4.',
@@ -90,7 +90,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'What is the slope of the line $y = -5x + 10$?',
+    question: 'What is the slope of the line \(y = -5x + 10\)?',
     answerOptions: [
       {
         text: '10',
@@ -122,7 +122,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'hard',
-    question: 'Solve for a: $a/4 + a/2 = 6$.',
+    question: 'Solve for a: \(a/4 + a/2 = 6\).',
     answerOptions: [
       {
         text: '3',
@@ -156,9 +156,9 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'If $f(x) = x^2 + x$, find $f(-5)$.',
+    question: 'If \(f(x) = x^2 + x\), find \(f(-5)\).',
     correctAnswer: '20',
-    rationale: 'Substitute -5 for x: f(-5) = (-5)Â² + (-5) = 25 - 5 = 20.',
+    rationale: 'Substitute -5 for x: f(-5) = (-5)^2 + (-5) = 25 - 5 = 20.',
     challenge_tags: ['math-3'],
   },
   {
@@ -166,7 +166,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'The graph of the line $y=3$ is a:',
+    question: 'The graph of the line \(y = 3\) is a:',
     answerOptions: [
       {
         text: 'Horizontal line',
@@ -220,7 +220,7 @@ module.exports = [
       {
         text: '5.4',
         isCorrect: false,
-        rationale: 'This is $\\frac{27}{5}$.',
+        rationale: 'This is \(\\(\frac{27}{5}\)\).',
       },
       {
         text: '35',
@@ -242,7 +242,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'Find the solutions to $x^2 + 2x - 8 = 0$.',
+    question: 'Find the solutions to \(x^2 + 2x - 8 = 0\).',
     answerOptions: [
       {
         text: '{2, -4}',
@@ -274,31 +274,32 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Simplify the expression $(2x)^3$.',
+    question: 'Simplify the expression \((2x)^3\).',
     answerOptions: [
       {
-        text: '$6x$',
+        text: '\(6x\)',
         isCorrect: false,
         rationale: 'This is 2*3*x.',
       },
       {
-        text: '$2x^3$',
+        text: '\(2x^3\)',
         isCorrect: false,
         rationale: 'The coefficient 2 should also be cubed.',
       },
       {
-        text: '$8x^3$',
+        text: '\(8x^3\)',
         isCorrect: true,
-        rationale: 'Both the 2 and the x are cubed: $2^3 \\times x^3 = 8x^3$.',
+        rationale:
+          'Both the 2 and the x are cubed: \(2^3 \\(\times\)\) \(x^3\) = 8x^3.',
       },
       {
-        text: '$6x^3$',
+        text: '\(6x^3\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'When a product is raised to a power, each factor is raised to that power. So, $(2x)^3 = 2^3 \\times x^3 = 8x^3$.',
+      'When a product is raised to a power, each factor is raised to that power. So, \((2x)^3 = 2^3 \\(\times\)\) \(x^3\) = 8x^3.',
     challenge_tags: ['math-3'],
   },
 ];

@@ -6,7 +6,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/unclassified_0063.png",
     "imageURL": "/images/Social%20Studies/unclassified_0063.png",
     "content": {
-      "passage": "Alt text: Two pictographs showing countries with most emigrants and countries receiving most remittances in 2010.\n\nDescription: This image displays two separate pictographs presenting international economic and demographic data from 2010. The top chart shows the top countries by number of emigrants, using stick figures where each represents 2 million people. The bottom chart illustrat…\n\nText in image: Countries with the Most Emigrants, 2010 = 2 million emigrants. Countries Receiving the Most Remittances, 2010 = U.S. $2 billion. Source: World Bank.",
+      "passage": "Alt text: Two pictographs showing countries with most emigrants and countries receiving most remittances in 2010.\n\nDescription: This image displays two separate pictographs presenting international economic and demographic data from 2010. The top chart shows the top countries by number of emigrants, using stick figures where each represents 2 million people. The bottom chart illustrat…\n\nText in image: Countries with the Most Emigrants, 2010 = 2 million emigrants. Countries Receiving the Most Remittances, 2010 = U.S. \(2 billion. Source: World Bank.",
       "imageURL": "/images/Social%20Studies/unclassified_0063.png",
       "questionText": "Which term or label appears in the visual?"
     },
@@ -43,7 +43,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/unclassified_0063.png",
     "imageURL": "/images/Social%20Studies/unclassified_0063.png",
     "content": {
-      "passage": "Alt text: Two pictographs showing countries with most emigrants and countries receiving most remittances in 2010.\n\nDescription: This image displays two separate pictographs presenting international economic and demographic data from 2010. The top chart shows the top countries by number of emigrants, using stick figures where each represents 2 million people. The bottom chart illustrat…\n\nText in image: Countries with the Most Emigrants, 2010 = 2 million emigrants. Countries Receiving the Most Remittances, 2010 = U.S. $2 billion. Source: World Bank.",
+      "passage": "Alt text: Two pictographs showing countries with most emigrants and countries receiving most remittances in 2010.\n\nDescription: This image displays two separate pictographs presenting international economic and demographic data from 2010. The top chart shows the top countries by number of emigrants, using stick figures where each represents 2 million people. The bottom chart illustrat…\n\nText in image: Countries with the Most Emigrants, 2010 = 2 million emigrants. Countries Receiving the Most Remittances, 2010 = U.S. \)2 billion. Source: World Bank.",
       "imageURL": "/images/Social%20Studies/unclassified_0063.png",
       "questionText": "Which year appears in the visual text/labels?"
     },
@@ -80,7 +80,7 @@ module.exports = [
     "imageUrl": "/images/Social%20Studies/unclassified_0063.png",
     "imageURL": "/images/Social%20Studies/unclassified_0063.png",
     "content": {
-      "passage": "Alt text: Two pictographs showing countries with most emigrants and countries receiving most remittances in 2010.\n\nDescription: This image displays two separate pictographs presenting international economic and demographic data from 2010. The top chart shows the top countries by number of emigrants, using stick figures where each represents 2 million people. The bottom chart illustrat…\n\nText in image: Countries with the Most Emigrants, 2010 = 2 million emigrants. Countries Receiving the Most Remittances, 2010 = U.S. $2 billion. Source: World Bank.",
+      "passage": "Alt text: Two pictographs showing countries with most emigrants and countries receiving most remittances in 2010.\n\nDescription: This image displays two separate pictographs presenting international economic and demographic data from 2010. The top chart shows the top countries by number of emigrants, using stick figures where each represents 2 million people. The bottom chart illustrat…\n\nText in image: Countries with the Most Emigrants, 2010 = 2 million emigrants. Countries Receiving the Most Remittances, 2010 = U.S. \(2 billion. Source: World Bank.",
       "imageURL": "/images/Social%20Studies/unclassified_0063.png",
       "questionText": "Which pair of labels both appears in the visual?"
     },
@@ -96,7 +96,7 @@ module.exports = [
         "isCorrect": false
       },
       {
-        "text": "Gadsden Purchase and 2010 = U.S. $2 billion. Source: World Bank.",
+        "text": "Gadsden Purchase and 2010 = U.S. \)2 billion. Source: World Bank.",
         "rationale": "Incorrect. One of these labels is not shown in the visual.",
         "isCorrect": false
       },

@@ -1,5 +1,12 @@
-import React, { useState, useEffect, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
+import React, { useState, useEffect, Suspense, useMemo } from 'react';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
 import {
   PREMADE_QUIZ_CATALOG,
   assignPremadeQuizCodes,
@@ -18,6 +25,13 @@ import ElectoralCollegeSimulator from '../../tools/ElectoralCollegeSimulator.jsx
 import ProfileView from './views/ProfileView.jsx';
 import SettingsView from './views/SettingsView.jsx';
 import QuizDemo from './views/QuizDemo.jsx';
+import OnboardingAccountView from './views/onboarding/OnboardingAccountView.jsx';
+import OnboardingDiagnosticSelector from './views/onboarding/OnboardingDiagnosticSelector.jsx';
+import OnboardingDiagnosticComposite from './views/onboarding/OnboardingDiagnosticComposite.jsx';
+import OnboardingDiagnosticSubject from './views/onboarding/OnboardingDiagnosticSubject.jsx';
+import OnboardingComplete from './views/onboarding/OnboardingComplete.jsx';
+import LocalQuizRunner from './views/onboarding/LocalQuizRunner.jsx';
+import { getApiBaseUrl } from './utils/apiBase.js';
 const QuizInterface = React.lazy(() =>
   import('../components/quiz/QuizInterface.jsx').then((m) => ({
     default: m.QuizInterface,
@@ -37,7 +51,12 @@ function initPremades(source) {
 export default function App() {
   const [ready, setReady] = useState(false);
   const [user, setUser] = useState(null);
+  const [onboardingState, setOnboardingState] = useState(null);
+  const [token, setToken] = useState(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('token') : null
+  );
   const { theme, toggleTheme } = useThemeController();
+  const apiBase = useMemo(() => getApiBaseUrl(), []);
 
   useEffect(() => {
     // Initialize premade quizzes once data is available.
@@ -77,11 +96,57 @@ export default function App() {
       <AuthScreen
         onLogin={(loggedInUser, token) => {
           setUser(loggedInUser);
+          if (token) {
+            localStorage.setItem('token', token);
+            setToken(token);
+          }
           console.log('User logged in:', loggedInUser);
         }}
       />
     );
   }
+
+  const OnboardingGate = ({ children }) => {
+    const location = useLocation();
+    if (!onboardingState) return <div className="p-4">Loading...</div>;
+    if (
+      !onboardingState.onboarding_completed &&
+      !location.pathname.startsWith('/onboarding')
+    ) {
+      const step = onboardingState.onboarding_step || 'account';
+      const target =
+        step === 'diagnostic'
+          ? '/onboarding/diagnostic'
+          : '/onboarding/account';
+      return <Navigate to={target} replace />;
+    }
+    return children;
+  };
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      if (!user) return;
+      try {
+        const res = await fetch(`${apiBase}/api/onboarding/state`, {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : '',
+          },
+        });
+        if (!res.ok) {
+          if (mounted) setOnboardingState({ onboarding_completed: true });
+          return;
+        }
+        const data = await res.json();
+        if (mounted) setOnboardingState(data);
+      } catch (_) {
+        if (mounted) setOnboardingState({ onboarding_completed: true });
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [apiBase, token, user]);
 
   return (
     <BrowserRouter>
@@ -119,16 +184,80 @@ export default function App() {
 
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path="/" element={<DashboardView />} />
-            <Route path="/social-studies" element={<SocialStudiesView />} />
-            <Route path="/profile" element={<ProfileView />} />
-            <Route path="/settings" element={<SettingsView />} />
-            <Route path="/demo/math" element={<QuizDemo />} />
+            <Route
+              path="/onboarding/account"
+              element={
+                <OnboardingAccountView user={onboardingState?.user || user} />
+              }
+            />
+            <Route
+              path="/onboarding/diagnostic"
+              element={<OnboardingDiagnosticSelector />}
+            />
+            <Route
+              path="/onboarding/diagnostic/composite"
+              element={<OnboardingDiagnosticComposite />}
+            />
+            <Route
+              path="/onboarding/diagnostic/subject/:subject"
+              element={<OnboardingDiagnosticSubject />}
+            />
+            <Route
+              path="/onboarding/complete"
+              element={<OnboardingComplete />}
+            />
+            <Route
+              path="/quiz/local-diagnostic"
+              element={<LocalQuizRunner />}
+            />
+
+            <Route
+              path="/"
+              element={
+                <OnboardingGate>
+                  <DashboardView />
+                </OnboardingGate>
+              }
+            />
+            <Route
+              path="/social-studies"
+              element={
+                <OnboardingGate>
+                  <SocialStudiesView />
+                </OnboardingGate>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <OnboardingGate>
+                  <ProfileView />
+                </OnboardingGate>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <OnboardingGate>
+                  <SettingsView />
+                </OnboardingGate>
+              }
+            />
+            <Route
+              path="/demo/math"
+              element={
+                <OnboardingGate>
+                  <QuizDemo />
+                </OnboardingGate>
+              }
+            />
             <Route
               path="/super-admin/all-questions"
               element={
                 user?.role === 'super_admin' ? (
-                  <SuperAdminAllQuestions />
+                  <OnboardingGate>
+                    <SuperAdminAllQuestions />
+                  </OnboardingGate>
                 ) : (
                   <Navigate to="/" replace />
                 )
@@ -137,37 +266,53 @@ export default function App() {
             <Route
               path="/tools/constitution-explorer"
               element={
-                <ConstitutionExplorer onExit={() => window.history.back()} />
+                <OnboardingGate>
+                  <ConstitutionExplorer onExit={() => window.history.back()} />
+                </OnboardingGate>
               }
             />
             <Route
               path="/tools/economics-market-simulator"
               element={
-                <EconomicsGraphTool onExit={() => window.history.back()} />
+                <OnboardingGate>
+                  <EconomicsGraphTool onExit={() => window.history.back()} />
+                </OnboardingGate>
               }
             />
             <Route
               path="/tools/map-explorer"
-              element={<MapExplorer onExit={() => window.history.back()} />}
+              element={
+                <OnboardingGate>
+                  <MapExplorer onExit={() => window.history.back()} />
+                </OnboardingGate>
+              }
             />
             <Route
               path="/tools/civics-reasoning"
               element={
-                <CivicsReasoningLab onExit={() => window.history.back()} />
+                <OnboardingGate>
+                  <CivicsReasoningLab onExit={() => window.history.back()} />
+                </OnboardingGate>
               }
             />
             <Route
               path="/tools/history-timeline"
               element={
-                <HistoryTimelineBuilder onExit={() => window.history.back()} />
+                <OnboardingGate>
+                  <HistoryTimelineBuilder
+                    onExit={() => window.history.back()}
+                  />
+                </OnboardingGate>
               }
             />
             <Route
               path="/tools/electoral-college"
               element={
-                <ElectoralCollegeSimulator
-                  onExit={() => window.history.back()}
-                />
+                <OnboardingGate>
+                  <ElectoralCollegeSimulator
+                    onExit={() => window.history.back()}
+                  />
+                </OnboardingGate>
               }
             />
             <Route path="*" element={<Navigate to="/" replace />} />

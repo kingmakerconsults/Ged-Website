@@ -162,8 +162,8 @@ const getPremadeQuizTotal = (subject) => {
       typeof window !== 'undefined' && window.UnifiedQuizCatalog
         ? window.UnifiedQuizCatalog
         : typeof window !== 'undefined'
-        ? window.AppData
-        : AppData;
+          ? window.AppData
+          : AppData;
     const subjectData = src?.[subject];
     if (!subjectData) return 0;
     let total = 0;
@@ -229,22 +229,22 @@ const buildProgressFromAttempts = (attempts = []) => {
         typeof entry?.score === 'number'
           ? entry.score
           : Number.isFinite(Number(entry?.score))
-          ? Math.round(Number(entry.score))
-          : null,
+            ? Math.round(Number(entry.score))
+            : null,
       totalQuestions:
         typeof entry?.totalQuestions === 'number'
           ? entry.totalQuestions
           : Number.isFinite(Number(entry?.total_questions))
-          ? Math.round(Number(entry.total_questions))
-          : Number.isFinite(Number(entry?.totalQuestions))
-          ? Math.round(Number(entry.totalQuestions))
-          : null,
+            ? Math.round(Number(entry.total_questions))
+            : Number.isFinite(Number(entry?.totalQuestions))
+              ? Math.round(Number(entry.totalQuestions))
+              : null,
       scaledScore:
         typeof entry?.scaledScore === 'number'
           ? Math.round(entry.scaledScore)
           : Number.isFinite(Number(entry?.scaled_score))
-          ? Math.round(Number(entry.scaled_score))
-          : null,
+            ? Math.round(Number(entry.scaled_score))
+            : null,
       attemptedAt:
         entry?.attemptedAt || entry?.attempted_at || entry?.takenAt || null,
     };
@@ -318,8 +318,8 @@ const ensureUserProfile = (user) => {
     user.name && typeof user.name === 'string' && user.name.trim()
       ? user.name.trim()
       : email.includes('@')
-      ? email.split('@')[0]
-      : email || 'Learner';
+        ? email.split('@')[0]
+        : email || 'Learner';
   const picture =
     user.picture && typeof user.picture === 'string' && user.picture.trim()
       ? user.picture.trim()
@@ -1626,8 +1626,8 @@ function renderStemWithKatex(text) {
 
 const GEOMETRY_FIGURES_ENABLED = Boolean(
   typeof window !== 'undefined' &&
-    window.__APP_CONFIG__ &&
-    window.__APP_CONFIG__.geometryFiguresEnabled
+  window.__APP_CONFIG__ &&
+  window.__APP_CONFIG__.geometryFiguresEnabled
 );
 
 const DEFAULT_FIGURE_STYLE = {
@@ -2497,8 +2497,8 @@ function renderQuestionTextForDisplay(text, isPremade) {
   // Only allow KaTeX rendering for premade items; AI/dynamic stay plain text (fractions a/b, exponents a^b)
   const useKatex = Boolean(
     window.__APP_CONFIG__ &&
-      window.__APP_CONFIG__.premadeUsesKatex === true &&
-      isPremade === true
+    window.__APP_CONFIG__.premadeUsesKatex === true &&
+    isPremade === true
   );
   // Premade path: keep original raw math delimiters and render with KaTeX
   if (useKatex) {
@@ -11225,7 +11225,8 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/a_new_nation_quiz_2_0001.png',
+                    imageUrl:
+                      '//images/Social Studies/a_new_nation_quiz_2_0001.png',
                     question:
                       'This map illustrates the impact of the Louisiana Purchase in 1803. What was the most significant effect of this event?',
                     answerOptions: [
@@ -11540,8 +11541,7 @@ const AppData = {
               {
                 questionNumber: 2,
                 type: 'image',
-                imageUrl:
-                  '//images/Social Studies/a_nation_divided_0001.jpg',
+                imageUrl: '//images/Social Studies/a_nation_divided_0001.jpg',
                 question:
                   'This map shows the territorial expansion of the United States. The belief that it was the divine destiny of the U.S. to expand across the continent, as depicted here, was known as:',
                 answerOptions: [
@@ -12079,7 +12079,8 @@ const AppData = {
                   {
                     questionNumber: 4,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/industrial_america_0002.jpg',
+                    imageUrl:
+                      '//images/Social Studies/industrial_america_0002.jpg',
                     question:
                       'This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:',
                     answerOptions: [
@@ -12133,7 +12134,8 @@ const AppData = {
                   {
                     questionNumber: 1,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/industrial_america_0001.jpg',
+                    imageUrl:
+                      '//images/Social Studies/industrial_america_0001.jpg',
                     question:
                       "This political cartoon, 'The Bosses of the Senate,' criticizes the immense power of corporate monopolies during the Gilded Age. How did political machines, which also held great power at the time, maintain their influence?",
                     answerOptions: [
@@ -12425,7 +12427,8 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/global_conflicts_0002.jpg',
+                    imageUrl:
+                      '//images/Social Studies/global_conflicts_0002.jpg',
                     question:
                       'This map shows the new borders of Europe established by the Treaty of Versailles after World War I. Why did the U.S. Senate refuse to ratify this treaty?',
                     answerOptions: [
@@ -12527,7 +12530,8 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/global_conflicts_0001.jpg',
+                    imageUrl:
+                      '//images/Social Studies/global_conflicts_0001.jpg',
                     question:
                       "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
                     answerOptions: [
@@ -12979,7 +12983,8 @@ const AppData = {
                   {
                     questionNumber: 3,
                     type: 'image',
-                    imageUrl: '//images/Social Studies/the_cold_war_era_0001.jpg',
+                    imageUrl:
+                      '//images/Social Studies/the_cold_war_era_0001.jpg',
                     question:
                       "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
                     answerOptions: [
@@ -17219,7 +17224,8 @@ const AppData = {
               {
                 questionNumber: 4,
                 type: 'image',
-                imageUrl: '//images/Social Studies/map_and_data_skills_0003.jpg',
+                imageUrl:
+                  '//images/Social Studies/map_and_data_skills_0003.jpg',
                 question:
                   'This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?',
                 answerOptions: [
@@ -17251,7 +17257,8 @@ const AppData = {
               {
                 questionNumber: 5,
                 type: 'image',
-                imageUrl: '//images/Social Studies/map_and_data_skills_0003.jpg',
+                imageUrl:
+                  '//images/Social Studies/map_and_data_skills_0003.jpg',
                 question:
                   "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
                 answerOptions: [
@@ -17412,7 +17419,8 @@ const AppData = {
               {
                 questionNumber: 10,
                 type: 'image',
-                imageUrl: '//images/Social Studies/map_and_data_skills_0002.jpg',
+                imageUrl:
+                  '//images/Social Studies/map_and_data_skills_0002.jpg',
                 question:
                   'This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?',
                 answerOptions: [
@@ -17445,7 +17453,8 @@ const AppData = {
               {
                 questionNumber: 11,
                 type: 'image',
-                imageUrl: '//images/Social Studies/map_and_data_skills_0002.jpg',
+                imageUrl:
+                  '//images/Social Studies/map_and_data_skills_0002.jpg',
                 question:
                   "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotá) to the capital of Venezuela (Caracas) is:",
                 answerOptions: [
@@ -20099,8 +20108,8 @@ function buildCanonicalTopics(subjectName, categoryName, rawTopics) {
         typeof indexWithinTopic === 'number'
           ? indexWithinTopic
           : Array.isArray(group.quizzes)
-          ? group.quizzes.length
-          : 0;
+            ? group.quizzes.length
+            : 0;
       variant.label = `Quiz ${String.fromCharCode(65 + (idx % 26))}`;
     }
     group.quizzes.push(variant);
@@ -20421,8 +20430,8 @@ const expandedQuizDataSource =
   typeof window !== 'undefined' && window.ExpandedQuizData
     ? window.ExpandedQuizData
     : typeof globalThis !== 'undefined'
-    ? globalThis.ExpandedQuizData
-    : null;
+      ? globalThis.ExpandedQuizData
+      : null;
 if (expandedQuizDataSource) {
   integrateExpandedQuizData(AppData, expandedQuizDataSource);
 }
@@ -22080,8 +22089,8 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
       const passedStyle = isPassed
         ? { backgroundColor: 'rgba(22,163,74,0.12)', borderColor: '#16a34a' }
         : isCompleted
-        ? { backgroundColor: 'rgba(59,130,246,0.09)' }
-        : {};
+          ? { backgroundColor: 'rgba(59,130,246,0.09)' }
+          : {};
 
       return (
         <div
@@ -23017,8 +23026,8 @@ async function fetchJSON(url, options = {}) {
     const targetUrl = isAbsolute
       ? url
       : typeof url === 'string' && url.startsWith('/')
-      ? `${BASE}${url}`
-      : url;
+        ? `${BASE}${url}`
+        : url;
     const response = await fetch(targetUrl, {
       credentials: 'include',
       ...rest,
@@ -24891,8 +24900,8 @@ function App({ externalTheme, onThemeChange }) {
       const normalizedDate = normalizedNotScheduled
         ? ''
         : typeof edits.testDate === 'string'
-        ? edits.testDate.trim()
-        : '';
+          ? edits.testDate.trim()
+          : '';
       const normalizedLocation =
         typeof edits.testLocation === 'string' ? edits.testLocation.trim() : '';
       const normalizedPassed = normalizedNotScheduled ? false : !!edits.passed;
@@ -25824,12 +25833,12 @@ function App({ externalTheme, onThemeChange }) {
 
     // Build per-question responses (correct + challenge_tags) when we have answers/questions
     let responses = [];
+    const answers = Array.isArray(results?.answers) ? results.answers : [];
     try {
       const quizObj = results.quiz || activeQuiz || {};
       const questions = Array.isArray(quizObj?.questions)
         ? quizObj.questions
         : [];
-      const answers = Array.isArray(results?.answers) ? results.answers : [];
       if (
         questions.length &&
         answers.length &&
@@ -25965,6 +25974,23 @@ function App({ externalTheme, onThemeChange }) {
           },
           body: JSON.stringify(payload),
         });
+
+        const isDiagnosticQuiz =
+          quizDetails?.isDiagnostic === true ||
+          /diagnostic/i.test(quizDetails?.quizType || '') ||
+          /diagnostic/i.test(quizDetails?.quizCode || '') ||
+          /diagnostic/i.test(quizDetails?.title || '');
+
+        if (isDiagnosticQuiz && answers.length) {
+          await fetch(`${API_BASE_URL}/api/diagnostic-test/submit`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ quiz: quizDetails, answers }),
+          });
+        }
       }
     } catch (e) {
       console.warn(
@@ -26362,8 +26388,8 @@ function App({ externalTheme, onThemeChange }) {
             activeView === 'profile'
               ? 'profile'
               : activeView === 'settings'
-              ? 'settings'
-              : null
+                ? 'settings'
+                : null
           }
           theme={preferences.theme}
           onToggleTheme={toggleThemePreference}
@@ -27535,12 +27561,6 @@ function SettingsView({
 
 function AuthScreen({ onLogin }) {
   const googleButton = useRef(null);
-  const [mode, setMode] = useState('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [formError, setFormError] = useState(null);
-  const [formMessage, setFormMessage] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
 
   const handleCredentialResponse = useCallback(
     async (response) => {
@@ -27604,67 +27624,6 @@ function AuthScreen({ onLogin }) {
     };
   }, [handleCredentialResponse]);
 
-  const modeLabel = mode === 'login' ? 'Log In' : 'Register';
-
-  const toggleMode = () => {
-    setMode((prev) => (prev === 'login' ? 'register' : 'login'));
-    setFormError(null);
-    setFormMessage(null);
-    setPassword('');
-  };
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    setFormError(null);
-    setFormMessage(null);
-
-    if (!email.trim() || !password.trim()) {
-      setFormError('Email and password are required');
-      return;
-    }
-
-    setSubmitting(true);
-
-    try {
-      const endpoint = mode === 'login' ? '/api/login' : '/api/register';
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: email.trim(), password }),
-      });
-
-      let body = {};
-      try {
-        body = await response.json();
-      } catch (err) {
-        body = {};
-      }
-
-      if (!response.ok) {
-        throw new Error(body?.error || 'Unable to complete request');
-      }
-
-      if (body?.user && body?.token) {
-        onLogin(body.user, body.token);
-        setEmail('');
-        setPassword('');
-      } else {
-        setFormMessage(body?.message || 'Success. You can now sign in.');
-        if (mode === 'register') {
-          setMode('login');
-        }
-      }
-    } catch (error) {
-      setFormError(
-        error instanceof Error ? error.message : 'Unable to complete request'
-      );
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   return (
     <>
       <div className="text-center max-w-md mx-auto">
@@ -27680,79 +27639,12 @@ function AuthScreen({ onLogin }) {
         >
           Sign in to save your progress across devices.
         </p>
-        <form
-          onSubmit={handleFormSubmit}
-          className="panel-surface rounded-2xl shadow-md p-6 text-left space-y-4 border-subtle"
-        >
-          <div>
-            <label
-              htmlFor="auth-email"
-              className="block text-sm font-medium"
-              style={{ color: 'var(--text-primary)' }}
-            >
-              Email
-            </label>
-            <input
-              id="auth-email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 bg-white dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary text-slate-900 dark:text-white"
-              autoComplete="email"
-              placeholder="you@example.com"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="auth-password"
-              className="block text-sm font-medium"
-              style={{ color: 'var(--text-primary)' }}
-            >
-              Password
-            </label>
-            <input
-              id="auth-password"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="mt-1 w-full rounded-lg border-subtle px-3 py-2 bg-white dark:bg-slate-800 shadow-sm focus-ring-primary focus:border-primary text-slate-900 dark:text-white"
-              autoComplete={
-                mode === 'login' ? 'current-password' : 'new-password'
-              }
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-          {formError && <p className="text-sm text-danger">{formError}</p>}
-          {formMessage && <p className="text-sm text-success">{formMessage}</p>}
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full rounded-lg btn-primary py-2 text-sm font-semibold shadow disabled:opacity-60"
-          >
-            {submitting ? 'Please wait' : modeLabel}
-          </button>
-        </form>
-        <p
-          className="mt-3 text-sm"
-          style={{ color: 'var(--text-primary)', opacity: 0.8 }}
-        >
-          {mode === 'login' ? 'Need an account?' : 'Already have an account?'}{' '}
-          <button
-            type="button"
-            onClick={toggleMode}
-            className="font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300"
-          >
-            {mode === 'login' ? 'Register' : 'Log in'}
-          </button>
-        </p>
         <div className="my-6 flex items-center justify-center gap-3 text-xs uppercase tracking-wide text-muted">
           <span
             className="h-px w-12 border-subtle bg-current"
             aria-hidden="true"
           ></span>
-          <span>Or continue with</span>
+          <span>Sign in</span>
           <span
             className="h-px w-12 border-subtle bg-current"
             aria-hidden="true"
@@ -27853,18 +27745,18 @@ function AdminRoleBadge({ role }) {
     normalizedRole === 'superAdmin' || normalizedRole === 'super_admin'
       ? 'Super Admin'
       : normalizedRole === 'orgAdmin' || normalizedRole === 'org_admin'
-      ? 'Organization Admin'
-      : normalizedRole === 'instructor'
-      ? 'Instructor'
-      : 'Student';
+        ? 'Organization Admin'
+        : normalizedRole === 'instructor'
+          ? 'Instructor'
+          : 'Student';
   const palette =
     normalizedRole === 'superAdmin' || normalizedRole === 'super_admin'
       ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-200'
       : normalizedRole === 'orgAdmin' || normalizedRole === 'org_admin'
-      ? 'bg-info-soft text-info'
-      : normalizedRole === 'instructor'
-      ? 'bg-success-soft text-success'
-      : 'bg-surface-soft text-secondary';
+        ? 'bg-info-soft text-info'
+        : normalizedRole === 'instructor'
+          ? 'bg-success-soft text-success'
+          : 'bg-surface-soft text-secondary';
   return (
     <span
       className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${palette}`}
@@ -28338,8 +28230,8 @@ function SuperAdminDashboard({ user, token, onLogout }) {
       const list = Array.isArray(data?.organizations)
         ? data.organizations
         : Array.isArray(data)
-        ? data
-        : [];
+          ? data
+          : [];
       setOrganizations(list);
     } catch (error) {
       setOrgError(error?.message || 'Unable to load organizations');
@@ -29450,12 +29342,12 @@ function DashboardProgressSummary({
             id === 'rla'
               ? 'Reasoning Through Language Arts (RLA)'
               : id === 'social_studies'
-              ? 'Social Studies'
-              : id === 'math'
-              ? 'Math'
-              : id === 'science'
-              ? 'Science'
-              : null;
+                ? 'Social Studies'
+                : id === 'math'
+                  ? 'Math'
+                  : id === 'science'
+                    ? 'Science'
+                    : null;
           if (label) set.add(label);
         });
       }
@@ -30405,32 +30297,63 @@ function StartScreen({
   const [generatingAll, setGeneratingAll] = useState(false);
   // Vocabulary collapsible
   const [vocabOpen, setVocabOpen] = useState(true);
+  const [showDiagnosticModal, setShowDiagnosticModal] = useState(false);
+  const [selectedDiagnosticSubject, setSelectedDiagnosticSubject] =
+    useState('Math');
 
   // Ask Coach (advice)
   const [adviceLoading, setAdviceLoading] = useState(false);
   const [adviceText, setAdviceText] = useState('');
   const [adviceError, setAdviceError] = useState('');
 
+  const DIAGNOSTIC_SUBJECTS = [
+    { id: 'Math', label: 'Math' },
+    { id: 'RLA', label: 'RLA' },
+    { id: 'Science', label: 'Science' },
+    { id: 'Social Studies', label: 'Social Studies' },
+  ];
+
   // Diagnostic Test Handler
-  const handleStartDiagnostic = async () => {
+  const handleStartDiagnostic = async (subject) => {
     try {
       setIsLoading(true);
       setLoadingMessage('Preparing your diagnostic test...');
 
       const token = localStorage.getItem('appToken');
-      const res = await fetch('/api/diagnostic-test', {
+      const res = await fetch('/api/diagnostic-test/subject', {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({ subject }),
       });
 
-      if (!res.ok) throw new Error('Failed to start diagnostic');
+      if (!res.ok) {
+        let errPayload = null;
+        try {
+          errPayload = await res.json();
+        } catch (e) {
+          errPayload = null;
+        }
+        if (errPayload?.alreadyCompleted) {
+          alert(
+            errPayload?.message ||
+              'You have already completed the diagnostic test.'
+          );
+          return;
+        }
+        throw new Error(errPayload?.error || 'Failed to start diagnostic');
+      }
 
       const quiz = await res.json();
 
+      if (!quiz || !quiz.questions?.length) {
+        throw new Error('No diagnostic quiz was returned.');
+      }
+
       // Use onSelectQuiz to launch it
-      onSelectQuiz(quiz, 'Diagnostic');
+      onSelectQuiz(quiz, quiz.subject || 'Diagnostic');
     } catch (err) {
       console.error(err);
       alert('Failed to start diagnostic test. Please try again.');
@@ -30438,6 +30361,14 @@ function StartScreen({
       setIsLoading(false);
       setLoadingMessage('');
     }
+  };
+
+  const openDiagnosticModal = () => {
+    setShowDiagnosticModal(true);
+  };
+
+  const closeDiagnosticModal = () => {
+    setShowDiagnosticModal(false);
   };
 
   // Weekly coach helpers (top-level)
@@ -30496,8 +30427,8 @@ function StartScreen({
     const focus = Array.isArray(task.focus)
       ? task.focus
       : task.focus
-      ? [task.focus]
-      : [];
+        ? [task.focus]
+        : [];
     const minutesFromTask = Number(task.minutes);
     const minutesFallback = Number(dayFallback.minutes);
     return {
@@ -30515,8 +30446,8 @@ function StartScreen({
       minutes: Number.isFinite(minutesFromTask)
         ? minutesFromTask
         : Number.isFinite(minutesFallback)
-        ? minutesFallback
-        : 20,
+          ? minutesFallback
+          : 20,
       quizId: task.quizId || task.quizCode || null,
       quizPath: task.quizPath || null,
       focus,
@@ -30697,10 +30628,10 @@ function StartScreen({
       subjectParam === 'social-studies'
         ? 'Social Studies'
         : subjectParam === 'rla'
-        ? 'RLA'
-        : subjectParam === 'math'
-        ? 'Math'
-        : 'Science';
+          ? 'RLA'
+          : subjectParam === 'math'
+            ? 'Math'
+            : 'Science';
 
     try {
       const res = await fetch(
@@ -31520,8 +31451,8 @@ function StartScreen({
       const passedCount = Array.isArray(p?.passedExamCodes)
         ? p.passedExamCodes.length
         : typeof p?.completedCount === 'number'
-        ? p.completedCount
-        : 0;
+          ? p.completedCount
+          : 0;
       if (passedCount > 0) map[id] = true;
     });
     return map;
@@ -31558,8 +31489,8 @@ function StartScreen({
           id === 'rla'
             ? 'Reasoning Through Language Arts (RLA)'
             : id === 'social_studies'
-            ? 'Social Studies'
-            : id.charAt(0).toUpperCase() + id.slice(1).replace('_', ' '),
+              ? 'Social Studies'
+              : id.charAt(0).toUpperCase() + id.slice(1).replace('_', ' '),
         img: BADGE_IMG_PATHS[id],
       }));
   }, [profilePassedMap, progressPassedMap]);
@@ -31713,8 +31644,8 @@ function StartScreen({
       ? gradientBackground
         ? { backgroundImage: gradientBackground }
         : subjectColors.background
-        ? { backgroundColor: subjectColors.background }
-        : { backgroundColor: DEFAULT_COLOR_SCHEME.background }
+          ? { backgroundColor: subjectColors.background }
+          : { backgroundColor: DEFAULT_COLOR_SCHEME.background }
       : {
           backgroundColor: '#ffffff',
           backgroundImage:
@@ -32206,8 +32137,8 @@ function StartScreen({
       ? gradientBackground
         ? { backgroundImage: gradientBackground }
         : subjectColors.background
-        ? { backgroundColor: subjectColors.background }
-        : { backgroundColor: DEFAULT_COLOR_SCHEME.background }
+          ? { backgroundColor: subjectColors.background }
+          : { backgroundColor: DEFAULT_COLOR_SCHEME.background }
       : {
           backgroundColor: '#ffffff',
           backgroundImage:
@@ -32485,10 +32416,10 @@ function StartScreen({
                                 task.type === 'coach-quiz'
                                   ? `Start Coach Quiz`
                                   : task.quizId || task.quizPath
-                                  ? `Start ${
-                                      group.subjectLabel.split(' ')[0]
-                                    } Practice`
-                                  : '';
+                                    ? `Start ${
+                                        group.subjectLabel.split(' ')[0]
+                                      } Practice`
+                                    : '';
                               return (
                                 <div
                                   key={task.id}
@@ -32693,10 +32624,10 @@ function StartScreen({
                   subjectId === 'science'
                     ? 'science'
                     : subjectId === 'math'
-                    ? 'math'
-                    : subjectId === 'rla'
-                    ? 'rla'
-                    : 'social';
+                      ? 'math'
+                      : subjectId === 'rla'
+                        ? 'rla'
+                        : 'social';
                 const match = Array.isArray(weeklyCoachSummary)
                   ? weeklyCoachSummary.find(
                       (ws) =>
@@ -33178,12 +33109,12 @@ function StartScreen({
                 className="mb-4 max-w-2xl"
                 style={{ color: 'var(--text-primary)' }}
               >
-                Start your journey with a comprehensive 40-question assessment
-                covering all 4 subjects. This sets your baseline and helps Coach
-                Smith build your personalized learning plan.
+                Choose a subject to take a one-time diagnostic built from
+                curated, static questions. This helps identify strengths and
+                weaknesses for that subject.
               </p>
               <button
-                onClick={handleStartDiagnostic}
+                onClick={openDiagnosticModal}
                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               >
                 Start Diagnostic Test
@@ -33489,10 +33420,10 @@ function StartScreen({
                       label === 'Math'
                         ? 'math'
                         : label.startsWith('Reasoning')
-                        ? 'rla'
-                        : label === 'Science'
-                        ? 'science'
-                        : 'social';
+                          ? 'rla'
+                          : label === 'Science'
+                            ? 'science'
+                            : 'social';
 
                     return (
                       <div
@@ -33621,7 +33552,73 @@ function StartScreen({
           </section>
         </div>
       </div>
-      {/* Test reminder modal/toast (scoped to StartScreen) */}
+      {/* Diagnostic subject modal (scoped to StartScreen) */}
+      {showDiagnosticModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          style={{ backgroundColor: 'var(--modal-overlay)' }}
+        >
+          <div
+            className="rounded-lg shadow-2xl w-full max-w-lg p-6"
+            style={{
+              backgroundColor: 'var(--modal-surface)',
+              color: 'var(--modal-text)',
+              border: '1px solid var(--modal-border)',
+            }}
+          >
+            <h2 className="text-xl font-bold mb-2">Choose a subject</h2>
+            <p className="text-sm mb-4" style={{ opacity: 0.8 }}>
+              Each subject diagnostic can be taken once. Select a subject to
+              begin.
+            </p>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {DIAGNOSTIC_SUBJECTS.map((subject) => {
+                const isSelected = selectedDiagnosticSubject === subject.id;
+                return (
+                  <button
+                    key={subject.id}
+                    type="button"
+                    onClick={() => setSelectedDiagnosticSubject(subject.id)}
+                    className={`px-4 py-2 rounded-md border text-sm font-semibold transition-colors ${
+                      isSelected
+                        ? 'bg-indigo-600 text-white border-indigo-600'
+                        : 'bg-white text-slate-900 border-slate-200 hover:bg-slate-50'
+                    }`}
+                  >
+                    {subject.label}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={closeDiagnosticModal}
+                className="px-4 py-2 rounded-md font-semibold border"
+                style={{
+                  background: 'transparent',
+                  color: 'var(--text-primary)',
+                  borderColor: 'var(--border-subtle)',
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  closeDiagnosticModal();
+                  handleStartDiagnostic(selectedDiagnosticSubject);
+                }}
+                className="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700"
+              >
+                Start {selectedDiagnosticSubject} Diagnostic
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {showTestReminder && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -33668,14 +33665,14 @@ function Stem({ item }) {
     typeof item.passage === 'string'
       ? item.passage.trim()
       : typeof item.content?.passage === 'string'
-      ? item.content.passage.trim()
-      : '';
+        ? item.content.passage.trim()
+        : '';
   const questionContent =
     typeof (item.questionText || item.question) === 'string'
       ? (item.questionText || item.question).trim()
       : typeof item.content?.questionText === 'string'
-      ? item.content.questionText.trim()
-      : '';
+        ? item.content.questionText.trim()
+        : '';
 
   const displaySource =
     (item?.asset && item.asset.displaySource) ||
@@ -33993,15 +33990,15 @@ function QuizInterface({
   // Precompute if the question would need a tool (ignored when flag is false)
   const hasGraphDataForRender = Boolean(
     currentQ &&
-      (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane)
+    (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane)
   );
   const hasGeometryDataForRender = Boolean(currentQ && currentQ.geometrySpec);
   const needsToolPanel = Boolean(
     currentQ &&
-      (currentQ.useGraphTool ||
-        currentQ.useGeometryTool ||
-        hasGraphDataForRender ||
-        hasGeometryDataForRender)
+    (currentQ.useGraphTool ||
+      currentQ.useGeometryTool ||
+      hasGraphDataForRender ||
+      hasGeometryDataForRender)
   );
 
   const subjectForRender = currentQ.subject || subject || 'Default';
@@ -34431,14 +34428,14 @@ function QuizInterface({
                           color: scheme.onBackgroundText,
                         }
                       : isAnswered
-                      ? {
-                          backgroundColor: scheme.navAnsweredBg,
-                          color: scheme.navAnsweredText,
-                        }
-                      : {
-                          backgroundColor: scheme.navDefaultBg,
-                          color: scheme.navDefaultText,
-                        };
+                        ? {
+                            backgroundColor: scheme.navAnsweredBg,
+                            color: scheme.navAnsweredText,
+                          }
+                        : {
+                            backgroundColor: scheme.navDefaultBg,
+                            color: scheme.navDefaultText,
+                          };
                     if (marked[i]) {
                       navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
                     }
@@ -34745,14 +34742,14 @@ function QuizInterface({
                         color: scheme.onBackgroundText,
                       }
                     : isAnswered
-                    ? {
-                        backgroundColor: scheme.navAnsweredBg,
-                        color: scheme.navAnsweredText,
-                      }
-                    : {
-                        backgroundColor: scheme.navDefaultBg,
-                        color: scheme.navDefaultText,
-                      };
+                      ? {
+                          backgroundColor: scheme.navAnsweredBg,
+                          color: scheme.navAnsweredText,
+                        }
+                      : {
+                          backgroundColor: scheme.navDefaultBg,
+                          color: scheme.navDefaultText,
+                        };
                   if (marked[i]) {
                     navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
                   }
@@ -35165,8 +35162,8 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       const attemptedCount = Array.isArray(result.olympicsHistory)
         ? result.olympicsHistory.length
         : typeof result.totalAnswered === 'number'
-        ? result.totalAnswered
-        : 0;
+          ? result.totalAnswered
+          : 0;
 
       onComplete({
         ...result,
@@ -36934,8 +36931,8 @@ function EssayGuide({ onExit }) {
     const stance = /stronger/i.test(title)
       ? 'stronger'
       : /weaker/i.test(title)
-      ? 'weaker'
-      : 'stronger';
+        ? 'weaker'
+        : 'stronger';
     // Append one or more generic expansions until within range
     const add = genericExpansion[stance];
     while (wc < MIN) {
@@ -37620,8 +37617,8 @@ function EssayGuide({ onExit }) {
                     timer <= 0
                       ? 'text-red-600'
                       : timer < 300
-                      ? 'text-red-500'
-                      : 'text-gray-800'
+                        ? 'text-red-500'
+                        : 'text-gray-800'
                   }`}
                 >
                   {formatTime(timer)}
@@ -39103,8 +39100,8 @@ function GeometryPracticeTool({ onExit }) {
                     currentProblem?.shape === shape
                       ? 'bg-sky-600 text-white shadow border-transparent'
                       : isDarkMode
-                      ? 'bg-slate-800 text-slate-100 hover:bg-slate-700 border-slate-600'
-                      : 'bg-slate-700 text-white hover:bg-slate-600 border-slate-500'
+                        ? 'bg-slate-800 text-slate-100 hover:bg-slate-700 border-slate-600'
+                        : 'bg-slate-700 text-white hover:bg-slate-600 border-slate-500'
                   }`}
                 >
                   {shape.replace('_', ' ')}

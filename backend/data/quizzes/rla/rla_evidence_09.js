@@ -356,11 +356,11 @@ module.exports = [
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "A budget memo responds to critics who say the new community garden network wastes taxpayer money. The memo shows that volunteer gardeners contributed 4,200 hours of labor last season, that grocery stores donated unsold seeds and tools, and that the city spent $6,500 on maintenance—less than half of what it costs to mow the vacant lots that were converted into gardens.",
+    "passage": "A budget memo responds to critics who say the new community garden network wastes taxpayer money. The memo shows that volunteer gardeners contributed 4,200 hours of labor last season, that grocery stores donated unsold seeds and tools, and that the city spent \(6,500 on maintenance—less than half of what it costs to mow the vacant lots that were converted into gardens.",
     "question": "Which fact most directly counters the critics' claim about wasting money?",
     "answerOptions": [
       {
-        "text": "Maintenance for the gardens cost $6,500, less than half the cost of mowing the former vacant lots.",
+        "text": "Maintenance for the gardens cost \)6,500, less than half the cost of mowing the former vacant lots.",
         "rationale": "Correct. This comparison addresses the financial concern raised by critics.",
         "isCorrect": true
       },
