@@ -201,7 +201,7 @@ module.exports = [
       {
         "text": "17 and 18",
         "isCorrect": true,
-        "rationale": "Let the integers be \(x and x+1\). So, \(x + (x+1) = 35\). \(2x + 1 = 35\). \(2x = 34\). \(x = 17\). The integers are 17 and 18."
+        "rationale": "Let the integers be \\(x\\) and \\(x + 1\\). So, \\(x + (x + 1) = 35\\). \\(2x + 1 = 35\\). \\(2x = 34\\). \\(x = 17\\). The integers are 17 and 18."
       },
       {
         "text": "16 and 19",
@@ -224,25 +224,25 @@ module.exports = [
       "math-5"
     ],
     "calculator": true,
-    "question": "Solve for b: \(A = \\(\frac{1}{2}\) bh (the formula for the area of a triangle)\)",
+    "question": "Solve for b: \\(A = \\frac{1}{2}bh\\) (the formula for the area of a triangle)",
     "answerOptions": [
       {
-        "text": "\(b = \\(\frac{2A}{h}\)\)",
+        "text": "\\(b = \\frac{2A}{h}\\)",
         "isCorrect": true,
-        "rationale": "Multiply both sides by 2: \(2A = bh\). Divide both sides by h: \(b = \\(\frac{2A}{h}\)\)."
+        "rationale": "Multiply both sides by 2: \\(2A = bh\\). Divide both sides by h: \\(b = \\frac{2A}{h}\\)."
       },
       {
-        "text": "\(b = \\(\frac{A}{2h}\)\)",
+        "text": "\\(b = \\frac{A}{2h}\\)",
         "isCorrect": false,
         "rationale": "Forgot to multiply by 2."
       },
       {
-        "text": "\(b = \\(\frac{Ah}{2}\)\)",
+        "text": "\\(b = \\frac{Ah}{2}\\)",
         "isCorrect": false,
         "rationale": "Incorrectly rearranged the formula."
       },
       {
-        "text": "\(b = \\(\frac{2h}{A}\)\)",
+        "text": "\\(b = \\frac{2h}{A}\\)",
         "isCorrect": false,
         "rationale": "Incorrectly rearranged the formula."
       }

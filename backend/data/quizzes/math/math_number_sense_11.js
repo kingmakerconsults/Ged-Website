@@ -39,7 +39,7 @@ module.exports = [
     question: 'What is 25% of 200?',
     correctAnswer: '50',
     rationale:
-      '25% is the same as \(\frac{1}{4}\). \(\frac{1}{4}\) of 200 is 200 / 4 = 50.',
+      '25% is the same as \\((\\frac{1}{4})\\). \\((\\frac{1}{4})\\) of 200 is 200 / 4 = 50.',
     challenge_tags: ['math-1'],
   },
   {
@@ -64,7 +64,7 @@ module.exports = [
         text: '51',
         isCorrect: true,
         rationale:
-          'The discount is 0.15 \(\times\) 60 = 9. The sale price is 60 - 9 = 51.',
+          'The discount is 0.15 \\(\\times\\) 60 = 9. The sale price is 60 - 9 = 51.',
       },
       {
         text: '69',
@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the discount: 15% of $60 is 0.15 \(\times\) 60 = 9. Then, subtract the discount from the original price: $60 - $9 = $51.',
+      'First, calculate the discount: 15% of $60 is 0.15 \\(\\times\\) 60 = 9. Then, subtract the discount from the original price: $60 - $9 = $51.',
     challenge_tags: ['math-1'],
   },
   {
@@ -82,10 +82,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Evaluate: \(10 + 4 \\times 2^3\).',
+    question: 'Evaluate: \\(10 + 4 \\times 2^3\\).',
     correctAnswer: '42',
     rationale:
-      'Order of operations (PEMDAS): Exponents (\(2^3\)=8), Multiplication (4*8=32), Addition (10+32=42).',
+      'Order of operations (PEMDAS): Exponents (\\(2^3\\)=8), Multiplication (4*8=32), Addition (10+32=42).',
     challenge_tags: ['math-1'],
   },
   {
@@ -96,29 +96,29 @@ module.exports = [
     question: 'Which fraction is equivalent to 80%?',
     answerOptions: [
       {
-        text: '\(\frac{3}{4}\)',
+        text: '\\(\\frac{3}{4}\\)',
         isCorrect: false,
-        rationale: '\(\frac{3}{4}\) is 75%.',
+        rationale: '\\(\\frac{3}{4}\\) is 75%.',
       },
       {
-        text: '\(\frac{4}{5}\)',
+        text: '\\(\\frac{4}{5}\\)',
         isCorrect: true,
         rationale:
-          '80% is \(\frac{80}{100}\), which simplifies to \(\frac{4}{5}\).',
+          '80% is \\((\\frac{80}{100})\\), which simplifies to \\((\\frac{4}{5})\\).',
       },
       {
-        text: '\(\frac{5}{6}\)',
+        text: '\\(\\frac{5}{6}\\)',
         isCorrect: false,
-        rationale: '\(\frac{5}{6}\) is approx 83.3%.',
+        rationale: '\\(\\frac{5}{6}\\) is approx 83.3%.',
       },
       {
-        text: '\(\frac{7}{8}\)',
+        text: '\\(\\frac{7}{8}\\)',
         isCorrect: false,
-        rationale: '\(\frac{7}{8}\) is 87.5%.',
+        rationale: '\\(\\frac{7}{8}\\) is 87.5%.',
       },
     ],
     rationale:
-      '80% means 80 out of 100, or \(\frac{80}{100}\). This fraction can be simplified by dividing both the numerator and denominator by 20, which results in \(\frac{4}{5}\).',
+      '80% means 80 out of 100, or \\((\\frac{80}{100})\\). This fraction can be simplified by dividing both the numerator and denominator by 20, which results in \\((\\frac{4}{5})\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -161,10 +161,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'What is the result of \(\frac{1}{2}\) - \(\frac{1}{3}\)?',
-    correctAnswer: '\(\frac{1}{6}\)',
+    question: 'What is the result of \\(\\frac{1}{2}\\) - \\(\\frac{1}{3}\\)?',
+    correctAnswer: '\\(\\frac{1}{6}\\)',
     rationale:
-      'The common denominator is 6. \(\frac{1}{2}\) = \(\frac{3}{6}\) and \(\frac{1}{3}\) = \(\frac{2}{6}\). \(\frac{3}{6}\) - \(\frac{2}{6}\) = \(\frac{1}{6}\).',
+      'The common denominator is 6. \\((\\frac{1}{2})\\) = \\((\\frac{3}{6})\\) and \\((\\frac{1}{3})\\) = \\((\\frac{2}{6})\\). \\((\\frac{3}{6})\\) - \\((\\frac{2}{6})\\) = \\((\\frac{1}{6})\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -209,7 +209,7 @@ module.exports = [
       'A car is traveling at 60 miles per hour. How many miles does it travel in 45 minutes?',
     correctAnswer: '45 miles',
     rationale:
-      '45 minutes is \(\frac{3}{4}\) of an hour (0.75 hours). Distance = Speed \(\times\) Time = 60 mph \(\times\) 0.75 hours = 45 miles.',
+      '45 minutes is \\((\\frac{3}{4})\\) of an hour (0.75 hours). Distance = Speed \\(\\times\\) Time = 60 mph \\(\\times\\) 0.75 hours = 45 miles.',
     challenge_tags: ['math-1'],
   },
   {
@@ -220,23 +220,23 @@ module.exports = [
     question: 'What is the scientific notation for 0.00058?',
     answerOptions: [
       {
-        text: '\(5.8 \times 10^{4}\)',
+        text: '\\(5.8 \\times 10^{4}\\)',
         isCorrect: false,
         rationale: 'The exponent should be negative.',
       },
       {
-        text: '\(5.8 \times 10^{-3}\)',
+        text: '\\(5.8 \\times 10^{-3}\\)',
         isCorrect: false,
         rationale: 'The decimal moved 4 places.',
       },
       {
-        text: '\(5.8 \times 10^{-4}\)',
+        text: '\\(5.8 \\times 10^{-4}\\)',
         isCorrect: true,
         rationale:
           'The decimal point is moved 4 places to the right, so the exponent is -4.',
       },
       {
-        text: '\(58 \times 10^{-5}\)',
+        text: '\\(58 \\times 10^{-5}\\)',
         isCorrect: false,
         rationale: 'The number must be between 1 and 10.',
       },
@@ -262,7 +262,7 @@ module.exports = [
         text: '1200',
         isCorrect: true,
         rationale:
-          'Interest = Principal * Rate * Time = 5000 * 0.06 * 4 = \(1200.\)',
+          'Interest = Principal * Rate * Time = 5000 * 0.06 * 4 = \\(1200\\).',
       },
       {
         text: '6200',
@@ -270,13 +270,13 @@ module.exports = [
         rationale: 'This is the total amount to be repaid.',
       },
       {
-        text: '\(120\)',
+        text: '\\(120\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'Simple interest is calculated using the formula I = P * r * t. So, I = \(5000 * 0.06 * 4 =  1200.\)',
+      'Simple interest is calculated using the formula I = P * r * t. So, I = \\(5000 * 0.06 * 4 = 1200\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -295,21 +295,21 @@ module.exports = [
         text: '36',
         isCorrect: true,
         rationale:
-          'The pattern is the sequence of square numbers (\(1^2, 2^2, 3^2, 4^2, 5^2\)). The next is \(6^2\), which is 36.',
+          'The pattern is the sequence of square numbers (\\(1^2, 2^2, 3^2, 4^2, 5^2\\)). The next is \\(6^2\\), which is 36.',
       },
       {
         text: '49',
         isCorrect: false,
-        rationale: 'This is \(7^2\).',
+        rationale: 'This is \\(7^2\\).',
       },
       {
         text: '64',
         isCorrect: false,
-        rationale: 'This is \(8^2\).',
+        rationale: 'This is \\(8^2\\).',
       },
     ],
     rationale:
-      'This sequence consists of the squares of the positive integers. \(1^2=1, 2^2=4, 3^2=9, 4^2=16, 5^2=25\). The next term is \(6^2\), which is 36.',
+      'This sequence consists of the squares of the positive integers. \\(1^2=1, 2^2=4, 3^2=9, 4^2=16, 5^2=25\\). The next term is \\(6^2\\), which is 36.',
     challenge_tags: ['math-1'],
   },
 ];

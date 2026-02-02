@@ -122,7 +122,7 @@ module.exports = [
       },
     ],
     rationale:
-      'According to the Pythagorean theorem, \(a^{2} + b^{2} = c^{2}\). So, \(5^{2} + 12^{2} = c^{2}\), which is \(25 + 144 = 169\). Thus, c = \(\sqrt{169}\) = 13 cm.',
+      'According to the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). So, \\(5^{2} + 12^{2} = c^{2}\\), which is \\(25 + 144 = 169\\). Thus, c = \\(\\sqrt{169}\\) = 13 cm.',
     challenge_tags: ['math-5'],
   },
   {
@@ -131,7 +131,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A circular garden has a radius of 12 feet. If you want to put a fence around it, how many feet of fencing will you need? Use 3.14 for \(\\pi\).',
+      'A circular garden has a radius of 12 feet. If you want to put a fence around it, how many feet of fencing will you need? Use 3.14 for \\(\\pi\\).',
     answerOptions: [
       {
         text: '37.68 feet',

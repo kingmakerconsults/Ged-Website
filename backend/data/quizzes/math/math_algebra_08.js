@@ -46,7 +46,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve for y: \(\\(\frac{y}{3}\)\) - 2 = 5.',
+    question: 'Solve for y: \\(\\frac{y}{3}\\) - 2 = 5.',
     answerOptions: [
       {
         text: '9',
@@ -66,7 +66,7 @@ module.exports = [
       {
         text: '1',
         isCorrect: false,
-        rationale: 'This is \(\\(\frac{3}{3}\)\).',
+        rationale: 'This is \\(\\frac{3}{3}\\).',
       },
     ],
     rationale:
@@ -103,19 +103,19 @@ module.exports = [
         rationale: 'This is the negative of the slope.',
       },
       {
-        text: '\(\\(\frac{1}{3}\)\)',
+        text: '\\(\\frac{1}{3}\\)',
         isCorrect: false,
         rationale: 'This is the reciprocal, but not negative.',
       },
       {
-        text: '\(-\\(\frac{1}{3}\)\)',
+        text: '\\(-\\frac{1}{3}\\)',
         isCorrect: true,
         rationale:
           'The perpendicular slope is the negative reciprocal of the original slope.',
       },
     ],
     rationale:
-      'The slope of the given line is 3. The slope of a perpendicular line is the negative reciprocal, which is -\(\\(\frac{1}{3}\)\).',
+      'The slope of the given line is 3. The slope of a perpendicular line is the negative reciprocal, which is \\(-\\frac{1}{3}\\).',
     challenge_tags: ['math-3'],
   },
   {

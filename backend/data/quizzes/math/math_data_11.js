@@ -39,9 +39,9 @@ module.exports = [
     difficulty: 'easy',
     question:
       'A bag has 5 red, 3 blue, and 2 green marbles. What is the probability of picking a blue marble?',
-    correctAnswer: '\(\\(\frac{3}{10}\)\)',
+    correctAnswer: '\\(\\frac{3}{10}\\)',
     rationale:
-      'There are 3 blue marbles and a total of 10 marbles (5+3+2). The probability is \(\\(\frac{3}{10}\)\).',
+      'There are 3 blue marbles and a total of 10 marbles (5+3+2). The probability is \\(\\frac{3}{10}\\).',
     challenge_tags: ['math-6'],
   },
   {
@@ -59,7 +59,7 @@ module.exports = [
       {
         text: '3.33',
         isCorrect: true,
-        rationale: 'The sum is 20. \(\frac{20}{6}\) ≈ 3.33.',
+        rationale: 'The sum is 20. \\(\\frac{20}{6}\\) ≈ 3.33.',
       },
       {
         text: '1',
@@ -177,29 +177,29 @@ module.exports = [
       'What is the probability of drawing an Ace from a standard 52-card deck?',
     answerOptions: [
       {
-        text: '\(\\(\frac{1}{52}\)\)',
+        text: '\\(\\frac{1}{52}\\)',
         isCorrect: false,
         rationale: 'This is for a specific Ace.',
       },
       {
-        text: '\(\\(\frac{1}{13}\)\)',
+        text: '\\(\\frac{1}{13}\\)',
         isCorrect: true,
         rationale:
-          'There are 4 Aces in a 52-card deck. \(\\(\frac{4}{52}\) simplifies to \\(\frac{1}{13}\)\).',
+          'There are 4 Aces in a 52-card deck. \\(\\frac{4}{52}\\) simplifies to \\(\\frac{1}{13}\\).',
       },
       {
-        text: '\(\\(\frac{1}{4}\)\)',
+        text: '\\(\\frac{1}{4}\\)',
         isCorrect: false,
         rationale: 'This is the probability of drawing a specific suit.',
       },
       {
-        text: '\(\\(\frac{4}{13}\)\)',
+        text: '\\(\\frac{4}{13}\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'A standard deck of 52 cards has 4 Aces. The probability is the number of Aces divided by the total number of cards: \(\\(\frac{4}{52}\)\), which simplifies to \(\\(\frac{1}{13}\)\).',
+      'A standard deck of 52 cards has 4 Aces. The probability is the number of Aces divided by the total number of cards: \\(\\frac{4}{52}\\), which simplifies to \\(\\frac{1}{13}\\).',
     challenge_tags: ['math-6'],
   },
   {
@@ -236,7 +236,7 @@ module.exports = [
       {
         text: '33.3%',
         isCorrect: false,
-        rationale: 'This is \(\\(\frac{1}{3}\)\).',
+        rationale: 'This is \\(\\frac{1}{3}\\).',
       },
       {
         text: '40%',
