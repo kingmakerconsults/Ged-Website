@@ -234,20 +234,20 @@ module.exports = [
           'This line has a negative slope, but not the negative reciprocal.',
       },
       {
-        text: '\\(y = \\(\frac{1}{5}\\) x + 1\\)',
+        text: '\\(y = \\frac{1}{5}x + 1\\)',
         isCorrect: false,
         rationale:
           'This is the reciprocal slope, but not the negative reciprocal.',
       },
       {
-        text: '\\(y = -\\(\frac{1}{5}\\) x + 4\\)',
+        text: '\\(y = -\\frac{1}{5}x + 4\\)',
         isCorrect: true,
         rationale:
-          'The slope of a perpendicular line is the negative reciprocal of the original slope. The negative reciprocal of 5 is -\\(\\(\frac{1}{5}\\).',
+          'The slope of a perpendicular line is the negative reciprocal of the original slope. The negative reciprocal of 5 is \\(-\\frac{1}{5}\\).',
       },
     ],
     rationale:
-      'The slope of the given line is 5. The slope of a perpendicular line is the negative reciprocal, which is -\\(\\(\frac{1}{5}\\). This equation has a slope of -\\(\\(\frac{1}{5}\\).',
+      'The slope of the given line is 5. The slope of a perpendicular line is the negative reciprocal, which is \\(-\\frac{1}{5}\\). This equation has a slope of \\(-\\frac{1}{5}\\).',
     challenge_tags: ['math-1'],
   },
   {

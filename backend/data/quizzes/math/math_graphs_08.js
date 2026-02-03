@@ -12,7 +12,7 @@ module.exports = [
         rationale: 'This is the slope.',
       },
       {
-        text: '2',
+        'Use the distance formula: \\(d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}\\). d = \\sqrt{(3 - (-3))^2 + (10 - 2)^2} = \\sqrt{6^{2} + 8^{2}} = \\sqrt{36 + 64} = \\sqrt{100} = 10.',
         isCorrect: false,
         rationale: 'This is the x-intercept.',
       },
@@ -159,7 +159,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Find the value of \\(f(x) = x^2 - 3x when x=-4\\).',
+    question: 'Find the value of \\(f(x) = x^2 - 3x\\) when x = -4.',
     correctAnswer: '28',
     rationale: 'f(-4) = \\((-4)^2\\) - 3(-4) = 16 + 12 = 28.',
     challenge_tags: ['math-4'],
@@ -248,7 +248,7 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'What is the domain of the function \\(f(x) = \\(\frac{1}{x-5}\\)?',
+      'What is the domain of the function \\(f(x) = \\frac{1}{x-5}\\)?',
     answerOptions: [
       {
         text: 'All real numbers',

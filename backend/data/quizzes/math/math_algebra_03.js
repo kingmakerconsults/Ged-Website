@@ -5,7 +5,8 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Evaluate the expression \\(x/3 + 2\\) for \\(x = 12\\).',
+    question:
+      'Evaluate the expression \\(\\frac{x}{3} + 2\\) for \\(x = 12\\).',
     correctAnswer: '6',
     rationale: 'Substitute 12 for x: \\(\\frac{12}{3}\\) + 2 = 4 + 2 = 6.',
     challenge_tags: ['math-3'],
@@ -171,7 +172,7 @@ module.exports = [
     calculator: false,
     difficulty: 'hard',
     question:
-      'The equation of a line is \\(y = \\(\frac{1}{2}\\) x + 3. What is the equation of a line that is parallel to it and passes through the origin (0,0)?\\)',
+      'The equation of a line is \\(y = \\frac{1}{2}x + 3\\). What is the equation of a line that is parallel to it and passes through the origin (0,0)?',
     answerOptions: [
       {
         text: '\\(y = -2x\\)',
@@ -230,19 +231,19 @@ module.exports = [
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '\\(90\\)',
+        text: '90',
         isCorrect: true,
         rationale:
-          'Cost for adults: 4 * \\(15 = \\)60. Cost for children: 3 * \\(10 = \\)30. Total cost: \\(60 + \\)30 = 90.',
+          'Cost for adults: 4 * 15 = 60. Cost for children: 3 * 10 = 30. Total cost: 60 + 30 = 90.',
       },
       {
-        text: '\\(105\\)',
+        text: '105',
         isCorrect: false,
         rationale: 'This is the cost for 7 adults.',
       },
     ],
     rationale:
-      'Calculate the cost for each group and then add them together. Adult cost = 4 * \\(15 = \\)60. Child cost = 3 * \\(10 = \\)30. Total = \\(60 + \\)30 = 90.',
+      'Calculate the cost for each group and then add them together. Adult cost = 4 * 15 = 60. Child cost = 3 * 10 = 30. Total = 60 + 30 = 90.',
     challenge_tags: ['math-3'],
   },
   {

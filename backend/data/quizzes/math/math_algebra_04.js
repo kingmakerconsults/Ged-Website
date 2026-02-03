@@ -15,7 +15,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Evaluate \\(15 - 2b for b = 6\\).',
+    question: 'Evaluate \\(15 - 2b\\) for b = 6.',
     answerOptions: [
       {
         text: '3',
@@ -213,7 +213,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      "A taxi charges a \\(3 flat fee plus \\)2 per mile. Which equation represents the total cost C for a trip of 'm' miles?",
+      "A taxi charges a \\(3\\) flat fee plus \\(2\\) per mile. Which equation represents the total cost C for a trip of 'm' miles?",
     answerOptions: [
       {
         text: 'C = 3m + 2',
@@ -238,7 +238,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The total cost is the sum of the flat fee (\\(3) and the variable charge, which is \\)2 per mile times the number of miles (m). So, C = 2m + 3.',
+      'The total cost is the sum of the flat fee (\\(3\\)) and the variable charge, which is \\(2\\) per mile times the number of miles (m). So, C = 2m + 3.',
     challenge_tags: ['math-3'],
   },
   {
@@ -246,7 +246,8 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'What is the solution set for the equation \\(x^2 - 6x + 5 = 0\\)?',
+    question:
+      'What is the solution set for the equation \\(x^2 - 6x + 5 = 0\\)?',
     answerOptions: [
       {
         text: '{1, 5}',

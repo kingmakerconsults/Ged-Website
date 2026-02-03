@@ -1,6 +1,32 @@
 import React, { useMemo, useState } from 'react';
+import {
+  Document as DocxDocument,
+  Packer,
+  Paragraph,
+  TextRun,
+  HeadingLevel,
+} from 'docx';
 
 const DEFAULT_TONE = 'professional';
+
+const COMMON_SKILLS = [
+  'Customer service',
+  'Teamwork',
+  'Communication',
+  'Problem solving',
+  'Time management',
+  'Organization',
+  'Reliability',
+  'Adaptability',
+  'Attention to detail',
+  'Cash handling',
+  'POS systems',
+  'Scheduling',
+  'Data entry',
+  'Inventory',
+  'Microsoft Office',
+  'Google Workspace',
+];
 
 const DOC_TYPES = {
   resume: {
@@ -58,31 +84,584 @@ const sanitizeHtml = (raw = '') => {
         'div',
         'span',
       ],
-      ALLOWED_ATTR: [],
+      ALLOWED_ATTR: ['class', 'href'],
     });
   }
   return raw || '';
 };
 
-const buildPreviewHtml = (docPack) => {
+const normalizeWhitespace = (value = '') => {
+  const text = String(value).replace(/\s+/g, ' ').trim();
+  if (!text) return '';
+  const lowered = text.toLowerCase();
+  if (['n/a', 'na', 'none', 'not applicable'].includes(lowered)) return '';
+  return text;
+};
+
+const normalizeName = (value = '') => {
+  const cleaned = normalizeWhitespace(value);
+  if (!cleaned) return '';
+  return cleaned.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+};
+
+const normalizeEmail = (value = '') => normalizeWhitespace(value).toLowerCase();
+
+const normalizePhone = (value = '') => {
+  const digits = String(value).replace(/\D/g, '');
+  if (digits.length === 10) {
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  return normalizeWhitespace(value);
+};
+
+const normalizeBullet = (value = '') => {
+  const text = normalizeWhitespace(value);
+  if (!text) return '';
+  const multiSentence = /[.!?].+[.!?]/.test(text);
+  if (!multiSentence && text.endsWith('.')) return text.slice(0, -1);
+  return text;
+};
+
+const normalizeDate = (value = '', { mode = 'resume' } = {}) => {
+  const trimmed = normalizeWhitespace(value);
+  if (!trimmed) return '';
+  const date = new Date(trimmed);
+  if (!Number.isNaN(date.getTime())) {
+    if (mode === 'letter') {
+      return date.toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      });
+    }
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      year: 'numeric',
+    });
+  }
+  return trimmed;
+};
+
+const normalizeDateRange = (value = '') => {
+  const trimmed = normalizeWhitespace(value);
+  if (!trimmed) return '';
+  const parts = trimmed.split(/\s*[–-]\s*/);
+  if (parts.length === 1) return normalizeDate(trimmed, { mode: 'resume' });
+  const start = normalizeDate(parts[0], { mode: 'resume' });
+  const endRaw = normalizeWhitespace(parts[1] || '');
+  const end = /present|current/i.test(endRaw)
+    ? 'Present'
+    : normalizeDate(endRaw, { mode: 'resume' });
+  return [start, end].filter(Boolean).join(' — ');
+};
+
+const normalizeInputs = (input = {}, docType) => {
+  const profile = input.profile || {};
+  const normalized = {
+    ...input,
+    profile: {
+      ...profile,
+      firstName: normalizeName(profile.firstName || ''),
+      lastName: normalizeName(profile.lastName || ''),
+      email: normalizeEmail(profile.email || ''),
+      phone: normalizePhone(profile.phone || ''),
+      cityState: normalizeWhitespace(profile.cityState || ''),
+      headline: normalizeWhitespace(profile.headline || ''),
+      linkedIn: normalizeWhitespace(profile.linkedIn || ''),
+      portfolio: normalizeWhitespace(profile.portfolio || ''),
+    },
+    targetRole: normalizeWhitespace(input.targetRole || ''),
+    targetCompany: normalizeWhitespace(input.targetCompany || ''),
+    summary: normalizeWhitespace(input.summary || ''),
+    tone: normalizeWhitespace(input.tone || DEFAULT_TONE),
+    format: input.format || 'email',
+    length: input.length || 'standard',
+    highlights: Array.isArray(input.highlights)
+      ? input.highlights.map(normalizeBullet).filter(Boolean)
+      : [],
+    topSkills: Array.isArray(input.topSkills)
+      ? input.topSkills.map(normalizeWhitespace).filter(Boolean)
+      : [],
+    skills: Array.isArray(input.skills)
+      ? input.skills.map(normalizeWhitespace).filter(Boolean)
+      : [],
+    certifications: Array.isArray(input.certifications)
+      ? input.certifications.map(normalizeWhitespace).filter(Boolean)
+      : [],
+    role: normalizeWhitespace(input.role || ''),
+    company: normalizeWhitespace(input.company || ''),
+    interviewerName: normalizeName(input.interviewerName || ''),
+    managerName: normalizeName(input.managerName || ''),
+    whyCompany: normalizeWhitespace(input.whyCompany || ''),
+    achievement: normalizeWhitespace(input.achievement || ''),
+    availability: normalizeWhitespace(input.availability || ''),
+    preferredContact: normalizeWhitespace(input.preferredContact || ''),
+    discussionPoints: Array.isArray(input.discussionPoints)
+      ? input.discussionPoints.map(normalizeWhitespace).filter(Boolean)
+      : [],
+    transitionPlan: Array.isArray(input.transitionPlan)
+      ? input.transitionPlan.map(normalizeWhitespace).filter(Boolean)
+      : [],
+    experience: Array.isArray(input.experience)
+      ? input.experience.map((item) => ({
+          org: normalizeWhitespace(item?.org || ''),
+          role: normalizeWhitespace(item?.role || ''),
+          dates: normalizeDateRange(item?.dates || ''),
+          duties: Array.isArray(item?.duties)
+            ? item.duties.map(normalizeBullet).filter(Boolean)
+            : [],
+          achievements: Array.isArray(item?.achievements)
+            ? item.achievements.map(normalizeBullet).filter(Boolean)
+            : [],
+        }))
+      : [],
+    projects: Array.isArray(input.projects)
+      ? input.projects.map((item) => ({
+          name: normalizeWhitespace(item?.name || ''),
+          description: normalizeWhitespace(item?.description || ''),
+          bullets: Array.isArray(item?.bullets)
+            ? item.bullets.map(normalizeBullet).filter(Boolean)
+            : [],
+        }))
+      : [],
+    volunteer: Array.isArray(input.volunteer)
+      ? input.volunteer.map((item) => ({
+          org: normalizeWhitespace(item?.org || ''),
+          role: normalizeWhitespace(item?.role || ''),
+          dates: normalizeDateRange(item?.dates || ''),
+          bullets: Array.isArray(item?.bullets)
+            ? item.bullets.map(normalizeBullet).filter(Boolean)
+            : [],
+        }))
+      : [],
+    education: Array.isArray(input.education)
+      ? input.education.map((item) => ({
+          school: normalizeWhitespace(item?.school || ''),
+          credential: normalizeWhitespace(item?.credential || ''),
+          gradYear: normalizeWhitespace(item?.gradYear || ''),
+        }))
+      : [],
+  };
+
+  if (docType === 'resignation') {
+    normalized.lastDay = normalizeDate(input.lastDay || '', { mode: 'letter' });
+  }
+
+  return normalized;
+};
+
+const buildDocMeta = (input = {}, docType) => {
+  const profile = input.profile || {};
+  const name = `${profile.firstName || ''} ${profile.lastName || ''}`.trim();
+  const contactLine = [profile.cityState, profile.phone, profile.email]
+    .filter(Boolean)
+    .join(' | ');
+  const date = normalizeDate(new Date().toISOString(), { mode: 'letter' });
+  return {
+    name,
+    contactLine,
+    date,
+    company: input.targetCompany || input.company || '',
+    managerName: input.managerName || input.interviewerName || '',
+    role: input.targetRole || input.role || '',
+    format: input.format || 'letter',
+    docType,
+  };
+};
+
+const formatDocText = (text = '') => String(text).replace(/\n/g, '<br />');
+
+const buildDocPackSections = (input = {}, docType) => {
+  const sections = [];
+  if (docType === 'resume') {
+    const profile = input.profile || {};
+    const name = `${profile.firstName || ''} ${profile.lastName || ''}`.trim();
+    const contactLine = [
+      profile.cityState,
+      profile.phone,
+      profile.email,
+      profile.linkedIn,
+      profile.portfolio,
+    ]
+      .filter(Boolean)
+      .join(' • ');
+
+    if (name || contactLine || profile.headline) {
+      sections.push({
+        id: 'contact',
+        label: 'Contact',
+        content: [name, profile.headline, contactLine]
+          .filter(Boolean)
+          .join('\n'),
+        bullets: [],
+      });
+    }
+
+    if (input.summary) {
+      sections.push({
+        id: 'summary',
+        label: 'Summary',
+        content: input.summary,
+        bullets: [],
+      });
+    }
+
+    if (input.skills?.length) {
+      sections.push({
+        id: 'skills',
+        label: 'Skills',
+        content: '',
+        bullets: input.skills,
+      });
+    }
+
+    const experienceItems = Array.isArray(input.experience)
+      ? input.experience.filter((item) => item && (item.role || item.org))
+      : [];
+    if (experienceItems.length) {
+      experienceItems.forEach((item, idx) => {
+        const bullets = [...(item.achievements || []), ...(item.duties || [])]
+          .filter(Boolean)
+          .slice(0, 6);
+        const contentLines = [
+          `${item.role || ''} — ${item.org || ''}`.replace(/\s+/g, ' ').trim(),
+          item.dates || '',
+        ].filter(Boolean);
+        sections.push({
+          id: idx === 0 ? 'experience' : `experience-${idx}`,
+          label: idx === 0 ? 'Experience' : '',
+          content: contentLines.join('\n'),
+          bullets,
+        });
+      });
+    }
+
+    const projectItems = Array.isArray(input.projects)
+      ? input.projects.filter((item) => item && (item.name || item.description))
+      : [];
+    if (projectItems.length) {
+      projectItems.forEach((project, idx) => {
+        sections.push({
+          id: idx === 0 ? 'projects' : `projects-${idx}`,
+          label: idx === 0 ? 'Projects' : '',
+          content: project.name || project.description,
+          bullets: Array.isArray(project.bullets)
+            ? project.bullets.filter(Boolean)
+            : [],
+        });
+      });
+    }
+
+    const volunteerItems = Array.isArray(input.volunteer)
+      ? input.volunteer.filter((item) => item && (item.org || item.role))
+      : [];
+    if (volunteerItems.length) {
+      volunteerItems.forEach((volunteer, idx) => {
+        const contentLines = [
+          `${volunteer.role || ''} — ${volunteer.org || ''}`
+            .replace(/\s+/g, ' ')
+            .trim(),
+          volunteer.dates || '',
+        ].filter(Boolean);
+        sections.push({
+          id: idx === 0 ? 'volunteer' : `volunteer-${idx}`,
+          label: idx === 0 ? 'Volunteer Experience' : '',
+          content: contentLines.join('\n'),
+          bullets: Array.isArray(volunteer.bullets)
+            ? volunteer.bullets.filter(Boolean)
+            : [],
+        });
+      });
+    }
+
+    const educationItems = Array.isArray(input.education)
+      ? input.education.filter(
+          (item) => item && (item.school || item.credential)
+        )
+      : [];
+    if (educationItems.length) {
+      const lines = educationItems.map((education) => {
+        const educationLine =
+          `${education.credential || ''}, ${education.school || ''}`
+            .replace(/,\s*$/, '')
+            .trim();
+        return education.gradYear
+          ? `${educationLine} (${education.gradYear})`
+          : educationLine;
+      });
+      sections.push({
+        id: 'education',
+        label: 'Education',
+        content: lines.filter(Boolean).join('\n'),
+        bullets: [],
+      });
+    }
+
+    if (input.certifications?.length) {
+      sections.push({
+        id: 'certifications',
+        label: 'Certifications',
+        content: '',
+        bullets: input.certifications,
+      });
+    }
+  }
+
+  if (docType === 'cover_letter') {
+    const opening =
+      `I am excited to apply for the ${input.targetRole || 'role'} at ${input.targetCompany || 'your company'}. ${input.whyCompany || ''}`
+        .replace(/\s+/g, ' ')
+        .trim();
+    const evidence = [
+      input.topSkills?.length
+        ? `My strengths include ${input.topSkills.join(', ')}.`
+        : '',
+      input.achievement ? input.achievement : '',
+      ...(input.highlights || []),
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+    const closing = [
+      'Thank you for your time and consideration. I would welcome the opportunity to discuss how I can contribute.',
+      input.availability ? `Availability: ${input.availability}.` : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+    sections.push({
+      id: 'opening',
+      label: '',
+      content: [opening, evidence, closing].filter(Boolean).join('\n\n'),
+      bullets: [],
+    });
+  }
+
+  if (docType === 'thank_you') {
+    const discussion =
+      Array.isArray(input.discussionPoints) && input.discussionPoints.length
+        ? `We discussed ${input.discussionPoints.join(', ')}.`
+        : '';
+    const body = [
+      `Thank you for meeting with me about the ${input.role || 'role'} at ${input.company || 'your company'}.`,
+      discussion,
+      input.fitProof ||
+        'I appreciated learning more about the team and responsibilities.',
+      'Thank you again for your time. I am excited about the opportunity and look forward to next steps.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+    sections.push({
+      id: 'thanks',
+      label: '',
+      content: body,
+      bullets: [],
+    });
+  }
+
+  if (docType === 'resignation') {
+    const body = [
+      `Please accept this letter as my formal notice of resignation. My last day will be ${input.lastDay || 'a future date'}.`,
+      input.reason || 'Thank you for the opportunity to grow with the team.',
+      input.transitionPlan?.length
+        ? `Transition plan: ${input.transitionPlan.join(', ')}.`
+        : '',
+      'I appreciate your support and will do what I can to ensure a smooth transition.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+    sections.push({
+      id: 'notice',
+      label: '',
+      content: body,
+      bullets: [],
+    });
+  }
+
+  return sections
+    .map((section) => ({
+      ...section,
+      label: section.label
+        ? section.label.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())
+        : section.label,
+      content: normalizeWhitespace(section.content || ''),
+      bullets: Array.isArray(section.bullets)
+        ? section.bullets.map(normalizeBullet).filter(Boolean)
+        : [],
+    }))
+    .filter((section) => section.content || section.bullets.length);
+};
+
+const renderDocHTML = (docPack) => {
   if (!docPack) return '';
   if (docPack.html) return docPack.html;
   const sections = Array.isArray(docPack.sections) ? docPack.sections : [];
+  const docType = docPack.docType;
+  const meta = docPack.meta || {};
+  let headerHtml = docPack.title ? `<h1>${docPack.title}</h1>` : '';
+  let prefaceHtml = '';
+  let signoffHtml = '';
+
+  const contactIndex = sections.findIndex(
+    (section) => section.id === 'contact' || section.label === 'Contact'
+  );
+
+  if (docType === 'resume' && contactIndex >= 0) {
+    const contact = sections[contactIndex] || {};
+    const lines = String(contact.content || '')
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean);
+    const nameLine = lines[0] || docPack.title || '';
+    const headlineLine = lines[1] || '';
+    const contactLine = lines.slice(2).join(' • ') || lines[1] || '';
+    headerHtml = `
+      <div class="doc-header">
+        <h1>${nameLine}</h1>
+        ${headlineLine ? `<div class="doc-subtitle">${headlineLine}</div>` : ''}
+        ${contactLine ? `<div class="doc-contact">${contactLine}</div>` : ''}
+      </div>
+    `;
+  }
+
+  if (docType !== 'resume') {
+    const nameLine = meta.name
+      ? `<div class="doc-name">${meta.name}</div>`
+      : '';
+    const contactLine = meta.contactLine
+      ? `<div class="doc-contact">${meta.contactLine}</div>`
+      : '';
+    const dateLine = meta.date
+      ? `<div class="doc-date">${meta.date}</div>`
+      : '';
+    const companyBlock = meta.company
+      ? `<div class="doc-company">${meta.company}</div>`
+      : '';
+    const managerBlock = meta.managerName
+      ? `<div class="doc-company">${meta.managerName}</div>`
+      : '';
+    const salutationName = meta.managerName || '';
+    const salutation = salutationName
+      ? `<div class="doc-salutation">Dear ${salutationName},</div>`
+      : `<div class="doc-salutation">To Whom It May Concern,</div>`;
+
+    if (meta.format === 'letter') {
+      headerHtml = `
+        <div class="doc-header">
+          ${nameLine}
+          ${contactLine}
+          ${dateLine}
+          ${managerBlock}
+          ${companyBlock}
+        </div>
+      `;
+      prefaceHtml = salutation;
+    } else {
+      const subjectLine =
+        docType === 'thank_you'
+          ? `Subject: Thank you — ${meta.role || 'interview'}`
+          : docType === 'resignation'
+            ? `Subject: Resignation — ${meta.name || 'Notice'}`
+            : '';
+      const greetingName = meta.managerName || '';
+      const greeting = greetingName
+        ? `<div class="doc-salutation">Hello ${greetingName},</div>`
+        : `<div class="doc-salutation">Hello,</div>`;
+      headerHtml = `
+        <div class="doc-header">
+          ${nameLine}
+          ${contactLine}
+        </div>
+      `;
+      prefaceHtml = `
+        ${subjectLine ? `<div class="doc-subject">${subjectLine}</div>` : ''}
+        ${greeting}
+      `;
+    }
+
+    signoffHtml = meta.name
+      ? `<div class="doc-signoff">Sincerely,<br />${meta.name}</div>`
+      : '';
+  }
+
   const body = sections
+    .filter((_, idx) => !(docType === 'resume' && idx === contactIndex))
     .map((section) => {
       const heading = section.label ? `<h3>${section.label}</h3>` : '';
-      const content = section.content ? `<p>${section.content}</p>` : '';
+      const content = section.content
+        ? `<p>${formatDocText(section.content)}</p>`
+        : '';
       const bullets =
         Array.isArray(section.bullets) && section.bullets.length
           ? `<ul>${section.bullets
               .filter(Boolean)
-              .map((b) => `<li>${b}</li>`)
+              .map((b) => `<li>${formatDocText(b)}</li>`)
               .join('')}</ul>`
           : '';
-      return `<div>${heading}${content}${bullets}</div>`;
+      return `<section class="doc-section">${heading}${content}${bullets}</section>`;
     })
     .join('');
-  return `<div><h1>${docPack.title || ''}</h1>${body}</div>`;
+
+  return `
+    <div class="doc-print-area">
+      <div class="doc-frame doc-type-${docType}">
+        <div class="doc-body">${headerHtml}${prefaceHtml}${body}${signoffHtml}</div>
+      </div>
+    </div>
+  `;
+};
+
+const renderPlainText = (docPack) => {
+  const sections = Array.isArray(docPack?.sections) ? docPack.sections : [];
+  const docType = docPack?.docType;
+  const meta = docPack?.meta || {};
+  const lines = [];
+
+  if (docType === 'thank_you' && meta.format === 'email') {
+    lines.push(`Subject: Thank you — ${docPack?.targetRole || 'interview'}`);
+    lines.push('');
+  }
+  if (docType === 'resignation' && meta.format === 'email') {
+    lines.push(`Subject: Resignation — ${meta.name || 'Notice'}`);
+    lines.push('');
+  }
+
+  if (docType !== 'resume' && meta.format === 'letter') {
+    if (meta.name) lines.push(meta.name);
+    if (meta.contactLine) lines.push(meta.contactLine);
+    if (meta.date) lines.push(meta.date);
+    if (meta.company) lines.push(meta.company);
+    lines.push('');
+    lines.push(
+      meta.managerName ? `Dear ${meta.managerName},` : 'To Whom It May Concern,'
+    );
+    lines.push('');
+  }
+
+  if (docType !== 'resume' && meta.format === 'email') {
+    lines.push(meta.managerName ? `Hello ${meta.managerName},` : 'Hello,');
+    lines.push('');
+  }
+
+  sections.forEach((section) => {
+    if (section.label) lines.push(section.label);
+    if (section.content) lines.push(section.content);
+    if (Array.isArray(section.bullets) && section.bullets.length) {
+      section.bullets.forEach((b) => {
+        if (b) lines.push(`• ${b}`);
+      });
+    }
+    lines.push('');
+  });
+
+  if (docType !== 'resume') {
+    lines.push('Sincerely,');
+    if (meta.name) lines.push(meta.name);
+  }
+
+  return lines
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 };
 
 const emptyDocPack = (docType) => ({
@@ -115,291 +694,32 @@ const isDocPackEmpty = (docPack) => {
   });
 };
 
-const buildResumeLocalFallback = (form = {}) => {
-  const profile = form.profile || {};
-  const name = `${profile.firstName || ''} ${profile.lastName || ''}`.trim();
-  const title = name ? `${name} - Resume` : 'Resume Draft';
-  const headline = (profile.headline || '').trim();
-  const contactLine = [
-    profile.email,
-    profile.phone,
-    profile.cityState,
-    profile.linkedIn,
-    profile.portfolio,
-  ]
-    .filter(Boolean)
-    .join(' • ');
-  const skills =
-    Array.isArray(form.skills) && form.skills.length
-      ? form.skills
-      : ['Customer service', 'Teamwork', 'Reliability', 'Communication'];
-  const summaryText = (form.summary || '').trim();
-  const defaultSummary = `Motivated ${form.targetRole || 'entry-level'} candidate with strengths in ${skills.slice(0, 3).join(', ')}.`;
-  const experienceLevel = form.experienceLevel || 'none';
-  const experienceItems = Array.isArray(form.experience)
-    ? form.experience.filter((item) => item && (item.role || item.org))
-    : [];
-  const projectItems = Array.isArray(form.projects)
-    ? form.projects.filter((item) => item && (item.name || item.description))
-    : [];
-  const volunteerItems = Array.isArray(form.volunteer)
-    ? form.volunteer.filter((item) => item && (item.org || item.role))
-    : [];
-  const certifications = Array.isArray(form.certifications)
-    ? form.certifications.filter(Boolean)
-    : [];
-  const educationItems = Array.isArray(form.education)
-    ? form.education.filter((item) => item && (item.school || item.credential))
-    : [];
-
-  const formatRoleLine = (item = {}) => {
-    const role = item.role || 'Role';
-    const org = item.org || 'Organization';
-    const dates = item.dates || '';
-    return `${role} — ${org} ${dates}`.trim();
-  };
-
-  const formatEducationLine = (item = {}) => {
-    const line = `${item.school || ''} — ${item.credential || ''}`.trim();
-    return item.gradYear ? `${line} (${item.gradYear})` : line;
-  };
-
-  const sections = [
-    {
-      id: 'contact',
-      label: 'Contact',
-      content: [name || 'Student Name', headline, contactLine]
-        .filter(Boolean)
-        .join('\n'),
-      bullets: [],
-    },
-    {
-      id: 'summary',
-      label: 'Summary',
-      content: summaryText || defaultSummary,
-      bullets: [],
-    },
-    {
-      id: 'skills',
-      label: 'Skills',
-      content: '',
-      bullets: skills,
-    },
-  ];
-
-  if (experienceLevel !== 'none' && experienceItems.length) {
-    const primary = experienceItems[0] || {};
-    const bullets =
-      Array.isArray(primary.achievements) && primary.achievements.length
-        ? primary.achievements
-        : Array.isArray(primary.duties)
-          ? primary.duties
-          : ['Handled daily tasks with accuracy and teamwork.'];
-    sections.push({
-      id: 'experience',
-      label: 'Experience',
-      content: formatRoleLine(primary),
-      bullets,
-    });
-  }
-
-  if (projectItems.length || experienceLevel === 'none') {
-    const project = projectItems[0] || {};
-    sections.push({
-      id: 'projects',
-      label: 'Projects',
-      content: project.name || project.description || 'Program or class project',
-      bullets:
-        Array.isArray(project.bullets) && project.bullets.length
-          ? project.bullets
-          : project.description
-            ? [project.description]
-            : [
-                'Planned a small event with a shared budget',
-                'Built a simple schedule for a group task',
-              ],
-    });
-  }
-
-  if (volunteerItems.length || experienceLevel === 'none') {
-    const volunteer = volunteerItems[0] || {};
-    sections.push({
-      id: 'volunteer',
-      label: 'Volunteer Experience',
-      content: volunteerItems.length
-        ? formatRoleLine(volunteer)
-        : 'List community or school support work (optional).',
-      bullets:
-        Array.isArray(volunteer.bullets) && volunteer.bullets.length
-          ? volunteer.bullets
-          : [],
-    });
-  }
-
-  sections.push({
-    id: 'education',
-    label: 'Education',
-    content: educationItems.length
-      ? educationItems.map(formatEducationLine).join('\n')
-      : 'School or Program — GED (in progress)',
-    bullets: [],
-  });
-
-  if (certifications.length) {
-    sections.push({
-      id: 'certifications',
-      label: 'Certifications',
-      content: '',
-      bullets: certifications,
-    });
-  }
-
-  return {
-    ...emptyDocPack('resume'),
-    title,
-    tone: form.tone || DEFAULT_TONE,
-    targetRole: form.targetRole || null,
-    sections,
-  };
-};
-
-const buildCoverLetterLocalFallback = (form = {}) => {
-  const profile = form.profile || {};
-  const title = `Cover Letter - ${form.targetRole || 'Entry-Level'}`;
-  const topSkills = Array.isArray(form.topSkills) ? form.topSkills : [];
-  const highlights = Array.isArray(form.highlights) ? form.highlights : [];
-  const contactLine = [profile.email, profile.phone].filter(Boolean).join(' • ');
-  const sections = [
-    {
-      id: 'opening',
-      label: 'Opening',
-      content: `Dear Hiring Manager,\nI am excited to apply for the ${form.targetRole || 'open'} role at ${form.targetCompany || 'your company'}.`,
-      bullets: [],
-    },
-    {
-      id: 'body',
-      label: 'Why I am a fit',
-      content:
-        form.whyCompany ||
-        'I bring reliability, a strong work ethic, and a focus on great service. I am ready to learn quickly and support the team.',
-      bullets: [
-        ...(topSkills.length ? [`Top skills: ${topSkills.join(', ')}`] : []),
-        ...(form.achievement ? [form.achievement] : []),
-        ...highlights,
-      ],
-    },
-    {
-      id: 'closing',
-      label: 'Closing',
-      content: [
-        'Thank you for your time and consideration. I would welcome the opportunity to discuss how I can contribute.',
-        form.availability ? `Availability: ${form.availability}.` : '',
-        form.preferredContact
-          ? `Preferred contact: ${form.preferredContact}.`
-          : contactLine
-            ? `Contact: ${contactLine}.`
-            : '',
-      ]
-        .filter(Boolean)
-        .join('\n'),
-      bullets: [],
-    },
-  ];
-
-  return {
-    ...emptyDocPack('cover_letter'),
-    title,
-    tone: form.tone || DEFAULT_TONE,
-    targetRole: form.targetRole || null,
-    targetCompany: form.targetCompany || null,
-    sections,
-  };
-};
-
-const buildThankYouLocalFallback = (form = {}) => {
-  const title = `Thank You - ${form.role || 'Interview'}`;
-  const sections = [
-    {
-      id: 'thanks',
-      label: 'Thank You',
-      content: `Hello ${form.interviewerName || 'there'},\nThank you for meeting with me about the ${form.role || 'role'} at ${form.company || 'your company'}.`,
-      bullets: [],
-    },
-    {
-      id: 'details',
-      label: 'Highlights',
-      content:
-        form.fitProof ||
-        'I appreciated learning more about the team and responsibilities.',
-      bullets: Array.isArray(form.discussionPoints)
-        ? form.discussionPoints
-        : [],
-    },
-    {
-      id: 'close',
-      label: 'Closing',
-      content:
-        'Thank you again for your time. I am excited about the opportunity and look forward to next steps.',
-      bullets: [],
-    },
-  ];
-
-  return {
-    ...emptyDocPack('thank_you'),
-    title,
-    tone: form.tone || DEFAULT_TONE,
-    targetRole: form.role || null,
-    targetCompany: form.company || null,
-    sections,
-  };
-};
-
-const buildResignationLocalFallback = (form = {}) => {
-  const title = `Resignation - ${form.company || 'Company'}`;
-  const sections = [
-    {
-      id: 'notice',
-      label: 'Notice',
-      content: `Dear ${form.managerName || 'Manager'},\nPlease accept this letter as my formal notice of resignation. My last day will be ${form.lastDay || 'a future date'}.`,
-      bullets: [],
-    },
-    {
-      id: 'transition',
-      label: 'Transition Plan',
-      content: form.reason || 'Thank you for the opportunity to grow with the team.',
-      bullets: Array.isArray(form.transitionPlan) ? form.transitionPlan : [],
-    },
-    {
-      id: 'thanks',
-      label: 'Closing',
-      content:
-        'I appreciate your support and will do what I can to ensure a smooth transition.',
-      bullets: [],
-    },
-  ];
-
-  return {
-    ...emptyDocPack('resignation'),
-    title,
-    tone: form.tone || DEFAULT_TONE,
-    targetCompany: form.company || null,
-    sections,
-  };
-};
-
 const buildLocalFallbackDocPack = (form, docType) => {
-  switch (docType) {
-    case 'resume':
-      return buildResumeLocalFallback(form);
-    case 'cover_letter':
-      return buildCoverLetterLocalFallback(form);
-    case 'thank_you':
-      return buildThankYouLocalFallback(form);
-    case 'resignation':
-      return buildResignationLocalFallback(form);
-    default:
-      return emptyDocPack(docType);
-  }
+  const normalized = normalizeInputs(form, docType);
+  const sections = buildDocPackSections(normalized, docType);
+  const profile = normalized.profile || {};
+  const name = `${profile.firstName || ''} ${profile.lastName || ''}`.trim();
+  const titleByType = {
+    resume: name ? `${name} - Resume` : 'Resume',
+    cover_letter: `Cover Letter - ${normalized.targetRole || 'Role'}`,
+    thank_you: `Thank You - ${normalized.role || 'Interview'}`,
+    resignation: `Resignation - ${normalized.company || 'Company'}`,
+  };
+
+  return {
+    ...emptyDocPack(docType),
+    title: titleByType[docType] || 'Document',
+    tone: normalized.tone || DEFAULT_TONE,
+    targetRole: normalized.targetRole || normalized.role || null,
+    targetCompany: normalized.targetCompany || normalized.company || null,
+    sections,
+    meta: {
+      ...emptyDocPack(docType).meta,
+      ...buildDocMeta(normalized, docType),
+      format: normalized.format,
+      generatedAt: new Date().toISOString(),
+    },
+  };
 };
 
 const readLocalVersions = (userId, docType) => {
@@ -523,6 +843,7 @@ const ExportBar = ({
   onCopy,
   onPrint,
   onDownload,
+  onDownloadDocx,
   onScore,
   scoreLabel,
   onUpgradeBullets,
@@ -549,6 +870,13 @@ const ExportBar = ({
       className="px-4 py-2 rounded-md border border-slate-300 text-slate-700 hover:bg-slate-100"
     >
       Download JSON
+    </button>
+    <button
+      type="button"
+      onClick={onDownloadDocx}
+      className="px-4 py-2 rounded-md border border-slate-300 text-slate-700 hover:bg-slate-100"
+    >
+      Download DOCX
     </button>
     {onScore && (
       <button
@@ -641,11 +969,167 @@ const DocumentEditor = ({ docPack, onUpdate }) => {
   );
 };
 
+const buildDocxFromDocPack = (docPack) => {
+  const sections = Array.isArray(docPack?.sections) ? docPack.sections : [];
+  const meta = docPack?.meta || {};
+  const docType = docPack?.docType || 'document';
+
+  const children = [];
+
+  if (docType === 'resume') {
+    const headerLines = sections.find((s) => s.id === 'contact')?.content || '';
+    const lines = String(headerLines)
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean);
+    const nameLine = lines[0] || docPack?.title || '';
+    const headlineLine = lines[1] || '';
+    const contactLine = lines.slice(2).join(' • ') || lines[1] || '';
+
+    if (nameLine) {
+      children.push(
+        new Paragraph({
+          text: nameLine,
+          heading: HeadingLevel.HEADING_1,
+          spacing: { after: 120 },
+        })
+      );
+    }
+    if (headlineLine) {
+      children.push(
+        new Paragraph({
+          text: headlineLine,
+          spacing: { after: 120 },
+        })
+      );
+    }
+    if (contactLine) {
+      children.push(
+        new Paragraph({
+          text: contactLine,
+          spacing: { after: 240 },
+        })
+      );
+    }
+  } else {
+    if (meta.name) {
+      children.push(
+        new Paragraph({
+          text: meta.name,
+          spacing: { after: 120 },
+        })
+      );
+    }
+    if (meta.contactLine) {
+      children.push(
+        new Paragraph({
+          text: meta.contactLine,
+          spacing: { after: 120 },
+        })
+      );
+    }
+    if (meta.format === 'letter' && meta.date) {
+      children.push(
+        new Paragraph({ text: meta.date, spacing: { after: 120 } })
+      );
+    }
+    if (meta.format === 'letter' && meta.company) {
+      children.push(
+        new Paragraph({ text: meta.company, spacing: { after: 120 } })
+      );
+    }
+    if (meta.format === 'email') {
+      const subject =
+        docType === 'thank_you'
+          ? `Subject: Thank you — ${meta.role || 'interview'}`
+          : docType === 'resignation'
+            ? `Subject: Resignation — ${meta.name || 'Notice'}`
+            : '';
+      if (subject) {
+        children.push(
+          new Paragraph({ text: subject, spacing: { after: 120 } })
+        );
+      }
+    }
+    const greetingName = meta.managerName || '';
+    children.push(
+      new Paragraph({
+        text:
+          meta.format === 'email'
+            ? greetingName
+              ? `Hello ${greetingName},`
+              : 'Hello,'
+            : greetingName
+              ? `Dear ${greetingName},`
+              : 'To Whom It May Concern,',
+        spacing: { after: 120 },
+      })
+    );
+  }
+
+  sections
+    .filter((section) => !(docType === 'resume' && section.id === 'contact'))
+    .forEach((section) => {
+      if (section.label) {
+        children.push(
+          new Paragraph({
+            text: section.label.toUpperCase(),
+            spacing: { before: 120, after: 80 },
+          })
+        );
+      }
+      if (section.content) {
+        children.push(
+          new Paragraph({
+            text: section.content,
+            spacing: { after: 120 },
+          })
+        );
+      }
+      if (Array.isArray(section.bullets)) {
+        section.bullets.forEach((bullet) => {
+          if (!bullet) return;
+          children.push(
+            new Paragraph({
+              text: bullet,
+              bullet: { level: 0 },
+              spacing: { after: 80 },
+            })
+          );
+        });
+      }
+    });
+
+  if (docType !== 'resume') {
+    children.push(
+      new Paragraph({ text: 'Sincerely,', spacing: { before: 160 } })
+    );
+    if (meta.name) {
+      children.push(new Paragraph({ text: meta.name }));
+    }
+  }
+
+  return new DocxDocument({
+    sections: [
+      {
+        properties: {
+          page: {
+            margin: {
+              top: 1224,
+              right: 1224,
+              bottom: 1224,
+              left: 1224,
+            },
+          },
+        },
+        children,
+      },
+    ],
+  });
+};
+
 const DocumentPreview = ({ docPack }) => {
-  const html = useMemo(
-    () => sanitizeHtml(buildPreviewHtml(docPack)),
-    [docPack]
-  );
+  const html = useMemo(() => sanitizeHtml(renderDocHTML(docPack)), [docPack]);
   return (
     <div className="workforce-doc-preview border rounded-xl p-4 bg-white">
       <div
@@ -800,10 +1284,16 @@ const DocTool = ({
       if (!res.ok) throw new Error('Document generation failed');
       const data = await res.json();
       let pack = { ...emptyDocPack(docType), ...data };
+      const normalized = normalizeInputs(form, docType);
+      pack.meta = { ...pack.meta, ...buildDocMeta(normalized, docType) };
+      const normalizedSections = buildDocPackSections(normalized, docType);
+      if (normalizedSections.length) {
+        pack.sections = normalizedSections;
+      }
       if (isDocPackEmpty(pack)) {
         pack = buildLocalFallbackDocPack(form, docType);
       }
-      pack.fullText = buildFullTextFromSections(pack.sections || []);
+      pack.fullText = renderPlainText(pack);
       setDocPack(pack);
       const entry = createVersionEntry(pack);
       const nextVersions = [entry, ...versions].slice(0, 25);
@@ -811,7 +1301,7 @@ const DocTool = ({
       writeLocalVersions(userId, docType, nextVersions);
     } catch {
       const fallback = buildLocalFallbackDocPack(form, docType);
-      fallback.fullText = buildFullTextFromSections(fallback.sections || []);
+      fallback.fullText = renderPlainText(fallback);
       setDocPack(fallback);
     }
   };
@@ -820,7 +1310,7 @@ const DocTool = ({
     if (!docPack) return;
     const normalized = {
       ...docPack,
-      fullText: buildFullTextFromSections(docPack.sections || []),
+      fullText: renderPlainText(docPack),
     };
     setDocPack(normalized);
     const entry = createVersionEntry(normalized);
@@ -840,9 +1330,9 @@ const DocTool = ({
   };
 
   const handleCopy = async () => {
-    if (!docPack?.fullText) return;
+    if (!docPack) return;
     try {
-      await navigator.clipboard.writeText(docPack.fullText);
+      await navigator.clipboard.writeText(renderPlainText(docPack));
       window.showNotification?.('Copied to clipboard', 'success');
     } catch {
       alert('Copy failed.');
@@ -860,6 +1350,24 @@ const DocTool = ({
     a.download = `${docPack.docType || 'document'}-${Date.now()}.json`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadDocx = async () => {
+    if (!docPack) return;
+    try {
+      const doc = buildDocxFromDocPack(docPack);
+      const blob = await Packer.toBlob(doc);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${docPack.docType || 'document'}-${Date.now()}.docx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      alert('DOCX download failed.');
+    }
   };
 
   const handlePrint = () => {
@@ -996,6 +1504,7 @@ const DocTool = ({
             onCopy={handleCopy}
             onPrint={handlePrint}
             onDownload={handleDownload}
+            onDownloadDocx={handleDownloadDocx}
             onScore={reviewConfig ? handleScore : null}
             scoreLabel={reviewConfig?.label}
             onUpgradeBullets={bulletUpgradeConfig ? handleUpgradeBullets : null}
@@ -1146,20 +1655,49 @@ const ResumeWizard = ({ apiBase, userId, onBack }) => (
         </div>
         <div>
           <label className="text-sm font-semibold">
-            Skills (comma separated)
+            Skills (select common skills)
+          </label>
+          <div className="grid grid-cols-2 gap-2 mt-2">
+            {COMMON_SKILLS.map((skill) => (
+              <button
+                key={skill}
+                type="button"
+                aria-pressed={form.skills.includes(skill)}
+                onClick={() => {
+                  const next = form.skills.includes(skill)
+                    ? form.skills.filter((s) => s !== skill)
+                    : Array.from(new Set([...form.skills, skill]));
+                  updateForm({ skills: next });
+                }}
+                className={`flex items-center justify-between gap-2 text-sm px-3 py-2 rounded-md border transition-colors ${
+                  form.skills.includes(skill)
+                    ? 'bg-teal-600 text-white border-teal-600'
+                    : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                }`}
+              >
+                <span>{skill}</span>
+                {form.skills.includes(skill) && (
+                  <span className="text-xs font-semibold">✓</span>
+                )}
+              </button>
+            ))}
+          </div>
+          <label className="text-xs font-semibold text-slate-500 mt-3 block">
+            Add custom skills (comma or new line separated)
           </label>
           <textarea
             className="w-full p-2 border rounded-md"
-            value={form.skillsText || form.skills.join(', ')}
+            value={form.skillsText}
             onChange={(e) => {
               const raw = e.target.value;
               const parsed = raw
                 .split(/,|\n/)
                 .map((s) => s.trim())
                 .filter(Boolean);
-              updateForm({ skillsText: raw, skills: parsed });
+              const merged = Array.from(new Set([...form.skills, ...parsed]));
+              updateForm({ skillsText: raw, skills: merged });
             }}
-            placeholder="Example: Customer service, POS systems, Teamwork"
+            placeholder="Example: Conflict resolution, Bilingual (Spanish)"
             rows={2}
           />
         </div>
@@ -1620,6 +2158,7 @@ const ThankYouWizard = ({ apiBase, userId, onBack }) => (
         cityState: '',
       },
       interviewerName: '',
+      interviewerUnknown: false,
       company: '',
       role: '',
       discussionPoints: [],
@@ -1636,7 +2175,21 @@ const ThankYouWizard = ({ apiBase, userId, onBack }) => (
             value={form.interviewerName}
             onChange={(e) => updateForm({ interviewerName: e.target.value })}
             placeholder="Example: Ms. Alvarez"
+            disabled={form.interviewerUnknown}
           />
+          <label className="flex items-center gap-2 text-xs text-slate-600 mt-2">
+            <input
+              type="checkbox"
+              checked={form.interviewerUnknown}
+              onChange={(e) =>
+                updateForm({
+                  interviewerUnknown: e.target.checked,
+                  interviewerName: e.target.checked ? '' : form.interviewerName,
+                })
+              }
+            />
+            Not addressed yet (N/A)
+          </label>
         </div>
         <div>
           <label className="text-sm font-semibold">Company</label>
@@ -1726,6 +2279,7 @@ const ResignationWizard = ({ apiBase, userId, onBack }) => (
         cityState: '',
       },
       managerName: '',
+      managerUnknown: false,
       company: '',
       lastDay: '',
       reason: '',
@@ -1742,7 +2296,21 @@ const ResignationWizard = ({ apiBase, userId, onBack }) => (
             value={form.managerName}
             onChange={(e) => updateForm({ managerName: e.target.value })}
             placeholder="Example: Mr. Chen"
+            disabled={form.managerUnknown}
           />
+          <label className="flex items-center gap-2 text-xs text-slate-600 mt-2">
+            <input
+              type="checkbox"
+              checked={form.managerUnknown}
+              onChange={(e) =>
+                updateForm({
+                  managerUnknown: e.target.checked,
+                  managerName: e.target.checked ? '' : form.managerName,
+                })
+              }
+            />
+            Not addressed yet (N/A)
+          </label>
         </div>
         <div>
           <label className="text-sm font-semibold">Company</label>

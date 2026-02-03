@@ -1,0 +1,15 @@
+{
+  "profile": {
+    "firstName": "Jamie",
+    "lastName": "Patel",
+    "email": "jamie.patel@email.com",
+    "phone": "555-400-2211",
+    "cityState": "Phoenix, AZ"
+  },
+  "interviewerName": "Ms. Alvarez",
+  "company": "City Hospital",
+  "role": "Patient Services Representative",
+  "discussionPoints": ["Training timeline", "Team scheduling"],
+  "fitProof": "I am confident my experience handling high-volume calls will help the team deliver excellent service.",
+  "format": "email"
+}

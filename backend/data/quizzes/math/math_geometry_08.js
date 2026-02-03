@@ -50,7 +50,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'What is the volume of a sphere with a radius of 5 cm? Use 3.14 for \\(\\pi and the formula V = \\(\frac{4}{3}\\)\\pi \\(r^3\\).',
+      'What is the volume of a sphere with a radius of 5 cm? Use 3.14 for \\(\\pi\\) and the formula \\(V = \\frac{4}{3}\\pi r^3\\).',
     answerOptions: [
       {
         text: '314 \\(cm^2\\)',
@@ -181,7 +181,6 @@ module.exports = [
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
-      {
         text: '30',
         isCorrect: true,
         rationale:

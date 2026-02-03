@@ -13,7 +13,6 @@ import { normalizeImageUrl } from '../../utils/normalizeImageUrl.js';
 import { AuthScreen as SharedAuthScreen } from '../../components/auth/AuthScreen.jsx';
 import SuperAdminAllQuestions from '../views/SuperAdminAllQuestions.jsx';
 import SuperAdminQuestionBrowser from '../views/SuperAdminQuestionBrowser.jsx';
-import WorkforceHub from '../../components/workforce/CareerDocumentStudio.jsx';
 
 // Compatibility shim: prefer new JSON-based catalogs, but expose legacy globals
 (function () {
@@ -131,9 +130,12 @@ try {
     !Array.isArray(PREMADE_QUIZ_CATALOG?.['Math']) ||
     PREMADE_QUIZ_CATALOG['Math'].length === 0
   ) {
-    console.warn('[hydrate] Premade catalog appears empty.');
+    console.warn(
+      '[progress] Math premade catalog is empty - progress bars will show 0/0'
+    );
   }
 } catch {}
+
 const getPremadeQuizTotal = (subject) => {
   try {
     // Prefer hydrated catalog derived from ExpandedQuizData
@@ -23338,7 +23340,7 @@ function AppHeader({
               type="button"
             >
               <img
-                src="/icons/house-svgrepo-com.svg"
+                src="/icons/chart-pie-svgrepo-com.svg"
                 alt=""
                 className="w-4 h-4"
                 style={{
@@ -23810,6 +23812,8 @@ function App({ externalTheme, onThemeChange }) {
   const [showCalculator, setShowCalculator] = useState(false);
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [showPracticeModal, setShowPracticeModal] = useState(false);
+  const [showDiagnosticIntroModal, setShowDiagnosticIntroModal] =
+    useState(false);
   const [mathToolsActiveTab, setMathToolsActiveTab] = useState('graphing');
   const [vocabulary, setVocabulary] = useState(FALLBACK_VOCABULARY);
   const [showWelcomeSplash, setShowWelcomeSplash] = useState(false);
@@ -26114,9 +26118,7 @@ function App({ externalTheme, onThemeChange }) {
       preparedQuiz.type === 'multi-part-rla' ||
       preparedQuiz.type === 'multi-part-math';
     const normalizedType =
-      preparedQuiz.type === 'reading' || preparedQuiz.type === 'diagnostic'
-        ? 'quiz'
-        : preparedQuiz.type || 'quiz';
+      preparedQuiz.type === 'reading' ? 'quiz' : preparedQuiz.type || 'quiz';
     const viewType = requiresStandardView ? 'quiz' : normalizedType;
     setView(viewType);
   };
@@ -26130,7 +26132,6 @@ function App({ externalTheme, onThemeChange }) {
     }
 
     const { subject } = results;
-    const answers = Array.isArray(results?.answers) ? results.answers : [];
 
     // Build per-question responses (correct + challenge_tags) when we have answers/questions
     let responses = [];
@@ -26139,6 +26140,7 @@ function App({ externalTheme, onThemeChange }) {
       const questions = Array.isArray(quizObj?.questions)
         ? quizObj.questions
         : [];
+      const answers = Array.isArray(results?.answers) ? results.answers : [];
       if (
         questions.length &&
         answers.length &&
@@ -26288,23 +26290,6 @@ function App({ externalTheme, onThemeChange }) {
           },
           body: JSON.stringify(payload),
         });
-
-        const isDiagnosticQuiz =
-          quizDetails?.isDiagnostic === true ||
-          /diagnostic/i.test(quizDetails?.quizType || '') ||
-          /diagnostic/i.test(quizDetails?.quizCode || '') ||
-          /diagnostic/i.test(quizDetails?.title || '');
-
-        if (isDiagnosticQuiz && answers.length) {
-          await fetch(`${API_BASE_URL}/api/diagnostic-test/submit`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ quiz: quizDetails, answers }),
-          });
-        }
 
         // If this was a diagnostic test, refresh the profile immediately so updated challenges appear
         if (resolvedQuizType === 'diagnostic') {
@@ -26814,6 +26799,23 @@ function App({ externalTheme, onThemeChange }) {
             onDismiss={handleDismissNamePrompt}
           />
         )}
+        {showDiagnosticIntroModal &&
+          (() => {
+            try {
+              const {
+                DiagnosticIntroModal,
+              } = require('../../components/diagnostic/DiagnosticIntroModal.jsx');
+              return (
+                <DiagnosticIntroModal
+                  onStart={handleConfirmStartDiagnostic}
+                  onCancel={() => setShowDiagnosticIntroModal(false)}
+                />
+              );
+            } catch (e) {
+              console.warn('[DiagnosticIntro] Failed to load:', e);
+              return null;
+            }
+          })()}
         {showPracticeModal && (
           <PracticeSessionModal
             defaultMode="balanced"
@@ -30825,56 +30827,40 @@ function StartScreen({
   const [adviceLoading, setAdviceLoading] = useState(false);
   const [adviceText, setAdviceText] = useState('');
   const [adviceError, setAdviceError] = useState('');
-  const [showDiagnosticModal, setShowDiagnosticModal] = useState(false);
-  const [selectedDiagnosticSubject, setSelectedDiagnosticSubject] =
-    useState('Math');
-
-  const DIAGNOSTIC_SUBJECTS = [
-    { id: 'Math', label: 'Math' },
-    { id: 'RLA', label: 'RLA' },
-    { id: 'Science', label: 'Science' },
-    { id: 'Social Studies', label: 'Social Studies' },
-  ];
 
   // Diagnostic Test Handler
-  const handleStartDiagnostic = async (subject) => {
+  const handleStartDiagnostic = () => {
+    // Show the intro modal first
+    setShowDiagnosticIntroModal(true);
+  };
+
+  const handleConfirmStartDiagnostic = async () => {
+    setShowDiagnosticIntroModal(false);
     try {
       setIsLoading(true);
       setLoadingMessage('Preparing your diagnostic test...');
 
-      const token =
-        localStorage.getItem('appToken') || localStorage.getItem('token');
-      if (!token) {
-        alert('Please sign in again to start the diagnostic test.');
-        return;
-      }
-
-      const res = await fetch(`${API_BASE_URL}/api/diagnostic-test/subject`, {
+      const token = localStorage.getItem('appToken');
+      const res = await fetch('/api/diagnostic-test', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ subject }),
       });
 
       if (!res.ok) {
         const errData = await res.json();
+        // Check if diagnostic already completed
+        if (errData.alreadyCompleted) {
+          alert(
+            'You have already completed the GED Diagnostic. Each student may take it only once.'
+          );
+          return;
+        }
         throw new Error(errData.error || 'Failed to start diagnostic');
       }
 
       const quiz = await res.json();
-
-      if (quiz?.alreadyCompleted) {
-        alert(
-          'You have already completed the GED Diagnostic. Each student may take it only once.'
-        );
-        return;
-      }
-
-      if (!quiz || !quiz.questions?.length) {
-        throw new Error('No diagnostic quiz was returned.');
-      }
 
       // Use onSelectQuiz to launch it
       onSelectQuiz(quiz, 'Diagnostic');
@@ -30886,9 +30872,6 @@ function StartScreen({
       setLoadingMessage('');
     }
   };
-
-  const openDiagnosticModal = () => setShowDiagnosticModal(true);
-  const closeDiagnosticModal = () => setShowDiagnosticModal(false);
 
   // Weekly coach helpers (top-level)
   const canonicalSubjectId = (value) => {
@@ -32132,16 +32115,6 @@ function StartScreen({
       </div>
     );
   };
-
-  if (selectedSubject === 'Workforce Readiness') {
-    const workforceUserId =
-      currentUser?.id ||
-      currentUser?.userId ||
-      currentUser?._id ||
-      currentUser?.email ||
-      'guest';
-    return <WorkforceHub onBack={handleBack} userId={workforceUserId} />;
-  }
 
   // View 3: Topic Selection (with Category Sets)
   if (selectedSubject && selectedCategory) {
@@ -33590,12 +33563,12 @@ function StartScreen({
                 className="text-slate-900 dark:text-slate-300 mb-4 max-w-2xl"
                 style={{ color: 'inherit' }}
               >
-                Choose a subject to take a one-time diagnostic built from
-                curated, static questions. This helps identify strengths and
-                weaknesses for that subject.
+                Start your journey with a comprehensive 40-question assessment
+                covering all 4 subjects. This sets your baseline and helps Coach
+                Smith build your personalized learning plan.
               </p>
               <button
-                onClick={openDiagnosticModal}
+                onClick={handleStartDiagnostic}
                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               >
                 Start Diagnostic Test
@@ -34030,73 +34003,7 @@ function StartScreen({
           </section>
         </div>
       </div>
-      {/* Diagnostic subject modal (scoped to StartScreen) */}
-      {showDiagnosticModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          role="dialog"
-          aria-modal="true"
-          style={{ backgroundColor: 'var(--modal-overlay)' }}
-        >
-          <div
-            className="rounded-lg shadow-2xl w-full max-w-lg p-6"
-            style={{
-              backgroundColor: 'var(--modal-surface)',
-              color: 'var(--modal-text)',
-              border: '1px solid var(--modal-border)',
-            }}
-          >
-            <h2 className="text-xl font-bold mb-2">Choose a subject</h2>
-            <p className="text-sm mb-4" style={{ opacity: 0.8 }}>
-              Each subject diagnostic can be taken once. Select a subject to
-              begin.
-            </p>
-            <div className="grid gap-2 sm:grid-cols-2">
-              {DIAGNOSTIC_SUBJECTS.map((subject) => {
-                const isSelected = selectedDiagnosticSubject === subject.id;
-                return (
-                  <button
-                    key={subject.id}
-                    type="button"
-                    onClick={() => setSelectedDiagnosticSubject(subject.id)}
-                    className={`px-4 py-2 rounded-md border text-sm font-semibold transition-colors ${
-                      isSelected
-                        ? 'bg-indigo-600 text-white border-indigo-600'
-                        : 'bg-white text-slate-900 border-slate-200 hover:bg-slate-50'
-                    }`}
-                  >
-                    {subject.label}
-                  </button>
-                );
-              })}
-            </div>
-            <div className="mt-5 flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={closeDiagnosticModal}
-                className="px-4 py-2 rounded-md font-semibold border"
-                style={{
-                  background: 'transparent',
-                  color: 'var(--text-primary)',
-                  borderColor: 'var(--border-subtle)',
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  closeDiagnosticModal();
-                  handleStartDiagnostic(selectedDiagnosticSubject);
-                }}
-                className="px-4 py-2 rounded-md font-semibold bg-indigo-600 text-white hover:bg-indigo-700"
-              >
-                Start {selectedDiagnosticSubject} Diagnostic
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Test reminder modal/toast (scoped to StartScreen) */}
       {showTestReminder && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"

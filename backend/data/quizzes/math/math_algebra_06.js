@@ -105,7 +105,7 @@ module.exports = [
           'Parallel lines have the same slope. This line also has a slope of -2.',
       },
       {
-        text: '\\(y = (\\(\frac{1}{2}\\))x + 1',
+        text: '\\(y = \\frac{1}{2}x + 1\\)',
         isCorrect: false,
         rationale: 'This is a perpendicular line.',
       },

@@ -1,0 +1,59 @@
+{
+  "profile": {
+    "firstName": "Carlos",
+    "lastName": "Nguyen",
+    "email": "c.nguyen@email.com",
+    "phone": "555-777-9012",
+    "cityState": "Houston, TX",
+    "headline": "Operations team lead"
+  },
+  "targetRole": "Operations Supervisor",
+  "summary": "Operations lead with 5+ years of experience improving workflows, mentoring teams, and maintaining quality standards.",
+  "experienceLevel": "experienced",
+  "skills": [
+    "Team leadership",
+    "Process improvement",
+    "Scheduling",
+    "Quality control"
+  ],
+  "experience": [
+    {
+      "org": "Metro Logistics",
+      "role": "Operations Lead",
+      "dates": "2021 - Present",
+      "duties": ["Led daily shift huddles", "Resolved escalations"],
+      "achievements": ["Improved on-time delivery by 12%"]
+    },
+    {
+      "org": "Metro Logistics",
+      "role": "Senior Coordinator",
+      "dates": "2019 - 2021",
+      "duties": ["Balanced staffing needs", "Tracked KPIs"],
+      "achievements": ["Reduced overtime costs by 8%"]
+    },
+    {
+      "org": "Eastline Warehouse",
+      "role": "Coordinator",
+      "dates": "2017 - 2019",
+      "duties": ["Managed inbound scheduling"],
+      "achievements": []
+    },
+    {
+      "org": "Eastline Warehouse",
+      "role": "Warehouse Associate",
+      "dates": "2015 - 2017",
+      "duties": ["Prepared outgoing shipments"],
+      "achievements": []
+    }
+  ],
+  "education": [
+    {
+      "school": "Houston Technical Institute",
+      "credential": "A.A.S., Logistics",
+      "gradYear": "2015"
+    }
+  ],
+  "projects": [],
+  "certifications": ["OSHA-10"],
+  "volunteer": []
+}

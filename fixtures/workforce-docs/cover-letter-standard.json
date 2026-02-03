@@ -1,0 +1,20 @@
+{
+  "profile": {
+    "firstName": "Taylor",
+    "lastName": "Morgan",
+    "email": "taylor.morgan@email.com",
+    "phone": "555-222-3344",
+    "cityState": "Denver, CO"
+  },
+  "targetRole": "Customer Support Specialist",
+  "targetCompany": "Northside Clinic",
+  "whyCompany": "I value your commitment to patient care and your focus on clear, compassionate communication.",
+  "topSkills": ["Customer service", "Scheduling", "Problem solving"],
+  "achievement": "Resolved 20+ customer requests daily while maintaining 95% satisfaction.",
+  "highlights": [
+    "Coordinated appointment reminders",
+    "Documented issues accurately"
+  ],
+  "availability": "Available weekdays after 9 a.m.",
+  "length": "standard"
+}

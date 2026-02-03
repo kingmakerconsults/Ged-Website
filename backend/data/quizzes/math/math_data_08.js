@@ -211,9 +211,9 @@ module.exports = [
     difficulty: 'medium',
     question:
       'A coin is flipped 3 times. What is the probability of getting tails all 3 times?',
-    correctAnswer: '\\(\\(\frac{1}{8}\\)',
+    correctAnswer: '\\(\\frac{1}{8}\\)',
     rationale:
-      'The probability of tails on one flip is \\(\\(\frac{1}{2}\\). For 3 flips, the probability is (\\(\\(\frac{1}{2}\\)) * (\\(\\(\frac{1}{2}\\)) * (\\(\\(\frac{1}{2}\\)) = \\(\\(\frac{1}{8}\\).',
+      'The probability of tails on one flip is \\(\\frac{1}{2}\\). For 3 flips, the probability is \\(\\frac{1}{2}\\) * \\(\\frac{1}{2}\\) * \\(\\frac{1}{2}\\) = \\(\\frac{1}{8}\\).',
     challenge_tags: ['math-6'],
   },
   {

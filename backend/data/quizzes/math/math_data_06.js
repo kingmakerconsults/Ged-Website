@@ -87,7 +87,7 @@ module.exports = [
     question: 'Find the mean of the following numbers: 12, 15, 18, 21, 24.',
     correctAnswer: '18',
     rationale:
-      'The sum of the numbers is 12+15+18+21+24 = 90. Divide by 5: \\(\\(\frac{90}{5}\\) = 18. Since the numbers are evenly spaced, the mean is the middle number.',
+      'The sum of the numbers is 12+15+18+21+24 = 90. Divide by 5: \\(\\frac{90}{5} = 18\\). Since the numbers are evenly spaced, the mean is the middle number.',
     challenge_tags: ['math-6'],
   },
   {
@@ -99,29 +99,29 @@ module.exports = [
       'A bag contains 10 red, 8 blue, and 2 green marbles. What is the probability of NOT drawing a blue marble?',
     answerOptions: [
       {
-        text: '\\(\\(\frac{2}{5}\\)',
+        text: '\\(\\frac{2}{5}\\)',
         isCorrect: false,
         rationale: 'This is the probability of drawing a blue marble.',
       },
       {
-        text: '\\(\\(\frac{3}{5}\\)',
+        text: '\\(\\frac{3}{5}\\)',
         isCorrect: true,
         rationale:
-          'There are 12 non-blue marbles (10 red + 2 green) and 20 total marbles. The probability is \\(\\(\frac{12}{20}\\), which is \\(\\(\frac{3}{5}\\).',
+          'There are 12 non-blue marbles (10 red + 2 green) and 20 total marbles. The probability is \\(\\frac{12}{20}\\), which is \\(\\frac{3}{5}\\).',
       },
       {
-        text: '\\(\\(\frac{1}{10}\\)',
+        text: '\\(\\frac{1}{10}\\)',
         isCorrect: false,
         rationale: 'This is the probability of drawing a green marble.',
       },
       {
-        text: '\\(\\(\frac{1}{2}\\)',
+        text: '\\(\\frac{1}{2}\\)',
         isCorrect: false,
         rationale: 'This is the probability of drawing a red marble.',
       },
     ],
     rationale:
-      'There are a total of 10 + 8 + 2 = 20 marbles. The number of non-blue marbles is 10 (red) + 2 (green) = 12. The probability is \\(\\(\frac{12}{20}\\), which simplifies to \\(\\(\frac{3}{5}\\).',
+      'There are a total of 10 + 8 + 2 = 20 marbles. The number of non-blue marbles is 10 (red) + 2 (green) = 12. The probability is \\(\\frac{12}{20}\\), which simplifies to \\(\\frac{3}{5}\\).',
     challenge_tags: ['math-6'],
   },
   {

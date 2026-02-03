@@ -1,0 +1,18 @@
+{
+  "profile": {
+    "firstName": "Morgan",
+    "lastName": "Reed",
+    "email": "morgan.reed@email.com",
+    "phone": "555-808-9090",
+    "cityState": "Atlanta, GA"
+  },
+  "managerName": "Mr. Chen",
+  "company": "Greenline Foods",
+  "lastDay": "2026-03-15",
+  "reason": "I have accepted a new opportunity that aligns with my long-term goals.",
+  "transitionPlan": [
+    "Document current workflows",
+    "Train replacement for two weeks"
+  ],
+  "format": "letter"
+}

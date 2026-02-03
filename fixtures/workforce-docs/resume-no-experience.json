@@ -1,0 +1,32 @@
+{
+  "profile": {
+    "firstName": "Jordan",
+    "lastName": "Lee",
+    "email": "jordan.lee@email.com",
+    "phone": "5555551234",
+    "cityState": "Dallas, TX",
+    "headline": "Detail-oriented team member",
+    "linkedIn": "linkedin.com/in/jordanlee",
+    "portfolio": ""
+  },
+  "targetRole": "Customer Service Associate",
+  "summary": "Reliable, quick-learning candidate with strong communication skills and a focus on customer satisfaction.",
+  "experienceLevel": "none",
+  "skills": ["Customer service", "POS systems", "Problem solving", "Teamwork"],
+  "education": [
+    {
+      "school": "Dallas Adult Learning Center",
+      "credential": "High School Equivalency Candidate",
+      "gradYear": "2026"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Community Fundraiser",
+      "description": "Coordinated a school fundraiser",
+      "bullets": ["Tracked a $250 budget", "Coordinated 12 volunteers"]
+    }
+  ],
+  "volunteer": [],
+  "certifications": []
+}

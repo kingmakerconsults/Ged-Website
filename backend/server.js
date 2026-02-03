@@ -16340,6 +16340,7 @@ const WORKFORCE_ALLOWED_TAGS = new Set([
   'h4',
   'div',
   'span',
+  'section',
 ]);
 
 function sanitizeWorkforceHtml(rawHtml = '') {
@@ -16365,7 +16366,9 @@ function sanitizeWorkforceHtml(rawHtml = '') {
         }
         if (node.attributes && node.attributes.length) {
           Array.from(node.attributes).forEach((attr) => {
-            node.removeAttribute(attr.name);
+            if (attr.name !== 'class' && attr.name !== 'href') {
+              node.removeAttribute(attr.name);
+            }
           });
         }
       }
@@ -16382,22 +16385,56 @@ function sanitizeWorkforceHtml(rawHtml = '') {
 
 function buildDocHtmlFromSections(docPack) {
   const sections = Array.isArray(docPack?.sections) ? docPack.sections : [];
-  const header = docPack?.title ? `<h1>${docPack.title}</h1>` : '';
+  const formatDocText = (text = '') => String(text).replace(/\n/g, '<br />');
+  const docType = docPack?.docType;
+  let header = docPack?.title ? `<h1>${docPack.title}</h1>` : '';
+
+  const contactIndex = sections.findIndex(
+    (section) => section.id === 'contact' || section.label === 'Contact'
+  );
+
+  if (docType === 'resume' && contactIndex >= 0) {
+    const contact = sections[contactIndex] || {};
+    const lines = String(contact.content || '')
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean);
+    const nameLine = lines[0] || docPack?.title || '';
+    const headlineLine = lines[1] || '';
+    const contactLine = lines.slice(2).join(' • ') || lines[1] || '';
+    header = `
+      <div class="doc-header">
+        <h1>${nameLine}</h1>
+        ${headlineLine ? `<div class="doc-subtitle">${headlineLine}</div>` : ''}
+        ${contactLine ? `<div class="doc-contact">${contactLine}</div>` : ''}
+      </div>
+    `;
+  }
+
   const body = sections
+    .filter((_, idx) => !(docType === 'resume' && idx === contactIndex))
     .map((section) => {
       const heading = section.label ? `<h3>${section.label}</h3>` : '';
-      const content = section.content ? `<p>${section.content}</p>` : '';
+      const content = section.content
+        ? `<p>${formatDocText(section.content)}</p>`
+        : '';
       const bullets =
         Array.isArray(section.bullets) && section.bullets.length
           ? `<ul>${section.bullets
               .filter(Boolean)
-              .map((b) => `<li>${b}</li>`)
+              .map((b) => `<li>${formatDocText(b)}</li>`)
               .join('')}</ul>`
           : '';
-      return `<div>${heading}${content}${bullets}</div>`;
+      return `<section class="doc-section">${heading}${content}${bullets}</section>`;
     })
     .join('');
-  return `<div>${header}${body}</div>`;
+  return `
+    <div class="doc-print-area">
+      <div class="doc-frame doc-type-${docType}">
+        <div class="doc-body">${header}${body}</div>
+      </div>
+    </div>
+  `;
 }
 
 function buildFullTextFromSections(sections = []) {

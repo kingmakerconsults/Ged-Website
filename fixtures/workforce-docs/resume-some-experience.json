@@ -1,0 +1,57 @@
+{
+  "profile": {
+    "firstName": "Amaya",
+    "lastName": "Brooks",
+    "email": "amaya.brooks@email.com",
+    "phone": "(214) 555-3210",
+    "cityState": "Austin, TX",
+    "headline": "Reliable retail associate"
+  },
+  "targetRole": "Retail Associate",
+  "summary": "Customer-focused retail associate with experience supporting store operations and handling transactions accurately.",
+  "experienceLevel": "some",
+  "skills": [
+    "Cash handling",
+    "Merchandising",
+    "Inventory support",
+    "Customer service"
+  ],
+  "experience": [
+    {
+      "org": "Northside Market",
+      "role": "Retail Associate",
+      "dates": "Jun 2023 - Present",
+      "duties": [
+        "Assisted 50+ customers per shift",
+        "Restocked shelves and maintained displays"
+      ],
+      "achievements": ["Maintained 98% transaction accuracy"]
+    },
+    {
+      "org": "Campus Bookstore",
+      "role": "Sales Clerk",
+      "dates": "Sep 2022 - May 2023",
+      "duties": [
+        "Processed returns and exchanges",
+        "Organized weekly inventory counts"
+      ],
+      "achievements": []
+    }
+  ],
+  "education": [
+    {
+      "school": "Austin Community College",
+      "credential": "Certificate, Retail Operations",
+      "gradYear": "2024"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Inventory Cleanup",
+      "description": "Organized storage room and updated inventory logs",
+      "bullets": ["Reduced misplaced stock by 15%"]
+    }
+  ],
+  "certifications": ["CPR"],
+  "volunteer": []
+}
