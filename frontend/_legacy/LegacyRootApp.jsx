@@ -23106,7 +23106,7 @@ function AppHeader({
               type="button"
             >
               <img
-                src="/icons/chart-pie-svgrepo-com.svg"
+                src="/icons/house-svgrepo-com.svg"
                 alt=""
                 className="w-4 h-4"
                 style={{
@@ -30319,7 +30319,8 @@ function StartScreen({
       setIsLoading(true);
       setLoadingMessage('Preparing your diagnostic test...');
 
-      const token = localStorage.getItem('appToken');
+      const token =
+        localStorage.getItem('appToken') || localStorage.getItem('token');
       const res = await fetch('/api/diagnostic-test/subject', {
         method: 'POST',
         headers: {
@@ -30347,6 +30348,13 @@ function StartScreen({
       }
 
       const quiz = await res.json();
+
+      if (quiz?.alreadyCompleted) {
+        alert(
+          quiz?.message || 'You have already completed the diagnostic test.'
+        );
+        return;
+      }
 
       if (!quiz || !quiz.questions?.length) {
         throw new Error('No diagnostic quiz was returned.');

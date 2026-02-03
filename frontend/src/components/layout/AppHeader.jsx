@@ -56,7 +56,7 @@ export default function AppHeader({
               type="button"
             >
               <img
-                src="/icons/chart-pie-svgrepo-com.svg"
+                src="/icons/house-svgrepo-com.svg"
                 alt=""
                 className="w-4 h-4"
                 style={{

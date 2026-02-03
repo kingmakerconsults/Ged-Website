@@ -2788,6 +2788,25 @@ select.dev-role-select option {
   color: #ffffff;
 }
 
+/* DARK MODE: essay practice full-shell override (fix white-on-white) */
+[data-theme='dark'] .essay-practice-shell {
+  background: var(--bg-page);
+  color: #ffffff;
+}
+[data-theme='dark'] .essay-practice-shell :where(h1, h2, h3, h4, h5, h6, p, li, span, strong, em, a, blockquote) {
+  color: #ffffff;
+}
+[data-theme='dark'] .essay-practice-shell .bg-white,
+[data-theme='dark'] .essay-practice-shell .panel-surface,
+[data-theme='dark'] .essay-practice-shell .content-card,
+[data-theme='dark'] .essay-practice-shell .card,
+[data-theme='dark'] .essay-practice-shell .essay-argument-column,
+[data-theme='dark'] .essay-practice-shell .essay-prompt-body {
+  background: var(--bg-page) !important;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
 /* Dark-mode controls for topic selector */
 [data-theme='dark'] #essayPracticeView .essay-practice-shell input,
 [data-theme='dark'] #essayPracticeView .essay-practice-shell select {

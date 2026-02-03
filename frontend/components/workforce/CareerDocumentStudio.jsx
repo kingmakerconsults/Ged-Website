@@ -730,8 +730,12 @@ const ResumeWizard = ({ apiBase, userId, onBack }) => (
         email: '',
         phone: '',
         cityState: '',
+        headline: '',
+        linkedIn: '',
+        portfolio: '',
       },
       targetRole: '',
+      summary: '',
       jobPostingText: '',
       experienceLevel: 'none',
       education: [{ school: '', credential: '', gradYear: '' }],
@@ -739,6 +743,7 @@ const ResumeWizard = ({ apiBase, userId, onBack }) => (
         { org: '', role: '', dates: '', duties: [], achievements: [] },
       ],
       projects: [{ name: '', description: '', bullets: [] }],
+      volunteer: [{ org: '', role: '', dates: '', bullets: [] }],
       skills: [],
       certifications: [],
       tone: 'professional',
@@ -770,12 +775,68 @@ const ResumeWizard = ({ apiBase, userId, onBack }) => (
           />
         </div>
         <div>
+          <label className="text-sm font-semibold">Headline</label>
+          <input
+            className="w-full p-2 border rounded-md"
+            value={form.profile.headline}
+            onChange={(e) =>
+              updateForm({
+                profile: { ...form.profile, headline: e.target.value },
+              })
+            }
+            placeholder="Example: Customer Service | Reliable Team Member"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-semibold">Contact</label>
+          <input
+            className="w-full p-2 border rounded-md"
+            value={form.profile.email}
+            onChange={(e) =>
+              updateForm({
+                profile: { ...form.profile, email: e.target.value },
+              })
+            }
+            placeholder="Email"
+          />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.profile.phone}
+            onChange={(e) =>
+              updateForm({
+                profile: { ...form.profile, phone: e.target.value },
+              })
+            }
+            placeholder="Phone"
+          />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.profile.cityState}
+            onChange={(e) =>
+              updateForm({
+                profile: { ...form.profile, cityState: e.target.value },
+              })
+            }
+            placeholder="City, State"
+          />
+        </div>
+        <div>
           <label className="text-sm font-semibold">Target Role</label>
           <input
             className="w-full p-2 border rounded-md"
             value={form.targetRole}
             onChange={(e) => updateForm({ targetRole: e.target.value })}
             placeholder="Example: Retail Associate"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-semibold">Professional Summary</label>
+          <textarea
+            className="w-full p-2 border rounded-md"
+            value={form.summary}
+            onChange={(e) => updateForm({ summary: e.target.value })}
+            placeholder="2–3 sentences highlighting strengths, reliability, and the role you're seeking."
+            rows={3}
           />
         </div>
         <div>
@@ -834,9 +895,78 @@ const ResumeWizard = ({ apiBase, userId, onBack }) => (
             }}
             placeholder="Example: GED (in progress)"
           />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.education[0]?.gradYear}
+            onChange={(e) => {
+              const next = [...form.education];
+              next[0] = { ...next[0], gradYear: e.target.value };
+              updateForm({ education: next });
+            }}
+            placeholder="Graduation year (optional)"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-semibold">Experience</label>
+          <input
+            className="w-full p-2 border rounded-md"
+            value={form.experience[0]?.org}
+            onChange={(e) => {
+              const next = [...form.experience];
+              next[0] = { ...next[0], org: e.target.value };
+              updateForm({ experience: next });
+            }}
+            placeholder="Organization"
+          />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.experience[0]?.role}
+            onChange={(e) => {
+              const next = [...form.experience];
+              next[0] = { ...next[0], role: e.target.value };
+              updateForm({ experience: next });
+            }}
+            placeholder="Role"
+          />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.experience[0]?.dates}
+            onChange={(e) => {
+              const next = [...form.experience];
+              next[0] = { ...next[0], dates: e.target.value };
+              updateForm({ experience: next });
+            }}
+            placeholder="Dates (e.g., Jun 2023 – Aug 2024)"
+          />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.experience[0]?.achievements?.join(', ') || ''}
+            onChange={(e) => {
+              const next = [...form.experience];
+              next[0] = {
+                ...next[0],
+                achievements: e.target.value
+                  .split(',')
+                  .map((s) => s.trim())
+                  .filter(Boolean),
+              };
+              updateForm({ experience: next });
+            }}
+            placeholder="Achievements (comma separated)"
+          />
         </div>
         <div>
           <label className="text-sm font-semibold">Projects</label>
+          <input
+            className="w-full p-2 border rounded-md"
+            value={form.projects[0]?.name}
+            onChange={(e) => {
+              const next = [...form.projects];
+              next[0] = { ...next[0], name: e.target.value };
+              updateForm({ projects: next });
+            }}
+            placeholder="Project name"
+          />
           <textarea
             className="w-full p-2 border rounded-md"
             value={form.projects[0]?.description}
@@ -847,6 +977,110 @@ const ResumeWizard = ({ apiBase, userId, onBack }) => (
             }}
             placeholder="Not sure what to write? Example: Planned a class fundraiser and tracked a $250 budget."
             rows={3}
+          />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.projects[0]?.bullets?.join(', ') || ''}
+            onChange={(e) => {
+              const next = [...form.projects];
+              next[0] = {
+                ...next[0],
+                bullets: e.target.value
+                  .split(',')
+                  .map((s) => s.trim())
+                  .filter(Boolean),
+              };
+              updateForm({ projects: next });
+            }}
+            placeholder="Project highlights (comma separated)"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-semibold">Volunteer Experience</label>
+          <input
+            className="w-full p-2 border rounded-md"
+            value={form.volunteer[0]?.org}
+            onChange={(e) => {
+              const next = [...form.volunteer];
+              next[0] = { ...next[0], org: e.target.value };
+              updateForm({ volunteer: next });
+            }}
+            placeholder="Organization"
+          />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.volunteer[0]?.role}
+            onChange={(e) => {
+              const next = [...form.volunteer];
+              next[0] = { ...next[0], role: e.target.value };
+              updateForm({ volunteer: next });
+            }}
+            placeholder="Role"
+          />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.volunteer[0]?.dates}
+            onChange={(e) => {
+              const next = [...form.volunteer];
+              next[0] = { ...next[0], dates: e.target.value };
+              updateForm({ volunteer: next });
+            }}
+            placeholder="Dates (optional)"
+          />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.volunteer[0]?.bullets?.join(', ') || ''}
+            onChange={(e) => {
+              const next = [...form.volunteer];
+              next[0] = {
+                ...next[0],
+                bullets: e.target.value
+                  .split(',')
+                  .map((s) => s.trim())
+                  .filter(Boolean),
+              };
+              updateForm({ volunteer: next });
+            }}
+            placeholder="Volunteer highlights (comma separated)"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-semibold">Certifications</label>
+          <input
+            className="w-full p-2 border rounded-md"
+            value={form.certifications.join(', ')}
+            onChange={(e) =>
+              updateForm({
+                certifications: e.target.value
+                  .split(',')
+                  .map((s) => s.trim())
+                  .filter(Boolean),
+              })
+            }
+            placeholder="Example: OSHA-10, CPR"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-semibold">Links</label>
+          <input
+            className="w-full p-2 border rounded-md"
+            value={form.profile.linkedIn}
+            onChange={(e) =>
+              updateForm({
+                profile: { ...form.profile, linkedIn: e.target.value },
+              })
+            }
+            placeholder="LinkedIn URL"
+          />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.profile.portfolio}
+            onChange={(e) =>
+              updateForm({
+                profile: { ...form.profile, portfolio: e.target.value },
+              })
+            }
+            placeholder="Portfolio URL"
           />
         </div>
         <div>
@@ -900,6 +1134,11 @@ const CoverLetterWizard = ({ apiBase, userId, onBack }) => (
       },
       targetRole: '',
       targetCompany: '',
+      whyCompany: '',
+      topSkills: [],
+      achievement: '',
+      availability: '',
+      preferredContact: '',
       jobPostingText: '',
       highlights: [],
       tone: 'professional',
@@ -921,6 +1160,34 @@ const CoverLetterWizard = ({ apiBase, userId, onBack }) => (
           />
         </div>
         <div>
+          <label className="text-sm font-semibold">Why this company?</label>
+          <textarea
+            className="w-full p-2 border rounded-md"
+            value={form.whyCompany}
+            onChange={(e) => updateForm({ whyCompany: e.target.value })}
+            placeholder="Example: I value your focus on community service and growth opportunities."
+            rows={3}
+          />
+        </div>
+        <div>
+          <label className="text-sm font-semibold">
+            Top skills (comma separated)
+          </label>
+          <input
+            className="w-full p-2 border rounded-md"
+            value={form.topSkills.join(', ')}
+            onChange={(e) =>
+              updateForm({
+                topSkills: e.target.value
+                  .split(',')
+                  .map((s) => s.trim())
+                  .filter(Boolean),
+              })
+            }
+            placeholder="Example: Customer service, Teamwork"
+          />
+        </div>
+        <div>
           <label className="text-sm font-semibold">Target Role</label>
           <input
             className="w-full p-2 border rounded-md"
@@ -936,6 +1203,34 @@ const CoverLetterWizard = ({ apiBase, userId, onBack }) => (
             value={form.targetCompany}
             onChange={(e) => updateForm({ targetCompany: e.target.value })}
             placeholder="Example: Northside Clinic"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-semibold">Achievement example</label>
+          <textarea
+            className="w-full p-2 border rounded-md"
+            value={form.achievement}
+            onChange={(e) => updateForm({ achievement: e.target.value })}
+            placeholder="Example: Resolved 20+ customer requests daily while maintaining 95% satisfaction."
+            rows={3}
+          />
+        </div>
+        <div>
+          <label className="text-sm font-semibold">Availability</label>
+          <input
+            className="w-full p-2 border rounded-md"
+            value={form.availability}
+            onChange={(e) => updateForm({ availability: e.target.value })}
+            placeholder="Example: Available evenings and weekends"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-semibold">Preferred contact</label>
+          <input
+            className="w-full p-2 border rounded-md"
+            value={form.preferredContact}
+            onChange={(e) => updateForm({ preferredContact: e.target.value })}
+            placeholder="Example: Email or phone"
           />
         </div>
       </div>

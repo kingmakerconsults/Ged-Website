@@ -23338,7 +23338,7 @@ function AppHeader({
               type="button"
             >
               <img
-                src="/icons/chart-pie-svgrepo-com.svg"
+                src="/icons/house-svgrepo-com.svg"
                 alt=""
                 className="w-4 h-4"
                 style={{
@@ -30842,7 +30842,8 @@ function StartScreen({
       setIsLoading(true);
       setLoadingMessage('Preparing your diagnostic test...');
 
-      const token = localStorage.getItem('appToken');
+      const token =
+        localStorage.getItem('appToken') || localStorage.getItem('token');
       if (!token) {
         alert('Please sign in again to start the diagnostic test.');
         return;
@@ -30859,17 +30860,17 @@ function StartScreen({
 
       if (!res.ok) {
         const errData = await res.json();
-        // Check if diagnostic already completed
-        if (errData.alreadyCompleted) {
-          alert(
-            'You have already completed the GED Diagnostic. Each student may take it only once.'
-          );
-          return;
-        }
         throw new Error(errData.error || 'Failed to start diagnostic');
       }
 
       const quiz = await res.json();
+
+      if (quiz?.alreadyCompleted) {
+        alert(
+          'You have already completed the GED Diagnostic. Each student may take it only once.'
+        );
+        return;
+      }
 
       if (!quiz || !quiz.questions?.length) {
         throw new Error('No diagnostic quiz was returned.');
