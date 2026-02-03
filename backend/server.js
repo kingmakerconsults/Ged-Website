@@ -16344,34 +16344,40 @@ const WORKFORCE_ALLOWED_TAGS = new Set([
 
 function sanitizeWorkforceHtml(rawHtml = '') {
   if (!rawHtml || typeof rawHtml !== 'string') return '';
-  const dom = new JSDOM(`<body>${rawHtml}</body>`);
-  const { document, Node } = dom.window;
+  try {
+    const dom = new JSDOM(`<body>${rawHtml}</body>`);
+    const { document, Node } = dom.window || {};
+    if (!document || !document.body) return rawHtml;
 
-  const walk = (node) => {
-    if (!node) return;
-    if (node.nodeType === Node.ELEMENT_NODE) {
-      const tag = node.tagName.toLowerCase();
-      if (!WORKFORCE_ALLOWED_TAGS.has(tag)) {
-        const parent = node.parentNode;
-        if (parent) {
-          while (node.firstChild) {
-            parent.insertBefore(node.firstChild, node);
+    const walk = (node) => {
+      if (!node) return;
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const tag = node.tagName.toLowerCase();
+        if (!WORKFORCE_ALLOWED_TAGS.has(tag)) {
+          const parent = node.parentNode;
+          if (parent) {
+            while (node.firstChild) {
+              parent.insertBefore(node.firstChild, node);
+            }
+            parent.removeChild(node);
+            return;
           }
-          parent.removeChild(node);
-          return;
+        }
+        if (node.attributes && node.attributes.length) {
+          Array.from(node.attributes).forEach((attr) => {
+            node.removeAttribute(attr.name);
+          });
         }
       }
-      if (node.attributes && node.attributes.length) {
-        Array.from(node.attributes).forEach((attr) => {
-          node.removeAttribute(attr.name);
-        });
-      }
-    }
-    Array.from(node.childNodes || []).forEach((child) => walk(child));
-  };
+      Array.from(node.childNodes || []).forEach((child) => walk(child));
+    };
 
-  walk(document.body);
-  return document.body.innerHTML || '';
+    walk(document.body);
+    return document.body.innerHTML || '';
+  } catch (err) {
+    console.error('[sanitizeWorkforceHtml] failed:', err);
+    return rawHtml || '';
+  }
 }
 
 function buildDocHtmlFromSections(docPack) {

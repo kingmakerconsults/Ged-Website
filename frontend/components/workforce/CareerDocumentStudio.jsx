@@ -103,6 +103,305 @@ const emptyDocPack = (docType) => ({
   },
 });
 
+const isDocPackEmpty = (docPack) => {
+  const sections = Array.isArray(docPack?.sections) ? docPack.sections : [];
+  if (!sections.length) return true;
+  return sections.every((section) => {
+    const hasContent = Boolean(section?.content && section.content.trim());
+    const hasBullets =
+      Array.isArray(section?.bullets) &&
+      section.bullets.some((b) => Boolean(b && String(b).trim()));
+    return !hasContent && !hasBullets;
+  });
+};
+
+const buildResumeLocalFallback = (form = {}) => {
+  const profile = form.profile || {};
+  const name = `${profile.firstName || ''} ${profile.lastName || ''}`.trim();
+  const title = name ? `${name} - Resume` : 'Resume Draft';
+  const headline = (profile.headline || '').trim();
+  const contactLine = [
+    profile.email,
+    profile.phone,
+    profile.cityState,
+    profile.linkedIn,
+    profile.portfolio,
+  ]
+    .filter(Boolean)
+    .join(' • ');
+  const skills =
+    Array.isArray(form.skills) && form.skills.length
+      ? form.skills
+      : ['Customer service', 'Teamwork', 'Reliability', 'Communication'];
+  const summaryText = (form.summary || '').trim();
+  const defaultSummary = `Motivated ${form.targetRole || 'entry-level'} candidate with strengths in ${skills.slice(0, 3).join(', ')}.`;
+  const experienceLevel = form.experienceLevel || 'none';
+  const experienceItems = Array.isArray(form.experience)
+    ? form.experience.filter((item) => item && (item.role || item.org))
+    : [];
+  const projectItems = Array.isArray(form.projects)
+    ? form.projects.filter((item) => item && (item.name || item.description))
+    : [];
+  const volunteerItems = Array.isArray(form.volunteer)
+    ? form.volunteer.filter((item) => item && (item.org || item.role))
+    : [];
+  const certifications = Array.isArray(form.certifications)
+    ? form.certifications.filter(Boolean)
+    : [];
+  const educationItems = Array.isArray(form.education)
+    ? form.education.filter((item) => item && (item.school || item.credential))
+    : [];
+
+  const formatRoleLine = (item = {}) => {
+    const role = item.role || 'Role';
+    const org = item.org || 'Organization';
+    const dates = item.dates || '';
+    return `${role} — ${org} ${dates}`.trim();
+  };
+
+  const formatEducationLine = (item = {}) => {
+    const line = `${item.school || ''} — ${item.credential || ''}`.trim();
+    return item.gradYear ? `${line} (${item.gradYear})` : line;
+  };
+
+  const sections = [
+    {
+      id: 'contact',
+      label: 'Contact',
+      content: [name || 'Student Name', headline, contactLine]
+        .filter(Boolean)
+        .join('\n'),
+      bullets: [],
+    },
+    {
+      id: 'summary',
+      label: 'Summary',
+      content: summaryText || defaultSummary,
+      bullets: [],
+    },
+    {
+      id: 'skills',
+      label: 'Skills',
+      content: '',
+      bullets: skills,
+    },
+  ];
+
+  if (experienceLevel !== 'none' && experienceItems.length) {
+    const primary = experienceItems[0] || {};
+    const bullets =
+      Array.isArray(primary.achievements) && primary.achievements.length
+        ? primary.achievements
+        : Array.isArray(primary.duties)
+          ? primary.duties
+          : ['Handled daily tasks with accuracy and teamwork.'];
+    sections.push({
+      id: 'experience',
+      label: 'Experience',
+      content: formatRoleLine(primary),
+      bullets,
+    });
+  }
+
+  if (projectItems.length || experienceLevel === 'none') {
+    const project = projectItems[0] || {};
+    sections.push({
+      id: 'projects',
+      label: 'Projects',
+      content: project.name || project.description || 'Program or class project',
+      bullets:
+        Array.isArray(project.bullets) && project.bullets.length
+          ? project.bullets
+          : project.description
+            ? [project.description]
+            : [
+                'Planned a small event with a shared budget',
+                'Built a simple schedule for a group task',
+              ],
+    });
+  }
+
+  if (volunteerItems.length || experienceLevel === 'none') {
+    const volunteer = volunteerItems[0] || {};
+    sections.push({
+      id: 'volunteer',
+      label: 'Volunteer Experience',
+      content: volunteerItems.length
+        ? formatRoleLine(volunteer)
+        : 'List community or school support work (optional).',
+      bullets:
+        Array.isArray(volunteer.bullets) && volunteer.bullets.length
+          ? volunteer.bullets
+          : [],
+    });
+  }
+
+  sections.push({
+    id: 'education',
+    label: 'Education',
+    content: educationItems.length
+      ? educationItems.map(formatEducationLine).join('\n')
+      : 'School or Program — GED (in progress)',
+    bullets: [],
+  });
+
+  if (certifications.length) {
+    sections.push({
+      id: 'certifications',
+      label: 'Certifications',
+      content: '',
+      bullets: certifications,
+    });
+  }
+
+  return {
+    ...emptyDocPack('resume'),
+    title,
+    tone: form.tone || DEFAULT_TONE,
+    targetRole: form.targetRole || null,
+    sections,
+  };
+};
+
+const buildCoverLetterLocalFallback = (form = {}) => {
+  const profile = form.profile || {};
+  const title = `Cover Letter - ${form.targetRole || 'Entry-Level'}`;
+  const topSkills = Array.isArray(form.topSkills) ? form.topSkills : [];
+  const highlights = Array.isArray(form.highlights) ? form.highlights : [];
+  const contactLine = [profile.email, profile.phone].filter(Boolean).join(' • ');
+  const sections = [
+    {
+      id: 'opening',
+      label: 'Opening',
+      content: `Dear Hiring Manager,\nI am excited to apply for the ${form.targetRole || 'open'} role at ${form.targetCompany || 'your company'}.`,
+      bullets: [],
+    },
+    {
+      id: 'body',
+      label: 'Why I am a fit',
+      content:
+        form.whyCompany ||
+        'I bring reliability, a strong work ethic, and a focus on great service. I am ready to learn quickly and support the team.',
+      bullets: [
+        ...(topSkills.length ? [`Top skills: ${topSkills.join(', ')}`] : []),
+        ...(form.achievement ? [form.achievement] : []),
+        ...highlights,
+      ],
+    },
+    {
+      id: 'closing',
+      label: 'Closing',
+      content: [
+        'Thank you for your time and consideration. I would welcome the opportunity to discuss how I can contribute.',
+        form.availability ? `Availability: ${form.availability}.` : '',
+        form.preferredContact
+          ? `Preferred contact: ${form.preferredContact}.`
+          : contactLine
+            ? `Contact: ${contactLine}.`
+            : '',
+      ]
+        .filter(Boolean)
+        .join('\n'),
+      bullets: [],
+    },
+  ];
+
+  return {
+    ...emptyDocPack('cover_letter'),
+    title,
+    tone: form.tone || DEFAULT_TONE,
+    targetRole: form.targetRole || null,
+    targetCompany: form.targetCompany || null,
+    sections,
+  };
+};
+
+const buildThankYouLocalFallback = (form = {}) => {
+  const title = `Thank You - ${form.role || 'Interview'}`;
+  const sections = [
+    {
+      id: 'thanks',
+      label: 'Thank You',
+      content: `Hello ${form.interviewerName || 'there'},\nThank you for meeting with me about the ${form.role || 'role'} at ${form.company || 'your company'}.`,
+      bullets: [],
+    },
+    {
+      id: 'details',
+      label: 'Highlights',
+      content:
+        form.fitProof ||
+        'I appreciated learning more about the team and responsibilities.',
+      bullets: Array.isArray(form.discussionPoints)
+        ? form.discussionPoints
+        : [],
+    },
+    {
+      id: 'close',
+      label: 'Closing',
+      content:
+        'Thank you again for your time. I am excited about the opportunity and look forward to next steps.',
+      bullets: [],
+    },
+  ];
+
+  return {
+    ...emptyDocPack('thank_you'),
+    title,
+    tone: form.tone || DEFAULT_TONE,
+    targetRole: form.role || null,
+    targetCompany: form.company || null,
+    sections,
+  };
+};
+
+const buildResignationLocalFallback = (form = {}) => {
+  const title = `Resignation - ${form.company || 'Company'}`;
+  const sections = [
+    {
+      id: 'notice',
+      label: 'Notice',
+      content: `Dear ${form.managerName || 'Manager'},\nPlease accept this letter as my formal notice of resignation. My last day will be ${form.lastDay || 'a future date'}.`,
+      bullets: [],
+    },
+    {
+      id: 'transition',
+      label: 'Transition Plan',
+      content: form.reason || 'Thank you for the opportunity to grow with the team.',
+      bullets: Array.isArray(form.transitionPlan) ? form.transitionPlan : [],
+    },
+    {
+      id: 'thanks',
+      label: 'Closing',
+      content:
+        'I appreciate your support and will do what I can to ensure a smooth transition.',
+      bullets: [],
+    },
+  ];
+
+  return {
+    ...emptyDocPack('resignation'),
+    title,
+    tone: form.tone || DEFAULT_TONE,
+    targetCompany: form.company || null,
+    sections,
+  };
+};
+
+const buildLocalFallbackDocPack = (form, docType) => {
+  switch (docType) {
+    case 'resume':
+      return buildResumeLocalFallback(form);
+    case 'cover_letter':
+      return buildCoverLetterLocalFallback(form);
+    case 'thank_you':
+      return buildThankYouLocalFallback(form);
+    case 'resignation':
+      return buildResignationLocalFallback(form);
+    default:
+      return emptyDocPack(docType);
+  }
+};
+
 const readLocalVersions = (userId, docType) => {
   try {
     const key = `careerDocs:${userId || 'guest'}:${docType}`;
@@ -498,8 +797,12 @@ const DocTool = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+      if (!res.ok) throw new Error('Document generation failed');
       const data = await res.json();
-      const pack = { ...emptyDocPack(docType), ...data };
+      let pack = { ...emptyDocPack(docType), ...data };
+      if (isDocPackEmpty(pack)) {
+        pack = buildLocalFallbackDocPack(form, docType);
+      }
       pack.fullText = buildFullTextFromSections(pack.sections || []);
       setDocPack(pack);
       const entry = createVersionEntry(pack);
@@ -507,7 +810,8 @@ const DocTool = ({
       setVersions(nextVersions);
       writeLocalVersions(userId, docType, nextVersions);
     } catch {
-      const fallback = emptyDocPack(docType);
+      const fallback = buildLocalFallbackDocPack(form, docType);
+      fallback.fullText = buildFullTextFromSections(fallback.sections || []);
       setDocPack(fallback);
     }
   };
@@ -745,6 +1049,7 @@ const ResumeWizard = ({ apiBase, userId, onBack }) => (
       projects: [{ name: '', description: '', bullets: [] }],
       volunteer: [{ org: '', role: '', dates: '', bullets: [] }],
       skills: [],
+      skillsText: '',
       certifications: [],
       tone: 'professional',
       template: 'skills_based',
@@ -843,18 +1148,19 @@ const ResumeWizard = ({ apiBase, userId, onBack }) => (
           <label className="text-sm font-semibold">
             Skills (comma separated)
           </label>
-          <input
+          <textarea
             className="w-full p-2 border rounded-md"
-            value={form.skills.join(', ')}
-            onChange={(e) =>
-              updateForm({
-                skills: e.target.value
-                  .split(',')
-                  .map((s) => s.trim())
-                  .filter(Boolean),
-              })
-            }
-            placeholder="Example: Customer service, POS, Teamwork"
+            value={form.skillsText || form.skills.join(', ')}
+            onChange={(e) => {
+              const raw = e.target.value;
+              const parsed = raw
+                .split(/,|\n/)
+                .map((s) => s.trim())
+                .filter(Boolean);
+              updateForm({ skillsText: raw, skills: parsed });
+            }}
+            placeholder="Example: Customer service, POS systems, Teamwork"
+            rows={2}
           />
         </div>
         <div>
@@ -937,6 +1243,22 @@ const ResumeWizard = ({ apiBase, userId, onBack }) => (
               updateForm({ experience: next });
             }}
             placeholder="Dates (e.g., Jun 2023 – Aug 2024)"
+          />
+          <input
+            className="w-full p-2 border rounded-md mt-2"
+            value={form.experience[0]?.duties?.join(', ') || ''}
+            onChange={(e) => {
+              const next = [...form.experience];
+              next[0] = {
+                ...next[0],
+                duties: e.target.value
+                  .split(',')
+                  .map((s) => s.trim())
+                  .filter(Boolean),
+              };
+              updateForm({ experience: next });
+            }}
+            placeholder="Responsibilities (comma separated)"
           />
           <input
             className="w-full p-2 border rounded-md mt-2"
