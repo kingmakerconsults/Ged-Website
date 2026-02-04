@@ -780,7 +780,9 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
         (typeof localStorage !== 'undefined' &&
           localStorage.getItem('appToken')) ||
         null;
-      const response = await fetch(`${window.API_BASE_URL}/api/essay/score`, {
+      const primaryUrl = `${window.API_BASE_URL}/api/essay/score`;
+      const fallbackUrl = `${window.API_BASE_URL}/score-essay`;
+      const response = await fetch(primaryUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -788,8 +790,22 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
         },
         body: JSON.stringify({ essayText, completion: '5/5' }),
       });
-      if (!response.ok) throw new Error('Failed to score essay.');
-      const result = await response.json();
+      let result = null;
+      if (response.ok) {
+        result = await response.json();
+      } else if (response.status === 401 || response.status === 403) {
+        const fallbackResponse = await fetch(fallbackUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ essayText, completion: '5/5' }),
+        });
+        if (!fallbackResponse.ok) {
+          throw new Error('Failed to score essay.');
+        }
+        result = await fallbackResponse.json();
+      } else {
+        throw new Error('Failed to score essay.');
+      }
 
       let parsedScore = null;
       if (

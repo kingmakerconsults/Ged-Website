@@ -36210,7 +36210,9 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
         (typeof localStorage !== 'undefined' &&
           localStorage.getItem('appToken')) ||
         null;
-      const response = await fetch(`${API_BASE_URL}/api/essay/score`, {
+      const primaryUrl = `${API_BASE_URL}/api/essay/score`;
+      const fallbackUrl = `${API_BASE_URL}/score-essay`;
+      const response = await fetch(primaryUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36218,8 +36220,22 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
         },
         body: JSON.stringify({ essayText, completion: '5/5' }),
       });
-      if (!response.ok) throw new Error('Failed to score essay.');
-      const result = await response.json();
+      let result = null;
+      if (response.ok) {
+        result = await response.json();
+      } else if (response.status === 401 || response.status === 403) {
+        const fallbackResponse = await fetch(fallbackUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ essayText, completion: '5/5' }),
+        });
+        if (!fallbackResponse.ok) {
+          throw new Error('Failed to score essay.');
+        }
+        result = await fallbackResponse.json();
+      } else {
+        throw new Error('Failed to score essay.');
+      }
       // Accept both normalized and raw Google response formats
       let parsedScore = null;
       if (
@@ -39378,6 +39394,42 @@ function EssayGuide({ onExit }) {
                 situation. This shows a pattern of results.
               </p>
             </div>
+            <div className="p-6 rounded-lg bg-green-50 border border-green-200">
+              <h4 className="text-xl font-bold mb-2 text-green-800">
+                Specific Examples
+              </h4>
+              <p className="text-gray-700">
+                Citing concrete, real-world cases that clearly illustrate how
+                the claim works in practice.
+              </p>
+            </div>
+            <div className="p-6 rounded-lg bg-green-50 border border-green-200">
+              <h4 className="text-xl font-bold mb-2 text-green-800">
+                Clear Organization
+              </h4>
+              <p className="text-gray-700">
+                Using logical structure and transitions that make the argument
+                easy to follow from point to point.
+              </p>
+            </div>
+            <div className="p-6 rounded-lg bg-green-50 border border-green-200">
+              <h4 className="text-xl font-bold mb-2 text-green-800">
+                Counterargument Rebuttal
+              </h4>
+              <p className="text-gray-700">
+                Addressing the opposing view and explaining why it is less
+                convincing than the author’s position.
+              </p>
+            </div>
+            <div className="p-6 rounded-lg bg-green-50 border border-green-200">
+              <h4 className="text-xl font-bold mb-2 text-green-800">
+                Reliable Sources
+              </h4>
+              <p className="text-gray-700">
+                Referencing reputable institutions, studies, or reports that can
+                be verified and trusted.
+              </p>
+            </div>
           </div>
         );
       case 'weaknesses':
@@ -39417,6 +39469,42 @@ function EssayGuide({ onExit }) {
               <p className="text-gray-700">
                 Trying to persuade the reader by appealing to their feelings
                 (fear, pity, anger) instead of using logic and facts.
+              </p>
+            </div>
+            <div className="p-6 rounded-lg bg-red-50 border border-red-200">
+              <h4 className="text-xl font-bold mb-2 text-red-800">
+                Cherry-Picked Evidence
+              </h4>
+              <p className="text-gray-700">
+                Selecting only evidence that supports the claim while ignoring
+                important information that challenges it.
+              </p>
+            </div>
+            <div className="p-6 rounded-lg bg-red-50 border border-red-200">
+              <h4 className="text-xl font-bold mb-2 text-red-800">
+                False Cause
+              </h4>
+              <p className="text-gray-700">
+                Assuming that because two things occur together, one caused the
+                other without sufficient proof.
+              </p>
+            </div>
+            <div className="p-6 rounded-lg bg-red-50 border border-red-200">
+              <h4 className="text-xl font-bold mb-2 text-red-800">
+                False Dilemma
+              </h4>
+              <p className="text-gray-700">
+                Presenting only two extreme choices when other reasonable
+                options exist.
+              </p>
+            </div>
+            <div className="p-6 rounded-lg bg-red-50 border border-red-200">
+              <h4 className="text-xl font-bold mb-2 text-red-800">
+                Loaded Language
+              </h4>
+              <p className="text-gray-700">
+                Using biased or emotionally charged wording to sway the reader
+                instead of providing solid evidence.
               </p>
             </div>
           </div>
