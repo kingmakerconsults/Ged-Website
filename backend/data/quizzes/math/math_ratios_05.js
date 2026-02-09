@@ -250,7 +250,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Set up a proportion of height to shadow length: \\(\\(\frac{6}{4}\\) = \\(\frac{9}{x}\\). Cross-multiply: \\(6x = 36\\). Divide by 6: \\(x = 6 feet.\\)',
+      'Set up a proportion of height to shadow length: \\(\\frac{6}{4} = \\frac{9}{x}\\). Cross-multiply: \\(6x = 36\\). Divide by 6: \\(x = 6\\) feet.',
     challenge_tags: ['math-1'],
   },
   {
@@ -259,18 +259,18 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'You get a 15% commission on all sales. If you want to earn \\(600 in commission, how much must you sell?',
+      'You get a 15% commission on all sales. If you want to earn \\(600\\) in commission, how much must you sell?',
     answerOptions: [
       {
         text: '90',
         isCorrect: false,
-        rationale: 'This is 15% of \\(600.\\)',
+        rationale: 'This is 15% of \\(600\\).',
       },
       {
         text: '4000',
         isCorrect: true,
         rationale:
-          'Let S be the total sales. 0.15 * S = \\)600. S = \\(600 / 0.15 = \\)4000.',
+          'Let S be the total sales. 0.15 * S = \\(600\\). S = \\(600 / 0.15 = 4000\\).',
       },
       {
         text: '6000',

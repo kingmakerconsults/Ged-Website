@@ -175,7 +175,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'What is the domain of the function \\(f(x) = \\(\sqrt{x-2}\\)?',
+    question: 'What is the domain of the function \\(f(x) = \\sqrt{x-2}\\)?',
     answerOptions: [
       {
         text: 'x > 2',
@@ -187,7 +187,7 @@ module.exports = [
         text: '\\(x\\geq2\\)',
         isCorrect: true,
         rationale:
-          'The expression under a square root must be non-negative. So, x - \\(2\\geq0\\), which means \\(x\\geq2\\).',
+          'The expression under a square root must be non-negative. So, \\(x-2 \\geq 0\\), which means \\(x\\geq2\\).',
       },
       {
         text: 'All real numbers',
@@ -213,7 +213,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'Find the value of \\(f(g(2)) when f(x) = 3x and g(x) = x + 5\\).',
+      'Find the value of \\(f(g(2))\\) when \\(f(x) = 3x\\) and \\(g(x) = x + 5\\).',
     correctAnswer: '21',
     rationale:
       'First, find g(2): g(2) = 2 + 5 = 7. Then, find f(7): f(7) = 3 * 7 = 21.',
@@ -258,7 +258,8 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'Which of the following describes the graph of \\(y = x^2 - 1\\)?',
+    question:
+      'Which of the following describes the graph of \\(y = x^2 - 1\\)?',
     answerOptions: [
       {
         text: 'A line that passes through the origin.',
@@ -274,7 +275,8 @@ module.exports = [
       {
         text: 'A parabola that opens downward with its vertex at (0, 1).',
         isCorrect: false,
-        rationale: 'The coefficient of \\(x^2 is positive, so it opens upward.\\)',
+        rationale:
+          'The coefficient of \\(x^2 is positive, so it opens upward.\\)',
       },
       {
         text: 'A circle with a radius of 1.',

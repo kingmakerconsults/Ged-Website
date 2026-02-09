@@ -127,7 +127,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'If a function is defined by \\(f(x) = x^2 - 4x + 3, what is its y-intercept\\)?',
+      'If a function is defined by \\(f(x) = x^2 - 4x + 3\\), what is its y-intercept?',
     answerOptions: [
       {
         text: '(0, 3)',

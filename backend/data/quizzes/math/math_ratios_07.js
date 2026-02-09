@@ -30,7 +30,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The ratio of boys to girls is 16 to 14. To simplify, find the greatest common divisor, which is 2. Divide both parts of the ratio by 2: \\(\\(\frac{16}{2}\\) = 8 and \\(\\(\frac{14}{2}\\) = 7. The simplified ratio is 8:7.',
+      'The ratio of boys to girls is 16 to 14. To simplify, find the greatest common divisor, which is 2. Divide both parts of the ratio by 2: \\(\\frac{16}{2} = 8\\) and \\(\\frac{14}{2} = 7\\). The simplified ratio is 8:7.',
     challenge_tags: ['math-1'],
   },
   {
@@ -40,10 +40,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A dinner bill is \\(85. You want to leave an 18% tip. How much is the tip?',
+      'A dinner bill is \\(85\\). You want to leave an 18% tip. How much is the tip?',
     correctAnswer: '15.30',
     rationale:
-      'To find the tip amount, convert the percentage to a decimal and multiply by the bill: 0.18 * \\)85 = \\(15.30.',
+      'To find the tip amount, convert the percentage to a decimal and multiply by the bill: 0.18 * \\(85\\) = \\(15.30\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -86,7 +86,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Solve for y: \\(\\(\frac{5}{2}\\) = \\(\frac{y}{10}\\).',
+    question: 'Solve for y: \\(\\frac{5}{2} = \\frac{y}{10}\\).',
     correctAnswer: '25',
     rationale:
       'To get from 2 to 10 in the denominator, you multiply by 5. So, multiply the numerator by 5 as well: 5 * 5 = 25.',

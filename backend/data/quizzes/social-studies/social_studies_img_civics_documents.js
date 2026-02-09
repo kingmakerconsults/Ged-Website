@@ -1,76 +1,82 @@
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/unclassified_0021.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0021.png",
-    "content": {
-      "passage": "Alt text: A New York State voter registration form with various fields for personal information and eligibility.\n\nDescription: This image displays a blank New York State voter registration form. It is structured with multiple sections for personal details like name, address, date of birth, and citizenship status, alongside options for party affiliation. The form also includes an affi…\n\nText in image: Yes, I need an application for an Absentee ballot, Please print or type in blue or black ink, Are you a U.S. citizen?, Choose a Party — Check one box only, AFFIDAVIT: I swear or affirm that, For Board use only!",
-      "imageURL": "/images/Social%20Studies/unclassified_0021.png",
-      "questionText": "Which term or label appears in the visual?"
+    questionNumber: 1,
+    type: 'multiple-choice-text',
+    difficulty: 'easy',
+    imageUrl: '/images/Social%20Studies/unclassified_0021.png',
+    imageURL: '/images/Social%20Studies/unclassified_0021.png',
+    content: {
+      passage:
+        'Alt text: Map showing U.S. territories in 1838 with Iowa Territory highlighted.\n\nDescription: This historical map depicts the United States and its territories on July 3, 1838. Iowa Territory is shaded and outlined, showing that it was organized from the western half of Wisconsin Territory. The map includes labels for Iowa Territory and Wisconsin Territory.\n\nText in image: Iowa Territory, Wisconsin Territory, July 3, 1838.',
+      imageURL: '/images/Social%20Studies/unclassified_0021.png',
+      questionText: 'Which territory is highlighted on the map?',
     },
-    "answerOptions": [
+    answerOptions: [
       {
-        "text": "Social Studies",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
-        "isCorrect": true
+        text: 'Iowa Territory',
+        rationale:
+          'Correct. Iowa Territory is the shaded area shown on the map.',
+        isCorrect: true,
       },
       {
-        "text": "men gathering",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
+        text: 'Wisconsin Territory',
+        rationale:
+          'Incorrect. Wisconsin Territory appears on the map but is not the shaded territory.',
+        isCorrect: false,
       },
       {
-        "text": "government organization",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
+        text: 'Arkansas Territory',
+        rationale: 'Incorrect. Arkansas Territory is not the highlighted area.',
+        isCorrect: false,
       },
       {
-        "text": "1861: Mississippi secedes from the United States.",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      }
+        text: 'Missouri Territory',
+        rationale:
+          'Incorrect. Missouri Territory is not shown as the highlighted territory.',
+        isCorrect: false,
+      },
     ],
-    "challenge_tags": [
-      "social:3"
-    ]
+    challenge_tags: ['social:3'],
   },
   {
-    "questionNumber": 2,
-    "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/unclassified_0021.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0021.png",
-    "content": {
-      "passage": "Alt text: A New York State voter registration form with various fields for personal information and eligibility.\n\nDescription: This image displays a blank New York State voter registration form. It is structured with multiple sections for personal details like name, address, date of birth, and citizenship status, alongside options for party affiliation. The form also includes an affi…\n\nText in image: Yes, I need an application for an Absentee ballot, Please print or type in blue or black ink, Are you a U.S. citizen?, Choose a Party — Check one box only, AFFIDAVIT: I swear or affirm that, For Board use only!",
-      "imageURL": "/images/Social%20Studies/unclassified_0021.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+    questionNumber: 2,
+    type: 'multiple-choice-text',
+    difficulty: 'hard',
+    imageUrl: '/images/Social%20Studies/unclassified_0021.png',
+    imageURL: '/images/Social%20Studies/unclassified_0021.png',
+    content: {
+      passage:
+        'Alt text: Map showing U.S. territories in 1838 with Iowa Territory highlighted.\n\nDescription: This historical map depicts the United States and its territories on July 3, 1838. Iowa Territory is shaded and outlined, showing that it was organized from the western half of Wisconsin Territory. The map includes labels for Iowa Territory and Wisconsin Territory.\n\nText in image: Iowa Territory, Wisconsin Territory, July 3, 1838.',
+      imageURL: '/images/Social%20Studies/unclassified_0021.png',
+      questionText:
+        'According to the map, Iowa Territory was organized from the western half of which territory?',
     },
-    "answerOptions": [
+    answerOptions: [
       {
-        "text": "dual axis and I need an application for an Absentee ballot",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
+        text: 'Wisconsin Territory',
+        rationale:
+          'Correct. The map states Iowa Territory was organized from the western half of Wisconsin Territory.',
+        isCorrect: true,
       },
       {
-        "text": "Yes and I need an application for an Absentee ballot",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
-        "isCorrect": true
+        text: 'Minnesota Territory',
+        rationale:
+          'Incorrect. Minnesota Territory is not identified as the source territory on this map.',
+        isCorrect: false,
       },
       {
-        "text": "Yes and Yukon River",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
+        text: 'Louisiana Territory',
+        rationale:
+          'Incorrect. Louisiana Territory is not shown as the source territory.',
+        isCorrect: false,
       },
       {
-        "text": "Webster-Ashburton Treaty and Yukon River",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      }
+        text: 'Kansas Territory',
+        rationale:
+          'Incorrect. Kansas Territory is not the source territory on this map.',
+        isCorrect: false,
+      },
     ],
-    "challenge_tags": [
-      "social:3"
-    ]
-  }
+    challenge_tags: ['social:3'],
+  },
 ];

@@ -36,10 +36,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'What is \\(\\(\frac{2}{5}\\) of 40?\\)',
+    question: 'What is \\(\\frac{2}{5}\\) of 40?',
     correctAnswer: '16',
     rationale:
-      'To find the fraction of a number, multiply the number by the fraction. (\\(\\(\frac{2}{5}\\)) * 40 = \\(\\(\frac{80}{5}\\) = 16.',
+      'To find the fraction of a number, multiply the number by the fraction. (\\(\\frac{2}{5}\\) * 40 = \\(\\frac{80}{5}\\) = 16.)',
     challenge_tags: ['math-1'],
   },
   {
@@ -48,7 +48,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'The price of a concert ticket is \\(110. A 10% service fee is added. What is the total cost?',
+      'The price of a concert ticket is \\(110\\). A 10% service fee is added. What is the total cost?',
     answerOptions: [
       {
         text: '11',
@@ -59,7 +59,7 @@ module.exports = [
         text: '\\(121\\)',
         isCorrect: true,
         rationale:
-          'The fee is 0.10 * \\)110 = \\(11. Total cost = \\)110 + \\(11 = 121.',
+          'The fee is 0.10 * \\(110\\) = \\(11\\). Total cost = \\(110 + 11 = 121\\).',
       },
       {
         text: '\\(120\\)',
@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the service fee: 10% of \\)110 is 0.10 * 110 = \\(11. Then, add this to the ticket price: \\)110 + \\(11 = \\)121.',
+      'First, calculate the service fee: 10% of \\(110\\) is 0.10 * 110 = \\(11\\). Then, add this to the ticket price: \\(110 + 11 = 121\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -82,7 +82,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Evaluate: \\(2 \\(\times\\) (3+4)^2\\).',
+    question: 'Evaluate: \\(2 \\times (3+4)^2\\).',
     correctAnswer: '98',
     rationale:
       'Order of operations: Parentheses (3+4=7), Exponents (\\(7^2\\)=49), Multiplication (2*49=98).',
@@ -136,7 +136,8 @@ module.exports = [
       {
         text: '20%',
         isCorrect: true,
-        rationale: 'The increase was \\(60,000. (60,000 / 300,000) * 100 = 20%.\\)',
+        rationale:
+          'The increase was \\(60,000. (60,000 / 300,000) * 100 = 20%.\\)',
       },
       {
         text: '25%',

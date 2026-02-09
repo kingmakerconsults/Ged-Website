@@ -20,6 +20,12 @@ export function AuthScreen({ onLogin }) {
   const googleButton = useRef(null);
   const [devRole, setDevRole] = useState('superAdmin');
   const [devSubmitting, setDevSubmitting] = useState(false);
+  const [authMode, setAuthMode] = useState('login');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [authSubmitting, setAuthSubmitting] = useState(false);
+  const [authError, setAuthError] = useState('');
 
   // Dev login handler
   const handleDevLogin = async () => {
@@ -108,6 +114,56 @@ export function AuthScreen({ onLogin }) {
     };
   }, [handleCredentialResponse]);
 
+  const handleEmailAuth = async (event) => {
+    event.preventDefault();
+    setAuthError('');
+
+    const trimmedEmail = email.trim().toLowerCase();
+    if (!trimmedEmail) {
+      setAuthError('Please enter a valid email address.');
+      return;
+    }
+    if (!password) {
+      setAuthError('Please enter a password.');
+      return;
+    }
+    if (authMode === 'register') {
+      if (password.length < 6) {
+        setAuthError('Password must be at least 6 characters.');
+        return;
+      }
+      if (password !== confirmPassword) {
+        setAuthError('Passwords do not match.');
+        return;
+      }
+    }
+
+    try {
+      setAuthSubmitting(true);
+      const endpoint = authMode === 'register' ? 'register' : 'login';
+      const res = await fetch(`${API_BASE_URL}/api/${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: trimmedEmail, password }),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.error || 'Unable to sign in');
+      }
+
+      const { user, token } = await res.json();
+      onLogin(user, token);
+    } catch (error) {
+      console.error('Email auth error:', error);
+      setAuthError(
+        error instanceof Error ? error.message : 'Unable to sign in'
+      );
+    } finally {
+      setAuthSubmitting(false);
+    }
+  };
+
   console.log('[AuthScreen] Rendering with Gmail login');
 
   return (
@@ -119,6 +175,98 @@ export function AuthScreen({ onLogin }) {
         <p className="text-black dark:text-slate-300 mb-6">
           Sign in to save your progress across devices.
         </p>
+
+        {/* Student Email Login Section */}
+        <div className="w-full mb-6 p-4 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900/40">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <button
+              type="button"
+              onClick={() => setAuthMode('login')}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+                authMode === 'login'
+                  ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
+                  : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
+              }`}
+            >
+              Student Login
+            </button>
+            <button
+              type="button"
+              onClick={() => setAuthMode('register')}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+                authMode === 'register'
+                  ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
+                  : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
+              }`}
+            >
+              Create Account
+            </button>
+          </div>
+
+          <form onSubmit={handleEmailAuth} className="space-y-3 text-left">
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+              Email
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                className="mt-1 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-slate-900 dark:text-slate-100"
+                placeholder="student@example.com"
+                autoComplete="email"
+              />
+            </label>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+              Password
+              <input
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="mt-1 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-slate-900 dark:text-slate-100"
+                placeholder="••••••••"
+                autoComplete={
+                  authMode === 'register' ? 'new-password' : 'current-password'
+                }
+              />
+            </label>
+            {authMode === 'register' && (
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                Confirm password
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                  className="mt-1 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2 text-slate-900 dark:text-slate-100"
+                  placeholder="••••••••"
+                  autoComplete="new-password"
+                />
+              </label>
+            )}
+
+            {authError && (
+              <div className="text-sm text-red-600 dark:text-red-400">
+                {authError}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={authSubmitting}
+              className="w-full rounded-lg bg-emerald-600 py-3 text-base font-bold text-white shadow hover:bg-emerald-700 disabled:opacity-60"
+            >
+              {authSubmitting
+                ? authMode === 'register'
+                  ? 'Creating account...'
+                  : 'Signing in...'
+                : authMode === 'register'
+                  ? 'Create account'
+                  : 'Sign in'}
+            </button>
+          </form>
+
+          <p className="mt-3 text-xs text-slate-500 dark:text-slate-400 text-center">
+            Students can create an account or log in with email and password.
+          </p>
+        </div>
 
         {/* Dev Login Section */}
         <div

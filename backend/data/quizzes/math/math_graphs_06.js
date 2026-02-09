@@ -126,7 +126,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A line passes through (1, -1) and is perpendicular to the line \\(y = (\\(\frac{1}{2}\\))x + 5. What is its equation?',
+      'A line passes through (1, -1) and is perpendicular to the line \\(y = \\frac{1}{2}x + 5\\). What is its equation?',
     answerOptions: [
       {
         text: '\\(y = -2x + 1\\)',
@@ -135,7 +135,7 @@ module.exports = [
           'The perpendicular slope is -2. Using y=mx+b: -1 = -2(1) + b -> -1 = -2 + b -> b=1.',
       },
       {
-        text: '\\(y = (\\(\frac{1}{2}\\))x - 1.5',
+        text: '\\(y = \\frac{1}{2}x - 1.5\\)',
         isCorrect: false,
         rationale: 'This line is parallel.',
       },
@@ -151,7 +151,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The slope of the given line is \\(\\(\frac{1}{2}\\). The slope of a perpendicular line is the negative reciprocal, which is -2. Use the point-slope form y - y1 = m(x - x1): y - (-1) = -2(x - 1). y + 1 = -2x + 2. So, y = -2x + 1.',
+      'The slope of the given line is \\(\\frac{1}{2}\\). The slope of a perpendicular line is the negative reciprocal, which is -2. Use the point-slope form y - y1 = m(x - x1): y - (-1) = -2(x - 1). y + 1 = -2x + 2. So, y = -2x + 1.',
     challenge_tags: ['math-4'],
   },
   {
