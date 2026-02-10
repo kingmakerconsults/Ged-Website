@@ -18604,10 +18604,10 @@ quizzes.push({
       calculator: true,
       difficulty: 'medium',
       question:
-        'A dinner bill is $85. You want to leave an 18% tip. How much is the tip?',
-      correctAnswer: '$15.30',
+        'A dinner bill is \\$85. You want to leave an 18% tip. How much is the tip?',
+      correctAnswer: '\\$15.30',
       rationale:
-        'To find the tip amount, convert the percentage to a decimal and multiply by the bill: 0.18 * $85 = $15.30.',
+        'To find the tip amount, convert the percentage to a decimal and multiply by the bill: 0.18 * 85 = 15.30.',
     },
     {
       questionNumber: 3,

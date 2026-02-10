@@ -85,10 +85,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'Convert the improper fraction \\(\\(\frac{11}{4}\\) to a mixed number.\\)',
-    correctAnswer: '2 \\(\frac{3}{4}\\)',
+      'Convert the improper fraction \\(\\frac{11}{4}\\) to a mixed number.',
+    correctAnswer: '2 \\(\\frac{3}{4}\\)',
     rationale:
-      'Divide 11 by 4. It goes in 2 times (2 * 4 = 8) with a remainder of 3. So the mixed number is 2 \\(\\(\frac{3}{4}\\).',
+      'Divide 11 by 4. It goes in 2 times (2 * 4 = 8) with a remainder of 3. So the mixed number is 2 \\(\\frac{3}{4}\\).',
     challenge_tags: ['math-1'],
   },
   {

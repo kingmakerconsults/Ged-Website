@@ -194,23 +194,23 @@ module.exports = [
     question: 'What is 0.75 expressed as a fraction in simplest form?',
     answerOptions: [
       {
-        text: '\\(\\(\frac{75}{100}\\)',
+        text: '\\(\\frac{75}{100}\\)',
         isCorrect: false,
         rationale: 'This is correct but not in simplest form.',
       },
       {
-        text: '\\(\\(\frac{3}{4}\\)',
+        text: '\\(\\frac{3}{4}\\)',
         isCorrect: true,
         rationale:
-          '\\(0.75 is \\(\frac{75}{100}\\), which simplifies to \\(\\(\frac{3}{4}\\) by dividing both numerator and denominator by 25.\\)',
+          '0.75 is \\(\\frac{75}{100}\\), which simplifies to \\(\\frac{3}{4}\\) by dividing both numerator and denominator by 25.',
       },
       {
-        text: '\\(\\(\frac{1}{2}\\)',
+        text: '\\(\\frac{1}{2}\\)',
         isCorrect: false,
-        rationale: '\\(\\(\frac{1}{2}\\) is 0.50.\\)',
+        rationale: '\\(\\frac{1}{2}\\) is 0.50.',
       },
       {
-        text: '\\(\\(\frac{4}{3}\\)',
+        text: '\\(\\frac{4}{3}\\)',
         isCorrect: false,
         rationale: 'This is the reciprocal of the correct answer.',
       },
@@ -221,7 +221,7 @@ module.exports = [
     questionNumber: 8,
     calculator: true,
     question:
-      'The temperature was \\(-5�F in the morning and rose to \\(12�F in the afternoon. How many degrees did the temperature increase?\\)\\)',
+      'The temperature was -5°F in the morning and rose to 12°F in the afternoon. How many degrees did the temperature increase?',
     answerOptions: [
       {
         text: '7 degrees',
@@ -231,7 +231,7 @@ module.exports = [
       {
         text: '17 degrees',
         isCorrect: true,
-        rationale: 'The increase is \\(12 - (-5) = 12 + 5 = 17 degrees.\\)',
+        rationale: 'The increase is \\(12 - (-5) = 12 + 5 = 17\\) degrees.',
       },
       {
         text: '-17 degrees',

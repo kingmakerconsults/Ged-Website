@@ -38,9 +38,9 @@ module.exports = [
     calculator: true,
     difficulty: 'easy',
     question: 'Convert 0.45 to a fraction in simplest form.',
-    correctAnswer: '\\(\\(\frac{9}{20}\\)',
+    correctAnswer: '\\(\\frac{9}{20}\\)',
     rationale:
-      '0.45 is \\(\\(\frac{45}{100}\\). Both numbers are divisible by 5. \\(\\(\frac{45}{5}\\) = 9 and \\(\\(\frac{100}{5}\\) = 20. So, the fraction is \\(\\(\frac{9}{20}\\).',
+      '0.45 is \\(\\frac{45}{100}\\). Both numbers are divisible by 5. \\(\\frac{45}{5} = 9\\) and \\(\\frac{100}{5} = 20\\). So, the fraction is \\(\\frac{9}{20}\\).',
     challenge_tags: ['math-1'],
   },
   {

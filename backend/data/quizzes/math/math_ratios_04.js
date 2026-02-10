@@ -214,10 +214,10 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve the proportion: \\(\\(\frac{6}{x}\\) = \\(\frac{18}{24}\\)',
+    question: 'Solve the proportion: \\(\\frac{6}{x} = \\frac{18}{24}\\).',
     correctAnswer: '8',
     rationale:
-      'Simplify the fraction \\(\\(\frac{18}{24}\\)\\( to \\)\\(\frac{3}{4}\\)\\(. So, 6/x = \\)\\(\frac{3}{4}\\). Cross-multiply: 3x = 24. Solve for x: x = 8.',
+      'Simplify the fraction \\(\\frac{18}{24}\\) to \\(\\frac{3}{4}\\). So, \\(\\frac{6}{x} = \\frac{3}{4}\\). Cross-multiply: 3x = 24. Solve for x: x = 8.',
     challenge_tags: ['math-1'],
   },
   {
