@@ -126,7 +126,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "A company's profits increased from \\(300,000 to  360,000. What was the percent increase?\\)",
+      "A company's profits increased from $300,000 to $360,000. What was the percent increase?",
     answerOptions: [
       {
         text: '15%',
@@ -137,7 +137,7 @@ module.exports = [
         text: '20%',
         isCorrect: true,
         rationale:
-          'The increase was \\(60,000. (60,000 / 300,000) * 100 = 20%.\\)',
+          'The increase was 60,000. \\(\\frac{60,000}{300,000} \\times 100 = 20\\%\\).',
       },
       {
         text: '25%',
@@ -217,23 +217,23 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'What is the result of \\(\\(\frac{3}{4}\\) + \\(\frac{1}{8}\\)?',
+    question: 'What is the result of \\(\\frac{3}{4} + \\frac{1}{8}\\)?',
     answerOptions: [
       {
-        text: '\\(\\(\frac{1}{2}\\)',
+        text: '\\(\\frac{1}{2}\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '\\(\\(\frac{5}{8}\\)',
+        text: '\\(\\frac{5}{8}\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
       {
-        text: '\\(\\(\frac{7}{8}\\)',
+        text: '\\(\\frac{7}{8}\\)',
         isCorrect: true,
         rationale:
-          'The common denominator is 8. \\(\\(\frac{3}{4}\\)\\( = \\)\\(\frac{6}{8}\\)\\(. \\)\\(\frac{6}{8}\\)\\( + \\)\\(\frac{1}{8}\\)\\( = \\)\\(\frac{7}{8}\\).',
+          'The common denominator is 8. \\(\\frac{3}{4} = \\frac{6}{8}\\), and \\(\\frac{6}{8} + \\frac{1}{8} = \\frac{7}{8}\\).',
       },
       {
         text: '1',
@@ -242,7 +242,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To add the fractions, find a common denominator, which is 8. Convert \\(\\(\frac{3}{4}\\)\\( to \\)\\(\frac{6}{8}\\)\\(. Then add: \\)\\(\frac{6}{8}\\) + \\(\frac{1}{8}\\) = \\(\frac{7}{8}\\).',
+      'To add the fractions, find a common denominator, which is 8. Convert \\(\\frac{3}{4}\\) to \\(\\frac{6}{8}\\). Then add: \\(\\frac{6}{8} + \\frac{1}{8} = \\frac{7}{8}\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -275,7 +275,7 @@ module.exports = [
       },
     ],
     rationale:
-      'This is a compound interest problem. After year 1, the balance is \\(4000 * 1.05 =  4200. After year 2, the balance is \\(4200 * 1.05 =  4410.\\)\\)',
+      'This is a compound interest problem. After year 1, the balance is \\(4000 \\times 1.05 = 4200\\). After year 2, the balance is \\(4200 \\times 1.05 = 4410\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -283,7 +283,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Evaluate: \\(|-3| \\(\times\\) |4 - 9|\\).',
+    question: 'Evaluate: \\(|-3| \\times |4 - 9|\\).',
     answerOptions: [
       {
         text: '-15',

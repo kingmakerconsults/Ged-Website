@@ -19,13 +19,56 @@ export const GED_PASSING_SCORE = 145;
 // In-memory catalog for premade quizzes, populated when quiz data is loaded
 export const PREMADE_QUIZ_CATALOG = {};
 
+function isAvailableQuiz(quiz) {
+  if (!quiz || typeof quiz !== 'object') return false;
+  if (Array.isArray(quiz.questions)) return quiz.questions.length > 0;
+  return true;
+}
+
+function countAvailableQuizzes(subjectData) {
+  if (!subjectData) return 0;
+  if (Array.isArray(subjectData)) {
+    return subjectData.reduce(
+      (acc, quiz) => acc + (isAvailableQuiz(quiz) ? 1 : 0),
+      0
+    );
+  }
+
+  let total = 0;
+  const countQuiz = (quiz) => {
+    if (isAvailableQuiz(quiz)) total += 1;
+  };
+
+  if (Array.isArray(subjectData.quizzes)) {
+    subjectData.quizzes.forEach(countQuiz);
+  }
+
+  const categories = subjectData.categories || {};
+  Object.values(categories).forEach((cat) => {
+    if (!cat) return;
+    if (Array.isArray(cat.quizzes)) {
+      cat.quizzes.forEach(countQuiz);
+    }
+    const topics = Array.isArray(cat.topics) ? cat.topics : [];
+    topics.forEach((topic) => {
+      if (!topic) return;
+      if (Array.isArray(topic.quizzes)) {
+        topic.quizzes.forEach(countQuiz);
+      }
+      if (Array.isArray(topic.questions) && topic.questions.length > 0) {
+        total += 1;
+      }
+    });
+  });
+
+  return total;
+}
+
 /**
  * Get the total number of premade quizzes available for a subject
  */
 export function getPremadeQuizTotal(subject) {
-  return Array.isArray(PREMADE_QUIZ_CATALOG[subject])
-    ? PREMADE_QUIZ_CATALOG[subject].length
-    : 0;
+  return countAvailableQuizzes(PREMADE_QUIZ_CATALOG[subject]);
 }
 
 /**
@@ -80,22 +123,22 @@ export function buildProgressFromAttempts(attempts = []) {
         typeof entry?.score === 'number'
           ? entry.score
           : Number.isFinite(Number(entry?.score))
-          ? Math.round(Number(entry.score))
-          : null,
+            ? Math.round(Number(entry.score))
+            : null,
       totalQuestions:
         typeof entry?.totalQuestions === 'number'
           ? entry.totalQuestions
           : Number.isFinite(Number(entry?.total_questions))
-          ? Math.round(Number(entry.total_questions))
-          : Number.isFinite(Number(entry?.totalQuestions))
-          ? Math.round(Number(entry.totalQuestions))
-          : null,
+            ? Math.round(Number(entry.total_questions))
+            : Number.isFinite(Number(entry?.totalQuestions))
+              ? Math.round(Number(entry.totalQuestions))
+              : null,
       scaledScore:
         typeof entry?.scaledScore === 'number'
           ? Math.round(entry.scaledScore)
           : Number.isFinite(Number(entry?.scaled_score))
-          ? Math.round(Number(entry.scaled_score))
-          : null,
+            ? Math.round(Number(entry.scaled_score))
+            : null,
       attemptedAt:
         entry?.attemptedAt || entry?.attempted_at || entry?.takenAt || null,
     };
@@ -216,15 +259,13 @@ export function assignPremadeQuizCodes(source) {
   const out = {};
   Object.entries(source).forEach(([subject, arr]) => {
     if (Array.isArray(arr)) {
-      out[subject] = arr
-        .filter(Boolean)
-        .map((item, idx) => ({
-          ...item,
-          quizCode:
-            item.quizCode ||
-            item.code ||
-            `${subject.replace(/\s+/g, '_')}_${idx}`,
-        }));
+      out[subject] = arr.filter(Boolean).map((item, idx) => ({
+        ...item,
+        quizCode:
+          item.quizCode ||
+          item.code ||
+          `${subject.replace(/\s+/g, '_')}_${idx}`,
+      }));
     }
   });
   return out;

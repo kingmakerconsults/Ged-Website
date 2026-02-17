@@ -136,11 +136,57 @@ try {
   }
 } catch {}
 
+const isAvailableQuiz = (quiz) => {
+  if (!quiz || typeof quiz !== 'object') return false;
+  if (Array.isArray(quiz.questions)) return quiz.questions.length > 0;
+  return true;
+};
+
+const countAvailableQuizzes = (subjectData) => {
+  if (!subjectData) return 0;
+  if (Array.isArray(subjectData)) {
+    return subjectData.reduce(
+      (acc, quiz) => acc + (isAvailableQuiz(quiz) ? 1 : 0),
+      0
+    );
+  }
+
+  let total = 0;
+  const countQuiz = (quiz) => {
+    if (isAvailableQuiz(quiz)) total += 1;
+  };
+
+  if (Array.isArray(subjectData.quizzes)) {
+    subjectData.quizzes.forEach(countQuiz);
+  }
+
+  const cats = subjectData.categories || {};
+  Object.values(cats).forEach((cat) => {
+    if (!cat) return;
+    if (Array.isArray(cat.quizzes)) {
+      cat.quizzes.forEach(countQuiz);
+    }
+    const topics = Array.isArray(cat.topics) ? cat.topics : [];
+    topics.forEach((topic) => {
+      if (!topic) return;
+      if (Array.isArray(topic.quizzes)) {
+        topic.quizzes.forEach(countQuiz);
+      }
+      if (Array.isArray(topic.questions) && topic.questions.length > 0) {
+        total += 1;
+      }
+    });
+  });
+
+  return total;
+};
+
 const getPremadeQuizTotal = (subject) => {
   try {
     // Prefer hydrated catalog derived from ExpandedQuizData
     const list = PREMADE_QUIZ_CATALOG?.[subject];
-    if (Array.isArray(list)) return list.length;
+    if (list) return countAvailableQuizzes(list);
+
     // Fallback: derive from AppData if available
     const src =
       typeof window !== 'undefined' && window.UnifiedQuizCatalog
@@ -149,20 +195,7 @@ const getPremadeQuizTotal = (subject) => {
           ? window.AppData
           : AppData;
     const subjectData = src?.[subject];
-    if (!subjectData) return 0;
-    let total = 0;
-    if (Array.isArray(subjectData.quizzes)) total += subjectData.quizzes.length;
-    const cats = subjectData.categories || {};
-    for (const catName of Object.keys(cats)) {
-      const topics = Array.isArray(cats[catName]?.topics)
-        ? cats[catName].topics
-        : [];
-      topics.forEach((t) => {
-        if (Array.isArray(t?.quizzes)) total += t.quizzes.length;
-        else if (Array.isArray(t?.questions)) total += 1;
-      });
-    }
-    return total;
+    return countAvailableQuizzes(subjectData);
   } catch {
     return 0;
   }

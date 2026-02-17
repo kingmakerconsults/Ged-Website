@@ -131,7 +131,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'If 5 pounds of potatoes cost \\)3.00, what is the cost of 8 pounds of potatoes?',
+      'If 5 pounds of potatoes cost $3.00, what is the cost of 8 pounds of potatoes?',
     answerOptions: [
       {
         text: '0.60',
@@ -142,7 +142,7 @@ module.exports = [
         text: '\\(4.80\\)',
         isCorrect: true,
         rationale:
-          'The cost per pound is \\(3.\\(\frac{00}{5}\\) = \\)0.60. So, 8 pounds cost 8 * \\(0.60 = 4.80.',
+          'The cost per pound is \\(3.00 \\div 5 = 0.60\\). So, 8 pounds cost \\(8 \\times 0.60 = 4.80\\).',
       },
       {
         text: '5.00',
@@ -156,7 +156,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, find the price per pound: \\)3.00 / 5 pounds = 0.60 per pound. Then, multiply by the desired weight: \\(0.60 * 8 = 4.80.',
+      'First, find the price per pound: \\(3.00 \\div 5 = 0.60\\) per pound. Then multiply by the desired weight: \\(0.60 \\times 8 = 4.80\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -177,7 +177,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Solve the proportion: \\(\\(\frac{4}{5}\\) = \\(\frac{20}{x}\\).',
+    question: 'Solve the proportion: \\(\\frac{4}{5} = \\frac{20}{x}\\).',
     answerOptions: [
       {
         text: '16',
@@ -215,7 +215,7 @@ module.exports = [
       'The ratio of teachers to students in a school is 1:25. If there are 20 teachers, how many students are there?',
     correctAnswer: '500 students',
     rationale:
-      'Set up the proportion \\(\\(\frac{1}{25}\\) = 20/x. Cross-multiply to find x = 20 * 25 = 500.',
+      'Set up the proportion \\(\\frac{1}{25} = \\frac{20}{x}\\). Cross-multiply to find \\(x = 20 \\times 25 = 500\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -273,7 +273,7 @@ module.exports = [
         text: '108°',
         isCorrect: true,
         rationale:
-          'The total ratio parts is 5. \\(\\(\frac{180}{5}\\) = 36. The larger angle is 3 * 36 = 108.',
+          'The total ratio parts is 5. \\(\\frac{180}{5} = 36\\). The larger angle is \\(3 \\times 36 = 108\\).',
       },
       {
         text: '180°',
@@ -301,7 +301,7 @@ module.exports = [
       {
         text: '15/hour',
         isCorrect: true,
-        rationale: 'Wage = \\(120 / 8 hours =  15/hour.\\)',
+        rationale: 'Wage = \\(120 \\div 8 = 15\\) per hour.',
       },
       {
         text: '\\(20/hour\\)',

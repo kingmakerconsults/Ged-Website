@@ -288,21 +288,21 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Find the sum of \\(\\(\frac{1}{4}\\) and \\(\frac{2}{3}\\).',
+    question: 'Find the sum of \\(\\frac{1}{4}\\) and \\(\\frac{2}{3}\\).',
     answerOptions: [
       {
-        text: '\\(\\(\frac{3}{7}\\)',
+        text: '\\(\\frac{3}{7}\\)',
         isCorrect: false,
         rationale: 'This is the result of adding numerators and denominators.',
       },
       {
-        text: '\\(\\(\frac{11}{12}\\)',
+        text: '\\(\\frac{11}{12}\\)',
         isCorrect: true,
         rationale:
-          'The common denominator is 12. The sum is \\(\\(\frac{3}{12}\\) + \\(\\(\frac{8}{12}\\) = \\(\\(\frac{11}{12}\\).',
+          'The common denominator is 12. The sum is \\(\\frac{3}{12} + \\frac{8}{12} = \\frac{11}{12}\\).',
       },
       {
-        text: '\\(\\(\frac{1}{2}\\)',
+        text: '\\(\\frac{1}{2}\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -313,7 +313,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To add these fractions, find a common denominator, which is 12. Convert the fractions: \\(\\(\frac{1}{4}\\) = \\(\frac{3}{12} and \\(\frac{2}{3}\\) = \\(\frac{8}{12}\\). Now add them: \\(\\(\frac{3}{12}\\) + \\(\frac{8}{12}\\) = \\(\frac{11}{12}\\).',
+      'To add these fractions, find a common denominator, which is 12. Convert the fractions: \\(\\frac{1}{4} = \\frac{3}{12}\\) and \\(\\frac{2}{3} = \\frac{8}{12}\\). Now add them: \\(\\frac{3}{12} + \\frac{8}{12} = \\frac{11}{12}\\).',
     challenge_tags: ['math-1'],
   },
 ];

@@ -14,12 +14,12 @@ module.exports = [
       {
         text: '2',
         isCorrect: false,
-        rationale: 'This is \\(\\(\frac{40}{20}\\).',
+        rationale: 'This is \\(\\frac{40}{20}\\).',
       },
       {
         text: '200',
         isCorrect: false,
-        rationale: 'This is \\(\\(\frac{400}{2}\\).',
+        rationale: 'This is \\(\\frac{400}{2}\\).',
       },
       {
         text: '8000',
@@ -37,7 +37,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'What is the result of \\(1.5 \\(\times\\) 4?\\)',
+    question: 'What is the result of \\(1.5 \\times 4\\)?',
     correctAnswer: '6',
     rationale:
       '1.5 multiplied by 4 is the same as adding 1.5 four times: 1.5 + 1.5 + 1.5 + 1.5 = 6.',
@@ -49,32 +49,32 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A concert ticket costs \\(80. A processing fee of 5% is added to the price. What is the total cost?',
+      'A concert ticket costs $80. A processing fee of 5% is added to the price. What is the total cost?',
     answerOptions: [
       {
-        text: '84',
+        text: '$84',
         isCorrect: true,
         rationale:
-          'The fee is 0.05 * \\)80 = \\(4. Total cost = \\)80 + \\(4 = \\)84.',
+          'The fee is \\(0.05 \\times 80 = 4\\). Total cost is \\(80 + 4 = 84\\).',
       },
       {
-        text: '85',
+        text: '$85',
         isCorrect: false,
         rationale: 'This would be a 6.25% fee.',
       },
       {
-        text: '\\(4\\)',
+        text: '$4',
         isCorrect: false,
         rationale: 'This is the fee amount, not the total cost.',
       },
       {
-        text: '76',
+        text: '$76',
         isCorrect: false,
         rationale: 'This is the result of subtracting the fee.',
       },
     ],
     rationale:
-      'First, calculate the processing fee: 5% of \\(80 is 0.05 * 80 = \\)4. Then, add this fee to the ticket price: \\(80 + \\)4 = $84.',
+      'First, calculate the processing fee: 5% of $80 is \\(0.05 \\times 80 = 4\\). Then add this fee to the ticket price: \\(80 + 4 = 84\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -234,7 +234,7 @@ module.exports = [
       {
         text: '10000',
         isCorrect: true,
-        rationale: '\\(10^4 is 1 followed by 4 zeros.\\)',
+        rationale: '\\(10^4\\) is 1 followed by 4 zeros.',
       },
       {
         text: '100000',
@@ -257,7 +257,8 @@ module.exports = [
       {
         text: '10%',
         isCorrect: true,
-        rationale: 'The decrease is 15 lbs. (\\(\\(\frac{15}{150}\\))*100 = 10%.',
+        rationale:
+          'The decrease is 15 lbs. \\(\\frac{15}{150} \\times 100 = 10\\%\\).',
       },
       {
         text: '15%',
@@ -267,12 +268,12 @@ module.exports = [
       {
         text: '11.1%',
         isCorrect: false,
-        rationale: 'This is \\(\\(\frac{15}{135}\\).',
+        rationale: 'This is \\(\\frac{15}{135}\\).',
       },
       {
         text: '90%',
         isCorrect: false,
-        rationale: 'This is \\)\\(\\(\frac{135}{150}\\).',
+        rationale: 'This is \\(\\frac{135}{150}\\), the proportion remaining.',
       },
     ],
     rationale:

@@ -15,7 +15,7 @@ module.exports = [
       {
         text: '25',
         isCorrect: true,
-        rationale: 'Area = (\\(\\(\frac{1}{2}\\))*10*5 = 25.',
+        rationale: 'Area = (1/2)*10*5 = 25.',
       },
       {
         text: '30',
@@ -29,7 +29,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The area of a triangle is A = \\(\\(\frac{1}{2}\\) * b * h. A = \\(\\(\frac{1}{2}\\) * 10 * 5 = 25.',
+      'The area of a triangle is A = (1/2) * b * h. A = (1/2) * 10 * 5 = 25.',
     challenge_tags: ['math-5'],
   },
   {
@@ -127,7 +127,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'Find the surface area of a sphere with a diameter of 10. Use 3.14 for \\(\\pi and SA=4\\pi r^2\\).',
+      'Find the surface area of a sphere with a diameter of 10. Use 3.14 for \\(\\pi\\) and SA = \\(4\\pi r^2\\).',
     answerOptions: [
       {
         text: '31.4',
@@ -163,7 +163,7 @@ module.exports = [
     question: 'What is the area of a square with perimeter 48?',
     correctAnswer: '144',
     rationale:
-      'The side length is \\(\frac{48}{4}\\) = 12. The area is \\(12^{2}\\) = 144.',
+      'The side length is \\(\\frac{48}{4}\\) = 12. The area is \\(12^{2}\\) = 144.',
     challenge_tags: ['math-5'],
   },
   {
@@ -196,7 +196,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Using the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). \\(1.5^{2} + 2^{2} = 2.25 + 4 = 6.25\\). c = \\(\\(\sqrt{6.25}\\) = 2.5.',
+      'Using the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). \\(1.5^{2} + 2^{2} = 2.25 + 4 = 6.25\\). c = \\(\\sqrt{6.25}\\) = 2.5.',
     challenge_tags: ['math-5'],
   },
   {
@@ -286,7 +286,7 @@ module.exports = [
         text: '100',
         isCorrect: false,
         rationale:
-          'The volume of a cone is \\(\\(\frac{1}{3}\\) that of a cylinder with the same base and height.\\)',
+          'The volume of a cone is \\(\\frac{1}{3}\\) that of a cylinder with the same base and height.',
       },
       {
         text: '200',

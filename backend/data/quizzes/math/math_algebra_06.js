@@ -15,7 +15,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'easy',
-    question: 'Evaluate \\(5c + 4 for c = 3\\).',
+    question: 'Evaluate \\(5c + 4\\) for \\(c = 3\\).',
     answerOptions: [
       {
         text: '12',

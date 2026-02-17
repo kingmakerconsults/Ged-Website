@@ -51,23 +51,23 @@ module.exports = [
       'A jacket is marked down by 15% from its original price of $60. What is the sale price?',
     answerOptions: [
       {
-        text: '9',
+        text: '$9',
         isCorrect: false,
         rationale: 'This is the discount amount.',
       },
       {
-        text: '$45',
+        text: '$51',
         isCorrect: false,
         rationale: 'This is a 25% discount.',
       },
       {
-        text: '51',
+        text: '$51',
         isCorrect: true,
         rationale:
           'The discount is 0.15 \\(\\times\\) 60 = 9. The sale price is 60 - 9 = 51.',
       },
       {
-        text: '69',
+        text: '$69',
         isCorrect: false,
         rationale: 'This is the price after a 15% markup.',
       },

@@ -10,7 +10,7 @@ module.exports = [
     challenge_tags: ['math-1'],
     calculator: false,
     question:
-      'A shirt that originally costs \\(40 is on sale for \\)25\\%\\( off. What is the sale price of the shirt?\\)',
+      'A shirt that originally costs $40 and is on sale for 25% off. What is the sale price of the shirt?',
     answerOptions: [
       {
         text: '\\(120:200\\)',
@@ -21,7 +21,7 @@ module.exports = [
         text: '\\(3:5\\)',
         isCorrect: true,
         rationale:
-          'The discount is \\(25\\% of \\(\\40\\), which is 0.25 \\(\times\\)40 = \\10. The sale price is \\$40 - \\$10 = \\$30.',
+          'The discount is 25% of $40, which is \\(0.25 \\times 40 = 10\\). The sale price is $40 - $10 = $30.',
       },
       {
         text: '\\(2:3\\)',
@@ -51,7 +51,7 @@ module.exports = [
         text: '175 miles',
         isCorrect: true,
         rationale:
-          'Set up a proportion: \\(\\frac{1 \\text{ in}}{50 \\text{ mi}} = \\frac{3.5 \\text{ in}}{x \\text{ mi}}. Solving for x gives  3.5 \\(\times 50 = 175 miles.\\)\\)',
+          'Set up a proportion: \\(\\frac{1 \\text{ in}}{50 \\text{ mi}} = \\frac{3.5 \\text{ in}}{x \\text{ mi}}\\). Solving for \\(x\\) gives \\(3.5 \\times 50 = 175\\) miles.',
       },
       {
         text: '200 miles',
@@ -99,7 +99,7 @@ module.exports = [
     questionNumber: 4,
     calculator: false,
     question:
-      'A restaurant bill is \\)80. If you want to leave a \\(20\\% tip, how much should the tip be?',
+      'A restaurant bill is $80. If you want to leave a 20% tip, how much should the tip be?',
     answerOptions: [
       {
         text: '\\(8\\)',
@@ -109,7 +109,7 @@ module.exports = [
       {
         text: '16',
         isCorrect: true,
-        rationale: '\\(20\\% of \\)\\80 is \\(0.20 \\(\times\\) 80 = \\16.\\)',
+        rationale: '\\(20\\%\\) of 80 is \\(0.20 \\times 80 = 16\\).',
       },
       {
         text: '\\(20\\)',
@@ -140,7 +140,7 @@ module.exports = [
         text: '\\(90\\%\\)',
         isCorrect: true,
         rationale:
-          '\\((\\(\frac{45}{50}\\)) \\(\times 100 = 0.9 \\(\times 100 = 90\\%.\\)\\)',
+          '\\(\\frac{45}{50} \\times 100 = 0.9 \\times 100 = 90\\%\\).',
       },
       {
         text: '\\(95\\%\\)',
@@ -159,7 +159,7 @@ module.exports = [
     challenge_tags: ['math-1'],
     calculator: true,
     question:
-      'The price of a computer increased from \\)500 to \\(600. What was the percent increase?',
+      'The price of a computer increased from $500 to $600. What was the percent increase?',
     answerOptions: [
       {
         text: '\\(10\\%\\)',
@@ -170,7 +170,7 @@ module.exports = [
         text: '\\(20\\%\\)',
         isCorrect: true,
         rationale:
-          'The increase is \\(\\100\\). The percent increase is (increase / original price) * 100 = (100 / 500) * 100 = \\)0.2 \\(\times\\)\\(100 = 20\\%.',
+          'The increase is \\(100\\). The percent increase is \\(\\frac{100}{500} \\times 100 = 20\\%\\).',
       },
       {
         text: '\\(25\\%\\)',
@@ -199,7 +199,7 @@ module.exports = [
         text: '18 gallons',
         isCorrect: true,
         rationale:
-          'The car gets \\(\\(\frac{300}{12}\\) = 25\\( miles per gallon. To travel 450 miles, you need \\(\frac{450}{25}\\) = 18 gallons.',
+          'The car gets \\(\\frac{300}{12} = 25\\) miles per gallon. To travel 450 miles, you need \\(\\frac{450}{25} = 18\\) gallons.',
       },
       {
         text: '20 gallons',
@@ -229,7 +229,7 @@ module.exports = [
         text: '\\(3:5\\)',
         isCorrect: true,
         rationale:
-          'The ratio is \\(\\(\frac{120}{200}\\). Divide both sides by the greatest common divisor, 40, to get \\(\\(\frac{3}{5}\\).',
+          'The ratio is \\(\\frac{120}{200}\\). Divide by the greatest common divisor, 40, to get \\(\\frac{3}{5}\\).',
       },
       {
         text: '\\(2:3\\)',
@@ -258,8 +258,7 @@ module.exports = [
       {
         text: '$10.50',
         isCorrect: true,
-        rationale:
-          '\\(7\\% of \\150 is 0.07 \\)\\(\times\\)\\(150 = \\ 10.50.\\)',
+        rationale: '\\(7\\%\\) of 150 is \\(0.07 \\times 150 = 10.50\\).',
       },
       {
         text: '15.00',
@@ -294,7 +293,7 @@ module.exports = [
         text: '6 cups',
         isCorrect: true,
         rationale:
-          'The ratio is \\(\\(\frac{2}{5}\\)\\(. Set up the proportion \\)\\(\frac{2}{5}\\) = \\(\frac{x}{15}\\)\\(. To get from 5 to 15, you multiply by 3. So,  2 \\(\times 3 = 6 cups.\\)\\)',
+          'The ratio is \\(\\frac{2}{5}\\). Set up the proportion \\(\\frac{2}{5} = \\frac{x}{15}\\). To get from 5 to 15, multiply by 3, so \\(2 \\times 3 = 6\\) cups.',
       },
       {
         text: '7.5 cups',
@@ -308,7 +307,7 @@ module.exports = [
     questionNumber: 11,
     calculator: true,
     question:
-      'A store buys a TV for \\)200 and marks it up by \\(60\\% to sell. What is the selling price?',
+      'A store buys a TV for $200 and marks it up by 60% to sell. What is the selling price?',
     answerOptions: [
       {
         text: '\\(260\\)',
@@ -319,7 +318,7 @@ module.exports = [
         text: '320',
         isCorrect: true,
         rationale:
-          'The markup is \\)60\\%\\( of \\200\\), which is \\(0.60 \\(\times\\)\\)200 = \\$120. The selling price is \\200 + \\120 = \\320.',
+          'The markup is 60% of $200, which is \\(0.60 \\times 200 = 120\\). The selling price is \\(200 + 120 = 320\\).',
       },
       {
         text: '\\(280\\)',
@@ -349,7 +348,7 @@ module.exports = [
         text: '84,000',
         isCorrect: true,
         rationale:
-          'The growth is \\(5\\% of 80,000, which is  0.05 \\(\times\\)\\(80,000 = 4,000. The new population is  80,000 + 4,000 = 84,000.\\)\\)',
+          'The growth is \\(5\\%\\) of 80,000, which is \\(0.05 \\times 80,000 = 4,000\\). The new population is \\(80,000 + 4,000 = 84,000\\).',
       },
       {
         text: '85,000',
@@ -374,7 +373,7 @@ module.exports = [
         text: '49',
         isCorrect: true,
         rationale:
-          'The ratio is \\(\\(\frac{7}{4}\\). Set up the proportion \\(\\(\frac{7}{4}\\) = \\(\frac{x}{28}\\). To get from 4 to 28, you multiply by 7. So, \\(7 \\(\times\\) 7 = 49.\\)',
+          'The ratio is \\(\\frac{7}{4}\\). Set up the proportion \\(\\frac{7}{4} = \\frac{x}{28}\\). To get from 4 to 28, multiply by 7, so \\(7 \\times 7 = 49\\).',
       },
       {
         text: '16',
@@ -409,7 +408,7 @@ module.exports = [
         text: '75',
         isCorrect: true,
         rationale:
-          '\\(15\\% of 500 is \\(0.15 \\(\times\\) 500 = 75 employees.\\)\\)',
+          '\\(15\\%\\) of 500 is \\(0.15 \\times 500 = 75\\) employees.',
       },
       {
         text: '100',
@@ -444,7 +443,7 @@ module.exports = [
         text: '15 bags',
         isCorrect: true,
         rationale:
-          'The ratio is 1 part cement to 3 parts sand. If you have 5 bags of cement, you need \\(5 \\(\times\\) 3 = 15 bags of sand.\\)',
+          'The ratio is 1 part cement to 3 parts sand. If you have 5 bags of cement, you need \\(5 \\times 3 = 15\\) bags of sand.',
       },
       {
         text: '20 bags',
@@ -469,7 +468,7 @@ module.exports = [
         text: '20 laps',
         isCorrect: true,
         rationale:
-          "The runner's rate is \\(\\frac{12 \\text{ min}}{8 \\text{ laps}} = 1.5 minutes per lap. In 30 minutes, the runner can complete \\(\frac{30}{1.5}\\) = 20\\( laps. Alternatively, set up a proportion: \\(\frac{8}{12}\\) = \\(\frac{x}{30}\\), which gives \\(12x = 240\\), so \\(x=20.\\)",
+          "The runner's rate is \\(\\frac{12 \\text{ min}}{8 \\text{ laps}} = 1.5\\) minutes per lap. In 30 minutes, the runner can complete \\(\\frac{30}{1.5} = 20\\) laps. Alternatively, \\(\\frac{8}{12} = \\frac{x}{30}\\), which gives \\(12x = 240\\), so \\(x = 20\\).",
       },
       {
         text: '24 laps',
@@ -519,7 +518,7 @@ module.exports = [
     questionNumber: 18,
     calculator: true,
     question:
-      'A pair of jeans originally priced at \\)75 is on sale for 40% off. What is the sale price?',
+      'A pair of jeans originally priced at $75 is on sale for 40% off. What is the sale price?',
     answerOptions: [
       {
         text: '30',
@@ -530,7 +529,7 @@ module.exports = [
         text: '\\(45\\)',
         isCorrect: true,
         rationale:
-          'The discount is $40\\% of \\(\\75\\), which is 0.40 \\(\times\\)75 = \\30. The sale price is the original price minus the discount: \\$75 - \\$30 = \\$45.',
+          'The discount is 40% of $75, which is \\(0.40 \\times 75 = 30\\). The sale price is \\(75 - 30 = 45\\).',
       },
       {
         text: '105',

@@ -84,7 +84,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A lunch bill is \\(24.50. If you add a 15% tip, what is the total cost?',
+      'A lunch bill is $24.50. If you add a 15% tip, what is the total cost?',
     correctAnswer: '28.18',
     rationale:
       'First, calculate the tip: 15% of $24.50 is 0.15 * 24.50 = $3.675. Round to $3.68. Then add the tip to the bill: $24.50 + $3.68 = $28.18.',
@@ -120,7 +120,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To divide fractions, multiply the first fraction by the reciprocal of the second. So, \\(\\(\frac{2}{3}\\) \\(\times\\) \\(\frac{4}{1}\\) = \\(\frac{8}{3}\\).',
+      'To divide fractions, multiply the first fraction by the reciprocal of the second. So, \\(\frac{2}{3} \\times \frac{4}{1} = \frac{8}{3}\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -129,7 +129,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "If a car's value depreciates by 10% each year, what is the value of a \\(20,000 car after 2 years?\\)",
+      "If a car's value depreciates by 10% each year, what is the value of a $20,000 car after 2 years?",
     answerOptions: [
       {
         text: '16,000',
@@ -165,10 +165,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'Order the following from least to greatest: 0.5, \\(\\(\frac{2}{5}\\), 45%, 0.42.',
+      'Order the following from least to greatest: 0.5, \\(\\frac{2}{5}\\), 45%, 0.42.',
     correctAnswer: '\\(\frac{2}{5}\\), 0.42, 45%, 0.5',
     rationale:
-      'Convert all to decimals: \\(\\(\frac{2}{5}\\)\\( = 0.4, 45% = 0.45. The order is 0.4, 0.42, 0.45, 0.5. This corresponds to \\)\\(\frac{2}{5}\\), 0.42, 45%, 0.5.',
+      'Convert all to decimals: \\(\\frac{2}{5} = 0.4\\), and \\(45\\% = 0.45\\). The order is 0.4, 0.42, 0.45, 0.5, which corresponds to \\(\\frac{2}{5}\\), 0.42, 45%, 0.5.',
     challenge_tags: ['math-1'],
   },
   {
@@ -237,7 +237,7 @@ module.exports = [
         text: '\\(540\\)',
         isCorrect: true,
         rationale:
-          'The sales tax is 0.08 * \\)500 = \\(40. The total cost is \\)500 + \\(40 = 540.',
+          'The sales tax is \\(0.08 \\times 500 = 40\\). The total cost is \\(500 + 40 = 540\\).',
       },
       {
         text: '\\(900\\)',
@@ -246,7 +246,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Calculate the sales tax: 8% of \\)500 is \\(40. Add the tax to the price: \\)500 + $40 = 540.',
+      'Calculate the sales tax: \\(8\\%\\) of 500 is 40. Add the tax to the price: \\(500 + 40 = 540\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -254,7 +254,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Simplify: \\(\\(\sqrt{64}\\) + \\(\sqrt{36}\\).',
+    question: 'Simplify: \\(\\sqrt{64} + \\sqrt{36}\\).',
     answerOptions: [
       {
         text: '10',

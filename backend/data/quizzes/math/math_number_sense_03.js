@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Calculate the discount: 20% of \\)28.00 is \\(5.60. Subtract the discount from the original price: \\)28.00 - \\(5.60 = \\)22.40.',
+      'Calculate the discount: 20% of $28.00 is $5.60. Subtract the discount from the original price: $28.00 - $5.60 = $22.40.',
     challenge_tags: ['math-1'],
   },
   {
@@ -82,7 +82,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Evaluate: \\(3^3 - 2 \\(\times\\) 5\\).',
+    question: 'Evaluate: \\(3^3 - 2 \\times 5\\).',
     correctAnswer: '17',
     rationale:
       'Order of operations (PEMDAS): Exponents first (\\(3^3\\) = 27), then multiplication (2*5 = 10), then subtraction (27 - 10 = 17).',
@@ -96,29 +96,29 @@ module.exports = [
     question: 'Which of the following is equivalent to 0.65?',
     answerOptions: [
       {
-        text: '\\(\\(\frac{6}{5}\\)',
+        text: '\\(\\frac{6}{5}\\)',
         isCorrect: false,
-        rationale: '\\(\\(\frac{6}{5}\\) is equal to 1.2.\\)',
+        rationale: '\\(\\frac{6}{5}\\) is equal to 1.2.',
       },
       {
-        text: '\\(\\(\frac{13}{20}\\)',
+        text: '\\(\\frac{13}{20}\\)',
         isCorrect: true,
         rationale:
-          '0.65 can be written as \\(\\(\frac{65}{100}\\)\\(, which simplifies to \\)\\(\frac{13}{20}\\).',
+          '0.65 can be written as \\(\\frac{65}{100}\\), which simplifies to \\(\\frac{13}{20}\\).',
       },
       {
-        text: '\\(\\(\frac{2}{3}\\)',
+        text: '\\(\\frac{2}{3}\\)',
         isCorrect: false,
-        rationale: '\\(\\(\frac{2}{3}\\) is approximately 0.67.\\)',
+        rationale: '\\(\\frac{2}{3}\\) is approximately 0.67.',
       },
       {
-        text: '\\(\\(\frac{65}{10}\\)',
+        text: '\\(\\frac{65}{10}\\)',
         isCorrect: false,
-        rationale: '\\(\\(\frac{65}{10}\\) is equal to 6.5.\\)',
+        rationale: '\\(\\frac{65}{10}\\) is equal to 6.5.',
       },
     ],
     rationale:
-      'The decimal 0.65 means 65 hundredths, or \\(\\(\frac{65}{100}\\)\\(. This fraction can be simplified by dividing both the numerator and denominator by 5, which results in \\)\\(\frac{13}{20}\\).',
+      'The decimal 0.65 means 65 hundredths, or \\(\\frac{65}{100}\\). This fraction can be simplified by dividing both the numerator and denominator by 5, which results in \\(\\frac{13}{20}\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -138,12 +138,12 @@ module.exports = [
         text: '15%',
         isCorrect: true,
         rationale:
-          'The price decreased by \\(120. The percent decrease is (\\(\frac{120}{800}\\)) * 100 = 15%.',
+          'The price decreased by 120. The percent decrease is \\(\\frac{120}{800} \\times 100 = 15\\%\\).',
       },
       {
         text: '20%',
         isCorrect: false,
-        rationale: 'This would be a decrease of \\(160.\\)',
+        rationale: 'This would be a decrease of 160.',
       },
       {
         text: '85%',
@@ -152,7 +152,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The amount of decrease is \\)800 - \\(680 = \\)120. The percent decrease is (decrease / original price) * 100 = (\\(120 / 800) * 100 = 0.15 * 100 = 15%.',
+      'The amount of decrease is 800 - 680 = 120. The percent decrease is \\(\\frac{120}{800} \\times 100 = 15\\%\\).',
     challenge_tags: ['math-1'],
   },
   {

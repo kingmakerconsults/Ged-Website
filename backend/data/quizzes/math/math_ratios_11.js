@@ -30,7 +30,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The total number of games played is 15 (wins) + 5 (losses) = 20. The ratio of wins to total games is 15:20. To simplify, divide both numbers by 5. \\(\\(\frac{15}{5}\\) = 3 and \\(\\(\frac{20}{5}\\) = 4. The simplified ratio is 3:4.',
+      'The total number of games played is 15 (wins) + 5 (losses) = 20. The ratio of wins to total games is 15:20. To simplify, divide both numbers by 5: \\(\\frac{15}{5} = 3\\) and \\(\\frac{20}{5} = 4\\). The simplified ratio is 3:4.',
     challenge_tags: ['math-1'],
   },
   {
@@ -98,7 +98,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A phone bill is \\(50 per month. With taxes and fees, the total is \\)54. What is the percentage of the bill that is taxes and fees?',
+      'A phone bill is $50 per month. With taxes and fees, the total is $54. What percentage of the bill is taxes and fees?',
     answerOptions: [
       {
         text: '4%',
@@ -108,7 +108,7 @@ module.exports = [
       {
         text: '8%',
         isCorrect: true,
-        rationale: 'The fees are \\(4. ( 4 / 50) * 100 = 8%.\\)',
+        rationale: 'The fees are $4. \\(\\frac{4}{50} \\times 100 = 8\\%\\).',
       },
       {
         text: '92.6%',
@@ -122,7 +122,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The amount of taxes and fees is $54 - $50 = \\(4. To find the percentage, divide this amount by the original bill and multiply by 100: (\\)4 / 50) * 100 = 0.08 * 100 = 8%.',
+      'The amount of taxes and fees is $54 - $50 = $4. To find the percentage, divide this amount by the original bill and multiply by 100: \\(\\frac{4}{50} \\times 100 = 8\\%\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -151,7 +151,7 @@ module.exports = [
       {
         text: '2.7 lbs',
         isCorrect: false,
-        rationale: 'This is \\(\\(\frac{5}{2}\\).2.',
+        rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
@@ -168,7 +168,7 @@ module.exports = [
       'The ratio of fiction to non-fiction books in a library is 4:3. If there are 1200 fiction books, how many non-fiction books are there?',
     correctAnswer: '900',
     rationale:
-      'Set up the proportion \\(\\(\frac{4}{3}\\) = 1200/x. 4x = 3600. x = 900.',
+      'Set up the proportion \\(\\frac{4}{3} = \\frac{1200}{x}\\). Then \\(4x = 3600\\), so \\(x = 900\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -210,7 +210,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve the proportion: \\(\\(\frac{7}{3}\\) = \\(\frac{x}{9}\\).',
+    question: 'Solve the proportion: \\(\\frac{7}{3} = \\frac{x}{9}\\).',
     correctAnswer: '21',
     rationale:
       'To get from 3 to 9, you multiply by 3. So, multiply the numerator by 3: 7 * 3 = 21.',
@@ -271,7 +271,7 @@ module.exports = [
         text: '90°',
         isCorrect: true,
         rationale:
-          'The total ratio parts is 6. \\(\\(\frac{180}{6}\\) = 30. The largest angle is 3 * 30 = 90.',
+          'The total ratio parts is 6. \\(\\frac{180}{6} = 30\\). The largest angle is \\(3 \\times 30 = 90\\).',
       },
       {
         text: '180°',

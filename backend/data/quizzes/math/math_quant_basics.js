@@ -549,21 +549,21 @@ module.exports = [
     questionNumber: 19,
     calculator: true,
     question:
-      'A recipe requires \\(\\(\frac{3}{4}\\) cup of sugar. If you want to make a triple batch, how much sugar do you need?\\)',
+      'A recipe requires \\(\\frac{3}{4}\\) cup of sugar. If you want to make a triple batch, how much sugar do you need?',
     answerOptions: [
       {
-        text: '\\(\\(\frac{9}{4}\\) cups\\)',
+        text: '\\(\\frac{9}{4}\\) cups',
         isCorrect: true,
         rationale:
-          'Triple batch means multiplying by 3: \\(3 \\(\times\\)\\) \\(\frac{3}{4}\\) = \\(\frac{9}{4} cups.\\)',
+          'Triple batch means multiplying by 3: \\(3 \\times \\frac{3}{4} = \\frac{9}{4}\\) cups.',
       },
       {
-        text: '\\(\\(\frac{3}{2}\\) cups\\)',
+        text: '\\(\\frac{3}{2}\\) cups',
         isCorrect: false,
         rationale: 'This represents only doubling the recipe.',
       },
       {
-        text: '\\(\\(\frac{15}{4}\\) cups\\)',
+        text: '\\(\\frac{15}{4}\\) cups',
         isCorrect: false,
         rationale: 'This would correspond to five times the original amount.',
       },

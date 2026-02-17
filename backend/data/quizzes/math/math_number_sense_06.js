@@ -176,7 +176,7 @@ module.exports = [
     question: 'Which number is an irrational number?',
     answerOptions: [
       {
-        text: '\\(\\(\sqrt{25}\\)',
+        text: '\\(\\sqrt{25}\\)',
         isCorrect: false,
         rationale: 'The square root of 25 is 5, which is a rational number.',
       },
@@ -190,10 +190,10 @@ module.exports = [
         text: '0.333...',
         isCorrect: false,
         rationale:
-          'This is a repeating decimal, which is a rational number (\\(\\(\frac{1}{3}\\)).',
+          'This is a repeating decimal, which is a rational number (\\(\\frac{1}{3}\\)).',
       },
       {
-        text: '\\(\\(\frac{7}{2}\\)',
+        text: '\\(\\frac{7}{2}\\)',
         isCorrect: false,
         rationale: 'This is a fraction, which is a rational number.',
       },
@@ -224,7 +224,8 @@ module.exports = [
       {
         text: '40',
         isCorrect: false,
-        rationale: 'This is \\(\\(\frac{60}{1}\\).5',
+        rationale:
+          'This comes from dividing 60 by 1.5 instead of finding 150% of 60.',
       },
       {
         text: '90',
@@ -256,27 +257,27 @@ module.exports = [
       {
         text: '0.75',
         isCorrect: false,
-        rationale: 'This is equivalent to \\(\\(\frac{3}{4}\\).',
+        rationale: 'This is equivalent to \\(\\frac{3}{4}\\).',
       },
       {
         text: '75%',
         isCorrect: false,
-        rationale: 'This is equivalent to \\(\\(\frac{3}{4}\\).',
+        rationale: 'This is equivalent to \\(\\frac{3}{4}\\).',
       },
       {
-        text: '\\(\\(\frac{3}{4}\\)',
+        text: '\\(\\frac{3}{4}\\)',
         isCorrect: false,
         rationale: 'This is the base fraction.',
       },
       {
-        text: '\\(\\(\frac{4}{3}\\)',
+        text: '\\(\\frac{4}{3}\\)',
         isCorrect: true,
         rationale:
-          '\\(\\(\frac{4}{3}\\) is greater than 1, while the others are all equal to 0.75.\\)',
+          '\\(\\frac{4}{3}\\) is greater than 1, while the others are all equal to 0.75.',
       },
     ],
     rationale:
-      'The values 0.75, 75%, and \\(\\(\frac{3}{4}\\) are all equivalent. The fraction \\(\\(\frac{4}{3}\\) is equal to 1.333..., which is different.\\)\\)',
+      'The values 0.75, 75%, and \\(\\frac{3}{4}\\) are all equivalent. The fraction \\(\\frac{4}{3}\\) is equal to 1.333..., which is different.',
     challenge_tags: ['math-1'],
   },
   {
@@ -285,7 +286,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'You have \\(1000 in a savings account. It grows by 2% each year. How much will be in the account after 2 years?\\)',
+      'You have $1000 in a savings account. It grows by 2% each year. How much will be in the account after 2 years?',
     answerOptions: [
       {
         text: '1020.00',
@@ -293,24 +294,23 @@ module.exports = [
         rationale: 'This is the amount after one year.',
       },
       {
-        text: '\\(1040.00\\)',
+        text: '1040.00',
         isCorrect: false,
         rationale: 'This is simple interest, not compound.',
       },
       {
         text: '1040.40',
         isCorrect: true,
-        rationale:
-          'Year 1: \\(1000 * 1.02 =  1020. Year 2: \\(1020 * 1.02 =  1040.40.\\)\\)',
+        rationale: 'Year 1: 1000 * 1.02 = 1020. Year 2: 1020 * 1.02 = 1040.40.',
       },
       {
-        text: '\\(1020.20\\)',
+        text: '1020.20',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'This is a compound interest problem. After the first year, the balance is \\(1000 * 1.02 =  1020. After the second year, the new balance is 1020 * 1.02 = 1040.40\\).',
+      'This is a compound growth problem. After the first year, the balance is 1000 * 1.02 = 1020. After the second year, the new balance is 1020 * 1.02 = 1040.40.',
     challenge_tags: ['math-1'],
   },
 ];

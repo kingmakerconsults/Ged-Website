@@ -35,7 +35,7 @@ module.exports = [
         rationale: 'The equals sign makes this an equation.',
       },
       {
-        text: '\\(10 = 2 \\(\times\\) 5\\)',
+        text: '\\(10 = 2 \\times 5\\)',
         isCorrect: false,
         rationale: 'The equals sign makes this an equation.',
       },
@@ -203,7 +203,7 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve for x: \\(x/2 - 5 = 3\\).',
+    question: 'Solve for x: \\(\\frac{x}{2} - 5 = 3\\).',
     correctAnswer: '16',
     rationale:
       'Add 5 to both sides: x/2 = 8. Multiply both sides by 2: x = 16.',
@@ -231,7 +231,7 @@ module.exports = [
         text: '\\(56\\)',
         isCorrect: true,
         rationale:
-          'Adults: 2 * \\(12 = \\)24. Children: 4 * \\(8 = \\)32. Total: \\(24 + \\)32 = 56.',
+          'Adults: 2 * 12 = 24. Children: 4 * 8 = 32. Total: 24 + 32 = 56.',
       },
       {
         text: '\\(72\\)',
@@ -240,7 +240,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Calculate the cost for each type of ticket and add them together. Adult cost = 2 * \\(12 = \\)24. Child cost = 4 * \\(8 = \\)32. Total cost = \\(24 + \\)32 = 56.',
+      'Calculate the cost for each type of ticket and add them together. Adult cost = 2 * 12 = 24. Child cost = 4 * 8 = 32. Total cost = 24 + 32 = 56.',
     challenge_tags: ['math-3'],
   },
   {

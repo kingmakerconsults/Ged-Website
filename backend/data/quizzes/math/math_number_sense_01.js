@@ -289,7 +289,7 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'Estimate the result of \\(48.7\\) \\(\times 10.2.\\)',
+    question: 'Estimate the result of \\(48.7 \\times 10.2\\).',
     answerOptions: [
       {
         text: '50',
