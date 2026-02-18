@@ -10798,26 +10798,36 @@ Return the JSON array of question objects only.`;
   const cappedQuestions = Array.isArray(questions)
     ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
     : [];
-  // Group questions by passage, preserving passageWithPlaceholders from first question of each group
+
+  // Build a fingerprint for grouping — use the first 120 chars of normalized passage text.
+  // This tolerates minor AI variations in whitespace/punctuation between question objects
+  // that share the same passage, preventing each question from getting its own solo group.
+  const passageFingerprint = (text) => {
+    if (!text) return '';
+    return text.replace(/\s+/g, ' ').trim().slice(0, 120);
+  };
+
+  // Group questions by passage fingerprint, preserving passageWithPlaceholders
   const passages = {};
   const passageOrder = [];
-  let passageCounter = 0;
-  let currentPassageTitle = '';
+  let currentFingerprint = null;
+
   cappedQuestions.forEach((q) => {
-    if (q.passage && q.passage !== currentPassageTitle) {
-      currentPassageTitle = q.passage;
-      passageCounter++;
+    const fp = passageFingerprint(q.passage);
+    // New group when fingerprint changes (sequential grouping preserves passage order)
+    if (fp && fp !== currentFingerprint) {
+      currentFingerprint = fp;
     }
-    const passageKey = `Passage ${passageCounter}`;
-    if (!passages[passageKey]) {
-      passages[passageKey] = {
-        passage: q.passage,
+    const groupKey = currentFingerprint || `__ungrouped_${passageOrder.length}`;
+    if (!passages[groupKey]) {
+      passages[groupKey] = {
+        passage: q.passage || '',
         passageWithPlaceholders: q.passageWithPlaceholders || null,
         questions: [],
       };
-      passageOrder.push(passageKey);
+      passageOrder.push(groupKey);
     }
-    passages[passageKey].questions.push(q);
+    passages[groupKey].questions.push(q);
   });
 
   let groupedQuestions = [];
@@ -10842,7 +10852,11 @@ Return the JSON array of question objects only.`;
     );
   });
 
-  // Apply difficulty spread: ~30% easy, 50% medium, 20% hard across reading questions
+  console.log(
+    `[RLA Part 1] grouped into ${passageOrder.length} passage groups, ${groupedQuestions.length} total questions`
+  );
+
+  // Apply difficulty spread only if AI provided difficulty fields
   const targetCount = 20;
   groupedQuestions = enforceRlaDifficultySpread(groupedQuestions, {
     easy: Math.round(targetCount * 0.3),
@@ -10940,27 +10954,34 @@ Return only the JSON array of the 25 question objects. For passages using inline
   const cappedQuestions = Array.isArray(questions)
     ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
     : [];
-  // Group questions by passage, preserving passageWithPlaceholders from first question of each group
+
+  // Build a fingerprint for grouping — use the first 120 chars of normalized passage text.
+  const passageFingerprint = (text) => {
+    if (!text) return '';
+    return text.replace(/\s+/g, ' ').trim().slice(0, 120);
+  };
+
   const passages = {};
   const passageOrder = [];
-  let passageCounter = 0;
-  let currentPassageTitle = '';
+  let currentFingerprint = null;
+
   cappedQuestions.forEach((q) => {
-    if (q.passage && q.passage !== currentPassageTitle) {
-      currentPassageTitle = q.passage;
-      passageCounter++;
+    const fp = passageFingerprint(q.passage);
+    if (fp && fp !== currentFingerprint) {
+      currentFingerprint = fp;
     }
-    const passageKey = `Passage ${passageCounter}`;
-    if (!passages[passageKey]) {
-      passages[passageKey] = {
-        passage: q.passage,
+    const groupKey = currentFingerprint || `__ungrouped_${passageOrder.length}`;
+    if (!passages[groupKey]) {
+      passages[groupKey] = {
+        passage: q.passage || '',
         passageWithPlaceholders: q.passageWithPlaceholders || null,
         questions: [],
       };
-      passageOrder.push(passageKey);
+      passageOrder.push(groupKey);
     }
-    passages[passageKey].questions.push(q);
+    passages[groupKey].questions.push(q);
   });
+
   let groupedQuestions = [];
   passageOrder.forEach((key) => {
     const p = passages[key];
@@ -10970,7 +10991,6 @@ Return only the JSON array of the 25 question objects. For passages using inline
           {
             ...q,
             passage: p.passage,
-            // Only the first question in a cloze group carries the placeholder template
             passageWithPlaceholders:
               idx === 0 && p.passageWithPlaceholders
                 ? p.passageWithPlaceholders
@@ -10983,7 +11003,11 @@ Return only the JSON array of the 25 question objects. For passages using inline
     );
   });
 
-  // Apply difficulty spread: ~30% easy, 50% medium, 20% hard across language questions
+  console.log(
+    `[RLA Part 3] grouped into ${passageOrder.length} passage groups, ${groupedQuestions.length} total questions`
+  );
+
+  // Apply difficulty spread only if AI provided difficulty fields
   const targetCount = 25;
   groupedQuestions = enforceRlaDifficultySpread(groupedQuestions, {
     easy: Math.round(targetCount * 0.3),
