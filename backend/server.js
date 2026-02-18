@@ -2213,14 +2213,45 @@ function limitWords(text, max = 250) {
 function enforceWordCapsOnItem(item, subject) {
   const out = JSON.parse(JSON.stringify(item));
 
-  if (isRlaSubject(subject)) {
-    if (out.passage) out.passage = limitWords(out.passage, 250);
-  }
-
+  // Cap passage text at 250 words for all subjects (single pass — no duplicate cap)
   if (out.passage) out.passage = limitWords(out.passage, 250);
   if (out.questionText) out.questionText = limitWords(out.questionText, 250);
 
   return out;
+}
+
+/**
+ * Enforces a difficulty spread on RLA question arrays without the 12-item cap
+ * that the generic enforceDifficultySpread imposes.
+ * target: { easy: N, medium: N, hard: N } — if a bucket is short, remaining
+ * slots are filled from whichever difficulty has surplus.
+ */
+function enforceRlaDifficultySpread(items, target) {
+  const buckets = { easy: [], medium: [], hard: [] };
+  for (const item of items) {
+    const d = (item.difficulty || 'medium').toLowerCase();
+    if (buckets[d]) buckets[d].push(item);
+    else buckets.medium.push(item);
+  }
+
+  const result = [];
+  for (const [level, count] of Object.entries(target)) {
+    const pool = buckets[level] || [];
+    result.push(...pool.slice(0, count));
+  }
+
+  // If we're short (AI didn't generate enough of a difficulty), fill from surplus
+  if (result.length < items.length) {
+    const used = new Set(result);
+    for (const item of items) {
+      if (!used.has(item)) {
+        result.push(item);
+        if (result.length >= items.length) break;
+      }
+    }
+  }
+
+  return result;
 }
 
 function humanizeSource(value) {
@@ -10757,8 +10788,9 @@ Return the JSON array of question objects only.`;
   const cappedQuestions = Array.isArray(questions)
     ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
     : [];
-  // Group questions by passage
+  // Group questions by passage, preserving passageWithPlaceholders from first question of each group
   const passages = {};
+  const passageOrder = [];
   let passageCounter = 0;
   let currentPassageTitle = '';
   cappedQuestions.forEach((q) => {
@@ -10767,22 +10799,47 @@ Return the JSON array of question objects only.`;
       passageCounter++;
     }
     const passageKey = `Passage ${passageCounter}`;
-    if (!passages[passageKey])
-      passages[passageKey] = { passage: q.passage, questions: [] };
+    if (!passages[passageKey]) {
+      passages[passageKey] = {
+        passage: q.passage,
+        passageWithPlaceholders: q.passageWithPlaceholders || null,
+        questions: [],
+      };
+      passageOrder.push(passageKey);
+    }
     passages[passageKey].questions.push(q);
   });
 
   let groupedQuestions = [];
-  Object.values(passages).forEach((p) => {
-    p.questions.forEach((q) =>
+  passageOrder.forEach((key) => {
+    const p = passages[key];
+    p.questions.forEach((q, idx) =>
       groupedQuestions.push(
         enforceWordCapsOnItem(
-          { ...q, passage: p.passage, type: 'passage' },
+          {
+            ...q,
+            passage: p.passage,
+            // Only the first question in the group carries the cloze template
+            passageWithPlaceholders:
+              idx === 0 && p.passageWithPlaceholders
+                ? p.passageWithPlaceholders
+                : undefined,
+            type: 'passage',
+          },
           'RLA'
         )
       )
     );
   });
+
+  // Apply difficulty spread: ~30% easy, 50% medium, 20% hard across reading questions
+  const targetCount = 20;
+  groupedQuestions = enforceRlaDifficultySpread(groupedQuestions, {
+    easy: Math.round(targetCount * 0.3),
+    medium: Math.round(targetCount * 0.5),
+    hard: Math.round(targetCount * 0.2),
+  });
+
   return groupedQuestions;
 }
 
@@ -10873,8 +10930,9 @@ Return only the JSON array of the 25 question objects. For passages using inline
   const cappedQuestions = Array.isArray(questions)
     ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
     : [];
-  // Group questions by passage
+  // Group questions by passage, preserving passageWithPlaceholders from first question of each group
   const passages = {};
+  const passageOrder = [];
   let passageCounter = 0;
   let currentPassageTitle = '';
   cappedQuestions.forEach((q) => {
@@ -10883,21 +10941,46 @@ Return only the JSON array of the 25 question objects. For passages using inline
       passageCounter++;
     }
     const passageKey = `Passage ${passageCounter}`;
-    if (!passages[passageKey])
-      passages[passageKey] = { passage: q.passage, questions: [] };
+    if (!passages[passageKey]) {
+      passages[passageKey] = {
+        passage: q.passage,
+        passageWithPlaceholders: q.passageWithPlaceholders || null,
+        questions: [],
+      };
+      passageOrder.push(passageKey);
+    }
     passages[passageKey].questions.push(q);
   });
   let groupedQuestions = [];
-  Object.values(passages).forEach((p) => {
-    p.questions.forEach((q) =>
+  passageOrder.forEach((key) => {
+    const p = passages[key];
+    p.questions.forEach((q, idx) =>
       groupedQuestions.push(
         enforceWordCapsOnItem(
-          { ...q, passage: p.passage, type: 'passage' },
+          {
+            ...q,
+            passage: p.passage,
+            // Only the first question in a cloze group carries the placeholder template
+            passageWithPlaceholders:
+              idx === 0 && p.passageWithPlaceholders
+                ? p.passageWithPlaceholders
+                : undefined,
+            type: 'passage',
+          },
           'RLA'
         )
       )
     );
   });
+
+  // Apply difficulty spread: ~30% easy, 50% medium, 20% hard across language questions
+  const targetCount = 25;
+  groupedQuestions = enforceRlaDifficultySpread(groupedQuestions, {
+    easy: Math.round(targetCount * 0.3),
+    medium: Math.round(targetCount * 0.5),
+    hard: Math.round(targetCount * 0.2),
+  });
+
   return groupedQuestions;
 }
 
@@ -11799,7 +11882,65 @@ app.post('/generate-quiz', async (req, res) => {
           generateRlaPart3(aiOptions),
         ]);
 
-        let allQuestions = [...part1Questions, ...part3Questions];
+        // Enforce target question counts — pad from premade bank if AI was short
+        const PART1_TARGET = 20;
+        const PART3_TARGET = 25;
+
+        let part1Final = part1Questions.slice(0, PART1_TARGET);
+        if (part1Final.length < PART1_TARGET) {
+          console.warn(
+            `[RLA] Part 1 short: got ${part1Final.length}/${PART1_TARGET}. Padding from premade bank.`
+          );
+          try {
+            const premadeP1 = require('./quizzes/rla.quizzes.part1.json');
+            const allPremade = Array.isArray(premadeP1)
+              ? premadeP1.flatMap((q) =>
+                  Array.isArray(q.questions) ? q.questions : [q]
+                )
+              : [];
+            const needed = PART1_TARGET - part1Final.length;
+            const usedTexts = new Set(part1Final.map((q) => q.questionText));
+            const filler = allPremade
+              .filter((q) => q.questionText && !usedTexts.has(q.questionText))
+              .slice(0, needed)
+              .map((q) => ({ ...q, type: 'passage', source: 'premade' }));
+            part1Final = [...part1Final, ...filler];
+          } catch (e) {
+            console.warn(
+              '[RLA] Could not load premade Part 1 fallback:',
+              e.message
+            );
+          }
+        }
+
+        let part3Final = part3Questions.slice(0, PART3_TARGET);
+        if (part3Final.length < PART3_TARGET) {
+          console.warn(
+            `[RLA] Part 3 short: got ${part3Final.length}/${PART3_TARGET}. Padding from premade bank.`
+          );
+          try {
+            const premadeP2 = require('./quizzes/rla.quizzes.part2.json');
+            const allPremade = Array.isArray(premadeP2)
+              ? premadeP2.flatMap((q) =>
+                  Array.isArray(q.questions) ? q.questions : [q]
+                )
+              : [];
+            const needed = PART3_TARGET - part3Final.length;
+            const usedTexts = new Set(part3Final.map((q) => q.questionText));
+            const filler = allPremade
+              .filter((q) => q.questionText && !usedTexts.has(q.questionText))
+              .slice(0, needed)
+              .map((q) => ({ ...q, type: 'passage', source: 'premade' }));
+            part3Final = [...part3Final, ...filler];
+          } catch (e) {
+            console.warn(
+              '[RLA] Could not load premade Part 3 fallback:',
+              e.message
+            );
+          }
+        }
+
+        let allQuestions = [...part1Final, ...part3Final];
         allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
         allQuestions.forEach((q, index) => {
           q.questionNumber = index + 1;
@@ -11811,9 +11952,9 @@ app.post('/generate-quiz', async (req, res) => {
           subject: subject,
           type: 'multi-part-rla', // Special type for the frontend
           totalTime: 150 * 60, // 150 minutes
-          part1_reading: part1Questions,
+          part1_reading: part1Final,
           part2_essay: part2Essay,
-          part3_language: part3Questions,
+          part3_language: part3Final,
           questions: allQuestions, // Keep this for compatibility with results screen
           source: 'aiGenerated',
           fraction_plain_text_mode: false,

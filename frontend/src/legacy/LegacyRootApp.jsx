@@ -34339,6 +34339,110 @@ function Stem({ item, subject = null, isReview = false }) {
   );
 }
 
+/**
+ * InlineDropdownPassage — renders a cloze passage with embedded <select> dropdowns.
+ * Used for Part 3 inline_dropdown question groups.
+ *
+ * Props:
+ *   passageWithPlaceholders: string — passage text containing [[1]], [[2]], ... markers
+ *   questions: array — the question objects for this cloze group (one per placeholder)
+ *   answers: object — { [questionIndex]: selectedText }
+ *   onAnswer: (questionIndex, value) => void
+ *   scheme: color scheme object
+ */
+function InlineDropdownPassage({
+  passageWithPlaceholders,
+  questions,
+  answers,
+  onAnswer,
+  scheme,
+}) {
+  if (!passageWithPlaceholders || !questions || questions.length === 0)
+    return null;
+
+  // Split the passage on [[n]] markers, producing alternating text and placeholder slots
+  const parts = passageWithPlaceholders.split(/\[\[(\d+)\]\]/);
+  // parts = ['text before [[1]]', '1', 'text between [[1]] and [[2]]', '2', 'text after [[2]]', ...]
+
+  return (
+    <div
+      className="cloze-passage rounded-xl p-4 mb-4 leading-loose text-base"
+      style={{
+        backgroundColor: scheme?.surfaceStrong || '#f8fafc',
+        border: `1px solid ${scheme?.surfaceBorder || '#e2e8f0'}`,
+      }}
+    >
+      <p
+        className="text-xs font-semibold uppercase tracking-wide mb-3"
+        style={{ color: scheme?.mutedText || '#64748b' }}
+      >
+        Select the best word or phrase for each blank.
+      </p>
+      <div style={{ lineHeight: '2.2' }}>
+        {parts.map((part, i) => {
+          if (i % 2 === 0) {
+            // Plain text segment
+            return (
+              <span
+                key={i}
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHtmlContent(part, { normalizeSpacing: true }),
+                }}
+              />
+            );
+          } else {
+            // Placeholder slot — part is the placeholder number string (e.g. "1")
+            const placeholderNum = parseInt(part, 10);
+            // Find the question that corresponds to this placeholder number
+            const qIdx = questions.findIndex(
+              (q) =>
+                q.questionNumber === placeholderNum ||
+                q.placeholderNumber === placeholderNum
+            );
+            // Fall back to 0-based index if questionNumber isn't set
+            const questionIndex =
+              qIdx >= 0
+                ? qIdx
+                : Math.min(placeholderNum - 1, questions.length - 1);
+            const q = questions[questionIndex];
+            const currentVal = answers?.[questionIndex] ?? '';
+
+            return (
+              <select
+                key={i}
+                value={currentVal}
+                onChange={(e) => onAnswer(questionIndex, e.target.value)}
+                className="inline-block mx-1 px-2 py-0.5 rounded-md font-medium text-sm focus:outline-none"
+                style={{
+                  border: `2px solid ${currentVal ? scheme?.accent || '#0ea5e9' : scheme?.surfaceBorder || '#94a3b8'}`,
+                  backgroundColor: currentVal
+                    ? scheme?.optionSelectedBg || '#e0f2fe'
+                    : '#fff',
+                  color: 'var(--text-primary)',
+                  minWidth: '7rem',
+                  cursor: 'pointer',
+                }}
+                aria-label={`Blank ${placeholderNum}`}
+              >
+                <option value="">— choose —</option>
+                {(q?.answerOptions || []).map((opt, oi) => {
+                  const optText =
+                    typeof opt === 'string' ? opt : opt?.text || '';
+                  return (
+                    <option key={oi} value={optText}>
+                      {optText}
+                    </option>
+                  );
+                })}
+              </select>
+            );
+          }
+        })}
+      </div>
+    </div>
+  );
+}
+
 function QuizInterface({
   questions,
   answers,
@@ -34412,6 +34516,46 @@ function QuizInterface({
   const handleSelect = (optionText) => {
     const newAnswers = [...answers];
     newAnswers[currentIndex] = optionText;
+    setAnswers(newAnswers);
+  };
+
+  // Multi-select: answers[currentIndex] is an array of selected option texts
+  const handleMultiSelect = (optionText) => {
+    const newAnswers = [...answers];
+    const current = Array.isArray(newAnswers[currentIndex])
+      ? newAnswers[currentIndex]
+      : [];
+    if (current.includes(optionText)) {
+      newAnswers[currentIndex] = current.filter((t) => t !== optionText);
+    } else {
+      newAnswers[currentIndex] = [...current, optionText];
+    }
+    setAnswers(newAnswers);
+  };
+
+  // Evidence pair: answers[currentIndex] = { partA: text, partB: text }
+  const handleEvidencePairSelect = (part, optionText) => {
+    const newAnswers = [...answers];
+    const current =
+      newAnswers[currentIndex] &&
+      typeof newAnswers[currentIndex] === 'object' &&
+      !Array.isArray(newAnswers[currentIndex])
+        ? newAnswers[currentIndex]
+        : {};
+    newAnswers[currentIndex] = { ...current, [part]: optionText };
+    setAnswers(newAnswers);
+  };
+
+  // Inline dropdown (cloze group): answers[currentIndex] = { [qIdx]: text, ... }
+  const handleInlineDropdownAnswer = (questionRelativeIndex, value) => {
+    const newAnswers = [...answers];
+    const current =
+      newAnswers[currentIndex] &&
+      typeof newAnswers[currentIndex] === 'object' &&
+      !Array.isArray(newAnswers[currentIndex])
+        ? newAnswers[currentIndex]
+        : {};
+    newAnswers[currentIndex] = { ...current, [questionRelativeIndex]: value };
     setAnswers(newAnswers);
   };
 
@@ -35441,7 +35585,269 @@ function QuizInterface({
                 />
               )}
 
-              {isFillInTheBlank ? (
+              {/* ── sentence_rewrite: show original sentence in a callout ── */}
+              {currentQ.itemType === 'sentence_rewrite' &&
+                currentQ.originalSentence && (
+                  <blockquote
+                    className="my-3 px-4 py-2 rounded-lg text-sm italic"
+                    style={{
+                      background: scheme.surfaceStrong || '#f1f5f9',
+                      borderLeft: `4px solid ${scheme.accent || '#0ea5e9'}`,
+                      color: scheme.mutedText,
+                    }}
+                  >
+                    <span className="text-xs font-semibold not-italic uppercase tracking-wide block mb-1">
+                      Original sentence:
+                    </span>
+                    {currentQ.originalSentence}
+                  </blockquote>
+                )}
+
+              {/* ── placement: show insertion-point instructions ── */}
+              {currentQ.itemType === 'placement' && (
+                <p
+                  className="my-2 text-sm font-medium"
+                  style={{ color: scheme.mutedText }}
+                >
+                  Select where in the passage the following sentence or phrase
+                  should be inserted.
+                </p>
+              )}
+
+              {/* ── inline_dropdown (cloze) ── */}
+              {currentQ.itemType === 'inline_dropdown' &&
+              currentQ.passageWithPlaceholders
+                ? (() => {
+                    // Gather the full cloze group starting at this question
+                    const groupStart = currentIndex;
+                    const groupQuestions = [];
+                    for (let gi = groupStart; gi < questions.length; gi++) {
+                      if (
+                        gi === groupStart ||
+                        (questions[gi].itemType === 'inline_dropdown' &&
+                          !questions[gi].passageWithPlaceholders)
+                      ) {
+                        groupQuestions.push(questions[gi]);
+                      } else {
+                        break;
+                      }
+                    }
+                    return (
+                      <InlineDropdownPassage
+                        passageWithPlaceholders={
+                          currentQ.passageWithPlaceholders
+                        }
+                        questions={groupQuestions}
+                        answers={
+                          answers[currentIndex] &&
+                          typeof answers[currentIndex] === 'object' &&
+                          !Array.isArray(answers[currentIndex])
+                            ? answers[currentIndex]
+                            : {}
+                        }
+                        onAnswer={handleInlineDropdownAnswer}
+                        scheme={scheme}
+                      />
+                    );
+                  })()
+                : null}
+
+              {/* ── evidence_pair ── */}
+              {currentQ.itemType === 'evidence_pair' ? (
+                <div className="space-y-5">
+                  {/* Part A */}
+                  <div>
+                    <p
+                      className="text-sm font-bold mb-2"
+                      style={{ color: scheme.text }}
+                    >
+                      Part A — Select the best answer:
+                    </p>
+                    <div className="space-y-2">
+                      {(
+                        currentQ.partA?.answerOptions ||
+                        currentQ.answerOptions ||
+                        []
+                      ).map((opt, i) => {
+                        const optText =
+                          typeof opt === 'string' ? opt : opt?.text || '';
+                        const currentVal = answers[currentIndex];
+                        const isSelected =
+                          typeof currentVal === 'object' &&
+                          !Array.isArray(currentVal)
+                            ? currentVal?.partA === optText
+                            : false;
+                        return (
+                          <button
+                            key={i}
+                            onClick={() =>
+                              handleEvidencePairSelect('partA', optText)
+                            }
+                            className="flex w-full items-center gap-2 rounded-lg p-3 text-left transition"
+                            style={{
+                              backgroundColor: isSelected
+                                ? scheme.optionSelectedBg
+                                : scheme.optionDefaultBg,
+                              border: isSelected
+                                ? `2px solid ${scheme.optionSelectedBorder}`
+                                : `1px solid ${scheme.optionDefaultBorder}`,
+                            }}
+                          >
+                            <span className="mr-2 font-bold">
+                              {String.fromCharCode(65 + i)}.
+                            </span>
+                            <span
+                              className="question-stem"
+                              dangerouslySetInnerHTML={renderQuestionTextForDisplay(
+                                optText,
+                                currentQ.isPremade === true
+                              )}
+                            />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  {/* Part B — only show if Part A is answered */}
+                  {(() => {
+                    const currentVal = answers[currentIndex];
+                    const partAAnswered =
+                      typeof currentVal === 'object' &&
+                      !Array.isArray(currentVal) &&
+                      currentVal?.partA;
+                    if (!partAAnswered)
+                      return (
+                        <p
+                          className="text-sm italic"
+                          style={{ color: scheme.mutedText }}
+                        >
+                          Answer Part A to reveal Part B.
+                        </p>
+                      );
+                    const partBOptions =
+                      currentQ.partB?.answerOptions ||
+                      currentQ.evidenceOptions ||
+                      [];
+                    if (partBOptions.length === 0) return null;
+                    return (
+                      <div>
+                        <p
+                          className="text-sm font-bold mb-2"
+                          style={{ color: scheme.text }}
+                        >
+                          Part B — Which evidence best supports your answer to
+                          Part A?
+                        </p>
+                        <div className="space-y-2">
+                          {partBOptions.map((opt, i) => {
+                            const optText =
+                              typeof opt === 'string' ? opt : opt?.text || '';
+                            const isSelected = currentVal?.partB === optText;
+                            return (
+                              <button
+                                key={i}
+                                onClick={() =>
+                                  handleEvidencePairSelect('partB', optText)
+                                }
+                                className="flex w-full items-center gap-2 rounded-lg p-3 text-left transition text-sm"
+                                style={{
+                                  backgroundColor: isSelected
+                                    ? scheme.optionSelectedBg
+                                    : scheme.optionDefaultBg,
+                                  border: isSelected
+                                    ? `2px solid ${scheme.optionSelectedBorder}`
+                                    : `1px solid ${scheme.optionDefaultBorder}`,
+                                }}
+                              >
+                                <span className="mr-2 font-bold">
+                                  {String.fromCharCode(65 + i)}.
+                                </span>
+                                <span
+                                  className="question-stem"
+                                  dangerouslySetInnerHTML={renderQuestionTextForDisplay(
+                                    optText,
+                                    currentQ.isPremade === true
+                                  )}
+                                />
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              ) : currentQ.itemType === 'multi_select' ? (
+                /* ── multi_select ── */
+                <div>
+                  <p
+                    className="text-xs font-semibold mb-2 uppercase tracking-wide"
+                    style={{ color: scheme.mutedText }}
+                  >
+                    Select ALL correct answers.
+                  </p>
+                  <div className="space-y-3">
+                    {(currentQ.answerOptions || []).map((opt, i) => {
+                      const currentVal = Array.isArray(answers[currentIndex])
+                        ? answers[currentIndex]
+                        : [];
+                      const isSelected = currentVal.includes(opt.text);
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => handleMultiSelect(opt.text)}
+                          disabled={isOlympicsMode && showingExplanation}
+                          className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition"
+                          style={{
+                            backgroundColor: isSelected
+                              ? scheme.optionSelectedBg
+                              : scheme.optionDefaultBg,
+                            border: isSelected
+                              ? `2px solid ${scheme.optionSelectedBorder}`
+                              : `1px solid ${scheme.optionDefaultBorder}`,
+                            cursor:
+                              isOlympicsMode && showingExplanation
+                                ? 'not-allowed'
+                                : 'pointer',
+                          }}
+                        >
+                          {/* Checkbox indicator */}
+                          <span
+                            className="shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center text-xs font-bold"
+                            style={{
+                              borderColor: isSelected
+                                ? scheme.optionSelectedBorder
+                                : scheme.optionDefaultBorder,
+                              backgroundColor: isSelected
+                                ? scheme.accent
+                                : 'transparent',
+                              color: isSelected ? '#fff' : 'transparent',
+                            }}
+                          >
+                            ✓
+                          </span>
+                          <span
+                            className="grow text-left"
+                            style={{ color: 'var(--text-primary)' }}
+                          >
+                            <span className="mr-2 font-bold">
+                              {String.fromCharCode(65 + i)}.
+                            </span>
+                            <span
+                              className="question-stem"
+                              dangerouslySetInnerHTML={renderQuestionTextForDisplay(
+                                stripHtmlTag(opt.text || ''),
+                                currentQ.isPremade === true
+                              )}
+                            />
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : isFillInTheBlank ? (
+                /* ── fill-in-the-blank ── */
                 <div>
                   <label
                     htmlFor="fill-in-blank-answer"
@@ -35466,6 +35872,7 @@ function QuizInterface({
                   />
                 </div>
               ) : (
+                /* ── standard single-select (default) ── */
                 <div className="space-y-3">
                   {(currentQ.answerOptions || []).map((opt, i) => {
                     const cleanedOptionText = stripHtmlTag(opt.text || '');
@@ -36268,6 +36675,8 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
   const [isPaused, setIsPaused] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
   const [pausesRemaining, setPausesRemaining] = useState(2);
+  const [showFiveMinWarning, setShowFiveMinWarning] = useState(false);
+  const fiveMinWarningShownRef = React.useRef({});
 
   const PART_TIMES = { 1: 35 * 60, 2: 45 * 60, 3: 70 * 60 };
 
@@ -36286,13 +36695,27 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
     setTimeLeft(PART_TIMES[currentPart]);
     setIsPaused(false);
     setPausesRemaining(2);
+    setShowFiveMinWarning(false);
+    fiveMinWarningShownRef.current[currentPart] = false;
   }, [currentPart]);
 
   useEffect(() => {
     if (isPaused || timeLeft <= 0) return;
-    const timerId = setInterval(() => setTimeLeft((t) => t - 1), 1000);
+    const timerId = setInterval(
+      () =>
+        setTimeLeft((t) => {
+          const next = t - 1;
+          // Trigger 5-minute warning once per part
+          if (next === 300 && !fiveMinWarningShownRef.current[currentPart]) {
+            fiveMinWarningShownRef.current[currentPart] = true;
+            setShowFiveMinWarning(true);
+          }
+          return next;
+        }),
+      1000
+    );
     return () => clearInterval(timerId);
-  }, [isPaused, timeLeft]);
+  }, [isPaused, timeLeft, currentPart]);
 
   const handlePauseToggle = () => {
     if (isPaused) {
@@ -36353,29 +36776,76 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
       ...(part3Data.confidence || Array(part3Questions.length).fill(null)),
     ];
 
-    const part1Correct = part1Questions.reduce((count, question, index) => {
+    // Helper: score a single RLA question against its recorded answer
+    const scoreRlaQuestion = (question, userAnswer) => {
+      const itemType = question.itemType || 'single_select';
+
+      if (itemType === 'multi_select') {
+        // All correct options must be selected, no incorrect ones
+        const correctTexts = (question.answerOptions || [])
+          .filter((opt) => opt.isCorrect)
+          .map((opt) => opt.text);
+        const selected = Array.isArray(userAnswer) ? userAnswer : [];
+        if (correctTexts.length === 0) return 0;
+        const allCorrectChosen = correctTexts.every((t) =>
+          selected.includes(t)
+        );
+        const noWrongChosen = selected.every((t) => correctTexts.includes(t));
+        return allCorrectChosen && noWrongChosen ? 1 : 0;
+      }
+
+      if (itemType === 'evidence_pair') {
+        // Both parts must be correct for a point
+        const answer =
+          userAnswer &&
+          typeof userAnswer === 'object' &&
+          !Array.isArray(userAnswer)
+            ? userAnswer
+            : {};
+        const partAOptions =
+          question.partA?.answerOptions || question.answerOptions || [];
+        const partBOptions =
+          question.partB?.answerOptions || question.evidenceOptions || [];
+        const correctPartA = partAOptions.find((o) => o.isCorrect)?.text;
+        const correctPartB = partBOptions.find((o) => o.isCorrect)?.text;
+        const partAOk = correctPartA ? answer.partA === correctPartA : true;
+        const partBOk = correctPartB ? answer.partB === correctPartB : true;
+        return partAOk && partBOk ? 1 : 0;
+      }
+
+      if (itemType === 'inline_dropdown') {
+        // Score each blank; award 1 point if all blanks are correct
+        const answer =
+          userAnswer &&
+          typeof userAnswer === 'object' &&
+          !Array.isArray(userAnswer)
+            ? userAnswer
+            : {};
+        if (!question.answerOptions || question.answerOptions.length === 0)
+          return 0;
+        const correctText =
+          question.correctAnswer ||
+          (question.answerOptions.find((o) => o.isCorrect) || {}).text;
+        const qNum = (question.questionNumber || 1) - 1;
+        return answer[qNum] === correctText ? 1 : 0;
+      }
+
+      // Default: single_select, sentence_rewrite, placement — standard MC
       const correctOption = (question.answerOptions || []).find(
         (opt) => opt.isCorrect
       );
+      return correctOption && correctOption.text === userAnswer ? 1 : 0;
+    };
+
+    const part1Correct = part1Questions.reduce((count, question, index) => {
       return (
-        count +
-        (correctOption &&
-        correctOption.text === (part1Data.answers?.[index] ?? null)
-          ? 1
-          : 0)
+        count + scoreRlaQuestion(question, part1Data.answers?.[index] ?? null)
       );
     }, 0);
 
     const part3Correct = part3Questions.reduce((count, question, index) => {
-      const correctOption = (question.answerOptions || []).find(
-        (opt) => opt.isCorrect
-      );
       return (
-        count +
-        (correctOption &&
-        correctOption.text === (part3Data.answers?.[index] ?? null)
-          ? 1
-          : 0)
+        count + scoreRlaQuestion(question, part3Data.answers?.[index] ?? null)
       );
     }, 0);
 
@@ -36698,7 +37168,32 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
           </button>
         </div>
       ) : (
-        renderCurrentPart()
+        <>
+          {/* 5-minute warning banner */}
+          {showFiveMinWarning && (
+            <div
+              className="flex items-center justify-between gap-3 mb-4 px-4 py-3 rounded-lg text-sm font-medium"
+              style={{
+                backgroundColor: '#fef3c7',
+                border: '1px solid #fbbf24',
+                color: '#92400e',
+              }}
+            >
+              <span>
+                ⏰ <strong>5 minutes remaining</strong> in this section. Start
+                wrapping up!
+              </span>
+              <button
+                onClick={() => setShowFiveMinWarning(false)}
+                className="font-bold opacity-70 hover:opacity-100"
+                aria-label="Dismiss warning"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+          {renderCurrentPart()}
+        </>
       )}
     </div>
   );
@@ -37172,9 +37667,20 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     (_, index) => !!safeMarked[index]
   );
 
+  const isRlaComprehensive = quiz?.type === 'multi-part-rla';
+  const hasEssayScore =
+    isRlaComprehensive &&
+    results?.essayScore &&
+    typeof results.essayScore.overallScore === 'number';
+
+  // For RLA, break down by skill tag; for all others use question.type
   const performanceByCategory = quiz.questions.reduce(
     (acc, question, index) => {
-      const type = question.type || 'knowledge'; // Default type if not specified
+      // Use skill field for RLA, fall back to type for other subjects
+      const type =
+        isRlaComprehensive && question.skill
+          ? question.skill
+          : question.type || 'knowledge';
       if (!acc[type]) {
         acc[type] = { correct: 0, total: 0 };
       }
@@ -37191,6 +37697,7 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   );
 
   const categoryNames = {
+    // Generic question types
     text: 'Text Analysis',
     image: 'Image/Map Interpretation',
     knowledge: 'Knowledge-Based',
@@ -37199,6 +37706,25 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
     'multi-source': 'Multi-Source Analysis',
     analysis: 'Paired Passage Analysis',
     chart: 'Chart/Data Analysis',
+    // RLA reading skills (Part 1)
+    main_idea: 'Main Idea & Theme',
+    detail: 'Supporting Details',
+    inference: 'Inference & Interpretation',
+    argument: 'Argument Analysis',
+    vocab: 'Vocabulary in Context',
+    text_structure: 'Text Structure & Purpose',
+    // RLA language skills (Part 3)
+    sentence_boundary: 'Sentence Boundaries',
+    usage_mechanics: 'Usage & Mechanics',
+    transitions: 'Transitions & Coherence',
+    organization: 'Organization',
+    word_choice: 'Word Choice',
+  };
+
+  const RLA_TRAIT_LABELS = {
+    trait1: { label: 'Trait 1 — Analysis of Arguments', max: 2 },
+    trait2: { label: 'Trait 2 — Development of Ideas & Structure', max: 2 },
+    trait3: { label: 'Trait 3 — Language Conventions', max: 2 },
   };
 
   return (
@@ -37223,7 +37749,68 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
           {results?.score ?? 0} /{' '}
           {results?.totalQuestions ?? (quiz?.questions?.length || 0)} Correct
         </p>
+        {/* RLA score formula breakdown */}
+        {isRlaComprehensive && (
+          <p className="text-sm text-secondary mt-1">
+            MC: {(results?.multipleChoicePercentage ?? 0).toFixed(1)}% × 60% +
+            Essay: {(results?.essayPercentage ?? 0).toFixed(1)}% × 40% ={' '}
+            {(results?.finalPercentage ?? 0).toFixed(1)}%
+          </p>
+        )}
       </div>
+
+      {/* Essay Trait Breakdown (RLA comprehensive only) */}
+      {hasEssayScore && (
+        <div className="mt-6 pt-4 border-t max-w-lg mx-auto text-left">
+          <h3 className="text-xl font-bold subject-accent-heading mb-3">
+            Extended Response Score
+          </h3>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-secondary font-semibold">
+              Total Essay Score
+            </span>
+            <span className="text-2xl font-bold text-primary">
+              {results.essayScore.overallScore} / 6
+            </span>
+          </div>
+          <div className="space-y-3">
+            {Object.entries(RLA_TRAIT_LABELS).map(([key, { label, max }]) => {
+              const traitScore =
+                results.essayScore[key]?.score ?? results.essayScore[key] ?? 0;
+              const pct = (traitScore / max) * 100;
+              const color =
+                pct >= 70
+                  ? 'var(--color-success, #16a34a)'
+                  : pct >= 50
+                    ? 'var(--color-warning, #d97706)'
+                    : 'var(--color-danger, #dc2626)';
+              return (
+                <div key={key} className="panel-surface p-3 rounded-lg">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-semibold text-secondary">
+                      {label}
+                    </span>
+                    <span className="font-bold text-primary">
+                      {traitScore} / {max}
+                    </span>
+                  </div>
+                  {results.essayScore[key]?.feedback && (
+                    <p className="text-xs text-secondary mt-1 italic">
+                      {results.essayScore[key].feedback}
+                    </p>
+                  )}
+                  <div className="w-full bg-surface-alt rounded-full h-2 mt-2">
+                    <div
+                      className="h-2 rounded-full transition-all"
+                      style={{ width: `${pct}%`, backgroundColor: color }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {(loadingSuggestions || (suggestions && suggestions.length)) && (
         <div className="mt-6 pt-4 border-t max-w-2xl mx-auto text-left">
@@ -37274,27 +37861,38 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
 
       <div className="mt-8 pt-6 border-t max-w-lg mx-auto">
         <h3 className="text-xl font-bold subject-accent-heading mb-4">
-          Performance by Category
+          {isRlaComprehensive
+            ? 'Performance by Skill'
+            : 'Performance by Category'}
         </h3>
         <div className="space-y-3 text-left">
-          {Object.entries(performanceByCategory).map(([type, data]) => (
-            <div key={type} className="panel-surface p-3 rounded-lg">
-              <div className="flex justify-between items-center">
-                <span className="font-semibold text-secondary">
-                  {categoryNames[type] || type}
-                </span>
-                <span className="font-bold text-primary">
-                  {data.correct} / {data.total}
-                </span>
+          {Object.entries(performanceByCategory).map(([type, data]) => {
+            const pct = data.total > 0 ? (data.correct / data.total) * 100 : 0;
+            const barColor =
+              pct >= 70
+                ? 'var(--color-success, #16a34a)'
+                : pct >= 50
+                  ? 'var(--color-warning, #d97706)'
+                  : 'var(--color-danger, #dc2626)';
+            return (
+              <div key={type} className="panel-surface p-3 rounded-lg">
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-secondary">
+                    {categoryNames[type] || type}
+                  </span>
+                  <span className="font-bold text-primary">
+                    {data.correct} / {data.total}
+                  </span>
+                </div>
+                <div className="w-full bg-surface-alt rounded-full h-2.5 mt-2">
+                  <div
+                    className="h-2.5 rounded-full"
+                    style={{ width: `${pct}%`, backgroundColor: barColor }}
+                  ></div>
+                </div>
               </div>
-              <div className="w-full bg-surface-alt rounded-full h-2.5 mt-2">
-                <div
-                  className="bg-primary h-2.5 rounded-full"
-                  style={{ width: `${(data.correct / data.total) * 100}%` }}
-                ></div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
