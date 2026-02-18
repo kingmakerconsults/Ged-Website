@@ -2227,6 +2227,19 @@ function enforceWordCapsOnItem(item, subject) {
  * slots are filled from whichever difficulty has surplus.
  */
 function enforceRlaDifficultySpread(items, target) {
+  if (!items || items.length === 0) return items;
+
+  // If fewer than half items have explicit difficulty, skip the spread to avoid
+  // unintentionally discarding questions — just return all items as-is.
+  const withDifficulty = items.filter(
+    (i) =>
+      i.difficulty &&
+      ['easy', 'medium', 'hard'].includes(i.difficulty.toLowerCase())
+  );
+  if (withDifficulty.length < items.length / 2) {
+    return items;
+  }
+
   const buckets = { easy: [], medium: [], hard: [] };
   for (const item of items) {
     const d = (item.difficulty || 'medium').toLowerCase();
@@ -2240,14 +2253,11 @@ function enforceRlaDifficultySpread(items, target) {
     result.push(...pool.slice(0, count));
   }
 
-  // If we're short (AI didn't generate enough of a difficulty), fill from surplus
-  if (result.length < items.length) {
-    const used = new Set(result);
-    for (const item of items) {
-      if (!used.has(item)) {
-        result.push(item);
-        if (result.length >= items.length) break;
-      }
+  // Fill any remaining slots from surplus buckets so we never return fewer than we received
+  const used = new Set(result);
+  for (const item of items) {
+    if (!used.has(item)) {
+      result.push(item);
     }
   }
 
