@@ -1,0 +1,321 @@
+{
+  "generatedAt": "2026-02-18T19:47:27.163Z",
+  "sourceAuditGeneratedAt": "2026-02-18T19:47:14.816Z",
+  "sourceAuditMode": "report-only-manual-review",
+  "learnerFacingTiers": [
+    "foundation",
+    "test-ready",
+    "challenge"
+  ],
+  "summary": {
+    "files": 10,
+    "totalQuestions": 4580,
+    "totalWarnings": 0,
+    "totalStructuralProblems": 0
+  },
+  "subjectRollup": [
+    {
+      "subject": "Math",
+      "files": 2,
+      "questions": 1198,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    },
+    {
+      "subject": "RLA",
+      "files": 2,
+      "questions": 813,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    },
+    {
+      "subject": "Science",
+      "files": 2,
+      "questions": 916,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    },
+    {
+      "subject": "Social Studies",
+      "files": 3,
+      "questions": 1635,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    },
+    {
+      "subject": "Workforce",
+      "files": 1,
+      "questions": 18,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    }
+  ],
+  "subjectTierRollup": [
+    {
+      "subject": "Math",
+      "learnerTier": "foundation",
+      "files": 2,
+      "questions": 1198,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    },
+    {
+      "subject": "RLA",
+      "learnerTier": "foundation",
+      "files": 2,
+      "questions": 813,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    },
+    {
+      "subject": "Science",
+      "learnerTier": "foundation",
+      "files": 2,
+      "questions": 916,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "foundation",
+      "files": 3,
+      "questions": 1635,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    },
+    {
+      "subject": "Workforce",
+      "learnerTier": "foundation",
+      "files": 1,
+      "questions": 18,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    }
+  ],
+  "queue": [
+    {
+      "file": "public\\quizzes\\math.quizzes.part1.json",
+      "subject": "Math",
+      "learnerTier": "foundation",
+      "questionCount": 629,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part2.json",
+      "subject": "Math",
+      "learnerTier": "foundation",
+      "questionCount": 569,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part1.json",
+      "subject": "RLA",
+      "learnerTier": "foundation",
+      "questionCount": 582,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part2.json",
+      "subject": "RLA",
+      "learnerTier": "foundation",
+      "questionCount": 231,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part1.json",
+      "subject": "Science",
+      "learnerTier": "foundation",
+      "questionCount": 478,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part2.json",
+      "subject": "Science",
+      "learnerTier": "foundation",
+      "questionCount": 438,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\social-studies.extras.json",
+      "subject": "Social Studies",
+      "learnerTier": "foundation",
+      "questionCount": 216,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part1.json",
+      "subject": "Social Studies",
+      "learnerTier": "foundation",
+      "questionCount": 545,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part2.json",
+      "subject": "Social Studies",
+      "learnerTier": "foundation",
+      "questionCount": 874,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\workforce.quizzes.json",
+      "subject": "Workforce",
+      "learnerTier": "foundation",
+      "questionCount": 18,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    }
+  ],
+  "quickWins": [
+    {
+      "file": "public\\quizzes\\math.quizzes.part1.json",
+      "subject": "Math",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part2.json",
+      "subject": "Math",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part1.json",
+      "subject": "RLA",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part2.json",
+      "subject": "RLA",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part1.json",
+      "subject": "Science",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part2.json",
+      "subject": "Science",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    },
+    {
+      "file": "public\\quizzes\\social-studies.extras.json",
+      "subject": "Social Studies",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part1.json",
+      "subject": "Social Studies",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part2.json",
+      "subject": "Social Studies",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    },
+    {
+      "file": "public\\quizzes\\workforce.quizzes.json",
+      "subject": "Workforce",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    }
+  ],
+  "deepRewrite": [],
+  "nextBatch": []
+}

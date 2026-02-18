@@ -1,0 +1,426 @@
+{
+  "generatedAt": "2026-02-18T17:09:34.214Z",
+  "sourceAuditGeneratedAt": "2026-02-18T17:09:33.060Z",
+  "sourceAuditMode": "report-only-manual-review",
+  "learnerFacingTiers": [
+    "foundation",
+    "test-ready",
+    "challenge"
+  ],
+  "summary": {
+    "files": 10,
+    "totalQuestions": 4382,
+    "totalWarnings": 1377,
+    "totalStructuralProblems": 22
+  },
+  "subjectRollup": [
+    {
+      "subject": "Math",
+      "files": 2,
+      "questions": 1198,
+      "warnings": 523,
+      "structuralProblems": 1,
+      "weightedScore": 1858
+    },
+    {
+      "subject": "Social Studies",
+      "files": 3,
+      "questions": 1437,
+      "warnings": 386,
+      "structuralProblems": 19,
+      "weightedScore": 1393
+    },
+    {
+      "subject": "Science",
+      "files": 2,
+      "questions": 916,
+      "warnings": 272,
+      "structuralProblems": 2,
+      "weightedScore": 967
+    },
+    {
+      "subject": "RLA",
+      "files": 2,
+      "questions": 813,
+      "warnings": 196,
+      "structuralProblems": 0,
+      "weightedScore": 669
+    },
+    {
+      "subject": "Workforce",
+      "files": 1,
+      "questions": 18,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    }
+  ],
+  "subjectTierRollup": [
+    {
+      "subject": "Math",
+      "learnerTier": "test-ready/challenge",
+      "files": 2,
+      "questions": 1198,
+      "warnings": 523,
+      "structuralProblems": 1,
+      "weightedScore": 1858
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "test-ready/challenge",
+      "files": 2,
+      "questions": 1419,
+      "warnings": 368,
+      "structuralProblems": 1,
+      "weightedScore": 1267
+    },
+    {
+      "subject": "Science",
+      "learnerTier": "test-ready/challenge",
+      "files": 2,
+      "questions": 916,
+      "warnings": 272,
+      "structuralProblems": 2,
+      "weightedScore": 967
+    },
+    {
+      "subject": "RLA",
+      "learnerTier": "test-ready/challenge",
+      "files": 2,
+      "questions": 813,
+      "warnings": 196,
+      "structuralProblems": 0,
+      "weightedScore": 669
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "foundation",
+      "files": 1,
+      "questions": 18,
+      "warnings": 18,
+      "structuralProblems": 18,
+      "weightedScore": 126
+    },
+    {
+      "subject": "Workforce",
+      "learnerTier": "foundation",
+      "files": 1,
+      "questions": 18,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    }
+  ],
+  "queue": [
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part2.json",
+      "subject": "Social Studies",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 874,
+      "warningCount": 348,
+      "structuralProblemCount": 0,
+      "weightedScore": 1193,
+      "reasonCounts": {
+        "question tier does not match topic tier": 199,
+        "question complexity appears below topic tier": 149
+      },
+      "recommendations": [
+        "Fix mismatched tier labels between topic and question.",
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part2.json",
+      "subject": "Math",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 569,
+      "warningCount": 271,
+      "structuralProblemCount": 1,
+      "weightedScore": 964,
+      "reasonCounts": {
+        "question tier does not match topic tier": 126,
+        "question complexity appears below topic tier": 145
+      },
+      "recommendations": [
+        "Fix mismatched tier labels between topic and question.",
+        "Rewrite flagged questions to increase complexity and remove filler.",
+        "Fix structural validation issues before complexity tuning."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part1.json",
+      "subject": "Math",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 629,
+      "warningCount": 252,
+      "structuralProblemCount": 0,
+      "weightedScore": 894,
+      "reasonCounts": {
+        "question tier does not match topic tier": 114,
+        "question complexity appears below topic tier": 138
+      },
+      "recommendations": [
+        "Fix mismatched tier labels between topic and question.",
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part1.json",
+      "subject": "Science",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 478,
+      "warningCount": 154,
+      "structuralProblemCount": 2,
+      "weightedScore": 553,
+      "reasonCounts": {
+        "question tier does not match topic tier": 75,
+        "question complexity appears below topic tier": 79
+      },
+      "recommendations": [
+        "Fix mismatched tier labels between topic and question.",
+        "Rewrite flagged questions to increase complexity and remove filler.",
+        "Fix structural validation issues before complexity tuning."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part1.json",
+      "subject": "RLA",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 582,
+      "warningCount": 130,
+      "structuralProblemCount": 0,
+      "weightedScore": 434,
+      "reasonCounts": {
+        "question tier does not match topic tier": 86,
+        "question complexity appears below topic tier": 44
+      },
+      "recommendations": [
+        "Fix mismatched tier labels between topic and question.",
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part2.json",
+      "subject": "Science",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 438,
+      "warningCount": 118,
+      "structuralProblemCount": 0,
+      "weightedScore": 414,
+      "reasonCounts": {
+        "question tier does not match topic tier": 58,
+        "question complexity appears below topic tier": 60
+      },
+      "recommendations": [
+        "Fix mismatched tier labels between topic and question.",
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part2.json",
+      "subject": "RLA",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 231,
+      "warningCount": 66,
+      "structuralProblemCount": 0,
+      "weightedScore": 235,
+      "reasonCounts": {
+        "question tier does not match topic tier": 29,
+        "question complexity appears below topic tier": 37
+      },
+      "recommendations": [
+        "Fix mismatched tier labels between topic and question.",
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\social-studies.extras.json",
+      "subject": "Social Studies",
+      "learnerTier": "foundation",
+      "questionCount": 18,
+      "warningCount": 18,
+      "structuralProblemCount": 18,
+      "weightedScore": 126,
+      "reasonCounts": {
+        "missing question tier metadata": 18
+      },
+      "recommendations": [
+        "Add question tier metadata based on topic tier map.",
+        "Fix structural validation issues before complexity tuning."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part1.json",
+      "subject": "Social Studies",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 545,
+      "warningCount": 20,
+      "structuralProblemCount": 1,
+      "weightedScore": 74,
+      "reasonCounts": {
+        "question tier does not match topic tier": 12,
+        "question complexity appears below topic tier": 8
+      },
+      "recommendations": [
+        "Fix mismatched tier labels between topic and question.",
+        "Rewrite flagged questions to increase complexity and remove filler.",
+        "Fix structural validation issues before complexity tuning."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\workforce.quizzes.json",
+      "subject": "Workforce",
+      "learnerTier": "foundation",
+      "questionCount": 18,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    }
+  ],
+  "quickWins": [
+    {
+      "file": "public\\quizzes\\workforce.quizzes.json",
+      "subject": "Workforce",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    }
+  ],
+  "deepRewrite": [
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part2.json",
+      "subject": "Social Studies",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 149,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part2.json",
+      "subject": "Math",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 145,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part1.json",
+      "subject": "Math",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 138,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part1.json",
+      "subject": "Science",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 79,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part1.json",
+      "subject": "RLA",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 44,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part2.json",
+      "subject": "Science",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 60,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part2.json",
+      "subject": "RLA",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 37,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part1.json",
+      "subject": "Social Studies",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 8,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    }
+  ],
+  "nextBatch": [
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part2.json",
+      "subject": "Social Studies",
+      "weightedScore": 1193,
+      "warningCount": 348,
+      "structuralProblemCount": 0,
+      "dominantReason": "question tier does not match topic tier"
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part2.json",
+      "subject": "Math",
+      "weightedScore": 964,
+      "warningCount": 271,
+      "structuralProblemCount": 1,
+      "dominantReason": "question complexity appears below topic tier"
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part1.json",
+      "subject": "Math",
+      "weightedScore": 894,
+      "warningCount": 252,
+      "structuralProblemCount": 0,
+      "dominantReason": "question complexity appears below topic tier"
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part1.json",
+      "subject": "Science",
+      "weightedScore": 553,
+      "warningCount": 154,
+      "structuralProblemCount": 2,
+      "dominantReason": "question complexity appears below topic tier"
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part1.json",
+      "subject": "RLA",
+      "weightedScore": 434,
+      "warningCount": 130,
+      "structuralProblemCount": 0,
+      "dominantReason": "question tier does not match topic tier"
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part2.json",
+      "subject": "Science",
+      "weightedScore": 414,
+      "warningCount": 118,
+      "structuralProblemCount": 0,
+      "dominantReason": "question complexity appears below topic tier"
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part2.json",
+      "subject": "RLA",
+      "weightedScore": 235,
+      "warningCount": 66,
+      "structuralProblemCount": 0,
+      "dominantReason": "question complexity appears below topic tier"
+    },
+    {
+      "file": "public\\quizzes\\social-studies.extras.json",
+      "subject": "Social Studies",
+      "weightedScore": 126,
+      "warningCount": 18,
+      "structuralProblemCount": 18,
+      "dominantReason": "missing question tier metadata"
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part1.json",
+      "subject": "Social Studies",
+      "weightedScore": 74,
+      "warningCount": 20,
+      "structuralProblemCount": 1,
+      "dominantReason": "question tier does not match topic tier"
+    }
+  ]
+}

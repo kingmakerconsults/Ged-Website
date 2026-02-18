@@ -1,0 +1,126 @@
+{
+  "generatedAt": "2026-02-18T19:45:59.715Z",
+  "sourceAudit": "reports\\tier_progression_audit_1771443539838.json",
+  "files": [
+    {
+      "file": "public\\quizzes\\math.quizzes.part1.json",
+      "warningCount": 10,
+      "topTopics": [
+        {
+          "topicId": "math_data_09",
+          "count": 8
+        },
+        {
+          "topicId": "math_algebra_10",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part2.json",
+      "warningCount": 5,
+      "topTopics": [
+        {
+          "topicId": "math_geometry_11",
+          "count": 2
+        },
+        {
+          "topicId": "math_ratios_10",
+          "count": 2
+        },
+        {
+          "topicId": "math_geometry_12",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part1.json",
+      "warningCount": 8,
+      "topTopics": [
+        {
+          "topicId": "rla_evidence_10",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part2.json",
+      "warningCount": 2,
+      "topTopics": [
+        {
+          "topicId": "diag_rla_composite_v1",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part1.json",
+      "warningCount": 7,
+      "topTopics": [
+        {
+          "topicId": "diag_science_composite_v1",
+          "count": 7
+        }
+      ]
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part2.json",
+      "warningCount": 6,
+      "topTopics": [
+        {
+          "topicId": "sci_scientific_practices_data_reasoning_9",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part1.json",
+      "warningCount": 8,
+      "topTopics": [
+        {
+          "topicId": "ss_economics_geography_8",
+          "count": 6
+        },
+        {
+          "topicId": "diag_ss_composite_v1",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part2.json",
+      "warningCount": 24,
+      "topTopics": [
+        {
+          "topicId": "ss_civics_judicial_quiz3",
+          "count": 5
+        },
+        {
+          "topicId": "ss_civics_federalism_elections_quiz3",
+          "count": 4
+        },
+        {
+          "topicId": "ss_civil_rights_14",
+          "count": 3
+        },
+        {
+          "topicId": "ss_colonial_era_12",
+          "count": 3
+        },
+        {
+          "topicId": "ss_civics_bill_of_rights_15",
+          "count": 3
+        },
+        {
+          "topicId": "ss_civics_elections_17",
+          "count": 3
+        },
+        {
+          "topicId": "ss_reading_sources_9",
+          "count": 3
+        }
+      ]
+    }
+  ]
+}

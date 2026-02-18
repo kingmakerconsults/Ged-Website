@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-02-18T17:09:27.313Z",
+  "filesScanned": 10,
+  "filesUpdated": 8,
+  "totalQuestions": 4364,
+  "totalUpdated": 809,
+  "details": [
+    {
+      "file": "public\\quizzes\\math.quizzes.part1.json",
+      "updates": 120,
+      "totalQuestions": 629
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part2.json",
+      "updates": 144,
+      "totalQuestions": 569
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part1.json",
+      "updates": 86,
+      "totalQuestions": 582
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part2.json",
+      "updates": 52,
+      "totalQuestions": 231
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part1.json",
+      "updates": 121,
+      "totalQuestions": 478
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part2.json",
+      "updates": 73,
+      "totalQuestions": 438
+    },
+    {
+      "file": "public\\quizzes\\social-studies.extras.json",
+      "updates": 0,
+      "totalQuestions": 0
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part1.json",
+      "updates": 12,
+      "totalQuestions": 545
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part2.json",
+      "updates": 201,
+      "totalQuestions": 874
+    },
+    {
+      "file": "public\\quizzes\\workforce.quizzes.json",
+      "updates": 0,
+      "totalQuestions": 18
+    }
+  ]
+}

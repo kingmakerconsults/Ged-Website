@@ -1,0 +1,269 @@
+{
+  "generatedAt": "2026-02-18T19:47:14.816Z",
+  "mode": "report-only-manual-review",
+  "learnerFacingTiers": [
+    "foundation",
+    "test-ready",
+    "challenge"
+  ],
+  "fileReports": [
+    {
+      "file": "public\\quizzes\\math.quizzes.part1.json",
+      "questionCount": 629,
+      "summary": {
+        "totalQuestions": 629,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part2.json",
+      "questionCount": 569,
+      "summary": {
+        "totalQuestions": 569,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part1.json",
+      "questionCount": 582,
+      "summary": {
+        "totalQuestions": 582,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part2.json",
+      "questionCount": 231,
+      "summary": {
+        "totalQuestions": 231,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part1.json",
+      "questionCount": 478,
+      "summary": {
+        "totalQuestions": 478,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part2.json",
+      "questionCount": 438,
+      "summary": {
+        "totalQuestions": 438,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\social-studies.extras.json",
+      "questionCount": 216,
+      "summary": {
+        "totalQuestions": 216,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part1.json",
+      "questionCount": 545,
+      "summary": {
+        "totalQuestions": 545,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part2.json",
+      "questionCount": 874,
+      "summary": {
+        "totalQuestions": 874,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\workforce.quizzes.json",
+      "questionCount": 18,
+      "summary": {
+        "totalQuestions": 18,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    }
+  ],
+  "rollup": [
+    {
+      "subject": "Math",
+      "learnerTier": "challenge",
+      "totalQuestions": 204,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Math",
+      "learnerTier": "foundation",
+      "totalQuestions": 648,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Math",
+      "learnerTier": "test-ready",
+      "totalQuestions": 178,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Math",
+      "learnerTier": "unknown",
+      "totalQuestions": 168,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "learnerTier": "challenge",
+      "totalQuestions": 72,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "learnerTier": "foundation",
+      "totalQuestions": 455,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "learnerTier": "test-ready",
+      "totalQuestions": 190,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "learnerTier": "unknown",
+      "totalQuestions": 96,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Science",
+      "learnerTier": "challenge",
+      "totalQuestions": 144,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Science",
+      "learnerTier": "foundation",
+      "totalQuestions": 486,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Science",
+      "learnerTier": "test-ready",
+      "totalQuestions": 58,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Science",
+      "learnerTier": "unknown",
+      "totalQuestions": 228,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "challenge",
+      "totalQuestions": 108,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "foundation",
+      "totalQuestions": 1321,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "test-ready",
+      "totalQuestions": 200,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "unknown",
+      "totalQuestions": 6,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Workforce Readiness",
+      "learnerTier": "unknown",
+      "totalQuestions": 18,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    }
+  ]
+}

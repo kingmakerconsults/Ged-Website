@@ -132,6 +132,30 @@ function log(msg, indent = 0) {
   console.log('  '.repeat(indent) + msg);
 }
 
+function normalizeChallengeTag(raw, subject = '') {
+  const text = String(raw || '')
+    .trim()
+    .toLowerCase();
+  if (!text) return '';
+
+  const canonical = text.replace('social-studies', 'social');
+  if (/^(rla|math|science|social)[:\-]\d+$/.test(canonical)) {
+    return canonical.replace('-', ':');
+  }
+
+  const subjectKey = String(subject || '')
+    .trim()
+    .toLowerCase();
+  if (/^\d+$/.test(canonical)) {
+    if (subjectKey.startsWith('social')) return `social:${canonical}`;
+    if (subjectKey === 'rla') return `rla:${canonical}`;
+    if (subjectKey === 'math') return `math:${canonical}`;
+    if (subjectKey === 'science') return `science:${canonical}`;
+  }
+
+  return canonical;
+}
+
 function determineChallengeTags(quizId, subject, questions) {
   const tags = new Set();
   const subjectKey =
@@ -168,7 +192,9 @@ function determineChallengeTags(quizId, subject, questions) {
     tags.add(firstTag);
   }
 
-  return Array.from(tags);
+  return Array.from(tags)
+    .map((tag) => normalizeChallengeTag(tag, subject))
+    .filter(Boolean);
 }
 
 function addTagsToFile(filepath, subject) {
@@ -182,15 +208,30 @@ function addTagsToFile(filepath, subject) {
 
     let questionsUpdated = 0;
 
-    // Add tags to questions that don't have them
+    // Add or normalize tags on each question
     const updated = questions.map((q) => {
-      // Skip if question already has tags
-      if (
-        q.challenge_tags &&
-        Array.isArray(q.challenge_tags) &&
-        q.challenge_tags.length > 0
-      ) {
-        return q;
+      const currentTags = Array.isArray(q?.challenge_tags)
+        ? q.challenge_tags
+        : [];
+      const normalizedCurrent = Array.from(
+        new Set(
+          currentTags
+            .map((tag) => normalizeChallengeTag(tag, subject))
+            .filter(Boolean)
+        )
+      );
+
+      if (normalizedCurrent.length > 0) {
+        const unchanged =
+          normalizedCurrent.length === currentTags.length &&
+          normalizedCurrent.every((tag, idx) => tag === currentTags[idx]);
+        if (unchanged) return q;
+
+        questionsUpdated++;
+        return {
+          ...q,
+          challenge_tags: normalizedCurrent,
+        };
       }
 
       questionsUpdated++;

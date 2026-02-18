@@ -52,6 +52,51 @@ export const TIERS = [
 
 export const TIER_KEYS = TIERS.map((t) => t.key);
 
+export const LEARNER_FACING_TIERS = [
+  {
+    key: 'foundation',
+    rank: 1,
+    label: 'Foundation',
+    sourceTiers: ['foundations', 'core'],
+  },
+  {
+    key: 'test-ready',
+    rank: 2,
+    label: 'Test Ready',
+    sourceTiers: ['test-ready'],
+  },
+  {
+    key: 'challenge',
+    rank: 3,
+    label: 'Challenge',
+    sourceTiers: ['challenge'],
+  },
+];
+
+export function toLearnerFacingTier(tierKey) {
+  const normalized = String(tierKey || '')
+    .trim()
+    .toLowerCase();
+
+  if (normalized === 'test-ready') return 'test-ready';
+  if (normalized === 'challenge') return 'challenge';
+  if (
+    normalized === 'foundations' ||
+    normalized === 'core' ||
+    normalized === 'foundation'
+  ) {
+    return 'foundation';
+  }
+  return null;
+}
+
+export function getLearnerTierLabel(tierKey) {
+  const learnerTier = toLearnerFacingTier(tierKey);
+  if (!learnerTier) return null;
+  const match = LEARNER_FACING_TIERS.find((tier) => tier.key === learnerTier);
+  return match ? match.label : null;
+}
+
 // ---------------------------------------------------------------------------
 // Domain structures per subject  (mirrors GED content areas)
 // ---------------------------------------------------------------------------

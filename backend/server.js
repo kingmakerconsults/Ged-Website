@@ -6793,9 +6793,11 @@ app.post(
         }
       } catch (_) {}
 
-      // Build pool of questions for subject (map to quiz catalog key)
-      let pool = getPremadeQuestions(quizSubjectKey, 200);
       const wanted = Array.from(userTags);
+      const targetTier = wanted.length ? 'challenge' : 'test-ready';
+
+      // Build pool of questions for subject (map to quiz catalog key)
+      let pool = getPremadeQuestions(quizSubjectKey, 200, { targetTier });
       let filtered = pool.filter(
         (q) =>
           Array.isArray(q?.challenge_tags) &&
@@ -6803,12 +6805,7 @@ app.post(
       );
       if (filtered.length < 10) filtered = pool;
 
-      // Shuffle and take 12
-      for (let i = filtered.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
-      }
-      const questions = filtered
+      const questions = orderQuestionsForTierTarget(filtered, targetTier)
         .slice(0, 12)
         .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
       return res.json({
@@ -6993,10 +6990,17 @@ app.post(
       const subject = normalizeSubjectLabel(req.params.subject);
       const quizSubjectKey = subjectLabelToQuizKey(subject);
       const { focusTag } = req.body || {};
+      const explicitTier = normalizeLearnerQuestionTier(
+        req.body?.targetTier || req.body?.tier || req.body?.learnerTier
+      );
+      const targetTier =
+        explicitTier || (focusTag ? 'challenge' : 'test-ready');
       const today = todayISO();
 
       // Build pool and filter by focus tag if present
-      let questionPool = getPremadeQuestions(quizSubjectKey, 100); // Get more for 20Q quiz
+      let questionPool = getPremadeQuestions(quizSubjectKey, 100, {
+        targetTier,
+      }); // Get more for 20Q quiz
       if (focusTag) {
         const needle = String(focusTag).toLowerCase();
         questionPool = questionPool.filter(
@@ -7008,9 +7012,9 @@ app.post(
         );
         if (questionPool.length < 20) {
           // backfill with general pool if too few
-          const backfill = getPremadeQuestions(quizSubjectKey, 100).filter(
-            (q) => !questionPool.includes(q)
-          );
+          const backfill = getPremadeQuestions(quizSubjectKey, 100, {
+            targetTier,
+          }).filter((q) => !questionPool.includes(q));
           questionPool = questionPool.concat(backfill);
         }
       }
@@ -7018,13 +7022,7 @@ app.post(
       if (!questionPool.length)
         return res.status(400).json({ ok: false, error: 'no_questions' });
 
-      // Shuffle
-      for (let i = questionPool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [questionPool[i], questionPool[j]] = [questionPool[j], questionPool[i]];
-      }
-
-      const questions = questionPool
+      const questions = orderQuestionsForTierTarget(questionPool, targetTier)
         .slice(0, 20) // 20 questions for weekly coach
         .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
 
@@ -7077,6 +7075,11 @@ app.post(
       const subject = normalizeSubjectLabel(req.params.subject);
       const quizSubjectKey = subjectLabelToQuizKey(subject);
       const { focusTag } = req.body || {};
+      const explicitTier = normalizeLearnerQuestionTier(
+        req.body?.targetTier || req.body?.tier || req.body?.learnerTier
+      );
+      const targetTier =
+        explicitTier || (focusTag ? 'challenge' : 'test-ready');
       const today = todayISO();
 
       // Throttle to 2/week
@@ -7099,7 +7102,9 @@ app.post(
       }
 
       // Build pool and filter by focus tag if present
-      let questionPool = getPremadeQuestions(quizSubjectKey, 60);
+      let questionPool = getPremadeQuestions(quizSubjectKey, 60, {
+        targetTier,
+      });
       if (focusTag) {
         const needle = String(focusTag).toLowerCase();
         questionPool = questionPool.filter(
@@ -7111,21 +7116,16 @@ app.post(
         );
         if (questionPool.length < 12) {
           // backfill with general pool if too few
-          const backfill = getPremadeQuestions(quizSubjectKey, 60).filter(
-            (q) => !questionPool.includes(q)
-          );
+          const backfill = getPremadeQuestions(quizSubjectKey, 60, {
+            targetTier,
+          }).filter((q) => !questionPool.includes(q));
           questionPool = questionPool.concat(backfill);
         }
       }
 
       if (!questionPool.length)
         return res.status(400).json({ ok: false, error: 'no_questions' });
-      // Shuffle
-      for (let i = questionPool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [questionPool[i], questionPool[j]] = [questionPool[j], questionPool[i]];
-      }
-      const questions = questionPool
+      const questions = orderQuestionsForTierTarget(questionPool, targetTier)
         .slice(0, 12)
         .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
       const quizCode = `${COACH_ASSIGNED_BY}:${subject}:${today}:composite`;
@@ -15682,6 +15682,122 @@ function deriveTagsFromContext(subjectKey, categoryName, topic) {
   return [];
 }
 
+function normalizeLearnerQuestionTier(raw) {
+  const t = String(raw || '')
+    .trim()
+    .toLowerCase();
+  if (!t) return null;
+  if (t === 'foundation' || t === 'test-ready' || t === 'challenge') return t;
+  if (t === 'foundations' || t === 'core') return 'foundation';
+  return null;
+}
+
+function inferTopicLearnerTier(topic) {
+  const topicTier = normalizeLearnerQuestionTier(topic?.tier);
+  if (topicTier) return topicTier;
+
+  const topicId = String(topic?.id || '')
+    .trim()
+    .toLowerCase();
+  if (!topicId) return 'foundation';
+  if (/set4|_10$|_11$|_12$|challenge/.test(topicId)) return 'challenge';
+  if (/set3|_07$|_08$|_09$|test-ready/.test(topicId)) return 'test-ready';
+  return 'foundation';
+}
+
+function inferQuestionLearnerTier(question, topic) {
+  const explicit = normalizeLearnerQuestionTier(
+    question?.tier || question?.questionTier || question?.level
+  );
+  if (explicit) return explicit;
+
+  const diff = String(question?.difficulty || '')
+    .trim()
+    .toLowerCase();
+  if (diff === 'hard') return 'challenge';
+  if (diff === 'medium') return 'test-ready';
+  if (diff === 'easy') return 'foundation';
+
+  return inferTopicLearnerTier(topic);
+}
+
+function estimateQuestionComplexityScore(question) {
+  const tier = normalizeLearnerQuestionTier(question?.tier);
+  const tierWeight = tier === 'challenge' ? 3 : tier === 'test-ready' ? 2 : 1;
+
+  const difficulty = String(question?.difficulty || '')
+    .trim()
+    .toLowerCase();
+  const difficultyWeight =
+    difficulty === 'hard' ? 3 : difficulty === 'medium' ? 2 : 1;
+
+  const prompt = String(
+    question?.question ||
+      question?.questionText ||
+      question?.content?.questionText ||
+      ''
+  ).toLowerCase();
+  const passage = String(
+    question?.passage || question?.content?.passage || ''
+  ).toLowerCase();
+
+  let reasoningCueScore = 0;
+  if (
+    /\b(analyze|evaluate|justify|best\s+supports|most\s+likely|infer|evidence)\b/.test(
+      `${prompt} ${passage}`
+    )
+  ) {
+    reasoningCueScore += 1;
+  }
+  if (
+    /\b(first|then|after|compare|contrast|step|multi-step|based\s+on)\b/.test(
+      prompt
+    )
+  ) {
+    reasoningCueScore += 1;
+  }
+
+  const optionCount = Array.isArray(question?.answerOptions)
+    ? question.answerOptions.length
+    : 0;
+  if (optionCount >= 5) reasoningCueScore += 0.5;
+  if (passage.length > 220) reasoningCueScore += 1;
+  if (prompt.length > 180) reasoningCueScore += 0.5;
+
+  return tierWeight * 100 + difficultyWeight * 25 + reasoningCueScore * 10;
+}
+
+function orderQuestionsForTierTarget(questions, targetTierRaw) {
+  const targetTier = normalizeLearnerQuestionTier(targetTierRaw);
+  const list = Array.isArray(questions) ? questions.slice() : [];
+  if (!list.length) return list;
+  if (!targetTier) return shuffleArray(list);
+
+  const scored = shuffleArray(list).map((q) => ({
+    question: q,
+    score: estimateQuestionComplexityScore(q),
+  }));
+
+  if (targetTier === 'foundation') {
+    scored.sort((a, b) => a.score - b.score);
+  } else if (targetTier === 'challenge') {
+    scored.sort((a, b) => b.score - a.score);
+  } else {
+    const targetScore = 240;
+    scored.sort((a, b) => {
+      const aPenalty = a.score < 170 ? 80 : 0;
+      const bPenalty = b.score < 170 ? 80 : 0;
+      return (
+        Math.abs(a.score - targetScore) +
+        aPenalty -
+        (Math.abs(b.score - targetScore) + bPenalty)
+      );
+    });
+  }
+
+  return scored.map((row) => row.question);
+}
+
 function ensureQuestionTags(
   subjectKey,
   categoryName,
@@ -15708,6 +15824,13 @@ function ensureQuestionTags(
         typeof question.questionNumber === 'number'
       ) {
         question.sourceMeta.questionNumber = question.questionNumber;
+      }
+    } catch (_) {}
+
+    // Ensure learner-facing question tier exists for progression filtering.
+    try {
+      if (!normalizeLearnerQuestionTier(question?.tier)) {
+        question.tier = inferQuestionLearnerTier(question, topic);
       }
     } catch (_) {}
 
@@ -15760,10 +15883,15 @@ function buildAllQuizzesWithTags(allQuizzes = ALL_QUIZZES) {
         const tCopy = { ...topic };
         // Normalize topic-level questions
         if (Array.isArray(topic.questions)) {
-          tCopy.questions = topic.questions.map((q, i) => {
+          const normalizedQuestions = topic.questions.map((q, i) => {
             const cloned = q && typeof q === 'object' ? { ...q } : q;
             return ensureQuestionTags(subjectKey, catName, topic, cloned, i);
           });
+          const topicTier = inferTopicLearnerTier(topic);
+          tCopy.questions = orderQuestionsForTierTarget(
+            normalizedQuestions,
+            topicTier
+          );
         }
         // Preserve quizzes array if present and derive topic-level quizSets of 3
         if (Array.isArray(topic.quizzes)) {
@@ -15888,8 +16016,9 @@ function questionHasMissingLocalImage(q) {
   return urls.some((u) => !imageExistsForUrl(u));
 }
 
-const getPremadeQuestions = (subject, count) => {
+const getPremadeQuestions = (subject, count, options = {}) => {
   const allQuestions = [];
+  const targetTier = normalizeLearnerQuestionTier(options?.targetTier);
   const slugify = (value) =>
     (value || '')
       .toString()
@@ -16051,8 +16180,10 @@ const getPremadeQuestions = (subject, count) => {
       }
     );
   }
-  const shuffled = allQuestions.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
+  const ordered = targetTier
+    ? orderQuestionsForTierTarget(allQuestions, targetTier)
+    : shuffleArray(allQuestions);
+  return ordered.slice(0, count);
 };
 
 // Normalize challenge tags from quiz data to match catalog format
@@ -16312,6 +16443,10 @@ app.post(
 
       // Olympics mode uses unlimited questions from premade only
       const isOlympicsMode = practiceMode === 'olympics';
+      const requestedTier = normalizeLearnerQuestionTier(
+        req.body?.tier || req.body?.targetTier || req.body?.learnerTier
+      );
+      const targetTier = requestedTier || (isOlympicsMode ? 'challenge' : null);
       const questionsNeeded = isOlympicsMode
         ? 100
         : Math.max(1, Math.round((durationMinutes / 10) * 5));
@@ -16400,7 +16535,9 @@ app.post(
       // Pull questions from selected subjects
       let pool = [];
       subjectList.forEach((subj) => {
-        const pulled = getPremadeQuestions(subj, questionsNeeded * 2); // pull extra to allow shuffle
+        const pulled = getPremadeQuestions(subj, questionsNeeded * 2, {
+          targetTier,
+        }); // pull extra to allow tier ordering + fallback
         if (Array.isArray(pulled)) {
           pulled.forEach((q) => {
             const originCategoryName = q.originCategoryName || null;
@@ -16455,13 +16592,11 @@ app.post(
         });
       }
 
-      // shuffle
-      for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [pool[i], pool[j]] = [pool[j], pool[i]];
-      }
+      const orderedPool = targetTier
+        ? orderQuestionsForTierTarget(pool, targetTier)
+        : shuffleArray(pool);
 
-      const questions = pool
+      const questions = orderedPool
         .slice(0, questionsNeeded)
         .map((q, idx) => ({ ...q, questionNumber: idx + 1 }));
       return res.json({

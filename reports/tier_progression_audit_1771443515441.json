@@ -1,0 +1,1106 @@
+{
+  "generatedAt": "2026-02-18T19:38:35.441Z",
+  "mode": "report-only-manual-review",
+  "learnerFacingTiers": [
+    "foundation",
+    "test-ready",
+    "challenge"
+  ],
+  "fileReports": [
+    {
+      "file": "public\\quizzes\\math.quizzes.part1.json",
+      "questionCount": 629,
+      "summary": {
+        "totalQuestions": 629,
+        "structuralProblemCount": 0,
+        "warningCount": 10,
+        "requiresManualReview": true
+      },
+      "warnings": [
+        {
+          "index": 271,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 275,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 557,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 559,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 560,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 561,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 563,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 564,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 566,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 568,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        }
+      ],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part2.json",
+      "questionCount": 569,
+      "summary": {
+        "totalQuestions": 569,
+        "structuralProblemCount": 0,
+        "warningCount": 5,
+        "requiresManualReview": true
+      },
+      "warnings": [
+        {
+          "index": 77,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 82,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 94,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 341,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 346,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        }
+      ],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part1.json",
+      "questionCount": 582,
+      "summary": {
+        "totalQuestions": 582,
+        "structuralProblemCount": 0,
+        "warningCount": 8,
+        "requiresManualReview": true
+      },
+      "warnings": [
+        {
+          "index": 109,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "test-ready",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 111,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "test-ready",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 112,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "test-ready",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 114,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "test-ready",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 115,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "test-ready",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 117,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "test-ready",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 118,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "test-ready",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 119,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "test-ready",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        }
+      ],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part2.json",
+      "questionCount": 231,
+      "summary": {
+        "totalQuestions": 231,
+        "structuralProblemCount": 0,
+        "warningCount": 2,
+        "requiresManualReview": true
+      },
+      "warnings": [
+        {
+          "index": 224,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 225,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        }
+      ],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part1.json",
+      "questionCount": 478,
+      "summary": {
+        "totalQuestions": 478,
+        "structuralProblemCount": 1,
+        "warningCount": 7,
+        "requiresManualReview": true
+      },
+      "warnings": [
+        {
+          "index": 457,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 458,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 460,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 461,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 463,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 464,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 465,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        }
+      ],
+      "structuralProblems": [
+        {
+          "index": 130,
+          "reason": "duplicate choice",
+          "choice": "pp",
+          "q": {
+            "questionNumber": 5,
+            "type": "multipleChoice",
+            "difficulty": "medium",
+            "question": "In a certain species of plant, the allele for purple flowers (P) is dominant over the allele for white flowers (p). A botanist crosses a plant that is homozygous dominant (PP) with a plant that is homozygous recessive (pp). What will be the genotype of all the offspring in the first generation (F1)?",
+            "answerOptions": [
+              {
+                "text": "Homozygous dominant (two dominant alleles)",
+                "rationale": "This is incorrect because each offspring receives one dominant allele and one recessive allele in this cross.",
+                "isCorrect": false
+              },
+              {
+                "text": "Pp",
+                "rationale": "Correct. A Punnett square for this cross shows that 100% of the offspring will have the heterozygous genotype (Pp).",
+                "isCorrect": true
+              },
+              {
+                "text": "pp",
+                "rationale": "This would only be possible if both parents contributed a recessive allele.",
+                "isCorrect": false
+              },
+              {
+                "text": "50% PP and 50% pp",
+                "rationale": "This is not the correct outcome for this specific cross.",
+                "isCorrect": false
+              }
+            ],
+            "challenge_tags": [
+              "science-3"
+            ],
+            "tier": "foundation",
+            "__sourceFile": "science.quizzes.part1.json",
+            "__subject": "Science",
+            "__category": "Life Science",
+            "__topicId": "sci_life_science_2",
+            "__topicTitle": "Heredity and Ecosystems",
+            "__quizId": "sci_life_science_2",
+            "__topicTier": "foundations"
+          }
+        }
+      ]
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part2.json",
+      "questionCount": 438,
+      "summary": {
+        "totalQuestions": 438,
+        "structuralProblemCount": 0,
+        "warningCount": 6,
+        "requiresManualReview": true
+      },
+      "warnings": [
+        {
+          "index": 402,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 404,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 405,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 406,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 407,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 408,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        }
+      ],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\social-studies.extras.json",
+      "questionCount": 216,
+      "summary": {
+        "totalQuestions": 216,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part1.json",
+      "questionCount": 545,
+      "summary": {
+        "totalQuestions": 545,
+        "structuralProblemCount": 0,
+        "warningCount": 8,
+        "requiresManualReview": true
+      },
+      "warnings": [
+        {
+          "index": 480,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 482,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 483,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "easy"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 484,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 486,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 491,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 523,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 527,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        }
+      ],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part2.json",
+      "questionCount": 874,
+      "summary": {
+        "totalQuestions": 874,
+        "structuralProblemCount": 0,
+        "warningCount": 24,
+        "requiresManualReview": true
+      },
+      "warnings": [
+        {
+          "index": 15,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "test-ready",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 19,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "test-ready",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 22,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 75,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 79,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 82,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 514,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 518,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 521,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 538,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 542,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 545,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "challenge",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 585,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 587,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 588,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": "medium"
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 811,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 813,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 814,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 819,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 821,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 863,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 865,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 870,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        },
+        {
+          "index": 872,
+          "reason": "question complexity appears below topic tier",
+          "detail": {
+            "topicTier": "test-ready",
+            "estimatedComplexity": "foundation",
+            "difficulty": null
+          },
+          "severity": "warning",
+          "requiresManualReview": true
+        }
+      ],
+      "structuralProblems": []
+    },
+    {
+      "file": "public\\quizzes\\workforce.quizzes.json",
+      "questionCount": 18,
+      "summary": {
+        "totalQuestions": 18,
+        "structuralProblemCount": 0,
+        "warningCount": 0,
+        "requiresManualReview": false
+      },
+      "warnings": [],
+      "structuralProblems": []
+    }
+  ],
+  "rollup": [
+    {
+      "subject": "Math",
+      "learnerTier": "challenge",
+      "totalQuestions": 204,
+      "warnings": 7,
+      "structuralProblems": 0,
+      "warningReasons": {
+        "question complexity appears below topic tier": 7
+      }
+    },
+    {
+      "subject": "Math",
+      "learnerTier": "foundation",
+      "totalQuestions": 648,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Math",
+      "learnerTier": "test-ready",
+      "totalQuestions": 178,
+      "warnings": 8,
+      "structuralProblems": 0,
+      "warningReasons": {
+        "question complexity appears below topic tier": 8
+      }
+    },
+    {
+      "subject": "Math",
+      "learnerTier": "unknown",
+      "totalQuestions": 168,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "learnerTier": "challenge",
+      "totalQuestions": 72,
+      "warnings": 8,
+      "structuralProblems": 0,
+      "warningReasons": {
+        "question complexity appears below topic tier": 8
+      }
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "learnerTier": "foundation",
+      "totalQuestions": 455,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "learnerTier": "test-ready",
+      "totalQuestions": 190,
+      "warnings": 2,
+      "structuralProblems": 0,
+      "warningReasons": {
+        "question complexity appears below topic tier": 2
+      }
+    },
+    {
+      "subject": "Reasoning Through Language Arts (RLA)",
+      "learnerTier": "unknown",
+      "totalQuestions": 96,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Science",
+      "learnerTier": "challenge",
+      "totalQuestions": 144,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Science",
+      "learnerTier": "foundation",
+      "totalQuestions": 486,
+      "warnings": 0,
+      "structuralProblems": 1,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Science",
+      "learnerTier": "test-ready",
+      "totalQuestions": 58,
+      "warnings": 13,
+      "structuralProblems": 0,
+      "warningReasons": {
+        "question complexity appears below topic tier": 13
+      }
+    },
+    {
+      "subject": "Science",
+      "learnerTier": "unknown",
+      "totalQuestions": 228,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "challenge",
+      "totalQuestions": 108,
+      "warnings": 12,
+      "structuralProblems": 0,
+      "warningReasons": {
+        "question complexity appears below topic tier": 12
+      }
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "foundation",
+      "totalQuestions": 1321,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "test-ready",
+      "totalQuestions": 200,
+      "warnings": 20,
+      "structuralProblems": 0,
+      "warningReasons": {
+        "question complexity appears below topic tier": 20
+      }
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "unknown",
+      "totalQuestions": 6,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    },
+    {
+      "subject": "Workforce Readiness",
+      "learnerTier": "unknown",
+      "totalQuestions": 18,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "warningReasons": {}
+    }
+  ]
+}

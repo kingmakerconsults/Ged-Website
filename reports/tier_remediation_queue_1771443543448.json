@@ -1,0 +1,339 @@
+{
+  "generatedAt": "2026-02-18T19:39:03.447Z",
+  "sourceAuditGeneratedAt": "2026-02-18T19:38:59.839Z",
+  "sourceAuditMode": "report-only-manual-review",
+  "learnerFacingTiers": [
+    "foundation",
+    "test-ready",
+    "challenge"
+  ],
+  "summary": {
+    "files": 10,
+    "totalQuestions": 4580,
+    "totalWarnings": 70,
+    "totalStructuralProblems": 0
+  },
+  "subjectRollup": [
+    {
+      "subject": "Social Studies",
+      "files": 3,
+      "questions": 1635,
+      "warnings": 32,
+      "structuralProblems": 0,
+      "weightedScore": 128
+    },
+    {
+      "subject": "Math",
+      "files": 2,
+      "questions": 1198,
+      "warnings": 15,
+      "structuralProblems": 0,
+      "weightedScore": 60
+    },
+    {
+      "subject": "Science",
+      "files": 2,
+      "questions": 916,
+      "warnings": 13,
+      "structuralProblems": 0,
+      "weightedScore": 52
+    },
+    {
+      "subject": "RLA",
+      "files": 2,
+      "questions": 813,
+      "warnings": 10,
+      "structuralProblems": 0,
+      "weightedScore": 40
+    },
+    {
+      "subject": "Workforce",
+      "files": 1,
+      "questions": 18,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    }
+  ],
+  "subjectTierRollup": [
+    {
+      "subject": "Social Studies",
+      "learnerTier": "test-ready/challenge",
+      "files": 2,
+      "questions": 1419,
+      "warnings": 32,
+      "structuralProblems": 0,
+      "weightedScore": 128
+    },
+    {
+      "subject": "Math",
+      "learnerTier": "test-ready/challenge",
+      "files": 2,
+      "questions": 1198,
+      "warnings": 15,
+      "structuralProblems": 0,
+      "weightedScore": 60
+    },
+    {
+      "subject": "Science",
+      "learnerTier": "test-ready/challenge",
+      "files": 2,
+      "questions": 916,
+      "warnings": 13,
+      "structuralProblems": 0,
+      "weightedScore": 52
+    },
+    {
+      "subject": "RLA",
+      "learnerTier": "test-ready/challenge",
+      "files": 2,
+      "questions": 813,
+      "warnings": 10,
+      "structuralProblems": 0,
+      "weightedScore": 40
+    },
+    {
+      "subject": "Social Studies",
+      "learnerTier": "foundation",
+      "files": 1,
+      "questions": 216,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    },
+    {
+      "subject": "Workforce",
+      "learnerTier": "foundation",
+      "files": 1,
+      "questions": 18,
+      "warnings": 0,
+      "structuralProblems": 0,
+      "weightedScore": 0
+    }
+  ],
+  "queue": [
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part2.json",
+      "subject": "Social Studies",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 874,
+      "warningCount": 24,
+      "structuralProblemCount": 0,
+      "weightedScore": 96,
+      "reasonCounts": {
+        "question complexity appears below topic tier": 24
+      },
+      "recommendations": [
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part1.json",
+      "subject": "Math",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 629,
+      "warningCount": 10,
+      "structuralProblemCount": 0,
+      "weightedScore": 40,
+      "reasonCounts": {
+        "question complexity appears below topic tier": 10
+      },
+      "recommendations": [
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part1.json",
+      "subject": "RLA",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 582,
+      "warningCount": 8,
+      "structuralProblemCount": 0,
+      "weightedScore": 32,
+      "reasonCounts": {
+        "question complexity appears below topic tier": 8
+      },
+      "recommendations": [
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part1.json",
+      "subject": "Social Studies",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 545,
+      "warningCount": 8,
+      "structuralProblemCount": 0,
+      "weightedScore": 32,
+      "reasonCounts": {
+        "question complexity appears below topic tier": 8
+      },
+      "recommendations": [
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part1.json",
+      "subject": "Science",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 478,
+      "warningCount": 7,
+      "structuralProblemCount": 0,
+      "weightedScore": 28,
+      "reasonCounts": {
+        "question complexity appears below topic tier": 7
+      },
+      "recommendations": [
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part2.json",
+      "subject": "Science",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 438,
+      "warningCount": 6,
+      "structuralProblemCount": 0,
+      "weightedScore": 24,
+      "reasonCounts": {
+        "question complexity appears below topic tier": 6
+      },
+      "recommendations": [
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part2.json",
+      "subject": "Math",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 569,
+      "warningCount": 5,
+      "structuralProblemCount": 0,
+      "weightedScore": 20,
+      "reasonCounts": {
+        "question complexity appears below topic tier": 5
+      },
+      "recommendations": [
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part2.json",
+      "subject": "RLA",
+      "learnerTier": "test-ready/challenge",
+      "questionCount": 231,
+      "warningCount": 2,
+      "structuralProblemCount": 0,
+      "weightedScore": 8,
+      "reasonCounts": {
+        "question complexity appears below topic tier": 2
+      },
+      "recommendations": [
+        "Rewrite flagged questions to increase complexity and remove filler."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\social-studies.extras.json",
+      "subject": "Social Studies",
+      "learnerTier": "foundation",
+      "questionCount": 216,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    },
+    {
+      "file": "public\\quizzes\\workforce.quizzes.json",
+      "subject": "Workforce",
+      "learnerTier": "foundation",
+      "questionCount": 18,
+      "warningCount": 0,
+      "structuralProblemCount": 0,
+      "weightedScore": 0,
+      "reasonCounts": {},
+      "recommendations": [
+        "No action required."
+      ]
+    }
+  ],
+  "quickWins": [
+    {
+      "file": "public\\quizzes\\social-studies.extras.json",
+      "subject": "Social Studies",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    },
+    {
+      "file": "public\\quizzes\\workforce.quizzes.json",
+      "subject": "Workforce",
+      "warnings": 0,
+      "structuralProblems": 0,
+      "dominantReason": "none",
+      "suggestedAction": "Auto-populate question tier from topic tier, then re-run audit."
+    }
+  ],
+  "deepRewrite": [
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part2.json",
+      "subject": "Social Studies",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 24,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part1.json",
+      "subject": "Math",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 10,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part1.json",
+      "subject": "RLA",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 8,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\social-studies.quizzes.part1.json",
+      "subject": "Social Studies",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 8,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part1.json",
+      "subject": "Science",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 7,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\science.quizzes.part2.json",
+      "subject": "Science",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 6,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\math.quizzes.part2.json",
+      "subject": "Math",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 5,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    },
+    {
+      "file": "public\\quizzes\\rla.quizzes.part2.json",
+      "subject": "RLA",
+      "learnerTier": "test-ready/challenge",
+      "complexityFlags": 2,
+      "suggestedAction": "Manual content rewrite: remove filler and increase multi-step reasoning per tier rubric."
+    }
+  ],
+  "nextBatch": []
+}
