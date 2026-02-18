@@ -36,17 +36,17 @@ const CATEGORY_TO_DOMAIN = {
   'Algebraic Expressions & Linear Equations': 'Algebra & Functions',
   'Expressions & Equations': 'Algebra & Functions',
   'Expressions and Equations': 'Algebra & Functions',
-  'Algebra': 'Algebra & Functions',
+  Algebra: 'Algebra & Functions',
   'Graphs & Functions': 'Algebra & Functions',
   'Geometry & Measurement': 'Geometry & Measurement',
-  'Geometry': 'Geometry & Measurement',
+  Geometry: 'Geometry & Measurement',
   'Measurement & Geometry': 'Geometry & Measurement',
   'Data, Statistics & Probability': 'Data Analysis & Probability',
   'Data Analysis & Probability': 'Data Analysis & Probability',
   'Interactive Demos': 'Interactive Demos',
   'Interactive Tool Demos': 'Interactive Demos',
   'Tool Demos': 'Interactive Demos',
-  'Demos': 'Interactive Demos',
+  Demos: 'Interactive Demos',
   // Science
   'Life Science': 'Life Science',
   'Physical Science': 'Physical Science',
@@ -65,7 +65,7 @@ const CATEGORY_TO_DOMAIN = {
   'Social Studies Topics': null,
   'U.S. History': 'U.S. History',
   'Economics / Geography': 'Economics',
-  'Economics': 'Economics',
+  Economics: 'Economics',
   'Geography and the World': 'Geography & the World',
   'Reading Primary / Secondary Sources': 'Civics & Government',
   // RLA
@@ -80,8 +80,8 @@ const CATEGORY_TO_DOMAIN = {
   'Grammar, Clarity, and Revision': 'Language & Grammar',
   'Language & Grammar': 'Language & Grammar',
   'Language & Editing': 'Language & Grammar',
-  'Language': 'Language & Grammar',
-  'Editing': 'Language & Grammar',
+  Language: 'Language & Grammar',
+  Editing: 'Language & Grammar',
   'Editing & Revision': 'Language & Grammar',
   'Language & Writing': 'Language & Grammar',
   'Writing / Extended Response': 'Writing & Analysis',
@@ -97,17 +97,21 @@ const CATEGORY_TO_DOMAIN = {
 function domainFromQuizId(id, subject) {
   if (!id) return null;
   const lower = id.toLowerCase();
-  if (/_img_/.test(lower) || lower.startsWith('img_')) return 'Image Based Practice';
+  if (/_img_/.test(lower) || lower.startsWith('img_'))
+    return 'Image Based Practice';
   if (lower.startsWith('diag_')) return 'Diagnostic';
   if (/_tool_demo/.test(lower)) return 'Interactive Demos';
 
   if (subject === 'Math') {
-    if (/math_number_sense|math_quant_basics|math_quant_numbers|math_quant_percents|math_quant_ratios|math_quant_fractions|math_ratios/.test(lower))
+    if (
+      /math_number_sense|math_quant_basics|math_quant_numbers|math_quant_percents|math_quant_ratios|math_quant_fractions|math_ratios/.test(
+        lower
+      )
+    )
       return 'Number Sense & Operations';
     if (/math_alg|math_algebra|math_graphs/.test(lower))
       return 'Algebra & Functions';
-    if (/math_geom|math_geometry/.test(lower))
-      return 'Geometry & Measurement';
+    if (/math_geom|math_geometry/.test(lower)) return 'Geometry & Measurement';
     if (/math_data|math_quant_stats|math_quant_bar/.test(lower))
       return 'Data Analysis & Probability';
     return 'Number Sense & Operations';
@@ -124,13 +128,20 @@ function domainFromQuizId(id, subject) {
     return 'Physical Science';
   }
   if (subject === 'Social Studies') {
-    if (/ss_civics|ss_constitution|ss_bill_of_rights|ss_gov|ss_judicial|ss_executive|ss_legislative|ss_separation|ss_federalism|ss_elections|ss_lawmaking|ss_supreme_court|ss_reading_sources/.test(lower))
+    if (
+      /ss_civics|ss_constitution|ss_bill_of_rights|ss_gov|ss_judicial|ss_executive|ss_legislative|ss_separation|ss_federalism|ss_elections|ss_lawmaking|ss_supreme_court|ss_reading_sources/.test(
+        lower
+      )
+    )
       return 'Civics & Government';
     if (/ss_econ/.test(lower)) return 'Economics';
     if (/ss_geo/.test(lower)) return 'Geography & the World';
     return 'U.S. History';
   }
-  if (subject === 'Reasoning Through Language Arts (RLA)' || subject === 'RLA') {
+  if (
+    subject === 'Reasoning Through Language Arts (RLA)' ||
+    subject === 'RLA'
+  ) {
     if (/rla_extended_response|rla_writing/.test(lower))
       return 'Writing & Analysis';
     if (/rla_grammar|rla_lang|rla_conventions|rla_usage/.test(lower))
@@ -183,7 +194,8 @@ function tierFromQuizId(id) {
     if (n <= 9) return 'test-ready';
     return 'challenge';
   }
-  if (/basics|fundamentals|core_quiz|intro|foundation/.test(lower)) return 'foundations';
+  if (/basics|fundamentals|core_quiz|intro|foundation/.test(lower))
+    return 'foundations';
   if (/advanced|composite|mastery/.test(lower)) return 'challenge';
   return 'core';
 }
@@ -214,10 +226,10 @@ const TITLE_LOOKUP = {
 };
 
 const TIER_LABELS = {
-  'foundations': 'Foundations',
-  'core': 'Core Skills',
+  foundations: 'Foundations',
+  core: 'Core Skills',
   'test-ready': 'Test Ready',
-  'challenge': 'Challenge',
+  challenge: 'Challenge',
 };
 
 /** Generate a descriptive title from a quiz ID + domain */
@@ -258,7 +270,13 @@ function generateTitle(id, domain, tier) {
 // ---------------------------------------------------------------------------
 
 function migrate(dryRun = false, showStats = false) {
-  const filePath = path.join(root, 'backend', 'data', 'quizzes', 'supplemental.topics.json');
+  const filePath = path.join(
+    root,
+    'backend',
+    'data',
+    'quizzes',
+    'supplemental.topics.json'
+  );
   const raw = fs.readFileSync(filePath, 'utf8');
   const entries = JSON.parse(raw);
 
@@ -333,21 +351,29 @@ function migrate(dryRun = false, showStats = false) {
   if (dryRun) {
     console.log('\n[DRY RUN] No files modified.');
     // Show first 10 changes
-    const changes = migrated.filter(e => e._previousCategory);
-    console.log(`\nSample category changes (${Math.min(10, changes.length)} of ${changes.length}):`);
-    changes.slice(0, 10).forEach(e => {
-      console.log(`  ${e.topic.id}: "${e._previousCategory}" → "${e.categoryName}"`);
+    const changes = migrated.filter((e) => e._previousCategory);
+    console.log(
+      `\nSample category changes (${Math.min(10, changes.length)} of ${changes.length}):`
+    );
+    changes.slice(0, 10).forEach((e) => {
+      console.log(
+        `  ${e.topic.id}: "${e._previousCategory}" → "${e.categoryName}"`
+      );
     });
-    const titleChanges = migrated.filter(e => e.topic._previousTitle);
-    console.log(`\nSample title changes (${Math.min(10, titleChanges.length)} of ${titleChanges.length}):`);
-    titleChanges.slice(0, 10).forEach(e => {
-      console.log(`  ${e.topic.id}: "${e.topic._previousTitle}" → "${e.topic.title}"`);
+    const titleChanges = migrated.filter((e) => e.topic._previousTitle);
+    console.log(
+      `\nSample title changes (${Math.min(10, titleChanges.length)} of ${titleChanges.length}):`
+    );
+    titleChanges.slice(0, 10).forEach((e) => {
+      console.log(
+        `  ${e.topic.id}: "${e.topic._previousTitle}" → "${e.topic.title}"`
+      );
     });
     return;
   }
 
   // Clean up migration tracking fields before writing
-  const cleaned = migrated.map(e => {
+  const cleaned = migrated.map((e) => {
     const out = { ...e };
     delete out._previousCategory;
     if (out.topic) {
@@ -366,7 +392,9 @@ function migrate(dryRun = false, showStats = false) {
 
   fs.writeFileSync(filePath, JSON.stringify(cleaned, null, 2) + '\n', 'utf8');
   console.log(`[WRITE] ${filePath}`);
-  console.log(`  ${stats.categoryChanges} category changes, ${stats.titleChanges} title changes, ${stats.tiersAdded} tiers added`);
+  console.log(
+    `  ${stats.categoryChanges} category changes, ${stats.titleChanges} title changes, ${stats.tiersAdded} tiers added`
+  );
 }
 
 // ---------------------------------------------------------------------------

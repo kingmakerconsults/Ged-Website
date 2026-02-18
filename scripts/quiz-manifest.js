@@ -23,19 +23,28 @@ const requireCJS = createRequire(import.meta.url);
 // ---------------------------------------------------------------------------
 
 function safeRead(p) {
-  try { return fs.readFileSync(p, 'utf8'); } catch { return null; }
+  try {
+    return fs.readFileSync(p, 'utf8');
+  } catch {
+    return null;
+  }
 }
 
 function listJsFiles(dir) {
   if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir)
-    .filter(f => f.endsWith('.js') && !f.includes('.conflict-backup'))
-    .map(f => f.replace(/\.js$/, ''))
+  return fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith('.js') && !f.includes('.conflict-backup'))
+    .map((f) => f.replace(/\.js$/, ''))
     .sort();
 }
 
 function tryRequire(p) {
-  try { return requireCJS(p); } catch { return null; }
+  try {
+    return requireCJS(p);
+  } catch {
+    return null;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -45,16 +54,16 @@ function tryRequire(p) {
 function collectBackendFiles() {
   const quizzesDir = path.join(root, 'backend', 'data', 'quizzes');
   const subjects = {
-    math:             path.join(quizzesDir, 'math'),
-    science:          path.join(quizzesDir, 'science'),
+    math: path.join(quizzesDir, 'math'),
+    science: path.join(quizzesDir, 'science'),
     'social-studies': path.join(quizzesDir, 'social-studies'),
-    rla:              path.join(quizzesDir, 'rla'),
+    rla: path.join(quizzesDir, 'rla'),
   };
 
   const results = {};
   for (const [subj, dir] of Object.entries(subjects)) {
     const files = listJsFiles(dir);
-    results[subj] = files.map(id => ({
+    results[subj] = files.map((id) => ({
       id,
       source: 'backend-js',
       subject: subj,
@@ -100,7 +109,9 @@ async function collectQuizDataSets() {
             for (const quiz of topic.quizzes) {
               const qid = quiz?.quizId || quiz?.id;
               if (!qid) continue;
-              const qCount = Array.isArray(quiz?.questions) ? quiz.questions.length : 0;
+              const qCount = Array.isArray(quiz?.questions)
+                ? quiz.questions.length
+                : 0;
               results.push({
                 id: qid,
                 source: 'quiz_data.js',
@@ -114,7 +125,11 @@ async function collectQuizDataSets() {
             }
           }
           // Topic-level questions (no quizzes array)
-          if (!Array.isArray(topic.quizzes) && Array.isArray(topic.questions) && topic.questions.length > 0) {
+          if (
+            !Array.isArray(topic.quizzes) &&
+            Array.isArray(topic.questions) &&
+            topic.questions.length > 0
+          ) {
             results.push({
               id: topic.id || `${catName}::${topic.title}`,
               source: 'quiz_data.js',
@@ -144,7 +159,9 @@ function collectJsonOnlyQuizzes(backendIds) {
   if (!fs.existsSync(quizzesDir)) return [];
 
   const results = [];
-  const jsonFiles = fs.readdirSync(quizzesDir).filter(f => f.endsWith('.json'));
+  const jsonFiles = fs
+    .readdirSync(quizzesDir)
+    .filter((f) => f.endsWith('.json'));
 
   for (const filename of jsonFiles) {
     try {
@@ -166,7 +183,9 @@ function collectJsonOnlyQuizzes(backendIds) {
               const qid = quiz?.quizId || quiz?.id;
               if (!qid) continue;
               if (backendIds.has(qid)) continue; // already in backend
-              const qCount = Array.isArray(quiz?.questions) ? quiz.questions.length : 0;
+              const qCount = Array.isArray(quiz?.questions)
+                ? quiz.questions.length
+                : 0;
               if (qCount === 0) continue;
               results.push({
                 id: qid,
@@ -182,7 +201,9 @@ function collectJsonOnlyQuizzes(backendIds) {
           }
           // Topic-level questions
           if (topicId && !backendIds.has(topicId)) {
-            const qCount = Array.isArray(topic.questions) ? topic.questions.length : 0;
+            const qCount = Array.isArray(topic.questions)
+              ? topic.questions.length
+              : 0;
             if (qCount > 0) {
               results.push({
                 id: topicId,
@@ -205,7 +226,7 @@ function collectJsonOnlyQuizzes(backendIds) {
 
   // Deduplicate by id
   const seen = new Set();
-  return results.filter(r => {
+  return results.filter((r) => {
     if (seen.has(r.id)) return false;
     seen.add(r.id);
     return true;
@@ -229,7 +250,9 @@ function collectWorkforceQuizzes() {
       for (const topic of topics) {
         if (!topic) continue;
         const id = topic.id || topic.title;
-        const qCount = Array.isArray(topic.questions) ? topic.questions.length : 0;
+        const qCount = Array.isArray(topic.questions)
+          ? topic.questions.length
+          : 0;
         results.push({
           id,
           source: 'workforce.json',
@@ -241,7 +264,9 @@ function collectWorkforceQuizzes() {
         });
       }
     }
-  } catch { /* skip */ }
+  } catch {
+    /* skip */
+  }
   return results;
 }
 
@@ -250,20 +275,30 @@ function collectWorkforceQuizzes() {
 // ---------------------------------------------------------------------------
 
 function collectSupplementalEntries() {
-  const stPath = path.join(root, 'backend', 'data', 'quizzes', 'supplemental.topics.json');
+  const stPath = path.join(
+    root,
+    'backend',
+    'data',
+    'quizzes',
+    'supplemental.topics.json'
+  );
   try {
     const raw = safeRead(stPath);
     if (!raw) return [];
     const entries = JSON.parse(raw);
     if (!Array.isArray(entries)) return [];
-    return entries.map(e => ({
-      id: e?.topic?.id,
-      subjectKey: e?.subjectKey,
-      categoryName: e?.categoryName,
-      title: e?.topic?.title,
-      file: e?.topic?.file,
-    })).filter(e => e.id);
-  } catch { return []; }
+    return entries
+      .map((e) => ({
+        id: e?.topic?.id,
+        subjectKey: e?.subjectKey,
+        categoryName: e?.categoryName,
+        title: e?.topic?.title,
+        file: e?.topic?.file,
+      }))
+      .filter((e) => e.id);
+  } catch {
+    return [];
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -272,9 +307,10 @@ function collectSupplementalEntries() {
 
 async function main() {
   const outputArg = process.argv.indexOf('--output');
-  const outputPath = outputArg >= 0 && process.argv[outputArg + 1]
-    ? path.resolve(process.argv[outputArg + 1])
-    : path.join(root, 'quiz-manifest.json');
+  const outputPath =
+    outputArg >= 0 && process.argv[outputArg + 1]
+      ? path.resolve(process.argv[outputArg + 1])
+      : path.join(root, 'quiz-manifest.json');
 
   console.log('=== Quiz Manifest Generator ===\n');
 
@@ -284,13 +320,19 @@ async function main() {
   const allBackendIds = new Set();
   const backendStats = {};
   for (const [subj, entries] of Object.entries(backendFiles)) {
-    entries.forEach(e => allBackendIds.add(e.id));
-    const withQuestions = entries.filter(e => e.hasQuestions);
-    const empty = entries.filter(e => !e.hasQuestions);
-    backendStats[subj] = { total: entries.length, withQuestions: withQuestions.length, empty: empty.length };
-    console.log(`  ${subj}: ${entries.length} files (${withQuestions.length} with questions, ${empty.length} empty)`);
+    entries.forEach((e) => allBackendIds.add(e.id));
+    const withQuestions = entries.filter((e) => e.hasQuestions);
+    const empty = entries.filter((e) => !e.hasQuestions);
+    backendStats[subj] = {
+      total: entries.length,
+      withQuestions: withQuestions.length,
+      empty: empty.length,
+    };
+    console.log(
+      `  ${subj}: ${entries.length} files (${withQuestions.length} with questions, ${empty.length} empty)`
+    );
     if (empty.length) {
-      console.log(`    Empty: ${empty.map(e => e.id).join(', ')}`);
+      console.log(`    Empty: ${empty.map((e) => e.id).join(', ')}`);
     }
   }
 
@@ -312,7 +354,9 @@ async function main() {
   const jsonOnly = collectJsonOnlyQuizzes(allBackendIds);
   if (jsonOnly.length) {
     console.log(`  Found ${jsonOnly.length} quizzes only in JSON files:`);
-    jsonOnly.forEach(q => console.log(`    ${q.id} (${q.source}, ${q.questionCount} questions)`));
+    jsonOnly.forEach((q) =>
+      console.log(`    ${q.id} (${q.source}, ${q.questionCount} questions)`)
+    );
   } else {
     console.log('  None found.');
   }
@@ -325,7 +369,7 @@ async function main() {
   // 5. Supplemental cross-reference
   console.log('\nCross-referencing supplemental.topics.json...');
   const supplemental = collectSupplementalEntries();
-  const supplementalIds = new Set(supplemental.map(e => e.id));
+  const supplementalIds = new Set(supplemental.map((e) => e.id));
   const backendNotInSupplemental = [];
   const supplementalNotInBackend = [];
   for (const id of allBackendIds) {
@@ -339,12 +383,16 @@ async function main() {
     }
   }
   if (backendNotInSupplemental.length) {
-    console.log(`  ${backendNotInSupplemental.length} backend files NOT in supplemental.topics.json:`);
-    backendNotInSupplemental.forEach(id => console.log(`    ${id}`));
+    console.log(
+      `  ${backendNotInSupplemental.length} backend files NOT in supplemental.topics.json:`
+    );
+    backendNotInSupplemental.forEach((id) => console.log(`    ${id}`));
   }
   if (supplementalNotInBackend.length) {
-    console.log(`  ${supplementalNotInBackend.length} supplemental entries with NO backend file:`);
-    supplementalNotInBackend.forEach(id => console.log(`    ${id}`));
+    console.log(
+      `  ${supplementalNotInBackend.length} supplemental entries with NO backend file:`
+    );
+    supplementalNotInBackend.forEach((id) => console.log(`    ${id}`));
   }
 
   // Build unified manifest
@@ -352,7 +400,9 @@ async function main() {
     generatedAt: new Date().toISOString(),
     summary: {
       backendFiles: backendStats,
-      quizDataSets: Object.fromEntries(Object.entries(qdBySubject).map(([k, v]) => [k, v.length])),
+      quizDataSets: Object.fromEntries(
+        Object.entries(qdBySubject).map(([k, v]) => [k, v.length])
+      ),
       jsonOnlyQuizzes: jsonOnly.length,
       workforceQuizzes: workforce.length,
       supplementalEntries: supplemental.length,
@@ -360,10 +410,22 @@ async function main() {
       supplementalNotInBackend: supplementalNotInBackend.length,
     },
     totals: {
-      math: (backendStats.math?.total || 0) + (qdBySubject.Math?.length || 0) + jsonOnly.filter(q => q.subject?.toLowerCase().includes('math')).length,
-      science: (backendStats.science?.total || 0) + (qdBySubject.Science?.length || 0),
-      socialStudies: (backendStats['social-studies']?.total || 0) + (qdBySubject['Social Studies']?.length || 0) + jsonOnly.filter(q => q.subject?.toLowerCase().includes('social')).length,
-      rla: (backendStats.rla?.total || 0) + (qdBySubject['Reasoning Through Language Arts (RLA)']?.length || 0) + (qdBySubject.RLA?.length || 0),
+      math:
+        (backendStats.math?.total || 0) +
+        (qdBySubject.Math?.length || 0) +
+        jsonOnly.filter((q) => q.subject?.toLowerCase().includes('math'))
+          .length,
+      science:
+        (backendStats.science?.total || 0) + (qdBySubject.Science?.length || 0),
+      socialStudies:
+        (backendStats['social-studies']?.total || 0) +
+        (qdBySubject['Social Studies']?.length || 0) +
+        jsonOnly.filter((q) => q.subject?.toLowerCase().includes('social'))
+          .length,
+      rla:
+        (backendStats.rla?.total || 0) +
+        (qdBySubject['Reasoning Through Language Arts (RLA)']?.length || 0) +
+        (qdBySubject.RLA?.length || 0),
       workforce: workforce.length,
     },
     quizzes: {
@@ -375,7 +437,12 @@ async function main() {
     },
   };
 
-  manifest.totals.grandTotal = manifest.totals.math + manifest.totals.science + manifest.totals.socialStudies + manifest.totals.rla + manifest.totals.workforce;
+  manifest.totals.grandTotal =
+    manifest.totals.math +
+    manifest.totals.science +
+    manifest.totals.socialStudies +
+    manifest.totals.rla +
+    manifest.totals.workforce;
 
   // Print summary
   console.log('\n=== TOTALS ===');
@@ -392,4 +459,7 @@ async function main() {
   console.log(`\nManifest written to ${outputPath}`);
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

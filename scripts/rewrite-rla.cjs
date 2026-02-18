@@ -17,7 +17,9 @@ function write(filename, content) {
 
 // ─── EVIDENCE ─────────────────────────────────────────────────────────────────
 
-write('rla_evidence_04.js', `
+write(
+  'rla_evidence_04.js',
+  `
 // Evidence & Argumentation — Core Skills: Practice 4
 // 10 questions | evaluate support quality, distinguish fact from inference
 module.exports = [
@@ -162,9 +164,12 @@ module.exports = [
     challenge_tags: ['rla-2'],
   },
 ];
-`);
+`
+);
 
-write('rla_evidence_05.js', `
+write(
+  'rla_evidence_05.js',
+  `
 // Evidence & Argumentation — Core Skills: Practice 5
 // 10 questions | author's purpose, inference from text, evaluating conclusions
 module.exports = [
@@ -309,9 +314,12 @@ module.exports = [
     challenge_tags: ['rla-2'],
   },
 ];
-`);
+`
+);
 
-write('rla_evidence_06.js', `
+write(
+  'rla_evidence_06.js',
+  `
 // Evidence & Argumentation — Core Skills: Practice 6
 // Mirrors practice 4-5 depth, fresh passages
 module.exports = [
@@ -456,10 +464,13 @@ module.exports = [
     challenge_tags: ['rla-2'],
   },
 ];
-`);
+`
+);
 
 // Evidence 07, 08, 09, 10 — test-ready and challenge tiers
-write('rla_evidence_07.js', `
+write(
+  'rla_evidence_07.js',
+  `
 // Evidence & Argumentation — Test Ready: Practice 7
 // 11 questions | paired sources, logical fallacies, multi-step evidence chains
 module.exports = [
@@ -596,13 +607,16 @@ module.exports = [
     challenge_tags: ['rla-2'],
   },
 ];
-`);
+`
+);
 
 // Write remaining evidence files (08, 09, 10 — challenge tier)
 // and also grammar and inference core/test-ready/challenge files
 // using a fresh approach for brevity — concise but differentiated
 
-write('rla_grammar_04.js', `
+write(
+  'rla_grammar_04.js',
+  `
 // Language & Grammar — Core Skills: Practice 4
 // 10 questions | pronoun agreement, modifier placement, parallelism
 module.exports = [
@@ -719,9 +733,12 @@ module.exports = [
     challenge_tags: ['rla-1'],
   },
 ];
-`);
+`
+);
 
-write('rla_main_idea_04.js', `
+write(
+  'rla_main_idea_04.js',
+  `
 // Reading Comprehension — Core Skills: Practice 4 / Main Idea
 // 10 questions | inference, author purpose, structure, longer passages 80-120 words
 module.exports = [
@@ -846,6 +863,7 @@ module.exports = [
     challenge_tags: ['rla-2'],
   },
 ];
-`);
+`
+);
 
 console.log('\n✓ RLA files written.');

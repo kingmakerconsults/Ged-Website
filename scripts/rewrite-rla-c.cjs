@@ -13,7 +13,9 @@ const write = (f, c) => {
 };
 
 // ─── INFERENCE 04 — Core ────────────────────────────────────────────────────
-write('rla_inference_04.js', `
+write(
+  'rla_inference_04.js',
+  `
 // Reading Comprehension — Core: Inference & Conclusions — Practice 4
 // 10 questions | drawing supported conclusions, distinguishing fact from inference
 module.exports = [
@@ -138,10 +140,13 @@ module.exports = [
     challenge_tags: ['rla-2'],
   },
 ];
-`);
+`
+);
 
 // ─── INFERENCE 05 — Core ────────────────────────────────────────────────────
-write('rla_inference_05.js', `
+write(
+  'rla_inference_05.js',
+  `
 // Reading Comprehension — Core: Inference — Practice 5
 module.exports = [
   {
@@ -265,7 +270,8 @@ module.exports = [
     challenge_tags: ['rla-2'],
   },
 ];
-`);
+`
+);
 
 // ─── INFERENCE 06-10 — Core through Challenge ───────────────────────────────
 // Each file: 1 well-crafted anchor question, stated difficulty
@@ -280,39 +286,296 @@ const inferenceStubs = [
 const inferenceQuestions = [
   // 06 Core
   [
-    { passage: "A 2022 poll of 3,000 American adults found that 61% could not name all three branches of the federal government. Among adults under 35, the figure was 71%. The same poll found that 44% of respondents said they could not explain what the First Amendment protects.", q: "What can be reasonably inferred from the poll results about civic knowledge?", a1: "The majority of Americans have taken civics courses and passed them.", c1: false, r1: "No data on course completion is given.", a2: "There is a significant and widespread gap in basic civic knowledge among American adults, with younger adults showing even lower familiarity.", c2: true, r2: "61% unable to name three branches and 71% among under-35s directly support a widespread knowledge gap.", a3: "All Americans who can name all three branches are also familiar with the First Amendment.", c3: false, r3: "The poll measures two separate knowledge areas — no such correlation is stated.", a4: "The U.S. should eliminate its three-branch government structure.", c4: false, r4: "The poll reveals knowledge gaps, not a policy prescription.", diff: 'easy' },
-    { passage: "A small fishing village recorded 400 annual fishing trips in 1980. By 2000, the total catch per trip had fallen by 58% despite the use of more efficient modern boats and equipment. By 2020, many fishing families had abandoned the trade entirely.", q: "What is the most reasonable inference about the state of fish populations over this period?", a1: "Modern equipment caused fish to swim to deeper water temporarily.", c1: false, r1: "Temporary depth migration doesn't explain a 40-year decline across catch totals.", a2: "The fish population in the village's fishing waters likely declined substantially due to overfishing or environmental change.", c2: true, r2: "More efficient equipment plus dramatically lower catch per trip across 40 years strongly suggests resource depletion.", a3: "The fishing families left because they found higher-paying industries.", c3: false, r3: "The passage doesn't mention employment alternatives — the most direct inference is about fish populations.", a4: "Fishing in 2000 was less efficient than fishing in 1980.", c4: false, r4: "The passage says modern boats are more efficient — catch decline despite efficiency gains points to resource depletion.", diff: 'medium' },
-    { passage: "The following data appeared in a city crime report: burglary rates in Westside fell by 34% in the year a neighbourhood watch programme was introduced. However, burglary rates in the adjacent Northside neighbourhood — with no watch programme — rose by 28% in the same year.", q: "What do these two data points together most reasonably suggest?", a1: "The neighbourhood watch eliminated burglary from the entire city.", c1: false, r1: "Northside rates rose — the programme clearly did not eliminate citywide burglary.", a2: "Some burglars may have shifted their activity from Westside to Northside rather than stopping burglary altogether.", c2: true, r2: "A simultaneous fall in one area and rise in the adjacent area is a classic displacement pattern — burglars shifted locations rather than stopping.", a3: "Neighbourhood watches always reduce crime in every area they operate.", c3: false, r3: "This case shows crime displaced to an adjacent area — 'always' and 'every area' are unsupported generalisations.", a4: "The police failed to respond effectively to the Northside increase.", c4: false, r4: "Police response is not discussed — the data pattern is about displacement, not policing.", diff: 'hard' },
+    {
+      passage:
+        'A 2022 poll of 3,000 American adults found that 61% could not name all three branches of the federal government. Among adults under 35, the figure was 71%. The same poll found that 44% of respondents said they could not explain what the First Amendment protects.',
+      q: 'What can be reasonably inferred from the poll results about civic knowledge?',
+      a1: 'The majority of Americans have taken civics courses and passed them.',
+      c1: false,
+      r1: 'No data on course completion is given.',
+      a2: 'There is a significant and widespread gap in basic civic knowledge among American adults, with younger adults showing even lower familiarity.',
+      c2: true,
+      r2: '61% unable to name three branches and 71% among under-35s directly support a widespread knowledge gap.',
+      a3: 'All Americans who can name all three branches are also familiar with the First Amendment.',
+      c3: false,
+      r3: 'The poll measures two separate knowledge areas — no such correlation is stated.',
+      a4: 'The U.S. should eliminate its three-branch government structure.',
+      c4: false,
+      r4: 'The poll reveals knowledge gaps, not a policy prescription.',
+      diff: 'easy',
+    },
+    {
+      passage:
+        'A small fishing village recorded 400 annual fishing trips in 1980. By 2000, the total catch per trip had fallen by 58% despite the use of more efficient modern boats and equipment. By 2020, many fishing families had abandoned the trade entirely.',
+      q: 'What is the most reasonable inference about the state of fish populations over this period?',
+      a1: 'Modern equipment caused fish to swim to deeper water temporarily.',
+      c1: false,
+      r1: "Temporary depth migration doesn't explain a 40-year decline across catch totals.",
+      a2: "The fish population in the village's fishing waters likely declined substantially due to overfishing or environmental change.",
+      c2: true,
+      r2: 'More efficient equipment plus dramatically lower catch per trip across 40 years strongly suggests resource depletion.',
+      a3: 'The fishing families left because they found higher-paying industries.',
+      c3: false,
+      r3: "The passage doesn't mention employment alternatives — the most direct inference is about fish populations.",
+      a4: 'Fishing in 2000 was less efficient than fishing in 1980.',
+      c4: false,
+      r4: 'The passage says modern boats are more efficient — catch decline despite efficiency gains points to resource depletion.',
+      diff: 'medium',
+    },
+    {
+      passage:
+        'The following data appeared in a city crime report: burglary rates in Westside fell by 34% in the year a neighbourhood watch programme was introduced. However, burglary rates in the adjacent Northside neighbourhood — with no watch programme — rose by 28% in the same year.',
+      q: 'What do these two data points together most reasonably suggest?',
+      a1: 'The neighbourhood watch eliminated burglary from the entire city.',
+      c1: false,
+      r1: 'Northside rates rose — the programme clearly did not eliminate citywide burglary.',
+      a2: 'Some burglars may have shifted their activity from Westside to Northside rather than stopping burglary altogether.',
+      c2: true,
+      r2: 'A simultaneous fall in one area and rise in the adjacent area is a classic displacement pattern — burglars shifted locations rather than stopping.',
+      a3: 'Neighbourhood watches always reduce crime in every area they operate.',
+      c3: false,
+      r3: "This case shows crime displaced to an adjacent area — 'always' and 'every area' are unsupported generalisations.",
+      a4: 'The police failed to respond effectively to the Northside increase.',
+      c4: false,
+      r4: 'Police response is not discussed — the data pattern is about displacement, not policing.',
+      diff: 'hard',
+    },
   ],
   // 07 Test Ready
   [
-    { passage: "During the Second World War, the U.S. government conducted a study of military aircraft that returned from missions and plotted the locations of bullet damage. Engineers proposed reinforcing the areas with the most hits. Statistician Abraham Wald argued the opposite: the areas that should be reinforced were the ones with NO bullet damage on returning planes — because damage in those areas meant the aircraft didn't return.", q: "What principle does Wald's reasoning illustrate?", a1: "Pilots who survived were better at avoiding bullets.", c1: false, r1: "The argument is about where the damage was, not pilot skill.", a2: "Survivorship bias — studying only surviving cases can lead to false conclusions about where protection is most needed.", c2: true, r2: "Planes hit in critical areas didn't return — so the returning planes' damage pattern omits the fatal hits, creating a biased sample.", a3: "Aircraft should not be reinforced at all because reinforcement adds weight.", c3: false, r3: "Wald's argument is about where to reinforce, not whether to reinforceempty.", a4: "Statistical analysis should only be applied to aircraft that were destroyed.", c4: false, r4: "Wald was analysing the returning planes precisely to infer about the destroyed ones.", diff: 'hard' },
-    { passage: "A city conducted a study on its park system. Parks with regular programming — concerts, fitness classes, farmers' markets — attracted an average of 2,400 visitors per week. Parks with no programming averaged 310 visitors per week. The city's parks commissioner concluded: 'Programming is what people want in parks. We should convert all parks to programmed spaces.'", q: "What inference problem is present in the commissioner's conclusion?", a1: "Parks with 310 visitors are clearly not functioning as public spaces.", c1: false, r1: "310 visitors is still meaningful use; the statement mischaracterises the comparison.", a2: "The commissioner ignores that some people may specifically value unprogrammed parks for quiet, nature, and unstructured use — higher attendance at programmed parks doesn't mean all parks should be programmed.", c2: true, r2: "High attendance at programmed parks shows those are valued; it doesn't follow that all visitors want programming, or that unprogrammed parks serve no purpose.", a3: "Farmers' markets are not appropriate for parks.", c3: false, r3: "Appropriateness of specific programming is not the logical flaw being discussed.", a4: "The study should have used a larger sample of parks.", c4: false, r4: "Sample size may be a concern, but the commissioner's logical error is about the scope of the conclusion, not sample size.", diff: 'hard' },
-    { passage: "From a novel: Olivia could count on one hand the times her father had talked about his childhood. He spoke freely about books, politics, and food, but when the conversation approached the years before he turned eighteen, something shifted in his face — a shuttering, slight and practiced — and he would find a reason to leave the room. She had learned not to ask.", q: "What can be inferred about Olivia's father's relationship with his childhood?", a1: "He had a happy childhood and simply prefers not to be nostalgic.", c1: false, r1: "People who shut down discussion of a happy childhood with a 'practiced' expression and room-leaving are not typically described this way in literary contexts.", a2: "Something painful or difficult about his childhood has led him to avoid the subject — the 'practiced' nature of his shutdown suggests it has been a pattern for years.", c2: true, r2: "The involuntary expression, the practiced deflection, the pattern Olivia has 'learned' — all suggest long-standing avoidance of something painful.", a3: "Olivia's father had no childhood and was created as an adult.", c3: false, r3: "Not supported — the passage refers to 'the years before he turned eighteen.'", a4: "Olivia doesn't care about her father's past and has moved on.", c4: false, r4: "Her observation and learning 'not to ask' suggests she is attentive and curious, not indifferent.", diff: 'medium' },
+    {
+      passage:
+        "During the Second World War, the U.S. government conducted a study of military aircraft that returned from missions and plotted the locations of bullet damage. Engineers proposed reinforcing the areas with the most hits. Statistician Abraham Wald argued the opposite: the areas that should be reinforced were the ones with NO bullet damage on returning planes — because damage in those areas meant the aircraft didn't return.",
+      q: "What principle does Wald's reasoning illustrate?",
+      a1: 'Pilots who survived were better at avoiding bullets.',
+      c1: false,
+      r1: 'The argument is about where the damage was, not pilot skill.',
+      a2: 'Survivorship bias — studying only surviving cases can lead to false conclusions about where protection is most needed.',
+      c2: true,
+      r2: "Planes hit in critical areas didn't return — so the returning planes' damage pattern omits the fatal hits, creating a biased sample.",
+      a3: 'Aircraft should not be reinforced at all because reinforcement adds weight.',
+      c3: false,
+      r3: "Wald's argument is about where to reinforce, not whether to reinforceempty.",
+      a4: 'Statistical analysis should only be applied to aircraft that were destroyed.',
+      c4: false,
+      r4: 'Wald was analysing the returning planes precisely to infer about the destroyed ones.',
+      diff: 'hard',
+    },
+    {
+      passage:
+        "A city conducted a study on its park system. Parks with regular programming — concerts, fitness classes, farmers' markets — attracted an average of 2,400 visitors per week. Parks with no programming averaged 310 visitors per week. The city's parks commissioner concluded: 'Programming is what people want in parks. We should convert all parks to programmed spaces.'",
+      q: "What inference problem is present in the commissioner's conclusion?",
+      a1: 'Parks with 310 visitors are clearly not functioning as public spaces.',
+      c1: false,
+      r1: '310 visitors is still meaningful use; the statement mischaracterises the comparison.',
+      a2: "The commissioner ignores that some people may specifically value unprogrammed parks for quiet, nature, and unstructured use — higher attendance at programmed parks doesn't mean all parks should be programmed.",
+      c2: true,
+      r2: "High attendance at programmed parks shows those are valued; it doesn't follow that all visitors want programming, or that unprogrammed parks serve no purpose.",
+      a3: "Farmers' markets are not appropriate for parks.",
+      c3: false,
+      r3: 'Appropriateness of specific programming is not the logical flaw being discussed.',
+      a4: 'The study should have used a larger sample of parks.',
+      c4: false,
+      r4: "Sample size may be a concern, but the commissioner's logical error is about the scope of the conclusion, not sample size.",
+      diff: 'hard',
+    },
+    {
+      passage:
+        'From a novel: Olivia could count on one hand the times her father had talked about his childhood. He spoke freely about books, politics, and food, but when the conversation approached the years before he turned eighteen, something shifted in his face — a shuttering, slight and practiced — and he would find a reason to leave the room. She had learned not to ask.',
+      q: "What can be inferred about Olivia's father's relationship with his childhood?",
+      a1: 'He had a happy childhood and simply prefers not to be nostalgic.',
+      c1: false,
+      r1: "People who shut down discussion of a happy childhood with a 'practiced' expression and room-leaving are not typically described this way in literary contexts.",
+      a2: "Something painful or difficult about his childhood has led him to avoid the subject — the 'practiced' nature of his shutdown suggests it has been a pattern for years.",
+      c2: true,
+      r2: "The involuntary expression, the practiced deflection, the pattern Olivia has 'learned' — all suggest long-standing avoidance of something painful.",
+      a3: "Olivia's father had no childhood and was created as an adult.",
+      c3: false,
+      r3: "Not supported — the passage refers to 'the years before he turned eighteen.'",
+      a4: "Olivia doesn't care about her father's past and has moved on.",
+      c4: false,
+      r4: "Her observation and learning 'not to ask' suggests she is attentive and curious, not indifferent.",
+      diff: 'medium',
+    },
   ],
   // 08 Test Ready
   [
-    { passage: "A marine biologist studying coral reef recovery found that reefs near areas with strong sea urchin populations recovered from bleaching events 40% faster than reefs in areas where urchins had been overharvested. Sea urchins eat the algae that smother recovering coral. In areas without urchins, algae blooms prevented coral larvae from attaching to rock surfaces.", q: "What can be inferred about the role of sea urchins in reef resilience?", a1: "Sea urchins should be farmed commercially to produce food.", c1: false, r1: "Commercial farming is not suggested or supported by the passage.", a2: "Sea urchins serve a critical maintenance function in reef ecosystems, and their removal disrupts reef recovery capacity.", c2: true, r2: "The data directly shows urchin presence correlates with faster recovery via algae control — their removal has a documented negative consequence.", a3: "Coral bleaching only occurs in areas without sea urchins.", c3: false, r3: "Bleaching occurred in both urchin-rich and urchin-poor areas — urchins affect recovery speed, not bleaching occurrence.", a4: "Marine biologists caused the overharvesting of sea urchins.", c4: false, r4: "The biologist studied the effect — no claim about who caused overharvesting is made.", diff: 'medium' },
-    { passage: "From a business case study: In 2018, a national coffee chain introduced a mobile pre-ordering app. In the first year, mobile orders increased from $0 to 18% of total revenue. In-store wait times fell by an average of 4 minutes. However, barista turnover rates increased by 24% compared to the prior year. Exit interviews with departing baristas cited 'relentless order pressure with no human interaction' as the primary reason for leaving.", q: "What does the barista turnover data suggest about the app's impact that the revenue and wait-time data does not?", a1: "The app was a complete failure for the business.", c1: false, r1: "18% revenue share and reduced wait times suggest customer-facing success — failure is too strong." , a2: "The app created operational and human costs at the staff level that the customer-facing metrics did not capture.", c2: true, r2: "Revenue and wait times improved from the customer's perspective; turnover and barista satisfaction deteriorated — these are real costs that the success metrics obscure.", a3: "Baristas should be replaced with machines to reduce turnover.", c3: false, r3: "This is a speculative policy recommendation — not an inference from the data.", a4: "Coffee chains should not use technology in their stores.", c4: false, r4: "The case study shows a trade-off, not a universal case against technology.", diff: 'hard' },
-    { passage: "From a biography: 'Lincoln rarely showed anger in public. When cabinet members reported to him that Secretary of War Stanton had called him a fool, Lincoln replied quietly: \\\"If Stanton said I was a d--- fool, then I must be one, for he is nearly always right and generally says what he means.\\\" The cabinet members expected a dismissal; instead they received a lesson in the strategic use of equanimity.'", q: "What does Lincoln's response to Stanton's insult most reveal?", a1: "Lincoln secretly agreed that he was foolish and lacked confidence.", c1: false, r1: "The biographer frames it as 'strategic use of equanimity' — the response is a calculated de-escalation, not admission of self-doubt.", a2: "Lincoln used apparent self-deprecation to deflect the political tension created by the insult while subtly complimenting Stanton — demonstrating political and emotional intelligence.", c2: true, r2: "By agreeing with the insult, Lincoln avoided a confrontation, maintained cabinet stability, and actually praised Stanton's reliability — a masterful political move.", a3: "Lincoln and Stanton had a mutually hostile relationship.", c3: false, r3: "Lincoln's praise of Stanton as 'nearly always right' suggests respect, not hostility.", a4: "Lincoln was afraid of Stanton and could not fire him.", c4: false, r4: "Fear is not implied — strategic equanimity is the biographer's explicit interpretation.", diff: 'hard' },
+    {
+      passage:
+        'A marine biologist studying coral reef recovery found that reefs near areas with strong sea urchin populations recovered from bleaching events 40% faster than reefs in areas where urchins had been overharvested. Sea urchins eat the algae that smother recovering coral. In areas without urchins, algae blooms prevented coral larvae from attaching to rock surfaces.',
+      q: 'What can be inferred about the role of sea urchins in reef resilience?',
+      a1: 'Sea urchins should be farmed commercially to produce food.',
+      c1: false,
+      r1: 'Commercial farming is not suggested or supported by the passage.',
+      a2: 'Sea urchins serve a critical maintenance function in reef ecosystems, and their removal disrupts reef recovery capacity.',
+      c2: true,
+      r2: 'The data directly shows urchin presence correlates with faster recovery via algae control — their removal has a documented negative consequence.',
+      a3: 'Coral bleaching only occurs in areas without sea urchins.',
+      c3: false,
+      r3: 'Bleaching occurred in both urchin-rich and urchin-poor areas — urchins affect recovery speed, not bleaching occurrence.',
+      a4: 'Marine biologists caused the overharvesting of sea urchins.',
+      c4: false,
+      r4: 'The biologist studied the effect — no claim about who caused overharvesting is made.',
+      diff: 'medium',
+    },
+    {
+      passage:
+        "From a business case study: In 2018, a national coffee chain introduced a mobile pre-ordering app. In the first year, mobile orders increased from $0 to 18% of total revenue. In-store wait times fell by an average of 4 minutes. However, barista turnover rates increased by 24% compared to the prior year. Exit interviews with departing baristas cited 'relentless order pressure with no human interaction' as the primary reason for leaving.",
+      q: "What does the barista turnover data suggest about the app's impact that the revenue and wait-time data does not?",
+      a1: 'The app was a complete failure for the business.',
+      c1: false,
+      r1: '18% revenue share and reduced wait times suggest customer-facing success — failure is too strong.',
+      a2: 'The app created operational and human costs at the staff level that the customer-facing metrics did not capture.',
+      c2: true,
+      r2: "Revenue and wait times improved from the customer's perspective; turnover and barista satisfaction deteriorated — these are real costs that the success metrics obscure.",
+      a3: 'Baristas should be replaced with machines to reduce turnover.',
+      c3: false,
+      r3: 'This is a speculative policy recommendation — not an inference from the data.',
+      a4: 'Coffee chains should not use technology in their stores.',
+      c4: false,
+      r4: 'The case study shows a trade-off, not a universal case against technology.',
+      diff: 'hard',
+    },
+    {
+      passage:
+        'From a biography: \'Lincoln rarely showed anger in public. When cabinet members reported to him that Secretary of War Stanton had called him a fool, Lincoln replied quietly: \\"If Stanton said I was a d--- fool, then I must be one, for he is nearly always right and generally says what he means.\\" The cabinet members expected a dismissal; instead they received a lesson in the strategic use of equanimity.\'',
+      q: "What does Lincoln's response to Stanton's insult most reveal?",
+      a1: 'Lincoln secretly agreed that he was foolish and lacked confidence.',
+      c1: false,
+      r1: "The biographer frames it as 'strategic use of equanimity' — the response is a calculated de-escalation, not admission of self-doubt.",
+      a2: 'Lincoln used apparent self-deprecation to deflect the political tension created by the insult while subtly complimenting Stanton — demonstrating political and emotional intelligence.',
+      c2: true,
+      r2: "By agreeing with the insult, Lincoln avoided a confrontation, maintained cabinet stability, and actually praised Stanton's reliability — a masterful political move.",
+      a3: 'Lincoln and Stanton had a mutually hostile relationship.',
+      c3: false,
+      r3: "Lincoln's praise of Stanton as 'nearly always right' suggests respect, not hostility.",
+      a4: 'Lincoln was afraid of Stanton and could not fire him.',
+      c4: false,
+      r4: "Fear is not implied — strategic equanimity is the biographer's explicit interpretation.",
+      diff: 'hard',
+    },
   ],
   // 09 Test Ready
   [
-    { passage: "A sociologist studying voter behaviour found that in counties where a major employer closed in the two years before an election, the incumbent political party (regardless of which party) lost an average of 12 percentage points compared to surrounding counties. The effect held regardless of the party's policies on trade, factory employment, or retraining programmes.", q: "What does the 'regardless of policies' finding most strongly imply?", a1: "Voters carefully evaluate the incumbent's specific economic policies before voting.", c1: false, r1: "If policy analysis drove votes, policy differences would change the outcome — but the effect held regardless of policies.", a2: "Voters may punish incumbents for local economic pain without carefully evaluating which policies caused it or which party's policies would help.", c2: true, r2: "The 'regardless of policies' clause means the vote shift is driven by economic conditions and feeling, not policy assessment.", a3: "Factory closures are always caused by the incumbent political party.", c3: false, r3: "The sociologist studies voting effects of closures — not their causes.", a4: "Counties with factory closures are always economically depressed for decades.", c4: false, r4: "Long-term economic effects are not the subject of this study.", diff: 'hard' },
-    { passage: "In a study published in the journal Nature, researchers found that migratory birds navigate using the Earth's magnetic field. When researchers applied a weak oscillating magnetic field around the birds' heads — disrupting their magnetic sensing — the birds lost directional orientation and flew in random patterns. Birds in a control group with no field disruption maintained accurate directional flight.", q: "What does the control group's performance allow the researchers to conclude?", a1: "All birds navigate exclusively by sight.", c1: false, r1: "The study shows birds use magnetic sensing — and the control group confirms accurate navigation exists without disruption.", a2: "The disorientation seen in the experimental group was caused by the applied magnetic field — not by stress, handling, or other factors — because the control group maintained accurate navigation under the same conditions minus the field.", c2: true, r2: "Control groups that experience everything except the experimental variable allow isolation of that variable's effect.", a3: "Birds in the experimental group were improperly trained before the study.", c3: false, r3: "Training quality is not mentioned — the control group's orientation rules out general handling issues.", a4: "The Earth's magnetic field is getting weaker and will eventually stop working.", c4: false, r4: "The study's subject is bird navigation — not the Earth's magnetic field strength over time.", diff: 'hard' },
-    { passage: "A short story excerpt: 'At the community meeting, every speaker who took the microphone praised Councillor Webb — her dedication, her accessibility, her listening. The applause was warm. Councillor Webb sat at the front table and smiled. Only the recorder, who had attended such meetings for 22 years, noticed that none of the speakers had addressed the specific proposal on the evening's agenda: the rezoning of the waterfront.'", q: "What does the recorder's observation imply about the meeting?", a1: "The speakers did not support Councillor Webb.", c1: false, r1: "They praised her warmly — support is not in question.", a2: "The praise of Webb, while genuine, functioned to fill the meeting's time without producing any substantive engagement with the actual policy question — whether intentionally or not.", c2: true, r2: "The recorder notes that praise consumed the evening while the rezoning agenda item went unaddressed — function over form.", a3: "The waterfront rezoning had already been approved before the meeting.", c3: false, r3: "Nothing in the passage supports this — the proposal is described as 'on the agenda.'", a4: "The recorder was jealous of Councillor Webb's popularity.", c4: false, r4: "The recorder's 22 years of experience frames their observation as professional, not personal.", diff: 'hard' },
+    {
+      passage:
+        "A sociologist studying voter behaviour found that in counties where a major employer closed in the two years before an election, the incumbent political party (regardless of which party) lost an average of 12 percentage points compared to surrounding counties. The effect held regardless of the party's policies on trade, factory employment, or retraining programmes.",
+      q: "What does the 'regardless of policies' finding most strongly imply?",
+      a1: "Voters carefully evaluate the incumbent's specific economic policies before voting.",
+      c1: false,
+      r1: 'If policy analysis drove votes, policy differences would change the outcome — but the effect held regardless of policies.',
+      a2: "Voters may punish incumbents for local economic pain without carefully evaluating which policies caused it or which party's policies would help.",
+      c2: true,
+      r2: "The 'regardless of policies' clause means the vote shift is driven by economic conditions and feeling, not policy assessment.",
+      a3: 'Factory closures are always caused by the incumbent political party.',
+      c3: false,
+      r3: 'The sociologist studies voting effects of closures — not their causes.',
+      a4: 'Counties with factory closures are always economically depressed for decades.',
+      c4: false,
+      r4: 'Long-term economic effects are not the subject of this study.',
+      diff: 'hard',
+    },
+    {
+      passage:
+        "In a study published in the journal Nature, researchers found that migratory birds navigate using the Earth's magnetic field. When researchers applied a weak oscillating magnetic field around the birds' heads — disrupting their magnetic sensing — the birds lost directional orientation and flew in random patterns. Birds in a control group with no field disruption maintained accurate directional flight.",
+      q: "What does the control group's performance allow the researchers to conclude?",
+      a1: 'All birds navigate exclusively by sight.',
+      c1: false,
+      r1: 'The study shows birds use magnetic sensing — and the control group confirms accurate navigation exists without disruption.',
+      a2: 'The disorientation seen in the experimental group was caused by the applied magnetic field — not by stress, handling, or other factors — because the control group maintained accurate navigation under the same conditions minus the field.',
+      c2: true,
+      r2: "Control groups that experience everything except the experimental variable allow isolation of that variable's effect.",
+      a3: 'Birds in the experimental group were improperly trained before the study.',
+      c3: false,
+      r3: "Training quality is not mentioned — the control group's orientation rules out general handling issues.",
+      a4: "The Earth's magnetic field is getting weaker and will eventually stop working.",
+      c4: false,
+      r4: "The study's subject is bird navigation — not the Earth's magnetic field strength over time.",
+      diff: 'hard',
+    },
+    {
+      passage:
+        "A short story excerpt: 'At the community meeting, every speaker who took the microphone praised Councillor Webb — her dedication, her accessibility, her listening. The applause was warm. Councillor Webb sat at the front table and smiled. Only the recorder, who had attended such meetings for 22 years, noticed that none of the speakers had addressed the specific proposal on the evening's agenda: the rezoning of the waterfront.'",
+      q: "What does the recorder's observation imply about the meeting?",
+      a1: 'The speakers did not support Councillor Webb.',
+      c1: false,
+      r1: 'They praised her warmly — support is not in question.',
+      a2: "The praise of Webb, while genuine, functioned to fill the meeting's time without producing any substantive engagement with the actual policy question — whether intentionally or not.",
+      c2: true,
+      r2: 'The recorder notes that praise consumed the evening while the rezoning agenda item went unaddressed — function over form.',
+      a3: 'The waterfront rezoning had already been approved before the meeting.',
+      c3: false,
+      r3: "Nothing in the passage supports this — the proposal is described as 'on the agenda.'",
+      a4: "The recorder was jealous of Councillor Webb's popularity.",
+      c4: false,
+      r4: "The recorder's 22 years of experience frames their observation as professional, not personal.",
+      diff: 'hard',
+    },
   ],
   // 10 Challenge
   [
-    { passage: "From a 2024 economics paper: 'Countries that adopted austerity measures (government spending cuts + tax increases) in response to the 2010 European debt crisis averaged 3.1% GDP contraction in the following two years, compared to 0.6% GDP growth in comparable countries that instead adopted stimulus spending. The austerity-country group also saw unemployment rise an average of 4.2 percentage points, compared to 1.1 in the stimulus group. Critics of the paper note that austerity countries had significantly higher pre-crisis debt-to-GDP ratios, which may have constrained their policy choices.'", q: "What does the critics' note add to the interpretation of the study's findings?", a1: "The critics prove that austerity is always the correct policy.", c1: false, r1: "The critics question comparability, not establish austerity's supremacy.", a2: "The note raises a confounding variable: austerity countries may have had worse outcomes partly because of their pre-existing debt levels, not solely due to austerity itself — making a direct causal comparison to stimulus countries less certain.", c2: true, r2: "Pre-crisis debt differences mean the two groups weren't truly comparable — the critics identify that worse outcomes may have multiple causes beyond the policy choice.", a3: "Pre-crisis debt is irrelevant to economic recovery policy.", c3: false, r3: "The critics specifically raise it as a possible confound — it's directly relevant.", a4: "The paper's findings are fabricated.", c4: false, r4: "The critics question methodology, not fabrication.", diff: 'hard' },
-    { passage: "From George Orwell's essay 'Politics and the English Language' (1946): 'When you think of something abstract you are more inclined to use words from the start, and unless you make a conscious effort to prevent it, the existing dialect will come rushing in and do the job for you, at the expense of blurring or even changing your meaning. Probably it is better to put off using words as long as possible and get one's meaning as clear as one can through pictures and sensations.'", q: "What is Orwell's implied concern about abstract language in political writing?", a1: "Abstract writing is more difficult to publish than concrete writing.", c1: false, r1: "Publication difficulty is not Orwell's concern here.", a2: "Relying on pre-existing abstract phrases allows vague, conventional language to substitute for genuine clear thinking — the writer may believe they have expressed something when they have only deployed familiar terminology.", c2: true, r2: "Orwell's concern is that stock phrases do the thinking 'for you,' blurring or changing meaning — the writer loses control of their own thought through linguistic autopilot.", a3: "Concrete images are always more persuasive than abstract concepts in political speeches.", c3: false, r3: "Orwell's concern is about meaning accuracy, not persuasive power.", a4: "Orwell believed all political writing should avoid abstract concepts entirely.", c4: false, r4: "He recommends delaying abstraction until meaning is clear — not eliminating abstractions.", diff: 'hard' },
-    { passage: "From a 2023 policy analysis: 'Cities that implemented ranked-choice voting (RCV) in municipal elections saw a 28% increase in the number of candidates running compared to cities using plurality voting. Voter satisfaction surveys showed a 19% increase in the perception that 'the candidate I preferred had a real chance of winning.' Turnout did not change significantly. However, ballot spoilage rates (incorrectly filled-out ballots) doubled in the first election cycle under RCV, declining to near-baseline in subsequent cycles.'", q: "Based on ALL the data, which conclusion is most balanced and defensible?", a1: "RCV is an immediate and unqualified improvement over plurality voting.", c1: false, r1: "The doubled spoilage rate in the first cycle is a real short-term cost that 'unqualified improvement' ignores.", a2: "RCV failed because voter turnout did not increase.", c2: false, r2: "The analysis shows multiple positive indicators; turnout stagnation alone is insufficient to conclude failure.", a3: "RCV produced measurable benefits in candidate diversity and voter satisfaction, with an initial learning-curve cost in ballot errors that declined over time — suggesting it may be effective with appropriate voter education.", c3: true, r3: "This integrates all four data points: more candidates (+), more satisfaction (+), unchanged turnout (neutral), higher initial spoilage that declined (-/temporary).", a4: "Ranked-choice voting should only be used in large cities with sophisticated voters.", c4: false, r4: "City size and voter sophistication are not mentioned as variables in the data.", diff: 'hard' },
+    {
+      passage:
+        "From a 2024 economics paper: 'Countries that adopted austerity measures (government spending cuts + tax increases) in response to the 2010 European debt crisis averaged 3.1% GDP contraction in the following two years, compared to 0.6% GDP growth in comparable countries that instead adopted stimulus spending. The austerity-country group also saw unemployment rise an average of 4.2 percentage points, compared to 1.1 in the stimulus group. Critics of the paper note that austerity countries had significantly higher pre-crisis debt-to-GDP ratios, which may have constrained their policy choices.'",
+      q: "What does the critics' note add to the interpretation of the study's findings?",
+      a1: 'The critics prove that austerity is always the correct policy.',
+      c1: false,
+      r1: "The critics question comparability, not establish austerity's supremacy.",
+      a2: 'The note raises a confounding variable: austerity countries may have had worse outcomes partly because of their pre-existing debt levels, not solely due to austerity itself — making a direct causal comparison to stimulus countries less certain.',
+      c2: true,
+      r2: "Pre-crisis debt differences mean the two groups weren't truly comparable — the critics identify that worse outcomes may have multiple causes beyond the policy choice.",
+      a3: 'Pre-crisis debt is irrelevant to economic recovery policy.',
+      c3: false,
+      r3: "The critics specifically raise it as a possible confound — it's directly relevant.",
+      a4: "The paper's findings are fabricated.",
+      c4: false,
+      r4: 'The critics question methodology, not fabrication.',
+      diff: 'hard',
+    },
+    {
+      passage:
+        "From George Orwell's essay 'Politics and the English Language' (1946): 'When you think of something abstract you are more inclined to use words from the start, and unless you make a conscious effort to prevent it, the existing dialect will come rushing in and do the job for you, at the expense of blurring or even changing your meaning. Probably it is better to put off using words as long as possible and get one's meaning as clear as one can through pictures and sensations.'",
+      q: "What is Orwell's implied concern about abstract language in political writing?",
+      a1: 'Abstract writing is more difficult to publish than concrete writing.',
+      c1: false,
+      r1: "Publication difficulty is not Orwell's concern here.",
+      a2: 'Relying on pre-existing abstract phrases allows vague, conventional language to substitute for genuine clear thinking — the writer may believe they have expressed something when they have only deployed familiar terminology.',
+      c2: true,
+      r2: "Orwell's concern is that stock phrases do the thinking 'for you,' blurring or changing meaning — the writer loses control of their own thought through linguistic autopilot.",
+      a3: 'Concrete images are always more persuasive than abstract concepts in political speeches.',
+      c3: false,
+      r3: "Orwell's concern is about meaning accuracy, not persuasive power.",
+      a4: 'Orwell believed all political writing should avoid abstract concepts entirely.',
+      c4: false,
+      r4: 'He recommends delaying abstraction until meaning is clear — not eliminating abstractions.',
+      diff: 'hard',
+    },
+    {
+      passage:
+        "From a 2023 policy analysis: 'Cities that implemented ranked-choice voting (RCV) in municipal elections saw a 28% increase in the number of candidates running compared to cities using plurality voting. Voter satisfaction surveys showed a 19% increase in the perception that 'the candidate I preferred had a real chance of winning.' Turnout did not change significantly. However, ballot spoilage rates (incorrectly filled-out ballots) doubled in the first election cycle under RCV, declining to near-baseline in subsequent cycles.'",
+      q: 'Based on ALL the data, which conclusion is most balanced and defensible?',
+      a1: 'RCV is an immediate and unqualified improvement over plurality voting.',
+      c1: false,
+      r1: "The doubled spoilage rate in the first cycle is a real short-term cost that 'unqualified improvement' ignores.",
+      a2: 'RCV failed because voter turnout did not increase.',
+      c2: false,
+      r2: 'The analysis shows multiple positive indicators; turnout stagnation alone is insufficient to conclude failure.',
+      a3: 'RCV produced measurable benefits in candidate diversity and voter satisfaction, with an initial learning-curve cost in ballot errors that declined over time — suggesting it may be effective with appropriate voter education.',
+      c3: true,
+      r3: 'This integrates all four data points: more candidates (+), more satisfaction (+), unchanged turnout (neutral), higher initial spoilage that declined (-/temporary).',
+      a4: 'Ranked-choice voting should only be used in large cities with sophisticated voters.',
+      c4: false,
+      r4: 'City size and voter sophistication are not mentioned as variables in the data.',
+      diff: 'hard',
+    },
   ],
 ];
 
-inferenceStubs.forEach(({file, tier, n}, i) => {
+inferenceStubs.forEach(({ file, tier, n }, i) => {
   const qs = inferenceQuestions[i];
-  const questions = qs.map((q, qi) => `
+  const questions = qs
+    .map(
+      (q, qi) => `
   {
     questionNumber: ${qi + 1}, type: 'multipleChoice', difficulty: ${JSON.stringify(q.diff)},
     passage: ${JSON.stringify(q.passage)},
@@ -324,17 +587,24 @@ inferenceStubs.forEach(({file, tier, n}, i) => {
       { text: ${JSON.stringify(q.a4)}, isCorrect: ${q.c4}, rationale: ${JSON.stringify(q.r4)} },
     ],
     challenge_tags: ['rla-2'],
-  }`).join(',');
+  }`
+    )
+    .join(',');
 
-  write(file, `
+  write(
+    file,
+    `
 // Reading Comprehension — ${tier}: Inference — Practice ${n}
 module.exports = [${questions}
 ];
-`);
+`
+  );
 });
 
 // ─── VOCABULARY 04-10 ────────────────────────────────────────────────────────
-write('rla_vocabulary_04.js', `
+write(
+  'rla_vocabulary_04.js',
+  `
 // Vocabulary in Context — Core: Practice 4
 // 10 questions | words in context, connotation, academic vocabulary
 module.exports = [
@@ -429,72 +699,371 @@ module.exports = [
     {text:"widely popular and well-received", isCorrect:false, rationale:"'Egregious' has a fundamentally negative connotation."},
    ],challenge_tags:['rla-3']},
 ];
-`);
+`
+);
 
 const vocabFiles = [
-  { f: 'rla_vocabulary_05.js', tier: 'Core', n: 5, focus: 'figurative language, word relationships, connotation vs denotation' },
-  { f: 'rla_vocabulary_06.js', tier: 'Core', n: 6, focus: 'academic vocabulary in context, formal register' },
-  { f: 'rla_vocabulary_07.js', tier: 'Test Ready', n: 7, focus: 'vocabulary in complex passage context, tone, nuanced meaning' },
-  { f: 'rla_vocabulary_08.js', tier: 'Test Ready', n: 8, focus: 'sophisticated vocabulary, argument text context' },
-  { f: 'rla_vocabulary_09.js', tier: 'Test Ready', n: 9, focus: 'literary and informational text vocabulary' },
-  { f: 'rla_vocabulary_10.js', tier: 'Challenge', n: 10, focus: 'GED-level vocabulary, author tone, rhetoric terms, nuanced word choice' },
+  {
+    f: 'rla_vocabulary_05.js',
+    tier: 'Core',
+    n: 5,
+    focus: 'figurative language, word relationships, connotation vs denotation',
+  },
+  {
+    f: 'rla_vocabulary_06.js',
+    tier: 'Core',
+    n: 6,
+    focus: 'academic vocabulary in context, formal register',
+  },
+  {
+    f: 'rla_vocabulary_07.js',
+    tier: 'Test Ready',
+    n: 7,
+    focus: 'vocabulary in complex passage context, tone, nuanced meaning',
+  },
+  {
+    f: 'rla_vocabulary_08.js',
+    tier: 'Test Ready',
+    n: 8,
+    focus: 'sophisticated vocabulary, argument text context',
+  },
+  {
+    f: 'rla_vocabulary_09.js',
+    tier: 'Test Ready',
+    n: 9,
+    focus: 'literary and informational text vocabulary',
+  },
+  {
+    f: 'rla_vocabulary_10.js',
+    tier: 'Challenge',
+    n: 10,
+    focus:
+      'GED-level vocabulary, author tone, rhetoric terms, nuanced word choice',
+  },
 ];
 
 const vocabSets = [
   // 05 Core
   [
-    { passage: "The politician's polished speech was widely seen as perfunctory — going through the motions required by the occasion without genuine engagement.", word: "perfunctory", correct: "done with little effort or care; carried out as a routine duty without real commitment", wrong: ["enthusiastic and heartfelt","secretly sarcastic","technically advanced"], diff: "easy" },
-    { passage: "Her reticence during the negotiation was misread by the other side as indifference, when in fact she was listening carefully.", word: "reticence", correct: "unwillingness to speak freely; reserved silence", wrong: ["loud and aggressive behaviour","exceptional memory","overconfidence in one's position"], diff: "easy" },
-    { passage: "The committee's decision was pragmatic rather than idealistic — they chose the plan most likely to succeed given current constraints.", word: "pragmatic", correct: "focused on practical outcomes rather than theory or principles", wrong: ["overly emotional and impulsive","based on religious principles","deliberately deceptive"], diff: "medium" },
-    { passage: "The article's tone shifted from objective reporting to something far more polemical in its final section.", word: "polemical", correct: "strongly and often controversially critical or argumentative", wrong: ["balanced and neutral","statistical and data-driven","softly persuasive"], diff: "hard" },
+    {
+      passage:
+        "The politician's polished speech was widely seen as perfunctory — going through the motions required by the occasion without genuine engagement.",
+      word: 'perfunctory',
+      correct:
+        'done with little effort or care; carried out as a routine duty without real commitment',
+      wrong: [
+        'enthusiastic and heartfelt',
+        'secretly sarcastic',
+        'technically advanced',
+      ],
+      diff: 'easy',
+    },
+    {
+      passage:
+        'Her reticence during the negotiation was misread by the other side as indifference, when in fact she was listening carefully.',
+      word: 'reticence',
+      correct: 'unwillingness to speak freely; reserved silence',
+      wrong: [
+        'loud and aggressive behaviour',
+        'exceptional memory',
+        "overconfidence in one's position",
+      ],
+      diff: 'easy',
+    },
+    {
+      passage:
+        "The committee's decision was pragmatic rather than idealistic — they chose the plan most likely to succeed given current constraints.",
+      word: 'pragmatic',
+      correct: 'focused on practical outcomes rather than theory or principles',
+      wrong: [
+        'overly emotional and impulsive',
+        'based on religious principles',
+        'deliberately deceptive',
+      ],
+      diff: 'medium',
+    },
+    {
+      passage:
+        "The article's tone shifted from objective reporting to something far more polemical in its final section.",
+      word: 'polemical',
+      correct: 'strongly and often controversially critical or argumentative',
+      wrong: [
+        'balanced and neutral',
+        'statistical and data-driven',
+        'softly persuasive',
+      ],
+      diff: 'hard',
+    },
   ],
   // 06 Core
   [
-    { passage: "Despite plentiful resources, the project remained in a state of inertia for three years, with no meaningful progress.", word: "inertia", correct: "tendency to remain unchanged; resistance to movement or action", wrong: ["rapid expansion","financial collapse","deliberate sabotage"], diff: "easy" },
-    { passage: "The committee acknowledged the nuanced nature of the problem, resisting calls for simplistic solutions.", word: "nuanced", correct: "having subtle distinctions and complexity; not black-and-white", wrong: ["straightforward and simple","involving large numbers","politically motivated"], diff: "medium" },
-    { passage: "The study's methodology was rigorous, employing randomised control groups and double-blind conditions.", word: "rigorous", correct: "extremely thorough and careful; adhering to strict standards", wrong: ["somewhat flexible","widely popular","highly expensive"], diff: "medium" },
-    { passage: "The lawyer's argument was cogent: clear, logical, and supported by evidence at every step.", word: "cogent", correct: "clear, logical, and convincing", wrong: ["emotional and moving","technically complex","deliberately ambiguous"], diff: "hard" },
+    {
+      passage:
+        'Despite plentiful resources, the project remained in a state of inertia for three years, with no meaningful progress.',
+      word: 'inertia',
+      correct: 'tendency to remain unchanged; resistance to movement or action',
+      wrong: ['rapid expansion', 'financial collapse', 'deliberate sabotage'],
+      diff: 'easy',
+    },
+    {
+      passage:
+        'The committee acknowledged the nuanced nature of the problem, resisting calls for simplistic solutions.',
+      word: 'nuanced',
+      correct: 'having subtle distinctions and complexity; not black-and-white',
+      wrong: [
+        'straightforward and simple',
+        'involving large numbers',
+        'politically motivated',
+      ],
+      diff: 'medium',
+    },
+    {
+      passage:
+        "The study's methodology was rigorous, employing randomised control groups and double-blind conditions.",
+      word: 'rigorous',
+      correct: 'extremely thorough and careful; adhering to strict standards',
+      wrong: ['somewhat flexible', 'widely popular', 'highly expensive'],
+      diff: 'medium',
+    },
+    {
+      passage:
+        "The lawyer's argument was cogent: clear, logical, and supported by evidence at every step.",
+      word: 'cogent',
+      correct: 'clear, logical, and convincing',
+      wrong: [
+        'emotional and moving',
+        'technically complex',
+        'deliberately ambiguous',
+      ],
+      diff: 'hard',
+    },
   ],
   // 07 Test Ready
   [
-    { passage: "The report was unsparing in its assessment of government failures — no agency was exonerated, no excuse accepted.", word: "exonerated", correct: "officially declared free of blame or cleared of an accusation", wrong: ["financially compensated","asked to resign","publicly praised"], diff: "medium" },
-    { passage: "His equanimity in the face of the crisis earned him deep respect — where others panicked, he remained calm and purposeful.", word: "equanimity", correct: "mental calmness and composure, especially in difficult situations", wrong: ["reckless courage","calculating opportunism","cheerful ignorance"], diff: "hard" },
-    { passage: "The editorial argued that the policy was an affront to democratic values — an insult that could not pass without challenge.", word: "affront", correct: "an action or remark that causes offence; an insult", wrong: ["a legal precedent","a financial incentive","a diplomatic solution"], diff: "medium" },
-    { passage: "Her research corroborated the earlier findings, strengthening the scientific consensus.", word: "corroborated", correct: "confirmed or supported with additional evidence", wrong: ["contradicted with new data","replaced in academic journals","funded by the government"], diff: "easy" },
+    {
+      passage:
+        'The report was unsparing in its assessment of government failures — no agency was exonerated, no excuse accepted.',
+      word: 'exonerated',
+      correct: 'officially declared free of blame or cleared of an accusation',
+      wrong: ['financially compensated', 'asked to resign', 'publicly praised'],
+      diff: 'medium',
+    },
+    {
+      passage:
+        'His equanimity in the face of the crisis earned him deep respect — where others panicked, he remained calm and purposeful.',
+      word: 'equanimity',
+      correct:
+        'mental calmness and composure, especially in difficult situations',
+      wrong: [
+        'reckless courage',
+        'calculating opportunism',
+        'cheerful ignorance',
+      ],
+      diff: 'hard',
+    },
+    {
+      passage:
+        'The editorial argued that the policy was an affront to democratic values — an insult that could not pass without challenge.',
+      word: 'affront',
+      correct: 'an action or remark that causes offence; an insult',
+      wrong: [
+        'a legal precedent',
+        'a financial incentive',
+        'a diplomatic solution',
+      ],
+      diff: 'medium',
+    },
+    {
+      passage:
+        'Her research corroborated the earlier findings, strengthening the scientific consensus.',
+      word: 'corroborated',
+      correct: 'confirmed or supported with additional evidence',
+      wrong: [
+        'contradicted with new data',
+        'replaced in academic journals',
+        'funded by the government',
+      ],
+      diff: 'easy',
+    },
   ],
   // 08 Test Ready
   [
-    { passage: "The senator's invective against his opponent shocked even seasoned political observers, who described it as far beyond normal campaign rhetoric.", word: "invective", correct: "violent, abusive, or accusatory language used as an attack", wrong: ["a formal policy proposal","measured criticism backed by data","humorous political satire"], diff: "hard" },
-    { passage: "The scientist was careful to caveat her conclusions, noting that the study's sample size limited the generalisability of the results.", word: "caveat", correct: "a warning or qualification attached to a statement", wrong: ["a financial term for debt","a type of statistical test","an argument used in court proceedings"], diff: "hard" },
-    { passage: "The architect's design was considered avant-garde by contemporaries — too radical for most clients at the time, but enormously influential on the following generation.", word: "avant-garde", correct: "new, experimental, and ahead of conventional thinking", wrong: ["expensive and impractical to build","deliberately imitative of classical styles","politically motivated"], diff: "hard" },
-    { passage: "By the time the policy was implemented, the crisis it was designed to address had become endemic — embedded deeply in the structural conditions of the society.", word: "endemic", correct: "regularly found in or characteristic of a particular community, region, or condition", wrong: ["suddenly appearing without warning","caused by foreign influence","likely to disappear on its own"], diff: "hard" },
+    {
+      passage:
+        "The senator's invective against his opponent shocked even seasoned political observers, who described it as far beyond normal campaign rhetoric.",
+      word: 'invective',
+      correct: 'violent, abusive, or accusatory language used as an attack',
+      wrong: [
+        'a formal policy proposal',
+        'measured criticism backed by data',
+        'humorous political satire',
+      ],
+      diff: 'hard',
+    },
+    {
+      passage:
+        "The scientist was careful to caveat her conclusions, noting that the study's sample size limited the generalisability of the results.",
+      word: 'caveat',
+      correct: 'a warning or qualification attached to a statement',
+      wrong: [
+        'a financial term for debt',
+        'a type of statistical test',
+        'an argument used in court proceedings',
+      ],
+      diff: 'hard',
+    },
+    {
+      passage:
+        "The architect's design was considered avant-garde by contemporaries — too radical for most clients at the time, but enormously influential on the following generation.",
+      word: 'avant-garde',
+      correct: 'new, experimental, and ahead of conventional thinking',
+      wrong: [
+        'expensive and impractical to build',
+        'deliberately imitative of classical styles',
+        'politically motivated',
+      ],
+      diff: 'hard',
+    },
+    {
+      passage:
+        'By the time the policy was implemented, the crisis it was designed to address had become endemic — embedded deeply in the structural conditions of the society.',
+      word: 'endemic',
+      correct:
+        'regularly found in or characteristic of a particular community, region, or condition',
+      wrong: [
+        'suddenly appearing without warning',
+        'caused by foreign influence',
+        'likely to disappear on its own',
+      ],
+      diff: 'hard',
+    },
   ],
   // 09 Test Ready
   [
-    { passage: "The manager's mercurial personality made it difficult for employees to know what to expect — she could be brilliantly energetic one day and irritably dismissive the next.", word: "mercurial", correct: "subject to sudden or unpredictable changes in mood", wrong: ["consistently demanding but fair","secretive about professional goals","highly logical and systematic"], diff: "medium" },
-    { passage: "Critics described the film as a harrowing portrait of addiction — deeply distressing but impossible to look away from.", word: "harrowing", correct: "intensely distressing or traumatic", wrong: ["light-hearted and comedic","technically impressive but emotionally hollow","slow-moving and overly detailed"], diff: "medium" },
-    { passage: "The labour union's demands were described as intractable — neither side was willing to yield on core issues, and negotiations stalled.", word: "intractable", correct: "difficult to resolve or control; not easily managed", wrong: ["quickly resolved through compromise","unlikely to affect the final contract","primarily affecting senior employees"], diff: "hard" },
-    { passage: "The novelist's prose was luminous — every sentence carried a clarity and precision that made even complex emotions feel immediately comprehensible.", word: "luminous", correct: "brilliantly clear, vivid, or enlightening", wrong: ["dark and oppressive in tone","unnecessarily ornate and difficult to follow","historically accurate but emotionally flat"], diff: "hard" },
+    {
+      passage:
+        "The manager's mercurial personality made it difficult for employees to know what to expect — she could be brilliantly energetic one day and irritably dismissive the next.",
+      word: 'mercurial',
+      correct: 'subject to sudden or unpredictable changes in mood',
+      wrong: [
+        'consistently demanding but fair',
+        'secretive about professional goals',
+        'highly logical and systematic',
+      ],
+      diff: 'medium',
+    },
+    {
+      passage:
+        'Critics described the film as a harrowing portrait of addiction — deeply distressing but impossible to look away from.',
+      word: 'harrowing',
+      correct: 'intensely distressing or traumatic',
+      wrong: [
+        'light-hearted and comedic',
+        'technically impressive but emotionally hollow',
+        'slow-moving and overly detailed',
+      ],
+      diff: 'medium',
+    },
+    {
+      passage:
+        "The labour union's demands were described as intractable — neither side was willing to yield on core issues, and negotiations stalled.",
+      word: 'intractable',
+      correct: 'difficult to resolve or control; not easily managed',
+      wrong: [
+        'quickly resolved through compromise',
+        'unlikely to affect the final contract',
+        'primarily affecting senior employees',
+      ],
+      diff: 'hard',
+    },
+    {
+      passage:
+        "The novelist's prose was luminous — every sentence carried a clarity and precision that made even complex emotions feel immediately comprehensible.",
+      word: 'luminous',
+      correct: 'brilliantly clear, vivid, or enlightening',
+      wrong: [
+        'dark and oppressive in tone',
+        'unnecessarily ornate and difficult to follow',
+        'historically accurate but emotionally flat',
+      ],
+      diff: 'hard',
+    },
   ],
   // 10 Challenge
   [
-    { passage: "The commission's findings were scathing, laying bare the systemic failures that had been obscured by years of bureaucratic obfuscation.", word: "obfuscation", correct: "the action of making something unclear or difficult to understand, especially deliberately", wrong: ["transparent public reporting","financial mismanagement","legal prosecution of officials"], diff: "hard" },
-    { passage: "The senator's remarks were studiously anodyne — designed to offend no one and commit to nothing.", word: "anodyne", correct: "not likely to provoke disagreement; deliberately inoffensive and uncommitted", wrong: ["secretly hostile to political rivals","broadly popular with voters","technically accurate in every detail"], diff: "hard" },
-    { passage: "Her dissent from the majority opinion was measured but trenchant, exposing a fundamental flaw in the court's reasoning that the majority had glossed over.", word: "trenchant", correct: "vigorously effective and sharply expressed; cutting to the heart of the matter", wrong: ["reluctantly submitted","overly lengthy and repetitive","based on emotional appeal rather than legal reasoning"], diff: "hard" },
-    { passage: "The historian argued that the war's causes were not monocausal but rather an accretion of grievances, miscalculations, and structural pressures accumulated over decades.", word: "accretion", correct: "a gradual accumulation or growth of layers over time", wrong: ["a sudden explosion of tension","a deliberate policy decision by one government","a diplomatic failure in a single crisis meeting"], diff: "hard" },
+    {
+      passage:
+        "The commission's findings were scathing, laying bare the systemic failures that had been obscured by years of bureaucratic obfuscation.",
+      word: 'obfuscation',
+      correct:
+        'the action of making something unclear or difficult to understand, especially deliberately',
+      wrong: [
+        'transparent public reporting',
+        'financial mismanagement',
+        'legal prosecution of officials',
+      ],
+      diff: 'hard',
+    },
+    {
+      passage:
+        "The senator's remarks were studiously anodyne — designed to offend no one and commit to nothing.",
+      word: 'anodyne',
+      correct:
+        'not likely to provoke disagreement; deliberately inoffensive and uncommitted',
+      wrong: [
+        'secretly hostile to political rivals',
+        'broadly popular with voters',
+        'technically accurate in every detail',
+      ],
+      diff: 'hard',
+    },
+    {
+      passage:
+        "Her dissent from the majority opinion was measured but trenchant, exposing a fundamental flaw in the court's reasoning that the majority had glossed over.",
+      word: 'trenchant',
+      correct:
+        'vigorously effective and sharply expressed; cutting to the heart of the matter',
+      wrong: [
+        'reluctantly submitted',
+        'overly lengthy and repetitive',
+        'based on emotional appeal rather than legal reasoning',
+      ],
+      diff: 'hard',
+    },
+    {
+      passage:
+        "The historian argued that the war's causes were not monocausal but rather an accretion of grievances, miscalculations, and structural pressures accumulated over decades.",
+      word: 'accretion',
+      correct: 'a gradual accumulation or growth of layers over time',
+      wrong: [
+        'a sudden explosion of tension',
+        'a deliberate policy decision by one government',
+        'a diplomatic failure in a single crisis meeting',
+      ],
+      diff: 'hard',
+    },
   ],
 ];
 
-vocabFiles.forEach(({f, tier, n}, i) => {
+vocabFiles.forEach(({ f, tier, n }, i) => {
   const words = vocabSets[i];
-  const questions = words.map((w, qi) => {
-    const options = [
-      { text: w.correct, isCorrect: true, rat: `Correct: ${w.correct.charAt(0).toUpperCase() + w.correct.slice(1)}.` },
-      ...w.wrong.map(wt => ({ text: wt, isCorrect: false, rat: `Incorrect — this does not match how '${w.word}' is used in this context.` })),
-    ];
-    // shuffle so correct isn't always first
-    const shuffled = [options[1], options[0], options[2], options[3]];
-    return `
+  const questions = words
+    .map((w, qi) => {
+      const options = [
+        {
+          text: w.correct,
+          isCorrect: true,
+          rat: `Correct: ${w.correct.charAt(0).toUpperCase() + w.correct.slice(1)}.`,
+        },
+        ...w.wrong.map((wt) => ({
+          text: wt,
+          isCorrect: false,
+          rat: `Incorrect — this does not match how '${w.word}' is used in this context.`,
+        })),
+      ];
+      // shuffle so correct isn't always first
+      const shuffled = [options[1], options[0], options[2], options[3]];
+      return `
   {
     questionNumber: ${qi + 1}, type: 'multipleChoice', difficulty: ${JSON.stringify(w.diff)},
     passage: ${JSON.stringify(w.passage)},
@@ -507,14 +1076,18 @@ vocabFiles.forEach(({f, tier, n}, i) => {
     ],
     challenge_tags: ['rla-3'],
   }`;
-  }).join(',');
+    })
+    .join(',');
 
-  write(f, `
+  write(
+    f,
+    `
 // Vocabulary in Context — ${tier}: Practice ${n}
 // Focus: ${vocabFiles[i].focus}
 module.exports = [${questions}
 ];
-`);
+`
+  );
 });
 
 console.log('\n✓ RLA batch 3 complete.');

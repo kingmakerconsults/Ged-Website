@@ -9,10 +9,15 @@
 const fs = require('fs');
 const path = require('path');
 const RLA = path.join(__dirname, '../backend/data/quizzes/rla');
-const write = (f, c) => { fs.writeFileSync(path.join(RLA, f), c.trim(), 'utf8'); console.log('  ✓', f); };
+const write = (f, c) => {
+  fs.writeFileSync(path.join(RLA, f), c.trim(), 'utf8');
+  console.log('  ✓', f);
+};
 
 // ─── EVIDENCE 08  (Test Ready) ───────────────────────────────────────────────
-write('rla_evidence_08.js', `
+write(
+  'rla_evidence_08.js',
+  `
 // Evidence & Argumentation — Test Ready: Practice 8
 // 11 questions | multi-source reasoning, fallacy ID
 module.exports = [
@@ -149,10 +154,13 @@ module.exports = [
     challenge_tags: ['rla-2'],
   },
 ];
-`);
+`
+);
 
 // ─── EVIDENCE 09  (Test Ready) ───────────────────────────────────────────────
-write('rla_evidence_09.js', `
+write(
+  'rla_evidence_09.js',
+  `
 // Evidence & Argumentation — Test Ready: Practice 9
 module.exports = [
   {
@@ -288,10 +296,13 @@ module.exports = [
     challenge_tags: ['rla-2'],
   },
 ];
-`);
+`
+);
 
 // ─── EVIDENCE 10  (Challenge) ─────────────────────────────────────────────────
-write('rla_evidence_10.js', `
+write(
+  'rla_evidence_10.js',
+  `
 // Evidence & Argumentation — Challenge: Practice 10
 // 12 questions | GED-level and above, complex paired-source reasoning
 module.exports = [
@@ -440,10 +451,13 @@ module.exports = [
     challenge_tags: ['rla-2'],
   },
 ];
-`);
+`
+);
 
 // ─── GRAMMAR 05 ───────────────────────────────────────────────────────────────
-write('rla_grammar_05.js', `
+write(
+  'rla_grammar_05.js',
+  `
 // Language & Grammar — Core Skills: Practice 5
 module.exports = [
   {questionNumber:1,type:'multipleChoice',difficulty:'easy',
@@ -529,20 +543,41 @@ module.exports = [
     {text:"'An announcement' should be 'the announcement.'", isCorrect:false, rationale:"'An' is appropriate for an unspecified announcement — no error."},
    ],challenge_tags:['rla-1']},
 ];
-`);
+`
+);
 
 // ─── GRAMMAR 06-10 ────────────────────────────────────────────────────────────
 // (Progressively harder through test-ready → challenge)
 const grammarFiles = {
-  'rla_grammar_06.js': {tier:'core', focus:'sentence combining, comma splices, run-ons, formal vs informal register'},
-  'rla_grammar_07.js': {tier:'test-ready', focus:'editing paragraphs, transition words, wordiness, active vs passive voice'},
-  'rla_grammar_08.js': {tier:'test-ready', focus:'sentence revision in context, cohesion, redundancy'},
-  'rla_grammar_09.js': {tier:'test-ready', focus:'complex passage editing, style consistency'},
-  'rla_grammar_10.js': {tier:'challenge', focus:'GED extended response revision, paragraph-level structure, varied clause analysis'},
+  'rla_grammar_06.js': {
+    tier: 'core',
+    focus:
+      'sentence combining, comma splices, run-ons, formal vs informal register',
+  },
+  'rla_grammar_07.js': {
+    tier: 'test-ready',
+    focus:
+      'editing paragraphs, transition words, wordiness, active vs passive voice',
+  },
+  'rla_grammar_08.js': {
+    tier: 'test-ready',
+    focus: 'sentence revision in context, cohesion, redundancy',
+  },
+  'rla_grammar_09.js': {
+    tier: 'test-ready',
+    focus: 'complex passage editing, style consistency',
+  },
+  'rla_grammar_10.js': {
+    tier: 'challenge',
+    focus:
+      'GED extended response revision, paragraph-level structure, varied clause analysis',
+  },
 };
 
 // Grammar 06
-write('rla_grammar_06.js', `
+write(
+  'rla_grammar_06.js',
+  `
 // Language & Grammar — Core Skills: Practice 6
 module.exports = [
   {questionNumber:1,type:'multipleChoice',difficulty:'easy',
@@ -628,10 +663,13 @@ module.exports = [
     {text:"Incorrect subject-verb agreement.", isCorrect:false, rationale:"Subject-verb agreement is correct throughout."},
    ],challenge_tags:['rla-1']},
 ];
-`);
+`
+);
 
 // Grammar 07 — Test Ready
-write('rla_grammar_07.js', `
+write(
+  'rla_grammar_07.js',
+  `
 // Language & Grammar — Test Ready: Practice 7
 // Active vs passive voice, transitions in extended paragraphs, sentence combining
 module.exports = [
@@ -720,15 +758,19 @@ module.exports = [
     {text:"The board postponed its vote; the report was incomplete.", isCorrect:false, rationale:"A semicolon juxtaposes without showing the causal relationship — less precise."},
    ],challenge_tags:['rla-1']},
 ];
-`);
+`
+);
 
 // Grammar 08-10 — concise but full quality
-['rla_grammar_08.js','rla_grammar_09.js','rla_grammar_10.js'].forEach((fname, i) => {
-  const tiers = ['Test Ready','Test Ready','Challenge'];
-  const tier = tiers[i];
-  const nums = [8,9,10];
-  const n = nums[i];
-  write(fname, `
+['rla_grammar_08.js', 'rla_grammar_09.js', 'rla_grammar_10.js'].forEach(
+  (fname, i) => {
+    const tiers = ['Test Ready', 'Test Ready', 'Challenge'];
+    const tier = tiers[i];
+    const nums = [8, 9, 10];
+    const n = nums[i];
+    write(
+      fname,
+      `
 // Language & Grammar — ${tier}: Practice ${n}
 // Focus: paragraph editing, extended response revision, complex clause structures
 module.exports = [
@@ -815,94 +857,120 @@ module.exports = [
     {text:"Renewable energy is important for the economy.", isCorrect:false, rationale:"Too general — doesn't specify the benefits or direction of the paragraph."},
    ],challenge_tags:['rla-1']},
 ];
-`);
-});
+`
+    );
+  }
+);
 
 // ─── MAIN IDEA 05-11 ─────────────────────────────────────────────────────────
 
 const mainIdeaFiles = [
-  ['rla_main_idea_05.js', 'Core', 5,
-   `The Great Migration refers to the movement of approximately six million Black Americans from the rural South to northern and western cities between 1910 and 1970. This shift was driven by the brutal conditions of sharecropping and Jim Crow laws in the South, combined with the promise of industrial jobs and greater civil liberties in cities like Chicago, Detroit, and New York. The Migration transformed American culture — contributing to the Harlem Renaissance, the birth of Chicago blues, and the development of a northern Black political voice that reshaped national politics.`,
-   'Black Americans moved north only to find the same conditions as in the South.',
-   'The passage says northern cities offered industrial jobs and greater civil liberties — conditions differed from the South.',
-   'The Great Migration was a massive demographic shift driven by southern injustice and northern opportunity, with lasting cultural and political consequences.',
-   'Captures all three elements: scale, causes (Jim Crow + opportunity), and cultural and political consequences.',
-   'The Harlem Renaissance was the most important cultural event caused by the Great Migration.',
-   'The Renaissance is one of several outcomes listed — not the sole main idea.',
-   'The Great Migration ended permanently after 1970.',
-   'The passage says Migration occurred 1910-1970 — it does not claim the movement ended then permanently.',
+  [
+    'rla_main_idea_05.js',
+    'Core',
+    5,
+    `The Great Migration refers to the movement of approximately six million Black Americans from the rural South to northern and western cities between 1910 and 1970. This shift was driven by the brutal conditions of sharecropping and Jim Crow laws in the South, combined with the promise of industrial jobs and greater civil liberties in cities like Chicago, Detroit, and New York. The Migration transformed American culture — contributing to the Harlem Renaissance, the birth of Chicago blues, and the development of a northern Black political voice that reshaped national politics.`,
+    'Black Americans moved north only to find the same conditions as in the South.',
+    'The passage says northern cities offered industrial jobs and greater civil liberties — conditions differed from the South.',
+    'The Great Migration was a massive demographic shift driven by southern injustice and northern opportunity, with lasting cultural and political consequences.',
+    'Captures all three elements: scale, causes (Jim Crow + opportunity), and cultural and political consequences.',
+    'The Harlem Renaissance was the most important cultural event caused by the Great Migration.',
+    'The Renaissance is one of several outcomes listed — not the sole main idea.',
+    'The Great Migration ended permanently after 1970.',
+    'The passage says Migration occurred 1910-1970 — it does not claim the movement ended then permanently.',
   ],
-  ['rla_main_idea_06.js', 'Core', 6,
-   `Coral reefs cover less than 1% of the ocean floor, yet they support approximately 25% of all marine species. They serve as nurseries for fish populations that sustain commercial fisheries, protect coastlines from storm surge, and generate billions of dollars in tourism revenue annually. Despite their importance, coral reefs face existential threats: rising ocean temperatures cause mass bleaching events, ocean acidification weakens coral skeletons, and pollution smothers reef ecosystems. Scientists estimate that without significant carbon emission reductions, up to 90% of reefs could be destroyed by 2050.`,
-   'Coral reefs are decorative ocean features with minimal ecological importance.',
-   'The passage describes reefs as critical ecological structures supporting 25% of marine species.',
-   'Coral reefs are among the most ecologically and economically important ecosystems on Earth, now facing potentially catastrophic threats from climate change and pollution.',
-   'Accurately reflects both dimensions — importance and threats — which together form the complete main idea.',
-   'Without coral reefs, all marine fish would immediately go extinct.',
-   'The passage says reefs support 25% of marine species; immediate total extinction is an extreme overstatement.',
-   'Tourism revenue alone justifies protecting coral reefs.',
-   'Tourism is one of several economic benefits — identifying it alone as the sole justification misrepresents the passage.',
+  [
+    'rla_main_idea_06.js',
+    'Core',
+    6,
+    `Coral reefs cover less than 1% of the ocean floor, yet they support approximately 25% of all marine species. They serve as nurseries for fish populations that sustain commercial fisheries, protect coastlines from storm surge, and generate billions of dollars in tourism revenue annually. Despite their importance, coral reefs face existential threats: rising ocean temperatures cause mass bleaching events, ocean acidification weakens coral skeletons, and pollution smothers reef ecosystems. Scientists estimate that without significant carbon emission reductions, up to 90% of reefs could be destroyed by 2050.`,
+    'Coral reefs are decorative ocean features with minimal ecological importance.',
+    'The passage describes reefs as critical ecological structures supporting 25% of marine species.',
+    'Coral reefs are among the most ecologically and economically important ecosystems on Earth, now facing potentially catastrophic threats from climate change and pollution.',
+    'Accurately reflects both dimensions — importance and threats — which together form the complete main idea.',
+    'Without coral reefs, all marine fish would immediately go extinct.',
+    'The passage says reefs support 25% of marine species; immediate total extinction is an extreme overstatement.',
+    'Tourism revenue alone justifies protecting coral reefs.',
+    'Tourism is one of several economic benefits — identifying it alone as the sole justification misrepresents the passage.',
   ],
-  ['rla_main_idea_07.js', 'Test Ready', 7,
-   `In the early 20th century, American cities faced a sanitation crisis. Rapidly growing industrial populations produced volumes of waste that overwhelmed existing systems. Tuberculosis, typhoid, and cholera killed tens of thousands annually. Progressive Era reformers — many of them women excluded from formal political life — organised to demand public health infrastructure: clean water systems, sewage treatment, food inspection laws, and public health nurses. Their campaigns directly contributed to a drop in urban mortality rates and helped establish the principles of modern public health governance.`,
-   'Cities were clean and well-managed before Progressive Era reformers arrived.',
-   'The passage opens by describing the crisis — cities were overwhelmed and disease was rampant.',
-   'Women-led Progressive Era civic reform drove critical public health infrastructure that reduced urban mortality and shaped modern governance.',
-   'Captures actors (women reformers), actions (infrastructure demands), and outcomes (lower mortality, modern governance).',
-   'Progressive Era reform was primarily about voting rights, not sanitation.',
-   'The passage focuses entirely on public health and sanitation reform — voting rights are not mentioned.',
-   'Public health improvements in this era were led by wealthy male political leaders.',
-   'The passage explicitly identifies the reformers as women excluded from formal political life.',
+  [
+    'rla_main_idea_07.js',
+    'Test Ready',
+    7,
+    `In the early 20th century, American cities faced a sanitation crisis. Rapidly growing industrial populations produced volumes of waste that overwhelmed existing systems. Tuberculosis, typhoid, and cholera killed tens of thousands annually. Progressive Era reformers — many of them women excluded from formal political life — organised to demand public health infrastructure: clean water systems, sewage treatment, food inspection laws, and public health nurses. Their campaigns directly contributed to a drop in urban mortality rates and helped establish the principles of modern public health governance.`,
+    'Cities were clean and well-managed before Progressive Era reformers arrived.',
+    'The passage opens by describing the crisis — cities were overwhelmed and disease was rampant.',
+    'Women-led Progressive Era civic reform drove critical public health infrastructure that reduced urban mortality and shaped modern governance.',
+    'Captures actors (women reformers), actions (infrastructure demands), and outcomes (lower mortality, modern governance).',
+    'Progressive Era reform was primarily about voting rights, not sanitation.',
+    'The passage focuses entirely on public health and sanitation reform — voting rights are not mentioned.',
+    'Public health improvements in this era were led by wealthy male political leaders.',
+    'The passage explicitly identifies the reformers as women excluded from formal political life.',
   ],
-  ['rla_main_idea_08.js', 'Test Ready', 8,
-   `The psychological concept of cognitive dissonance, developed by Leon Festinger in 1957, describes the mental discomfort a person feels when holding two conflicting beliefs or when behaviour contradicts strongly held values. To relieve this discomfort, people typically either change the belief, change the behaviour, or rationalise the inconsistency. Festinger's research showed that people will often go to surprising lengths to rationalise away inconsistency rather than confront the contradiction directly — a finding with broad applications in marketing, politics, and public health behaviour.`,
-   'Cognitive dissonance means people always change their behaviour when confronted with contradicting evidence.',
-   'The passage says people often rationalise rather than change beliefs or behaviour.',
-   'Festinger\'s cognitive dissonance theory explains how people cope with conflicting beliefs — typically through rationalisation rather than honest self-correction — with implications across multiple fields.',
-   'Reflects both the theory and its key empirical finding (rationalisation over correction), plus its broad applicability.',
-   'Cognitive dissonance only applies to children and does not affect adult reasoning.',
-   'No age limitation is stated or implied anywhere in the passage.',
-   'Festinger\'s work proved that marketing and politics are inherently dishonest fields.',
-   'The passage lists these as application areas for the concept — it does not make a normative judgement about those fields.',
+  [
+    'rla_main_idea_08.js',
+    'Test Ready',
+    8,
+    `The psychological concept of cognitive dissonance, developed by Leon Festinger in 1957, describes the mental discomfort a person feels when holding two conflicting beliefs or when behaviour contradicts strongly held values. To relieve this discomfort, people typically either change the belief, change the behaviour, or rationalise the inconsistency. Festinger's research showed that people will often go to surprising lengths to rationalise away inconsistency rather than confront the contradiction directly — a finding with broad applications in marketing, politics, and public health behaviour.`,
+    'Cognitive dissonance means people always change their behaviour when confronted with contradicting evidence.',
+    'The passage says people often rationalise rather than change beliefs or behaviour.',
+    "Festinger's cognitive dissonance theory explains how people cope with conflicting beliefs — typically through rationalisation rather than honest self-correction — with implications across multiple fields.",
+    'Reflects both the theory and its key empirical finding (rationalisation over correction), plus its broad applicability.',
+    'Cognitive dissonance only applies to children and does not affect adult reasoning.',
+    'No age limitation is stated or implied anywhere in the passage.',
+    "Festinger's work proved that marketing and politics are inherently dishonest fields.",
+    'The passage lists these as application areas for the concept — it does not make a normative judgement about those fields.',
   ],
-  ['rla_main_idea_09.js', 'Test Ready', 9,
-   `The Marshall Plan, formally the European Recovery Program (1948-1952), provided $13 billion in American economic assistance to rebuild Western European economies devastated by World War II. The plan's architects — Secretary of State George Marshall and undersecretary Dean Acheson — argued that stable, prosperous democracies would resist communist influence. The plan rebuilt European industrial capacity, stabilised currencies, and fostered cooperative institutions that eventually evolved into the European Union. Critics have noted that the plan also served American strategic and economic interests by creating export markets for U.S. goods.`,
-   'The Marshall Plan was a purely selfless act of American generosity with no strategic motivation.',
-   'The passage explicitly notes the plan served American strategic and economic interests.',
-   'The Marshall Plan successfully rebuilt Western Europe while simultaneously advancing American strategic interests and laying institutional groundwork for European cooperation.',
-   'Correctly integrates all elements: reconstruction success, strategic motive, and institutional legacy.',
-   'Dean Acheson was solely responsible for designing and implementing the Marshall Plan.',
-   'Both Marshall and Acheson are credited as architects — singling out Acheson alone misrepresents the passage.',
-   'The Marshall Plan directly caused the founding of NATO.',
-   'The passage connects the plan to institutions that became the EU — NATO is not mentioned.',
+  [
+    'rla_main_idea_09.js',
+    'Test Ready',
+    9,
+    `The Marshall Plan, formally the European Recovery Program (1948-1952), provided $13 billion in American economic assistance to rebuild Western European economies devastated by World War II. The plan's architects — Secretary of State George Marshall and undersecretary Dean Acheson — argued that stable, prosperous democracies would resist communist influence. The plan rebuilt European industrial capacity, stabilised currencies, and fostered cooperative institutions that eventually evolved into the European Union. Critics have noted that the plan also served American strategic and economic interests by creating export markets for U.S. goods.`,
+    'The Marshall Plan was a purely selfless act of American generosity with no strategic motivation.',
+    'The passage explicitly notes the plan served American strategic and economic interests.',
+    'The Marshall Plan successfully rebuilt Western Europe while simultaneously advancing American strategic interests and laying institutional groundwork for European cooperation.',
+    'Correctly integrates all elements: reconstruction success, strategic motive, and institutional legacy.',
+    'Dean Acheson was solely responsible for designing and implementing the Marshall Plan.',
+    'Both Marshall and Acheson are credited as architects — singling out Acheson alone misrepresents the passage.',
+    'The Marshall Plan directly caused the founding of NATO.',
+    'The passage connects the plan to institutions that became the EU — NATO is not mentioned.',
   ],
-  ['rla_main_idea_10.js', 'Test Ready', 10,
-   `In ecology, a keystone species is an organism whose impact on its ecosystem is disproportionately large relative to its abundance. The sea otter is a classic example: otters eat sea urchins, which eat kelp. Without otters, urchin populations explode and devour kelp forests that shelter hundreds of species. When otters were hunted nearly to extinction in the 19th century, kelp forests along the Pacific coast collapsed. After conservation efforts allowed otter recovery, kelp ecosystems rebounded dramatically — demonstrating how removing one species can trigger cascading collapse through an entire ecosystem.`,
-   'Sea otters are interesting animals, but they have little effect on ocean ecosystems.',
-   'The passage uses otters to demonstrate their outsized ecological importance.',
-   'The keystone species concept explains how a single species with disproportionate ecological influence can, if removed, trigger cascading collapse throughout an entire ecosystem.',
-   'Correctly identifies the passage as an explanation of the keystone species concept, using otters as its example.',
-   'Sea otter conservation programs are the most successful conservation efforts in American history.',
-   'The passage uses otters as an ecological example — it makes no comparative claim about conservation program success.',
-   'Overfishing, not species interdependence, primarily explains declining Pacific fish populations.',
-   'Overfishing is not mentioned — the passage attributes kelp forest collapse to loss of the otter keystone species.',
+  [
+    'rla_main_idea_10.js',
+    'Test Ready',
+    10,
+    `In ecology, a keystone species is an organism whose impact on its ecosystem is disproportionately large relative to its abundance. The sea otter is a classic example: otters eat sea urchins, which eat kelp. Without otters, urchin populations explode and devour kelp forests that shelter hundreds of species. When otters were hunted nearly to extinction in the 19th century, kelp forests along the Pacific coast collapsed. After conservation efforts allowed otter recovery, kelp ecosystems rebounded dramatically — demonstrating how removing one species can trigger cascading collapse through an entire ecosystem.`,
+    'Sea otters are interesting animals, but they have little effect on ocean ecosystems.',
+    'The passage uses otters to demonstrate their outsized ecological importance.',
+    'The keystone species concept explains how a single species with disproportionate ecological influence can, if removed, trigger cascading collapse throughout an entire ecosystem.',
+    'Correctly identifies the passage as an explanation of the keystone species concept, using otters as its example.',
+    'Sea otter conservation programs are the most successful conservation efforts in American history.',
+    'The passage uses otters as an ecological example — it makes no comparative claim about conservation program success.',
+    'Overfishing, not species interdependence, primarily explains declining Pacific fish populations.',
+    'Overfishing is not mentioned — the passage attributes kelp forest collapse to loss of the otter keystone species.',
   ],
-  ['rla_main_idea_11.js', 'Challenge', 11,
-   `In 1848, Elizabeth Cady Stanton and Lucretia Mott organised the Seneca Falls Convention, the first formal gathering in the United States devoted to women's rights. The convention produced the Declaration of Sentiments — modelled deliberately on the Declaration of Independence — which listed 18 grievances against laws denying women citizenship rights, property ownership, educational access, and the vote. Not all attendees agreed on including suffrage; Mott initially feared it would make the movement appear radical. Frederick Douglass spoke in support of the suffrage resolution, which narrowly passed. The convention launched a 72-year campaign culminating in the 19th Amendment in 1920.`,
-   'The Seneca Falls Convention was primarily about property rights, and its suffrage resolution was defeated.',
-   'Suffrage was included and narrowly passed — it was not defeated.',
-   'The Seneca Falls Convention launched the American women\'s rights movement with a formal declaration of grievances, including a contested but successful suffrage resolution that began a 72-year campaign ending in the vote.',
-   'Integrates all key elements: the founding event, the Declaration, the internal suffrage debate, Douglass\'s role, and the long arc to 1920.',
-   'Lucretia Mott\'s opposition to suffrage ultimately caused the resolution to fail.',
-   'Mott initially objected but the resolution narrowly passed, with Douglass\'s support.',
-   'The 19th Amendment was passed in the immediate years following the Seneca Falls Convention.',
-   'The passage states the amendment came 72 years later, in 1920.',
+  [
+    'rla_main_idea_11.js',
+    'Challenge',
+    11,
+    `In 1848, Elizabeth Cady Stanton and Lucretia Mott organised the Seneca Falls Convention, the first formal gathering in the United States devoted to women's rights. The convention produced the Declaration of Sentiments — modelled deliberately on the Declaration of Independence — which listed 18 grievances against laws denying women citizenship rights, property ownership, educational access, and the vote. Not all attendees agreed on including suffrage; Mott initially feared it would make the movement appear radical. Frederick Douglass spoke in support of the suffrage resolution, which narrowly passed. The convention launched a 72-year campaign culminating in the 19th Amendment in 1920.`,
+    'The Seneca Falls Convention was primarily about property rights, and its suffrage resolution was defeated.',
+    'Suffrage was included and narrowly passed — it was not defeated.',
+    "The Seneca Falls Convention launched the American women's rights movement with a formal declaration of grievances, including a contested but successful suffrage resolution that began a 72-year campaign ending in the vote.",
+    "Integrates all key elements: the founding event, the Declaration, the internal suffrage debate, Douglass's role, and the long arc to 1920.",
+    "Lucretia Mott's opposition to suffrage ultimately caused the resolution to fail.",
+    "Mott initially objected but the resolution narrowly passed, with Douglass's support.",
+    'The 19th Amendment was passed in the immediate years following the Seneca Falls Convention.',
+    'The passage states the amendment came 72 years later, in 1920.',
   ],
 ];
 
-mainIdeaFiles.forEach(([fname, tier, n, passage, wA, rA, wB, rB, wC, rC, wD, rD]) => {
-  const qs = n <= 6 ? 10 : n <= 10 ? 11 : 12;
-  write(fname, `
+mainIdeaFiles.forEach(
+  ([fname, tier, n, passage, wA, rA, wB, rB, wC, rC, wD, rD]) => {
+    const qs = n <= 6 ? 10 : n <= 10 ? 11 : 12;
+    write(
+      fname,
+      `
 // Reading Comprehension — ${tier}: Practice ${n} / Main Idea & Author's Purpose
 // ${qs} questions
 module.exports = [
@@ -920,7 +988,9 @@ module.exports = [
     challenge_tags: ['rla-2'],
   },
 ];
-`);
-});
+`
+    );
+  }
+);
 
 console.log('\nRLA batch 2 complete.');

@@ -21776,10 +21776,10 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
 
   // GED tier support — reads topic.tier from backend or derives from ID
   const TIER_META = {
-    'foundations': { label: 'Foundations', color: '#4CAF50', icon: '🌱' },
-    'core':        { label: 'Core Skills', color: '#2196F3', icon: '📘' },
-    'test-ready':  { label: 'Test Ready',  color: '#FF9800', icon: '🎯' },
-    'challenge':   { label: 'Challenge',   color: '#9C27B0', icon: '🏆' },
+    foundations: { label: 'Foundations', color: '#4CAF50', icon: '🌱' },
+    core: { label: 'Core Skills', color: '#2196F3', icon: '📘' },
+    'test-ready': { label: 'Test Ready', color: '#FF9800', icon: '🎯' },
+    challenge: { label: 'Challenge', color: '#9C27B0', icon: '🏆' },
   };
   const deriveTier = (topic) => {
     if (topic?.tier && TIER_META[topic.tier]) return topic.tier;
@@ -21788,11 +21788,38 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     if (id.startsWith('diag_')) return 'test-ready';
     if (/_tool_demo/.test(id)) return 'foundations';
     const setM = id.match(/_set(\d+)$/);
-    if (setM) { const n = +setM[1]; return n===1?'foundations':n===2?'core':n===3?'test-ready':'challenge'; }
+    if (setM) {
+      const n = +setM[1];
+      return n === 1
+        ? 'foundations'
+        : n === 2
+          ? 'core'
+          : n === 3
+            ? 'test-ready'
+            : 'challenge';
+    }
     const qM = id.match(/_quiz[_]?(\d+)$/);
-    if (qM) { const n = +qM[1]; return n<=1?'foundations':n<=2?'core':n<=3?'test-ready':'challenge'; }
+    if (qM) {
+      const n = +qM[1];
+      return n <= 1
+        ? 'foundations'
+        : n <= 2
+          ? 'core'
+          : n <= 3
+            ? 'test-ready'
+            : 'challenge';
+    }
     const nM = id.match(/_(\d{1,2})$/);
-    if (nM) { const n = +nM[1]; return n<=3?'foundations':n<=6?'core':n<=9?'test-ready':'challenge'; }
+    if (nM) {
+      const n = +nM[1];
+      return n <= 3
+        ? 'foundations'
+        : n <= 6
+          ? 'core'
+          : n <= 9
+            ? 'test-ready'
+            : 'challenge';
+    }
     if (/basics|fundamentals|core_quiz|intro/.test(id)) return 'foundations';
     return 'core';
   };
@@ -21917,7 +21944,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     return out;
   };
 
-  const TIER_RANK = { 'foundations': 1, 'core': 2, 'test-ready': 3, 'challenge': 4 };
+  const TIER_RANK = { foundations: 1, core: 2, 'test-ready': 3, challenge: 4 };
 
   const sortItems = (items) => {
     switch (filters.sort) {
@@ -22396,13 +22423,17 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
           value={filters.sort}
           onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
         >
-          {['Newest', 'By Difficulty', 'Most Attempted', 'Highest Score', 'Topic AZ'].map(
-            (opt) => (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            )
-          )}
+          {[
+            'Newest',
+            'By Difficulty',
+            'Most Attempted',
+            'Highest Score',
+            'Topic AZ',
+          ].map((opt) => (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          ))}
         </select>
       </div>
     </div>
@@ -22669,13 +22700,17 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         {filtered.length === 0 ? (
           <div
             className="text-center text-sm opacity-80 border border-dashed rounded-lg p-4"
-            style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}
+            style={{
+              borderColor: subjectColors.border || 'rgba(148,163,184,0.35)',
+            }}
           >
             No topics available yet for this cluster.
           </div>
         ) : (
-          ['foundations', 'core', 'test-ready', 'challenge'].map(tierKey => {
-            const tierTopics = filtered.filter(t => deriveTier(t) === tierKey);
+          ['foundations', 'core', 'test-ready', 'challenge'].map((tierKey) => {
+            const tierTopics = filtered.filter(
+              (t) => deriveTier(t) === tierKey
+            );
             if (tierTopics.length === 0) return null;
             const meta = TIER_META[tierKey];
             return (
@@ -22708,7 +22743,8 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
                       marginLeft: '4px',
                     }}
                   >
-                    ({tierTopics.length} {tierTopics.length === 1 ? 'quiz' : 'quizzes'})
+                    ({tierTopics.length}{' '}
+                    {tierTopics.length === 1 ? 'quiz' : 'quizzes'})
                   </span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

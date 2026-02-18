@@ -45,7 +45,8 @@ export const TIERS = [
     label: 'Challenge',
     shortLabel: 'Chall.',
     color: '#9C27B0', // purple
-    description: 'Advanced problems for students aiming at college-credit scores.',
+    description:
+      'Advanced problems for students aiming at college-credit scores.',
   },
 ];
 
@@ -106,8 +107,7 @@ export const GED_DOMAINS = {
       domain: 'Earth & Space Science',
       icon: '🌍',
       gedPercent: 20,
-      description:
-        'Geology, weather, climate, astronomy, natural resources.',
+      description: 'Geology, weather, climate, astronomy, natural resources.',
     },
   ],
 
@@ -154,8 +154,7 @@ export const GED_DOMAINS = {
       domain: 'Language & Grammar',
       icon: '✏️',
       gedPercent: 25,
-      description:
-        'Grammar conventions, usage, editing, sentence mechanics.',
+      description: 'Grammar conventions, usage, editing, sentence mechanics.',
     },
     {
       domain: 'Writing & Analysis',
@@ -195,12 +194,12 @@ export const CATEGORY_TO_DOMAIN = {
   'Algebraic Expressions & Linear Equations': 'Algebra & Functions',
   'Expressions & Equations': 'Algebra & Functions',
   'Expressions and Equations': 'Algebra & Functions',
-  'Algebra': 'Algebra & Functions',
+  Algebra: 'Algebra & Functions',
 
   'Graphs & Functions': 'Algebra & Functions',
 
   'Geometry & Measurement': 'Geometry & Measurement',
-  'Geometry': 'Geometry & Measurement',
+  Geometry: 'Geometry & Measurement',
   'Measurement & Geometry': 'Geometry & Measurement',
 
   'Data, Statistics & Probability': 'Data Analysis & Probability',
@@ -209,7 +208,7 @@ export const CATEGORY_TO_DOMAIN = {
   'Interactive Demos': 'Interactive Demos',
   'Interactive Tool Demos': 'Interactive Demos',
   'Tool Demos': 'Interactive Demos',
-  'Demos': 'Interactive Demos',
+  Demos: 'Interactive Demos',
 
   // ── Science ───────────────────────────────────────────────────────────
   'Life Science': 'Life Science',
@@ -230,7 +229,7 @@ export const CATEGORY_TO_DOMAIN = {
   'Social Studies Topics': null, // handled by ID-based rules
   'U.S. History': 'U.S. History',
   'Economics / Geography': 'Economics', // will split geo quizzes by ID
-  'Economics': 'Economics',
+  Economics: 'Economics',
   'Geography and the World': 'Geography & the World',
   'Reading Primary / Secondary Sources': 'Civics & Government',
 
@@ -247,8 +246,8 @@ export const CATEGORY_TO_DOMAIN = {
   'Grammar, Clarity, and Revision': 'Language & Grammar',
   'Language & Grammar': 'Language & Grammar',
   'Language & Editing': 'Language & Grammar',
-  'Language': 'Language & Grammar',
-  'Editing': 'Language & Grammar',
+  Language: 'Language & Grammar',
+  Editing: 'Language & Grammar',
   'Editing & Revision': 'Language & Grammar',
   'Language & Writing': 'Language & Grammar',
 
@@ -280,7 +279,8 @@ export function domainFromQuizId(id, subject) {
   const lower = id.toLowerCase();
 
   // Image-based quizzes
-  if (/_img_/.test(lower) || lower.startsWith('img_')) return 'Image Based Practice';
+  if (/_img_/.test(lower) || lower.startsWith('img_'))
+    return 'Image Based Practice';
 
   // Diagnostics
   if (lower.startsWith('diag_')) return 'Diagnostic';
@@ -290,12 +290,15 @@ export function domainFromQuizId(id, subject) {
 
   // ── Math ──
   if (subject === 'Math') {
-    if (/math_number_sense|math_quant_basics|math_quant_numbers|math_quant_percents|math_quant_ratios|math_quant_fractions|math_ratios/.test(lower))
+    if (
+      /math_number_sense|math_quant_basics|math_quant_numbers|math_quant_percents|math_quant_ratios|math_quant_fractions|math_ratios/.test(
+        lower
+      )
+    )
       return 'Number Sense & Operations';
     if (/math_alg|math_algebra|math_graphs/.test(lower))
       return 'Algebra & Functions';
-    if (/math_geom|math_geometry/.test(lower))
-      return 'Geometry & Measurement';
+    if (/math_geom|math_geometry/.test(lower)) return 'Geometry & Measurement';
     if (/math_data|math_quant_stats|math_quant_bar/.test(lower))
       return 'Data Analysis & Probability';
     return 'Number Sense & Operations'; // safe default
@@ -316,12 +319,14 @@ export function domainFromQuizId(id, subject) {
 
   // ── Social Studies ──
   if (subject === 'Social Studies') {
-    if (/ss_civics|ss_constitution|ss_bill_of_rights|ss_gov|ss_judicial|ss_executive|ss_legislative|ss_separation|ss_federalism|ss_elections|ss_lawmaking|ss_supreme_court|ss_reading_sources/.test(lower))
+    if (
+      /ss_civics|ss_constitution|ss_bill_of_rights|ss_gov|ss_judicial|ss_executive|ss_legislative|ss_separation|ss_federalism|ss_elections|ss_lawmaking|ss_supreme_court|ss_reading_sources/.test(
+        lower
+      )
+    )
       return 'Civics & Government';
-    if (/ss_econ/.test(lower))
-      return 'Economics';
-    if (/ss_geo/.test(lower))
-      return 'Geography & the World';
+    if (/ss_econ/.test(lower)) return 'Economics';
+    if (/ss_geo/.test(lower)) return 'Geography & the World';
     // all other ss_ and us_history → U.S. History
     return 'U.S. History';
   }
@@ -439,7 +444,12 @@ export const GED_QUIZ_GROUPING = {
   Math: [
     {
       label: 'Interactive Demos (Beta)',
-      categories: ['Interactive Demos', 'Interactive Tool Demos', 'Tool Demos', 'Demos'],
+      categories: [
+        'Interactive Demos',
+        'Interactive Tool Demos',
+        'Tool Demos',
+        'Demos',
+      ],
     },
     {
       label: 'Number Sense & Operations',

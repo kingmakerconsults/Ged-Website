@@ -49,12 +49,12 @@ function normalizeSubjectName(name) {
     (k.includes('social') && k.includes('stud')
       ? 'Social Studies'
       : k.includes('rla')
-      ? 'Reasoning Through Language Arts (RLA)'
-      : k.includes('math')
-      ? 'Math'
-      : k.includes('science')
-      ? 'Science'
-      : name)
+        ? 'Reasoning Through Language Arts (RLA)'
+        : k.includes('math')
+          ? 'Math'
+          : k.includes('science')
+            ? 'Science'
+            : name)
   );
 }
 
@@ -71,9 +71,19 @@ function deriveCategoryFor(subject, item) {
 
   if (subject === 'Social Studies') {
     const civics = [
-      'constitution', 'bill-of-rights', 'bill_of_rights', 'elections',
-      'federalism', 'judicial', 'executive', 'legislative',
-      'civics', 'government', 'separation', 'lawmaking', 'supreme_court',
+      'constitution',
+      'bill-of-rights',
+      'bill_of_rights',
+      'elections',
+      'federalism',
+      'judicial',
+      'executive',
+      'legislative',
+      'civics',
+      'government',
+      'separation',
+      'lawmaking',
+      'supreme_court',
       'reading_sources',
     ];
     if (civics.some((k) => title.includes(k) || id.includes(k)))
@@ -84,35 +94,57 @@ function deriveCategoryFor(subject, item) {
     return 'U.S. History';
   }
   if (subject === 'Math') {
-    if (/(algebra|equation|expression|polynomial|linear|quadratic)/.test(title) ||
-        /math_alg|math_algebra|math_graphs/.test(id))
+    if (
+      /(algebra|equation|expression|polynomial|linear|quadratic)/.test(title) ||
+      /math_alg|math_algebra|math_graphs/.test(id)
+    )
       return 'Algebra & Functions';
-    if (/(geometry|angle|triang|circle|perimeter|area|volume)/.test(title) ||
-        /math_geom|math_geometry/.test(id))
+    if (
+      /(geometry|angle|triang|circle|perimeter|area|volume)/.test(title) ||
+      /math_geom|math_geometry/.test(id)
+    )
       return 'Geometry & Measurement';
-    if (/(data|statistic|probability)/.test(title) ||
-        /math_data|math_quant_stats|math_quant_bar/.test(id))
+    if (
+      /(data|statistic|probability)/.test(title) ||
+      /math_data|math_quant_stats|math_quant_bar/.test(id)
+    )
       return 'Data Analysis & Probability';
     return 'Number Sense & Operations';
   }
   if (subject === 'Science') {
-    if (/(cell|ecosystem|biology|life|genetics|heredity|evolution|ecology)/.test(title) ||
-        /sci_life|sci_ecosystem|sci_genetics/.test(id))
+    if (
+      /(cell|ecosystem|biology|life|genetics|heredity|evolution|ecology)/.test(
+        title
+      ) ||
+      /sci_life|sci_ecosystem|sci_genetics/.test(id)
+    )
       return 'Life Science';
-    if (/(earth|space|planet|astronomy|geology|weather|climate|rock)/.test(title) ||
-        /sci_earth|sci_space/.test(id))
+    if (
+      /(earth|space|planet|astronomy|geology|weather|climate|rock)/.test(
+        title
+      ) ||
+      /sci_earth|sci_space/.test(id)
+    )
       return 'Earth & Space Science';
-    if (/(data|measurement|numeracy|graph|scientific.practice|experimental)/.test(title) ||
-        /sci_data|sci_scientific|sci_numeracy/.test(id))
+    if (
+      /(data|measurement|numeracy|graph|scientific.practice|experimental)/.test(
+        title
+      ) ||
+      /sci_data|sci_scientific|sci_numeracy/.test(id)
+    )
       return 'Scientific Practices';
     return 'Physical Science';
   }
   if (subject === 'Reasoning Through Language Arts (RLA)') {
-    if (/(extended.response|essay|constructed.response|writing)/.test(title) ||
-        /rla_extended|rla_writing/.test(id))
+    if (
+      /(extended.response|essay|constructed.response|writing)/.test(title) ||
+      /rla_extended|rla_writing/.test(id)
+    )
       return 'Writing & Analysis';
-    if (/(grammar|usage|conventions|punctuation|editing|language)/.test(title) ||
-        /rla_grammar|rla_lang|rla_convention/.test(id))
+    if (
+      /(grammar|usage|conventions|punctuation|editing|language)/.test(title) ||
+      /rla_grammar|rla_lang|rla_convention/.test(id)
+    )
       return 'Language & Grammar';
     return 'Reading Comprehension';
   }
@@ -244,12 +276,12 @@ async function loadPerSubjectArrays() {
           key?.includes('social')
             ? 'Social Studies'
             : key?.includes('math')
-            ? 'Math'
-            : key?.includes('science')
-            ? 'Science'
-            : key?.includes('rla')
-            ? 'Reasoning Through Language Arts (RLA)'
-            : null
+              ? 'Math'
+              : key?.includes('science')
+                ? 'Science'
+                : key?.includes('rla')
+                  ? 'Reasoning Through Language Arts (RLA)'
+                  : null
         );
         const name =
           subj ||

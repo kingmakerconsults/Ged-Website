@@ -10,13 +10,12 @@ const path = require('path');
 const MATH_DIR = path.join(__dirname, '../backend/data/quizzes/math');
 
 const files = {
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CORE TIER  (04, 05, 06) — 2-step equations, slope, basic functions,
+  //             simple word problems, plausible-error distractors
+  // ─────────────────────────────────────────────────────────────────────────────
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CORE TIER  (04, 05, 06) — 2-step equations, slope, basic functions,
-//             simple word problems, plausible-error distractors
-// ─────────────────────────────────────────────────────────────────────────────
-
-'math_algebra_04.js': `
+  'math_algebra_04.js': `
 // Algebra & Functions — Core Skills: Practice 4
 // 10 questions | two-step equations, slope, word problems
 module.exports = [
@@ -161,7 +160,7 @@ module.exports = [
 ];
 `,
 
-'math_algebra_05.js': `
+  'math_algebra_05.js': `
 // Algebra & Functions — Core Skills: Practice 5
 // 10 questions | systems concept, inequalities, evaluating expressions
 module.exports = [
@@ -306,7 +305,7 @@ module.exports = [
 ];
 `,
 
-'math_algebra_06.js': `
+  'math_algebra_06.js': `
 // Algebra & Functions — Core Skills: Practice 6
 // 10 questions | systems of equations intro, factoring, quadratics intro
 module.exports = [
@@ -451,12 +450,12 @@ module.exports = [
 ];
 `,
 
-// ─────────────────────────────────────────────────────────────────────────────
-// TEST-READY TIER  (07, 08, 09) — multi-step, all word problems,
-//                  GED-style stems, realistic contexts
-// ─────────────────────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────────
+  // TEST-READY TIER  (07, 08, 09) — multi-step, all word problems,
+  //                  GED-style stems, realistic contexts
+  // ─────────────────────────────────────────────────────────────────────────────
 
-'math_algebra_07.js': `
+  'math_algebra_07.js': `
 // Algebra & Functions — Test Ready: Practice 7
 // 11 questions | multi-step word problems, function notation, systems
 module.exports = [
@@ -616,7 +615,7 @@ module.exports = [
 ];
 `,
 
-'math_algebra_08.js': `
+  'math_algebra_08.js': `
 // Algebra & Functions — Test Ready: Practice 8
 // 11 questions | function analysis, quadratic word problems, percent, rate
 module.exports = [
@@ -776,7 +775,7 @@ module.exports = [
 ];
 `,
 
-'math_algebra_09.js': `
+  'math_algebra_09.js': `
 // Algebra & Functions — Test Ready: Practice 9
 // 11 questions | GED-style multi-concept: non-linear, ratios in context, systems
 module.exports = [
@@ -932,12 +931,12 @@ module.exports = [
 ];
 `,
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CHALLENGE TIER  (10, 11, 12) — GED-level and above, 4–6 sentence scenario
-//                  stems, multi-concept, tight answer traps
-// ─────────────────────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────────
+  // CHALLENGE TIER  (10, 11, 12) — GED-level and above, 4–6 sentence scenario
+  //                  stems, multi-concept, tight answer traps
+  // ─────────────────────────────────────────────────────────────────────────────
 
-'math_algebra_10.js': `
+  'math_algebra_10.js': `
 // Algebra & Functions — Challenge: Practice 10
 // 12 questions | GED-level, multi-step scenarios, quadratics, systems
 module.exports = [
@@ -1112,7 +1111,7 @@ module.exports = [
 ];
 `,
 
-'math_algebra_11.js': `
+  'math_algebra_11.js': `
 // Algebra & Functions — Challenge: Practice 11
 // 12 questions | GED-level applications, inequalities, quadratic applications
 module.exports = [
@@ -1283,7 +1282,7 @@ module.exports = [
 ];
 `,
 
-'math_algebra_12.js': `
+  'math_algebra_12.js': `
 // Algebra & Functions — Challenge: Practice 12
 // 12 questions | GED+ level, multi-concept synthesis
 module.exports = [

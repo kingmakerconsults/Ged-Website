@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
@@ -479,7 +479,8 @@
           const summary = Object.entries(filtered).map(([subj, data]) => {
             const catCount = Object.keys(data?.categories || {}).length;
             const topicCount = Object.values(data?.categories || {}).reduce(
-              (sum, cat) => sum + (Array.isArray(cat?.topics) ? cat.topics.length : 0),
+              (sum, cat) =>
+                sum + (Array.isArray(cat?.topics) ? cat.topics.length : 0),
               0
             );
             return `${subj}: ${catCount} categories, ${topicCount} topics`;
