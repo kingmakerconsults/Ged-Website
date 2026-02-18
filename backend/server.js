@@ -10780,17 +10780,16 @@ For EACH passage, generate exactly 5 reading comprehension questions (total 20).
 
 CRITICAL ENHANCEMENTS FOR EACH QUESTION:
 1. Add a "skill" field indicating the reading skill being tested. Use one of: "main_idea", "detail", "inference", "argument", "vocab", "text_structure".
-2. Add an "itemType" field indicating the interaction type. Use one of: "single_select", "multi_select", "evidence_pair".
+2. Add an "itemType" field. Use ONLY: "single_select" or "multi_select".
 3. Distribute skills approximately as follows across the 20 questions:
    - 3-4 main_idea
    - 4-6 detail / inference
    - 3-4 argument
    - 3-4 vocab
    - 2-3 text_structure
-4. Include a mix of itemTypes: most should be "single_select", but include 2-3 "multi_select" questions (where multiple answers are correct) and 1-2 "evidence_pair" questions (where students select an answer and then select supporting evidence).
+4. Most questions should be "single_select". Include 2-3 "multi_select" questions (where multiple answers are correct — mark each correct option with "isCorrect": true).
 
-For multi_select questions: set "itemType": "multi_select" and include multiple correct answers in the answerOptions (mark each with "isCorrect": true).
-For evidence_pair questions: set "itemType": "evidence_pair" and include two parts - first the main question, then the evidence selection question.
+For multi_select questions: set "itemType": "multi_select" and mark ALL correct answer options with "isCorrect": true. Keep answer options as short, clean phrases — do NOT embed evidence quotes inside the answer option text.
 
 Return the JSON array of question objects only.`;
   const schema = { type: 'ARRAY', items: singleQuestionSchema };
