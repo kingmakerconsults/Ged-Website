@@ -1,375 +1,85 @@
-// Imported from frontend/Expanded
+// Language & Grammar — Core Skills: Practice 6
 module.exports = [
-  {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence is grammatically correct?",
-    "answerOptions": [
-      {
-        "text": "The team, along with their coach, are on the bus.",
-        "rationale": "The subject is 'team' (singular), so the verb should be 'is'.",
-        "isCorrect": false
-      },
-      {
-        "text": "He should of told me he was going to be late.",
-        "rationale": "The correct phrasing is 'should have', not 'should of'.",
-        "isCorrect": false
-      },
-      {
-        "text": "Between you and me, I don't think this is a good idea.",
-        "rationale": "Correct. 'Me' is the correct object pronoun to use after the preposition 'between'.",
-        "isCorrect": true
-      },
-      {
-        "text": "There is many reasons why I can't go.",
-        "rationale": "'Reasons' is plural, so the verb should be 'are'.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which of the following is a complete sentence?",
-    "answerOptions": [
-      {
-        "text": "Although she was tired.",
-        "rationale": "This is a dependent clause and cannot stand on its own.",
-        "isCorrect": false
-      },
-      {
-        "text": "Running through the park on a sunny day.",
-        "rationale": "This is a participial phrase, not a complete sentence.",
-        "isCorrect": false
-      },
-      {
-        "text": "The sun is shining.",
-        "rationale": "Correct. This sentence has a subject ('sun') and a verb ('is shining') and is a complete thought.",
-        "isCorrect": true
-      },
-      {
-        "text": "For example, the new software.",
-        "rationale": "This is a prepositional phrase followed by a noun, not a complete sentence.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence provides the best revision for 'The movie was boring to me.'?",
-    "answerOptions": [
-      {
-        "text": "I was bored by the movie.",
-        "rationale": "This is grammatically correct and in the active voice.",
-        "isCorrect": false
-      },
-      {
-        "text": "The movie, I found it boring.",
-        "rationale": "This is grammatically awkward.",
-        "isCorrect": false
-      },
-      {
-        "text": "I found the movie boring.",
-        "rationale": "Correct. This is the most direct, concise, and active way to phrase the idea.",
-        "isCorrect": true
-      },
-      {
-        "text": "For me, the movie was boring.",
-        "rationale": "This is grammatically correct, but less direct than the best option.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence contains a comma splice?",
-    "answerOptions": [
-      {
-        "text": "She went to the library, she studied for hours.",
-        "rationale": "Correct. This is a comma splice because two independent clauses are joined only by a comma.",
-        "isCorrect": true
-      },
-      {
-        "text": "I was tired, so I went to bed.",
-        "rationale": "This correctly uses a comma and a coordinating conjunction.",
-        "isCorrect": false
-      },
-      {
-        "text": "Because it was raining, the game was postponed.",
-        "rationale": "This correctly uses a comma after an introductory dependent clause.",
-        "isCorrect": false
-      },
-      {
-        "text": "He is a talented artist his paintings are beautiful.",
-        "rationale": "This correctly uses a semicolon to join two related independent clauses.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence provides the most effective revision for clarity and conciseness? 'It is my hope that I will be able to attend the conference that is being held in Boston.'",
-    "answerOptions": [
-      {
-        "text": "I hope to attend the conference in Boston.",
-        "rationale": "Correct. This revision is direct, active, and removes all unnecessary filler words.",
-        "isCorrect": true
-      },
-      {
-        "text": "It is my hope to attend the Boston conference.",
-        "rationale": "This is still a bit wordy with 'It is my hope'.",
-        "isCorrect": false
-      },
-      {
-        "text": "Attending the conference in Boston is something I hope to do.",
-        "rationale": "This is wordy and indirect.",
-        "isCorrect": false
-      },
-      {
-        "text": "I have a hope that I will be able to attend the conference in Boston.",
-        "rationale": "This is very wordy.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence correctly places the modifier? Original: 'The waiter served a steak to the customer that was cooked medium-rare.'",
-    "answerOptions": [
-      {
-        "text": "The waiter served a steak to the customer that was cooked medium-rare.",
-        "rationale": "This implies the customer was cooked medium-rare.",
-        "isCorrect": false
-      },
-      {
-        "text": "The waiter served the customer a steak that was cooked medium-rare.",
-        "rationale": "Correct. The modifying clause 'that was cooked medium-rare' is now correctly placed next to 'steak', the word it is describing.",
-        "isCorrect": true
-      },
-      {
-        "text": "Cooked medium-rare, the waiter served a steak to the customer.",
-        "rationale": "This implies the waiter was cooked medium-rare.",
-        "isCorrect": false
-      },
-      {
-        "text": "The waiter served a steak cooked medium-rare to the customer.",
-        "rationale": "This is also correct and clear, but the other correct option is a very common and effective way to phrase it.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence correctly uses a comma in a compound sentence?",
-    "answerOptions": [
-      {
-        "text": "We finished the project, and celebrated afterward.",
-        "rationale": "Correct. A comma before the coordinating conjunction joins two independent clauses.",
-        "isCorrect": true
-      },
-      {
-        "text": "We finished the project and, celebrated afterward.",
-        "rationale": "The comma incorrectly splits the verb phrase.",
-        "isCorrect": false
-      },
-      {
-        "text": "We finished the project and celebrated, afterward.",
-        "rationale": "The comma is unnecessary and interrupts the sentence.",
-        "isCorrect": false
-      },
-      {
-        "text": "We finished the project; and celebrated afterward.",
-        "rationale": "A semicolon should not be followed by a coordinating conjunction here.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which option uses the correct pronoun case?",
-    "answerOptions": [
-      {
-        "text": "Her and me went to the store before class.",
-        "rationale": "Use subject pronouns 'she and I' as the compound subject.",
-        "isCorrect": false
-      },
-      {
-        "text": "She and I went to the store before class.",
-        "rationale": "Correct. Subject pronouns are used as the subject of the sentence.",
-        "isCorrect": true
-      },
-      {
-        "text": "Her and I went to the store before class.",
-        "rationale": "'Her' is an object pronoun; use 'she'.",
-        "isCorrect": false
-      },
-      {
-        "text": "She and me went to the store before class.",
-        "rationale": "'Me' is an object pronoun; use 'I'.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence maintains parallel structure?",
-    "answerOptions": [
-      {
-        "text": "The job requires writing reports, to lead meetings, and problem-solving.",
-        "rationale": "The items are not in the same grammatical form.",
-        "isCorrect": false
-      },
-      {
-        "text": "The job requires writing reports, leading meetings, and solving problems.",
-        "rationale": "Correct. All items use the same gerund form for parallelism.",
-        "isCorrect": true
-      },
-      {
-        "text": "The job requires to write reports, leading meetings, and to solve problems.",
-        "rationale": "Mixed infinitives and gerunds break parallel structure.",
-        "isCorrect": false
-      },
-      {
-        "text": "The job requires to write reports, lead meetings, and solving problems.",
-        "rationale": "Mixed forms; keep items in the same form.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Choose the sentence that correctly uses a colon or semicolon.",
-    "answerOptions": [
-      {
-        "text": "I brought three things: a notebook; a pen; and a charger.",
-        "rationale": "Use a colon before a list, then commas between items (unless items contain commas).",
-        "isCorrect": false
-      },
-      {
-        "text": "I brought three things: a notebook, a pen, and a charger.",
-        "rationale": "Correct. The colon introduces the list and commas separate items.",
-        "isCorrect": true
-      },
-      {
-        "text": "I brought three things; a notebook, a pen, and a charger.",
-        "rationale": "A semicolon is not used to introduce a simple list.",
-        "isCorrect": false
-      },
-      {
-        "text": "I brought: three things a notebook, a pen, and a charger.",
-        "rationale": "The colon is misplaced and the sentence is ungrammatical.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence has correct subject-verb agreement?",
-    "answerOptions": [
-      {
-        "text": "The bouquet of roses were placed on the table.",
-        "rationale": "The subject is 'bouquet' (singular), so the verb should be 'was'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The bouquet of roses was placed on the table.",
-        "rationale": "Correct. The singular subject 'bouquet' takes the singular verb 'was'.",
-        "isCorrect": true
-      },
-      {
-        "text": "The roses in the bouquet was placed on the table.",
-        "rationale": "Here the subject is 'roses' (plural), so the verb should be 'were'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The bouquet, along with the roses, are on the table.",
-        "rationale": "The subject is 'bouquet' (singular); the phrase 'along with the roses' does not change agreement.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence correctly punctuates a nonrestrictive clause?",
-    "answerOptions": [
-      {
-        "text": "My sister who lives in Denver is visiting next week.",
-        "rationale": "If you have one sister, the clause is nonrestrictive and should be set off with commas.",
-        "isCorrect": false
-      },
-      {
-        "text": "My sister, who lives in Denver, is visiting next week.",
-        "rationale": "Correct. The nonrestrictive clause is properly set off by commas.",
-        "isCorrect": true
-      },
-      {
-        "text": "My sister—which lives in Denver—is visiting next week.",
-        "rationale": "Dashes can set off nonessential information, but 'which' incorrectly refers to a person; use 'who'.",
-        "isCorrect": false
-      },
-      {
-        "text": "My sister, who lives in Denver is visiting next week.",
-        "rationale": "Missing the closing comma after the nonrestrictive clause.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  }
+  {questionNumber:1,type:'multipleChoice',difficulty:'easy',
+   question:"Which of the following is a comma splice that needs correction?",
+   answerOptions:[
+    {text:"She studied all night, she passed the exam.", isCorrect:true, rationale:"Two independent clauses joined only by a comma — a classic comma splice."},
+    {text:"She studied all night; therefore, she passed the exam.", isCorrect:false, rationale:"Correctly uses a semicolon and conjunctive adverb."},
+    {text:"Because she studied all night, she passed the exam.", isCorrect:false, rationale:"Correctly uses a subordinating conjunction."},
+    {text:"She studied all night and passed the exam.", isCorrect:false, rationale:"Correctly joined with a coordinating conjunction."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:2,type:'multipleChoice',difficulty:'easy',
+   question:"Identify the run-on sentence.",
+   answerOptions:[
+    {text:"The storm knocked out power for three days residents were without heat.", isCorrect:true, rationale:"Two independent clauses with no punctuation or conjunction separating them — a run-on."},
+    {text:"The storm knocked out power, and residents were without heat for three days.", isCorrect:false, rationale:"Correctly joined with comma + coordinating conjunction."},
+    {text:"When the storm knocked out power, residents were without heat.", isCorrect:false, rationale:"Subordinating conjunction correctly links the clauses."},
+    {text:"The storm knocked out power; residents were without heat for three days.", isCorrect:false, rationale:"Semicolon correctly joins two related independent clauses."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:3,type:'multipleChoice',difficulty:'medium',
+   question:"Combine the following two sentences into one without creating a comma splice or run-on:\nSentence 1: The training was completed. Sentence 2: All staff received certification.",
+   answerOptions:[
+    {text:"The training was completed all staff received certification.", isCorrect:false, rationale:"Run-on."},
+    {text:"After the training was completed, all staff received certification.", isCorrect:true, rationale:"Subordinating clause correctly combines both ideas."},
+    {text:"The training was completed, all staff received certification.", isCorrect:false, rationale:"Comma splice."},
+    {text:"The training was completed; and all staff received certification.", isCorrect:false, rationale:"A semicolon should not be followed by a coordinating conjunction."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:4,type:'multipleChoice',difficulty:'medium',
+   question:"Which word or phrase best fills the blank to show contrast?\n'The candidate had extensive experience. _______, she was passed over for promotion.'",
+   answerOptions:[
+    {text:"Therefore", isCorrect:false, rationale:"'Therefore' signals a result, not a contrast."},
+    {text:"Furthermore", isCorrect:false, rationale:"'Furthermore' adds information, not contrast."},
+    {text:"Nevertheless", isCorrect:true, rationale:"'Nevertheless' signals that despite the experience, the result was unexpected — correct contrast."},
+    {text:"As a result", isCorrect:false, rationale:"Signals a result, not a contradiction."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:5,type:'multipleChoice',difficulty:'medium',
+   question:"Which sentence uses formal register appropriate for a professional report?",
+   answerOptions:[
+    {text:"The data shows the project is basically going okay so far.", isCorrect:false, rationale:"'Basically' and 'going okay' are informal — inappropriate for a report."},
+    {text:"The data indicates that the project is progressing within established parameters.", isCorrect:true, rationale:"Formal, precise, and appropriate for a professional register."},
+    {text:"Looks like the project is pretty much on track.", isCorrect:false, rationale:"'Looks like' and 'pretty much' are informal."},
+    {text:"The project is totally fine based on what the data says.", isCorrect:false, rationale:"'Totally fine' and 'what the data says' are informal."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:6,type:'multipleChoice',difficulty:'hard',
+   passage:"The following paragraph is from an employee performance review. One sentence is inappropriate in register.\n(1) Ms. Garcia consistently meets her performance targets. (2) Her analytical reports are thorough and clearly written. (3) Honestly, she kinda blew everyone away at the last board presentation. (4) Management recommends her for promotion to Senior Analyst.",
+   question:"Which sentence should be revised for register?",
+   answerOptions:[
+    {text:"Sentence 1", isCorrect:false, rationale:"Professional and appropriate."},
+    {text:"Sentence 2", isCorrect:false, rationale:"Professional and appropriate."},
+    {text:"Sentence 3", isCorrect:true, rationale:"'Honestly' and 'kinda blew everyone away' are informal — this sentence needs formal revision."},
+    {text:"Sentence 4", isCorrect:false, rationale:"Professional and appropriately formal."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:7,type:'multipleChoice',difficulty:'hard',
+   question:"Which revision correctly eliminates the redundancy?\nOriginal: 'The two co-authors collaborated together on the joint project.'",
+   answerOptions:[
+    {text:"The two co-authors collaborated on the project.", isCorrect:true, rationale:"'Co-authors' implies multiple authors; 'collaborated' implies working together; 'joint' is redundant. Simplest clean version."},
+    {text:"The co-authors collaborated together on the joint project.", isCorrect:false, rationale:"Still redundant: 'collaborate' already means 'work together.'"},
+    {text:"The two authors collaborated together on the project.", isCorrect:false, rationale:"'Together' is still redundant with 'collaborated.'"},
+    {text:"The two co-authors worked on the joint project.", isCorrect:false, rationale:"Better, but 'joint project' is still somewhat redundant with 'co-authors.'"},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:8,type:'multipleChoice',difficulty:'hard',
+   question:"Select the sentence that most concisely and correctly expresses the idea.\nOriginal: 'At this point in time, there is a need for investment in the area of infrastructure.'",
+   answerOptions:[
+    {text:"At this point in time, infrastructure investment is needed.", isCorrect:false, rationale:"'At this point in time' is wordy — 'now' or 'currently' is better."},
+    {text:"Infrastructure investment is currently needed.", isCorrect:true, rationale:"Most concise: removes deadwood phrases and communicates clearly."},
+    {text:"There is currently a need for infrastructure investment.", isCorrect:false, rationale:"Better than original but 'there is a need for' is still weaker than the active form."},
+    {text:"Currently, in the area of infrastructure, investment is needed.", isCorrect:false, rationale:"'In the area of' is deadwood."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:9,type:'multipleChoice',difficulty:'hard',
+   question:"Which sentence correctly uses an appositive?",
+   answerOptions:[
+    {text:"My supervisor, the department head, approved the request.", isCorrect:true, rationale:"'the department head' is a correctly set-off appositive renaming 'my supervisor.'"},
+    {text:"My supervisor the department head approved the request.", isCorrect:false, rationale:"The appositive must be set off by commas."},
+    {text:"My supervisor, the department head approved the request.", isCorrect:false, rationale:"Only one comma — both opening and closing commas are required."},
+    {text:"My supervisor — the department head approved the request.", isCorrect:false, rationale:"The dash structure is broken — it separates 'supervisor' from the verb incorrectly."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:10,type:'multipleChoice',difficulty:'hard',
+   passage:"A grant proposal concludes: 'In conclusion, to summarize the above points that were previously made, our program is innovative, which is to say it has new features, and it also is affordable and accessible.' Identify the type of writing problem this sentence has.",
+   question:"What is the primary problem?",
+   answerOptions:[
+    {text:"Wordiness and redundancy — multiple phrases repeat what has already been stated or restate the obvious.", isCorrect:true, rationale:"'In conclusion,' 'to summarize the above points that were previously made,' and 'which is to say it has new features' are all redundant or deadwood."},
+    {text:"Comma splice.", isCorrect:false, rationale:"The sentence uses 'and' — it's wordy but technically not a comma splice."},
+    {text:"Use of passive voice.", isCorrect:false, rationale:"The sentence is mostly active; wordiness is the dominant problem."},
+    {text:"Incorrect subject-verb agreement.", isCorrect:false, rationale:"Subject-verb agreement is correct throughout."},
+   ],challenge_tags:['rla-1']},
 ];

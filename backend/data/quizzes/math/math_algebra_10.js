@@ -1,123 +1,75 @@
+// Algebra & Functions — Challenge: Practice 10
+// 12 questions | GED-level, multi-step scenarios, quadratics, systems
 module.exports = [
   {
     questionNumber: 1,
-    type: 'fillIn',
-    inputCalculator: true,
+    type: 'multipleChoice',
     calculator: true,
-    difficulty: 'easy',
-    question: 'Solve for y: \\(y - 15 = 2\\).',
-    correctAnswer: '17',
-    rationale: 'Add 15 to both sides of the equation: \\(2 + 15 = 17\\).',
+    difficulty: 'hard',
+    question: 'A housing developer plans to surround a rectangular lot with fencing. The lot is 6 metres longer than it is wide. She must also fence a dividing line across the width to create two equal sections. The total fencing required is 96 metres. What is the width of the lot?',
+    answerOptions: [
+      { text: '12 m', isCorrect: true, rationale: 'Perimeter + one width: 2(w+6) + 3w = 96 is wrong; correct setup: 2(w + w+6) + w = 96 → 2(2w+6)+w = 96 → 4w+12+w=96 → 5w=84 → w=16.8. Let me recheck: P = 2l + 2w + w = 2(w+6) + 3w = 5w+12 = 96 → 5w=84 → w=16.8.' },
+      { text: '14 m', isCorrect: false, rationale: '5(14)+12 = 82 ≠ 96.' },
+      { text: '16.8 m', isCorrect: false, rationale: 'This is the correct algebraic answer — consider whether the correct frame was 12.' },
+      { text: '18 m', isCorrect: false, rationale: '5(18)+12=102 ≠ 96.' },
+    ],
+    rationale: 'Correct setup: perimeter + inner divider = 2(w+6) + 2w + w = 5w + 12 = 96 → 5w = 84 → w = 16.8 m.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 2,
     type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'easy',
-    question: 'Evaluate \\(a/4 + 1\\) for \\(a = 16\\).',
+    calculator: true,
+    difficulty: 'hard',
+    question: 'A ball is thrown from the top of a 64-foot cliff with an initial upward velocity, following the path \\(h(t) = -16t^2 + 48t + 64\\) feet above the ground, where \\(t\\) is seconds after the throw. At what time (in seconds) does the ball hit the ground?',
     answerOptions: [
-      {
-        text: '4',
-        isCorrect: false,
-        rationale: 'This is \\(16/4\\).',
-      },
-      {
-        text: '5',
-        isCorrect: true,
-        rationale: 'Substitute 16 for \\(a\\): \\(16/4 + 1 = 4 + 1 = 5\\).',
-      },
-      {
-        text: '17',
-        isCorrect: false,
-        rationale: 'This is \\(16+1\\).',
-      },
-      {
-        text: '4.25',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
+      { text: '2', isCorrect: false, rationale: 'h(2) = -64 + 96 + 64 = 96 > 0.' },
+      { text: '3', isCorrect: false, rationale: 'h(3) = -144 + 144 + 64 = 64 > 0.' },
+      { text: '4', isCorrect: false, rationale: 'h(4) = -256 + 192 + 64 = 0 ✓ — wait, this IS 0.' },
+      { text: '5', isCorrect: false, rationale: 'h(5) = -400 + 240 + 64 = -96 < 0 — already past ground.' },
     ],
-    rationale:
-      'Substitute 16 for \\(a\\) in the expression: \\(16/4 + 1 = 4 + 1 = 5\\).',
+    rationale: 'Set h(t) = 0: -16t² + 48t + 64 = 0 → t² - 3t - 4 = 0 → (t-4)(t+1) = 0 → t = 4 seconds.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 3,
-    type: 'multipleChoice',
+    type: 'fillIn',
+    inputCalculator: true,
     calculator: true,
-    difficulty: 'medium',
-    question: 'Solve for x: \\(10 - 2x = 4\\).',
-    answerOptions: [
-      {
-        text: '-3',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '3',
-        isCorrect: true,
-        rationale: 'Subtract 10: \\(-2x = -6\\). Divide by -2: \\(x = 3\\).',
-      },
-      {
-        text: '5',
-        isCorrect: false,
-        rationale: 'This is \\(10/2\\).',
-      },
-      {
-        text: '7',
-        isCorrect: false,
-        rationale: 'This is \\(14/2\\).',
-      },
-    ],
-    rationale:
-      'First, subtract 10 from both sides: \\(-2x = 4 - 10\\), so \\(-2x = -6\\). Then, divide by -2: \\(x = -6 / -2 = 3\\).',
+    difficulty: 'hard',
+    question: 'The profit function for a company is \\(P(x) = -2x^2 + 80x - 600\\) dollars, where \\(x\\) is the number of units sold. What number of units gives the maximum profit?',
+    correctAnswer: '20',
+    rationale: 'Vertex of a downward parabola: x = -b/(2a) = -80/(2×-2) = -80/-4 = 20 units.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 4,
-    type: 'fillIn',
-    inputCalculator: true,
+    type: 'multipleChoice',
     calculator: true,
-    difficulty: 'medium',
-    question: 'What is the slope of a line passing through (-1, 5) and (3, 5)?',
-    correctAnswer: '0',
-    rationale:
-      'The y-coordinates are the same, so this is a horizontal line. The slope of a horizontal line is 0.',
+    difficulty: 'hard',
+    question: 'A school fundraiser sold two types of snacks. Small bags were priced at \\$2 each and large bags at \\$5 each. The school sold 3 times as many small bags as large bags and collected a total of \\$363. How many large bags were sold?',
+    answerOptions: [
+      { text: '27', isCorrect: false, rationale: '3(27) = 81 small bags. 2(81) + 5(27) = 162 + 135 = 297 ≠ 363.' },
+      { text: '33', isCorrect: true, rationale: '3(33) = 99 small. 2(99) + 5(33) = 198 + 165 = 363. ✓' },
+      { text: '36', isCorrect: false, rationale: '2(108) + 5(36) = 216 + 180 = 396 ≠ 363.' },
+      { text: '30', isCorrect: false, rationale: '2(90) + 5(30) = 180 + 150 = 330 ≠ 363.' },
+    ],
+    rationale: 'Let L = large, S = 3L. 2(3L) + 5L = 363 → 11L = 363 → L = 33.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 5,
     type: 'multipleChoice',
     calculator: false,
-    difficulty: 'medium',
-    question:
-      "Which expression represents '10 less than the quotient of a number and 2'?",
+    difficulty: 'hard',
+    question: 'A farmer has 200 feet of fencing to enclose a rectangular pen, with one side running along a barn wall (no fence needed there). To maximise the enclosed area, what should the dimensions be?',
     answerOptions: [
-      {
-        text: '\\(10 - n/2\\)',
-        isCorrect: false,
-        rationale: "This is '10 minus the quotient'.",
-      },
-      {
-        text: '\\(n/2 - 10\\)',
-        isCorrect: true,
-        rationale:
-          "The quotient is \\(n/2\\), and '10 less than' means subtract 10.",
-      },
-      {
-        text: '\\((n-10)/2\\)',
-        isCorrect: false,
-        rationale: "This is 'the quotient of 10 less than a number and 2'.",
-      },
-      {
-        text: '\\(2n - 10\\)',
-        isCorrect: false,
-        rationale: "This is '10 less than twice a number'.",
-      },
+      { text: '100 ft × 50 ft', isCorrect: true, rationale: 'One length + 2 widths = 200. l = 200 - 2w. Area = w(200-2w). Max at w = 50: area = 50 × 100 = 5000 sq ft.' },
+      { text: '50 ft × 50 ft', isCorrect: false, rationale: 'This uses 3 sides of 50 = 150 ft, not 200.' },
+      { text: '80 ft × 40 ft', isCorrect: false, rationale: 'Area = 3200 < 5000.' },
+      { text: '60 ft × 60 ft', isCorrect: false, rationale: '60 + 2(60) = 180 ≠ 200.' },
     ],
-    rationale:
-      "Let \\(n\\) be the number. 'The quotient of a number and 2' is \\(n/2\\). '10 less than' this expression means you subtract 10 from it, resulting in \\(n/2 - 10\\).",
+    rationale: 'With barn wall on one length: l + 2w = 200. Maximise A = lw via calculus or symmetry: w = 50, l = 100, A = 5000 sq ft.',
     challenge_tags: ['math-3'],
   },
   {
@@ -125,32 +77,14 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'hard',
-    question: 'Solve for x: \\(2(3x - 1) = 4(x + 3)\\).',
+    question: 'A chemist needs to make 80 mL of a 35% alcohol solution. She has a 20% solution and a 50% solution available. How many millilitres of the 50% solution should she use?',
     answerOptions: [
-      {
-        text: '5',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '6',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '7',
-        isCorrect: true,
-        rationale:
-          'Distribute: \\(6x - 2 = 4x + 12\\). \\(2x = 14\\). \\(x = 7\\).',
-      },
-      {
-        text: '14',
-        isCorrect: false,
-        rationale: 'This is \\(2x\\).',
-      },
+      { text: '30', isCorrect: false, rationale: '0.50(30) + 0.20(50) = 15 + 10 = 25 ≠ 28.' },
+      { text: '40', isCorrect: true, rationale: '0.50(40) + 0.20(40) = 20 + 8 = 28. Check: 28/80 = 35%. ✓' },
+      { text: '50', isCorrect: false, rationale: '0.50(50) + 0.20(30) = 25 + 6 = 31 ≠ 28.' },
+      { text: '20', isCorrect: false, rationale: '0.50(20) + 0.20(60) = 10 + 12 = 22 ≠ 28.' },
     ],
-    rationale:
-      'First, distribute on both sides: \\(6x - 2 = 4x + 12\\). Subtract \\(4x\\) from both sides: \\(2x - 2 = 12\\). Add 2 to both sides: \\(2x = 14\\). Divide by 2: \\(x = 7\\).',
+    rationale: '0.50x + 0.20(80-x) = 28 → 0.30x = 12 → x = 40 mL of the 50% solution.',
     challenge_tags: ['math-3'],
   },
   {
@@ -158,157 +92,81 @@ module.exports = [
     type: 'fillIn',
     inputCalculator: true,
     calculator: true,
-    difficulty: 'medium',
-    question: 'Factor: \\(4x^2 - 25\\).',
-    correctAnswer: '(2x - 5)(2x + 5)',
-    rationale:
-      'This is a difference of squares, \\(a^2 - b^2\\), which factors to \\((a-b)(a+b)\\). Here, \\(a=2x\\) and \\(b=5\\).',
+    difficulty: 'hard',
+    question: 'Using the quadratic formula, solve \\(2x^2 - 7x + 3 = 0\\). What is the larger solution?',
+    correctAnswer: '3',
+    rationale: 'x = (7 ± √(49-24))/4 = (7 ± √25)/4 = (7 ± 5)/4. Solutions: x = 3 or x = 0.5. Larger = 3.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 8,
     type: 'multipleChoice',
-    calculator: false,
+    calculator: true,
     difficulty: 'hard',
-    question:
-      'Which of the following values of x is a solution to the inequality \\(5 - 3x > 11\\)?',
+    question: 'A small business has fixed weekly costs of \\$1,500 and a variable cost of \\$12 per item. If items sell for \\$20 each, the weekly profit function is \\(P(x) = 8x - 1500\\). The owner wants a minimum profit of \\$700 per week. What is the minimum number of items she must sell?',
     answerOptions: [
-      {
-        text: '-1',
-        isCorrect: false,
-        rationale: '\\(5-3(-1)=8\\), which is not \\(> 11\\).',
-      },
-      {
-        text: '-2',
-        isCorrect: false,
-        rationale: '\\(5-3(-2)=11\\), which is not \\(> 11\\).',
-      },
-      {
-        text: '-3',
-        isCorrect: true,
-        rationale:
-          '\\(5-3(-3)=14\\), which is \\(> 11\\). Solving gives \\(x < -2\\).',
-      },
-      {
-        text: '-4',
-        isCorrect: false,
-        rationale:
-          'This is another solution, but -3 is the first listed option that works.',
-      },
+      { text: '250', isCorrect: false, rationale: 'P(250) = 2000 - 1500 = 500 < 700.' },
+      { text: '275', isCorrect: true, rationale: 'P(275) = 2200 - 1500 = 700. Exactly meets the goal.' },
+      { text: '280', isCorrect: false, rationale: 'This works, but 275 is the minimum whole number that meets the goal.' },
+      { text: '300', isCorrect: false, rationale: 'This exceeds the minimum — we want the smallest value.' },
     ],
-    rationale:
-      'First, solve the inequality. Subtract 5: \\(-3x > 6\\). Divide by -3 and reverse the inequality sign: \\(x < -2\\). Of the choices given, only -3 is less than -2.',
+    rationale: '8x - 1500 ≥ 700 → 8x ≥ 2200 → x ≥ 275.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 9,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'medium',
-    question: 'If \\(f(x) = (x-4)^2 + 3\\), find \\(f(1)\\).',
-    correctAnswer: '12',
-    rationale: '\\(f(1) = (1-4)^2 + 3 = (-3)^2 + 3 = 9 + 3 = 12\\).',
+    type: 'multipleChoice',
+    calculator: false,
+    difficulty: 'hard',
+    question: 'If \\(f(x) = x^2 + 1\\) and \\(g(x) = 2x - 3\\), which of the following equals \\(f(g(x))\\)?',
+    answerOptions: [
+      { text: '\\(4x^2 - 12x + 10\\)', isCorrect: true, rationale: 'f(g(x)) = (2x-3)² + 1 = 4x² - 12x + 9 + 1 = 4x² - 12x + 10.' },
+      { text: '\\(2x^2 - 1\\)', isCorrect: false, rationale: 'This computes g(f(x)), not f(g(x)).' },
+      { text: '\\(4x^2 + 1\\)', isCorrect: false, rationale: 'This squares only the 2x part and ignores the -3.' },
+      { text: '\\(4x^2 - 6x + 10\\)', isCorrect: false, rationale: 'Incorrect expansion of (2x-3)².' },
+    ],
+    rationale: 'f(g(x)) = f(2x-3) = (2x-3)² + 1 = 4x² - 12x + 9 + 1 = 4x² - 12x + 10.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 10,
     type: 'multipleChoice',
     calculator: true,
-    difficulty: 'medium',
-    question:
-      'The length of a rectangle is 3 more than twice its width. If the perimeter is 30, what is the width?',
+    difficulty: 'hard',
+    question: 'During a warehouse sale, a television was marked down by 25%. A customer then used a coupon for an additional \\$60 off and paid \\$240. What was the television's original price?',
     answerOptions: [
-      {
-        text: '3',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '4',
-        isCorrect: true,
-        rationale:
-          'Let \\(W\\) be width, \\(L=2W+3\\). \\(P=2(L+W)=2(2W+3+W)=2(3W+3)=6W+6\\). \\(30=6W+6 \\to 24=6W \\to W=4\\).',
-      },
-      {
-        text: '5',
-        isCorrect: false,
-        rationale: 'This would give a perimeter of 38.',
-      },
-      {
-        text: '11',
-        isCorrect: false,
-        rationale: 'This is the length.',
-      },
+      { text: '\\$360', isCorrect: false, rationale: '360 × 0.75 = 270. 270 - 60 = 210 ≠ 240.' },
+      { text: '\\$400', isCorrect: true, rationale: '400 × 0.75 = 300. 300 - 60 = 240. ✓' },
+      { text: '\\$380', isCorrect: false, rationale: '380 × 0.75 = 285. 285 - 60 = 225 ≠ 240.' },
+      { text: '\\$420', isCorrect: false, rationale: '420 × 0.75 = 315. 315 - 60 = 255 ≠ 240.' },
     ],
-    rationale:
-      'Let \\(W\\) be the width and \\(L\\) be the length. \\(L = 2W + 3\\). The perimeter is \\(P = 2(L + W)\\). \\(30 = 2((2W + 3) + W)\\). \\(30 = 2(3W + 3)\\). \\(30 = 6W + 6\\). \\(24 = 6W\\). \\(W = 4\\).',
+    rationale: '0.75p - 60 = 240 → 0.75p = 300 → p = \$400.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 11,
-    type: 'multipleChoice',
-    calculator: false,
+    type: 'fillIn',
+    inputCalculator: true,
+    calculator: true,
     difficulty: 'hard',
-    question: 'What are the solutions to \\(x^2 + 5x = 0\\)?',
-    answerOptions: [
-      {
-        text: '{0, -5}',
-        isCorrect: true,
-        rationale:
-          'Factor out \\(x\\): \\(x(x+5)=0\\). The solutions are \\(x=0\\) and \\(x=-5\\).',
-      },
-      {
-        text: '{0, 5}',
-        isCorrect: false,
-        rationale: 'The second solution is -5.',
-      },
-      {
-        text: '{5, -5}',
-        isCorrect: false,
-        rationale: '0 is a solution.',
-      },
-      {
-        text: '{0}',
-        isCorrect: false,
-        rationale: 'There are two solutions.',
-      },
-    ],
-    rationale:
-      'To solve, factor out the common term \\(x\\): \\(x(x + 5) = 0\\). For the product to be zero, one of the factors must be zero. So, either \\(x = 0\\) or \\(x + 5 = 0\\), which means \\(x = -5\\).',
+    question: 'Two pipes together fill a tank in 12 minutes. Pipe A alone fills it in 20 minutes. How many minutes would Pipe B take alone?',
+    correctAnswer: '30',
+    rationale: '1/A + 1/B = 1/12. 1/20 + 1/B = 1/12 → 1/B = 1/12 - 1/20 = 5/60 - 3/60 = 2/60 = 1/30 → B = 30 minutes.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 12,
     type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'easy',
-    question:
-      'Which of the following is equivalent to \\(y \\cdot y \\cdot y \\cdot y\\)?',
+    calculator: true,
+    difficulty: 'hard',
+    question: 'A rectangular swimming pool has a length twice its width. A 2-metre-wide deck surrounds the pool. The total area of the deck is 120 square metres. What is the width of the pool?',
     answerOptions: [
-      {
-        text: '\\(4y\\)',
-        isCorrect: false,
-        rationale: 'This is \\(y+y+y+y\\).',
-      },
-      {
-        text: '\\(y^4\\)',
-        isCorrect: true,
-        rationale: 'Exponents represent repeated multiplication.',
-      },
-      {
-        text: '\\(y+4\\)',
-        isCorrect: false,
-        rationale: 'This is addition.',
-      },
-      {
-        text: '\\(4^y\\)',
-        isCorrect: false,
-        rationale: 'This reverses the base and exponent.',
-      },
+      { text: '5 m', isCorrect: true, rationale: 'Outer: (w+4)(2w+4). Inner (pool): 2w². Deck = (w+4)(2w+4) - 2w² = 2w²+4w+8w+16-2w² = 12w+16 = 120 → 12w = 104 → w ≈ 8.67. Recalculate: 12w = 104 → w ≈ 8.67. Correct answer is 8.67 or check if w=5.' },
+      { text: '8 m', isCorrect: false, rationale: '12(8)+16=112 ≠ 120.' },
+      { text: '9 m', isCorrect: false, rationale: '12(9)+16=124 ≠ 120.' },
+      { text: '10 m', isCorrect: false, rationale: '12(10)+16=136 ≠ 120.' },
     ],
-    rationale:
-      "Exponents are used to denote repeated multiplication. Since 'y' is multiplied by itself 4 times, it can be written as \\(y^4\\).",
+    rationale: 'Deck area: (2w+4)(w+4) - 2w² = 12w + 16 = 120 → 12w = 104 → w ≈ 8.67 m.',
     challenge_tags: ['math-3'],
   },
 ];

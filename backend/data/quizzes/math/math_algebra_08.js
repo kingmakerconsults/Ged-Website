@@ -1,89 +1,60 @@
+// Algebra & Functions — Test Ready: Practice 8
+// 11 questions | function analysis, quadratic word problems, percent, rate
 module.exports = [
   {
     questionNumber: 1,
-    type: 'fillIn',
-    inputCalculator: true,
+    type: 'multipleChoice',
     calculator: true,
-    difficulty: 'easy',
-    question: 'Solve for m: \\(m + 11 = 30\\).',
-    correctAnswer: '19',
-    rationale: 'Subtract 11 from both sides of the equation: 30 - 11 = 19.',
+    difficulty: 'medium',
+    question: 'The number of bacteria in a culture doubles every hour. If there are 200 bacteria at 9 a.m., which expression gives the count at noon?',
+    answerOptions: [
+      { text: '\\(200 \\times 2^3\\)', isCorrect: true, rationale: 'From 9 a.m. to noon = 3 hours. Count = 200 × 2³.' },
+      { text: '\\(200 \\times 3^2\\)', isCorrect: false, rationale: 'This raises the time to a power rather than 2.' },
+      { text: '\\(200 + 2 \\times 3\\)', isCorrect: false, rationale: 'Doubling is exponential, not additive.' },
+      { text: '\\(200 \\times 6\\)', isCorrect: false, rationale: 'You cannot multiply by just the total hours.' },
+    ],
+    rationale: '3 hours of doubling: 200 × 2³ = 200 × 8 = 1600 bacteria.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 2,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'easy',
-    question: 'Evaluate \\(10 - 3x for x = 2\\).',
-    answerOptions: [
-      {
-        text: '1',
-        isCorrect: false,
-        rationale: 'This is 10-9.',
-      },
-      {
-        text: '4',
-        isCorrect: true,
-        rationale: 'Substitute 2 for x: 10 - 3(2) = 10 - 6 = 4.',
-      },
-      {
-        text: '7',
-        isCorrect: false,
-        rationale: 'This is 10-3.',
-      },
-      {
-        text: '14',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-    ],
-    rationale: 'Substitute 2 for x in the expression: 10 - 3(2) = 10 - 6 = 4.',
+    type: 'fillIn',
+    inputCalculator: true,
+    calculator: true,
+    difficulty: 'medium',
+    question: 'Tomás invests \\$2,000 at a simple interest rate of 4% per year. After 3 years, how much interest has he earned?',
+    correctAnswer: '240',
+    rationale: 'Simple interest = P × r × t = 2000 × 0.04 × 3 = 240.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 3,
     type: 'multipleChoice',
-    calculator: true,
+    calculator: false,
     difficulty: 'medium',
-    question: 'Solve for y: \\(\\frac{y}{3}\\) - 2 = 5.',
+    question: 'If \\(f(x) = 2x^2 - 3x + 1\\), what is \\(f(-2)\\)?',
     answerOptions: [
-      {
-        text: '9',
-        isCorrect: false,
-        rationale: 'This is 3*3.',
-      },
-      {
-        text: '17',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '21',
-        isCorrect: true,
-        rationale:
-          'Add 2 to both sides: \\(y/3 = 7\\). Multiply by 3: \\(y = 21\\).',
-      },
-      {
-        text: '1',
-        isCorrect: false,
-        rationale: 'This is \\(\\frac{3}{3}\\).',
-      },
+      { text: '15', isCorrect: true, rationale: '2(-2)² - 3(-2) + 1 = 8 + 6 + 1 = 15.' },
+      { text: '3', isCorrect: false, rationale: 'Sign error; -3(-2) = +6, not -6.' },
+      { text: '-5', isCorrect: false, rationale: 'Incorrect handling of the squared term.' },
+      { text: '1', isCorrect: false, rationale: 'This computes f(0).' },
     ],
-    rationale:
-      'First, add 2 to both sides: \\(y/3 = 5 + 2\\), so \\(y/3 = 7\\). Then, multiply by 3: \\(y = 7 \\times 3 = 21\\).',
+    rationale: 'f(-2) = 2(4) - 3(-2) + 1 = 8 + 6 + 1 = 15.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 4,
-    type: 'fillIn',
-    inputCalculator: true,
+    type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Simplify the expression: \\(5a + 2b - 3a + 4b\\).',
-    correctAnswer: '2a + 6b',
-    rationale:
-      "Combine the 'a' terms: \\(5a - 3a = 2a\\). Combine the 'b' terms: \\(2b + 4b = 6b\\). The result is \\(2a + 6b\\).",
+    question: 'A boat travels 60 miles downstream in 3 hours and the same distance upstream in 5 hours. What is the speed of the current in mph?',
+    answerOptions: [
+      { text: '2', isCorrect: false, rationale: 'Boat speed down = 20, up = 12. Check: current = (20-12)/2 = 4.' },
+      { text: '4', isCorrect: true, rationale: 'Downstream: 20 mph. Upstream: 12 mph. Current = (20 - 12)/2 = 4 mph.' },
+      { text: '8', isCorrect: false, rationale: 'This is the difference in speeds, not the current.' },
+      { text: '16', isCorrect: false, rationale: 'This is the boat speed, not the current.' },
+    ],
+    rationale: 'Downstream speed = 60/3 = 20. Upstream = 60/5 = 12. Current = (20 - 12)/2 = 4 mph.',
     challenge_tags: ['math-3'],
   },
   {
@@ -91,76 +62,40 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question: 'What is the slope of a line perpendicular to \\(y = 3x - 1\\)?',
+    question: 'The graph of \\(y = (x - 3)^2 + 1\\) is a parabola. What is its vertex?',
     answerOptions: [
-      {
-        text: '3',
-        isCorrect: false,
-        rationale: 'This is the slope of a parallel line.',
-      },
-      {
-        text: '-3',
-        isCorrect: false,
-        rationale: 'This is the negative of the slope.',
-      },
-      {
-        text: '\\(\\frac{1}{3}\\)',
-        isCorrect: false,
-        rationale: 'This is the reciprocal, but not negative.',
-      },
-      {
-        text: '\\(-\\frac{1}{3}\\)',
-        isCorrect: true,
-        rationale:
-          'The perpendicular slope is the negative reciprocal of the original slope.',
-      },
+      { text: '(3, 1)', isCorrect: true, rationale: 'Vertex form y = (x - h)² + k has vertex at (h, k) = (3, 1).' },
+      { text: '(-3, 1)', isCorrect: false, rationale: 'h = 3 (the value that makes the parentheses zero), not -3.' },
+      { text: '(3, -1)', isCorrect: false, rationale: 'k = 1, not -1.' },
+      { text: '(1, 3)', isCorrect: false, rationale: 'This reverses h and k.' },
     ],
-    rationale:
-      'The slope of the given line is 3. The slope of a perpendicular line is the negative reciprocal, which is \\(-\\frac{1}{3}\\).',
+    rationale: 'In vertex form y = (x - h)² + k, the vertex is (h, k). Here h = 3, k = 1.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 6,
-    type: 'multipleChoice',
+    type: 'fillIn',
+    inputCalculator: true,
     calculator: true,
     difficulty: 'hard',
-    question: 'Solve for x: \\(4(x + 1) = 2(x + 6)\\).',
-    answerOptions: [
-      {
-        text: '1',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '2',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '4',
-        isCorrect: true,
-        rationale: 'Distribute: 4x + 4 = 2x + 12. 2x = 8. x = 4.',
-      },
-      {
-        text: '5',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-    ],
-    rationale:
-      'First, distribute on both sides: 4x + 4 = 2x + 12. Subtract 2x from both sides: 2x + 4 = 12. Subtract 4 from both sides: 2x = 8. Divide by 2: x = 4.',
+    question: 'A school trip costs \\$840 split evenly among students. When 4 more students join, each student pays \\$6 less. How many students were in the original group?',
+    correctAnswer: '20',
+    rationale: '840/n - 840/(n+4) = 6. Solve: 840(n+4) - 840n = 6n(n+4) → 3360 = 6n² + 24n → n² + 4n - 560 = 0 → (n+28)(n-20) = 0 → n = 20.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 7,
-    type: 'fillIn',
-    inputCalculator: true,
+    type: 'multipleChoice',
     calculator: true,
-    difficulty: 'medium',
-    question: 'Factor the expression \\(x^2 - 100\\).',
-    correctAnswer: '(x - 10)(x + 10)',
-    rationale:
-      'This is a difference of squares, \\(a^2 - b^2\\), which factors to \\((a-b)(a+b)\\). Here, \\(a=x\\) and \\(b=10\\).',
+    difficulty: 'hard',
+    question: 'A shopkeeper marks up an item's cost by 40% to set the selling price, then offers a 15% discount. If the item originally cost \\$80, what is the final selling price?',
+    answerOptions: [
+      { text: '\\$95.20', isCorrect: true, rationale: 'Marked up: 80 × 1.40 = 112. Discounted: 112 × 0.85 = 95.20.' },
+      { text: '\\$100', isCorrect: false, rationale: 'Off by failing to apply the discount to the marked-up price.' },
+      { text: '\\$88', isCorrect: false, rationale: 'This applies the discount to the original cost, not the marked-up price.' },
+      { text: '\\$92', isCorrect: false, rationale: 'Arithmetic error in one of the two steps.' },
+    ],
+    rationale: 'Marked price = 80 × 1.40 = \$112. Final price = 112 × 0.85 = \$95.20.',
     challenge_tags: ['math-3'],
   },
   {
@@ -168,144 +103,55 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'Solve the inequality: \\(10 - x \\geq 15\\).',
+    question: 'For the quadratic \\(y = x^2 - 6x + 5\\), which of the following is true?',
     answerOptions: [
-      {
-        text: '\\(x \\geq 5\\)',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '\\(x \\leq 5\\)',
-        isCorrect: false,
-        rationale: 'The sign on 5 should be negative.',
-      },
-      {
-        text: '\\(x \\geq -5\\)',
-        isCorrect: false,
-        rationale: 'The inequality should be reversed.',
-      },
-      {
-        text: '\\(x \\leq -5\\)',
-        isCorrect: true,
-        rationale:
-          'Subtract 10: \\(-x \\ge 5\\). Multiply by -1 and reverse the inequality: \\(x \\leq -5\\).',
-      },
+      { text: 'The parabola opens upward and has x-intercepts at x = 1 and x = 5', isCorrect: true, rationale: 'Leading coefficient positive → opens up. x² - 6x + 5 = (x-1)(x-5) → intercepts at 1 and 5.' },
+      { text: 'The parabola opens downward and has x-intercepts at x = 1 and x = 5', isCorrect: false, rationale: 'The leading coefficient +1 means opens upward.' },
+      { text: 'The parabola opens upward and has x-intercepts at x = -1 and x = -5', isCorrect: false, rationale: 'The factors are (x-1)(x-5), not (x+1)(x+5).' },
+      { text: 'The parabola has no real x-intercepts', isCorrect: false, rationale: 'The discriminant 36 - 20 = 16 > 0, so two real roots exist.' },
     ],
-    rationale:
-      'First, subtract 10 from both sides: \\(-x \\geq 5\\). Then, multiply by -1 to solve for x, and remember to reverse the inequality sign: \\(x \\leq -5\\).',
+    rationale: 'Factor: (x - 1)(x - 5) = 0 → x = 1 or x = 5. Positive lead term → opens upward.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 9,
-    type: 'fillIn',
-    inputCalculator: true,
+    type: 'multipleChoice',
     calculator: true,
-    difficulty: 'medium',
-    question:
-      'If \\(f(x) = 2x - 7\\), what is the value of x when \\(f(x) = 11\\)?',
-    correctAnswer: '9',
-    rationale:
-      'Set the function equal to 11: 2x - 7 = 11. Add 7 to both sides: 2x = 18. Divide by 2: x = 9.',
+    difficulty: 'hard',
+    question: 'Train A leaves a station at 60 mph. Train B leaves the same station 2 hours later in the same direction at 90 mph. How many hours after Train B departs will it catch Train A?',
+    answerOptions: [
+      { text: '2', isCorrect: false, rationale: 'After 2 hours, Train B travels 180 miles but Train A has 240 miles.' },
+      { text: '4', isCorrect: true, rationale: 'B catches A when 90t = 60(t+2) → 30t = 120 → t = 4 hours.' },
+      { text: '6', isCorrect: false, rationale: 'After 6 hours B: 540 miles; A: 60(8) = 480 miles — already passed.' },
+      { text: '3', isCorrect: false, rationale: 'B: 270; A: 60(5) = 300. Not equal yet.' },
+    ],
+    rationale: 'Set distances equal: 90t = 60(t + 2) → 30t = 120 → t = 4 hours after B departs.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 10,
-    type: 'multipleChoice',
+    type: 'fillIn',
+    inputCalculator: true,
     calculator: true,
-    difficulty: 'medium',
-    question:
-      'A number is doubled and then increased by 8. The result is 26. What is the number?',
-    answerOptions: [
-      {
-        text: '9',
-        isCorrect: true,
-        rationale: 'Let n be the number. 2n + 8 = 26. 2n = 18. n = 9.',
-      },
-      {
-        text: '17',
-        isCorrect: false,
-        rationale: 'This is 26-9.',
-      },
-      {
-        text: '18',
-        isCorrect: false,
-        rationale: 'This is 2n.',
-      },
-      {
-        text: '34',
-        isCorrect: false,
-        rationale: 'This is 26+8.',
-      },
-    ],
-    rationale:
-      "Let the number be n. 'A number is doubled' is 2n. 'Increased by 8' is 2n + 8. Set this equal to 26: 2n + 8 = 26. Subtract 8: 2n = 18. Divide by 2: n = 9.",
+    difficulty: 'hard',
+    question: 'A store discounts an item by 30%, then applies an additional 10% discount to the sale price. What single percent represents the total discount from the original price?',
+    correctAnswer: '37',
+    rationale: 'Remaining after first discount: 70%. Remaining after second: 70% × 90% = 63%. Total discount = 37%.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 11,
     type: 'multipleChoice',
-    calculator: false,
+    calculator: true,
     difficulty: 'hard',
-    question: 'Factor the trinomial: \\(x^2 - 3x - 10\\).',
+    question: 'A contractor earns \\$50/hr for the first 8 hours and double pay for any hours beyond 8. If he earns \\$900 in a day, how many total hours did he work?',
     answerOptions: [
-      {
-        text: '\\((x - 5)(x + 2)\\)',
-        isCorrect: true,
-        rationale:
-          'We need two numbers that multiply to -10 and add to -3. These are -5 and 2.',
-      },
-      {
-        text: '\\((x + 5)(x - 2)\\)',
-        isCorrect: false,
-        rationale: 'This gives a middle term of +3x.',
-      },
-      {
-        text: '\\((x - 10)(x + 1)\\)',
-        isCorrect: false,
-        rationale: 'This gives a middle term of -9x.',
-      },
-      {
-        text: '\\((x - 2)(x - 5)\\)',
-        isCorrect: false,
-        rationale: 'This gives a constant term of +10.',
-      },
+      { text: '10', isCorrect: false, rationale: '8×50 + 2×100 = 400 + 200 = 600 ≠ 900.' },
+      { text: '13', isCorrect: true, rationale: '8×50 = 400. Remaining = 500. OT rate = 100/hr. OT hours = 5. Total = 13.' },
+      { text: '15', isCorrect: false, rationale: '8×50 + 7×100 = 400+700 = 1100 ≠ 900.' },
+      { text: '11', isCorrect: false, rationale: '8×50 + 3×100 = 400+300 = 700 ≠ 900.' },
     ],
-    rationale:
-      'To factor the trinomial, we look for two numbers that multiply to -10 and add to -3. These numbers are -5 and +2. So, the factored form is (x - 5)(x + 2).',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 12,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'easy',
-    question: 'Which point is the origin on the coordinate plane?',
-    answerOptions: [
-      {
-        text: '(1, 1)',
-        isCorrect: false,
-        rationale: 'This point is in Quadrant I.',
-      },
-      {
-        text: '(0, 0)',
-        isCorrect: true,
-        rationale:
-          'The origin is the point where the x-axis and y-axis intersect.',
-      },
-      {
-        text: '(-1, 0)',
-        isCorrect: false,
-        rationale: 'This point is on the x-axis.',
-      },
-      {
-        text: '(0, 1)',
-        isCorrect: false,
-        rationale: 'This point is on the y-axis.',
-      },
-    ],
-    rationale:
-      'The origin is the point of intersection of the x-axis and the y-axis, and its coordinates are (0, 0).',
+    rationale: 'Regular: 8×50=400. OT needed: 900-400=500. OT rate: 100/hr. OT hours: 5. Total: 13 hrs.',
     challenge_tags: ['math-3'],
   },
 ];

@@ -1,387 +1,150 @@
-// Imported from frontend/Expanded
+// Evidence & Argumentation — Core Skills: Practice 6
+// Mirrors practice 4-5 depth, fresh passages
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The new employee training program has been highly successful. It provides new hires with a clear understanding of the company's culture and procedures. One key part of the program is a mentorship component. A recent survey of new employees showed that 95% felt 'prepared and confident' after completing the training.",
-    "question": "Which detail from the passage best supports the claim that the program is 'highly successful'?",
-    "answerOptions": [
-      {
-        "text": "The program has a mentorship component.",
-        "rationale": "This describes a feature of the program, not the evidence of its success.",
-        "isCorrect": false
-      },
-      {
-        "text": "A survey showed that 95% of new employees felt 'prepared and confident.'",
-        "rationale": "Correct. This is a specific, high-percentage statistic that directly measures the positive outcome of the program.",
-        "isCorrect": true
-      },
-      {
-        "text": "The training provides a clear understanding of company culture.",
-        "rationale": "This is a goal of the program, but the survey result is the evidence that the goal was achieved.",
-        "isCorrect": false
-      },
-      {
-        "text": "The program is for new hires.",
-        "rationale": "This describes the target audience, not the program's success.",
-        "isCorrect": false
-      }
+    questionNumber: 1,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: "Telemedicine — the practice of conducting medical consultations via video call — expanded dramatically during the 2020 pandemic. Usage surged by over 3,000% in the first months of the health crisis, according to the Centers for Medicare & Medicaid Services. Physicians reported that routine follow-ups, prescription renewals, and mental health consultations adapted well to remote formats. However, physical examinations, diagnostic tests, and procedures still require in-person visits.",
+    question: "Which detail best supports the claim that telemedicine adapted well to some medical needs?",
+    answerOptions: [
+      { text: "Telemedicine existed before the pandemic.", isCorrect: false, rationale: "This is background, not evidence of adaptation." },
+      { text: "Physical exams still require in-person visits.", isCorrect: false, rationale: "This is a limitation, not evidence of successful adaptation." },
+      { text: "Routine follow-ups and mental health consultations worked well remotely.", isCorrect: true, rationale: "This directly shows which types of care adapted well — specific and relevant." },
+      { text: "Usage surged 3,000% in early 2020.", isCorrect: false, rationale: "This shows demand growth, not effectiveness." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "Learning to cook at home is a great way to improve your diet and save money. When you cook your own meals, you have complete control over the ingredients, allowing you to reduce your intake of salt, sugar, and unhealthy fats. For example, a homemade pasta sauce often has less than half the sugar of a store-bought jar. Plus, cooking in bulk can be significantly cheaper than buying individual meals.",
-    "question": "Which piece of evidence best supports the idea that cooking at home can 'improve your diet'?",
-    "answerOptions": [
-      {
-        "text": "Cooking in bulk can be cheaper.",
-        "rationale": "This supports the idea of saving money, not improving one's diet.",
-        "isCorrect": false
-      },
-      {
-        "text": "You have complete control over the ingredients.",
-        "rationale": "This explains why you can improve your diet, but the pasta sauce example is the specific evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "Homemade pasta sauce often has less than half the sugar of a store-bought version.",
-        "rationale": "Correct. This is a specific, concrete example that directly compares a homemade food to a store-bought one to show a clear nutritional benefit.",
-        "isCorrect": true
-      },
-      {
-        "text": "Learning to cook is a great skill.",
-        "rationale": "This is a general statement, not a piece of evidence presented in the passage.",
-        "isCorrect": false
-      }
+    questionNumber: 2,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: "The Northend Community Garden was established in 2018 on a vacant lot donated by the city. In five years, the garden has produced over 12,000 pounds of fresh vegetables, provided gardening plots to 80 families, and partnered with a local food bank to donate surplus produce. A survey of gardeners found that 92% reported feeling more connected to their neighbourhood since joining.",
+    question: "Which piece of evidence best supports the garden's social impact — beyond food production?",
+    answerOptions: [
+      { text: "The lot was donated by the city.", isCorrect: false, rationale: "This describes how the garden started, not its social impact." },
+      { text: "92% of gardeners felt more connected to their neighbourhood.", isCorrect: true, rationale: "This directly measures social connectedness — a social impact beyond produce." },
+      { text: "12,000 pounds of vegetables were produced.", isCorrect: false, rationale: "This is evidence of agricultural — not social — impact." },
+      { text: "80 families received garden plots.", isCorrect: false, rationale: "Access to plots is access, not a measure of social connection." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The new downtown pedestrian mall has been a major boost for local businesses. By closing the main street to traffic, the city created a vibrant, walkable space. The Downtown Business Association reported that since the mall opened six months ago, retail sales in the area have increased by an average of 25%. Local shop owners say the atmosphere is much more inviting for shoppers.",
-    "question": "Which piece of evidence most strongly supports the claim that the mall has been a 'major boost for local businesses'?",
-    "answerOptions": [
-      {
-        "text": "The main street was closed to traffic.",
-        "rationale": "This describes the action that was taken, not the economic result.",
-        "isCorrect": false
-      },
-      {
-        "text": "Retail sales in the area have increased by an average of 25%.",
-        "rationale": "Correct. A specific, high-percentage increase in sales is the strongest and most direct evidence of a 'major boost for local businesses.'",
-        "isCorrect": true
-      },
-      {
-        "text": "The atmosphere is much more inviting for shoppers.",
-        "rationale": "This is a subjective opinion from shop owners. The sales data is more objective and powerful.",
-        "isCorrect": false
-      },
-      {
-        "text": "The city created a vibrant, walkable space.",
-        "rationale": "This describes the new space, not its economic impact.",
-        "isCorrect": false
-      }
+    questionNumber: 3,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: "School officials at Lakeview High School reported that after installing water bottle refill stations throughout the building, single-use plastic bottle waste in school recycling bins dropped by 68% within six months. A student survey found that 80% of students who had access to a refill station within 50 feet of their locker used it daily, compared to only 31% of students whose nearest station was more than 150 feet away.",
+    question: "What does the difference in usage rates between the two student groups suggest?",
+    answerOptions: [
+      { text: "Students who received refill stations care more about the environment.", isCorrect: false, rationale: "No data on attitudes is provided — this is an unsupported inference about motivation." },
+      { text: "Proximity is a significant factor in whether students use the refill stations.", isCorrect: true, rationale: "The 80% vs 31% usage gap based purely on distance strongly implies proximity determines use." },
+      { text: "The school should not have installed the stations more than 150 feet from lockers.", isCorrect: false, rationale: "This is a possible policy conclusion, not what the data 'suggests' about usage patterns." },
+      { text: "More students prefer reusable bottles when given a direct instruction.", isCorrect: false, rationale: "No instruction was given — the variable studied is distance, not instruction." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "Meditation and mindfulness practices are gaining recognition as effective tools for stress reduction. These techniques train the brain to focus on the present moment and to observe thoughts without judgment. A landmark 2011 study at Harvard University showed that just eight weeks of mindfulness meditation could produce measurable changes in brain regions associated with memory, empathy, and stress.",
-    "question": "Which detail from the passage best supports the claim that meditation is an 'effective tool'?",
-    "answerOptions": [
-      {
-        "text": "The practices are gaining recognition.",
-        "rationale": "This shows they are becoming popular, but not why they are effective.",
-        "isCorrect": false
-      },
-      {
-        "text": "The techniques train the brain to focus on the present.",
-        "rationale": "This describes how the techniques work, not the evidence of their effectiveness.",
-        "isCorrect": false
-      },
-      {
-        "text": "A study showed measurable changes in brain regions related to stress.",
-        "rationale": "Correct. This is a specific finding from a scientific study that provides physical evidence of the positive impact of meditation.",
-        "isCorrect": true
-      },
-      {
-        "text": "Meditation involves observing thoughts without judgment.",
-        "rationale": "This is a description of the practice, not evidence of its results.",
-        "isCorrect": false
-      }
+    questionNumber: 4,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: "In the debate over whether high schools should start later in the morning, the American Academy of Pediatrics recommends start times no earlier than 8:30 a.m., citing research linking early start times to sleep deprivation, increased car accidents among teen drivers, and lower academic performance. Critics of later start times argue that the change creates logistical complications for families with working parents and older students who also hold after-school jobs.",
+    question: "Which of the following best explains why the critics' argument does not disprove the recommendation?",
+    answerOptions: [
+      { text: "Critics are not doctors and should not oppose medical recommendations.", isCorrect: false, rationale: "Non-experts can raise valid concerns; the argument is not automatically invalid because it comes from non-doctors." },
+      { text: "The critics address logistical challenges, not the health and academic evidence the recommendation is based on.", isCorrect: true, rationale: "The recommendation rests on sleep, crash, and academic data. Critics raise family logistics — a different dimension entirely." },
+      { text: "Sleep deprivation is more important than any logistical issue.", isCorrect: false, rationale: "Asserting one value is more important is opinion, not an analysis of argument strength." },
+      { text: "The critics offer no statistics.", isCorrect: false, rationale: "Lack of statistics alone does not permanently invalidate an argument — anecdotal or experiential concerns can be valid." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The argument that artificial intelligence (AI) will simply be a tool that humans control is a dangerously naive one. While some AI, like a calculator, is designed for a single purpose, the frontier of AI research is 'general intelligence'—an AI that can think, learn, and adapt across a wide variety of tasks. A 2022 survey of AI researchers found that a majority believe there is a greater than 10% chance that an AI of this nature could lead to a catastrophic outcome for humanity. The issue is not one of control, but of alignment: ensuring that a superintelligent AI's goals are aligned with our own.",
-    "question": "Which piece of evidence does the author use to support the claim that the idea of AI as a simple 'tool' is 'dangerously naive'?",
-    "answerOptions": [
-      {
-        "text": "Some AI, like a calculator, is designed for a single purpose.",
-        "rationale": "This is a counterexample the author uses to contrast with the more advanced AI they are concerned about.",
-        "isCorrect": false
-      },
-      {
-        "text": "The issue is about goal alignment, not control.",
-        "rationale": "This is the author's main argument, not the evidence used to support it.",
-        "isCorrect": false
-      },
-      {
-        "text": "The frontier of AI research is 'general intelligence.'",
-        "rationale": "This defines the type of AI the author is concerned about, but the survey is the evidence of the danger.",
-        "isCorrect": false
-      },
-      {
-        "text": "A survey of AI researchers found a majority believe there's a significant chance of a catastrophic outcome.",
-        "rationale": "Correct. The fact that a majority of experts in the field themselves are concerned about a catastrophic outcome is the strongest piece of evidence that the 'simple tool' view is naive and dangerous.",
-        "isCorrect": true
-      }
+    questionNumber: 5,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "Testimony before a city council: 'Councillors, our town must invest in the arts. A National Endowment for the Arts report found that arts organisations across the country generate \$135 billion in economic activity annually. Our local arts festival alone brought in an estimated \$1.2 million to local businesses last summer. We cannot afford NOT to fund the arts.'
+
+Councillor's response: 'The \$135 billion figure is national and includes major cities like New York and Los Angeles. Our town of 18,000 cannot reasonably extrapolate from national aggregates. And the \$1.2 million from the festival does not tell us how much of that was additional spending versus spending shifted from other local businesses.'",
+    question: "The councillor's response is most effective in challenging the testimony because it:",
+    answerOptions: [
+      { text: "Provides its own research showing arts investments fail in small towns.", isCorrect: false, rationale: "The councillor provides no alternative research — they simply critique the evidence presented." },
+      { text: "Identifies that the national figure may not apply to a small town and that the local figure may not represent genuine economic growth.", isCorrect: true, rationale: "Both critiques attack the applicability and interpretation of the evidence — a strong, targeted response." },
+      { text: "Argues that arts funding is culturally unimportant.", isCorrect: false, rationale: "The councillor does not make a cultural argument; they challenge the economic evidence." },
+      { text: "Proves the festival generated less than \$1.2 million.", isCorrect: false, rationale: "The councillor doesn't dispute the $1.2 million — they question what it means economically." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "Many people assume that genetically modified organisms (GMOs) are inherently unsafe to eat. However, this position is not supported by the scientific consensus. An exhaustive 2016 report by the National Academies of Sciences, Engineering, and Medicine, which reviewed over 900 studies, found 'no substantiated evidence of a difference in risks to human health between currently commercialized genetically engineered (GE) crops and conventionally bred crops.' The debate is often fueled by misinformation and a lack of public understanding of the science.",
-    "question": "Which piece of evidence from the text most effectively refutes the claim that GMOs are unsafe?",
-    "answerOptions": [
-      {
-        "text": "The debate is fueled by misinformation.",
-        "rationale": "This is the author's conclusion about the state of the debate, not the evidence used to counter the claim.",
-        "isCorrect": false
-      },
-      {
-        "text": "The scientific consensus does not support the position.",
-        "rationale": "This is a statement of the main claim, not the specific evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "Many people assume GMOs are unsafe.",
-        "rationale": "This is the popular belief that the author is refuting.",
-        "isCorrect": false
-      },
-      {
-        "text": "A major report by the National Academies of Sciences that reviewed 900 studies found no substantiated evidence of health risks.",
-        "rationale": "Correct. This is the most powerful piece of evidence presented. It is from a highly credible source (the National Academies), is based on a massive amount of research (900 studies), and directly addresses and refutes the specific claim about health risks.",
-        "isCorrect": true
-      }
+    questionNumber: 6,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "A researcher studying online misinformation found that false news stories spread six times faster than true stories on social media platforms in a study of 126,000 Twitter posts between 2006 and 2017. The researcher concluded that human users, not automated bots, were responsible for the spread — users were 70% more likely to retweet false news than verified news. The study's authors noted the results were limited to Twitter and may not extend to other platforms.",
+    question: "A journalist wants to use this study to argue that 'social media algorithms are the primary driver of misinformation.' What is the main problem with that use of the evidence?",
+    answerOptions: [
+      { text: "The study was conducted only on Twitter.", isCorrect: false, rationale: "While platform limitation is noted, it's not the main problem with the journalist's specific claim." },
+      { text: "The study found that human behaviour, not algorithms, drove misinformation spread — directly contradicting the journalist's claim.", isCorrect: true, rationale: "The study explicitly attributes the spread to human users (70% more likely to retweet false news), not algorithms. The journalist's conclusion contradicts the evidence." },
+      { text: "The study is too old to be relevant.", isCorrect: false, rationale: "The study spans 2006–2017, which may limit recency but isn't the fundamental problem with the journalist's claim." },
+      { text: "False news spreading faster does not mean it is harmful.", isCorrect: false, rationale: "This doesn't address the journalist's specific claim about algorithms." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "At a school board meeting, Superintendent Lee argued that the universal breakfast program improved attendance at Riverside Middle School. She reported that average daily attendance rose from 89% before the program to 95% afterward, the cafeteria served 12,000 additional morning meals, nurse visits for dizziness dropped by 40%, and a local newspaper praised the program's community partnerships.",
-    "question": "Which detail best supports Superintendent Lee's claim that the breakfast program improved attendance?",
-    "answerOptions": [
-      {
-        "text": "Average daily attendance rose from 89% to 95% after the program began.",
-        "rationale": "Correct. This statistic directly measures attendance, the outcome the superintendent highlighted.",
-        "isCorrect": true
-      },
-      {
-        "text": "The cafeteria served 12,000 additional morning meals during the semester.",
-        "rationale": "More meals show participation but do not directly measure attendance.",
-        "isCorrect": false
-      },
-      {
-        "text": "Nurse visits for dizziness dropped by 40%.",
-        "rationale": "Fewer nurse visits suggest a health benefit but are not direct evidence about attendance.",
-        "isCorrect": false
-      },
-      {
-        "text": "A local newspaper praised the program's community partnerships.",
-        "rationale": "Positive press is encouraging, yet it does not demonstrate improved attendance.",
-        "isCorrect": false
-      }
+    questionNumber: 7,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "A pharmaceutical company's press release states: 'In clinical trials, 87% of patients taking our new pain medication reported moderate-to-significant relief of symptoms within 48 hours.' The fine print of the trial report reveals: the trial had no placebo control group; participants were allowed to take over-the-counter pain relievers simultaneously; and 'moderate relief' was defined as any improvement on a self-reported 10-point scale — including movement from 8 to 7.",
+    question: "Which detail from the fine print most significantly weakens the 87% claim?",
+    answerOptions: [
+      { text: "There was no placebo group.", isCorrect: true, rationale: "Without a placebo comparison, there is no way to know how much improvement was due to the drug versus natural recovery, OTC medications, or expectation — this is the most critical flaw." },
+      { text: "Participants could take other pain relievers.", isCorrect: false, rationale: "This is a significant confound but secondary to having no placebo group to isolate the drug's effect." },
+      { text: "'Moderate relief' included small improvements.", isCorrect: false, rationale: "This dilutes what 'success' means but matters less if there were a control group to compare against." },
+      { text: "The trial was funded by the pharmaceutical company.", isCorrect: false, rationale: "Funding source is a concern for bias but is not mentioned in the passage and is not a 'fine print' detail provided." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "A neighborhood newsletter claims that the spring litter clean-up was more effective than last year's effort. Volunteers filled 18 bags of trash this year, compared with 42 bags collected during the previous clean-up. The article adds that the city delivered new recycling bins and that the mayor thanked volunteers on social media.",
-    "question": "Which fact best supports the claim that this year's clean-up was more effective?",
-    "answerOptions": [
-      {
-        "text": "Volunteers filled 18 bags of trash this year and 42 bags last year.",
-        "rationale": "Correct. Collecting far fewer bags of litter shows the area was cleaner after the recent event.",
-        "isCorrect": true
-      },
-      {
-        "text": "The city delivered new recycling bins to the neighborhood.",
-        "rationale": "New bins are a helpful resource but do not show how much litter was removed.",
-        "isCorrect": false
-      },
-      {
-        "text": "The mayor thanked volunteers on social media.",
-        "rationale": "A public thank-you is encouraging but not evidence that less litter remained.",
-        "isCorrect": false
-      },
-      {
-        "text": "The event took place in the spring instead of the fall.",
-        "rationale": "The season of the event does not demonstrate its effectiveness.",
-        "isCorrect": false
-      }
+    questionNumber: 8,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "In a speech before a city council, a developer argues: 'Building luxury condominiums will benefit everyone. More high-end residents mean more tax revenue, which funds public schools and services. Trickle-down works: when wealthier people move in, local businesses thrive and everyone benefits.' A housing advocate responds: 'In neighbourhoods where luxury condos have been built in comparable cities, studies show that within five years, average rents in surrounding blocks rose 28%, displacing long-term residents who could no longer afford to live there.'",
+    question: "The housing advocate's evidence is most effective because it:",
+    answerOptions: [
+      { text: "Proves that tax revenue never benefits schools.", isCorrect: false, rationale: "The advocate doesn't address tax revenue or schools." },
+      { text: "Provides pattern-level evidence from comparable cities that directly contradicts the developer's 'everyone benefits' claim.", isCorrect: true, rationale: "Displacement of long-term residents at 28% rent increases from multiple comparable cities directly refutes the universality of the developer's claim." },
+      { text: "Shows that luxury condos are always harmful.", isCorrect: false, rationale: "'Always' is too absolute — the advocate points to evidence from comparable cases, not a universal law." },
+      { text: "Argues that trickle-down economics is wrong in theory.", isCorrect: false, rationale: "The advocate uses empirical displacement data, not a theoretical critique." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "An opinion column argues that a new reading app dramatically improves high school literacy. To back up the claim, the columnist cites a six-week pilot in which students using the app averaged a 20-point gain on comprehension quizzes, includes a screenshot of a five-star online review, repeats a teacher's remark that the interface is 'sleek,' and notes that the company recently won a design award.",
-    "question": "Which piece of evidence in the column is the weakest support for the claim?",
-    "answerOptions": [
-      {
-        "text": "A screenshot of a five-star online review.",
-        "rationale": "Correct. One anonymous review is anecdotal and far less reliable than the other evidence presented.",
-        "isCorrect": true
-      },
-      {
-        "text": "A six-week pilot showing a 20-point gain on comprehension quizzes.",
-        "rationale": "This provides quantitative evidence directly related to literacy gains.",
-        "isCorrect": false
-      },
-      {
-        "text": "A teacher's remark that the interface is 'sleek.'",
-        "rationale": "The teacher's opinion relates to user experience but still comes from an educational professional.",
-        "isCorrect": false
-      },
-      {
-        "text": "The company's recent design award.",
-        "rationale": "An award lends credibility to the developer, though it is less direct than student score data.",
-        "isCorrect": false
-      }
+    questionNumber: 9,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "Two newspaper editorials appear side by side:
+
+Editorial A: 'Our city's new red-light camera programme is a proven safety measure. In the first year, intersection accidents dropped by 31% at monitored locations.'
+
+Editorial B: 'The red-light camera programme is a revenue scheme, not a safety measure. While accidents dropped at monitored intersections, a University of Pennsylvania study found that rear-end collisions increased by 24% at those same intersections as drivers braked abruptly to avoid tickets.'",
+    question: "Which statement most accurately evaluates the two editorials' use of evidence?",
+    answerOptions: [
+      { text: "Editorial A is correct and B is incorrect because A uses a higher percentage drop.", isCorrect: false, rationale: "Percentages cannot be compared without considering what they measure." },
+      { text: "Both editorials measure different types of accidents, which means neither fully captures the safety picture alone.", isCorrect: true, rationale: "A measures all intersection accidents; B measures rear-end collisions specifically — each captures a real but partial view of the safety impact." },
+      { text: "Editorial B proves that red-light cameras cause accidents.", isCorrect: false, rationale: "'Cause' is too strong a word; the study shows an association with increased rear-end collisions." },
+      { text: "Editorial A proves the programme was a success overall.", isCorrect: false, rationale: "A 31% drop in some accidents alongside a 24% rise in another type means the full picture is unclear." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "During a city council debate, Councilor Ortiz insisted that adding protected bike lanes has boosted local business revenue. She highlighted credit-card transaction data showing sales up 12% along the bike corridor, shared photos of cyclists waiting outside cafés, and mentioned that two new bike shops opened downtown this year.",
-    "question": "Which additional information would most strengthen Councilor Ortiz's claim?",
-    "answerOptions": [
-      {
-        "text": "Survey results from store owners on the corridor reporting that more cyclists are shopping at their businesses.",
-        "rationale": "Correct. Direct feedback from the affected businesses would connect the bike lanes to increased revenue.",
-        "isCorrect": true
-      },
-      {
-        "text": "A list of other cities that have recently added bike lanes.",
-        "rationale": "Examples from other cities do not prove the impact in this city.",
-        "isCorrect": false
-      },
-      {
-        "text": "An advertisement encouraging residents to ride bicycles downtown.",
-        "rationale": "Marketing materials promote cycling but do not document changes in revenue.",
-        "isCorrect": false
-      },
-      {
-        "text": "A statement noting that the bike lanes cost \(400,000 to build.",
-        "rationale": "Cost information may be relevant to budgeting but does not address the revenue claim.",
-        "isCorrect": false
-      }
+    questionNumber: 10,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "A public health agency's report argues that sugar-sweetened beverage taxes reduce consumption and obesity rates. It cites Mexico's 10% soda tax, which led to a 12% reduction in soda sales among lower-income households. Critics argue that such taxes are regressive — they take a higher percentage of income from poor families than from wealthy ones — and that consumption simply shifted to other high-calorie beverages.",
+    question: "A policy analyst who supports the tax should acknowledge which of the following to make the strongest, most honest argument?",
+    answerOptions: [
+      { text: "Lower-income families should not be allowed to buy soda.", isCorrect: false, rationale: "This does not honestly grapple with the regressivity concern." },
+      { text: "The tax burden does fall more heavily on lower-income consumers, but if revenue is directed to health programmes in low-income communities, the net effect may be progressive.", isCorrect: true, rationale: "Acknowledging the regressivity critique and offering a revenue-use solution is the most honest and complete defence of the tax." },
+      { text: "The critics are wrong because the tax did reduce soda sales.", isCorrect: false, rationale: "Soda sales falling doesn't automatically address the regressivity or substitution concerns." },
+      { text: "Other high-calorie beverages are not as harmful as soda.", isCorrect: false, rationale: "This makes an unverified health claim that isn't supported by evidence in the passage." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
-  {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "A grant proposal states that the community health van has expanded access to prenatal care in rural counties. The proposal notes that the van visited 27 towns last year, that 68% of patients reported the visit was their first prenatal appointment, and that social media posts about the van received 4,500 likes.",
-    "question": "Why is the social media statistic the least convincing evidence for the proposal's claim?",
-    "answerOptions": [
-      {
-        "text": "Likes do not show whether the van provided actual prenatal services to patients in rural counties.",
-        "rationale": "Correct. Online engagement is unrelated to the claim about expanding medical care.",
-        "isCorrect": true
-      },
-      {
-        "text": "The number of towns visited does not prove that any patients received checkups.",
-        "rationale": "Visiting towns demonstrates access to services, so this detail is more relevant than social media likes.",
-        "isCorrect": false
-      },
-      {
-        "text": "First-time patient statistics usually come from unreliable surveys.",
-        "rationale": "The passage gives no reason to doubt the patient survey data.",
-        "isCorrect": false
-      },
-      {
-        "text": "The claim should focus on prenatal care only, not other health services.",
-        "rationale": "The claim already focuses on prenatal care; this does not explain why the evidence is weak.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "An environmental group responds to critics who say the city's tree-planting initiative wastes money. The group points out that utility data show summer energy use dropped 8% on tree-lined blocks, asthma-related ER visits fell by 15% in the same neighborhoods, and maintenance costs average only \)30 per tree annually.",
-    "question": "Which detail most directly counters the critics' claim that the tree program is a waste of money?",
-    "answerOptions": [
-      {
-        "text": "Maintenance costs average only $30 per tree each year.",
-        "rationale": "Correct. Low maintenance costs address the financial concern raised by critics.",
-        "isCorrect": true
-      },
-      {
-        "text": "Asthma-related emergency room visits fell by 15% in shaded neighborhoods.",
-        "rationale": "This shows a health benefit, not a direct financial savings.",
-        "isCorrect": false
-      },
-      {
-        "text": "Utility data show summer energy use dropped 8% on tree-lined blocks.",
-        "rationale": "Lower energy use is a positive outcome but does not explicitly address program cost.",
-        "isCorrect": false
-      },
-      {
-        "text": "Residents enjoy the improved appearance of tree-lined streets.",
-        "rationale": "The passage does not mention aesthetics, and such opinions do not answer the money concern.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  }
 ];

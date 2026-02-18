@@ -1,375 +1,85 @@
-// Imported from frontend/Expanded
+// Language & Grammar — Core Skills: Practice 5
 module.exports = [
-  {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence is grammatically correct?",
-    "answerOptions": [
-      {
-        "text": "We was going to the store.",
-        "rationale": "The plural subject 'We' requires the plural verb 'were'.",
-        "isCorrect": false
-      },
-      {
-        "text": "Her and I are on the same team.",
-        "rationale": "'Her' is an object pronoun. The correct subject pronoun is 'She'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The dog, as well as the cats, needs to be fed.",
-        "rationale": "Correct. The subject is 'dog' (singular). The phrase 'as well as the cats' is an interruption and does not make the subject plural. Therefore, the singular verb 'needs' is correct.",
-        "isCorrect": true
-      },
-      {
-        "text": "He don't like vegetables.",
-        "rationale": "The correct form for the third-person singular is 'doesn't'.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence is punctuated correctly?",
-    "answerOptions": [
-      {
-        "text": "I like hiking swimming and camping.",
-        "rationale": "Commas are needed to separate items in a list.",
-        "isCorrect": false
-      },
-      {
-        "text": "She said, 'Let's go to the beach.'",
-        "rationale": "Correct. The comma is correctly placed before the quote, and the period is inside the quotation marks.",
-        "isCorrect": true
-      },
-      {
-        "text": "The cat is tired it's been a long day.",
-        "rationale": "This is a run-on sentence. A period or semicolon is needed between 'tired' and 'it's'.",
-        "isCorrect": false
-      },
-      {
-        "text": "My favorite color is blue?",
-        "rationale": "This is a statement, so it should end with a period, not a question mark.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence provides the most clear and effective revision of 'The game was won by our team.'?",
-    "answerOptions": [
-      {
-        "text": "The winning of the game was done by our team.",
-        "rationale": "This is wordy and awkward.",
-        "isCorrect": false
-      },
-      {
-        "text": "Our team won the game.",
-        "rationale": "Correct. This changes the sentence from passive to active voice, making it more direct and powerful.",
-        "isCorrect": true
-      },
-      {
-        "text": "It was our team that won the game.",
-        "rationale": "This is grammatically correct but less direct than the active voice.",
-        "isCorrect": false
-      },
-      {
-        "text": "The game had been won by our team.",
-        "rationale": "This is still in the passive voice.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence has a pronoun agreement error?",
-    "answerOptions": [
-      {
-        "text": "Each of the players has their own helmet.",
-        "rationale": "Correct. The subject 'Each' is singular, but the pronoun 'their' is plural. The traditionally correct form is 'his or her'.",
-        "isCorrect": true
-      },
-      {
-        "text": "The team celebrated its victory.",
-        "rationale": "'Team' is a singular collective noun, and 'its' is the correct singular possessive pronoun.",
-        "isCorrect": false
-      },
-      {
-        "text": "Neither of the girls forgot her ticket.",
-        "rationale": "'Neither' is singular, and the singular pronoun 'her' correctly refers to it.",
-        "isCorrect": false
-      },
-      {
-        "text": "All of the students completed their assignments.",
-        "rationale": "'All' is plural in this context, and 'their' is the correct plural pronoun.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence provides the best revision for clarity and conciseness? 'The fact of the matter is that the new software is not easy to use for our employees.'",
-    "answerOptions": [
-      {
-        "text": "The new software is not easy for our employees to use.",
-        "rationale": "This is a good improvement, but it can be made even more concise.",
-        "isCorrect": false
-      },
-      {
-        "text": "Our employees find the new software difficult to use.",
-        "rationale": "Correct. This sentence is in the active voice and is the most direct and concise of the options.",
-        "isCorrect": true
-      },
-      {
-        "text": "When it comes to the new software, our employees have difficulty using it.",
-        "rationale": "This is wordy and less direct.",
-        "isCorrect": false
-      },
-      {
-        "text": "In terms of usability, the new software presents a challenge for our employees.",
-        "rationale": "This is unnecessarily formal and wordy.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence correctly uses a colon?",
-    "answerOptions": [
-      {
-        "text": "She needed three things for the recipe: flour, sugar, and butter.",
-        "rationale": "Correct. A colon is used correctly here to introduce a list after a complete independent clause.",
-        "isCorrect": true
-      },
-      {
-        "text": "My favorite activities are: hiking, reading, and cooking.",
-        "rationale": "A colon should not be used to separate a verb ('are') from its objects.",
-        "isCorrect": false
-      },
-      {
-        "text": "He told me: that he would be late.",
-        "rationale": "A colon should not be used to introduce a quote in this manner.",
-        "isCorrect": false
-      },
-      {
-        "text": "The storm was severe: but the house was not damaged.",
-        "rationale": "A colon should not be used before a coordinating conjunction like 'but'.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence is a run-on sentence?",
-    "answerOptions": [
-      {
-        "text": "The movie was long, but it was interesting.",
-        "rationale": "This sentence is correctly joined with a comma and a coordinating conjunction.",
-        "isCorrect": false
-      },
-      {
-        "text": "I am tired, I want to go home.",
-        "rationale": "Correct. This is a comma splice, a type of run-on sentence where two independent clauses are joined only by a comma.",
-        "isCorrect": true
-      },
-      {
-        "text": "Although I am tired, I will finish my work.",
-        "rationale": "This is a complex sentence with a dependent and an independent clause, and it is punctuated correctly.",
-        "isCorrect": false
-      },
-      {
-        "text": "I finished my work now I can relax.",
-        "rationale": "This sentence is correctly joined with a semicolon.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence uses 'less' and 'fewer' correctly?",
-    "answerOptions": [
-      {
-        "text": "There are less people in line today.",
-        "rationale": "'People' is a countable noun, so 'fewer' should be used.",
-        "isCorrect": false
-      },
-      {
-        "text": "I have less than five dollars in my pocket.",
-        "rationale": "This is a common usage, but 'dollars' are countable, so 'fewer' is technically correct. However, 'less than' is often used with money.",
-        "isCorrect": false
-      },
-      {
-        "text": "She made fewer mistakes on this test than the last one.",
-        "rationale": "Correct. 'Mistakes' is a countable noun, so 'fewer' is the correct word to use.",
-        "isCorrect": true
-      },
-      {
-        "text": "We need to use fewer salt in this recipe.",
-        "rationale": "'Salt' is a non-countable noun, so 'less' should be used.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence provides the most effective revision for 'The decision was made by the committee to approve the project.'?",
-    "answerOptions": [
-      {
-        "text": "The committee's decision was to approve the project.",
-        "rationale": "This is a slight improvement, but it is still not in the active voice.",
-        "isCorrect": false
-      },
-      {
-        "text": "The committee decided to approve the project.",
-        "rationale": "Correct. This sentence changes the passive construction to the active voice, making it much more direct and concise.",
-        "isCorrect": true
-      },
-      {
-        "text": "Approval of the project was the decision made by the committee.",
-        "rationale": "This is wordy and uses a passive-like structure.",
-        "isCorrect": false
-      },
-      {
-        "text": "It was decided by the committee to approve the project.",
-        "rationale": "This is still in the passive voice and is unnecessarily wordy.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence correctly uses a hyphenated compound modifier?",
-    "answerOptions": [
-      {
-        "text": "She took a last minute decision to leave.",
-        "rationale": "When a compound modifier comes before a noun, it should usually be hyphenated: 'last-minute decision'.",
-        "isCorrect": false
-      },
-      {
-        "text": "She took a last-minute decision to leave.",
-        "rationale": "Correct. 'Last-minute' correctly modifies 'decision'.",
-        "isCorrect": true
-      },
-      {
-        "text": "She took a last, minute decision to leave.",
-        "rationale": "A comma is incorrect here; use a hyphen to join the words as one modifier.",
-        "isCorrect": false
-      },
-      {
-        "text": "She took a last minute-decision to leave.",
-        "rationale": "The hyphen is misplaced; it should connect 'last' and 'minute'.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence avoids a dangling modifier?",
-    "answerOptions": [
-      {
-        "text": "Walking to the bus stop, the rain soaked my jacket.",
-        "rationale": "This implies the rain was walking; the modifier dangles.",
-        "isCorrect": false
-      },
-      {
-        "text": "Walking to the bus stop, I got my jacket soaked by the rain.",
-        "rationale": "Correct. The subject 'I' performs the action in the modifier.",
-        "isCorrect": true
-      },
-      {
-        "text": "While walking to the bus stop, the jacket was soaked by the rain.",
-        "rationale": "The subject of 'walking' is unclear; this still dangles.",
-        "isCorrect": false
-      },
-      {
-        "text": "Walking to the bus stop, it rained heavily on my jacket.",
-        "rationale": "'It' is vague and does not fix the dangling modifier.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence correctly uses a comma after an introductory element?",
-    "answerOptions": [
-      {
-        "text": "After finishing the report we met with the client.",
-        "rationale": "A comma is needed after the introductory clause 'After finishing the report'.",
-        "isCorrect": false
-      },
-      {
-        "text": "After finishing the report, we met with the client.",
-        "rationale": "Correct. The introductory clause is set off with a comma.",
-        "isCorrect": true
-      },
-      {
-        "text": "After, finishing the report we met with the client.",
-        "rationale": "The comma is misplaced; it should follow the introductory clause.",
-        "isCorrect": false
-      },
-      {
-        "text": "After finishing, the report we met with the client.",
-        "rationale": "This incorrectly splits the introductory clause and the main clause.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  }
+  {questionNumber:1,type:'multipleChoice',difficulty:'easy',
+   question:"Which sentence is correctly punctuated?",
+   answerOptions:[
+    {text:"I wanted to go; but it was raining.", isCorrect:false, rationale:"Don't use a semicolon before a coordinating conjunction like 'but' when connecting two main clauses — use a comma."},
+    {text:"I wanted to go, but it was raining.", isCorrect:true, rationale:"Comma before a coordinating conjunction joining two independent clauses is correct."},
+    {text:"I wanted to go but, it was raining.", isCorrect:false, rationale:"The comma belongs before 'but,' not after."},
+    {text:"I wanted to go but it was raining.", isCorrect:false, rationale:"A comma is required before the coordinating conjunction in a compound sentence."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:2,type:'multipleChoice',difficulty:'easy',
+   question:"Identify the sentence with the correct use of 'its' vs. 'it's'.",
+   answerOptions:[
+    {text:"The company lost it's lease on the building.", isCorrect:false, rationale:"'It's' = 'it is' — the possessive is 'its' (no apostrophe)."},
+    {text:"The company lost its lease on the building.", isCorrect:true, rationale:"'Its' (no apostrophe) is the possessive pronoun — correct here."},
+    {text:"The company lost its' lease on the building.", isCorrect:false, rationale:"'Its'' is not a valid form; the possessive is simply 'its.'"},
+    {text:"The company lost their lease on the building.", isCorrect:false, rationale:"'Their' is plural; a single company uses 'its.'"},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:3,type:'multipleChoice',difficulty:'medium',
+   question:"Which revision corrects the dangling modifier?\nOriginal: After completing the safety training, the machines can be operated.",
+   answerOptions:[
+    {text:"After completing the safety training, the machines can be operated.", isCorrect:false, rationale:"The machines cannot complete training — the doer is missing."},
+    {text:"After employees complete the safety training, they can operate the machines.", isCorrect:true, rationale:"The subject performing training (employees) is now explicit and correctly tied to the modifier."},
+    {text:"The safety training completed, the machines can be operated.", isCorrect:false, rationale:"Still ambiguous about who completed the training."},
+    {text:"Having completed, the machines can be operated by employees.", isCorrect:false, rationale:"'Having completed' still modifies 'machines,' which is illogical."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:4,type:'multipleChoice',difficulty:'medium',
+   question:"Choose the sentence that uses commas correctly with a non-restrictive clause.",
+   answerOptions:[
+    {text:"The report, which was due last Friday was submitted on Monday.", isCorrect:false, rationale:"Both commas are needed around the non-restrictive clause: 'which was due last Friday,'"},
+    {text:"The report which was due last Friday, was submitted on Monday.", isCorrect:false, rationale:"A comma before 'which' is needed; the comma placement here is wrong."},
+    {text:"The report, which was due last Friday, was submitted on Monday.", isCorrect:true, rationale:"Non-restrictive clause is correctly set off by two commas."},
+    {text:"The report which was due last Friday was submitted on Monday.", isCorrect:false, rationale:"Without commas, 'which was due last Friday' reads as restrictive — but the sentence implies we know which report."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:5,type:'multipleChoice',difficulty:'medium',
+   question:"Which sentence uses the correct verb tense?",
+   answerOptions:[
+    {text:"By the time Elena arrived, the meeting already ends.", isCorrect:false, rationale:"'Ends' (simple present) clashes with the past-time context — should be 'had already ended' (past perfect)."},
+    {text:"By the time Elena arrives, the meeting had already ended.", isCorrect:false, rationale:"'Arrives' (present) doesn't match the past perfect 'had ended.'"},
+    {text:"By the time Elena arrived, the meeting had already ended.", isCorrect:true, rationale:"Past perfect (had ended) correctly shows the meeting finished before Elena's arrival (simple past)."},
+    {text:"By the time Elena will arrive, the meeting had already ended.", isCorrect:false, rationale:"'Will arrive' (future) conflicts with past perfect context."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:6,type:'multipleChoice',difficulty:'hard',
+   passage:"The following paragraph contains one unclear pronoun reference:\n(1) The consultant presented the findings to the manager. (2) She said the results were surprising but not alarming. (3) The manager told the board that she planned to act on the recommendations immediately.",
+   question:"Which sentence has an unclear pronoun reference?",
+   answerOptions:[
+    {text:"Sentence 1", isCorrect:false, rationale:"No pronoun — two named people are introduced clearly."},
+    {text:"Sentence 2", isCorrect:true, rationale:"'She' could refer to either the consultant or the manager — the antecedent is ambiguous."},
+    {text:"Sentence 3", isCorrect:false, rationale:"'She' in sentence 3 clearly refers to the manager (who was the subject of sentence 2's context)."},
+    {text:"Sentences 2 and 3 both have unclear references.", isCorrect:false, rationale:"Sentence 3's 'she' is clarified by the surrounding context."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:7,type:'multipleChoice',difficulty:'hard',
+   question:"Choose the correctly written sentence.",
+   answerOptions:[
+    {text:"Neither the supervisor nor the employees was informed about the change.", isCorrect:false, rationale:"With 'neither…nor,' the verb agrees with the nearer noun ('employees,' plural), so 'were' is correct."},
+    {text:"Neither the supervisor nor the employees were informed about the change.", isCorrect:true, rationale:"'Were' agrees with 'employees' — the closer subject in a neither/nor construction."},
+    {text:"Neither the supervisor nor the employees are informed about the change.", isCorrect:false, rationale:"'Are' is present tense; the context (an announcement about a past event) requires past tense."},
+    {text:"Neither the supervisor or the employees were informed about the change.", isCorrect:false, rationale:"'Neither' pairs with 'nor,' not 'or.'"},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:8,type:'multipleChoice',difficulty:'hard',
+   question:"A writer has: 'The new law will effect significant changes in the tax code.' What, if anything, should be changed?",
+   answerOptions:[
+    {text:"Nothing — the sentence is correct.", isCorrect:false, rationale:"'Effect' as a verb means 'to bring about' — which is technically correct here, but most test contexts expect 'affect.'"},
+    {text:"Change 'effect' to 'affect' — the verb meaning 'to influence or change.'", isCorrect:true, rationale:"In most GED contexts, 'affect' (verb = to influence) is the expected choice here; 'effect' as a verb meaning 'to bring about' is rare and formal."},
+    {text:"Change 'will effect' to 'will effects.'", isCorrect:false, rationale:"'Effects' is a noun — cannot follow 'will' as a verb form."},
+    {text:"Change 'significant' to 'significantly.'", isCorrect:false, rationale:"'Significant' correctly modifies the noun 'changes' — no change needed there."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:9,type:'multipleChoice',difficulty:'hard',
+   question:"Which sentence uses the subjunctive mood correctly?",
+   answerOptions:[
+    {text:"If I was the director, I would expand the programme.", isCorrect:false, rationale:"In a hypothetical contrary-to-fact 'if' clause, use 'were': 'If I were the director.'"},
+    {text:"If I were the director, I would expand the programme.", isCorrect:true, rationale:"'Were' is the subjunctive form required in hypothetical conditions."},
+    {text:"If I am the director, I would expand the programme.", isCorrect:false, rationale:"'Am' (indicative) is for real, not hypothetical, conditions."},
+    {text:"If I were the director, I will expand the programme.", isCorrect:false, rationale:"The conditional structure requires 'would,' not 'will,' in the result clause."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:10,type:'multipleChoice',difficulty:'hard',
+   passage:"A business proposal contains the following sentence: 'The committee hopes to complete the review quick and make an announcement soon.' Identify and fix the error.",
+   question:"What is the error and the correct revision?",
+   answerOptions:[
+    {text:"'Quick' should be 'quickly' — an adverb is required to modify the verb 'complete.'", isCorrect:true, rationale:"'Complete' is a verb; it must be modified by an adverb ('quickly'), not an adjective ('quick')."},
+    {text:"'Soon' should be 'soonly.'", isCorrect:false, rationale:"'Soonly' is not a word."},
+    {text:"'Hopes' should be 'hope.'", isCorrect:false, rationale:"'The committee' is singular, so 'hopes' (third-person singular) is correct."},
+    {text:"'An announcement' should be 'the announcement.'", isCorrect:false, rationale:"'An' is appropriate for an unspecified announcement — no error."},
+   ],challenge_tags:['rla-1']},
 ];

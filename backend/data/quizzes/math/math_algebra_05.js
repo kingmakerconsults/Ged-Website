@@ -1,47 +1,30 @@
+// Algebra & Functions — Core Skills: Practice 5
+// 10 questions | systems concept, inequalities, evaluating expressions
 module.exports = [
   {
     questionNumber: 1,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
+    type: 'multipleChoice',
+    calculator: false,
     difficulty: 'easy',
-    question: 'Solve for n: \\(5n = 45\\).',
-    correctAnswer: '9',
-    rationale:
-      'To solve for n, divide both sides of the equation by 5. n = 45 / 5 = 9.',
+    question: 'Evaluate \\(3a^2 - 2a\\) when \\(a = 4\\).',
+    answerOptions: [
+      { text: '40', isCorrect: true, rationale: '3(16) - 2(4) = 48 - 8 = 40.' },
+      { text: '44', isCorrect: false, rationale: 'This adds instead of subtracts.' },
+      { text: '8', isCorrect: false, rationale: 'This ignores the exponent.' },
+      { text: '16', isCorrect: false, rationale: 'This computes only 3a + a or similar error.' },
+    ],
+    rationale: 'Substitute a = 4: 3(4²) - 2(4) = 3(16) - 8 = 48 - 8 = 40.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 2,
-    type: 'multipleChoice',
-    calculator: false,
+    type: 'fillIn',
+    inputCalculator: true,
+    calculator: true,
     difficulty: 'easy',
-    question: 'Simplify the expression \\(10y - 4y + y\\).',
-    answerOptions: [
-      {
-        text: '\\(6y\\)',
-        isCorrect: false,
-        rationale: 'This is 10y - 4y, but does not add the final y.',
-      },
-      {
-        text: '\\(7y\\)',
-        isCorrect: true,
-        rationale:
-          'Combine the coefficients: 10 - 4 + 1 = 7. The result is 7y.',
-      },
-      {
-        text: '\\(5y\\)',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '\\(15y\\)',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-    ],
-    rationale:
-      'Combine the like terms by adding and subtracting their coefficients: 10 - 4 + 1 = 7. So, the simplified expression is 7y.',
+    question: 'Solve for \\(p\\): \\(7p - 3 = 4p + 9\\).',
+    correctAnswer: '4',
+    rationale: 'Subtract 4p: 3p - 3 = 9. Add 3: 3p = 12. Divide: p = 4.',
     challenge_tags: ['math-3'],
   },
   {
@@ -49,270 +32,111 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve for a: \\(2(a + 5) = 16\\).',
+    question: 'Which value of \\(x\\) satisfies the inequality \\(5x - 3 > 17\\)?',
     answerOptions: [
-      {
-        text: '3',
-        isCorrect: true,
-        rationale:
-          'Divide both sides by 2 to get a + 5 = 8. Then subtract 5 to get a = 3.',
-      },
-      {
-        text: '5.5',
-        isCorrect: false,
-        rationale: 'This is the result of an incorrect calculation.',
-      },
-      {
-        text: '8',
-        isCorrect: false,
-        rationale: 'This is a+5.',
-      },
-      {
-        text: '11',
-        isCorrect: false,
-        rationale: 'This is the result if you subtract 5 before dividing.',
-      },
+      { text: '3', isCorrect: false, rationale: '5(3) - 3 = 12, not > 17.' },
+      { text: '4', isCorrect: false, rationale: '5(4) - 3 = 17, which is NOT greater than 17 (strict inequality).' },
+      { text: '5', isCorrect: true, rationale: '5(5) - 3 = 22 > 17. ✓' },
+      { text: '2', isCorrect: false, rationale: '5(2) - 3 = 7 < 17.' },
     ],
-    rationale:
-      'First, divide both sides by 2: a + 5 = 8. Then, subtract 5 from both sides: a = 3.',
+    rationale: '5x > 20 → x > 4. Only x = 5 satisfies the strict inequality.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 4,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
+    type: 'multipleChoice',
+    calculator: false,
     difficulty: 'medium',
-    question:
-      'What is the slope of the line that passes through (0, 4) and (2, 0)?',
-    correctAnswer: '-2',
-    rationale:
-      'The slope is the change in y divided by the change in x. m = (0 - 4) / (2 - 0) = -4 / 2 = -2.',
+    question: 'A line has a slope of \\(-3\\) and passes through the point \\((0, 7)\\). What is its equation?',
+    answerOptions: [
+      { text: '\\(y = 7x - 3\\)', isCorrect: false, rationale: 'This swaps slope and y-intercept.' },
+      { text: '\\(y = -3x + 7\\)', isCorrect: true, rationale: 'Slope-intercept form y = mx + b with m = -3 and b = 7.' },
+      { text: '\\(y = 3x + 7\\)', isCorrect: false, rationale: 'The slope should be negative.' },
+      { text: '\\(y = -7x + 3\\)', isCorrect: false, rationale: 'This swaps and negates slope and y-intercept.' },
+    ],
+    rationale: 'The slope-intercept form is y = mx + b. With m = -3 and b = 7: y = -3x + 7.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 5,
-    type: 'multipleChoice',
-    calculator: false,
+    type: 'fillIn',
+    inputCalculator: true,
+    calculator: true,
     difficulty: 'medium',
-    question:
-      "Translate 'the product of a number and 6, increased by 3' into an algebraic expression.",
-    answerOptions: [
-      {
-        text: '\\(6(n + 3)\\)',
-        isCorrect: false,
-        rationale: "This is '6 times the sum of a number and 3'.",
-      },
-      {
-        text: '\\(6n + 3\\)',
-        isCorrect: true,
-        rationale:
-          "The product of a number and 6 is 6n. 'Increased by 3' means to add 3.",
-      },
-      {
-        text: '\\(n + 6 + 3\\)',
-        isCorrect: false,
-        rationale: 'This is a sum, not a product.',
-      },
-      {
-        text: '\\(3n + 6\\)',
-        isCorrect: false,
-        rationale: 'This reverses the numbers.',
-      },
-    ],
-    rationale:
-      "Let 'n' be the number. 'The product of a number and 6' is 6n. 'Increased by 3' means to add 3 to this term. So, the expression is 6n + 3.",
+    question: 'If \\(g(x) = x^2 + 2x - 8\\), find \\(g(3)\\).',
+    correctAnswer: '7',
+    rationale: 'g(3) = (3)² + 2(3) - 8 = 9 + 6 - 8 = 7.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 6,
     type: 'multipleChoice',
     calculator: true,
-    difficulty: 'hard',
-    question: 'Solve the inequality: \\(7 - 2x < 1\\).',
+    difficulty: 'medium',
+    question: 'DeShawn is comparing two phone plans. Plan A costs \\$20 per month plus \\$0.10 per text. Plan B costs \\$35 per month with unlimited texts. For what number of texts do both plans cost the same?',
     answerOptions: [
-      {
-        text: '\\(x < 3\\)',
-        isCorrect: false,
-        rationale: 'The inequality sign should be reversed.',
-      },
-      {
-        text: '\\(x > 3\\)',
-        isCorrect: true,
-        rationale:
-          'Subtract 7: -2x < -6. Divide by -2 and reverse the inequality: x > 3.',
-      },
-      {
-        text: '\\(x < -3\\)',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '\\(x > -3\\)',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
+      { text: '100', isCorrect: false, rationale: 'Plan A: 20 + 10 = 30. Plan B: 35. Not equal.' },
+      { text: '150', isCorrect: true, rationale: 'Plan A: 20 + 0.10(150) = 20 + 15 = 35 = Plan B.' },
+      { text: '200', isCorrect: false, rationale: 'Plan A would cost \$40 at 200 texts, more than Plan B.' },
+      { text: '350', isCorrect: false, rationale: 'Far past break-even.' },
     ],
-    rationale:
-      'First, subtract 7 from both sides: -2x < -6. Then, divide by -2. Remember to reverse the inequality sign when dividing by a negative number: x > 3.',
+    rationale: '20 + 0.10t = 35 → 0.10t = 15 → t = 150 texts.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 7,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
+    type: 'multipleChoice',
+    calculator: false,
     difficulty: 'medium',
-    question: 'If \\(g(x) = 5 - x^2\\), what is \\(g(3)\\)?',
-    correctAnswer: '-4',
-    rationale: 'Substitute 3 for x: g(3) = 5 - (3)\\(^2\\) = 5 - 9 = -4.',
+    question: 'Which of the following is the solution set of \\(2|x - 1| = 8\\)?',
+    answerOptions: [
+      { text: '\\{5, -3\\}', isCorrect: true, rationale: '|x - 1| = 4 → x - 1 = 4 or x - 1 = -4 → x = 5 or x = -3.' },
+      { text: '\\{4, -4\\}', isCorrect: false, rationale: 'This solves |x| = 4 instead.' },
+      { text: '\\{3, -5\\}', isCorrect: false, rationale: 'Sign error: negating the wrong side.' },
+      { text: '\\{9, -7\\}', isCorrect: false, rationale: 'This divides incorrectly.' },
+    ],
+    rationale: 'Divide by 2: |x - 1| = 4. Then x - 1 = 4 → x = 5, or x - 1 = -4 → x = -3.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 8,
-    type: 'multipleChoice',
-    calculator: false,
+    type: 'fillIn',
+    inputCalculator: true,
+    calculator: true,
     difficulty: 'hard',
-    question: 'What is the greatest common factor (GCF) of \\(12x^2 and 18x\\)?',
-    answerOptions: [
-      {
-        text: '\\(6\\)',
-        isCorrect: false,
-        rationale:
-          'This is the GCF of the coefficients, but ignores the variable.',
-      },
-      {
-        text: '\\(6x\\)',
-        isCorrect: true,
-        rationale:
-          'The GCF of 12 and 18 is 6. The GCF of x^2 and x is x. So, the GCF is 6x.',
-      },
-      {
-        text: '\\(3x\\)',
-        isCorrect: false,
-        rationale: 'This is a common factor, but not the greatest.',
-      },
-      {
-        text: '\\(36x^2\\)',
-        isCorrect: false,
-        rationale: 'This is the least common multiple (LCM).',
-      },
-    ],
-    rationale:
-      'Find the GCF of the coefficients (12 and 18), which is 6. Find the GCF of the variables (x^2 and x), which is x. Combine them to get 6x.',
+    question: 'A worker earns a weekly base salary of \\$320 plus a 5% commission on all sales. She earns \\$470 in a week. What were her total sales that week?',
+    correctAnswer: '3000',
+    rationale: 'Commission = 470 - 320 = 150. Sales = 150 / 0.05 = 3000.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 9,
-    type: 'fillIn',
-    inputCalculator: true,
+    type: 'multipleChoice',
     calculator: true,
-    difficulty: 'medium',
-    question:
-      'What is the equation of a line with a slope of -4 and a y-intercept of 5?',
-    correctAnswer: 'y = -4x + 5',
-    rationale:
-      'Using the slope-intercept form y = mx + b, substitute m = -4 and b = 5.',
+    difficulty: 'hard',
+    question: 'On a number line, the solution to \\(3 - 2x \\geq 9\\) is all values of \\(x\\) that are:',
+    answerOptions: [
+      { text: 'less than or equal to \\(-3\\)', isCorrect: true, rationale: 'Subtract 3: -2x ≥ 6. Divide by -2 (flip sign): x ≤ -3.' },
+      { text: 'greater than or equal to \\(-3\\)', isCorrect: false, rationale: 'The inequality flips when dividing by a negative number.' },
+      { text: 'less than or equal to \\(3\\)', isCorrect: false, rationale: 'Sign error when dividing.' },
+      { text: 'greater than or equal to \\(3\\)', isCorrect: false, rationale: 'x = 3 gives 3 - 6 = -3 < 9.' },
+    ],
+    rationale: '3 - 2x ≥ 9 → -2x ≥ 6 → x ≤ -3 (inequality flips when dividing by -2).',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 10,
     type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'medium',
-    question:
-      'The perimeter of a rectangle is 40 inches. If the width is 8 inches, what is the length?',
-    answerOptions: [
-      {
-        text: '12 inches',
-        isCorrect: true,
-        rationale: 'P = 2(L+W). 40 = 2(L+8). 20 = L+8. L = 12.',
-      },
-      {
-        text: '16 inches',
-        isCorrect: false,
-        rationale: 'This would give a perimeter of 48.',
-      },
-      {
-        text: '24 inches',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '32 inches',
-        isCorrect: false,
-        rationale: 'This is 40-8.',
-      },
-    ],
-    rationale:
-      'The formula for the perimeter is P = 2L + 2W. 40 = 2L + 2(8). 40 = 2L + 16. 24 = 2L. L = 12 inches.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 11,
-    type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'Solve the system of equations: \\(x + y = 10 and x - y = 4\\).',
+    question: 'The sum of three consecutive even integers is 78. What is the largest of the three integers?',
     answerOptions: [
-      {
-        text: '\\(x=7, y=3\\)',
-        isCorrect: true,
-        rationale:
-          'Add the two equations to get 2x = 14, so x=7. Substitute x=7 into the first equation: 7+y=10, so y=3.',
-      },
-      {
-        text: '\\(x=3, y=7\\)',
-        isCorrect: false,
-        rationale: 'The values are reversed.',
-      },
-      {
-        text: '\\(x=6, y=4\\)',
-        isCorrect: false,
-        rationale: 'This satisfies the second equation but not the first.',
-      },
-      {
-        text: '\\(x=10, y=-6\\)',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
+      { text: '24', isCorrect: false, rationale: '24 + 22 + 20 = 66 ≠ 78.' },
+      { text: '26', isCorrect: false, rationale: '24 + 26 + 28 = 78 — close, but 28 is largest.' },
+      { text: '28', isCorrect: true, rationale: 'n + (n+2) + (n+4) = 78 → 3n = 72 → n = 24. Largest = 24 + 4 = 28.' },
+      { text: '30', isCorrect: false, rationale: '26 + 28 + 30 = 84 ≠ 78.' },
     ],
-    rationale:
-      'You can solve this system by elimination. Add the two equations together: (x + y) + (x - y) = 10 + 4. This simplifies to 2x = 14, so x = 7. Substitute x=7 into the first equation: 7 + y = 10. Solve for y: y = 3. The solution is (7, 3).',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 12,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'easy',
-    question: 'What is the value of \\((5^2)^3\\)?',
-    answerOptions: [
-      {
-        text: '\\(5^5\\)',
-        isCorrect: false,
-        rationale: 'This is the result of adding the exponents.',
-      },
-      {
-        text: '\\(5^6\\)',
-        isCorrect: true,
-        rationale:
-          'When raising a power to a power, you multiply the exponents: 2 * 3 = 6.',
-      },
-      {
-        text: '\\(10^3\\)',
-        isCorrect: false,
-        rationale: 'The base does not change.',
-      },
-      {
-        text: '\\(25^3\\)',
-        isCorrect: false,
-        rationale:
-          'This is an intermediate step, not the final simplified form.',
-      },
-    ],
-    rationale:
-      'The rule for raising a power to another power is to multiply the exponents. So, \\((5^2)^3 = 5^{2 \\(\times\\)3} = 5^6.\\)',
+    rationale: 'Let the integers be n, n+2, n+4. Then 3n + 6 = 78 → 3n = 72 → n = 24. Largest = 28.',
     challenge_tags: ['math-3'],
   },
 ];

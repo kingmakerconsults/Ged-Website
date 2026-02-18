@@ -1,378 +1,146 @@
-// Imported from frontend/Expanded
+// Evidence & Argumentation — Test Ready: Practice 8
+// 11 questions | multi-source reasoning, fallacy ID
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The new public park has been a great success. It is used every day by a wide variety of residents, from families with young children to seniors participating in exercise classes. Last weekend, for the park's official opening, over 500 people attended the celebration.",
-    "question": "Which detail from the passage best supports the claim that the park has been a 'great success'?",
-    "answerOptions": [
-      {
-        "text": "The park is for a wide variety of residents.",
-        "rationale": "This describes the park's audience, but the attendance number is the best evidence of its success.",
-        "isCorrect": false
-      },
-      {
-        "text": "Over 500 people attended the opening celebration.",
-        "rationale": "Correct. A large number of people attending an event is a strong, specific piece of evidence for its success.",
-        "isCorrect": true
-      },
-      {
-        "text": "Seniors use the park for exercise classes.",
-        "rationale": "This is one example of the park's use, but the large attendance number is a more powerful indicator of overall success.",
-        "isCorrect": false
-      },
-      {
-        "text": "The park had an official opening.",
-        "rationale": "This is a fact about the park's history, not evidence of its success.",
-        "isCorrect": false
-      }
+    questionNumber: 1, type: 'multipleChoice', difficulty: 'medium',
+    passage: "A 2023 report from the Urban Institute found that cities with mandatory inclusionary zoning (IZ) policies — requiring developers to set aside 10–20% of new units as affordable — produced 14% more affordable housing units per year than comparable cities without IZ. However, the same report noted that total housing construction in IZ cities was 8% lower than in non-IZ cities, suggesting that the mandate may have slowed overall building.",
+    question: "Which statement accurately reflects what both findings together imply about inclusionary zoning?",
+    answerOptions: [
+      { text: "IZ is an unqualified success because it creates more affordable units.", isCorrect: false, rationale: "The report also shows total construction fell 8%, which complicates that conclusion." },
+      { text: "IZ produces more affordable units per year but may reduce total housing supply, presenting a trade-off policymakers must weigh.", isCorrect: true, rationale: "Both findings are real — more affordable units AND less overall building. A trade-off framing is accurate." },
+      { text: "IZ policies should be eliminated because they slow construction.", isCorrect: false, rationale: "The data shows a cost–benefit situation, not a clear case for elimination." },
+      { text: "Cities without IZ produce better housing outcomes overall.", isCorrect: false, rationale: "They build more total units but fewer affordable ones — 'better overall' depends on which outcome you prioritise." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The new city-wide food composting program has had a significant environmental impact. By collecting food scraps separately from other trash, the city is able to turn this waste into valuable compost. The Department of Public Works reported that in the first six months of the program, the city diverted 5,000 tons of food waste from the landfill.",
-    "question": "Which piece of evidence most strongly supports the claim that the program has had a 'significant environmental impact'?",
-    "answerOptions": [
-      {
-        "text": "The city can turn waste into valuable compost.",
-        "rationale": "This describes the process, but the tonnage is the measure of its impact.",
-        "isCorrect": false
-      },
-      {
-        "text": "The city diverted 5,000 tons of food waste from the landfill.",
-        "rationale": "Correct. This is a large, specific, and quantifiable amount of waste that was prevented from going to the landfill, which is a direct and significant environmental impact.",
-        "isCorrect": true
-      },
-      {
-        "text": "The program collects food scraps separately.",
-        "rationale": "This is a description of how the program works, not evidence of its impact.",
-        "isCorrect": false
-      },
-      {
-        "text": "The Department of Public Works issued a report.",
-        "rationale": "This tells us the source of the information, but not the information itself that serves as evidence.",
-        "isCorrect": false
-      }
+    questionNumber: 2, type: 'multipleChoice', difficulty: 'medium',
+    passage: "A state senator argues: 'My opponent voted against the Veterans' Support Act two years ago. He clearly doesn't care about veterans.' The opponent responds: 'I voted against that bill because it included a provision directing funds away from mental health programmes — programmes veterans use most. I have consistently funded veterans' healthcare for 12 years.'",
+    question: "How does the opponent's response address the senator's claim most effectively?",
+    answerOptions: [
+      { text: "By arguing that veterans don't need the act.", isCorrect: false, rationale: "The opponent doesn't make this claim." },
+      { text: "By providing context that reframes the vote as supporting veterans — just not that specific act — and citing a 12-year record.", isCorrect: true, rationale: "The vote detail explains why opposition to the bill was pro-veteran, and the 12-year record rebuts the character claim." },
+      { text: "By attacking the senator's own voting record.", isCorrect: false, rationale: "The opponent doesn't counter-attack — they defend and reframe." },
+      { text: "By agreeing with the senator's characterisation.", isCorrect: false, rationale: "The opponent explicitly denies it." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The argument that technology is a panacea for all educational problems is a flawed one. While tablets and smartboards can be engaging tools, they are not a substitute for effective teaching and a well-designed curriculum. A 2019 meta-analysis of over 100 studies on classroom technology found no statistically significant improvement in student test scores in classrooms that had a 1:1 device-to-student ratio compared to those that did not. The study concluded that how technology is used is far more important than its mere presence.",
-    "question": "Which piece of evidence from the text most effectively refutes the argument that technology is a 'panacea' (a cure-all) for education?",
-    "answerOptions": [
-      {
-        "text": "Tablets and smartboards can be engaging tools.",
-        "rationale": "This is a concession the author makes, not evidence against the 'panacea' argument.",
-        "isCorrect": false
-      },
-      {
-        "text": "How technology is used is more important than its presence.",
-        "rationale": "This is the conclusion of the study, not the specific evidence itself.",
-        "isCorrect": false
-      },
-      {
-        "text": "A meta-analysis of over 100 studies found no significant improvement in test scores from 1:1 device ratios.",
-        "rationale": "Correct. This is the most powerful piece of evidence. The fact that a large-scale review of many studies found no significant impact from simply having the technology directly refutes the idea that technology is a cure-all.",
-        "isCorrect": true
-      },
-      {
-        "text": "Technology is not a substitute for effective teaching.",
-        "rationale": "This is the author's main claim, not the evidence used to support it.",
-        "isCorrect": false
-      }
+    questionNumber: 3, type: 'multipleChoice', difficulty: 'medium',
+    passage: "The FDA approved a new antidepressant based on two clinical trials. Trial 1 (500 participants, 12 weeks): the drug reduced depression scores by 35% vs. 18% for placebo. Trial 2 (300 participants, 8 weeks): the drug reduced scores by 22% vs. 19% for placebo — a difference the researchers acknowledged was not statistically significant. The FDA issued approval based on Trial 1 alone.",
+    question: "A critic who argues the FDA approval was premature would be MOST strengthened by pointing to:",
+    answerOptions: [
+      { text: "Trial 1's strong results.", isCorrect: false, rationale: "Trial 1 supports approval." },
+      { text: "Trial 2's non-significant result — suggesting the drug may not reliably outperform placebo across different study conditions.", isCorrect: true, rationale: "A second trial failing to show significant benefit is a serious concern; using only Trial 1 may overstate reliability." },
+      { text: "The fact that 500 participants is too small for any study.", isCorrect: false, rationale: "500 is a reasonable clinical trial size; this is not the strongest critique." },
+      { text: "The FDA's general approval history.", isCorrect: false, rationale: "General history is not specific to this drug's evidence quality." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "passage": "At a school board meeting, Principal Gomez argued that the after-school tutoring program launched last fall has improved math performance at Central High. She reported that 72 students enrolled, the sessions run four afternoons per week, participating students raised their average math score from 68 to 78 on the midyear exam, and eight teachers volunteered to supervise the sessions.",
-    "question": "Which detail best supports Principal Gomez's claim that the tutoring program improved math performance?",
-    "answerOptions": [
-      {
-        "text": "The sessions run four afternoons per week.",
-        "rationale": "This explains the program's schedule but does not show that students learned more.",
-        "isCorrect": false
-      },
-      {
-        "text": "Seventy-two students enrolled in the program.",
-        "rationale": "Enrollment numbers show interest, not whether scores improved.",
-        "isCorrect": false
-      },
-      {
-        "text": "Participants raised their average math score from 68 to 78 on the midyear exam.",
-        "rationale": "Correct. This statistic directly demonstrates improved math performance.",
-        "isCorrect": true
-      },
-      {
-        "text": "Eight teachers volunteered to supervise the sessions.",
-        "rationale": "Teacher support helps the program run but does not prove it raised scores.",
-        "isCorrect": false
-      }
+    questionNumber: 4, type: 'multipleChoice', difficulty: 'hard',
+    passage: "Source A (economics professor): 'Free trade agreements create net economic gains by allowing specialisation and efficiencies. Independent analyses of NAFTA show U.S. GDP grew and consumer prices fell measurably in the 20 years following its implementation.'
+
+Source B (manufacturing union leader): 'NAFTA cost 700,000 U.S. manufacturing jobs and hollowed out Midwestern industrial communities. The gains went to corporations and consumers; the losses were concentrated among workers without college degrees who had no equivalent job options.'",
+    question: "Both sources could simultaneously be correct if:",
+    answerOptions: [
+      { text: "Free trade is always good for everyone.", isCorrect: false, rationale: "Source B contradicts this." },
+      { text: "NAFTA produced aggregate economic growth while distributing its costs unequally — benefiting some groups while harming specific workers and communities.", isCorrect: true, rationale: "GDP growth (A) and job losses concentrated in specific groups (B) are not mutually exclusive — this is the standard economic explanation for free-trade distributional effects." },
+      { text: "Manufacturing jobs are more important than GDP.", isCorrect: false, rationale: "This is a values statement, not a reconciliation of facts." },
+      { text: "The union leader's data is more reliable because he represents workers directly.", isCorrect: false, rationale: "Proximity to a topic doesn't determine data reliability." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "passage": "In a letter to the editor, Maya argues that the renovation made the Glenville Library more popular with residents. She notes that weekend story times now reach the room's fire-code capacity of 80 people, volunteers repainted the walls bright blue, staff added ten new parking spaces, and the library unveiled a new logo.",
-    "question": "Which detail best supports Maya's claim that the renovation made the library more popular?",
-    "answerOptions": [
-      {
-        "text": "Volunteers repainted the walls bright blue.",
-        "rationale": "A new paint color describes the renovation but not increased popularity.",
-        "isCorrect": false
-      },
-      {
-        "text": "Weekend story times now reach the room's fire-code capacity of 80 people.",
-        "rationale": "Correct. A packed event shows more residents are visiting the library.",
-        "isCorrect": true
-      },
-      {
-        "text": "Staff added ten new parking spaces.",
-        "rationale": "More parking is a renovation detail, not proof that more people actually came inside.",
-        "isCorrect": false
-      },
-      {
-        "text": "The library unveiled a new logo.",
-        "rationale": "A logo change is cosmetic and does not show that attendance increased.",
-        "isCorrect": false
-      }
+    questionNumber: 5, type: 'multipleChoice', difficulty: 'hard',
+    passage: "An editorial board endorses a ballot measure to fund a new light rail line, arguing it will ease traffic, reduce emissions, and stimulate economic development along the route. A transit economist questions one premise: 'Light rail stimulates development only when there is already significant demand density. In low-density suburban corridors, multiple studies find that transit-oriented development rarely materialises without additional zoning changes and density incentives.'",
+    question: "The economist is challenging the editorial board's argument on which grounds?",
+    answerOptions: [
+      { text: "Light rail is too expensive to build.", isCorrect: false, rationale: "Cost is not the economist's point." },
+      { text: "The claim that economic development will follow light rail is conditional on density and zoning, which the editorial ignores.", isCorrect: true, rationale: "The economist identifies a hidden assumption — that development follows transit — and shows it only holds under specific conditions." },
+      { text: "Traffic reduction from light rail has never been documented.", isCorrect: false, rationale: "The economist doesn't address traffic reduction claims." },
+      { text: "Ballot measures are an inappropriate way to fund infrastructure.", isCorrect: false, rationale: "The economist's critique is about evidence, not process." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "passage": "An op-ed claims that the city's ban on single-use plastics is already reducing pollution in the River Glen. The author points to a May water-quality report showing a 30% decrease in plastic fragments at three sampling sites compared with last year, posts photos of clear riverbanks on social media, notes that volunteers collected only 12 bags of trash at the latest cleanup instead of 20 the year before, and quotes a kayaker who says the water 'feels cleaner,' while acknowledging that heavy rain kept half the volunteers home.",
-    "question": "Which statement best explains why one piece of the author's evidence is less convincing?",
-    "answerOptions": [
-      {
-        "text": "A government report showing a 30% decrease provides reliable support for the claim.",
-        "rationale": "This statement praises strong evidence rather than pointing out a weakness.",
-        "isCorrect": false
-      },
-      {
-        "text": "Photos on social media clearly prove the river is now pollution-free.",
-        "rationale": "The photos are anecdotal and cannot fully prove the claim, so this statement overstates their value.",
-        "isCorrect": false
-      },
-      {
-        "text": "Comparing the number of trash bags is weak because the rainy weather kept half the volunteers from attending the newer cleanup.",
-        "rationale": "Correct. The change in volunteer turnout makes this evidence unreliable.",
-        "isCorrect": true
-      },
-      {
-        "text": "A kayaker's comment counts as scientific proof because it is a firsthand observation.",
-        "rationale": "One person's impression is anecdotal and does not provide scientific proof.",
-        "isCorrect": false
-      }
+    questionNumber: 6, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A food company advertises: 'Clinical studies show that people who eat our oat brand daily lost an average of 5 pounds over 12 weeks!' The fine print: participants also followed a 1,500-calorie-per-day diet plan provided by the study team and were monitored weekly by a dietitian.",
+    question: "Why does the fine print undermine the advertisement's implied claim?",
+    answerOptions: [
+      { text: "The oat brand is not a real food.", isCorrect: false, rationale: "Whether the food is real is not the issue." },
+      { text: "The weight loss likely results from the calorie-restricted diet and dietitian oversight, not specifically from eating the oat brand.", isCorrect: true, rationale: "Confounding conditions (calorie plan + professional monitoring) mean the oats cannot be isolated as the cause." },
+      { text: "Twelve weeks is too long for a valid study.", isCorrect: false, rationale: "12 weeks is a standard timeframe for nutrition studies." },
+      { text: "5 pounds of weight loss is unhealthy.", isCorrect: false, rationale: "5 pounds over 12 weeks is a moderate, medically accepted rate of weight loss." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "passage": "During a workforce summit, the director of the Metro Internship Initiative claims the program prepares high school seniors for full-time jobs. She reports that interns rotate through three departments over ten weeks, twelve local companies now host placements, and eighty-five percent of last year's participants earned industry-recognized certifications by graduation.",
-    "question": "Which additional piece of evidence would most strengthen the director's claim that the program prepares seniors for full-time jobs?",
-    "answerOptions": [
-      {
-        "text": "Survey results showing that 70% of graduates received job offers from their host companies within three months.",
-        "rationale": "Correct. Job offer data would directly demonstrate readiness for full-time work.",
-        "isCorrect": true
-      },
-      {
-        "text": "A description of the program's new logo and marketing materials.",
-        "rationale": "Branding information does not show whether students are ready for employment.",
-        "isCorrect": false
-      },
-      {
-        "text": "Details about the traffic students face when commuting to their internships.",
-        "rationale": "Commuting challenges are unrelated to proving job preparation.",
-        "isCorrect": false
-      },
-      {
-        "text": "A reminder that the internships are optional for seniors.",
-        "rationale": "Whether participation is optional does not provide evidence of job readiness.",
-        "isCorrect": false
-      }
+    questionNumber: 7, type: 'multipleChoice', difficulty: 'hard',
+    passage: "In a congressional hearing, a tech executive testifies: 'We should not be blamed for harmful content on our platform. We are just a platform, like the post office — we don't write the letters people send.' A senator responds: 'The post office does not algorithmically recommend letters to you, amplify the most outrage-inducing ones, and profit from the time those letters keep you engaged.'",
+    question: "The senator's response works by:",
+    answerOptions: [
+      { text: "Agreeing that the tech company is like the post office.", isCorrect: false, rationale: "The senator explicitly rejects this analogy." },
+      { text: "Disproving that harmful content exists on the platform.", isCorrect: false, rationale: "Content existence isn't the argument." },
+      { text: "Identifying a false analogy — showing that the tech company, unlike a passive mail carrier, actively shapes and profits from content distribution.", isCorrect: true, rationale: "The senator dismantles the analogy by listing active interventions (algorithms, amplification, profit motive) that distinguish the tech company from a neutral carrier." },
+      { text: "Arguing that the post office also causes harm.", isCorrect: false, rationale: "The senator isn't attacking the post office; they're defending why the comparison doesn't hold." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "passage": "A student council newsletter claims the recycling drive was more successful this spring than last fall. It reports that last fall students collected 250 pounds of materials, while this spring they collected 410 pounds. The article also mentions that art students designed new posters and that the principal praised the volunteers during morning announcements.",
-    "question": "Which fact from the newsletter best supports the claim that the spring recycling drive was more successful?",
-    "answerOptions": [
-      {
-        "text": "Art students designed new posters for the drive.",
-        "rationale": "New posters describe publicity efforts, not results.",
-        "isCorrect": false
-      },
-      {
-        "text": "The principal praised the volunteers during morning announcements.",
-        "rationale": "A compliment from the principal does not measure the drive's success.",
-        "isCorrect": false
-      },
-      {
-        "text": "Students collected 410 pounds this spring compared with 250 pounds last fall.",
-        "rationale": "Correct. The larger collection total shows the drive was more successful.",
-        "isCorrect": true
-      },
-      {
-        "text": "The recycling drive took place in the spring.",
-        "rationale": "Knowing the season does not explain how much was collected.",
-        "isCorrect": false
-      }
+    questionNumber: 8, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A public defender argues against mandatory minimum sentencing for non-violent drug offences: 'Studies show mandatory minimums have not deterred drug use, cost states an average of \$35,000 per inmate annually, and disproportionately impact communities of colour due to disparities in policing and charging decisions — a documented pattern in federal sentencing commissions' own data.'
+
+A prosecutor responds: 'Dangerous criminals must face serious consequences. Without mandatory minimums, judges give criminals a pass, and crime rates soar.'",
+    question: "Evaluate the prosecutor's response. Which weakness is most significant?",
+    answerOptions: [
+      { text: "The prosecutor does not mention the cost of incarceration.", isCorrect: false, rationale: "Omitting a cost argument isn't the primary logical flaw." },
+      { text: "The prosecutor uses emotionally charged language ('dangerous criminals,' 'crime rates soar') without providing evidence to rebut the defender's specific data points.", isCorrect: true, rationale: "The defender cited studies and commission data; the prosecutor responds with generalisations and fear-based language rather than addressing the evidence." },
+      { text: "The prosecutor is not a public defender and thus lacks standing to disagree.", isCorrect: false, rationale: "Professional role doesn't determine argument validity." },
+      { text: "The prosecutor's point about crime rates is factually false.", isCorrect: false, rationale: "We can identify the logical weakness without declaring the claim factually false." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "passage": "A research summary argues that the district's new reading intervention is raising comprehension scores for ninth graders. It cites a randomized trial in which participating students improved their average comprehension score by twelve percentage points over a semester, includes a teacher testimonial praising the program's structured lessons, presents districtwide attendance records showing fewer tardies, and reports benchmark exam gains from another district that adopted the program last year.",
-    "question": "Which piece of evidence is least relevant to the claim that the intervention raises comprehension scores?",
-    "answerOptions": [
-      {
-        "text": "Results from the randomized trial showing a twelve-point improvement in comprehension.",
-        "rationale": "This directly measures comprehension gains and supports the claim.",
-        "isCorrect": false
-      },
-      {
-        "text": "A teacher testimonial praising the program's structured lessons.",
-        "rationale": "A teacher's experience relates to how the program affects classroom learning, so it is relevant.",
-        "isCorrect": false
-      },
-      {
-        "text": "Districtwide attendance records showing fewer tardies.",
-        "rationale": "Correct. Attendance data may be positive but does not address reading comprehension.",
-        "isCorrect": true
-      },
-      {
-        "text": "Benchmark exam gains from another district that adopted the program last year.",
-        "rationale": "Similar gains elsewhere help corroborate the claim about reading improvement.",
-        "isCorrect": false
-      }
+    questionNumber: 9, type: 'multipleChoice', difficulty: 'hard',
+    passage: "From a 2025 policy analysis on universal basic income (UBI) pilots:
+
+'In a two-year UBI pilot in Stockton, California, recipients who received \$500/month showed a 40% increase in full-time employment compared to the control group. Reported mental health improved significantly, and recipients were more likely to pursue education or job training. Critics note the pilot involved only 125 participants and required external philanthropic funding — making scalability to a national programme unclear.'",
+    question: "A senator uses the Stockton data to argue for a national UBI programme. Which additional evidence would most strengthen that argument?",
+    answerOptions: [
+      { text: "Evidence that Stockton is a wealthy city with low unemployment.", isCorrect: false, rationale: "If Stockton is already prosperous, it would make the results harder to generalise to struggling areas — this would weaken, not strengthen, the argument." },
+      { text: "Larger-scale pilots from multiple regions and income levels showing similar employment and health outcomes, with analysis of the fiscal model for national funding.", isCorrect: true, rationale: "The two main critiques are small sample size and funding scalability — this addresses both." },
+      { text: "Personal testimonials from Stockton participants.", isCorrect: false, rationale: "Anecdotes don't address the scale or funding critiques." },
+      { text: "Evidence that \$500/month is too low, so a higher amount should be tested.", isCorrect: false, rationale: "This introduces a new version of the programme rather than strengthening the existing evidence." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "passage": "A city planner's memo argues that extending bus service past midnight will help late-shift workers. The memo notes that ridership on the pilot route increased 18% after an 11 p.m. trip was added, the local hospital reported that 45 employees rely on the bus to reach midnight shifts, and several drivers observed empty seats on early-evening runs.",
-    "question": "Which piece of evidence best supports the planner's claim that later bus service helps late-shift workers?",
-    "answerOptions": [
-      {
-        "text": "Ridership increased 18% after the 11 p.m. trip was added.",
-        "rationale": "Higher ridership is positive, but it does not specifically focus on late-shift workers.",
-        "isCorrect": false
-      },
-      {
-        "text": "Drivers observed that some early-evening runs still have empty seats.",
-        "rationale": "Empty seats earlier in the evening do not address whether late workers benefit.",
-        "isCorrect": false
-      },
-      {
-        "text": "The local hospital reported that 45 employees rely on the bus to reach midnight shifts.",
-        "rationale": "Correct. This directly shows that late-shift workers depend on the extended service.",
-        "isCorrect": true
-      },
-      {
-        "text": "The memo includes a map of the route that was extended.",
-        "rationale": "A map is informative but does not prove the service helps late-shift workers.",
-        "isCorrect": false
-      }
+    questionNumber: 10, type: 'multipleChoice', difficulty: 'hard',
+    passage: "An opponent of a proposed carbon tax argues: 'This tax is bad — it punishes working families who have to drive to work. And besides, China emits more carbon than we do, so American reductions won't solve the problem anyway.'
+
+Identify the logical fallacy used in the second part of the argument ('China emits more…').",
+    question: "Which fallacy is used?",
+    answerOptions: [
+      { text: "Ad hominem — attacking the character of the tax's sponsors.", isCorrect: false, rationale: "Ad hominem attacks a person, not a competing action by another country." },
+      { text: "Tu quoque (appeal to hypocrisy) — arguing that America need not act because another party also causes the problem.", isCorrect: true, rationale: "Pointing to China's emissions to excuse American inaction is a classic tu quoque fallacy — 'you/they do it too.'" },
+      { text: "False dilemma — suggesting there are only two options.", isCorrect: false, rationale: "No two-choice framing is presented here." },
+      { text: "Hasty generalisation — drawing a broad conclusion from limited evidence.", isCorrect: false, rationale: "The argument isn't a generalisation; it's a deflection." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "passage": "An essay argues that requiring seniors to complete a capstone research project improves their college readiness. The writer explains that students select their own topics, meet weekly with faculty mentors, and present findings to a panel before graduation.",
-    "question": "Which additional detail would best strengthen the writer's argument?",
-    "answerOptions": [
-      {
-        "text": "Data showing that 82% of capstone graduates passed first-year college writing compared with 60% of seniors who did not complete the project.",
-        "rationale": "Correct. Comparative results demonstrate that the project improves college performance.",
-        "isCorrect": true
-      },
-      {
-        "text": "A quote about how long the panel presentations usually last.",
-        "rationale": "Presentation length does not reveal whether students are better prepared for college.",
-        "isCorrect": false
-      },
-      {
-        "text": "A reminder that the school's colors are blue and gold.",
-        "rationale": "School colors are unrelated to the effectiveness of the capstone project.",
-        "isCorrect": false
-      },
-      {
-        "text": "A joke about staying up late to finish the project on time.",
-        "rationale": "Humor about procrastination does not provide supporting evidence.",
-        "isCorrect": false
-      }
+    questionNumber: 11, type: 'multipleChoice', difficulty: 'hard',
+    passage: "Passage A: A school board member argues that banning cellphones in classrooms improves academic focus and test scores, citing a London School of Economics study showing a 6.4% improvement in test scores in schools that banned phones.
+
+Passage B: An education technology researcher argues that smartphones, when used with structured teacher guidance, improve research skills, engagement, and equity — allowing students without home computers to access academic resources.",
+    question: "A student writing a balanced analysis of both passages should acknowledge that:",
+    answerOptions: [
+      { text: "Passage B proves Passage A's study is wrong.", isCorrect: false, rationale: "They don't address the same conditions — one is about unstructured phone use, the other about guided use." },
+      { text: "The two passages may not be contradictory — Passage A concerns unguided phone use as a distraction, while Passage B concerns structured, teacher-directed use as a tool.", isCorrect: true, rationale: "Context matters: the LSE study likely measures distraction in unguided settings, while the researcher describes intentional use — different scenarios." },
+      { text: "Both passages agree that phones improve test scores.", isCorrect: false, rationale: "Passage A specifically found improved scores after a phone BAN." },
+      { text: "Technology should be banned from all schools.", isCorrect: false, rationale: "This goes beyond what either passage argues." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "passage": "During a neighborhood meeting, an environmental advocate insists that planting street trees reduces summer energy bills. She cites an energy audit showing that homes on tree-lined blocks used 15% less electricity last July than comparable blocks without trees, refers to a brochure from the Parks Department describing recommended species to plant, and mentions that she personally enjoys the shade from the new trees on her street.",
-    "question": "Which statement best evaluates the effectiveness of the evidence she provides?",
-    "answerOptions": [
-      {
-        "text": "The energy audit comparing electricity use directly supports her claim.",
-        "rationale": "Correct. The audit supplies concrete data linking trees to lower energy bills.",
-        "isCorrect": true
-      },
-      {
-        "text": "The Parks Department brochure proves her claim because it lists tree species.",
-        "rationale": "A brochure offers planting tips, not proof that bills decrease.",
-        "isCorrect": false
-      },
-      {
-        "text": "Her personal enjoyment of shade is the strongest proof that energy bills dropped.",
-        "rationale": "Enjoying shade is subjective and does not measure energy savings.",
-        "isCorrect": false
-      },
-      {
-        "text": "Because trees look attractive, the evidence automatically convinces the audience.",
-        "rationale": "Visual appeal does not evaluate whether the evidence supports the claim.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  }
 ];

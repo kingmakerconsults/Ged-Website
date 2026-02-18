@@ -61,40 +61,59 @@ function normalizeSubjectName(name) {
 function deriveCategoryFor(subject, item) {
   const title = String(item?.title || item?.topic || '').toLowerCase();
   const id = String(item?.id || '').toLowerCase();
+
+  // Image-based quizzes → special category
+  if (/_img_/.test(id) || id.startsWith('img_')) return 'Image Based Practice';
+  // Diagnostics
+  if (id.startsWith('diag_')) return 'Diagnostic';
+  // Tool demos
+  if (/_tool_demo/.test(id)) return 'Interactive Demos';
+
   if (subject === 'Social Studies') {
     const civics = [
-      'constitution',
-      'bill-of-rights',
-      'elections',
-      'federalism',
-      'judicial',
-      'executive',
-      'legislative',
-      'civics',
-      'government',
+      'constitution', 'bill-of-rights', 'bill_of_rights', 'elections',
+      'federalism', 'judicial', 'executive', 'legislative',
+      'civics', 'government', 'separation', 'lawmaking', 'supreme_court',
+      'reading_sources',
     ];
     if (civics.some((k) => title.includes(k) || id.includes(k)))
       return 'Civics & Government';
+    if (/econ/.test(id) || /econom/.test(title)) return 'Economics';
+    if (/geo/.test(id) && /ss_geo/.test(id)) return 'Geography & the World';
+    if (/geography|map.skill/.test(title)) return 'Geography & the World';
     return 'U.S. History';
   }
   if (subject === 'Math') {
-    if (/(algebra|equation|expression|polynomial|linear|quadratic)/.test(title))
-      return 'Algebraic Problem Solving';
-    if (/(geometry|angle|triang|circle|perimeter|area|volume)/.test(title))
-      return 'Geometry';
-    return 'Quantitative Problem Solving';
+    if (/(algebra|equation|expression|polynomial|linear|quadratic)/.test(title) ||
+        /math_alg|math_algebra|math_graphs/.test(id))
+      return 'Algebra & Functions';
+    if (/(geometry|angle|triang|circle|perimeter|area|volume)/.test(title) ||
+        /math_geom|math_geometry/.test(id))
+      return 'Geometry & Measurement';
+    if (/(data|statistic|probability)/.test(title) ||
+        /math_data|math_quant_stats|math_quant_bar/.test(id))
+      return 'Data Analysis & Probability';
+    return 'Number Sense & Operations';
   }
   if (subject === 'Science') {
-    if (/(cell|ecosystem|biology|life)/.test(title)) return 'Life Science';
-    if (/(earth|space|planet|astronomy)/.test(title))
+    if (/(cell|ecosystem|biology|life|genetics|heredity|evolution|ecology)/.test(title) ||
+        /sci_life|sci_ecosystem|sci_genetics/.test(id))
+      return 'Life Science';
+    if (/(earth|space|planet|astronomy|geology|weather|climate|rock)/.test(title) ||
+        /sci_earth|sci_space/.test(id))
       return 'Earth & Space Science';
-    if (/(data|measurement|numeracy|graph)/.test(title))
-      return 'Scientific Numeracy';
+    if (/(data|measurement|numeracy|graph|scientific.practice|experimental)/.test(title) ||
+        /sci_data|sci_scientific|sci_numeracy/.test(id))
+      return 'Scientific Practices';
     return 'Physical Science';
   }
   if (subject === 'Reasoning Through Language Arts (RLA)') {
-    if (/(grammar|usage|conventions|punctuation|writing)/.test(title))
-      return 'Language & Writing';
+    if (/(extended.response|essay|constructed.response|writing)/.test(title) ||
+        /rla_extended|rla_writing/.test(id))
+      return 'Writing & Analysis';
+    if (/(grammar|usage|conventions|punctuation|editing|language)/.test(title) ||
+        /rla_grammar|rla_lang|rla_convention/.test(id))
+      return 'Language & Grammar';
     return 'Reading Comprehension';
   }
   return 'General';

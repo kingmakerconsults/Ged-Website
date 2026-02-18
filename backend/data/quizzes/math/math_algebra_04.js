@@ -1,44 +1,30 @@
+// Algebra & Functions — Core Skills: Practice 4
+// 10 questions | two-step equations, slope, word problems
 module.exports = [
   {
     questionNumber: 1,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
+    type: 'multipleChoice',
+    calculator: false,
     difficulty: 'easy',
-    question: 'Solve for y: \\(y + 12 = 20\\).',
-    correctAnswer: '8',
-    rationale: 'Subtract 12 from both sides of the equation: 20 - 12 = 8.',
+    question: 'A plumber charges a \\$25 flat fee plus \\$40 per hour. Which equation represents the total cost \\(C\\) for \\(h\\) hours?',
+    answerOptions: [
+      { text: '\\(C = 40h\\)', isCorrect: false, rationale: 'This omits the flat fee.' },
+      { text: '\\(C = 40h + 25\\)', isCorrect: true, rationale: 'Rate × hours + flat fee = 40h + 25.' },
+      { text: '\\(C = 25h + 40\\)', isCorrect: false, rationale: 'This swaps the rate and the flat fee.' },
+      { text: '\\(C = 65h\\)', isCorrect: false, rationale: 'Adding the two constants together is incorrect; one is a rate and one is a fixed amount.' },
+    ],
+    rationale: 'Total cost = (rate per hour × hours) + flat fee = 40h + 25.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 2,
-    type: 'multipleChoice',
-    calculator: false,
+    type: 'fillIn',
+    inputCalculator: true,
+    calculator: true,
     difficulty: 'easy',
-    question: 'Evaluate \\(15 - 2b\\) for b = 6.',
-    answerOptions: [
-      {
-        text: '3',
-        isCorrect: true,
-        rationale: "Substitute 6 for 'b': 15 - 2(6) = 15 - 12 = 3.",
-      },
-      {
-        text: '9',
-        isCorrect: false,
-        rationale: 'This is 15-6.',
-      },
-      {
-        text: '13',
-        isCorrect: false,
-        rationale: 'This is 15-2.',
-      },
-      {
-        text: '78',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-    ],
-    rationale: 'Substitute 6 for b in the expression: 15 - 2(6) = 15 - 12 = 3.',
+    question: 'Solve for \\(x\\): \\(5x - 9 = 21\\).',
+    correctAnswer: '6',
+    rationale: 'Add 9 to both sides: 5x = 30. Divide by 5: x = 6.',
     challenge_tags: ['math-3'],
   },
   {
@@ -46,120 +32,70 @@ module.exports = [
     type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve for x: \\(-5x - 4 = 11\\).',
+    question: 'Solve for \\(m\\): \\(3m + 8 = -4\\).',
     answerOptions: [
-      {
-        text: '-3',
-        isCorrect: true,
-        rationale: 'Add 4 to both sides: -5x = 15. Divide by -5: x = -3.',
-      },
-      {
-        text: '3',
-        isCorrect: false,
-        rationale: 'This ignores the negative sign on the 5.',
-      },
-      {
-        text: '-1.4',
-        isCorrect: false,
-        rationale: 'This is the result if you subtract 4.',
-      },
-      {
-        text: '-15',
-        isCorrect: false,
-        rationale: 'This is -5x.',
-      },
+      { text: '-4', isCorrect: true, rationale: 'Subtract 8: 3m = -12. Divide by 3: m = -4.' },
+      { text: '4', isCorrect: false, rationale: 'Sign error — the result is negative.' },
+      { text: '-\\frac{4}{3}', isCorrect: false, rationale: 'This divides before subtracting 8.' },
+      { text: '12', isCorrect: false, rationale: 'This adds 8 instead of subtracting.' },
     ],
-    rationale:
-      'First, add 4 to both sides: -5x = 11 + 4, so -5x = 15. Then, divide by -5: x = 15 / -5 = -3.',
+    rationale: 'Subtract 8 from both sides: 3m = -12. Divide by 3: m = -4.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 4,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
+    type: 'multipleChoice',
+    calculator: false,
     difficulty: 'medium',
-    question: 'Simplify: \\(x(x + 5) - 3x\\).',
-    correctAnswer: '\\(x^2\\) + 2x',
-    rationale:
-      'First, distribute x: \\(x^{2}\\) + 5x - 3x. Then, combine like terms: \\(x^{2}\\) + 2x.',
+    question: 'What is the slope of the line passing through \\((2, 1)\\) and \\((6, 9)\\)?',
+    answerOptions: [
+      { text: '2', isCorrect: true, rationale: 'Slope = (9 - 1) / (6 - 2) = 8 / 4 = 2.' },
+      { text: '4', isCorrect: false, rationale: 'This is the rise (change in y) without dividing by the run.' },
+      { text: '\\frac{1}{2}', isCorrect: false, rationale: 'This inverts the rise-over-run formula.' },
+      { text: '8', isCorrect: false, rationale: 'This is the difference in y-values only.' },
+    ],
+    rationale: 'Slope = (y₂ - y₁) / (x₂ - x₁) = (9 - 1) / (6 - 2) = 8 / 4 = 2.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 5,
-    type: 'multipleChoice',
-    calculator: false,
+    type: 'fillIn',
+    inputCalculator: true,
+    calculator: true,
     difficulty: 'medium',
-    question:
-      'Which of the following equations has a slope of 2 and a y-intercept of -3?',
-    answerOptions: [
-      {
-        text: '\\(y = -3x + 2\\)',
-        isCorrect: false,
-        rationale: 'This has a slope of -3 and a y-intercept of 2.',
-      },
-      {
-        text: '\\(y = 2x - 3\\)',
-        isCorrect: true,
-        rationale:
-          'This matches the slope-intercept form y = mx + b with m=2 and b=-3.',
-      },
-      {
-        text: '\\(y = 2x + 3\\)',
-        isCorrect: false,
-        rationale: 'This has a y-intercept of 3.',
-      },
-      {
-        text: '\\(y = 3x - 2\\)',
-        isCorrect: false,
-        rationale: 'This has a slope of 3 and a y-intercept of -2.',
-      },
-    ],
-    rationale:
-      "The slope-intercept form of a linear equation is y = mx + b, where 'm' is the slope and 'b' is the y-intercept. The equation with m=2 and b=-3 is y = 2x - 3.",
+    question: 'Solve for \\(n\\): \\(\\frac{n + 4}{3} = 6\\).',
+    correctAnswer: '14',
+    rationale: 'Multiply both sides by 3: n + 4 = 18. Subtract 4: n = 14.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 6,
     type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'Find the x-intercept of the line \\(5x - 3y = 15\\).',
+    calculator: false,
+    difficulty: 'medium',
+    question: 'Which point lies on the line \\(y = 2x - 5\\)?',
     answerOptions: [
-      {
-        text: '3',
-        isCorrect: true,
-        rationale: 'Set y=0: 5x = 15. So x=3.',
-      },
-      {
-        text: '-5',
-        isCorrect: false,
-        rationale: 'This is the y-intercept.',
-      },
-      {
-        text: '5',
-        isCorrect: false,
-        rationale: 'This is the coefficient of x.',
-      },
-      {
-        text: '-3',
-        isCorrect: false,
-        rationale: 'This is the coefficient of y.',
-      },
+      { text: '(3, 1)', isCorrect: true, rationale: 'y = 2(3) - 5 = 6 - 5 = 1. ✓' },
+      { text: '(2, 0)', isCorrect: false, rationale: 'y = 2(2) - 5 = -1, not 0.' },
+      { text: '(0, 5)', isCorrect: false, rationale: 'y = 2(0) - 5 = -5, not 5.' },
+      { text: '(4, 4)', isCorrect: false, rationale: 'y = 2(4) - 5 = 3, not 4.' },
     ],
-    rationale:
-      'To find the x-intercept, set y = 0. The equation becomes 5x - 3(0) = 15, so 5x = 15. Divide by 5 to get x = 3.',
+    rationale: 'Test (3, 1): y = 2(3) - 5 = 1. ✓ Only this point satisfies the equation.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 7,
-    type: 'fillIn',
-    inputCalculator: true,
+    type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Solve the inequality: \\(4x - 5 < 11\\).',
-    correctAnswer: 'x < 4',
-    rationale: 'Add 5 to both sides: 4x < 16. Divide by 4: x < 4.',
+    question: 'A store sells notebooks for \\$3 each and pens for \\$1.50 each. Marcus buys 4 notebooks and some pens spending \\$18 total. How many pens did he buy?',
+    answerOptions: [
+      { text: '4', isCorrect: true, rationale: 'Notebooks cost 4 × \$3 = \$12. Remaining: \$18 - \$12 = \$6. Pens: \$6 / \$1.50 = 4.' },
+      { text: '6', isCorrect: false, rationale: 'This ignores the notebook cost.' },
+      { text: '2', isCorrect: false, rationale: 'This uses an incorrect remaining amount.' },
+      { text: '8', isCorrect: false, rationale: 'This divides the total by the pen price without accounting for notebooks.' },
+    ],
+    rationale: '4 × 3 = 12. Remaining = 18 - 12 = 6. Pens = 6 / 1.50 = 4.',
     challenge_tags: ['math-3'],
   },
   {
@@ -167,145 +103,40 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'hard',
-    question: 'If \\(f(x) = |2x - 8|\\), what is \\(f(3)\\)?',
+    question: 'If \\(f(x) = 4x - 3\\), what value of \\(x\\) makes \\(f(x) = 13\\)?',
     answerOptions: [
-      {
-        text: '-2',
-        isCorrect: false,
-        rationale: 'The result of absolute value is always non-negative.',
-      },
-      {
-        text: '2',
-        isCorrect: true,
-        rationale: 'f(3) = |2(3) - 8| = |6 - 8| = |-2| = 2.',
-      },
-      {
-        text: '14',
-        isCorrect: false,
-        rationale: 'This is |2(3)+8|.',
-      },
-      {
-        text: '-14',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
+      { text: '4', isCorrect: true, rationale: '4(4) - 3 = 16 - 3 = 13. ✓' },
+      { text: '\\frac{10}{4}', isCorrect: false, rationale: 'This adds 3 first and then divides incorrectly.' },
+      { text: '3', isCorrect: false, rationale: '4(3) - 3 = 9 ≠ 13.' },
+      { text: '5', isCorrect: false, rationale: '4(5) - 3 = 17 ≠ 13.' },
     ],
-    rationale:
-      'Substitute 3 for x: f(3) = |2(3) - 8| = |6 - 8| = |-2|. The absolute value of -2 is 2.',
+    rationale: 'Set f(x) = 13: 4x - 3 = 13 → 4x = 16 → x = 4.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 9,
-    type: 'fillIn',
-    inputCalculator: true,
+    type: 'multipleChoice',
     calculator: true,
-    difficulty: 'medium',
-    question:
-      'What is the slope of the line that is perpendicular to the line passing through (2, 2) and (5, 8)?',
-    correctAnswer: '-\\frac{1}{2}',
-    rationale:
-      'First, find the slope of the line: m = (8-2)/(5-2) = \\(\\frac{6}{3}\\) = 2. The slope of a perpendicular line is the negative reciprocal, which is -\\(\\frac{1}{2}\\).',
+    difficulty: 'hard',
+    question: 'A gym membership costs \\$50 to join and \\$30 per month. A second gym has no joining fee but costs \\$40 per month. After how many months will the two gyms cost the same total?',
+    answerOptions: [
+      { text: '3', isCorrect: false, rationale: 'Gym 1: 50+90=140. Gym 2: 120. Not equal.' },
+      { text: '5', isCorrect: true, rationale: 'Gym 1: 50 + 30(5) = 200. Gym 2: 40(5) = 200. Equal!' },
+      { text: '7', isCorrect: false, rationale: 'Gym 1: 260. Gym 2: 280. Already past break-even.' },
+      { text: '10', isCorrect: false, rationale: 'Gym 1: 350. Gym 2: 400. Past break-even.' },
+    ],
+    rationale: '50 + 30m = 40m → 50 = 10m → m = 5 months.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 10,
-    type: 'multipleChoice',
+    type: 'fillIn',
+    inputCalculator: true,
     calculator: true,
-    difficulty: 'medium',
-    question:
-      "A taxi charges a \\(3\\) flat fee plus \\(2\\) per mile. Which equation represents the total cost C for a trip of 'm' miles?",
-    answerOptions: [
-      {
-        text: 'C = 3m + 2',
-        isCorrect: false,
-        rationale: 'This reverses the flat fee and the per-mile charge.',
-      },
-      {
-        text: 'C = 2m + 3',
-        isCorrect: true,
-        rationale:
-          'The total cost is the variable charge (2m) plus the fixed fee (3).',
-      },
-      {
-        text: 'C = 5m',
-        isCorrect: false,
-        rationale: 'This combines the charges incorrectly.',
-      },
-      {
-        text: 'C = 3(m+2)',
-        isCorrect: false,
-        rationale: 'This is an incorrect representation.',
-      },
-    ],
-    rationale:
-      'The total cost is the sum of the flat fee (\\(3\\)) and the variable charge, which is \\(2\\) per mile times the number of miles (m). So, C = 2m + 3.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 11,
-    type: 'multipleChoice',
-    calculator: false,
     difficulty: 'hard',
-    question:
-      'What is the solution set for the equation \\(x^2 - 6x + 5 = 0\\)?',
-    answerOptions: [
-      {
-        text: '{1, 5}',
-        isCorrect: true,
-        rationale:
-          'Factor the quadratic to (x-1)(x-5)=0. The solutions are x=1 and x=5.',
-      },
-      {
-        text: '{-1, -5}',
-        isCorrect: false,
-        rationale: 'This gives a middle term of +6x.',
-      },
-      {
-        text: '{1, -5}',
-        isCorrect: false,
-        rationale: 'This gives a constant term of -5.',
-      },
-      {
-        text: '{-1, 5}',
-        isCorrect: false,
-        rationale: 'This gives a constant term of -5.',
-      },
-    ],
-    rationale:
-      'To solve the quadratic equation, factor the trinomial. We need two numbers that multiply to 5 and add to -6. These are -1 and -5. So, (x - 1)(x - 5) = 0. The solutions are x = 1 and x = 5.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 12,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'easy',
-    question: 'Simplify: \\(\\frac{x^8}{x^2}\\)',
-    answerOptions: [
-      {
-        text: '\\(x^4\\)',
-        isCorrect: false,
-        rationale: 'This is the result of dividing the exponents.',
-      },
-      {
-        text: '\\(x^6\\)',
-        isCorrect: true,
-        rationale:
-          'When dividing powers with the same base, subtract the exponents: 8 - 2 = 6.',
-      },
-      {
-        text: '\\(x^{10}\\)',
-        isCorrect: false,
-        rationale: 'This is the result of adding the exponents.',
-      },
-      {
-        text: '\\(x^{16}\\)',
-        isCorrect: false,
-        rationale: 'This is the result of multiplying the exponents.',
-      },
-    ],
-    rationale:
-      'When dividing exponential expressions with the same base, you subtract the exponents. So, \\(\\frac{x^8}{x^2}\\) = \\(x^{8-2}\\) = \\(x^6\\).',
+    question: 'The y-intercept of the line \\(4x - 2y = 12\\) is the point (0, ?). What is the y-coordinate?',
+    correctAnswer: '-6',
+    rationale: 'Set x = 0: -2y = 12 → y = -6.',
     challenge_tags: ['math-3'],
   },
 ];

@@ -126,6 +126,7 @@ function buildAllQuizzes() {
       title: entry.topic.title || entry.topic.id,
       description: entry.topic.description || '',
       type: entry.topic.type || (config && config.type) || null,
+      tier: entry.topic.tier || null,
       config: config ? { ...config } : null,
       questions: q,
     };

@@ -1,387 +1,128 @@
-// Imported from frontend/Expanded
+// Reading Comprehension — Core Skills: Practice 4 / Main Idea
+// 10 questions | inference, author purpose, structure, longer passages 80-120 words
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "Effective immediately, all employees must display their ID badges at all times while in the building. This policy is being enforced to enhance security. Please ensure your badge is visible and not in a pocket or bag. Anyone without a visible badge will be stopped by security. Thank you for your cooperation.",
-    "question": "What is the main idea of this memo?",
-    "answerOptions": [
-      {
-        "text": "Security will stop anyone without a badge.",
-        "rationale": "This is a consequence of the policy, not the main policy itself.",
-        "isCorrect": false
-      },
-      {
-        "text": "Employees must wear and display their ID badges at all times for security reasons.",
-        "rationale": "Correct. This statement summarizes the central rule, its requirement, and its purpose.",
-        "isCorrect": true
-      },
-      {
-        "text": "Do not keep your badge in a pocket or bag.",
-        "rationale": "This is a specific instruction to clarify what 'visible' means, not the main idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "The company is enhancing its security.",
-        "rationale": "This is the reason for the policy, but the main idea is the policy itself.",
-        "isCorrect": false
-      }
+    questionNumber: 1, type: 'multipleChoice', difficulty: 'easy',
+    passage: "In the decades following World War II, the United States experienced a dramatic economic expansion. Returning veterans benefited from the GI Bill, which provided low-cost mortgages, tuition support, and job training. Suburban developments sprung up around major cities as families left urban centres in search of larger homes and safer neighbourhoods. This migration — often called 'white flight' — reshaped America's demographic landscape and had lasting effects on urban tax bases and school quality that persisted for generations.",
+    question: "What is the main idea of this passage?",
+    answerOptions: [
+      { text: "The GI Bill was the most important law in American history.", isCorrect: false, rationale: "The GI Bill is one detail among several; the passage doesn't make this superlative claim." },
+      { text: "Post-WWII economic expansion and the GI Bill triggered a suburban migration with lasting social consequences.", isCorrect: true, rationale: "The passage connects economic expansion, the GI Bill, suburban growth, and long-term effects — this is the complete main idea." },
+      { text: "Urban areas became poorer because veterans moved to cities.", isCorrect: false, rationale: "Veterans moved to suburbs, not cities; the detail is reversed." },
+      { text: "White flight caused World War II.", isCorrect: false, rationale: "Cause and effect are reversed — white flight followed WWII, not the reverse." },
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The common cold is a viral infection of the nose and throat. Symptoms typically include a runny nose, sneezing, and a sore throat. While there is no cure for the common cold, symptoms can be managed with rest, hydration, and over-the-counter medications. Most people recover in about a week.",
-    "question": "Which sentence best summarizes the passage?",
-    "answerOptions": [
-      {
-        "text": "There is no cure for the common cold.",
-        "rationale": "This is an important fact from the passage, but it doesn't cover the other information provided.",
-        "isCorrect": false
-      },
-      {
-        "text": "The common cold is a viral infection with symptoms like a runny nose and sore throat that can be managed with rest and medication.",
-        "rationale": "Correct. This sentence defines what a cold is, lists its main symptoms, and describes how it's treated, covering all the key points.",
-        "isCorrect": true
-      },
-      {
-        "text": "Symptoms of a cold include sneezing and a sore throat.",
-        "rationale": "This lists some of the symptoms, but it is not a summary of the entire passage.",
-        "isCorrect": false
-      },
-      {
-        "text": "Most people recover from a cold in about a week.",
-        "rationale": "This describes the typical duration of a cold, but it's not the main idea of the whole passage.",
-        "isCorrect": false
-      }
+    questionNumber: 2, type: 'multipleChoice', difficulty: 'easy',
+    passage: "Photosynthesis is the process by which plants, algae, and some bacteria convert light energy — usually from the sun — into chemical energy stored in glucose. This process uses carbon dioxide and water as raw materials and releases oxygen as a byproduct. Photosynthesis is the foundation of virtually all food chains on Earth, providing the organic matter that fuels nearly every ecosystem. Without it, life as we know it would not exist.",
+    question: "According to the passage, what is the most important reason to consider photosynthesis 'the foundation of virtually all food chains'?",
+    answerOptions: [
+      { text: "It uses carbon dioxide, which reduces air pollution.", isCorrect: false, rationale: "CO₂ use is a detail, not the reason it underpins food chains." },
+      { text: "It produces the oxygen that all animals breathe.", isCorrect: false, rationale: "Oxygen production is important but isn't the stated reason for underpinning food chains." },
+      { text: "It produces the organic matter (glucose) that fuels nearly every ecosystem.", isCorrect: true, rationale: "The passage explicitly connects food-chain foundation to organic matter production." },
+      { text: "It requires sunlight, which is unlimited.", isCorrect: false, rationale: "Sunlight is a raw material input, not the reason photosynthesis underpins food chains." },
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The Industrial Revolution, which began in the 18th century, marked a major turning point in history. It saw the transition from hand production methods to machines, new chemical manufacturing, and iron production processes. This shift led to a massive increase in the production of goods and spurred unprecedented economic growth. However, it also brought significant social changes, including the rise of cities, poor working conditions for many, and a new class structure.",
-    "question": "What is the main idea of the passage?",
-    "answerOptions": [
-      {
-        "text": "The Industrial Revolution began in the 18th century.",
-        "rationale": "This is the time frame, not the main idea about the event's impact.",
-        "isCorrect": false
-      },
-      {
-        "text": "The Industrial Revolution brought about significant economic growth and profound social changes.",
-        "rationale": "Correct. This statement captures the dual nature of the revolution's impact—both the positive economic effects and the significant social transformations.",
-        "isCorrect": true
-      },
-      {
-        "text": "The shift from hand production to machines was a key feature of the Industrial Revolution.",
-        "rationale": "This describes a central aspect of the revolution, but not its overall impact, which is the main idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "The rise of cities was a major social change during the Industrial Revolution.",
-        "rationale": "This is an example of one of the social changes, not the entire main point.",
-        "isCorrect": false
-      }
+    questionNumber: 3, type: 'multipleChoice', difficulty: 'medium',
+    passage: "For decades, urban planners in the United States prioritised car travel. Wide roads, generous parking requirements, and zoning that separated housing from commerce made walking or cycling impractical. By the 2000s, researchers documented a connection between car-dependent urban design and rising rates of obesity, social isolation, and air pollution. Cities like Portland, Oregon and Minneapolis, Minnesota began investing in light rail, protected bike lanes, and mixed-use zoning — and reported measurable improvements in physical activity rates, air quality, and business district vitality.",
+    question: "Based on the passage, what is the implied criticism of traditional urban planning?",
+    answerOptions: [
+      { text: "Traditional planners did not care about the environment.", isCorrect: false, rationale: "The passage implies their choices caused environmental harm; it doesn't claim planners were indifferent." },
+      { text: "Prioritising cars over human-scale design contributed to harmful public health, social, and environmental outcomes.", isCorrect: true, rationale: "This accurately reflects the implied argument based on the cause-and-effect structure of the passage." },
+      { text: "Urban planners were not qualified to make infrastructure decisions.", isCorrect: false, rationale: "No such claim is made or implied." },
+      { text: "All American cities must now copy Portland and Minneapolis.", isCorrect: false, rationale: "The passage uses those cities as examples, not as mandates for all cities." },
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "Conflict resolution skills are essential in both personal and professional settings. The ability to listen actively, communicate one's own needs clearly, and work collaboratively toward a mutually acceptable solution can prevent small disagreements from escalating into major disputes. These skills are not innate they must be learned and practiced. Training in mediation and negotiation can be highly beneficial for improving these abilities.",
-    "question": "Which sentence best expresses the main idea?",
-    "answerOptions": [
-      {
-        "text": "Active listening is an important skill.",
-        "rationale": "This is one of the specific skills mentioned, not the overall main idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "Conflict resolution skills are crucial for preventing disputes and can be developed through practice and training.",
-        "rationale": "Correct. This statement summarizes the importance of the skills, the fact that they can be learned, and how they can be developed.",
-        "isCorrect": true
-      },
-      {
-        "text": "Training in mediation can be very beneficial.",
-        "rationale": "This is a suggestion for how to improve the skills, not the main point about why they are important.",
-        "isCorrect": false
-      },
-      {
-        "text": "Disagreements can sometimes escalate into major disputes.",
-        "rationale": "This is the problem that conflict resolution skills help to prevent, not the main idea itself.",
-        "isCorrect": false
-      }
+    questionNumber: 4, type: 'multipleChoice', difficulty: 'medium',
+    passage: "The Dust Bowl of the 1930s was one of the worst ecological disasters in American history. Years of overfarming fragile Great Plains soil, combined with a prolonged drought, stripped the land of its natural grass cover. Without roots to hold it, the topsoil became loose and was swept into massive dust storms — 'black blizzards' — that darkened skies as far east as New York and Washington D.C. Hundreds of thousands of farming families abandoned their land. Many migrated west to California, where they faced discrimination and exploitative labour conditions.",
+    question: "What is the most accurate conclusion supported by the passage?",
+    answerOptions: [
+      { text: "The Dust Bowl was caused solely by drought.", isCorrect: false, rationale: "The passage identifies both overfarming AND drought as causes — 'solely' is inaccurate." },
+      { text: "Agricultural practices and drought combined to destabilise the Great Plains ecosystem, with devastating human and environmental consequences.", isCorrect: true, rationale: "This accurately captures the dual cause (farming + drought) and the consequences (ecological disaster, displacement, discrimination)." },
+      { text: "California farmers welcomed Dust Bowl migrants with support and jobs.", isCorrect: false, rationale: "The passage says migrants faced 'discrimination and exploitative labour conditions.'" },
+      { text: "The Dust Bowl was limited to the Great Plains region.", isCorrect: false, rationale: "Dust clouds reached as far east as New York and Washington D.C." },
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The phenomenon of 'plant blindness'—the tendency for humans to overlook plants in their own environment—has significant ecological consequences. When people do not notice or value the plant life around them, they are less likely to support conservation efforts. This cognitive bias means that funding for animal conservation often far outstrips that for plants, despite the fact that plants are the foundation of nearly every ecosystem on Earth. Overcoming plant blindness is a crucial step in promoting a more holistic approach to environmental protection.",
-    "question": "What is the central argument of the passage?",
-    "answerOptions": [
-      {
-        "text": "Funding for animal conservation is often greater than for plant conservation.",
-        "rationale": "This is a key piece of evidence for the main argument, but not the argument itself.",
-        "isCorrect": false
-      },
-      {
-        "text": "Plants are the foundation of nearly every ecosystem on Earth.",
-        "rationale": "This is a scientific fact used to support the argument, but it's not the main point about plant blindness.",
-        "isCorrect": false
-      },
-      {
-        "text": "The human tendency to ignore plants, known as 'plant blindness,' is a cognitive bias that hinders plant conservation and overall environmental protection.",
-        "rationale": "Correct. This statement defines the phenomenon, explains its negative consequences for conservation, and connects it to the broader issue of environmentalism.",
-        "isCorrect": true
-      },
-      {
-        "text": "People should pay more attention to the plants in their environment.",
-        "rationale": "This is the implied solution, but the main argument is about defining the problem and its consequences.",
-        "isCorrect": false
-      }
+    questionNumber: 5, type: 'multipleChoice', difficulty: 'medium',
+    passage: "Fiction writer Toni Morrison once explained her creative philosophy this way: 'If there's a book you really want to read, but it hasn't been written yet, then you must write it.' This deceptively simple statement contains a profound artistic principle: that writers should fill absences, not replicate what already exists. Morrison's own body of work embodied this philosophy — her novels explored the lives of Black Americans in depth and complexity that had rarely appeared in American literary fiction before her, centring experiences that mainstream literature had historically marginalised or ignored.",
+    question: "What does the passage suggest about Morrison's creative approach?",
+    answerOptions: [
+      { text: "She believed writers should imitate successful novels.", isCorrect: false, rationale: "The exact opposite — she wrote to fill absences, not to replicate." },
+      { text: "She wrote to give voice to experiences and perspectives that had been excluded from mainstream American literature.", isCorrect: true, rationale: "The passage directly connects her philosophy ('fill absences') to her practice of centring Black American experiences." },
+      { text: "She only wrote for Black American audiences.", isCorrect: false, rationale: "The passage doesn't make this claim — it describes what she wrote about, not for whom." },
+      { text: "She believed all writers should write autobiographically.", isCorrect: false, rationale: "No such claim appears in the passage." },
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The 'digital divide' is a term that refers to the gap between those who have access to modern information and communication technology and those who do not. This divide is not just about having a smartphone or internet at home it's also about the skills needed to use these technologies effectively. People without this access or these skills are at a significant disadvantage in many areas of modern life, from applying for jobs and accessing government services to participating in online education. Bridging this divide requires a dual focus on both providing affordable access and investing in digital literacy education.",
-    "question": "Which statement best articulates the main idea of the passage?",
-    "answerOptions": [
-      {
-        "text": "The digital divide is the gap between people who have internet access and those who don't.",
-        "rationale": "The passage clarifies that it's about skills as well as access, so this definition is incomplete.",
-        "isCorrect": false
-      },
-      {
-        "text": "The digital divide puts people at a disadvantage when applying for jobs.",
-        "rationale": "This is one example of the consequences of the digital divide, not the overall main idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "The digital divide is a multifaceted problem concerning both access to and skills for technology, and solving it requires addressing both of these aspects.",
-        "rationale": "Correct. This statement provides a complete definition of the problem (access and skills) and summarizes the author's proposed two-part solution.",
-        "isCorrect": true
-      },
-      {
-        "text": "It is important to invest in digital literacy education.",
-        "rationale": "This is one half of the proposed solution, not the full main idea which also includes the problem of access.",
-        "isCorrect": false
-      }
+    questionNumber: 6, type: 'multipleChoice', difficulty: 'hard',
+    passage: "The history of public health is largely a history of conflict between individual liberty and collective wellbeing. Vaccine mandates, quarantine orders, and smoking bans have all faced fierce resistance from those who view such measures as government overreach. Yet most societies have ultimately accepted certain restrictions when the evidence of collective benefit is overwhelming. Smallpox vaccination campaigns — mandatory in many countries by the early 20th century — eradicated a disease that had killed hundreds of millions over the course of human history. The tension between individual rights and public health will continue to define political debates in every generation.",
+    question: "Which statement best captures the author's perspective on the individual liberty vs. public health debate?",
+    answerOptions: [
+      { text: "Individual liberty should always take precedence over public health concerns.", isCorrect: false, rationale: "The author presents historical examples where restrictions were accepted — this does not reflect the passage's balance." },
+      { text: "The conflict is permanent but societies have repeatedly chosen collective benefit when evidence is strong enough.", isCorrect: true, rationale: "The passage shows ongoing tension ('will continue') but also historical examples where society accepted restrictions." },
+      { text: "All vaccine mandates are an unacceptable violation of liberty.", isCorrect: false, rationale: "The author presents smallpox vaccination as a successful example of such a mandate." },
+      { text: "Governments should never restrict individual behaviour for public health.", isCorrect: false, rationale: "The passage says societies 'ultimately accepted' such restrictions when evidence was strong." },
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "Our office will be holding a mandatory fire drill on Wednesday at 10:00 AM. When you hear the alarm, please calmly exit the building using the nearest stairwell. Do not use the elevators. Once outside, gather at our designated assembly point in the north parking lot. This drill is to ensure everyone is familiar with the emergency evacuation plan.",
-    "question": "What is the main point of this notice?",
-    "answerOptions": [
-      {
-        "text": "Do not use the elevators during a fire alarm.",
-        "rationale": "This is a key instruction, but not the overall main idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "All employees must participate in a fire drill on Wednesday at 10:00 AM by following the evacuation procedures.",
-        "rationale": "Correct. This statement summarizes the who, what, when, and why of the event.",
-        "isCorrect": true
-      },
-      {
-        "text": "The designated assembly point is in the north parking lot.",
-        "rationale": "This is a specific detail of the evacuation plan, not the main idea of the notice.",
-        "isCorrect": false
-      },
-      {
-        "text": "The drill is to ensure familiarity with the evacuation plan.",
-        "rationale": "This is the purpose of the drill, but the main idea is the announcement of the drill itself.",
-        "isCorrect": false
-      }
+    questionNumber: 7, type: 'multipleChoice', difficulty: 'hard',
+    passage: "In her 1963 book The Feminine Mystique, Betty Friedan described 'the problem that has no name' — a pervasive sense of dissatisfaction among educated, middle-class American women who were expected to find complete fulfilment in being wives and mothers. Friedan argued that postwar American culture had pushed women out of professional and civic life and back into the domestic sphere, isolating them and leaving their intellectual and personal ambitions unfulfilled. Critics of Friedan later noted that her analysis was largely limited to white, educated, middle-class women and did not represent the diverse experiences of working-class women, women of colour, or women outside the United States.",
+    question: "The critics' observation about Friedan's analysis is best described as:",
+    answerOptions: [
+      { text: "A refutation of Friedan's core argument.", isCorrect: false, rationale: "The critics note a limitation in scope, not that her core argument about the women she described is wrong." },
+      { text: "A challenge to the representativeness of Friedan's claims — noting that the 'problem' she described did not apply equally to all women.", isCorrect: true, rationale: "This accurately characterises the critics' point: Friedan's analysis was real for some women but not universal." },
+      { text: "Evidence that Friedan opposed the feminist movement.", isCorrect: false, rationale: "The Feminine Mystique is foundational to second-wave feminism; this characterisation is false." },
+      { text: "Proof that middle-class women did not actually face dissatisfaction.", isCorrect: false, rationale: "Critics dispute scope, not the existence of the problem for the women Friedan studied." },
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The concept of 'lifelong learning' is becoming increasingly critical in the modern economy. With technology and industries changing at a rapid pace, the skills that are valuable today may be obsolete in a decade. Therefore, workers can no longer rely solely on their initial education or degree. They must continuously update their skills and knowledge through formal courses, professional development, or self-directed study to remain relevant and competitive in the job market.",
-    "question": "What is the main idea the author is conveying?",
-    "answerOptions": [
-      {
-        "text": "Technology and industries are changing at a rapid pace.",
-        "rationale": "This is the reason why lifelong learning is important, but not the main idea itself.",
-        "isCorrect": false
-      },
-      {
-        "text": "Workers must continuously update their skills to stay competitive in the fast-changing modern economy.",
-        "rationale": "Correct. This statement captures the central argument that continuous learning is now a necessity for career relevance.",
-        "isCorrect": true
-      },
-      {
-        "text": "A college degree is no longer valuable in the job market.",
-        "rationale": "The passage says workers can't rely *solely* on their initial degree, not that it isn't valuable.",
-        "isCorrect": false
-      },
-      {
-        "text": "Workers can take formal courses or engage in self-directed study.",
-        "rationale": "These are examples of how to engage in lifelong learning, not the main point about why it's necessary.",
-        "isCorrect": false
-      }
+    questionNumber: 8, type: 'multipleChoice', difficulty: 'hard',
+    passage: "Excerpt from a 1906 US federal report on meatpacking conditions:
+
+'We saw meat shoveled from filthy wooden floors, piled on tables rarely washed, pushed from room to room in rotten box carts, in all of which processes it was in contact with splinters, floor dirt, and the expectoration of tuberculous workers. In these rooms the air was thick with the odor and the steam of the cooking fat and steam pipes, out of which the condensation constantly dripped onto the men and the food.'",
+    question: "What is the primary purpose of this excerpt?",
+    answerOptions: [
+      { text: "To praise the efficiency of industrial meatpacking.", isCorrect: false, rationale: "Every detail in the passage describes dangerous, unsanitary conditions — not efficiency." },
+      { text: "To document unsanitary conditions in order to build the case for government regulation.", isCorrect: true, rationale: "This is a federal report — its purpose is factual documentation to support policy action. The vivid, specific detail serves to justify intervention." },
+      { text: "To entertain readers with shocking descriptions.", isCorrect: false, rationale: "Federal reports have regulatory, not entertainment, purposes." },
+      { text: "To advertise improved sanitation standards.", isCorrect: false, rationale: "The conditions described are horrific; no improvement is mentioned." },
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The Sahara Desert, now one of the driest places on Earth, was a lush, green landscape with rivers and lakes about 10,000 years ago. This period, known as the African Humid Period, was caused by periodic changes in the Earth's orbit that shifted monsoon patterns. Archaeological evidence, including rock paintings of giraffes and crocodiles, supports this dramatic climatic shift. The study of this transformation is crucial for understanding how sensitive regional climates can be to changes in orbital mechanics.",
-    "question": "Which of the following best states the main idea of the passage?",
-    "answerOptions": [
-      {
-        "text": "The Sahara Desert used to have rock paintings of giraffes.",
-        "rationale": "This is a piece of evidence for the main idea, not the main idea itself.",
-        "isCorrect": false
-      },
-      {
-        "text": "Changes in the Earth's orbit can affect monsoon patterns.",
-        "rationale": "This explains the cause of the transformation, but it doesn't encompass the full scope of the passage.",
-        "isCorrect": false
-      },
-      {
-        "text": "The Sahara Desert underwent a dramatic transformation from a lush landscape to a desert, an event that helps scientists understand climate sensitivity.",
-        "rationale": "Correct. This statement covers the past state of the Sahara, its transformation, and the scientific importance of studying this change.",
-        "isCorrect": true
-      },
-      {
-        "text": "The African Humid Period was about 10,000 years ago.",
-        "rationale": "This is the time frame for the event, not the central point about its significance.",
-        "isCorrect": false
-      }
+    questionNumber: 9, type: 'multipleChoice', difficulty: 'hard',
+    passage: "The Amazon rainforest has been called 'the lungs of the Earth' because it absorbs vast quantities of carbon dioxide and releases oxygen. However, scientists have recently reported that significant portions of the Eastern Amazon have crossed a threshold and are now releasing more carbon dioxide than they absorb — a result of decades of deforestation and climate-change-driven stress. If this net-carbon-release zone expands, the Amazon could transform from a carbon sink to a carbon source, potentially accelerating global climate change in ways that existing models have not fully accounted for.",
+    question: "What does the passage suggest about the relationship between local deforestation and global climate change?",
+    answerOptions: [
+      { text: "They are unrelated because the Amazon is too large to affect global systems.", isCorrect: false, rationale: "The passage says the Amazon already affects and is affected by global climate systems." },
+      { text: "Deforestation stress on the Amazon could create a feedback loop that accelerates global climate change beyond current projections.", isCorrect: true, rationale: "A possible 'net carbon source' Amazon would worsen climate change — a feedback loop with global consequences 'not fully accounted for' in models." },
+      { text: "Oxygen levels globally are declining because of Amazon deforestation.", isCorrect: false, rationale: "The passage discusses carbon emissions, not a global drop in oxygen levels." },
+      { text: "The Amazon is currently in good health and absorbing carbon efficiently.", isCorrect: false, rationale: "Portions have already crossed the release threshold — the opposite of 'good health.'" },
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The robotics club sent an update to parents about its first competition of the season. The message explains that the team spent fall semester learning to code sensors, that mentors from a local engineering firm provided feedback, and that the students won the teamwork award at last weekend's regional meet. The coach writes that steady practice and community support are helping the club thrive.",
-    "question": "Which option states the main idea of the update?",
-    "answerOptions": [
-      {
-        "text": "Mentors from an engineering firm visited the club.",
-        "rationale": "This is a supporting detail, not the central message of the update.",
-        "isCorrect": false
-      },
-      {
-        "text": "Focused practice and community support are fueling the robotics club's success this season.",
-        "rationale": "Correct. This statement summarizes the key factors and results highlighted in the passage.",
-        "isCorrect": true
-      },
-      {
-        "text": "Students spent the fall semester learning to code sensors.",
-        "rationale": "This detail supports the main idea but does not capture the overall point on its own.",
-        "isCorrect": false
-      },
-      {
-        "text": "The team won the teamwork award at a regional meet.",
-        "rationale": "Winning an award is evidence of success, yet the main idea also emphasizes how the team achieved it.",
-        "isCorrect": false
-      }
+    questionNumber: 10, type: 'multipleChoice', difficulty: 'hard',
+    passage: "Frederick Douglass wrote in his 1852 speech 'What to the Slave is the Fourth of July?':
+
+'This Fourth July is YOURS, not MINE. You may rejoice, I must mourn. To drag a man in fetters into the grand illuminated temple of liberty, and call upon him to join you in joyous anthems, were inhuman mockery and sacrilegious irony.'",
+    question: "What rhetorical strategy does Douglass use most powerfully in this excerpt?",
+    answerOptions: [
+      { text: "Appeals to historical data about the number of enslaved people in America.", isCorrect: false, rationale: "No statistics appear in the excerpt." },
+      { text: "Creating contrast between the celebration of liberty and the reality of enslavement to expose the hypocrisy of the holiday for enslaved people.", isCorrect: true, rationale: "The 'yours, not mine' contrast, the temple of liberty vs. fetters imagery, and 'inhuman mockery' all use ironic contrast as the core rhetorical move." },
+      { text: "Politely requesting that white Americans include Black Americans in celebrations.", isCorrect: false, rationale: "The tone is accusatory and ironic, not polite or requesting." },
+      { text: "Arguing that the Fourth of July should be abolished.", isCorrect: false, rationale: "Douglass does not call for abolishing the holiday — he calls out its hollow meaning while slavery persists." },
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    challenge_tags: ['rla-2'],
   },
-  {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "A flyer promotes a weekend volunteer event at the city park. It invites residents to join the Saturday morning cleanup, notes that gloves and tools will be provided, and explains that volunteers will plant native flowers after picking up litter. The flyer ends by thanking participants for helping keep the park welcoming for everyone.",
-    "question": "What is the main idea of the flyer?",
-    "answerOptions": [
-      {
-        "text": "Volunteers will receive gloves and tools.",
-        "rationale": "Supplies are mentioned, but the main idea is about the event itself.",
-        "isCorrect": false
-      },
-      {
-        "text": "Residents are invited to join a Saturday park cleanup that includes planting native flowers.",
-        "rationale": "Correct. This sentence summarizes the purpose and activities of the event.",
-        "isCorrect": true
-      },
-      {
-        "text": "Planting native flowers helps local pollinators.",
-        "rationale": "The flyer does not mention pollinators; this statement goes beyond the passage.",
-        "isCorrect": false
-      },
-      {
-        "text": "The park is open every day for visitors.",
-        "rationale": "The flyer focuses on a volunteer event, not general park hours.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-1"
-    ]
-  },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "In a reflective essay, a first-generation college student describes juggling a full course load, a part-time job, and family responsibilities. She explains that weekly check-ins with an academic advisor helped her plan study time, that her supervisor allowed flexible shifts during exams, and that her younger siblings cheered her on when she considered quitting. She concludes that persistence and a strong support network made graduation possible.",
-    "question": "Which statement best summarizes the essay?",
-    "answerOptions": [
-      {
-        "text": "Meeting with an academic advisor each week was the hardest part of college.",
-        "rationale": "Advisor meetings are mentioned as helpful, not as the main point or a hardship.",
-        "isCorrect": false
-      },
-      {
-        "text": "Balancing school, work, and family was challenging, but support systems helped the writer persist to graduation.",
-        "rationale": "Correct. This captures both the challenges and the key message about support leading to success.",
-        "isCorrect": true
-      },
-      {
-        "text": "Working part time during college is impossible without flexible hours.",
-        "rationale": "The essay describes one student's experience and does not make this broad claim.",
-        "isCorrect": false
-      },
-      {
-        "text": "Family members should not worry about college schedules.",
-        "rationale": "The passage never suggests this idea; it emphasizes encouragement from family.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-1"
-    ]
-  }
 ];

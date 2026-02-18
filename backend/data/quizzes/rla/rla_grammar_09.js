@@ -1,375 +1,86 @@
-// Imported from frontend/Expanded
+// Language & Grammar — Test Ready: Practice 9
+// Focus: paragraph editing, extended response revision, complex clause structures
 module.exports = [
-  {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence is grammatically correct?",
-    "answerOptions": [
-      {
-        "text": "The team lost their first game.",
-        "rationale": "'Team' is a singular noun, so 'its' is the traditionally correct pronoun.",
-        "isCorrect": false
-      },
-      {
-        "text": "I could of done better.",
-        "rationale": "The correct phrasing is 'could have'.",
-        "isCorrect": false
-      },
-      {
-        "text": "She is one of those people who are always on time.",
-        "rationale": "Correct. The pronoun 'who' refers to 'people' (plural), so the plural verb 'are' is correct.",
-        "isCorrect": true
-      },
-      {
-        "text": "The data is not yet available.",
-        "rationale": "'Data' is a plural noun (the singular is 'datum'), so the verb should be 'are'. However, 'data is' is becoming increasingly common.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence provides the most effective revision for 'The report was written by me.'?",
-    "answerOptions": [
-      {
-        "text": "I wrote the report.",
-        "rationale": "Correct. This changes the sentence from passive to active voice, making it more direct.",
-        "isCorrect": true
-      },
-      {
-        "text": "The report was written by myself.",
-        "rationale": "'Myself' is a reflexive pronoun and is used incorrectly here.",
-        "isCorrect": false
-      },
-      {
-        "text": "It was me who wrote the report.",
-        "rationale": "This is grammatically awkward.",
-        "isCorrect": false
-      },
-      {
-        "text": "My writing of the report is now finished.",
-        "rationale": "This is wordy and indirect.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence correctly uses a semicolon?",
-    "answerOptions": [
-      {
-        "text": "The meeting was long but we accomplished a lot.",
-        "rationale": "A comma should be used before a coordinating conjunction like 'but'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The attendees were: John, from marketing Sara, from sales and David, from engineering.",
-        "rationale": "A colon should be used to introduce the list. Semicolons are correctly used to separate the items because the items themselves contain commas.",
-        "isCorrect": true
-      },
-      {
-        "text": "I need to go to the store because we are out of milk.",
-        "rationale": "A semicolon should not be used to join a dependent clause to an independent clause.",
-        "isCorrect": false
-      },
-      {
-        "text": "Let's go for a walk it's a beautiful day.",
-        "rationale": "Correct. A semicolon is used to join two closely related independent clauses.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence correctly punctuates a nonessential clause?",
-    "answerOptions": [
-      {
-        "text": "The car that is red, needs new tires.",
-        "rationale": "'That is red' is essential to identify which car; it should not be set off with a comma before 'needs'.",
-        "isCorrect": false
-      },
-      {
-        "text": "My brother who lives in Denver is visiting next week.",
-        "rationale": "Without commas, this implies I have multiple brothers and need to specify which; the clause is nonessential here and should be set off by commas if I have only one brother.",
-        "isCorrect": false
-      },
-      {
-        "text": "My brother, who lives in Denver, is visiting next week.",
-        "rationale": "Correct. The nonessential clause is properly set off with commas.",
-        "isCorrect": true
-      },
-      {
-        "text": "The students, who need laptops must check them out.",
-        "rationale": "A comma is missing after 'laptops' if the clause is nonessential, or both commas should be removed if it's essential.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence uses apostrophes correctly?",
-    "answerOptions": [
-      {
-        "text": "The teachers lounge is on the second floor.",
-        "rationale": "It should be 'teachers' lounge' (plural possessive) or 'teacher's lounge' (singular possessive).",
-        "isCorrect": false
-      },
-      {
-        "text": "Its time for the clubs meeting.",
-        "rationale": "'It's' should be 'It’s' (it is), and 'club's' needs an apostrophe to show possession.",
-        "isCorrect": false
-      },
-      {
-        "text": "It's time for the club's meeting.",
-        "rationale": "Correct. 'It's' = 'it is' and 'club's' shows possession.",
-        "isCorrect": true
-      },
-      {
-        "text": "The childrens' backpacks are heavy.",
-        "rationale": "'Children' is already plural irregular; the possessive is 'children's'.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence maintains parallel structure?",
-    "answerOptions": [
-      {
-        "text": "The job requires arriving on time, that you follow instructions, and working weekends.",
-        "rationale": "The list mixes a gerund ('arriving'), a clause ('that you follow'), and a gerund ('working').",
-        "isCorrect": false
-      },
-      {
-        "text": "The job requires punctuality, following instructions, and to work weekends.",
-        "rationale": "The list mixes a noun, a gerund, and an infinitive.",
-        "isCorrect": false
-      },
-      {
-        "text": "The job requires arriving on time, following instructions, and working weekends.",
-        "rationale": "Correct. All items are gerunds, creating parallel structure.",
-        "isCorrect": true
-      },
-      {
-        "text": "The job requires to arrive on time, following instructions, and working weekends.",
-        "rationale": "Mixes an infinitive with gerunds; not parallel.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence correctly places the modifier?",
-    "answerOptions": [
-      {
-        "text": "Running down the street, the backpack fell off Maya's shoulder.",
-        "rationale": "Dangling modifier: it sounds like the backpack was running.",
-        "isCorrect": false
-      },
-      {
-        "text": "Running down the street, Maya's backpack fell off her shoulder.",
-        "rationale": "Still suggests the backpack was running; the subject after the comma must be Maya.",
-        "isCorrect": false
-      },
-      {
-        "text": "Running down the street, Maya felt her backpack fall off her shoulder.",
-        "rationale": "Correct. The introductory participial phrase modifies the subject 'Maya.'",
-        "isCorrect": true
-      },
-      {
-        "text": "Maya's backpack running down the street fell off her shoulder.",
-        "rationale": "Awkward and incorrect modification.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence is free of a comma splice?",
-    "answerOptions": [
-      {
-        "text": "We finished the project, we celebrated with pizza.",
-        "rationale": "Comma splice joins two independent clauses with only a comma.",
-        "isCorrect": false
-      },
-      {
-        "text": "We finished the project; we celebrated with pizza.",
-        "rationale": "Correct. The semicolon correctly joins closely related independent clauses.",
-        "isCorrect": true
-      },
-      {
-        "text": "We finished the project, and celebrated with pizza.",
-        "rationale": "Missing the subject after the coordinating conjunction; better is 'and we celebrated'.",
-        "isCorrect": false
-      },
-      {
-        "text": "We finished the project we celebrated with pizza.",
-        "rationale": "Run-on sentence without proper punctuation.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which option correctly uses the subjunctive mood?",
-    "answerOptions": [
-      {
-        "text": "If I was you, I would apply early.",
-        "rationale": "With hypotheticals contrary to fact, use 'were' for all persons: 'If I were you'.",
-        "isCorrect": false
-      },
-      {
-        "text": "If I were you, I would apply early.",
-        "rationale": "Correct. The subjunctive 'were' is used for contrary-to-fact statements.",
-        "isCorrect": true
-      },
-      {
-        "text": "If she was on time, we would start now.",
-        "rationale": "For conditions contrary to fact, 'were' is preferred: 'If she were on time'.",
-        "isCorrect": false
-      },
-      {
-        "text": "I suggest that he goes to the workshop.",
-        "rationale": "After verbs like 'suggest', the base form is used: 'that he go'.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which revision best eliminates wordiness while keeping the original meaning? 'Due to the fact that the buses were late, many attendees did not arrive on time.'",
-    "answerOptions": [
-      {
-        "text": "Because the buses were late, many attendees arrived late.",
-        "rationale": "Correct. 'Because' is concise, and 'arrived late' preserves the meaning.",
-        "isCorrect": true
-      },
-      {
-        "text": "Many attendees did not arrive on time, due to buses that were late in arriving.",
-        "rationale": "Still wordy and awkwardly punctuated.",
-        "isCorrect": false
-      },
-      {
-        "text": "Due to buses being late, many attendees, did not arrive on time.",
-        "rationale": "Comma error and unnecessary phrasing.",
-        "isCorrect": false
-      },
-      {
-        "text": "As a consequence of the tardiness of the buses, many attendees were not punctual in their arrival.",
-        "rationale": "Verbose and redundant.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence uses 'who' and 'whom' correctly?",
-    "answerOptions": [
-      {
-        "text": "Whom is going to the concert tonight?",
-        "rationale": "'Who' is the subject of the verb 'is going'.",
-        "isCorrect": false
-      },
-      {
-        "text": "Who did you give the tickets to?",
-        "rationale": "Conversational but prescriptively the object form 'whom' is expected after the preposition.",
-        "isCorrect": false
-      },
-      {
-        "text": "To whom did you give the tickets?",
-        "rationale": "Correct. 'Whom' is the object of the preposition 'to'.",
-        "isCorrect": true
-      },
-      {
-        "text": "The person whom called left a message.",
-        "rationale": "'Who' is needed because it is the subject of 'called'.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence maintains consistent verb tense?",
-    "answerOptions": [
-      {
-        "text": "As the sun set, the campers build a fire and told stories.",
-        "rationale": "'Build' should be past tense to match 'set' and 'told'.",
-        "isCorrect": false
-      },
-      {
-        "text": "As the sun sets, the campers built a fire and tell stories.",
-        "rationale": "Tenses are mixed (present and past).",
-        "isCorrect": false
-      },
-      {
-        "text": "As the sun set, the campers built a fire and told stories.",
-        "rationale": "Correct. All verbs are in the past tense.",
-        "isCorrect": true
-      },
-      {
-        "text": "As the sun had set, the campers build a fire and told stories.",
-        "rationale": "Improper use of past perfect and mixed tenses.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  }
+  {questionNumber:1,type:'multipleChoice',difficulty:'medium',
+   passage:"Read the paragraph. A company memo states:\n\n'(1) All employees must submit timesheets by Thursday at 5 p.m. (2) Timesheets which are submitted late will be processed in the following payroll cycle. (3) Employees who are consistently late with submissions may be subject to disciplinary review. (4) Please contact HR if you have any questions.'",
+   question:"Sentence 2 contains a punctuation error. What is it?",
+   answerOptions:[
+    {text:"'Which' should be preceded by a comma because the clause is non-restrictive.", isCorrect:true, rationale:"'Timesheets, which are submitted late' — applies to all timesheets generically (non-restrictive) and needs commas. However, if 'which' identifies only late-submitted ones, it would be restrictive. In context, no commas makes 'which' restrictive and is technically defensible, but the standard GED approach is that 'which' = non-restrictive (needs commas) and 'that' = restrictive (no commas)."},
+    {text:"'Are submitted' should be 'was submitted.'", isCorrect:false, rationale:"'Timesheets' is plural — 'are' is correct."},
+    {text:"'Following' should be 'next.'", isCorrect:false, rationale:"Both words are fine; this is not a grammatical error."},
+    {text:"There is no error in sentence 2.", isCorrect:false, rationale:"The which/comma issue is present."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:2,type:'multipleChoice',difficulty:'medium',
+   question:"Which is the best revision of this wordy sentence?\n'It should be noted that the survey results that were collected were not satisfactory in terms of their adequacy for the purposes of this report.'",
+   answerOptions:[
+    {text:"The survey results were inadequate for this report.", isCorrect:true, rationale:"'It should be noted that' (deadwood), 'that were collected' (redundant), 'in terms of their adequacy' → 'adequate/inadequate.' Clean single clause."},
+    {text:"It should be noted the survey results were not adequate.", isCorrect:false, rationale:"'It should be noted' remains — still wordy."},
+    {text:"Survey results that were collected were not adequate for this report.", isCorrect:false, rationale:"'That were collected' is still redundant."},
+    {text:"The results were not in terms of adequacy satisfactory.", isCorrect:false, rationale:"Awkward word order; not an improvement."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:3,type:'multipleChoice',difficulty:'hard',
+   question:"A student writes: 'The reason why the experiment failed was because the temperature was too high.' What is the grammatical error?",
+   answerOptions:[
+    {text:"'The reason why … was because' is a double subordination — correct form is 'The reason … was that.'", isCorrect:true, rationale:"'The reason was because' is redundant; 'because' introduces a reason, causing circular structure. Use 'The reason the experiment failed was that the temperature was too high.'"},
+    {text:"'Was' should be 'were' because 'experiment' is plural.", isCorrect:false, rationale:"'Experiment' is singular — 'was' is correct."},
+    {text:"'Too high' should be 'too highly.'", isCorrect:false, rationale:"'High' is an adjective modifying the noun-idea of temperature level — 'too high' is correct."},
+    {text:"There is no error.", isCorrect:false, rationale:"'The reason … was because' is a recognised grammatical error."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:4,type:'multipleChoice',difficulty:'hard',
+   question:"Which sentence correctly uses a colon?",
+   answerOptions:[
+    {text:"The kit includes: a hammer, two screwdrivers, and a level.", isCorrect:false, rationale:"A colon should not interrupt the verb 'includes' and its object — no colon needed when the list follows a verb directly."},
+    {text:"The kit includes three tools: a hammer, two screwdrivers, and a level.", isCorrect:true, rationale:"The colon follows a complete independent clause ('The kit includes three tools') and introduces a list — correct usage."},
+    {text:"The kit: includes a hammer, two screwdrivers, and a level.", isCorrect:false, rationale:"Colon after the subject 'kit' incorrectly interrupts the sentence."},
+    {text:"The kit includes a hammer: two screwdrivers, and a level.", isCorrect:false, rationale:"Colon placed arbitrarily within the list — not a valid usage."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:5,type:'multipleChoice',difficulty:'hard',
+   question:"Choose the best revision that maintains formal tone and fixes the error.\nOriginal: 'We very much appreciate your kind offer, and we will defiantly take you up on it.'",
+   answerOptions:[
+    {text:"We appreciate your offer and will defiantly take you up on it.", isCorrect:false, rationale:"'Defiantly' (meaning rebelliously) is the wrong word — the intended word is 'definitely.'"},
+    {text:"We appreciate your generous offer and will definitely take you up on it.", isCorrect:true, rationale:"Corrects the word ('definitely'), removes redundancy ('very much' + 'kind'), and maintains formal register."},
+    {text:"We very much appreciate your kind offer and will definitely take you up on it.", isCorrect:false, rationale:"Corrects 'definitely' but 'very much' + 'kind offer' remains slightly redundant and informal."},
+    {text:"Thanks for the offer; we will definitely do it.", isCorrect:false, rationale:"'Thanks' is too informal; loses specificity of 'take you up on it.'"},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:6,type:'multipleChoice',difficulty:'hard',
+   question:"Which sentence most effectively combines the following two without loss of meaning?\nS1: The grant application was rejected. S2: The reviewers cited insufficient evidence of community impact.",
+   answerOptions:[
+    {text:"The grant application was rejected; the reviewers cited insufficient evidence of community impact.", isCorrect:false, rationale:"Grammatically correct but the semicolon implies equal weight — the second clause gives a reason."},
+    {text:"The grant application was rejected because reviewers cited insufficient evidence of community impact.", isCorrect:true, rationale:"Subordinating conjunction 'because' correctly shows cause (reviewers' finding) and effect (rejection)."},
+    {text:"Although reviewers cited insufficient evidence of community impact, the grant application was rejected.", isCorrect:false, rationale:"'Although' implies contrast — that would mean insufficient evidence should NOT have led to rejection."},
+    {text:"The grant application was rejected, and reviewers cited insufficient evidence of community impact.", isCorrect:false, rationale:"'And' coordinates without showing the causal relationship."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:7,type:'multipleChoice',difficulty:'hard',
+   question:"A student's essay contains: 'This is a very unique solution.' What is the error?",
+   answerOptions:[
+    {text:"'Very unique' is redundant — 'unique' means one of a kind and cannot be modified by degree adverbs.", isCorrect:true, rationale:"'Unique' is an absolute adjective (either something is unique or it isn't); 'very' is redundant and technically incorrect."},
+    {text:"'Unique' should be 'unusual.'", isCorrect:false, rationale:"'Unusual' is a different word — this changes meaning, it doesn't fix the grammatical issue."},
+    {text:"'This' is too vague as a subject.", isCorrect:false, rationale:"Unclear antecedent may be a stylistic issue, but the grammar question here is about 'very unique.'"},
+    {text:"There is no error.", isCorrect:false, rationale:"'Very unique' is a recognised grammatical error in formal writing."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:8,type:'multipleChoice',difficulty:'hard',
+   question:"Which sentence uses a restrictive clause correctly (no unnecessary commas)?",
+   answerOptions:[
+    {text:"The employee, that was hired last month, has already exceeded her targets.", isCorrect:false, rationale:"'That' introduces a restrictive clause and should NOT be set off by commas."},
+    {text:"The employee that was hired last month has already exceeded her targets.", isCorrect:true, rationale:"Restrictive clause ('that was hired last month') correctly used without commas, identifying which employee."},
+    {text:"The employee that was hired last month, has already exceeded her targets.", isCorrect:false, rationale:"A comma should not separate the subject from the verb unless an interruptive clause is set off on both sides."},
+    {text:"The employee, that was hired last month has already exceeded her targets.", isCorrect:false, rationale:"Misplaced comma creates confusion."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:9,type:'multipleChoice',difficulty:'hard',
+   passage:"A student's extended response paragraph reads:\n'In conclusion, renewable energy is the future. Because fossil fuels are limited. Governments should invest in solar and wind power, this will create jobs and reduce emissions.'",
+   question:"How many grammatical errors appear in this paragraph?",
+   answerOptions:[
+    {text:"One — comma splice in the last sentence.", isCorrect:false, rationale:"There is a comma splice, but there is also a sentence fragment."},
+    {text:"Two — a sentence fragment ('Because fossil fuels are limited.') and a comma splice in the last sentence.", isCorrect:true, rationale:"'Because fossil fuels are limited.' cannot stand alone; and 'Governments should invest in solar and wind power, this will create jobs' is a comma splice."},
+    {text:"Three — fragment, comma splice, and a subject-verb agreement error.", isCorrect:false, rationale:"No subject-verb agreement error is present."},
+    {text:"None — the paragraph is correct.", isCorrect:false, rationale:"Two clear errors are present."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:10,type:'multipleChoice',difficulty:'hard',
+   question:"For a GED Extended Response, a writer wants to open a body paragraph with a clear topic sentence. Which is the strongest option?",
+   answerOptions:[
+    {text:"There are many things to consider about this topic.", isCorrect:false, rationale:"Vague — provides no specific claim or focus."},
+    {text:"In this paragraph I will talk about economic benefits.", isCorrect:false, rationale:"Weak meta-commentary; should state the claim, not announce the intention."},
+    {text:"The economic benefits of renewable energy investment include job creation, reduced energy costs, and long-term grid stability.", isCorrect:true, rationale:"Clear, specific, arguable topic sentence with three supporting directions that the paragraph can develop."},
+    {text:"Renewable energy is important for the economy.", isCorrect:false, rationale:"Too general — doesn't specify the benefits or direction of the paragraph."},
+   ],challenge_tags:['rla-1']},
 ];

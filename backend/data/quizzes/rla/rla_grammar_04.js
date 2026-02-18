@@ -1,375 +1,118 @@
-// Imported from frontend/Expanded
+// Language & Grammar — Core Skills: Practice 4
+// 10 questions | pronoun agreement, modifier placement, parallelism
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence is grammatically correct?",
-    "answerOptions": [
-      {
-        "text": "The team is getting their uniforms today.",
-        "rationale": "This is a common usage, but 'team' is a singular noun, so 'its' is the traditionally correct pronoun. However, 'their' is widely accepted.",
-        "isCorrect": false
-      },
-      {
-        "text": "I did good on the test.",
-        "rationale": "'Good' is an adjective. The correct adverb is 'well'.",
-        "isCorrect": false
-      },
-      {
-        "text": "He feels bad about what happened.",
-        "rationale": "Correct. 'Bad' is the correct adjective to use after a linking verb like 'feels' to describe an emotional state.",
-        "isCorrect": true
-      },
-      {
-        "text": "Can I borrow your pen?",
-        "rationale": "The correct verb for asking permission is 'May'. 'Can' refers to ability.",
-        "isCorrect": false
-      }
+    questionNumber: 1, type: 'multipleChoice', difficulty: 'easy',
+    question: "Choose the sentence with correct subject-verb agreement:\n(A) The team of engineers were reviewing the design.\n(B) The team of engineers was reviewing the design.\n(C) The team of engineers are reviewing the design.",
+    answerOptions: [
+      { text: "(A)", isCorrect: false, rationale: "'Team' is singular; 'were' is plural." },
+      { text: "(B)", isCorrect: true, rationale: "'Team' is a collective noun treated as singular. 'Was' is correct." },
+      { text: "(C)", isCorrect: false, rationale: "'Team' is singular; 'are' is plural." },
+      { text: "Both (A) and (C)", isCorrect: false, rationale: "Both use plural verbs with a singular subject." },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-1'],
   },
   {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence is a fragment?",
-    "answerOptions": [
-      {
-        "text": "The car that is parked on the corner.",
-        "rationale": "Correct. This is a dependent clause that acts as a noun phrase, but it is not a complete sentence with a main verb.",
-        "isCorrect": true
-      },
-      {
-        "text": "Go to the store.",
-        "rationale": "This is a complete sentence (an imperative).",
-        "isCorrect": false
-      },
-      {
-        "text": "It is raining.",
-        "rationale": "This is a complete sentence.",
-        "isCorrect": false
-      },
-      {
-        "text": "Although it was late, we finished the project.",
-        "rationale": "This is a complete sentence with a dependent and an independent clause.",
-        "isCorrect": false
-      }
+    questionNumber: 2, type: 'multipleChoice', difficulty: 'easy',
+    question: "Which sentence uses pronouns correctly?",
+    answerOptions: [
+      { text: "Between you and I, the project is behind schedule.", isCorrect: false, rationale: "After a preposition, use object pronouns: 'between you and me.'" },
+      { text: "Between you and me, the project is behind schedule.", isCorrect: true, rationale: "'Me' is the correct object pronoun after the preposition 'between.'" },
+      { text: "Between you and myself, the project is behind schedule.", isCorrect: false, rationale: "'Myself' is a reflexive pronoun used only when the subject and object are the same person." },
+      { text: "Between I and you, the project is behind schedule.", isCorrect: false, rationale: "'I' is a subject pronoun, not correct after a preposition." },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-1'],
   },
   {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence correctly uses an apostrophe?",
-    "answerOptions": [
-      {
-        "text": "The 1990's were a great decade.",
-        "rationale": "Apostrophes should not be used to make numbers plural. It should be '1990s'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The dog wagged its tail.",
-        "rationale": "Correct. 'Its' is the possessive form of 'it'. 'It's' means 'it is'.",
-        "isCorrect": true
-      },
-      {
-        "text": "The childrens' books are on the shelf.",
-        "rationale": "'Children' is already plural the possessive is 'children's'.",
-        "isCorrect": false
-      },
-      {
-        "text": "Shes coming over later.",
-        "rationale": "This should be 'She's' to indicate the contraction of 'She is'.",
-        "isCorrect": false
-      }
+    questionNumber: 3, type: 'multipleChoice', difficulty: 'medium',
+    question: "Which sentence has a misplaced modifier?",
+    answerOptions: [
+      { text: "Running to catch the bus, Marcus dropped his briefcase.", isCorrect: false, rationale: "The participial phrase correctly modifies Marcus." },
+      { text: "She served sandwiches to the children on paper plates.", isCorrect: true, rationale: "'On paper plates' seems to modify 'children' — it should be 'She served sandwiches on paper plates to the children.'" },
+      { text: "The scientist carefully analysed the data.", isCorrect: false, rationale: "No modifier is misplaced here." },
+      { text: "The report that Alicia wrote was published.", isCorrect: false, rationale: "The relative clause correctly modifies 'report.'" },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-1'],
   },
   {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence demonstrates correct parallel structure?",
-    "answerOptions": [
-      {
-        "text": "She enjoys running, to hike, and swimming.",
-        "rationale": "The items in the list are not in the same grammatical form.",
-        "isCorrect": false
-      },
-      {
-        "text": "The presentation was both informative and a pleasure to watch.",
-        "rationale": "'Informative' is an adjective, but 'a pleasure to watch' is a noun phrase.",
-        "isCorrect": false
-      },
-      {
-        "text": "He is a good student, a talented athlete, and works hard.",
-        "rationale": "The list contains two noun phrases and a verb phrase.",
-        "isCorrect": false
-      },
-      {
-        "text": "The instructions were clear, concise, and helpful.",
-        "rationale": "Correct. All items in the list are adjectives, creating a parallel structure.",
-        "isCorrect": true
-      }
+    questionNumber: 4, type: 'multipleChoice', difficulty: 'medium',
+    question: "Which sentence uses parallel structure correctly?",
+    answerOptions: [
+      { text: "The manager asked us to arrive on time, work carefully, and that we should clean up.", isCorrect: false, rationale: "'That we should clean up' breaks parallel structure — it should be an infinitive phrase." },
+      { text: "The manager asked us to arrive on time, to work carefully, and to clean up.", isCorrect: true, rationale: "All three items are parallel infinitive phrases." },
+      { text: "The manager asked us to arrive on time, working carefully, and clean up.", isCorrect: false, rationale: "Mixed forms: infinitive, present participle, and bare verb." },
+      { text: "The manager asked us arriving on time, working carefully, and cleaning up.", isCorrect: false, rationale: "'Arriving' is not parallel with what 'asked us' requires grammatically." },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-1'],
   },
   {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which of the following sentences has a dangling modifier?",
-    "answerOptions": [
-      {
-        "text": "Having finished the report, Sarah submitted it to her manager.",
-        "rationale": "The modifier 'Having finished the report' correctly modifies 'Sarah'.",
-        "isCorrect": false
-      },
-      {
-        "text": "To start the car, the brake pedal must be depressed.",
-        "rationale": "Correct. This sentence implies that the brake pedal is trying to start the car. The person doing the action is not named.",
-        "isCorrect": true
-      },
-      {
-        "text": "While walking in the park, I saw a woodpecker.",
-        "rationale": "The modifier 'While walking in the park' correctly modifies 'I'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The book on the top shelf is the one I need.",
-        "rationale": "The modifier 'on the top shelf' correctly modifies 'book'.",
-        "isCorrect": false
-      }
+    questionNumber: 5, type: 'multipleChoice', difficulty: 'medium',
+    question: "Select the version that correctly uses a semicolon:",
+    answerOptions: [
+      { text: "The conference begins tomorrow; however the keynote speaker cancelled.", isCorrect: false, rationale: "A comma is required after 'however' when used as a conjunctive adverb." },
+      { text: "The conference begins tomorrow; however, the keynote speaker cancelled.", isCorrect: true, rationale: "Semicolon before 'however' and comma after — correct conjunctive adverb punctuation." },
+      { text: "The conference begins tomorrow, however; the keynote speaker cancelled.", isCorrect: false, rationale: "The semicolon position is incorrect." },
+      { text: "The conference begins tomorrow however, the keynote speaker cancelled.", isCorrect: false, rationale: "Missing the semicolon before 'however.'" },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-1'],
   },
   {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence provides the most effective revision for clarity? Original: 'The reason for the delay is because the train had mechanical problems.'",
-    "answerOptions": [
-      {
-        "text": "The reason for the delay is because of mechanical problems with the train.",
-        "rationale": "The phrase 'The reason is because' is redundant.",
-        "isCorrect": false
-      },
-      {
-        "text": "The delay was caused by the train having mechanical problems.",
-        "rationale": "This is in the passive voice and is a bit wordy.",
-        "isCorrect": false
-      },
-      {
-        "text": "The train was delayed because of mechanical problems.",
-        "rationale": "Correct. This sentence is active, direct, and concise.",
-        "isCorrect": true
-      },
-      {
-        "text": "The train's mechanical problems were the reason for the delay.",
-        "rationale": "This is grammatically correct but slightly less direct than the best option.",
-        "isCorrect": false
-      }
+    questionNumber: 6, type: 'multipleChoice', difficulty: 'medium',
+    question: "Which sentence has an error in pronoun-antecedent agreement?",
+    answerOptions: [
+      { text: "Every employee must submit their timesheet by Friday.", isCorrect: false, rationale: "'Their' is now accepted as singular gender-neutral, especially with 'every employee.'" },
+      { text: "Each of the students handed in their assignment.", isCorrect: false, rationale: "Similarly acceptable in modern usage." },
+      { text: "The committee announced their final decision.", isCorrect: false, rationale: "Collective nouns can take plural pronouns in American English when emphasising individual members." },
+      { text: "Neither of the boys remembered their homework.", isCorrect: true, rationale: "'Neither' is singular, so technically 'his or her' — though 'their' is accepted colloquially, this is the most likely textbook error in an exam context." },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-1'],
   },
   {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence correctly uses 'who' or 'whom'?",
-    "answerOptions": [
-      {
-        "text": "The award was given to the student whom the committee felt was most deserving.",
-        "rationale": "In the clause 'who the committee felt was most deserving', 'who' is the subject of 'was most deserving'. The correct pronoun is 'who'.",
-        "isCorrect": false
-      },
-      {
-        "text": "Who should I contact for more information?",
-        "rationale": "In this sentence, the pronoun is the object of the verb 'contact'. The correct pronoun is 'Whom'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The person who I was telling you about just walked in.",
-        "rationale": "In the clause 'whom I was telling you about', the pronoun is the object of 'about'. The correct pronoun is 'whom'.",
-        "isCorrect": false
-      },
-      {
-        "text": "She is the artist who, according to the critics, is revolutionizing the art world.",
-        "rationale": "Correct. 'Who' is the subject of the verb 'is revolutionizing'. The phrase 'according to the critics' is an interruption.",
-        "isCorrect": true
-      }
+    questionNumber: 7, type: 'multipleChoice', difficulty: 'hard',
+    passage: "Read the following paragraph and identify the sentence with a grammatical error:\n
+(1) The marketing team has exceeded its quarterly targets every year for the past three years. (2) Despite the success, the director insisted that each team member review their own performance metrics individually. (3) The findings was presented to shareholders at the annual meeting. (4) Several investors called the results 'unprecedented.'",
+    question: "Which sentence contains a grammatical error?",
+    answerOptions: [
+      { text: "Sentence 1", isCorrect: false, rationale: "No error — 'its' correctly agrees with 'team.'" },
+      { text: "Sentence 2", isCorrect: false, rationale: "No error — 'their' is acceptable with singular 'each member.'" },
+      { text: "Sentence 3", isCorrect: true, rationale: "'Findings' is plural; the verb should be 'were,' not 'was.'" },
+      { text: "Sentence 4", isCorrect: false, rationale: "No grammatical error — quoted word is correctly used." },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-1'],
   },
   {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence is the most clear, concise, and professional?",
-    "answerOptions": [
-      {
-        "text": "At this point in time, we should probably start to think about maybe hiring a new assistant.",
-        "rationale": "This sentence is full of hedges and filler words ('At this point in time', 'probably', 'start to think about maybe').",
-        "isCorrect": false
-      },
-      {
-        "text": "It has come to my attention that the hiring of a new assistant is a course of action that we should consider.",
-        "rationale": "This is overly formal and wordy.",
-        "isCorrect": false
-      },
-      {
-        "text": "We should consider hiring a new assistant.",
-        "rationale": "Correct. This sentence is direct, concise, and professional.",
-        "isCorrect": true
-      },
-      {
-        "text": "I think that what we need to do is hire a new assistant.",
-        "rationale": "This is wordy and less direct than the best option.",
-        "isCorrect": false
-      }
+    questionNumber: 8, type: 'multipleChoice', difficulty: 'hard',
+    question: "Choose the sentence that correctly uses an apostrophe:",
+    answerOptions: [
+      { text: "The companies' profits fell sharply after the recall.", isCorrect: true, rationale: "Multiple companies: 'companies'' (plural possessive) is correct." },
+      { text: "The companys' profits fell sharply after the recall.", isCorrect: false, rationale: "The plural of 'company' is 'companies,' not 'companys.'" },
+      { text: "The company's' profits fell sharply after the recall.", isCorrect: false, rationale: "There is no such form as 'company's'.' Double apostrophe is always wrong." },
+      { text: "The companies profits fell sharply after the recall.", isCorrect: false, rationale: "Missing apostrophe — no possessive is formed." },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-1'],
   },
   {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence has a subject-verb agreement error?",
-    "answerOptions": [
-      {
-        "text": "The dog and the cat is sleeping.",
-        "rationale": "Correct. The compound subject 'dog and cat' is plural, so the verb should be 'are', not 'is'.",
-        "isCorrect": true
-      },
-      {
-        "text": "Either my mom or my sisters are coming.",
-        "rationale": "The verb 'are' correctly agrees with the closer subject, 'sisters'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The herd of elephants is moving slowly.",
-        "rationale": "'Herd' is a singular collective noun, so the singular verb 'is' is correct.",
-        "isCorrect": false
-      },
-      {
-        "text": "Everybody wants to be successful.",
-        "rationale": "'Everybody' is a singular pronoun and correctly uses the singular verb 'wants'.",
-        "isCorrect": false
-      }
+    questionNumber: 9, type: 'multipleChoice', difficulty: 'hard',
+    passage: "The following paragraph from a business proposal contains one error. Identify the sentence that should be revised:\n
+(1) Our company has expanded its services to three new markets. (2) We plan to hire 50 additional staff this year, training them intensively, and provide competitive salaries. (3) The CEO is confident that these investments will yield returns within 18 months. (4) All new hires will undergo a month-long orientation.",
+    question: "Which sentence has a structural problem?",
+    answerOptions: [
+      { text: "Sentence 1", isCorrect: false, rationale: "Grammatically correct." },
+      { text: "Sentence 2", isCorrect: true, rationale: "'hire 50 additional staff,' 'training them intensively,' and 'provide competitive salaries' are not parallel. Should be 'to hire,' 'to train,' and 'to provide.'" },
+      { text: "Sentence 3", isCorrect: false, rationale: "Grammatically correct." },
+      { text: "Sentence 4", isCorrect: false, rationale: "Grammatically correct." },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-1'],
   },
   {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence is a comma splice?",
-    "answerOptions": [
-      {
-        "text": "He was late, however he had a good excuse.",
-        "rationale": "This is a comma splice. A semicolon should be used before 'however' when connecting two independent clauses.",
-        "isCorrect": true
-      },
-      {
-        "text": "Because the weather was bad, the game was canceled.",
-        "rationale": "This correctly uses a comma after an introductory dependent clause.",
-        "isCorrect": false
-      },
-      {
-        "text": "She is a talented musician she plays the piano and the violin.",
-        "rationale": "The semicolon is used correctly to join two related independent clauses.",
-        "isCorrect": false
-      },
-      {
-        "text": "I like to read, but I don't like to write.",
-        "rationale": "The comma is used correctly before the coordinating conjunction 'but'.",
-        "isCorrect": false
-      }
+    questionNumber: 10, type: 'multipleChoice', difficulty: 'hard',
+    question: "A writer wants to combine the following two sentences into one while keeping both ideas clearly. Which option is best?\n\nOriginal: The new policy reduces overtime. It also improves employee satisfaction ratings.",
+    answerOptions: [
+      { text: "The new policy reduces overtime, it also improves employee satisfaction ratings.", isCorrect: false, rationale: "Comma splice — two independent clauses joined only by a comma." },
+      { text: "The new policy not only reduces overtime but also improves employee satisfaction ratings.", isCorrect: true, rationale: "'Not only…but also' creates grammatically parallel, logically connected structure." },
+      { text: "Reducing overtime, the new policy also improving employee satisfaction ratings.", isCorrect: false, rationale: "'Improving' should be 'improves' — the sentence is grammatically broken." },
+      { text: "The new policy reduces overtime and also improving employee satisfaction ratings.", isCorrect: false, rationale: "Inconsistent verb forms: 'reduces' vs. 'improving.'" },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-1'],
   },
-  {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence provides the best revision for clarity? 'The car was being driven by a man with a broken headlight.'",
-    "answerOptions": [
-      {
-        "text": "The car with a broken headlight was being driven by a man.",
-        "rationale": "This is a good revision that places the modifier correctly.",
-        "isCorrect": false
-      },
-      {
-        "text": "A man was driving a car with a broken headlight.",
-        "rationale": "Correct. This sentence is in the active voice and clearly states that the car has the broken headlight, not the man. It is the most direct and clear option.",
-        "isCorrect": true
-      },
-      {
-        "text": "Driving the car was a man, and it had a broken headlight.",
-        "rationale": "This is a bit clunky and less direct.",
-        "isCorrect": false
-      },
-      {
-        "text": "A man with a broken headlight was driving the car.",
-        "rationale": "This phrasing ambiguously suggests the man has a broken headlight.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence uses the subjunctive mood correctly?",
-    "answerOptions": [
-      {
-        "text": "I wish I was a little bit taller.",
-        "rationale": "The subjunctive mood requires 'were' for hypothetical wishes: 'I wish I were...'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The boss insists that every employee is on time.",
-        "rationale": "After 'insists that', the subjunctive 'be' should be used: '...that every employee be on time'.",
-        "isCorrect": false
-      },
-      {
-        "text": "If I was the president, I would lower taxes.",
-        "rationale": "For a hypothetical, counterfactual statement, the subjunctive 'were' should be used: 'If I were the president...'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The rules require that he be notified in writing.",
-        "rationale": "Correct. The subjunctive 'be' is correctly used after the phrase 'The rules require that...'.",
-        "isCorrect": true
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  }
 ];

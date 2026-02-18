@@ -1,375 +1,88 @@
-// Imported from frontend/Expanded
+// Language & Grammar — Test Ready: Practice 7
+// Active vs passive voice, transitions in extended paragraphs, sentence combining
 module.exports = [
-  {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence is grammatically correct?",
-    "answerOptions": [
-      {
-        "text": "The team and myself will be at the meeting.",
-        "rationale": "'Myself' is a reflexive pronoun and should not be used as a subject. The correct phrase is 'The team and I'.",
-        "isCorrect": false
-      },
-      {
-        "text": "He divided the profits between the three partners.",
-        "rationale": "'Between' is typically used for two items. 'Among' should be used for three or more.",
-        "isCorrect": false
-      },
-      {
-        "text": "She laid down for a nap.",
-        "rationale": "The correct past tense of 'lie' (to recline) is 'lay'. The past tense of 'lay' (to put) is 'laid'. It should be 'She lay down'.",
-        "isCorrect": false
-      },
-      {
-        "text": "Whom did you speak to?",
-        "rationale": "Correct. 'Whom' is the correct object of the preposition 'to'.",
-        "isCorrect": true
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence provides the most effective revision for 'The reason I am late is because my car wouldn't start.'?",
-    "answerOptions": [
-      {
-        "text": "I am late because my car wouldn't start.",
-        "rationale": "Correct. This revision is concise and removes the redundant phrase 'The reason is because'.",
-        "isCorrect": true
-      },
-      {
-        "text": "The reason for my lateness is due to my car not starting.",
-        "rationale": "This is wordy and less direct.",
-        "isCorrect": false
-      },
-      {
-        "text": "My car not starting is the reason for me being late.",
-        "rationale": "This is grammatically awkward.",
-        "isCorrect": false
-      },
-      {
-        "text": "My car wouldn't start, so that is why I am late.",
-        "rationale": "This is also wordy and a bit informal.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence correctly uses the subjunctive mood?",
-    "answerOptions": [
-      {
-        "text": "I wish I was able to go with you.",
-        "rationale": "For a hypothetical wish, the subjunctive 'were' should be used: 'I wish I were...'.",
-        "isCorrect": false
-      },
-      {
-        "text": "If I was the manager, I would handle it differently.",
-        "rationale": "For a counterfactual condition, the subjunctive 'were' should be used: 'If I were...'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The board requires that the proposal is submitted by Friday.",
-        "rationale": "After 'requires that', the subjunctive 'be' should be used: '...that the proposal be submitted'.",
-        "isCorrect": false
-      },
-      {
-        "text": "It is imperative that she be present at the hearing.",
-        "rationale": "Correct. The subjunctive 'be' is correctly used after the phrase 'It is imperative that...'.",
-        "isCorrect": true
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence uses apostrophes correctly?",
-    "answerOptions": [
-      {
-        "text": "Its a shame the dog lost it's collar.",
-        "rationale": "'It's' = 'it is'; possessive 'its' has no apostrophe. Both uses here are reversed.",
-        "isCorrect": false
-      },
-      {
-        "text": "It's a shame the dog lost its collar.",
-        "rationale": "Correct. 'It's' means 'it is', and possessive 'its' takes no apostrophe.",
-        "isCorrect": true
-      },
-      {
-        "text": "Its' a shame the dog's lost its' collar.",
-        "rationale": "'Its'' is never correct. Apostrophes after 'its' are wrong.",
-        "isCorrect": false
-      },
-      {
-        "text": "Its a shame the dogs' lost it's collar.",
-        "rationale": "Multiple apostrophe errors remain.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence correctly uses a comma after an introductory phrase?",
-    "answerOptions": [
-      {
-        "text": "In the middle of the night the phone rang.",
-        "rationale": "A comma is needed after 'In the middle of the night'.",
-        "isCorrect": false
-      },
-      {
-        "text": "In the middle of the night, the phone rang.",
-        "rationale": "Correct. The introductory phrase is set off by a comma.",
-        "isCorrect": true
-      },
-      {
-        "text": "In the middle, of the night the phone rang.",
-        "rationale": "Comma placement is incorrect and interrupts the phrase.",
-        "isCorrect": false
-      },
-      {
-        "text": "In, the middle of the night the phone rang.",
-        "rationale": "The comma should not split the prepositional phrase.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence uses 'who' and 'whom' correctly?",
-    "answerOptions": [
-      {
-        "text": "Who did you send the email to?",
-        "rationale": "In formal usage after a preposition, 'whom' is preferred: 'to whom'.",
-        "isCorrect": false
-      },
-      {
-        "text": "Whom is going to present the report?",
-        "rationale": "'Whom' cannot serve as a subject; use 'who'.",
-        "isCorrect": false
-      },
-      {
-        "text": "To whom did you send the email?",
-        "rationale": "Correct. 'Whom' is the object of the preposition 'to'.",
-        "isCorrect": true
-      },
-      {
-        "text": "Whom did you say will present the report?",
-        "rationale": "'Who' is correct as the subject of 'will present' within the clause.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence places the adverb 'only' correctly?",
-    "answerOptions": [
-      {
-        "text": "She only told me the truth yesterday.",
-        "rationale": "Ambiguous: does 'only' modify 'told', 'me', or 'yesterday'?",
-        "isCorrect": false
-      },
-      {
-        "text": "Only yesterday did she tell me the truth.",
-        "rationale": "Correct. 'Only' clearly modifies 'yesterday'.",
-        "isCorrect": true
-      },
-      {
-        "text": "She told only me yesterday the truth.",
-        "rationale": "Awkward and unclear placement of 'only'.",
-        "isCorrect": false
-      },
-      {
-        "text": "She told me the only truth yesterday.",
-        "rationale": "Changes the meaning to 'the only truth'.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence maintains a consistent verb tense?",
-    "answerOptions": [
-      {
-        "text": "We walked to the park and then sit on the bench.",
-        "rationale": "Verb tense shifts from past ('walked') to present ('sit').",
-        "isCorrect": false
-      },
-      {
-        "text": "We walk to the park and then sat on the bench.",
-        "rationale": "Verb tense shifts from present to past.",
-        "isCorrect": false
-      },
-      {
-        "text": "We walked to the park and then sat on the bench.",
-        "rationale": "Correct. Both verbs are in the past tense.",
-        "isCorrect": true
-      },
-      {
-        "text": "We had walked to the park and then sit on the bench.",
-        "rationale": "Inconsistent use of past perfect and present tense.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which revision best eliminates redundancy? Original: 'In my personal opinion, I think that we should postpone the meeting.'",
-    "answerOptions": [
-      {
-        "text": "It is my personal opinion that we should postpone the meeting.",
-        "rationale": "Still redundant with 'personal opinion'.",
-        "isCorrect": false
-      },
-      {
-        "text": "In my opinion, we should postpone the meeting.",
-        "rationale": "Correct. Removes redundancies and keeps the meaning.",
-        "isCorrect": true
-      },
-      {
-        "text": "I think that in my opinion we should postpone the meeting.",
-        "rationale": "Contains both 'I think' and 'in my opinion'.",
-        "isCorrect": false
-      },
-      {
-        "text": "We should postpone the meeting, in my personal opinion.",
-        "rationale": "Retains unnecessary 'personal'.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence correctly joins two independent clauses?",
-    "answerOptions": [
-      {
-        "text": "The traffic was heavy, we arrived on time.",
-        "rationale": "Comma splice; use a semicolon, conjunction, or period.",
-        "isCorrect": false
-      },
-      {
-        "text": "The traffic was heavy; we arrived on time.",
-        "rationale": "Correct. A semicolon can join two closely related independent clauses.",
-        "isCorrect": true
-      },
-      {
-        "text": "The traffic was heavy: we arrived on time.",
-        "rationale": "A colon is not used simply to connect two clauses like this.",
-        "isCorrect": false
-      },
-      {
-        "text": "The traffic was heavy however we arrived on time.",
-        "rationale": "A comma is needed before 'however' when it introduces a contrast within a sentence, or use a semicolon before it.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence correctly punctuates a nonessential appositive?",
-    "answerOptions": [
-      {
-        "text": "My brother the engineer designed the bridge.",
-        "rationale": "'The engineer' is nonessential and should be set off by commas.",
-        "isCorrect": false
-      },
-      {
-        "text": "My brother, the engineer, designed the bridge.",
-        "rationale": "Correct. The nonessential appositive is set off by commas.",
-        "isCorrect": true
-      },
-      {
-        "text": "My brother the engineer, designed the bridge.",
-        "rationale": "This has only one comma and incorrectly splits the subject from the verb.",
-        "isCorrect": false
-      },
-      {
-        "text": "My brother—the engineer designed the bridge.",
-        "rationale": "Punctuation is inconsistent; either use commas or em dashes on both sides.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence uses comparative words correctly?",
-    "answerOptions": [
-      {
-        "text": "There were less people at the second event than the first.",
-        "rationale": "Use 'fewer' with countable nouns like 'people'.",
-        "isCorrect": false
-      },
-      {
-        "text": "There were fewer people at the second event than at the first.",
-        "rationale": "Correct. 'Fewer' is used for countable nouns, and the parallel 'than at the first' avoids ambiguity.",
-        "isCorrect": true
-      },
-      {
-        "text": "There was fewer people at the second event than the first.",
-        "rationale": "Subject-verb agreement error and incorrect use of 'fewer/less'.",
-        "isCorrect": false
-      },
-      {
-        "text": "There were less attendees at the second event than the first one had.",
-        "rationale": "'Attendees' are countable; use 'fewer'.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  }
+  {questionNumber:1,type:'multipleChoice',difficulty:'medium',
+   passage:"Read the paragraph and answer the question.\n\n(1) The committee reviewed the proposals. (2) Three were shortlisted. (3) The decision was made by the board. (4) A public announcement will be issued next week.",
+   question:"Which sentence should be rewritten in active voice for consistency with the rest of the paragraph?",
+   answerOptions:[
+    {text:"Sentence 1", isCorrect:false, rationale:"Already active."},
+    {text:"Sentence 2", isCorrect:false, rationale:"Passive but acceptable as a short transitional statement."},
+    {text:"Sentence 3", isCorrect:true, rationale:"'The decision was made by the board' should be 'The board made the decision' — active and consistent with sentences 1 and 2."},
+    {text:"Sentence 4", isCorrect:false, rationale:"Passive is acceptable here — it emphasises the announcement rather than who issues it."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:2,type:'multipleChoice',difficulty:'medium',
+   question:"Choose the transition word that best connects these sentences logically:\n'The construction project was delayed by two months. _______, the final cost exceeded the original budget by 15%.'",
+   answerOptions:[
+    {text:"However", isCorrect:false, rationale:"'However' signals contrast — a cost overrun after a delay is not a contrast."},
+    {text:"Consequently", isCorrect:true, rationale:"A delay causing a cost overrun is a cause-and-effect relationship — 'consequently' is correct."},
+    {text:"In addition", isCorrect:false, rationale:"'In addition' would suggest a separate, unrelated problem — not a direct consequence."},
+    {text:"For example", isCorrect:false, rationale:"The cost issue is a consequence, not an example of the delay."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:3,type:'multipleChoice',difficulty:'medium',
+   question:"Which revision converts the following sentence to active voice correctly?\nOriginal: 'The analysis was conducted by a team of independent researchers.'",
+   answerOptions:[
+    {text:"An analysis was conducting by a team of independent researchers.", isCorrect:false, rationale:"'Was conducting' is an incorrect construction."},
+    {text:"A team of independent researchers conducted the analysis.", isCorrect:true, rationale:"Subject (team) → verb (conducted) → object (analysis) — clean active voice."},
+    {text:"Conducted by a team of independent researchers, the analysis was completed.", isCorrect:false, rationale:"Still passive in the main clause."},
+    {text:"The analysis conducted a team of independent researchers.", isCorrect:false, rationale:"Changes meaning entirely — now 'analysis' is the agent."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:4,type:'multipleChoice',difficulty:'hard',
+   passage:"The following paragraph has a transition problem. (1) The new training programme cut onboarding time by 40%. (2) The pilot cohort completed it in an average of three days. (3) Similarly, customer satisfaction scores improved by 12% in the following quarter. (4) Management has approved a full rollout.",
+   question:"Which transition in the paragraph is logically incorrect?",
+   answerOptions:[
+    {text:"No transition error exists.", isCorrect:false, rationale:"There is a transition issue between sentences 2 and 3."},
+    {text:"'Similarly' at the start of sentence 3 is incorrect — improved customer satisfaction is a result of the training, not a similar parallel event.", isCorrect:true, rationale:"'Similarly' implies two parallel items of the same type; customer satisfaction improving is a consequence of the training, not a parallel fact. 'As a result' would be appropriate."},
+    {text:"Sentence 4 needs a transition showing time.", isCorrect:false, rationale:"The main issue is in sentence 3."},
+    {text:"Sentence 1 needs a transition.", isCorrect:false, rationale:"Sentence 1 opens the paragraph — no prior sentence to transition from."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:5,type:'multipleChoice',difficulty:'hard',
+   question:"A writer produces: 'Due to the fact that the report was not completed in a timely fashion, the presentation was postponed.' Which is the most concise revision?",
+   answerOptions:[
+    {text:"Because the report was late, the presentation was postponed.", isCorrect:true, rationale:"'Due to the fact that' → 'Because'; 'not completed in a timely fashion' → 'late.' Clean, correct, concise."},
+    {text:"The presentation was postponed due to the late report.", isCorrect:false, rationale:"Acceptable but slightly passive in feel; the first option is cleaner."},
+    {text:"Because of the fact that the report was not done on time, the presentation was postponed.", isCorrect:false, rationale:"Still wordy — 'because of the fact that' is only slightly better than 'due to the fact that.'"},
+    {text:"The report being late caused the presentation to be postponed.", isCorrect:false, rationale:"Grammatical but unnecessarily complex."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:6,type:'multipleChoice',difficulty:'hard',
+   passage:"From a business letter:\n\n'We are writing to you today for the purpose of informing you that your account balance has become overdue. It is necessary that payment be made immediately. We would appreciate it very much if you could contact our office at your earliest convenient opportunity.'",
+   question:"Which revision makes this paragraph most concise without losing its professional tone?",
+   answerOptions:[
+    {text:"Your account is overdue. Please pay immediately and contact our office at your earliest convenience.", isCorrect:true, rationale:"Every deadwood phrase is eliminated while maintaining professionalism and urgency."},
+    {text:"We are informing you your account is overdue. Pay now and call us.", isCorrect:false, rationale:"'Pay now and call us' is too informal for a business letter."},
+    {text:"Your account balance has become overdue. Please make payment and contact us soon.", isCorrect:false, rationale:"Better than original but 'has become overdue' and 'make payment' are still slightly wordy."},
+    {text:"For the purpose of this letter: overdue account, please pay, please contact.", isCorrect:false, rationale:"Fragment-style bullet content is inappropriate for a formal business letter."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:7,type:'multipleChoice',difficulty:'hard',
+   question:"Which sentence uses parallel structure correctly in a list of job responsibilities?",
+   answerOptions:[
+    {text:"Responsibilities include: managing the budget, to schedule meetings, and the oversight of staff.", isCorrect:false, rationale:"Mixed forms: gerund, infinitive, noun phrase."},
+    {text:"Responsibilities include: managing the budget, scheduling meetings, and overseeing staff.", isCorrect:true, rationale:"All three items are gerund phrases — consistently parallel."},
+    {text:"Responsibilities include: to manage the budget, scheduling meetings, and staff oversight.", isCorrect:false, rationale:"Mixed: infinitive, gerund, noun phrase."},
+    {text:"Responsibilities include: budget management, to schedule meetings, and oversight of staff.", isCorrect:false, rationale:"Mixed: noun phrase, infinitive, noun phrase."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:8,type:'multipleChoice',difficulty:'hard',
+   question:"A paragraph begins: 'Many employees report high levels of stress. Workplace stress leads to lower productivity and higher turnover. _______, organisations that invest in wellness programmes see measurable returns.' Which transition fits best?",
+   answerOptions:[
+    {text:"In contrast", isCorrect:false, rationale:"The wellness outcome doesn't contrast with workplace stress — it responds to it."},
+    {text:"In spite of this", isCorrect:false, rationale:"Same issue — this implies contradiction, not a solution."},
+    {text:"Not surprisingly, then", isCorrect:true, rationale:"Given what's stated, organisations investing in wellness seeing returns is a logical, expected outcome — 'not surprisingly, then' connects cause to reasonable solution."},
+    {text:"Meanwhile", isCorrect:false, rationale:"'Meanwhile' suggests simultaneous events, not a logical consequence."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:9,type:'multipleChoice',difficulty:'hard',
+   passage:"(1) Solar panels have become increasingly affordable over the past decade. (2) Installation costs have dropped by over 70% since 2010. (3) Many homeowners are still hesitant to install them. (4) The upfront cost remains significant despite long-term savings.",
+   question:"What transition word or phrase would BEST open sentence 3 to show the contrast with sentences 1 and 2?",
+   answerOptions:[
+    {text:"Therefore", isCorrect:false, rationale:"'Therefore' signals a logical result — hesitancy is the opposite of the expected result from falling prices."},
+    {text:"Similarly", isCorrect:false, rationale:"'Similarly' signals a parallel point, not a contradiction."},
+    {text:"Despite this progress", isCorrect:true, rationale:"Acknowledges the preceding cost-reduction trend while introducing the contradictory hesitancy — precise and appropriate."},
+    {text:"As a result", isCorrect:false, rationale:"Hesitancy as a result of cheaper panels is counterintuitive."},
+   ],challenge_tags:['rla-1']},
+  {questionNumber:10,type:'multipleChoice',difficulty:'hard',
+   question:"Which sentence best expresses the relationship between these two ideas with the fewest words?\nIdea 1: The report was incomplete. Idea 2: The board postponed its vote.",
+   answerOptions:[
+    {text:"Because the report was incomplete, the board postponed its vote.", isCorrect:true, rationale:"Direct, concise causal statement using a subordinating conjunction."},
+    {text:"The report was incomplete, and the board postponed its vote as a consequence of this.", isCorrect:false, rationale:"'As a consequence of this' is wordy when 'because' can do the same job."},
+    {text:"Due to the incomplete nature of the report, a postponement of the vote was made by the board.", isCorrect:false, rationale:"Wordy and passive."},
+    {text:"The board postponed its vote; the report was incomplete.", isCorrect:false, rationale:"A semicolon juxtaposes without showing the causal relationship — less precise."},
+   ],challenge_tags:['rla-1']},
 ];

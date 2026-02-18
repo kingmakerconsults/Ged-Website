@@ -1,387 +1,94 @@
-// Imported from frontend/Expanded
+// Vocabulary in Context — Core: Practice 4
+// 10 questions | words in context, connotation, academic vocabulary
 module.exports = [
-  {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The old photographs and letters were tangible links to her family's past.",
-    "question": "In this sentence, what does the word 'tangible' most nearly mean?",
-    "answerOptions": [
-      {
-        "text": "Perceptible by touch real or actual",
-        "rationale": "Correct. The photos and letters were real, physical objects that connected her to the past.",
-        "isCorrect": true
-      },
-      {
-        "text": "Unimportant or insignificant",
-        "rationale": "The items were important links to her family's history.",
-        "isCorrect": false
-      },
-      {
-        "text": "Imaginary or unreal",
-        "rationale": "Tangible is the opposite of imaginary the items were real.",
-        "isCorrect": false
-      },
-      {
-        "text": "Old and fragile",
-        "rationale": "While they might have been old and fragile, 'tangible' refers to their physical existence.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "After the long and difficult project, the team was praised for its tenacity and hard work.",
-    "question": "As used in the passage, what does 'tenacity' mean?",
-    "answerOptions": [
-      {
-        "text": "The quality or fact of being very determined determination",
-        "rationale": "Correct. The team showed great determination in finishing the difficult project.",
-        "isCorrect": true
-      },
-      {
-        "text": "Laughter and good humor",
-        "rationale": "The context is about finishing a difficult project, which requires determination, not necessarily humor.",
-        "isCorrect": false
-      },
-      {
-        "text": "Speed and efficiency",
-        "rationale": "While they may have been efficient, 'tenacity' specifically refers to their persistence.",
-        "isCorrect": false
-      },
-      {
-        "text": "Anger and frustration",
-        "rationale": "Tenacity is a positive quality of determination, not a negative one like anger.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The speaker's anecdote about his childhood was a brief but relevant digression that helped to illustrate his main point.",
-    "question": "In this context, what does the word 'digression' mean?",
-    "answerOptions": [
-      {
-        "text": "A temporary departure from the main subject in speech or writing",
-        "rationale": "Correct. The anecdote was a brief detour from the main topic that served a purpose.",
-        "isCorrect": true
-      },
-      {
-        "text": "The central argument or main idea",
-        "rationale": "A digression is a departure from the main idea, not the main idea itself.",
-        "isCorrect": false
-      },
-      {
-        "text": "A lie or fabrication",
-        "rationale": "There is no indication that the anecdote was untrue.",
-        "isCorrect": false
-      },
-      {
-        "text": "A conclusion or summary",
-        "rationale": "A digression is a detour, not a conclusion.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The politician was a charismatic speaker, able to captivate audiences with his powerful speeches.",
-    "question": "What is the meaning of 'charismatic' in this context?",
-    "answerOptions": [
-      {
-        "text": "Exercising a compelling charm that inspires devotion in others",
-        "rationale": "Correct. His ability to captivate audiences was due to his compelling charm.",
-        "isCorrect": true
-      },
-      {
-        "text": "Boring and uninspired",
-        "rationale": "A boring speaker would not captivate an audience.",
-        "isCorrect": false
-      },
-      {
-        "text": "Shy and timid",
-        "rationale": "A charismatic person is typically outgoing and confident, not shy.",
-        "isCorrect": false
-      },
-      {
-        "text": "Dishonest and untrustworthy",
-        "rationale": "While a charismatic person could be dishonest, the word itself refers to their charm and appeal, not their honesty.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The new evidence was so compelling that it served to vindicate the man who had been wrongly convicted.",
-    "question": "In the passage, what does the word 'vindicate' mean?",
-    "answerOptions": [
-      {
-        "text": "To clear someone of blame or suspicion",
-        "rationale": "Correct. The new evidence proved his innocence.",
-        "isCorrect": true
-      },
-      {
-        "text": "To condemn or convict",
-        "rationale": "Vindicate is the opposite of condemn.",
-        "isCorrect": false
-      },
-      {
-        "text": "To investigate or question",
-        "rationale": "The evidence led to his vindication, but the word itself means to clear, not to investigate.",
-        "isCorrect": false
-      },
-      {
-        "text": "To forget or ignore",
-        "rationale": "The new evidence brought the case back to light, it did not ignore it.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "She was an astute observer of human behavior, often noticing small details that others missed.",
-    "question": "As used in the sentence, what does 'astute' mean?",
-    "answerOptions": [
-      {
-        "text": "Careless and unobservant",
-        "rationale": "Astute is the opposite of careless it implies keen awareness.",
-        "isCorrect": false
-      },
-      {
-        "text": "Having or showing an ability to accurately assess situations or people and turn this to one's advantage shrewd",
-        "rationale": "Correct. Her ability to notice small details made her a sharp and perceptive observer.",
-        "isCorrect": true
-      },
-      {
-        "text": "Kind and compassionate",
-        "rationale": "While she may have been kind, 'astute' refers to her intelligence and perception, not her kindness.",
-        "isCorrect": false
-      },
-      {
-        "text": "Overly critical and judgmental",
-        "rationale": "Astute means perceptive, not necessarily judgmental.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The committee's report was comprehensive, covering every aspect of the issue in great detail.",
-    "question": "What does the word 'comprehensive' mean in this context?",
-    "answerOptions": [
-      {
-        "text": "Brief and superficial",
-        "rationale": "Comprehensive is the opposite of brief it means thorough.",
-        "isCorrect": false
-      },
-      {
-        "text": "Complete including all or nearly all elements or aspects of something",
-        "rationale": "Correct. The report was thorough and covered everything.",
-        "isCorrect": true
-      },
-      {
-        "text": "Confusing and unclear",
-        "rationale": "A detailed report is not necessarily confusing.",
-        "isCorrect": false
-      },
-      {
-        "text": "Biased and one-sided",
-        "rationale": "Comprehensive implies that all aspects were covered, which suggests it was balanced, not biased.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The company's initial success was ephemeral, lasting only as long as the temporary fad.",
-    "question": "In the passage, what does the word 'ephemeral' mean?",
-    "answerOptions": [
-      {
-        "text": "Lasting for a very short time",
-        "rationale": "Correct. The success was short-lived, like the fad.",
-        "isCorrect": true
-      },
-      {
-        "text": "Permanent and everlasting",
-        "rationale": "Ephemeral is the opposite of permanent.",
-        "isCorrect": false
-      },
-      {
-        "text": "Impressive and significant",
-        "rationale": "While the initial success may have been impressive, 'ephemeral' describes its duration, not its impact.",
-        "isCorrect": false
-      },
-      {
-        "text": "Unexpected and surprising",
-        "rationale": "The word relates to how long the success lasted, not whether it was expected.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The weather forecast predicted intermittent rain, so we decided to bring our umbrellas just in case.",
-    "question": "What does the word 'intermittent' mean?",
-    "answerOptions": [
-      {
-        "text": "Occurring at irregular intervals not continuous or steady",
-        "rationale": "Correct. The rain was expected to start and stop, not be continuous.",
-        "isCorrect": true
-      },
-      {
-        "text": "Heavy and constant",
-        "rationale": "Intermittent is the opposite of constant.",
-        "isCorrect": false
-      },
-      {
-        "text": "Light and misty",
-        "rationale": "The word describes the timing of the rain, not its intensity.",
-        "isCorrect": false
-      },
-      {
-        "text": "Certain to happen",
-        "rationale": "While it was predicted, 'intermittent' describes the pattern of the rain, not its certainty.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The politician was censured by the committee for his unethical behavior.",
-    "question": "In this context, what does 'censured' mean?",
-    "answerOptions": [
-      {
-        "text": "Praised or rewarded",
-        "rationale": "Censure is a form of punishment, not praise.",
-        "isCorrect": false
-      },
-      {
-        "text": "Express severe disapproval of (someone or something), typically in a formal statement",
-        "rationale": "Correct. The committee formally reprimanded him for his actions.",
-        "isCorrect": true
-      },
-      {
-        "text": "Ignored or overlooked",
-        "rationale": "His behavior was formally addressed, not ignored.",
-        "isCorrect": false
-      },
-      {
-        "text": "Promoted or celebrated",
-        "rationale": "Censure is a negative consequence, not a promotion.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "City officials added shade structures at bus stops to mitigate the effects of extreme summer heat on riders.",
-    "question": "As used in the passage, what does 'mitigate' most nearly mean?",
-    "answerOptions": [
-      {
-        "text": "Make less severe or serious; reduce",
-        "rationale": "Correct. The shade structures aim to lessen the impact of heat on riders.",
-        "isCorrect": true
-      },
-      {
-        "text": "Measure precisely",
-        "rationale": "'Mitigate' is about lessening harm, not measuring it.",
-        "isCorrect": false
-      },
-      {
-        "text": "Ignore completely",
-        "rationale": "Mitigating is an active response, not ignoring.",
-        "isCorrect": false
-      },
-      {
-        "text": "Exaggerate for emphasis",
-        "rationale": "Mitigate means the opposite—downplaying severity by reducing harm.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "After reviewing the contract, the tenant chose to repudiate the renewal offer because of the new fees.",
-    "question": "In this context, what does 'repudiate' mean?",
-    "answerOptions": [
-      {
-        "text": "Reject or refuse to accept",
-        "rationale": "Correct. The tenant declined the renewal offer due to added fees.",
-        "isCorrect": true
-      },
-      {
-        "text": "Revise carefully",
-        "rationale": "Repudiate is about rejecting, not editing.",
-        "isCorrect": false
-      },
-      {
-        "text": "Delay until later",
-        "rationale": "Deferring is not the same as repudiating.",
-        "isCorrect": false
-      },
-      {
-        "text": "Approve enthusiastically",
-        "rationale": "This is the opposite of repudiating.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  }
+  {questionNumber:1,type:'multipleChoice',difficulty:'easy',
+   passage:"The scientist's hypothesis was later vindicated when independent labs replicated her results.",
+   question:"As used in this sentence, 'vindicated' most nearly means:",
+   answerOptions:[
+    {text:"criticised", isCorrect:false, rationale:"Criticised is the opposite — vindicated means proved right."},
+    {text:"confirmed as correct after initial doubt", isCorrect:true, rationale:"Vindicated = shown to be right after being doubted or challenged."},
+    {text:"ignored by the scientific community", isCorrect:false, rationale:"Ignored would be a neutral or negative outcome."},
+    {text:"simplified for a wider audience", isCorrect:false, rationale:"Simplification is not what 'vindicated' means."},
+   ],challenge_tags:['rla-3']},
+  {questionNumber:2,type:'multipleChoice',difficulty:'easy',
+   passage:"The company issued a terse statement refusing to comment on the allegations.",
+   question:"'Terse' most nearly means:",
+   answerOptions:[
+    {text:"lengthy and detailed", isCorrect:false, rationale:"Terse means brief — the opposite of lengthy."},
+    {text:"brief and abrupt", isCorrect:true, rationale:"Terse = using few words, often to the point of seeming rude or dismissive."},
+    {text:"emotional and passionate", isCorrect:false, rationale:"Terse describes length and tone, not emotional content."},
+    {text:"formal and official", isCorrect:false, rationale:"A terse statement could be formal or informal; 'terse' specifies brevity."},
+   ],challenge_tags:['rla-3']},
+  {questionNumber:3,type:'multipleChoice',difficulty:'medium',
+   passage:"Critics argued the new policy was an arbitrary decision with no clear rationale.",
+   question:"'Arbitrary' most nearly means:",
+   answerOptions:[
+    {text:"carefully planned and logical", isCorrect:false, rationale:"Arbitrary means the opposite: based on random or personal preference, not reason."},
+    {text:"made randomly or without clear reasoning", isCorrect:true, rationale:"Arbitrary = based on chance or personal whim rather than principle or reason."},
+    {text:"extremely popular with the public", isCorrect:false, rationale:"Popularity has no bearing on the word's meaning."},
+    {text:"illegal under existing law", isCorrect:false, rationale:"Arbitrary describes reasoning quality, not legality."},
+   ],challenge_tags:['rla-3']},
+  {questionNumber:4,type:'multipleChoice',difficulty:'medium',
+   passage:"The speaker's rhetoric was persuasive on the surface but lacked any substantive evidence.",
+   question:"'Rhetoric' as used here most nearly means:",
+   answerOptions:[
+    {text:"complicated technical language", isCorrect:false, rationale:"Rhetoric is not specifically about technical complexity."},
+    {text:"language designed to persuade, which may substitute style for substance", isCorrect:true, rationale:"'Rhetoric' here carries a slight negative connotation: impressive-sounding language that lacks real support — a common usage in political contexts."},
+    {text:"a type of formal essay structure", isCorrect:false, rationale:"Rhetoric refers to persuasive language, not essay format."},
+    {text:"evidence presented in a speech", isCorrect:false, rationale:"The sentence contrasts rhetoric with evidence — they are positioned as different things."},
+   ],challenge_tags:['rla-3']},
+  {questionNumber:5,type:'multipleChoice',difficulty:'medium',
+   passage:"The charity's work with homeless youth was laudable but underfunded.",
+   question:"'Laudable' most nearly means:",
+   answerOptions:[
+    {text:"controversial and disputed", isCorrect:false, rationale:"Laudable means praiseworthy — the opposite of controversial."},
+    {text:"deserving of praise", isCorrect:true, rationale:"Laudable = commendable, worthy of admiration."},
+    {text:"legally required by government standards", isCorrect:false, rationale:"Legal requirements have no bearing on the meaning of laudable."},
+    {text:"financially successful", isCorrect:false, rationale:"The sentence says the work was underfunded — financial success is contradicted here."},
+   ],challenge_tags:['rla-3']},
+  {questionNumber:6,type:'multipleChoice',difficulty:'medium',
+   passage:"After the audit revealed discrepancies in the financial records, the director resigned, citing a desire to avoid any appearance of impropriety.",
+   question:"'Impropriety' most nearly means:",
+   answerOptions:[
+    {text:"financial gain from personal investments", isCorrect:false, rationale:"This describes one possible form of wrongdoing but not the word's full meaning."},
+    {text:"dishonest or unethical behaviour, or the appearance of it", isCorrect:true, rationale:"Impropriety = behaviour that is wrong or unacceptable, especially by ethical or professional standards."},
+    {text:"errors in financial record-keeping", isCorrect:false, rationale:"The discrepancies were the trigger; the director's concern was about the ethical perception."},
+    {text:"lack of professional qualifications", isCorrect:false, rationale:"Qualifications are not the subject — ethical conduct is."},
+   ],challenge_tags:['rla-3']},
+  {questionNumber:7,type:'multipleChoice',difficulty:'hard',
+   passage:"The mayor's seemingly conciliatory remarks did little to placate the protesters, who demanded concrete policy changes rather than words.",
+   question:"'Conciliatory' most nearly means:",
+   answerOptions:[
+    {text:"intended to reach agreement and reduce conflict", isCorrect:true, rationale:"Conciliatory = attempting to make people less angry or hostile; designed to bring peace."},
+    {text:"dismissive and condescending", isCorrect:false, rationale:"Dismissive is the opposite of conciliatory."},
+    {text:"financially generous", isCorrect:false, rationale:"Conciliatory describes tone and intent, not material generosity."},
+    {text:"vague and evasive", isCorrect:false, rationale:"While the sentence suggests the remarks lacked substance, 'conciliatory' describes their intention, not their content."},
+   ],challenge_tags:['rla-3']},
+  {questionNumber:8,type:'multipleChoice',difficulty:'hard',
+   passage:"The researcher's findings were preliminary and should not be construed as definitive.",
+   question:"'Construed' most nearly means:",
+   answerOptions:[
+    {text:"published or distributed", isCorrect:false, rationale:"Construed refers to interpretation, not distribution."},
+    {text:"interpreted or understood in a particular way", isCorrect:true, rationale:"Construe = to interpret or understand something in a certain sense."},
+    {text:"rejected by peer reviewers", isCorrect:false, rationale:"Rejection is not what 'construed' describes."},
+    {text:"exaggerated for public consumption", isCorrect:false, rationale:"The word is about interpretation, not exaggeration."},
+   ],challenge_tags:['rla-3']},
+  {questionNumber:9,type:'multipleChoice',difficulty:'hard',
+   passage:"The union leader's speech was incendiary, inflaming tensions that had been simmering for months.",
+   question:"'Incendiary' as used here most nearly means:",
+   answerOptions:[
+    {text:"relating to fire safety regulations", isCorrect:false, rationale:"'Incendiary' can relate to fire literally, but in this context it is clearly figurative."},
+    {text:"deliberately provocative and likely to cause anger or conflict", isCorrect:true, rationale:"Incendiary speech inflames emotions — the metaphor of fire is applied to social tension."},
+    {text:"calm and measured in its delivery", isCorrect:false, rationale:"Calm is the opposite of incendiary in this context."},
+    {text:"too long and detailed for the audience", isCorrect:false, rationale:"Length and detail are not what incendiary describes."},
+   ],challenge_tags:['rla-3']},
+  {questionNumber:10,type:'multipleChoice',difficulty:'hard',
+   passage:"While the government's response was swift, critics argued it was disproportionate to the actual threat, amounting to an egregious overreach.",
+   question:"'Egregious' most nearly means:",
+   answerOptions:[
+    {text:"relatively minor and easily corrected", isCorrect:false, rationale:"Egregious means outstandingly bad — the opposite of minor."},
+    {text:"remarkably bad; strikingly excessive", isCorrect:true, rationale:"Egregious = outstandingly or conspicuously bad — used to intensify criticism."},
+    {text:"carefully considered and proportionate", isCorrect:false, rationale:"The sentence criticises disproportionality — 'proportionate' contradicts the context."},
+    {text:"widely popular and well-received", isCorrect:false, rationale:"'Egregious' has a fundamentally negative connotation."},
+   ],challenge_tags:['rla-3']},
 ];

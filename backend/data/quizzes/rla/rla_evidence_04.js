@@ -1,387 +1,146 @@
-// Imported from frontend/Expanded
+// Evidence & Argumentation — Core Skills: Practice 4
+// 10 questions | evaluate support quality, distinguish fact from inference
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The city's new public library has become a vital community hub since it opened last year. It offers a wide range of resources beyond books, including free internet access, job-seeking workshops, and a children's story hour. In the first six months, over 10,000 residents signed up for a library card.",
-    "question": "Which detail from the passage best supports the claim that the library is a 'vital community hub'?",
-    "answerOptions": [
-      {
-        "text": "The library opened last year.",
-        "rationale": "This provides the time frame, not evidence of its importance to the community.",
-        "isCorrect": false
-      },
-      {
-        "text": "Over 10,000 residents signed up for a library card in the first six months.",
-        "rationale": "Correct. This is a specific, large number that demonstrates widespread community engagement and use of the library.",
-        "isCorrect": true
-      },
-      {
-        "text": "The library has books.",
-        "rationale": "This is a basic function of a library, not evidence that it has become a vital hub.",
-        "isCorrect": false
-      },
-      {
-        "text": "The library offers a children's story hour.",
-        "rationale": "This is one of the services offered, but the high number of new members is stronger evidence of its overall importance.",
-        "isCorrect": false
-      }
+    questionNumber: 1,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: "A recent study by the National Transportation Institute found that cities with dedicated bus rapid transit (BRT) lanes reduced average commute times by 22% compared to cities without BRT infrastructure. Additionally, cities with BRT reported a 14% decrease in downtown parking demand, suggesting that commuters shifted to public transit when fast, reliable options were available.",
+    question: "Which of the following is the MOST direct evidence that BRT lanes improve commuting?",
+    answerOptions: [
+      { text: "Cities with BRT reported reduced parking demand.", isCorrect: false, rationale: "This is a secondary effect, not direct evidence of commute improvement." },
+      { text: "Cities with BRT averaged a 22% reduction in commute times.", isCorrect: true, rationale: "A specific, measurable percentage directly tied to commute time is the strongest direct evidence." },
+      { text: "Commuters shifted to public transit where fast options existed.", isCorrect: false, rationale: "This is an inference drawn from the parking data, not a direct commute measurement." },
+      { text: "The National Transportation Institute conducted a study.", isCorrect: false, rationale: "This is background context, not the evidence itself." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "Proper nutrition is critical for a student's ability to learn. A healthy, balanced diet improves concentration, memory, and alertness. For example, a study conducted by the CDC found that students who eat a nutritious breakfast have better attendance rates and perform better on standardized tests.",
-    "question": "Which piece of evidence best supports the idea that nutrition affects a student's learning?",
-    "answerOptions": [
-      {
-        "text": "Proper nutrition is critical.",
-        "rationale": "This is the main claim, not the evidence supporting it.",
-        "isCorrect": false
-      },
-      {
-        "text": "A healthy diet improves concentration and memory.",
-        "rationale": "This is a general statement. The study provides more specific, concrete evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "A CDC study found that students who eat a nutritious breakfast perform better on tests.",
-        "rationale": "Correct. This is a specific finding from a reputable source that directly links a nutritional habit (eating breakfast) to a clear academic outcome (better test performance).",
-        "isCorrect": true
-      },
-      {
-        "text": "Students take standardized tests.",
-        "rationale": "This is a general fact, not evidence supporting the link between nutrition and learning.",
-        "isCorrect": false
-      }
+    questionNumber: 2,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: "The Millbrook School District recently adopted a four-day school week. Supporters argued it would save money and reduce teacher burnout. After one year, the district reported a 12% decrease in teacher absences and roughly $200,000 in operational savings. However, some parents noted that it created childcare difficulties on the fifth day.",
+    question: "A parent argues the four-day week is harmful. Which evidence from the passage BEST supports that argument?",
+    answerOptions: [
+      { text: "Teacher absences dropped by 12%.", isCorrect: false, rationale: "This supports the pro-four-day-week argument." },
+      { text: "The district saved $200,000 in operations.", isCorrect: false, rationale: "This also supports the policy." },
+      { text: "Some parents noted childcare difficulties on the fifth day.", isCorrect: true, rationale: "This is the only detail that identifies a negative consequence for families." },
+      { text: "The district adopted the schedule one year ago.", isCorrect: false, rationale: "This is a timeline detail, not evidence of harm." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The new manufacturing process is a significant improvement in terms of environmental sustainability. By redesigning the production line, we have cut our water usage by 40%. The new process also uses 25% less electricity and emits fewer greenhouse gases. This has not only reduced our environmental footprint but has also led to significant cost savings.",
-    "question": "Which piece of evidence most strongly supports the claim that the new process improves 'environmental sustainability'?",
-    "answerOptions": [
-      {
-        "text": "The new process has led to significant cost savings.",
-        "rationale": "This is a financial benefit, not a direct measure of environmental sustainability.",
-        "isCorrect": false
-      },
-      {
-        "text": "The production line was redesigned.",
-        "rationale": "This is the cause of the improvements, not the evidence of the improvements themselves.",
-        "isCorrect": false
-      },
-      {
-        "text": "We have cut our water usage by 40%.",
-        "rationale": "Correct. A specific, large reduction in the use of a natural resource is a very strong piece of evidence for improved environmental sustainability.",
-        "isCorrect": true
-      },
-      {
-        "text": "The new process is a significant improvement.",
-        "rationale": "This is the main claim, not the evidence that supports it.",
-        "isCorrect": false
-      }
+    questionNumber: 3,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: "Researchers at Westbrook University investigated the relationship between green spaces and mental health in urban environments. Their results showed that city residents who spent at least 30 minutes weekly in parks or green spaces reported 18% lower levels of anxiety and a 24% improvement in self-reported wellbeing compared to those who spent no time in such spaces. The study controlled for income, age, and pre-existing conditions.",
+    question: "Why does the fact that the study 'controlled for income, age, and pre-existing conditions' strengthen the evidence?",
+    answerOptions: [
+      { text: "It shows the researchers were highly qualified.", isCorrect: false, rationale: "Qualifications are not the same as methodological rigor." },
+      { text: "It means the green-space effect cannot be explained by those other variables.", isCorrect: true, rationale: "Controlling for variables isolates the specific factor being tested, making the evidence more reliable." },
+      { text: "It proves that all urban residents benefit equally.", isCorrect: false, rationale: "Controlling for variables does not mean everyone benefits equally." },
+      { text: "It eliminates the need for other studies.", isCorrect: false, rationale: "One study, however rigorous, does not eliminate the need for replication." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The high-speed rail line has been a major economic boon for the region. It has connected smaller cities with the major metropolitan hub, allowing for easier commutes and increased tourism. A report from the regional economic council showed that since the rail line opened two years ago, the smaller cities along the route have seen an average of 15% growth in new business startups.",
-    "question": "Which detail from the passage best supports the claim that the rail line is an 'economic boon'?",
-    "answerOptions": [
-      {
-        "text": "The rail line has been open for two years.",
-        "rationale": "This is the time frame, not evidence of its economic impact.",
-        "isCorrect": false
-      },
-      {
-        "text": "The rail line connects smaller cities with a metropolitan hub.",
-        "rationale": "This describes the function of the rail line, but not its economic effect.",
-        "isCorrect": false
-      },
-      {
-        "text": "Cities along the route have seen a 15% growth in new business startups.",
-        "rationale": "Correct. The growth in new businesses is a specific, quantifiable indicator of positive economic impact.",
-        "isCorrect": true
-      },
-      {
-        "text": "The rail line allows for easier commutes and tourism.",
-        "rationale": "These are the mechanisms that lead to the economic boon, but the growth in new businesses is the direct evidence of that boon.",
-        "isCorrect": false
-      }
+    questionNumber: 4,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: "Proponents of year-round schooling argue that extended summer breaks cause 'summer slide' — a loss of academic progress over the break. They cite a Johns Hopkins meta-analysis of 39 studies showing that students lose an average of two to three months of reading skills each summer. Critics counter that year-round schools have not consistently shown improved test scores over traditional schedules.",
+    question: "Which statement best describes the relationship between the two pieces of evidence in the passage?",
+    answerOptions: [
+      { text: "Both pieces support year-round schooling.", isCorrect: false, rationale: "The critics' evidence argues against a clear benefit of year-round schooling." },
+      { text: "The meta-analysis proves that year-round school improves test scores.", isCorrect: false, rationale: "The meta-analysis addresses summer loss, not year-round school outcomes." },
+      { text: "The meta-analysis supports the claim of summer loss, while critics' data undermines the proposed solution.", isCorrect: true, rationale: "Accurately captures both sides: the problem (summer slide) is evidenced, but the solution (year-round school) is disputed." },
+      { text: "The critics' data disproves the existence of summer slide.", isCorrect: false, rationale: "The critics challenge the effectiveness of the solution, not the reality of summer slide." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The assertion that the 'digital age' has shortened our attention spans is a popular one, but it may be an oversimplification. While it's true that the constant stream of information can be distracting, some studies suggest that our brains are not so much losing the ability to focus as they are adapting to a new environment. For example, a 2018 study on video gamers showed they had a heightened ability to track multiple objects at once compared to non-gamers. This suggests a shift in cognitive strengths, rather than a simple deficit.",
-    "question": "Which piece of evidence does the author use to challenge the idea that technology is simply shortening our attention spans?",
-    "answerOptions": [
-      {
-        "text": "The constant stream of information can be distracting.",
-        "rationale": "This is a concession to the popular argument, not evidence against it.",
-        "isCorrect": false
-      },
-      {
-        "text": "The assertion is a popular one.",
-        "rationale": "This describes the belief, it does not challenge it.",
-        "isCorrect": false
-      },
-      {
-        "text": "A study showed that video gamers were better at tracking multiple objects at once.",
-        "rationale": "Correct. This is a specific piece of evidence that suggests technology may be fostering different cognitive skills (like tracking multiple things), rather than just weakening old ones (like long-form focus).",
-        "isCorrect": true
-      },
-      {
-        "text": "Our brains are adapting to a new environment.",
-        "rationale": "This is the author's main claim, not the specific evidence used to support it.",
-        "isCorrect": false
-      }
+    questionNumber: 5,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: "In a community debate over building a new highway through a wetland area, advocates noted that the highway would reduce commute times by 15 minutes and create 3,000 construction jobs. Environmentalists argued that destroying the wetland would eliminate habitat for 40 protected species and reduce the region's natural flood buffer by 30%, potentially costing millions in future flood damages.",
+    question: "Which of the following best evaluates the strength of the environmentalists' argument?",
+    answerOptions: [
+      { text: "It is weak because the highway creates jobs.", isCorrect: false, rationale: "Refuting the other side's point does not weaken this argument on its own terms." },
+      { text: "It is strong because it uses specific quantities to project long-term costs.", isCorrect: true, rationale: "The argument cites 40 species, 30% buffer reduction, and 'millions in damages' — specific, quantified, long-term evidence." },
+      { text: "It is weak because it does not mention the commute improvement.", isCorrect: false, rationale: "Arguments don't need to address every point of the opposing side to be strong." },
+      { text: "It is strong only because it mentions protected species.", isCorrect: false, rationale: "The argument's strength comes from the combination of specific quantified claims, not from species alone." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "Many people defend the use of plastic water bottles by arguing that they are recyclable. However, this argument ignores the full environmental impact. According to the EPA, only about 30% of plastic bottles in the United States are actually recycled. The vast majority end up in landfills, where they can take up to 1,000 years to decompose, or in oceans, where they harm marine life. Furthermore, the production of plastic bottles requires significant amounts of fossil fuels.",
-    "question": "Which piece of evidence from the text most effectively refutes the argument that plastic bottles are environmentally friendly because they are recyclable?",
-    "answerOptions": [
-      {
-        "text": "The production of plastic bottles requires fossil fuels.",
-        "rationale": "This is a strong piece of evidence about the overall environmental impact, but the statistic about recycling rates is a more direct refutation of the specific argument.",
-        "isCorrect": false
-      },
-      {
-        "text": "Plastic bottles can end up in oceans and harm marine life.",
-        "rationale": "This is a consequence of the low recycling rate, but the rate itself is the most direct counterargument.",
-        "isCorrect": false
-      },
-      {
-        "text": "Only about 30% of plastic bottles in the U.S. are actually recycled.",
-        "rationale": "Correct. This statistic directly attacks the premise of the argument, showing that while bottles are theoretically recyclable, the vast majority are not, in fact, recycled. This makes it the most effective refutation.",
-        "isCorrect": true
-      },
-      {
-        "text": "Many people defend the use of plastic water bottles.",
-        "rationale": "This states the argument the author is refuting, it does not provide evidence against it.",
-        "isCorrect": false
-      }
+    questionNumber: 6,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: "Advertisement: 'Switch to FreshWave toothpaste — used by 4 out of 5 dentists!' A consumer advocacy group reviewed the study behind this claim and found that dentists were given only two options to choose from, and FreshWave was compared to a brand known to be ineffective. The question asked was 'Which would you recommend to patients who need whitening products?'",
+    question: "How does the consumer group's finding affect the advertisement's evidence?",
+    answerOptions: [
+      { text: "It strengthens the claim because the study involved real dentists.", isCorrect: false, rationale: "Expert involvement doesn't validate a study with biased methodology." },
+      { text: "It reveals that the statistic is misleading because of the limited comparison and narrow question.", isCorrect: true, rationale: "The limited choice set and narrow question scope make '4 out of 5' a misleading general endorsement." },
+      { text: "It proves the ad is false because 4 out of 5 is not a real statistic.", isCorrect: false, rationale: "The statistic may be technically accurate but is contextually misleading — not proven false." },
+      { text: "It has no effect because dentists are experts.", isCorrect: false, rationale: "Expert status doesn't override flaws in the study design." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The new automated inventory system has greatly improved our warehouse efficiency. The system uses robots to retrieve items, reducing the time it takes to process an order. Since its implementation, our order fulfillment time has decreased from an average of 20 minutes to just 5 minutes.",
-    "question": "Which detail best supports the claim that the new system has 'greatly improved... efficiency'?",
-    "answerOptions": [
-      {
-        "text": "The system uses robots to retrieve items.",
-        "rationale": "This describes how the system works, not the result of its work.",
-        "isCorrect": false
-      },
-      {
-        "text": "Order fulfillment time has decreased from 20 minutes to 5 minutes.",
-        "rationale": "Correct. This is a specific, dramatic, and quantifiable improvement in a key efficiency metric.",
-        "isCorrect": true
-      },
-      {
-        "text": "The system is automated.",
-        "rationale": "This is a feature of the system, not a measure of its success.",
-        "isCorrect": false
-      },
-      {
-        "text": "The system was implemented in the warehouse.",
-        "rationale": "This states the location, not the evidence of its impact.",
-        "isCorrect": false
-      }
+    questionNumber: 7,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "A city council member argues: 'We should invest in a new sports stadium. Tourism data from comparable cities show that stadium construction correlates with a 15% increase in hotel bookings. Our downtown businesses need more foot traffic, and a stadium is the answer.' An economist responds: 'Correlation between new stadiums and increased tourism is often driven by other simultaneous development — hotels, restaurants, and marketing campaigns — not the stadium alone.'",
+    question: "The economist's response challenges the council member's argument by:",
+    answerOptions: [
+      { text: "Providing evidence that hotels, not stadiums, drive growth.", isCorrect: false, rationale: "The economist doesn't provide evidence that hotels alone drive growth; they point to confounding factors." },
+      { text: "Arguing that the 15% statistic is inaccurate.", isCorrect: false, rationale: "The economist does not dispute the statistic, only its interpretation." },
+      { text: "Questioning whether the stadium caused the tourist increase or whether other factors explain it.", isCorrect: true, rationale: "The economist attacks the causal link, not the correlation statistic — a classic 'correlation ≠ causation' challenge." },
+      { text: "Suggesting that the city has enough foot traffic already.", isCorrect: false, rationale: "This interpretation does not appear in the economist's response." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The new city park has been a wonderful addition to the neighborhood. It provides a safe place for children to play and a peaceful retreat for adults. The park includes a modern playground, a walking path, and several benches. A recent survey of neighborhood residents found that 95% felt the park had improved their quality of life.",
-    "question": "Which piece of evidence most strongly supports the claim that the park has been a 'wonderful addition'?",
-    "answerOptions": [
-      {
-        "text": "The park has a modern playground and a walking path.",
-        "rationale": "These are features of the park, but they don't measure the impact on the residents.",
-        "isCorrect": false
-      },
-      {
-        "text": "The park is a safe place for children to play.",
-        "rationale": "This is one of the benefits, but the survey result is a broader and more direct measure of its overall success.",
-        "isCorrect": false
-      },
-      {
-        "text": "A survey found that 95% of residents felt the park had improved their quality of life.",
-        "rationale": "Correct. A high-percentage positive response from a survey of the people the park is meant to serve is the strongest possible evidence of its success.",
-        "isCorrect": true
-      },
-      {
-        "text": "The park is a peaceful retreat for adults.",
-        "rationale": "This is another one of the benefits, but the survey provides a more comprehensive measure of its positive impact.",
-        "isCorrect": false
-      }
+    questionNumber: 8,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "A health agency released a report stating that a new drug reduced symptoms in 70% of patients during clinical trials. However, a pharmacologist noted that the trial lasted only 8 weeks, all participants were between 25 and 40 years old, and the placebo group showed a 45% symptom reduction. The trial included 200 patients from a single research hospital.",
+    question: "Which limitation of the trial MOST weakens its evidence?",
+    answerOptions: [
+      { text: "Only 200 patients were studied.", isCorrect: false, rationale: "Sample size is a concern, but other limitations are more decisive here." },
+      { text: "The placebo group also improved — by 45%.", isCorrect: true, rationale: "A net improvement of only 25 percentage points over placebo substantially reduces the drug's apparent effectiveness." },
+      { text: "All participants were from one hospital.", isCorrect: false, rationale: "This limits generalisability but is less immediately damaging than the placebo effect comparison." },
+      { text: "The trial only lasted 8 weeks.", isCorrect: false, rationale: "Duration is a concern for long-term claims, but the placebo effect is more damaging to the core claim." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The common perception is that creativity is the domain of artists and musicians. However, creativity is a crucial skill in all fields, including science and engineering. For example, the development of the mRNA vaccine was not just a matter of following a formula it required innovative problem-solving and a novel approach to vaccine design. This kind of creative thinking is essential for pushing the boundaries of knowledge and solving complex problems.",
-    "question": "Which detail from the passage best supports the argument that creativity is crucial in science?",
-    "answerOptions": [
-      {
-        "text": "The common perception is that creativity is for artists.",
-        "rationale": "This is the counterclaim that the author is arguing against.",
-        "isCorrect": false
-      },
-      {
-        "text": "Creative thinking is essential for solving complex problems.",
-        "rationale": "This is a general statement. The vaccine example is the specific evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "The development of the mRNA vaccine required innovative problem-solving and a novel approach.",
-        "rationale": "Correct. This provides a specific, real-world example of how creativity (in the form of innovative and novel thinking) was essential to a major scientific breakthrough.",
-        "isCorrect": true
-      },
-      {
-        "text": "Creativity is a crucial skill in all fields.",
-        "rationale": "This is the author's main claim, not the evidence used to support it.",
-        "isCorrect": false
-      }
+    questionNumber: 9,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "Passage A: A rural school district superintendent argues that local control of curriculum standards leads to higher graduation rates, citing their own district's 95% graduation rate after switching from state standards.
+
+Passage B: A state education official argues that uniform standards ensure all students, regardless of zip code, receive equitable preparation for college and the workforce. She notes that districts with locally controlled standards show the widest achievement gaps between income levels.",
+    question: "Which best describes how the two passages approach the question of curriculum control?",
+    answerOptions: [
+      { text: "Both use statistical evidence to support local control.", isCorrect: false, rationale: "Passage B argues against local control." },
+      { text: "Passage A uses a single district example; Passage B uses broader demographic evidence about equity.", isCorrect: true, rationale: "Passage A relies on one district's success. Passage B cites pattern-level evidence about achievement gaps across many districts." },
+      { text: "Both agree that graduation rates are the best metric.", isCorrect: false, rationale: "Passage B focuses on equity and achievement gaps, not graduation rates." },
+      { text: "Passage B claims uniform standards cause achievement gaps.", isCorrect: false, rationale: "Passage B says local control is associated with wider gaps — not that uniform standards cause them." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "passage": "The community garden has improved the neighborhood in several ways. Volunteers maintain the plots, and on Saturdays, families gather for workshops on composting and healthy cooking. Since the garden opened last spring, the local clinic reports a 20% increase in patients saying they eat vegetables daily. Nearby, a once-vacant lot now hosts a weekly produce stand run by teens from the high school.",
-    "question": "Which detail from the passage best supports the claim that the community garden has improved neighborhood health behaviors?",
-    "answerOptions": [
-      {
-        "text": "Volunteers maintain the plots.",
-        "rationale": "This shows community involvement but not a direct change in health behavior.",
-        "isCorrect": false
-      },
-      {
-        "text": "Families gather for workshops on composting and cooking.",
-        "rationale": "This is a helpful activity, but the clinic statistic more directly shows behavior change.",
-        "isCorrect": false
-      },
-      {
-        "text": "The clinic reports a 20% increase in patients who eat vegetables daily.",
-        "rationale": "Correct. This is a concrete, measurable change in health-related behavior.",
-        "isCorrect": true
-      },
-      {
-        "text": "A vacant lot now hosts a weekly produce stand.",
-        "rationale": "This shows economic activity and access, but not directly a behavior change like the clinic report does.",
-        "isCorrect": false
-      }
+    questionNumber: 10,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "An environmental group argues that plastic grocery bag bans are effective: 'After San Francisco banned single-use bags in 2007, researchers found a 72% reduction in plastic bag litter in local waterways within three years.' A packaging industry spokesperson counters: 'Consumers simply switched to heavier reusable plastic bags, which require significantly more resources to produce and have a larger carbon footprint per bag manufactured.'",
+    question: "Which of the following conclusions is best supported by BOTH pieces of evidence together?",
+    answerOptions: [
+      { text: "Bag bans should be reversed because reusable bags are worse.", isCorrect: false, rationale: "The environmental group's data contradicts this — litter fell significantly." },
+      { text: "Bag bans succeed in reducing visible litter but may shift environmental costs elsewhere.", isCorrect: true, rationale: "Synthesises both: ban reduced litter (Group A's data) but created resource costs elsewhere (industry data)." },
+      { text: "The industry spokesperson's data proves bag bans have no environmental benefit.", isCorrect: false, rationale: "The 72% litter reduction is genuine evidence of one environmental benefit." },
+      { text: "Bag bans should be expanded nationally because of the 72% reduction.", isCorrect: false, rationale: "The industry data about reusable bags complicates this conclusion." },
     ],
-    "difficulty": "medium",
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
-  {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "passage": "A flyer claims the library is 'busier than ever.' To support this, it notes: extended evening hours, new teen programs, and that monthly visitor counts rose from 12,000 last year to 16,000 this year.",
-    "question": "Which detail best supports the claim that the library is 'busier than ever'?",
-    "answerOptions": [
-      {
-        "text": "Extended evening hours",
-        "rationale": "Longer hours may allow more visits, but do not prove the library is busier on their own.",
-        "isCorrect": false
-      },
-      {
-        "text": "New teen programs",
-        "rationale": "Programs are a feature, not direct evidence of increased busyness.",
-        "isCorrect": false
-      },
-      {
-        "text": "Visitor counts rose from 12,000 to 16,000 per month",
-        "rationale": "Correct. The increase in monthly visitors directly supports 'busier than ever.'",
-        "isCorrect": true
-      },
-      {
-        "text": "The flyer format",
-        "rationale": "The medium doesn't provide evidence about busyness.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "easy",
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "passage": "The town council argues that adding bike lanes has made downtown safer for commuters. Since installation, reported car-bike collisions on Main Street fell from 18 per year to 7, and average vehicle speeds during rush hour dropped by 6 mph.",
-    "question": "Which piece of evidence most directly supports the claim that downtown is safer for commuters?",
-    "answerOptions": [
-      {
-        "text": "Average vehicle speeds dropped by 6 mph during rush hour.",
-        "rationale": "Slower speeds can improve safety, but crash reduction is a more direct safety outcome.",
-        "isCorrect": false
-      },
-      {
-        "text": "There were fewer reported car-bike collisions (from 18 to 7 per year).",
-        "rationale": "Correct. Fewer collisions directly indicate improved safety for commuters.",
-        "isCorrect": true
-      },
-      {
-        "text": "The council argues for bike lanes.",
-        "rationale": "An argument is not evidence of safety outcomes.",
-        "isCorrect": false
-      },
-      {
-        "text": "The lanes are located on Main Street.",
-        "rationale": "Location alone does not demonstrate improved safety.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "medium",
-    "challenge_tags": [
-      "rla-2"
-    ]
-  }
 ];

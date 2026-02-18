@@ -21313,16 +21313,7 @@ if (typeof window !== 'undefined') {
 // and/or rename clusters for a tidier quiz browser. Any categories not listed here
 // will be included as their own clusters under their original names.
 const QUIZ_GROUPING = {
-  // Science: mild consolidation
-  Science: [
-    { label: 'Life Science', categories: ['Life Science'] },
-    {
-      label: 'Physical, Earth & Space',
-      categories: ['Physical Science', 'Earth & Space Science'],
-    },
-    { label: 'Scientific Numeracy', categories: ['Scientific Numeracy'] },
-  ],
-  // Math: add a highlighted Demo category first, then canonical clusters
+  // Math — GED-aligned domains
   Math: [
     {
       label: 'Interactive Demos (Beta)',
@@ -21334,23 +21325,26 @@ const QUIZ_GROUPING = {
       ],
     },
     {
-      label: 'Algebra',
+      label: 'Number Sense & Operations',
       categories: [
-        'Algebra',
-        'Algebraic Problem Solving',
-        'Algebraic Reasoning',
-        'Algebra & Linear Equations',
-        'Algebraic Expressions & Linear Equations',
-        'Expressions & Equations',
-        'Expressions and Equations',
+        'Number Sense & Operations',
+        'Ratios & Proportions',
+        'Ratios & Proportions / Percent Applications',
+        'Quantitative Problem Solving',
       ],
     },
     {
-      label: 'Quantitative & Data',
+      label: 'Algebra & Functions',
       categories: [
-        'Quantitative & Data',
-        'Quantitative Problem Solving',
-        'Data, Statistics & Probability',
+        'Algebra & Functions',
+        'Algebra & Linear Equations',
+        'Algebraic Reasoning',
+        'Algebraic Problem Solving',
+        'Algebraic Expressions & Linear Equations',
+        'Expressions & Equations',
+        'Expressions and Equations',
+        'Algebra',
+        'Graphs & Functions',
       ],
     },
     {
@@ -21361,8 +21355,66 @@ const QUIZ_GROUPING = {
         'Measurement & Geometry',
       ],
     },
+    {
+      label: 'Data Analysis & Probability',
+      categories: [
+        'Data Analysis & Probability',
+        'Data, Statistics & Probability',
+      ],
+    },
   ],
-  // RLA: canonical clusters with variants
+  // Science — GED-aligned domains
+  Science: [
+    {
+      label: 'Life Science',
+      categories: ['Life Science'],
+    },
+    {
+      label: 'Physical Science',
+      categories: ['Physical Science'],
+    },
+    {
+      label: 'Earth & Space Science',
+      categories: ['Earth & Space Science', 'Earth and Space Science'],
+    },
+    {
+      label: 'Scientific Practices',
+      categories: [
+        'Scientific Practices',
+        'Scientific Practices / Data Reasoning',
+        'Scientific Numeracy',
+      ],
+    },
+  ],
+  // Social Studies — GED-aligned domains (50% Civics, 20% History, 15% Econ, 15% Geo)
+  'Social Studies': [
+    {
+      label: 'Civics & Government',
+      categories: [
+        'Civics & Government',
+        'Reading Primary / Secondary Sources',
+      ],
+    },
+    {
+      label: 'U.S. History',
+      categories: [
+        'U.S. History',
+        'Civil Rights movement and modern era',
+        'Civil War & Reconstruction',
+        'Colonial era and early United States',
+        'Westward expansion / industrialization',
+      ],
+    },
+    {
+      label: 'Economics',
+      categories: ['Economics', 'Economics / Geography'],
+    },
+    {
+      label: 'Geography & the World',
+      categories: ['Geography & the World', 'Geography and the World'],
+    },
+  ],
+  // RLA — GED-aligned domains
   'Reasoning Through Language Arts (RLA)': [
     {
       label: 'Reading Comprehension',
@@ -21372,28 +21424,33 @@ const QUIZ_GROUPING = {
         'Reading Comprehension: Literary Texts',
         'Reading Comprehension: Paired Passages',
         'Main Idea',
+        'Evidence Selection',
+        'Inference, Tone, and Purpose',
+        'Vocabulary in Context',
       ],
     },
     {
-      label: 'Language & Editing',
+      label: 'Language & Grammar',
       categories: [
-        'Language & Editing',
         'Language & Grammar',
+        'Grammar, Clarity, and Revision',
+        'Language & Editing',
+        'Language & Writing',
         'Language',
         'Editing',
         'Editing & Revision',
       ],
     },
     {
-      label: 'Writing / Extended Response',
+      label: 'Writing & Analysis',
       categories: [
+        'Writing & Analysis',
         'Writing / Extended Response',
         'Essay Writing',
         'Constructed Response',
       ],
     },
   ],
-  // Social Studies: categories are already tidy; no grouping needed
 };
 
 function buildQuizLibraryFromAppData(data) {
@@ -21716,6 +21773,56 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     if (/advanced|challenge|honors/.test(title)) return 'Advanced';
     return 'Intermediate';
   };
+
+  // GED tier support — reads topic.tier from backend or derives from ID
+  const TIER_META = {
+    'foundations': { label: 'Foundations', color: '#4CAF50', icon: '🌱' },
+    'core':        { label: 'Core Skills', color: '#2196F3', icon: '📘' },
+    'test-ready':  { label: 'Test Ready',  color: '#FF9800', icon: '🎯' },
+    'challenge':   { label: 'Challenge',   color: '#9C27B0', icon: '🏆' },
+  };
+  const deriveTier = (topic) => {
+    if (topic?.tier && TIER_META[topic.tier]) return topic.tier;
+    // ID-based fallback
+    const id = (topic?.id || '').toLowerCase();
+    if (id.startsWith('diag_')) return 'test-ready';
+    if (/_tool_demo/.test(id)) return 'foundations';
+    const setM = id.match(/_set(\d+)$/);
+    if (setM) { const n = +setM[1]; return n===1?'foundations':n===2?'core':n===3?'test-ready':'challenge'; }
+    const qM = id.match(/_quiz[_]?(\d+)$/);
+    if (qM) { const n = +qM[1]; return n<=1?'foundations':n<=2?'core':n<=3?'test-ready':'challenge'; }
+    const nM = id.match(/_(\d{1,2})$/);
+    if (nM) { const n = +nM[1]; return n<=3?'foundations':n<=6?'core':n<=9?'test-ready':'challenge'; }
+    if (/basics|fundamentals|core_quiz|intro/.test(id)) return 'foundations';
+    return 'core';
+  };
+  const TierBadge = ({ topic: t }) => {
+    const tier = deriveTier(t);
+    const meta = TIER_META[tier];
+    if (!meta) return null;
+    return (
+      <span
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '3px',
+          padding: '2px 8px',
+          borderRadius: '9999px',
+          fontSize: '0.7rem',
+          fontWeight: 600,
+          letterSpacing: '0.02em',
+          backgroundColor: meta.color + '22',
+          color: meta.color,
+          border: `1px solid ${meta.color}44`,
+          marginLeft: '6px',
+          verticalAlign: 'middle',
+        }}
+      >
+        <span style={{ fontSize: '0.75rem' }}>{meta.icon}</span> {meta.label}
+      </span>
+    );
+  };
+
   const hasImage = (t) =>
     Array.isArray(t.questions) && t.questions.some((q) => q?.type === 'image');
   const isTimed = (t) =>
@@ -21810,6 +21917,8 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
     return out;
   };
 
+  const TIER_RANK = { 'foundations': 1, 'core': 2, 'test-ready': 3, 'challenge': 4 };
+
   const sortItems = (items) => {
     switch (filters.sort) {
       case 'Highest Score':
@@ -21828,6 +21937,13 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
         return [...items].sort((a, b) =>
           (a.topic.title || '').localeCompare(b.topic.title || '')
         );
+      case 'By Difficulty':
+        return [...items].sort((a, b) => {
+          const ta = TIER_RANK[deriveTier(a.topic)] || 2;
+          const tb = TIER_RANK[deriveTier(b.topic)] || 2;
+          if (ta !== tb) return ta - tb;
+          return (a.topic.title || '').localeCompare(b.topic.title || '');
+        });
       case 'Newest':
       default:
         return items; // preserve author order
@@ -22048,6 +22164,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             }
           >
             {topic.title}
+            <TierBadge topic={topic} />
           </h3>
           <p
             className="mt-2"
@@ -22279,7 +22396,7 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
           value={filters.sort}
           onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
         >
-          {['Newest', 'Most Attempted', 'Highest Score', 'Topic AZ'].map(
+          {['Newest', 'By Difficulty', 'Most Attempted', 'Highest Score', 'Topic AZ'].map(
             (opt) => (
               <option key={opt} value={opt}>
                 {opt}
@@ -22301,8 +22418,9 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
       filterByControls(topicsForActive.map((t) => ({ topic: t })))
     ).map((x) => x.topic);
 
-    // New: group and chunk into stacks of 3 where topics are numbered variants
-    const { stackedSets, shouldUse } = buildStackedSetsFromTopics(filtered);
+    // Use the new per-topic layout (tier badges + descriptive cards) instead of legacy stacked sets
+    const { stackedSets } = buildStackedSetsFromTopics(filtered);
+    const shouldUse = false;
 
     const renderStackedCard = (set, idx) => {
       // build ids for quiz 1/2/3 for this set
@@ -22548,21 +22666,58 @@ function SubjectQuizBrowser({ subjectName, onSelectQuiz, theme = 'light' }) {
             );
           })()}
         {renderFilterBar()}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.length === 0 && (
-            <div
-              className="col-span-full text-center text-sm opacity-80 border border-dashed rounded-lg p-4"
-              style={{
-                borderColor: subjectColors.border || 'rgba(148,163,184,0.35)',
-              }}
-            >
-              No topics available yet for this cluster.
-            </div>
-          )}
-          {shouldUse
-            ? stackedSets.map((set, idx) => renderStackedCard(set, idx))
-            : filtered.map((topic, idx) => renderTopicCard(topic, idx))}
-        </div>
+        {filtered.length === 0 ? (
+          <div
+            className="text-center text-sm opacity-80 border border-dashed rounded-lg p-4"
+            style={{ borderColor: subjectColors.border || 'rgba(148,163,184,0.35)' }}
+          >
+            No topics available yet for this cluster.
+          </div>
+        ) : (
+          ['foundations', 'core', 'test-ready', 'challenge'].map(tierKey => {
+            const tierTopics = filtered.filter(t => deriveTier(t) === tierKey);
+            if (tierTopics.length === 0) return null;
+            const meta = TIER_META[tierKey];
+            return (
+              <div key={tierKey} style={{ marginBottom: '1.5rem' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    marginBottom: '0.75rem',
+                    paddingBottom: '0.4rem',
+                    borderBottom: `2px solid ${meta.color}44`,
+                  }}
+                >
+                  <span style={{ fontSize: '1.1rem' }}>{meta.icon}</span>
+                  <span
+                    style={{
+                      fontWeight: 700,
+                      fontSize: '0.95rem',
+                      color: meta.color,
+                      letterSpacing: '0.03em',
+                    }}
+                  >
+                    {meta.label}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: '0.75rem',
+                      opacity: 0.6,
+                      marginLeft: '4px',
+                    }}
+                  >
+                    ({tierTopics.length} {tierTopics.length === 1 ? 'quiz' : 'quizzes'})
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {tierTopics.map((topic, idx) => renderTopicCard(topic, idx))}
+                </div>
+              </div>
+            );
+          })
+        )}
       </>
     );
   };

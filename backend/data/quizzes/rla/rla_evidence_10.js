@@ -1,387 +1,172 @@
-// Imported from frontend/Expanded
+// Evidence & Argumentation — Challenge: Practice 10
+// 12 questions | GED-level and above, complex paired-source reasoning
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The new public transit app has made commuting in our city much easier. The app provides real-time tracking of all buses and trains, allowing riders to see exactly when their ride will arrive. A user poll conducted last month showed that 92% of riders found the app 'easy to use' and 'very helpful.'",
-    "question": "Which detail from the passage best supports the claim that the app has made commuting 'much easier'?",
-    "answerOptions": [
-      {
-        "text": "The app is for public transit.",
-        "rationale": "This describes the app's purpose, not its effectiveness.",
-        "isCorrect": false
-      },
-      {
-        "text": "A user poll showed that 92% of riders found the app 'easy to use' and 'very helpful.'",
-        "rationale": "Correct. A high-percentage positive response from the people who actually use the app is the strongest possible evidence of its success and helpfulness.",
-        "isCorrect": true
-      },
-      {
-        "text": "The app provides real-time tracking.",
-        "rationale": "This is a feature of the app. The survey result is the evidence that this feature is successful in making commuting easier.",
-        "isCorrect": false
-      },
-      {
-        "text": "The poll was conducted last month.",
-        "rationale": "This is the time frame, not the evidence itself.",
-        "isCorrect": false
-      }
+    questionNumber: 1, type: 'multipleChoice', difficulty: 'hard',
+    passage: "From a 2024 Senate hearing on social media regulation:
+
+Senator Vance: 'Your platform's algorithm actively recommends extremist content to teenagers. An internal company study, leaked to the press, found that 64% of users who joined extremist groups were led there through your platform's recommendations.'
+
+Platform CEO: 'We've invested \$5 billion in trust and safety over five years. Our systems remove millions of pieces of harmful content daily. Our platform also connects billions to family, education, and democratic participation.'",
+    question: "The CEO's response is best described as:",
+    answerOptions: [
+      { text: "A direct refutation of the 64% recommendation statistic.", isCorrect: false, rationale: "The CEO never disputes the figure." },
+      { text: "A pivot to non-responsive evidence — highlighting safety spending and benefits without addressing the senator's specific claim about algorithmic radicalisation.", isCorrect: true, rationale: "The CEO describes investments and positive uses but does not address whether the algorithm leads users to extremist groups as the leaked study alleged." },
+      { text: "An appeal to authority citing independent safety research.", isCorrect: false, rationale: "The CEO cites their own spending, not independent authorities." },
+      { text: "A valid counter-argument that proves the platform is safe.", isCorrect: false, rationale: "Removing harmful content and the radicalisation issue are different problems — removing content doesn't refute algorithmic recommendation of extremism." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The company's new recycling program has been a resounding success. By placing clearly labeled bins in all common areas and sending out weekly reminders, the program has made it easier for employees to participate. In the first quarter of this year, the company's landfill waste decreased by 40%, and its recycling tonnage doubled compared to the same period last year.",
-    "question": "Which piece of evidence most strongly supports the claim that the program was a 'resounding success'?",
-    "answerOptions": [
-      {
-        "text": "The company placed bins in all common areas.",
-        "rationale": "This describes how the program was implemented, not its results.",
-        "isCorrect": false
-      },
-      {
-        "text": "The company's landfill waste decreased by 40%.",
-        "rationale": "Correct. This is a large, specific, and quantifiable measure of the program's primary goal, making it the strongest evidence of success.",
-        "isCorrect": true
-      },
-      {
-        "text": "The program makes it easier for employees to participate.",
-        "rationale": "This is a goal of the program, but the waste reduction is the proof that it worked.",
-        "isCorrect": false
-      },
-      {
-        "text": "The company sent out weekly reminders.",
-        "rationale": "This is another detail of the program's implementation.",
-        "isCorrect": false
-      }
+    questionNumber: 2, type: 'multipleChoice', difficulty: 'hard',
+    passage: "Passage A — 2019 climate report: 'Permafrost in Siberia and Canada stores an estimated 1.5 trillion tonnes of carbon in frozen organic matter. As temperatures rise, permafrost thaws and releases methane and carbon dioxide — potent greenhouse gases — potentially creating a feedback loop that accelerates warming faster than current models project.'
+
+Passage B — Policy response memo: 'Even the most aggressive current emissions reduction targets focus on industrial and transportation sources. No major international agreement includes binding commitments to address or monitor permafrost carbon release.'",
+    question: "What policy gap do both passages together reveal?",
+    answerOptions: [
+      { text: "Countries are ignoring all forms of climate change.", isCorrect: false, rationale: "Passage B acknowledges that industrial and transportation emissions are addressed." },
+      { text: "International climate agreements may be addressing the wrong carbon sources entirely.", isCorrect: false, rationale: "They're addressing real sources — the gap is that a major additional source (permafrost) is unaddressed, not that industrial emissions are wrong targets." },
+      { text: "A potentially massive and self-accelerating carbon source — permafrost — is not monitored or bound by any international climate commitment, creating an unaccounted-for gap in global climate strategy.", isCorrect: true, rationale: "Passage A establishes the magnitude and feedback risk; Passage B confirms no international framework addresses it. Together: a critical blind spot." },
+      { text: "Climate scientists do not know how much carbon is stored in permafrost.", isCorrect: false, rationale: "The estimate (1.5 trillion tonnes) is cited — scientists have estimates." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The argument that talent is a more important factor than practice in achieving expertise is a common but flawed one. While innate ability can certainly play a role, a large body of research supports the primacy of 'deliberate practice.' A famous 1993 study of violinists, for example, found that the most accomplished performers had all accumulated at least 10,000 hours of practice by age 20. The study found no examples of 'naturals' who had risen to the top without extensive practice. The key to expertise, it seems, is not the gift, but the grind.",
-    "question": "Which piece of evidence from the text most effectively refutes the argument that talent is more important than practice?",
-    "answerOptions": [
-      {
-        "text": "The argument is a common but flawed one.",
-        "rationale": "This is the author's main claim, not the evidence for it.",
-        "isCorrect": false
-      },
-      {
-        "text": "Innate ability can play a role.",
-        "rationale": "This is a concession, not a refutation of the argument.",
-        "isCorrect": false
-      },
-      {
-        "text": "The key to expertise is the grind, not the gift.",
-        "rationale": "This is the author's conclusion, not the evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "A study of violinists found that the top performers had all practiced at least 10,000 hours and found no 'naturals' who succeeded without practice.",
-        "rationale": "Correct. This is a specific finding from a well-known study that directly contradicts the 'talent over practice' argument by showing a universal correlation between extensive practice and expertise.",
-        "isCorrect": true
-      }
+    questionNumber: 3, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A city health department reports that life expectancy in a wealthy ZIP code averages 87 years while life expectancy in a low-income ZIP code 4 miles away averages 67 years — a 20-year gap. Public health officials attribute the gap to differences in access to healthcare, healthy food, green space, quality housing, and exposure to environmental hazards. A city council member responds: 'Life expectancy is largely genetic. We cannot control for individual choices.'",
+    question: "How do public health officials' findings challenge the council member's framing?",
+    answerOptions: [
+      { text: "They prove genetics plays no role in life expectancy.", isCorrect: false, rationale: "Officials cite social determinants — they don't disprove genetic factors entirely." },
+      { text: "A 20-year life expectancy gap between two ZIP codes 4 miles apart cannot be explained by genetics alone — it points to environmental and social conditions as the primary drivers of the difference.", isCorrect: true, rationale: "If genetics were the primary driver, you would not expect a 20-year gap between nearby neighbourhoods. Geographic clustering of social conditions is the key evidence." },
+      { text: "Individual choices are irrelevant to health outcomes.", isCorrect: false, rationale: "Choices matter — the argument is that conditions shape what choices are available." },
+      { text: "The council member's argument would be stronger if citing national data instead of local ZIP codes.", isCorrect: false, rationale: "The local ZIP code comparison is precisely what makes the social-determinant explanation compelling, not a weakness." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "A city grant report claims that the Lakeside Youth Apprenticeship led more graduates into skilled trades. The report compares last year's cohort, where 64% secured full-time trade jobs within six months, to the previous class's 34%. It also highlights that participants completed 120 hours of paid training and that the program hosted a career fair with ten employers.",
-    "question": "Which detail best supports the report's claim?",
-    "answerOptions": [
-      {
-        "text": "Sixty-four percent of the latest cohort secured full-time trade jobs within six months, up from 34% the year before.",
-        "rationale": "Correct. This statistic directly measures graduate outcomes and shows improvement.",
-        "isCorrect": true
-      },
-      {
-        "text": "Each apprentice completed 120 hours of paid training.",
-        "rationale": "Training hours describe the program, but they do not show employment results.",
-        "isCorrect": false
-      },
-      {
-        "text": "The program hosted a career fair with ten employers.",
-        "rationale": "A career fair is an activity, not proof that more graduates entered trades.",
-        "isCorrect": false
-      },
-      {
-        "text": "Apprentices learned to operate advanced welding equipment.",
-        "rationale": "The passage does not mention equipment training; even if it did, that would be a program feature rather than evidence of job placement.",
-        "isCorrect": false
-      }
+    questionNumber: 4, type: 'multipleChoice', difficulty: 'hard',
+    passage: "From a 19th century newspaper editorial (1883):
+
+'The railroads are the arteries of national commerce — their prosperity is America's prosperity. Any regulation proposed by agitator politicians is nothing but socialist interference in private enterprise. The railroad owners built these lines with their own capital and risk, and no government has the right to tell them what rates to charge.'
+
+From a Congressional report (1887), following two years of public hearings that led to the Interstate Commerce Act:
+
+'The committee found that railroads engaged in discriminatory rate-setting, charging grain farmers in western states rates 10–50 times higher than comparable eastern routes, effectively destroying agricultural livelihoods. The committee concluded that the public interest requires federal oversight of rates.'",
+    question: "Which of the following best explains why the Congressional report undermines the editorial's argument?",
+    answerOptions: [
+      { text: "The government is always better at managing businesses than private owners.", isCorrect: false, rationale: "This is a sweeping generalisation not supported by either source." },
+      { text: "The editorial assumes private enterprise operates fairly and in the public interest; the Congressional findings showed concrete, documented harm to farmers — demonstrating that unregulated monopoly power extracted discriminatory rents.", isCorrect: true, rationale: "The editorial assumes no regulation is needed because private enterprise is inherently fair — the Congressional evidence directly refutes that assumption with documented harm." },
+      { text: "The editorial was written before railroads became important.", isCorrect: false, rationale: "The editorial calls railroads 'the arteries of national commerce' — it recognises their importance." },
+      { text: "The Congressional report proves that all private business must be nationalised.", isCorrect: false, rationale: "The report recommends oversight of rates, not nationalisation." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The community newsletter says the downtown night market is becoming more popular. Organizers counted 2,400 visitors during the August market compared with 1,300 last summer. The article also mentions that seven new food trucks joined and that a local band played on the main stage.",
-    "question": "Which fact best supports the claim that the night market is growing?",
-    "answerOptions": [
-      {
-        "text": "Attendance rose from 1,300 visitors last summer to 2,400 this August.",
-        "rationale": "Correct. The attendance numbers directly show growth.",
-        "isCorrect": true
-      },
-      {
-        "text": "Seven new food trucks joined the market this year.",
-        "rationale": "More vendors may help but do not prove that attendance increased.",
-        "isCorrect": false
-      },
-      {
-        "text": "A local band played on the main stage.",
-        "rationale": "Entertainment details do not measure overall popularity.",
-        "isCorrect": false
-      },
-      {
-        "text": "The market takes place on Friday nights.",
-        "rationale": "The schedule does not show whether more people attended.",
-        "isCorrect": false
-      }
+    questionNumber: 5, type: 'multipleChoice', difficulty: 'hard',
+    passage: "From a 2023 education study: 'Students in classrooms where teachers called on students randomly — using a systematic randomisation tool — showed 22% higher participation from historically quiet students and 19% better retention of material on post-unit assessments compared to classes using traditional volunteer-based discussion.'
+
+A teacher responds in a faculty meeting: 'I've used random calling for years and my students resent it. Several tell me it causes anxiety. I don't think the data reflects reality in my classroom.'",
+    question: "How should the study's authors respond to the teacher's objection most constructively?",
+    answerOptions: [
+      { text: "Acknowledge that the teacher's individual experience doesn't invalidate aggregate data from a systematic study, while also recognising that implementation quality and classroom culture matter and may vary.", isCorrect: true, rationale: "The study measures systematic, controlled conditions. Anecdotes from one teacher don't override it, but classroom culture and implementation are legitimate moderating factors." },
+      { text: "Dismiss the teacher's concern because individual experience is always less reliable than data.", isCorrect: false, rationale: "Dismissing practitioner experience entirely is scientifically and professionally inappropriate." },
+      { text: "Revise the study to exclude teachers who don't like random calling.", isCorrect: false, rationale: "Selection bias would invalidate the study's generalisability." },
+      { text: "Concede that the study's findings are probably wrong.", isCorrect: false, rationale: "One teacher's anecdote is not sufficient grounds to concede a well-designed study." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "An investigative article argues that a meal delivery company exaggerates its environmental benefits. The reporter references the company's glossy brochure promising a 'zero-waste kitchen,' a university study showing the service produced 35% less packaging waste than grocery shopping for the same meals, and a leaked email revealing that some leftover ingredients are discarded each week.",
-    "question": "Which piece of evidence is weakest for the reporter's argument?",
-    "answerOptions": [
-      {
-        "text": "The company's brochure promising a 'zero-waste kitchen.'",
-        "rationale": "Correct. A marketing brochure represents the company's claim, not independent evidence of environmental impact.",
-        "isCorrect": true
-      },
-      {
-        "text": "The university study showing 35% less packaging waste than traditional grocery shopping.",
-        "rationale": "This is strong, independent evidence relevant to the argument.",
-        "isCorrect": false
-      },
-      {
-        "text": "The leaked email revealing leftover ingredients are discarded each week.",
-        "rationale": "This insider information supports the reporter's claim about waste.",
-        "isCorrect": false
-      },
-      {
-        "text": "Customer testimonials praising the taste of the meals.",
-        "rationale": "This detail does not appear in the passage, so it cannot be considered part of the reporter's evidence.",
-        "isCorrect": false
-      }
+    questionNumber: 6, type: 'multipleChoice', difficulty: 'hard',
+    passage: "In 1854, Dr. John Snow mapped cholera deaths in London and found they clustered around a specific water pump on Broad Street. By comparing the death pattern to the locations of water sources, he concluded that contaminated water — not 'miasma' (bad air) — spread cholera. He persuaded local authorities to remove the pump handle, ending that outbreak. At the time, the germ theory of disease had not yet been established.",
+    question: "What does Snow's investigation demonstrate about effective evidence-based reasoning?",
+    answerOptions: [
+      { text: "You must know the biological mechanism of a disease before taking action.", isCorrect: false, rationale: "Snow acted without knowing germ theory — he identified the source through pattern evidence." },
+      { text: "Spatial pattern analysis of data can reveal causal relationships even when the underlying mechanism is not yet understood, enabling effective action.", isCorrect: true, rationale: "Snow used mapping to identify the pump as the source — pattern evidence sufficient for action without knowing the germ mechanism." },
+      { text: "Government officials should always take scientists at their word.", isCorrect: false, rationale: "The passage shows reasoned persuasion with evidence, not blind deference to authority." },
+      { text: "The miasma theory was correct and cholera is airborne.", isCorrect: false, rationale: "Snow's evidence disproved miasma theory." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "A nonprofit leader claims a new literacy bus increased access to books in rural towns. She notes that library card sign-ups in those towns doubled over three months, that the bus held reading circles for 200 children, and that the group posted photos of smiling families on social media.",
-    "question": "Which additional information would most strengthen the leader's claim?",
-    "answerOptions": [
-      {
-        "text": "Survey data from families stating they borrowed books more often because of the literacy bus.",
-        "rationale": "Correct. Surveys from families would directly connect the bus to increased access.",
-        "isCorrect": true
-      },
-      {
-        "text": "A list of titles added to the bus collection this year.",
-        "rationale": "Book lists show inventory, not evidence that access improved.",
-        "isCorrect": false
-      },
-      {
-        "text": "Statistics about urban library usage.",
-        "rationale": "Urban data does not address rural access.",
-        "isCorrect": false
-      },
-      {
-        "text": "A timeline of repairs the bus needed in winter.",
-        "rationale": "Maintenance issues are unrelated to proving increased access.",
-        "isCorrect": false
-      }
+    questionNumber: 7, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A nonprofit organisation running an after-school tutoring programme reports a 94% graduation rate among its participants. The city's overall graduation rate is 72%. The organisation uses this data to argue their programme is highly effective.
+
+An independent evaluator notes: 'Students self-select into the programme. Families who actively seek out after-school tutoring likely have higher motivation levels and more home support than average, regardless of whether the programme itself is effective. Without a randomised control group or a comparison to similarly motivated students who didn't receive the programme, the 22-percentage-point gap does not prove programme effectiveness.'",
+    question: "The evaluator's concern about self-selection bias means that:",
+    answerOptions: [
+      { text: "The programme definitely doesn't work.", isCorrect: false, rationale: "Self-selection bias means we can't determine effectiveness from this data — not that the programme fails." },
+      { text: "The graduation rate difference may reflect the characteristics of families who seek out tutoring, not the programme's impact.", isCorrect: true, rationale: "Students who enrol may have been likely to graduate anyway. Without a control group, the gap can't be attributed to the programme." },
+      { text: "The organisation fabricated its graduation data.", isCorrect: false, rationale: "The evaluator doesn't question the data's accuracy — just its interpretation." },
+      { text: "A 94% graduation rate is always too high to be credible.", isCorrect: false, rationale: "High rates are plausible in motivated, supported populations — but that's precisely the selection concern." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "A school newsletter reports that the fall blood drive surpassed its goal. Students and staff donated 165 pints of blood this year compared with 120 last year. The article also notes that the gym hosted a health fair and that volunteers baked cookies for donors.",
-    "question": "Which fact best supports the claim that the blood drive surpassed its goal?",
-    "answerOptions": [
-      {
-        "text": "Donations increased from 120 to 165 pints compared with last year's drive.",
-        "rationale": "Correct. The higher donation number directly supports the claim.",
-        "isCorrect": true
-      },
-      {
-        "text": "Volunteers baked cookies for donors.",
-        "rationale": "Snacks are a nice gesture but do not show that the goal was surpassed.",
-        "isCorrect": false
-      },
-      {
-        "text": "The gym also hosted a health fair.",
-        "rationale": "A health fair is an additional activity, not evidence of donation totals.",
-        "isCorrect": false
-      },
-      {
-        "text": "The event took place in the school gym.",
-        "rationale": "The location does not demonstrate success.",
-        "isCorrect": false
-      }
+    questionNumber: 8, type: 'multipleChoice', difficulty: 'hard',
+    passage: "From a 2025 editorial on urban crime statistics:
+
+'Crime in our city has plummeted. Mayor Torres deserves full credit — violent crime is down 18% since she took office three years ago.' A criminologist notes: 'Violent crime declined across all 50 largest U.S. cities in the same period, irrespective of the mayor's policies. Additionally, the city adopted broader police reporting changes two years ago that reclassified some offences downward, which partially explains the statistical decline.'",
+    question: "The criminologist is identifying TWO problems with the editorial. What are they?",
+    answerOptions: [
+      { text: "The mayor is dishonest and the crime statistics are fabricated.", isCorrect: false, rationale: "Neither dishonesty nor fabrication is claimed." },
+      { text: "Attributing a national trend to local leadership (false attribution) and measurement changes that affect the statistic without reflecting real-world change (definitional/reporting shift).", isCorrect: true, rationale: "Both problems: (1) decline was national, not Torres-specific; (2) reclassification artificially reduced reported crime — neither supports crediting the mayor's policies." },
+      { text: "The 18% figure is too large to be statistically possible.", isCorrect: false, rationale: "No such claim is made by the criminologist." },
+      { text: "The editorial uses too informal a tone for discussing public policy.", isCorrect: false, rationale: "Tone is not the criminologist's concern." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "During a policy debate, a council member argues that limiting short-term rentals has already improved neighborhood stability. She cites property records showing 38 former rentals converted back to long-term housing, an academic study linking short-term rentals to higher eviction rates, and a tourist blog praising the city's hotel scene.",
-    "question": "Which explanation best describes why one piece of evidence is weak?",
-    "answerOptions": [
-      {
-        "text": "The tourist blog is weak because it praises hotels rather than addressing neighborhood stability.",
-        "rationale": "Correct. The blog focuses on tourism, not the housing impact mentioned in the claim.",
-        "isCorrect": true
-      },
-      {
-        "text": "The property records are weak because they only cover one neighborhood.",
-        "rationale": "The passage does not limit the records to one neighborhood; they directly relate to housing conversions.",
-        "isCorrect": false
-      },
-      {
-        "text": "The academic study is weak because it relies on eviction data.",
-        "rationale": "Eviction data is relevant to stability, so the study supports the claim.",
-        "isCorrect": false
-      },
-      {
-        "text": "All evidence is weak if it mentions housing conversions.",
-        "rationale": "Housing conversions address the claim, so this statement is inaccurate.",
-        "isCorrect": false
-      }
+    questionNumber: 9, type: 'multipleChoice', difficulty: 'hard',
+    passage: "Economist A argues: 'Immigration increases the labour supply, which can depress wages for native-born workers in low-skill jobs.'
+
+Economist B argues: 'Immigrants also increase demand — they buy goods, rent homes, and create businesses. A 2020 National Bureau of Economic Research review of 27 studies found that immigration had a neutral-to-positive effect on native wages overall, with small negative effects concentrated only in very specific skill-sector overlaps.'",
+    question: "Based on both passages, what is the most precise and defensible conclusion about immigration and wages?",
+    answerOptions: [
+      { text: "Immigration always raises wages for all workers.", isCorrect: false, rationale: "The NBER review found neutral-to-positive overall, with some small negatives in specific sectors." },
+      { text: "Immigration always suppresses wages.", isCorrect: false, rationale: "Economist B's review of 27 studies contradicts this generalisation." },
+      { text: "Immigration's wage effects are mixed and sector-specific, with most evidence showing neutral-to-positive overall outcomes, though small negative effects may appear in overlapping skill sectors.", isCorrect: true, rationale: "This precisely reflects what both economists and the NBER review say: neither blanket harm nor blanket benefit, but context-specific effects." },
+      { text: "The two economists' views are irreconcilable.", isCorrect: false, rationale: "They are reconcilable — Economist A identifies a mechanism; Economist B shows the net empirical effect is neutral-to-positive overall." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The director of a local animal shelter argues that their foster program keeps kennels from becoming overcrowded. She states that 95 foster volunteers cared for 180 animals last quarter, that the shelter avoided purchasing extra kennels, and that adoption wait times fell from 19 days to 11 days.",
-    "question": "Which additional detail would best support the director's argument?",
-    "answerOptions": [
-      {
-        "text": "Data showing the shelter would have exceeded its kennel capacity without the foster placements.",
-        "rationale": "Correct. This information would directly connect the foster program to reduced overcrowding.",
-        "isCorrect": true
-      },
-      {
-        "text": "A photo of volunteers posing with foster animals.",
-        "rationale": "Photos demonstrate enthusiasm but not the program's impact on kennel space.",
-        "isCorrect": false
-      },
-      {
-        "text": "A chart comparing adoption fees with neighboring shelters.",
-        "rationale": "Fee comparisons do not address kennel capacity.",
-        "isCorrect": false
-      },
-      {
-        "text": "A list of veterinary clinics that support the shelter.",
-        "rationale": "Clinic partnerships are helpful but not direct evidence that overcrowding declined.",
-        "isCorrect": false
-      }
+    questionNumber: 10, type: 'multipleChoice', difficulty: 'hard',
+    passage: "From Rachel Carson's Silent Spring (1962):
+
+'The most alarming of all man's assaults upon the environment is the contamination of air, earth, rivers, and sea with dangerous and even lethal materials. This pollution is for the most part irrecoverable; the chain of evil it initiates not only in the world that must support life but in living tissues is for the most part irreversible.'",
+    question: "Carson's use of the words 'irrecoverable' and 'irreversible' is intended to do which of the following?",
+    answerOptions: [
+      { text: "Argue that environmental laws have already failed.", isCorrect: false, rationale: "The book was written before major environmental law — it argues for urgency, not about failed laws." },
+      { text: "Emphasise the permanence of harm to create a sense of urgency — damage is not temporary and cannot be undone by future cleanup efforts.", isCorrect: true, rationale: "Both words stress permanence, which is a rhetorical move to argue that prevention — not remediation — is the only effective strategy." },
+      { text: "Suggest that humans should stop all industrial activity immediately.", isCorrect: false, rationale: "Carson argues for responsible chemical use, not the end of industry." },
+      { text: "Undermine her own argument by admitting defeat.", isCorrect: false, rationale: "Stating that damage is irreversible motivates action — it is not an admission of defeat but a call to prevent further harm." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "A state parks department says building shaded picnic areas increased summer visitation at smaller parks. Gate counters recorded a 19% increase in average weekend entries from June to August compared to the previous summer, with the biggest gains at parks where shade structures were added.",
-    "question": "Which evidence best supports the department's claim?",
-    "answerOptions": [
-      {
-        "text": "The biggest gains occurred at parks where shade structures were added.",
-        "rationale": "This supports the link, but the overall increase measured by gate counters provides the primary evidence of increased visitation.",
-        "isCorrect": false
-      },
-      {
-        "text": "Weekend entries increased by 19% from June to August compared to the previous summer.",
-        "rationale": "Correct. The quantified increase in entries directly supports higher visitation.",
-        "isCorrect": true
-      },
-      {
-        "text": "Shade structures were built at some parks.",
-        "rationale": "This describes an action, not the outcome.",
-        "isCorrect": false
-      },
-      {
-        "text": "The period measured was summer months.",
-        "rationale": "A timeframe detail, not the evidence of increased visitation.",
-        "isCorrect": false
-      }
+    questionNumber: 11, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A 2024 longitudinal study tracked 10,000 workers in industries where AI automation was introduced between 2018 and 2022. Within three years: 23% of workers whose primary tasks were automat-able reported job displacement or major role reduction; 61% of workers in hybrid roles (combining routine and non-routine tasks) reported productivity increases and no displacement; and 16% of workers whose roles were primarily non-routine reported new job expansions and higher compensation.",
+    question: "Which conclusion does the study's data most directly support?",
+    answerOptions: [
+      { text: "AI automation will eliminate all jobs within a decade.", isCorrect: false, rationale: "Only 23% of those in automatable roles were displaced — and overall, most workers in hybrid or non-routine roles benefited." },
+      { text: "AI automation has no negative labour market consequences.", isCorrect: false, rationale: "23% of automatable-task workers faced displacement — a real negative consequence." },
+      { text: "AI automation's impact on workers varies sharply by role type, with those in purely routine-task roles most at risk and those in hybrid or non-routine roles likely to benefit.", isCorrect: true, rationale: "The data maps directly to three outcome groups based on role type — this is precisely what is observed." },
+      { text: "All workers should immediately retrain for non-routine roles.", isCorrect: false, rationale: "This is a policy recommendation that goes beyond what the study demonstrates." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "A budget presentation defends funding for a community solar garden by arguing it saves residents money. The presentation shows average electric bills for participating households dropped from \(118 to \)92 per month, that the installation cost was covered by federal grants, and that maintenance expenses are projected at \(8 per household annually.",
-    "question": "Which fact most directly supports the claim that the solar garden saves residents money?",
-    "answerOptions": [
-      {
-        "text": "Participating households saw their average electric bills fall from \)118 to \(92 per month.",
-        "rationale": "Correct. Lower utility bills clearly demonstrate savings for residents.",
-        "isCorrect": true
-      },
-      {
-        "text": "The installation cost was covered by federal grants.",
-        "rationale": "Grant funding helps the project but does not show monthly savings for residents.",
-        "isCorrect": false
-      },
-      {
-        "text": "Maintenance expenses are projected at \)8 per household annually.",
-        "rationale": "Low maintenance costs are helpful but do not explicitly quantify resident savings like the bill reduction does.",
-        "isCorrect": false
-      },
-      {
-        "text": "The solar garden uses panels manufactured in-state.",
-        "rationale": "The origin of the panels does not address resident savings.",
-        "isCorrect": false
-      }
+    questionNumber: 12, type: 'multipleChoice', difficulty: 'hard',
+    passage: "United States v. Nixon (1974): The Supreme Court unanimously ruled that President Nixon had to turn over White House tape recordings subpoenaed by special counsel, rejecting his claim of absolute executive privilege. The Court held that 'the generalized assertion of privilege must yield to the demonstrated, specific need for evidence in a pending criminal trial.'
+
+In his formal response to the ruling, Nixon's attorney had argued: 'Compelling a sitting president to produce evidence for a criminal case sets a dangerous precedent that will paralyze the executive branch in every future administration.'",
+    question: "How does the Supreme Court's ruling most directly answer the attorney's concern?",
+    answerOptions: [
+      { text: "The Court agreed that executive privilege is absolute and unlimited.", isCorrect: false, rationale: "The Court rejected that position." },
+      { text: "By limiting the ruling to demonstrated, specific criminal trial needs, the Court showed that privilege is not eliminated — only that generalised claims cannot override specific, demonstrated evidentiary needs.", isCorrect: true, rationale: "The Court structured the ruling narrowly: not all privilege claims fail, only non-specific ones when specific criminal need is demonstrated. This directly rebuts the 'paralysis' concern." },
+      { text: "The Court ruled that presidents can never assert executive privilege.", isCorrect: false, rationale: "The ruling does not abolish the privilege — it balances it against specific legal needs." },
+      { text: "The Court agreed with the attorney but decided against Nixon anyway for procedural reasons.", isCorrect: false, rationale: "The Court rejected the absolutist position on its merits, unanimously." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  }
+    challenge_tags: ['rla-2'],
+  },
 ];

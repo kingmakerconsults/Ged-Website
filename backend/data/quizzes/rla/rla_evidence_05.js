@@ -1,387 +1,156 @@
-// Imported from frontend/Expanded
+// Evidence & Argumentation — Core Skills: Practice 5
+// 10 questions | author's purpose, inference from text, evaluating conclusions
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The new company wellness program has been very popular with employees. The program offers free gym memberships and weekly yoga classes. Since the program's launch a few months ago, over 300 employees—nearly half the company—have enrolled.",
-    "question": "Which detail from the passage best supports the claim that the program is 'very popular'?",
-    "answerOptions": [
-      {
-        "text": "The program offers free gym memberships.",
-        "rationale": "This describes a feature of the program, not the evidence of its popularity.",
-        "isCorrect": false
-      },
-      {
-        "text": "Over 300 employees have enrolled.",
-        "rationale": "Correct. The high number of participants is direct and strong evidence of the program's popularity.",
-        "isCorrect": true
-      },
-      {
-        "text": "The program was launched a few months ago.",
-        "rationale": "This provides the time frame, not a measure of its success.",
-        "isCorrect": false
-      },
-      {
-        "text": "The program includes weekly yoga classes.",
-        "rationale": "This is another feature, but the enrollment number is the best evidence of its popularity.",
-        "isCorrect": false
-      }
+    questionNumber: 1,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: "Smartphones have become indispensable tools in modern life. In 2023, over 6.8 billion people worldwide owned a smartphone — more than the number who owned a toothbrush. People use phones to communicate, navigate, bank, and access healthcare remotely. However, excessive use is linked to sleep disruption, reduced attention spans, and increased rates of anxiety among teenagers.",
+    question: "What is the primary purpose of this passage?",
+    answerOptions: [
+      { text: "To argue that smartphones should be banned for teenagers.", isCorrect: false, rationale: "The passage presents both benefits and drawbacks; it does not advocate for a ban." },
+      { text: "To present balanced information about the role and impact of smartphones.", isCorrect: true, rationale: "The passage describes widespread use and benefits, then acknowledges negative effects — a balanced, informational purpose." },
+      { text: "To prove that smartphones are more common than toothbrushes.", isCorrect: false, rationale: "This statistic is a supporting detail, not the main purpose." },
+      { text: "To persuade readers to limit screen time.", isCorrect: false, rationale: "The passage does not include a call to action or persuasive framing." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The Sahara Desert is the largest hot desert in the world, and its climate is extremely harsh. Temperatures can exceed 120 degrees Fahrenheit during the day. The region receives very little rainfall, with some areas going years without any precipitation at all. These conditions make it very difficult for most plants and animals to survive.",
-    "question": "Which piece of evidence best supports the idea that the Sahara's climate is 'extremely harsh'?",
-    "answerOptions": [
-      {
-        "text": "It is the largest hot desert in the world.",
-        "rationale": "Its size does not necessarily prove its climate is harsh.",
-        "isCorrect": false
-      },
-      {
-        "text": "Temperatures can exceed 120 degrees Fahrenheit.",
-        "rationale": "Correct. This is a specific, extreme temperature that directly supports the claim of a harsh climate.",
-        "isCorrect": true
-      },
-      {
-        "text": "It is located in Africa.",
-        "rationale": "This is a geographical fact, not evidence of its climate.",
-        "isCorrect": false
-      },
-      {
-        "text": "It is difficult for plants and animals to survive.",
-        "rationale": "This is a result of the harsh climate, not the evidence that describes the climate itself.",
-        "isCorrect": false
-      }
+    questionNumber: 2,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: "The city of Greendale's riverside district was once home to thriving factories. In the 1970s, manufacturers relocated to cheaper regions, leaving behind abandoned buildings and polluted waterways. For decades, the area sat dormant. Then, in 2015, a public-private partnership began converting the old factories into artists' studios, restaurants, and event spaces. Today, the district attracts over 300,000 visitors annually and has generated $40 million in new tax revenue.",
+    question: "Based on the passage, which inference is most reasonable?",
+    answerOptions: [
+      { text: "Greendale's riverside district was never profitable.", isCorrect: false, rationale: "The passage says it had thriving factories, implying prior economic activity." },
+      { text: "Public-private partnerships can successfully revitalise industrial areas.", isCorrect: true, rationale: "The passage shows a direct connection between the partnership's intervention and the area's economic revival." },
+      { text: "Manufacturers relocated because of rising pollution.", isCorrect: false, rationale: "The passage states they relocated to 'cheaper regions,' not because of pollution." },
+      { text: "All abandoned industrial areas can become tourist destinations.", isCorrect: false, rationale: "The passage describes one successful case; generalising to 'all' is an overreach." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The new recycling initiative has been a remarkable success in reducing waste. The city sanitation department reported a 35% decrease in the amount of trash sent to the landfill in the first quarter of the year. The program, which expanded the list of recyclable materials and provided new bins to all residents, has seen widespread participation.",
-    "question": "Which piece of evidence most strongly supports the claim that the initiative was a 'remarkable success'?",
-    "answerOptions": [
-      {
-        "text": "The program expanded the list of recyclable materials.",
-        "rationale": "This describes a feature of the program, not the evidence of its success.",
-        "isCorrect": false
-      },
-      {
-        "text": "The sanitation department reported a 35% decrease in trash sent to the landfill.",
-        "rationale": "Correct. This is a specific, high-percentage statistic that directly measures the program's success in achieving its primary goal.",
-        "isCorrect": true
-      },
-      {
-        "text": "New bins were provided to all residents.",
-        "rationale": "This is another feature of the program, not a measure of its outcome.",
-        "isCorrect": false
-      },
-      {
-        "text": "The program has seen widespread participation.",
-        "rationale": "This is a general statement. The 35% decrease is the specific, quantifiable evidence of that participation's effect.",
-        "isCorrect": false
-      }
+    questionNumber: 3,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: "The following is an excerpt from a letter to the editor:
+
+'The proposed curfew ordinance for teens under 18 is an overreach of government authority. America was founded on principles of individual liberty. Besides, most juvenile crime occurs before 9 p.m., not after, so a midnight curfew would barely affect crime statistics. Resources would be better spent on after-school programs and community mentors who are proven to reduce crime.'",
+    question: "Which of the following best identifies a weakness in the letter writer's argument?",
+    answerOptions: [
+      { text: "The writer doesn't say when curfew would begin.", isCorrect: false, rationale: "The letter mentions midnight — irrelevant to the argument's logical structure." },
+      { text: "The appeal to 'individual liberty' is a founding principle but does not address whether curfews actually reduce crime.", isCorrect: true, rationale: "This identifies that the liberty argument is philosophical, not evidence-based, and doesn't rebut the policy's specific intent." },
+      { text: "The writer should not mention after-school programs.", isCorrect: false, rationale: "After-school programs are relevant as an alternative solution — mentioning them is appropriate." },
+      { text: "The writer provides a statistic about when crime occurs, which proves curfews are useless.", isCorrect: false, rationale: "The statistic is supporting evidence, not a proven conclusion — this overstates its strength." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The rise of audiobooks has made literature accessible to a wider audience. People can listen while commuting, exercising, or doing chores, fitting 'reading' into a busy schedule. A recent publishing industry report noted that audiobook sales have grown by double digits for the tenth consecutive year, a rate far exceeding that of print books.",
-    "question": "Which detail from the passage best supports the claim that audiobooks are making literature 'accessible to a wider audience'?",
-    "answerOptions": [
-      {
-        "text": "People can listen while commuting or exercising.",
-        "rationale": "This explains how they are more accessible, but the sales growth is the evidence of that accessibility in action.",
-        "isCorrect": false
-      },
-      {
-        "text": "Audiobook sales have grown by double digits for ten years in a row.",
-        "rationale": "Correct. The sustained, rapid growth in sales is strong evidence that a wider audience is embracing this format.",
-        "isCorrect": true
-      },
-      {
-        "text": "The growth rate exceeds that of print books.",
-        "rationale": "This is a good supporting detail, but the ten consecutive years of double-digit growth is the most powerful piece of evidence on its own.",
-        "isCorrect": false
-      },
-      {
-        "text": "Audiobooks fit into a busy schedule.",
-        "rationale": "This is a reason for their accessibility, not the evidence of their widespread adoption.",
-        "isCorrect": false
-      }
+    questionNumber: 4,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: "In a study of 1,200 adults, researchers found that those who identified as 'heavy readers' (more than 30 books per year) were 3.5 times more likely to report high levels of empathy and 2 times more likely to volunteer in their communities compared to non-readers. The researchers used self-reported data for both reading habits and empathy levels.",
+    question: "What is the most significant limitation of this study's evidence?",
+    answerOptions: [
+      { text: "The sample size of 1,200 is too small.", isCorrect: false, rationale: "1,200 is actually a reasonable sample for many social studies." },
+      { text: "Both reading habits and empathy were self-reported, which can introduce bias.", isCorrect: true, rationale: "Self-reported data is subject to social desirability bias and inaccuracy, which weakens the reliability of the findings." },
+      { text: "The study doesn't account for age differences.", isCorrect: false, rationale: "Age differences are a valid concern but secondary to the methodological issue of self-reporting." },
+      { text: "Empathy cannot be measured.", isCorrect: false, rationale: "Empathy can be measured through validated instruments; self-reporting is a specific limitation, not measurement impossibility." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The claim that sugar is 'empty calories' is a dangerous understatement. While it's true that sugar provides energy with few nutrients, its metabolic effects are far more insidious. High-fructose corn syrup, a common sweetener, is processed primarily in the liver, where it can be converted to fat. A 2015 study in the *Journal of the American Medical Association* found that participants who consumed 25% of their daily calories from added sugars had a significantly higher risk of dying from cardiovascular disease.",
-    "question": "Which piece of evidence most effectively supports the author's argument that sugar is more than just 'empty calories'?",
-    "answerOptions": [
-      {
-        "text": "Sugar provides energy with few nutrients.",
-        "rationale": "This is the definition of 'empty calories,' which the author is arguing is an understatement.",
-        "isCorrect": false
-      },
-      {
-        "text": "High-fructose corn syrup is processed in the liver.",
-        "rationale": "This explains the mechanism of harm, but the study provides the evidence of the actual harm.",
-        "isCorrect": false
-      },
-      {
-        "text": "The claim is a dangerous understatement.",
-        "rationale": "This is the author's main argument, not the evidence for it.",
-        "isCorrect": false
-      },
-      {
-        "text": "A study linked high sugar consumption to a higher risk of death from cardiovascular disease.",
-        "rationale": "Correct. This is a specific, serious health outcome from a scientific study that directly supports the argument that the effects of sugar are far more dangerous than simply being 'empty.'",
-        "isCorrect": true
-      }
+    questionNumber: 5,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: "Organic farming advocates argue that organic produce is healthier because it contains fewer synthetic pesticide residues. They cite studies showing measurably lower pesticide levels in the urine of children who switched to an organic diet. Conventional farming advocates note that regulatory agencies in multiple countries have established safe tolerance levels for pesticide residues and that large-scale meta-analyses of nutritional content show no significant difference in vitamin levels between organic and conventional produce.",
+    question: "Which of the following best summarises the central disagreement?",
+    answerOptions: [
+      { text: "Whether organic food tastes better than conventional food.", isCorrect: false, rationale: "Taste is not discussed in the passage." },
+      { text: "Whether measured pesticide reduction translates to meaningful health benefits, given regulatory safety standards.", isCorrect: true, rationale: "Organic advocates show lower pesticide levels; conventional advocates argue those levels are already safe — the core dispute is health significance." },
+      { text: "Whether children should eat organic food.", isCorrect: false, rationale: "This is a conclusion that might be drawn, not the central evidential disagreement." },
+      { text: "Whether pesticide testing is accurate.", isCorrect: false, rationale: "Both sides accept that pesticide differences exist; they disagree about what those differences mean." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "Many people romanticize the idea of starting a small farm, but they often underestimate the immense financial precarity involved. A 2021 USDA report revealed that for the majority of small farms in the U.S., the principal operator's primary occupation was something other than farming. In fact, for over half of these farms, the net farm income was negative. This means that, for most small farmers, the farm is a passion project subsidized by an off-farm job, not a self-sustaining business.",
-    "question": "Which piece of evidence from the text best supports the claim that small farming involves 'immense financial precarity'?",
-    "answerOptions": [
-      {
-        "text": "People often romanticize the idea of starting a small farm.",
-        "rationale": "This describes the misconception, not the evidence that debunks it.",
-        "isCorrect": false
-      },
-      {
-        "text": "For many small farmers, the farm is a passion project.",
-        "rationale": "This is a conclusion the author draws from the evidence, not the evidence itself.",
-        "isCorrect": false
-      },
-      {
-        "text": "A USDA report showed that over half of small farms had a negative net income.",
-        "rationale": "Correct. This specific statistic from an official report is the strongest possible evidence of financial difficulty and precarity.",
-        "isCorrect": true
-      },
-      {
-        "text": "The principal operator's main job was often not farming.",
-        "rationale": "This is strong supporting evidence, but the fact that the farms themselves were losing money is even more direct proof of financial precarity.",
-        "isCorrect": false
-      }
+    questionNumber: 6,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "From a corporate responsibility report:
+'Our company has reduced carbon emissions by 30% over the past decade. We employ over 10,000 people in communities across the state and donate \$2 million annually to local charities. We are committed to sustainable growth and being a positive force in the communities we serve.'
+
+A local environmental group responds: 'The 30% reduction is measured against the company's 2013 peak emission year — a year in which they had twice their current level of production. Adjusted for current production volume, their emissions per unit produced have increased by 12%.'
+",
+    question: "The environmental group's response is most effective because it:",
+    answerOptions: [
+      { text: "Proves the company is lying about its charitable donations.", isCorrect: false, rationale: "The environmental group does not address charitable donations." },
+      { text: "Shows that the 30% reduction figure is misleading when you account for the baseline year and production volume.", isCorrect: true, rationale: "By exposing the cherry-picked baseline, the group reveals that emissions efficiency has actually worsened — making the statistic misleading." },
+      { text: "Argues that 10,000 employees don't justify environmental harm.", isCorrect: false, rationale: "The group's response addresses only the emissions claim, not employment." },
+      { text: "Claims the company's emissions data was fabricated.", isCorrect: false, rationale: "The group does not allege fabrication; they reframe how the data should be interpreted." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The new automated inventory system has greatly improved our warehouse efficiency. The system uses robots to retrieve items, reducing the time it takes to process an order. Since its implementation, our order fulfillment time has decreased from an average of 20 minutes to just 5 minutes.",
-    "question": "Which detail best supports the claim that the new system has 'greatly improved... efficiency'?",
-    "answerOptions": [
-      {
-        "text": "The system uses robots to retrieve items.",
-        "rationale": "This describes how the system works, not the result of its work.",
-        "isCorrect": false
-      },
-      {
-        "text": "Order fulfillment time has decreased from 20 minutes to 5 minutes.",
-        "rationale": "Correct. This is a specific, dramatic, and quantifiable improvement in a key efficiency metric.",
-        "isCorrect": true
-      },
-      {
-        "text": "The system is automated.",
-        "rationale": "This is a feature of the system, not a measure of its success.",
-        "isCorrect": false
-      },
-      {
-        "text": "The system was implemented in the warehouse.",
-        "rationale": "This states the location, not the evidence of its impact.",
-        "isCorrect": false
-      }
+    questionNumber: 7,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "Economist A argues: 'Raising the minimum wage to \$15 will boost consumer spending. Low-wage workers spend nearly all of their income locally, so putting more money in their pockets directly stimulates the economy.'
+
+Economist B argues: 'Raising the minimum wage to \$15 will cause small businesses to automate or cut hours to control costs. A 2019 study of Seattle's minimum wage increase found a 9% drop in hours worked at low-wage jobs in the first year.'",
+    question: "Which of the following would MOST strengthen Economist A's argument?",
+    answerOptions: [
+      { text: "Evidence that automation is expensive for most small businesses.", isCorrect: true, rationale: "If automation is prohibitively expensive, businesses cannot simply replace workers — weakening B's counter and strengthening A's case." },
+      { text: "Evidence that minimum wage workers spend money online, not locally.", isCorrect: false, rationale: "This would weaken Economist A's claim that spending is local." },
+      { text: "Data showing Seattle's economy grew after the wage increase.", isCorrect: false, rationale: "Economic growth may have many causes; this doesn't directly respond to the hours-worked drop." },
+      { text: "Evidence that \$15 is too low a minimum wage increase.", isCorrect: false, rationale: "Economist A is defending the \$15 threshold; arguing it's too low doesn't help the original position." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The new city park has been a wonderful addition to the neighborhood. It provides a safe place for children to play and a peaceful retreat for adults. The park includes a modern playground, a walking path, and several benches. A recent survey of neighborhood residents found that 95% felt the park had improved their quality of life.",
-    "question": "Which piece of evidence most strongly supports the claim that the park has been a 'wonderful addition'?",
-    "answerOptions": [
-      {
-        "text": "The park has a modern playground and a walking path.",
-        "rationale": "These are features of the park, but they don't measure the impact on the residents.",
-        "isCorrect": false
-      },
-      {
-        "text": "The park is a safe place for children to play.",
-        "rationale": "This is one of the benefits, but the survey result is a broader and more direct measure of its overall success.",
-        "isCorrect": false
-      },
-      {
-        "text": "A survey found that 95% of residents felt the park had improved their quality of life.",
-        "rationale": "Correct. A high-percentage positive response from a survey of the people the park is meant to serve is the strongest possible evidence of its success.",
-        "isCorrect": true
-      },
-      {
-        "text": "The park is a peaceful retreat for adults.",
-        "rationale": "This is another one of the benefits, but the survey provides a more comprehensive measure of its positive impact.",
-        "isCorrect": false
-      }
+    questionNumber: 8,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "A city council member states: 'Our new after-school tutoring programme is working. Last year, 78% of participants improved their reading scores by at least one grade level. This proves that targeted tutoring is the most effective way to raise reading achievement citywide.'
+
+A researcher responds: 'Participation in the programme was voluntary. Students who opt in to extra tutoring typically come from more motivated families, making them more likely to improve regardless of the programme's specific content.'",
+    question: "The researcher is pointing out which flaw in the council member's reasoning?",
+    answerOptions: [
+      { text: "Selection bias — the participants may have improved anyway due to factors unrelated to the programme.", isCorrect: true, rationale: "Self-selection means the group is not representative, so improvement can't be attributed solely to the programme." },
+      { text: "The council member uses too large a sample size.", isCorrect: false, rationale: "Sample size is not the issue the researcher raises." },
+      { text: "The 78% figure is statistically impossible.", isCorrect: false, rationale: "The researcher accepts the figure; they question what it means." },
+      { text: "The programme should be mandatory, not voluntary.", isCorrect: false, rationale: "This is a possible solution but is not the flaw the researcher identifies." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The common perception is that creativity is the domain of artists and musicians. However, creativity is a crucial skill in all fields, including science and engineering. For example, the development of the mRNA vaccine was not just a matter of following a formula it required innovative problem-solving and a novel approach to vaccine design. This kind of creative thinking is essential for pushing the boundaries of knowledge and solving complex problems.",
-    "question": "Which detail from the passage best supports the argument that creativity is crucial in science?",
-    "answerOptions": [
-      {
-        "text": "The common perception is that creativity is for artists.",
-        "rationale": "This is the counterclaim that the author is arguing against.",
-        "isCorrect": false
-      },
-      {
-        "text": "Creative thinking is essential for solving complex problems.",
-        "rationale": "This is a general statement. The vaccine example is the specific evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "The development of the mRNA vaccine required innovative problem-solving and a novel approach.",
-        "rationale": "Correct. This provides a specific, real-world example of how creativity (in the form of innovative and novel thinking) was essential to a major scientific breakthrough.",
-        "isCorrect": true
-      },
-      {
-        "text": "Creativity is a crucial skill in all fields.",
-        "rationale": "This is the author's main claim, not the evidence used to support it.",
-        "isCorrect": false
-      }
+    questionNumber: 9,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "Source A (2018 industry report): 'The solar industry employs more full-time workers than coal mining in the United States, with solar jobs growing at 17 times the national average rate.'
+
+Source B (2022 government brief): 'While solar employment has grown, the average solar installation job pays 12% less than the average coal mining job, and solar jobs are more geographically concentrated in urban areas, leaving rural communities with fewer employment options in the energy sector.'",
+    question: "Which statement best reconciles both sources?",
+    answerOptions: [
+      { text: "Solar energy is better than coal in every measurable way.", isCorrect: false, rationale: "Source B identifies specific economic disadvantages of solar over coal for some communities." },
+      { text: "Coal mining provides more jobs than solar.", isCorrect: false, rationale: "Source A says the opposite on raw employment numbers." },
+      { text: "Solar creates more total jobs than coal but those jobs pay less and may not reach rural communities that depended on coal.", isCorrect: true, rationale: "Accurately synthesises both sources without dismissing either." },
+      { text: "The government brief disproves the industry report.", isCorrect: false, rationale: "The sources address different aspects; one doesn't disprove the other." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The library's summer reading program was a great success. Over 500 children signed up, which is a record number. At the end of the summer, a party was held for everyone who completed the program, with ice cream and prizes for all.",
-    "question": "Which detail best supports the claim that the program was a 'great success'?",
-    "answerOptions": [
-      {
-        "text": "A party was held at the end of the summer.",
-        "rationale": "This was a reward for completion, not the primary measure of success.",
-        "isCorrect": false
-      },
-      {
-        "text": "Over 500 children signed up.",
-        "rationale": "Correct. The record number of participants is the strongest evidence of the program's success.",
-        "isCorrect": true
-      },
-      {
-        "text": "The program took place in the summer.",
-        "rationale": "This is the timing of the program, not a measure of its success.",
-        "isCorrect": false
-      },
-      {
-        "text": "There were prizes for those who completed the program.",
-        "rationale": "This is a detail about the final party, not the overall success.",
-        "isCorrect": false
-      }
+    questionNumber: 10,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: "An editorial argues that a new housing development should not be approved: 'Increased traffic will overwhelm local roads. Property values in adjacent neighbourhoods will decline. And construction will displace 45 families currently living in affordable rental units.' The city planning department responds that traffic modelling shows a 7% volume increase well within capacity, comparable projects have not lowered surrounding property values, and the developer is required to provide 60 replacement affordable units.",
+    question: "How effectively does the planning department's response address the editorial's concerns?",
+    answerOptions: [
+      { text: "It fully resolves all concerns because it uses data and policy commitments.", isCorrect: false, rationale: "Data projections and policy commitments can be challenged; calling them absolute resolutions overstates the case." },
+      { text: "It partially addresses the concerns by countering each point with data or policy, but critics could question whether projections are reliable.", isCorrect: true, rationale: "Each editorial point is addressed, but projections (traffic modelling, property values) involve uncertainty, and replacement units require follow-through." },
+      { text: "It fails to address the traffic concern.", isCorrect: false, rationale: "The response specifically addresses traffic volume with modelling data." },
+      { text: "It proves the editorial is factually wrong on all points.", isCorrect: false, rationale: "The response counters but doesn't 'prove wrong' — especially on concerns about displacement and future property values." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
-  {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The new law requiring calorie counts to be posted on menus has had a positive impact on public health. A study conducted a year after the law was implemented found that the average calorie consumption per restaurant meal had decreased by 50 calories. While this may seem small, public health experts say that even a modest daily reduction in calories can lead to significant long-term health benefits.",
-    "question": "Which piece of evidence most strongly supports the claim that the new law has had a 'positive impact'?",
-    "answerOptions": [
-      {
-        "text": "The law requires calorie counts on menus.",
-        "rationale": "This describes the law, not its impact.",
-        "isCorrect": false
-      },
-      {
-        "text": "A study found that the average calorie consumption per meal had decreased by 50 calories.",
-        "rationale": "Correct. This is a specific, quantifiable health-related outcome that directly supports the claim of a positive impact.",
-        "isCorrect": true
-      },
-      {
-        "text": "Public health experts are hopeful.",
-        "rationale": "Their opinion is a good supporting detail, but the study's finding is the primary evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "The study was conducted a year after the law was implemented.",
-        "rationale": "This is the timing of the study, not its findings.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The idea that the Great Pyramid was built by slave labor is a persistent myth, but it is not supported by the archaeological evidence. Excavations of the workers' village near the pyramids have uncovered the tombs of the builders. These tombs were built with great care and respect, and the skeletons show that the workers were well-fed and received medical care. This evidence suggests that they were not slaves, but skilled laborers who took great pride in their work.",
-    "question": "Which piece of evidence from the text most effectively refutes the 'slave labor' myth?",
-    "answerOptions": [
-      {
-        "text": "The idea is a persistent myth.",
-        "rationale": "This is the author's claim, not the evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "The workers were skilled laborers.",
-        "rationale": "This is a conclusion drawn from the evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "The workers' tombs were built with care and respect, and their skeletons show they were well-fed and received medical care.",
-        "rationale": "Correct. These specific archaeological findings about how the workers were treated in death and in life are the most direct and powerful evidence against the idea that they were slaves.",
-        "isCorrect": true
-      },
-      {
-        "text": "The workers took great pride in their work.",
-        "rationale": "This is an inference based on the evidence, not the evidence itself.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  }
 ];

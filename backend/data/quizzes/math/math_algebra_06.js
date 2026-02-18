@@ -1,88 +1,60 @@
+// Algebra & Functions — Core Skills: Practice 6
+// 10 questions | systems of equations intro, factoring, quadratics intro
 module.exports = [
   {
     questionNumber: 1,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
+    type: 'multipleChoice',
+    calculator: false,
     difficulty: 'easy',
-    question: 'Solve for x: \\(x - 7 = 11\\).',
-    correctAnswer: '18',
-    rationale: 'Add 7 to both sides of the equation: 11 + 7 = 18.',
+    question: 'Which pair of values satisfies both equations? \\(x + y = 10\\) and \\(x - y = 4\\).',
+    answerOptions: [
+      { text: 'x = 7, y = 3', isCorrect: true, rationale: '7 + 3 = 10 ✓ and 7 - 3 = 4 ✓.' },
+      { text: 'x = 8, y = 2', isCorrect: false, rationale: '8 + 2 = 10 ✓ but 8 - 2 = 6 ≠ 4.' },
+      { text: 'x = 6, y = 4', isCorrect: false, rationale: '6 + 4 = 10 ✓ but 6 - 4 = 2 ≠ 4.' },
+      { text: 'x = 9, y = 1', isCorrect: false, rationale: '9 - 1 = 8 ≠ 4.' },
+    ],
+    rationale: 'Add the two equations: 2x = 14 → x = 7. Substitute: 7 + y = 10 → y = 3.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 2,
-    type: 'multipleChoice',
-    calculator: false,
+    type: 'fillIn',
+    inputCalculator: true,
+    calculator: true,
     difficulty: 'easy',
-    question: 'Evaluate \\(5c + 4\\) for \\(c = 3\\).',
-    answerOptions: [
-      {
-        text: '12',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '19',
-        isCorrect: true,
-        rationale: 'Substitute 3 for c: 5(3) + 4 = 15 + 4 = 19.',
-      },
-      {
-        text: '27',
-        isCorrect: false,
-        rationale: 'This is 5*(3+4).',
-      },
-      {
-        text: '35',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-    ],
-    rationale: 'Substitute 3 for c in the expression: 5(3) + 4 = 15 + 4 = 19.',
+    question: 'Factor: \\(x^2 - 9\\). Enter your answer in the form \\((x+a)(x+b)\\) — what is a × b?',
+    correctAnswer: '-9',
+    rationale: 'x² - 9 = (x + 3)(x - 3). a × b = 3 × (-3) = -9.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 3,
     type: 'multipleChoice',
-    calculator: true,
+    calculator: false,
     difficulty: 'medium',
-    question: 'Solve for p: \\(6p + 5 = 41\\).',
+    question: 'Factor completely: \\(2x^2 + 8x\\).',
     answerOptions: [
-      {
-        text: '6',
-        isCorrect: true,
-        rationale: 'Subtract 5 from both sides: 6p = 36. Divide by 6: p = 6.',
-      },
-      {
-        text: '7.67',
-        isCorrect: false,
-        rationale: 'This is \\(\\frac{46}{6}\\).',
-      },
-      {
-        text: '9',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '36',
-        isCorrect: false,
-        rationale: 'This is 6p.',
-      },
+      { text: '\\(2(x^2 + 8x)\\)', isCorrect: false, rationale: 'Only partially factored — x is also a common factor.' },
+      { text: '\\(2x(x + 4)\\)', isCorrect: true, rationale: '2x is the GCF. 2x(x + 4) = 2x² + 8x. ✓' },
+      { text: '\\(x(2x + 8)\\)', isCorrect: false, rationale: 'Correct but not fully factored — the 2 can be pulled out of (2x + 8).' },
+      { text: '\\(2(x + 4)^2\\)', isCorrect: false, rationale: 'Expanding gives 2x² + 16x + 32, not 2x² + 8x.' },
     ],
-    rationale:
-      'First, subtract 5 from both sides: 6p = 41 - 5, so 6p = 36. Then, divide by 6: p = 36 / 6 = 6.',
+    rationale: 'GCF of 2x² and 8x is 2x. Factoring: 2x(x + 4).',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 4,
-    type: 'fillIn',
-    inputCalculator: true,
+    type: 'multipleChoice',
     calculator: true,
     difficulty: 'medium',
-    question: 'Simplify the expression: \\(8(y - 2) - 3y\\).',
-    correctAnswer: '5y - 16',
-    rationale:
-      'First, distribute the 8: 8y - 16 - 3y. Then, combine like terms: (8y - 3y) - 16 = 5y - 16.',
+    question: 'Solve the system: \\(2x + y = 11\\) and \\(y = x + 2\\).',
+    answerOptions: [
+      { text: 'x = 3, y = 5', isCorrect: true, rationale: 'Substitute y = x+2: 2x + x + 2 = 11 → 3x = 9 → x = 3. y = 5.' },
+      { text: 'x = 4, y = 3', isCorrect: false, rationale: '2(4)+3=11 ✓ but 3 ≠ 4+2=6.' },
+      { text: 'x = 2, y = 7', isCorrect: false, rationale: '2(2)+7=11 ✓ but 7 ≠ 2+2=4.' },
+      { text: 'x = 5, y = 1', isCorrect: false, rationale: '2(5)+1=11 ✓ but 1 ≠ 5+2=7.' },
+    ],
+    rationale: 'Substitute y = x + 2 into 2x + y = 11: 2x + x + 2 = 11 → 3x = 9 → x = 3, y = 5.',
     challenge_tags: ['math-3'],
   },
   {
@@ -90,220 +62,81 @@ module.exports = [
     type: 'multipleChoice',
     calculator: false,
     difficulty: 'medium',
-    question:
-      'Which of the following is the equation of a line parallel to \\(y = -2x + 1\\)?',
+    question: 'What are the solutions to \\(x^2 - 5x + 6 = 0\\)?',
     answerOptions: [
-      {
-        text: '\\(y = 2x + 3\\)',
-        isCorrect: false,
-        rationale: 'This line has a different slope.',
-      },
-      {
-        text: '\\(y = -2x - 5\\)',
-        isCorrect: true,
-        rationale:
-          'Parallel lines have the same slope. This line also has a slope of -2.',
-      },
-      {
-        text: '\\(y = \\frac{1}{2}x + 1\\)',
-        isCorrect: false,
-        rationale: 'This is a perpendicular line.',
-      },
-      {
-        text: '\\(y = x - 2\\)',
-        isCorrect: false,
-        rationale: 'This line has a different slope.',
-      },
+      { text: 'x = 2 and x = 3', isCorrect: true, rationale: '(x-2)(x-3) = 0 → x = 2 or x = 3.' },
+      { text: 'x = -2 and x = -3', isCorrect: false, rationale: 'These give + signs in the middle term when factoring.' },
+      { text: 'x = 1 and x = 6', isCorrect: false, rationale: '(x-1)(x-6) = x² - 7x + 6 ≠ x² - 5x + 6.' },
+      { text: 'x = 2 and x = -3', isCorrect: false, rationale: 'This gives x² - x - 6, not x² - 5x + 6.' },
     ],
-    rationale:
-      'Parallel lines have the same slope. The given line has a slope of -2, and this option is the only other line with a slope of -2.',
+    rationale: 'Factor: (x - 2)(x - 3) = 0 → x = 2 or x = 3.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 6,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'Factor the expression: \\(2x^2 + 7x + 3\\).',
-    answerOptions: [
-      {
-        text: '\\((2x + 1)(x + 3)\\)',
-        isCorrect: true,
-        rationale:
-          'Using FOIL, (2x)(x) = 2\\(x^{2}\\), (2x)(3) = 6x, (1)(x) = x, (1)(3) = 3. 2\\(x^{2}\\) + 6x + x + 3 = 2\\(x^{2}\\) + 7x + 3.',
-      },
-      {
-        text: '\\((2x + 3)(x + 1)\\)',
-        isCorrect: false,
-        rationale: 'This gives a middle term of 5x.',
-      },
-      {
-        text: '\\((2x - 1)(x - 3)\\)',
-        isCorrect: false,
-        rationale: 'This gives a middle term of -7x.',
-      },
-      {
-        text: '\\((x + 1)(x + 3)\\)',
-        isCorrect: false,
-        rationale: 'This would be for \\(x^{2}\\).',
-      },
-    ],
-    rationale:
-      'To factor this trinomial, we look for two binomials that multiply to give the original expression. By trial and error (or other factoring methods), we find that (2x + 1)(x + 3) expands to 2\\(x^{2}\\) + 7x + 3.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 7,
     type: 'fillIn',
     inputCalculator: true,
     calculator: true,
     difficulty: 'medium',
-    question: 'What is the slope of a line passing through (5, 2) and (5, 8)?',
-    correctAnswer: 'Undefined',
-    rationale:
-      'The x-coordinates are the same, which means this is a vertical line. The slope of a vertical line is undefined.',
+    question: 'Solve for \\(x\\): \\(x^2 = 49\\).',
+    correctAnswer: '7 or -7',
+    rationale: 'Take the square root of both sides: x = ±7.',
+    challenge_tags: ['math-3'],
+  },
+  {
+    questionNumber: 7,
+    type: 'multipleChoice',
+    calculator: false,
+    difficulty: 'medium',
+    question: 'Which equation represents a line parallel to \\(y = 4x - 1\\)?',
+    answerOptions: [
+      { text: '\\(y = 4x + 7\\)', isCorrect: true, rationale: 'Parallel lines have equal slopes. Both have slope 4.' },
+      { text: '\\(y = -\\frac{1}{4}x + 3\\)', isCorrect: false, rationale: 'This is perpendicular to y = 4x - 1, not parallel.' },
+      { text: '\\(y = 4 - x\\)', isCorrect: false, rationale: 'This has slope -1, not 4.' },
+      { text: '\\(y = -4x - 1\\)', isCorrect: false, rationale: 'This has slope -4, not 4.' },
+    ],
+    rationale: 'Parallel lines have the same slope. Only y = 4x + 7 also has slope m = 4.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 8,
     type: 'multipleChoice',
-    calculator: false,
+    calculator: true,
     difficulty: 'hard',
-    question: 'Solve for x: \\(|x - 4| = 9\\).',
+    question: 'A store sells adult tickets for \\$9 and child tickets for \\$5. A total of 30 tickets were sold for \\$202. How many adult tickets were sold?',
     answerOptions: [
-      {
-        text: 'x = 13',
-        isCorrect: false,
-        rationale: 'This is only one of the solutions.',
-      },
-      {
-        text: 'x = -5',
-        isCorrect: false,
-        rationale: 'This is only one of the solutions.',
-      },
-      {
-        text: 'x = 13 and x = -5',
-        isCorrect: true,
-        rationale:
-          'Set x - 4 = 9 and x - 4 = -9. The solutions are x = 13 and x = -5.',
-      },
-      {
-        text: 'x = 5 and x = -13',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
+      { text: '12', isCorrect: false, rationale: '12 adult + 18 child = 108 + 90 = 198 ≠ 202.' },
+      { text: '13', isCorrect: true, rationale: '13 adult + 17 child = 117 + 85 = 202. ✓' },
+      { text: '15', isCorrect: false, rationale: '15 adult + 15 child = 135 + 75 = 210 ≠ 202.' },
+      { text: '18', isCorrect: false, rationale: '18 adult + 12 child = 162 + 60 = 222 ≠ 202.' },
     ],
-    rationale:
-      'An absolute value equation has two cases. Case 1: x - 4 = 9, which gives x = 13. Case 2: x - 4 = -9, which gives x = -5.',
+    rationale: 'Let a = adult tickets. 9a + 5(30 - a) = 202 → 9a + 150 - 5a = 202 → 4a = 52 → a = 13.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 9,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'medium',
-    question: 'Given \\(f(x) = (x+2)^2\\), find \\(f(4)\\).',
-    correctAnswer: '36',
-    rationale: 'Substitute 4 for x: f(4) = (4 + 2)^2 = 6^2 = 36.',
+    type: 'multipleChoice',
+    calculator: false,
+    difficulty: 'hard',
+    question: 'If \\(f(x) = x^2 - 4\\) and \\(g(x) = 2x + 1\\), find \\(f(g(1))\\).',
+    answerOptions: [
+      { text: '5', isCorrect: true, rationale: 'g(1) = 2(1)+1 = 3. f(3) = 9 - 4 = 5.' },
+      { text: '9', isCorrect: false, rationale: 'f(g(1)) ≠ f(1) + g(1).' },
+      { text: '-3', isCorrect: false, rationale: 'This confuses the order of composition.' },
+      { text: '3', isCorrect: false, rationale: 'This computes g(1) only.' },
+    ],
+    rationale: 'First evaluate g(1) = 3. Then f(3) = 3² - 4 = 5.',
     challenge_tags: ['math-3'],
   },
   {
     questionNumber: 10,
-    type: 'multipleChoice',
+    type: 'fillIn',
+    inputCalculator: true,
     calculator: true,
-    difficulty: 'medium',
-    question:
-      'Three times a number, decreased by 5, is 16. What is the number?',
-    answerOptions: [
-      {
-        text: '7',
-        isCorrect: true,
-        rationale: 'Let n be the number. 3n - 5 = 16. 3n = 21. n = 7.',
-      },
-      {
-        text: '5',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '12',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '21',
-        isCorrect: false,
-        rationale: 'This is 3n.',
-      },
-    ],
-    rationale:
-      'Translate the sentence into an equation: 3n - 5 = 16. Add 5 to both sides: 3n = 21. Divide by 3: n = 7.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 11,
-    type: 'multipleChoice',
-    calculator: false,
     difficulty: 'hard',
-    question: 'What is the vertex of the parabola \\(y = 2(x + 1)^2 - 4\\)?',
-    answerOptions: [
-      {
-        text: '(1, -4)',
-        isCorrect: false,
-        rationale: 'The x-coordinate of the vertex is -1.',
-      },
-      {
-        text: '(-1, -4)',
-        isCorrect: true,
-        rationale:
-          'The equation is in vertex form y = a(x - h)^2 + k, so the vertex is (h, k). Here h=-1 and k=-4.',
-      },
-      {
-        text: '(-1, 4)',
-        isCorrect: false,
-        rationale: 'The y-coordinate of the vertex is -4.',
-      },
-      {
-        text: '(2, -4)',
-        isCorrect: false,
-        rationale: "The 'a' value does not affect the vertex's location.",
-      },
-    ],
-    rationale:
-      'The vertex form of a parabola is y = a(x - h)^2 + k, where (h, k) is the vertex. In this equation, h = -1 and k = -4.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 12,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'easy',
-    question:
-      'Which of the following expressions is equivalent to \\(4(3x)\\)?',
-    answerOptions: [
-      {
-        text: '\\(7x\\)',
-        isCorrect: false,
-        rationale: 'This is the sum, not the product.',
-      },
-      {
-        text: '\\(12x\\)',
-        isCorrect: true,
-        rationale: 'This is the product of 4 and 3x.',
-      },
-      {
-        text: '\\(43x\\)',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
-      {
-        text: '\\(12x^2\\)',
-        isCorrect: false,
-        rationale: 'There is only one x.',
-      },
-    ],
-    rationale: 'This is a simple multiplication problem. 4 * 3x = 12x.',
+    question: 'Two cars leave a city at the same time. One travels north at 55 mph and the other travels south at 45 mph. After how many hours will they be 300 miles apart?',
+    correctAnswer: '3',
+    rationale: 'Combined speed = 55 + 45 = 100 mph. Time = 300 / 100 = 3 hours.',
     challenge_tags: ['math-3'],
   },
 ];

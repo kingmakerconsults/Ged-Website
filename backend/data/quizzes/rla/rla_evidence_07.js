@@ -1,387 +1,155 @@
-// Imported from frontend/Expanded
+// Evidence & Argumentation — Test Ready: Practice 7
+// 11 questions | paired sources, logical fallacies, multi-step evidence chains
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The new 'quiet cars' on the commuter trains have been a huge hit with passengers. These cars, where cell phone conversations are banned and noise is kept to a minimum, provide a peaceful environment for reading or working. A recent rider survey showed that 88% of respondents were 'highly satisfied' with the new feature.",
-    "question": "Which detail from the passage best supports the claim that the quiet cars are a 'huge hit'?",
-    "answerOptions": [
-      {
-        "text": "Cell phone conversations are banned in the quiet cars.",
-        "rationale": "This describes a rule of the quiet car, not the evidence of its popularity.",
-        "isCorrect": false
-      },
-      {
-        "text": "A rider survey showed that 88% of respondents were 'highly satisfied.'",
-        "rationale": "Correct. A high-percentage positive response from a survey is the most direct and powerful evidence that the feature is a 'huge hit.'",
-        "isCorrect": true
-      },
-      {
-        "text": "The cars provide a peaceful environment.",
-        "rationale": "This describes the benefit of the cars, but the survey result is the evidence that passengers value this benefit.",
-        "isCorrect": false
-      },
-      {
-        "text": "The quiet cars are a new feature on the commuter trains.",
-        "rationale": "This is a statement of fact, not evidence of the feature's success.",
-        "isCorrect": false
-      }
+    questionNumber: 1, type: 'multipleChoice', difficulty: 'medium',
+    passage: "A state legislator proposes mandatory financial literacy courses in high schools, citing a Federal Reserve survey showing that 40% of American adults cannot cover a \$400 emergency without borrowing or selling something. She argues, 'If we teach students budgeting and saving, we will eliminate financial insecurity in a generation.'
+
+An opponent responds: 'Financial insecurity is caused primarily by low wages and economic inequality, not by lack of knowledge. Studies show that financial literacy courses have modest, short-term effects on behaviour and that knowledge alone does not overcome structural economic barriers.'",
+    question: "The opponent's argument rests primarily on which of the following claims?",
+    answerOptions: [
+      { text: "Financial literacy courses are too expensive to implement.", isCorrect: false, rationale: "Cost is not raised." },
+      { text: "The root cause of financial insecurity is structural (low wages, inequality) rather than informational (lack of knowledge).", isCorrect: true, rationale: "The opponent's core argument is that the legislator misidentifies the cause." },
+      { text: "The Federal Reserve survey is inaccurate.", isCorrect: false, rationale: "The survey accuracy is not challenged." },
+      { text: "High school students are too young to learn financial concepts.", isCorrect: false, rationale: "Age is not mentioned." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "Adopting a pet from a shelter is a compassionate choice that saves a life. Shelters are overcrowded with abandoned animals who need a home. For example, the City Animal Shelter reported last year that they were able to find homes for over 500 dogs and cats, saving them from potential euthanasia.",
-    "question": "Which piece of evidence best supports the idea that adopting from a shelter 'saves a life'?",
-    "answerOptions": [
-      {
-        "text": "Shelters are overcrowded.",
-        "rationale": "This explains the problem, but the next sentence provides the evidence of the solution's impact.",
-        "isCorrect": false
-      },
-      {
-        "text": "The City Animal Shelter found homes for over 500 dogs and cats, saving them from euthanasia.",
-        "rationale": "Correct. This is a specific example and statistic that directly links adoption to the act of saving animals from death.",
-        "isCorrect": true
-      },
-      {
-        "text": "Adopting a pet is a compassionate choice.",
-        "rationale": "This is the main claim, not the evidence supporting it.",
-        "isCorrect": false
-      },
-      {
-        "text": "The animals in shelters have been abandoned.",
-        "rationale": "This is a description of the animals' situation, not direct evidence of how adoption saves them.",
-        "isCorrect": false
-      }
+    questionNumber: 2, type: 'multipleChoice', difficulty: 'medium',
+    passage: "Same passages as question 1.",
+    question: "Which evidence would most strengthen the legislator's argument?",
+    answerOptions: [
+      { text: "Evidence that wages have fallen in real terms over the past decade.", isCorrect: false, rationale: "This supports the opponent's structural argument." },
+      { text: "A longitudinal study showing students who took financial literacy courses were 40% less likely to carry credit card debt 10 years later.", isCorrect: true, rationale: "Long-term behaviour change directly supports the claim that financial education improves financial outcomes." },
+      { text: "Data showing that 40% of adults also lack general numeracy skills.", isCorrect: false, rationale: "This doesn't directly connect financial literacy education to better outcomes." },
+      { text: "Evidence that financial literacy is taught in private schools.", isCorrect: false, rationale: "Where it's taught doesn't show it works." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The company's investment in new technology has paid off, leading to a major increase in production. The new automated assembly line, which was installed in January, can produce 80 units per hour, whereas the old line could only produce 50. This has allowed the company to meet the growing demand for its product and has resulted in a 15% increase in quarterly profits.",
-    "question": "Which piece of evidence most strongly supports the claim that the new technology has led to a 'major increase in production'?",
-    "answerOptions": [
-      {
-        "text": "The new assembly line was installed in January.",
-        "rationale": "This is the time frame, not a measure of its performance.",
-        "isCorrect": false
-      },
-      {
-        "text": "The company's profits increased by 15%.",
-        "rationale": "This is a positive financial result, but the increase in units produced is the most direct evidence of a production increase.",
-        "isCorrect": false
-      },
-      {
-        "text": "The new line can produce 80 units per hour, compared to the old line's 50.",
-        "rationale": "Correct. This is a direct, side-by-side comparison that shows a specific, quantifiable increase in the rate of production.",
-        "isCorrect": true
-      },
-      {
-        "text": "The company can now meet the growing demand for its product.",
-        "rationale": "This is a result of the increased production, not the evidence that proves it.",
-        "isCorrect": false
-      }
+    questionNumber: 3, type: 'multipleChoice', difficulty: 'medium',
+    passage: "In a letter to shareholders, a technology CEO writes: 'Our company invested \$500 million in artificial intelligence research last year. We are confident this will lead to breakthrough products. After all, our last major investment — in cloud computing in 2012 — yielded returns of 400% over five years. AI is the cloud computing of our era.'
+",
+    question: "The CEO uses an analogy comparing AI to cloud computing. What is the primary logical risk of this type of argument?",
+    answerOptions: [
+      { text: "The analogy proves the investment will fail.", isCorrect: false, rationale: "An analogy alone cannot prove success or failure." },
+      { text: "The two technologies may differ in ways that make the past outcome a poor predictor of future results.", isCorrect: true, rationale: "Analogical reasoning breaks down when the compared situations differ significantly in relevant ways." },
+      { text: "Cloud computing is not relevant to the technology sector.", isCorrect: false, rationale: "Cloud computing is clearly relevant — the comparison lacks merit for other reasons." },
+      { text: "The CEO should not disclose investment figures.", isCorrect: false, rationale: "Disclosure is a legal and governance matter, not a logical error." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The argument that voting doesn't matter, especially in a non-presidential election, is a deeply flawed one. While a single vote may seem insignificant, local and state elections often have a far more direct impact on a citizen's daily life. These are the elections that determine the funding for your local schools, the quality of your roads, and the policies of your local police department. For instance, in 2017, a key state legislative race in Virginia was decided by a single vote out of more than 23,000 cast.",
-    "question": "Which piece of evidence from the text most effectively refutes the argument that 'a single vote may seem insignificant'?",
-    "answerOptions": [
-      {
-        "text": "Local elections determine funding for your schools and roads.",
-        "rationale": "This shows why local elections are important, but the single-vote example is a more direct refutation of the 'insignificant vote' idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "The argument that voting doesn't matter is flawed.",
-        "rationale": "This is the author's main claim, not the evidence supporting it.",
-        "isCorrect": false
-      },
-      {
-        "text": "Local elections have a direct impact on daily life.",
-        "rationale": "This is a strong supporting point, but the specific example is the most powerful piece of evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "A state legislative race in Virginia was decided by a single vote.",
-        "rationale": "Correct. This is a specific, real-world example that provides a powerful and direct counterpoint to the idea that a single vote cannot make a difference.",
-        "isCorrect": true
-      }
+    questionNumber: 4, type: 'multipleChoice', difficulty: 'hard',
+    passage: "Excerpt from a public health report: 'Our city's opioid overdose death rate fell by 22% in the year following the opening of a supervised consumption facility (SCF). In the five neighbouring communities without SCFs, the overdose rate rose an average of 8% in the same period.'
+
+A city council member states: 'The SCF clearly caused the drop in overdose deaths.'",
+    question: "What would a researcher need to know before agreeing that the SCF CAUSED the reduction?",
+    answerOptions: [
+      { text: "Whether the SCF is publicly or privately funded.", isCorrect: false, rationale: "Funding source does not affect the causal question." },
+      { text: "Whether other interventions (law enforcement changes, naloxone distribution, etc.) also changed in the city during the same period.", isCorrect: true, rationale: "Without ruling out confounding variables, the decline cannot be attributed solely to the SCF." },
+      { text: "How many people used the SCF in the first year.", isCorrect: false, rationale: "Usage volume is relevant to scale but doesn't resolve whether the SCF caused the reduction." },
+      { text: "Whether the council member supports the SCF programme.", isCorrect: false, rationale: "The council member's political position does not affect the causal analysis." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "A hospital administrator argues that offering video appointments has reduced missed visits at Maple Ridge Clinic. She explains that before telehealth launched, 22% of appointments were marked 'no-show,' compared with only 8% this spring. The administrator also notes that 300 patients created online accounts in the first month and that the clinic purchased new webcams for every exam room.",
-    "question": "Which detail most strongly supports the administrator's claim that telehealth reduced missed appointments?",
-    "answerOptions": [
-      {
-        "text": "The no-show rate fell from 22% to 8% after video appointments were offered.",
-        "rationale": "Correct. This statistic directly measures missed visits, the outcome mentioned in the claim.",
-        "isCorrect": true
-      },
-      {
-        "text": "Three hundred patients created online accounts in the first month.",
-        "rationale": "Account sign-ups show interest but do not prove that fewer appointments were missed.",
-        "isCorrect": false
-      },
-      {
-        "text": "The clinic purchased new webcams for every exam room.",
-        "rationale": "Buying equipment describes how telehealth works, not whether it reduced no-shows.",
-        "isCorrect": false
-      },
-      {
-        "text": "Telehealth launched earlier this spring.",
-        "rationale": "Knowing when the program began does not demonstrate its effectiveness.",
-        "isCorrect": false
-      }
+    questionNumber: 5, type: 'multipleChoice', difficulty: 'hard',
+    passage: "From a debate on extending daylight saving time year-round:
+
+Source A (Retail Association): 'Extending daylight saving time increases consumer spending. Studies show shoppers spend more when they can shop after work in daylight — and America's economy is 70% driven by consumer spending.'
+
+Source B (Sleep Medicine Association): 'Permanent daylight saving time means darker mornings year-round. Sleep scientists have documented increased cardiovascular events, traffic accidents, and workplace injuries in the weeks following the spring clock change, when people lose one hour of sleep. A permanent shift creates a chronic, year-round misalignment with the body's natural light-dark cycle in winter months.'",
+    question: "Which statement best reconciles both sources for a policymaker?",
+    answerOptions: [
+      { text: "The economic benefit outweighs the health risk, so the policy should pass.", isCorrect: false, rationale: "This is a value judgement, not a reconciliation of evidence." },
+      { text: "Permanent daylight saving time may boost consumer spending but may also create year-round health risks. Policymakers must weigh economic benefits against public health costs.", isCorrect: true, rationale: "Accurately captures what each source establishes and frames the decision correctly as a trade-off." },
+      { text: "Source B disproves Source A because health is more important than shopping.", isCorrect: false, rationale: "Health importance is a value judgement; the sources address different domains and neither disproves the other." },
+      { text: "Both sources support extending daylight saving time.", isCorrect: false, rationale: "Source B argues against the change on health grounds." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "A press release claims that the Saturday farmers market now attracts far more shoppers than it did last year. Organizers counted 1,100 visitors during last week's market compared with 620 during the same weekend last summer. The release also mentions that local musicians performed and that new signage was installed near the parking lot.",
-    "question": "Which fact best backs up the claim that attendance at the farmers market has grown?",
-    "answerOptions": [
-      {
-        "text": "Visitor counts rose from 620 to 1,100 compared with the same weekend last year.",
-        "rationale": "Correct. The attendance numbers directly show the increase described in the claim.",
-        "isCorrect": true
-      },
-      {
-        "text": "Local musicians performed during the market.",
-        "rationale": "Entertainment details do not measure how many people attended.",
-        "isCorrect": false
-      },
-      {
-        "text": "New signage was installed near the parking lot.",
-        "rationale": "Signs may help attract visitors, but they do not demonstrate that attendance grew.",
-        "isCorrect": false
-      },
-      {
-        "text": "Vendors sold out of fresh peaches before noon.",
-        "rationale": "This detail is not mentioned in the passage and would not verify overall attendance.",
-        "isCorrect": false
-      }
+    questionNumber: 6, type: 'multipleChoice', difficulty: 'hard',
+    passage: "From a policy brief on urban tree canopy:
+
+'Cities that increased tree canopy cover by 10% or more over a decade saw average summer temperatures fall by 1.5°C in dense urban areas compared to cities with stagnant or declining canopy. Tree canopy also reduced stormwater runoff ey 18%–25% in study areas and was associated with lower rates of respiratory illness in children. However, tree-planting programmes historically have been concentrated in wealthier neighbourhoods, reinforcing environmental inequity.'",
+    question: "A journalist writes: 'Urban trees solve the problem of climate change in cities.' What is wrong with this conclusion?",
+    answerOptions: [
+      { text: "Trees do not reduce temperatures.", isCorrect: false, rationale: "The report says they do reduce temperatures." },
+      { text: "The report shows trees provide local benefits (lower temperatures, less runoff, better health) but 'solving climate change' overstates localised mitigation as a global-scale solution.", isCorrect: true, rationale: "Local temperature reductions and runoff improvements are not equivalent to solving climate change, which is a global systemic problem." },
+      { text: "The journalist should only write about wealthy neighbourhoods.", isCorrect: false, rationale: "Irrelevant to the logical flaw in the conclusion." },
+      { text: "The report doesn't mention climate change, so journalism about it is inappropriate.", isCorrect: false, rationale: "The report discusses related urban heat and runoff issues; journalism drawing connections is appropriate if done accurately." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "During a workforce forum, a speaker argues that the city's new career center is responsible for a surge in manufacturing jobs. To support the point, she cites a state labor report showing that factory employment grew 9% after the center opened, displays a testimonial from one trainee who praised the staff, mentions that the center's website won a design award, and notes that a nearby county without a center lost jobs during the same period.",
-    "question": "Which piece of evidence in the speaker's presentation is least convincing?",
-    "answerOptions": [
-      {
-        "text": "A website design award for the career center.",
-        "rationale": "Correct. Winning a design award says nothing about job growth, making it the weakest support.",
-        "isCorrect": true
-      },
-      {
-        "text": "A state labor report showing factory employment grew 9% after the center opened.",
-        "rationale": "This statistic directly ties to the claim about job growth.",
-        "isCorrect": false
-      },
-      {
-        "text": "A trainee's testimonial praising the center's staff.",
-        "rationale": "While anecdotal, the testimonial at least addresses how the program helped someone find work.",
-        "isCorrect": false
-      },
-      {
-        "text": "Data that a nearby county without a center lost jobs during the same period.",
-        "rationale": "This comparison suggests the center may have contributed to better outcomes locally.",
-        "isCorrect": false
-      }
+    questionNumber: 7, type: 'multipleChoice', difficulty: 'hard',
+    passage: "An advocacy group argues that social media companies should be legally liable for the spread of health misinformation on their platforms. They cite data showing a measurable rise in vaccine hesitancy correlating with exposure to anti-vaccine content online. A First Amendment scholar responds that imposing liability would incentivise over-censorship, chilling legitimate speech and making platforms risk-averse about any health-related discussion.",
+    question: "The First Amendment scholar's argument introduces which type of concern?",
+    answerOptions: [
+      { text: "An empirical claim about vaccine hesitancy.", isCorrect: false, rationale: "The scholar does not dispute the vaccine hesitancy data." },
+      { text: "A slippery slope concern — that the intended remedy could cause a disproportionate secondary harm (suppression of legitimate speech).", isCorrect: true, rationale: "The scholar argues liability for misinformation will lead to over-censoring of all health speech — a slippery slope argument." },
+      { text: "A claim that misinformation is not widespread.", isCorrect: false, rationale: "The scholar does not dispute the prevalence of misinformation." },
+      { text: "An economic argument about the cost of litigation.", isCorrect: false, rationale: "Litigation cost is not mentioned." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "passage": "A nonprofit piloted an after-school tutoring program focused on reading. According to the end-of-year report, students who attended at least 20 sessions improved an average of 1.2 grade levels in reading comprehension, compared to 0.3 grade levels for similar students who did not attend. Teachers also reported higher confidence among participants.",
-    "question": "Which statement from the report best supports the claim that the tutoring program improved reading outcomes?",
-    "answerOptions": [
-      {
-        "text": "Teachers reported higher confidence among participants.",
-        "rationale": "Confidence is positive but indirect; the question asks about reading outcomes.",
-        "isCorrect": false
-      },
-      {
-        "text": "Students who attended at least 20 sessions improved an average of 1.2 grade levels, compared to 0.3 for non-attendees.",
-        "rationale": "Correct. This comparative statistic directly supports improved reading outcomes.",
-        "isCorrect": true
-      },
-      {
-        "text": "The program was offered after school.",
-        "rationale": "This is a logistical detail, not evidence of effectiveness.",
-        "isCorrect": false
-      },
-      {
-        "text": "The nonprofit piloted the program this year.",
-        "rationale": "This is background information, not evidence of improvement.",
-        "isCorrect": false
-      }
+    questionNumber: 8, type: 'multipleChoice', difficulty: 'hard',
+    passage: "Passage A — Public health official: 'The mask mandate in our county during the respiratory virus season resulted in a 35% decline in hospitalizations compared to the prior year.'
+
+Passage B — County commissioner: 'Neighbouring counties without mask mandates also saw hospitalizations decline — by 28% — because the entire region experienced the same mild virus season this year.'",
+    question: "The commissioner's evidence is most useful to someone who wants to argue that:",
+    answerOptions: [
+      { text: "Mask mandates should be permanent.", isCorrect: false, rationale: "The commissioner's evidence undermines, not supports, mask mandate effectiveness." },
+      { text: "The mask mandate may not have caused the hospitalisation decline, since unmasked counties also improved.", isCorrect: true, rationale: "A confounding factor — a milder regional virus season — makes attribution of the decline to masking uncertain." },
+      { text: "The mask mandate harmed hospitalisation rates.", isCorrect: false, rationale: "The mandate county improved more — the commissioner just argues the improvement may not be caused by masks." },
+      { text: "Neighbouring counties are more health-conscious than the mandate county.", isCorrect: false, rationale: "No data supports this conclusion." },
     ],
-    "difficulty": "medium",
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "A student journalist writes that the debate club's new practice schedule is improving competition results. She explains that the team now meets three times a week instead of once, that five of seven members advanced to the final round at the last tournament, and that the faculty advisor brought in a professional coach for one workshop.",
-    "question": "Which fact best supports the journalist's claim about improved results?",
-    "answerOptions": [
-      {
-        "text": "Five of seven members advanced to the final round at the most recent tournament.",
-        "rationale": "Correct. Tournament outcomes directly demonstrate improved performance.",
-        "isCorrect": true
-      },
-      {
-        "text": "The team now meets three times a week.",
-        "rationale": "Meeting frequency describes the practice schedule but is not evidence of results.",
-        "isCorrect": false
-      },
-      {
-        "text": "The faculty advisor invited a professional coach for one workshop.",
-        "rationale": "This is a strategy the team used, not proof that results improved.",
-        "isCorrect": false
-      },
-      {
-        "text": "The debate club has existed for ten years.",
-        "rationale": "Club history is unrelated to current competition outcomes.",
-        "isCorrect": false
-      }
+    questionNumber: 9, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A government official argues that expanding highway capacity by adding lanes will reduce traffic congestion: 'Wide highways move more cars faster.' Transportation researchers have documented a phenomenon called 'induced demand': when highway capacity increases, more people choose to drive rather than use transit or carpool, eventually filling the new capacity and restoring previous congestion levels. Multiple studies find that after expansion, long-term congestion returns to pre-expansion levels within 5–10 years.",
+    question: "The induced-demand research most directly challenges which assumption in the official's argument?",
+    answerOptions: [
+      { text: "That wider highways cost more to build.", isCorrect: false, rationale: "Cost is not the assumption being challenged." },
+      { text: "That adding lane capacity will result in lasting congestion reduction, when in fact it may generate sufficient additional demand to offset the capacity gain.", isCorrect: true, rationale: "The official assumes supply (lanes) reduces congestion; induced demand research shows new supply generates new demand, neutralising the benefit." },
+      { text: "That cars are the dominant form of transport.", isCorrect: false, rationale: "The demand research doesn't challenge the role of cars; it describes how more cars appear when lanes are added." },
+      { text: "That public transit is always better than driving.", isCorrect: false, rationale: "This is a different argument not advanced by the research cited." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "A blogger insists that a month-long challenge to avoid added sugar improved participants' health. As proof, she shares a poll where 90% of her followers said they 'felt better,' a lab result from one friend showing lower blood pressure, and a chart comparing national sugar consumption with obesity rates over the last decade.",
-    "question": "Which explanation best describes the weakness in one piece of the blogger's evidence?",
-    "answerOptions": [
-      {
-        "text": "The online poll is unreliable because followers might respond based on opinion rather than medical data.",
-        "rationale": "Correct. A self-reported poll does not provide strong medical evidence of health improvements.",
-        "isCorrect": true
-      },
-      {
-        "text": "The friend's lab result is weak because blood pressure has nothing to do with sugar intake.",
-        "rationale": "Sugar intake can affect blood pressure, so this explanation is inaccurate.",
-        "isCorrect": false
-      },
-      {
-        "text": "The national chart is unreliable because it tracks more than ten years of data.",
-        "rationale": "A longer time frame does not automatically make the data unreliable.",
-        "isCorrect": false
-      },
-      {
-        "text": "The blogger should not compare different sources of information.",
-        "rationale": "Using multiple sources can be useful; the issue is the quality of each piece of evidence.",
-        "isCorrect": false
-      }
+    questionNumber: 10, type: 'multipleChoice', difficulty: 'hard',
+    passage: "From two op-eds on prison recidivism:
+
+Op-Ed A: 'Mandatory minimum sentencing has increased the prison population and done little to deter crime. A 2020 Sentencing Commission report found that offenders subject to mandatory minimums had similar recidivism rates to those who received discretionary sentences.'
+
+Op-Ed B: 'Reducing mandatory minimums is naive. When we lowered sentences in the 1970s, crime rates rose dramatically in urban areas. We cannot gamble with public safety.'",
+    question: "Which response would most effectively challenge Op-Ed B's historical argument?",
+    answerOptions: [
+      { text: "A list of countries that have no mandatory minimums.", isCorrect: false, rationale: "International comparison alone doesn't address the US 1970s claim directly." },
+      { text: "Evidence that crime rates in the 1970s rose due to economic factors, demographic shifts, and police underfunding — not sentence reductions.", isCorrect: true, rationale: "This directly challenges Op-Ed B's causal claim that lower sentences caused 1970s crime increases by providing alternative explanations." },
+      { text: "Op-Ed A's 2020 Sentencing Commission data.", isCorrect: false, rationale: "This addresses recidivism, not the 1970s-era decline in sentencing that Op-Ed B raises." },
+      { text: "An argument that all crime is economically motivated.", isCorrect: false, rationale: "This is too broad and unverified — and doesn't specifically refute the 1970s claim." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "passage": "The library board argues that extending weeknight hours to 9 p.m. meets community needs. In a follow-up report, the board notes that door counts between 7 and 9 p.m. doubled, computer reservations during those hours rose by 45%, and a patron survey found that 62% of respondents used the library at least once during the extended evening hours.",
-    "question": "Which piece of evidence most strongly supports the claim that extended hours meet community needs?",
-    "answerOptions": [
-      {
-        "text": "Door counts between 7 and 9 p.m. doubled after hours were extended.",
-        "rationale": "Correct. Increased usage during the new hours directly supports the claim.",
-        "isCorrect": true
-      },
-      {
-        "text": "Computer reservations during those hours rose by 45%.",
-        "rationale": "Strong support, but the overall door count doubling captures broader use, making it the best choice among options.",
-        "isCorrect": false
-      },
-      {
-        "text": "A patron survey found that 62% of respondents used the library at least once in the evening.",
-        "rationale": "This supports the claim, but the direct increase in traffic is more compelling evidence of meeting needs.",
-        "isCorrect": false
-      },
-      {
-        "text": "The library board argues that extended hours meet needs.",
-        "rationale": "This is the claim itself, not evidence.",
-        "isCorrect": false
-      }
+    questionNumber: 11, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A nutritionist writes: 'People who eat breakfast daily are 20% less likely to be overweight than those who skip breakfast, according to our survey of 2,000 adults. Therefore, eating breakfast prevents obesity.'
+
+A statistician responds that the conclusion does not follow from the data.",
+    question: "Which of the following best explains why the statistician is correct?",
+    answerOptions: [
+      { text: "The sample of 2,000 is too small to draw any conclusion.", isCorrect: false, rationale: "2,000 is a reasonable survey sample size." },
+      { text: "The correlation between breakfast eating and lower weight does not establish that breakfast prevents obesity — other factors could explain both habits.", isCorrect: true, rationale: "People who eat breakfast may also exercise more, have more structured routines, or better access to food — correlation does not equal causation." },
+      { text: "Nutritionists cannot conduct surveys.", isCorrect: false, rationale: "Professional qualifications aren't the issue." },
+      { text: "The 20% figure is not statistically significant.", isCorrect: false, rationale: "Statistical significance isn't addressed in the passage and cannot be assumed." },
     ],
-    "difficulty": "medium",
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "passage": "A principal claims that a new 'phones away during class' policy reduced distractions. After the policy started, observers recorded off-task behavior (like texting or scrolling) during five-minute samples: the average number of off-task incidents per class dropped from 10 to 6. Teachers also submitted fewer discipline referrals for phone use.",
-    "question": "Which statement best supports the principal's claim?",
-    "answerOptions": [
-      {
-        "text": "Teachers submitted fewer discipline referrals for phone use.",
-        "rationale": "This supports the claim but is less direct than measured changes in off-task behavior.",
-        "isCorrect": false
-      },
-      {
-        "text": "Observers recorded the average number of off-task incidents per class dropping from 10 to 6 after the policy.",
-        "rationale": "Correct. A reduction in observed off-task behavior directly supports fewer distractions.",
-        "isCorrect": true
-      },
-      {
-        "text": "The policy requires phones to be put away during class.",
-        "rationale": "This describes the policy, not evidence of its effect.",
-        "isCorrect": false
-      },
-      {
-        "text": "Observers collected five-minute samples in each class.",
-        "rationale": "This is a method detail, not the evidence of reduced distraction.",
-        "isCorrect": false
-      }
-    ],
-    "difficulty": "medium",
-    "challenge_tags": [
-      "rla-2"
-    ]
-  }
 ];

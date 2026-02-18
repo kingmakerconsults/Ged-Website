@@ -1,387 +1,149 @@
-// Imported from frontend/Expanded
+// Evidence & Argumentation — Test Ready: Practice 9
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "The community cleanup event was a huge success. Over 200 volunteers came out to help. Together, they collected more than 50 bags of trash from the park and the surrounding streets. The mayor even stopped by to thank everyone for their hard work.",
-    "question": "Which detail from the passage best supports the claim that the event was a 'huge success'?",
-    "answerOptions": [
-      {
-        "text": "The mayor stopped by to thank everyone.",
-        "rationale": "This is a nice gesture, but the number of volunteers and the amount of trash collected are stronger evidence of success.",
-        "isCorrect": false
-      },
-      {
-        "text": "Over 200 volunteers came out to help.",
-        "rationale": "Correct. A large number of participants is a direct and strong indicator of a successful community event.",
-        "isCorrect": true
-      },
-      {
-        "text": "The event was a community cleanup.",
-        "rationale": "This describes the event, not its level of success.",
-        "isCorrect": false
-      },
-      {
-        "text": "The volunteers cleaned the park and the streets.",
-        "rationale": "This describes what the volunteers did, but the number of volunteers and bags of trash are the evidence of how successful they were.",
-        "isCorrect": false
-      }
+    questionNumber: 1, type: 'multipleChoice', difficulty: 'medium',
+    passage: "A pharmaceutical company released a study showing that patients who took their new cholesterol drug reduced LDL (bad cholesterol) by an average of 42%. A cardiologist reviewing the study noted that LDL reduction is a surrogate endpoint — a lab marker — not a direct measure of heart attacks or deaths. She cited examples of drugs that dramatically lowered LDL but did not reduce cardiac events in patients.",
+    question: "The cardiologist's concern is best described as:",
+    answerOptions: [
+      { text: "A claim that the study's data is falsified.", isCorrect: false, rationale: "The cardiologist accepts the LDL figures." },
+      { text: "A concern that improving a lab marker may not translate to the outcome that actually matters — preventing heart attacks and deaths.", isCorrect: true, rationale: "Surrogate endpoints don't always predict clinical outcomes — this is a well-known evidence quality concern." },
+      { text: "Evidence that the drug is ineffective at lowering LDL.", isCorrect: false, rationale: "The drug does lower LDL — the issue is whether that matters clinically." },
+      { text: "A conflict of interest concern about the pharmaceutical company.", isCorrect: false, rationale: "The cardiologist raises a methodological concern, not a conflict-of-interest concern." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "The new flexible work schedule has had a positive impact on employee morale. In a recent anonymous survey, 85% of employees reported that the new schedule had improved their work-life balance. The human resources department also noted a 20% decrease in the number of unscheduled absences since the policy was implemented.",
-    "question": "Which piece of evidence most strongly supports the claim that the new schedule has had a 'positive impact'?",
-    "answerOptions": [
-      {
-        "text": "The schedule is flexible.",
-        "rationale": "This describes the new policy, but not its impact.",
-        "isCorrect": false
-      },
-      {
-        "text": "The human resources department noted a decrease in absences.",
-        "rationale": "This is a good piece of evidence, but the employee survey is a more direct measure of morale.",
-        "isCorrect": false
-      },
-      {
-        "text": "An anonymous survey showed 85% of employees reported an improved work-life balance.",
-        "rationale": "Correct. A high-percentage positive response from a survey of the employees themselves is the most direct and powerful evidence of a positive impact on their morale and well-being.",
-        "isCorrect": true
-      },
-      {
-        "text": "The policy was recently implemented.",
-        "rationale": "This provides the time frame, not a measure of the policy's impact.",
-        "isCorrect": false
-      }
+    questionNumber: 2, type: 'multipleChoice', difficulty: 'medium',
+    passage: "Two public health approaches to obesity:
+
+Approach A focuses on individual responsibility: education campaigns, calorie labelling on menus, and encouraging personal exercise.
+
+Approach B focuses on environmental interventions: taxing sugary beverages, subsidising fresh produce in food deserts, restricting fast food near schools.
+
+A 2022 WHO review found that population-level environmental interventions produced greater reductions in obesity rates than individual-behaviour campaigns alone.",
+    question: "Which conclusion is best supported by the WHO review?",
+    answerOptions: [
+      { text: "Individual responsibility should be abandoned as a public health strategy.", isCorrect: false, rationale: "'Individual campaigns alone' were less effective, but the review doesn't call for abandoning them." },
+      { text: "Changing the food environment at a population level is more effective than relying on individual education alone.", isCorrect: true, rationale: "This directly reflects the finding: environmental interventions outperformed individual campaigns." },
+      { text: "Individuals are incapable of making healthy choices.", isCorrect: false, rationale: "The evidence is about effectiveness at scale, not individual capability." },
+      { text: "Soda taxes should be implemented in every country immediately.", isCorrect: false, rationale: "The review supports environmental strategies broadly; mandating a specific global policy is an overreach of the evidence." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "The 'broken windows' theory of policing, which posits that cracking down on minor offenses like vandalism and public drinking can prevent more serious crimes, is a controversial one. Proponents argue that it creates an atmosphere of order and lawfulness. However, a 2018 study of crime statistics in New York City over a 30-year period found no statistically significant evidence that this strategy had an impact on the rate of serious crime. The study concluded that the dramatic drop in crime in the 1990s was better explained by other factors, such as changes in the economy and a decrease in the crack cocaine trade.",
-    "question": "Which piece of evidence from the text most effectively challenges the 'broken windows' theory?",
-    "answerOptions": [
-      {
-        "text": "The theory is controversial.",
-        "rationale": "This states that there is a debate, but it is not a piece of evidence within that debate.",
-        "isCorrect": false
-      },
-      {
-        "text": "Proponents argue that it creates an atmosphere of order.",
-        "rationale": "This is the argument in favor of the theory, not evidence against it.",
-        "isCorrect": false
-      },
-      {
-        "text": "A study of 30 years of crime data found no significant evidence that the strategy reduced serious crime.",
-        "rationale": "Correct. This is the most powerful piece of evidence presented. It is based on a large dataset over a long period and directly refutes the central claim of the theory.",
-        "isCorrect": true
-      },
-      {
-        "text": "The drop in crime was better explained by other factors.",
-        "rationale": "This is the conclusion of the study, not the specific finding that serves as the primary evidence.",
-        "isCorrect": false
-      }
+    questionNumber: 3, type: 'multipleChoice', difficulty: 'medium',
+    passage: "An online news outlet published a story claiming that a local school board member had embezzled funds. The story cited 'multiple anonymous sources.' The board member denied the claim and demanded the sources be identified. An editor's note published one week later acknowledged that the outlet could not verify the story and retracted it.",
+    question: "What does this episode illustrate about the importance of source verification in journalism?",
+    answerOptions: [
+      { text: "Anonymous sources are never valid in journalism.", isCorrect: false, rationale: "Anonymous sources are used regularly in journalism — the issue is verification, not anonymity itself." },
+      { text: "Publishing claims based on unverified anonymous sources can cause reputational harm and erode public trust when retractions are required.", isCorrect: true, rationale: "This captures the practical consequence: harm to the subject and a loss of outlet credibility." },
+      { text: "All school board members should be protected from news coverage.", isCorrect: false, rationale: "Public officials are legitimately subject to journalism — the issue is verification standards." },
+      { text: "Retractions fully repair the damage caused by misinformation.", isCorrect: false, rationale: "Research on corrections shows retractions rarely reach the same audience as the original story." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "A school district introduced salad bars at lunch in all elementary schools, claiming the change improved students' nutrition. In the first semester, plate-waste audits showed that servings of fresh vegetables taken per student increased from an average of 0.4 cups to 0.9 cups. Registered dietitians also recorded a decline in the number of students selecting only pizza or fries as their main item.",
-    "question": "Which detail best supports the district's claim about improved nutrition?",
-    "answerOptions": [
-      {
-        "text": "Dietitians recorded fewer students choosing only pizza or fries.",
-        "rationale": "This supports the claim, but the measured increase in vegetable servings is more direct and quantifiable evidence of improved nutrition.",
-        "isCorrect": false
-      },
-      {
-        "text": "Servings of fresh vegetables taken per student rose from 0.4 cups to 0.9 cups.",
-        "rationale": "Correct. A specific, measured increase in vegetable intake directly supports improved nutrition.",
-        "isCorrect": true
-      },
-      {
-        "text": "The district introduced salad bars at lunch.",
-        "rationale": "This describes the policy, not its effect on nutrition.",
-        "isCorrect": false
-      },
-      {
-        "text": "The audits took place during the first semester.",
-        "rationale": "This is a timing detail, not the evidence of improvement.",
-        "isCorrect": false
-      }
+    questionNumber: 4, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A city proposes replacing a public parking lot with a park. Supporters cite a study showing that green spaces within walking distance increase nearby property values by an average of 11%. Opponents — a coalition of small business owners — argue that removing parking will cost them customers because most shoppers arrive by car.",
+    question: "What additional evidence would most help resolve the debate between supporters and opponents?",
+    answerOptions: [
+      { text: "Historical data on how many shoppers in this specific area arrive by car versus on foot or transit.", isCorrect: true, rationale: "The opponents' claim rests on the assumption that most shoppers drive. Data on the actual travel mode of local shoppers directly tests that premise." },
+      { text: "Property value studies from other cities.", isCorrect: false, rationale: "The supporters already have property value evidence — more of the same doesn't break the deadlock." },
+      { text: "An architect's rendering of the proposed park.", isCorrect: false, rationale: "A visual design doesn't address the parking-vs-customers debate." },
+      { text: "A survey of park users in other cities about their shopping habits.", isCorrect: false, rationale: "Other cities' park users may differ from this specific neighbourhood's shoppers." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "A library newsletter claims that the summer reading challenge was more successful than last year's event. It reports that 840 residents logged books this summer compared with 510 last year, that 28 reading circles met weekly, and that the library offered new prizes donated by local businesses.",
-    "question": "Which fact best backs up the claim about the reading challenge's success?",
-    "answerOptions": [
-      {
-        "text": "Participation increased from 510 to 840 residents compared with last summer.",
-        "rationale": "Correct. Higher participation directly demonstrates the challenge's success.",
-        "isCorrect": true
-      },
-      {
-        "text": "Twenty-eight reading circles met weekly.",
-        "rationale": "Club meetings show activity but not the overall growth in participation.",
-        "isCorrect": false
-      },
-      {
-        "text": "Local businesses donated new prizes.",
-        "rationale": "Prizes describe incentives, not evidence that more people joined.",
-        "isCorrect": false
-      },
-      {
-        "text": "The challenge took place in June and July.",
-        "rationale": "The timing does not prove the event was more successful.",
-        "isCorrect": false
-      }
+    questionNumber: 5, type: 'multipleChoice', difficulty: 'hard',
+    passage: "In a documentary, a narrator states: 'Every morning, thousands of Americans make an unhealthy choice by eating fast food for breakfast instead of a nutritious home-cooked meal. These choices are why obesity rates are rising.' A public health researcher watching the documentary notes: 'This framing ignores the structural barriers — time, income, proximity to grocery stores, and neighbourhood food options — that shape what choices are even available to many Americans.'",
+    question: "The researcher is critiquing the documentary's use of which rhetorical or logical strategy?",
+    answerOptions: [
+      { text: "Circular reasoning — the documentary states obesity causes unhealthy eating.", isCorrect: false, rationale: "The documentary's logic runs the other way and isn't purely circular." },
+      { text: "Individual-blame framing that ignores structural factors — attributing a systemic problem solely to personal decisions without acknowledging the conditions that shape those decisions.", isCorrect: true, rationale: "The researcher explicitly names structural barriers — the exact gap in the documentary's analysis." },
+      { text: "The documentary uses exaggerated statistics about obesity rates.", isCorrect: false, rationale: "The researcher doesn't dispute statistics; they dispute the explanatory framing." },
+      { text: "The documentary commits a false dilemma by presenting only two breakfast choices.", isCorrect: false, rationale: "No two-option structure is described in the passage." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "An op-ed contends that a popular smartphone model is the safest device on the market. The writer points to a manufacturer press release promising improved security, a year-long independent study showing the phone blocked 97% of malware attempts, and a celebrity endorsement praising the phone's sleek design.",
-    "question": "Which piece of evidence offers the weakest support for the op-ed's claim?",
-    "answerOptions": [
-      {
-        "text": "A celebrity endorsement about the phone's sleek design.",
-        "rationale": "Correct. A celebrity's opinion about appearance does not address security or safety.",
-        "isCorrect": true
-      },
-      {
-        "text": "A year-long independent study showing the phone blocked 97% of malware attempts.",
-        "rationale": "This is strong, relevant evidence for security.",
-        "isCorrect": false
-      },
-      {
-        "text": "A manufacturer press release promising improved security.",
-        "rationale": "While less objective than an independent study, it still focuses on security, unlike the endorsement.",
-        "isCorrect": false
-      },
-      {
-        "text": "A chart comparing sales of different phone models last year.",
-        "rationale": "This evidence is not mentioned in the passage, so it cannot be the weakest example provided.",
-        "isCorrect": false
-      }
+    questionNumber: 6, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A technology company's annual report includes: 'We are deeply committed to user privacy. We collect only the data necessary to provide our service.' A digital rights organisation counters: 'The company's data broker subsidiaries purchase and sell consumer location, purchase history, and behavioural profiles to advertisers — this is not disclosed in the privacy summary seen by most users.'",
+    question: "The digital rights organisation's response is strongest because it:",
+    answerOptions: [
+      { text: "Accuses the company of illegal behaviour.", isCorrect: false, rationale: "The organisation does not make a legal claim in the passage." },
+      { text: "Shows that the company's public statement about data collection is contradicted by its subsidiary business practices, constituting a misleading omission.", isCorrect: true, rationale: "The company's statement is technically about its primary service while omitting subsidiaries that actively monetise data — misleading by incompleteness." },
+      { text: "Proves that all technology companies violate privacy laws.", isCorrect: false, rationale: "The organisation addresses this specific company, not the entire industry." },
+      { text: "Argues that location data is the only sensitive type of personal data.", isCorrect: false, rationale: "The organisation lists location as one of several data types, not the only one." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "At a transportation summit, a planner claims that the new commuter rail schedule increased on-time arrivals. She presents train logs showing that 92% of rush-hour trains arrived within five minutes of their scheduled time, up from 68% before the change, and says riders can now buy tickets through a mobile app.",
-    "question": "Which additional detail would best strengthen the planner's claim?",
-    "answerOptions": [
-      {
-        "text": "Passenger feedback showing fewer complaints about late trains since the schedule change.",
-        "rationale": "Correct. Rider complaints directly relate to the claim about on-time arrivals.",
-        "isCorrect": true
-      },
-      {
-        "text": "A diagram explaining how the mobile ticketing app works.",
-        "rationale": "Ticketing convenience does not demonstrate improvements in punctuality.",
-        "isCorrect": false
-      },
-      {
-        "text": "Statistics about carpool usage in neighboring cities.",
-        "rationale": "Data from other transportation modes or cities does not address this rail system's punctuality.",
-        "isCorrect": false
-      },
-      {
-        "text": "A list of new conductors hired during the same month.",
-        "rationale": "Staffing changes may be related but do not directly connect to on-time arrival data.",
-        "isCorrect": false
-      }
+    questionNumber: 7, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A political analyst reviewing a candidate's debate performance notes: 'When asked about her plan to reduce drug prices, Senator Alvarez said: \"My opponent has accepted more than \$2 million in pharmaceutical donations — so you tell me whose side he's on.\" She never actually answered the question about her own plan.'",
+    question: "Which rhetorical move does the analyst identify?",
+    answerOptions: [
+      { text: "A valid rebuttal using evidence.", isCorrect: false, rationale: "Mentioning donations may be relevant but does not answer the question asked about her own plan." },
+      { text: "A red herring combined with an ad hominem — the senator deflected from the question by attacking her opponent's funding rather than presenting her plan.", isCorrect: true, rationale: "She diverted attention (red herring) and impugned her opponent's character/motives (ad hominem) instead of providing evidence about her own policy." },
+      { text: "An effective appeal to authority.", isCorrect: false, rationale: "No expert or authority is cited." },
+      { text: "A false dilemma — implying only two choices exist.", isCorrect: false, rationale: "No two-option structure is presented." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "passage": "A student senate email says that extending library hours before exams helped more students find study space. The email states that during the extended week, the library logged 1,500 nightly visitors, up from 900 the previous month, and that custodians added extra tables in the atrium.",
-    "question": "Which fact best supports the claim about the extended hours?",
-    "answerOptions": [
-      {
-        "text": "Library visits rose from 900 to 1,500 per night during the extended schedule.",
-        "rationale": "Correct. The higher visitor count directly shows that more students used the library when hours were extended.",
-        "isCorrect": true
-      },
-      {
-        "text": "Custodians added extra tables in the atrium.",
-        "rationale": "Extra tables describe accommodations, not evidence that more students came.",
-        "isCorrect": false
-      },
-      {
-        "text": "The email was sent by the student senate president.",
-        "rationale": "The sender's role does not prove the claim.",
-        "isCorrect": false
-      },
-      {
-        "text": "The extended hours lasted for one week before exams.",
-        "rationale": "The duration alone does not show that more students used the library.",
-        "isCorrect": false
-      }
+    questionNumber: 8, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A city transportation director argues: 'Our new traffic signal coordination system reduced average travel times citywide by 18%. This proves that technology, not expanded public transit, is the solution to our congestion problem.'
+
+A transportation planner responds: 'Signal coordination addresses existing vehicle volume but cannot accommodate the growth projected over the next 20 years without capacity being added — either in the form of road lanes, which are physically constrained in our city, or transit.'",
+    question: "The transportation planner's response challenges the director's argument primarily by:",
+    answerOptions: [
+      { text: "Disputing the 18% travel time reduction figure.", isCorrect: false, rationale: "The planner accepts the figure — they argue it doesn't solve the future problem." },
+      { text: "Arguing that a solution proven for current conditions does not address future demand growth — a limitation the director's claim ignores.", isCorrect: true, rationale: "The planner's core point is temporal: signal systems help now but cannot scale to 20-year projected growth." },
+      { text: "Claiming that transit is always better than technology.", isCorrect: false, rationale: "The planner doesn't argue that; they argue transit may be necessary to handle projected growth." },
+      { text: "Showing that signal coordination is expensive and unreliable.", isCorrect: false, rationale: "Neither cost nor reliability is mentioned." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "passage": "An environmental blogger says the city's composting pilot dramatically cut landfill waste. To prove it, she shares an infographic comparing last month's trash totals to an unusually high total from the winter holidays, quotes a neighbor who loves the new green bins, and links to a sanitation department report showing a 28% reduction in landfill tonnage compared with the same month last year.",
-    "question": "Why is the infographic the weakest evidence for the blogger's claim?",
-    "answerOptions": [
-      {
-        "text": "It compares composting data to holiday trash levels, which were unusually high and not a fair baseline.",
-        "rationale": "Correct. Using an atypical comparison weakens the infographic's value as evidence.",
-        "isCorrect": true
-      },
-      {
-        "text": "The sanitation department report might not include composting statistics.",
-        "rationale": "The passage states that the report shows a 28% reduction, so it clearly includes relevant data.",
-        "isCorrect": false
-      },
-      {
-        "text": "A neighbor's quote is usually more reliable than official reports.",
-        "rationale": "Anecdotal quotes are less reliable, not more, so this does not explain the infographic's weakness.",
-        "isCorrect": false
-      },
-      {
-        "text": "Charts are never persuasive when discussing environmental topics.",
-        "rationale": "Charts can be persuasive if the comparison is fair; the problem is the unusual baseline.",
-        "isCorrect": false
-      }
+    questionNumber: 9, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A report on early childhood education states: 'Children who attended high-quality preschool programmes were 31% less likely to be incarcerated by age 40, 25% more likely to have stable employment, and showed measurably higher lifetime earnings than a matched control group — in a 40-year longitudinal study.'
+
+A school board member argues against funding a new preschool programme: 'We can't afford extra spending right now. And those studies are from the 1960s — the job market is completely different today.'",
+    question: "Which aspect of the board member's argument is weakest?",
+    answerOptions: [
+      { text: "The board member was right that the studies are old.", isCorrect: false, rationale: "Age of the study is a legitimate concern — this is actually one of the stronger points." },
+      { text: "Claiming the current job market is 'completely different' is asserted without evidence, and does not address the 31% incarceration reduction or lifetime earnings data, which span multiple economic periods.", isCorrect: true, rationale: "The job market claim is unsubstantiated, and the full scope of the study outcomes — incarceration, employment, earnings — all persist regardless of job market changes." },
+      { text: "Budget concerns are irrelevant to education policy.", isCorrect: false, rationale: "Budget is always relevant to public policy — dismissing it entirely is wrong." },
+      { text: "The board member should cite more studies on preschool.", isCorrect: false, rationale: "Citing more studies would strengthen their position, not expose a weakness." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "A parent group insists that installing filtered water bottle stations improved student hydration at Riverside High. They cite cafeteria counts of reusable bottle refills that doubled after the stations opened, nurse records showing fewer headaches reported during afternoon classes, and a photo of students using the stations on opening day.",
-    "question": "Which additional evidence would most directly support the parent group's claim?",
-    "answerOptions": [
-      {
-        "text": "Survey data indicating that most students now drink water during class because the stations are convenient.",
-        "rationale": "Correct. Student survey responses would tie the stations to increased water intake.",
-        "isCorrect": true
-      },
-      {
-        "text": "A copy of the purchase order for the water stations.",
-        "rationale": "Knowing the equipment was purchased does not show its impact on hydration.",
-        "isCorrect": false
-      },
-      {
-        "text": "A list of other schools that plan to add water stations next year.",
-        "rationale": "Plans at other schools do not prove the effect at Riverside High.",
-        "isCorrect": false
-      },
-      {
-        "text": "A news article about athletes who drink water during games.",
-        "rationale": "Stories about athletes do not address hydration for the general student population.",
-        "isCorrect": false
-      }
+    questionNumber: 10, type: 'multipleChoice', difficulty: 'hard',
+    passage: "Passage A: 'Extending copyright protection to 95 years after publication is necessary to give creators and their estates the financial incentive to invest in creative work.'
+
+Passage B: 'Excessively long copyright terms have transformed much of 20th-century culture into proprietary assets locked away from adaptation, remixing, and public use. The primary beneficiaries of 95-year terms are corporations, not the original artists — most of whom have died decades before their works enter the public domain.'",
+    question: "Which of the following best synthesises the core disagreement between the two passages?",
+    answerOptions: [
+      { text: "Whether copyright should exist at all.", isCorrect: false, rationale: "Both passages accept copyright — they disagree on the optimal term length and beneficiaries." },
+      { text: "Whether long copyright terms primarily serve the financial interests of creators or corporate rights holders, and whether such terms serve or hinder cultural production and public access.", isCorrect: true, rationale: "This accurately captures both dimensions of the debate: who benefits and whether the policy achieves its stated creative purpose." },
+      { text: "Whether Passage B's authors broke copyright law.", isCorrect: false, rationale: "This is not a legal proceeding; no such claim is made." },
+      { text: "Whether copyright law should be administered by the federal government.", isCorrect: false, rationale: "Administration is not the subject of either passage." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
   {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "An editorial argues that the city should keep its community orchestra funded because free concerts boost local commerce. The editorial includes credit-card data from nearby restaurants showing sales up 19% on concert nights, a poll of attendees indicating 60% dined downtown before the show, and a mention that the orchestra rehearses on Tuesdays.",
-    "question": "Which detail best supports the argument that concerts help local businesses?",
-    "answerOptions": [
-      {
-        "text": "Restaurant sales near the concert venue rose 19% on performance nights.",
-        "rationale": "Correct. Increased sales directly connect concerts to economic benefits for local businesses.",
-        "isCorrect": true
-      },
-      {
-        "text": "The orchestra rehearses on Tuesday evenings.",
-        "rationale": "Rehearsal timing has no connection to business revenue.",
-        "isCorrect": false
-      },
-      {
-        "text": "The editorial lists the orchestra's annual repertoire.",
-        "rationale": "Program details do not address the economic argument.",
-        "isCorrect": false
-      },
-      {
-        "text": "The poll asked attendees where they parked their cars.",
-        "rationale": "Parking information is irrelevant to restaurant sales.",
-        "isCorrect": false
-      }
+    questionNumber: 11, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A manager tells a new employee: 'Our top salesperson, Reyes, works until 9 p.m. every night and never takes a full lunch break. If you want to succeed here, you need to do the same.'
+
+The new employee reflects on the advice.",
+    question: "Which logical concern should the new employee have about this argument?",
+    answerOptions: [
+      { text: "The manager is clearly biased against the employee.", isCorrect: false, rationale: "The passage doesn't support a bias conclusion." },
+      { text: "The argument assumes Reyes' long hours caused his success, ignoring other possible explanations (talent, client relationships, product knowledge, market timing).", isCorrect: true, rationale: "Post hoc reasoning — Reyes works long hours and is successful, therefore long hours caused success — ignores other variables entirely." },
+      { text: "The manager should not discuss other employees' habits.", isCorrect: false, rationale: "Privacy is an HR concern, not a logical flaw in the argument." },
+      { text: "Working past 9 p.m. is illegal under labour law.", isCorrect: false, rationale: "No such blanket law exists, and legality is not the argument's logical flaw." },
     ],
-    "challenge_tags": [
-      "rla-2"
-    ]
+    challenge_tags: ['rla-2'],
   },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "passage": "A budget memo responds to critics who say the new community garden network wastes taxpayer money. The memo shows that volunteer gardeners contributed 4,200 hours of labor last season, that grocery stores donated unsold seeds and tools, and that the city spent \(6,500 on maintenance—less than half of what it costs to mow the vacant lots that were converted into gardens.",
-    "question": "Which fact most directly counters the critics' claim about wasting money?",
-    "answerOptions": [
-      {
-        "text": "Maintenance for the gardens cost \)6,500, less than half the cost of mowing the former vacant lots.",
-        "rationale": "Correct. This comparison addresses the financial concern raised by critics.",
-        "isCorrect": true
-      },
-      {
-        "text": "Volunteer gardeners contributed 4,200 hours of labor.",
-        "rationale": "Volunteer time is helpful, but it does not directly compare program costs with alternatives.",
-        "isCorrect": false
-      },
-      {
-        "text": "Local grocery stores donated seeds and tools.",
-        "rationale": "Donations reduce expenses, yet the cost comparison provides the clearest financial evidence.",
-        "isCorrect": false
-      },
-      {
-        "text": "The gardens produced 2,000 pounds of vegetables for food pantries.",
-        "rationale": "Food donations are a benefit but not an explicit response to the money issue.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-2"
-    ]
-  }
 ];
