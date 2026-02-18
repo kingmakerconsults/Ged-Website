@@ -39044,6 +39044,11 @@ function EssayGuide({ onExit }) {
   };
 
   const resetPractice = () => {
+    const ok = window.confirm(
+      'Are you sure you want to reset? Your essay progress will be lost (timer and all written text).'
+    );
+    if (!ok) return;
+
     setTimerActive(false);
     clearInterval(intervalRef.current);
     setTimer(45 * 60);
