@@ -9532,34 +9532,55 @@ function tagMissingDifficulty(x) {
   return it;
 }
 
-function enforceVarietyMix(items, wanted) {
+function enforceVarietyMix(items, wanted, maxCount = 12) {
   const out = [];
   const byType = { passage: [], image: [], standalone: [] };
   for (const it of items)
     (byType[it.itemType] ? byType[it.itemType] : byType.standalone).push(it);
 
-  const take = (arr, n) => arr.slice(0, Math.max(0, n));
-  out.push(...take(byType.passage, wanted.passage));
-  out.push(...take(byType.image, wanted.image));
-  out.push(...take(byType.standalone, wanted.standalone));
+  // wanted values can be fractions (ratios) or absolute counts
+  const isRatio =
+    wanted.passage <= 1 && wanted.image <= 1 && wanted.standalone <= 1;
+  const wantPassage = isRatio
+    ? Math.round(wanted.passage * maxCount)
+    : wanted.passage;
+  const wantImage = isRatio
+    ? Math.round(wanted.image * maxCount)
+    : wanted.image;
+  const wantStandalone = isRatio
+    ? Math.round(wanted.standalone * maxCount)
+    : wanted.standalone;
 
-  const need = 12 - out.length;
+  const take = (arr, n) => arr.slice(0, Math.max(0, n));
+  out.push(...take(byType.passage, wantPassage));
+  out.push(...take(byType.image, wantImage));
+  out.push(...take(byType.standalone, wantStandalone));
+
+  const need = maxCount - out.length;
   if (need > 0) {
     const pool = items.filter((it) => !out.includes(it));
     out.push(...pool.slice(0, need));
   }
-  return out.slice(0, 12);
+  return out.slice(0, maxCount);
 }
 
-function enforceDifficultySpread(items, target) {
+function enforceDifficultySpread(items, target, maxCount = 12) {
   const buckets = { easy: [], medium: [], hard: [], other: [] };
   for (const it of items) (buckets[it.difficulty] || buckets.other).push(it);
 
+  // target values can be fractions (ratios) or absolute counts
+  const isRatio = target.easy <= 1 && target.medium <= 1 && target.hard <= 1;
+  const wantEasy = isRatio ? Math.round(target.easy * maxCount) : target.easy;
+  const wantMedium = isRatio
+    ? Math.round(target.medium * maxCount)
+    : target.medium;
+  const wantHard = isRatio ? Math.round(target.hard * maxCount) : target.hard;
+
   const pick = [];
   const take = (arr, n) => arr.splice(0, Math.max(0, n));
-  pick.push(...take(buckets.easy, target.easy));
-  pick.push(...take(buckets.medium, target.medium));
-  pick.push(...take(buckets.hard, target.hard));
+  pick.push(...take(buckets.easy, wantEasy));
+  pick.push(...take(buckets.medium, wantMedium));
+  pick.push(...take(buckets.hard, wantHard));
 
   const rest = [
     ...buckets.easy,
@@ -9567,8 +9588,8 @@ function enforceDifficultySpread(items, target) {
     ...buckets.hard,
     ...buckets.other,
   ];
-  while (pick.length < 12 && rest.length) pick.push(rest.shift());
-  return pick.slice(0, 12);
+  while (pick.length < maxCount && rest.length) pick.push(rest.shift());
+  return pick.slice(0, maxCount);
 }
 
 function stemText(it) {
@@ -9585,19 +9606,15 @@ function jaccard(a, b) {
   const uni = new Set([...A, ...B]).size || 1;
   return inter / uni;
 }
-function dedupeNearDuplicates(items, threshold = 0.85) {
+function dedupeNearDuplicates(items, threshold = 0.85, maxCount = 0) {
+  const cap = maxCount > 0 ? maxCount : items.length; // 0 = no cap, keep all unique
   const kept = [];
   for (const it of items) {
     const t = stemText(it);
     const dup = kept.some((k) => jaccard(t, stemText(k)) >= threshold);
     if (!dup) kept.push(it);
   }
-  const need = 12 - kept.length;
-  if (need > 0) {
-    const pool = items.filter((x) => !kept.includes(x));
-    kept.push(...pool.slice(0, need));
-  }
-  return kept.slice(0, 12);
+  return cap > 0 ? kept.slice(0, cap) : kept;
 }
 // END: New Helper Functions
 
@@ -9956,6 +9973,168 @@ function getCuratedSocialStudiesImages(imageCatalog) {
   });
 }
 
+// ========================================
+// AI-generated passage + questions (no curated source)
+// ========================================
+const SS_SOURCE_SUGGESTIONS = {
+  'Civics & Government': [
+    'an excerpt from the U.S. Constitution or Bill of Rights',
+    'a passage about a landmark Supreme Court decision (e.g., Brown v. Board, Marbury v. Madison)',
+    'an excerpt from the Federalist Papers or Anti-Federalist writings',
+    'a passage about the structure of the federal government (checks and balances, separation of powers)',
+    'an excerpt from a presidential inaugural address or State of the Union speech',
+    'a passage about voting rights legislation (e.g., 15th Amendment, Voting Rights Act of 1965)',
+    'a passage about citizenship, naturalization, or civic responsibilities',
+    'an excerpt from the Declaration of Independence analyzed for its political philosophy',
+  ],
+  'U.S. History': [
+    'a primary source excerpt about westward expansion or Manifest Destiny',
+    'a passage about the causes or consequences of the Civil War',
+    'an excerpt from a speech by Frederick Douglass, Abraham Lincoln, or Martin Luther King Jr.',
+    'a passage about the American Revolution and founding era',
+    'a passage about the Great Depression and New Deal programs',
+    'a passage about the Civil Rights Movement of the 1950s-1960s',
+    'a passage about immigration waves to America (1800s-1900s)',
+    'an excerpt about World War II and its impact on American society',
+    'a passage about Reconstruction and its successes and failures',
+  ],
+  Economics: [
+    'a passage about supply and demand using a real-world scenario',
+    'a short data table showing unemployment or GDP trends with analysis',
+    'a passage about the role of the Federal Reserve and monetary policy',
+    'a passage about trade policy, tariffs, or free trade agreements (e.g., NAFTA)',
+    'a passage comparing capitalism, socialism, and mixed economies',
+    'a passage about the causes of the Great Recession of 2008',
+    'a passage about consumer economics (credit, inflation, budgeting basics)',
+    "a passage about labor unions and workers' rights in American history",
+  ],
+  'Geography & the World': [
+    'a passage about the impact of geography on the development of civilizations',
+    'a passage about U.S. territorial expansion (Louisiana Purchase, Alaska, Hawaii)',
+    'a passage about global migration patterns and push/pull factors',
+    'a passage comparing different world regions and their resources',
+    'a passage about Cold War geopolitics and the division of Europe',
+    'a passage about environmental geography (climate change, natural resources, sustainability)',
+    'a passage about imperialism and its effects on colonized regions',
+    'a passage about international organizations (UN, NATO, EU) and global cooperation',
+  ],
+};
+
+async function generateAIPassageAndQuestions({
+  category,
+  numQuestions,
+  aiOptions,
+}) {
+  const suggestions =
+    SS_SOURCE_SUGGESTIONS[category] || SS_SOURCE_SUGGESTIONS['U.S. History'];
+  const sourceSuggestion =
+    suggestions[Math.floor(Math.random() * suggestions.length)];
+
+  const prompt = `You are creating GED-level Social Studies content for the category: ${category}.
+
+YOUR TASK:
+1. Write a short passage (150-250 words) modeled after ${sourceSuggestion}.
+   The passage should read like an authentic excerpt from a textbook, historical document, or primary source.
+   It should be factually accurate, engaging, and appropriate for adult learners preparing for the GED.
+
+2. Then create EXACTLY ${numQuestions} multiple-choice questions based ONLY on that passage.
+
+PASSAGE GUIDELINES:
+- Base it on REAL historical events, documents, data, or people — do NOT fabricate events
+- Write at a 10th-12th grade reading level
+- Include specific details (dates, names, statistics) that students can reference
+- If the topic lends itself to data, include a small data set or comparison
+
+QUESTION GUIDELINES:
+- Each question must be answerable using ONLY the passage
+- Test skills like main idea, cause/effect, author's purpose, claims vs. evidence, data interpretation
+- 4 answer options each (A-D), exactly one correct
+- Include a rationale for each answer option
+
+Return JSON:
+{
+  "passageTitle": "string — a short descriptive title",
+  "passage": "string — the full passage text",
+  "questions": [
+    {
+      "questionText": "string",
+      "answerOptions": [
+        { "text": "string", "isCorrect": boolean, "rationale": "string" }
+      ]
+    }
+  ]
+}
+
+${TABLE_INTEGRITY_RULES}`;
+
+  const schema = {
+    type: 'OBJECT',
+    properties: {
+      passageTitle: { type: 'STRING' },
+      passage: { type: 'STRING' },
+      questions: {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            questionText: { type: 'STRING' },
+            answerOptions: {
+              type: 'ARRAY',
+              items: {
+                type: 'OBJECT',
+                properties: {
+                  text: { type: 'STRING' },
+                  isCorrect: { type: 'BOOLEAN' },
+                  rationale: { type: 'STRING' },
+                },
+                required: ['text', 'isCorrect', 'rationale'],
+              },
+            },
+          },
+          required: ['questionText', 'answerOptions'],
+        },
+      },
+    },
+    required: ['passage', 'questions'],
+  };
+
+  try {
+    const result = await callAI(prompt, schema, aiOptions);
+    const passageText = normalizeTables(result.passage || '');
+    const passageTitle = result.passageTitle || 'Historical Document';
+    const questions = Array.isArray(result.questions) ? result.questions : [];
+
+    if (!passageText || questions.length === 0) {
+      console.warn('[SS] AI passage generation returned empty result');
+      return [];
+    }
+
+    console.log(
+      `[SS] AI generated passage "${passageTitle}" (${passageText.split(/\\s+/).length} words) with ${questions.length} questions for ${category}`
+    );
+
+    return questions.map((q) =>
+      enforceWordCapsOnItem(
+        {
+          ...q,
+          passage: passageText,
+          type: 'passage',
+          itemType: 'passage',
+          subject: 'Social Studies',
+          category,
+          stimulusId: `ai-gen-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          groupId: `ss-ai-pass-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          aiGeneratedPassage: true, // flag so we know this passage was AI-created
+        },
+        'Social Studies'
+      )
+    );
+  } catch (error) {
+    console.error('[SS] AI passage+question generation failed:', error.message);
+    return [];
+  }
+}
+
 async function generateSocialStudiesPassageSet({
   category,
   subject,
@@ -9963,7 +10142,7 @@ async function generateSocialStudiesPassageSet({
   numQuestions,
   aiOptions,
 }) {
-  // Use curated passage if provided, otherwise generate
+  // Use curated passage if provided, otherwise have AI generate one
   const passageText = passageSource
     ? passageSource.text || passageSource.content
     : null;
@@ -9971,13 +10150,19 @@ async function generateSocialStudiesPassageSet({
     ? passageSource.title || passageSource.name
     : null;
 
+  // -------- AI-GENERATED PASSAGE PATH --------
   if (!passageText) {
-    console.warn(
-      '[SS] No passage text provided, falling back to AI generation'
+    console.log(
+      `[SS] No curated passage for ${category}, asking AI to generate passage + questions`
     );
-    return [];
+    return await generateAIPassageAndQuestions({
+      category,
+      numQuestions,
+      aiOptions,
+    });
   }
 
+  // -------- CURATED PASSAGE PATH --------
   // Enforce word count limit
   const words = passageText.split(/\s+/).length;
   const limitedPassage =
@@ -12084,30 +12269,34 @@ app.post('/generate-quiz', async (req, res) => {
                 }
               }
             } else {
-              console.warn(
-                `[SS] No unused passage found for ${category}, generating standalone instead`
+              console.log(
+                `[SS] No curated passage for ${category}, using AI-generated passage`
               );
-              // Generate a standalone question as substitute
-              try {
-                const q = await generateSocialStudiesStandaloneQuestion({
-                  category,
-                  subject: 'Social Studies',
-                  aiOptions,
-                  allowNumeracy:
-                    category === 'Economics' ||
-                    category === 'Civics & Government',
-                });
-                if (q) {
-                  allQuestions.push(q);
-                  console.log(
-                    `[SS] Added substitute standalone question for ${category}`
+              // Let AI generate both the passage and questions
+              for (let attempt = 0; attempt < 2; attempt++) {
+                try {
+                  const qs = await generateSocialStudiesPassageSet({
+                    category,
+                    subject: 'Social Studies',
+                    passageSource: null,
+                    numQuestions: Math.random() > 0.5 ? 2 : 3,
+                    aiOptions,
+                  });
+                  if (qs && qs.length) {
+                    allQuestions.push(...qs);
+                    console.log(
+                      `[SS] Added ${qs.length} AI-generated passage questions for ${category}`
+                    );
+                    break;
+                  }
+                } catch (err) {
+                  console.error(
+                    `[SS] AI passage generation failed for ${category} (attempt ${attempt + 1}):`,
+                    err.message
                   );
+                  if (attempt === 0)
+                    console.log('[SS] Retrying AI passage generation...');
                 }
-              } catch (err) {
-                console.error(
-                  `[SS] Substitute standalone failed for ${category}:`,
-                  err.message
-                );
               }
             }
           }
@@ -12214,20 +12403,32 @@ app.post('/generate-quiz', async (req, res) => {
 
         // Apply QA and enforcement
         let finalQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
-        finalQuestions = dedupeNearDuplicates(finalQuestions, 0.85);
+        finalQuestions = dedupeNearDuplicates(
+          finalQuestions,
+          0.85,
+          TOTAL_QUESTIONS + 5
+        );
         finalQuestions = finalQuestions
           .map(tagMissingItemType)
           .map(tagMissingDifficulty);
-        finalQuestions = enforceDifficultySpread(finalQuestions, {
-          easy: 0.3,
-          medium: 0.5,
-          hard: 0.2,
-        });
-        finalQuestions = enforceVarietyMix(finalQuestions, {
-          passage: 0.4,
-          image: 0.25,
-          standalone: 0.35,
-        });
+        finalQuestions = enforceDifficultySpread(
+          finalQuestions,
+          {
+            easy: 0.3,
+            medium: 0.5,
+            hard: 0.2,
+          },
+          TOTAL_QUESTIONS
+        );
+        finalQuestions = enforceVarietyMix(
+          finalQuestions,
+          {
+            passage: 0.4,
+            image: 0.25,
+            standalone: 0.35,
+          },
+          TOTAL_QUESTIONS
+        );
 
         // Trim to target count
         const draftQuestionSet = finalQuestions.slice(0, TOTAL_QUESTIONS);
@@ -12269,7 +12470,7 @@ app.post('/generate-quiz', async (req, res) => {
           finalQuiz = draftQuiz;
         }
 
-        // Persist to AI question bank
+        // Persist to AI question bank (stored for reference, not reused in future exams)
         if (AI_QUESTION_BANK_ENABLED) {
           await persistQuestionsToBank(finalQuiz.questions || [], {
             subject,
@@ -12288,6 +12489,18 @@ app.post('/generate-quiz', async (req, res) => {
             questionCount: (finalQuiz.questions || []).length,
             quizPayload: finalQuiz,
           }).catch(() => {});
+        }
+
+        // Also save to local file for offline review
+        try {
+          const genDir = path.join(__dirname, 'data', 'generated-exams');
+          if (!fs.existsSync(genDir)) fs.mkdirSync(genDir, { recursive: true });
+          const ts = new Date().toISOString().replace(/[:.]/g, '-');
+          const outPath = path.join(genDir, `ss-comp-${ts}.json`);
+          fs.writeFileSync(outPath, JSON.stringify(finalQuiz, null, 2), 'utf8');
+          console.log(`[SS] Saved generated exam to ${outPath}`);
+        } catch (saveErr) {
+          console.warn('[SS] Could not save exam to file:', saveErr.message);
         }
 
         logGenerationDuration(examType, subject, generationStart);
