@@ -42227,28 +42227,10 @@ function RootApp() {
 }
 
 // Provide global topic resolver BEFORE rendering so components can access it
-if (
-  typeof window !== 'undefined' &&
-  typeof window.getSmithAQuizTopics !== 'function'
-) {
+if (typeof window !== 'undefined') {
   window.getSmithAQuizTopics = function (subject) {
     if (!subject) return [];
     const key = String(subject).toLowerCase();
-
-    // Prefer dynamic AppData if present
-    if (
-      window.AppData &&
-      window.AppData[subject] &&
-      window.AppData[subject].categories
-    ) {
-      try {
-        return Object.values(window.AppData[subject].categories)
-          .flatMap((cat) =>
-            (Array.isArray(cat.topics) ? cat.topics : []).map((t) => t.title)
-          )
-          .filter(Boolean);
-      } catch (_) {}
-    }
 
     const MAP = {
       science: [
@@ -42292,7 +42274,27 @@ if (
       ],
     };
 
-    return MAP[key] || [];
+    // Use curated canonical topics first to avoid noisy/legacy topic IDs.
+    if (Array.isArray(MAP[key]) && MAP[key].length > 0) {
+      return MAP[key];
+    }
+
+    // Fallback only when a subject is missing from the curated map.
+    if (
+      window.AppData &&
+      window.AppData[subject] &&
+      window.AppData[subject].categories
+    ) {
+      try {
+        return Object.values(window.AppData[subject].categories)
+          .flatMap((cat) =>
+            (Array.isArray(cat.topics) ? cat.topics : []).map((t) => t.title)
+          )
+          .filter(Boolean);
+      } catch (_) {}
+    }
+
+    return [];
   };
 }
 
