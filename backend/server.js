@@ -10934,8 +10934,8 @@ async function generateRlaPart2(options = {}) {
 REQUIREMENTS:
 1. Create exactly TWO passages that present OPPOSING VIEWPOINTS on a single policy issue (e.g., conservation vs development, privacy vs security, renewable energy vs traditional energy, etc.).
 2. Each passage must be exactly 3 substantial paragraphs, 220-300 words total, and NEVER above 300 words.
-3. Format each passage with explicit HTML paragraph tags: <p>...</p><p>...</p><p>...</p>. Do not return a single block paragraph.
-3. Each passage MUST include:
+3. Separate paragraphs with double newlines. Do NOT use HTML tags like <p> or <br> in the passage content.
+4. Each passage MUST include:
    - "title": A clear, descriptive title
    - "author": A plausible human name
    - "content": The passage text with clear claims and 2-3 pieces of specific evidence
@@ -11086,7 +11086,7 @@ Output a JSON object with:
       );
     }
 
-    return finalParagraphs.map((p) => `<p>${p}</p>`).join('');
+    return finalParagraphs.map((p) => `<p>${p}</p>`).join('\n');
   };
 
   const isValidEssayPayload = (value) =>
@@ -11144,7 +11144,10 @@ DOCUMENT DIVERSITY REQUIREMENTS:
 - Use a varied set of document types across the 7 stimuli, such as: email, formal letter, memo, flyer, announcement, short article, meeting notes, workplace notice, instructions, or report excerpt.
 - Do NOT make all 7 plain passages.
 - At least 4 different document types must appear.
-- At the start of each stimulus passage, include a plain-text header line in this exact format: "Document Type: <type>".
+- Do NOT include a "Document Type:" label anywhere in the passage text.
+- For emails, format the passage as a real email with header lines (e.g. "Subject: ...", "From: ...", "To: ...", "Date: ...") followed by a blank line and then the body. Do NOT label it as "Document Type: Email".
+- For letters, start with "Dear ..." and end with a closing and name.
+- For memos, use a "TO: / FROM: / RE: / DATE:" header block.
 - Keep formatting simple and readable (short headings, line breaks, and paragraph spacing).
 
 CRITICAL ENHANCEMENTS FOR EACH QUESTION:
@@ -11191,9 +11194,8 @@ Return only the JSON array of the 25 question objects. For passages using inline
 
     if (!text) return text;
 
-    if (!/^Document Type:\s*/i.test(text)) {
-      text = `Document Type: Passage\n\n${text}`;
-    }
+    // Strip any "Document Type: ..." label the AI may have included
+    text = text.replace(/^Document Type:\s*[^\n]*\n*/i, '').trim();
 
     return text;
   };
