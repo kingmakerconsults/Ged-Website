@@ -95,9 +95,19 @@ export function QuizInterface({
 
   // MULTIPLE-SELECT ENHANCEMENT: Support both single-select and multiple-select questions
   const detectMultiSelect = (q) => {
-    if (q.itemType === 'multi_select' || q.selectType === 'multiple' || q.type === 'multiple-select') return true;
+    if (
+      q.itemType === 'multi_select' ||
+      q.selectType === 'multiple' ||
+      q.type === 'multiple-select'
+    )
+      return true;
     const qText = (q.questionText || q.question || '').toLowerCase();
-    if (/select\s+(the\s+)?(two|2|all|both)|choose\s+(the\s+)?(two|2|all|both)/.test(qText)) return true;
+    if (
+      /select\s+(the\s+)?(two|2|all|both)|choose\s+(the\s+)?(two|2|all|both)/.test(
+        qText
+      )
+    )
+      return true;
     return false;
   };
 
@@ -112,8 +122,8 @@ export function QuizInterface({
       const currentSelections = Array.isArray(newAnswers[currentIndex])
         ? newAnswers[currentIndex]
         : newAnswers[currentIndex]
-        ? [newAnswers[currentIndex]]
-        : [];
+          ? [newAnswers[currentIndex]]
+          : [];
 
       const index = currentSelections.indexOf(optionText);
       if (index > -1) {
@@ -199,11 +209,13 @@ export function QuizInterface({
   if (!currentQ) return <div>Loading question...</div>;
   // Detect interactive US regions map usage
   const hasUSRegionsMap = Boolean(
-    currentQ?.interactive?.type === 'us-regions' || currentQ?.widget === 'us-regions' || /\[\[US_REGIONS_MAP\]\]/.test(String(currentQ?.question || ''))
+    currentQ?.interactive?.type === 'us-regions' ||
+    currentQ?.widget === 'us-regions' ||
+    /\[\[US_REGIONS_MAP\]\]/.test(String(currentQ?.question || ''))
   );
 
-  const regionAnswer = typeof answers[currentIndex] === 'string' ? answers[currentIndex] : null;
-
+  const regionAnswer =
+    typeof answers[currentIndex] === 'string' ? answers[currentIndex] : null;
 
   const baseFillIn =
     currentQ.type === 'fill-in-the-blank' ||
@@ -224,14 +236,15 @@ export function QuizInterface({
     ? Array.isArray(currentAnswer)
       ? currentAnswer
       : currentAnswer
-      ? [currentAnswer]
-      : []
+        ? [currentAnswer]
+        : []
     : [currentAnswer];
 
   const subjectForRender = currentQ.subject || subject || 'Default';
   const quizSubject = subject || 'Default';
 
-  const isMathOrScienceQuiz = /^(math|science)$/i.test(String(quizSubject)) ||
+  const isMathOrScienceQuiz =
+    /^(math|science)$/i.test(String(quizSubject)) ||
     /^(math|science)$/i.test(String(subjectForRender)) ||
     /^(math|science)$/i.test(String(currentQ?.subject || ''));
 
@@ -241,7 +254,7 @@ export function QuizInterface({
   // Precompute if the question would need a tool (ignored when flag is false)
   const hasGraphDataForRender = Boolean(
     currentQ &&
-      (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane)
+    (currentQ.graphSpec || currentQ.graphData || currentQ.coordinatePlane)
   );
   const hasGeometryDataForRender = Boolean(currentQ && currentQ.geometrySpec);
 
@@ -270,13 +283,27 @@ export function QuizInterface({
   const passageContent = currentQ.passage || '';
 
   // Interactive tool mounting lifecycle (extracted to useInteractiveToolPanel hook)
-  const { needsToolPanel } = useInteractiveToolPanel({
+  const { needsToolPanel, getGraphAnswer } = useInteractiveToolPanel({
     enabled: TOOL_PANEL_ENABLED,
     currentQuestion: currentQ,
     toolPanelRef,
     hasGraphData: hasGraphDataForRender,
     hasGeometryData: hasGeometryDataForRender,
   });
+
+  // Detect interactive graphing answer questions
+  const isGraphPlotAnswer = currentQ.answerType === 'graphPlot';
+
+  // Before navigating away or submitting, capture the graph answer into answers[]
+  const captureGraphAnswerIfNeeded = useCallback(() => {
+    if (!isGraphPlotAnswer || !getGraphAnswer) return;
+    const graphAnswer = getGraphAnswer();
+    if (graphAnswer) {
+      const newAnswers = [...answers];
+      newAnswers[currentIndex] = graphAnswer;
+      setAnswers(newAnswers);
+    }
+  }, [isGraphPlotAnswer, getGraphAnswer, answers, currentIndex, setAnswers]);
 
   return (
     <div className="fade-in">
@@ -430,7 +457,9 @@ export function QuizInterface({
                           : 'transparent',
                       }}
                       title={
-                        zenMode ? 'Exit Zen Mode' : 'Zen Mode: Hide distractions'
+                        zenMode
+                          ? 'Exit Zen Mode'
+                          : 'Zen Mode: Hide distractions'
                       }
                     >
                       {zenMode ? '👁️ Exit Zen' : '🧘 Zen Mode'}
@@ -558,21 +587,24 @@ export function QuizInterface({
                       color: scheme.onBackgroundText,
                     }
                   : isAnswered
-                  ? {
-                      backgroundColor: scheme.navAnsweredBg,
-                      color: scheme.navAnsweredText,
-                    }
-                  : {
-                      backgroundColor: scheme.navDefaultBg,
-                      color: scheme.navDefaultText,
-                    };
+                    ? {
+                        backgroundColor: scheme.navAnsweredBg,
+                        color: scheme.navAnsweredText,
+                      }
+                    : {
+                        backgroundColor: scheme.navDefaultBg,
+                        color: scheme.navDefaultText,
+                      };
                 if (marked[i]) {
                   navStyle.boxShadow = `0 0 0 2px ${scheme.navMarkedRing}`;
                 }
                 return (
                   <button
                     key={i}
-                    onClick={() => setCurrentIndex(i)}
+                    onClick={() => {
+                      captureGraphAnswerIfNeeded();
+                      setCurrentIndex(i);
+                    }}
                     className="h-8 w-8 rounded-full text-sm font-bold transition"
                     style={navStyle}
                   >
@@ -670,8 +702,12 @@ export function QuizInterface({
                     disabled={false}
                     showLabels={false}
                   />
-                  <p className="mt-2 text-xs" style={{ color: scheme.mutedText }}>
-                    Click a region (Midwest, Northeast, South, West). Your selection will sync below.
+                  <p
+                    className="mt-2 text-xs"
+                    style={{ color: scheme.mutedText }}
+                  >
+                    Click a region (Midwest, Northeast, South, West). Your
+                    selection will sync below.
                   </p>
                 </div>
               )}
@@ -703,7 +739,40 @@ export function QuizInterface({
                 />
               )}
 
-              {isShortResponse ? (
+              {/* Graph Plot Answer — instruction banner replaces MC/fill-in area */}
+              {isGraphPlotAnswer ? (
+                <div
+                  className="my-4 rounded-lg p-4"
+                  style={{
+                    backgroundColor: 'var(--info-bg, #eff6ff)',
+                    border: '1px solid var(--info-border, #bfdbfe)',
+                    color: 'var(--info-text, #1e40af)',
+                  }}
+                >
+                  <p className="text-sm font-semibold mb-1">
+                    📐 Interactive Graph Answer
+                  </p>
+                  <p className="text-sm">
+                    {currentQ.graphInstructions ||
+                      'Use the graph tool above to plot your answer. Click "Add Point" to place points, or "Draw Line" to draw a line through two points. You can drag points to move them, and use Undo or Delete to correct mistakes.'}
+                  </p>
+                  {currentQ.expectedAnswer && (
+                    <p className="text-xs mt-2 opacity-75">
+                      {currentQ.expectedAnswer.points?.length
+                        ? `Plot ${currentQ.expectedAnswer.points.length} point${currentQ.expectedAnswer.points.length > 1 ? 's' : ''}`
+                        : ''}
+                      {currentQ.expectedAnswer.points?.length &&
+                      currentQ.expectedAnswer.lines?.length
+                        ? ' and '
+                        : ''}
+                      {currentQ.expectedAnswer.lines?.length
+                        ? `draw ${currentQ.expectedAnswer.lines.length} line${currentQ.expectedAnswer.lines.length > 1 ? 's' : ''}`
+                        : ''}
+                      {' on the coordinate plane.'}
+                    </p>
+                  )}
+                </div>
+              ) : isShortResponse ? (
                 <div>
                   <label
                     htmlFor="short-response-answer"
@@ -737,8 +806,8 @@ export function QuizInterface({
                     const rubricHints = Array.isArray(currentQ.expectedFeatures)
                       ? currentQ.expectedFeatures
                       : Array.isArray(currentQ.rubricHints)
-                      ? currentQ.rubricHints
-                      : [];
+                        ? currentQ.rubricHints
+                        : [];
                     const sampleAnswer =
                       typeof currentQ.sampleAnswer === 'string'
                         ? currentQ.sampleAnswer.trim()
@@ -1005,7 +1074,10 @@ export function QuizInterface({
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <button
-                onClick={() => setCurrentIndex((p) => Math.max(0, p - 1))}
+                onClick={() => {
+                  captureGraphAnswerIfNeeded();
+                  setCurrentIndex((p) => Math.max(0, p - 1));
+                }}
                 disabled={currentIndex === 0}
                 className="rounded-md px-4 py-2 font-semibold transition"
                 data-role="secondary"
@@ -1044,7 +1116,10 @@ export function QuizInterface({
               </button>
               {currentIndex === questions.length - 1 ? (
                 <button
-                  onClick={handleSubmit}
+                  onClick={() => {
+                    captureGraphAnswerIfNeeded();
+                    handleSubmit();
+                  }}
                   className="rounded-md px-4 py-2 font-semibold"
                   data-role="primary"
                   style={{
@@ -1057,11 +1132,12 @@ export function QuizInterface({
                 </button>
               ) : (
                 <button
-                  onClick={() =>
+                  onClick={() => {
+                    captureGraphAnswerIfNeeded();
                     setCurrentIndex((p) =>
                       Math.min(questions.length - 1, p + 1)
-                    )
-                  }
+                    );
+                  }}
                   className="rounded-md px-4 py-2 font-semibold"
                   data-role="primary"
                   style={{

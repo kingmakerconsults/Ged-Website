@@ -4418,6 +4418,29 @@
   {
     "subjectKey": "Math",
     "subjectFolder": "math",
+    "categoryName": "Algebra & Functions",
+    "topic": {
+      "id": "math_graphing_interactive",
+      "title": "Interactive Graphing (Plot & Draw)",
+      "description": "Practice plotting points and drawing lines on a coordinate plane. Some questions require you to graph your answer directly; others ask you to read information from a graph.",
+      "config": {
+        "totalTime": 600,
+        "calculator": true,
+        "formulaSheet": true,
+        "parts": [
+          {
+            "name": "Quiz",
+            "questionCount": 5
+          }
+        ]
+      },
+      "file": "backend/data/quizzes/math/math_graphing_interactive.js",
+      "tier": "core"
+    }
+  },
+  {
+    "subjectKey": "Math",
+    "subjectFolder": "math",
     "categoryName": "Geometry & Measurement",
     "topic": {
       "id": "math_geom_basics",

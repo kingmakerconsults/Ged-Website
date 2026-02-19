@@ -161,6 +161,72 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
     return Math.abs(userVal - correctVal) <= tolerance;
   };
 
+  /**
+   * Grade a graphPlot question. Compares student-plotted points/lines
+   * against expectedAnswer using configurable tolerance.
+   * Returns a fractional score (0..1) to support partial credit.
+   */
+  const gradeGraphPlotQuestion = (q, userAns) => {
+    if (!userAns || typeof userAns !== 'object') return 0;
+    const expected = q.expectedAnswer;
+    if (!expected) return 0;
+
+    let matched = 0;
+    let total = 0;
+
+    // Grade expected points
+    const pointTolerance = typeof q.tolerance === 'number' ? q.tolerance : 0.5;
+    if (Array.isArray(expected.points)) {
+      total += expected.points.length;
+      const userPoints = Array.isArray(userAns.points)
+        ? [...userAns.points]
+        : [];
+      for (const ep of expected.points) {
+        const matchIdx = userPoints.findIndex(
+          (up) =>
+            Math.abs(up.x - ep.x) <= pointTolerance &&
+            Math.abs(up.y - ep.y) <= pointTolerance
+        );
+        if (matchIdx !== -1) {
+          matched++;
+          userPoints.splice(matchIdx, 1); // consume so it can't double-match
+        }
+      }
+    }
+
+    // Grade expected lines (slope/intercept tolerance)
+    const slopeTolerance =
+      typeof q.slopeTolerance === 'number' ? q.slopeTolerance : 0.15;
+    const interceptTolerance =
+      typeof q.interceptTolerance === 'number' ? q.interceptTolerance : 0.5;
+    if (Array.isArray(expected.lines)) {
+      total += expected.lines.length;
+      const userLines = Array.isArray(userAns.lines) ? [...userAns.lines] : [];
+      for (const el of expected.lines) {
+        const matchIdx = userLines.findIndex((ul) => {
+          // Handle vertical lines
+          if (el.verticalX != null) {
+            return (
+              ul.verticalX != null &&
+              Math.abs(ul.verticalX - el.verticalX) <= interceptTolerance
+            );
+          }
+          return (
+            Math.abs((ul.slope ?? 0) - (el.slope ?? 0)) <= slopeTolerance &&
+            Math.abs((ul.intercept ?? 0) - (el.intercept ?? 0)) <=
+              interceptTolerance
+          );
+        });
+        if (matchIdx !== -1) {
+          matched++;
+          userLines.splice(matchIdx, 1);
+        }
+      }
+    }
+
+    return total > 0 ? matched / total : 0;
+  };
+
   const handleComplete = (result) => {
     const normalizeText = (val) => (val ?? '').toString().trim().toLowerCase();
 
@@ -177,6 +243,15 @@ function StandardQuizRunner({ quiz, onComplete, onExit }) {
       possiblePoints += pts;
       const userAns = result.answers[idx];
       let isCorrect = false;
+
+      // Graph Plot answer type — compare plotted objects to expected
+      if (q.answerType === 'graphPlot') {
+        const graphScore = gradeGraphPlotQuestion(q, userAns);
+        // Full credit requires matching all expected objects
+        isCorrect = graphScore >= 1.0;
+        if (isCorrect) earnedPoints += pts;
+        return;
+      }
 
       if (q.type === 'numeric' || q.responseType === 'numeric') {
         isCorrect = checkNumericQuestionCorrect(q, userAns);

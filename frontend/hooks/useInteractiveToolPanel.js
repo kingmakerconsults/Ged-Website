@@ -2,10 +2,10 @@
  * useInteractiveToolPanel Hook
  *
  * Manages the lifecycle of interactive tool panels (graph and geometry)
- * for quiz questions that require visual aids.
+ * for quiz questions that require visual aids or interactive graphing answers.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 export function useInteractiveToolPanel({
   enabled,
@@ -16,11 +16,26 @@ export function useInteractiveToolPanel({
 }) {
   const toolInstanceRef = useRef(null);
   const toolTypeRef = useRef(null);
+  // Track the question index so we force remount on navigation
+  const lastMountedIndex = useRef(-1);
 
-  const currentIndex = currentQuestion?.index ?? -1;
+  const currentIndex =
+    currentQuestion?.index ?? currentQuestion?.questionNumber ?? -1;
 
   // Determine if we need to show the tool panel
   const needsToolPanel = enabled && (hasGraphData || hasGeometryData);
+
+  /**
+   * Read the student's graph answer from the mounted canvas.
+   * Returns { points: [...], lines: [...] } or null if no graph is mounted.
+   */
+  const getGraphAnswer = useCallback(() => {
+    const panel = toolPanelRef?.current;
+    if (panel && typeof panel.__getGraphAnswer === 'function') {
+      return panel.__getGraphAnswer();
+    }
+    return null;
+  }, [toolPanelRef]);
 
   useEffect(() => {
     if (!enabled || !toolPanelRef?.current) return;
@@ -32,8 +47,8 @@ export function useInteractiveToolPanel({
     const nextType = hasGraphData
       ? 'graph'
       : hasGeometryData
-      ? 'geometry'
-      : null;
+        ? 'geometry'
+        : null;
 
     // Cleanup previous tool
     const destroyTool = () => {
@@ -50,10 +65,15 @@ export function useInteractiveToolPanel({
         toolInstanceRef.current = null;
       }
       toolTypeRef.current = null;
+      lastMountedIndex.current = -1;
     };
 
-    // If same tool type and question, skip remounting
-    if (toolTypeRef.current === nextType && nextType) {
+    // Force remount when question index changes (important for graphPlot —
+    // each question needs a fresh graph state with its own spec objects).
+    const questionChanged = lastMountedIndex.current !== currentIndex;
+
+    // If same tool type AND same question, skip remounting
+    if (toolTypeRef.current === nextType && nextType && !questionChanged) {
       return;
     }
 
@@ -105,11 +125,13 @@ export function useInteractiveToolPanel({
               },
             };
             toolTypeRef.current = 'graph';
+            lastMountedIndex.current = currentIndex;
           } else if (typeof GraphCanvas === 'function') {
             toolInstanceRef.current = new GraphCanvas(panel, {
               spec: payload.graphSpec,
             });
             toolTypeRef.current = 'graph';
+            lastMountedIndex.current = currentIndex;
           }
         } else if (nextType === 'geometry') {
           const mod = await import('../geometry/GeometryCanvas.js');
@@ -129,11 +151,13 @@ export function useInteractiveToolPanel({
               },
             };
             toolTypeRef.current = 'geometry';
+            lastMountedIndex.current = currentIndex;
           } else if (typeof GeometryCanvas === 'function') {
             toolInstanceRef.current = new GeometryCanvas(panel, {
               spec: payload.geometrySpec,
             });
             toolTypeRef.current = 'geometry';
+            lastMountedIndex.current = currentIndex;
           }
         }
       } catch (e) {
@@ -158,7 +182,7 @@ export function useInteractiveToolPanel({
     hasGeometryData,
   ]);
 
-  return { needsToolPanel };
+  return { needsToolPanel, getGraphAnswer };
 }
 
 // Legacy window attachment (will be removed once all consumers use ES modules)

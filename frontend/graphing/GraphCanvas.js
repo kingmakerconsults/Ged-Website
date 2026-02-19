@@ -1,10 +1,14 @@
 import {
   addObject,
   getState,
+  getStudentAnswer,
+  removeObject,
+  resetToSpec,
   setMode,
   setSelected,
   setViewport,
   subscribe,
+  updateObject,
 } from './graphStore.js';
 import GraphToolbar from './GraphToolbar.js';
 import {
@@ -28,6 +32,9 @@ const THEME_TOKENS = {
     objectFill: 'rgba(14, 165, 233, 0.12)',
     shadeFill: 'rgba(14, 165, 233, 0.12)',
     trace: '#111827',
+    // Student-added objects get a distinct green color
+    studentStroke: '#16a34a',
+    studentFill: 'rgba(22, 163, 74, 0.18)',
   },
   dark: {
     background: '#020617',
@@ -39,8 +46,14 @@ const THEME_TOKENS = {
     objectFill: 'rgba(56, 189, 248, 0.18)',
     shadeFill: 'rgba(56, 189, 248, 0.16)',
     trace: '#f8fafc',
+    studentStroke: '#4ade80',
+    studentFill: 'rgba(74, 222, 128, 0.22)',
   },
 };
+
+/** Snap a coordinate value to the nearest integer grid point. */
+const snapToGrid = (value, gridSize = 1) =>
+  Math.round(value / gridSize) * gridSize;
 
 const ensureStyles = () => {
   if (document.getElementById('graph-canvas-styles')) return;
@@ -174,6 +187,8 @@ class GraphCanvas {
     });
 
     this.panContext = null;
+    this.dragContext = null; // for dragging student points
+    this.addLineContext = null; // for two-click line drawing
 
     this.unsubscribe = subscribe((snapshot) => {
       this.state = snapshot;
@@ -182,7 +197,7 @@ class GraphCanvas {
       this.render();
     });
 
-    // Load objects from spec if provided
+    // Load objects from spec if provided — tag them as origin='spec'
     if (
       options.spec &&
       options.spec.objects &&
@@ -190,7 +205,7 @@ class GraphCanvas {
     ) {
       options.spec.objects.forEach((obj) => {
         try {
-          addObject(obj);
+          addObject({ ...obj, origin: 'spec' });
         } catch (e) {
           console.warn('[GraphCanvas] Failed to add object from spec:', e);
         }
@@ -219,19 +234,90 @@ class GraphCanvas {
     }
   }
 
+  /** Hit-test: find the nearest student-origin point within a screen-pixel radius. */
+  hitTestStudentPoint(graphPt, radiusPx = 18) {
+    const bounds = this.root.getBoundingClientRect();
+    const pxPerUnit = bounds.width / this.viewBox.width;
+    const radiusGraph = radiusPx / pxPerUnit;
+    let closest = null;
+    let closestDist = Infinity;
+    for (const obj of this.state.objects) {
+      if (obj.type !== 'point' || obj.origin !== 'student') continue;
+      const dx = obj.metadata.x - graphPt.x;
+      const dy = obj.metadata.y - graphPt.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < radiusGraph && dist < closestDist) {
+        closest = obj;
+        closestDist = dist;
+      }
+    }
+    return closest;
+  }
+
   handlePointerDown(evt) {
     const point = this.screenToGraph(evt);
     const mode = this.state.mode;
+
+    // Add Point mode — snap to integer grid
     if (mode === 'add-point') {
+      const snapped = { x: snapToGrid(point.x), y: snapToGrid(point.y) };
       addObject({
         type: 'point',
-        definition: { x: point.x, y: point.y },
+        definition: snapped,
+        origin: 'student',
       });
       setMode('pan');
       return;
     }
 
+    // Add Line mode — two-click: first click sets point 1, second sets point 2 and creates line
+    if (mode === 'add-line') {
+      const snapped = { x: snapToGrid(point.x), y: snapToGrid(point.y) };
+      if (!this.addLineContext) {
+        // First click — show a temporary helper point
+        this.addLineContext = { p1: snapped };
+        // Add a temporary visual point (student origin, will be auto-managed)
+        this._lineHelperPointId = addObject({
+          type: 'point',
+          definition: { ...snapped, label: '①' },
+          origin: 'student',
+        });
+        return;
+      } else {
+        // Second click — create the line through both points
+        const p1 = this.addLineContext.p1;
+        const p2 = snapped;
+        // Remove helper point
+        if (this._lineHelperPointId) {
+          removeObject(this._lineHelperPointId);
+          this._lineHelperPointId = null;
+        }
+        if (p1.x !== p2.x || p1.y !== p2.y) {
+          addObject({
+            type: 'line',
+            definition: { form: 'two-points', points: [p1, p2] },
+            origin: 'student',
+          });
+        }
+        this.addLineContext = null;
+        setMode('pan');
+        return;
+      }
+    }
+
+    // Pan/trace mode — but first check for drag on a student point
     if (mode === 'pan' || mode === 'trace') {
+      const hitPoint = this.hitTestStudentPoint(point);
+      if (hitPoint) {
+        this.dragContext = {
+          objectId: hitPoint.id,
+          startGraph: point,
+          pointerId: evt.pointerId,
+        };
+        setSelected(hitPoint.id);
+        this.svg.setPointerCapture(evt.pointerId);
+        return;
+      }
       this.panContext = {
         startX: evt.clientX,
         startY: evt.clientY,
@@ -246,6 +332,14 @@ class GraphCanvas {
       this.updateTraceTooltip(evt);
     } else {
       this.hideTraceTooltip();
+    }
+
+    // Handle dragging a student point (snap to grid)
+    if (this.dragContext) {
+      const graphPt = this.screenToGraph(evt);
+      const snapped = { x: snapToGrid(graphPt.x), y: snapToGrid(graphPt.y) };
+      updateObject(this.dragContext.objectId, { definition: snapped });
+      return;
     }
 
     if (!this.panContext) return;
@@ -266,6 +360,11 @@ class GraphCanvas {
   }
 
   handlePointerUp(evt) {
+    if (this.dragContext) {
+      this.svg.releasePointerCapture(evt.pointerId);
+      this.dragContext = null;
+      return;
+    }
     if (this.panContext) {
       this.svg.releasePointerCapture(evt.pointerId);
       this.panContext = null;
@@ -537,6 +636,9 @@ class GraphCanvas {
   }
 
   renderPoint(object, theme) {
+    const isStudent = object.origin === 'student';
+    const fillColor = isStudent ? theme.studentFill : theme.objectFill;
+    const strokeColor = isStudent ? theme.studentStroke : theme.objectStroke;
     const group = document.createElementNS(SVG_NS, 'g');
     group.setAttribute(
       'class',
@@ -553,16 +655,31 @@ class GraphCanvas {
     const circle = document.createElementNS(SVG_NS, 'circle');
     circle.setAttribute('cx', `${svgPoint.x}`);
     circle.setAttribute('cy', `${svgPoint.y}`);
-    circle.setAttribute('r', `${this.viewBox.width * 0.01}`);
-    circle.setAttribute('fill', theme.objectFill);
-    circle.setAttribute('stroke', theme.objectStroke);
-    circle.setAttribute('stroke-width', '0.05');
+    circle.setAttribute('r', `${this.viewBox.width * 0.012}`);
+    circle.setAttribute('fill', fillColor);
+    circle.setAttribute('stroke', strokeColor);
+    circle.setAttribute('stroke-width', '0.06');
     circle.setAttribute('aria-label', object.ariaLabel);
     group.appendChild(circle);
+    // Label for student points (show coordinates)
+    if (isStudent) {
+      const label = document.createElementNS(SVG_NS, 'text');
+      label.textContent = `(${object.metadata.x}, ${object.metadata.y})`;
+      label.setAttribute('x', `${svgPoint.x + this.viewBox.width * 0.015}`);
+      label.setAttribute('y', `${svgPoint.y - this.viewBox.height * 0.015}`);
+      label.setAttribute('fill', strokeColor);
+      label.setAttribute('font-size', `${this.viewBox.width * 0.022}`);
+      label.setAttribute('font-family', "'Inter', 'Segoe UI', sans-serif");
+      label.setAttribute('font-weight', '600');
+      label.setAttribute('pointer-events', 'none');
+      group.appendChild(label);
+    }
     return group;
   }
 
   renderLine(object, theme) {
+    const isStudent = object.origin === 'student';
+    const strokeColor = isStudent ? theme.studentStroke : theme.objectStroke;
     const coeffs = object.metadata;
     const points = generateLinePoints(coeffs, this.getGraphBounds());
     if (points.length < 2) return null;
@@ -573,8 +690,11 @@ class GraphCanvas {
     line.setAttribute('x2', `${svgB.x}`);
     line.setAttribute('y1', `${svgA.y}`);
     line.setAttribute('y2', `${svgB.y}`);
-    line.setAttribute('stroke', theme.objectStroke);
-    line.setAttribute('stroke-width', '0.06');
+    line.setAttribute('stroke', strokeColor);
+    line.setAttribute('stroke-width', isStudent ? '0.07' : '0.06');
+    if (isStudent) {
+      line.setAttribute('stroke-dasharray', '0.3,0.15');
+    }
     line.setAttribute(
       'class',
       `graph-object ${
@@ -760,6 +880,9 @@ export function mount(el, payload = {}) {
   try {
     const spec = payload.spec || payload.graphSpec || null;
 
+    // If remounting with a new spec, reset the store first
+    resetToSpec(spec?.objects || []);
+
     // Create wrapper for canvas and toolbar
     const wrapper = document.createElement('div');
     wrapper.style.cssText =
@@ -775,14 +898,19 @@ export function mount(el, payload = {}) {
     canvasContainer.style.cssText = 'flex: 1; min-height: 400px;';
     wrapper.appendChild(canvasContainer);
 
-    // Initialize toolbar and canvas
+    // Initialize toolbar and canvas (spec already loaded into store via resetToSpec)
     const toolbar = new GraphToolbar(toolbarContainer);
-    const canvas = new GraphCanvas(canvasContainer, { spec });
+    const canvas = new GraphCanvas(canvasContainer, {
+      /* spec already in store */
+    });
 
     // Store instances for cleanup
     el.__graphToolbar = toolbar;
     el.__graphCanvas = canvas;
     el.__graphWrapper = wrapper;
+
+    // Expose answer-capture API on the panel element for QuizInterface to read
+    el.__getGraphAnswer = getStudentAnswer;
 
     return { toolbar, canvas };
   } catch (e) {
@@ -815,5 +943,6 @@ export function unmount(el) {
     delete el.__graphToolbar;
     delete el.__graphCanvas;
     delete el.__graphWrapper;
+    delete el.__getGraphAnswer;
   }
 }

@@ -1,10 +1,13 @@
 import {
   addObject,
+  clearStudentObjects,
   getState,
+  removeObject,
   setMode,
   setTheme,
   setViewport,
   subscribe,
+  undoLastStudent,
 } from './graphStore.js';
 
 const ensureStyles = () => {
@@ -117,7 +120,7 @@ const ensureStyles = () => {
   document.head.appendChild(style);
 };
 
-const parseNumber = value => {
+const parseNumber = (value) => {
   const num = parseFloat(value);
   return Number.isFinite(num) ? num : 0;
 };
@@ -133,7 +136,7 @@ class GraphToolbar {
     this.container.appendChild(this.root);
 
     this.render();
-    this.unsubscribe = subscribe(snapshot => {
+    this.unsubscribe = subscribe((snapshot) => {
       this.state = snapshot;
       this.render();
     });
@@ -146,7 +149,10 @@ class GraphToolbar {
 
   render() {
     this.root.classList.toggle('dark', this.state.theme === 'dark');
-    this.root.replaceChildren(this.renderPrimaryRow(), this.renderFormsSection());
+    this.root.replaceChildren(
+      this.renderPrimaryRow(),
+      this.renderFormsSection()
+    );
   }
 
   renderPrimaryRow() {
@@ -155,6 +161,7 @@ class GraphToolbar {
 
     row.appendChild(this.createModeButton('pan', 'Move / Pan'));
     row.appendChild(this.createModeButton('add-point', 'Add Point'));
+    row.appendChild(this.createModeButton('add-line', 'Draw Line'));
     row.appendChild(this.createModeButton('trace', 'Trace / Inspect'));
 
     const zoomIn = document.createElement('button');
@@ -169,10 +176,60 @@ class GraphToolbar {
     zoomOut.addEventListener('click', () => this.adjustZoom(1.1));
     row.appendChild(zoomOut);
 
+    // Separator
+    const sep = document.createElement('span');
+    sep.style.cssText =
+      'width: 1px; height: 24px; background: rgba(148,163,184,0.3); margin: 0 4px;';
+    row.appendChild(sep);
+
+    // Delete selected student object
+    const deleteBtn = document.createElement('button');
+    deleteBtn.type = 'button';
+    deleteBtn.textContent = '🗑 Delete';
+    deleteBtn.title = 'Delete selected student object';
+    const selectedObj = this.state.objects.find(
+      (o) => o.id === this.state.selectedId
+    );
+    const canDelete = selectedObj && selectedObj.origin === 'student';
+    deleteBtn.disabled = !canDelete;
+    deleteBtn.style.opacity = canDelete ? '1' : '0.4';
+    deleteBtn.addEventListener('click', () => {
+      if (this.state.selectedId) removeObject(this.state.selectedId);
+    });
+    row.appendChild(deleteBtn);
+
+    // Undo last student object
+    const undoBtn = document.createElement('button');
+    undoBtn.type = 'button';
+    undoBtn.textContent = '↩ Undo';
+    undoBtn.title = 'Remove last plotted object';
+    const hasStudentObjs = this.state.objects.some(
+      (o) => o.origin === 'student'
+    );
+    undoBtn.disabled = !hasStudentObjs;
+    undoBtn.style.opacity = hasStudentObjs ? '1' : '0.4';
+    undoBtn.addEventListener('click', () => undoLastStudent());
+    row.appendChild(undoBtn);
+
+    // Clear all student work
+    const clearBtn = document.createElement('button');
+    clearBtn.type = 'button';
+    clearBtn.textContent = '✕ Clear My Work';
+    clearBtn.title = 'Remove all your plotted objects';
+    clearBtn.disabled = !hasStudentObjs;
+    clearBtn.style.opacity = hasStudentObjs ? '1' : '0.4';
+    clearBtn.addEventListener('click', () => {
+      if (confirm('Clear all your plotted points and lines?')) {
+        clearStudentObjects();
+      }
+    });
+    row.appendChild(clearBtn);
+
     const themeSelect = document.createElement('select');
-    themeSelect.innerHTML = '<option value="light">Light</option><option value="dark">Dark</option>';
+    themeSelect.innerHTML =
+      '<option value="light">Light</option><option value="dark">Dark</option>';
     themeSelect.value = this.state.theme;
-    themeSelect.addEventListener('change', evt => setTheme(evt.target.value));
+    themeSelect.addEventListener('change', (evt) => setTheme(evt.target.value));
     row.appendChild(themeSelect);
 
     return row;
@@ -248,12 +305,15 @@ class GraphToolbar {
     form.appendChild(yLabel);
     form.appendChild(actions);
 
-    form.addEventListener('submit', evt => {
+    form.addEventListener('submit', (evt) => {
       evt.preventDefault();
       setMode('add-point');
       addObject({
         type: 'point',
-        definition: { x: parseNumber(xInput.value), y: parseNumber(yInput.value) },
+        definition: {
+          x: parseNumber(xInput.value),
+          y: parseNumber(yInput.value),
+        },
       });
       setMode('pan');
       form.reset();
@@ -297,7 +357,7 @@ class GraphToolbar {
     form.appendChild(interceptLabel);
     form.appendChild(actions);
 
-    form.addEventListener('submit', evt => {
+    form.addEventListener('submit', (evt) => {
       evt.preventDefault();
       setMode('add-line');
       addObject({
@@ -322,7 +382,7 @@ class GraphToolbar {
     details.appendChild(summary);
 
     const form = document.createElement('form');
-    const inputs = ['x₁', 'y₁', 'x₂', 'y₂'].map(label => {
+    const inputs = ['x₁', 'y₁', 'x₂', 'y₂'].map((label) => {
       const wrapper = document.createElement('label');
       wrapper.textContent = label;
       const input = document.createElement('input');
@@ -341,9 +401,9 @@ class GraphToolbar {
     actions.appendChild(submit);
     form.appendChild(actions);
 
-    form.addEventListener('submit', evt => {
+    form.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      const [x1, y1, x2, y2] = inputs.map(input => parseNumber(input.value));
+      const [x1, y1, x2, y2] = inputs.map((input) => parseNumber(input.value));
       if (x1 === x2 && y1 === y2) return;
       setMode('add-line');
       addObject({
@@ -374,7 +434,7 @@ class GraphToolbar {
     const comparisonLabel = document.createElement('label');
     comparisonLabel.textContent = 'Comparison';
     const select = document.createElement('select');
-    ['>', '>=', '<', '<='].forEach(symbol => {
+    ['>', '>=', '<', '<='].forEach((symbol) => {
       const option = document.createElement('option');
       option.value = symbol;
       option.textContent = symbol;
@@ -410,7 +470,7 @@ class GraphToolbar {
     form.appendChild(interceptLabel);
     form.appendChild(actions);
 
-    form.addEventListener('submit', evt => {
+    form.addEventListener('submit', (evt) => {
       evt.preventDefault();
       setMode('add-inequality');
       addObject({
@@ -440,7 +500,8 @@ class GraphToolbar {
     const typeLabel = document.createElement('label');
     typeLabel.textContent = 'Type';
     const typeSelect = document.createElement('select');
-    typeSelect.innerHTML = '<option value="linear">Linear (mx + b)</option><option value="quadratic">Quadratic (ax² + bx + c)</option><option value="absolute">Absolute a|x - h| + k</option>';
+    typeSelect.innerHTML =
+      '<option value="linear">Linear (mx + b)</option><option value="quadratic">Quadratic (ax² + bx + c)</option><option value="absolute">Absolute a|x - h| + k</option>';
     typeLabel.appendChild(typeSelect);
 
     const coefficientWrapper = document.createElement('div');
@@ -449,8 +510,12 @@ class GraphToolbar {
     const renderCoefficientInputs = () => {
       coefficientWrapper.replaceChildren();
       if (typeSelect.value === 'linear') {
-        coefficientWrapper.appendChild(this.createNumberInput('Slope (m)', '1'));
-        coefficientWrapper.appendChild(this.createNumberInput('Intercept (b)', '0'));
+        coefficientWrapper.appendChild(
+          this.createNumberInput('Slope (m)', '1')
+        );
+        coefficientWrapper.appendChild(
+          this.createNumberInput('Intercept (b)', '0')
+        );
       } else if (typeSelect.value === 'quadratic') {
         coefficientWrapper.appendChild(this.createNumberInput('a', '1'));
         coefficientWrapper.appendChild(this.createNumberInput('b', '0'));
@@ -476,10 +541,10 @@ class GraphToolbar {
     form.appendChild(coefficientWrapper);
     form.appendChild(actions);
 
-    form.addEventListener('submit', evt => {
+    form.addEventListener('submit', (evt) => {
       evt.preventDefault();
       const inputs = Array.from(coefficientWrapper.querySelectorAll('input'));
-      const values = inputs.map(input => parseNumber(input.value));
+      const values = inputs.map((input) => parseNumber(input.value));
       const subtype = typeSelect.value;
       let coefficients = {};
       if (subtype === 'linear') {
