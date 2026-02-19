@@ -4770,12 +4770,19 @@ try {
 
   // Serve frontend static assets at root
   app.use('/', serveStatic);
+  const spaIndexPath = path.join(frontendDir, 'index.html');
   // SPA shell at '/' — send with no-store to avoid stale HTML caching during development
   app.get(['/', '/index.html'], (req, res) => {
     try {
       res.set('Cache-Control', 'no-store');
     } catch {}
-    res.sendFile(path.join(frontendDir, 'index.html'));
+    if (!fs.existsSync(spaIndexPath)) {
+      return res.status(503).json({
+        error:
+          'Frontend build artifact missing: frontend/dist/index.html not found.',
+      });
+    }
+    return res.sendFile(spaIndexPath);
   });
   // SPA fallback for client-side routes (exclude API paths and static files)
   app.get('*', (req, res, next) => {
@@ -4786,7 +4793,10 @@ try {
       }
       res.set('Cache-Control', 'no-store');
     } catch {}
-    return res.sendFile(path.join(frontendDir, 'index.html'));
+    if (!fs.existsSync(spaIndexPath)) {
+      return next();
+    }
+    return res.sendFile(spaIndexPath);
   });
   console.log('[static] Serving /public and /quizzes from', publicDir);
   console.log('[static] Serving SPA and assets from', frontendDir);
@@ -9434,11 +9444,11 @@ function repairIllegalJsonEscapes(s) {
 }
 
 const callAI = async (prompt, schema, options = {}) => {
-  const apiKey = process.env.GOOGLE_AI_API_KEY;
+  const apiKey = process.env.GOOGLE_AI_API_KEY || process.env.GOOGLE_API_KEY;
   if (!apiKey) {
     console.error('API key not configured on the server.');
     throw new Error(
-      'Server configuration error: GOOGLE_AI_API_KEY is not set.'
+      'Server configuration error: GOOGLE_AI_API_KEY or GOOGLE_API_KEY is not set.'
     );
   }
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
@@ -12010,8 +12020,112 @@ app.post('/generate-quiz', async (req, res) => {
         res.json(finalQuiz);
       } catch (error) {
         console.error('Error generating comprehensive RLA exam:', error);
-        logGenerationDuration(examType, subject, generationStart, 'failed');
-        res.status(500).json({ error: 'Failed to generate RLA exam.' });
+        try {
+          const readPremadeQuestions = (payload) => {
+            if (Array.isArray(payload)) {
+              return payload.flatMap((entry) => {
+                if (Array.isArray(entry?.questions)) return entry.questions;
+                return entry && typeof entry === 'object' ? [entry] : [];
+              });
+            }
+
+            const out = [];
+            const categories = payload?.categories || {};
+            for (const category of Object.values(categories)) {
+              const topics = Array.isArray(category?.topics)
+                ? category.topics
+                : [];
+              for (const topic of topics) {
+                if (Array.isArray(topic?.questions)) out.push(...topic.questions);
+                const quizzes = Array.isArray(topic?.quizzes)
+                  ? topic.quizzes
+                  : [];
+                for (const quiz of quizzes) {
+                  if (Array.isArray(quiz?.questions)) out.push(...quiz.questions);
+                }
+              }
+            }
+            return out;
+          };
+
+          const normalizeQuestion = (q) => ({
+            ...q,
+            questionText:
+              typeof q?.questionText === 'string'
+                ? q.questionText
+                : typeof q?.question === 'string'
+                ? q.question
+                : '',
+            question:
+              typeof q?.question === 'string'
+                ? q.question
+                : typeof q?.questionText === 'string'
+                ? q.questionText
+                : '',
+            source: 'premade',
+          });
+
+          const premadeP1 = require('./quizzes/rla.quizzes.part1.json');
+          const premadeP2 = require('./quizzes/rla.quizzes.part2.json');
+
+          const part1_reading = readPremadeQuestions(premadeP1)
+            .map(normalizeQuestion)
+            .slice(0, 20);
+          const part3_language = readPremadeQuestions(premadeP2)
+            .map(normalizeQuestion)
+            .slice(0, 25);
+
+          if (!part1_reading.length || !part3_language.length) {
+            throw new Error('Premade RLA question pools are empty.');
+          }
+
+          const part2_essay = {
+            passages: [
+              {
+                title: 'Position A: Expand Public Transportation',
+                author: 'Jordan Ellis',
+                content:
+                  'City leaders argue that expanded transit improves access to work and education while reducing traffic congestion. They point to pilot programs where more frequent bus service increased ridership and lowered household transportation costs for many families. Supporters also claim transit investment can strengthen local business districts by improving customer access.\n\nCritics acknowledge the potential benefits but question whether the city can sustain operating costs without reducing service quality elsewhere. They argue that implementation must include measurable service targets so funding decisions remain accountable over time.',
+              },
+              {
+                title: 'Position B: Prioritize Road Infrastructure First',
+                author: 'Casey Morgan',
+                content:
+                  'Opponents of rapid transit expansion argue that roadway bottlenecks should be addressed first because they affect nearly all commuters, including those in areas with limited transit coverage. They cite projects where targeted intersection upgrades improved travel times and freight reliability within a short timeline.\n\nTransit advocates respond that road-only strategies can lock cities into long-term congestion and emissions challenges. They maintain that balanced investment should include improved transit options to offer practical alternatives, especially for residents who cannot afford private vehicle ownership.',
+              },
+            ],
+            prompt:
+              'Analyze both passages and determine which position is better supported by evidence and reasoning. Use specific evidence from both sources to support your response.',
+          };
+
+          const questions = [...part1_reading, ...part3_language].map(
+            (q, idx) => ({
+              ...q,
+              questionNumber: idx + 1,
+            })
+          );
+
+          const fallbackQuiz = {
+            id: `premade_comp_rla_${new Date().getTime()}`,
+            title: `Comprehensive RLA Exam`,
+            subject: subject,
+            type: 'multi-part-rla',
+            totalTime: 150 * 60,
+            part1_reading,
+            part2_essay,
+            part3_language,
+            questions,
+            source: 'premade',
+            fraction_plain_text_mode: false,
+          };
+
+          logGenerationDuration(examType, subject, generationStart, 'fallback');
+          return res.json(fallbackQuiz);
+        } catch (fallbackError) {
+          console.error('[RLA] Premade fallback also failed:', fallbackError);
+          logGenerationDuration(examType, subject, generationStart, 'failed');
+          return res.status(500).json({ error: 'Failed to generate RLA exam.' });
+        }
       }
     } else if (subject === 'Math' && comprehensive) {
       try {
