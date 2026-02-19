@@ -3810,12 +3810,16 @@ function authenticateBearerToken(req, res, next) {
   }
 
   const authorization = req.headers.authorization || '';
-  const token = authorization.startsWith('Bearer ')
+  const bearerToken = authorization.startsWith('Bearer ')
     ? authorization.slice('Bearer '.length).trim()
     : null;
+  const cookieToken = req?.cookies?.auth || null;
+  const token = bearerToken || cookieToken;
 
   if (!token) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return res
+      .status(401)
+      .json({ error: 'Unauthorized: missing bearer token or auth cookie.' });
   }
 
   try {
@@ -3837,7 +3841,7 @@ function authenticateBearerToken(req, res, next) {
     };
     return next();
   } catch (error) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return res.status(401).json({ error: 'Unauthorized: invalid auth token.' });
   }
 }
 
@@ -4937,6 +4941,54 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
+
+function shouldLogRequestPath(url = '') {
+  const path = String(url || '').split('?')[0];
+  return (
+    path.startsWith('/api/') ||
+    path === '/generate-quiz' ||
+    path === '/score-essay' ||
+    path === '/define-word'
+  );
+}
+
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') return next();
+  const url = req.originalUrl || req.url || '';
+  if (!shouldLogRequestPath(url)) return next();
+
+  const startedAt = Date.now();
+  const method = req.method;
+  const path = url;
+  const userId = req.user?.id || req.user?.userId || req.user?.sub || 'anon';
+  const ip =
+    req.ip ||
+    req.headers['x-forwarded-for'] ||
+    req.socket?.remoteAddress ||
+    'unknown';
+
+  console.log(`[request:start] ${method} ${path} user=${userId} ip=${ip}`);
+
+  res.on('finish', () => {
+    const durationMs = Date.now() - startedAt;
+    const status = res.statusCode;
+    const outcome = status >= 200 && status < 400 ? 'success' : 'failed';
+    console.log(
+      `[request:${outcome}] ${method} ${path} status=${status} durationMs=${durationMs}`
+    );
+  });
+
+  res.on('close', () => {
+    if (!res.writableEnded) {
+      const durationMs = Date.now() - startedAt;
+      console.warn(
+        `[request:aborted] ${method} ${path} durationMs=${durationMs}`
+      );
+    }
+  });
+
+  return next();
+});
 
 // Admin route access logging middleware
 function logAdminAccess(req, res, next) {
@@ -10924,14 +10976,26 @@ Output a JSON object with:
     },
     required: ['passages', 'prompt'],
   };
-  const stripTags = (text) =>
+  const decodeHtmlEntities = (text) =>
     String(text || '')
+      .replace(/&lt;/gi, '<')
+      .replace(/&gt;/gi, '>')
+      .replace(/&amp;/gi, '&')
+      .replace(/&quot;/gi, '"')
+      .replace(/&#39;/gi, "'")
+      .replace(/&#x27;/gi, "'")
+      .replace(/&#x2F;/gi, '/');
+
+  const stripTags = (text) =>
+    decodeHtmlEntities(text)
+      .replace(/<\/?\s*p\s*>/gi, ' ')
+      .replace(/<\/?\s*br\s*\/?>/gi, ' ')
       .replace(/<[^>]+>/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
 
   const splitIntoParagraphs = (content) => {
-    const raw = String(content || '').trim();
+    const raw = decodeHtmlEntities(content).trim();
     if (!raw) return [];
 
     const htmlParagraphs = [];
@@ -10945,6 +11009,7 @@ Output a JSON object with:
 
     const normalized = raw
       .replace(/<br\s*\/?\s*>/gi, '\n')
+      .replace(/<\/?\s*p\s*>/gi, '\n\n')
       .replace(/\r\n/g, '\n');
 
     return normalized
@@ -11073,30 +11138,84 @@ Output a JSON object with:
 
 async function generateRlaPart3(options = {}) {
   const prompt = `${STRICT_JSON_HEADER_RLA}
-Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each, keep each passage <= 250 words). The passages should contain a mix of grammatical errors and/or awkward phrasing. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences and improving word choice. This should total 25 questions.
+Generate the Language and Grammar section of a GED RLA exam. Create 7 document-based stimuli (each 140-230 words and NEVER above 250 words). Each stimulus should be 1-3 paragraphs and include realistic writing issues (grammar, usage, organization, and word choice). For EACH of the 7 stimuli, generate 3-4 questions focused on correcting sentences and improving clarity. This should total 25 questions.
+
+DOCUMENT DIVERSITY REQUIREMENTS:
+- Use a varied set of document types across the 7 stimuli, such as: email, formal letter, memo, flyer, announcement, short article, meeting notes, workplace notice, instructions, or report excerpt.
+- Do NOT make all 7 plain passages.
+- At least 4 different document types must appear.
+- At the start of each stimulus passage, include a plain-text header line in this exact format: "Document Type: <type>".
+- Keep formatting simple and readable (short headings, line breaks, and paragraph spacing).
 
 CRITICAL ENHANCEMENTS FOR EACH QUESTION:
 1. Add a "skill" field indicating the language skill being tested. Use one of: "sentence_boundary", "usage_mechanics", "transitions", "organization", "word_choice".
 2. Add an "itemType" field indicating the interaction type. Use one of: "single_select", "inline_dropdown", "sentence_rewrite", "placement".
 
-SPECIAL FORMAT FOR INLINE DROPDOWN (CLOZE) PASSAGES:
-For 1-2 of the 7 passages, use the "inline_dropdown" format:
-- Provide a "passageWithPlaceholders" field: the passage text with numbered placeholders like [[1]], [[2]], [[3]], etc.
-- For each placeholder, create a question object with:
-  - "questionNumber": the placeholder number (1, 2, 3, etc.)
-  - "answerOptions": array of 3-4 strings representing dropdown choices
-  - "correctAnswer": the correct choice text
-  - "itemType": "inline_dropdown"
-  - "skill": appropriate language skill
-- Do NOT include the full passage text in each question object for inline_dropdown items - only in the "passageWithPlaceholders" field at the passage level.
-
-For regular (non-cloze) questions, maintain the existing format with passage text, question text, and answer options.
+PLACEHOLDER RULE:
+- Do NOT use placeholder markers like [[1]], [[2]], or [blank].
+- Question text must be fully readable plain English.
 
 Return only the JSON array of the 25 question objects. For passages using inline_dropdown, include a "passageWithPlaceholders" field in the first question of that passage group.`;
   const schema = { type: 'ARRAY', items: singleQuestionSchema };
   const questions = await callAI(prompt, schema, options);
+  const normalizePlaceholderText = (value, fallbackQuestionNumber) => {
+    const raw = typeof value === 'string' ? value : '';
+    const cleaned = raw
+      .replace(/\[\[(\d+)\]\]/g, (_, n) => `Blank ${n}`)
+      .replace(/\[(\d+)\]/g, (_, n) => `Blank ${n}`)
+      .replace(/\[blank\]/gi, 'the blank')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    if (!cleaned) {
+      return fallbackQuestionNumber != null
+        ? `Choose the best word or phrase for Blank ${fallbackQuestionNumber}.`
+        : 'Choose the best word or phrase for the blank.';
+    }
+
+    if (/\[\[|\]\]/.test(cleaned)) {
+      return fallbackQuestionNumber != null
+        ? `Choose the best word or phrase for Blank ${fallbackQuestionNumber}.`
+        : 'Choose the best word or phrase for the blank.';
+    }
+
+    return cleaned;
+  };
+
+  const normalizeDocumentPassage = (value) => {
+    const raw = typeof value === 'string' ? value : '';
+    let text = raw
+      .replace(/\[\[(\d+)\]\]/g, 'Blank $1')
+      .replace(/\[(\d+)\]/g, 'Blank $1')
+      .trim();
+
+    if (!text) return text;
+
+    if (!/^Document Type:\s*/i.test(text)) {
+      text = `Document Type: Passage\n\n${text}`;
+    }
+
+    return text;
+  };
+
   const cappedQuestions = Array.isArray(questions)
-    ? questions.map((q) => enforceWordCapsOnItem(q, 'RLA'))
+    ? questions.map((q) => {
+        const normalizedQuestion = {
+          ...q,
+          passage: normalizeDocumentPassage(q?.passage),
+          questionText: normalizePlaceholderText(
+            q?.questionText,
+            q?.questionNumber
+          ),
+          passageWithPlaceholders:
+            typeof q?.passageWithPlaceholders === 'string'
+              ? q.passageWithPlaceholders
+                  .replace(/\[\[(\d+)\]\]/g, 'Blank $1')
+                  .replace(/\[(\d+)\]/g, 'Blank $1')
+              : q?.passageWithPlaceholders,
+        };
+        return enforceWordCapsOnItem(normalizedQuestion, 'RLA');
+      })
     : [];
 
   // Build a fingerprint for grouping — use the first 120 chars of normalized passage text.
