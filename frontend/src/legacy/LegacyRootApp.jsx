@@ -25752,6 +25752,18 @@ function App({ externalTheme, onThemeChange }) {
             },
           });
 
+          if (response.status === 401) {
+            // Token expired or invalid — clear stale session
+            console.warn('[quiz-attempts] Token expired, clearing session.');
+            localStorage.removeItem('appUser');
+            localStorage.removeItem('appToken');
+            setAuthToken(null);
+            setCurrentUser(null);
+            setQuizAttempts([]);
+            recalcProgress([]);
+            return;
+          }
+
           if (!response.ok) {
             throw new Error(
               `Failed to fetch quiz attempts: ${response.status}`
@@ -25837,6 +25849,18 @@ function App({ externalTheme, onThemeChange }) {
           },
           body: JSON.stringify(payload),
         });
+
+        if (response.status === 401) {
+          // Token expired or invalid — clear stale session
+          console.warn('[quiz-attempts] Token expired, clearing session.');
+          localStorage.removeItem('appUser');
+          localStorage.removeItem('appToken');
+          setAuthToken(null);
+          setCurrentUser(null);
+          setQuizAttempts([]);
+          recalcProgress([]);
+          return;
+        }
 
         if (!response.ok) {
           throw new Error(`Failed to save quiz attempt: ${response.status}`);
