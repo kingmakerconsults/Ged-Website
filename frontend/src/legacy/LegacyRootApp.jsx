@@ -2673,21 +2673,27 @@ function decodeHtmlEntities(value) {
   if (typeof value !== 'string') return '';
   if (!ENTITY_DECODER) return value;
 
-  // Protect HTML tags from being parsed/stripped by the textarea approach.
-  // The textarea.innerHTML trick decodes entities but also strips real HTML tags,
-  // which breaks <p>, <br>, <table>, etc. that are intentionally in the content.
-  const tagPlaceholders = [];
-  const protectedValue = value.replace(/<[^>]+>/g, (match) => {
-    tagPlaceholders.push(match);
-    return `\x00TAG${tagPlaceholders.length - 1}\x00`;
-  });
+  // The textarea.innerHTML trick decodes entities but also strips real HTML tags.
+  // Split the string on HTML tags, decode only the non-tag text segments,
+  // then rejoin to preserve <p>, <br>, <table>, etc. intact.
+  if (/<[^>]+>/.test(value)) {
+    // Split into alternating [text, tag, text, tag, ...] segments
+    const parts = value.split(/(<[^>]+>)/g);
+    return parts
+      .map((part) => {
+        // HTML tags pass through unchanged
+        if (part.startsWith('<') && part.endsWith('>')) return part;
+        // Decode entities only in text segments
+        if (!part) return part;
+        ENTITY_DECODER.innerHTML = part;
+        return ENTITY_DECODER.value;
+      })
+      .join('');
+  }
 
-  ENTITY_DECODER.innerHTML = protectedValue;
-  let decoded = ENTITY_DECODER.value;
-
-  // Restore the protected HTML tags
-  decoded = decoded.replace(/\x00TAG(\d+)\x00/g, (_, idx) => tagPlaceholders[parseInt(idx, 10)]);
-  return decoded;
+  // No HTML tags present — simple decode
+  ENTITY_DECODER.innerHTML = value;
+  return ENTITY_DECODER.value;
 }
 
 function neutralizeUnpairedDollarSigns(text) {
