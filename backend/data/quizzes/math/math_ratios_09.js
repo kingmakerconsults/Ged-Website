@@ -40,10 +40,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      "A product's price increased by 8%. If the original price was \\(75, what is the new price?",
+      "A product's price increased by 8%. If the original price was $75, what is the new price?",
     correctAnswer: '81',
     rationale:
-      'The price increase is 8% of \\)75, which is 0.08 * 75 = \\(6. The new price is the original price plus the increase: \\)75 + \\(6 = \\)81.',
+      'The price increase is 8% of $75, which is 0.08 * 75 = $6. The new price is the original price plus the increase: $75 + $6 = $81.',
     challenge_tags: ['math-1'],
   },
   {
@@ -109,7 +109,7 @@ module.exports = [
         text: '\\(50.00\\)',
         isCorrect: true,
         rationale:
-          'Let P be the original price. P * 1.05 = \\(52.50. P = \\)52.50 / 1.05 = 50.',
+          'Let P be the original price. P * 1.05 = $52.50. P = $52.50 / 1.05 = 50.',
       },
       {
         text: '\\(51.98\\)',
@@ -123,7 +123,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Let P be the original price. The total cost is P + 0.05P = 1.05P. So, 1.05P = \\(52.50. To find P, divide \\)52.50 by 1.05: P = $50.',
+      'Let P be the original price. The total cost is P + 0.05P = 1.05P. So, 1.05P = $52.50. To find P, divide $52.50 by 1.05: P = $50.',
     challenge_tags: ['math-1'],
   },
   {

@@ -102,7 +102,7 @@ module.exports = [
       'A restaurant bill is $80. If you want to leave a 20% tip, how much should the tip be?',
     answerOptions: [
       {
-        text: '\\(8\\)',
+        text: '$8\\)',
         isCorrect: false,
         rationale: 'This would be a 10% tip.',
       },
@@ -266,7 +266,7 @@ module.exports = [
         rationale: 'This would be a 10% tax.',
       },
       {
-        text: '\\(1.05\\)',
+        text: '$1.05\\)',
         isCorrect: false,
         rationale: 'This is a decimal placement error.',
       },
@@ -318,7 +318,7 @@ module.exports = [
         text: '320',
         isCorrect: true,
         rationale:
-          'The markup is 60% of $200, which is \\(0.60 \\times 200 = 120\\). The selling price is \\(200 + 120 = 320\\).',
+          'The markup is 60% of $200, which is \\(0.60 \\times 200 = 120\\). The selling price is $200 + 120 = 320\\).',
       },
       {
         text: '\\(280\\)',
@@ -337,7 +337,7 @@ module.exports = [
     questionNumber: 12,
     calculator: true,
     question:
-      "If a city's population grew by \\(5\\% last year and the original population was 80,000, what is the new population?\\)",
+      "If a city's population grew by $5\\% last year and the original population was 80,000, what is the new population?\\)",
     answerOptions: [
       {
         text: '80,400',
@@ -348,7 +348,7 @@ module.exports = [
         text: '84,000',
         isCorrect: true,
         rationale:
-          'The growth is \\(5\\%\\) of 80,000, which is \\(0.05 \\times 80,000 = 4,000\\). The new population is \\(80,000 + 4,000 = 84,000\\).',
+          'The growth is \\(5\\%\\) of 80,000, which is \\(0.05 \\times 80,000 = 4,000\\). The new population is $80,000 + 4,000 = 84,000\\).',
       },
       {
         text: '85,000',
@@ -397,7 +397,7 @@ module.exports = [
     questionNumber: 14,
     calculator: true,
     question:
-      'A company has 500 employees. If \\(15\\% of the employees have been with the company for more than 10 years, how many employees is that?\\)',
+      'A company has 500 employees. If $15\\% of the employees have been with the company for more than 10 years, how many employees is that?\\)',
     answerOptions: [
       {
         text: '50',
@@ -529,7 +529,7 @@ module.exports = [
         text: '\\(45\\)',
         isCorrect: true,
         rationale:
-          'The discount is 40% of $75, which is \\(0.40 \\times 75 = 30\\). The sale price is \\(75 - 30 = 45\\).',
+          'The discount is 40% of $75, which is \\(0.40 \\times 75 = 30\\). The sale price is $75 - 30 = 45\\).',
       },
       {
         text: '105',

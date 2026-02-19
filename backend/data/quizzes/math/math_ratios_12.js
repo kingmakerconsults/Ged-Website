@@ -41,7 +41,7 @@ module.exports = [
     question: 'A book costs $18. The sales tax is 5%. What is the total cost?',
     correctAnswer: '18.90',
     rationale:
-      'The tax is \\(0.05 \\times 18 = 0.90\\). The total cost is \\(18 + 0.90 = 18.90\\).',
+      'The tax is \\(0.05 \\times 18 = 0.90\\). The total cost is $18 + 0.90 = 18.90\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -102,7 +102,7 @@ module.exports = [
         text: '\\(120\\)',
         isCorrect: true,
         rationale:
-          'The discount is \\(0.20 \\times 150 = 30\\). Then \\(150 - 30 = 120\\).',
+          'The discount is \\(0.20 \\times 150 = 30\\). Then $150 - 30 = 120\\).',
       },
       {
         text: '30',
@@ -121,7 +121,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Calculate the discount: \\(20\\%\\) of 150 is \\(0.20 \\times 150 = 30\\). Subtract the discount from the original price: \\(150 - 30 = 120\\).',
+      'Calculate the discount: \\(20\\%\\) of 150 is \\(0.20 \\times 150 = 30\\). Subtract the discount from the original price: $150 - 30 = 120\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -243,7 +243,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The markup amount is \\(16 - 10 = 6\\). The percent markup is \\(\\frac{6}{10} \\times 100 = 60\\%\\).',
+      'The markup amount is $16 - 10 = 6\\). The percent markup is \\(\\frac{6}{10} \\times 100 = 60\\%\\).',
     challenge_tags: ['math-1'],
   },
   {

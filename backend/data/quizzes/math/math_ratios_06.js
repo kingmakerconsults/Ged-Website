@@ -86,9 +86,9 @@ module.exports = [
     calculator: true,
     difficulty: 'easy',
     question: 'If 3 oranges cost 1.50, what is the cost of one orange?',
-    correctAnswer: '\\(0.50\\)',
+    correctAnswer: '$0.50\\)',
     rationale:
-      'To find the cost of one orange, divide the total cost by the number of oranges: \\)1.50 / 3 = \\(0.50.',
+      'To find the cost of one orange, divide the total cost by the number of oranges: $1.50 / 3 = $0.50.',
     challenge_tags: ['math-1'],
   },
   {
@@ -215,7 +215,7 @@ module.exports = [
       'You pay 12 for a movie ticket that was 25% off. What was the original price?',
     correctAnswer: '\\(16\\)',
     rationale:
-      'If the ticket was 25% off, you paid 75% of the original price. Let P be the original price. 0.75 * P = \\)12. P = $12 / 0.75 = 16.',
+      'If the ticket was 25% off, you paid 75% of the original price. Let P be the original price. 0.75 * P = $12. P = $12 / 0.75 = 16.',
     challenge_tags: ['math-1'],
   },
   {

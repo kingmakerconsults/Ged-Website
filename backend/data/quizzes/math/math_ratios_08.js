@@ -40,10 +40,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A laptop is on sale for \\(450, which is 25% off the original price. What was the original price?',
+      'A laptop is on sale for $450, which is 25% off the original price. What was the original price?',
     correctAnswer: '600',
     rationale:
-      'If the price is 25% off, it is 75% of the original price. Let P be the original price. 0.75 * P = \\)450. P = \\(450 / 0.75 = \\)600.',
+      'If the price is 25% off, it is 75% of the original price. Let P be the original price. 0.75 * P = $450. P = $450 / 0.75 = $600.',
     challenge_tags: ['math-1'],
   },
   {
@@ -104,7 +104,7 @@ module.exports = [
         text: '\\(144.90\\)',
         isCorrect: true,
         rationale:
-          'Bill with tip: \\(120 * 1.15 = 138. Total with tax: \\)138 * 1.05 = 144.90.',
+          'Bill with tip: $120 * 1.15 = 138. Total with tax: $138 * 1.05 = 144.90.',
       },
       {
         text: '144.00',
@@ -123,7 +123,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, add the 15% tip: \\(120 * 1.15 = \\)138. Then, add the 5% tax to this new total: \\(138 * 1.05 = \\)144.90.',
+      'First, add the 15% tip: $120 * 1.15 = $138. Then, add the 5% tax to this new total: $138 * 1.05 = $144.90.',
     challenge_tags: ['math-1'],
   },
   {
@@ -167,10 +167,10 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "A company's profits increased from \\(200,000 to  250,000. What was the percent increase?\\)",
+      "A company's profits increased from $200,000 to  250,000. What was the percent increase?\\)",
     correctAnswer: '25%',
     rationale:
-      'The increase is \\(50,000. The percent increase is (increase / original amount) * 100 = (50,000 / 200,000) * 100 = 0.25 * 100 = 25%.',
+      'The increase is $50,000. The percent increase is (increase / original amount) * 100 = (50,000 / 200,000) * 100 = 0.25 * 100 = 25%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -230,7 +230,7 @@ module.exports = [
         text: '\\(157.50\\)',
         isCorrect: true,
         rationale:
-          'The cost per ticket is \\(\\(\frac{90}{4}\\) = \\)22.50. So, 7 tickets cost 7 * \\(22.50 = 157.50.',
+          'The cost per ticket is \\(\\(\frac{90}{4}\\) = \\)22.50. So, 7 tickets cost 7 * $22.50 = 157.50.',
       },
       {
         text: '135.00',
@@ -249,7 +249,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, find the cost of one ticket: \\)90 / 4 = \\(22.50. Then, multiply by the number of tickets you want to buy: \\)22.50 * 7 = \\(157.50.',
+      'First, find the cost of one ticket: $90 / 4 = $22.50. Then, multiply by the number of tickets you want to buy: $22.50 * 7 = $157.50.',
     challenge_tags: ['math-1'],
   },
   {
@@ -292,7 +292,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A salesperson earns a 5% commission. If they sell a car for \\)22,000, what is their commission?',
+      'A salesperson earns a 5% commission. If they sell a car for $22,000, what is their commission?',
     answerOptions: [
       {
         text: '500',
@@ -302,7 +302,7 @@ module.exports = [
       {
         text: '\\(1100\\)',
         isCorrect: true,
-        rationale: 'Commission = 0.05 * \\(22,000 = \\)1100.',
+        rationale: 'Commission = 0.05 * $22,000 = $1100.',
       },
       {
         text: '2200',

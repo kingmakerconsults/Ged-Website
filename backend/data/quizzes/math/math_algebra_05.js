@@ -118,8 +118,8 @@ module.exports = [
     answerOptions: [
       { text: 'less than or equal to \\(-3\\)', isCorrect: true, rationale: 'Subtract 3: -2x ≥ 6. Divide by -2 (flip sign): x ≤ -3.' },
       { text: 'greater than or equal to \\(-3\\)', isCorrect: false, rationale: 'The inequality flips when dividing by a negative number.' },
-      { text: 'less than or equal to \\(3\\)', isCorrect: false, rationale: 'Sign error when dividing.' },
-      { text: 'greater than or equal to \\(3\\)', isCorrect: false, rationale: 'x = 3 gives 3 - 6 = -3 < 9.' },
+      { text: 'less than or equal to $3\\)', isCorrect: false, rationale: 'Sign error when dividing.' },
+      { text: 'greater than or equal to $3\\)', isCorrect: false, rationale: 'x = 3 gives 3 - 6 = -3 < 9.' },
     ],
     rationale: '3 - 2x ≥ 9 → -2x ≥ 6 → x ≤ -3 (inequality flips when dividing by -2).',
     challenge_tags: ['math-3'],

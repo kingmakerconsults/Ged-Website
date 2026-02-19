@@ -198,7 +198,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Using the Pythagorean theorem (\\(a^{2} + b^{2} = c^{2}\\)), we have \\(7^{2} + 24^{2} = c^{2}\\). This becomes \\(49 + 576 = 625\\). So, \\(c = \\(\sqrt{625}\\) = 25.',
+      'Using the Pythagorean theorem (\\(a^{2} + b^{2} = c^{2}\\)), we have \\(7^{2} + 24^{2} = c^{2}\\). This becomes $49 + 576 = 625\\). So, \\(c = \\(\sqrt{625}\\) = 25.',
     challenge_tags: ['math-5'],
   },
   {

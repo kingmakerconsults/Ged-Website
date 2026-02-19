@@ -94,10 +94,16 @@ export function QuizInterface({
   }, [onComplete, isPaused]);
 
   // MULTIPLE-SELECT ENHANCEMENT: Support both single-select and multiple-select questions
+  const detectMultiSelect = (q) => {
+    if (q.itemType === 'multi_select' || q.selectType === 'multiple' || q.type === 'multiple-select') return true;
+    const qText = (q.questionText || q.question || '').toLowerCase();
+    if (/select\s+(the\s+)?(two|2|all|both)|choose\s+(the\s+)?(two|2|all|both)/.test(qText)) return true;
+    return false;
+  };
+
   const handleSelect = (optionText) => {
     const currentQ = questions[currentIndex];
-    const isMultipleSelect =
-      currentQ.selectType === 'multiple' || currentQ.type === 'multiple-select';
+    const isMultipleSelect = detectMultiSelect(currentQ);
 
     const newAnswers = [...answers];
 
@@ -212,8 +218,7 @@ export function QuizInterface({
   const isFillInTheBlank = baseFillIn && !isNumericEntry && !isShortResponse;
 
   // MULTIPLE-SELECT ENHANCEMENT: Determine if current question is multiple-select
-  const isMultipleSelect =
-    currentQ.selectType === 'multiple' || currentQ.type === 'multiple-select';
+  const isMultipleSelect = detectMultiSelect(currentQ);
   const currentAnswer = answers[currentIndex];
   const selectedOptions = isMultipleSelect
     ? Array.isArray(currentAnswer)
@@ -922,8 +927,7 @@ export function QuizInterface({
                       optionStyles.backgroundColor = scheme.optionSelectedBg;
                       optionStyles.borderColor = scheme.optionSelectedBorder;
                       optionStyles.color = scheme.accentText;
-                    const isRegionOption = hasUSRegionsMap && /^(midwest|northeast|south|west)$/i.test(optText);
-                    return (
+                    }
                     // MULTIPLE-SELECT ENHANCEMENT: Add class for multiple-select mode
                     const optionClassNames = [
                       'option',

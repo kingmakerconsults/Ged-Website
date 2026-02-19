@@ -56,10 +56,15 @@ function RlaReadingSplitView({
     (q) => q.originalIndex === currentQuestionIndex
   );
 
+  const detectMultiSelect = (q) => {
+    if (q.itemType === 'multi_select' || q.selectType === 'multiple' || q.type === 'multiple-select') return true;
+    const qText = (q.questionText || q.question || '').toLowerCase();
+    if (/select\s+(the\s+)?(two|2|all|both)|choose\s+(the\s+)?(two|2|all|both)/.test(qText)) return true;
+    return false;
+  };
+
   const handleSelect = (optionText) => {
-    const isMultipleSelect =
-      currentQuestion.itemType === 'multi_select' ||
-      currentQuestion.selectType === 'multiple';
+    const isMultipleSelect = detectMultiSelect(currentQuestion);
     const newAnswers = [...answers];
 
     if (isMultipleSelect) {
@@ -86,9 +91,7 @@ function RlaReadingSplitView({
     onComplete({ answers, marked, confidence });
   };
 
-  const isMultipleSelect =
-    currentQuestion.itemType === 'multi_select' ||
-    currentQuestion.selectType === 'multiple';
+  const isMultipleSelect = detectMultiSelect(currentQuestion);
   const currentAnswer = answers[currentQuestionIndex];
   const selectedOptions = isMultipleSelect
     ? Array.isArray(currentAnswer)

@@ -37,9 +37,9 @@ module.exports = [
     inputCalculator: true,
     calculator: true,
     difficulty: 'easy',
-    question: 'Calculate: \\(100 - 35\\).',
+    question: 'Calculate: $100 - 35\\).',
     correctAnswer: '65',
-    rationale: 'This is a basic subtraction problem. \\(100 - 35 = 65\\).',
+    rationale: 'This is a basic subtraction problem. $100 - 35 = 65\\).',
     challenge_tags: ['math-1'],
   },
   {
@@ -271,13 +271,13 @@ module.exports = [
         rationale: 'This is the total interest earned, not the final balance.',
       },
       {
-        text: '\\(2,150\\)',
+        text: '$2,150\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
     ],
     rationale:
-      'First, calculate the total simple interest earned: I = P * r * t = \\)2,000 * 0.03 * 5 = \\(300. Then, add the interest to the initial principal: \\)2,000 + $300 = 2,300.',
+      'First, calculate the total simple interest earned: I = P * r * t = $2,000 * 0.03 * 5 = $300. Then, add the interest to the initial principal: $2,000 + $300 = 2,300.',
     challenge_tags: ['math-1'],
   },
   {

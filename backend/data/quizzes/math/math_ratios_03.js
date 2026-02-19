@@ -39,10 +39,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A jacket is on sale for \\(72 after a 20% discount. What was the original price?',
+      'A jacket is on sale for $72 after a 20% discount. What was the original price?',
     correctAnswer: '90',
     rationale:
-      'If the jacket is 20% off, the sale price is 80% of the original price. Let P be the original price. 0.80 * P = \\)72. P = \\(72 / 0.80 = \\)90.',
+      'If the jacket is 20% off, the sale price is 80% of the original price. Let P be the original price. 0.80 * P = $72. P = $72 / 0.80 = $90.',
     challenge_tags: ['math-1'],
   },
   {
@@ -114,7 +114,7 @@ module.exports = [
         text: '\\(60\\)',
         isCorrect: true,
         rationale:
-          'Interest per year is 0.04 * \\(500 = 20. Over 3 years, the total interest is \\)20 * 3 = 60.',
+          'Interest per year is 0.04 * $500 = 20. Over 3 years, the total interest is $20 * 3 = 60.',
       },
       {
         text: '560',
@@ -124,7 +124,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Simple interest is calculated as I = P * r * t. So, I = \\(500 * 0.04 * 3 =  60.\\)',
+      'Simple interest is calculated as I = P * r * t. So, I = $500 * 0.04 * 3 =  60.\\)',
     challenge_tags: ['math-1'],
   },
   {
@@ -215,10 +215,10 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'An item costs \\(120. With sales tax, the total cost is \\)127.20. What is the sales tax rate?',
+      'An item costs $120. With sales tax, the total cost is $127.20. What is the sales tax rate?',
     correctAnswer: '6%',
     rationale:
-      'The tax amount is $127.20 - $120 = \\(7.20. The tax rate is (tax amount / original price) * 100 = (\\)7.20 / \\(120) * 100 = 0.06 * 100 = 6%.',
+      'The tax amount is $127.20 - $120 = $7.20. The tax rate is (tax amount / original price) * 100 = ($7.20 / $120) * 100 = 0.06 * 100 = 6%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -265,22 +265,22 @@ module.exports = [
       {
         text: '3 apples for 1.50',
         isCorrect: false,
-        rationale: 'This is \\(0.50 per apple.\\)',
+        rationale: 'This is $0.50 per apple.\\)',
       },
       {
         text: '4 apples for 1.80',
         isCorrect: true,
-        rationale: 'This is \\)0.45 per apple, which is the lowest price.',
+        rationale: 'This is $0.45 per apple, which is the lowest price.',
       },
       {
         text: '5 apples for 2.50',
         isCorrect: false,
-        rationale: 'This is \\(0.50 per apple.\\)',
+        rationale: 'This is $0.50 per apple.\\)',
       },
       {
         text: '2 apples for 1.00',
         isCorrect: false,
-        rationale: 'This is \\(0.50 per apple.\\)',
+        rationale: 'This is $0.50 per apple.\\)',
       },
     ],
     rationale:

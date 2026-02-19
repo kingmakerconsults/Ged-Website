@@ -229,7 +229,7 @@ module.exports = [
       'If a 12-ounce bottle of shampoo costs 3.60, what is the price per ounce?',
     answerOptions: [
       {
-        text: '\\(0.25\\)',
+        text: '$0.25\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },
@@ -240,7 +240,7 @@ module.exports = [
           'Divide the total cost by the number of ounces: 3.60 / 12 oz = 0.30 per oz.',
       },
       {
-        text: '\\(0.36\\)',
+        text: '$0.36\\)',
         isCorrect: false,
         rationale: 'This is an incorrect calculation.',
       },

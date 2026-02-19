@@ -276,7 +276,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Simple interest is calculated using the formula I = P * r * t. So, I = \\(5000 * 0.06 * 4 = 1200\\).',
+      'Simple interest is calculated using the formula I = P * r * t. So, I = $5000 * 0.06 * 4 = 1200\\).',
     challenge_tags: ['math-1'],
   },
   {

@@ -198,7 +198,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Using the Pythagorean theorem (\\(a^2 + b^2 = c^2\\)), we have \\(12^2 + 16^2 = c^2\\). This becomes \\(144 + 256 = 400\\). So, \\(c = \\(\sqrt{400}\\) = 20.',
+      'Using the Pythagorean theorem (\\(a^2 + b^2 = c^2\\)), we have \\(12^2 + 16^2 = c^2\\). This becomes $144 + 256 = 400\\). So, \\(c = \\(\sqrt{400}\\) = 20.',
     challenge_tags: ['math-5'],
   },
   {
@@ -313,7 +313,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Using the area formula for a trapezoid, A = \\(\\(\frac{1}{2}\\)(b_1 + b_2)h\\). We have 100 = \\(\\(\frac{1}{2}\\)(8 + b_2) \\(\times10\\). 100 = \\(5(8 + b_2). 20 =  8 + b_2. So, \\(b_2 = 12 units.\\)',
+      'Using the area formula for a trapezoid, A = \\(\\(\frac{1}{2}\\)(b_1 + b_2)h\\). We have 100 = \\(\\(\frac{1}{2}\\)(8 + b_2) \\(\times10\\). 100 = $5(8 + b_2). 20 =  8 + b_2. So, \\(b_2 = 12 units.\\)',
     challenge_tags: ['math-5'],
   },
 ];

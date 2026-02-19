@@ -158,7 +158,7 @@ module.exports = [
       {
         text: '16',
         isCorrect: false,
-        rationale: 'This would be the result if \\(b\\) were \\(2\\).',
+        rationale: 'This would be the result if \\(b\\) were $2\\).',
       },
       {
         text: '4',
@@ -244,7 +244,7 @@ module.exports = [
       {
         text: '\\((x + 6)(x + 2)\\)',
         isCorrect: false,
-        rationale: '\\(6 \\times 2 = 12\\), but \\(6 + 2 = 8\\), not 7.',
+        rationale: '\\(6 \\times 2 = 12\\), but $6 + 2 = 8\\), not 7.',
       },
       {
         text: '\\((x + 3)(x + 4)\\)',
@@ -255,7 +255,7 @@ module.exports = [
       {
         text: '\\((x + 12)(x + 1)\\)',
         isCorrect: false,
-        rationale: '\\(12 \\times 1 = 12\\), but \\(12 + 1 = 13\\), not 7.',
+        rationale: '\\(12 \\times 1 = 12\\), but $12 + 1 = 13\\), not 7.',
       },
       {
         text: '\\((x - 3)(x - 4)\\)',
@@ -431,7 +431,7 @@ module.exports = [
         text: '\\(4x^3\\)',
         isCorrect: true,
         rationale:
-          'Divide the coefficients \\(\\frac{8}{2} = 4\\) and subtract the exponents \\(6 - 3 = 3\\).',
+          'Divide the coefficients \\(\\frac{8}{2} = 4\\) and subtract the exponents $6 - 3 = 3\\).',
       },
       {
         text: '\\(4x^9\\)',

@@ -152,7 +152,7 @@ module.exports = [
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "Substitute 200 for x in the cost function: C(200) = 20(200) + 1000 = 4000 + 1000 = \\(5,000.",
+    "rationale": "Substitute 200 for x in the cost function: C(200) = 20(200) + 1000 = 4000 + 1000 = $5,000.",
     "challenge_tags": [
       "math-1"
     ]

@@ -124,7 +124,7 @@ module.exports = [
       },
     ],
     rationale:
-      'According to the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). So, \\(9^{2} + 12^{2} = c^{2}\\), which is \\(81 + 144 = 225\\). Thus, c = \\(\\(\sqrt{225}\\) = 15 cm.',
+      'According to the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). So, \\(9^{2} + 12^{2} = c^{2}\\), which is $81 + 144 = 225\\). Thus, c = \\(\\(\sqrt{225}\\) = 15 cm.',
     challenge_tags: ['math-5'],
   },
   {

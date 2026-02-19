@@ -129,7 +129,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "The cost of renting a car is a flat fee of \\(50 plus \\)0.25 per mile. Which function represents the total cost, C(m), for driving 'm' miles?",
+      "The cost of renting a car is a flat fee of $50 plus $0.25 per mile. Which function represents the total cost, C(m), for driving 'm' miles?",
     answerOptions: [
       {
         text: 'C(m) = 50.25m',
@@ -154,7 +154,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The total cost is the sum of the fixed fee (\\(50) and the variable cost, which is \\)0.25 times the number of miles (m). So, C(m) = 50 + 0.25m.',
+      'The total cost is the sum of the fixed fee ($50) and the variable cost, which is $0.25 times the number of miles (m). So, C(m) = 50 + 0.25m.',
     challenge_tags: ['math-3'],
   },
   {

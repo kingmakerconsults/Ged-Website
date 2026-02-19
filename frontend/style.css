@@ -751,6 +751,13 @@ samp,
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
 }
+.option:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: var(--option-shadow);
+}
+.option.selected:focus:not(:focus-visible) {
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
 button[data-role='primary'] {
   background-color: var(--accent);
   border: 1px solid var(--accent-border);
@@ -1840,6 +1847,13 @@ samp,
 .option:focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
+}
+.option:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: var(--option-shadow);
+}
+.option.selected:focus:not(:focus-visible) {
+  box-shadow: 0 0 0 3px var(--accent-ring);
 }
 button[data-role='primary'] {
   background-color: var(--accent);

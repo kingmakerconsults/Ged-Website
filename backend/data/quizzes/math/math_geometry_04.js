@@ -122,7 +122,7 @@ module.exports = [
       },
     ],
     rationale:
-      'According to the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). So, \\(5^{2} + 12^{2} = c^{2}\\), which is \\(25 + 144 = 169\\). Thus, c = \\(\\sqrt{169}\\) = 13 cm.',
+      'According to the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). So, \\(5^{2} + 12^{2} = c^{2}\\), which is $25 + 144 = 169\\). Thus, c = \\(\\sqrt{169}\\) = 13 cm.',
     challenge_tags: ['math-5'],
   },
   {

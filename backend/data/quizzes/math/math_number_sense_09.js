@@ -55,7 +55,7 @@ module.exports = [
         text: '$84',
         isCorrect: true,
         rationale:
-          'The fee is \\(0.05 \\times 80 = 4\\). Total cost is \\(80 + 4 = 84\\).',
+          'The fee is \\(0.05 \\times 80 = 4\\). Total cost is $80 + 4 = 84\\).',
       },
       {
         text: '$85',
@@ -74,7 +74,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the processing fee: 5% of $80 is \\(0.05 \\times 80 = 4\\). Then add this fee to the ticket price: \\(80 + 4 = 84\\).',
+      'First, calculate the processing fee: 5% of $80 is \\(0.05 \\times 80 = 4\\). Then add this fee to the ticket price: $80 + 4 = 84\\).',
     challenge_tags: ['math-1'],
   },
   {

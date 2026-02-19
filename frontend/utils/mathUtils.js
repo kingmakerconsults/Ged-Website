@@ -311,21 +311,46 @@ export function formatMathText(html) {
   return out;
 }
 
+// Pre-escape currency dollar signs so they aren't treated as LaTeX delimiters.
+// Matches $NN, $NN.NN, $NN,NNN etc. that represent money amounts and replaces
+// the leading $ with the escaped form ＄ (fullwidth dollar) as a safe placeholder,
+// then after segment extraction we restore them.
+function escapeCurrencyDollars(text) {
+  if (typeof text !== 'string') return text;
+  // Match $ followed by digits (with optional commas, decimals) that look like currency,
+  // but NOT already-escaped \$ and NOT inside \(...\) or $..$ math blocks.
+  // We use a two-pass approach: first protect existing \$, then escape bare currency $.
+  let result = text;
+  // Temporarily protect already-escaped \$
+  result = result.replace(/\\\$/g, '\x00ESC_DOLLAR\x00');
+  // Escape bare currency: $NNN or $N,NNN or $NNN.NN
+  // Only match $ followed by digit (not $ followed by letter which is likely LaTeX)
+  result = result.replace(
+    /\$(\d[\d,]*(?:\.\d{0,2})?)/g,
+    '\\$$$1'
+  );
+  // Restore previously-escaped \$
+  result = result.replace(/\x00ESC_DOLLAR\x00/g, '\\$');
+  return result;
+}
+
 // Extracted: extractMathSegments
 export function extractMathSegments(input) {
   const segments = [];
   if (typeof input !== 'string' || !input.length) {
     return segments;
   }
+  // Pre-escape currency dollar signs before parsing math delimiters
+  const safeInput = escapeCurrencyDollars(input);
   const mathRegex =
     /\$\$([\s\S]+?)\$\$|\\\[([\s\S]+?)\\\]|\$([\s\S]+?)\$|\\\(([\s\S]+?)\\\)/g;
   let lastIndex = 0;
   let match;
-  while ((match = mathRegex.exec(input)) !== null) {
+  while ((match = mathRegex.exec(safeInput)) !== null) {
     if (match.index > lastIndex) {
       segments.push({
         type: 'text',
-        value: input.slice(lastIndex, match.index),
+        value: safeInput.slice(lastIndex, match.index),
       });
     }
     if (typeof match[1] !== 'undefined') {
@@ -359,8 +384,8 @@ export function extractMathSegments(input) {
     }
     lastIndex = mathRegex.lastIndex;
   }
-  if (lastIndex < input.length) {
-    segments.push({ type: 'text', value: input.slice(lastIndex) });
+  if (lastIndex < safeInput.length) {
+    segments.push({ type: 'text', value: safeInput.slice(lastIndex) });
   }
   return segments;
 }

@@ -50,7 +50,7 @@ module.exports = [
         text: '87',
         isCorrect: true,
         rationale:
-          'The sum of the scores (\\(85+92+78+88+92\\)) is 435. The mean is \\(435 / 5 = 87\\).',
+          'The sum of the scores ($85+92+78+88+92\\)) is 435. The mean is $435 / 5 = 87\\).',
       },
       {
         text: '88',
@@ -111,7 +111,7 @@ module.exports = [
         text: '\\(\\frac{1}{3}\\)',
         isCorrect: true,
         rationale:
-          'There are 5 blue marbles and a total of \\(4+5+6=15\\) marbles. The probability is \\(\\frac{5}{15}\\), which simplifies to \\(\\frac{1}{3}\\).',
+          'There are 5 blue marbles and a total of $4+5+6=15\\) marbles. The probability is \\(\\frac{5}{15}\\), which simplifies to \\(\\frac{1}{3}\\).',
       },
       {
         text: '\\(\\frac{1}{5}\\)',
@@ -149,7 +149,7 @@ module.exports = [
         text: '16',
         isCorrect: true,
         rationale:
-          'The range is the difference between the highest and lowest value: \\(81 - 65 = 16\\).',
+          'The range is the difference between the highest and lowest value: $81 - 65 = 16\\).',
       },
       {
         text: '73',
@@ -280,7 +280,7 @@ module.exports = [
         text: '5',
         isCorrect: true,
         rationale:
-          'The sum is \\(2+3+3+5+7+10 = 30\\). The mean is \\(30 / 6 = 5\\).',
+          'The sum is $2+3+3+5+7+10 = 30\\). The mean is $30 / 6 = 5\\).',
       },
       {
         text: '8',
@@ -400,7 +400,7 @@ module.exports = [
         text: '85',
         isCorrect: true,
         rationale:
-          'To have an average of 85 over 4 tests, the total score must be \\(85 \\times 4 = 340\\). The current sum is \\(80 + 85 + 90 = 255\\). The needed score is \\(340 - 255 = 85\\).',
+          'To have an average of 85 over 4 tests, the total score must be \\(85 \\times 4 = 340\\). The current sum is $80 + 85 + 90 = 255\\). The needed score is $340 - 255 = 85\\).',
       },
       {
         text: '90',
@@ -623,7 +623,7 @@ module.exports = [
         text: '21',
         isCorrect: false,
         rationale:
-          'Incorrectly handled the negative signs. \\(5(-2) is -10.\\)',
+          'Incorrectly handled the negative signs. $5(-2) is -10.\\)',
       },
       {
         text: '-15',

@@ -296,7 +296,7 @@ module.exports = [
         text: '6 meters',
         isCorrect: true,
         rationale:
-          'Area = \\(\\(\frac{1}{2}\\) bh\\). \\(30 = \\(\frac{1}{2}\\)(10)h.  30 = 5h. \\(h = 6.\\)\\)',
+          'Area = \\(\\(\frac{1}{2}\\) bh\\). $30 = \\(\frac{1}{2}\\)(10)h.  30 = 5h. \\(h = 6.\\)\\)',
       },
       {
         text: '15 meters',

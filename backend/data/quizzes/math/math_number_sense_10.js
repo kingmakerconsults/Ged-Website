@@ -59,7 +59,7 @@ module.exports = [
         text: '\\(121\\)',
         isCorrect: true,
         rationale:
-          'The fee is 0.10 * \\(110\\) = \\(11\\). Total cost = \\(110 + 11 = 121\\).',
+          'The fee is 0.10 * \\(110\\) = \\(11\\). Total cost = $110 + 11 = 121\\).',
       },
       {
         text: '\\(120\\)',
@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the service fee: 10% of \\(110\\) is 0.10 * 110 = \\(11\\). Then, add this to the ticket price: \\(110 + 11 = 121\\).',
+      'First, calculate the service fee: 10% of \\(110\\) is 0.10 * 110 = \\(11\\). Then, add this to the ticket price: $110 + 11 = 121\\).',
     challenge_tags: ['math-1'],
   },
   {

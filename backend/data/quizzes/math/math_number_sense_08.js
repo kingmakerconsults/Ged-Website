@@ -49,7 +49,7 @@ module.exports = [
             'Taking \\(\\frac{1}{2}\\) of a number is the same as dividing it by 2. 50 / 2 = 25.',
     difficulty: 'medium',
     question:
-      'A television costs \\(650. If there is a 7% sales tax, what is the total cost?',
+      'A television costs $650. If there is a 7% sales tax, what is the total cost?',
     answerOptions: [
       {
         text: '45.50',
@@ -59,7 +59,7 @@ module.exports = [
       {
         text: '\\(695.50\\)',
         isCorrect: true,
-        rationale: 'Tax = 0.07 * 650 = \\)45.50. Total = 650 + 45.50 = \\(695.50.',
+        rationale: 'Tax = 0.07 * 650 = $45.50. Total = 650 + 45.50 = $695.50.',
       },
       {
         text: '657.00',
@@ -73,7 +73,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the sales tax: 7% of \\)650 is 0.07 * 650 = \\(45.50. Then, add the tax to the original price: \\)650 + \\(45.50 = 695.50.',
+      'First, calculate the sales tax: 7% of $650 is 0.07 * 650 = $45.50. Then, add the tax to the original price: $650 + $45.50 = 695.50.',
     challenge_tags: ['math-1'],
   },
   {
@@ -248,7 +248,7 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "A person's salary is \\)50,000 per year. If they get a 4% raise, what is their new salary?",
+      "A person's salary is $50,000 per year. If they get a 4% raise, what is their new salary?",
     answerOptions: [
       {
         text: '50,400',

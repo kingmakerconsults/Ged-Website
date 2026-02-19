@@ -134,7 +134,7 @@ module.exports = [
       {
         "text": "\\(y = \frac{2}{3}x - 2\\)",
         "isCorrect": true,
-        "rationale": "The slope is \\(\frac{2}{3}\\). Using y=mx+b: 2 = \\(\frac{2}{3}\\)\\(6\\) + b -> 2 = 4 + b -> b=-2."
+        "rationale": "The slope is \\(\frac{2}{3}\\). Using y=mx+b: 2 = \\(\frac{2}{3}\\)$6\\) + b -> 2 = 4 + b -> b=-2."
       },
       {
         "text": "\\(y = -\frac{3}{2}x + 11\\)",

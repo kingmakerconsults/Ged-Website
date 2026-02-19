@@ -39,10 +39,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A store has a 20% off sale. If a shirt is originally \\(35, what is the amount of the discount?',
+      'A store has a 20% off sale. If a shirt is originally $35, what is the amount of the discount?',
     correctAnswer: '7',
     rationale:
-      'To find the discount amount, multiply the original price by the discount percentage: \\)35 * 0.20 = \\(7.',
+      'To find the discount amount, multiply the original price by the discount percentage: $35 * 0.20 = $7.',
     challenge_tags: ['math-1'],
   },
   {
@@ -139,7 +139,7 @@ module.exports = [
         rationale: 'This is the cost per pound.',
       },
       {
-        text: '\\(4.80\\)',
+        text: '$4.80\\)',
         isCorrect: true,
         rationale:
           'The cost per pound is \\(3.00 \\div 5 = 0.60\\). So, 8 pounds cost \\(8 \\times 0.60 = 4.80\\).',
@@ -315,7 +315,7 @@ module.exports = [
       },
     ],
     rationale:
-      'To find the hourly wage, divide the total earnings by the number of hours worked: \\)120 / 8 hours = $15 per hour.',
+      'To find the hourly wage, divide the total earnings by the number of hours worked: $120 / 8 hours = $15 per hour.',
     challenge_tags: ['math-1'],
   },
 ];

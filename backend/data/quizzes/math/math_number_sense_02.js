@@ -141,7 +141,7 @@ module.exports = [
         text: '\\(16,200\\)',
         isCorrect: true,
         rationale:
-          'Year 1: \\(20,000 * 0.9 = 18,000. Year 2:  18,000 * 0.9 = 16,200.\\)',
+          'Year 1: $20,000 * 0.9 = 18,000. Year 2:  18,000 * 0.9 = 16,200.\\)',
       },
       {
         text: '18,000',
@@ -155,7 +155,7 @@ module.exports = [
       },
     ],
     rationale:
-      'After the first year, the value is 90% of the original: \\(20,000 * 0.90 = 18,000. After the second year, the value is 90% of the new value:  18,000 * 0.90 = 16,200.\\)',
+      'After the first year, the value is 90% of the original: $20,000 * 0.90 = 18,000. After the second year, the value is 90% of the new value:  18,000 * 0.90 = 16,200.\\)',
     challenge_tags: ['math-1'],
   },
   {
@@ -237,7 +237,7 @@ module.exports = [
         text: '\\(540\\)',
         isCorrect: true,
         rationale:
-          'The sales tax is \\(0.08 \\times 500 = 40\\). The total cost is \\(500 + 40 = 540\\).',
+          'The sales tax is \\(0.08 \\times 500 = 40\\). The total cost is $500 + 40 = 540\\).',
       },
       {
         text: '\\(900\\)',
@@ -246,7 +246,7 @@ module.exports = [
       },
     ],
     rationale:
-      'Calculate the sales tax: \\(8\\%\\) of 500 is 40. Add the tax to the price: \\(500 + 40 = 540\\).',
+      'Calculate the sales tax: \\(8\\%\\) of 500 is 40. Add the tax to the price: $500 + 40 = 540\\).',
     challenge_tags: ['math-1'],
   },
   {

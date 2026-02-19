@@ -42,13 +42,13 @@ module.exports = [
     challenge_tags: ['math-1'],
     calculator: false,
     question:
-      'A recipe calls for \\(2 \\(\frac{1}{2}\\) cups of flour. If you want to make half the recipe, how much flour do you need?\\)',
+      'A recipe calls for $2 \\(\frac{1}{2}\\) cups of flour. If you want to make half the recipe, how much flour do you need?\\)',
     answerOptions: [
       {
         text: '\\(\\(\frac{5}{4}\\) cups\\)',
         isCorrect: true,
         rationale:
-          'Half of \\(2 \\(\frac{1}{2}\\) is \\left(\\(\frac{5}{2}\\)\\right) \\(\div 2 = \\(\frac{5}{4} cups.\\)\\)',
+          'Half of $2 \\(\frac{1}{2}\\) is \\left(\\(\frac{5}{2}\\)\\right) \\(\div 2 = \\(\frac{5}{4} cups.\\)\\)',
       },
       {
         text: '\\(\\(\frac{3}{2}\\) cups\\)',
@@ -115,7 +115,7 @@ module.exports = [
         text: '\\(\\(\frac{5}{8}\\)',
         isCorrect: true,
         rationale:
-          'If 3 out of 8 slices are eaten, \\(8 - 3 = 5 slices are left.\\)',
+          'If 3 out of 8 slices are eaten, $8 - 3 = 5 slices are left.\\)',
       },
       {
         text: '\\(\\(\frac{1}{2}\\)',
@@ -250,25 +250,25 @@ module.exports = [
     questionNumber: 9,
     calculator: true,
     question:
-      'A carpenter has a board that is \\(10 \\(\frac{1}{2}\\) feet long. He needs to cut a piece that is \\(3 \\(\frac{3}{4}\\) feet long. How much of the board is left?\\)\\)',
+      'A carpenter has a board that is $10 \\(\frac{1}{2}\\) feet long. He needs to cut a piece that is $3 \\(\frac{3}{4}\\) feet long. How much of the board is left?\\)\\)',
     answerOptions: [
       {
         text: '\\(\\(\frac{27}{4}\\) feet\\)',
         isCorrect: true,
         rationale:
-          '\\(10 \\(\frac{1}{2}\\) - 3 \\(\frac{3}{4}\\) = \\(\frac{21}{2}\\) - \\(\frac{15}{4}\\) = \\(\frac{42}{4}\\) - \\(\frac{15}{4}\\) = \\(\frac{27}{4} feet.\\)',
+          '$10 \\(\frac{1}{2}\\) - 3 \\(\frac{3}{4}\\) = \\(\frac{21}{2}\\) - \\(\frac{15}{4}\\) = \\(\frac{42}{4}\\) - \\(\frac{15}{4}\\) = \\(\frac{27}{4} feet.\\)',
       },
       {
         text: '\\(\\(\frac{29}{4}\\) feet\\)',
         isCorrect: false,
         rationale:
-          'This would come from subtracting \\(3 \\(\frac{1}{4}\\) instead of 3 \\(\frac{3}{4}\\).',
+          'This would come from subtracting $3 \\(\frac{1}{4}\\) instead of 3 \\(\frac{3}{4}\\).',
       },
       {
         text: '\\(\\(\frac{13}{2}\\) feet\\)',
         isCorrect: false,
         rationale:
-          'This corresponds to \\(6 \\(\frac{1}{2}\\) feet, which is too small.\\)',
+          'This corresponds to $6 \\(\frac{1}{2}\\) feet, which is too small.\\)',
       },
       {
         text: '7 feet',
@@ -370,7 +370,7 @@ module.exports = [
     questionNumber: 13,
     calculator: true,
     question:
-      'If a baker has 12 cups of sugar and each cake requires \\(1 \\(\frac{1}{2}\\) cups of sugar, how many cakes can the baker make?\\)',
+      'If a baker has 12 cups of sugar and each cake requires $1 \\(\frac{1}{2}\\) cups of sugar, how many cakes can the baker make?\\)',
     answerOptions: [
       {
         text: '6 cakes',
@@ -381,7 +381,7 @@ module.exports = [
         text: '8 cakes',
         isCorrect: true,
         rationale:
-          '\\(12 / (1 \\(\frac{1}{2}\\)) = 12 / (\\(\frac{3}{2}\\)) = 12 * (\\(\frac{2}{3}\\)) = 24 / 3 = 8 cakes.',
+          '$12 / (1 \\(\frac{1}{2}\\)) = 12 / (\\(\frac{3}{2}\\)) = 12 * (\\(\frac{2}{3}\\)) = 24 / 3 = 8 cakes.',
       },
       {
         text: '9 cakes',
@@ -495,7 +495,7 @@ module.exports = [
       {
         text: '98.7�F',
         isCorrect: true,
-        rationale: '\\(102.5 - 3.8 = 98.7\\)�F.',
+        rationale: '$102.5 - 3.8 = 98.7\\)�F.',
       },
       {
         text: '99.7�F',

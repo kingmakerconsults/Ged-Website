@@ -88,7 +88,7 @@ module.exports = [
       'If a box of 12 pencils costs 3, what is the cost per pencil in cents?',
     correctAnswer: '25 cents',
     rationale:
-      '\\(3 is equal to 300 cents. The cost per pencil is 300 cents / 12 pencils = 25 cents.',
+      '$3 is equal to 300 cents. The cost per pencil is 300 cents / 12 pencils = 25 cents.',
     challenge_tags: ['math-1'],
   },
   {
@@ -103,7 +103,7 @@ module.exports = [
         text: '\\(19.20\\)',
         isCorrect: true,
         rationale:
-          'New price: \\)20 * 1.20 = 24. Discounted price: \\(24 * 0.80 = 19.20.',
+          'New price: $20 * 1.20 = 24. Discounted price: $24 * 0.80 = 19.20.',
       },
       {
         text: '20.00',
@@ -123,7 +123,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, the price is increased by 20%: \\)20 * 1.20 = \\(24. Then, this new price is discounted by 20%: \\)24 * (1 - 0.20) = \\(24 * 0.80 = \\)19.20.',
+      'First, the price is increased by 20%: $20 * 1.20 = $24. Then, this new price is discounted by 20%: $24 * (1 - 0.20) = $24 * 0.80 = $19.20.',
     challenge_tags: ['math-1'],
   },
   {
@@ -167,10 +167,10 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "A car's value decreased from \\(15,000 to  12,000. What was the percent decrease?\\)",
+      "A car's value decreased from $15,000 to  12,000. What was the percent decrease?\\)",
     correctAnswer: '20%',
     rationale:
-      'The decrease in value is \\(15,000 -  12,000 = \\(3,000. The percent decrease is (decrease / original value) * 100 = ( 3,000 / 15,000) * 100 = 0.20 * 100 = 20%.\\)\\)',
+      'The decrease in value is $15,000 -  12,000 = $3,000. The percent decrease is (decrease / original value) * 100 = ( 3,000 / 15,000) * 100 = 0.20 * 100 = 20%.\\)\\)',
     challenge_tags: ['math-1'],
   },
   {
@@ -270,7 +270,7 @@ module.exports = [
         text: '4000',
         isCorrect: true,
         rationale:
-          'Let S be the total sales. 0.15 * S = \\(600\\). S = \\(600 / 0.15 = 4000\\).',
+          'Let S be the total sales. 0.15 * S = \\(600\\). S = $600 / 0.15 = 4000\\).',
       },
       {
         text: '6000',

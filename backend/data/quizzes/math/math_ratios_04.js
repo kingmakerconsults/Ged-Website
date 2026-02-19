@@ -40,10 +40,10 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      'A shirt that costs \\(40 is on sale for 15% off. What is the sale price?',
+      'A shirt that costs $40 is on sale for 15% off. What is the sale price?',
     correctAnswer: '34',
     rationale:
-      'First, calculate the discount: 15% of \\)40 is 0.15 * 40 = \\(6. Then, subtract the discount from the original price: \\)40 - \\(6 = \\)34.',
+      'First, calculate the discount: 15% of $40 is 0.15 * 40 = $6. Then, subtract the discount from the original price: $40 - $6 = $34.',
     challenge_tags: ['math-1'],
   },
   {
@@ -63,7 +63,7 @@ module.exports = [
         text: '20%',
         isCorrect: true,
         rationale:
-          'The increase was \\(0.60. The percent increase is (0.60 / 3.00) * 100 = 20%.\\)',
+          'The increase was $0.60. The percent increase is (0.60 / 3.00) * 100 = 20%.\\)',
       },
       {
         text: '25%',
@@ -77,7 +77,7 @@ module.exports = [
       },
     ],
     rationale:
-      'The increase in price is $3.60 - $3.00 = \\(0.60. The percent increase is (increase / original price) * 100 = (\\)0.60 / \\(3.00) * 100 = 0.20 * 100 = 20%.',
+      'The increase in price is $3.60 - $3.00 = $0.60. The percent increase is (increase / original price) * 100 = ($0.60 / $3.00) * 100 = 0.20 * 100 = 20%.',
     challenge_tags: ['math-1'],
   },
   {
@@ -168,10 +168,10 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      'A meal costs \\(50. You leave a tip of  8. What percentage tip did you leave?\\)',
+      'A meal costs $50. You leave a tip of  8. What percentage tip did you leave?\\)',
     correctAnswer: '16%',
     rationale:
-      'To find the percentage, divide the tip amount by the cost of the meal and multiply by 100: (\\)8 / \\(50) * 100 = 0.16 * 100 = 16%.',
+      'To find the percentage, divide the tip amount by the cost of the meal and multiply by 100: ($8 / $50) * 100 = 0.16 * 100 = 16%.',
     challenge_tags: ['math-1'],
   },
   {

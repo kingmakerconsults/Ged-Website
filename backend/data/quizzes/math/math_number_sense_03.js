@@ -48,7 +48,7 @@ module.exports = [
     calculator: true,
     difficulty: 'medium',
     question:
-      "A bookstore has a 20% off sale. If a book's original price is \\(28.00, what is the sale price?",
+      "A bookstore has a 20% off sale. If a book's original price is $28.00, what is the sale price?",
     answerOptions: [
       {
         text: '5.60',
@@ -59,7 +59,7 @@ module.exports = [
         text: '\\(22.40\\)',
         isCorrect: true,
         rationale:
-          'The discount is 0.20 * \\)28 = \\(5.60. The sale price is \\)28 - \\(5.60 = 22.40.',
+          'The discount is 0.20 * $28 = $5.60. The sale price is $28 - $5.60 = 22.40.',
       },
       {
         text: '\\(27.80\\)',

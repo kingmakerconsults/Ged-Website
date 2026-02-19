@@ -24028,6 +24028,9 @@ function App({ externalTheme, onThemeChange }) {
   const [navHistory, setNavHistory] = useState([]);
   // Track how many browser history entries we've pushed (for correct Back behavior)
   const browserDepthRef = useRef(0);
+  // Track current view in a ref so event listeners (closures) always see the latest value
+  const viewRef = useRef(view);
+  useEffect(() => { viewRef.current = view; }, [view]);
   const [authToken, setAuthToken] = useState(() => {
     if (typeof window === 'undefined') {
       return null;
@@ -24097,6 +24100,25 @@ function App({ externalTheme, onThemeChange }) {
     browserDepthRef.current = 0;
 
     const onPopState = (event) => {
+      // If the user is in an active quiz/exam, intercept the back button
+      const currentView = viewRef.current;
+      const isInQuiz = currentView === 'quiz' || currentView === 'reading';
+      if (isInQuiz) {
+        const confirmed = window.confirm(
+          'You are in the middle of a quiz/exam. Leaving now will end your progress. Are you sure you want to leave?'
+        );
+        if (!confirmed) {
+          // Re-push the quiz state so the user stays on the quiz
+          try {
+            window.history.pushState(
+              { appNav: true, activeView: 'quizzes', view: currentView, selectedSubject: null, selectedCategory: null },
+              ''
+            );
+            browserDepthRef.current += 1;
+          } catch (e) { /* noop */ }
+          return; // Abort navigation
+        }
+      }
       const s = event && event.state ? event.state : null;
       // Only handle states we created
       if (s && s.appNav) {
@@ -24134,6 +24156,19 @@ function App({ externalTheme, onThemeChange }) {
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
+
+  // Warn users when they try to refresh or close the tab during an active quiz
+  useEffect(() => {
+    const QUIZ_VIEWS = ['quiz', 'reading'];
+    if (!QUIZ_VIEWS.includes(view)) return undefined;
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = ''; // Required for Chrome
+      return ''; // Legacy browsers
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [view]);
 
   // Listen for quiz data loaded event and re-hydrate catalog
   useEffect(() => {
@@ -26625,6 +26660,14 @@ function App({ externalTheme, onThemeChange }) {
     setShowPracticeModal(true);
   };
 
+  // Confirm-gated exit handler for quizzes/exams
+  const confirmQuizExit = useCallback(() => {
+    const confirmed = window.confirm(
+      'You are in the middle of a quiz/exam. Leaving now will end your progress. Are you sure you want to leave?'
+    );
+    if (confirmed) goBack();
+  }, [goBack]);
+
   const navigateHome = useCallback(() => {
     setActiveQuiz(null);
     setQuizResults(null);
@@ -26697,7 +26740,7 @@ function App({ externalTheme, onThemeChange }) {
           <QuizRunner
             quiz={activeQuiz}
             onComplete={onQuizComplete}
-            onExit={goBack}
+            onExit={confirmQuizExit}
           />
         );
       case 'reading':
@@ -26705,7 +26748,7 @@ function App({ externalTheme, onThemeChange }) {
           <ReadingPractice
             quiz={activeQuiz}
             onComplete={onQuizComplete}
-            onExit={goBack}
+            onExit={confirmQuizExit}
           />
         );
       case 'essay':

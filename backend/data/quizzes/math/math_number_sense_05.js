@@ -131,13 +131,13 @@ module.exports = [
     calculator: true,
     difficulty: 'hard',
     question:
-      "A company's stock was valued at \\(75 per share. It dropped by 12% on Monday and then increased by 5% on Tuesday. What was the price after Tuesday's increase?",
+      "A company's stock was valued at $75 per share. It dropped by 12% on Monday and then increased by 5% on Tuesday. What was the price after Tuesday's increase?",
     answerOptions: [
       {
         text: '69.30',
         isCorrect: true,
         rationale:
-          'Monday: \\(75 * (1 - 0.12) =  66. Tuesday: \\(66 * (1 + 0.05) =  69.30.\\)\\)',
+          'Monday: $75 * (1 - 0.12) =  66. Tuesday: \\(66 * (1 + 0.05) =  69.30.\\)\\)',
       },
       {
         text: '\\(70.88\\)',
@@ -156,7 +156,7 @@ module.exports = [
       },
     ],
     rationale:
-      'First, calculate the price after the drop: \\)75 * (1 - 0.12) = 75 * 0.88 = \\(66. Then, calculate the price after the increase: \\)66 * (1 + 0.05) = \\(66 * 1.05 = 69.30.',
+      'First, calculate the price after the drop: $75 * (1 - 0.12) = 75 * 0.88 = $66. Then, calculate the price after the increase: $66 * (1 + 0.05) = $66 * 1.05 = 69.30.',
     challenge_tags: ['math-1'],
   },
   {
