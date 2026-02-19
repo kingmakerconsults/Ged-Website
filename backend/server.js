@@ -9627,6 +9627,13 @@ const finalQuestionSchema = {
     type: { type: 'STRING' },
     passage: { type: 'STRING' },
     imageUrl: { type: 'STRING' },
+    stimulusImage: {
+      type: 'OBJECT',
+      properties: {
+        src: { type: 'STRING' },
+        alt: { type: 'STRING' },
+      },
+    },
     questionText: { type: 'STRING' },
     answerOptions: {
       type: 'ARRAY',
@@ -9925,18 +9932,21 @@ function getCuratedSocialStudiesPassages(PASSAGE_DB) {
 function getCuratedSocialStudiesImages(imageCatalog) {
   if (!imageCatalog || typeof imageCatalog !== 'object') return [];
   return Object.values(imageCatalog).filter((img) => {
-    const tags = Array.isArray(img.tags)
-      ? img.tags.map((t) => String(t).toLowerCase())
+    // Skip entries explicitly marked as non-existent
+    if (img.__exists === false) return false;
+
+    const keywords = Array.isArray(img.keywords)
+      ? img.keywords.map((t) => String(t).toLowerCase())
       : [];
     const subject = (img.subject || '').toLowerCase();
     return (
       subject.includes('social') ||
-      tags.includes('social_studies') ||
-      tags.includes('civics') ||
-      tags.includes('history') ||
-      tags.includes('economics') ||
-      tags.includes('geography') ||
-      tags.includes('political_cartoon')
+      keywords.includes('social_studies') ||
+      keywords.includes('civics') ||
+      keywords.includes('history') ||
+      keywords.includes('economics') ||
+      keywords.includes('geography') ||
+      keywords.includes('political_cartoon')
     );
   });
 }
@@ -11825,7 +11835,13 @@ app.post('/generate-quiz', async (req, res) => {
                 combined.includes('government') ||
                 combined.includes('constitution') ||
                 combined.includes('rights') ||
-                combined.includes('voting')
+                combined.includes('voting') ||
+                combined.includes('democracy') ||
+                combined.includes('amendment') ||
+                combined.includes('suffrage') ||
+                combined.includes('reform') ||
+                combined.includes('legislation') ||
+                combined.includes('citizen')
               );
             }
             if (cat === 'U.S. History') {
@@ -11833,14 +11849,31 @@ app.post('/generate-quiz', async (req, res) => {
                 combined.includes('history') ||
                 combined.includes('civil war') ||
                 combined.includes('founding') ||
-                combined.includes('revolution')
+                combined.includes('revolution') ||
+                combined.includes('reconstruction') ||
+                combined.includes('abolition') ||
+                combined.includes('slavery') ||
+                combined.includes('colonial') ||
+                combined.includes('independence') ||
+                combined.includes('war')
               );
             }
             if (cat === 'Economics') {
               return (
                 combined.includes('econom') ||
                 combined.includes('trade') ||
-                combined.includes('market')
+                combined.includes('market') ||
+                combined.includes('depression') ||
+                combined.includes('industrial') ||
+                combined.includes('labor') ||
+                combined.includes('tariff') ||
+                combined.includes('tax') ||
+                combined.includes('monetary') ||
+                combined.includes('fiscal') ||
+                combined.includes('banking') ||
+                combined.includes('poverty') ||
+                combined.includes('wealth') ||
+                combined.includes('gilded')
               );
             }
             if (cat === 'Geography & the World') {
@@ -11848,7 +11881,17 @@ app.post('/generate-quiz', async (req, res) => {
                 combined.includes('geograph') ||
                 combined.includes('world') ||
                 combined.includes('region') ||
-                combined.includes('climate')
+                combined.includes('climate') ||
+                combined.includes('territory') ||
+                combined.includes('expansion') ||
+                combined.includes('exploration') ||
+                combined.includes('continent') ||
+                combined.includes('atlantic') ||
+                combined.includes('border') ||
+                combined.includes('frontier') ||
+                combined.includes('migration') ||
+                combined.includes('imperialism') ||
+                combined.includes('foreign')
               );
             }
             return false;
@@ -11876,7 +11919,13 @@ app.post('/generate-quiz', async (req, res) => {
                 combined.includes('civics') ||
                 combined.includes('government') ||
                 combined.includes('political') ||
-                combined.includes('election')
+                combined.includes('election') ||
+                combined.includes('suffrage') ||
+                combined.includes('legislation') ||
+                combined.includes('constitution') ||
+                combined.includes('democracy') ||
+                combined.includes('voting') ||
+                combined.includes('rights')
               );
             }
             if (cat === 'U.S. History') {
@@ -11884,7 +11933,11 @@ app.post('/generate-quiz', async (req, res) => {
                 combined.includes('history') ||
                 combined.includes('historical') ||
                 combined.includes('war') ||
-                combined.includes('president')
+                combined.includes('president') ||
+                combined.includes('civil war') ||
+                combined.includes('reconstruction') ||
+                combined.includes('colonial') ||
+                combined.includes('revolution')
               );
             }
             if (cat === 'Economics') {
@@ -11892,7 +11945,15 @@ app.post('/generate-quiz', async (req, res) => {
                 combined.includes('econom') ||
                 combined.includes('trade') ||
                 combined.includes('business') ||
-                combined.includes('market')
+                combined.includes('market') ||
+                combined.includes('depression') ||
+                combined.includes('industrial') ||
+                combined.includes('labor') ||
+                combined.includes('graph') ||
+                combined.includes('chart') ||
+                combined.includes('statistic') ||
+                combined.includes('budget') ||
+                combined.includes('spending')
               );
             }
             if (cat === 'Geography & the World') {
@@ -11900,7 +11961,13 @@ app.post('/generate-quiz', async (req, res) => {
                 combined.includes('geograph') ||
                 combined.includes('world') ||
                 combined.includes('map') ||
-                combined.includes('region')
+                combined.includes('region') ||
+                combined.includes('territory') ||
+                combined.includes('global') ||
+                combined.includes('continent') ||
+                combined.includes('border') ||
+                combined.includes('migration') ||
+                combined.includes('imperialism')
               );
             }
             return false;
@@ -11924,28 +11991,47 @@ app.post('/generate-quiz', async (req, res) => {
           for (let i = 0; i < counts.passages; i++) {
             const passage = pickPassageForCategory(category);
             if (passage) {
-              try {
-                const qs = await generateSocialStudiesPassageSet({
-                  category,
-                  subject: 'Social Studies',
-                  passageSource: passage,
-                  numQuestions: Math.random() > 0.5 ? 2 : 3,
-                  aiOptions,
-                });
-                if (qs && qs.length) {
-                  allQuestions.push(...qs);
-                  console.log(
-                    `[SS] Added ${qs.length} passage questions for ${category}`
+              for (let attempt = 0; attempt < 2; attempt++) {
+                try {
+                  const qs = await generateSocialStudiesPassageSet({
+                    category,
+                    subject: 'Social Studies',
+                    passageSource: passage,
+                    numQuestions: Math.random() > 0.5 ? 2 : 3,
+                    aiOptions,
+                  });
+                  if (qs && qs.length) {
+                    allQuestions.push(...qs);
+                    console.log(
+                      `[SS] Added ${qs.length} passage questions for ${category}`
+                    );
+                    break; // success, stop retrying
+                  }
+                } catch (error) {
+                  console.error(
+                    `[SS] Passage generation failed for ${category} (attempt ${attempt + 1}):`,
+                    error.message
                   );
+                  if (attempt === 0) console.log('[SS] Retrying passage generation...');
                 }
-              } catch (error) {
-                console.error(
-                  `[SS] Passage generation failed for ${category}:`,
-                  error.message
-                );
               }
             } else {
-              console.warn(`[SS] No unused passage found for ${category}`);
+              console.warn(`[SS] No unused passage found for ${category}, generating standalone instead`);
+              // Generate a standalone question as substitute
+              try {
+                const q = await generateSocialStudiesStandaloneQuestion({
+                  category,
+                  subject: 'Social Studies',
+                  aiOptions,
+                  allowNumeracy: category === 'Economics' || category === 'Civics & Government',
+                });
+                if (q) {
+                  allQuestions.push(q);
+                  console.log(`[SS] Added substitute standalone question for ${category}`);
+                }
+              } catch (err) {
+                console.error(`[SS] Substitute standalone failed for ${category}:`, err.message);
+              }
             }
           }
 
@@ -11953,26 +12039,30 @@ app.post('/generate-quiz', async (req, res) => {
           for (let i = 0; i < counts.images; i++) {
             const image = pickImageForCategory(category);
             if (image) {
-              try {
-                const qs = await generateSocialStudiesImageSet({
-                  category,
-                  subject: 'Social Studies',
-                  image,
-                  numQuestions: Math.random() > 0.5 ? 2 : 1,
-                  aiOptions,
-                  usedImages,
-                });
-                if (qs && qs.length) {
-                  allQuestions.push(...qs);
-                  console.log(
-                    `[SS] Added ${qs.length} image questions for ${category}`
+              for (let attempt = 0; attempt < 2; attempt++) {
+                try {
+                  const qs = await generateSocialStudiesImageSet({
+                    category,
+                    subject: 'Social Studies',
+                    image,
+                    numQuestions: Math.random() > 0.5 ? 2 : 1,
+                    aiOptions,
+                    usedImages,
+                  });
+                  if (qs && qs.length) {
+                    allQuestions.push(...qs);
+                    console.log(
+                      `[SS] Added ${qs.length} image questions for ${category}`
+                    );
+                    break; // success, stop retrying
+                  }
+                } catch (error) {
+                  console.error(
+                    `[SS] Image generation failed for ${category} (attempt ${attempt + 1}):`,
+                    error.message
                   );
+                  if (attempt === 0) console.log('[SS] Retrying image generation...');
                 }
-              } catch (error) {
-                console.error(
-                  `[SS] Image generation failed for ${category}:`,
-                  error.message
-                );
               }
             } else {
               console.warn(`[SS] No unused image found for ${category}`);
@@ -11981,29 +12071,58 @@ app.post('/generate-quiz', async (req, res) => {
 
           // Standalone questions (with optional numeracy)
           for (let i = 0; i < counts.standalone; i++) {
-            try {
-              const allowNumeracy =
-                category === 'Economics' || category === 'Civics & Government';
-              const q = await generateSocialStudiesStandaloneQuestion({
-                category,
-                subject: 'Social Studies',
-                aiOptions,
-                allowNumeracy,
-              });
-              if (q) {
-                allQuestions.push(q);
-                console.log(`[SS] Added standalone question for ${category}`);
+            for (let attempt = 0; attempt < 2; attempt++) {
+              try {
+                const allowNumeracy =
+                  category === 'Economics' || category === 'Civics & Government';
+                const q = await generateSocialStudiesStandaloneQuestion({
+                  category,
+                  subject: 'Social Studies',
+                  aiOptions,
+                  allowNumeracy,
+                });
+                if (q) {
+                  allQuestions.push(q);
+                  console.log(`[SS] Added standalone question for ${category}`);
+                  break; // success
+                }
+              } catch (error) {
+                console.error(
+                  `[SS] Standalone generation failed for ${category} (attempt ${attempt + 1}):`,
+                  error.message
+                );
+                if (attempt === 0) console.log('[SS] Retrying standalone generation...');
               }
-            } catch (error) {
-              console.error(
-                `[SS] Standalone generation failed for ${category}:`,
-                error.message
-              );
             }
           }
         }
 
         console.log(`[SS] Generated ${allQuestions.length} total questions`);
+
+        // Top-up: if we have fewer than TOTAL_QUESTIONS, generate more standalone questions
+        if (allQuestions.length < TOTAL_QUESTIONS) {
+          const deficit = TOTAL_QUESTIONS - allQuestions.length;
+          console.log(`[SS] Deficit of ${deficit} questions, generating standalone top-ups...`);
+          const topUpCategories = [...SS_CATEGORIES, ...SS_CATEGORIES]; // cycle categories
+          for (let i = 0; i < deficit && i < topUpCategories.length; i++) {
+            const cat = topUpCategories[i % SS_CATEGORIES.length];
+            try {
+              const q = await generateSocialStudiesStandaloneQuestion({
+                category: cat,
+                subject: 'Social Studies',
+                aiOptions,
+                allowNumeracy: cat === 'Economics' || cat === 'Civics & Government',
+              });
+              if (q) {
+                allQuestions.push(q);
+                console.log(`[SS] Top-up standalone added for ${cat}`);
+              }
+            } catch (err) {
+              console.error(`[SS] Top-up standalone failed for ${cat}:`, err.message);
+            }
+          }
+          console.log(`[SS] After top-up: ${allQuestions.length} total questions`);
+        }
 
         // Apply QA and enforcement
         let finalQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
@@ -12069,47 +12188,187 @@ app.post('/generate-quiz', async (req, res) => {
         console.error('[SS] Error generating Social Studies exam:', error);
         console.log('[SS] Falling back to premade quiz assembly');
 
-        // FALLBACK: Pull from premade quiz bank
+        // FALLBACK: Pull from premade quiz bank AND quiz part files
         try {
           const allQuestions = [];
-          const SS_CATEGORIES = [
-            'Civics & Government',
-            'U.S. History',
-            'Economics',
-            'Geography & the World',
-          ];
+          const categoryBuckets = {
+            'Civics & Government': [],
+            'U.S. History': [],
+            'Economics': [],
+            'Geography & the World': [],
+          };
 
-          // Try to get questions from ALL_QUIZZES
-          if (ALL_QUIZZES && ALL_QUIZZES['Social Studies']) {
-            const ssData = ALL_QUIZZES['Social Studies'];
-            if (ssData.categories) {
-              for (const [catName, catData] of Object.entries(
-                ssData.categories
-              )) {
-                if (catData.topics && Array.isArray(catData.topics)) {
-                  for (const topic of catData.topics) {
-                    if (topic.questions && Array.isArray(topic.questions)) {
-                      allQuestions.push(
-                        ...topic.questions.map((q) => ({
-                          ...q,
-                          subject: 'Social Studies',
-                          category: catName,
-                        }))
-                      );
+          // Helper to normalize a quiz-file question into comprehensive format
+          const normalizeQuestion = (q, category) => {
+            const normalized = {
+              questionNumber: q.questionNumber || 0,
+              type: q.type === 'multipleChoice' ? 'multiple-choice-text' : (q.type || 'multiple-choice-text'),
+              questionText: q.questionText || q.question || (q.content && q.content.questionText) || '',
+              answerOptions: (q.answerOptions || []).map(opt => ({
+                text: opt.text || '',
+                isCorrect: !!opt.isCorrect,
+                rationale: opt.rationale || '',
+              })),
+              subject: 'Social Studies',
+              category: category,
+              difficulty: q.difficulty || 'medium',
+            };
+            // Preserve passage
+            if (q.passage) normalized.passage = q.passage;
+            if (q.content && q.content.passage && !normalized.passage) normalized.passage = q.content.passage;
+            // Preserve image
+            if (q.imageUrl || q.imageURL) {
+              normalized.stimulusImage = {
+                src: q.imageUrl || q.imageURL || '',
+                alt: (q.content && q.content.questionText) || 'Visual for question',
+              };
+              normalized.itemType = 'image';
+            } else if (normalized.passage) {
+              normalized.itemType = 'passage';
+            } else {
+              normalized.itemType = 'standalone';
+            }
+            return normalized;
+          };
+
+          // Helper to extract questions from a quiz-file category structure
+          const extractFromQuizFile = (fileData, categoryMapping) => {
+            if (!fileData || !fileData.categories) return;
+            for (const [catName, catData] of Object.entries(fileData.categories)) {
+              const targetCategory = categoryMapping[catName] || catName;
+              if (!categoryBuckets[targetCategory]) continue; // skip unknown categories
+              if (catData.topics && Array.isArray(catData.topics)) {
+                for (const topic of catData.topics) {
+                  // Check quizzes array (primary storage)
+                  if (topic.quizzes && Array.isArray(topic.quizzes)) {
+                    for (const quiz of topic.quizzes) {
+                      if (quiz.questions && Array.isArray(quiz.questions)) {
+                        for (const q of quiz.questions) {
+                          if (q.answerOptions && q.answerOptions.length >= 2) {
+                            categoryBuckets[targetCategory].push(normalizeQuestion(q, targetCategory));
+                          }
+                        }
+                      }
+                    }
+                  }
+                  // Check direct questions array (fallback storage)
+                  if (topic.questions && Array.isArray(topic.questions)) {
+                    for (const q of topic.questions) {
+                      if (q.answerOptions && q.answerOptions.length >= 2) {
+                        categoryBuckets[targetCategory].push(normalizeQuestion(q, targetCategory));
+                      }
                     }
                   }
                 }
               }
             }
+          };
+
+          // Category mapping from quiz file names to blueprint categories
+          const categoryMapping = {
+            'Civics & Government': 'Civics & Government',
+            'U.S. History': 'U.S. History',
+            'Economics': 'Economics',
+            'Geography & the World': 'Geography & the World',
+            'Geography and the World': 'Geography & the World',
+            'Image Based Practice': null, // handled specially below
+            'Diagnostic': null, // skip diagnostic
+          };
+
+          // Load quiz part files
+          const quizPartFiles = [
+            path.join(__dirname, '..', 'public', 'quizzes', 'social-studies.quizzes.part1.json'),
+            path.join(__dirname, '..', 'public', 'quizzes', 'social-studies.quizzes.part2.json'),
+            path.join(__dirname, 'quizzes', 'social-studies.quizzes.json'),
+          ];
+
+          for (const filePath of quizPartFiles) {
+            try {
+              if (fs.existsSync(filePath)) {
+                const fileData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+                extractFromQuizFile(fileData, categoryMapping);
+
+                // Special handling for Image Based Practice - distribute to categories by topic name
+                if (fileData.categories && fileData.categories['Image Based Practice']) {
+                  const imgCat = fileData.categories['Image Based Practice'];
+                  if (imgCat.topics && Array.isArray(imgCat.topics)) {
+                    for (const topic of imgCat.topics) {
+                      const tid = (topic.id || '').toLowerCase();
+                      let targetCat = 'U.S. History'; // default
+                      if (tid.includes('economic') || tid.includes('financial') || tid.includes('income')) {
+                        targetCat = 'Economics';
+                      } else if (tid.includes('civics') || tid.includes('government') || tid.includes('election') || tid.includes('political_map')) {
+                        targetCat = 'Civics & Government';
+                      } else if (tid.includes('geography') || tid.includes('world_map') || tid.includes('demographics')) {
+                        targetCat = 'Geography & the World';
+                      }
+                      if (topic.quizzes && Array.isArray(topic.quizzes)) {
+                        for (const quiz of topic.quizzes) {
+                          if (quiz.questions && Array.isArray(quiz.questions)) {
+                            for (const q of quiz.questions) {
+                              if (q.answerOptions && q.answerOptions.length >= 2) {
+                                categoryBuckets[targetCat].push(normalizeQuestion(q, targetCat));
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            } catch (loadErr) {
+              console.warn(`[SS Fallback] Could not load ${filePath}:`, loadErr.message);
+            }
           }
 
-          console.log(
-            `[SS Fallback] Found ${allQuestions.length} premade questions`
-          );
+          // Also pull from ALL_QUIZZES premade bank
+          if (ALL_QUIZZES && ALL_QUIZZES['Social Studies']) {
+            extractFromQuizFile(ALL_QUIZZES['Social Studies'], categoryMapping);
+          }
 
-          // Shuffle and take 35
-          const shuffled = shuffleQuestionsPreservingStimulus(allQuestions);
-          const selected = shuffled.slice(0, 35);
+          // Log counts per category
+          for (const [cat, qs] of Object.entries(categoryBuckets)) {
+            console.log(`[SS Fallback] ${cat}: ${qs.length} questions`);
+          }
+
+          // Category-aware sampling: 50% Civics, 20% History, 15% Economics, 15% Geography
+          const targetCounts = {
+            'Civics & Government': Math.round(35 * 0.50),  // 18
+            'U.S. History': Math.round(35 * 0.20),          // 7
+            'Economics': Math.round(35 * 0.15),              // 5
+            'Geography & the World': Math.round(35 * 0.15), // 5
+          };
+
+          const selected = [];
+          for (const [cat, target] of Object.entries(targetCounts)) {
+            const bucket = categoryBuckets[cat] || [];
+            // Shuffle bucket
+            for (let i = bucket.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [bucket[i], bucket[j]] = [bucket[j], bucket[i]];
+            }
+            selected.push(...bucket.slice(0, target));
+          }
+
+          // If we didn't reach 35, fill from any remaining questions
+          if (selected.length < 35) {
+            const usedIds = new Set(selected.map(q => q.questionText));
+            const remaining = Object.values(categoryBuckets)
+              .flat()
+              .filter(q => !usedIds.has(q.questionText));
+            for (let i = remaining.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [remaining[i], remaining[j]] = [remaining[j], remaining[i]];
+            }
+            selected.push(...remaining.slice(0, 35 - selected.length));
+          }
+
+          // Final shuffle
+          for (let i = selected.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [selected[i], selected[j]] = [selected[j], selected[i]];
+          }
 
           // Number them
           selected.forEach((q, idx) => {
