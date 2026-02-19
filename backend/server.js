@@ -868,7 +868,9 @@ async function persistEssayToBank(
         originQuizId,
       ]
     );
-    console.log(`[ai_essay_bank] persisted essay (fingerprint: ${fingerprint.slice(0, 8)}...)`);
+    console.log(
+      `[ai_essay_bank] persisted essay (fingerprint: ${fingerprint.slice(0, 8)}...)`
+    );
   } catch (err) {
     console.warn('[ai_essay_bank] failed to insert essay:', err.message);
   }
@@ -3255,7 +3257,7 @@ const SMITH_A_SKILL_ENTRIES = {
     'Ecology & Environment':
       'Ecosystems, food webs, energy flow, biodiversity, human impact, and conservation.',
     'Physical Science: Motion, Force, & Energy':
-      'Newton\'s laws, speed/velocity/acceleration, work, power, energy transformations, and waves.',
+      "Newton's laws, speed/velocity/acceleration, work, power, energy transformations, and waves.",
     'Chemistry Basics':
       'Atoms, elements, periodic table, chemical reactions, balancing equations, states of matter.',
     'Earth & Space Science':
@@ -3277,7 +3279,7 @@ const SMITH_A_SKILL_ENTRIES = {
   },
   [RLA_SUBJECT_LABEL]: {
     'Reading Informational Texts':
-      'Main idea, supporting details, author\'s purpose, text structure, and evaluating arguments in nonfiction.',
+      "Main idea, supporting details, author's purpose, text structure, and evaluating arguments in nonfiction.",
     'Reading Literature':
       'Theme, character analysis, plot, setting, point of view, and literary devices in fiction and poetry.',
     'Grammar & Usage':
@@ -9387,7 +9389,10 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
           quizPayload: response,
         });
       } catch (persistErr) {
-        console.warn('[/api/topic-based] persistence failed:', persistErr.message);
+        console.warn(
+          '[/api/topic-based] persistence failed:',
+          persistErr.message
+        );
       }
     }
 
@@ -11489,14 +11494,45 @@ Return only the JSON array of the 25 question objects. For passages using inline
 }
 
 async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
+  // Preserve original stimulus assignments (passage, images) before sending to AI
+  // The AI review step should only fix text/answer quality, not reassign stimuli
+  const originalStimuli = {};
+  if (draftQuiz.questions && Array.isArray(draftQuiz.questions)) {
+    draftQuiz.questions.forEach((q, idx) => {
+      originalStimuli[idx] = {
+        passage: q.passage || null,
+        stimulusImage: q.stimulusImage || null,
+        imageUrl: q.imageUrl || null,
+        itemType: q.itemType || null,
+        groupId: q.groupId || null,
+        stimulusId: q.stimulusId || null,
+        category: q.category || null,
+      };
+    });
+  }
+
+  // Strip stimulus data from the payload sent to AI to prevent cross-contamination
+  const sanitizedQuiz = JSON.parse(JSON.stringify(draftQuiz));
+  if (sanitizedQuiz.questions) {
+    sanitizedQuiz.questions.forEach((q) => {
+      delete q.stimulusImage;
+      delete q.imageUrl;
+      delete q.itemType;
+      delete q.groupId;
+      delete q.stimulusId;
+      // Keep passage so AI can verify question-passage alignment
+    });
+  }
+
   const prompt = `You are a meticulous GED exam editor. Review the provided JSON for a ${
-    draftQuiz.questions.length
-  }-question ${draftQuiz.subject} exam.
+    sanitizedQuiz.questions.length
+  }-question ${sanitizedQuiz.subject} exam.
 
 CRITICAL RULES (DO NOT IGNORE):
 1. MAINTAIN JSON STRUCTURE: The final output MUST be a single valid JSON object with the SAME top-level shape and field names as the input. Do NOT wrap it in backticks or code fences. Do NOT add commentary.
 2. SAFE TEXT ONLY: All string fields must be plain text or very simple HTML. Do NOT include inline CSS (no style="..."), no width/height attributes, no class attributes.
-3. TABLES: If a question or passage contains a table, output it ONLY in one of these two safe formats:
+3. DO NOT ADD OR REMOVE QUESTIONS: Return EXACTLY ${sanitizedQuiz.questions.length} questions — same count as the input.
+4. TABLES: If a question or passage contains a table, output it ONLY in one of these two safe formats:
 
      A. Simple HTML:
      <table>
@@ -11519,15 +11555,43 @@ CRITICAL RULES (DO NOT IGNORE):
      - Every row must have the same number of cells as the header.
      - Do NOT add decorative pipes.
 
-4. NO EXTRA MARKUP: Do NOT add \`\`\` or \`\`\`json, markdown fences, or comments.
-5. KEEP PASSAGES SIMPLE: Passages should be plain text paragraphs or the simple table above.
+5. NO EXTRA MARKUP: Do NOT add \`\`\` or \`\`\`json, markdown fences, or comments.
+6. KEEP PASSAGES SIMPLE: Passages should be plain text paragraphs or the simple table above.
+7. DO NOT invent or add imageUrl, stimulusImage, or any image fields. Images are managed separately.
 
 Here is the draft quiz JSON:
 ---
-${JSON.stringify(draftQuiz, null, 2)}
+${JSON.stringify(sanitizedQuiz, null, 2)}
 ---
 Return ONLY the corrected quiz JSON object.`;
   const correctedQuiz = await callAI(prompt, quizSchema, options);
+
+  // Restore original stimulus assignments after AI review
+  if (
+    correctedQuiz &&
+    correctedQuiz.questions &&
+    Array.isArray(correctedQuiz.questions)
+  ) {
+    correctedQuiz.questions.forEach((q, idx) => {
+      const orig = originalStimuli[idx];
+      if (orig) {
+        // Restore stimulus data that the AI should not have touched
+        if (orig.stimulusImage) q.stimulusImage = orig.stimulusImage;
+        if (orig.imageUrl) q.imageUrl = orig.imageUrl;
+        if (orig.itemType) q.itemType = orig.itemType;
+        if (orig.groupId) q.groupId = orig.groupId;
+        if (orig.stimulusId) q.stimulusId = orig.stimulusId;
+        if (orig.category) q.category = orig.category;
+        // If the AI added imageUrl/stimulusImage to a non-image question, strip them
+        if (!orig.stimulusImage && !orig.imageUrl) {
+          delete q.stimulusImage;
+          delete q.imageUrl;
+          delete q.imageURL;
+        }
+      }
+    });
+  }
+
   return correctedQuiz;
 }
 
@@ -11727,7 +11791,10 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
           quizPayload: response,
         });
       } catch (persistErr) {
-        console.warn('[/api/generate/topic] persistence failed:', persistErr.message);
+        console.warn(
+          '[/api/generate/topic] persistence failed:',
+          persistErr.message
+        );
       }
     }
 
@@ -12012,25 +12079,35 @@ app.post('/generate-quiz', async (req, res) => {
                     `[SS] Passage generation failed for ${category} (attempt ${attempt + 1}):`,
                     error.message
                   );
-                  if (attempt === 0) console.log('[SS] Retrying passage generation...');
+                  if (attempt === 0)
+                    console.log('[SS] Retrying passage generation...');
                 }
               }
             } else {
-              console.warn(`[SS] No unused passage found for ${category}, generating standalone instead`);
+              console.warn(
+                `[SS] No unused passage found for ${category}, generating standalone instead`
+              );
               // Generate a standalone question as substitute
               try {
                 const q = await generateSocialStudiesStandaloneQuestion({
                   category,
                   subject: 'Social Studies',
                   aiOptions,
-                  allowNumeracy: category === 'Economics' || category === 'Civics & Government',
+                  allowNumeracy:
+                    category === 'Economics' ||
+                    category === 'Civics & Government',
                 });
                 if (q) {
                   allQuestions.push(q);
-                  console.log(`[SS] Added substitute standalone question for ${category}`);
+                  console.log(
+                    `[SS] Added substitute standalone question for ${category}`
+                  );
                 }
               } catch (err) {
-                console.error(`[SS] Substitute standalone failed for ${category}:`, err.message);
+                console.error(
+                  `[SS] Substitute standalone failed for ${category}:`,
+                  err.message
+                );
               }
             }
           }
@@ -12061,7 +12138,8 @@ app.post('/generate-quiz', async (req, res) => {
                     `[SS] Image generation failed for ${category} (attempt ${attempt + 1}):`,
                     error.message
                   );
-                  if (attempt === 0) console.log('[SS] Retrying image generation...');
+                  if (attempt === 0)
+                    console.log('[SS] Retrying image generation...');
                 }
               }
             } else {
@@ -12074,7 +12152,8 @@ app.post('/generate-quiz', async (req, res) => {
             for (let attempt = 0; attempt < 2; attempt++) {
               try {
                 const allowNumeracy =
-                  category === 'Economics' || category === 'Civics & Government';
+                  category === 'Economics' ||
+                  category === 'Civics & Government';
                 const q = await generateSocialStudiesStandaloneQuestion({
                   category,
                   subject: 'Social Studies',
@@ -12091,7 +12170,8 @@ app.post('/generate-quiz', async (req, res) => {
                   `[SS] Standalone generation failed for ${category} (attempt ${attempt + 1}):`,
                   error.message
                 );
-                if (attempt === 0) console.log('[SS] Retrying standalone generation...');
+                if (attempt === 0)
+                  console.log('[SS] Retrying standalone generation...');
               }
             }
           }
@@ -12102,7 +12182,9 @@ app.post('/generate-quiz', async (req, res) => {
         // Top-up: if we have fewer than TOTAL_QUESTIONS, generate more standalone questions
         if (allQuestions.length < TOTAL_QUESTIONS) {
           const deficit = TOTAL_QUESTIONS - allQuestions.length;
-          console.log(`[SS] Deficit of ${deficit} questions, generating standalone top-ups...`);
+          console.log(
+            `[SS] Deficit of ${deficit} questions, generating standalone top-ups...`
+          );
           const topUpCategories = [...SS_CATEGORIES, ...SS_CATEGORIES]; // cycle categories
           for (let i = 0; i < deficit && i < topUpCategories.length; i++) {
             const cat = topUpCategories[i % SS_CATEGORIES.length];
@@ -12111,17 +12193,23 @@ app.post('/generate-quiz', async (req, res) => {
                 category: cat,
                 subject: 'Social Studies',
                 aiOptions,
-                allowNumeracy: cat === 'Economics' || cat === 'Civics & Government',
+                allowNumeracy:
+                  cat === 'Economics' || cat === 'Civics & Government',
               });
               if (q) {
                 allQuestions.push(q);
                 console.log(`[SS] Top-up standalone added for ${cat}`);
               }
             } catch (err) {
-              console.error(`[SS] Top-up standalone failed for ${cat}:`, err.message);
+              console.error(
+                `[SS] Top-up standalone failed for ${cat}:`,
+                err.message
+              );
             }
           }
-          console.log(`[SS] After top-up: ${allQuestions.length} total questions`);
+          console.log(
+            `[SS] After top-up: ${allQuestions.length} total questions`
+          );
         }
 
         // Apply QA and enforcement
@@ -12158,7 +12246,28 @@ app.post('/generate-quiz', async (req, res) => {
         };
 
         console.log('[SS] Sending for review and correction pass...');
-        const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
+        let finalQuiz;
+        try {
+          finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
+          // Safety: if AI review dropped questions, fall back to the draft
+          const reviewedCount =
+            finalQuiz && finalQuiz.questions ? finalQuiz.questions.length : 0;
+          const draftCount = draftQuiz.questions.length;
+          if (reviewedCount < draftCount * 0.8) {
+            console.warn(
+              `[SS] Review step returned ${reviewedCount} questions (draft had ${draftCount}), using draft instead`
+            );
+            finalQuiz = draftQuiz;
+          } else {
+            console.log(`[SS] Review complete: ${reviewedCount} questions`);
+          }
+        } catch (reviewError) {
+          console.error(
+            '[SS] Review step failed, using draft:',
+            reviewError.message
+          );
+          finalQuiz = draftQuiz;
+        }
 
         // Persist to AI question bank
         if (AI_QUESTION_BANK_ENABLED) {
@@ -12194,7 +12303,7 @@ app.post('/generate-quiz', async (req, res) => {
           const categoryBuckets = {
             'Civics & Government': [],
             'U.S. History': [],
-            'Economics': [],
+            Economics: [],
             'Geography & the World': [],
           };
 
@@ -12202,9 +12311,16 @@ app.post('/generate-quiz', async (req, res) => {
           const normalizeQuestion = (q, category) => {
             const normalized = {
               questionNumber: q.questionNumber || 0,
-              type: q.type === 'multipleChoice' ? 'multiple-choice-text' : (q.type || 'multiple-choice-text'),
-              questionText: q.questionText || q.question || (q.content && q.content.questionText) || '',
-              answerOptions: (q.answerOptions || []).map(opt => ({
+              type:
+                q.type === 'multipleChoice'
+                  ? 'multiple-choice-text'
+                  : q.type || 'multiple-choice-text',
+              questionText:
+                q.questionText ||
+                q.question ||
+                (q.content && q.content.questionText) ||
+                '',
+              answerOptions: (q.answerOptions || []).map((opt) => ({
                 text: opt.text || '',
                 isCorrect: !!opt.isCorrect,
                 rationale: opt.rationale || '',
@@ -12215,12 +12331,15 @@ app.post('/generate-quiz', async (req, res) => {
             };
             // Preserve passage
             if (q.passage) normalized.passage = q.passage;
-            if (q.content && q.content.passage && !normalized.passage) normalized.passage = q.content.passage;
+            if (q.content && q.content.passage && !normalized.passage)
+              normalized.passage = q.content.passage;
             // Preserve image
             if (q.imageUrl || q.imageURL) {
               normalized.stimulusImage = {
                 src: q.imageUrl || q.imageURL || '',
-                alt: (q.content && q.content.questionText) || 'Visual for question',
+                alt:
+                  (q.content && q.content.questionText) ||
+                  'Visual for question',
               };
               normalized.itemType = 'image';
             } else if (normalized.passage) {
@@ -12234,7 +12353,9 @@ app.post('/generate-quiz', async (req, res) => {
           // Helper to extract questions from a quiz-file category structure
           const extractFromQuizFile = (fileData, categoryMapping) => {
             if (!fileData || !fileData.categories) return;
-            for (const [catName, catData] of Object.entries(fileData.categories)) {
+            for (const [catName, catData] of Object.entries(
+              fileData.categories
+            )) {
               const targetCategory = categoryMapping[catName] || catName;
               if (!categoryBuckets[targetCategory]) continue; // skip unknown categories
               if (catData.topics && Array.isArray(catData.topics)) {
@@ -12245,7 +12366,9 @@ app.post('/generate-quiz', async (req, res) => {
                       if (quiz.questions && Array.isArray(quiz.questions)) {
                         for (const q of quiz.questions) {
                           if (q.answerOptions && q.answerOptions.length >= 2) {
-                            categoryBuckets[targetCategory].push(normalizeQuestion(q, targetCategory));
+                            categoryBuckets[targetCategory].push(
+                              normalizeQuestion(q, targetCategory)
+                            );
                           }
                         }
                       }
@@ -12255,7 +12378,9 @@ app.post('/generate-quiz', async (req, res) => {
                   if (topic.questions && Array.isArray(topic.questions)) {
                     for (const q of topic.questions) {
                       if (q.answerOptions && q.answerOptions.length >= 2) {
-                        categoryBuckets[targetCategory].push(normalizeQuestion(q, targetCategory));
+                        categoryBuckets[targetCategory].push(
+                          normalizeQuestion(q, targetCategory)
+                        );
                       }
                     }
                   }
@@ -12268,17 +12393,29 @@ app.post('/generate-quiz', async (req, res) => {
           const categoryMapping = {
             'Civics & Government': 'Civics & Government',
             'U.S. History': 'U.S. History',
-            'Economics': 'Economics',
+            Economics: 'Economics',
             'Geography & the World': 'Geography & the World',
             'Geography and the World': 'Geography & the World',
             'Image Based Practice': null, // handled specially below
-            'Diagnostic': null, // skip diagnostic
+            Diagnostic: null, // skip diagnostic
           };
 
           // Load quiz part files
           const quizPartFiles = [
-            path.join(__dirname, '..', 'public', 'quizzes', 'social-studies.quizzes.part1.json'),
-            path.join(__dirname, '..', 'public', 'quizzes', 'social-studies.quizzes.part2.json'),
+            path.join(
+              __dirname,
+              '..',
+              'public',
+              'quizzes',
+              'social-studies.quizzes.part1.json'
+            ),
+            path.join(
+              __dirname,
+              '..',
+              'public',
+              'quizzes',
+              'social-studies.quizzes.part2.json'
+            ),
             path.join(__dirname, 'quizzes', 'social-studies.quizzes.json'),
           ];
 
@@ -12289,25 +12426,46 @@ app.post('/generate-quiz', async (req, res) => {
                 extractFromQuizFile(fileData, categoryMapping);
 
                 // Special handling for Image Based Practice - distribute to categories by topic name
-                if (fileData.categories && fileData.categories['Image Based Practice']) {
+                if (
+                  fileData.categories &&
+                  fileData.categories['Image Based Practice']
+                ) {
                   const imgCat = fileData.categories['Image Based Practice'];
                   if (imgCat.topics && Array.isArray(imgCat.topics)) {
                     for (const topic of imgCat.topics) {
                       const tid = (topic.id || '').toLowerCase();
                       let targetCat = 'U.S. History'; // default
-                      if (tid.includes('economic') || tid.includes('financial') || tid.includes('income')) {
+                      if (
+                        tid.includes('economic') ||
+                        tid.includes('financial') ||
+                        tid.includes('income')
+                      ) {
                         targetCat = 'Economics';
-                      } else if (tid.includes('civics') || tid.includes('government') || tid.includes('election') || tid.includes('political_map')) {
+                      } else if (
+                        tid.includes('civics') ||
+                        tid.includes('government') ||
+                        tid.includes('election') ||
+                        tid.includes('political_map')
+                      ) {
                         targetCat = 'Civics & Government';
-                      } else if (tid.includes('geography') || tid.includes('world_map') || tid.includes('demographics')) {
+                      } else if (
+                        tid.includes('geography') ||
+                        tid.includes('world_map') ||
+                        tid.includes('demographics')
+                      ) {
                         targetCat = 'Geography & the World';
                       }
                       if (topic.quizzes && Array.isArray(topic.quizzes)) {
                         for (const quiz of topic.quizzes) {
                           if (quiz.questions && Array.isArray(quiz.questions)) {
                             for (const q of quiz.questions) {
-                              if (q.answerOptions && q.answerOptions.length >= 2) {
-                                categoryBuckets[targetCat].push(normalizeQuestion(q, targetCat));
+                              if (
+                                q.answerOptions &&
+                                q.answerOptions.length >= 2
+                              ) {
+                                categoryBuckets[targetCat].push(
+                                  normalizeQuestion(q, targetCat)
+                                );
                               }
                             }
                           }
@@ -12318,7 +12476,10 @@ app.post('/generate-quiz', async (req, res) => {
                 }
               }
             } catch (loadErr) {
-              console.warn(`[SS Fallback] Could not load ${filePath}:`, loadErr.message);
+              console.warn(
+                `[SS Fallback] Could not load ${filePath}:`,
+                loadErr.message
+              );
             }
           }
 
@@ -12334,9 +12495,9 @@ app.post('/generate-quiz', async (req, res) => {
 
           // Category-aware sampling: 50% Civics, 20% History, 15% Economics, 15% Geography
           const targetCounts = {
-            'Civics & Government': Math.round(35 * 0.50),  // 18
-            'U.S. History': Math.round(35 * 0.20),          // 7
-            'Economics': Math.round(35 * 0.15),              // 5
+            'Civics & Government': Math.round(35 * 0.5), // 18
+            'U.S. History': Math.round(35 * 0.2), // 7
+            Economics: Math.round(35 * 0.15), // 5
             'Geography & the World': Math.round(35 * 0.15), // 5
           };
 
@@ -12353,10 +12514,10 @@ app.post('/generate-quiz', async (req, res) => {
 
           // If we didn't reach 35, fill from any remaining questions
           if (selected.length < 35) {
-            const usedIds = new Set(selected.map(q => q.questionText));
+            const usedIds = new Set(selected.map((q) => q.questionText));
             const remaining = Object.values(categoryBuckets)
               .flat()
-              .filter(q => !usedIds.has(q.questionText));
+              .filter((q) => !usedIds.has(q.questionText));
             for (let i = remaining.length - 1; i > 0; i--) {
               const j = Math.floor(Math.random() * (i + 1));
               [remaining[i], remaining[j]] = [remaining[j], remaining[i]];
@@ -12674,7 +12835,9 @@ app.post('/generate-quiz', async (req, res) => {
           if (ALL_QUIZZES && ALL_QUIZZES['Science']) {
             const sciData = ALL_QUIZZES['Science'];
             if (sciData.categories) {
-              for (const [catName, catData] of Object.entries(sciData.categories)) {
+              for (const [catName, catData] of Object.entries(
+                sciData.categories
+              )) {
                 if (catData.topics && Array.isArray(catData.topics)) {
                   for (const topic of catData.topics) {
                     if (topic.questions && Array.isArray(topic.questions)) {
@@ -12692,7 +12855,9 @@ app.post('/generate-quiz', async (req, res) => {
             }
           }
 
-          console.log(`[Science Fallback] Found ${allQuestions.length} premade questions`);
+          console.log(
+            `[Science Fallback] Found ${allQuestions.length} premade questions`
+          );
 
           const shuffled = shuffleQuestionsPreservingStimulus(allQuestions);
           const selected = shuffled.slice(0, 38);
@@ -12712,7 +12877,11 @@ app.post('/generate-quiz', async (req, res) => {
           };
 
           logGenerationDuration(examType, subject, generationStart, 'fallback');
-          console.log('[Science] Returning fallback quiz with', selected.length, 'questions');
+          console.log(
+            '[Science] Returning fallback quiz with',
+            selected.length,
+            'questions'
+          );
           return res.json(fallbackQuiz);
         } catch (fallbackError) {
           console.error('[Science] Fallback also failed:', fallbackError);
@@ -12875,22 +13044,38 @@ app.post('/generate-quiz', async (req, res) => {
         const MIN_OPTIONS = 3;
         const MAX_OPTIONS = 6;
         // Item types that don't require multiple-choice answer options
-        const NON_MC_TYPES = ['short_constructed_response', 'fill_in', 'numeric_entry',
-          'sentence_rewrite', 'drag_drop_ordering', 'placement', 'inline_dropdown'];
+        const NON_MC_TYPES = [
+          'short_constructed_response',
+          'fill_in',
+          'numeric_entry',
+          'sentence_rewrite',
+          'drag_drop_ordering',
+          'placement',
+          'inline_dropdown',
+        ];
 
         // 1. Part counts
         if (part1Final.length < PART1_MIN) {
-          rlaWarnings.push(`Part 1 has only ${part1Final.length} questions (minimum ${PART1_MIN}).`);
+          rlaWarnings.push(
+            `Part 1 has only ${part1Final.length} questions (minimum ${PART1_MIN}).`
+          );
         }
         if (part3Final.length < PART3_MIN) {
-          rlaWarnings.push(`Part 3 has only ${part3Final.length} questions (minimum ${PART3_MIN}).`);
+          rlaWarnings.push(
+            `Part 3 has only ${part3Final.length} questions (minimum ${PART3_MIN}).`
+          );
         }
 
         // 2. Essay validation
         if (!part2Essay || !part2Essay.prompt) {
           rlaWarnings.push('Part 2 essay is missing or has no prompt.');
-        } else if (!Array.isArray(part2Essay.passages) || part2Essay.passages.length < 2) {
-          rlaWarnings.push(`Part 2 essay has ${part2Essay.passages?.length || 0} passages (expected 2).`);
+        } else if (
+          !Array.isArray(part2Essay.passages) ||
+          part2Essay.passages.length < 2
+        ) {
+          rlaWarnings.push(
+            `Part 2 essay has ${part2Essay.passages?.length || 0} passages (expected 2).`
+          );
         }
 
         // 3. Per-question validation
@@ -12904,21 +13089,31 @@ app.post('/generate-quiz', async (req, res) => {
 
             const opts = Array.isArray(q.answerOptions) ? q.answerOptions : [];
             if (opts.length < MIN_OPTIONS) {
-              rlaWarnings.push(`${partLabel} Q${qNum}: only ${opts.length} answer options (need ≥${MIN_OPTIONS}).`);
+              rlaWarnings.push(
+                `${partLabel} Q${qNum}: only ${opts.length} answer options (need ≥${MIN_OPTIONS}).`
+              );
             } else if (opts.length > MAX_OPTIONS) {
-              rlaWarnings.push(`${partLabel} Q${qNum}: ${opts.length} answer options (max ${MAX_OPTIONS}).`);
+              rlaWarnings.push(
+                `${partLabel} Q${qNum}: ${opts.length} answer options (max ${MAX_OPTIONS}).`
+              );
             }
 
             // Check every option has text
-            const emptyOpts = opts.filter((o) => !o?.text || !String(o.text).trim());
+            const emptyOpts = opts.filter(
+              (o) => !o?.text || !String(o.text).trim()
+            );
             if (emptyOpts.length > 0) {
-              rlaWarnings.push(`${partLabel} Q${qNum}: ${emptyOpts.length} option(s) missing text.`);
+              rlaWarnings.push(
+                `${partLabel} Q${qNum}: ${emptyOpts.length} option(s) missing text.`
+              );
             }
 
             // Check at least one correct answer
             const hasCorrect = opts.some((o) => o?.isCorrect === true);
             if (!hasCorrect) {
-              rlaWarnings.push(`${partLabel} Q${qNum}: no correct answer marked.`);
+              rlaWarnings.push(
+                `${partLabel} Q${qNum}: no correct answer marked.`
+              );
             }
 
             // Check question has text
@@ -13400,10 +13595,15 @@ app.post('/generate-quiz', async (req, res) => {
           if (ALL_QUIZZES && ALL_QUIZZES['Math']) {
             const mathData = ALL_QUIZZES['Math'];
             if (mathData.categories) {
-              for (const [catName, catData] of Object.entries(mathData.categories)) {
+              for (const [catName, catData] of Object.entries(
+                mathData.categories
+              )) {
                 if (catData.topics && Array.isArray(catData.topics)) {
                   for (const topicEntry of catData.topics) {
-                    if (topicEntry.questions && Array.isArray(topicEntry.questions)) {
+                    if (
+                      topicEntry.questions &&
+                      Array.isArray(topicEntry.questions)
+                    ) {
                       allQuestions.push(
                         ...topicEntry.questions.map((q) => ({
                           ...q,
@@ -13418,14 +13618,20 @@ app.post('/generate-quiz', async (req, res) => {
             }
           }
 
-          console.log(`[Math Fallback] Found ${allQuestions.length} premade questions`);
+          console.log(
+            `[Math Fallback] Found ${allQuestions.length} premade questions`
+          );
 
           const shuffled = shuffleQuestionsPreservingStimulus(allQuestions);
           const selected = shuffled.slice(0, 46);
 
           // Split into Part 1 (non-calculator: first 5) and Part 2 (calculator: rest)
-          const part1 = selected.slice(0, 5).map((q) => ({ ...q, calculator: false }));
-          const part2 = selected.slice(5).map((q) => ({ ...q, calculator: true }));
+          const part1 = selected
+            .slice(0, 5)
+            .map((q) => ({ ...q, calculator: false }));
+          const part2 = selected
+            .slice(5)
+            .map((q) => ({ ...q, calculator: true }));
 
           selected.forEach((q, idx) => {
             q.questionNumber = idx + 1;
@@ -13446,7 +13652,11 @@ app.post('/generate-quiz', async (req, res) => {
           };
 
           logGenerationDuration(examType, subject, generationStart, 'fallback');
-          console.log('[Math] Returning fallback quiz with', selected.length, 'questions');
+          console.log(
+            '[Math] Returning fallback quiz with',
+            selected.length,
+            'questions'
+          );
           return res.json(fallbackQuiz);
         } catch (fallbackError) {
           console.error('[Math] Fallback also failed:', fallbackError);
