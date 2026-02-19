@@ -2672,8 +2672,22 @@ function repairLatexCorruption(value) {
 function decodeHtmlEntities(value) {
   if (typeof value !== 'string') return '';
   if (!ENTITY_DECODER) return value;
-  ENTITY_DECODER.innerHTML = value;
-  return ENTITY_DECODER.value;
+
+  // Protect HTML tags from being parsed/stripped by the textarea approach.
+  // The textarea.innerHTML trick decodes entities but also strips real HTML tags,
+  // which breaks <p>, <br>, <table>, etc. that are intentionally in the content.
+  const tagPlaceholders = [];
+  const protectedValue = value.replace(/<[^>]+>/g, (match) => {
+    tagPlaceholders.push(match);
+    return `\x00TAG${tagPlaceholders.length - 1}\x00`;
+  });
+
+  ENTITY_DECODER.innerHTML = protectedValue;
+  let decoded = ENTITY_DECODER.value;
+
+  // Restore the protected HTML tags
+  decoded = decoded.replace(/\x00TAG(\d+)\x00/g, (_, idx) => tagPlaceholders[parseInt(idx, 10)]);
+  return decoded;
 }
 
 function neutralizeUnpairedDollarSigns(text) {

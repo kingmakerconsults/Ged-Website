@@ -785,14 +785,21 @@ async function persistQuestionsToBank(
     try {
       const fingerprint = buildQuestionFingerprint(q);
 
+      // extract searchable metadata from the question
+      const difficulty = q.difficulty || null;
+      const itemType = q.itemType || q.item_type || null;
+      const skill = q.skill || null;
+      const hasStimulus = !!(q.passage || q.stimulusImage?.src);
+
       // attempt insert; if fingerprint exists, just skip
       await db.none(
         `
                 INSERT INTO ai_question_bank (
                     fingerprint, subject, topic, source_model,
-                    generated_for_user_id, origin_quiz_id, question_json
+                    generated_for_user_id, origin_quiz_id, question_json,
+                    difficulty, item_type, skill, has_stimulus
                 )
-                VALUES ($1,$2,$3,$4,$5,$6,$7)
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
                 ON CONFLICT (fingerprint) DO NOTHING
                 `,
         [
@@ -802,7 +809,11 @@ async function persistQuestionsToBank(
           sourceModel,
           generatedForUserId,
           originQuizId,
-          q, // pg-promise will jsonb this
+          q,
+          difficulty,
+          itemType,
+          skill,
+          hasStimulus,
         ]
       );
 
@@ -815,6 +826,85 @@ async function persistQuestionsToBank(
         err.message
       );
     }
+  }
+}
+
+function buildEssayFingerprint(essayData) {
+  const passages = Array.isArray(essayData?.passages) ? essayData.passages : [];
+  const core = {
+    prompt: essayData?.prompt || '',
+    passage1: passages[0]?.content || '',
+    passage2: passages[1]?.content || '',
+  };
+  const json = JSON.stringify(core);
+  return crypto.createHash('sha1').update(json).digest('hex');
+}
+
+async function persistEssayToBank(
+  essayData,
+  {
+    subject = 'rla',
+    sourceModel = null,
+    generatedForUserId = null,
+    originQuizId = null,
+  } = {}
+) {
+  if (!essayData || !essayData.prompt) return;
+  try {
+    const fingerprint = buildEssayFingerprint(essayData);
+    await db.none(
+      `INSERT INTO ai_essay_bank (
+          fingerprint, subject, prompt, passages, source_model,
+          generated_for_user_id, origin_quiz_id
+       ) VALUES ($1,$2,$3,$4,$5,$6,$7)
+       ON CONFLICT (fingerprint) DO NOTHING`,
+      [
+        fingerprint,
+        subject,
+        essayData.prompt,
+        essayData.passages || null,
+        sourceModel,
+        generatedForUserId,
+        originQuizId,
+      ]
+    );
+    console.log(`[ai_essay_bank] persisted essay (fingerprint: ${fingerprint.slice(0, 8)}...)`);
+  } catch (err) {
+    console.warn('[ai_essay_bank] failed to insert essay:', err.message);
+  }
+}
+
+async function logQuizGeneration({
+  quizId,
+  subject,
+  quizType,
+  topic = null,
+  source = 'aiGenerated',
+  generatedForUserId = null,
+  questionCount = 0,
+  quizPayload = null,
+} = {}) {
+  try {
+    await db.none(
+      `INSERT INTO ai_quiz_log (
+          quiz_id, subject, quiz_type, topic, source,
+          generated_for_user_id, question_count, quiz_payload
+       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+       ON CONFLICT (quiz_id) DO NOTHING`,
+      [
+        quizId,
+        subject,
+        quizType,
+        topic,
+        source,
+        generatedForUserId,
+        questionCount,
+        quizPayload,
+      ]
+    );
+    console.log(`[ai_quiz_log] logged quiz ${quizId} (${quizType}/${subject})`);
+  } catch (err) {
+    console.warn('[ai_quiz_log] failed to log quiz:', err.message);
   }
 }
 
@@ -9052,6 +9142,16 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
             generatedForUserId: req.user?.id || null,
             originQuizId: quizId,
           });
+          logQuizGeneration({
+            quizId,
+            subject: 'Social Studies',
+            quizType: 'topic-based-ss',
+            topic,
+            source: 'aiGenerated',
+            generatedForUserId: req.user?.id || null,
+            questionCount: finalItems.length,
+            quizPayload: quizResult,
+          }).catch(() => {});
         }
 
         return res.json({ success: true, quiz: quizResult });
@@ -9208,6 +9308,32 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
       response.formulaSheetUrl =
         '/frontend/assets/formula-sheet/science-formulas.pdf';
     }
+
+    // Persist generated questions to bank
+    if (AI_QUESTION_BANK_ENABLED) {
+      try {
+        await persistQuestionsToBank(finalItems, {
+          subject,
+          topic,
+          sourceModel: winnerModel || 'aiGenerated',
+          generatedForUserId: req.user?.id || null,
+          originQuizId: null,
+        });
+        await logQuizGeneration({
+          quizId: `variety_${subject}_${Date.now()}`,
+          subject,
+          quizType: 'topic-based',
+          topic,
+          source: 'aiGenerated',
+          generatedForUserId: req.user?.id || null,
+          questionCount: finalItems.length,
+          quizPayload: response,
+        });
+      } catch (persistErr) {
+        console.warn('[/api/topic-based] persistence failed:', persistErr.message);
+      }
+    }
+
     res.json(response);
   } catch (err) {
     console.error('[Variety Pack] Generation failed:', err);
@@ -11197,6 +11323,18 @@ Return only the JSON array of the 25 question objects. For passages using inline
     // Strip any "Document Type: ..." label the AI may have included
     text = text.replace(/^Document Type:\s*[^\n]*\n*/i, '').trim();
 
+    // If the text already contains <p> or <br> tags, return as-is
+    if (/<(p|br)\b/i.test(text)) return text;
+
+    // Convert newlines to HTML tags for proper document formatting.
+    // Double newlines become paragraph breaks; single newlines become <br>.
+    // This preserves the structure of emails, memos, letters, etc.
+    text = text
+      .replace(/\r\n/g, '\n')
+      .replace(/\n\n+/g, '</p><p>')
+      .replace(/\n/g, '<br>');
+    text = '<p>' + text + '</p>';
+
     return text;
   };
 
@@ -11500,6 +11638,32 @@ app.post('/api/generate/topic', express.json(), async (req, res) => {
       response.formulaSheetUrl =
         '/frontend/assets/formula-sheet/science-formulas.pdf';
     }
+
+    // Persist generated questions to bank
+    if (AI_QUESTION_BANK_ENABLED) {
+      try {
+        await persistQuestionsToBank(items, {
+          subject,
+          topic,
+          sourceModel: winnerModel || 'aiGenerated',
+          generatedForUserId: req.user?.id || null,
+          originQuizId: null,
+        });
+        await logQuizGeneration({
+          quizId: `topic_gen_${subject}_${Date.now()}`,
+          subject,
+          quizType: 'topic',
+          topic,
+          source: 'aiGenerated',
+          generatedForUserId: req.user?.id || null,
+          questionCount: items.length,
+          quizPayload: response,
+        });
+      } catch (persistErr) {
+        console.warn('[/api/generate/topic] persistence failed:', persistErr.message);
+      }
+    }
+
     res.json(response);
   } catch (err) {
     console.error('topic generation failed', err);
@@ -11829,6 +11993,16 @@ app.post('/generate-quiz', async (req, res) => {
             generatedForUserId: req.user?.id || null,
             originQuizId: finalQuiz.id || null,
           });
+          logQuizGeneration({
+            quizId: finalQuiz.id,
+            subject,
+            quizType: 'comprehensive',
+            topic: null,
+            source: finalQuiz.source || 'aiGenerated',
+            generatedForUserId: req.user?.id || null,
+            questionCount: (finalQuiz.questions || []).length,
+            quizPayload: finalQuiz,
+          }).catch(() => {});
         }
 
         logGenerationDuration(examType, subject, generationStart);
@@ -12159,6 +12333,16 @@ app.post('/generate-quiz', async (req, res) => {
             generatedForUserId: req.user?.id || null,
             originQuizId: finalQuiz.id || null,
           });
+          logQuizGeneration({
+            quizId: finalQuiz.id,
+            subject,
+            quizType: 'comprehensive',
+            topic: null,
+            source: finalQuiz.source || 'aiGenerated',
+            generatedForUserId: req.user?.id || null,
+            questionCount: (finalQuiz.questions || []).length,
+            quizPayload: finalQuiz,
+          }).catch(() => {});
         }
 
         logGenerationDuration(examType, subject, generationStart);
@@ -12324,6 +12508,25 @@ app.post('/generate-quiz', async (req, res) => {
             generatedForUserId: req.user?.id || null,
             originQuizId: finalQuiz.id || null,
           });
+          // Persist essay to dedicated essay bank
+          if (part2Essay && part2Essay.prompt) {
+            persistEssayToBank(part2Essay, {
+              subject: 'rla',
+              sourceModel: finalQuiz.source || 'aiGenerated',
+              generatedForUserId: req.user?.id || null,
+              originQuizId: finalQuiz.id || null,
+            }).catch(() => {});
+          }
+          logQuizGeneration({
+            quizId: finalQuiz.id,
+            subject,
+            quizType: 'comprehensive',
+            topic: null,
+            source: finalQuiz.source || 'aiGenerated',
+            generatedForUserId: req.user?.id || null,
+            questionCount: (finalQuiz.questions || []).length,
+            quizPayload: finalQuiz,
+          }).catch(() => {});
         }
 
         logGenerationDuration(examType, subject, generationStart);
@@ -12730,6 +12933,16 @@ app.post('/generate-quiz', async (req, res) => {
             generatedForUserId: req.user?.id || null,
             originQuizId: finalQuiz.id || null,
           });
+          logQuizGeneration({
+            quizId: finalQuiz.id,
+            subject,
+            quizType: 'comprehensive',
+            topic: null,
+            source: finalQuiz.source || 'aiGenerated',
+            generatedForUserId: req.user?.id || null,
+            questionCount: (finalQuiz.questions || []).length,
+            quizPayload: finalQuiz,
+          }).catch(() => {});
         }
 
         logGenerationDuration(examType, subject, generationStart);
@@ -13019,6 +13232,16 @@ PASSAGE:\n${picked.text}\n`;
           generatedForUserId: req.user?.id || null,
           originQuizId: finalQuiz.id || null,
         });
+        logQuizGeneration({
+          quizId: finalQuiz.id,
+          subject,
+          quizType: 'topic',
+          topic,
+          source: finalQuiz.source || 'aiGenerated',
+          generatedForUserId: req.user?.id || null,
+          questionCount: (finalQuiz.questions || []).length,
+          quizPayload: finalQuiz,
+        }).catch(() => {});
       }
 
       console.log('Quiz generation and post-processing complete.');
