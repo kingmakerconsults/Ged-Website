@@ -12499,6 +12499,78 @@ app.post('/generate-quiz', async (req, res) => {
 
         // RLA does not need a second review pass due to its complex, multi-part nature
 
+        // ── RLA Comprehensive Validation ──────────────────────────────
+        const rlaWarnings = [];
+        const PART1_MIN = 15;
+        const PART3_MIN = 18;
+        const MIN_OPTIONS = 3;
+        const MAX_OPTIONS = 6;
+        // Item types that don't require multiple-choice answer options
+        const NON_MC_TYPES = ['short_constructed_response', 'fill_in', 'numeric_entry',
+          'sentence_rewrite', 'drag_drop_ordering', 'placement', 'inline_dropdown'];
+
+        // 1. Part counts
+        if (part1Final.length < PART1_MIN) {
+          rlaWarnings.push(`Part 1 has only ${part1Final.length} questions (minimum ${PART1_MIN}).`);
+        }
+        if (part3Final.length < PART3_MIN) {
+          rlaWarnings.push(`Part 3 has only ${part3Final.length} questions (minimum ${PART3_MIN}).`);
+        }
+
+        // 2. Essay validation
+        if (!part2Essay || !part2Essay.prompt) {
+          rlaWarnings.push('Part 2 essay is missing or has no prompt.');
+        } else if (!Array.isArray(part2Essay.passages) || part2Essay.passages.length < 2) {
+          rlaWarnings.push(`Part 2 essay has ${part2Essay.passages?.length || 0} passages (expected 2).`);
+        }
+
+        // 3. Per-question validation
+        const validateQuestions = (questions, partLabel) => {
+          questions.forEach((q, idx) => {
+            const qNum = q.questionNumber || idx + 1;
+            const itemType = (q.itemType || q.type || '').toLowerCase();
+            const isNonMC = NON_MC_TYPES.some((t) => itemType.includes(t));
+
+            if (isNonMC) return; // Skip option validation for non-MC types
+
+            const opts = Array.isArray(q.answerOptions) ? q.answerOptions : [];
+            if (opts.length < MIN_OPTIONS) {
+              rlaWarnings.push(`${partLabel} Q${qNum}: only ${opts.length} answer options (need ≥${MIN_OPTIONS}).`);
+            } else if (opts.length > MAX_OPTIONS) {
+              rlaWarnings.push(`${partLabel} Q${qNum}: ${opts.length} answer options (max ${MAX_OPTIONS}).`);
+            }
+
+            // Check every option has text
+            const emptyOpts = opts.filter((o) => !o?.text || !String(o.text).trim());
+            if (emptyOpts.length > 0) {
+              rlaWarnings.push(`${partLabel} Q${qNum}: ${emptyOpts.length} option(s) missing text.`);
+            }
+
+            // Check at least one correct answer
+            const hasCorrect = opts.some((o) => o?.isCorrect === true);
+            if (!hasCorrect) {
+              rlaWarnings.push(`${partLabel} Q${qNum}: no correct answer marked.`);
+            }
+
+            // Check question has text
+            if (!q.questionText && !q.question) {
+              rlaWarnings.push(`${partLabel} Q${qNum}: missing question text.`);
+            }
+          });
+        };
+
+        validateQuestions(part1Final, 'Part 1');
+        validateQuestions(part3Final, 'Part 3');
+
+        if (rlaWarnings.length > 0) {
+          console.warn(`[RLA Validation] ${rlaWarnings.length} warning(s):`);
+          rlaWarnings.forEach((w) => console.warn(`  ⚠ ${w}`));
+          finalQuiz.validationWarnings = rlaWarnings;
+        } else {
+          console.log('[RLA Validation] ✓ All checks passed.');
+        }
+        // ── End RLA Validation ────────────────────────────────────────
+
         // Persist to AI question bank (capture-only)
         if (AI_QUESTION_BANK_ENABLED) {
           await persistQuestionsToBank(finalQuiz.questions || [], {
