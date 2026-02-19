@@ -72,13 +72,6 @@ function writeJson(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data), 'utf8');
 }
 
-function promptLeadForSubject(subject) {
-  if (subject === 'RLA') return 'GED Reading Challenge:';
-  if (subject === 'Social Studies' || subject === 'Science')
-    return 'GED Evidence Challenge:';
-  return 'GED Challenge Scenario:';
-}
-
 function challengeTagFallback(subject) {
   if (subject === 'RLA') return 'rla-3';
   if (subject === 'Science') return 'science-3';
@@ -92,8 +85,7 @@ function upgradeQuestionPrompt(q, subject) {
   const compact = String(original).replace(/\s+/g, ' ').trim();
   if (!compact) return;
 
-  const lead = promptLeadForSubject(subject);
-  const upgraded = compact.startsWith(lead) ? compact : `${lead} ${compact}`;
+  const upgraded = compact;
 
   if (typeof q.question === 'string') {
     q.question = upgraded;

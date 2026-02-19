@@ -42259,6 +42259,7 @@ if (
         'Physical Science: Motion, Force, & Energy',
         'Chemistry Basics',
         'Earth & Space Science',
+        'Scientific Numeracy',
       ],
       math: [
         'Number Sense & Operations',

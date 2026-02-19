@@ -529,12 +529,23 @@ export function renderStemWithKatex(text) {
     : maybeFormatted;
 }
 
+export function stripLeadingScenarioPrefixForDisplay(text) {
+  if (typeof text !== 'string' || text.length === 0) {
+    return text;
+  }
+  return text.replace(
+    /^\s*(?:(?:[A-Za-z][\w'’.:-]*\s+){0,8}scenario\s*:\s*)/i,
+    ''
+  );
+}
+
 // Extracted: renderQuestionTextForDisplay
 export function renderQuestionTextForDisplay(
   text,
   isPremade,
   questionCtx = null
 ) {
+  const guardedText = stripLeadingScenarioPrefixForDisplay(text);
   const useKatex = Boolean(
     typeof window !== 'undefined' &&
       window.__APP_CONFIG__ &&
@@ -542,7 +553,7 @@ export function renderQuestionTextForDisplay(
       isPremade === true
   );
   if (useKatex) {
-    return { __html: renderStemWithKatex(text) };
+    return { __html: renderStemWithKatex(guardedText) };
   }
   const isMath =
     questionCtx && typeof questionCtx.subject === 'string'
@@ -550,7 +561,9 @@ export function renderQuestionTextForDisplay(
       : false;
   const isGenerated = !isPremade && !(questionCtx && questionCtx.isStatic);
   const prepped =
-    isMath && isGenerated ? upgradePlainMathForDisplay(text) : text;
+    isMath && isGenerated
+      ? upgradePlainMathForDisplay(guardedText)
+      : guardedText;
   const html = renderStem(prepped);
   const finalHtml = formatMathText(html);
   return { __html: finalHtml };
@@ -576,6 +589,7 @@ if (typeof window !== 'undefined') {
     extractMathSegments,
     renderStem,
     renderStemWithKatex,
+    stripLeadingScenarioPrefixForDisplay,
     renderQuestionTextForDisplay,
   });
 }

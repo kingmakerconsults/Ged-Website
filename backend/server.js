@@ -3232,30 +3232,60 @@ function normalizeSubjectParam(rawSubject) {
 
 const SMITH_A_SKILL_ENTRIES = {
   Math: {
-    'Quantitative Problem Solving':
-      'Fractions, decimals, percentages, ratios, and data analysis.',
+    'Number Sense & Operations':
+      'Whole numbers, integers, order of operations, absolute value, and number properties.',
+    'Fractions, Decimals, Percents':
+      'Converting between fractions, decimals, and percentages; operations with rational numbers.',
+    'Algebraic Expressions & Equations':
+      'Evaluating expressions, solving linear equations and inequalities, word-to-algebra translation.',
+    'Linear Functions':
+      'Slope, y-intercept, graphing lines, writing equations from tables or graphs, systems of equations.',
+    'Geometry & Measurement':
+      'Area, perimeter, volume, surface area, Pythagorean theorem, coordinate geometry, and transformations.',
+    'Data, Statistics, & Probability':
+      'Mean, median, mode, range, reading charts/graphs/tables, basic probability, and data interpretation.',
   },
   Science: {
-    'Life Science':
-      'Cell structure, genetics, ecosystems, and human body systems.',
-    'Physical Science':
-      'Matter, energy, motion, chemistry, and basic physics principles.',
+    'Scientific Method':
+      'Forming hypotheses, designing experiments, identifying variables, and drawing conclusions from data.',
+    'Life Science: Cells & Organisms':
+      'Cell structure, cell division, genetics, DNA, natural selection, and classification of organisms.',
+    'Human Body Systems':
+      'Digestive, circulatory, respiratory, nervous, and immune systems; homeostasis.',
+    'Ecology & Environment':
+      'Ecosystems, food webs, energy flow, biodiversity, human impact, and conservation.',
+    'Physical Science: Motion, Force, & Energy':
+      'Newton\'s laws, speed/velocity/acceleration, work, power, energy transformations, and waves.',
+    'Chemistry Basics':
+      'Atoms, elements, periodic table, chemical reactions, balancing equations, states of matter.',
     'Earth & Space Science':
-      'Earth systems, weather, geology, astronomy, and the solar system.',
+      'Earth systems, weather, geology, plate tectonics, astronomy, and the solar system.',
     'Scientific Numeracy':
       'Unit conversions, rate/density calculations, interpreting tables and lab data.',
   },
   'Social Studies': {
+    'Civics & Government':
+      'U.S. Constitution, Bill of Rights, branches of government, elections, citizenship rights and responsibilities.',
     'U.S. History':
-      'Foundations of the United States, government, civics, and historical analysis.',
+      'Colonial era, American Revolution, Civil War, Reconstruction, civil rights movement, and modern America.',
+    'Economics & Personal Finance':
+      'Supply and demand, market structures, GDP, fiscal/monetary policy, credit, budgeting, and trade.',
+    'Geography, Maps, & Graphs':
+      'Reading maps, interpreting geographic data, regions, migration, climate, and human-environment interaction.',
+    'Modern World Issues':
+      'Globalization, international organizations, human rights, environmental policy, and foreign relations.',
   },
   [RLA_SUBJECT_LABEL]: {
-    'Language & Grammar':
-      'Standard English conventions, grammar, punctuation, and usage.',
-    'Reading Comprehension: Informational Texts':
-      'Determine main ideas, evaluate arguments, interpret charts, and understand structure.',
-    'Poetry & Figurative Language':
-      'Interpret poetry for theme, tone, figurative language, and structure.',
+    'Reading Informational Texts':
+      'Main idea, supporting details, author\'s purpose, text structure, and evaluating arguments in nonfiction.',
+    'Reading Literature':
+      'Theme, character analysis, plot, setting, point of view, and literary devices in fiction and poetry.',
+    'Grammar & Usage':
+      'Standard English conventions, sentence structure, punctuation, subject-verb agreement, and usage.',
+    'Writing & Revising':
+      'Organization, transitions, word choice, sentence combining, and revising for clarity and coherence.',
+    'Arguments & Claims':
+      'Identifying claims, evaluating evidence, distinguishing fact from opinion, and analyzing rhetorical strategies.',
   },
 };
 
@@ -8995,21 +9025,48 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         if (
           topicLower.includes('history') ||
           topicLower.includes('civil war') ||
-          topicLower.includes('revolution')
+          topicLower.includes('revolution') ||
+          topicLower.includes('colonial') ||
+          topicLower.includes('reconstruction')
         ) {
           category = 'U.S. History';
         } else if (
           topicLower.includes('econom') ||
           topicLower.includes('trade') ||
-          topicLower.includes('market')
+          topicLower.includes('market') ||
+          topicLower.includes('finance') ||
+          topicLower.includes('budget') ||
+          topicLower.includes('supply') ||
+          topicLower.includes('demand') ||
+          topicLower.includes('gdp')
         ) {
           category = 'Economics';
         } else if (
           topicLower.includes('geograph') ||
           topicLower.includes('world') ||
-          topicLower.includes('region')
+          topicLower.includes('region') ||
+          topicLower.includes('map') ||
+          topicLower.includes('climate') ||
+          topicLower.includes('migration')
         ) {
           category = 'Geography & the World';
+        } else if (
+          topicLower.includes('modern') ||
+          topicLower.includes('global') ||
+          topicLower.includes('international') ||
+          topicLower.includes('human rights') ||
+          topicLower.includes('foreign')
+        ) {
+          category = 'Geography & the World';
+        } else if (
+          topicLower.includes('civic') ||
+          topicLower.includes('government') ||
+          topicLower.includes('constitution') ||
+          topicLower.includes('bill of rights') ||
+          topicLower.includes('election') ||
+          topicLower.includes('citizen')
+        ) {
+          category = 'Civics & Government';
         }
 
         console.log(
@@ -12349,6 +12406,59 @@ app.post('/generate-quiz', async (req, res) => {
         res.json(finalQuiz);
       } catch (error) {
         console.error('Error generating Science exam:', error);
+        console.log('[Science] Falling back to premade quiz assembly');
+
+        // FALLBACK: Pull from premade quiz bank
+        try {
+          const allQuestions = [];
+
+          if (ALL_QUIZZES && ALL_QUIZZES['Science']) {
+            const sciData = ALL_QUIZZES['Science'];
+            if (sciData.categories) {
+              for (const [catName, catData] of Object.entries(sciData.categories)) {
+                if (catData.topics && Array.isArray(catData.topics)) {
+                  for (const topic of catData.topics) {
+                    if (topic.questions && Array.isArray(topic.questions)) {
+                      allQuestions.push(
+                        ...topic.questions.map((q) => ({
+                          ...q,
+                          subject: 'Science',
+                          category: catName,
+                        }))
+                      );
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          console.log(`[Science Fallback] Found ${allQuestions.length} premade questions`);
+
+          const shuffled = shuffleQuestionsPreservingStimulus(allQuestions);
+          const selected = shuffled.slice(0, 38);
+
+          selected.forEach((q, idx) => {
+            q.questionNumber = idx + 1;
+            q.subject = 'Science';
+          });
+
+          const fallbackQuiz = {
+            id: `premade_comp_sci_${Date.now()}`,
+            title: 'Comprehensive Science Exam',
+            subject: 'Science',
+            source: 'premade',
+            config: { formulaSheet: true },
+            questions: selected,
+          };
+
+          logGenerationDuration(examType, subject, generationStart, 'fallback');
+          console.log('[Science] Returning fallback quiz with', selected.length, 'questions');
+          return res.json(fallbackQuiz);
+        } catch (fallbackError) {
+          console.error('[Science] Fallback also failed:', fallbackError);
+        }
+
         logGenerationDuration(examType, subject, generationStart, 'failed');
         res.status(500).json({ error: 'Failed to generate Science exam.' });
       }
@@ -13022,6 +13132,67 @@ app.post('/generate-quiz', async (req, res) => {
         res.json(finalQuiz);
       } catch (error) {
         console.error('Error generating comprehensive Math exam:', error);
+        console.log('[Math] Falling back to premade quiz assembly');
+
+        // FALLBACK: Pull from premade quiz bank
+        try {
+          const allQuestions = [];
+
+          if (ALL_QUIZZES && ALL_QUIZZES['Math']) {
+            const mathData = ALL_QUIZZES['Math'];
+            if (mathData.categories) {
+              for (const [catName, catData] of Object.entries(mathData.categories)) {
+                if (catData.topics && Array.isArray(catData.topics)) {
+                  for (const topicEntry of catData.topics) {
+                    if (topicEntry.questions && Array.isArray(topicEntry.questions)) {
+                      allQuestions.push(
+                        ...topicEntry.questions.map((q) => ({
+                          ...q,
+                          subject: 'Math',
+                          category: catName,
+                        }))
+                      );
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          console.log(`[Math Fallback] Found ${allQuestions.length} premade questions`);
+
+          const shuffled = shuffleQuestionsPreservingStimulus(allQuestions);
+          const selected = shuffled.slice(0, 46);
+
+          // Split into Part 1 (non-calculator: first 5) and Part 2 (calculator: rest)
+          const part1 = selected.slice(0, 5).map((q) => ({ ...q, calculator: false }));
+          const part2 = selected.slice(5).map((q) => ({ ...q, calculator: true }));
+
+          selected.forEach((q, idx) => {
+            q.questionNumber = idx + 1;
+            q.subject = 'Math';
+          });
+
+          const fallbackQuiz = {
+            id: `premade_comp_math_${Date.now()}`,
+            title: 'Comprehensive Mathematical Reasoning Exam',
+            subject: 'Math',
+            type: 'multi-part-math',
+            source: 'premade',
+            fraction_plain_text_mode: true,
+            config: { formulaSheet: true },
+            part1_non_calculator: part1,
+            part2_calculator: part2,
+            questions: selected,
+          };
+
+          logGenerationDuration(examType, subject, generationStart, 'fallback');
+          console.log('[Math] Returning fallback quiz with', selected.length, 'questions');
+          return res.json(fallbackQuiz);
+        } catch (fallbackError) {
+          console.error('[Math] Fallback also failed:', fallbackError);
+        }
+
         logGenerationDuration(examType, subject, generationStart, 'failed');
         res.status(500).json({ error: 'Failed to generate Math exam.' });
       }

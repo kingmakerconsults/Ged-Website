@@ -5,9 +5,23 @@ const fs = require('fs');
 const path = require('path');
 const legacy = require('../premade-questions.js');
 
-function normalizeQuizText(str) {
+const QUESTION_LIKE_KEYS = new Set(['question', 'questiontext', 'prompt', 'stem']);
+
+function shouldStripScenarioPrefix(keyName) {
+  return QUESTION_LIKE_KEYS.has(String(keyName || '').trim().toLowerCase());
+}
+
+function stripLeadingScenarioPrefix(text) {
+  if (typeof text !== 'string' || !text) return text;
+  return text.replace(
+    /^\s*(?:(?:[A-Za-z][\w'’.:-]*\s+){0,8}scenario\s*:\s*)/i,
+    ''
+  );
+}
+
+function normalizeQuizText(str, keyName = '') {
   if (typeof str !== 'string' || !str) return str;
-  return (
+  const normalized =
     str
       // Fix double-wrapped inline math delimiters like \(\( ... \)\)
       .replace(/\\\(\s*\\\(/g, '\\(')
@@ -43,16 +57,19 @@ function normalizeQuizText(str) {
       .replace(/src='(?:\/frontend\/)?(?:Images|images)\//g, "src='/images/")
       .replace(/href="(?:\/frontend\/)?(?:Images|images)\//g, 'href="/images/')
       .replace(/href='(?:\/frontend\/)?(?:Images|images)\//g, "href='/images/")
-      .replace(/^(?:Images|images)\//, '/images/')
-  );
+      .replace(/^(?:Images|images)\//, '/images/');
+
+  return shouldStripScenarioPrefix(keyName)
+    ? stripLeadingScenarioPrefix(normalized)
+    : normalized;
 }
 
-function normalizeDeep(value) {
-  if (typeof value === 'string') return normalizeQuizText(value);
-  if (Array.isArray(value)) return value.map(normalizeDeep);
+function normalizeDeep(value, keyName = '') {
+  if (typeof value === 'string') return normalizeQuizText(value, keyName);
+  if (Array.isArray(value)) return value.map((item) => normalizeDeep(item, keyName));
   if (value && typeof value === 'object') {
     for (const key of Object.keys(value)) {
-      value[key] = normalizeDeep(value[key]);
+      value[key] = normalizeDeep(value[key], key);
     }
   }
   return value;

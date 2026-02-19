@@ -45,11 +45,7 @@ function upgradeQuestionPrompt(q, subject) {
   const compact = String(original).replace(/\s+/g, ' ').trim();
   if (!compact) return q;
 
-  const lead =
-    subject === 'RLA' ? 'GED Reading Challenge:' : 'GED Evidence Challenge:';
-  const upgradedText = compact.startsWith(lead)
-    ? compact
-    : `${lead} ${compact}`;
+  const upgradedText = compact;
 
   if (typeof q.question === 'string') {
     q.question = upgradedText;
