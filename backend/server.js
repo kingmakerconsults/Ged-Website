@@ -10881,7 +10881,8 @@ async function generateRlaPart2(options = {}) {
 
 REQUIREMENTS:
 1. Create exactly TWO passages that present OPPOSING VIEWPOINTS on a single policy issue (e.g., conservation vs development, privacy vs security, renewable energy vs traditional energy, etc.).
-2. Each passage must be exactly 3 substantial paragraphs, 250-300 words total, and NEVER above 300 words.
+2. Each passage must be exactly 3 substantial paragraphs, 220-300 words total, and NEVER above 300 words.
+3. Format each passage with explicit HTML paragraph tags: <p>...</p><p>...</p><p>...</p>. Do not return a single block paragraph.
 3. Each passage MUST include:
    - "title": A clear, descriptive title
    - "author": A plausible human name
@@ -10923,16 +10924,150 @@ Output a JSON object with:
     },
     required: ['passages', 'prompt'],
   };
-  const result = await callAI(prompt, schema, options);
-  if (Array.isArray(result?.passages)) {
-    result.passages = result.passages.map((p) => ({
-      ...p,
-      content: limitWords(p?.content || '', 300),
-    }));
+  const stripTags = (text) =>
+    String(text || '')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+  const splitIntoParagraphs = (content) => {
+    const raw = String(content || '').trim();
+    if (!raw) return [];
+
+    const htmlParagraphs = [];
+    const paragraphRegex = /<p\b[^>]*>([\s\S]*?)<\/p>/gi;
+    let match;
+    while ((match = paragraphRegex.exec(raw)) !== null) {
+      const text = stripTags(match[1]);
+      if (text) htmlParagraphs.push(text);
+    }
+    if (htmlParagraphs.length) return htmlParagraphs;
+
+    const normalized = raw
+      .replace(/<br\s*\/?\s*>/gi, '\n')
+      .replace(/\r\n/g, '\n');
+
+    return normalized
+      .split(/\n\s*\n+/)
+      .map((p) => stripTags(p))
+      .filter(Boolean);
+  };
+
+  const ensureThreeParagraphHtml = (content) => {
+    let paragraphs = splitIntoParagraphs(content);
+
+    if (paragraphs.length < 3) {
+      const baseText = stripTags(content);
+      const sentences = baseText
+        .split(/(?<=[.!?])\s+/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      if (sentences.length >= 6) {
+        const bucketCount = 3;
+        const buckets = Array.from({ length: bucketCount }, () => []);
+        sentences.forEach((sentence, index) => {
+          buckets[
+            Math.min(
+              bucketCount - 1,
+              Math.floor((index * bucketCount) / sentences.length)
+            )
+          ].push(sentence);
+        });
+        paragraphs = buckets
+          .map((bucket) => bucket.join(' ').trim())
+          .filter(Boolean);
+      } else if (baseText) {
+        const words = baseText.split(/\s+/).filter(Boolean);
+        const chunkSize = Math.max(1, Math.ceil(words.length / 3));
+        paragraphs = [];
+        for (let i = 0; i < words.length; i += chunkSize) {
+          const chunk = words
+            .slice(i, i + chunkSize)
+            .join(' ')
+            .trim();
+          if (chunk) paragraphs.push(chunk);
+        }
+      }
+    }
+
+    paragraphs = paragraphs
+      .slice(0, 3)
+      .map((p) => p.trim())
+      .filter(Boolean);
+    while (paragraphs.length < 3) {
+      paragraphs.push(
+        'Further evidence and reasoning support this position when examined in context.'
+      );
+    }
+
+    const fullText = paragraphs.join(' ');
+    const cappedText = limitWords(fullText, 300);
+    const cappedWords = cappedText.split(/\s+/).filter(Boolean);
+    const chunkSize = Math.max(1, Math.ceil(cappedWords.length / 3));
+    const normalizedParagraphs = [];
+    for (let i = 0; i < cappedWords.length; i += chunkSize) {
+      normalizedParagraphs.push(
+        cappedWords
+          .slice(i, i + chunkSize)
+          .join(' ')
+          .trim()
+      );
+    }
+
+    const finalParagraphs = normalizedParagraphs.slice(0, 3);
+    while (finalParagraphs.length < 3) {
+      finalParagraphs.push(
+        'The argument remains stronger when specific, relevant evidence is prioritized.'
+      );
+    }
+
+    return finalParagraphs.map((p) => `<p>${p}</p>`).join('');
+  };
+
+  const isValidEssayPayload = (value) =>
+    Boolean(
+      value &&
+      typeof value === 'object' &&
+      Array.isArray(value.passages) &&
+      value.passages.length >= 2 &&
+      typeof value.prompt === 'string' &&
+      value.prompt.trim().length > 0
+    );
+
+  const result = await callAI(prompt, schema, {
+    ...options,
+    generationOverrides: {
+      temperature: 0.7,
+      ...(options.generationOverrides || {}),
+    },
+  });
+
+  if (!isValidEssayPayload(result)) {
+    throw new Error('Invalid RLA essay payload from AI.');
   }
-  if (typeof result?.prompt === 'string') {
-    result.prompt = limitWords(result.prompt, 250);
-  }
+
+  result.passages = result.passages.slice(0, 2).map((p, index) => ({
+    title:
+      typeof p?.title === 'string' && p.title.trim()
+        ? p.title.trim()
+        : `Position ${index === 0 ? 'A' : 'B'}`,
+    author:
+      typeof p?.author === 'string' && p.author.trim()
+        ? p.author.trim()
+        : index === 0
+          ? 'Alex Rivera'
+          : 'Jordan Blake',
+    content: ensureThreeParagraphHtml(p?.content || ''),
+    strengths_and_weaknesses: Array.isArray(p?.strengths_and_weaknesses)
+      ? p.strengths_and_weaknesses.map((s) => String(s).trim()).filter(Boolean)
+      : [],
+  }));
+
+  result.prompt =
+    typeof result.prompt === 'string' && result.prompt.trim()
+      ? limitWords(result.prompt.trim(), 250)
+      : 'Analyze both passages and determine which position is better supported by evidence and reasoning. Use specific evidence from both sources to support your response.';
+
   return result;
 }
 
@@ -11919,11 +12054,61 @@ app.post('/generate-quiz', async (req, res) => {
         const timeoutMs = selectModelTimeoutMs({ examType });
         const aiOptions = { timeoutMs };
 
-        const [part1Questions, part2Essay, part3Questions] = await Promise.all([
-          generateRlaPart1(aiOptions),
-          generateRlaPart2(aiOptions),
-          generateRlaPart3(aiOptions),
-        ]);
+        const [part1Result, part2Result, part3Result] =
+          await Promise.allSettled([
+            generateRlaPart1(aiOptions),
+            generateRlaPart2(aiOptions),
+            generateRlaPart3(aiOptions),
+          ]);
+
+        let part1Questions =
+          part1Result.status === 'fulfilled' && Array.isArray(part1Result.value)
+            ? part1Result.value
+            : [];
+        let part3Questions =
+          part3Result.status === 'fulfilled' && Array.isArray(part3Result.value)
+            ? part3Result.value
+            : [];
+
+        let part2Essay =
+          part2Result.status === 'fulfilled' && part2Result.value
+            ? part2Result.value
+            : null;
+
+        const hasEssayContent =
+          part2Essay &&
+          typeof part2Essay === 'object' &&
+          Array.isArray(part2Essay.passages) &&
+          part2Essay.passages.length >= 2 &&
+          typeof part2Essay.prompt === 'string';
+
+        if (!hasEssayContent) {
+          console.warn(
+            '[RLA] Part 2 essay generation failed in first pass. Retrying.'
+          );
+          try {
+            part2Essay = await generateRlaPart2({
+              timeoutMs: Math.max(90000, Math.floor(timeoutMs * 0.75)),
+              generationOverrides: { temperature: 0.6 },
+            });
+          } catch (retryError) {
+            console.warn(
+              '[RLA] Part 2 essay retry failed:',
+              retryError?.message || retryError
+            );
+          }
+        }
+
+        const hasRecoveredEssayContent =
+          part2Essay &&
+          typeof part2Essay === 'object' &&
+          Array.isArray(part2Essay.passages) &&
+          part2Essay.passages.length >= 2 &&
+          typeof part2Essay.prompt === 'string';
+
+        if (!hasRecoveredEssayContent) {
+          throw new Error('RLA Part 2 essay generation failed after retry.');
+        }
 
         // Enforce target question counts — pad from premade bank if AI was short
         const PART1_TARGET = 20;
@@ -11999,7 +12184,11 @@ app.post('/generate-quiz', async (req, res) => {
           part2_essay: part2Essay,
           part3_language: part3Final,
           questions: allQuestions, // Keep this for compatibility with results screen
-          source: 'aiGenerated',
+          source:
+            part1Final.some((q) => q?.source === 'premade') ||
+            part3Final.some((q) => q?.source === 'premade')
+              ? 'mixed'
+              : 'aiGenerated',
           fraction_plain_text_mode: false,
         };
 
@@ -12036,12 +12225,14 @@ app.post('/generate-quiz', async (req, res) => {
                 ? category.topics
                 : [];
               for (const topic of topics) {
-                if (Array.isArray(topic?.questions)) out.push(...topic.questions);
+                if (Array.isArray(topic?.questions))
+                  out.push(...topic.questions);
                 const quizzes = Array.isArray(topic?.quizzes)
                   ? topic.quizzes
                   : [];
                 for (const quiz of quizzes) {
-                  if (Array.isArray(quiz?.questions)) out.push(...quiz.questions);
+                  if (Array.isArray(quiz?.questions))
+                    out.push(...quiz.questions);
                 }
               }
             }
@@ -12054,14 +12245,14 @@ app.post('/generate-quiz', async (req, res) => {
               typeof q?.questionText === 'string'
                 ? q.questionText
                 : typeof q?.question === 'string'
-                ? q.question
-                : '',
+                  ? q.question
+                  : '',
             question:
               typeof q?.question === 'string'
                 ? q.question
                 : typeof q?.questionText === 'string'
-                ? q.questionText
-                : '',
+                  ? q.questionText
+                  : '',
             source: 'premade',
           });
 
@@ -12079,24 +12270,49 @@ app.post('/generate-quiz', async (req, res) => {
             throw new Error('Premade RLA question pools are empty.');
           }
 
-          const part2_essay = {
-            passages: [
-              {
-                title: 'Position A: Expand Public Transportation',
-                author: 'Jordan Ellis',
-                content:
-                  'City leaders argue that expanded transit improves access to work and education while reducing traffic congestion. They point to pilot programs where more frequent bus service increased ridership and lowered household transportation costs for many families. Supporters also claim transit investment can strengthen local business districts by improving customer access.\n\nCritics acknowledge the potential benefits but question whether the city can sustain operating costs without reducing service quality elsewhere. They argue that implementation must include measurable service targets so funding decisions remain accountable over time.',
-              },
-              {
-                title: 'Position B: Prioritize Road Infrastructure First',
-                author: 'Casey Morgan',
-                content:
-                  'Opponents of rapid transit expansion argue that roadway bottlenecks should be addressed first because they affect nearly all commuters, including those in areas with limited transit coverage. They cite projects where targeted intersection upgrades improved travel times and freight reliability within a short timeline.\n\nTransit advocates respond that road-only strategies can lock cities into long-term congestion and emissions challenges. They maintain that balanced investment should include improved transit options to offer practical alternatives, especially for residents who cannot afford private vehicle ownership.',
-              },
-            ],
-            prompt:
-              'Analyze both passages and determine which position is better supported by evidence and reasoning. Use specific evidence from both sources to support your response.',
-          };
+          let part2_essay;
+          try {
+            part2_essay = await generateRlaPart2({
+              timeoutMs: Math.max(
+                90000,
+                Math.floor(selectModelTimeoutMs({ examType }) * 0.75)
+              ),
+              generationOverrides: { temperature: 0.5 },
+            });
+          } catch (essayFallbackErr) {
+            console.warn(
+              '[RLA] AI essay generation failed during fallback:',
+              essayFallbackErr?.message || essayFallbackErr
+            );
+          }
+
+          const hasEssay =
+            part2_essay &&
+            typeof part2_essay === 'object' &&
+            Array.isArray(part2_essay.passages) &&
+            part2_essay.passages.length >= 2 &&
+            typeof part2_essay.prompt === 'string';
+
+          if (!hasEssay) {
+            part2_essay = {
+              passages: [
+                {
+                  title: 'Position A: Expand Public Transportation',
+                  author: 'Jordan Ellis',
+                  content:
+                    '<p>City leaders argue that expanded transit improves access to work and education while reducing traffic congestion. They cite pilot programs where frequent service increased ridership, lowered household transportation costs, and improved access for workers with nontraditional schedules.</p><p>Supporters also point to economic benefits in business districts that become easier to reach without parking constraints. They argue that reliable routes can broaden customer traffic and reduce missed work caused by commuting delays.</p><p>Critics acknowledge these gains but stress that expansion plans should include measurable service targets and transparent budgeting so long-term operating costs remain sustainable and service quality is protected.</p>',
+                },
+                {
+                  title: 'Position B: Prioritize Road Infrastructure First',
+                  author: 'Casey Morgan',
+                  content:
+                    '<p>Opponents of rapid transit expansion argue that roadway bottlenecks should be addressed first because they affect most commuters, freight movement, and emergency response times. They cite projects where targeted intersection upgrades produced quick travel-time improvements.</p><p>They also contend that many neighborhoods have limited transit access today, so immediate road improvements deliver broader short-term benefits while longer-term transit plans are evaluated.</p><p>Transit advocates respond that road-only strategies can reinforce congestion over time and delay cleaner alternatives. They argue that cities should pair road upgrades with meaningful transit investment to provide practical non-car options.</p>',
+                },
+              ],
+              prompt:
+                'Analyze both passages and determine which position is better supported by evidence and reasoning. Use specific evidence from both sources to support your response.',
+            };
+          }
 
           const questions = [...part1_reading, ...part3_language].map(
             (q, idx) => ({
@@ -12124,7 +12340,9 @@ app.post('/generate-quiz', async (req, res) => {
         } catch (fallbackError) {
           console.error('[RLA] Premade fallback also failed:', fallbackError);
           logGenerationDuration(examType, subject, generationStart, 'failed');
-          return res.status(500).json({ error: 'Failed to generate RLA exam.' });
+          return res
+            .status(500)
+            .json({ error: 'Failed to generate RLA exam.' });
         }
       }
     } else if (subject === 'Math' && comprehensive) {
