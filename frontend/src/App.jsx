@@ -16,6 +16,9 @@ import { AuthScreen } from '../components/index.js';
 import DashboardView from './views/DashboardView.jsx';
 import SocialStudiesView from './views/SocialStudiesView.jsx';
 import SuperAdminAllQuestions from './views/SuperAdminAllQuestions.jsx';
+import AdminStudentsView from './views/AdminStudentsView.jsx';
+import AdminStudentDetailView from './views/AdminStudentDetailView.jsx';
+import AdminReportsView from './views/AdminReportsView.jsx';
 import ConstitutionExplorer from '../../tools/ConstitutionExplorer.jsx';
 import EconomicsGraphTool from '../../tools/EconomicsGraphTool.jsx';
 import MapExplorer from '../../tools/MapExplorer.jsx';
@@ -177,6 +180,14 @@ export default function App() {
           <Link to="/profile">Profile</Link>
           <Link to="/settings">Settings</Link>
           <Link to="/demo/math">Math Quiz Demo</Link>
+          {['org_admin', 'super_admin', 'instructor', 'admin'].includes(
+            user?.role
+          ) && (
+            <>
+              <Link to="/admin/students">Students</Link>
+              <Link to="/admin/reports">Reports</Link>
+            </>
+          )}
           {user?.role === 'super_admin' && (
             <Link to="/super-admin/all-questions">All Questions</Link>
           )}
@@ -249,6 +260,48 @@ export default function App() {
                 <OnboardingGate>
                   <QuizDemo />
                 </OnboardingGate>
+              }
+            />
+            <Route
+              path="/admin/students"
+              element={
+                ['org_admin', 'super_admin', 'instructor', 'admin'].includes(
+                  user?.role
+                ) ? (
+                  <OnboardingGate>
+                    <AdminStudentsView />
+                  </OnboardingGate>
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
+            />
+            <Route
+              path="/admin/students/:id"
+              element={
+                ['org_admin', 'super_admin', 'instructor', 'admin'].includes(
+                  user?.role
+                ) ? (
+                  <OnboardingGate>
+                    <AdminStudentDetailView />
+                  </OnboardingGate>
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              }
+            />
+            <Route
+              path="/admin/reports"
+              element={
+                ['org_admin', 'super_admin', 'instructor', 'admin'].includes(
+                  user?.role
+                ) ? (
+                  <OnboardingGate>
+                    <AdminReportsView />
+                  </OnboardingGate>
+                ) : (
+                  <Navigate to="/" replace />
+                )
               }
             />
             <Route

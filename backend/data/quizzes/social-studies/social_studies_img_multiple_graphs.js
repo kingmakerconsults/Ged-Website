@@ -1,113 +1,114 @@
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/unclassified_0097.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0097.png",
-    "content": {
-      "passage": "Alt text: Three charts: a bar graph on continent participation, a line graph on exports, and a pie chart on state pollution rates.\n\nDescription: The image displays three different types of data visualizations. The top-left is a bar chart showing continent participation for Europe, Asia, and North America from 2001 to 2004. The top-right is a line graph illustrating export levels in billions of gallons…\n\nText in image: Continent Participation, Millions of People, 2001-2004, Europe, Asia, North America. Exports, Billions of Gallons, February-August, Time. State Pollution Rates, Maryland, New York, Michigan, California. John Wiley & Son…",
-      "imageURL": "/images/Social%20Studies/unclassified_0097.png",
-      "questionText": "Which term or label appears in the visual?"
+    questionNumber: 1,
+    type: 'multiple-choice-text',
+    difficulty: 'easy',
+    imageUrl: '/images/Social%20Studies/unclassified_0097.png',
+    imageURL: '/images/Social%20Studies/unclassified_0097.png',
+    content: {
+      passage:
+        'Three data charts are shown together (bar, line, and pie). Use the chart labels to answer the question.',
+      imageURL: '/images/Social%20Studies/unclassified_0097.png',
+      questionText: 'Which chart label appears in the visual?',
     },
-    "answerOptions": [
+    answerOptions: [
       {
-        "text": "Northeastern United States",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
+        text: 'Continent Participation',
+        rationale: 'Correct. This chart label appears in the visual.',
+        isCorrect: true,
       },
       {
-        "text": "REMEMBER",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
+        text: 'March on Washington',
+        rationale: 'Incorrect. This term/label is not shown in the visual.',
+        isCorrect: false,
       },
       {
-        "text": "Maine border",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
+        text: 'Type of Account or Investment',
+        rationale: 'Incorrect. This term/label is not shown in the visual.',
+        isCorrect: false,
       },
       {
-        "text": "Time. State Pollution Rates",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
-        "isCorrect": true
-      }
+        text: 'FDIC = Federal Deposit Insurance Corporation',
+        rationale: 'Incorrect. This term/label is not shown in the visual.',
+        isCorrect: false,
+      },
     ],
-    "challenge_tags": [
-      "social:3"
-    ]
+    challenge_tags: ['social:3'],
   },
   {
-    "questionNumber": 2,
-    "type": "multiple-choice-text",
-    "difficulty": "medium",
-    "imageUrl": "/images/Social%20Studies/unclassified_0097.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0097.png",
-    "content": {
-      "passage": "Alt text: Three charts: a bar graph on continent participation, a line graph on exports, and a pie chart on state pollution rates.\n\nDescription: The image displays three different types of data visualizations. The top-left is a bar chart showing continent participation for Europe, Asia, and North America from 2001 to 2004. The top-right is a line graph illustrating export levels in billions of gallons…\n\nText in image: Continent Participation, Millions of People, 2001-2004, Europe, Asia, North America. Exports, Billions of Gallons, February-August, Time. State Pollution Rates, Maryland, New York, Michigan, California. John Wiley & Son…",
-      "imageURL": "/images/Social%20Studies/unclassified_0097.png",
-      "questionText": "Which year appears in the visual text/labels?"
+    questionNumber: 2,
+    type: 'multiple-choice-text',
+    difficulty: 'medium',
+    imageUrl: '/images/Social%20Studies/unclassified_0097.png',
+    imageURL: '/images/Social%20Studies/unclassified_0097.png',
+    content: {
+      passage:
+        'Three data charts are shown together (bar, line, and pie). Use the chart labels to answer the question.',
+      imageURL: '/images/Social%20Studies/unclassified_0097.png',
+      questionText: 'Which year appears in the visual text/labels?',
     },
-    "answerOptions": [
+    answerOptions: [
       {
-        "text": "1939",
-        "rationale": "Incorrect. That year is not shown in the image text/labels.",
-        "isCorrect": false
+        text: '1939',
+        rationale:
+          'Incorrect. That year is not shown in the image text/labels.',
+        isCorrect: false,
       },
       {
-        "text": "2004",
-        "rationale": "Correct. The year 2004 appears in the image text/labels.",
-        "isCorrect": true
+        text: '2004',
+        rationale: 'Correct. The year 2004 appears in the image text/labels.',
+        isCorrect: true,
       },
       {
-        "text": "1848",
-        "rationale": "Incorrect. That year is not shown in the image text/labels.",
-        "isCorrect": false
+        text: '1848',
+        rationale:
+          'Incorrect. That year is not shown in the image text/labels.',
+        isCorrect: false,
       },
       {
-        "text": "2010",
-        "rationale": "Incorrect. That year is not shown in the image text/labels.",
-        "isCorrect": false
-      }
+        text: '2010',
+        rationale:
+          'Incorrect. That year is not shown in the image text/labels.',
+        isCorrect: false,
+      },
     ],
-    "challenge_tags": [
-      "social:3"
-    ]
+    challenge_tags: ['social:3'],
   },
   {
-    "questionNumber": 3,
-    "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/unclassified_0097.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0097.png",
-    "content": {
-      "passage": "Alt text: Three charts: a bar graph on continent participation, a line graph on exports, and a pie chart on state pollution rates.\n\nDescription: The image displays three different types of data visualizations. The top-left is a bar chart showing continent participation for Europe, Asia, and North America from 2001 to 2004. The top-right is a line graph illustrating export levels in billions of gallons…\n\nText in image: Continent Participation, Millions of People, 2001-2004, Europe, Asia, North America. Exports, Billions of Gallons, February-August, Time. State Pollution Rates, Maryland, New York, Michigan, California. John Wiley & Son…",
-      "imageURL": "/images/Social%20Studies/unclassified_0097.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+    questionNumber: 3,
+    type: 'multiple-choice-text',
+    difficulty: 'hard',
+    imageUrl: '/images/Social%20Studies/unclassified_0097.png',
+    imageURL: '/images/Social%20Studies/unclassified_0097.png',
+    content: {
+      passage:
+        'Three data charts are shown together (bar, line, and pie). Use the chart labels to answer the question.',
+      imageURL: '/images/Social%20Studies/unclassified_0097.png',
+      questionText: 'Which pair of chart labels both appears in the visual?',
     },
-    "answerOptions": [
+    answerOptions: [
       {
-        "text": "to the Delaware State. and Great Lakes region",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
+        text: 'Continent Participation and Millions of People',
+        rationale:
+          'Correct. Both labels appear together on the bar chart title/axis text.',
+        isCorrect: true,
       },
       {
-        "text": "Mediterranean Sea and Millions of People",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
+        text: 'Mediterranean Sea and Millions of People',
+        rationale: 'Incorrect. One of these labels is not shown in the visual.',
+        isCorrect: false,
       },
       {
-        "text": "Continent Participation and Great Lakes region",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
+        text: 'Continent Participation and Great Lakes region',
+        rationale: 'Incorrect. One of these labels is not shown in the visual.',
+        isCorrect: false,
       },
       {
-        "text": "Continent Participation and Millions of People",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
-        "isCorrect": true
-      }
+        text: 'Risk and Reward',
+        rationale: 'Incorrect. One or both labels are not shown in the visual.',
+        isCorrect: false,
+      },
     ],
-    "challenge_tags": [
-      "social:3"
-    ]
-  }
+    challenge_tags: ['social:3'],
+  },
 ];

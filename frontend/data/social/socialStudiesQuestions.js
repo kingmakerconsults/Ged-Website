@@ -3757,13 +3757,13 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                       {
                         text: 'Saudi Arabia',
                         rationale:
-                          'While many of the 9/11 hijackers were from Saudi Arabia, the U.S. did not invade the country.',
+                          'While many of the September 11 hijackers were from Saudi Arabia, the U.S. did not invade the country.',
                         isCorrect: false,
                       },
                       {
                         text: 'Afghanistan',
                         rationale:
-                          'Correct. The U.S. and its allies invaded Afghanistan in late 2001 because its ruling Taliban regime provided a safe haven for Osama bin Laden and the al-Qaeda network responsible for the 9/11 attacks.',
+                          'Correct. The U.S. and its allies invaded Afghanistan in late 2001 because its ruling Taliban regime provided a safe haven for Osama bin Laden and the al-Qaeda network responsible for the September 11 attacks.',
                         isCorrect: true,
                       },
                     ],
@@ -3772,12 +3772,12 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     questionNumber: 2,
                     type: 'knowledge',
                     question:
-                      'In response to the 9/11 attacks, the U.S. government created which new cabinet-level department to coordinate domestic security?',
+                      'In response to the September 11 attacks, the U.S. government created which new cabinet-level department to coordinate domestic security?',
                     answerOptions: [
                       {
                         text: 'The Central Intelligence Agency (CIA)',
                         rationale:
-                          'The CIA is an independent agency focused on foreign intelligence and was not created after 9/11.',
+                          'The CIA is an independent agency focused on foreign intelligence and was not created after September 11.',
                         isCorrect: false,
                       },
                       {
@@ -3795,7 +3795,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                       {
                         text: 'The National Security Agency (NSA)',
                         rationale:
-                          'The NSA is a national-level intelligence agency that existed long before 9/11.',
+                          'The NSA is a national-level intelligence agency that existed long before September 11.',
                         isCorrect: false,
                       },
                     ],
@@ -3805,7 +3805,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                     challenge_tags: ['science-6'],
                     type: 'knowledge',
                     question:
-                      'The USA PATRIOT Act, passed shortly after 9/11, was controversial because it:',
+                      'The USA PATRIOT Act, passed shortly after September 11, was controversial because it:',
                     answerOptions: [
                       {
                         text: 'significantly reduced the powers of law enforcement.',
@@ -3826,7 +3826,7 @@ export const SOCIAL_STUDIES_QUESTIONS = {
                         isCorrect: false,
                       },
                       {
-                        text: 'provided financial aid to the families of 9/11 victims.',
+                        text: 'provided financial aid to the families of September 11 victims.',
                         rationale:
                           'While aid was provided, this was not the purpose or the controversial aspect of the PATRIOT Act.',
                         isCorrect: false,

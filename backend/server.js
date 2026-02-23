@@ -4711,7 +4711,36 @@ app.get(
     }
 
     // 3) final fallback: redirect to Netlify copy
-    const pickedSubject = subjectCandidates[1] || subject; // prefer the one with spaces
+    let pickedSubject = subjectCandidates[1] || subject;
+    let matchedFolder = null;
+    if (fs.existsSync(imagesRoot)) {
+      try {
+        const allSubjects = fs
+          .readdirSync(imagesRoot, { withFileTypes: true })
+          .filter((d) => d.isDirectory())
+          .map((d) => d.name);
+        const subjectByLower = new Map(
+          allSubjects.map((name) => [name.toLowerCase(), name])
+        );
+        for (const subj of subjectCandidates) {
+          const match = subjectByLower.get(String(subj || '').toLowerCase());
+          if (match) {
+            matchedFolder = match;
+            break;
+          }
+        }
+      } catch (_) {}
+    }
+    if (matchedFolder) {
+      pickedSubject = matchedFolder;
+    } else {
+      pickedSubject = String(pickedSubject || '')
+        .replace(/[_-]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase()
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+    }
     const netlifyUrl = `https://ezged.netlify.app/images/${encodeURIComponent(
       pickedSubject
     )}/${encodeURIComponent(file)}`;
@@ -17145,10 +17174,18 @@ app.post(
   }
 );
 
-// Submit practice test and return category analytics (no DB write required here)
+// Submit practice test and return category analytics
+// When auth token + subject/quizCode/quizTitle are provided, also persists to quiz_attempts
 app.post('/api/submit-test', express.json(), async (req, res) => {
   try {
-    const { questions = [], answers = [] } = req.body || {};
+    const {
+      questions = [],
+      answers = [],
+      subject,
+      quizCode,
+      quizTitle,
+      quizType,
+    } = req.body || {};
     if (!Array.isArray(questions) || !Array.isArray(answers)) {
       return res.status(400).json({
         ok: false,
@@ -17221,10 +17258,59 @@ app.post('/api/submit-test', express.json(), async (req, res) => {
     }));
 
     const overallPercent = total ? Math.round((correctCount / total) * 100) : 0;
+
+    // Persist to quiz_attempts if auth token and required metadata are provided
+    let savedAttempt = null;
+    try {
+      const authHeader = req.headers.authorization || '';
+      const token = authHeader.startsWith('Bearer ')
+        ? authHeader.slice(7)
+        : null;
+      if (token && subject && quizCode && quizTitle) {
+        const jwt = require('jsonwebtoken');
+        const decoded = jwt.verify(
+          token,
+          process.env.JWT_SECRET || 'dev-secret'
+        );
+        const userId = getNumericUserId(decoded.userId || decoded.sub);
+        if (userId) {
+          const numericScaled = toScaledFromPercent(overallPercent);
+          const passed = numericScaled >= 145;
+          const insertResult = await pool.query(
+            `INSERT INTO quiz_attempts (user_id, subject, quiz_code, quiz_title, quiz_type, score, total_questions, scaled_score, passed)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+             RETURNING id, attempted_at`,
+            [
+              userId,
+              subject.trim(),
+              quizCode.trim(),
+              quizTitle.trim(),
+              quizType || 'practice_test',
+              correctCount,
+              total,
+              numericScaled,
+              passed,
+            ]
+          );
+          savedAttempt = insertResult.rows[0] || null;
+          console.log(
+            `[submit-test] Persisted attempt id=${savedAttempt?.id} for user=${userId} subject=${subject}`
+          );
+        }
+      }
+    } catch (persistErr) {
+      // Non-fatal: log but still return grading results
+      console.warn(
+        '[submit-test] Failed to persist score:',
+        persistErr?.message || persistErr
+      );
+    }
+
     return res.json({
       ok: true,
       overall: { correct: correctCount, total, percent: overallPercent },
       categories,
+      ...(savedAttempt ? { attemptId: savedAttempt.id, persisted: true } : {}),
     });
   } catch (err) {
     console.error('[submit-test] error:', err);
@@ -17399,6 +17485,78 @@ function orderQuestionsForTierTarget(questions, targetTierRaw) {
   return scored.map((row) => row.question);
 }
 
+function extractConciseImageDescription(rawText) {
+  if (typeof rawText !== 'string') return rawText;
+  const text = rawText.replace(/\r/g, '').trim();
+  if (!text) return rawText;
+
+  const hasVerboseMarkers = /(Alt text:|Description:|Text in image:)/i.test(
+    text
+  );
+  if (!hasVerboseMarkers) return rawText;
+
+  const pickSection = (label, input) => {
+    const pattern = new RegExp(
+      `${label}\\s*([\\s\\S]*?)(?:\\n\\s*\\n(?:Alt text:|Description:|Text in image:)|$)`,
+      'i'
+    );
+    const match = input.match(pattern);
+    return match && match[1] ? match[1].trim() : '';
+  };
+
+  let concise =
+    pickSection('Alt text:', text) ||
+    pickSection('Description:', text) ||
+    text.split(/\n\s*\n/)[0] ||
+    '';
+
+  concise = concise
+    .replace(/\s+/g, ' ')
+    .replace(/[\u2026]+/g, '')
+    .trim();
+
+  if (concise.length > 220) {
+    concise = `${concise.slice(0, 217).trimEnd()}...`;
+  }
+
+  return concise
+    ? `Image description: ${concise}`
+    : 'Image description: Refer to the image to answer the question.';
+}
+
+function sanitizeImageQuestionPassage(question) {
+  if (!question || typeof question !== 'object') return question;
+
+  const content =
+    question.content && typeof question.content === 'object'
+      ? question.content
+      : null;
+
+  const looksImageBased = Boolean(
+    question.imageUrl ||
+    question.imageURL ||
+    question.image ||
+    question.graphic ||
+    (question.stimulusImage &&
+      (typeof question.stimulusImage === 'string' ||
+        question.stimulusImage.src)) ||
+    (content && (content.imageURL || content.imageUrl || content.image)) ||
+    /<img\b/i.test(String(question.passage || '')) ||
+    /<img\b/i.test(String(content?.passage || ''))
+  );
+
+  if (!looksImageBased) return question;
+
+  if (typeof question.passage === 'string') {
+    question.passage = extractConciseImageDescription(question.passage);
+  }
+  if (content && typeof content.passage === 'string') {
+    content.passage = extractConciseImageDescription(content.passage);
+  }
+
+  return question;
+}
+
 function ensureQuestionTags(
   subjectKey,
   categoryName,
@@ -17407,6 +17565,8 @@ function ensureQuestionTags(
   idxForLog = null
 ) {
   try {
+    sanitizeImageQuestionPassage(question);
+
     // Always attach lightweight source metadata for traceability
     try {
       const topicId = topic?.id || topic?.title || 'topic';
@@ -17496,9 +17656,26 @@ function buildAllQuizzesWithTags(allQuizzes = ALL_QUIZZES) {
         }
         // Preserve quizzes array if present and derive topic-level quizSets of 3
         if (Array.isArray(topic.quizzes)) {
-          tCopy.quizzes = topic.quizzes.map((q) =>
-            q && typeof q === 'object' ? { ...q } : q
-          );
+          tCopy.quizzes = topic.quizzes.map((q) => {
+            if (!q || typeof q !== 'object') return q;
+            const quizCopy = { ...q };
+            if (Array.isArray(quizCopy.questions)) {
+              quizCopy.questions = quizCopy.questions.map((question, i) => {
+                const cloned =
+                  question && typeof question === 'object'
+                    ? { ...question }
+                    : question;
+                return ensureQuestionTags(
+                  subjectKey,
+                  catName,
+                  topic,
+                  cloned,
+                  i
+                );
+              });
+            }
+            return quizCopy;
+          });
           // accumulate into category-level flat list
           tCopy.quizzes.forEach((q) => flatQuizzesForCategory.push(q));
           // topic-level grouping for convenience
@@ -17508,9 +17685,20 @@ function buildAllQuizzesWithTags(allQuizzes = ALL_QUIZZES) {
       });
       // Copy any category-level quizzes (rare) and include in flat list
       if (Array.isArray(cat.quizzes)) {
-        catCopy.quizzes = cat.quizzes.map((q) =>
-          q && typeof q === 'object' ? { ...q } : q
-        );
+        catCopy.quizzes = cat.quizzes.map((q) => {
+          if (!q || typeof q !== 'object') return q;
+          const quizCopy = { ...q };
+          if (Array.isArray(quizCopy.questions)) {
+            quizCopy.questions = quizCopy.questions.map((question, i) => {
+              const cloned =
+                question && typeof question === 'object'
+                  ? { ...question }
+                  : question;
+              return ensureQuestionTags(subjectKey, catName, null, cloned, i);
+            });
+          }
+          return quizCopy;
+        });
         catCopy.quizzes.forEach((q) => flatQuizzesForCategory.push(q));
       }
       // Derive category-level grouping into sets of 3
@@ -17964,6 +18152,11 @@ function cloneQuestion(q) {
   return cloned;
 }
 
+function isImageBasedQuestionForPractice(question) {
+  if (!question || typeof question !== 'object') return false;
+  return collectQuestionImageUrls(question).length > 0;
+}
+
 function flattenSubjectQuestions(subjectKey) {
   const out = [];
   const subj = ALL_QUIZZES[subjectKey];
@@ -18135,12 +18328,17 @@ app.post(
 
       // Pull questions from selected subjects
       let pool = [];
+      let excludedImageCount = 0;
       subjectList.forEach((subj) => {
         const pulled = getPremadeQuestions(subj, questionsNeeded * 2, {
           targetTier,
         }); // pull extra to allow tier ordering + fallback
         if (Array.isArray(pulled)) {
           pulled.forEach((q) => {
+            if (isImageBasedQuestionForPractice(q)) {
+              excludedImageCount += 1;
+              return;
+            }
             const originCategoryName = q.originCategoryName || null;
             const originTopicTitle =
               q.originTopicTitle || q.topic || q.area || null;
@@ -18175,6 +18373,12 @@ app.post(
           );
         }
       });
+
+      if (excludedImageCount > 0) {
+        console.log(
+          `[practice-session] Excluded image-based questions: ${excludedImageCount}`
+        );
+      }
 
       if (!pool.length) {
         console.warn(
@@ -21452,10 +21656,23 @@ app.get(
         u.created_at,
         p.phone,
         p.active as profile_active,
-        c.name as class_name
+        c.name as class_name,
+        qs.math_score,
+        qs.science_score,
+        qs.rla_score,
+        qs.social_score
       FROM users u
       LEFT JOIN profiles p ON p.user_id = u.id
       LEFT JOIN classes c ON p.class_id = c.id
+      LEFT JOIN LATERAL (
+        SELECT
+          MAX(CASE WHEN qa.subject = 'Math' THEN qa.scaled_score END) as math_score,
+          MAX(CASE WHEN qa.subject = 'Science' THEN qa.scaled_score END) as science_score,
+          MAX(CASE WHEN qa.subject ILIKE '%RLA%' OR qa.subject ILIKE '%Language%' THEN qa.scaled_score END) as rla_score,
+          MAX(CASE WHEN qa.subject = 'Social Studies' THEN qa.scaled_score END) as social_score
+        FROM quiz_attempts qa
+        WHERE qa.user_id = u.id AND qa.scaled_score IS NOT NULL
+      ) qs ON true
       WHERE u.role = 'student'
     `;
 
@@ -21494,10 +21711,9 @@ app.get(
       }
 
       // Count total
-      const countQuery = query.replace(
-        'SELECT u.id, u.name, u.email, u.last_login, u.created_at, p.phone, p.active as profile_active, c.name as class_name',
-        'SELECT COUNT(*)'
-      );
+      const countQuery = query
+        .replace(/SELECT[\s\S]*?FROM users u/, 'SELECT COUNT(*) FROM users u')
+        .replace(/LEFT JOIN LATERAL[\s\S]*?\) qs ON true\s*/, '');
       const countResult = await pool.query(countQuery, params);
       const total = parseInt(countResult.rows[0].count) || 0;
 
@@ -21521,6 +21737,14 @@ app.get(
           active: row.profile_active !== false,
           createdAt: row.created_at,
           lastLoginAt: row.last_login,
+          highestScores: {
+            Math: row.math_score != null ? Number(row.math_score) : null,
+            Science:
+              row.science_score != null ? Number(row.science_score) : null,
+            RLA: row.rla_score != null ? Number(row.rla_score) : null,
+            'Social Studies':
+              row.social_score != null ? Number(row.social_score) : null,
+          },
         })),
         total,
         page: pageNum,
@@ -21605,6 +21829,75 @@ app.get(
     } catch (error) {
       console.error('[/api/admin/students/:id] Error:', error);
       res.status(500).json({ error: 'Failed to fetch student' });
+    }
+  }
+);
+
+// GET /api/admin/students/:id/quiz-attempts - Get all quiz attempts for a student (admin view)
+app.get(
+  '/api/admin/students/:id/quiz-attempts',
+  authenticateBearerToken,
+  requireOrgAdminOrSuper,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { subject, quizType, limit = 50, page = 1 } = req.query;
+
+      // Verify student exists and admin has access
+      const studentCheck = await pool.query(
+        `SELECT u.id, u.organization_id FROM users u WHERE u.id = $1 AND u.role = 'student'`,
+        [id]
+      );
+      if (studentCheck.rows.length === 0) {
+        return res.status(404).json({ error: 'Student not found' });
+      }
+      if (!canAccessOrganization(req, studentCheck.rows[0].organization_id)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
+
+      let query = `
+        SELECT id, subject, quiz_code, quiz_title, quiz_type, score, total_questions, scaled_score, passed, attempted_at
+        FROM quiz_attempts
+        WHERE user_id = $1
+      `;
+      const params = [id];
+      let paramCount = 2;
+
+      if (subject) {
+        query += ` AND subject = $${paramCount++}`;
+        params.push(subject);
+      }
+      if (quizType) {
+        query += ` AND quiz_type = $${paramCount++}`;
+        params.push(quizType);
+      }
+
+      // Count total
+      const countResult = await pool.query(
+        query.replace(/SELECT .* FROM/, 'SELECT COUNT(*) FROM'),
+        params
+      );
+      const total = parseInt(countResult.rows[0].count) || 0;
+
+      // Paginate
+      const limitNum = Math.min(parseInt(limit) || 50, 100);
+      const pageNum = Math.max(parseInt(page) || 1, 1);
+      const offset = (pageNum - 1) * limitNum;
+
+      query += ` ORDER BY attempted_at DESC LIMIT $${paramCount++} OFFSET $${paramCount++}`;
+      params.push(limitNum, offset);
+
+      const result = await pool.query(query, params);
+
+      res.json({
+        attempts: result.rows.map(formatQuizAttemptRow),
+        total,
+        page: pageNum,
+        totalPages: Math.ceil(total / limitNum),
+      });
+    } catch (error) {
+      console.error('[/api/admin/students/:id/quiz-attempts] Error:', error);
+      res.status(500).json({ error: 'Failed to fetch student quiz attempts' });
     }
   }
 );

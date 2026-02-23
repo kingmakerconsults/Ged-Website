@@ -2556,8 +2556,42 @@ function sanitizeUnicode(s) {
   }
 }
 
+function simplifyVerboseImagePassage(text) {
+  if (typeof text !== 'string' || !text.trim()) return text;
+  if (!/(Alt text:|Description:|Text in image:)/i.test(text)) return text;
+
+  const section = (label, input) => {
+    const re = new RegExp(
+      `${label}\\s*([\\s\\S]*?)(?:\\n\\s*\\n(?:Alt text:|Description:|Text in image:)|$)`,
+      'i'
+    );
+    const m = input.match(re);
+    return m && m[1] ? m[1].trim() : '';
+  };
+
+  let concise =
+    section('Alt text:', text) ||
+    section('Description:', text) ||
+    text.split(/\n\s*\n/)[0] ||
+    '';
+
+  concise = concise
+    .replace(/\s+/g, ' ')
+    .replace(/[\u2026]+/g, '')
+    .trim();
+
+  if (concise.length > 220) {
+    concise = `${concise.slice(0, 217).trimEnd()}...`;
+  }
+
+  return concise
+    ? `Image description: ${concise}`
+    : 'Image description: Refer to the image to answer the question.';
+}
+
 function renderQuestionTextForDisplay(text, isPremade) {
-  const sanitized = sanitizeUnicode(text);
+  const conciseImageText = simplifyVerboseImagePassage(text);
+  const sanitized = sanitizeUnicode(conciseImageText);
   const safeMath = applySafeMathFix(sanitized);
 
   // Normalize caret/fraction math into inline KaTeX delimiters for all content
@@ -24030,7 +24064,9 @@ function App({ externalTheme, onThemeChange }) {
   const browserDepthRef = useRef(0);
   // Track current view in a ref so event listeners (closures) always see the latest value
   const viewRef = useRef(view);
-  useEffect(() => { viewRef.current = view; }, [view]);
+  useEffect(() => {
+    viewRef.current = view;
+  }, [view]);
   const [authToken, setAuthToken] = useState(() => {
     if (typeof window === 'undefined') {
       return null;
@@ -24111,11 +24147,19 @@ function App({ externalTheme, onThemeChange }) {
           // Re-push the quiz state so the user stays on the quiz
           try {
             window.history.pushState(
-              { appNav: true, activeView: 'quizzes', view: currentView, selectedSubject: null, selectedCategory: null },
+              {
+                appNav: true,
+                activeView: 'quizzes',
+                view: currentView,
+                selectedSubject: null,
+                selectedCategory: null,
+              },
               ''
             );
             browserDepthRef.current += 1;
-          } catch (e) { /* noop */ }
+          } catch (e) {
+            /* noop */
+          }
           return; // Abort navigation
         }
       }
@@ -26493,7 +26537,7 @@ function App({ externalTheme, onThemeChange }) {
       );
     }
 
-    // For Practice Session/Pop Quiz, skip attempt history but still ingest challenge responses
+    // For Practice Session/Pop Quiz, ingest challenge responses AND persist attempt
     if (subject === 'Pop Quiz' || subject === 'Practice Session') {
       try {
         const token =
@@ -26513,8 +26557,40 @@ function App({ externalTheme, onThemeChange }) {
             }),
           });
         }
+        // Also persist the attempt to quiz_attempts so admins can see it
+        if (token) {
+          const quizObj = results.quiz || activeQuiz || {};
+          const popQuizCode =
+            quizObj.quizCode ||
+            quizObj.code ||
+            quizObj.id ||
+            `${subject.toLowerCase().replace(/\s/g, '_')}_${Date.now()}`;
+          const popQuizTitle = quizObj.title || quizObj.topicTitle || subject;
+          const popQuizType = subject === 'Pop Quiz' ? 'pop_quiz' : 'practice';
+          await fetch(`${API_BASE_URL}/api/quiz-attempts`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              subject: quizObj.subject || subject,
+              quizCode: popQuizCode,
+              quizTitle: popQuizTitle,
+              quizType: popQuizType,
+              score: results.score,
+              totalQuestions: results.totalQuestions,
+              scaledScore: results.scaledScore,
+              passed:
+                typeof results.scaledScore === 'number'
+                  ? results.scaledScore >= GED_PASSING_SCORE
+                  : undefined,
+              ...(responses.length ? { responses } : {}),
+            }),
+          });
+        }
       } catch (e) {
-        console.warn('[practice] failed to ingest responses:', e?.message || e);
+        console.warn('[practice] failed to ingest/persist:', e?.message || e);
       }
       return;
     }
