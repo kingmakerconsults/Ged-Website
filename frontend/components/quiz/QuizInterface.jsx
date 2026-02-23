@@ -754,7 +754,7 @@ export function QuizInterface({
                   </p>
                   <p className="text-sm">
                     {currentQ.graphInstructions ||
-                      'Use the graph tool above to plot your answer. Click "Add Point" to place points, or "Draw Line" to draw a line through two points. You can drag points to move them, and use Undo or Delete to correct mistakes.'}
+                      'Click on the coordinate plane to plot a point. Click an existing point to remove it.'}
                   </p>
                   {currentQ.expectedAnswer && (
                     <p className="text-xs mt-2 opacity-75">

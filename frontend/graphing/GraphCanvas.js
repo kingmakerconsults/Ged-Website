@@ -130,6 +130,49 @@ const ensureStyles = () => {
       from { opacity: 0; transform: scale(0.98); }
       to { opacity: 1; transform: scale(1); }
     }
+    /* Quiz-mode remove confirmation bubble */
+    .graph-remove-bubble {
+      position: absolute;
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.92);
+      color: #f8fafc;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
+      transform: translate(-50%, -140%);
+      white-space: nowrap;
+      z-index: 20;
+      animation: graph-object-fade 120ms ease forwards;
+    }
+    .graph-remove-bubble button {
+      appearance: none;
+      border: none;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 100ms ease;
+    }
+    .graph-remove-bubble .remove-yes {
+      background: #ef4444;
+      color: #fff;
+    }
+    .graph-remove-bubble .remove-yes:hover {
+      background: #dc2626;
+    }
+    .graph-remove-bubble .remove-no {
+      background: rgba(255,255,255,0.15);
+      color: #e2e8f0;
+    }
+    .graph-remove-bubble .remove-no:hover {
+      background: rgba(255,255,255,0.25);
+    }
   `;
   document.head.appendChild(style);
 };
@@ -140,6 +183,7 @@ class GraphCanvas {
     ensureStyles();
     this.container = container;
     this.options = options;
+    this.quizMode = !!options.quizMode;
     this.state = getState();
     this.viewBox = { ...this.state.viewport };
 
@@ -189,6 +233,7 @@ class GraphCanvas {
     this.panContext = null;
     this.dragContext = null; // for dragging student points
     this.addLineContext = null; // for two-click line drawing
+    this.removeBubble = null; // quiz-mode remove confirmation
 
     this.unsubscribe = subscribe((snapshot) => {
       this.state = snapshot;
@@ -216,6 +261,7 @@ class GraphCanvas {
   }
 
   destroy() {
+    this.dismissRemoveBubble();
     this.unsubscribe?.();
     this.resizeObserver?.disconnect();
     this.root.remove();
@@ -254,9 +300,64 @@ class GraphCanvas {
     return closest;
   }
 
+  /** Dismiss any active remove-confirmation bubble. */
+  dismissRemoveBubble() {
+    if (this.removeBubble) {
+      this.removeBubble.remove();
+      this.removeBubble = null;
+    }
+  }
+
+  /** Show a small "Remove?" confirmation bubble near a student point (quiz mode). */
+  showRemoveBubble(obj, evt) {
+    this.dismissRemoveBubble();
+    const bounds = this.root.getBoundingClientRect();
+    const bubble = document.createElement('div');
+    bubble.className = 'graph-remove-bubble';
+    bubble.innerHTML = `
+      <span>Remove point?</span>
+      <button class="remove-yes">Remove</button>
+      <button class="remove-no">Cancel</button>
+    `;
+    bubble.style.left = `${evt.clientX - bounds.left}px`;
+    bubble.style.top = `${evt.clientY - bounds.top}px`;
+    bubble.querySelector('.remove-yes').addEventListener('click', (e) => {
+      e.stopPropagation();
+      removeObject(obj.id);
+      this.dismissRemoveBubble();
+    });
+    bubble.querySelector('.remove-no').addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.dismissRemoveBubble();
+    });
+    this.root.appendChild(bubble);
+    this.removeBubble = bubble;
+  }
+
   handlePointerDown(evt) {
     const point = this.screenToGraph(evt);
     const mode = this.state.mode;
+
+    // ── Quiz mode: click-to-plot / click-to-remove (no toolbar, no drag) ──
+    if (this.quizMode) {
+      this.dismissRemoveBubble();
+      const hitPoint = this.hitTestStudentPoint(point);
+      if (hitPoint) {
+        // Clicked an existing student point — show remove confirmation
+        this.showRemoveBubble(hitPoint, evt);
+      } else {
+        // Clicked empty space — plot a new point (snapped to grid)
+        const snapped = { x: snapToGrid(point.x), y: snapToGrid(point.y) };
+        addObject({
+          type: 'point',
+          definition: snapped,
+          origin: 'student',
+        });
+      }
+      return;
+    }
+
+    // ── Full toolbar mode (practice tool) ──
 
     // Add Point mode — snap to integer grid
     if (mode === 'add-point') {
@@ -879,6 +980,7 @@ export default GraphCanvas;
 export function mount(el, payload = {}) {
   try {
     const spec = payload.spec || payload.graphSpec || null;
+    const quizMode = !!payload.quizMode;
 
     // If remounting with a new spec, reset the store first
     resetToSpec(spec?.objects || []);
@@ -889,20 +991,21 @@ export function mount(el, payload = {}) {
       'display: grid; gap: 16px; width: 100%; height: 100%;';
     el.appendChild(wrapper);
 
-    // Create toolbar container
-    const toolbarContainer = document.createElement('div');
-    wrapper.appendChild(toolbarContainer);
+    let toolbar = null;
+    if (!quizMode) {
+      // Full toolbar for practice/graphing tool mode
+      const toolbarContainer = document.createElement('div');
+      wrapper.appendChild(toolbarContainer);
+      toolbar = new GraphToolbar(toolbarContainer);
+    }
 
     // Create canvas container
     const canvasContainer = document.createElement('div');
     canvasContainer.style.cssText = 'flex: 1; min-height: 400px;';
     wrapper.appendChild(canvasContainer);
 
-    // Initialize toolbar and canvas (spec already loaded into store via resetToSpec)
-    const toolbar = new GraphToolbar(toolbarContainer);
-    const canvas = new GraphCanvas(canvasContainer, {
-      /* spec already in store */
-    });
+    // Initialize canvas (spec already loaded into store via resetToSpec)
+    const canvas = new GraphCanvas(canvasContainer, { quizMode });
 
     // Store instances for cleanup
     el.__graphToolbar = toolbar;

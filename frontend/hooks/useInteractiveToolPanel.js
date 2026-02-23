@@ -107,6 +107,7 @@ export function useInteractiveToolPanel({
           const mount = mod && mod.mount;
           const unmount = mod && mod.unmount;
           const GraphCanvas = mod && (mod.default || mod.GraphCanvas);
+          const isGraphPlot = currentQ && currentQ.answerType === 'graphPlot';
           const payload = {
             graphSpec:
               (currentQ &&
@@ -114,6 +115,7 @@ export function useInteractiveToolPanel({
                   currentQ.graphData ||
                   currentQ.coordinatePlane)) ||
               null,
+            quizMode: isGraphPlot,
           };
           if (typeof mount === 'function') {
             mount(panel, payload);
