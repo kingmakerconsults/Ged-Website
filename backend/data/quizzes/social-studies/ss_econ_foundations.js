@@ -76,12 +76,12 @@ module.exports = [
     questionNumber: 3,
     type: 'text',
     passage:
-      'Imagine you have \(20. You can either buy a new video game or go to the movies with a friend. You cannot do both. You decide to buy the video game. The experience of going to the movies with your friend is the opportunity cost of your decision.',
+      'Imagine you have $20. You can either buy a new video game or go to the movies with a friend. You cannot do both. You decide to buy the video game. The experience of going to the movies with your friend is the opportunity cost of your decision.',
     question:
       'In this scenario, what is the opportunity cost of buying the video game?',
     answerOptions: [
       {
-        text: 'The \)20 you spent.',
+        text: 'The $20 you spent.',
         rationale:
           'The money spent is the price, not the opportunity cost. The opportunity cost is what you gave up.',
         isCorrect: false,
@@ -172,8 +172,7 @@ module.exports = [
     questionNumber: 6,
     challenge_tags: ['social-5'],
     type: 'image',
-    imageUrl:
-      '//images/Social Studies/foundational_concepts_0001.png',
+    imageUrl: '//images/Social Studies/foundational_concepts_0001.png',
     question:
       'This graph shows a standard supply and demand model. The point where the supply curve and the demand curve intersect is known as:',
     answerOptions: [
