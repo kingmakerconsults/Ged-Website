@@ -500,7 +500,8 @@ body::after {
   content: '';
   position: fixed;
   inset: 0;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle at 25% 25%,
       rgba(14, 165, 233, 0.03) 0%,
       transparent 50%
@@ -763,7 +764,9 @@ button[data-role='primary'] {
   border: 1px solid var(--accent-border);
   color: var(--accent-text);
   font-weight: 600;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease,
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
     transform 0.2s ease;
   box-shadow: 0 10px 20px -12px rgba(14, 116, 144, 0.6);
 }
@@ -782,7 +785,9 @@ button[data-role='secondary'] {
   background-color: var(--button-secondary-bg);
   border: 1px solid var(--button-secondary-border);
   color: var(--button-secondary-text);
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 button[data-role='secondary']:hover:not(:disabled) {
   background-color: var(--bg-muted);
@@ -849,7 +854,9 @@ button[data-role='secondary']:hover:not(:disabled) {
   font-weight: 600;
   box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
   white-space: nowrap;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .dark .vocabulary-chip {
   border-color: rgba(226, 232, 240, 0.18);
@@ -986,7 +993,8 @@ h3 {
   background-color: #ffffff;
   background: linear-gradient(135deg, #ffffff, #f9fafb);
   border: 1px solid rgba(2, 6, 23, 0.12);
-  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08),
+  box-shadow:
+    0 10px 24px rgba(2, 6, 23, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
   color: var(--text-color);
 }
@@ -1005,7 +1013,8 @@ h3 {
   background-color: #1e293b !important;
   background: linear-gradient(135deg, #1e293b, #0f172a) !important;
   border: 1px solid rgba(51, 65, 85, 0.4);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3),
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
   color: var(--text-color);
 }
@@ -1031,7 +1040,9 @@ h3 {
   /* background handled by unified gradient / specific blocks */
   border: 1px solid rgba(148, 163, 184, 0.12);
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 [data-theme='light'] .panel:hover,
 [data-theme='light'] .box:hover {
@@ -1056,7 +1067,8 @@ h3 {
   background-color: #ffffff;
   background: linear-gradient(135deg, #ffffff, #f9fafb);
   border: 1px solid rgba(2, 6, 23, 0.12);
-  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08),
+  box-shadow:
+    0 10px 24px rgba(2, 6, 23, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
   color: var(--text-color);
 }
@@ -1082,7 +1094,9 @@ h3 {
   /* background handled by unified gradient / specific blocks */
   border: 1px solid rgba(148, 163, 184, 0.12);
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 [data-theme='light'] .panel:hover,
 [data-theme='light'] .box:hover {
@@ -1215,7 +1229,9 @@ h3 {
   border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 1rem;
   box-shadow: 0 6px 14px rgba(2, 6, 23, 0.05);
-  transition: box-shadow 0.25s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
 }
 
 /* keep settings hover; panel/box hover handled by premium skin */
@@ -1350,14 +1366,16 @@ h3 {
 [data-theme='light'] .block-start-quiz .panel.card {
   background: linear-gradient(135deg, #ffffff, #f9fafb);
   border: 1px solid rgba(2, 6, 23, 0.12);
-  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08),
+  box-shadow:
+    0 10px 24px rgba(2, 6, 23, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 [data-theme='light'] .scores-shell,
 [data-theme='light'] .vocab-shell {
   background: linear-gradient(135deg, #ffffff, #f9fafb);
   border: 1px solid rgba(2, 6, 23, 0.12);
-  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08),
+  box-shadow:
+    0 10px 24px rgba(2, 6, 23, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 /* Default subject heading color in light mode (fallback) */
@@ -1409,8 +1427,11 @@ h3 {
   outline-offset: 2px;
 }
 .refresh-button {
-  transition: background-color 0.2s ease, color 0.2s ease,
-    border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 [data-theme='light'] .refresh-button {
   background-color: #ffffff;
@@ -1860,7 +1881,9 @@ button[data-role='primary'] {
   border: 1px solid var(--accent-border);
   color: var(--accent-text);
   font-weight: 600;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease,
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
     transform 0.2s ease;
   box-shadow: 0 10px 20px -12px rgba(14, 116, 144, 0.6);
 }
@@ -1879,7 +1902,9 @@ button[data-role='secondary'] {
   background-color: var(--button-secondary-bg);
   border: 1px solid var(--button-secondary-border);
   color: var(--button-secondary-text);
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 button[data-role='secondary']:hover:not(:disabled) {
   background-color: var(--bg-muted);
@@ -1946,7 +1971,9 @@ button[data-role='secondary']:hover:not(:disabled) {
   font-weight: 600;
   box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
   white-space: nowrap;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .dark .vocabulary-chip {
   border-color: rgba(226, 232, 240, 0.18);
@@ -2035,6 +2062,17 @@ h3 {
   .panel-title {
     font-size: 1.125rem;
     line-height: 1.3;
+  }
+
+  .question-stem,
+  .passage-text {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .question-stem table,
+  .passage-text table {
+    min-width: 640px;
   }
 
   .dashboard-sections {
@@ -2191,7 +2229,13 @@ h3 {
 .workforce-doc-preview {
   min-height: 420px;
   border-color: var(--subject-workforce-border);
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    Arial,
     sans-serif;
   line-height: 1.3;
   color: #111;
@@ -2394,7 +2438,8 @@ h3 {
     #b48f2a 100%
   );
   border: 1px solid rgba(180, 143, 42, 0.45);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18),
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 .dark .coach-panel,
@@ -2447,23 +2492,31 @@ h3 {
 /* subtle per-subject border glow on gold cards */
 .coach-subject-card.subject-math {
   border-color: rgba(14, 165, 233, 0.45);
-  box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22),
-    0 0 0 1px rgba(14, 165, 233, 0.45) inset, 0 0 16px rgba(14, 165, 233, 0.2);
+  box-shadow:
+    0 10px 25px rgba(184, 123, 28, 0.22),
+    0 0 0 1px rgba(14, 165, 233, 0.45) inset,
+    0 0 16px rgba(14, 165, 233, 0.2);
 }
 .coach-subject-card.subject-rla {
   border-color: rgba(124, 58, 237, 0.45);
-  box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22),
-    0 0 0 1px rgba(124, 58, 237, 0.45) inset, 0 0 16px rgba(124, 58, 237, 0.2);
+  box-shadow:
+    0 10px 25px rgba(184, 123, 28, 0.22),
+    0 0 0 1px rgba(124, 58, 237, 0.45) inset,
+    0 0 16px rgba(124, 58, 237, 0.2);
 }
 .coach-subject-card.subject-science {
   border-color: rgba(248, 113, 113, 0.45);
-  box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22),
-    0 0 0 1px rgba(248, 113, 113, 0.45) inset, 0 0 16px rgba(248, 113, 113, 0.2);
+  box-shadow:
+    0 10px 25px rgba(184, 123, 28, 0.22),
+    0 0 0 1px rgba(248, 113, 113, 0.45) inset,
+    0 0 16px rgba(248, 113, 113, 0.2);
 }
 .coach-subject-card.subject-social {
   border-color: rgba(22, 163, 74, 0.45);
-  box-shadow: 0 10px 25px rgba(184, 123, 28, 0.22),
-    0 0 0 1px rgba(22, 163, 74, 0.45) inset, 0 0 16px rgba(22, 163, 74, 0.2);
+  box-shadow:
+    0 10px 25px rgba(184, 123, 28, 0.22),
+    0 0 0 1px rgba(22, 163, 74, 0.45) inset,
+    0 0 16px rgba(22, 163, 74, 0.2);
 }
 
 /* subject label chips and minutes badges stay visible */
@@ -2562,9 +2615,13 @@ h3 {
   color: #ffffff;
   font-weight: 600;
   border: 1px solid rgba(15, 23, 42, 0.35);
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18),
+  box-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.18),
     0 0 0 1px rgba(255, 255, 255, 0.4) inset;
-  transition: background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+  transition:
+    background 120ms ease,
+    box-shadow 120ms ease,
+    transform 120ms ease;
 }
 [data-theme='light'] .coach-subject-card button:hover {
   background: linear-gradient(135deg, #1e293b, #334155);
@@ -2601,9 +2658,13 @@ h3 {
   color: #f8fafc;
   font-weight: 600;
   border: 1px solid rgba(148, 163, 184, 0.25);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6),
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.6),
     0 0 0 1px rgba(255, 255, 255, 0.08) inset;
-  transition: background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+  transition:
+    background 120ms ease,
+    box-shadow 120ms ease,
+    transform 120ms ease;
 }
 [data-theme='dark'] .coach-subject-card button:hover {
   background: linear-gradient(135deg, #334155, #1e293b);
@@ -2748,7 +2809,9 @@ h3 {
 
 /* make the toggle (Show / Hide) consistent in both modes */
 #profileView .challenges-toggle-btn {
-  transition: background-color 0.2s ease, color 0.2s ease,
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
     border-color 0.2s ease;
 }
 /* light mode: keep it white with dark text */
@@ -2933,7 +2996,9 @@ select.dev-role-select option {
   background: var(--bg-page);
   color: #ffffff;
 }
-[data-theme='dark'] .essay-practice-shell :where(h1, h2, h3, h4, h5, h6, p, li, span, strong, em, a, blockquote) {
+[data-theme='dark']
+  .essay-practice-shell
+  :where(h1, h2, h3, h4, h5, h6, p, li, span, strong, em, a, blockquote) {
   color: #ffffff;
 }
 [data-theme='dark'] .essay-practice-shell .bg-white,
@@ -3015,8 +3080,11 @@ select.dev-role-select option {
   white-space: nowrap;
   border-width: 1px;
   border-style: solid;
-  transition: background-color 0.15s ease, color 0.15s ease,
-    border-color 0.15s ease, transform 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
   backdrop-filter: blur(8px);
   cursor: pointer;
   min-width: 80px;
@@ -3185,7 +3253,8 @@ select.dev-role-select option {
 
 /* TI-30XS Calculator Styles */
 .ti-30xs-shell {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5),
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.5),
     0 10px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
@@ -3455,7 +3524,9 @@ button:not(:disabled):active,
 button:not(:disabled),
 .btn-primary,
 .answer-option {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 /* Card hover effects */
@@ -3464,7 +3535,9 @@ button:not(:disabled),
 .dashboard-card,
 .practice-card,
 .glass-panel {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .subject-card:hover,
@@ -3482,7 +3555,9 @@ select:focus {
   outline: none;
   box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.3);
   border-color: #38bdf8;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 :root.dark input:focus,

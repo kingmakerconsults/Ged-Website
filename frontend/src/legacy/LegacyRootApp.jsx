@@ -23591,6 +23591,7 @@ function AppHeader({
   const isProfileActive = activePanel === 'profile';
   const isSettingsActive = activePanel === 'settings';
   const isDark = theme === 'dark';
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const toggleButtonStyle = isDark
     ? undefined
     : {
@@ -23599,6 +23600,11 @@ function AppHeader({
         borderColor: 'rgba(15,23,42,0.18)',
         boxShadow: '0 12px 20px -14px rgba(15,23,42,0.25)',
       };
+
+  const handleMobileAction = (action) => {
+    setMobileMenuOpen(false);
+    action();
+  };
 
   return (
     <header className="app-header fixed top-0 left-0 right-0 z-40 backdrop-blur-md border-b shadow-sm">
@@ -23649,6 +23655,15 @@ function AppHeader({
         <div className="flex items-center gap-4">
           <button
             type="button"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+            className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-subtle bg-white/90 dark:bg-slate-900/90 focus-ring-primary"
+          >
+            <span className="text-lg leading-none">☰</span>
+          </button>
+          <button
+            type="button"
             onClick={onToggleTheme}
             aria-label="Toggle color mode"
             aria-pressed={isDark}
@@ -23671,7 +23686,7 @@ function AppHeader({
             />
           </button>
           {currentUser && (
-            <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-4">
               <div className="flex items-center gap-2">
                 {currentUser.picture ? (
                   <img
@@ -23739,6 +23754,62 @@ function AppHeader({
           )}
         </div>
       </div>
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t border-subtle px-4 pb-4 pt-3">
+          <nav className="grid gap-2">
+            <button
+              type="button"
+              onClick={() => handleMobileAction(onShowHome)}
+              className="btn-ghost justify-start"
+            >
+              Dashboard
+            </button>
+            <button
+              type="button"
+              onClick={() => handleMobileAction(onShowQuizzes)}
+              className="btn-ghost justify-start"
+            >
+              Quizzes
+            </button>
+            <button
+              type="button"
+              onClick={() => handleMobileAction(onShowProgress)}
+              className="btn-ghost justify-start"
+            >
+              Progress
+            </button>
+            {currentUser && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => handleMobileAction(onShowProfile)}
+                  className={`btn-ghost justify-start ${
+                    isProfileActive ? 'nav-link-active' : ''
+                  }`}
+                >
+                  Profile
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleMobileAction(onShowSettings)}
+                  className={`btn-ghost justify-start ${
+                    isSettingsActive ? 'nav-link-active' : ''
+                  }`}
+                >
+                  Settings
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleMobileAction(onLogout)}
+                  className="btn-ghost text-danger justify-start"
+                >
+                  Log Out
+                </button>
+              </>
+            )}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

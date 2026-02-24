@@ -3,74 +3,82 @@ module.exports = [
     "questionNumber": 1,
     "type": "multiple-choice-text",
     "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/unclassified_0109.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0109.png",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: Line graph comparing US and USSR/Russian stockpiled nuclear warheads from 1945 to 2008.\n\nDescription: This line graph illustrates the number of stockpiled nuclear warheads held by the United States and the USSR/Russia from 1945 to 2008. The Y-axis represents the number of nuclear warheads, ranging from 0 to 45,000, while the X-axis shows the years in interval…\n\nText in image: US and USSR/Russian Stockpiled Nuclear Warheads Nuclear Warheads Year US USSR",
-      "imageURL": "/images/Social%20Studies/unclassified_0109.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "Farm crisis",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Breakfast Sandwich Market",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Russia history",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "from Panama to Canal Zone",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 2,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/unclassified_0109.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0109.png",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: Line graph comparing US and USSR/Russian stockpiled nuclear warheads from 1945 to 2008.\n\nDescription: This line graph illustrates the number of stockpiled nuclear warheads held by the United States and the USSR/Russia from 1945 to 2008. The Y-axis represents the number of nuclear warheads, ranging from 0 to 45,000, while the X-axis shows the years in interval…\n\nText in image: US and USSR/Russian Stockpiled Nuclear Warheads Nuclear Warheads Year US USSR",
-      "imageURL": "/images/Social%20Studies/unclassified_0109.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "nuclear warheads and historical data",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Nevada and historical data",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Unrecognized territory and arms race",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "nuclear warheads and arms race",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
+      },
+      {
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   }
 ];

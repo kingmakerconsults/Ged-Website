@@ -5,59 +5,63 @@ const fs = require('fs');
 const path = require('path');
 const legacy = require('../premade-questions.js');
 
-const QUESTION_LIKE_KEYS = new Set(['question', 'questiontext', 'prompt', 'stem']);
+const QUESTION_LIKE_KEYS = new Set([
+  'question',
+  'questiontext',
+  'prompt',
+  'stem',
+]);
+const SCENARIO_PREFIX_PATTERN =
+  /^\s*(?:(?:[A-Za-z][\w'’.:-]*\s+){0,8}(?:scenario|challenge)\s*:\s*)/i;
 
 function shouldStripScenarioPrefix(keyName) {
-  return QUESTION_LIKE_KEYS.has(String(keyName || '').trim().toLowerCase());
+  return QUESTION_LIKE_KEYS.has(
+    String(keyName || '')
+      .trim()
+      .toLowerCase()
+  );
 }
 
 function stripLeadingScenarioPrefix(text) {
   if (typeof text !== 'string' || !text) return text;
-  return text.replace(
-    /^\s*(?:(?:[A-Za-z][\w'’.:-]*\s+){0,8}scenario\s*:\s*)/i,
-    ''
-  );
+  return text.replace(SCENARIO_PREFIX_PATTERN, '');
 }
 
 function normalizeQuizText(str, keyName = '') {
   if (typeof str !== 'string' || !str) return str;
-  const normalized =
-    str
-      // Fix double-wrapped inline math delimiters like \(\( ... \)\)
-      .replace(/\\\(\s*\\\(/g, '\\(')
-      .replace(/\\\)\s*\\\)/g, '\\)')
-      .replace(/\u00C2\u00B2|Â²/g, '²')
-      .replace(/\u00C2\u00B3|Â³/g, '³')
-      .replace(/\u00C2\u00B0|Â°/g, '°')
-      .replace(/Ã·/g, '÷')
-      .replace(/Ã—/g, '×')
-      .replace(/â‰ˆ/g, '≈')
-      .replace(/â‰¤/g, '≤')
-      .replace(/â‰¥/g, '≥')
-      .replace(/â‰ /g, '≠')
-      // Normalize image/static asset paths used by quizzes.
-      // Desired format is absolute-from-web-root: /images/...
-      .replace(/src="(?:Images|images)\//g, 'src="/images/')
-      .replace(/src='(?:Images|images)\//g, "src='/images/")
-      .replace(/href="(?:Images|images)\//g, 'href="/images/')
-      .replace(/href='(?:Images|images)\//g, "href='/images/")
-      // Convert absolute Netlify-hosted legacy paths to /images
-      .replace(
-        /https?:\/\/[^\s"']+\/frontend\/(?:Images|images)\//gi,
-        '/images/'
-      )
-      // Convert legacy backend-served /frontend/Images paths to /images
-      .replace(/\/(?:frontend)\/(?:Images|images)\//g, '/images/')
-      .replace(/^(?:frontend)\/(?:Images|images)\//i, '/images/')
-      // Fix common subject folder variant
-      .replace(/\/images\/Social_Studies\//g, '/images/Social Studies/')
-      // Normalize image/static asset paths used by quizzes.
-      // Desired format is absolute-from-web-root: /images/...
-      .replace(/src="(?:\/frontend\/)?(?:Images|images)\//g, 'src="/images/')
-      .replace(/src='(?:\/frontend\/)?(?:Images|images)\//g, "src='/images/")
-      .replace(/href="(?:\/frontend\/)?(?:Images|images)\//g, 'href="/images/')
-      .replace(/href='(?:\/frontend\/)?(?:Images|images)\//g, "href='/images/")
-      .replace(/^(?:Images|images)\//, '/images/');
+  const normalized = str
+    // Fix double-wrapped inline math delimiters like \(\( ... \)\)
+    .replace(/\\\(\s*\\\(/g, '\\(')
+    .replace(/\\\)\s*\\\)/g, '\\)')
+    .replace(/\u00C2\u00B2|Â²/g, '²')
+    .replace(/\u00C2\u00B3|Â³/g, '³')
+    .replace(/\u00C2\u00B0|Â°/g, '°')
+    .replace(/Ã·/g, '÷')
+    .replace(/Ã—/g, '×')
+    .replace(/â‰ˆ/g, '≈')
+    .replace(/â‰¤/g, '≤')
+    .replace(/â‰¥/g, '≥')
+    .replace(/â‰ /g, '≠')
+    // Normalize image/static asset paths used by quizzes.
+    // Desired format is absolute-from-web-root: /images/...
+    .replace(/src="(?:Images|images)\//g, 'src="/images/')
+    .replace(/src='(?:Images|images)\//g, "src='/images/")
+    .replace(/href="(?:Images|images)\//g, 'href="/images/')
+    .replace(/href='(?:Images|images)\//g, "href='/images/")
+    // Convert absolute Netlify-hosted legacy paths to /images
+    .replace(/https?:\/\/[^\s"']+\/frontend\/(?:Images|images)\//gi, '/images/')
+    // Convert legacy backend-served /frontend/Images paths to /images
+    .replace(/\/(?:frontend)\/(?:Images|images)\//g, '/images/')
+    .replace(/^(?:frontend)\/(?:Images|images)\//i, '/images/')
+    // Fix common subject folder variant
+    .replace(/\/images\/Social_Studies\//g, '/images/Social Studies/')
+    // Normalize image/static asset paths used by quizzes.
+    // Desired format is absolute-from-web-root: /images/...
+    .replace(/src="(?:\/frontend\/)?(?:Images|images)\//g, 'src="/images/')
+    .replace(/src='(?:\/frontend\/)?(?:Images|images)\//g, "src='/images/")
+    .replace(/href="(?:\/frontend\/)?(?:Images|images)\//g, 'href="/images/')
+    .replace(/href='(?:\/frontend\/)?(?:Images|images)\//g, "href='/images/")
+    .replace(/^(?:Images|images)\//, '/images/');
 
   return shouldStripScenarioPrefix(keyName)
     ? stripLeadingScenarioPrefix(normalized)
@@ -66,7 +70,8 @@ function normalizeQuizText(str, keyName = '') {
 
 function normalizeDeep(value, keyName = '') {
   if (typeof value === 'string') return normalizeQuizText(value, keyName);
-  if (Array.isArray(value)) return value.map((item) => normalizeDeep(item, keyName));
+  if (Array.isArray(value))
+    return value.map((item) => normalizeDeep(item, keyName));
   if (value && typeof value === 'object') {
     for (const key of Object.keys(value)) {
       value[key] = normalizeDeep(value[key], key);

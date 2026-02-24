@@ -146,8 +146,8 @@ export default function AdminStudentDetailView() {
       </div>
 
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-        <div className="flex items-start justify-between">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 mb-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold">
               {student.name || 'Unnamed Student'}
@@ -155,7 +155,7 @@ export default function AdminStudentDetailView() {
             <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
               {student.email}
             </p>
-            <div className="flex gap-4 mt-2 text-sm text-gray-600 dark:text-gray-400">
+            <div className="flex flex-wrap gap-3 mt-2 text-sm text-gray-600 dark:text-gray-400">
               {student.className && (
                 <span>
                   Class: <strong>{student.className}</strong>
@@ -208,7 +208,7 @@ export default function AdminStudentDetailView() {
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
         <div className="px-6 py-4 border-b dark:border-gray-700 flex items-center justify-between flex-wrap gap-3">
           <h2 className="text-lg font-semibold">Quiz Attempt History</h2>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <select
               value={subjectFilter}
               onChange={(e) => {
@@ -245,8 +245,8 @@ export default function AdminStudentDetailView() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+        <div className="overflow-x-auto overscroll-x-contain">
+          <table className="w-full min-w-[760px] text-sm">
             <thead>
               <tr className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
                 <th className="text-left px-4 py-2 font-medium">Date</th>

@@ -3,74 +3,82 @@ module.exports = [
     "questionNumber": 1,
     "type": "multiple-choice-text",
     "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/unclassified_0009.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0009.png",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: A vertical timeline showing significant milestones in U.S. voting rights history from 1776 to 1971.\n\nDescription: This image presents a vertical timeline outlining the expansion of voting rights in the United States from 1776 to 1971. Each point on the timeline marks a specific year or decade, detailing a key event such as a constitutional amendment, legislative act, or …",
-      "imageURL": "/images/Social%20Studies/unclassified_0009.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "Panama",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Michigan Territory admitted as Michigan",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "women's suffrage",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "Molotov-Ribbentrop Pact",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 2,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/unclassified_0009.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0009.png",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: A vertical timeline showing significant milestones in U.S. voting rights history from 1776 to 1971.\n\nDescription: This image presents a vertical timeline outlining the expansion of voting rights in the United States from 1776 to 1971. Each point on the timeline marks a specific year or decade, detailing a key event such as a constitutional amendment, legislative act, or …",
-      "imageURL": "/images/Social%20Studies/unclassified_0009.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "US history and voting rights",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "US history and from Illinois Territory admitted as Illinois",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
         "isCorrect": false
       },
       {
-        "text": "King Andrew and voting rights",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
         "isCorrect": false
       },
       {
-        "text": "Bank crisis and from Illinois Territory admitted as Illinois",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   }
 ];

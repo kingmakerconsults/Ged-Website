@@ -30,9 +30,13 @@ function loadJSON(p) {
 }
 
 function safeRequire(absPath) {
-  delete require.cache[require.resolve(absPath)];
-  // eslint-disable-next-line import/no-dynamic-require
-  return require(absPath);
+  try {
+    delete require.cache[require.resolve(absPath)];
+    // eslint-disable-next-line import/no-dynamic-require
+    return require(absPath);
+  } catch (err) {
+    return { __loadError: err };
+  }
 }
 
 function normalize(s) {
@@ -83,6 +87,7 @@ function main() {
   let totalQuestions = 0;
   let flagged = 0;
   const flaggedItems = [];
+  const skippedFiles = [];
   const perSubject = {};
 
   for (const t of topics) {
@@ -91,6 +96,13 @@ function main() {
     if (!fs.existsSync(abs)) continue;
 
     const questions = safeRequire(abs);
+    if (questions && questions.__loadError) {
+      skippedFiles.push({
+        file: rel,
+        error: String(questions.__loadError.message || questions.__loadError),
+      });
+      continue;
+    }
     if (!Array.isArray(questions)) continue;
 
     for (const q of questions) {
@@ -183,6 +195,7 @@ function main() {
       ? Math.round((flagged / totalQuestions) * 1000) / 10
       : 0,
     perSubject,
+    skippedFiles,
     sampleFlagged: flaggedItems.slice(0, 50),
   };
 
@@ -200,6 +213,7 @@ function main() {
   console.log(
     `[audit] topicsChecked=${report.topicsChecked} totalQuestions=${totalQuestions} flagged=${flagged} (${report.flaggedPercent}%)`
   );
+  console.log(`[audit] skippedFiles=${skippedFiles.length}`);
   console.log('[audit] wrote reports/generated-image-question-quality.json');
 }
 

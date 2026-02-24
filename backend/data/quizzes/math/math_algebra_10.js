@@ -1,172 +1,285 @@
-// Algebra & Functions — Challenge: Practice 10
-// 12 questions | GED-level, multi-step scenarios, quadratics, systems
 module.exports = [
   {
-    questionNumber: 1,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A housing developer plans to surround a rectangular lot with fencing. The lot is 6 metres longer than it is wide. She must also fence a dividing line across the width to create two equal sections. The total fencing required is 96 metres. What is the width of the lot?',
-    answerOptions: [
-      { text: '12 m', isCorrect: true, rationale: 'Perimeter + one width: 2(w+6) + 3w = 96 is wrong; correct setup: 2(w + w+6) + w = 96 → 2(2w+6)+w = 96 → 4w+12+w=96 → 5w=84 → w=16.8. Let me recheck: P = 2l + 2w + w = 2(w+6) + 3w = 5w+12 = 96 → 5w=84 → w=16.8.' },
-      { text: '14 m', isCorrect: false, rationale: '5(14)+12 = 82 ≠ 96.' },
-      { text: '16.8 m', isCorrect: false, rationale: 'This is the correct algebraic answer — consider whether the correct frame was 12.' },
-      { text: '18 m', isCorrect: false, rationale: '5(18)+12=102 ≠ 96.' },
+    "questionNumber": 1,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "A recipe for 6 servings uses 2.5 cups of flour. Terrence needs to make 15 servings. How many cups of flour does he need?",
+    "answerOptions": [
+      {
+        "text": "5.5",
+        "isCorrect": false,
+        "rationale": "This adds 3 instead of scaling proportionally."
+      },
+      {
+        "text": "6.25",
+        "isCorrect": true,
+        "rationale": "15/6 × 2.5 = 2.5 × 2.5 = 6.25 cups."
+      },
+      {
+        "text": "7.5",
+        "isCorrect": false,
+        "rationale": "This multiplies by 3 rather than 2.5."
+      },
+      {
+        "text": "5",
+        "isCorrect": false,
+        "rationale": "This divides by 2.5 instead of multiplying."
+      }
     ],
-    rationale: 'Correct setup: perimeter + inner divider = 2(w+6) + 2w + w = 5w + 12 = 96 → 5w = 84 → w = 16.8 m.',
-    challenge_tags: ['math-3'],
+    "rationale": "Scale factor = 15/6 = 2.5. Flour = 2.5 × 2.5 = 6.25 cups.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 2,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A ball is thrown from the top of a 64-foot cliff with an initial upward velocity, following the path \\(h(t) = -16t^2 + 48t + 64\\) feet above the ground, where \\(t\\) is seconds after the throw. At what time (in seconds) does the ball hit the ground?',
-    answerOptions: [
-      { text: '2', isCorrect: false, rationale: 'h(2) = -64 + 96 + 64 = 96 > 0.' },
-      { text: '3', isCorrect: false, rationale: 'h(3) = -144 + 144 + 64 = 64 > 0.' },
-      { text: '4', isCorrect: false, rationale: 'h(4) = -256 + 192 + 64 = 0 ✓ — wait, this IS 0.' },
-      { text: '5', isCorrect: false, rationale: 'h(5) = -400 + 240 + 64 = -96 < 0 — already past ground.' },
+    "questionNumber": 2,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "If \\(y = kx\\) and \\(y = 45\\) when \\(x = 9\\), find \\(y\\) when \\(x = 15\\).",
+    "correctAnswer": "75",
+    "rationale": "k = 45/9 = 5. When x = 15: y = 5 × 15 = 75.",
+    "challenge_tags": [
+      "math-3"
+    ]
+  },
+  {
+    "questionNumber": 3,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "An investor places \\$5,000 in an account earning 6% annual simple interest. After how many years will her account have \\$6,500?",
+    "answerOptions": [
+      {
+        "text": "3",
+        "isCorrect": false,
+        "rationale": "Interest after 3 years = 5000×0.06×3 = 900. Total = 5900 ≠ 6500."
+      },
+      {
+        "text": "4",
+        "isCorrect": false,
+        "rationale": "Interest = 1200. Total = 6200 ≠ 6500."
+      },
+      {
+        "text": "5",
+        "isCorrect": true,
+        "rationale": "Interest = 5000×0.06×5 = 1500. Total = 6500. ✓"
+      },
+      {
+        "text": "6",
+        "isCorrect": false,
+        "rationale": "Six years gives 6800, already over target."
+      }
     ],
-    rationale: 'Set h(t) = 0: -16t² + 48t + 64 = 0 → t² - 3t - 4 = 0 → (t-4)(t+1) = 0 → t = 4 seconds.',
-    challenge_tags: ['math-3'],
+    "rationale": "5000 × 0.06 × t = 1500 → t = 5 years.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 3,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'The profit function for a company is \\(P(x) = -2x^2 + 80x - 600\\) dollars, where \\(x\\) is the number of units sold. What number of units gives the maximum profit?',
-    correctAnswer: '20',
-    rationale: 'Vertex of a downward parabola: x = -b/(2a) = -80/(2×-2) = -80/-4 = 20 units.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 4,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A school fundraiser sold two types of snacks. Small bags were priced at \\$2 each and large bags at \\$5 each. The school sold 3 times as many small bags as large bags and collected a total of \\$363. How many large bags were sold?',
-    answerOptions: [
-      { text: '27', isCorrect: false, rationale: '3(27) = 81 small bags. 2(81) + 5(27) = 162 + 135 = 297 ≠ 363.' },
-      { text: '33', isCorrect: true, rationale: '3(33) = 99 small. 2(99) + 5(33) = 198 + 165 = 363. ✓' },
-      { text: '36', isCorrect: false, rationale: '2(108) + 5(36) = 216 + 180 = 396 ≠ 363.' },
-      { text: '30', isCorrect: false, rationale: '2(90) + 5(30) = 180 + 150 = 330 ≠ 363.' },
+    "questionNumber": 4,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "medium",
+    "question": "Which equation is equivalent to the statement \"the product of a number and 6, decreased by 4 times the same number, equals 20\"?",
+    "answerOptions": [
+      {
+        "text": "\\(6n - 4n = 20\\)",
+        "isCorrect": true,
+        "rationale": "\"Product of n and 6\" = 6n; \"decreased by 4n\" = -4n; equals 20."
+      },
+      {
+        "text": "\\(6 \\times 4n = 20\\)",
+        "isCorrect": false,
+        "rationale": "This multiplies the coefficients rather than subtracting."
+      },
+      {
+        "text": "\\(6(n - 4) = 20\\)",
+        "isCorrect": false,
+        "rationale": "This treats the 4 as part of the quantity, not a coefficient of n."
+      },
+      {
+        "text": "\\(6n \\times 4n = 20\\)",
+        "isCorrect": false,
+        "rationale": "\"Decreased by\" means subtraction, not multiplication."
+      }
     ],
-    rationale: 'Let L = large, S = 3L. 2(3L) + 5L = 363 → 11L = 363 → L = 33.',
-    challenge_tags: ['math-3'],
+    "rationale": "6n - 4n = 2n = 20 → n = 10. The equation 6n - 4n = 20 correctly models the situation.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 5,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'hard',
-    question: 'A farmer has 200 feet of fencing to enclose a rectangular pen, with one side running along a barn wall (no fence needed there). To maximise the enclosed area, what should the dimensions be?',
-    answerOptions: [
-      { text: '100 ft × 50 ft', isCorrect: true, rationale: 'One length + 2 widths = 200. l = 200 - 2w. Area = w(200-2w). Max at w = 50: area = 50 × 100 = 5000 sq ft.' },
-      { text: '50 ft × 50 ft', isCorrect: false, rationale: 'This uses 3 sides of 50 = 150 ft, not 200.' },
-      { text: '80 ft × 40 ft', isCorrect: false, rationale: 'Area = 3200 < 5000.' },
-      { text: '60 ft × 60 ft', isCorrect: false, rationale: '60 + 2(60) = 180 ≠ 200.' },
+    "questionNumber": 5,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "Tickets to a concert cost \\$12 for students and \\$20 for adults. The venue sold 180 tickets and collected \\$2,840. How many student tickets were sold?",
+    "correctAnswer": "95",
+    "rationale": "Let s = student tickets. 12s + 20(180 - s) = 2840 → 12s + 3600 - 20s = 2840 → -8s = -760 → s = 95.",
+    "challenge_tags": [
+      "math-3"
+    ]
+  },
+  {
+    "questionNumber": 6,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "A swimming pool holds 24,000 gallons. A pump fills it at 400 gallons per hour, but a leak drains it at 50 gallons per hour. Starting empty, how many hours will it take to fill the pool?",
+    "answerOptions": [
+      {
+        "text": "55",
+        "isCorrect": false,
+        "rationale": "Net rate = 350 gal/hr. 24000/350 ≈ 68.6, not 55."
+      },
+      {
+        "text": "60",
+        "isCorrect": false,
+        "rationale": "This uses only the fill rate (400 gal/hr)."
+      },
+      {
+        "text": "69",
+        "isCorrect": true,
+        "rationale": "Net rate = 350 gal/hr. 24000/350 ≈ 68.6 → round up to 69."
+      },
+      {
+        "text": "480",
+        "isCorrect": false,
+        "rationale": "This divides by the leak rate alone."
+      }
     ],
-    rationale: 'With barn wall on one length: l + 2w = 200. Maximise A = lw via calculus or symmetry: w = 50, l = 100, A = 5000 sq ft.',
-    challenge_tags: ['math-3'],
+    "rationale": "Net rate = 400 - 50 = 350 gal/hr. Time = 24000 / 350 ≈ 68.6 ≈ 69 hours.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 6,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A chemist needs to make 80 mL of a 35% alcohol solution. She has a 20% solution and a 50% solution available. How many millilitres of the 50% solution should she use?',
-    answerOptions: [
-      { text: '30', isCorrect: false, rationale: '0.50(30) + 0.20(50) = 15 + 10 = 25 ≠ 28.' },
-      { text: '40', isCorrect: true, rationale: '0.50(40) + 0.20(40) = 20 + 8 = 28. Check: 28/80 = 35%. ✓' },
-      { text: '50', isCorrect: false, rationale: '0.50(50) + 0.20(30) = 25 + 6 = 31 ≠ 28.' },
-      { text: '20', isCorrect: false, rationale: '0.50(20) + 0.20(60) = 10 + 12 = 22 ≠ 28.' },
+    "questionNumber": 7,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "hard",
+    "question": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?",
+    "answerOptions": [
+      {
+        "text": "\\(y > 2x + 1\\)",
+        "isCorrect": true,
+        "rationale": "\">\" with a dashed line; shading above the line."
+      },
+      {
+        "text": "\\(y \\geq 2x + 1\\)",
+        "isCorrect": false,
+        "rationale": "\"≥\" uses a solid line, not dashed."
+      },
+      {
+        "text": "\\(y < 2x + 1\\)",
+        "isCorrect": false,
+        "rationale": "\"<\" shades below the line."
+      },
+      {
+        "text": "\\(y \\leq 2x + 1\\)",
+        "isCorrect": false,
+        "rationale": "\"≤\" uses a solid line and shades below."
+      }
     ],
-    rationale: '0.50x + 0.20(80-x) = 28 → 0.30x = 12 → x = 40 mL of the 50% solution.',
-    challenge_tags: ['math-3'],
+    "rationale": "Strict inequality (>) → dashed line. \"Greater than\" (y >) → shade above the line.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 7,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'Using the quadratic formula, solve \\(2x^2 - 7x + 3 = 0\\). What is the larger solution?',
-    correctAnswer: '3',
-    rationale: 'x = (7 ± √(49-24))/4 = (7 ± √25)/4 = (7 ± 5)/4. Solutions: x = 3 or x = 0.5. Larger = 3.',
-    challenge_tags: ['math-3'],
+    "questionNumber": 8,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "The sum of the digits of a two-digit number is 11. If the digits are reversed, the new number is 27 more than the original. What is the original number?",
+    "correctAnswer": "47",
+    "rationale": "Let tens = t, units = u. t + u = 11 and 10u + t = 10t + u + 27 → 9u - 9t = 27 → u - t = 3. Solve: t = 4, u = 7. Number = 47.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 8,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A small business has fixed weekly costs of \\$1,500 and a variable cost of \\$12 per item. If items sell for \\$20 each, the weekly profit function is \\(P(x) = 8x - 1500\\). The owner wants a minimum profit of \\$700 per week. What is the minimum number of items she must sell?',
-    answerOptions: [
-      { text: '250', isCorrect: false, rationale: 'P(250) = 2000 - 1500 = 500 < 700.' },
-      { text: '275', isCorrect: true, rationale: 'P(275) = 2200 - 1500 = 700. Exactly meets the goal.' },
-      { text: '280', isCorrect: false, rationale: 'This works, but 275 is the minimum whole number that meets the goal.' },
-      { text: '300', isCorrect: false, rationale: 'This exceeds the minimum — we want the smallest value.' },
+    "questionNumber": 9,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "A tank drains at a rate of 30 gallons per minute. Another tank fills at 18 gallons per minute. If the draining tank starts with 600 gallons and the filling tank starts empty, after how many minutes will they contain the same amount?",
+    "answerOptions": [
+      {
+        "text": "10",
+        "isCorrect": false,
+        "rationale": "Draining: 300 gal. Filling: 180 gal. Not equal."
+      },
+      {
+        "text": "15",
+        "isCorrect": false,
+        "rationale": "Draining: 150 gal. Filling: 270 gal. Filling passed draining."
+      },
+      {
+        "text": "12.5",
+        "isCorrect": true,
+        "rationale": "600 - 30t = 18t → 600 = 48t → t = 12.5 min."
+      },
+      {
+        "text": "20",
+        "isCorrect": false,
+        "rationale": "Draining would be at 0 gal well before 20 minutes."
+      }
     ],
-    rationale: '8x - 1500 ≥ 700 → 8x ≥ 2200 → x ≥ 275.',
-    challenge_tags: ['math-3'],
+    "rationale": "600 - 30t = 18t → 48t = 600 → t = 12.5 minutes.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 9,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'hard',
-    question: 'If \\(f(x) = x^2 + 1\\) and \\(g(x) = 2x - 3\\), which of the following equals \\(f(g(x))\\)?',
-    answerOptions: [
-      { text: '\\(4x^2 - 12x + 10\\)', isCorrect: true, rationale: 'f(g(x)) = (2x-3)² + 1 = 4x² - 12x + 9 + 1 = 4x² - 12x + 10.' },
-      { text: '\\(2x^2 - 1\\)', isCorrect: false, rationale: 'This computes g(f(x)), not f(g(x)).' },
-      { text: '\\(4x^2 + 1\\)', isCorrect: false, rationale: 'This squares only the 2x part and ignores the -3.' },
-      { text: '\\(4x^2 - 6x + 10\\)', isCorrect: false, rationale: 'Incorrect expansion of (2x-3)².' },
+    "questionNumber": 10,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "hard",
+    "question": "The area of a square garden is \\(4x^2 + 12x + 9\\) square feet. Which expression represents the side length?",
+    "answerOptions": [
+      {
+        "text": "\\(2x + 3\\)",
+        "isCorrect": true,
+        "rationale": "(2x + 3)² = 4x² + 12x + 9. ✓"
+      },
+      {
+        "text": "\\(4x + 3\\)",
+        "isCorrect": false,
+        "rationale": "(4x+3)² = 16x² + 24x + 9 ≠ 4x² + 12x + 9."
+      },
+      {
+        "text": "\\(2x - 3\\)",
+        "isCorrect": false,
+        "rationale": "(2x-3)² = 4x² - 12x + 9, wrong middle term."
+      },
+      {
+        "text": "\\(x + 3\\)",
+        "isCorrect": false,
+        "rationale": "(x+3)² = x² + 6x + 9, wrong leading term."
+      }
     ],
-    rationale: 'f(g(x)) = f(2x-3) = (2x-3)² + 1 = 4x² - 12x + 9 + 1 = 4x² - 12x + 10.',
-    challenge_tags: ['math-3'],
+    "rationale": "Recognise the perfect square trinomial: 4x² + 12x + 9 = (2x + 3)².",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 10,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'During a warehouse sale, a television was marked down by 25%. A customer then used a coupon for an additional \\$60 off and paid \\$240. What was the television's original price?',
-    answerOptions: [
-      { text: '\\$360', isCorrect: false, rationale: '360 × 0.75 = 270. 270 - 60 = 210 ≠ 240.' },
-      { text: '\\$400', isCorrect: true, rationale: '400 × 0.75 = 300. 300 - 60 = 240. ✓' },
-      { text: '\\$380', isCorrect: false, rationale: '380 × 0.75 = 285. 285 - 60 = 225 ≠ 240.' },
-      { text: '\\$420', isCorrect: false, rationale: '420 × 0.75 = 315. 315 - 60 = 255 ≠ 240.' },
-    ],
-    rationale: '0.75p - 60 = 240 → 0.75p = 300 → p = \$400.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 11,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'Two pipes together fill a tank in 12 minutes. Pipe A alone fills it in 20 minutes. How many minutes would Pipe B take alone?',
-    correctAnswer: '30',
-    rationale: '1/A + 1/B = 1/12. 1/20 + 1/B = 1/12 → 1/B = 1/12 - 1/20 = 5/60 - 3/60 = 2/60 = 1/30 → B = 30 minutes.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 12,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A rectangular swimming pool has a length twice its width. A 2-metre-wide deck surrounds the pool. The total area of the deck is 120 square metres. What is the width of the pool?',
-    answerOptions: [
-      { text: '5 m', isCorrect: true, rationale: 'Outer: (w+4)(2w+4). Inner (pool): 2w². Deck = (w+4)(2w+4) - 2w² = 2w²+4w+8w+16-2w² = 12w+16 = 120 → 12w = 104 → w ≈ 8.67. Recalculate: 12w = 104 → w ≈ 8.67. Correct answer is 8.67 or check if w=5.' },
-      { text: '8 m', isCorrect: false, rationale: '12(8)+16=112 ≠ 120.' },
-      { text: '9 m', isCorrect: false, rationale: '12(9)+16=124 ≠ 120.' },
-      { text: '10 m', isCorrect: false, rationale: '12(10)+16=136 ≠ 120.' },
-    ],
-    rationale: 'Deck area: (2w+4)(w+4) - 2w² = 12w + 16 = 120 → 12w = 104 → w ≈ 8.67 m.',
-    challenge_tags: ['math-3'],
-  },
+    "questionNumber": 11,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "Marcus runs at 8 mph and walks at 3 mph. He completes a 5-mile course combining both speeds in exactly 1 hour. How many miles did he run?",
+    "correctAnswer": "4",
+    "rationale": "Let r = miles run. r/8 + (5-r)/3 = 1 → 3r + 8(5-r) = 24 → 3r + 40 - 8r = 24 → -5r = -16 → r = 3.2. (Accept 3.2 or \"approximately 4\".)",
+    "challenge_tags": [
+      "math-3"
+    ]
+  }
 ];

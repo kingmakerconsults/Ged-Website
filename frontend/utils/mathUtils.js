@@ -325,10 +325,7 @@ function escapeCurrencyDollars(text) {
   result = result.replace(/\\\$/g, '\x00ESC_DOLLAR\x00');
   // Escape bare currency: $NNN or $N,NNN or $NNN.NN
   // Only match $ followed by digit (not $ followed by letter which is likely LaTeX)
-  result = result.replace(
-    /\$(\d[\d,]*(?:\.\d{0,2})?)/g,
-    '\\$$$1'
-  );
+  result = result.replace(/\$(\d[\d,]*(?:\.\d{0,2})?)/g, '\\$$$1');
   // Restore previously-escaped \$
   result = result.replace(/\x00ESC_DOLLAR\x00/g, '\\$');
   return result;
@@ -529,14 +526,14 @@ export function renderStemWithKatex(text) {
     : maybeFormatted;
 }
 
+const SCENARIO_PREFIX_PATTERN =
+  /^\s*(?:(?:[A-Za-z][\w'’.:-]*\s+){0,8}(?:scenario|challenge)\s*:\s*)/i;
+
 export function stripLeadingScenarioPrefixForDisplay(text) {
   if (typeof text !== 'string' || text.length === 0) {
     return text;
   }
-  return text.replace(
-    /^\s*(?:(?:[A-Za-z][\w'’.:-]*\s+){0,8}scenario\s*:\s*)/i,
-    ''
-  );
+  return text.replace(SCENARIO_PREFIX_PATTERN, '');
 }
 
 // Extracted: renderQuestionTextForDisplay
@@ -548,9 +545,9 @@ export function renderQuestionTextForDisplay(
   const guardedText = stripLeadingScenarioPrefixForDisplay(text);
   const useKatex = Boolean(
     typeof window !== 'undefined' &&
-      window.__APP_CONFIG__ &&
-      window.__APP_CONFIG__.premadeUsesKatex === true &&
-      isPremade === true
+    window.__APP_CONFIG__ &&
+    window.__APP_CONFIG__.premadeUsesKatex === true &&
+    isPremade === true
   );
   if (useKatex) {
     return { __html: renderStemWithKatex(guardedText) };

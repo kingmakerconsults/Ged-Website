@@ -1,0 +1,865 @@
+{
+  "generatedAt": "2026-02-24T16:04:45.211Z",
+  "filesProcessed": 107,
+  "filesSkipped": 0,
+  "restoredQuestions": 404,
+  "skipped": [],
+  "touched": [
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_maps.js",
+      "restored": 40,
+      "before": 0,
+      "after": 40,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_biology_diagrams.js",
+      "restored": 24,
+      "before": 0,
+      "after": 24,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_graphs.js",
+      "restored": 15,
+      "before": 0,
+      "after": 15,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_history_maps.js",
+      "restored": 14,
+      "before": 0,
+      "after": 14,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_maps.js",
+      "restored": 10,
+      "before": 13,
+      "after": 23,
+      "seedCount": 13,
+      "seedSource": "local"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_chemistry_diagrams.js",
+      "restored": 10,
+      "before": 0,
+      "after": 10,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_physics_diagrams.js",
+      "restored": 10,
+      "before": 0,
+      "after": 10,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_line_graphs.js",
+      "restored": 8,
+      "before": 0,
+      "after": 8,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_bar_charts.js",
+      "restored": 6,
+      "before": 9,
+      "after": 15,
+      "seedCount": 9,
+      "seedSource": "local"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_graphs.js",
+      "restored": 6,
+      "before": 0,
+      "after": 6,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_tables.js",
+      "restored": 6,
+      "before": 0,
+      "after": 6,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_graphs.js",
+      "restored": 6,
+      "before": 0,
+      "after": 6,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_line_graph.js",
+      "restored": 6,
+      "before": 0,
+      "after": 6,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_maps.js",
+      "restored": 6,
+      "before": 0,
+      "after": 6,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_general.js",
+      "restored": 6,
+      "before": 0,
+      "after": 6,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_science_graphs.js",
+      "restored": 6,
+      "before": 0,
+      "after": 6,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_charts.js",
+      "restored": 5,
+      "before": 0,
+      "after": 5,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_graphs.js",
+      "restored": 5,
+      "before": 0,
+      "after": 5,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_map.js",
+      "restored": 5,
+      "before": 0,
+      "after": 5,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_tables.js",
+      "restored": 5,
+      "before": 0,
+      "after": 5,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_data_tables.js",
+      "restored": 4,
+      "before": 0,
+      "after": 4,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_geography_tables.js",
+      "restored": 4,
+      "before": 0,
+      "after": 4,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_astronomy_diagrams.js",
+      "restored": 4,
+      "before": 0,
+      "after": 4,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_earth_science_diagrams.js",
+      "restored": 4,
+      "before": 0,
+      "after": 4,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_genetics_diagrams.js",
+      "restored": 4,
+      "before": 0,
+      "after": 4,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_bar_graphs.js",
+      "restored": 3,
+      "before": 5,
+      "after": 8,
+      "seedCount": 5,
+      "seedSource": "local"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civics_flowcharts.js",
+      "restored": 3,
+      "before": 4,
+      "after": 7,
+      "seedCount": 4,
+      "seedSource": "local"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_bar_graphs.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_charts.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_line_graphs.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_election_maps.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_energy_line_graph.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_health_charts.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_maps_territorial_changes.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_timeline.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_multiple_graphs.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_pictographs.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_population_tables.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_statistics_table.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_data_tables.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_graphs.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_tables.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_historical_maps.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_history_historical_maps.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_history_political_cartoons.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_u_s_history_maps.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_energy_statistics.js",
+      "restored": 3,
+      "before": 0,
+      "after": 3,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civics_maps.js",
+      "restored": 2,
+      "before": 6,
+      "after": 8,
+      "seedCount": 6,
+      "seedSource": "local"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civics_tables.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civil_rights_movement_photographs.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_cold_war_alliances_map.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_bar_charts.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_pie_chart.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_tables.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_data_graphs.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_diagrams.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_financial_tables.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_geography_map.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_government_structures_table.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_cartoons.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_illustration.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_illustrations.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_photographs.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_photos.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_posters.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_urban_scene.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_concept_maps.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_diagrams.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_graphs.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_photos.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_pie_chart.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_income_types.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_maps.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_pie_charts.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_political_cartoons.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_political_cartoons_wwii_history.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_political_maps.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_renaissance_art.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_tables.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_terminology_table.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_state_flags.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_timelines.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_world_maps.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_anatomy_diagrams.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_astronomy_diagram.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_atomic_structure.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_biology_definitions.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_biology_experiments.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_biology_pie_charts.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_biology_tables.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_chemistry_definitions.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_chemistry_graphs.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_chemistry_tables.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_earth_science_data.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_general.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_geology_diagrams.js",
+      "restored": 2,
+      "before": 3,
+      "after": 5,
+      "seedCount": 3,
+      "seedSource": "local"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_health_data_tables.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_labor_statistics_charts.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_line_graphs.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_physics_concepts.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_physics_graphs.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_physiology_graphs.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_plant_cell_diagrams.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_tables.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/rla/rla_img_historical_charts.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_img_bar_graphs.js",
+      "restored": 2,
+      "before": 0,
+      "after": 2,
+      "seedCount": 97,
+      "seedSource": "global"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/diag_ss_composite_v1.js",
+      "restored": 1,
+      "before": 10,
+      "after": 11,
+      "seedCount": 2,
+      "seedSource": "local"
+    }
+  ]
+}

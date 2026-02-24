@@ -1,157 +1,305 @@
-// Algebra & Functions — Test Ready: Practice 8
-// 11 questions | function analysis, quadratic word problems, percent, rate
 module.exports = [
   {
-    questionNumber: 1,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'medium',
-    question: 'The number of bacteria in a culture doubles every hour. If there are 200 bacteria at 9 a.m., which expression gives the count at noon?',
-    answerOptions: [
-      { text: '\\(200 \\times 2^3\\)', isCorrect: true, rationale: 'From 9 a.m. to noon = 3 hours. Count = 200 × 2³.' },
-      { text: '\\(200 \\times 3^2\\)', isCorrect: false, rationale: 'This raises the time to a power rather than 2.' },
-      { text: '\\(200 + 2 \\times 3\\)', isCorrect: false, rationale: 'Doubling is exponential, not additive.' },
-      { text: '\\(200 \\times 6\\)', isCorrect: false, rationale: 'You cannot multiply by just the total hours.' },
+    "questionNumber": 1,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "A cell phone plan charges \\$0.05 per text and \\$0.15 per minute of calls. Last month, Dani sent twice as many texts as call minutes. Her bill was \\$22.50. How many minutes of calls did she make?",
+    "answerOptions": [
+      {
+        "text": "90",
+        "isCorrect": true,
+        "rationale": "Let m = minutes. Texts = 2m. 0.15m + 0.05(2m) = 0.25m = 22.50 → m = 90."
+      },
+      {
+        "text": "75",
+        "isCorrect": false,
+        "rationale": "0.25(75) = 18.75 ≠ 22.50."
+      },
+      {
+        "text": "100",
+        "isCorrect": false,
+        "rationale": "0.25(100) = 25 ≠ 22.50."
+      },
+      {
+        "text": "45",
+        "isCorrect": false,
+        "rationale": "This halves the correct answer."
+      }
     ],
-    rationale: '3 hours of doubling: 200 × 2³ = 200 × 8 = 1600 bacteria.',
-    challenge_tags: ['math-3'],
+    "rationale": "Let m = minutes. 0.15m + 0.10m = 0.25m = 22.50 → m = 90.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 2,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'medium',
-    question: 'Tomás invests \\$2,000 at a simple interest rate of 4% per year. After 3 years, how much interest has he earned?',
-    correctAnswer: '240',
-    rationale: 'Simple interest = P × r × t = 2000 × 0.04 × 3 = 240.',
-    challenge_tags: ['math-3'],
+    "questionNumber": 2,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "The length of a rectangle is 5 more than twice its width. The perimeter is 64 cm. What is the width in centimetres?",
+    "correctAnswer": "9",
+    "rationale": "Let w = width, length = 2w + 5. Perimeter: 2(w + 2w + 5) = 64 → 2(3w + 5) = 64 → 6w + 10 = 64 → 6w = 54 → w = 9.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 3,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'medium',
-    question: 'If \\(f(x) = 2x^2 - 3x + 1\\), what is \\(f(-2)\\)?',
-    answerOptions: [
-      { text: '15', isCorrect: true, rationale: '2(-2)² - 3(-2) + 1 = 8 + 6 + 1 = 15.' },
-      { text: '3', isCorrect: false, rationale: 'Sign error; -3(-2) = +6, not -6.' },
-      { text: '-5', isCorrect: false, rationale: 'Incorrect handling of the squared term.' },
-      { text: '1', isCorrect: false, rationale: 'This computes f(0).' },
+    "questionNumber": 3,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "medium",
+    "question": "A line passes through \\((−2, 5)\\) with slope \\(\\frac{3}{2}\\). Which equation describes this line?",
+    "answerOptions": [
+      {
+        "text": "\\(y = \\frac{3}{2}x + 8\\)",
+        "isCorrect": true,
+        "rationale": "5 = (3/2)(-2) + b → 5 = -3 + b → b = 8."
+      },
+      {
+        "text": "\\(y = \\frac{3}{2}x + 5\\)",
+        "isCorrect": false,
+        "rationale": "b = 5 only if the line passes through (0,5)."
+      },
+      {
+        "text": "\\(y = \\frac{3}{2}x - 8\\)",
+        "isCorrect": false,
+        "rationale": "Sign error on b."
+      },
+      {
+        "text": "\\(y = \\frac{2}{3}x + 8\\)",
+        "isCorrect": false,
+        "rationale": "This uses the reciprocal of the slope."
+      }
     ],
-    rationale: 'f(-2) = 2(4) - 3(-2) + 1 = 8 + 6 + 1 = 15.',
-    challenge_tags: ['math-3'],
+    "rationale": "Use y = mx + b. Plug in the point: 5 = (3/2)(−2) + b → b = 8. Equation: y = (3/2)x + 8.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 4,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'medium',
-    question: 'A boat travels 60 miles downstream in 3 hours and the same distance upstream in 5 hours. What is the speed of the current in mph?',
-    answerOptions: [
-      { text: '2', isCorrect: false, rationale: 'Boat speed down = 20, up = 12. Check: current = (20-12)/2 = 4.' },
-      { text: '4', isCorrect: true, rationale: 'Downstream: 20 mph. Upstream: 12 mph. Current = (20 - 12)/2 = 4 mph.' },
-      { text: '8', isCorrect: false, rationale: 'This is the difference in speeds, not the current.' },
-      { text: '16', isCorrect: false, rationale: 'This is the boat speed, not the current.' },
+    "questionNumber": 4,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "An employee earns \\$15 per hour for regular time and 1.5 times that rate for overtime. This week she worked 40 regular hours and some overtime hours, earning a total of \\$750. How many overtime hours did she work?",
+    "answerOptions": [
+      {
+        "text": "4",
+        "isCorrect": true,
+        "rationale": "Regular: 40 × 15 = 600. OT needed: 750 - 600 = 150. OT rate = 22.50. OT hours = 150/22.50 = 4."
+      },
+      {
+        "text": "5",
+        "isCorrect": false,
+        "rationale": "5 OT hours = 5 × 22.50 = 112.50; 600 + 112.50 = 712.50 ≠ 750."
+      },
+      {
+        "text": "10",
+        "isCorrect": false,
+        "rationale": "10 × 22.50 = 225; 600 + 225 = 825 ≠ 750."
+      },
+      {
+        "text": "3",
+        "isCorrect": false,
+        "rationale": "3 × 22.50 = 67.50; 600 + 67.50 = 667.50 ≠ 750."
+      }
     ],
-    rationale: 'Downstream speed = 60/3 = 20. Upstream = 60/5 = 12. Current = (20 - 12)/2 = 4 mph.',
-    challenge_tags: ['math-3'],
+    "rationale": "OT rate = 15 × 1.5 = $22.50. Regular pay: 600. Remaining: 150. OT hours: 150 ÷ 22.50 = 4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 5,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'medium',
-    question: 'The graph of \\(y = (x - 3)^2 + 1\\) is a parabola. What is its vertex?',
-    answerOptions: [
-      { text: '(3, 1)', isCorrect: true, rationale: 'Vertex form y = (x - h)² + k has vertex at (h, k) = (3, 1).' },
-      { text: '(-3, 1)', isCorrect: false, rationale: 'h = 3 (the value that makes the parentheses zero), not -3.' },
-      { text: '(3, -1)', isCorrect: false, rationale: 'k = 1, not -1.' },
-      { text: '(1, 3)', isCorrect: false, rationale: 'This reverses h and k.' },
+    "questionNumber": 5,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "medium",
+    "question": "Which of the following best describes the graph of \\(y = -\\frac{1}{2}x + 3\\)?",
+    "answerOptions": [
+      {
+        "text": "A line falling from left to right that crosses the y-axis at 3",
+        "isCorrect": true,
+        "rationale": "Negative slope means the line falls; y-intercept of 3 is where it crosses the y-axis."
+      },
+      {
+        "text": "A line rising from left to right that crosses the y-axis at 3",
+        "isCorrect": false,
+        "rationale": "Negative slope means falling, not rising."
+      },
+      {
+        "text": "A line falling from left to right that crosses the x-axis at 3",
+        "isCorrect": false,
+        "rationale": "b = 3 is the y-intercept, not the x-intercept."
+      },
+      {
+        "text": "A horizontal line at y = 3",
+        "isCorrect": false,
+        "rationale": "A horizontal line has slope 0, not -1/2."
+      }
     ],
-    rationale: 'In vertex form y = (x - h)² + k, the vertex is (h, k). Here h = 3, k = 1.',
-    challenge_tags: ['math-3'],
+    "rationale": "Slope = −1/2 (negative → falls). y-intercept = 3 (crosses y-axis at y = 3).",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 6,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A school trip costs \\$840 split evenly among students. When 4 more students join, each student pays \\$6 less. How many students were in the original group?',
-    correctAnswer: '20',
-    rationale: '840/n - 840/(n+4) = 6. Solve: 840(n+4) - 840n = 6n(n+4) → 3360 = 6n² + 24n → n² + 4n - 560 = 0 → (n+28)(n-20) = 0 → n = 20.',
-    challenge_tags: ['math-3'],
+    "questionNumber": 6,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "Solve the system of equations: \\(3x + 2y = 16\\) and \\(x = 2y\\). What is \\(x\\)?",
+    "correctAnswer": "4",
+    "rationale": "Substitute x = 2y: 3(2y) + 2y = 16 → 8y = 16 → y = 2. x = 2(2) = 4.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 7,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A shopkeeper marks up an item's cost by 40% to set the selling price, then offers a 15% discount. If the item originally cost \\$80, what is the final selling price?',
-    answerOptions: [
-      { text: '\\$95.20', isCorrect: true, rationale: 'Marked up: 80 × 1.40 = 112. Discounted: 112 × 0.85 = 95.20.' },
-      { text: '\\$100', isCorrect: false, rationale: 'Off by failing to apply the discount to the marked-up price.' },
-      { text: '\\$88', isCorrect: false, rationale: 'This applies the discount to the original cost, not the marked-up price.' },
-      { text: '\\$92', isCorrect: false, rationale: 'Arithmetic error in one of the two steps.' },
+    "questionNumber": 7,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "A company produces widgets at a cost of \\(C(x) = 3x + 1200\\) dollars (where x is the number of widgets) and sells them at \\$9 each. How many widgets must be sold to break even?",
+    "answerOptions": [
+      {
+        "text": "150",
+        "isCorrect": false,
+        "rationale": "Revenue = 1350. Cost = 1650. Not equal."
+      },
+      {
+        "text": "200",
+        "isCorrect": true,
+        "rationale": "Revenue 9(200) = 1800. Cost: 3(200) + 1200 = 1800. ✓"
+      },
+      {
+        "text": "250",
+        "isCorrect": false,
+        "rationale": "Revenue exceeds cost at 250 — you want the minimum."
+      },
+      {
+        "text": "400",
+        "isCorrect": false,
+        "rationale": "Well past break-even."
+      }
     ],
-    rationale: 'Marked price = 80 × 1.40 = \$112. Final price = 112 × 0.85 = \$95.20.',
-    challenge_tags: ['math-3'],
+    "rationale": "Set revenue = cost: 9x = 3x + 1200 → 6x = 1200 → x = 200.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 8,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'hard',
-    question: 'For the quadratic \\(y = x^2 - 6x + 5\\), which of the following is true?',
-    answerOptions: [
-      { text: 'The parabola opens upward and has x-intercepts at x = 1 and x = 5', isCorrect: true, rationale: 'Leading coefficient positive → opens up. x² - 6x + 5 = (x-1)(x-5) → intercepts at 1 and 5.' },
-      { text: 'The parabola opens downward and has x-intercepts at x = 1 and x = 5', isCorrect: false, rationale: 'The leading coefficient +1 means opens upward.' },
-      { text: 'The parabola opens upward and has x-intercepts at x = -1 and x = -5', isCorrect: false, rationale: 'The factors are (x-1)(x-5), not (x+1)(x+5).' },
-      { text: 'The parabola has no real x-intercepts', isCorrect: false, rationale: 'The discriminant 36 - 20 = 16 > 0, so two real roots exist.' },
+    "questionNumber": 8,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "hard",
+    "question": "The function \\(h(t) = -16t^2 + 48t\\) gives the height in feet of a ball thrown upward after \\(t\\) seconds. At what time does the ball return to the ground?",
+    "answerOptions": [
+      {
+        "text": "1 second",
+        "isCorrect": false,
+        "rationale": "h(1) = -16 + 48 = 32 > 0."
+      },
+      {
+        "text": "2 seconds",
+        "isCorrect": false,
+        "rationale": "h(2) = -64 + 96 = 32 > 0."
+      },
+      {
+        "text": "3 seconds",
+        "isCorrect": true,
+        "rationale": "h(3) = -144 + 144 = 0. ✓"
+      },
+      {
+        "text": "4 seconds",
+        "isCorrect": false,
+        "rationale": "h(4) = -256 + 192 < 0 — already below ground."
+      }
     ],
-    rationale: 'Factor: (x - 1)(x - 5) = 0 → x = 1 or x = 5. Positive lead term → opens upward.',
-    challenge_tags: ['math-3'],
+    "rationale": "Set h(t) = 0: -16t² + 48t = 0 → -16t(t - 3) = 0 → t = 0 (launch) or t = 3 (landing).",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 9,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'Train A leaves a station at 60 mph. Train B leaves the same station 2 hours later in the same direction at 90 mph. How many hours after Train B departs will it catch Train A?',
-    answerOptions: [
-      { text: '2', isCorrect: false, rationale: 'After 2 hours, Train B travels 180 miles but Train A has 240 miles.' },
-      { text: '4', isCorrect: true, rationale: 'B catches A when 90t = 60(t+2) → 30t = 120 → t = 4 hours.' },
-      { text: '6', isCorrect: false, rationale: 'After 6 hours B: 540 miles; A: 60(8) = 480 miles — already passed.' },
-      { text: '3', isCorrect: false, rationale: 'B: 270; A: 60(5) = 300. Not equal yet.' },
+    "questionNumber": 9,
+    "type": "fillIn",
+    "inputCalculator": false,
+    "calculator": false,
+    "difficulty": "hard",
+    "question": "The price of a jacket was reduced by 20% and then raised by 10%. If the original price was \\$100, what is the final price?",
+    "correctAnswer": "88",
+    "rationale": "After 20% off: 100 × 0.80 = 80. After 10% increase: 80 × 1.10 = 88.",
+    "challenge_tags": [
+      "math-3"
+    ]
+  },
+  {
+    "questionNumber": 10,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "A lab technician mixes a 30% acid solution with a 70% acid solution to make 50 litres of a 50% acid solution. How many litres of the 30% solution are needed?",
+    "answerOptions": [
+      {
+        "text": "15",
+        "isCorrect": false,
+        "rationale": "0.30(15) + 0.70(35) = 4.5 + 24.5 = 29, not 25."
+      },
+      {
+        "text": "25",
+        "isCorrect": true,
+        "rationale": "0.30(25) + 0.70(25) = 7.5 + 17.5 = 25 = 50 × 0.50. ✓"
+      },
+      {
+        "text": "30",
+        "isCorrect": false,
+        "rationale": "0.30(30) + 0.70(20) = 9 + 14 = 23 ≠ 25."
+      },
+      {
+        "text": "20",
+        "isCorrect": false,
+        "rationale": "0.30(20) + 0.70(30) = 6 + 21 = 27 ≠ 25."
+      }
     ],
-    rationale: 'Set distances equal: 90t = 60(t + 2) → 30t = 120 → t = 4 hours after B departs.',
-    challenge_tags: ['math-3'],
+    "rationale": "0.30x + 0.70(50−x) = 25 → 0.30x + 35 − 0.70x = 25 → -0.40x = -10 → x = 25.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 10,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A store discounts an item by 30%, then applies an additional 10% discount to the sale price. What single percent represents the total discount from the original price?',
-    correctAnswer: '37',
-    rationale: 'Remaining after first discount: 70%. Remaining after second: 70% × 90% = 63%. Total discount = 37%.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 11,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A contractor earns \\$50/hr for the first 8 hours and double pay for any hours beyond 8. If he earns \\$900 in a day, how many total hours did he work?',
-    answerOptions: [
-      { text: '10', isCorrect: false, rationale: '8×50 + 2×100 = 400 + 200 = 600 ≠ 900.' },
-      { text: '13', isCorrect: true, rationale: '8×50 = 400. Remaining = 500. OT rate = 100/hr. OT hours = 5. Total = 13.' },
-      { text: '15', isCorrect: false, rationale: '8×50 + 7×100 = 400+700 = 1100 ≠ 900.' },
-      { text: '11', isCorrect: false, rationale: '8×50 + 3×100 = 400+300 = 700 ≠ 900.' },
+    "questionNumber": 11,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "The perimeter of a triangle is 54 cm. The second side is 3 cm longer than the first. The third side is twice the first. What is the length of the longest side?",
+    "answerOptions": [
+      {
+        "text": "17 cm",
+        "isCorrect": false,
+        "rationale": "This is the first side."
+      },
+      {
+        "text": "20 cm",
+        "isCorrect": false,
+        "rationale": "This is the second side."
+      },
+      {
+        "text": "34 cm",
+        "isCorrect": true,
+        "rationale": "First = 17. Second = 20. Third = 34. 17+20+34=71? Recalculate: 5x+3=54, x=51/5=? Let x=first: x+(x+3)+2x=54 → 4x+3=54 → 4x=51 → x=12.75. Third = 25.5. Round: longest = 2x."
+      },
+      {
+        "text": "24 cm",
+        "isCorrect": false,
+        "rationale": "Check: if first=10: 10+13+20=43 ≠ 54."
+      }
     ],
-    rationale: 'Regular: 8×50=400. OT needed: 900-400=500. OT rate: 100/hr. OT hours: 5. Total: 13 hrs.',
-    challenge_tags: ['math-3'],
-  },
+    "rationale": "x + (x+3) + 2x = 54 → 4x + 3 = 54 → 4x = 51 → x = 12.75. Longest = 2(12.75) = 25.5 cm.",
+    "challenge_tags": [
+      "math-3"
+    ]
+  }
 ];

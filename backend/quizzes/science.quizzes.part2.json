@@ -14190,64 +14190,7 @@
               "title": "genetics-diagrams Practice",
               "label": "Visual Practice",
               "description": "Practice questions for genetics-diagrams based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the genetic concept illustrated by this Punnett square.",
-                  "imageURL": "/images/Science/dominance_genetics_0002.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 2,
-                  "type": "multiple-choice",
-                  "question": "Explain how a Punnett square is used to predict blood type inheritance.",
-                  "imageURL": "/images/Science/phenotype_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -14260,92 +14203,7 @@
               "title": "earth-science-diagrams Practice",
               "label": "Visual Practice",
               "description": "Practice questions for earth-science-diagrams based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the main layers of the Earth depicted in the diagram.",
-                  "imageURL": "/images/Science/earth_s_magnetic_field_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 2,
-                  "type": "multiple-choice",
-                  "question": "Describe the likely weather conditions at point A compared to point E, considering the prevailing winds.",
-                  "imageURL": "/images/Science/ged_scince_fig_13_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 3,
-                  "type": "multiple-choice",
-                  "question": "Identify the process by which water returns to the atmosphere from plants.",
-                  "imageURL": "/images/Science/unclassified_0071.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -14358,64 +14216,7 @@
               "title": "weather-maps Practice",
               "label": "Visual Practice",
               "description": "Practice questions for weather-maps based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the storm that reached the highest category shown on the map.",
-                  "imageURL": "/images/Science/five_questions_to_help_you_understand_hurricanes_0003.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 2,
-                  "type": "multiple-choice",
-                  "question": "Identify the highest intensity category shown for Hurricane Patricia on this map.",
-                  "imageURL": "/images/Science/measuring_hurricanes_q_a_with_nasa_marshall_s_da_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -14428,36 +14229,7 @@
               "title": "phylogenetic-tree Practice",
               "label": "Visual Practice",
               "description": "Practice questions for phylogenetic-tree based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the common ancestor of all Animalia shown in the tree.",
-                  "imageURL": "/images/Science/ged_science_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -14470,36 +14242,7 @@
               "title": "chemistry-tables Practice",
               "label": "Visual Practice",
               "description": "Practice questions for chemistry-tables based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Determine the number of neutrons represented by X for Lithium.",
-                  "imageURL": "/images/Science/ged_scince_fig_3_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -14512,36 +14255,7 @@
               "title": "weather-diagrams Practice",
               "label": "Visual Practice",
               "description": "Practice questions for weather-diagrams based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Describe the temperature change as air rises on the windward side.",
-                  "imageURL": "/images/Science/ged_scince_fig_8_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -14554,400 +14268,7 @@
               "title": "biology-diagrams Practice",
               "label": "Visual Practice",
               "description": "Practice questions for biology-diagrams based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the inheritance pattern (dominant or recessive) of the trait shown in the pedigree.",
-                  "imageURL": "/images/Science/genotype_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 2,
-                  "type": "multiple-choice",
-                  "question": "Identify which structures are unique to thin skin (hairy) compared to thick skin (hairless).",
-                  "imageURL": "/images/Science/human_body_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 3,
-                  "type": "multiple-choice",
-                  "question": "Describe the initial step of the primary immune response involving the macrophage.",
-                  "imageURL": "/images/Science/human_body_0003.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 4,
-                  "type": "multiple-choice",
-                  "question": "Identify the components of the DNA double helix shown in the diagram.",
-                  "imageURL": "/images/Science/licensed_image_0001.jpg",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 5,
-                  "type": "multiple-choice",
-                  "question": "Identify the producer in this food chain.",
-                  "imageURL": "/images/Science/licensed_image_0003.jpg",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 6,
-                  "type": "multiple-choice",
-                  "question": "Identify the four main chambers of the heart shown in the diagram.",
-                  "imageURL": "/images/Science/licensed_image_0005.jpg",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 7,
-                  "type": "multiple-choice",
-                  "question": "Identify the function of the chloroplast in the plant cell.",
-                  "imageURL": "/images/Science/licensed_image_0011.jpg",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 8,
-                  "type": "multiple-choice",
-                  "question": "Calculate the probability of offspring being heterozygous for both traits (RrYy).",
-                  "imageURL": "/images/Science/punnett_square_0002.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 9,
-                  "type": "multiple-choice",
-                  "question": "Describe the key differences in the number of daughter cells produced by mitosis versus meiosis.",
-                  "imageURL": "/images/Science/questions_are_based_on_the_following_graph_6_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 10,
-                  "type": "multiple-choice",
-                  "question": "Identify an organism at each trophic level shown in the pyramid.",
-                  "imageURL": "/images/Science/unclassified_0021.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 11,
-                  "type": "multiple-choice",
-                  "question": "Describe the role of photosynthesis in the atmospheric carbon cycle according to the diagram.",
-                  "imageURL": "/images/Science/unclassified_0033.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 12,
-                  "type": "multiple-choice",
-                  "question": "Identify the parent genotypes that would result in this Punnett square.",
-                  "imageURL": "/images/Science/unclassified_0039.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 13,
-                  "type": "multiple-choice",
-                  "question": "Identify the parental genotypes represented in this Punnett square.",
-                  "imageURL": "/images/Science/unclassified_0057.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 14,
-                  "type": "multiple-choice",
-                  "question": "Identify the parental genotypes for each of the four Punnett squares.",
-                  "imageURL": "/images/Science/unclassified_0063.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -14960,36 +14281,7 @@
               "title": "meteorology-maps Practice",
               "label": "Visual Practice",
               "description": "Practice questions for meteorology-maps based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the approximate coordinates of the storm's center based on highest wind speeds.",
-                  "imageURL": "/images/Science/how_does_nasa_study_hurricanes_nasa_0002.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15002,36 +14294,7 @@
               "title": "chemistry-periodic-table Practice",
               "label": "Visual Practice",
               "description": "Practice questions for chemistry-periodic-table based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the group and period of a specified element.",
-                  "imageURL": "/images/Science/licensed_image_0007.jpg",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15044,92 +14307,7 @@
               "title": "geology-diagrams Practice",
               "label": "Visual Practice",
               "description": "Practice questions for geology-diagrams based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the atmospheric layer closest to Earth's surface.",
-                  "imageURL": "/images/Science/licensed_image_0009.jpg",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 2,
-                  "type": "multiple-choice",
-                  "question": "Identify the primary layers of the Earth depicted in the diagram.",
-                  "imageURL": "/images/Science/unclassified_0041.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 3,
-                  "type": "multiple-choice",
-                  "question": "Identify and describe the geological features formed at a convergent plate boundary where an oceanic plate subducts.",
-                  "imageURL": "/images/Science/unclassified_0069.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15142,36 +14320,7 @@
               "title": "atmospheric-science-research Practice",
               "label": "Visual Practice",
               "description": "Practice questions for atmospheric-science-research based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the primary subject of the research being conducted based on the visual evidence.",
-                  "imageURL": "/images/Science/measuring_hurricanes_q_a_with_nasa_marshall_s_da_0003.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15184,36 +14333,7 @@
               "title": "plant-cell-diagrams Practice",
               "label": "Visual Practice",
               "description": "Practice questions for plant-cell-diagrams based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the organelle responsible for photosynthesis in this plant cell.",
-                  "imageURL": "/images/Science/unclassified_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15226,36 +14346,7 @@
               "title": "astronomy-diagram Practice",
               "label": "Visual Practice",
               "description": "Practice questions for astronomy-diagram based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Explain the phenomenon depicted in the diagram.",
-                  "imageURL": "/images/Science/unclassified_0003.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15268,36 +14359,7 @@
               "title": "chemistry-graphs Practice",
               "label": "Visual Practice",
               "description": "Practice questions for chemistry-graphs based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Compare the solubility of salt and sucrose at 20 degrees Celsius.",
-                  "imageURL": "/images/Science/unclassified_0005.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15310,92 +14372,7 @@
               "title": "science-graphs Practice",
               "label": "Visual Practice",
               "description": "Practice questions for science-graphs based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the day with the highest relative humidity.",
-                  "imageURL": "/images/Science/unclassified_0007.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 2,
-                  "type": "multiple-choice",
-                  "question": "Identify the most abundant gas in the Earth's atmosphere based on the chart.",
-                  "imageURL": "/images/Science/unclassified_0035.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 3,
-                  "type": "multiple-choice",
-                  "question": "Determine the boiling point of water at 4,000 meters elevation.",
-                  "imageURL": "/images/Science/unclassified_0055.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15408,36 +14385,7 @@
               "title": "biology-pie-charts Practice",
               "label": "Visual Practice",
               "description": "Practice questions for biology-pie-charts based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Compare the approximate percentage of oxygen in inhaled air to that in exhaled air.",
-                  "imageURL": "/images/Science/unclassified_0009.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15450,36 +14398,7 @@
               "title": "physiology-graphs Practice",
               "label": "Visual Practice",
               "description": "Practice questions for physiology-graphs based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the approximate oxygen consumption rate at rest.",
-                  "imageURL": "/images/Science/unclassified_0011.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15492,36 +14411,7 @@
               "title": "tables Practice",
               "label": "Visual Practice",
               "description": "Practice questions for tables based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Compare the daily Vitamin A needs for males versus females.",
-                  "imageURL": "/images/Science/unclassified_0013.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15534,36 +14424,7 @@
               "title": "biology-definitions Practice",
               "label": "Visual Practice",
               "description": "Practice questions for biology-definitions based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Define naturally acquired passive immunity.",
-                  "imageURL": "/images/Science/unclassified_0015.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15576,36 +14437,7 @@
               "title": "biology-experiments Practice",
               "label": "Visual Practice",
               "description": "Practice questions for biology-experiments based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the independent variables in this experiment.",
-                  "imageURL": "/images/Science/unclassified_0017.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15618,36 +14450,7 @@
               "title": "health-data-tables Practice",
               "label": "Visual Practice",
               "description": "Practice questions for health-data-tables based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the most effective birth control method shown in the table.",
-                  "imageURL": "/images/Science/unclassified_0019.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15660,36 +14463,7 @@
               "title": "physics-graphs Practice",
               "label": "Visual Practice",
               "description": "Practice questions for physics-graphs based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Compare the initial cooling rates of Liquid A and Liquid B.",
-                  "imageURL": "/images/Science/unclassified_0023.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15702,36 +14476,7 @@
               "title": "General Practice",
               "label": "Visual Practice",
               "description": "Practice questions for General based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Analyze the image and answer the question.",
-                  "imageURL": "/images/Science/unclassified_0025.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15744,36 +14489,7 @@
               "title": "energy-statistics Practice",
               "label": "Visual Practice",
               "description": "Practice questions for energy-statistics based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the largest source of U.S. energy consumption in 2012.",
-                  "imageURL": "/images/Science/unclassified_0027.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15786,92 +14502,7 @@
               "title": "chemistry-diagrams Practice",
               "label": "Visual Practice",
               "description": "Practice questions for chemistry-diagrams based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the three main subatomic particles shown in the diagram.",
-                  "imageURL": "/images/Science/unclassified_0029.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 2,
-                  "type": "multiple-choice",
-                  "question": "Identify the element with atomic number 17.",
-                  "imageURL": "/images/Science/unclassified_0031.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 3,
-                  "type": "multiple-choice",
-                  "question": "Identify the chemical formula for each reactant and product shown in the diagram.",
-                  "imageURL": "/images/Science/unclassified_0051.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15884,36 +14515,7 @@
               "title": "geology-maps Practice",
               "label": "Visual Practice",
               "description": "Practice questions for geology-maps based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Describe the type of plate boundary present in the East African Rift Region.",
-                  "imageURL": "/images/Science/unclassified_0037.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15926,36 +14528,7 @@
               "title": "chemistry-definitions Practice",
               "label": "Visual Practice",
               "description": "Practice questions for chemistry-definitions based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Differentiate between endothermic and exothermic reactions based on heat transfer.",
-                  "imageURL": "/images/Science/unclassified_0043.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -15968,120 +14541,7 @@
               "title": "physics-diagrams Practice",
               "label": "Visual Practice",
               "description": "Practice questions for physics-diagrams based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the force that propels the rocket upward.",
-                  "imageURL": "/images/Science/unclassified_0045.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 2,
-                  "type": "multiple-choice",
-                  "question": "Calculate the torque created by the 3kg mass.",
-                  "imageURL": "/images/Science/unclassified_0049.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 3,
-                  "type": "multiple-choice",
-                  "question": "Identify the primary characteristic distinguishing a transverse wave from a longitudinal wave.",
-                  "imageURL": "/images/Science/unclassified_0065.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                },
-                {
-                  "questionNumber": 4,
-                  "type": "multiple-choice",
-                  "question": "Describe the relationship between wave frequency and period as shown in the diagram.",
-                  "imageURL": "/images/Science/unclassified_0067.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -16094,36 +14554,7 @@
               "title": "physics-concepts Practice",
               "label": "Visual Practice",
               "description": "Practice questions for physics-concepts based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Explain the relationship between wave speed, frequency, and wavelength.",
-                  "imageURL": "/images/Science/unclassified_0047.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -16136,36 +14567,7 @@
               "title": "astronomy-diagrams Practice",
               "label": "Visual Practice",
               "description": "Practice questions for astronomy-diagrams based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the three celestial bodies shown in the diagram.",
-                  "imageURL": "/images/Science/unclassified_0053.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -16178,36 +14580,7 @@
               "title": "line-graphs Practice",
               "label": "Visual Practice",
               "description": "Practice questions for line-graphs based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the year with the highest number of rabies cases for skunks.",
-                  "imageURL": "/images/Science/unclassified_0059.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -16220,36 +14593,7 @@
               "title": "biology-tables Practice",
               "label": "Visual Practice",
               "description": "Practice questions for biology-tables based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Ask which life science studies heredity.",
-                  "imageURL": "/images/Science/unclassified_0061.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         }

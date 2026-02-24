@@ -105,7 +105,7 @@ export default function AdminStudentsView() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-6">
         <h1 className="text-2xl font-bold">Student Management</h1>
         <span className="text-sm text-gray-500">
           {total} student{total !== 1 ? 's' : ''}
@@ -148,8 +148,8 @@ export default function AdminStudentsView() {
       )}
 
       {/* Table */}
-      <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow">
-        <table className="w-full text-sm">
+      <div className="overflow-x-auto overscroll-x-contain bg-white dark:bg-gray-800 rounded-lg shadow">
+        <table className="w-full min-w-[760px] text-sm">
           <thead>
             <tr className="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
               <th className="text-left px-4 py-3 font-medium">Name</th>

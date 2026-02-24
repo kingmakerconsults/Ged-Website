@@ -3,74 +3,82 @@ module.exports = [
     "questionNumber": 1,
     "type": "multiple-choice-text",
     "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/unclassified_0037.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0037.png",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: Four panels illustrating different job types and their corresponding payment structures: hourly wage, tips, salary, and commission.\n\nDescription: This image features four black and white illustrations arranged in a 2x2 grid. Each panel depicts a person in a specific work setting, with their name and a description of their income structure provided below. The purpose of the image is to visually represen…\n\nText in image: Donna: hourly wage plus productivity bonus Julian: part-time, low hourly wage plus tips Gerald: full-time, weekly salary Marina: commission",
-      "imageURL": "/images/Social%20Studies/unclassified_0037.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "low hourly wage plus tips Gerald: full-time",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "Herbert Hoover",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
         "isCorrect": false
       },
       {
-        "text": "public speaking",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
         "isCorrect": false
       },
       {
-        "text": "Louisiana",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 2,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/unclassified_0037.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0037.png",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: Four panels illustrating different job types and their corresponding payment structures: hourly wage, tips, salary, and commission.\n\nDescription: This image features four black and white illustrations arranged in a 2x2 grid. Each panel depicts a person in a specific work setting, with their name and a description of their income structure provided below. The purpose of the image is to visually represen…\n\nText in image: Donna: hourly wage plus productivity bonus Julian: part-time, low hourly wage plus tips Gerald: full-time, weekly salary Marina: commission",
-      "imageURL": "/images/Social%20Studies/unclassified_0037.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "TENN and weekly salary Marina: commission",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "New York City and de facto capital moved to York. September 30",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "low hourly wage plus tips Gerald: full-time and de facto capital moved to York. September 30",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "low hourly wage plus tips Gerald: full-time and weekly salary Marina: commission",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
+      },
+      {
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   }
 ];

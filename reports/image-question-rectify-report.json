@@ -1,0 +1,671 @@
+{
+  "generatedAt": "2026-02-24T16:01:56.176Z",
+  "filesScanned": 423,
+  "filesModified": 115,
+  "totalImageQuestions": 2427,
+  "totalFlagged": 2239,
+  "totalRemoved": 1261,
+  "parseErrors": [
+    {
+      "file": "backend/data/quizzes/rla/rla_evidence_04.js",
+      "error": "Invalid or unexpected token"
+    },
+    {
+      "file": "backend/data/quizzes/rla/rla_evidence_05.js",
+      "error": "Invalid or unexpected token"
+    },
+    {
+      "file": "backend/data/quizzes/rla/rla_evidence_06.js",
+      "error": "Invalid or unexpected token"
+    },
+    {
+      "file": "backend/data/quizzes/rla/rla_evidence_07.js",
+      "error": "Invalid or unexpected token"
+    },
+    {
+      "file": "backend/data/quizzes/rla/rla_evidence_08.js",
+      "error": "Invalid or unexpected token"
+    },
+    {
+      "file": "backend/data/quizzes/rla/rla_evidence_09.js",
+      "error": "Invalid or unexpected token"
+    },
+    {
+      "file": "backend/data/quizzes/rla/rla_evidence_10.js",
+      "error": "Invalid or unexpected token"
+    },
+    {
+      "file": "backend/data/quizzes/rla/rla_grammar_04.js",
+      "error": "Invalid or unexpected token"
+    },
+    {
+      "file": "backend/data/quizzes/rla/rla_main_idea_04.js",
+      "error": "Invalid or unexpected token"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_08.js",
+      "error": "Unexpected identifier 's'"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_10.js",
+      "error": "Unexpected identifier 's'"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_11.js",
+      "error": "Unexpected identifier 's'"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_algebra_12.js",
+      "error": "Unexpected identifier 's'"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_02.js",
+      "error": "Unexpected string"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_06.js",
+      "error": "Unexpected string"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_08.js",
+      "error": "Unexpected token ':'"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_geometry_10.js",
+      "error": "Unexpected string"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_08.js",
+      "error": "Unexpected string"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_graphs_09.js",
+      "error": "Unexpected string"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_number_sense_08.js",
+      "error": "Unexpected string"
+    },
+    {
+      "file": "backend/data/quizzes/math/math_ratios_02.js",
+      "error": "Unexpected token ':'"
+    }
+  ],
+  "touched": [
+    {
+      "file": "public/quizzes/social-studies.quizzes.part1.json",
+      "removed": 466,
+      "imageQuestions": 970
+    },
+    {
+      "file": "backend/quizzes/social-studies.quizzes.json",
+      "removed": 219,
+      "imageQuestions": 219
+    },
+    {
+      "file": "public/quizzes/science.quizzes.part2.json",
+      "removed": 107,
+      "imageQuestions": 219
+    },
+    {
+      "file": "backend/quizzes/science.quizzes.part2.json",
+      "removed": 58,
+      "imageQuestions": 58
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_maps.js",
+      "removed": 40,
+      "imageQuestions": 80
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_biology_diagrams.js",
+      "removed": 24,
+      "imageQuestions": 48
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_graphs.js",
+      "removed": 15,
+      "imageQuestions": 30
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_history_maps.js",
+      "removed": 14,
+      "imageQuestions": 28
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_maps.js",
+      "removed": 10,
+      "imageQuestions": 26
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_chemistry_diagrams.js",
+      "removed": 10,
+      "imageQuestions": 20
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_physics_diagrams.js",
+      "removed": 10,
+      "imageQuestions": 20
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_line_graphs.js",
+      "removed": 8,
+      "imageQuestions": 16
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_bar_charts.js",
+      "removed": 6,
+      "imageQuestions": 18
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_graphs.js",
+      "removed": 6,
+      "imageQuestions": 12
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_tables.js",
+      "removed": 6,
+      "imageQuestions": 12
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_graphs.js",
+      "removed": 6,
+      "imageQuestions": 12
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_line_graph.js",
+      "removed": 6,
+      "imageQuestions": 12
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_maps.js",
+      "removed": 6,
+      "imageQuestions": 12
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_general.js",
+      "removed": 6,
+      "imageQuestions": 12
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_science_graphs.js",
+      "removed": 6,
+      "imageQuestions": 12
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_charts.js",
+      "removed": 5,
+      "imageQuestions": 10
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_graphs.js",
+      "removed": 5,
+      "imageQuestions": 10
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_map.js",
+      "removed": 5,
+      "imageQuestions": 10
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_tables.js",
+      "removed": 5,
+      "imageQuestions": 10
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_data_tables.js",
+      "removed": 4,
+      "imageQuestions": 8
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_geography_tables.js",
+      "removed": 4,
+      "imageQuestions": 8
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_astronomy_diagrams.js",
+      "removed": 4,
+      "imageQuestions": 8
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_earth_science_diagrams.js",
+      "removed": 4,
+      "imageQuestions": 8
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_genetics_diagrams.js",
+      "removed": 4,
+      "imageQuestions": 8
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_bar_graphs.js",
+      "removed": 3,
+      "imageQuestions": 10
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civics_flowcharts.js",
+      "removed": 3,
+      "imageQuestions": 8
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_bar_graphs.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_charts.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_line_graphs.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_election_maps.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_energy_line_graph.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_health_charts.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_maps_territorial_changes.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_timeline.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_multiple_graphs.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_pictographs.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_population_tables.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_statistics_table.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_data_tables.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_graphs.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_tables.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_historical_maps.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_history_historical_maps.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_us_history_political_cartoons.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_u_s_history_maps.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_energy_statistics.js",
+      "removed": 3,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civics_maps.js",
+      "removed": 2,
+      "imageQuestions": 12
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civics_tables.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_civil_rights_movement_photographs.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_cold_war_alliances_map.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_demographics_bar_charts.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_pie_chart.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economics_tables.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_data_graphs.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_economic_diagrams.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_financial_tables.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_geography_map.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_government_structures_table.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_cartoons.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_illustration.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_illustrations.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_photographs.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_photos.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_posters.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historical_urban_scene.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_concept_maps.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_diagrams.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_graphs.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_photos.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_pie_chart.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_income_types.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_maps.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_pie_charts.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_political_cartoons.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_political_cartoons_wwii_history.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_political_maps.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_renaissance_art.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_tables.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_studies_terminology_table.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_state_flags.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_timelines.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_world_maps.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_anatomy_diagrams.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_astronomy_diagram.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_atomic_structure.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_biology_definitions.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_biology_experiments.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_biology_pie_charts.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_biology_tables.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_chemistry_definitions.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_chemistry_graphs.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_chemistry_tables.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_earth_science_data.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_general.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_geology_diagrams.js",
+      "removed": 2,
+      "imageQuestions": 6
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_health_data_tables.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_labor_statistics_charts.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_line_graphs.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_physics_concepts.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_physics_graphs.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_physiology_graphs.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_plant_cell_diagrams.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/science/science_img_tables.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/rla/rla_img_historical_charts.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/data/quizzes/math/math_img_bar_graphs.js",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/quizzes/rla.quizzes.part1.json",
+      "removed": 2,
+      "imageQuestions": 2
+    },
+    {
+      "file": "public/quizzes/math.quizzes.part2.json",
+      "removed": 2,
+      "imageQuestions": 4
+    },
+    {
+      "file": "public/quizzes/rla.quizzes.part2.json",
+      "removed": 2,
+      "imageQuestions": 10
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/diag_ss_composite_v1.js",
+      "removed": 1,
+      "imageQuestions": 4
+    },
+    {
+      "file": "backend/quizzes/math.quizzes.part1.json",
+      "removed": 1,
+      "imageQuestions": 1
+    }
+  ]
+}

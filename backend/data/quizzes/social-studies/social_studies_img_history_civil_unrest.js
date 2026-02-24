@@ -1,76 +1,81 @@
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/civil_rights_movement_0007.png",
-    "imageUrl": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
-    "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
-      "passage": "Alt text: Black and white photo of a soldier in uniform standing in a street with smoke rising from a damaged building.\n\nDescription: This monochrome photograph captures a tense urban scene, likely during a period of civil unrest. A uniformed soldier stands in the foreground, back to the viewer, facing a street where a fire truck can be seen in the distance. To the right, a large brick buil…\n\nText in image: LIQUOR, NO PARKING ANYTIME, WASH DC NEWS, FURNITURE, NEW & USED",
-      "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.png",
-      "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
+    questionNumber: 1,
+    type: 'multiple-choice-text',
+    difficulty: 'easy',
+    imageUrl: '/images/Social%20Studies/civil_rights_movement_0007.jpg',
+    imageURL: '/images/Social%20Studies/civil_rights_movement_0007.jpg',
+    content: {
+      passage:
+        'Alt text: Black and white photo of a soldier in uniform standing in a street with smoke rising from a damaged building.\n\nDescription: A tense urban scene shows military presence, visible smoke, and damaged structures during civil unrest.',
+      imageURL: '/images/Social%20Studies/civil_rights_movement_0007.jpg',
+      questionText: 'Which condition is best documented by this photograph?',
     },
-    "answerOptions": [
+    answerOptions: [
       {
-        "text": "Christ's Charge to Peter",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
+        text: 'Breakdown of public order requiring emergency response',
+        rationale:
+          'Correct. Military presence and smoke indicate severe disorder and emergency conditions.',
+        isCorrect: true,
       },
       {
-        "text": "land organization",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
+        text: 'A routine peacetime parade with ceremonial uniforms',
+        rationale:
+          'Incorrect. The smoke and damaged setting are inconsistent with ceremonial events.',
+        isCorrect: false,
       },
       {
-        "text": "Colorado.",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
+        text: 'A normal election-day crowd at polling stations',
+        rationale:
+          'Incorrect. The image depicts crisis conditions, not routine voting activity.',
+        isCorrect: false,
       },
       {
-        "text": "American history",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
-        "isCorrect": true
-      }
+        text: 'A planned economic development groundbreaking',
+        rationale: 'Incorrect. There is no evidence of a development ceremony.',
+        isCorrect: false,
+      },
     ],
-    "challenge_tags": [
-      "social:3"
-    ]
+    challenge_tags: ['social:3'],
   },
   {
-    "questionNumber": 2,
-    "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/civil_rights_movement_0007.png",
-    "imageUrl": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
-    "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
-      "passage": "Alt text: Black and white photo of a soldier in uniform standing in a street with smoke rising from a damaged building.\n\nDescription: This monochrome photograph captures a tense urban scene, likely during a period of civil unrest. A uniformed soldier stands in the foreground, back to the viewer, facing a street where a fire truck can be seen in the distance. To the right, a large brick buil…\n\nText in image: LIQUOR, NO PARKING ANYTIME, WASH DC NEWS, FURNITURE, NEW & USED",
-      "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.png",
-      "imageURL": "/images/Social%20Studies/civil_rights_movement_0007.jpg",
+    questionNumber: 2,
+    type: 'multiple-choice-text',
+    difficulty: 'hard',
+    imageUrl: '/images/Social%20Studies/civil_rights_movement_0007.jpg',
+    imageURL: '/images/Social%20Studies/civil_rights_movement_0007.jpg',
+    content: {
+      passage:
+        'Alt text: Black and white photo of a soldier in uniform standing in a street with smoke rising from a damaged building.\n\nDescription: A tense urban scene shows military presence, visible smoke, and damaged structures during civil unrest.',
+      imageURL: '/images/Social%20Studies/civil_rights_movement_0007.jpg',
+      questionText:
+        'Which inference about government authority is most supported by this scene?',
     },
-    "answerOptions": [
+    answerOptions: [
       {
-        "text": "LIQUOR and Rio Grande",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
+        text: 'Authorities invoked security forces to restore control during a domestic crisis',
+        rationale:
+          'Correct. The soldier in a damaged environment indicates coercive state action during unrest.',
+        isCorrect: true,
       },
       {
-        "text": "LIQUOR and NO PARKING ANYTIME",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
-        "isCorrect": true
+        text: 'The conflict was resolved entirely through private mediation',
+        rationale:
+          'Incorrect. Uniformed force presence suggests direct public authority involvement.',
+        isCorrect: false,
       },
       {
-        "text": "natural gas and Rio Grande",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
+        text: 'Federal institutions were absent from urban disturbances in this era',
+        rationale:
+          'Incorrect. The visible military/security role contradicts that claim.',
+        isCorrect: false,
       },
       {
-        "text": "border dispute and NO PARKING ANYTIME",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      }
+        text: 'The event primarily concerns agricultural policy debates',
+        rationale: 'Incorrect. No agricultural context appears in the image.',
+        isCorrect: false,
+      },
     ],
-    "challenge_tags": [
-      "social:3"
-    ]
-  }
+    challenge_tags: ['social:3'],
+  },
 ];

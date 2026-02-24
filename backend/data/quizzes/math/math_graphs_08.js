@@ -1,310 +1,318 @@
 module.exports = [
   {
-    questionNumber: 1,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'easy',
-    question: 'What is the y-intercept of the line \\(y = -4x + 8\\)?',
-    answerOptions: [
+    "questionNumber": 1,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "easy",
+    "question": "Which ordered pair is a solution to the equation \\(y = x + 5\\)?",
+    "answerOptions": [
       {
-        text: '-4',
-        isCorrect: false,
-        rationale: 'This is the slope.',
+        "text": "(2, 7)",
+        "isCorrect": true,
+        "rationale": "If x=2, y = 2 + 5 = 7."
       },
       {
-        'Use the distance formula: \\(d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}\\). d = \\sqrt{(3 - (-3))^2 + (10 - 2)^2} = \\sqrt{6^{2} + 8^{2}} = \\sqrt{36 + 64} = \\sqrt{100} = 10.',
-        isCorrect: false,
-        rationale: 'This is the x-intercept.',
+        "text": "(7, 2)",
+        "isCorrect": false,
+        "rationale": "This reverses x and y."
       },
       {
-        text: '8',
-        isCorrect: true,
-        rationale: 'In y=mx+b form, b is the y-intercept.',
+        "text": "(5, 0)",
+        "isCorrect": false,
+        "rationale": "If x=5, y=10."
       },
       {
-        text: '4',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
+        "text": "(0, -5)",
+        "isCorrect": false,
+        "rationale": "If x=0, y=5."
+      }
     ],
-    rationale:
-      "The equation is in slope-intercept form (y = mx + b), where 'b' is the y-intercept. In this case, b=8.",
-    challenge_tags: ['math-4'],
+    "rationale": "Substitute the x-coordinate from the ordered pair into the equation and check if it yields the correct y-coordinate. For (2, 7): y = 2 + 5 = 7. This matches.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
-    questionNumber: 2,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'easy',
-    question: 'Given \\(f(x) = 20 - 3x\\), find \\(f(5)\\).',
-    correctAnswer: '5',
-    rationale: 'Substitute 5 for x: f(5) = 20 - 3(5) = 20 - 15 = 5.',
-    challenge_tags: ['math-4'],
+    "questionNumber": 2,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "easy",
+    "question": "What is the slope of the line that passes through (1, 3) and (4, 9)?",
+    "correctAnswer": "2",
+    "rationale": "Slope = (change in y) / (change in x) = (9 - 3) / (4 - 1) = 6 / 3 = 2.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
-    questionNumber: 3,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'medium',
-    question:
-      'What is the slope of a line passing through (-2, -1) and (4, 3)?',
-    answerOptions: [
+    "questionNumber": 3,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "Given the function \\(f(x) = 3x^2 - 5\\), what is the value of \\(f(-2)\\)?",
+    "answerOptions": [
       {
-        text: '\\(\\(\frac{2}{3}\\)',
-        isCorrect: true,
-        rationale:
-          'Slope = (3 - (-1)) / (4 - (-2)) = 4 / 6 = \\(\\(\frac{2}{3}\\).',
+        "text": "-11",
+        "isCorrect": false,
+        "rationale": "This is 3(-2)-5."
       },
       {
-        text: '\\(\\(\frac{3}{2}\\)',
-        isCorrect: false,
-        rationale: 'This is the reciprocal of the slope.',
+        "text": "1",
+        "isCorrect": false,
+        "rationale": "This is an incorrect calculation."
       },
       {
-        text: '\\(-\\(\frac{2}{3}\\)',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        "text": "7",
+        "isCorrect": true,
+        "rationale": "f(-2) = 3\\((-2)^2\\) - 5 = 3(4) - 5 = 12 - 5 = 7."
       },
       {
-        text: '1',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
+        "text": "31",
+        "isCorrect": false,
+        "rationale": "This is an incorrect calculation."
+      }
     ],
-    rationale:
-      'The slope is the change in y divided by the change in x. \\(m = \\(\frac{3 - (-1)}{4 - (-2)}\\) = \\(\frac{4}{6}\\) = \\(\frac{2}{3}\\).',
-    challenge_tags: ['math-4'],
+    "rationale": "Substitute -2 for x in the function: f(-2) = 3\\((-2)^2\\) - 5 = 3(4) - 5 = 12 - 5 = 7.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
-    questionNumber: 4,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'medium',
-    question: 'Find the x-intercept of the line \\(y = 2x - 10\\).',
-    correctAnswer: '5',
-    rationale: 'Set y=0: 0 = 2x - 10. 10 = 2x. x = 5.',
-    challenge_tags: ['math-4'],
+    "questionNumber": 4,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "What is the y-intercept of the line \\(2x - 3y = 12\\)?",
+    "correctAnswer": "-4",
+    "rationale": "To find the y-intercept, set x = 0. The equation becomes -3y = 12. Divide by -3 to get y = -4.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
-    questionNumber: 5,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'medium',
-    question: 'Which of the following functions is linear?',
-    answerOptions: [
+    "questionNumber": 5,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "medium",
+    "question": "Which of the following lines is parallel to the line \\(y = 4x - 1\\)?",
+    "answerOptions": [
       {
-        text: '\\(y = x^2 + 1\\)',
-        isCorrect: false,
-        rationale: 'This is a quadratic function.',
+        "text": "\\(y = -4x + 2\\)",
+        "isCorrect": false,
+        "rationale": "This line has a different slope."
       },
       {
-        text: '\\(y = 3x - 4\\)',
-        isCorrect: true,
-        rationale: 'A linear function has a constant rate of change (slope).',
+        "text": "\\(y = 4x + 5\\)",
+        "isCorrect": true,
+        "rationale": "Parallel lines have the same slope. This line also has a slope of 4."
       },
       {
-        text: '\\(y = 1/x\\)',
-        isCorrect: false,
-        rationale: 'This is a rational function.',
+        "text": "\\(y = \\frac{1}{4}x - 1\\)",
+        "isCorrect": false,
+        "rationale": "This is a perpendicular line."
       },
       {
-        text: '\\(y = |x|\\)',
-        isCorrect: false,
-        rationale: 'This is an absolute value function.',
-      },
+        "text": "\\(y = x + 4\\)",
+        "isCorrect": false,
+        "rationale": "This line has a different slope."
+      }
     ],
-    rationale:
-      'A linear function can be written in the form y = mx + b, where m and b are constants. This equation fits that form.',
-    challenge_tags: ['math-4'],
+    "rationale": "Parallel lines have the same slope. The given line has a slope of 4. This option is the only other line with a slope of 4.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
-    questionNumber: 6,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question:
-      'A line is perpendicular to \\(y = -4x + 1\\) and passes through (8, 2). What is its equation?',
-    answerOptions: [
+    "questionNumber": 6,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "What is the equation of the line that passes through the origin and has a slope of -3?",
+    "answerOptions": [
       {
-        text: '\\(y = 4x - 30\\)',
-        isCorrect: false,
-        rationale: 'This has an incorrect slope.',
+        "text": "\\(y = -3x\\)",
+        "isCorrect": true,
+        "rationale": "A line passing through the origin has a y-intercept of 0. So, y = -3x + 0."
       },
       {
-        text: '\\(y = -\\frac{1}{4}x + 4\\)',
-        isCorrect: false,
-        rationale: 'This is a parallel line.',
+        "text": "\\(y = -3x + 1\\)",
+        "isCorrect": false,
+        "rationale": "This line does not pass through the origin."
       },
       {
-        text: '\\(y = \\frac{1}{4}x\\)',
-        isCorrect: true,
-        rationale:
-          'The perpendicular slope is \\(\\frac{1}{4}\\). Using y=mx+b: 2 = (\\(\\frac{1}{4}\\))(8) + b -> 2 = 2 + b -> b=0.',
+        "text": "\\(y = x - 3\\)",
+        "isCorrect": false,
+        "rationale": "This has the wrong slope."
       },
       {
-        text: '\\(y = \\frac{1}{4}x + 2\\)',
-        isCorrect: false,
-        rationale: 'This does not pass through the given point.',
-      },
+        "text": "\\(y = 3x\\)",
+        "isCorrect": false,
+        "rationale": "This has the wrong slope."
+      }
     ],
-    rationale:
-      'The slope of the given line is -4. The slope of a perpendicular line is the negative reciprocal, which is \\(\\frac{1}{4}\\). Use the point-slope form y - y1 = m(x - x1): y - 2 = (\\(\\frac{1}{4}\\))(x - 8). y - 2 = (\\(\\frac{1}{4}\\))x - 2. So, y = \\(\\frac{1}{4}x\\).',
-    challenge_tags: ['math-4'],
+    "rationale": "A line that passes through the origin (0,0) has a y-intercept of 0. Using the slope-intercept form y = mx + b, the equation is y = -3x + 0, which simplifies to y = -3x.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
-    questionNumber: 7,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'medium',
-    question: 'Find the value of \\(f(x) = x^2 - 3x\\) when x = -4.',
-    correctAnswer: '28',
-    rationale: 'f(-4) = \\((-4)^2\\) - 3(-4) = 16 + 12 = 28.',
-    challenge_tags: ['math-4'],
+    "questionNumber": 7,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "If \\(f(x) = 2x\\) and \\(g(x) = x - 1\\), find \\(f(g(4))\\).",
+    "correctAnswer": "6",
+    "rationale": "First, find g(4): g(4) = 4 - 1 = 3. Then, find f(3): f(3) = 2 * 3 = 6.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
-    questionNumber: 8,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'hard',
-    question:
-      'Which of these points is in the solution set of the inequality \\(y < 2x - 1\\)?',
-    answerOptions: [
+    "questionNumber": 8,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "hard",
+    "question": "The vertex of a parabola is at (2, -5). What is the axis of symmetry?",
+    "answerOptions": [
       {
-        text: '(3, 5)',
-        isCorrect: false,
-        rationale: '5 is not less than 2(3)-1=5.',
+        "text": "x = 2",
+        "isCorrect": true,
+        "rationale": "The axis of symmetry for a parabola is a vertical line that passes through the vertex. Its equation is x = h, where h is the x-coordinate of the vertex."
       },
       {
-        text: '(2, 3)',
-        isCorrect: false,
-        rationale: '3 is not less than 2(2)-1=3.',
+        "text": "y = -5",
+        "isCorrect": false,
+        "rationale": "This is a horizontal line through the vertex."
       },
       {
-        text: '(4, 6)',
-        isCorrect: true,
-        rationale: '6 is less than 2(4)-1=7.',
+        "text": "x = -5",
+        "isCorrect": false,
+        "rationale": "This uses the y-coordinate."
       },
       {
-        text: '(1, 1)',
-        isCorrect: false,
-        rationale: '1 is not less than 2(1)-1=1.',
-      },
+        "text": "y = 2",
+        "isCorrect": false,
+        "rationale": "This uses the x-coordinate for a horizontal line."
+      }
     ],
-    rationale:
-      'Plug each point into the inequality. For (4, 6): 6 < 2(4) - 1. 6 < 8 - 1. 6 < 7. This is a true statement.',
-    challenge_tags: ['math-4'],
+    "rationale": "The axis of symmetry of a parabola is the vertical line that passes through its vertex. The equation of this line is x = h, where h is the x-coordinate of the vertex. So, the axis of symmetry is x = 2.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
-    questionNumber: 9,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'medium',
-    question:
-      "A phone's value V(t) after t years is given by \\(V(t) = 800 - 150t\\). What is the phone's value after 3 years?",
-    correctAnswer: '\\(350\\)',
-    rationale: 'V(3) = 800 - 150(3) = 800 - 450 = 350.',
-    challenge_tags: ['math-4'],
+    "questionNumber": 9,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "A bank account balance B(t) after t years is modeled by \\(B(t) = 500(1.03)^t\\). What is the balance after 2 years?",
+    "correctAnswer": "\\(530.45\\)",
+    "rationale": "Substitute 2 for t: B(2) = 500 * \\((1.03)^2\\) = 500 * 1.0609 = 530.45.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
-    questionNumber: 10,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'medium',
-    question: 'Find the distance between the points (-3, 2) and (3, 10).',
-    answerOptions: [
+    "questionNumber": 10,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "What is the midpoint of the line segment with endpoints (-2, 4) and (6, 8)?",
+    "answerOptions": [
       {
-        text: '8',
-        isCorrect: false,
-        rationale: 'This is the change in y.',
+        "text": "(2, 6)",
+        "isCorrect": true,
+        "rationale": "Midpoint = ((-2+6)/2, (4+8)/2) = (\\(\\frac{4}{2}\\), \\(\\frac{12}{2}\\)) = (2, 6)."
       },
       {
-        text: '10',
-        isCorrect: true,
-        rationale:
-          'd = sqrt(\\((3 - (-3))^2 + (10 - 2)^2) = sqrt(\\)\\(6^{2}\\) + $8\\)^{2}) = sqrt(36+64) = sqrt(100) = 10.',
+        "text": "(4, 12)",
+        "isCorrect": false,
+        "rationale": "This is the sum of the coordinates."
       },
       {
-        text: '14',
-        isCorrect: false,
-        rationale: 'This is 6+8.',
+        "text": "(8, 4)",
+        "isCorrect": false,
+        "rationale": "This is the difference of the coordinates."
       },
       {
-        text: '100',
-        isCorrect: false,
-        rationale: 'This is the distance squared.',
-      },
+        "text": "(4, 2)",
+        "isCorrect": false,
+        "rationale": "This is an incorrect calculation."
+      }
     ],
-    rationale:
-      'Use the distance formula: \\(d = \\(\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}\\)\\(.  d = \\(\sqrt{(3 - (-3))^2 + (10 - 2)^2}\\) = \\(\sqrt{6^{2} + 8^{2}}\\) = \\(\sqrt{36 + 64}\\) = \\(\sqrt{100}\\) = 10.',
-    challenge_tags: ['math-4'],
+    "rationale": "The midpoint formula is \\((\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2})\\). So, the midpoint is \\((\\frac{-2+6}{2}, \\frac{4+8}{2})\\) = \\((\\frac{4}{2}, \\frac{12}{2})\\) = (2, 6).",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
-    questionNumber: 11,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'hard',
-    question:
-      'What is the domain of the function \\(f(x) = \\frac{1}{x-5}\\)?',
-    answerOptions: [
+    "questionNumber": 11,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "hard",
+    "question": "Which of the following functions has a y-intercept of -2?",
+    "answerOptions": [
       {
-        text: 'All real numbers',
-        isCorrect: false,
-        rationale: 'The function is undefined at x=5.',
+        "text": "\\(y = -2x\\)",
+        "isCorrect": false,
+        "rationale": "The y-intercept is 0."
       },
       {
-        text: 'All real numbers except 5',
-        isCorrect: true,
-        rationale: 'The denominator cannot be zero, so x cannot be 5.',
+        "text": "\\(y = x - 2\\)",
+        "isCorrect": true,
+        "rationale": "In y=mx+b form, b=-2."
       },
       {
-        text: 'All real numbers except 0',
-        isCorrect: false,
-        rationale: 'The function is defined at x=0.',
+        "text": "\\(y = 2x + 1\\)",
+        "isCorrect": false,
+        "rationale": "The y-intercept is 1."
       },
       {
-        text: 'x > 5',
-        isCorrect: false,
-        rationale: 'The function is also defined for x < 5.',
-      },
+        "text": "\\(2x + 3y = 6\\)",
+        "isCorrect": false,
+        "rationale": "The y-intercept is 2."
+      }
     ],
-    rationale:
-      'The domain of a rational function is all real numbers except for the values that make the denominator zero. In this case, x - 5 cannot equal 0, so x cannot equal 5.',
-    challenge_tags: ['math-4'],
+    "rationale": "The y-intercept is the value of y when x=0. For y = x - 2, if x=0, y = -2.",
+    "challenge_tags": [
+      "math-4"
+    ]
   },
   {
-    questionNumber: 12,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'medium',
-    question: 'If a function has a constant slope, it is a:',
-    answerOptions: [
+    "questionNumber": 12,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "A linear function passes through (0, 5) and has a slope of -\\(\frac{1}{2}\\). What is its value at x=4?",
+    "answerOptions": [
       {
-        text: 'Quadratic function',
-        isCorrect: false,
-        rationale: 'A quadratic function has a changing slope.',
+        "text": "1",
+        "isCorrect": false,
+        "rationale": "This is an incorrect calculation."
       },
       {
-        text: 'Linear function',
-        isCorrect: true,
-        rationale: 'A linear function is defined by \\(its constant slope\\).',
+        "text": "3",
+        "isCorrect": true,
+        "rationale": "The equation is \\(y = -\\frac{1}{2}x + 5\\). At x = 4, \\(y = -\\frac{1}{2}(4) + 5 = -2 + 5 = 3\\)."
       },
       {
-        text: 'Exponential function',
-        isCorrect: false,
-        rationale: 'An exponential function has a changing slope.',
+        "text": "4",
+        "isCorrect": false,
+        "rationale": "This is the input value."
       },
       {
-        text: 'Absolute value function',
-        isCorrect: false,
-        rationale: 'An absolute value function has two different slopes.',
-      },
+        "text": "5",
+        "isCorrect": false,
+        "rationale": "This is the y-intercept."
+      }
     ],
-    rationale:
-      'A key characteristic of a linear function is that its rate of change, or slope, is constant.',
-    challenge_tags: ['math-4'],
-  },
+    "rationale": "The equation of the line is \\(y = mx + b\\). We are given \\(m = -\\frac{1}{2}\\) and \\(b = 5\\), so \\(y = -\\frac{1}{2}x + 5\\). Substituting \\(x = 4\\): \\(y = -\\frac{1}{2}(4) + 5 = -2 + 5 = 3\\).",
+    "challenge_tags": [
+      "math-4"
+    ]
+  }
 ];

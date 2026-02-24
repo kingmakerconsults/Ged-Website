@@ -1,320 +1,318 @@
 module.exports = [
   {
-    questionNumber: 1,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'easy',
-    question:
-      'What is the volume of a sphere with a radius of 3 inches? Use 3.14 for \\(\\pi\\) and the formula \\(V = \\frac{4}{3}\\pi r^3\\).',
-    answerOptions: [
+    "questionNumber": 1,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "easy",
+    "question": "What is the area of a rectangle with a length of 10 cm and a width of 5 cm?",
+    "answerOptions": [
       {
-        text: '60 cm^2',
-        isCorrect: false,
-        rationale: 'This is the sum of only two sides.',
-          'Area = (1/2) * (base1 + base2) * height = (1/2) * (10 + 14) * 5 = 60.',
-      {
-        text: '113.04 in^3',
-        text: '120 cm^2',
-        rationale: 'This is the sum of only three sides.',
-        rationale: 'This omits the (1/2) from the formula.',
-      {
-        text: '28 m',
-        text: '29 cm^2',
-        rationale:
-          'A square has 4 equal sides, so the perimeter is 4 * 7 = 28 m.',
+        "text": "15 \\(cm^2\\)",
+        "isCorrect": false,
+        "rationale": "This is the sum of the length and width, not the area."
       },
       {
-        text: '70 cm^2',
-        isCorrect: false,
-         rationale:
-           'The side lengths do not satisfy the Pythagorean theorem (5^2 + 5^2 != 7^2).',
+        "text": "30 \\(cm^2\\)",
+        "isCorrect": false,
+        "rationale": "This is the perimeter of the rectangle."
+      },
+      {
+        "text": "50 \\(cm^2\\)",
+        "isCorrect": true,
+        "rationale": "Area of a rectangle is length times width: 10 * 5 = 50."
+      },
+      {
+        "text": "100 \\(cm^2\\)",
+        "isCorrect": false,
+        "rationale": "This is the result of squaring the length."
+      }
     ],
-    rationale:
-      'Using the formula, V = \\(\\frac{4}{3}\\) * 3.14 * (3 inches)^3 = \\(\\frac{4}{3}\\) * 3.14 * 27 = 113.04 in^3.',
-      'The formula for the area of a trapezoid is A = (1/2)(b_1 + b_2)h. So, A = (1/2)(10 + 14) * 5 = (1/2) * 24 * 5 = 60 cm^2.',
+    "rationale": "The area of a rectangle is calculated by multiplying its length by its width. Area = 10 cm * 5 cm = 50 \\(cm^{2}\\).",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 2,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'medium',
-    question:
-      'A circle has a circumference of 50.24 cm. What is its radius? Use 3.14 for \\(\\pi\\).',
-    correctAnswer: '8 cm',
-    rationale:
-      'Circumference C = 2 * pi * r. So, 50.24 = 2 * 3.14 * r. 50.24 = 6.28 * r. Divide by 6.28 to find r = 8 cm.',
-    challenge_tags: ['math-5'],
+    "questionNumber": 2,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "easy",
+    "question": "A square has a perimeter of 24 inches. What is the length of one side?",
+    "correctAnswer": "6 inches",
+    "rationale": "A square has four equal sides. To find the length of one side, divide the perimeter by 4: 24 inches / 4 = 6 inches.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 3,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'medium',
-    question:
-      'What is the volume of a sphere with a radius of 3 inches? Use 3.14 for \\(\\pi\\) and the formula \\(V = \\frac{4}{3}\\pi r^3\\).',
-    answerOptions: [
+    "questionNumber": 3,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "What is the area of a triangle with a base of 8 inches and a height of 6 inches?",
+    "answerOptions": [
       {
-        text: '37.68 in^3',
-        isCorrect: false,
-        rationale: 'This is the surface area of the sphere.',
+        "text": "14 \\(in^2\\)",
+        "isCorrect": false,
+        "rationale": "This is the sum of the base and height."
       },
       {
-        text: '113.04 in^3',
-        isCorrect: true,
-        rationale:
-          'V = \\(\\frac{4}{3}\\) * 3.14 * 3^3 = \\(\\frac{4}{3}\\) * 3.14 * 27 = 113.04.',
+        "text": "24 \\(in^2\\)",
+        "isCorrect": true,
+        "rationale": "The area is (\\(\\(\frac{1}{2}\\)) * base * height = (\\(\\(\frac{1}{2}\\)) * 8 * 6 = 24."
       },
       {
-        text: '254.34 in^3',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
+        "text": "28 \\(in^2\\)",
+        "isCorrect": false,
+        "rationale": "This is the perimeter of a different triangle."
       },
       {
-        text: '904.32 in^3',
-        isCorrect: false,
-        rationale: 'This is the volume of a sphere with a much larger radius.',
-      },
+        "text": "48 \\(in^2\\)",
+        "isCorrect": false,
+        "rationale": "This is the result of multiplying base by height, without multiplying by \\(\\(\frac{1}{2}\\)."
+      }
     ],
-    rationale:
-      'Using the formula, V = \\(\\frac{4}{3}\\) * 3.14 * (3 inches)^3 = \\(\\frac{4}{3}\\) * 3.14 * 27 = 113.04 in^3.',
-    challenge_tags: ['math-5'],
+    "rationale": "The formula for the area of a triangle is A = \\(\\(\frac{1}{2}\\) * b * h. So, A = \\(\\(\frac{1}{2}\\) * 8 inches * 6 inches = 24 \\(in^{2}\\).",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 4,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'easy',
-    question: 'An angle measuring 45° is what type of angle?',
-    correctAnswer: 'Acute',
-    rationale: 'An acute angle is an angle that measures less than 90°.',
-    challenge_tags: ['math-5'],
+    "questionNumber": 4,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "A circle has a radius of 5 meters. What is its circumference? Use 3.14 for \\(\\pi\\).",
+    "correctAnswer": "31.4 meters",
+    "rationale": "The formula for circumference is C = 2 * pi * r. C = 2 * 3.14 * 5 = 31.4 meters.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 5,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'medium',
-    question: 'Two lines that intersect to form a right angle are called:',
-    answerOptions: [
+    "questionNumber": 5,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "In a right triangle, the two legs have lengths of 9 cm and 12 cm. What is the length of the hypotenuse?",
+    "answerOptions": [
       {
-        text: 'Parallel lines',
-        isCorrect: false,
-        rationale: 'Parallel lines never intersect.',
+        "text": "15 cm",
+        "isCorrect": true,
+        "rationale": "Using the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). So, \\(9^{2} + 12^{2}\\) = 81 + 144 = 225. The square root of 225 is 15."
       },
       {
-        text: 'Perpendicular lines',
-        isCorrect: true,
-        rationale: 'Perpendicular lines intersect at a 90° angle.',
+        "text": "21 cm",
+        "isCorrect": false,
+        "rationale": "This is the sum of the two legs."
       },
       {
-        text: 'Skew lines',
-        isCorrect: false,
-        rationale: 'Skew lines are in different planes and do not intersect.',
+        "text": "108 cm",
+        "isCorrect": false,
+        "rationale": "This is the product of the two legs."
       },
       {
-        text: 'Collinear lines',
-        isCorrect: false,
-        rationale: 'This is not a standard term for intersecting lines.',
-      },
+        "text": "42 cm",
+        "isCorrect": false,
+        "rationale": "This is an incorrect calculation."
+      }
     ],
-    rationale:
-      'The definition of perpendicular lines is that they intersect at a right (90°) angle.',
-    challenge_tags: ['math-5'],
+    "rationale": "According to the Pythagorean theorem, \\(a^{2} + b^{2} = c^{2}\\). So, \\(9^{2} + 12^{2} = c^{2}\\), which is $81 + 144 = 225\\). Thus, c = \\(\\(sqrt{225}\\) = 15 cm.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 6,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question:
-      'A right triangle has a hypotenuse of length 17 and one leg of length 8. What is the length of the other leg?',
-    answerOptions: [
+    "questionNumber": 6,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "What is the volume of a rectangular prism with a length of 7 feet, a width of 3 feet, and a height of 4 feet?",
+    "answerOptions": [
       {
-        text: '9',
-        isCorrect: false,
-        rationale: 'This is the difference between 17 and 8.',
+        "text": "14 \\(ft^3\\)",
+        "isCorrect": false,
+        "rationale": "This is the sum of the dimensions."
       },
       {
-        text: '15',
-        isCorrect: true,
-        rationale:
-          'Using the Pythagorean theorem, \\(a^2 + 8^2 = 17^2\\). \\(a^2 + 64 = 289\\). \\(a^2 = 225\\). a = 15.',
+        "text": "49 \\(ft^3\\)",
+        "isCorrect": false,
+        "rationale": "This is the result of an incorrect calculation."
       },
       {
-        text: '25',
-        isCorrect: false,
-        rationale: 'This is the sum of 17 and 8.',
+        "text": "84 \\(ft^3\\)",
+        "isCorrect": true,
+        "rationale": "Volume is length * width * height = 7 * 3 * 4 = 84."
       },
       {
-        text: '225',
-        isCorrect: false,
-        rationale: 'This is \\(a^2 not a.\\)',
-      },
+        "text": "100 \\(ft^3\\)",
+        "isCorrect": false,
+        "rationale": "This is the result of an incorrect calculation."
+      }
     ],
-    rationale:
-      'Using the Pythagorean theorem, \\(a^2 + b^2 = c^2\\). We have \\(a^2 + 8^2 = 17^2\\), so \\(a^2 + 64 = 289\\). Subtract 64 from both sides: \\(a^2 = 225\\). The square root of 225 is 15.',
-    challenge_tags: ['math-5'],
+    "rationale": "The volume of a rectangular prism is V = l * w * h. So, V = 7 ft * 3 ft * 4 ft = 84 \\(ft^{3}\\).",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 7,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'medium',
-    question: 'What is the sum of the interior angles of a quadrilateral?',
-    correctAnswer: '360°',
-    rationale:
-      'A quadrilateral can be divided into two triangles, and the sum of angles in each triangle is 180°. So, the total is 180° * 2 = 360°.',
-    challenge_tags: ['math-5'],
+    "questionNumber": 7,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "Two angles in a triangle measure 40° and 60°. What is the measure of the third angle?",
+    "correctAnswer": "80°",
+    "rationale": "The sum of the angles in a triangle is always 180°. So, the third angle is 180° - 40° - 60° = 80°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 8,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'medium',
-    question:
-      'A rectangular garden is 20 feet long and has a perimeter of 70 feet. What is its width?',
-    answerOptions: [
+    "questionNumber": 8,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "What is the area of a circle with a diameter of 10 inches? Use 3.14 for \\(\\pi\\).",
+    "answerOptions": [
       {
-        text: '15 feet',
-        isCorrect: true,
-        rationale: 'The perimeter is 2(L+W). 70 = 2(20+W). 35 = 20+W. W = 15.',
+        "text": "31.4 \\(in^2\\)",
+        "isCorrect": false,
+        "rationale": "This is the circumference of the circle."
       },
       {
-        text: '25 feet',
-        isCorrect: false,
-        rationale: 'This is half the perimeter minus half the length.',
+        "text": "78.5 \\(in^2\\)",
+        "isCorrect": true,
+        "rationale": "The radius is half the diameter (5 in). Area = pi * \\(r^{2}\\) = 3.14 * \\(5^{2}\\) = 78.5."
       },
       {
-        text: '35 feet',
-        isCorrect: false,
-        rationale: 'This is half the perimeter.',
+        "text": "100 \\(in^2\\)",
+        "isCorrect": false,
+        "rationale": "This is the result of squaring the diameter."
       },
       {
-        text: '50 feet',
-        isCorrect: false,
-        rationale: 'This is the perimeter minus the length.',
-      },
+        "text": "314 \\(in^2\\)",
+        "isCorrect": false,
+        "rationale": "This is the result of using the diameter in the area formula."
+      }
     ],
-    rationale:
-      'The formula for the perimeter of a rectangle is P = 2L + 2W. We have 70 = 2(20) + 2W, so 70 = 40 + 2W. Subtract 40: 30 = 2W. Divide by 2: W = 15 feet.',
-    challenge_tags: ['math-5'],
+    "rationale": "First, find the radius, which is half the diameter: 10 inches / 2 = 5 inches. The area formula is A = pi * \\(r^{2}\\). So, A = 3.14 * (5 inches)\\(^2\\) = 3.14 * 25 = 78.5 \\(in^{2}\\).",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 9,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'How many inches are in 2.5 feet?',
-    correctAnswer: '30 inches',
-    rationale:
-      'There are 12 inches in 1 foot. So, in 2.5 feet, there are 2.5 * 12 = 30 inches.',
-    challenge_tags: ['math-5'],
+    "questionNumber": 9,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "easy",
+    "question": "How many feet are in 3 yards?",
+    "correctAnswer": "9 feet",
+    "rationale": "There are 3 feet in 1 yard. So, in 3 yards, there are 3 * 3 = 9 feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 10,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'medium',
-    question:
-      'Find the area of a trapezoid with bases of 10 cm and 14 cm and a height of 5 cm.',
-    answerOptions: [
+    "questionNumber": 10,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "A cylindrical can has a radius of 2 inches and a height of 6 inches. What is its volume? Use 3.14 for \\(\\pi\\).",
+    "answerOptions": [
       {
-        text: '60 cm^2',
-        isCorrect: true,
-        rationale:
-          'Area = \\(\\frac{1}{2}\\) * (base1 + base2) * height = \\(\\frac{1}{2}\\) * (10 + 14) * 5 = 60.',
+        "text": "37.68 \\(in^3\\)",
+        "isCorrect": false,
+        "rationale": "This is the lateral surface area of the cylinder."
       },
       {
-        text: '120 cm^2',
-        isCorrect: false,
-        rationale: 'This omits the \\(\\frac{1}{2}\\) from the formula.',
+        "text": "75.36 \\(in^3\\)",
+        "isCorrect": true,
+        "rationale": "Volume = pi * \\(r^{2}\\) * h = 3.14 * \\(2^{2}\\) * 6 = 75.36."
       },
       {
-        text: '29 cm^2',
-        isCorrect: false,
-        rationale: 'This is the sum of the bases and the height.',
+        "text": "113.04 \\(in^3\\)",
+        "isCorrect": false,
+        "rationale": "This is the result of an incorrect calculation."
       },
       {
-        text: '70 cm^2',
-        isCorrect: false,
-        rationale:
-          'This is the result of multiplying the larger base by the height.',
-      },
+        "text": "226.08 \\(in^3\\)",
+        "isCorrect": false,
+        "rationale": "This is double the correct volume."
+      }
     ],
-    rationale:
-      'The formula for the area of a trapezoid is A = (1/2)(b_1 + b_2)h. So, A = (1/2)(10 + 14) * 5 = (1/2) * 24 * 5 = 60 cm^2.',
-    challenge_tags: ['math-5'],
+    "rationale": "The formula for the volume of a cylinder is V = pi * \\(r^{2}\\) * h. So, V = 3.14 * (2 inches)\\(^2\\) * 6 inches = 3.14 * 4 * 6 = 75.36 \\(in^{3}\\).",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 11,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'medium',
-    question:
-      'A triangle has side lengths of 5, 5, and 7. What type of triangle is it?',
-    answerOptions: [
+    "questionNumber": 11,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "hard",
+    "question": "An angle that measures 95° is classified as what type of angle?",
+    "answerOptions": [
       {
-        text: 'Equilateral',
-        isCorrect: false,
-        rationale: 'An equilateral triangle has all sides equal.',
+        "text": "Acute",
+        "isCorrect": false,
+        "rationale": "An acute angle is less than 90°."
       },
       {
-        text: 'Isosceles',
-        isCorrect: true,
-        rationale: 'An isosceles triangle has at least two equal sides.',
+        "text": "Obtuse",
+        "isCorrect": true,
+        "rationale": "An obtuse angle is greater than 90° but less than 180°."
       },
       {
-        text: 'Scalene',
-        isCorrect: false,
-        rationale: 'A scalene triangle has no equal sides.',
+        "text": "Right",
+        "isCorrect": false,
+        "rationale": "A right angle is exactly 90°."
       },
       {
-        text: 'Right',
-        isCorrect: false,
-        rationale:
-          'The side lengths do not satisfy the Pythagorean theorem (5^2 + 5^2 != 7^2).',
-      },
+        "text": "Straight",
+        "isCorrect": false,
+        "rationale": "A straight angle is exactly 180°."
+      }
     ],
-    rationale:
-      'An isosceles triangle is defined as a triangle with at least two sides of equal length. This triangle has two sides of length 5.',
-    challenge_tags: ['math-5'],
+    "rationale": "Angles are classified based on their measure. An angle greater than 90° and less than 180° is an obtuse angle.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 12,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'hard',
-    question:
-      'If two angles are supplementary and one angle is 110°, what is the measure of the other angle?',
-    answerOptions: [
+    "questionNumber": 12,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "medium",
+    "question": "What is the perimeter of a regular hexagon with a side length of 8 cm?",
+    "answerOptions": [
       {
-        text: '-20°',
-        isCorrect: false,
-        rationale: 'Angle measures cannot be negative.',
+        "text": "40 cm",
+        "isCorrect": false,
+        "rationale": "This is the perimeter of a regular pentagon with this side length."
       },
       {
-        text: '20°',
-        isCorrect: false,
-        rationale: 'This is the complement of 70.',
+        "text": "48 cm",
+        "isCorrect": true,
+        "rationale": "A regular hexagon has 6 equal sides. Perimeter = 6 * 8 = 48."
       },
       {
-        text: '70°',
-        isCorrect: true,
-        rationale:
-          'Supplementary angles add up to 180°. So, 180° - 110° = 70°.',
+        "text": "56 cm",
+        "isCorrect": false,
+        "rationale": "This is the perimeter of a regular heptagon."
       },
       {
-        text: '250°',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
+        "text": "64 cm",
+        "isCorrect": false,
+        "rationale": "This is the perimeter of a regular octagon."
+      }
     ],
-    rationale:
-      'Supplementary angles are two angles whose measures add up to 180°. The other angle is 180° - 110° = 70°.',
-    challenge_tags: ['math-5'],
-  },
+    "rationale": "A regular hexagon has 6 equal sides. The perimeter is the sum of the lengths of all sides, so P = 6 * side length = 6 * 8 cm = 48 cm.",
+    "challenge_tags": [
+      "math-5"
+    ]
+  }
 ];

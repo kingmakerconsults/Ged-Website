@@ -1,154 +1,123 @@
-// Evidence & Argumentation — Test Ready: Practice 7
-// 11 questions | paired sources, logical fallacies, multi-step evidence chains
+﻿// Reading Comprehension  Test Ready: Textual Evidence  Practice 7
+// 10 questions | evaluating evidence sufficiency, source reliability, and counter-evidence
 module.exports = [
   {
     questionNumber: 1, type: 'multipleChoice', difficulty: 'medium',
-    passage: "A state legislator proposes mandatory financial literacy courses in high schools, citing a Federal Reserve survey showing that 40% of American adults cannot cover a \$400 emergency without borrowing or selling something. She argues, 'If we teach students budgeting and saving, we will eliminate financial insecurity in a generation.'
-
-An opponent responds: 'Financial insecurity is caused primarily by low wages and economic inequality, not by lack of knowledge. Studies show that financial literacy courses have modest, short-term effects on behaviour and that knowledge alone does not overcome structural economic barriers.'",
-    question: "The opponent's argument rests primarily on which of the following claims?",
+    passage: "A school board voted to eliminate art and music classes to close a budget deficit, arguing that test-score data showed no correlation between arts participation and academic achievement. A parent coalition responded with a longitudinal study from a state university tracking 12,000 students over eight years. The study found that students who took at least two years of arts courses were 20% more likely to graduate and 15% less likely to be disciplined for behavioural issues, even after controlling for family income and prior academic performance.",
+    question: "Why does the parent coalition's study pose a stronger challenge to the school board than simply asserting 'the arts are valuable'?",
     answerOptions: [
-      { text: "Financial literacy courses are too expensive to implement.", isCorrect: false, rationale: "Cost is not raised." },
-      { text: "The root cause of financial insecurity is structural (low wages, inequality) rather than informational (lack of knowledge).", isCorrect: true, rationale: "The opponent's core argument is that the legislator misidentifies the cause." },
-      { text: "The Federal Reserve survey is inaccurate.", isCorrect: false, rationale: "The survey accuracy is not challenged." },
-      { text: "High school students are too young to learn financial concepts.", isCorrect: false, rationale: "Age is not mentioned." },
+      { text: "It was conducted by a university, which automatically makes it correct.", isCorrect: false, rationale: "Institutional affiliation adds credibility but does not make findings automatically correct  the study's design features are what matter." },
+      { text: "The study's longitudinal design, large sample size, and income controls address the claim that arts produce no measurable academic benefit by showing measurable long-term outcomes that the board's test-score data did not capture.", isCorrect: true, rationale: "The board looked at test scores in isolation. The coalition's study tracked graduation and behaviour over eight years while controlling for confounders  a broader and more rigorous measure of educational impact." },
+      { text: "The coalition has more members than the school board.", isCorrect: false, rationale: "Group size is irrelevant to the quality of the evidence presented." },
+      { text: "Art and music are constitutionally protected.", isCorrect: false, rationale: "No such constitutional protection exists  the debate is about evidence, not law." },
     ],
     challenge_tags: ['rla-2'],
   },
   {
     questionNumber: 2, type: 'multipleChoice', difficulty: 'medium',
-    passage: "Same passages as question 1.",
-    question: "Which evidence would most strengthen the legislator's argument?",
+    passage: "An editorial in a regional newspaper argued that the town's declining downtown foot traffic proved that the new bypass highway was 'killing Main Street businesses.' The editor cited a merchant who said sales were down 30%. A transportation planner responded that three of the five largest downtown employers had relocated to a suburban office park eighteen months before the bypass opened, removing roughly 3,000 daily workers from the downtown area  and that the merchant's sales decline began before bypass construction started.",
+    question: "What does the timeline evidence from the transportation planner reveal about the editorial's argument?",
     answerOptions: [
-      { text: "Evidence that wages have fallen in real terms over the past decade.", isCorrect: false, rationale: "This supports the opponent's structural argument." },
-      { text: "A longitudinal study showing students who took financial literacy courses were 40% less likely to carry credit card debt 10 years later.", isCorrect: true, rationale: "Long-term behaviour change directly supports the claim that financial education improves financial outcomes." },
-      { text: "Data showing that 40% of adults also lack general numeracy skills.", isCorrect: false, rationale: "This doesn't directly connect financial literacy education to better outcomes." },
-      { text: "Evidence that financial literacy is taught in private schools.", isCorrect: false, rationale: "Where it's taught doesn't show it works." },
+      { text: "The bypass was built in the wrong location.", isCorrect: false, rationale: "The planner's evidence concerns causation, not highway placement." },
+      { text: "The editor conflated correlation with causation: the decline started before the bypass existed, and a major alternative cause  employer relocations  provides a more plausible and earlier-starting explanation for the foot traffic loss.", isCorrect: true, rationale: "The timeline shows decline predating the bypass. The employer relocations provide a concrete, quantifiable alternative cause that the editorial ignored." },
+      { text: "Downtown businesses never have declining sales.", isCorrect: false, rationale: "The evidence confirms sales did decline  the dispute is about the cause." },
+      { text: "Newspapers should not publish editorials about transportation.", isCorrect: false, rationale: "This is about evidence quality, not editorial scope." },
     ],
     challenge_tags: ['rla-2'],
   },
   {
-    questionNumber: 3, type: 'multipleChoice', difficulty: 'medium',
-    passage: "In a letter to shareholders, a technology CEO writes: 'Our company invested \$500 million in artificial intelligence research last year. We are confident this will lead to breakthrough products. After all, our last major investment — in cloud computing in 2012 — yielded returns of 400% over five years. AI is the cloud computing of our era.'
-",
-    question: "The CEO uses an analogy comparing AI to cloud computing. What is the primary logical risk of this type of argument?",
+    questionNumber: 3, type: 'multipleChoice', difficulty: 'hard',
+    passage: "A pharmaceutical company announced that clinical trials for its new migraine drug showed a 47% reduction in monthly migraine days compared to 22% for placebo. A medical journal review noted that the trial enrolled only patients who had already failed two previous migraine medications, that participants were 80% female, and that the trial lasted only 12 weeks. The review asked whether the drug's benefits would hold in a broader population, in men, and over longer treatment periods.",
+    question: "What type of evidence limitations does the journal review identify?",
     answerOptions: [
-      { text: "The analogy proves the investment will fail.", isCorrect: false, rationale: "An analogy alone cannot prove success or failure." },
-      { text: "The two technologies may differ in ways that make the past outcome a poor predictor of future results.", isCorrect: true, rationale: "Analogical reasoning breaks down when the compared situations differ significantly in relevant ways." },
-      { text: "Cloud computing is not relevant to the technology sector.", isCorrect: false, rationale: "Cloud computing is clearly relevant — the comparison lacks merit for other reasons." },
-      { text: "The CEO should not disclose investment figures.", isCorrect: false, rationale: "Disclosure is a legal and governance matter, not a logical error." },
+      { text: "The drug is dangerous and should be recalled.", isCorrect: false, rationale: "The review questions generalisability, not safety." },
+      { text: "The trial's narrow enrollment criteria, gender imbalance, and short duration limit the ability to generalise the 47% result to typical migraine patients, male patients, or long-term use  the efficacy number may be accurate for the studied group but misleading as a general claim.", isCorrect: true, rationale: "Trial results are only directly applicable to the population studied. Patients who failed two drugs may respond differently than first-time patients; 12 weeks doesn't capture long-term effects." },
+      { text: "All clinical trials are fraudulent.", isCorrect: false, rationale: "The review raises legitimate methodological questions, not accusations of fraud." },
+      { text: "Placebos are more effective than drugs.", isCorrect: false, rationale: "The drug outperformed placebo in the trial  the question is about who the results apply to." },
     ],
     challenge_tags: ['rla-2'],
   },
   {
     questionNumber: 4, type: 'multipleChoice', difficulty: 'hard',
-    passage: "Excerpt from a public health report: 'Our city's opioid overdose death rate fell by 22% in the year following the opening of a supervised consumption facility (SCF). In the five neighbouring communities without SCFs, the overdose rate rose an average of 8% in the same period.'
-
-A city council member states: 'The SCF clearly caused the drop in overdose deaths.'",
-    question: "What would a researcher need to know before agreeing that the SCF CAUSED the reduction?",
+    passage: "A state governor touted a 'welfare-to-work' programme's success, stating that 60% of participants were employed within six months of completing the programme. An independent evaluation revealed that the programme had strict eligibility requirements that excluded anyone with a criminal record, a disability, or fewer than two years of prior work experience  effectively screening in only the most employable candidates. In a comparison group of similarly qualified people who did not participate, 55% found jobs within six months without any programme assistance.",
+    question: "What does the comparison group data reveal about the programme's actual effectiveness?",
     answerOptions: [
-      { text: "Whether the SCF is publicly or privately funded.", isCorrect: false, rationale: "Funding source does not affect the causal question." },
-      { text: "Whether other interventions (law enforcement changes, naloxone distribution, etc.) also changed in the city during the same period.", isCorrect: true, rationale: "Without ruling out confounding variables, the decline cannot be attributed solely to the SCF." },
-      { text: "How many people used the SCF in the first year.", isCorrect: false, rationale: "Usage volume is relevant to scale but doesn't resolve whether the SCF caused the reduction." },
-      { text: "Whether the council member supports the SCF programme.", isCorrect: false, rationale: "The council member's political position does not affect the causal analysis." },
+      { text: "The programme is completely useless and should be shut down.", isCorrect: false, rationale: "A 5-percentage-point benefit may or may not justify the programme's cost  'completely useless' overstates the finding." },
+      { text: "The programme's apparent 60% success rate is largely a product of selecting participants who were already likely to find jobs  the 5-percentage-point difference over the comparison group suggests the programme itself added minimal value beyond what participants' existing qualifications would have achieved.", isCorrect: true, rationale: "Screening in only the most employable people guaranteed a high baseline success rate. The true programme effect is the difference: 60% minus 55%, which is modest." },
+      { text: "Criminal records don't affect employment.", isCorrect: false, rationale: "The passage implies the opposite  people with records were excluded precisely because they're harder to place." },
+      { text: "All welfare programmes should have strict eligibility rules.", isCorrect: false, rationale: "The evaluation critiques the eligibility rules for inflating success metrics, not advocating for them." },
     ],
     challenge_tags: ['rla-2'],
   },
   {
     questionNumber: 5, type: 'multipleChoice', difficulty: 'hard',
-    passage: "From a debate on extending daylight saving time year-round:
-
-Source A (Retail Association): 'Extending daylight saving time increases consumer spending. Studies show shoppers spend more when they can shop after work in daylight — and America's economy is 70% driven by consumer spending.'
-
-Source B (Sleep Medicine Association): 'Permanent daylight saving time means darker mornings year-round. Sleep scientists have documented increased cardiovascular events, traffic accidents, and workplace injuries in the weeks following the spring clock change, when people lose one hour of sleep. A permanent shift creates a chronic, year-round misalignment with the body's natural light-dark cycle in winter months.'",
-    question: "Which statement best reconciles both sources for a policymaker?",
+    passage: "A nutritionist on a morning talk show said that coconut oil was 'the healthiest fat on Earth,' citing a study from a Southeast Asian university showing that populations in the Pacific Islands that consumed large amounts of coconut had low rates of heart disease. A cardiologist rebutted that the Pacific Island study did not control for the populations' high fish intake, low processed-food consumption, and high physical activity levels  all independently associated with heart health. The cardiologist also noted that the American Heart Association, after reviewing all available evidence, had advised against coconut oil due to its high saturated fat content.",
+    question: "Which of the cardiologist's responses most effectively undermines the nutritionist's specific evidence?",
     answerOptions: [
-      { text: "The economic benefit outweighs the health risk, so the policy should pass.", isCorrect: false, rationale: "This is a value judgement, not a reconciliation of evidence." },
-      { text: "Permanent daylight saving time may boost consumer spending but may also create year-round health risks. Policymakers must weigh economic benefits against public health costs.", isCorrect: true, rationale: "Accurately captures what each source establishes and frames the decision correctly as a trade-off." },
-      { text: "Source B disproves Source A because health is more important than shopping.", isCorrect: false, rationale: "Health importance is a value judgement; the sources address different domains and neither disproves the other." },
-      { text: "Both sources support extending daylight saving time.", isCorrect: false, rationale: "Source B argues against the change on health grounds." },
+      { text: "The American Heart Association's recommendation against coconut oil.", isCorrect: false, rationale: "The AHA recommendation is an appeal to authority  useful but less analytically precise than identifying the study's confounders." },
+      { text: "Identifying the uncontrolled variables  fish intake, low processed-food consumption, and high physical activity  that could independently explain the Pacific Islanders' heart health, meaning the coconut consumption was never isolated as the cause.", isCorrect: true, rationale: "The nutritionist attributed heart health to coconut oil. The cardiologist shows the study failed to control for other protective factors, undermining the causal link between coconut and heart health specifically." },
+      { text: "Saturated fat is always dangerous.", isCorrect: false, rationale: "This is a broad claim  the question asks about which rebuttal targets the nutritionist's specific evidence most effectively." },
+      { text: "Morning talk shows are unreliable sources of health information.", isCorrect: false, rationale: "Criticising the platform doesn't address the evidence cited." },
     ],
     challenge_tags: ['rla-2'],
   },
   {
     questionNumber: 6, type: 'multipleChoice', difficulty: 'hard',
-    passage: "From a policy brief on urban tree canopy:
-
-'Cities that increased tree canopy cover by 10% or more over a decade saw average summer temperatures fall by 1.5°C in dense urban areas compared to cities with stagnant or declining canopy. Tree canopy also reduced stormwater runoff ey 18%–25% in study areas and was associated with lower rates of respiratory illness in children. However, tree-planting programmes historically have been concentrated in wealthier neighbourhoods, reinforcing environmental inequity.'",
-    question: "A journalist writes: 'Urban trees solve the problem of climate change in cities.' What is wrong with this conclusion?",
+    passage: "A senator argued for expanding a federal jobs programme to rural areas, citing the programme's strong results in urban centres where unemployment dropped 8 percentage points in pilot cities. An economist cautioned that rural areas have fundamentally different labour markets: fewer employers, longer commute distances, less public transit, and seasonal agricultural cycles. She noted that a similar urban-to-rural transfer of a housing programme in 2015 had achieved only a quarter of its urban success rate because the rural conditions were too different from the design assumptions.",
+    question: "What reasoning principle does the economist use to question the programme expansion?",
     answerOptions: [
-      { text: "Trees do not reduce temperatures.", isCorrect: false, rationale: "The report says they do reduce temperatures." },
-      { text: "The report shows trees provide local benefits (lower temperatures, less runoff, better health) but 'solving climate change' overstates localised mitigation as a global-scale solution.", isCorrect: true, rationale: "Local temperature reductions and runoff improvements are not equivalent to solving climate change, which is a global systemic problem." },
-      { text: "The journalist should only write about wealthy neighbourhoods.", isCorrect: false, rationale: "Irrelevant to the logical flaw in the conclusion." },
-      { text: "The report doesn't mention climate change, so journalism about it is inappropriate.", isCorrect: false, rationale: "The report discusses related urban heat and runoff issues; journalism drawing connections is appropriate if done accurately." },
+      { text: "Urban programmes are always superior to rural programmes.", isCorrect: false, rationale: "The economist doesn't rank programme quality by geography  she argues that context determines outcomes." },
+      { text: "Historical precedent  a similar cross-context transfer failed, and the structural differences between urban and rural labour markets suggest the conditions that produced urban success don't exist in rural areas, making the 8-point result unlikely to transfer.", isCorrect: true, rationale: "The economist combines two lines of evidence: structural analysis of why rural markets differ and a historical case of cross-context policy failure, building a strong argument against assuming transferability." },
+      { text: "The senator doesn't care about rural communities.", isCorrect: false, rationale: "The senator is proposing expansion to rural areas, suggesting the opposite." },
+      { text: "Unemployment statistics are unreliable.", isCorrect: false, rationale: "The economist accepts the urban statistics  she questions their applicability elsewhere." },
     ],
     challenge_tags: ['rla-2'],
   },
   {
     questionNumber: 7, type: 'multipleChoice', difficulty: 'hard',
-    passage: "An advocacy group argues that social media companies should be legally liable for the spread of health misinformation on their platforms. They cite data showing a measurable rise in vaccine hesitancy correlating with exposure to anti-vaccine content online. A First Amendment scholar responds that imposing liability would incentivise over-censorship, chilling legitimate speech and making platforms risk-averse about any health-related discussion.",
-    question: "The First Amendment scholar's argument introduces which type of concern?",
+    passage: "A school district claimed that its new reading programme raised third-grade reading scores by 12 points over two years. A researcher analysed the district's data and discovered that during the same two years, the district reclassified a significant number of struggling readers as special education students, effectively moving them into a different testing pool. The remaining students  those still in the general testing population  were, on average, already stronger readers. The researcher also found that neighbouring districts using different programmes saw 9-point increases over the same period.",
+    question: "How do the researcher's two findings work together to challenge the district's claim?",
     answerOptions: [
-      { text: "An empirical claim about vaccine hesitancy.", isCorrect: false, rationale: "The scholar does not dispute the vaccine hesitancy data." },
-      { text: "A slippery slope concern — that the intended remedy could cause a disproportionate secondary harm (suppression of legitimate speech).", isCorrect: true, rationale: "The scholar argues liability for misinformation will lead to over-censoring of all health speech — a slippery slope argument." },
-      { text: "A claim that misinformation is not widespread.", isCorrect: false, rationale: "The scholar does not dispute the prevalence of misinformation." },
-      { text: "An economic argument about the cost of litigation.", isCorrect: false, rationale: "Litigation cost is not mentioned." },
+      { text: "They prove the reading programme made students worse at reading.", isCorrect: false, rationale: "The findings suggest the improvement was inflated, not that students got worse." },
+      { text: "The reclassification shows the score gains partly reflect a change in who was being measured rather than genuine improvement, and the 9-point regional comparison shows that most of the remaining gain could be attributed to broader trends  leaving little if any unique credit to the new programme.", isCorrect: true, rationale: "Finding 1: the tested group got artificially stronger by removing weak readers. Finding 2: the regional baseline explains most of the remaining gain. Together, they leave the programme with almost no unique contribution." },
+      { text: "Special education students should not be tested separately.", isCorrect: false, rationale: "This may be a policy concern but doesn't address the evidence question." },
+      { text: "Neighbouring districts always outperform this district.", isCorrect: false, rationale: "The neighbouring districts actually scored lower (9 points vs 12), but that comparison reveals the district's extra 3 points came from reclassification, not programme effectiveness." },
     ],
     challenge_tags: ['rla-2'],
   },
   {
     questionNumber: 8, type: 'multipleChoice', difficulty: 'hard',
-    passage: "Passage A — Public health official: 'The mask mandate in our county during the respiratory virus season resulted in a 35% decline in hospitalizations compared to the prior year.'
-
-Passage B — County commissioner: 'Neighbouring counties without mask mandates also saw hospitalizations decline — by 28% — because the entire region experienced the same mild virus season this year.'",
-    question: "The commissioner's evidence is most useful to someone who wants to argue that:",
+    passage: "A car manufacturer's advertisement claimed its new SUV was 'the safest vehicle in its class,' citing a five-star crash test rating from a federal safety agency. A consumer advocacy group noted that the five-star rating applied only to frontal and side crash tests conducted under laboratory conditions. The SUV had received only three stars for rollover resistance  the category most relevant to SUVs  and the manufacturer had lobbied successfully to exclude rollover ratings from the prominently displayed overall rating system.",
+    question: "What evidence strategy did the manufacturer use to support its 'safest' claim?",
     answerOptions: [
-      { text: "Mask mandates should be permanent.", isCorrect: false, rationale: "The commissioner's evidence undermines, not supports, mask mandate effectiveness." },
-      { text: "The mask mandate may not have caused the hospitalisation decline, since unmasked counties also improved.", isCorrect: true, rationale: "A confounding factor — a milder regional virus season — makes attribution of the decline to masking uncertain." },
-      { text: "The mask mandate harmed hospitalisation rates.", isCorrect: false, rationale: "The mandate county improved more — the commissioner just argues the improvement may not be caused by masks." },
-      { text: "Neighbouring counties are more health-conscious than the mandate county.", isCorrect: false, rationale: "No data supports this conclusion." },
+      { text: "The manufacturer invented fake safety ratings.", isCorrect: false, rationale: "The five-star frontal/side ratings are real  the deception is in which ratings are highlighted and which are hidden." },
+      { text: "The manufacturer selectively highlighted favourable ratings while suppressing the most relevant unfavourable one  and actively worked to change the rating system to hide the SUV's weakness in the category most important for its vehicle type.", isCorrect: true, rationale: "This is cherry-picking combined with systemic manipulation: emphasising strengths, hiding weaknesses, and changing the framework so the weakness doesn't appear in the headline number." },
+      { text: "Crash tests are unreliable measures of vehicle safety.", isCorrect: false, rationale: "The consumer group relies on crash test data too  their point is about which tests matter most." },
+      { text: "All SUVs are equally unsafe.", isCorrect: false, rationale: "The three-star rollover rating suggests this SUV has a specific weakness, not that all SUVs are equally poor." },
     ],
     challenge_tags: ['rla-2'],
   },
   {
     questionNumber: 9, type: 'multipleChoice', difficulty: 'hard',
-    passage: "A government official argues that expanding highway capacity by adding lanes will reduce traffic congestion: 'Wide highways move more cars faster.' Transportation researchers have documented a phenomenon called 'induced demand': when highway capacity increases, more people choose to drive rather than use transit or carpool, eventually filling the new capacity and restoring previous congestion levels. Multiple studies find that after expansion, long-term congestion returns to pre-expansion levels within 5–10 years.",
-    question: "The induced-demand research most directly challenges which assumption in the official's argument?",
+    passage: "A politician argued that immigration increases crime, citing FBI data showing that cities with larger immigrant populations had higher total crime numbers. A criminologist responded with per-capita analysis showing that immigrants committed crimes at lower rates than native-born citizens. The criminologist also noted that large immigrant populations tend to settle in large cities, and large cities have more total crime than small towns regardless of immigration  the politician's correlation reflected city size, not immigration effects.",
+    question: "What two statistical errors does the criminologist identify in the politician's argument?",
     answerOptions: [
-      { text: "That wider highways cost more to build.", isCorrect: false, rationale: "Cost is not the assumption being challenged." },
-      { text: "That adding lane capacity will result in lasting congestion reduction, when in fact it may generate sufficient additional demand to offset the capacity gain.", isCorrect: true, rationale: "The official assumes supply (lanes) reduces congestion; induced demand research shows new supply generates new demand, neutralising the benefit." },
-      { text: "That cars are the dominant form of transport.", isCorrect: false, rationale: "The demand research doesn't challenge the role of cars; it describes how more cars appear when lanes are added." },
-      { text: "That public transit is always better than driving.", isCorrect: false, rationale: "This is a different argument not advanced by the research cited." },
+      { text: "The FBI's data is unreliable and immigrants never commit crimes.", isCorrect: false, rationale: "The criminologist doesn't question data reliability or claim zero immigrant crime  they reframe the data correctly." },
+      { text: "First, using total crime numbers instead of per-capita rates ignores that larger populations naturally produce more total incidents; second, the correlation between immigrant populations and total crime is confounded by city size, which independently predicts both variables.", isCorrect: true, rationale: "Error 1: absolute numbers vs. rates. Error 2: confounding variable (city size correlates with both immigration and total crime). Both errors make a spurious correlation appear causal." },
+      { text: "Crime statistics should not be used in policy debates.", isCorrect: false, rationale: "The criminologist uses the same statistics more accurately  they don't reject the data, they reject the analysis." },
+      { text: "Small towns have more crime per capita than large cities.", isCorrect: false, rationale: "The passage says large cities have more total crime  per-capita comparisons by city size aren't addressed." },
     ],
     challenge_tags: ['rla-2'],
   },
   {
     questionNumber: 10, type: 'multipleChoice', difficulty: 'hard',
-    passage: "From two op-eds on prison recidivism:
-
-Op-Ed A: 'Mandatory minimum sentencing has increased the prison population and done little to deter crime. A 2020 Sentencing Commission report found that offenders subject to mandatory minimums had similar recidivism rates to those who received discretionary sentences.'
-
-Op-Ed B: 'Reducing mandatory minimums is naive. When we lowered sentences in the 1970s, crime rates rose dramatically in urban areas. We cannot gamble with public safety.'",
-    question: "Which response would most effectively challenge Op-Ed B's historical argument?",
+    passage: "A tech CEO told shareholders that the company's AI hiring tool had eliminated bias from recruitment, pointing to data showing equal interview rates across racial groups. An investigative journalist obtained internal documents revealing that the tool achieved racial parity in interviews by lowering qualification thresholds for underrepresented groups rather than evaluating all candidates by the same standard. The journalist also found that offer rates after interviews still showed significant racial disparities  the tool equalised only one visible metric while leaving the underlying decision-making patterns untouched.",
+    question: "How does the journalist's investigation reframe the CEO's 'equal interview rates' evidence?",
     answerOptions: [
-      { text: "A list of countries that have no mandatory minimums.", isCorrect: false, rationale: "International comparison alone doesn't address the US 1970s claim directly." },
-      { text: "Evidence that crime rates in the 1970s rose due to economic factors, demographic shifts, and police underfunding — not sentence reductions.", isCorrect: true, rationale: "This directly challenges Op-Ed B's causal claim that lower sentences caused 1970s crime increases by providing alternative explanations." },
-      { text: "Op-Ed A's 2020 Sentencing Commission data.", isCorrect: false, rationale: "This addresses recidivism, not the 1970s-era decline in sentencing that Op-Ed B raises." },
-      { text: "An argument that all crime is economically motivated.", isCorrect: false, rationale: "This is too broad and unverified — and doesn't specifically refute the 1970s claim." },
-    ],
-    challenge_tags: ['rla-2'],
-  },
-  {
-    questionNumber: 11, type: 'multipleChoice', difficulty: 'hard',
-    passage: "A nutritionist writes: 'People who eat breakfast daily are 20% less likely to be overweight than those who skip breakfast, according to our survey of 2,000 adults. Therefore, eating breakfast prevents obesity.'
-
-A statistician responds that the conclusion does not follow from the data.",
-    question: "Which of the following best explains why the statistician is correct?",
-    answerOptions: [
-      { text: "The sample of 2,000 is too small to draw any conclusion.", isCorrect: false, rationale: "2,000 is a reasonable survey sample size." },
-      { text: "The correlation between breakfast eating and lower weight does not establish that breakfast prevents obesity — other factors could explain both habits.", isCorrect: true, rationale: "People who eat breakfast may also exercise more, have more structured routines, or better access to food — correlation does not equal causation." },
-      { text: "Nutritionists cannot conduct surveys.", isCorrect: false, rationale: "Professional qualifications aren't the issue." },
-      { text: "The 20% figure is not statistically significant.", isCorrect: false, rationale: "Statistical significance isn't addressed in the passage and cannot be assumed." },
+      { text: "The AI tool is more racist than human recruiters.", isCorrect: false, rationale: "The journalist's evidence shows the tool manipulated inputs rather than removing bias  but doesn't compare it to human outcomes." },
+      { text: "The equal interview rate was manufactured by changing standards rather than removing bias  and the persistent offer-rate disparities reveal that the appearance of fairness at one stage masked continuing discrimination at the decisive stage where hiring decisions are actually made.", isCorrect: true, rationale: "Two revelations: (1) the mechanism (different thresholds) undermines the equality claim, and (2) the downstream data (offer rates) shows the bias simply moved to a less visible stage." },
+      { text: "AI should never be used in hiring.", isCorrect: false, rationale: "The journalist critiques this specific tool's design and the CEO's claims  not all AI hiring tools." },
+      { text: "Interview rates are the best measure of hiring fairness.", isCorrect: false, rationale: "The entire investigation demonstrates that interview rates alone are insufficient  offer rates and threshold standards matter too." },
     ],
     challenge_tags: ['rla-2'],
   },

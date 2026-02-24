@@ -1,319 +1,318 @@
 module.exports = [
   {
-    questionNumber: 1,
-      'Using the area formula for a trapezoid, A = \\((\\frac{1}{2})\\)(b_1 + b_2)h. We have 100 = \\((\\frac{1}{2})\\)(8 + b_2) \\times 10. 100 = 5(8 + b_2). 20 = 8 + b_2. So, b_2 = 12 units.',
-    calculator: false,
-    difficulty: 'easy',
-    question: 'What is the area of a square with a side length of 9 meters?',
-    answerOptions: [
+    "questionNumber": 1,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "easy",
+    "question": "What is the area of a rectangle with a width of 6 inches and a length of 9 inches?",
+    "answerOptions": [
       {
-        text: '18 \\(m^2\\)',
-        isCorrect: false,
-        rationale: 'This is the sum of two sides.',
+        "text": "15 in^2",
+        "isCorrect": false,
+        "rationale": "This is the sum of the sides."
       },
       {
-        text: '36 \\(m^2\\)',
-        isCorrect: false,
-        rationale: 'This is the perimeter.',
+        "text": "30 in^2",
+        "isCorrect": false,
+        "rationale": "This is the perimeter."
       },
       {
-        text: '81 \\(m^2\\)',
-        isCorrect: true,
-        rationale: 'Area = 9 * 9 = 81.',
+        "text": "54 in^2",
+        "isCorrect": true,
+        "rationale": "Area = 6 * 9 = 54."
       },
       {
-        text: '90 \\(m^2\\)',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
+        "text": "81 in^2",
+        "isCorrect": false,
+        "rationale": "This is 9*9."
+      }
     ],
-    rationale:
-      'The area of a square is the side length multiplied by itself. Area = 9 m * 9 m = 81 \\(m^2\\).',
-    challenge_tags: ['math-5'],
+    "rationale": "The area of a rectangle is calculated by multiplying its length and width. Area = 9 inches * 6 inches = 54 in^2.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 2,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'medium',
-    question:
-      'A circle has a circumference of 31.4 inches. What is its radius? Use 3.14 for \\(\\pi\\).',
-    correctAnswer: '5 inches',
-    rationale:
-      'C = 2 * pi * r. 31.4 = 2 * 3.14 * r. 31.4 = 6.28 * r. r = 31.4 / 6.28 = 5.',
-    challenge_tags: ['math-5'],
+    "questionNumber": 2,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "A circle has a radius of 20 meters. What is its circumference? Use 3.14 for \\(\\pi\\).",
+    "correctAnswer": "125.6 meters",
+    "rationale": "Circumference = 2 * pi * r. C = 2 * 3.14 * 20 meters = 125.6 meters.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 3,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'medium',
-    question:
-      'A rectangular prism has a volume of 300 cubic feet. If its length is 10 feet and its width is 5 feet, what is its height?',
-    answerOptions: [
+    "questionNumber": 3,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "Find the volume of a cylinder with radius 4 and height 10. Use 3.14 for \\(\\pi\\).",
+    "answerOptions": [
       {
-        text: '6 feet',
-        isCorrect: true,
-        rationale: 'Volume = L*W*H. 300 = 10 * 5 * H. 300 = 50 * H. H = 6.',
+        "text": "125.6",
+        "isCorrect": false,
+        "rationale": "This is the volume if r=2, h=10."
       },
       {
-        text: '10 feet',
-        isCorrect: false,
-        rationale: 'This is the length.',
+        "text": "502.4",
+        "isCorrect": true,
+        "rationale": "Volume = pi * \\(r^{2}\\) * h = 3.14 * \\(4^{2}\\) * 10 = 502.4."
       },
       {
-        text: '15 feet',
-        isCorrect: false,
-        rationale: 'This is L+W.',
+        "text": "1256",
+        "isCorrect": false,
+        "rationale": "This is the volume if r=10, h=4."
       },
       {
-        text: '30 feet',
-        isCorrect: false,
-        rationale: 'This is \\(\\(\frac{300}{10}\\).',
-      },
+        "text": "400",
+        "isCorrect": false,
+        "rationale": "This is an incorrect calculation."
+      }
     ],
-    rationale:
-      'The volume of a rectangular prism is V = L * W * H. We have 300 = 10 * 5 * H. 300 = 50H. Divide by 50 to find H = 6 feet.',
-    challenge_tags: ['math-5'],
+    "rationale": "The formula for the volume of a cylinder is V = pi * \\(r^{2}\\) * h. V = 3.14 * (4)\\(^2\\) * 10 = 3.14 * 16 * 10 = 502.4.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 4,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'easy',
-    question: 'A triangle has angles of 20° and 80°. What is the third angle?',
-    correctAnswer: '80°',
-    rationale:
-      'The sum of the angles in a triangle is 180°. 180 - 20 - 80 = 80°.',
-    challenge_tags: ['math-5'],
+    "questionNumber": 4,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "easy",
+    "question": "How many centimeters are in a meter?",
+    "correctAnswer": "100",
+    "rationale": "The prefix 'centi-' means one-hundredth. There are 100 centimeters in a meter.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 5,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'medium',
-    question: 'What is the specific name of a triangle with two equal sides?',
-    answerOptions: [
+    "questionNumber": 5,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "medium",
+    "question": "A triangle has angles measuring 100°, 40°, and 40°. What type of triangle is it?",
+    "answerOptions": [
       {
-        text: 'Equilateral',
-        isCorrect: false,
-        rationale: 'An equilateral triangle has three equal sides.',
+        "text": "Acute",
+        "isCorrect": false,
+        "rationale": "An acute triangle must have all angles less than 90°."
       },
       {
-        text: 'Isosceles',
-        isCorrect: true,
-        rationale: 'An isosceles triangle has at least two equal sides.',
+        "text": "Obtuse Isosceles",
+        "isCorrect": true,
+        "rationale": "It has one obtuse angle (100°) and two equal angles/sides."
       },
       {
-        text: 'Scalene',
-        isCorrect: false,
-        rationale: 'A scalene triangle has no equal sides.',
+        "text": "Right",
+        "isCorrect": false,
+        "rationale": "It does not have a 90° angle."
       },
       {
-        text: 'Right',
-        isCorrect: false,
-        rationale: 'A right triangle has a right angle.',
-      },
+        "text": "Equilateral",
+        "isCorrect": false,
+        "rationale": "An equilateral triangle has all angles equal to 60°."
+      }
     ],
-    rationale:
-      'An isosceles triangle is defined as a triangle with at least two sides of equal length.',
-    challenge_tags: ['math-5'],
+    "rationale": "The triangle has one angle greater than 90° (100°), making it obtuse. It also has two equal angles (40°), which means the sides opposite those angles are equal, making it isosceles.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 6,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question:
-      'A wheel has a radius of 1 foot. How many feet does it travel in 10 rotations? Use 3.14 for \\(\\pi\\).',
-    answerOptions: [
+    "questionNumber": 6,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "A cube has a surface area of 24 square feet. What is its volume?",
+    "answerOptions": [
       {
-        text: '31.4 feet',
-        isCorrect: false,
-        rationale: 'This is the distance for 5 rotations.',
+        "text": "4 \\(ft^3\\)",
+        "isCorrect": false,
+        "rationale": "This is the area of one face."
       },
       {
-        text: '62.8 feet',
-        isCorrect: true,
-        rationale:
-          'The circumference is 2 * 3.14 * 1 = 6.28 feet. For 10 rotations, the distance is 6.28 * 10 = 62.8 feet.',
+        "text": "8 \\(ft^3\\)",
+        "isCorrect": true,
+        "rationale": "Surface area is 6\\(s^{2}\\). 24=6\\(s^{2}\\), so \\(s^{2}\\)=4 and s=2. Volume = \\(s^{3}\\) = \\(2^{3}\\) = 8."
       },
       {
-        text: '10 feet',
-        isCorrect: false,
-        rationale: 'This is the number of rotations.',
+        "text": "16 \\(ft^3\\)",
+        "isCorrect": false,
+        "rationale": "This is an incorrect calculation."
       },
       {
-        text: '20 feet',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
+        "text": "64 \\(ft^3\\)",
+        "isCorrect": false,
+        "rationale": "This is the volume if s=4."
+      }
     ],
-    rationale:
-      'First, find the distance of one rotation, which is the circumference: C = 2 * pi * r = 2 * 3.14 * 1 foot = 6.28 feet. Then, multiply by the number of rotations: 6.28 feet/rotation * 10 rotations = 62.8 feet.',
-    challenge_tags: ['math-5'],
+    "rationale": "The surface area of a cube is 6\\(s^{2}\\), where s is the side length. 24 = 6\\(s^{2}\\), so \\(s^{2}\\) = 4, and s = 2 feet. The volume is \\(s^{3}\\), so V = \\(2^{3}\\) = 8 cubic feet.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 7,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'medium',
-    question:
-      'Find the perimeter of a regular octagon with a side length of 5 cm.',
-    correctAnswer: '40 cm',
-    rationale:
-      'A regular octagon has 8 equal sides. The perimeter is 8 * 5 cm = 40 cm.',
-    challenge_tags: ['math-5'],
+    "questionNumber": 7,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "What is the perimeter of a rectangle if its length is 15 and its width is 10?",
+    "correctAnswer": "50",
+    "rationale": "Perimeter = 2 * (length + width) = 2 * (15 + 10) = 2 * 25 = 50.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 8,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'medium',
-    question:
-      'A right triangle has legs of 12 and 16. What is the length of the hypotenuse?',
-    answerOptions: [
+    "questionNumber": 8,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "Find the length of a leg of a right triangle if the other leg is 9 and the hypotenuse is 41.",
+    "answerOptions": [
       {
-        text: '20',
-        isCorrect: true,
-        rationale: '12^2 + 16^2 = 144 + 256 = 400. sqrt(400) = 20.',
+        "text": "32",
+        "isCorrect": false,
+        "rationale": "This is 41-9."
       },
       {
-        text: '28',
-        isCorrect: false,
-        rationale: 'This is the sum of the legs.',
+        "text": "40",
+        "isCorrect": true,
+        "rationale": "\\(a^{2} + 9^{2} = 41^{2}\\). \\(a^{2} + 81 = 1681\\). \\(a^{2} = 1600\\). a = 40."
       },
       {
-        text: '4',
-        isCorrect: false,
-        rationale: 'This is the difference of the legs.',
+        "text": "50",
+        "isCorrect": false,
+        "rationale": "This is 41+9."
       },
       {
-        text: '192',
-        isCorrect: false,
-        rationale: 'This is the product of the legs.',
-      },
+        "text": "1600",
+        "isCorrect": false,
+        "rationale": "This is \\(a^{2}\\)."
+      }
     ],
-    rationale:
-      'Using the Pythagorean theorem (\\(a^2 + b^2 = c^2\\)), we have \\(12^2 + 16^2 = c^2\\). This becomes $144 + 256 = 400\\). So, \\(c = \\(\sqrt{400}\\) = 20.',
-    challenge_tags: ['math-5'],
+    "rationale": "Using the Pythagorean theorem (\\(a^{2} + b^{2} = c^{2}\\)), we have \\(a^{2} + 9^{2} = 41^{2}\\). \\(a^{2} + 81 = 1681\\). \\(a^{2} = 1681 - 81 = 1600\\). So, \\(a = \\(sqrt{1600}\\) = 40.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 9,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question:
-      'A cylindrical tank is 10 feet tall and has a radius of 3 feet. What is its volume? Use 3.14 for \\(\\pi\\).',
-    correctAnswer: '282.6 cubic feet',
-    rationale: 'Volume = pi * r^2 * h = 3.14 * 3^2 * 10 = 282.6.',
-    challenge_tags: ['math-5'],
+    "questionNumber": 9,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "A wheel has a radius of 1.5 feet. How many full rotations does it make in 1 mile (5280 feet)? Use 3.14 for \\(\\pi\\).",
+    "correctAnswer": "560 rotations",
+    "rationale": "The circumference of the wheel is C = 2 * 3.14 * 1.5 = 9.42 feet. The number of rotations is the total distance divided by the circumference: 5280 / 9.42 ≈ 560.5. The number of full rotations is 560.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 10,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'medium',
-    question: 'A quadrilateral with all four sides equal in length is a:',
-    answerOptions: [
+    "questionNumber": 10,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "medium",
+    "question": "What is the sum of the interior angles of a pentagon?",
+    "answerOptions": [
       {
-        text: 'Rectangle',
-        isCorrect: false,
-        rationale:
-          'A rectangle must have four right angles, but not necessarily equal sides.',
+        "text": "360°",
+        "isCorrect": false,
+        "rationale": "This is for a quadrilateral."
       },
       {
-        text: 'Rhombus',
-        isCorrect: true,
-        rationale:
-          'A rhombus is defined as a quadrilateral with all four sides of equal length.',
+        "text": "540°",
+        "isCorrect": true,
+        "rationale": "The formula is (n-2) * 180°. For a pentagon, n=5. (5-2)*180 = 3*180 = 540°."
       },
       {
-        text: 'Trapezoid',
-        isCorrect: false,
-        rationale: 'A trapezoid has only one pair of parallel sides.',
+        "text": "720°",
+        "isCorrect": false,
+        "rationale": "This is for a hexagon."
       },
       {
-        text: 'Parallelogram',
-        isCorrect: false,
-        rationale:
-          'A parallelogram has opposite sides equal, but not necessarily all four.',
-      },
+        "text": "900°",
+        "isCorrect": false,
+        "rationale": "This is for a heptagon."
+      }
     ],
-    rationale:
-      'A rhombus is a quadrilateral where all four sides are of equal length. A square is a special type of rhombus.',
-    challenge_tags: ['math-5'],
+    "rationale": "The sum of the interior angles of a polygon is given by the formula (n-2) * 180°, where n is the number of sides. For a pentagon, n=5, so the sum is (5-2) * 180° = 540°.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 11,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'medium',
-    question:
-      'If two parallel lines are cut by a transversal, then the corresponding angles are:',
-    answerOptions: [
+    "questionNumber": 11,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "medium",
+    "question": "A line segment from the center of a circle to its perimeter is called a:",
+    "answerOptions": [
       {
-        text: 'Congruent',
-        isCorrect: true,
-        rationale:
-          'Corresponding angles are in the same position at each intersection and are equal.',
+        "text": "Radius",
+        "isCorrect": true,
+        "rationale": "This is the definition of a radius."
       },
       {
-        text: 'Supplementary',
-        isCorrect: false,
-        rationale: 'Consecutive interior angles are supplementary.',
+        "text": "Diameter",
+        "isCorrect": false,
+        "rationale": "A diameter passes through the center and touches two points on the perimeter."
       },
       {
-        text: 'Complementary',
-        isCorrect: false,
-        rationale: 'They do not necessarily add to 90°.',
+        "text": "Chord",
+        "isCorrect": false,
+        "rationale": "A chord connects two points on the perimeter."
       },
       {
-        text: 'Unequal',
-        isCorrect: false,
-        rationale: 'They are equal.',
-      },
+        "text": "Arc",
+        "isCorrect": false,
+        "rationale": "An arc is a portion of the perimeter."
+      }
     ],
-    rationale:
-      'A theorem in geometry states that when a transversal intersects two parallel lines, the corresponding angles are congruent (equal).',
-    challenge_tags: ['math-5'],
+    "rationale": "The radius of a circle is any of the line segments from its center to its perimeter.",
+    "challenge_tags": [
+      "math-5"
+    ]
   },
   {
-    questionNumber: 12,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question:
-      'The area of a trapezoid is 100 sq. units. Its height is 10 units and one of its bases is 8 units. What is the length of the other base?',
-    answerOptions: [
+    "questionNumber": 12,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "What is the area of a regular hexagon with a side length of 6? Use the formula A = \\(\\frac{3\\(sqrt{3}\\)}{2}\\(s^2\\).",
+    "answerOptions": [
       {
-        text: '10 units',
-        isCorrect: false,
-        rationale: 'This is the height.',
+        "text": "54",
+        "isCorrect": false,
+        "rationale": "This is an incorrect calculation."
       },
       {
-        text: '12 units',
-        isCorrect: true,
-        rationale:
-          '100 = \\((\\frac{1}{2})\\)(8 + b_2) * 10. 100 = 5(8 + b_2). 20 = 8 + b_2. b_2 = 12.',
+        "text": "93.53",
+        "isCorrect": true,
+        "rationale": "A = (3 * sqrt(3) / 2) * 6^2 ≈ 93.53."
       },
       {
-        text: '20 units',
-        isCorrect: false,
-        rationale: 'This is \\((\\frac{100}{5})\\).',
+        "text": "108",
+        "isCorrect": false,
+        "rationale": "This is an incorrect calculation."
       },
       {
-        text: '28 units',
-        isCorrect: false,
-        rationale: 'This is an incorrect calculation.',
-      },
+        "text": "127.28",
+        "isCorrect": false,
+        "rationale": "This is an incorrect calculation."
+      }
     ],
-    rationale:
-      'Using the area formula for a trapezoid, A = \\(\\(\frac{1}{2}\\)(b_1 + b_2)h\\). We have 100 = \\(\\(\frac{1}{2}\\)(8 + b_2) \\(\times10\\). 100 = $5(8 + b_2). 20 =  8 + b_2. So, \\(b_2 = 12 units.\\)',
-    challenge_tags: ['math-5'],
-  },
+    "rationale": "Using the formula, A = \\(\\frac{3\\(sqrt{3}\\)}{2}$s^{2}\\). A = \\(\\frac{3\\(sqrt{3}\\)}{2}(6)\\)^2\\( = \\frac{3\\(sqrt{3}\\)}{2}(36) = 54\\(\\(sqrt{3}\\) \\approx 93.53.",
+    "challenge_tags": [
+      "math-5"
+    ]
+  }
 ];

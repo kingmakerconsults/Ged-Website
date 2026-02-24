@@ -3,74 +3,82 @@ module.exports = [
     "questionNumber": 1,
     "type": "multiple-choice-text",
     "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/unclassified_0105.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0105.png",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: A historical anti-slavery poster depicting people emerging from a cracked brick wall with a whip-wielding figure.\n\nDescription: This poster features a stark illustration of human figures, including adults and frightened children, appearing to emerge from a dark, cracked brick wall. An oppressive, shadowy figure with a whip looms over them, symbolizing slavery and cruelty. The overall …\n\nText in image: \"THIS WORLD CANNOT EXIST HALF SLAVE AND HALF FREE\" SACRIFICE FOR FREEDOM!",
-      "imageURL": "/images/Social%20Studies/unclassified_0105.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "Missouri Territory",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Civil War era",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "MISS",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
         "isCorrect": false
       },
       {
-        "text": "Kerry 48%",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 2,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/unclassified_0105.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0105.png",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: A historical anti-slavery poster depicting people emerging from a cracked brick wall with a whip-wielding figure.\n\nDescription: This poster features a stark illustration of human figures, including adults and frightened children, appearing to emerge from a dark, cracked brick wall. An oppressive, shadowy figure with a whip looms over them, symbolizing slavery and cruelty. The overall …\n\nText in image: \"THIS WORLD CANNOT EXIST HALF SLAVE AND HALF FREE\" SACRIFICE FOR FREEDOM!",
-      "imageURL": "/images/Social%20Studies/unclassified_0105.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "19th century and Freedom",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Slavery and Iron Curtain",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "historical boundaries and Iron Curtain",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Slavery and Freedom",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
+      },
+      {
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   }
 ];

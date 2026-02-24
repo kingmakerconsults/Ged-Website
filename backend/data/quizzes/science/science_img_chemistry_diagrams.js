@@ -3,370 +3,386 @@ module.exports = [
     "questionNumber": 1,
     "type": "multiple-choice-text",
     "difficulty": "easy",
-    "imageUrl": "/images/Science/licensed_image_0004.jpg",
-    "imageURL": "/images/Science/licensed_image_0004.jpg",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: Diagram showing the four states of matter (solid, liquid, gas, plasma) and the effect of adding heat.\n\nDescription: This diagram illustrates the four common states of matter: solid, liquid, gas, and plasma. It depicts the changing arrangement and composition of particles as heat is added, moving sequentially from solid to plasma. A legend clarifies the visual representatio…\n\nText in image: States of Matter Solid Liquid Gas Plasma Adding Heat Atom Nucleus Electron",
-      "imageURL": "/images/Science/licensed_image_0004.jpg",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "Fulcrum",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "co-dominant",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "PERIODIC TABLE OF THE ELEMENTS. ATOMIC NUMBER",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Physics",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
+      },
+      {
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 2,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/licensed_image_0004.jpg",
-    "imageURL": "/images/Science/licensed_image_0004.jpg",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: Diagram showing the four states of matter (solid, liquid, gas, plasma) and the effect of adding heat.\n\nDescription: This diagram illustrates the four common states of matter: solid, liquid, gas, and plasma. It depicts the changing arrangement and composition of particles as heat is added, moving sequentially from solid to plasma. A legend clarifies the visual representatio…\n\nText in image: States of Matter Solid Liquid Gas Plasma Adding Heat Atom Nucleus Electron",
-      "imageURL": "/images/Science/licensed_image_0004.jpg",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "States of matter and reaction classification",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "antibodies and reaction classification",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "calculation and Solid",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "States of matter and Solid",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
+      },
+      {
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 3,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/matter_0001.png",
-    "imageURL": "/images/Science/matter_0001.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0053.png",
     "content": {
-      "passage": "Alt text: A phase diagram plotting Pressure vs. Temperature, showing solid, liquid, and gas regions with key points.\n\nDescription: This 2D graph illustrates a generic phase diagram, mapping Pressure on the y-axis against Temperature on the x-axis. It delineates the distinct regions where a substance exists as a solid, liquid, or gas, separated by phase boundary lines. Key points such as …\n\nText in image: Pressure, Solid, water, Liquid, triple point, Gas, critical point, Temperature",
-      "imageURL": "/images/Science/matter_0001.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their projected populations for 2050. The y-axis represents population in billions, from 0 to 6.0, while the x-axis lists the continents: Asia, Africa, Europe, Latin America an…\n\nText in image: World Population in 2013 and 2050 (in billions) Population (in billions) 6.0 5.5 5.16 5.0 4.5 4.30 4.0 3.5 3.0 2.5 2.39 2.0 1.5 1.11 1.0 0.5 0 Asia Africa Europe Latin America and Caribbean North America 0.74 0.71 0.62 …",
+      "imageURL": "/images/Social%20Studies/unclassified_0053.png",
+      "questionText": "Based on the image and description, which interpretation is most accurate?"
     },
     "answerOptions": [
       {
-        "text": "Herbivores/Primary Consumers",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "water",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "2013 and 2050",
+        "rationale": "Correct. The chart compares 2013 to projected 2050 values.",
         "isCorrect": true
       },
       {
-        "text": "nuclear energy",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "1990 and 2010",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
         "isCorrect": false
       },
       {
-        "text": "2-3 years",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "2000 and 2020",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "2018 and 2050",
+        "rationale": "Incorrect. 2018 is not shown in the chart.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Based on the image and description, which interpretation is most accurate?"
   },
   {
     "questionNumber": 4,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/matter_0001.png",
-    "imageURL": "/images/Science/matter_0001.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0119.png",
     "content": {
-      "passage": "Alt text: A phase diagram plotting Pressure vs. Temperature, showing solid, liquid, and gas regions with key points.\n\nDescription: This 2D graph illustrates a generic phase diagram, mapping Pressure on the y-axis against Temperature on the x-axis. It delineates the distinct regions where a substance exists as a solid, liquid, or gas, separated by phase boundary lines. Key points such as …\n\nText in image: Pressure, Solid, water, Liquid, triple point, Gas, critical point, Temperature",
-      "imageURL": "/images/Science/matter_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten major U.S. cities, each with over one million residents as of July 1, 2014. Below the main bars, a supplementary table provides the exact population for each city, their total population incr…\n\nText in image: 1 Million Milestone. U.S. Cities: Population Million+ (July 2014). New York, Los Angeles, Chicago, Houston, Philadelphia, Phoenix, San Antonio, San Diego, Dallas, San Jose. Total increase since 2013. Percent increase. U…",
+      "imageURL": "/images/Social%20Studies/unclassified_0119.png",
+      "questionText": "Which claim is best supported by details visible in this source image?"
     },
     "answerOptions": [
       {
-        "text": "energy transfer and Solid",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Pressure and kidneys",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Top Carnivores/Tertiary Consumers and kidneys",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Pressure and Solid",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "July 1, 2014",
+        "rationale": "Correct. The chart specifies July 2014 for the population counts.",
         "isCorrect": true
+      },
+      {
+        "text": "January 1, 2000",
+        "rationale": "Incorrect. That date is not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "July 1, 2010",
+        "rationale": "Incorrect. The chart specifies July 2014, not 2010.",
+        "isCorrect": false
+      },
+      {
+        "text": "December 2013",
+        "rationale": "Incorrect. The chart uses July 2014 as the reference date.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which claim is best supported by details visible in this source image?"
   },
   {
     "questionNumber": 5,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/unclassified_0029.png",
-    "imageURL": "/images/Science/unclassified_0029.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
+    "imageURL": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
     "content": {
-      "passage": "Alt text: Diagram of an atom showing electrons orbiting a nucleus composed of protons and neutrons, with labels for each part.\n\nDescription: This image displays a diagram illustrating the basic structure of an atom, featuring a central nucleus and orbiting electrons. Explanatory text above the diagram introduces concepts of matter, elements, and atomic composition. Additional text below the diagra…\n\nText in image: Protons + neutrons, Nucleus, Electron, Proton, Neutron",
-      "imageURL": "/images/Science/unclassified_0029.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Bar chart showing differences in nonfarm employment estimates after benchmarking from March 2009 to March 2018.\n\nDescription: This bar chart displays the differences in nonfarm employment estimates after benchmarking for each year from 2009 to 2018. The X-axis represents the years, while the Y-axis shows the employment difference, ranging from -1,000,000 to 1,000,000. Blue bars exte…\n\nText in image: Differences in nonfarm employment estimates after benchmarking, March 2009–March 2018. Source: U.S. Bureau of Labor Statistics.",
+      "imageURL": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
+      "questionText": "What is the most defensible interpretation of this visual in context?"
     },
     "answerOptions": [
       {
-        "text": "Charge",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "March 2009–March 2018",
+        "rationale": "Correct. The title specifies March 2009–March 2018.",
         "isCorrect": true
       },
       {
-        "text": "A OCEAN",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "1990–2000",
+        "rationale": "Incorrect. That span is not shown in the title.",
         "isCorrect": false
       },
       {
-        "text": "Platypus",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "2010–2020",
+        "rationale": "Incorrect. That span is not shown in the title.",
         "isCorrect": false
       },
       {
-        "text": "motion",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "2005–2015",
+        "rationale": "Incorrect. That span is not shown in the title.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "What is the most defensible interpretation of this visual in context?"
   },
   {
     "questionNumber": 6,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/unclassified_0029.png",
-    "imageURL": "/images/Science/unclassified_0029.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0053.png",
     "content": {
-      "passage": "Alt text: Diagram of an atom showing electrons orbiting a nucleus composed of protons and neutrons, with labels for each part.\n\nDescription: This image displays a diagram illustrating the basic structure of an atom, featuring a central nucleus and orbiting electrons. Explanatory text above the diagram introduces concepts of matter, elements, and atomic composition. Additional text below the diagra…\n\nText in image: Protons + neutrons, Nucleus, Electron, Proton, Neutron",
-      "imageURL": "/images/Science/unclassified_0029.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their projected populations for 2050. The y-axis represents population in billions, from 0 to 6.0, while the x-axis lists the continents: Asia, Africa, Europe, Latin America an…\n\nText in image: World Population in 2013 and 2050 (in billions) Population (in billions) 6.0 5.5 5.16 5.0 4.5 4.30 4.0 3.5 3.0 2.5 2.39 2.0 1.5 1.11 1.0 0.5 0 Asia Africa Europe Latin America and Caribbean North America 0.74 0.71 0.62 …",
+      "imageURL": "/images/Social%20Studies/unclassified_0053.png",
+      "questionText": "Which explanation best matches the evidence shown in the visual source?"
     },
     "answerOptions": [
       {
-        "text": "efficiency and Atoms",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "0 1 2 3 4 5 6 3kg 15kg and Nucleus",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Protons + neutrons and Atoms",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Protons + neutrons and Nucleus",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "2013 and 2050",
+        "rationale": "Correct. The chart compares 2013 to projected 2050 values.",
         "isCorrect": true
+      },
+      {
+        "text": "1990 and 2010",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "2000 and 2020",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "2018 and 2050",
+        "rationale": "Incorrect. 2018 is not shown in the chart.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 7,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/unclassified_0031.png",
-    "imageURL": "/images/Science/unclassified_0031.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0119.png",
     "content": {
-      "passage": "Alt text: A grayscale periodic table of elements displaying atomic numbers and chemical symbols for each element.\n\nDescription: This image presents a standard periodic table of chemical elements in a minimalist grayscale design. Elements are methodically arranged into seven horizontal rows (periods) and eighteen vertical columns (groups). Each individual cell within the table clearly …",
-      "imageURL": "/images/Science/unclassified_0031.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten major U.S. cities, each with over one million residents as of July 1, 2014. Below the main bars, a supplementary table provides the exact population for each city, their total population incr…\n\nText in image: 1 Million Milestone. U.S. Cities: Population Million+ (July 2014). New York, Los Angeles, Chicago, Houston, Philadelphia, Phoenix, San Antonio, San Diego, Dallas, San Jose. Total increase since 2013. Percent increase. U…",
+      "imageURL": "/images/Social%20Studies/unclassified_0119.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "HOT SPOT.",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Subatomic particles",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "groups",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "July 1, 2014",
+        "rationale": "Correct. The chart specifies July 2014 for the population counts.",
         "isCorrect": true
       },
       {
-        "text": "plasma cell",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "January 1, 2000",
+        "rationale": "Incorrect. That date is not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "July 1, 2010",
+        "rationale": "Incorrect. The chart specifies July 2014, not 2010.",
+        "isCorrect": false
+      },
+      {
+        "text": "December 2013",
+        "rationale": "Incorrect. The chart uses July 2014 as the reference date.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "What inference about the historical or civic context is best supported by this image?"
   },
   {
     "questionNumber": 8,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/unclassified_0031.png",
-    "imageURL": "/images/Science/unclassified_0031.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
+    "imageURL": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
     "content": {
-      "passage": "Alt text: A grayscale periodic table of elements displaying atomic numbers and chemical symbols for each element.\n\nDescription: This image presents a standard periodic table of chemical elements in a minimalist grayscale design. Elements are methodically arranged into seven horizontal rows (periods) and eighteen vertical columns (groups). Each individual cell within the table clearly …",
-      "imageURL": "/images/Science/unclassified_0031.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Bar chart showing differences in nonfarm employment estimates after benchmarking from March 2009 to March 2018.\n\nDescription: This bar chart displays the differences in nonfarm employment estimates after benchmarking for each year from 2009 to 2018. The X-axis represents the years, while the Y-axis shows the employment difference, ranging from -1,000,000 to 1,000,000. Blue bars exte…\n\nText in image: Differences in nonfarm employment estimates after benchmarking, March 2009–March 2018. Source: U.S. Bureau of Labor Statistics.",
+      "imageURL": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "Other. and chemistry",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Carbon dioxide and metalloids",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Periodic table and chemistry",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "March 2009–March 2018",
+        "rationale": "Correct. The title specifies March 2009–March 2018.",
         "isCorrect": true
       },
       {
-        "text": "Periodic table and metalloids",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "1990–2000",
+        "rationale": "Incorrect. That span is not shown in the title.",
+        "isCorrect": false
+      },
+      {
+        "text": "2010–2020",
+        "rationale": "Incorrect. That span is not shown in the title.",
+        "isCorrect": false
+      },
+      {
+        "text": "2005–2015",
+        "rationale": "Incorrect. That span is not shown in the title.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Based on the image and description, which interpretation is most accurate?"
   },
   {
     "questionNumber": 9,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/unclassified_0051.png",
-    "imageURL": "/images/Science/unclassified_0051.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0053.png",
     "content": {
-      "passage": "Alt text: Diagram showing methane reacting with oxygen to form carbon dioxide and water, releasing heat and light.\n\nDescription: This diagram illustrates the chemical reaction for the combustion of methane. On the left side, within a gray cloud, one methane molecule (CH4) and two oxygen molecules (O2) are depicted as reactants. A large central arrow, shown with a starburst effect, poin…\n\nText in image: H H-C-H H Methane O=O Oxygen O=O Oxygen Heat Light H H O Water O=C=O Carbon dioxide O-H H Water John Wiley & Sons, Inc.",
-      "imageURL": "/images/Science/unclassified_0051.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their projected populations for 2050. The y-axis represents population in billions, from 0 to 6.0, while the x-axis lists the continents: Asia, Africa, Europe, Latin America an…\n\nText in image: World Population in 2013 and 2050 (in billions) Population (in billions) 6.0 5.5 5.16 5.0 4.5 4.30 4.0 3.5 3.0 2.5 2.39 2.0 1.5 1.11 1.0 0.5 0 Asia Africa Europe Latin America and Caribbean North America 0.74 0.71 0.62 …",
+      "imageURL": "/images/Social%20Studies/unclassified_0053.png",
+      "questionText": "Based on the image and description, which interpretation is most accurate?"
     },
     "answerOptions": [
       {
-        "text": "reactants",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "2013 and 2050",
+        "rationale": "Correct. The chart compares 2013 to projected 2050 values.",
         "isCorrect": true
       },
       {
-        "text": "comparison table",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "1990 and 2010",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
         "isCorrect": false
       },
       {
-        "text": "astronomy",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "2000 and 2020",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
         "isCorrect": false
       },
       {
-        "text": "Arabian Plate",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "2018 and 2050",
+        "rationale": "Incorrect. 2018 is not shown in the chart.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which claim is best supported by details visible in this source image?"
   },
   {
     "questionNumber": 10,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/unclassified_0051.png",
-    "imageURL": "/images/Science/unclassified_0051.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0119.png",
     "content": {
-      "passage": "Alt text: Diagram showing methane reacting with oxygen to form carbon dioxide and water, releasing heat and light.\n\nDescription: This diagram illustrates the chemical reaction for the combustion of methane. On the left side, within a gray cloud, one methane molecule (CH4) and two oxygen molecules (O2) are depicted as reactants. A large central arrow, shown with a starburst effect, poin…\n\nText in image: H H-C-H H Methane O=O Oxygen O=O Oxygen Heat Light H H O Water O=C=O Carbon dioxide O-H H Water John Wiley & Sons, Inc.",
-      "imageURL": "/images/Science/unclassified_0051.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten major U.S. cities, each with over one million residents as of July 1, 2014. Below the main bars, a supplementary table provides the exact population for each city, their total population incr…\n\nText in image: 1 Million Milestone. U.S. Cities: Population Million+ (July 2014). New York, Los Angeles, Chicago, Houston, Philadelphia, Phoenix, San Antonio, San Diego, Dallas, San Jose. Total increase since 2013. Percent increase. U…",
+      "imageURL": "/images/Social%20Studies/unclassified_0119.png",
+      "questionText": "Which claim is best supported by details visible in this source image?"
     },
     "answerOptions": [
       {
-        "text": "Inc. and oscillations",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "oceanic ridge and oscillations",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Inc. and Chemical reaction",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "July 1, 2014",
+        "rationale": "Correct. The chart specifies July 2014 for the population counts.",
         "isCorrect": true
       },
       {
-        "text": "2.0 km and Chemical reaction",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "January 1, 2000",
+        "rationale": "Incorrect. That date is not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "July 1, 2010",
+        "rationale": "Incorrect. The chart specifies July 2014, not 2010.",
+        "isCorrect": false
+      },
+      {
+        "text": "December 2013",
+        "rationale": "Incorrect. The chart uses July 2014 as the reference date.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "What is the most defensible interpretation of this visual in context?"
   }
 ];

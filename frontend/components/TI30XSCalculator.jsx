@@ -442,6 +442,10 @@ export function TI30XSCalculator({ onClose }) {
   const [isDragging, setIsDragging] = useState(false);
   const [opacity, setOpacity] = useState(1.0);
   const [uiScale, setUiScale] = useState(1.0);
+  const [isMobileViewport, setIsMobileViewport] = useState(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return false;
+    return window.matchMedia('(max-width: 768px)').matches;
+  });
   const dragStart = useRef({ x: 0, y: 0 });
   const lcdRef = useRef(null);
   const calcRootRef = useRef(null);
@@ -455,6 +459,19 @@ export function TI30XSCalculator({ onClose }) {
   }, [kbdActive]);
 
   // When user clicks anywhere on the calculator, keep keyboard input on the LCD.
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    const handleViewportChange = (event) => {
+      setIsMobileViewport(event.matches);
+    };
+    setIsMobileViewport(mediaQuery.matches);
+    mediaQuery.addEventListener('change', handleViewportChange);
+    return () => {
+      mediaQuery.removeEventListener('change', handleViewportChange);
+    };
+  }, []);
+
   useEffect(() => {
     const onDocMouseDown = (e) => {
       const root = calcRootRef.current;
@@ -474,6 +491,7 @@ export function TI30XSCalculator({ onClose }) {
 
   // Ensure position/size stay within viewport
   useEffect(() => {
+    if (isMobileViewport) return;
     const handleResize = () => {
       setPosition((prevPos) => {
         const windowWidth = window.innerWidth;
@@ -493,10 +511,11 @@ export function TI30XSCalculator({ onClose }) {
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isMobileViewport]);
 
   // Drag logic
   const handleMouseDown = (e) => {
+    if (isMobileViewport) return;
     if (
       e.target.tagName === 'BUTTON' ||
       e.target.closest('.settings-panel') ||
@@ -511,6 +530,10 @@ export function TI30XSCalculator({ onClose }) {
   };
 
   useEffect(() => {
+    if (isMobileViewport) {
+      setIsDragging(false);
+      return;
+    }
     const handleMouseMove = (e) => {
       if (!isDragging) return;
       setPosition({
@@ -527,7 +550,7 @@ export function TI30XSCalculator({ onClose }) {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging]);
+  }, [isDragging, isMobileViewport]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -1439,12 +1462,14 @@ export function TI30XSCalculator({ onClose }) {
 
   // Build strict 9x5 grid from explicit matrix
   const gridMatrix = KEYPAD_MATRIX_IDS.map((row) =>
-    row.map((id) => (id ? KEY_BY_ID.get(id) ?? null : null))
+    row.map((id) => (id ? (KEY_BY_ID.get(id) ?? null) : null))
   );
 
   // Fixed unit-based sizing (NO responsive math)
+  const effectiveUiScale = isMobileViewport ? Math.min(uiScale, 0.8) : uiScale;
+
   const calculatorStyle = {
-    '--u': `calc(58px * ${uiScale})`, // Base unit: EVERYTHING derives from this (scaled up to avoid label overlap)
+    '--u': `calc(58px * ${effectiveUiScale})`, // Base unit: EVERYTHING derives from this (scaled up to avoid label overlap)
     '--rowH': 'calc(var(--u) * 0.92)', // Key row height
     '--gap': 'calc(var(--u) * 0.22)', // Gap between keys
     '--pad': 'calc(var(--u) * 0.4)', // Interior padding
@@ -1452,11 +1477,14 @@ export function TI30XSCalculator({ onClose }) {
 
   // Fixed calculator dimensions
   const shellStyle = {
-    width: 'calc(var(--u) * 8.6)', // ~446px (8.6 × 52px)
+    width: isMobileViewport ? '100%' : 'calc(var(--u) * 8.6)', // ~446px (8.6 × 52px)
     // Ensure LCD + full 9x5 keypad fit without flexbox squeezing the LCD
-    height: 'calc(var(--u) * 13.4)',
+    height: isMobileViewport ? '100%' : 'calc(var(--u) * 13.4)',
     padding: 'calc(var(--u) * 0.4)',
-    borderRadius: 'calc(var(--u) * 0.6)',
+    borderRadius: isMobileViewport ? '0.75rem' : 'calc(var(--u) * 0.6)',
+    maxWidth: isMobileViewport ? '100%' : undefined,
+    maxHeight: isMobileViewport ? '100%' : undefined,
+    overflow: 'hidden',
   };
 
   const lcdStyle = {
@@ -1466,13 +1494,18 @@ export function TI30XSCalculator({ onClose }) {
 
   return (
     <div
-      className="fixed z-[9999] select-none"
+      className={`fixed z-[9999] select-none ${
+        isMobileViewport
+          ? 'inset-0 flex items-stretch justify-center p-2 sm:p-3'
+          : ''
+      }`}
       style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
+        left: isMobileViewport ? undefined : `${position.x}px`,
+        top: isMobileViewport ? undefined : `${position.y}px`,
         opacity,
+        backgroundColor: isMobileViewport ? 'var(--modal-overlay)' : undefined,
       }}
-      onMouseDown={handleMouseDown}
+      onMouseDown={isMobileViewport ? undefined : handleMouseDown}
       ref={calcRootRef}
     >
       <style>{`
@@ -1546,7 +1579,11 @@ export function TI30XSCalculator({ onClose }) {
           <div
             className="settings-panel absolute top-12 left-2 bg-gray-700 rounded-lg p-3 shadow-lg z-20"
             data-ti30xs-nodrag
-            style={{ width: 'clamp(200px, 30vw, 280px)' }}
+            style={{
+              width: isMobileViewport
+                ? 'min(92vw, 320px)'
+                : 'clamp(200px, 30vw, 280px)',
+            }}
           >
             <div className="space-y-2">
               <div>

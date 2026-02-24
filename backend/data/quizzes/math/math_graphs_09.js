@@ -4,43 +4,43 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "easy",
-    "question": "What is the slope of the line with equation \\(y = 8 - x\\)?",
+    "question": "What is the y-intercept of the line \\(y = x\\)? ",
     "answerOptions": [
       {
-        "text": "8",
-        "isCorrect": false,
-        "rationale": "The x-coordinate of the vertex is -b/(2a) = -\\(\frac{4}{2}\\) = -2. Then y = (-2)^2 + 4(-2) + 3 = 4 - 8 + 3 = -1."
-      },
-      {
         "text": "1",
-         "rationale": "The x-coordinate of the vertex is -b/(2a) = -\\(\frac{4}{2}\\) = -2. Then y = (-2)^2 + 4(-2) + 3 = 4 - 8 + 3 = -1."
-        "rationale": "This is the coefficient of x if it were positive."
+        "isCorrect": false,
+        "rationale": "The slope is 1."
       },
-         "rationale": "The x-coordinate of the vertex is given by the formula \\(x = \frac{-b}{2a}\\). Here, a=1 and b=4, so x = \\(\frac{-4}{2(1)}\\) = -2. To find the y-coordinate, substitute x=-2 into the equation: y = (-2)^2 + 4(-2) + 3 = 4 - 8 + 3 = -1. The vertex is (-2, -1).",
-        "text": "-1",
+      {
+        "text": "0",
         "isCorrect": true,
-        "rationale": "The equation can be rewritten as y = -1x + 8. The slope is -1."
+        "rationale": "The equation is y = 1x + 0. The y-intercept is 0."
       },
       {
-        "text": "-8",
+        "text": "-1",
         "isCorrect": false,
-        "rationale": "The x-coordinate of the vertex is given by the formula \\(x = \frac{-b}{2a}\\). Here, a=1 and b=4, so x = \\(\frac{-4}{2(1)}\\) = -2. To find the y-coordinate, substitute x=-2 into the equation: y = (-2)^2 + 4(-2) + 3 = 4 - 8 + 3 = -1. The vertex is (-2, -1).",
-      {
-        "text": "\\(-\frac{1}{3}\\)",
-        "isCorrect": false,
-        "rationale": "This is the negative reciprocal."
+        "rationale": "This is an incorrect calculation."
       },
-    ]
       {
-        "text": "\\(\frac{1}{3}\\)",
-        "rationale": "The x-coordinate of the vertex is -b/(2a) = -\\(\frac{4}{2}\\) = -2. Then y = (-2)^2 + 4(-2) + 3 = 4 - 8 + 3 = -1."
-        "rationale": "This is the reciprocal."
+        "text": "Cannot be determined",
+        "isCorrect": false,
+        "rationale": "The y-intercept is determined."
       }
+    ],
+    "rationale": "The line y=x passes through the origin (0,0), so its y-intercept is 0.",
+    "challenge_tags": [
+      "math-1"
+    ]
+  },
+  {
+    "questionNumber": 2,
+    "type": "fillIn",
+    "inputCalculator": true,
     "calculator": true,
-    "rationale": "The slope is the change in y divided by the change in x: \\(m = \frac{1 - 7}{6 - 4}\\) = \\(\frac{-6}{2}\\) = -3.",
-    "question": "If \\(f(x) = 5x + 1\\), what is \\(f(-1)\\)?",
-    "correctAnswer": "-4",
-    "rationale": "Substitute -1 for x: f(-1) = 5(-1) + 1 = -5 + 1 = -4.",
+    "difficulty": "easy",
+    "question": "If \\(f(x) = 100 / x\\), what is \\(f(20)\\)?",
+    "correctAnswer": "5",
+    "rationale": "Substitute 20 for x: f(20) = 100 / 20 = 5.",
     "challenge_tags": [
       "math-1"
     ]
@@ -50,30 +50,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "A line passes through (4, 7) and (6, 1). What is its slope?",
+    "question": "Find the slope of a line passing through the points (3, 7) and (5, 7).",
     "answerOptions": [
       {
-        "text": "-3",
+        "text": "0",
         "isCorrect": true,
-        "rationale": "Slope = (1 - 7) / (6 - 4) = -6 / 2 = -3."
+        "rationale": "The y-coordinates are the same, so this is a horizontal line with a slope of 0."
       },
       {
-        "text": "\\(-\\(\frac{1}{3}\\)",
+        "text": "1",
         "isCorrect": false,
-        "rationale": "This is the negative reciprocal."
+        "rationale": "This is an incorrect calculation."
       },
       {
-        "text": "3",
+        "text": "Undefined",
         "isCorrect": false,
-        "rationale": "This has the wrong sign."
+        "rationale": "This would be a vertical line."
       },
       {
-        "text": "\\(\\(\frac{1}{3}\\)",
+        "text": "7",
         "isCorrect": false,
-        "rationale": "This is the reciprocal."
+        "rationale": "This is the y-coordinate."
       }
     ],
-    "rationale": "The slope is the change in y divided by the change in x: \\(m = \\(\frac{1 - 7}{6 - 4}\\) = \\(\frac{-6}{2}\\) = -3.",
+    "rationale": "The slope is the change in y divided by the change in x. \\(m = \\(\frac{7 - 7}{5 - 3}\\) = \\(\frac{0}{2}\\) = 0. This indicates a horizontal line.",
     "challenge_tags": [
       "math-1"
     ]
@@ -84,9 +84,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "What is the y-intercept of a line with slope 3 that passes through (2, 5)?",
-    "correctAnswer": "-1",
-    "rationale": "Using y = mx + b: 5 = 3(2) + b. 5 = 6 + b. b = -1.",
+    "question": "What is the equation of a line with a slope of 5 and a y-intercept of -1?",
+    "correctAnswer": "y = 5x - 1",
+    "rationale": "Using the slope-intercept form y = mx + b, substitute m=5 and b=-1.",
     "challenge_tags": [
       "math-1"
     ]
@@ -96,30 +96,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "medium",
-    "question": "Which of these functions will have a U-shaped graph?",
+    "question": "Which of these points is NOT on the graph of the function \\(y = x^2 + 1\\)?",
     "answerOptions": [
       {
-        "text": "\\(y = 3x\\)",
+        "text": "(0, 1)",
         "isCorrect": false,
-        "rationale": "This is a line."
+        "rationale": "If x=0, y = \\(0^{2}\\)+1=1. This point is on the graph."
       },
       {
-        "text": "\\(y = x^3\\)",
+        "text": "(2, 5)",
         "isCorrect": false,
-        "rationale": "This is a cubic curve."
+        "rationale": "If x=2, y = \\(2^{2}\\)+1=5. This point is on the graph."
       },
       {
-        "text": "\\(y = x^2\\)",
+        "text": "(-1, 2)",
+        "isCorrect": false,
+        "rationale": "If x=-1, y = \\((-1)^2\\)+1=2. This point is on the graph."
+      },
+      {
+        "text": "(1, 3)",
         "isCorrect": true,
-        "rationale": "A quadratic function (with \\(x^{2}\\)) has a U-shaped graph (a parabola)."
-      },
-      {
-        "text": "\\(y = 3^x\\)",
-        "isCorrect": false,
-        "rationale": "This is an exponential curve."
+        "rationale": "If x=1, y = \\(1^{2}\\)+1=2. So (1, 3) is not on the graph."
       }
     ],
-    "rationale": "A function with a term raised to the second power (a quadratic function) produces a U-shaped graph called a parabola.",
+    "rationale": "Plug the x-coordinate of each point into the equation to see if it produces the correct y-coordinate. For (1, 3): y = \\((1)^2\\) + 1 = 2. Since 2 is not equal to 3, this point is not on the graph.",
     "challenge_tags": [
       "math-1"
     ]
@@ -129,30 +129,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "hard",
-    "question": "A line is parallel to \\(y = \frac{2}{3}x + 1\\) and passes through (6, 2). What is its equation?",
+    "question": "The cost to produce 'x' items is given by the function \\(C(x) = 20x + 1000\\). What is the cost of producing 200 items?",
     "answerOptions": [
       {
-        "text": "\\(y = \frac{2}{3}x - 2\\)",
+        "text": "\\(1020\\)",
+        "isCorrect": false,
+        "rationale": "This is C(1)."
+      },
+      {
+        "text": "3000",
+        "isCorrect": false,
+        "rationale": "This is an incorrect calculation."
+      },
+      {
+        "text": "\\(5000\\)",
         "isCorrect": true,
-        "rationale": "The slope is \\(\frac{2}{3}\\). Using y=mx+b: 2 = \\(\frac{2}{3}\\)$6\\) + b -> 2 = 4 + b -> b=-2."
+        "rationale": "C(200) = 20(200) + 1000 = 4000 + 1000 = 5000."
       },
       {
-        "text": "\\(y = -\frac{3}{2}x + 11\\)",
+        "text": "21000",
         "isCorrect": false,
-        "rationale": "This is a perpendicular line."
-      },
-      {
-        "text": "\\(y = \frac{2}{3}x + 2\\)",
-        "isCorrect": false,
-        "rationale": "This does not pass through the given point."
-      },
-      {
-        "text": "\\(y = \frac{2}{3}x + 6\\)",
-        "isCorrect": false,
-        "rationale": "This does not pass through the given point."
+        "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "A parallel line has the same slope, \\(\frac{2}{3}\\). Use the point-slope form y - y1 = m(x - x1): y - 2 = \\(\frac{2}{3}\\)(x - 6). y - 2 = \\(\frac{2}{3}\\)x - 4. So, y = \\(\frac{2}{3}\\)x - 2.",
+    "rationale": "Substitute 200 for x in the cost function: C(200) = 20(200) + 1000 = 4000 + 1000 = $5,000.",
     "challenge_tags": [
       "math-1"
     ]
@@ -163,9 +163,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "Find the x-intercept of the line \\(y = -4x + 12\\).",
-    "correctAnswer": "3",
-    "rationale": "Set y=0: 0 = -4x + 12. 4x = 12. x = 3.",
+    "question": "Find the x-intercept for the line \\(5x + 2y = 20\\).",
+    "correctAnswer": "4",
+    "rationale": "To find the x-intercept, set y = 0. 5x + 2(0) = 20. 5x = 20. x = 4.",
     "challenge_tags": [
       "math-1"
     ]
@@ -175,30 +175,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "What is the domain of the function \\(f(x) = \\(\sqrt{x+4}\\)?",
+    "question": "A function is defined by \\(f(x) = 2^x\\). What type of function is this?",
     "answerOptions": [
       {
-        "text": "\\(x \\geq -4\\)",
+        "text": "Linear",
+        "isCorrect": false,
+        "rationale": "A linear function has the form y = mx + b."
+      },
+      {
+        "text": "Quadratic",
+        "isCorrect": false,
+        "rationale": "A quadratic function has the form y = a\\(x^{2}\\) + bx + c."
+      },
+      {
+        "text": "Exponential",
         "isCorrect": true,
-        "rationale": "The expression under the square root must be non-negative. x+\\(4\\geq0\\) -> x >= -4."
+        "rationale": "A function with the variable in the exponent is an exponential function."
       },
       {
-        "text": "\\(x > -4\\)",
+        "text": "Absolute Value",
         "isCorrect": false,
-        "rationale": "x can be equal to -4."
-      },
-      {
-        "text": "All real numbers",
-        "isCorrect": false,
-        "rationale": "If x < -4, the value under the square root is negative."
-      },
-      {
-        "text": "\\(x \\leq -4\\)",
-        "isCorrect": false,
-        "rationale": "This is an incorrect calculation."
+        "rationale": "An absolute value function involves |x|."
       }
     ],
-    "rationale": "For the function to be defined in the real numbers, the expression inside the square root must be greater than or equal to zero. \\(x+4 \\geq 0\\), which means \\(x \\geq -4\\).",
+    "rationale": "A function where the independent variable (x) appears in the exponent is called an exponential function. This function shows exponential growth.",
     "challenge_tags": [
       "math-1"
     ]
@@ -209,9 +209,9 @@ module.exports = [
     "inputCalculator": true,
     "calculator": true,
     "difficulty": "medium",
-    "question": "A company's cost function is C(x) = 10x + 500, where x is the number of units produced. What is the cost of producing 50 units?",
-    "correctAnswer": "\\(1000\\)",
-    "rationale": "C(50) = 10(50) + 500 = 500 + 500 = 1000.",
+    "question": "A line with a slope of -1 passes through the point (5, 5). What is its y-intercept?",
+    "correctAnswer": "10",
+    "rationale": "Using y = mx + b: 5 = -1(5) + b. 5 = -5 + b. b = 10.",
     "challenge_tags": [
       "math-1"
     ]
@@ -221,30 +221,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "Find the vertex of the parabola \\(y = x^2 + 4x + 3\\).",
+    "question": "What is the vertex of the parabola \\(y = -(x+2)^2\\)?",
     "answerOptions": [
       {
-        "text": "(-2, -1)",
+        "text": "(2, 0)",
+        "isCorrect": false,
+        "rationale": "The x-coordinate is -2."
+      },
+      {
+        "text": "(-2, 0)",
         "isCorrect": true,
-        "rationale": "The x-coordinate of the vertex is -b/(2a) = -\\(\frac{4}{2}\\) = -2. Then y = (-2)^2 + 4(-2) + 3 = 4 - 8 + 3 = -1."
+        "rationale": "In vertex form y=a\\((x-h)^2\\)+k, the vertex is (h,k). Here, h=-2 and k=0."
       },
       {
-        "text": "(2, 15)",
+        "text": "(0, -4)",
         "isCorrect": false,
-        "rationale": "This uses x=2."
+        "rationale": "This is the y-intercept."
       },
       {
-        "text": "(-4, 3)",
-        "isCorrect": false,
-        "rationale": "This uses b and c."
-      },
-      {
-        "text": "(4, 35)",
+        "text": "(0, 4)",
         "isCorrect": false,
         "rationale": "This is an incorrect calculation."
       }
     ],
-    "rationale": "The x-coordinate of the vertex is given by x = -b/(2a). Here, a = 1 and b = 4, so x = -4/(2*1) = -2. To find the y-coordinate, substitute x = -2 into the equation: y = (-2)^2 + 4(-2) + 3 = -1. The vertex is (-2, -1).",
+    "rationale": "The vertex form of a parabola is y = a(x - h)^2\\) + k, where the vertex is (h, k). In this equation, h = -2 and k = 0.",
     "challenge_tags": [
       "math-1"
     ]
@@ -254,30 +254,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": false,
     "difficulty": "hard",
-    "question": "Which function represents exponential decay?",
+    "question": "Which of the following lines is perpendicular to the y-axis?",
     "answerOptions": [
       {
-        "text": "\\(y = 2x\\)",
+        "text": "x = 5",
         "isCorrect": false,
-        "rationale": "This is linear growth."
+        "rationale": "This line is parallel to the y-axis."
       },
       {
-        "text": "\\(y = (1.5)^x\\)",
-        "isCorrect": false,
-        "rationale": "The base is greater than 1, so this is exponential growth."
-      },
-      {
-        "text": "\\(y = (0.5)^x\\)",
+        "text": "y = 3",
         "isCorrect": true,
-        "rationale": "The base is between 0 and 1, which represents exponential decay."
+        "rationale": "A horizontal line (y=c) is perpendicular to the vertical y-axis."
       },
       {
-        "text": "\\(y = x^2\\)",
+        "text": "y = x",
         "isCorrect": false,
-        "rationale": "This is a quadratic function."
+        "rationale": "This line is not perpendicular to the y-axis."
+      },
+      {
+        "text": "y = -x",
+        "isCorrect": false,
+        "rationale": "This line is not perpendicular to the y-axis."
       }
     ],
-    "rationale": "An exponential function of the form y = b^x$ represents decay when the base 'b' is between 0 and 1.",
+    "rationale": "The y-axis is a vertical line. A line that is perpendicular to a vertical line must be a horizontal line. The equation of a horizontal line is y = c.",
     "challenge_tags": [
       "math-1"
     ]
@@ -287,30 +287,30 @@ module.exports = [
     "type": "multipleChoice",
     "calculator": true,
     "difficulty": "medium",
-    "question": "A function is defined by \\(the set of points {(-1, 2), (0, 1), (1, 2), (2, 5)}\\). What is the value of f(1)?",
+    "question": "If f(x) has a slope of 3 and f(2) = 8, what is f(5)?",
     "answerOptions": [
       {
-        "text": "5",
+        "text": "11",
         "isCorrect": false,
-        "rationale": "This is f(2)."
+        "rationale": "This is 8+3."
       },
       {
-        "text": "1",
-        "isCorrect": false,
-        "rationale": "This is f(0)."
-      },
-      {
-        "text": "2",
+        "text": "17",
         "isCorrect": true,
-        "rationale": "The point (1, 2) indicates that when the input (x) is 1, the output (y or f(x)) is 2."
+        "rationale": "For a linear function, the change in y is slope * change in x. Change in x is 3. Change in y is 3*3=9. New y is 8+9=17."
       },
       {
-        "text": "-1",
+        "text": "15",
         "isCorrect": false,
-        "rationale": "This is an input value."
+        "rationale": "This is 3*5."
+      },
+      {
+        "text": "23",
+        "isCorrect": false,
+        "rationale": "This is 3*5+8."
       }
     ],
-    "rationale": "The notation f(1) asks for the output of the function when the input is 1. The point (1, 2) shows that the output is 2 when the input is 1.",
+    "rationale": "For a linear function, the change in the output is the slope times the change in the input. The change in x is 5 - 2 = 3. The change in y is slope * 3 = 3 * 3 = 9. So, f(5) = f(2) + 9 = 8 + 9 = 17.",
     "challenge_tags": [
       "math-1"
     ]

@@ -4,129 +4,129 @@
       "file": "diag_ss_composite_v1.js",
       "questionNumber": 9,
       "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
-      "questionText": "Which term or label appears in the visual?",
+      "questionText": "What do the two bar graphs compare?",
       "passagePreview": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "diag_ss_composite_v1.js",
       "questionNumber": 10,
       "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?",
+      "questionText": "Which river is listed on the charts?",
       "passagePreview": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_charts.js",
       "questionNumber": 1,
       "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
-      "questionText": "Which term or label appears in the visual?",
+      "questionText": "What does the chart compare?",
       "passagePreview": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their pr",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_charts.js",
       "questionNumber": 2,
       "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
-      "questionText": "Which year appears in the visual text/labels?",
+      "questionText": "Which two years are compared in the chart?",
       "passagePreview": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their pr",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_charts.js",
       "questionNumber": 3,
       "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
-      "questionText": "Which pair of labels both appears in the visual?",
+      "questionText": "Which region is listed on the chart?",
       "passagePreview": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their pr",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_charts.js",
       "questionNumber": 4,
       "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
-      "questionText": "Which term or label appears in the visual?",
+      "questionText": "What is the chart about?",
       "passagePreview": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten majo",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_charts.js",
       "questionNumber": 5,
       "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
-      "questionText": "Which year appears in the visual text/labels?",
+      "questionText": "As of what date are the city populations reported?",
       "passagePreview": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten majo",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_charts.js",
       "questionNumber": 6,
       "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
-      "questionText": "Which pair of labels both appears in the visual?",
+      "questionText": "Which city is listed in the chart?",
       "passagePreview": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten majo",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_charts.js",
       "questionNumber": 7,
       "imageUrl": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
-      "questionText": "Which term or label appears in the visual?",
+      "questionText": "What does the chart measure?",
       "passagePreview": "Alt text: Bar chart showing differences in nonfarm employment estimates after benchmarking from March 2009 to March 2018.\n\nDescription: This bar chart displays the differences in nonfarm employment estimates after benchm",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_charts.js",
       "questionNumber": 8,
       "imageUrl": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
-      "questionText": "Which year appears in the visual text/labels?",
+      "questionText": "What time span is shown in the chart title?",
       "passagePreview": "Alt text: Bar chart showing differences in nonfarm employment estimates after benchmarking from March 2009 to March 2018.\n\nDescription: This bar chart displays the differences in nonfarm employment estimates after benchm",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_charts.js",
       "questionNumber": 9,
       "imageUrl": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?",
+      "questionText": "Which organization is listed as the source?",
       "passagePreview": "Alt text: Bar chart showing differences in nonfarm employment estimates after benchmarking from March 2009 to March 2018.\n\nDescription: This bar chart displays the differences in nonfarm employment estimates after benchm",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_graphs.js",
       "questionNumber": 1,
       "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
-      "questionText": "Which term or label appears in the visual?",
+      "questionText": "What do the two bar graphs compare?",
       "passagePreview": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_graphs.js",
       "questionNumber": 2,
       "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?",
+      "questionText": "Which river is listed on the charts?",
       "passagePreview": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_graphs.js",
       "questionNumber": 3,
       "imageUrl": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
-      "questionText": "Which term or label appears in the visual?",
+      "questionText": "What does the graph show?",
       "passagePreview": "Alt text: Horizontal bar graph showing incidence rates and number of nonfatal occupational injuries/illnesses by industry in 2016.\n\nDescription: This image displays a horizontal bar graph illustrating nonfatal occupation",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_graphs.js",
       "questionNumber": 4,
       "imageUrl": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
-      "questionText": "Which year appears in the visual text/labels?",
+      "questionText": "Which two measures are shown for each industry?",
       "passagePreview": "Alt text: Horizontal bar graph showing incidence rates and number of nonfatal occupational injuries/illnesses by industry in 2016.\n\nDescription: This image displays a horizontal bar graph illustrating nonfatal occupation",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_bar_graphs.js",
       "questionNumber": 5,
       "imageUrl": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?",
+      "questionText": "Which year does the chart cover?",
       "passagePreview": "Alt text: Horizontal bar graph showing incidence rates and number of nonfatal occupational injuries/illnesses by industry in 2016.\n\nDescription: This image displays a horizontal bar graph illustrating nonfatal occupation",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_civics_documents.js",
@@ -148,81 +148,81 @@
       "file": "social_studies_img_civics_flowcharts.js",
       "questionNumber": 1,
       "imageUrl": "/images/Social%20Studies/unclassified_0013.png",
-      "questionText": "Which term or label appears in the visual?",
+      "questionText": "What process does the flowchart show?",
       "passagePreview": "Alt text: Flowchart illustrating the U.S. legislative process for a bill to become law, including paths for it to fail.\n\nDescription: This is a horizontal flowchart depicting the steps involved in a bill becoming law in ",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_civics_flowcharts.js",
       "questionNumber": 2,
       "imageUrl": "/images/Social%20Studies/unclassified_0013.png",
-      "questionText": "Which pair of labels both appears in the visual?",
+      "questionText": "Which step appears in the flowchart?",
       "passagePreview": "Alt text: Flowchart illustrating the U.S. legislative process for a bill to become law, including paths for it to fail.\n\nDescription: This is a horizontal flowchart depicting the steps involved in a bill becoming law in ",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_civics_flowcharts.js",
       "questionNumber": 3,
       "imageUrl": "/images/Social%20Studies/unclassified_0017.png",
-      "questionText": "Which term or label appears in the visual?",
+      "questionText": "What does this flowchart outline?",
       "passagePreview": "Alt text: A flowchart outlining the steps in the U.S. naturalization process.\n\nDescription: This image displays a flowchart detailing the sequential steps an individual must take to become a naturalized citizen of the Un",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_civics_flowcharts.js",
       "questionNumber": 4,
       "imageUrl": "/images/Social%20Studies/unclassified_0017.png",
-      "questionText": "Which pair of labels both appears in the visual?",
+      "questionText": "Which step is part of the naturalization process shown?",
       "passagePreview": "Alt text: A flowchart outlining the steps in the U.S. naturalization process.\n\nDescription: This image displays a flowchart detailing the sequential steps an individual must take to become a naturalized citizen of the Un",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_civics_maps.js",
       "questionNumber": 1,
       "imageUrl": "/images/Social%20Studies/unclassified_0099.png",
-      "questionText": "Which term or label appears in the visual?",
+      "questionText": "What does the map show?",
       "passagePreview": "Alt text: Map of the United States showing changes in U.S. House of Representatives seats by state for the 108th Congress.\n\nDescription: This is a choropleth map of the United States, including inset maps for Alaska and ",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_civics_maps.js",
       "questionNumber": 2,
       "imageUrl": "/images/Social%20Studies/unclassified_0099.png",
-      "questionText": "Which year appears in the visual text/labels?",
+      "questionText": "Which time span does the map compare?",
       "passagePreview": "Alt text: Map of the United States showing changes in U.S. House of Representatives seats by state for the 108th Congress.\n\nDescription: This is a choropleth map of the United States, including inset maps for Alaska and ",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_civics_maps.js",
       "questionNumber": 3,
       "imageUrl": "/images/Social%20Studies/unclassified_0099.png",
-      "questionText": "Which pair of labels both appears in the visual?",
+      "questionText": "Which legend category appears on the map?",
       "passagePreview": "Alt text: Map of the United States showing changes in U.S. House of Representatives seats by state for the 108th Congress.\n\nDescription: This is a choropleth map of the United States, including inset maps for Alaska and ",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_civics_maps.js",
       "questionNumber": 4,
       "imageUrl": "/images/Social%20Studies/unclassified_0121.png",
-      "questionText": "Which term or label appears in the visual?",
+      "questionText": "What is the map based on?",
       "passagePreview": "Alt text: Map showing changes in US House of Representatives apportionment by state from 2000 to 2010 based on the 2010 Census.\n\nDescription: This choropleth map illustrates the reallocation of seats in the U.S. House of",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_civics_maps.js",
       "questionNumber": 5,
       "imageUrl": "/images/Social%20Studies/unclassified_0121.png",
-      "questionText": "Which year appears in the visual text/labels?",
+      "questionText": "Which time span does this map compare?",
       "passagePreview": "Alt text: Map showing changes in US House of Representatives apportionment by state from 2000 to 2010 based on the 2010 Census.\n\nDescription: This choropleth map illustrates the reallocation of seats in the U.S. House of",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_civics_maps.js",
       "questionNumber": 6,
       "imageUrl": "/images/Social%20Studies/unclassified_0121.png",
-      "questionText": "Which pair of labels both appears in the visual?",
+      "questionText": "Which legend category appears on this map?",
       "passagePreview": "Alt text: Map showing changes in US House of Representatives apportionment by state from 2000 to 2010 based on the 2010 Census.\n\nDescription: This choropleth map illustrates the reallocation of seats in the U.S. House of",
-      "isLowQuality": true
+      "isLowQuality": false
     },
     {
       "file": "social_studies_img_civics_tables.js",
@@ -244,16 +244,16 @@
       "file": "social_studies_img_civil_rights_movement_photographs.js",
       "questionNumber": 1,
       "imageUrl": "/images/Social%20Studies/jews_in_the_civil_rights_movement_0001.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: A black and white photo of civil rights leaders and a large crowd marching with protest signs.\n\nDescription: This historical black and white photograph captures a wide shot of the March on Washington for Jobs a",
+      "questionText": "Which protest-sign slogan appears in the image?",
+      "passagePreview": "Historical photo of a civil rights march. Use the signs in the image to answer the question.",
       "isLowQuality": true
     },
     {
       "file": "social_studies_img_civil_rights_movement_photographs.js",
       "questionNumber": 2,
       "imageUrl": "/images/Social%20Studies/jews_in_the_civil_rights_movement_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: A black and white photo of civil rights leaders and a large crowd marching with protest signs.\n\nDescription: This historical black and white photograph captures a wide shot of the March on Washington for Jobs a",
+      "questionText": "Which pair of sign labels both appears in the image?",
+      "passagePreview": "Historical photo of a civil rights march. Use the signs in the image to answer the question.",
       "isLowQuality": true
     },
     {
@@ -908,16 +908,16 @@
       "file": "social_studies_img_financial_tables.js",
       "questionNumber": 1,
       "imageUrl": "/images/Social%20Studies/unclassified_0049.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: A table comparing risk and reward for various financial accounts and investments.\n\nDescription: This image displays a three-column table titled 'Type of Account or Investment', 'Risk', and 'Reward'. It lists se",
+      "questionText": "Which column heading appears in the table?",
+      "passagePreview": "A financial table compares account types by risk and reward. Use the table headings to answer the question.",
       "isLowQuality": true
     },
     {
       "file": "social_studies_img_financial_tables.js",
       "questionNumber": 2,
       "imageUrl": "/images/Social%20Studies/unclassified_0049.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: A table comparing risk and reward for various financial accounts and investments.\n\nDescription: This image displays a three-column table titled 'Type of Account or Investment', 'Risk', and 'Reward'. It lists se",
+      "questionText": "Which pair of table headings both appears in the visual?",
+      "passagePreview": "A financial table compares account types by risk and reward. Use the table headings to answer the question.",
       "isLowQuality": true
     },
     {
@@ -2940,8 +2940,8 @@
       "file": "social_studies_img_multiple_graphs.js",
       "questionNumber": 1,
       "imageUrl": "/images/Social%20Studies/unclassified_0097.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: Three charts: a bar graph on continent participation, a line graph on exports, and a pie chart on state pollution rates.\n\nDescription: The image displays three different types of data visualizations. The top-le",
+      "questionText": "Which chart label appears in the visual?",
+      "passagePreview": "Three data charts are shown together (bar, line, and pie). Use the chart labels to answer the question.",
       "isLowQuality": true
     },
     {
@@ -2949,15 +2949,15 @@
       "questionNumber": 2,
       "imageUrl": "/images/Social%20Studies/unclassified_0097.png",
       "questionText": "Which year appears in the visual text/labels?",
-      "passagePreview": "Alt text: Three charts: a bar graph on continent participation, a line graph on exports, and a pie chart on state pollution rates.\n\nDescription: The image displays three different types of data visualizations. The top-le",
+      "passagePreview": "Three data charts are shown together (bar, line, and pie). Use the chart labels to answer the question.",
       "isLowQuality": true
     },
     {
       "file": "social_studies_img_multiple_graphs.js",
       "questionNumber": 3,
       "imageUrl": "/images/Social%20Studies/unclassified_0097.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: Three charts: a bar graph on continent participation, a line graph on exports, and a pie chart on state pollution rates.\n\nDescription: The image displays three different types of data visualizations. The top-le",
+      "questionText": "Which pair of chart labels both appears in the visual?",
+      "passagePreview": "Three data charts are shown together (bar, line, and pie). Use the chart labels to answer the question.",
       "isLowQuality": true
     },
     {
@@ -4179,214 +4179,6 @@
   ],
   "lowQuality": [
     {
-      "file": "diag_ss_composite_v1.js",
-      "questionNumber": 9,
-      "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the",
-      "isLowQuality": true
-    },
-    {
-      "file": "diag_ss_composite_v1.js",
-      "questionNumber": 10,
-      "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_charts.js",
-      "questionNumber": 1,
-      "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their pr",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_charts.js",
-      "questionNumber": 2,
-      "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
-      "questionText": "Which year appears in the visual text/labels?",
-      "passagePreview": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their pr",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_charts.js",
-      "questionNumber": 3,
-      "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their pr",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_charts.js",
-      "questionNumber": 4,
-      "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten majo",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_charts.js",
-      "questionNumber": 5,
-      "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
-      "questionText": "Which year appears in the visual text/labels?",
-      "passagePreview": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten majo",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_charts.js",
-      "questionNumber": 6,
-      "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten majo",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_charts.js",
-      "questionNumber": 7,
-      "imageUrl": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: Bar chart showing differences in nonfarm employment estimates after benchmarking from March 2009 to March 2018.\n\nDescription: This bar chart displays the differences in nonfarm employment estimates after benchm",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_charts.js",
-      "questionNumber": 8,
-      "imageUrl": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
-      "questionText": "Which year appears in the visual text/labels?",
-      "passagePreview": "Alt text: Bar chart showing differences in nonfarm employment estimates after benchmarking from March 2009 to March 2018.\n\nDescription: This bar chart displays the differences in nonfarm employment estimates after benchm",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_charts.js",
-      "questionNumber": 9,
-      "imageUrl": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: Bar chart showing differences in nonfarm employment estimates after benchmarking from March 2009 to March 2018.\n\nDescription: This bar chart displays the differences in nonfarm employment estimates after benchm",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_graphs.js",
-      "questionNumber": 1,
-      "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_graphs.js",
-      "questionNumber": 2,
-      "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_graphs.js",
-      "questionNumber": 3,
-      "imageUrl": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: Horizontal bar graph showing incidence rates and number of nonfatal occupational injuries/illnesses by industry in 2016.\n\nDescription: This image displays a horizontal bar graph illustrating nonfatal occupation",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_graphs.js",
-      "questionNumber": 4,
-      "imageUrl": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
-      "questionText": "Which year appears in the visual text/labels?",
-      "passagePreview": "Alt text: Horizontal bar graph showing incidence rates and number of nonfatal occupational injuries/illnesses by industry in 2016.\n\nDescription: This image displays a horizontal bar graph illustrating nonfatal occupation",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_bar_graphs.js",
-      "questionNumber": 5,
-      "imageUrl": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: Horizontal bar graph showing incidence rates and number of nonfatal occupational injuries/illnesses by industry in 2016.\n\nDescription: This image displays a horizontal bar graph illustrating nonfatal occupation",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_civics_flowcharts.js",
-      "questionNumber": 1,
-      "imageUrl": "/images/Social%20Studies/unclassified_0013.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: Flowchart illustrating the U.S. legislative process for a bill to become law, including paths for it to fail.\n\nDescription: This is a horizontal flowchart depicting the steps involved in a bill becoming law in ",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_civics_flowcharts.js",
-      "questionNumber": 2,
-      "imageUrl": "/images/Social%20Studies/unclassified_0013.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: Flowchart illustrating the U.S. legislative process for a bill to become law, including paths for it to fail.\n\nDescription: This is a horizontal flowchart depicting the steps involved in a bill becoming law in ",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_civics_flowcharts.js",
-      "questionNumber": 3,
-      "imageUrl": "/images/Social%20Studies/unclassified_0017.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: A flowchart outlining the steps in the U.S. naturalization process.\n\nDescription: This image displays a flowchart detailing the sequential steps an individual must take to become a naturalized citizen of the Un",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_civics_flowcharts.js",
-      "questionNumber": 4,
-      "imageUrl": "/images/Social%20Studies/unclassified_0017.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: A flowchart outlining the steps in the U.S. naturalization process.\n\nDescription: This image displays a flowchart detailing the sequential steps an individual must take to become a naturalized citizen of the Un",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_civics_maps.js",
-      "questionNumber": 1,
-      "imageUrl": "/images/Social%20Studies/unclassified_0099.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: Map of the United States showing changes in U.S. House of Representatives seats by state for the 108th Congress.\n\nDescription: This is a choropleth map of the United States, including inset maps for Alaska and ",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_civics_maps.js",
-      "questionNumber": 2,
-      "imageUrl": "/images/Social%20Studies/unclassified_0099.png",
-      "questionText": "Which year appears in the visual text/labels?",
-      "passagePreview": "Alt text: Map of the United States showing changes in U.S. House of Representatives seats by state for the 108th Congress.\n\nDescription: This is a choropleth map of the United States, including inset maps for Alaska and ",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_civics_maps.js",
-      "questionNumber": 3,
-      "imageUrl": "/images/Social%20Studies/unclassified_0099.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: Map of the United States showing changes in U.S. House of Representatives seats by state for the 108th Congress.\n\nDescription: This is a choropleth map of the United States, including inset maps for Alaska and ",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_civics_maps.js",
-      "questionNumber": 4,
-      "imageUrl": "/images/Social%20Studies/unclassified_0121.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: Map showing changes in US House of Representatives apportionment by state from 2000 to 2010 based on the 2010 Census.\n\nDescription: This choropleth map illustrates the reallocation of seats in the U.S. House of",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_civics_maps.js",
-      "questionNumber": 5,
-      "imageUrl": "/images/Social%20Studies/unclassified_0121.png",
-      "questionText": "Which year appears in the visual text/labels?",
-      "passagePreview": "Alt text: Map showing changes in US House of Representatives apportionment by state from 2000 to 2010 based on the 2010 Census.\n\nDescription: This choropleth map illustrates the reallocation of seats in the U.S. House of",
-      "isLowQuality": true
-    },
-    {
-      "file": "social_studies_img_civics_maps.js",
-      "questionNumber": 6,
-      "imageUrl": "/images/Social%20Studies/unclassified_0121.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: Map showing changes in US House of Representatives apportionment by state from 2000 to 2010 based on the 2010 Census.\n\nDescription: This choropleth map illustrates the reallocation of seats in the U.S. House of",
-      "isLowQuality": true
-    },
-    {
       "file": "social_studies_img_civics_tables.js",
       "questionNumber": 1,
       "imageUrl": "/images/Social%20Studies/unclassified_0011.png",
@@ -4406,16 +4198,16 @@
       "file": "social_studies_img_civil_rights_movement_photographs.js",
       "questionNumber": 1,
       "imageUrl": "/images/Social%20Studies/jews_in_the_civil_rights_movement_0001.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: A black and white photo of civil rights leaders and a large crowd marching with protest signs.\n\nDescription: This historical black and white photograph captures a wide shot of the March on Washington for Jobs a",
+      "questionText": "Which protest-sign slogan appears in the image?",
+      "passagePreview": "Historical photo of a civil rights march. Use the signs in the image to answer the question.",
       "isLowQuality": true
     },
     {
       "file": "social_studies_img_civil_rights_movement_photographs.js",
       "questionNumber": 2,
       "imageUrl": "/images/Social%20Studies/jews_in_the_civil_rights_movement_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: A black and white photo of civil rights leaders and a large crowd marching with protest signs.\n\nDescription: This historical black and white photograph captures a wide shot of the March on Washington for Jobs a",
+      "questionText": "Which pair of sign labels both appears in the image?",
+      "passagePreview": "Historical photo of a civil rights march. Use the signs in the image to answer the question.",
       "isLowQuality": true
     },
     {
@@ -5070,16 +4862,16 @@
       "file": "social_studies_img_financial_tables.js",
       "questionNumber": 1,
       "imageUrl": "/images/Social%20Studies/unclassified_0049.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: A table comparing risk and reward for various financial accounts and investments.\n\nDescription: This image displays a three-column table titled 'Type of Account or Investment', 'Risk', and 'Reward'. It lists se",
+      "questionText": "Which column heading appears in the table?",
+      "passagePreview": "A financial table compares account types by risk and reward. Use the table headings to answer the question.",
       "isLowQuality": true
     },
     {
       "file": "social_studies_img_financial_tables.js",
       "questionNumber": 2,
       "imageUrl": "/images/Social%20Studies/unclassified_0049.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: A table comparing risk and reward for various financial accounts and investments.\n\nDescription: This image displays a three-column table titled 'Type of Account or Investment', 'Risk', and 'Reward'. It lists se",
+      "questionText": "Which pair of table headings both appears in the visual?",
+      "passagePreview": "A financial table compares account types by risk and reward. Use the table headings to answer the question.",
       "isLowQuality": true
     },
     {
@@ -7062,8 +6854,8 @@
       "file": "social_studies_img_multiple_graphs.js",
       "questionNumber": 1,
       "imageUrl": "/images/Social%20Studies/unclassified_0097.png",
-      "questionText": "Which term or label appears in the visual?",
-      "passagePreview": "Alt text: Three charts: a bar graph on continent participation, a line graph on exports, and a pie chart on state pollution rates.\n\nDescription: The image displays three different types of data visualizations. The top-le",
+      "questionText": "Which chart label appears in the visual?",
+      "passagePreview": "Three data charts are shown together (bar, line, and pie). Use the chart labels to answer the question.",
       "isLowQuality": true
     },
     {
@@ -7071,15 +6863,15 @@
       "questionNumber": 2,
       "imageUrl": "/images/Social%20Studies/unclassified_0097.png",
       "questionText": "Which year appears in the visual text/labels?",
-      "passagePreview": "Alt text: Three charts: a bar graph on continent participation, a line graph on exports, and a pie chart on state pollution rates.\n\nDescription: The image displays three different types of data visualizations. The top-le",
+      "passagePreview": "Three data charts are shown together (bar, line, and pie). Use the chart labels to answer the question.",
       "isLowQuality": true
     },
     {
       "file": "social_studies_img_multiple_graphs.js",
       "questionNumber": 3,
       "imageUrl": "/images/Social%20Studies/unclassified_0097.png",
-      "questionText": "Which pair of labels both appears in the visual?",
-      "passagePreview": "Alt text: Three charts: a bar graph on continent participation, a line graph on exports, and a pie chart on state pollution rates.\n\nDescription: The image displays three different types of data visualizations. The top-le",
+      "questionText": "Which pair of chart labels both appears in the visual?",
+      "passagePreview": "Three data charts are shown together (bar, line, and pie). Use the chart labels to answer the question.",
       "isLowQuality": true
     },
     {

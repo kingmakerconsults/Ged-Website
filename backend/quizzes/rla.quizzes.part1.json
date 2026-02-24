@@ -28296,36 +28296,7 @@
               "title": "US-history-maps Practice",
               "label": "Visual Practice",
               "description": "Practice questions for US-history-maps based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the largest territorial acquisition by the United States.",
-                  "imageURL": "/images/RLA/interpreting_graphics_0001_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         },
@@ -28338,36 +28309,7 @@
               "title": "historical-charts Practice",
               "label": "Visual Practice",
               "description": "Practice questions for historical-charts based on images.",
-              "questions": [
-                {
-                  "questionNumber": 1,
-                  "type": "multiple-choice",
-                  "question": "Identify the country that suffered the highest percentage of military deaths among the Allies.",
-                  "imageURL": "/images/RLA/interpreting_graphics_0003_0001.png",
-                  "answerOptions": [
-                    {
-                      "text": "Option A (Placeholder)",
-                      "rationale": "Correct answer placeholder.",
-                      "isCorrect": true
-                    },
-                    {
-                      "text": "Option B (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option C (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    },
-                    {
-                      "text": "Option D (Placeholder)",
-                      "rationale": "Incorrect answer placeholder.",
-                      "isCorrect": false
-                    }
-                  ]
-                }
-              ]
+              "questions": []
             }
           ]
         }

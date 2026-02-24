@@ -2,21 +2,29 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const QUESTION_LIKE_KEYS = new Set(['question', 'questiontext', 'prompt', 'stem']);
+const QUESTION_LIKE_KEYS = new Set([
+  'question',
+  'questiontext',
+  'prompt',
+  'stem',
+]);
+const SCENARIO_PREFIX_PATTERN =
+  /^\s*(?:(?:[A-Za-z][\w'’.:-]*\s+){0,8}(?:scenario|challenge)\s*:\s*)/i;
 const JSON_EXT = '.json';
 
 function isQuestionLikeKey(keyName) {
-  return QUESTION_LIKE_KEYS.has(String(keyName || '').trim().toLowerCase());
+  return QUESTION_LIKE_KEYS.has(
+    String(keyName || '')
+      .trim()
+      .toLowerCase()
+  );
 }
 
 function stripLeadingScenarioPrefix(value) {
   if (typeof value !== 'string' || value.length === 0) {
     return value;
   }
-  return value.replace(
-    /^\s*(?:(?:[A-Za-z][\w'’.:-]*\s+){0,8}scenario\s*:\s*)/i,
-    ''
-  );
+  return value.replace(SCENARIO_PREFIX_PATTERN, '');
 }
 
 function walkAndStrip(node, keyName = '', stats = { changes: 0 }) {

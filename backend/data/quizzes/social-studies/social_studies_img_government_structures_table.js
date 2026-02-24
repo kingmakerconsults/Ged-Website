@@ -3,74 +3,82 @@ module.exports = [
     "questionNumber": 1,
     "type": "multiple-choice-text",
     "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/unclassified_0015.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0015.png",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: A table outlining the forms of government, chiefs of state, and heads of government for eight different countries.\n\nDescription: This image displays a table with four columns: 'Country', 'Form of Government', 'Chief of State', and 'Head of Government'. It lists information for eight countries including Canada, China, Germany, Iran, Mexico, Netherlands, Russia, and Saudi Arabia. The tab…\n\nText in image: Country Form of Government Chief of State Head of Government Canada federation; constitutional monarchy British monarch prime minister China communist state president premier Germany federal republic president chancello…",
-      "imageURL": "/images/Social%20Studies/unclassified_0015.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "Laborers",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "World map",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Countries",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "117 AD",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 2,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/unclassified_0015.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0015.png",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: A table outlining the forms of government, chiefs of state, and heads of government for eight different countries.\n\nDescription: This image displays a table with four columns: 'Country', 'Form of Government', 'Chief of State', and 'Head of Government'. It lists information for eight countries including Canada, China, Germany, Iran, Mexico, Netherlands, Russia, and Saudi Arabia. The tab…\n\nText in image: Country Form of Government Chief of State Head of Government Canada federation; constitutional monarchy British monarch prime minister China communist state president premier Germany federal republic president chancello…",
-      "imageURL": "/images/Social%20Studies/unclassified_0015.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "government influence and Chief of State",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Public gathering and Varicella",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Government forms and Chief of State",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "Government forms and Varicella",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   }
 ];

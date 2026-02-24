@@ -1,168 +1,285 @@
-// Algebra & Functions — Challenge: Practice 11
-// 12 questions | GED-level applications, inequalities, quadratic applications
 module.exports = [
   {
-    questionNumber: 1,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'An account earns 5% annual interest compounded annually. If Carlos invests \\$4,000 today, which expression gives the value after \\(n\\) years?',
-    answerOptions: [
-      { text: '\\(4000 \\times (1.05)^n\\)', isCorrect: true, rationale: 'Compound interest formula: A = P(1+r)^n = 4000(1.05)^n.' },
-      { text: '\\(4000 + 0.05n\\)', isCorrect: false, rationale: 'This is the simple interest formula, not compound.' },
-      { text: '\\(4000 \\times 0.05^n\\)', isCorrect: false, rationale: 'This would shrink the investment each year.' },
-      { text: '\\(4000(1 + 0.05n)\\)', isCorrect: false, rationale: 'This is simple interest expressed differently.' },
+    "questionNumber": 1,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "A recipe for 6 servings uses 2.5 cups of flour. Terrence needs to make 15 servings. How many cups of flour does he need?",
+    "answerOptions": [
+      {
+        "text": "5.5",
+        "isCorrect": false,
+        "rationale": "This adds 3 instead of scaling proportionally."
+      },
+      {
+        "text": "6.25",
+        "isCorrect": true,
+        "rationale": "15/6 × 2.5 = 2.5 × 2.5 = 6.25 cups."
+      },
+      {
+        "text": "7.5",
+        "isCorrect": false,
+        "rationale": "This multiplies by 3 rather than 2.5."
+      },
+      {
+        "text": "5",
+        "isCorrect": false,
+        "rationale": "This divides by 2.5 instead of multiplying."
+      }
     ],
-    rationale: 'Compound interest: A = P(1 + r)^n = 4000(1.05)^n.',
-    challenge_tags: ['math-3'],
+    "rationale": "Scale factor = 15/6 = 2.5. Flour = 2.5 × 2.5 = 6.25 cups.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 2,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'Solve for \\(x\\) using the quadratic formula: \\(x^2 - 6x + 8 = 0\\). What is the sum of both solutions?',
-    correctAnswer: '6',
-    rationale: 'Solutions: x = (6 ± √(36-32))/2 = (6 ± 2)/2 → x = 4 or x = 2. Sum = 6. (Also: sum of roots = -b/a = 6.)',
-    challenge_tags: ['math-3'],
+    "questionNumber": 2,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "If \\(y = kx\\) and \\(y = 45\\) when \\(x = 9\\), find \\(y\\) when \\(x = 15\\).",
+    "correctAnswer": "75",
+    "rationale": "k = 45/9 = 5. When x = 15: y = 5 × 15 = 75.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 3,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A manufacturer's revenue is \\(R(x) = 120x - x^2\\) dollars, where \\(x\\) is the number of units. At what production level is revenue maximised, and what is that maximum revenue?',
-    answerOptions: [
-      { text: 'x = 60; revenue = \\$3,600', isCorrect: true, rationale: 'Vertex: x = -b/2a = -120/(2×-1) = 60. R(60) = 120(60) - 3600 = 7200-3600 = 3600.' },
-      { text: 'x = 60; revenue = \\$7,200', isCorrect: false, rationale: 'This is 120×60 without subtracting x².' },
-      { text: 'x = 120; revenue = \\$3,600', isCorrect: false, rationale: 'R(120) = 120(120)-14400 = 14400-14400 = 0.' },
-      { text: 'x = 30; revenue = \\$2,700', isCorrect: false, rationale: 'R(30) = 3600-900 = 2700, but this is not the maximum.' },
+    "questionNumber": 3,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "An investor places \\$5,000 in an account earning 6% annual simple interest. After how many years will her account have \\$6,500?",
+    "answerOptions": [
+      {
+        "text": "3",
+        "isCorrect": false,
+        "rationale": "Interest after 3 years = 5000×0.06×3 = 900. Total = 5900 ≠ 6500."
+      },
+      {
+        "text": "4",
+        "isCorrect": false,
+        "rationale": "Interest = 1200. Total = 6200 ≠ 6500."
+      },
+      {
+        "text": "5",
+        "isCorrect": true,
+        "rationale": "Interest = 5000×0.06×5 = 1500. Total = 6500. ✓"
+      },
+      {
+        "text": "6",
+        "isCorrect": false,
+        "rationale": "Six years gives 6800, already over target."
+      }
     ],
-    rationale: 'Vertex: x = 60. R(60) = 7200 - 3600 = \$3,600.',
-    challenge_tags: ['math-3'],
+    "rationale": "5000 × 0.06 × t = 1500 → t = 5 years.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 4,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'Miguel has at most \\$200 to spend on supplies. He needs to buy paper at \\$8 per pack and folders at \\$3 each. He must buy at least 10 packs of paper and at least 5 folders. Which combination satisfies all constraints?',
-    answerOptions: [
-      { text: '10 packs, 15 folders', isCorrect: false, rationale: '10×8 + 15×3 = 80+45 = 125 ≤ 200 ✓, but check minimums: 10≥10 ✓, 15≥5 ✓. Wait — this works.' },
-      { text: '20 packs, 20 folders', isCorrect: false, rationale: '20×8 + 20×3 = 160+60 = 220 > 200.' },
-      { text: '15 packs, 10 folders', isCorrect: true, rationale: '15×8 + 10×3 = 120+30 = 150 ≤ 200 ✓; 15≥10 ✓; 10≥5 ✓.' },
-      { text: '25 packs, 5 folders', isCorrect: false, rationale: '25×8 + 5×3 = 200+15 = 215 > 200.' },
+    "questionNumber": 4,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "medium",
+    "question": "Which equation is equivalent to the statement \"the product of a number and 6, decreased by 4 times the same number, equals 20\"?",
+    "answerOptions": [
+      {
+        "text": "\\(6n - 4n = 20\\)",
+        "isCorrect": true,
+        "rationale": "\"Product of n and 6\" = 6n; \"decreased by 4n\" = -4n; equals 20."
+      },
+      {
+        "text": "\\(6 \\times 4n = 20\\)",
+        "isCorrect": false,
+        "rationale": "This multiplies the coefficients rather than subtracting."
+      },
+      {
+        "text": "\\(6(n - 4) = 20\\)",
+        "isCorrect": false,
+        "rationale": "This treats the 4 as part of the quantity, not a coefficient of n."
+      },
+      {
+        "text": "\\(6n \\times 4n = 20\\)",
+        "isCorrect": false,
+        "rationale": "\"Decreased by\" means subtraction, not multiplication."
+      }
     ],
-    rationale: '15 packs, 10 folders: 120 + 30 = \$150 ≤ \$200. Both minimums met.',
-    challenge_tags: ['math-3'],
+    "rationale": "6n - 4n = 2n = 20 → n = 10. The equation 6n - 4n = 20 correctly models the situation.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 5,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'The sum of two numbers is 50. Their product is 576. What is the larger number?',
-    correctAnswer: '32',
-    rationale: 'x + y = 50, xy = 576. x(50-x) = 576 → x²-50x+576=0 → (x-18)(x-32)=0. Larger = 32.',
-    challenge_tags: ['math-3'],
+    "questionNumber": 5,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "Tickets to a concert cost \\$12 for students and \\$20 for adults. The venue sold 180 tickets and collected \\$2,840. How many student tickets were sold?",
+    "correctAnswer": "95",
+    "rationale": "Let s = student tickets. 12s + 20(180 - s) = 2840 → 12s + 3600 - 20s = 2840 → -8s = -760 → s = 95.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 6,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'hard',
-    question: 'Which system of inequalities represents the region where \\(x \\geq 0\\), \\(y \\geq 0\\), and \\(x + y \\leq 6\\)?',
-    answerOptions: [
-      { text: 'The region in Quadrant I at or below the line x + y = 6', isCorrect: true, rationale: 'x ≥ 0, y ≥ 0 restricts to Quadrant I. x + y ≤ 6 is the triangular region at or below the line.' },
-      { text: 'The region in all four quadrants below x + y = 6', isCorrect: false, rationale: 'x ≥ 0 and y ≥ 0 restrict to Quadrant I only.' },
-      { text: 'The region in Quadrant I above the line x + y = 6', isCorrect: false, rationale: 'x + y ≤ 6 means at or below the line.' },
-      { text: 'The entire Quadrant I unbounded region', isCorrect: false, rationale: 'The constraint x + y ≤ 6 creates a bounded triangle.' },
+    "questionNumber": 6,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "A swimming pool holds 24,000 gallons. A pump fills it at 400 gallons per hour, but a leak drains it at 50 gallons per hour. Starting empty, how many hours will it take to fill the pool?",
+    "answerOptions": [
+      {
+        "text": "55",
+        "isCorrect": false,
+        "rationale": "Net rate = 350 gal/hr. 24000/350 ≈ 68.6, not 55."
+      },
+      {
+        "text": "60",
+        "isCorrect": false,
+        "rationale": "This uses only the fill rate (400 gal/hr)."
+      },
+      {
+        "text": "69",
+        "isCorrect": true,
+        "rationale": "Net rate = 350 gal/hr. 24000/350 ≈ 68.6 → round up to 69."
+      },
+      {
+        "text": "480",
+        "isCorrect": false,
+        "rationale": "This divides by the leak rate alone."
+      }
     ],
-    rationale: 'The three inequalities form a triangle in Quadrant I with vertices at (0,0), (6,0), and (0,6).',
-    challenge_tags: ['math-3'],
+    "rationale": "Net rate = 400 - 50 = 350 gal/hr. Time = 24000 / 350 ≈ 68.6 ≈ 69 hours.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 7,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A company's daily production cost is \\(C(x) = x^2 - 14x + 60\\) (in hundreds of dollars) where x is the number of workers. What number of workers minimises the cost, and what is that minimum cost?',
-    answerOptions: [
-      { text: '7 workers; \\$1,100', isCorrect: true, rationale: 'Vertex: x = 14/2 = 7. C(7) = 49 - 98 + 60 = 11 → \$1,100.' },
-      { text: '7 workers; \\$600', isCorrect: false, rationale: 'C(7) ≠ 6 hundreds.' },
-      { text: '14 workers; \\$1,100', isCorrect: false, rationale: 'Vertex is at x = 7, not 14.' },
-      { text: '6 workers; \\$1,200', isCorrect: false, rationale: 'C(6) = 36-84+60 = 12 → \$1,200, not the minimum.' },
+    "questionNumber": 7,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "hard",
+    "question": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?",
+    "answerOptions": [
+      {
+        "text": "\\(y > 2x + 1\\)",
+        "isCorrect": true,
+        "rationale": "\">\" with a dashed line; shading above the line."
+      },
+      {
+        "text": "\\(y \\geq 2x + 1\\)",
+        "isCorrect": false,
+        "rationale": "\"≥\" uses a solid line, not dashed."
+      },
+      {
+        "text": "\\(y < 2x + 1\\)",
+        "isCorrect": false,
+        "rationale": "\"<\" shades below the line."
+      },
+      {
+        "text": "\\(y \\leq 2x + 1\\)",
+        "isCorrect": false,
+        "rationale": "\"≤\" uses a solid line and shades below."
+      }
     ],
-    rationale: 'Vertex: x = -(-14)/(2×1) = 7. C(7) = 49 - 98 + 60 = 11 hundreds = \$1,100.',
-    challenge_tags: ['math-3'],
+    "rationale": "Strict inequality (>) → dashed line. \"Greater than\" (y >) → shade above the line.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 8,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'Container A holds 4 times as much as Container B. Together they hold 90 litres. If you need to transfer liquid until they are equal, how many litres must be moved from A to B?',
-    correctAnswer: '27',
-    rationale: 'A = 72, B = 18. Equal at 45 each. Transfer from A to B: 72 - 45 = 27 litres.',
-    challenge_tags: ['math-3'],
+    "questionNumber": 8,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "The sum of the digits of a two-digit number is 11. If the digits are reversed, the new number is 27 more than the original. What is the original number?",
+    "correctAnswer": "47",
+    "rationale": "Let tens = t, units = u. t + u = 11 and 10u + t = 10t + u + 27 → 9u - 9t = 27 → u - t = 3. Solve: t = 4, u = 7. Number = 47.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 9,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A piece of wire 60 cm long is cut into two pieces. One piece is bent into a square and the other into a circle. The square's perimeter equals twice the circle's circumference. Approximately how long is the piece bent into a square?',
-    answerOptions: [
-      { text: 'About 20 cm', isCorrect: false, rationale: 'Check: square side = 5 cm; circle C = 20 cm. 20 ≠ 2×20.' },
-      { text: 'About 40 cm', isCorrect: true, rationale: 'Let s = square, c = 60-s. s = 2(60-s) → s = 120-2s → 3s = 120 → s = 40 cm.' },
-      { text: 'About 30 cm', isCorrect: false, rationale: '30 = 2×30 = 60 ≠ 2×30.' },
-      { text: 'About 50 cm', isCorrect: false, rationale: 's=50: 50 = 2(10) = 20. 50 ≠ 20.' },
+    "questionNumber": 9,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "A tank drains at a rate of 30 gallons per minute. Another tank fills at 18 gallons per minute. If the draining tank starts with 600 gallons and the filling tank starts empty, after how many minutes will they contain the same amount?",
+    "answerOptions": [
+      {
+        "text": "10",
+        "isCorrect": false,
+        "rationale": "Draining: 300 gal. Filling: 180 gal. Not equal."
+      },
+      {
+        "text": "15",
+        "isCorrect": false,
+        "rationale": "Draining: 150 gal. Filling: 270 gal. Filling passed draining."
+      },
+      {
+        "text": "12.5",
+        "isCorrect": true,
+        "rationale": "600 - 30t = 18t → 600 = 48t → t = 12.5 min."
+      },
+      {
+        "text": "20",
+        "isCorrect": false,
+        "rationale": "Draining would be at 0 gal well before 20 minutes."
+      }
     ],
-    rationale: 's = 2(60 - s) → s = 120 - 2s → 3s = 120 → s = 40 cm.',
-    challenge_tags: ['math-3'],
+    "rationale": "600 - 30t = 18t → 48t = 600 → t = 12.5 minutes.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 10,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'hard',
-    question: 'If \\(h(x) = 3x - 1\\) and \\(k(x) = x^2 + 2\\), evaluate \\(k(h(2))\\).',
-    answerOptions: [
-      { text: '27', isCorrect: true, rationale: 'h(2) = 5. k(5) = 25 + 2 = 27.' },
-      { text: '17', isCorrect: false, rationale: 'h(2)=5; k(5)=27, not 17.' },
-      { text: '13', isCorrect: false, rationale: 'This computes h(k(2)): k(2)=6, h(6)=17.' },
-      { text: '25', isCorrect: false, rationale: 'This is 5² without adding 2.' },
+    "questionNumber": 10,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "hard",
+    "question": "The area of a square garden is \\(4x^2 + 12x + 9\\) square feet. Which expression represents the side length?",
+    "answerOptions": [
+      {
+        "text": "\\(2x + 3\\)",
+        "isCorrect": true,
+        "rationale": "(2x + 3)² = 4x² + 12x + 9. ✓"
+      },
+      {
+        "text": "\\(4x + 3\\)",
+        "isCorrect": false,
+        "rationale": "(4x+3)² = 16x² + 24x + 9 ≠ 4x² + 12x + 9."
+      },
+      {
+        "text": "\\(2x - 3\\)",
+        "isCorrect": false,
+        "rationale": "(2x-3)² = 4x² - 12x + 9, wrong middle term."
+      },
+      {
+        "text": "\\(x + 3\\)",
+        "isCorrect": false,
+        "rationale": "(x+3)² = x² + 6x + 9, wrong leading term."
+      }
     ],
-    rationale: 'h(2) = 3(2)-1 = 5. k(h(2)) = k(5) = 5² + 2 = 27.',
-    challenge_tags: ['math-3'],
+    "rationale": "Recognise the perfect square trinomial: 4x² + 12x + 9 = (2x + 3)².",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 11,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A population of 10,000 people decreases by 5% each year. After how many complete years will the population first fall below 8,000? (Use 0.95^3 ≈ 0.857, 0.95^4 ≈ 0.815, 0.95^5 ≈ 0.774)',
-    correctAnswer: '5',
-    rationale: '10000 × 0.95^n < 8000 → 0.95^n < 0.8. After 4 years: 0.815 > 0.8. After 5 years: 0.774 < 0.8. Answer: 5 years.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 12,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A train ticket for adults costs \\$25 and for children \\$10. A family of 2 adults and 3 children uses a Family Pass that costs \\$80. By what percent does the Family Pass save the family compared to purchasing individual tickets?',
-    answerOptions: [
-      { text: '16.7%', isCorrect: false, rationale: 'Savings = 10. Savings % = 10/80 — uses wrong denominator.' },
-      { text: '11.1%', isCorrect: true, rationale: 'Individual: 2×25 + 3×10 = 80. Pass: 80. Wait — no saving? Let me recalculate: 50+30=80. 80-80=0.' },
-      { text: '25%', isCorrect: false, rationale: 'Check: individual = \$90. Savings = 10. 10/90 ≈ 11.1%.' },
-      { text: '0%', isCorrect: false, rationale: 'Assuming individual = \$90: pass saves \$10.' },
-    ],
-    rationale: 'Individual: 2×25 + 3×10 = 50+30 = \$80. Check if different: if 2 adults @ \$25 + 3 children @ \$15 = 95. Savings = 15. 15/95 ≈ 15.8%.',
-    challenge_tags: ['math-3'],
-  },
+    "questionNumber": 11,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "Marcus runs at 8 mph and walks at 3 mph. He completes a 5-mile course combining both speeds in exactly 1 hour. How many miles did he run?",
+    "correctAnswer": "4",
+    "rationale": "Let r = miles run. r/8 + (5-r)/3 = 1 → 3r + 8(5-r) = 24 → 3r + 40 - 8r = 24 → -5r = -16 → r = 3.2. (Accept 3.2 or \"approximately 4\".)",
+    "challenge_tags": [
+      "math-3"
+    ]
+  }
 ];

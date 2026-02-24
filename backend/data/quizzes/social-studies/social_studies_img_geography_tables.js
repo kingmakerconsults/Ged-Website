@@ -3,148 +3,158 @@ module.exports = [
     "questionNumber": 1,
     "type": "multiple-choice-text",
     "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/unclassified_0059.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0059.png",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: A table categorizing five types of maps with their features and examples.\n\nDescription: This table is titled 'Types of Maps' and presents information in three columns: 'Type', 'Features', and 'Examples'. It lists five main types of maps: Political, Physical, Climate, Economic, and Thematic, detailing the characteristics and specific instances fo…\n\nText in image: Types of Maps Type: Political, Physical, Climate, Economic, Thematic Features Examples",
-      "imageURL": "/images/Social%20Studies/unclassified_0059.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "cartography",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "US boundaries",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
         "isCorrect": false
       },
       {
-        "text": "45th state",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
         "isCorrect": false
       },
       {
-        "text": "END SEGREGATED RULES IN PUBLIC SCHOOLS",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 2,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/unclassified_0059.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0059.png",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: A table categorizing five types of maps with their features and examples.\n\nDescription: This table is titled 'Types of Maps' and presents information in three columns: 'Type', 'Features', and 'Examples'. It lists five main types of maps: Political, Physical, Climate, Economic, and Thematic, detailing the characteristics and specific instances fo…\n\nText in image: Types of Maps Type: Political, Physical, Climate, Economic, Thematic Features Examples",
-      "imageURL": "/images/Social%20Studies/unclassified_0059.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "historic event and Type: Political",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Types of Maps and Type: Political",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "RUSSIANS ADVANCE and William Pitt the Younger",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
         "isCorrect": false
       },
       {
-        "text": "Types of Maps and William Pitt the Younger",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 3,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/unclassified_0061.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0061.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0053.png",
     "content": {
-      "passage": "Alt text: Table defining and giving examples of Formal, Functional, and Perceptual regions in geography.\n\nDescription: This table outlines three categories of geographical regions: Formal, Functional, and Perceptual. It is structured with three columns: 'Type,' 'Definition,' and 'Example.' Each row provides a specific type of region, its defining characteristics, and multiple…\n\nText in image: Types of Regions Type: Formal, Definition: Region with clearly defined natural, political, or cultural boundaries, Example: Natural: Rocky Mountains, Gulf Coast; Political: the United States, the Eurozone; Cultural: Lat…",
-      "imageURL": "/images/Social%20Studies/unclassified_0061.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their projected populations for 2050. The y-axis represents population in billions, from 0 to 6.0, while the x-axis lists the continents: Asia, Africa, Europe, Latin America an…\n\nText in image: World Population in 2013 and 2050 (in billions) Population (in billions) 6.0 5.5 5.16 5.0 4.5 4.30 4.0 3.5 3.0 2.5 2.39 2.0 1.5 1.11 1.0 0.5 0 Asia Africa Europe Latin America and Caribbean North America 0.74 0.71 0.62 …",
+      "imageURL": "/images/Social%20Studies/unclassified_0053.png",
+      "questionText": "Based on the image and description, which interpretation is most accurate?"
     },
     "answerOptions": [
       {
-        "text": "government relocation",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "historical image",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "1939 treaty",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Type: Functional",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "2013 and 2050",
+        "rationale": "Correct. The chart compares 2013 to projected 2050 values.",
         "isCorrect": true
+      },
+      {
+        "text": "1990 and 2010",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "2000 and 2020",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "2018 and 2050",
+        "rationale": "Incorrect. 2018 is not shown in the chart.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "questionText": "Based on the image and description, which interpretation is most accurate?"
   },
   {
     "questionNumber": 4,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/unclassified_0061.png",
-    "imageURL": "/images/Social%20Studies/unclassified_0061.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0119.png",
     "content": {
-      "passage": "Alt text: Table defining and giving examples of Formal, Functional, and Perceptual regions in geography.\n\nDescription: This table outlines three categories of geographical regions: Formal, Functional, and Perceptual. It is structured with three columns: 'Type,' 'Definition,' and 'Example.' Each row provides a specific type of region, its defining characteristics, and multiple…\n\nText in image: Types of Regions Type: Formal, Definition: Region with clearly defined natural, political, or cultural boundaries, Example: Natural: Rocky Mountains, Gulf Coast; Political: the United States, the Eurozone; Cultural: Lat…",
-      "imageURL": "/images/Social%20Studies/unclassified_0061.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten major U.S. cities, each with over one million residents as of July 1, 2014. Below the main bars, a supplementary table provides the exact population for each city, their total population incr…\n\nText in image: 1 Million Milestone. U.S. Cities: Population Million+ (July 2014). New York, Los Angeles, Chicago, Houston, Philadelphia, Phoenix, San Antonio, San Diego, Dallas, San Jose. Total increase since 2013. Percent increase. U…",
+      "imageURL": "/images/Social%20Studies/unclassified_0119.png",
+      "questionText": "Which claim is best supported by details visible in this source image?"
     },
     "answerOptions": [
       {
-        "text": "federal territories and American acquisitions",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "35th state and Type: Formal",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Types of Regions and American acquisitions",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Types of Regions and Type: Formal",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "July 1, 2014",
+        "rationale": "Correct. The chart specifies July 2014 for the population counts.",
         "isCorrect": true
+      },
+      {
+        "text": "January 1, 2000",
+        "rationale": "Incorrect. That date is not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "July 1, 2010",
+        "rationale": "Incorrect. The chart specifies July 2014, not 2010.",
+        "isCorrect": false
+      },
+      {
+        "text": "December 2013",
+        "rationale": "Incorrect. The chart uses July 2014 as the reference date.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "questionText": "Which claim is best supported by details visible in this source image?"
   }
 ];

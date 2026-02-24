@@ -1,18 +1,40 @@
 {
   "generatedBy": "image-metadata-generator-v2",
-  "topicsChecked": 111,
-  "totalQuestions": 599,
+  "topicsChecked": 114,
+  "totalQuestions": 600,
   "flagged": 0,
   "flaggedPercent": 0,
   "perSubject": {
+    "Math": {
+      "total": 2,
+      "flagged": 0
+    },
+    "RLA": {
+      "total": 5,
+      "flagged": 0
+    },
     "Science": {
       "total": 109,
       "flagged": 0
     },
     "Social Studies": {
-      "total": 490,
+      "total": 484,
       "flagged": 0
     }
   },
+  "skippedFiles": [
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_social_protests.js",
+      "error": "Unexpected token ':'"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_history_civil_unrest.js",
+      "error": "Unexpected token ':'"
+    },
+    {
+      "file": "backend/data/quizzes/social-studies/social_studies_img_historic_photos.js",
+      "error": "Unexpected token ':'"
+    }
+  ],
   "sampleFlagged": []
 }

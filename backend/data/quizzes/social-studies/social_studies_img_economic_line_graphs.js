@@ -3,111 +3,120 @@ module.exports = [
     "questionNumber": 1,
     "type": "multiple-choice-text",
     "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/great_depression_0002.png",
-    "imageURL": "/images/Social%20Studies/great_depression_0002.png",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: Line graph showing per capita income for ten countries, 1925-1940, with markers indicating when each left the Gold Standard.\n\nDescription: This line graph displays per capita income in 1996 international dollars (at PPP) for ten different countries from 1925 to 1940. Each country's income trend is represented by a distinct line style and color. Black triangular markers on specific lines indicate…\n\nText in image: Per capita income, 1996 international dollars (at PPP) $10 000 $8 000 $6 000 $4 000 \(2 000 1925 1930 1935 1940 United States United Kingdom Belgium France Argentina Germany Italy Hungary Japan Brazil marks point at whic…",
-      "imageURL": "/images/Social%20Studies/great_depression_0002.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "economic trends",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "U.S.",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
         "isCorrect": false
       },
       {
-        "text": "public policy",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
         "isCorrect": false
       },
       {
-        "text": "Anti-draft",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 2,
     "type": "multiple-choice-text",
-    "difficulty": "medium",
-    "imageUrl": "/images/Social%20Studies/great_depression_0002.png",
-    "imageURL": "/images/Social%20Studies/great_depression_0002.png",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: Line graph showing per capita income for ten countries, 1925-1940, with markers indicating when each left the Gold Standard.\n\nDescription: This line graph displays per capita income in 1996 international dollars (at PPP) for ten different countries from 1925 to 1940. Each country's income trend is represented by a distinct line style and color. Black triangular markers on specific lines indicate…\n\nText in image: Per capita income, 1996 international dollars (at PPP) \)10 000 $8 000 $6 000 $4 000 $2 000 1925 1930 1935 1940 United States United Kingdom Belgium France Argentina Germany Italy Hungary Japan Brazil marks point at whic…",
-      "imageURL": "/images/Social%20Studies/great_depression_0002.png",
-      "questionText": "Which year appears in the visual text/labels?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "1940",
-        "rationale": "Incorrect. That year is not shown in the image text/labels.",
-        "isCorrect": false
-      },
-      {
-        "text": "1945",
-        "rationale": "Incorrect. That year is not shown in the image text/labels.",
-        "isCorrect": false
-      },
-      {
-        "text": "1935",
-        "rationale": "Correct. The year 1935 appears in the image text/labels.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "1783",
-        "rationale": "Incorrect. That year is not shown in the image text/labels.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 3,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/great_depression_0002.png",
-    "imageURL": "/images/Social%20Studies/great_depression_0002.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0053.png",
     "content": {
-      "passage": "Alt text: Line graph showing per capita income for ten countries, 1925-1940, with markers indicating when each left the Gold Standard.\n\nDescription: This line graph displays per capita income in 1996 international dollars (at PPP) for ten different countries from 1925 to 1940. Each country's income trend is represented by a distinct line style and color. Black triangular markers on specific lines indicate…\n\nText in image: Per capita income, 1996 international dollars (at PPP) $10 000 $8 000 $6 000 $4 000 $2 000 1925 1930 1935 1940 United States United Kingdom Belgium France Argentina Germany Italy Hungary Japan Brazil marks point at whic…",
-      "imageURL": "/images/Social%20Studies/great_depression_0002.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their projected populations for 2050. The y-axis represents population in billions, from 0 to 6.0, while the x-axis lists the continents: Asia, Africa, Europe, Latin America an…\n\nText in image: World Population in 2013 and 2050 (in billions) Population (in billions) 6.0 5.5 5.16 5.0 4.5 4.30 4.0 3.5 3.0 2.5 2.39 2.0 1.5 1.11 1.0 0.5 0 Asia Africa Europe Latin America and Caribbean North America 0.74 0.71 0.62 …",
+      "imageURL": "/images/Social%20Studies/unclassified_0053.png",
+      "questionText": "Based on the image and description, which interpretation is most accurate?"
     },
     "answerOptions": [
       {
-        "text": "Per capita income and Supreme Court",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Spanish control and GDP PPP",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Per capita income and GDP PPP",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "2013 and 2050",
+        "rationale": "Correct. The chart compares 2013 to projected 2050 values.",
         "isCorrect": true
       },
       {
-        "text": "number of cases and Supreme Court",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
+        "text": "1990 and 2010",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "2000 and 2020",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "2018 and 2050",
+        "rationale": "Incorrect. 2018 is not shown in the chart.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
       "social:3"
-    ]
+    ],
+    "questionText": "Based on the image and description, which interpretation is most accurate?"
   }
 ];

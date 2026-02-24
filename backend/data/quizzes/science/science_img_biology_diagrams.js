@@ -3,888 +3,918 @@ module.exports = [
     "questionNumber": 1,
     "type": "multiple-choice-text",
     "difficulty": "easy",
-    "imageUrl": "/images/Science/ged_scince_fig_4_0001.png",
-    "imageURL": "/images/Science/ged_scince_fig_4_0001.png",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: A diagram illustrating the process of photosynthesis within a chloroplast, showing light-dependent reactions and the Calvin cycle.\n\nDescription: This diagram visually represents the two main stages of photosynthesis occurring within a chloroplast. It shows how light, water, and carbon dioxide are converted into oxygen and sugar. Arrows indicate the flow of reactants and products, highlighting the inte…",
-      "imageURL": "/images/Science/ged_scince_fig_4_0001.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "oral biology",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "light-dependent reactions",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "Parental cell",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
         "isCorrect": false
       },
       {
-        "text": "Squirrel Monkey",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 2,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/ged_scince_fig_4_0001.png",
-    "imageURL": "/images/Science/ged_scince_fig_4_0001.png",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: A diagram illustrating the process of photosynthesis within a chloroplast, showing light-dependent reactions and the Calvin cycle.\n\nDescription: This diagram visually represents the two main stages of photosynthesis occurring within a chloroplast. It shows how light, water, and carbon dioxide are converted into oxygen and sugar. Arrows indicate the flow of reactants and products, highlighting the inte…",
-      "imageURL": "/images/Science/ged_scince_fig_4_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "integumentary system and chloroplast",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Ocean and wavelength",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "photosynthesis and chloroplast",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "photosynthesis and wavelength",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "subject": "Social Studies",
+    "contentArea": "data_interpretation",
+    "originQuizId": "social_studies_img_bar_graphs",
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 3,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/genetics_0001.png",
-    "imageURL": "/images/Science/genetics_0001.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0053.png",
     "content": {
-      "passage": "Alt text: A Punnett square showing the inheritance of flower color, with purple (dominant B) and white (recessive b) flowers.\n\nDescription: This image displays a Punnett square illustrating the cross between two heterozygous parents (Bb) for flower color. The grid shows the possible genotypes (BB, Bb, bb) and corresponding phenotypes (purple or white flowers) for the offspring. Parental gametes f…\n\nText in image: pollen, ♂, B, b, pistil, ♀, B, b, BB, Bb, Bb, bb",
-      "imageURL": "/images/Science/genetics_0001.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their projected populations for 2050. The y-axis represents population in billions, from 0 to 6.0, while the x-axis lists the continents: Asia, Africa, Europe, Latin America an…\n\nText in image: World Population in 2013 and 2050 (in billions) Population (in billions) 6.0 5.5 5.16 5.0 4.5 4.30 4.0 3.5 3.0 2.5 2.39 2.0 1.5 1.11 1.0 0.5 0 Asia Africa Europe Latin America and Caribbean North America 0.74 0.71 0.62 …",
+      "imageURL": "/images/Social%20Studies/unclassified_0053.png",
+      "questionText": "Based on the image and description, which interpretation is most accurate?"
     },
     "answerOptions": [
       {
-        "text": "Transform boundary",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "pistil",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "2013 and 2050",
+        "rationale": "Correct. The chart compares 2013 to projected 2050 values.",
         "isCorrect": true
       },
       {
-        "text": "gamma rays",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "1990 and 2010",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
         "isCorrect": false
       },
       {
-        "text": "abiotic factors",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "2000 and 2020",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "2018 and 2050",
+        "rationale": "Incorrect. 2018 is not shown in the chart.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Based on the image and description, which interpretation is most accurate?"
   },
   {
     "questionNumber": 4,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/genetics_0001.png",
-    "imageURL": "/images/Science/genetics_0001.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0119.png",
     "content": {
-      "passage": "Alt text: A Punnett square showing the inheritance of flower color, with purple (dominant B) and white (recessive b) flowers.\n\nDescription: This image displays a Punnett square illustrating the cross between two heterozygous parents (Bb) for flower color. The grid shows the possible genotypes (BB, Bb, bb) and corresponding phenotypes (purple or white flowers) for the offspring. Parental gametes f…\n\nText in image: pollen, ♂, B, b, pistil, ♀, B, b, BB, Bb, Bb, bb",
-      "imageURL": "/images/Science/genetics_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten major U.S. cities, each with over one million residents as of July 1, 2014. Below the main bars, a supplementary table provides the exact population for each city, their total population incr…\n\nText in image: 1 Million Milestone. U.S. Cities: Population Million+ (July 2014). New York, Los Angeles, Chicago, Houston, Philadelphia, Phoenix, San Antonio, San Diego, Dallas, San Jose. Total increase since 2013. Percent increase. U…",
+      "imageURL": "/images/Social%20Studies/unclassified_0119.png",
+      "questionText": "Which claim is best supported by details visible in this source image?"
     },
     "answerOptions": [
       {
-        "text": "pollen and Force",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "pollen and pistil",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "July 1, 2014",
+        "rationale": "Correct. The chart specifies July 2014 for the population counts.",
         "isCorrect": true
       },
       {
-        "text": "material science and Force",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
+        "text": "January 1, 2000",
+        "rationale": "Incorrect. That date is not shown in the chart.",
         "isCorrect": false
       },
       {
-        "text": "medical chart and pistil",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "July 1, 2010",
+        "rationale": "Incorrect. The chart specifies July 2014, not 2010.",
+        "isCorrect": false
+      },
+      {
+        "text": "December 2013",
+        "rationale": "Incorrect. The chart uses July 2014 as the reference date.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which claim is best supported by details visible in this source image?"
   },
   {
     "questionNumber": 5,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/human_anatomy_0001.png",
-    "imageURL": "/images/Science/human_anatomy_0001.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
+    "imageURL": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
     "content": {
-      "passage": "Alt text: A posterior view diagram of the human nervous system, showing major peripheral nerves and plexuses.\n\nDescription: This image displays a posterior view of the human nervous system, highlighting the brain, spinal cord, and numerous peripheral nerves extending throughout the body. Key nerve plexuses like the brachial, lumbar, and sacral plexuses, along with individual nerve…\n\nText in image: Brain, Spinal cord, Cerebellum, Brachial plexus, Lumbar plexus, Sacral plexus, Sciatic nerve, Femoral nerve, Radial nerve, Median nerve, Ulnar nerve, Tibial nerve, Peroneal nerves, Intercostal nerves.",
-      "imageURL": "/images/Science/human_anatomy_0001.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Bar chart showing differences in nonfarm employment estimates after benchmarking from March 2009 to March 2018.\n\nDescription: This bar chart displays the differences in nonfarm employment estimates after benchmarking for each year from 2009 to 2018. The X-axis represents the years, while the Y-axis shows the employment difference, ranging from -1,000,000 to 1,000,000. Blue bars exte…\n\nText in image: Differences in nonfarm employment estimates after benchmarking, March 2009–March 2018. Source: U.S. Bureau of Labor Statistics.",
+      "imageURL": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
+      "questionText": "What is the most defensible interpretation of this visual in context?"
     },
     "answerOptions": [
       {
-        "text": "(Not to Scale)",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Oxygen",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "chemical compounds",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Median nerve",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "March 2009–March 2018",
+        "rationale": "Correct. The title specifies March 2009–March 2018.",
         "isCorrect": true
+      },
+      {
+        "text": "1990–2000",
+        "rationale": "Incorrect. That span is not shown in the title.",
+        "isCorrect": false
+      },
+      {
+        "text": "2010–2020",
+        "rationale": "Incorrect. That span is not shown in the title.",
+        "isCorrect": false
+      },
+      {
+        "text": "2005–2015",
+        "rationale": "Incorrect. That span is not shown in the title.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "What is the most defensible interpretation of this visual in context?"
   },
   {
     "questionNumber": 6,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/human_anatomy_0001.png",
-    "imageURL": "/images/Science/human_anatomy_0001.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0053.png",
     "content": {
-      "passage": "Alt text: A posterior view diagram of the human nervous system, showing major peripheral nerves and plexuses.\n\nDescription: This image displays a posterior view of the human nervous system, highlighting the brain, spinal cord, and numerous peripheral nerves extending throughout the body. Key nerve plexuses like the brachial, lumbar, and sacral plexuses, along with individual nerve…\n\nText in image: Brain, Spinal cord, Cerebellum, Brachial plexus, Lumbar plexus, Sacral plexus, Sciatic nerve, Femoral nerve, Radial nerve, Median nerve, Ulnar nerve, Tibial nerve, Peroneal nerves, Intercostal nerves.",
-      "imageURL": "/images/Science/human_anatomy_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their projected populations for 2050. The y-axis represents population in billions, from 0 to 6.0, while the x-axis lists the continents: Asia, Africa, Europe, Latin America an…\n\nText in image: World Population in 2013 and 2050 (in billions) Population (in billions) 6.0 5.5 5.16 5.0 4.5 4.30 4.0 3.5 3.0 2.5 2.39 2.0 1.5 1.11 1.0 0.5 0 Asia Africa Europe Latin America and Caribbean North America 0.74 0.71 0.62 …",
+      "imageURL": "/images/Social%20Studies/unclassified_0053.png",
+      "questionText": "Which explanation best matches the evidence shown in the visual source?"
     },
     "answerOptions": [
       {
-        "text": "Brain and no content",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "velocity and no content",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Brain and Spinal cord",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "2013 and 2050",
+        "rationale": "Correct. The chart compares 2013 to projected 2050 values.",
         "isCorrect": true
       },
       {
-        "text": "increasing energy. Table: 1 and Spinal cord",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "1990 and 2010",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "2000 and 2020",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "2018 and 2050",
+        "rationale": "Incorrect. 2018 is not shown in the chart.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 7,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/human_body_0004.png",
-    "imageURL": "/images/Science/human_body_0004.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0119.png",
     "content": {
-      "passage": "Alt text: Labeled diagram of the human heart showing four chambers, major vessels, and blood flow direction.\n\nDescription: This is a cutaway diagram of the human heart, illustrating its four chambers and the large blood vessels connected to it. Blue areas generally represent deoxygenated blood, while pink and red areas represent oxygenated blood. White arrows indicate the directi…\n\nText in image: Aorta, Left Atrium, Right Atrium, Left Ventricle, Right Ventricle",
-      "imageURL": "/images/Science/human_body_0004.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten major U.S. cities, each with over one million residents as of July 1, 2014. Below the main bars, a supplementary table provides the exact population for each city, their total population incr…\n\nText in image: 1 Million Milestone. U.S. Cities: Population Million+ (July 2014). New York, Los Angeles, Chicago, Houston, Philadelphia, Phoenix, San Antonio, San Diego, Dallas, San Jose. Total increase since 2013. Percent increase. U…",
+      "imageURL": "/images/Social%20Studies/unclassified_0119.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "Bitter",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "B-lymphocyte",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Carbon cycle",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "vessels",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "July 1, 2014",
+        "rationale": "Correct. The chart specifies July 2014 for the population counts.",
         "isCorrect": true
+      },
+      {
+        "text": "January 1, 2000",
+        "rationale": "Incorrect. That date is not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "July 1, 2010",
+        "rationale": "Incorrect. The chart specifies July 2014, not 2010.",
+        "isCorrect": false
+      },
+      {
+        "text": "December 2013",
+        "rationale": "Incorrect. The chart uses July 2014 as the reference date.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "What inference about the historical or civic context is best supported by this image?"
   },
   {
     "questionNumber": 8,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/human_body_0004.png",
-    "imageURL": "/images/Science/human_body_0004.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
+    "imageURL": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
     "content": {
-      "passage": "Alt text: Labeled diagram of the human heart showing four chambers, major vessels, and blood flow direction.\n\nDescription: This is a cutaway diagram of the human heart, illustrating its four chambers and the large blood vessels connected to it. Blue areas generally represent deoxygenated blood, while pink and red areas represent oxygenated blood. White arrows indicate the directi…\n\nText in image: Aorta, Left Atrium, Right Atrium, Left Ventricle, Right Ventricle",
-      "imageURL": "/images/Science/human_body_0004.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Bar chart showing differences in nonfarm employment estimates after benchmarking from March 2009 to March 2018.\n\nDescription: This bar chart displays the differences in nonfarm employment estimates after benchmarking for each year from 2009 to 2018. The X-axis represents the years, while the Y-axis shows the employment difference, ranging from -1,000,000 to 1,000,000. Blue bars exte…\n\nText in image: Differences in nonfarm employment estimates after benchmarking, March 2009–March 2018. Source: U.S. Bureau of Labor Statistics.",
+      "imageURL": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "Aorta and Left Atrium",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "March 2009–March 2018",
+        "rationale": "Correct. The title specifies March 2009–March 2018.",
         "isCorrect": true
       },
       {
-        "text": "oceanography and sugar-phosphate backbone",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
+        "text": "1990–2000",
+        "rationale": "Incorrect. That span is not shown in the title.",
         "isCorrect": false
       },
       {
-        "text": "speed of light and Left Atrium",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "2010–2020",
+        "rationale": "Incorrect. That span is not shown in the title.",
         "isCorrect": false
       },
       {
-        "text": "Aorta and sugar-phosphate backbone",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "2005–2015",
+        "rationale": "Incorrect. That span is not shown in the title.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Based on the image and description, which interpretation is most accurate?"
   },
   {
     "questionNumber": 9,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/licensed_image_0002.jpg",
-    "imageURL": "/images/Science/licensed_image_0002.jpg",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0053.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0053.png",
     "content": {
-      "passage": "Alt text: A labeled diagram of a typical animal cell showing its various organelles.\n\nDescription: This brightly colored diagram illustrates the internal structure of an animal cell. A large blue circle represents the cell, with numerous organelles, each clearly labeled with a connecting line. The diagram aims to educate on the different components of an a…\n\nText in image: Animal Cell Diagram, rough endoplasmic reticulum, smooth endoplasmic reticulum, nucleolus, nucleus, Golgi apparatus, centrosome, cytoplasm, ribosome, mitochondria, microtubule, lysosome, vacuole",
-      "imageURL": "/images/Science/licensed_image_0002.jpg",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: A bar chart showing world population in 2013 and projected for 2050 across five continents, in billions.\n\nDescription: This double bar chart illustrates the population of various continents in 2013 and their projected populations for 2050. The y-axis represents population in billions, from 0 to 6.0, while the x-axis lists the continents: Asia, Africa, Europe, Latin America an…\n\nText in image: World Population in 2013 and 2050 (in billions) Population (in billions) 6.0 5.5 5.16 5.0 4.5 4.30 4.0 3.5 3.0 2.5 2.39 2.0 1.5 1.11 1.0 0.5 0 Asia Africa Europe Latin America and Caribbean North America 0.74 0.71 0.62 …",
+      "imageURL": "/images/Social%20Studies/unclassified_0053.png",
+      "questionText": "Based on the image and description, which interpretation is most accurate?"
     },
     "answerOptions": [
       {
-        "text": "cladogram",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "vacuole",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "2013 and 2050",
+        "rationale": "Correct. The chart compares 2013 to projected 2050 values.",
         "isCorrect": true
       },
       {
-        "text": "genetic trait",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "1990 and 2010",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
         "isCorrect": false
       },
       {
-        "text": "Organisms",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "2000 and 2020",
+        "rationale": "Incorrect. Those years are not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "2018 and 2050",
+        "rationale": "Incorrect. 2018 is not shown in the chart.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which claim is best supported by details visible in this source image?"
   },
   {
     "questionNumber": 10,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/licensed_image_0002.jpg",
-    "imageURL": "/images/Science/licensed_image_0002.jpg",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0119.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0119.png",
     "content": {
-      "passage": "Alt text: A labeled diagram of a typical animal cell showing its various organelles.\n\nDescription: This brightly colored diagram illustrates the internal structure of an animal cell. A large blue circle represents the cell, with numerous organelles, each clearly labeled with a connecting line. The diagram aims to educate on the different components of an a…\n\nText in image: Animal Cell Diagram, rough endoplasmic reticulum, smooth endoplasmic reticulum, nucleolus, nucleus, Golgi apparatus, centrosome, cytoplasm, ribosome, mitochondria, microtubule, lysosome, vacuole",
-      "imageURL": "/images/Science/licensed_image_0002.jpg",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Bar chart displays population data for 10 major U.S. cities, showing population as of 2014, and recent population increase.\n\nDescription: This image presents a bar chart illustrating the populations of ten major U.S. cities, each with over one million residents as of July 1, 2014. Below the main bars, a supplementary table provides the exact population for each city, their total population incr…\n\nText in image: 1 Million Milestone. U.S. Cities: Population Million+ (July 2014). New York, Los Angeles, Chicago, Houston, Philadelphia, Phoenix, San Antonio, San Diego, Dallas, San Jose. Total increase since 2013. Percent increase. U…",
+      "imageURL": "/images/Social%20Studies/unclassified_0119.png",
+      "questionText": "Which claim is best supported by details visible in this source image?"
     },
     "answerOptions": [
       {
-        "text": "cytosine and atmospheric pressure",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "quadrillion Btu and rough endoplasmic reticulum",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Animal Cell Diagram and rough endoplasmic reticulum",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "July 1, 2014",
+        "rationale": "Correct. The chart specifies July 2014 for the population counts.",
         "isCorrect": true
       },
       {
-        "text": "Animal Cell Diagram and atmospheric pressure",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "January 1, 2000",
+        "rationale": "Incorrect. That date is not shown in the chart.",
+        "isCorrect": false
+      },
+      {
+        "text": "July 1, 2010",
+        "rationale": "Incorrect. The chart specifies July 2014, not 2010.",
+        "isCorrect": false
+      },
+      {
+        "text": "December 2013",
+        "rationale": "Incorrect. The chart uses July 2014 as the reference date.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "What is the most defensible interpretation of this visual in context?"
   },
   {
     "questionNumber": 11,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/punnett_square_0002.png",
-    "imageURL": "/images/Science/punnett_square_0002.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
+    "imageURL": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
     "content": {
-      "passage": "Alt text: Diagram illustrating a dihybrid cross using Punnett squares and a probability tree to show offspring genotypes.\n\nDescription: This image presents a genetics problem involving a dihybrid cross of two heterozygous parents (RrYy x RrYy). On the left, two Punnett squares separately demonstrate the inheritance of the 'R' alleles and 'Y' alleles. On the right, a probability tree diagram s…\n\nText in image: RrYy x RrYy, R, r, Y, y, RR, Rr, rr, YY, Yy, yy, 1/4, 1/2, 1/8, 1/16, RRYY, RRYy, RRyy, RrYY, RrYy, Rryy, rrYY, rrYy, rryy.",
-      "imageURL": "/images/Science/punnett_square_0002.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Bar chart showing differences in nonfarm employment estimates after benchmarking from March 2009 to March 2018.\n\nDescription: This bar chart displays the differences in nonfarm employment estimates after benchmarking for each year from 2009 to 2018. The X-axis represents the years, while the Y-axis shows the employment difference, ranging from -1,000,000 to 1,000,000. Blue bars exte…\n\nText in image: Differences in nonfarm employment estimates after benchmarking, March 2009–March 2018. Source: U.S. Bureau of Labor Statistics.",
+      "imageURL": "/images/Social%20Studies/what_is_benchmarking_of_bureau_of_labor_statisti_0001.png",
+      "questionText": "What is the most defensible interpretation of this visual in context?"
     },
     "answerOptions": [
       {
-        "text": "Animal Cell Diagram",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "primate evolution",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "science",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "March 2009–March 2018",
+        "rationale": "Correct. The title specifies March 2009–March 2018.",
         "isCorrect": true
       },
       {
-        "text": "phagocytosis",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "1990–2000",
+        "rationale": "Incorrect. That span is not shown in the title.",
+        "isCorrect": false
+      },
+      {
+        "text": "2010–2020",
+        "rationale": "Incorrect. That span is not shown in the title.",
+        "isCorrect": false
+      },
+      {
+        "text": "2005–2015",
+        "rationale": "Incorrect. That span is not shown in the title.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which explanation best matches the evidence shown in the visual source?"
   },
   {
     "questionNumber": 12,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/punnett_square_0002.png",
-    "imageURL": "/images/Science/punnett_square_0002.png",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: Diagram illustrating a dihybrid cross using Punnett squares and a probability tree to show offspring genotypes.\n\nDescription: This image presents a genetics problem involving a dihybrid cross of two heterozygous parents (RrYy x RrYy). On the left, two Punnett squares separately demonstrate the inheritance of the 'R' alleles and 'Y' alleles. On the right, a probability tree diagram s…\n\nText in image: RrYy x RrYy, R, r, Y, y, RR, Rr, rr, YY, Yy, yy, 1/4, 1/2, 1/8, 1/16, RRYY, RRYy, RRyy, RrYY, RrYy, Rryy, rrYY, rrYy, rryy.",
-      "imageURL": "/images/Science/punnett_square_0002.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "Which explanation best matches the evidence shown in the visual source?"
     },
     "answerOptions": [
       {
-        "text": "T-lymphocyte and MOUNTAINS",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "RrYy x RrYy and MOUNTAINS",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "mass and RRYY",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "RrYy x RrYy and RRYY",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
+      },
+      {
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
+        "isCorrect": false
+      },
+      {
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
+        "isCorrect": false
+      },
+      {
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which explanation best matches the evidence shown in the visual source?"
   },
   {
     "questionNumber": 13,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/questions_are_based_on_the_following_graph_6_0001.png",
-    "imageURL": "/images/Science/questions_are_based_on_the_following_graph_6_0001.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
+    "imageURL": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
     "content": {
-      "passage": "Alt text: Diagram comparing the processes of mitosis and meiosis, showing cell division stages.\n\nDescription: This diagram illustrates the two main types of cell division: mitosis on the left and meiosis on the right. It shows a parental cell at the top undergoing DNA replication, followed by one cell division in mitosis resulting in two diploid daughter cells. In co…\n\nText in image: Mitosis Parental cell Meiosis Replication Cell division 2n daughter cells Replication Cell division Cell division",
-      "imageURL": "/images/Science/questions_are_based_on_the_following_graph_6_0001.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Horizontal bar graph showing incidence rates and number of nonfatal occupational injuries/illnesses by industry in 2016.\n\nDescription: This image displays a horizontal bar graph illustrating nonfatal occupational injuries and illnesses in 2016 across various private industry sectors. Each industry sector has two associated bars: a purple bar representing the incidence rate per 100 full-time …\n\nText in image: Incidence rates and numbers of nonfatal occupational injuries and illnesses by private industry sector, 2016. Incidence rate (per 100 full-time workers). Number of cases (in thousands).",
+      "imageURL": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "Elevation",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Family planning",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Parental cell",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Incidence rate per 100 full-time workers and number of cases (thousands)",
+        "rationale": "Correct. The chart shows incidence rate and number of cases.",
         "isCorrect": true
       },
       {
-        "text": "Tibial nerve",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Average wage and total payroll",
+        "rationale": "Incorrect. The chart does not show wages or payroll.",
+        "isCorrect": false
+      },
+      {
+        "text": "Hours worked and production output",
+        "rationale": "Incorrect. The chart is about injuries, not production.",
+        "isCorrect": false
+      },
+      {
+        "text": "Injury severity and worker satisfaction",
+        "rationale": "Incorrect. Those measures are not shown.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 14,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/questions_are_based_on_the_following_graph_6_0001.png",
-    "imageURL": "/images/Science/questions_are_based_on_the_following_graph_6_0001.png",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: Diagram comparing the processes of mitosis and meiosis, showing cell division stages.\n\nDescription: This diagram illustrates the two main types of cell division: mitosis on the left and meiosis on the right. It shows a parental cell at the top undergoing DNA replication, followed by one cell division in mitosis resulting in two diploid daughter cells. In co…\n\nText in image: Mitosis Parental cell Meiosis Replication Cell division 2n daughter cells Replication Cell division Cell division",
-      "imageURL": "/images/Science/questions_are_based_on_the_following_graph_6_0001.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "Mitosis and Meiosis",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "Blood Type Alleles: and DIVERGENT PLATE BOUNDARY",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
         "isCorrect": false
       },
       {
-        "text": "Atmosphere and Meiosis",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
         "isCorrect": false
       },
       {
-        "text": "Mitosis and DIVERGENT PLATE BOUNDARY",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 15,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/unclassified_0021.png",
-    "imageURL": "/images/Science/unclassified_0021.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
+    "imageURL": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
     "content": {
-      "passage": "Alt text: A grayscale ecological pyramid illustrating different trophic levels from producers to top carnivores, with decomposers below.\n\nDescription: This image displays a grayscale ecological pyramid organized into four main trophic levels, with an additional base layer for decomposers. Each level is labeled with its ecological role and examples of organisms. The pyramid shows the flow of energy from prod…\n\nText in image: Top Carnivores/Tertiary Consumers, Carnivores/Secondary Consumers/Omnivores, Herbivores/Primary Consumers, Photosynthesis/Primary Producers, Soils/Decomposers",
-      "imageURL": "/images/Science/unclassified_0021.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Horizontal bar graph showing incidence rates and number of nonfatal occupational injuries/illnesses by industry in 2016.\n\nDescription: This image displays a horizontal bar graph illustrating nonfatal occupational injuries and illnesses in 2016 across various private industry sectors. Each industry sector has two associated bars: a purple bar representing the incidence rate per 100 full-time …\n\nText in image: Incidence rates and numbers of nonfatal occupational injuries and illnesses by private industry sector, 2016. Incidence rate (per 100 full-time workers). Number of cases (in thousands).",
+      "imageURL": "/images/Social%20Studies/recent_improvements_to_bls_occupational_safety_a_0001.png",
+      "questionText": "Based on the image and description, which interpretation is most accurate?"
     },
     "answerOptions": [
       {
-        "text": "GREEN PLANT",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "comparison",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "ecosystem",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Incidence rate per 100 full-time workers and number of cases (thousands)",
+        "rationale": "Correct. The chart shows incidence rate and number of cases.",
         "isCorrect": true
       },
       {
-        "text": "environment",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Average wage and total payroll",
+        "rationale": "Incorrect. The chart does not show wages or payroll.",
+        "isCorrect": false
+      },
+      {
+        "text": "Hours worked and production output",
+        "rationale": "Incorrect. The chart is about injuries, not production.",
+        "isCorrect": false
+      },
+      {
+        "text": "Injury severity and worker satisfaction",
+        "rationale": "Incorrect. Those measures are not shown.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "What inference about the historical or civic context is best supported by this image?"
   },
   {
     "questionNumber": 16,
     "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Science/unclassified_0021.png",
-    "imageURL": "/images/Science/unclassified_0021.png",
+    "difficulty": "easy",
+    "imageUrl": "/images/Social%20Studies/ged_grsph_0001.png",
+    "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
     "content": {
-      "passage": "Alt text: A grayscale ecological pyramid illustrating different trophic levels from producers to top carnivores, with decomposers below.\n\nDescription: This image displays a grayscale ecological pyramid organized into four main trophic levels, with an additional base layer for decomposers. Each level is labeled with its ecological role and examples of organisms. The pyramid shows the flow of energy from prod…\n\nText in image: Top Carnivores/Tertiary Consumers, Carnivores/Secondary Consumers/Omnivores, Herbivores/Primary Consumers, Photosynthesis/Primary Producers, Soils/Decomposers",
-      "imageURL": "/images/Science/unclassified_0021.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Two bar graphs displaying lengths and drainage areas for seven major U.S. rivers.\n\nDescription: The image contains two side-by-side bar graphs comparing attributes of major U.S. rivers. The left graph shows the length of each river in miles, while the right graph illustrates the drainage basin area for the same rivers in thousands of square miles. The x…\n\nText in image: Lengths of Major U.S. Rivers, Length (miles), River, Drainage Areas of Major U.S. Rivers, Drainage Basin (1,000 square miles), Missouri, Mississippi, Yukon",
+      "imageURL": "/images/Social%20Studies/ged_grsph_0001.png",
+      "questionText": "Which claim is best supported by details visible in this source image?"
     },
     "answerOptions": [
       {
-        "text": "Top Carnivores/Tertiary Consumers and Carnivores/Secondary Consumers/Omnivores",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Lengths of major U.S. rivers and their drainage basin areas",
+        "rationale": "Correct. One graph shows river length and the other shows drainage area.",
         "isCorrect": true
       },
       {
-        "text": "exercise physiology and Figure 10-3: The water cycle.",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
+        "text": "Average annual rainfall by region",
+        "rationale": "Incorrect. The charts are about river length and drainage area.",
         "isCorrect": false
       },
       {
-        "text": "Top Carnivores/Tertiary Consumers and Figure 10-3: The water cycle.",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "State population growth rates",
+        "rationale": "Incorrect. The charts focus on rivers, not population.",
         "isCorrect": false
       },
       {
-        "text": "Thymine (T) and Carnivores/Secondary Consumers/Omnivores",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "Shipping costs by port",
+        "rationale": "Incorrect. The charts do not show shipping costs.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Based on the image and description, which interpretation is most accurate?"
   },
   {
     "questionNumber": 17,
     "type": "multiple-choice-text",
     "difficulty": "easy",
-    "imageUrl": "/images/Science/unclassified_0033.png",
-    "imageURL": "/images/Science/unclassified_0033.png",
+    "imageUrl": "/images/Social%20Studies/unclassified_0021.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0021.png",
     "content": {
-      "passage": "Alt text: A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth.\n\nDescription: This diagram visually represents the global carbon cycle, showing how carbon moves through different reservoirs. It depicts atmospheric carbon dioxide (CO2), sunlight, and key biological processes such as photosynthesis and respiration in plants and animals. …\n\nText in image: The Carbon Cycle, Sunlight, CO2 cycle, Photosynthesis, Organic carbon, Decay organisms, Animal respiration, Dead organisms and waste products, Fossils and fossil fuels, Plant respiration, Root respiration, Auto and fact…",
-      "imageURL": "/images/Science/unclassified_0033.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Map showing U.S. territories in 1838 with Iowa Territory highlighted.\n\nDescription: This historical map depicts the United States and its territories on July 3, 1838. Iowa Territory is shaded and outlined, showing that it was organized from the western half of Wisconsin Territory. The map includes labels for Iowa Territory and Wisconsin Territory.\n\nText in image: Iowa Territory, Wisconsin Territory, July 3, 1838.",
+      "imageURL": "/images/Social%20Studies/unclassified_0021.png",
+      "questionText": "What is the most defensible interpretation of this visual in context?"
     },
     "answerOptions": [
       {
-        "text": "Femoral nerve",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Respiration",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Iowa Territory",
+        "rationale": "Correct. Iowa Territory is the shaded area shown on the map.",
         "isCorrect": true
       },
       {
-        "text": "molecule",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Wisconsin Territory",
+        "rationale": "Incorrect. Wisconsin Territory appears on the map but is not the shaded territory.",
         "isCorrect": false
       },
       {
-        "text": "Aluminum. Missing values X and Z.",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Arkansas Territory",
+        "rationale": "Incorrect. Arkansas Territory is not the highlighted area.",
+        "isCorrect": false
+      },
+      {
+        "text": "Missouri Territory",
+        "rationale": "Incorrect. Missouri Territory is not shown as the highlighted territory.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "What is the most defensible interpretation of this visual in context?"
   },
   {
     "questionNumber": 18,
     "type": "multiple-choice-text",
     "difficulty": "hard",
-    "imageUrl": "/images/Science/unclassified_0033.png",
-    "imageURL": "/images/Science/unclassified_0033.png",
+    "imageUrl": "/images/Social%20Studies/unclassified_0021.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0021.png",
     "content": {
-      "passage": "Alt text: A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth.\n\nDescription: This diagram visually represents the global carbon cycle, showing how carbon moves through different reservoirs. It depicts atmospheric carbon dioxide (CO2), sunlight, and key biological processes such as photosynthesis and respiration in plants and animals. …\n\nText in image: The Carbon Cycle, Sunlight, CO2 cycle, Photosynthesis, Organic carbon, Decay organisms, Animal respiration, Dead organisms and waste products, Fossils and fossil fuels, Plant respiration, Root respiration, Auto and fact…",
-      "imageURL": "/images/Science/unclassified_0033.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Map showing U.S. territories in 1838 with Iowa Territory highlighted.\n\nDescription: This historical map depicts the United States and its territories on July 3, 1838. Iowa Territory is shaded and outlined, showing that it was organized from the western half of Wisconsin Territory. The map includes labels for Iowa Territory and Wisconsin Territory.\n\nText in image: Iowa Territory, Wisconsin Territory, July 3, 1838.",
+      "imageURL": "/images/Social%20Studies/unclassified_0021.png",
+      "questionText": "Which explanation best matches the evidence shown in the visual source?"
     },
     "answerOptions": [
       {
-        "text": "Gorilla and Sunlight",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "The Carbon Cycle and Sunlight",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Wisconsin Territory",
+        "rationale": "Correct. The map states Iowa Territory was organized from the western half of Wisconsin Territory.",
         "isCorrect": true
       },
       {
-        "text": "The Carbon Cycle and jaw structure",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "Minnesota Territory",
+        "rationale": "Incorrect. Minnesota Territory is not identified as the source territory on this map.",
         "isCorrect": false
       },
       {
-        "text": "Birth control and jaw structure",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
+        "text": "Louisiana Territory",
+        "rationale": "Incorrect. Louisiana Territory is not shown as the source territory.",
+        "isCorrect": false
+      },
+      {
+        "text": "Kansas Territory",
+        "rationale": "Incorrect. Kansas Territory is not the source territory on this map.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which explanation best matches the evidence shown in the visual source?"
   },
   {
     "questionNumber": 19,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/unclassified_0039.png",
-    "imageURL": "/images/Science/unclassified_0039.png",
+    "difficulty": "hard",
+    "imageUrl": "/images/Social%20Studies/unclassified_0017.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0017.png",
     "content": {
-      "passage": "Alt text: A 3x3 Punnett square showing genetic crosses with 'S' and 's' alleles.\n\nDescription: This image displays a 3x3 grid, commonly known as a Punnett square, a diagram used in genetics to predict the genotypes of offspring. The top row and left column indicate the alleles from each parent, while the inner squares show the resulting genotypes of th…\n\nText in image: S, S, S, S, Ss, Ss, ss, ss",
-      "imageURL": "/images/Science/unclassified_0039.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: A flowchart outlining the steps in the U.S. naturalization process.\n\nDescription: This image displays a flowchart detailing the sequential steps an individual must take to become a naturalized citizen of the United States. It consists of eight rectangular boxes, each describing a step, connected by arrows indicating the progression from le…",
+      "imageURL": "/images/Social%20Studies/unclassified_0017.png",
+      "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
     },
     "answerOptions": [
       {
-        "text": "dominant",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Submit an application",
+        "rationale": "Correct. The process begins with submitting an application.",
         "isCorrect": true
       },
       {
-        "text": "29°C",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Register to vote immediately",
+        "rationale": "Incorrect. Voting registration is not a step in the naturalization flowchart.",
         "isCorrect": false
       },
       {
-        "text": "sound waves",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Serve on a federal jury first",
+        "rationale": "Incorrect. Jury service is not part of the naturalization steps.",
         "isCorrect": false
       },
       {
-        "text": "W Work",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "Receive a presidential pardon",
+        "rationale": "Incorrect. A pardon is unrelated to naturalization steps.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 20,
     "type": "multiple-choice-text",
     "difficulty": "hard",
-    "imageUrl": "/images/Science/unclassified_0039.png",
-    "imageURL": "/images/Science/unclassified_0039.png",
+    "imageUrl": "/images/Social%20Studies/unclassified_0017.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0017.png",
     "content": {
-      "passage": "Alt text: A 3x3 Punnett square showing genetic crosses with 'S' and 's' alleles.\n\nDescription: This image displays a 3x3 grid, commonly known as a Punnett square, a diagram used in genetics to predict the genotypes of offspring. The top row and left column indicate the alleles from each parent, while the inner squares show the resulting genotypes of th…\n\nText in image: S, S, S, S, Ss, Ss, ss, ss",
-      "imageURL": "/images/Science/unclassified_0039.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: A flowchart outlining the steps in the U.S. naturalization process.\n\nDescription: This image displays a flowchart detailing the sequential steps an individual must take to become a naturalized citizen of the United States. It consists of eight rectangular boxes, each describing a step, connected by arrows indicating the progression from le…",
+      "imageURL": "/images/Social%20Studies/unclassified_0017.png",
+      "questionText": "What inference about the historical or civic context is best supported by this image?"
     },
     "answerOptions": [
       {
-        "text": "Punnett square and Mendelian genetics",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "family tree and genetics",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Punnett square and genetics",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Submit an application",
+        "rationale": "Correct. The process begins with submitting an application.",
         "isCorrect": true
       },
       {
-        "text": "Transpiration and Mendelian genetics",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
+        "text": "Register to vote immediately",
+        "rationale": "Incorrect. Voting registration is not a step in the naturalization flowchart.",
+        "isCorrect": false
+      },
+      {
+        "text": "Serve on a federal jury first",
+        "rationale": "Incorrect. Jury service is not part of the naturalization steps.",
+        "isCorrect": false
+      },
+      {
+        "text": "Receive a presidential pardon",
+        "rationale": "Incorrect. A pardon is unrelated to naturalization steps.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which conclusion is most strongly supported by the visual evidence provided?"
   },
   {
     "questionNumber": 21,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/unclassified_0057.png",
-    "imageURL": "/images/Science/unclassified_0057.png",
+    "difficulty": "hard",
+    "imageUrl": "/images/Social%20Studies/unclassified_0017.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0017.png",
     "content": {
-      "passage": "Alt text: A 2x2 Punnett square showing a genetic cross between two heterozygous parents.\n\nDescription: This image displays a 2x2 Punnett square, a diagram used in biology to predict the outcomes of genetic crosses. The parental alleles, 'C' and 'c', are listed along the top row and left column. The four internal squares show the possible genotypes of the offsp…\n\nText in image: C c C CC Cc c Cc cc",
-      "imageURL": "/images/Science/unclassified_0057.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: A flowchart outlining the steps in the U.S. naturalization process.\n\nDescription: This image displays a flowchart detailing the sequential steps an individual must take to become a naturalized citizen of the United States. It consists of eight rectangular boxes, each describing a step, connected by arrows indicating the progression from le…",
+      "imageURL": "/images/Social%20Studies/unclassified_0017.png",
+      "questionText": "Based on the image and description, which interpretation is most accurate?"
     },
     "answerOptions": [
       {
-        "text": "Subatomic particles",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Natural Gas 27%",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Low-Frequency Wave",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "monohybrid cross",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "Submit an application",
+        "rationale": "Correct. The process begins with submitting an application.",
         "isCorrect": true
+      },
+      {
+        "text": "Register to vote immediately",
+        "rationale": "Incorrect. Voting registration is not a step in the naturalization flowchart.",
+        "isCorrect": false
+      },
+      {
+        "text": "Serve on a federal jury first",
+        "rationale": "Incorrect. Jury service is not part of the naturalization steps.",
+        "isCorrect": false
+      },
+      {
+        "text": "Receive a presidential pardon",
+        "rationale": "Incorrect. A pardon is unrelated to naturalization steps.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "What inference about the historical or civic context is best supported by this image?"
   },
   {
     "questionNumber": 22,
     "type": "multiple-choice-text",
     "difficulty": "hard",
-    "imageUrl": "/images/Science/unclassified_0057.png",
-    "imageURL": "/images/Science/unclassified_0057.png",
+    "imageUrl": "/images/Social%20Studies/unclassified_0017.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0017.png",
     "content": {
-      "passage": "Alt text: A 2x2 Punnett square showing a genetic cross between two heterozygous parents.\n\nDescription: This image displays a 2x2 Punnett square, a diagram used in biology to predict the outcomes of genetic crosses. The parental alleles, 'C' and 'c', are listed along the top row and left column. The four internal squares show the possible genotypes of the offsp…\n\nText in image: C c C CC Cc c Cc cc",
-      "imageURL": "/images/Science/unclassified_0057.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: A flowchart outlining the steps in the U.S. naturalization process.\n\nDescription: This image displays a flowchart detailing the sequential steps an individual must take to become a naturalized citizen of the United States. It consists of eight rectangular boxes, each describing a step, connected by arrows indicating the progression from le…",
+      "imageURL": "/images/Social%20Studies/unclassified_0017.png",
+      "questionText": "Which claim is best supported by details visible in this source image?"
     },
     "answerOptions": [
       {
-        "text": "Photosynthesis/Primary Producers and genetics",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Marmoset and State 1",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "C c C CC Cc c Cc cc and genetics",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "Submit an application",
+        "rationale": "Correct. The process begins with submitting an application.",
         "isCorrect": true
       },
       {
-        "text": "C c C CC Cc c Cc cc and State 1",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
+        "text": "Register to vote immediately",
+        "rationale": "Incorrect. Voting registration is not a step in the naturalization flowchart.",
+        "isCorrect": false
+      },
+      {
+        "text": "Serve on a federal jury first",
+        "rationale": "Incorrect. Jury service is not part of the naturalization steps.",
+        "isCorrect": false
+      },
+      {
+        "text": "Receive a presidential pardon",
+        "rationale": "Incorrect. A pardon is unrelated to naturalization steps.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Based on the image and description, which interpretation is most accurate?"
   },
   {
     "questionNumber": 23,
     "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Science/unclassified_0063.png",
-    "imageURL": "/images/Science/unclassified_0063.png",
+    "difficulty": "medium",
+    "imageUrl": "/images/Social%20Studies/unclassified_0099.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0099.png",
     "content": {
-      "passage": "Alt text: Four Punnett squares illustrating genetic crosses for dominant (B) and recessive (b) alleles.\n\nDescription: The image displays four distinct Punnett squares arranged in a 2x2 grid. Each square shows the possible genotypes of offspring resulting from a genetic cross. The top-left square represents a BB x BB cross, the top-right a bb x bb cross, the bottom-left a Bb …\n\nText in image: B b BB Bb bb Figure 8-2: Punnett squares for brown and blue eyes.",
-      "imageURL": "/images/Science/unclassified_0063.png",
-      "questionText": "Which term or label appears in the visual?"
+      "passage": "Alt text: Map of the United States showing changes in U.S. House of Representatives seats by state for the 108th Congress.\n\nDescription: This is a choropleth map of the United States, including inset maps for Alaska and Hawaii, displaying the number of U.S. House of Representatives seats for each state for the 108th Congress. A color-coded legend indicates how each state's number of seats chan…\n\nText in image: Figure 3. Apportionment of the U.S. House of Representatives for the 108th Congress. Change from 1990 to 2000 (State gaining 2 seats, State gaining 1 seat, No change, State losing 1 seat, State losing 2 seats). Total U.…",
+      "imageURL": "/images/Social%20Studies/unclassified_0099.png",
+      "questionText": "What is the most defensible interpretation of this visual in context?"
     },
     "answerOptions": [
       {
-        "text": "Dominant",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
+        "text": "1990 to 2000",
+        "rationale": "Correct. The map compares changes from 1990 to 2000.",
         "isCorrect": true
       },
       {
-        "text": "science table",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "2000 to 2010",
+        "rationale": "Incorrect. That span is shown on a different map.",
         "isCorrect": false
       },
       {
-        "text": "Mid-Ocean Ridge",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "1980 to 1990",
+        "rationale": "Incorrect. Those years are not shown in the map title.",
         "isCorrect": false
       },
       {
-        "text": "bats",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
+        "text": "2010 to 2020",
+        "rationale": "Incorrect. Those years are not shown in the map title.",
         "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "What is the most defensible interpretation of this visual in context?"
   },
   {
     "questionNumber": 24,
     "type": "multiple-choice-text",
     "difficulty": "hard",
-    "imageUrl": "/images/Science/unclassified_0063.png",
-    "imageURL": "/images/Science/unclassified_0063.png",
+    "imageUrl": "/images/Social%20Studies/unclassified_0099.png",
+    "imageURL": "/images/Social%20Studies/unclassified_0099.png",
     "content": {
-      "passage": "Alt text: Four Punnett squares illustrating genetic crosses for dominant (B) and recessive (b) alleles.\n\nDescription: The image displays four distinct Punnett squares arranged in a 2x2 grid. Each square shows the possible genotypes of offspring resulting from a genetic cross. The top-left square represents a BB x BB cross, the top-right a bb x bb cross, the bottom-left a Bb …\n\nText in image: B b BB Bb bb Figure 8-2: Punnett squares for brown and blue eyes.",
-      "imageURL": "/images/Science/unclassified_0063.png",
-      "questionText": "Which pair of labels both appears in the visual?"
+      "passage": "Alt text: Map of the United States showing changes in U.S. House of Representatives seats by state for the 108th Congress.\n\nDescription: This is a choropleth map of the United States, including inset maps for Alaska and Hawaii, displaying the number of U.S. House of Representatives seats for each state for the 108th Congress. A color-coded legend indicates how each state's number of seats chan…\n\nText in image: Figure 3. Apportionment of the U.S. House of Representatives for the 108th Congress. Change from 1990 to 2000 (State gaining 2 seats, State gaining 1 seat, No change, State losing 1 seat, State losing 2 seats). Total U.…",
+      "imageURL": "/images/Social%20Studies/unclassified_0099.png",
+      "questionText": "Which explanation best matches the evidence shown in the visual source?"
     },
     "answerOptions": [
       {
-        "text": "animal cell and vaccine types",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Chimpanzee and Punnett square",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Genetics and vaccine types",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      },
-      {
-        "text": "Genetics and Punnett square",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
+        "text": "State gaining 1 seat",
+        "rationale": "Correct. This category appears in the legend.",
         "isCorrect": true
+      },
+      {
+        "text": "State gaining 5 seats",
+        "rationale": "Incorrect. That category is not listed in the legend.",
+        "isCorrect": false
+      },
+      {
+        "text": "State losing 3 seats",
+        "rationale": "Incorrect. The legend lists losing 1 or 2 seats, not 3.",
+        "isCorrect": false
+      },
+      {
+        "text": "State gaining 6 seats",
+        "rationale": "Incorrect. That category is not shown in the legend.",
+        "isCorrect": false
       }
     ],
     "challenge_tags": [
-      "science-3"
-    ]
+      "social:3"
+    ],
+    "questionText": "Which explanation best matches the evidence shown in the visual source?"
   }
 ];

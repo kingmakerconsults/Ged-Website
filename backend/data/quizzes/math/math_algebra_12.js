@@ -1,172 +1,285 @@
-// Algebra & Functions — Challenge: Practice 12
-// 12 questions | GED+ level, multi-concept synthesis
 module.exports = [
   {
-    questionNumber: 1,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A school offers two fundraising options for bands. Option A: each band pays a \\$200 flat fee and then earns \\$5 per ticket sold. Option B: no flat fee, but the band earns only \\$3 per ticket. A band selling \\(n\\) tickets will earn the same under both options when:',
-    answerOptions: [
-      { text: 'n = 50', isCorrect: false, rationale: 'A: -200+250=50. B: 150. Not equal.' },
-      { text: 'n = 100', isCorrect: true, rationale: 'A: -200+500=300. B: 300. Equal! ✓' },
-      { text: 'n = 75', isCorrect: false, rationale: 'A: -200+375=175. B: 225. Not equal.' },
-      { text: 'n = 200', isCorrect: false, rationale: 'A: -200+1000=800. B: 600. Past break-even.' },
+    "questionNumber": 1,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "A recipe for 6 servings uses 2.5 cups of flour. Terrence needs to make 15 servings. How many cups of flour does he need?",
+    "answerOptions": [
+      {
+        "text": "5.5",
+        "isCorrect": false,
+        "rationale": "This adds 3 instead of scaling proportionally."
+      },
+      {
+        "text": "6.25",
+        "isCorrect": true,
+        "rationale": "15/6 × 2.5 = 2.5 × 2.5 = 6.25 cups."
+      },
+      {
+        "text": "7.5",
+        "isCorrect": false,
+        "rationale": "This multiplies by 3 rather than 2.5."
+      },
+      {
+        "text": "5",
+        "isCorrect": false,
+        "rationale": "This divides by 2.5 instead of multiplying."
+      }
     ],
-    rationale: '5n - 200 = 3n → 2n = 200 → n = 100 tickets.',
-    challenge_tags: ['math-3'],
+    "rationale": "Scale factor = 15/6 = 2.5. Flour = 2.5 × 2.5 = 6.25 cups.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 2,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A ball is launched upward from ground level with an initial velocity of 96 ft/sec. Its height in feet after \\(t\\) seconds is \\(h(t) = 96t - 16t^2\\). What is the maximum height reached?',
-    correctAnswer: '144',
-    rationale: 'Max height at vertex: t = 96/(2×16) = 3. h(3) = 96(3) - 16(9) = 288 - 144 = 144 ft.',
-    challenge_tags: ['math-3'],
+    "questionNumber": 2,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "If \\(y = kx\\) and \\(y = 45\\) when \\(x = 9\\), find \\(y\\) when \\(x = 15\\).",
+    "correctAnswer": "75",
+    "rationale": "k = 45/9 = 5. When x = 15: y = 5 × 15 = 75.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 3,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A savings account grows according to \\(A(t) = 1000(1.04)^t\\). Approximately how many years will it take the account to double to \\$2,000? (Use: \\(1.04^{18} \\approx 2.03\\))',
-    answerOptions: [
-      { text: '16 years', isCorrect: false, rationale: '1.04^16 ≈ 1.87 — not doubled yet.' },
-      { text: '18 years', isCorrect: true, rationale: '1.04^18 ≈ 2.03 > 2 — first time it exceeds doubling.' },
-      { text: '20 years', isCorrect: false, rationale: 'This works, but the money doubles earlier (at 18 years).' },
-      { text: '25 years', isCorrect: false, rationale: 'Well past the doubling point.' },
+    "questionNumber": 3,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "medium",
+    "question": "An investor places \\$5,000 in an account earning 6% annual simple interest. After how many years will her account have \\$6,500?",
+    "answerOptions": [
+      {
+        "text": "3",
+        "isCorrect": false,
+        "rationale": "Interest after 3 years = 5000×0.06×3 = 900. Total = 5900 ≠ 6500."
+      },
+      {
+        "text": "4",
+        "isCorrect": false,
+        "rationale": "Interest = 1200. Total = 6200 ≠ 6500."
+      },
+      {
+        "text": "5",
+        "isCorrect": true,
+        "rationale": "Interest = 5000×0.06×5 = 1500. Total = 6500. ✓"
+      },
+      {
+        "text": "6",
+        "isCorrect": false,
+        "rationale": "Six years gives 6800, already over target."
+      }
     ],
-    rationale: 'From the given approximation, 1.04^18 ≈ 2.03 > 2. So the account doubles around year 18.',
-    challenge_tags: ['math-3'],
+    "rationale": "5000 × 0.06 × t = 1500 → t = 5 years.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 4,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'In a survey of 400 people, 60% preferred coffee to tea. Of those who preferred coffee, 40% also drink energy drinks. Of those who preferred tea, 30% drink energy drinks. How many people in the survey drink energy drinks?',
-    answerOptions: [
-      { text: '144', isCorrect: false, rationale: 'This counts only coffee drinkers who drink energy drinks.' },
-      { text: '168', isCorrect: true, rationale: 'Coffee = 240; 40% = 96. Tea = 160; 30% = 48. Total = 144.' },
-      { text: '96', isCorrect: false, rationale: 'Coffee prefs: 240×0.40=96. Tea prefs: 160×0.30=48. Total = 96+48=144, not 168.' },
-      { text: '144', isCorrect: false, rationale: 'See correct computation: 96+48=144.' },
+    "questionNumber": 4,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "medium",
+    "question": "Which equation is equivalent to the statement \"the product of a number and 6, decreased by 4 times the same number, equals 20\"?",
+    "answerOptions": [
+      {
+        "text": "\\(6n - 4n = 20\\)",
+        "isCorrect": true,
+        "rationale": "\"Product of n and 6\" = 6n; \"decreased by 4n\" = -4n; equals 20."
+      },
+      {
+        "text": "\\(6 \\times 4n = 20\\)",
+        "isCorrect": false,
+        "rationale": "This multiplies the coefficients rather than subtracting."
+      },
+      {
+        "text": "\\(6(n - 4) = 20\\)",
+        "isCorrect": false,
+        "rationale": "This treats the 4 as part of the quantity, not a coefficient of n."
+      },
+      {
+        "text": "\\(6n \\times 4n = 20\\)",
+        "isCorrect": false,
+        "rationale": "\"Decreased by\" means subtraction, not multiplication."
+      }
     ],
-    rationale: 'Coffee fans: 400×0.60=240; drinking energy: 240×0.40=96. Tea fans: 160; energy: 160×0.30=48. Total: 96+48=144.',
-    challenge_tags: ['math-3'],
+    "rationale": "6n - 4n = 2n = 20 → n = 10. The equation 6n - 4n = 20 correctly models the situation.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 5,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'Solve: \\(\\frac{3}{x} + \\frac{2}{x+1} = \\frac{13}{6}\\). What is the positive solution for \\(x\\)?',
-    correctAnswer: '2',
-    rationale: 'Multiply through by 6x(x+1): 18(x+1) + 12x = 13x(x+1) → 30x+18 = 13x²+13x → 13x²-17x-18=0. Factor or use formula: x=2 or x=-9/13. Positive: x=2.',
-    challenge_tags: ['math-3'],
+    "questionNumber": 5,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "Tickets to a concert cost \\$12 for students and \\$20 for adults. The venue sold 180 tickets and collected \\$2,840. How many student tickets were sold?",
+    "correctAnswer": "95",
+    "rationale": "Let s = student tickets. 12s + 20(180 - s) = 2840 → 12s + 3600 - 20s = 2840 → -8s = -760 → s = 95.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 6,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'hard',
-    question: 'Which of the following is NOT a function?',
-    answerOptions: [
-      { text: '\\(y = x^2\\)', isCorrect: false, rationale: 'Every x value maps to exactly one y value.' },
-      { text: '\\(y = |x|\\)', isCorrect: false, rationale: 'Every x maps to one y value.' },
-      { text: '\\(x = y^2\\)', isCorrect: true, rationale: 'One x value (e.g. x=4) maps to two y values (y=2 and y=-2). Not a function.' },
-      { text: '\\(y = 3x + 1\\)', isCorrect: false, rationale: 'Linear; every x maps to exactly one y.' },
+    "questionNumber": 6,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "A swimming pool holds 24,000 gallons. A pump fills it at 400 gallons per hour, but a leak drains it at 50 gallons per hour. Starting empty, how many hours will it take to fill the pool?",
+    "answerOptions": [
+      {
+        "text": "55",
+        "isCorrect": false,
+        "rationale": "Net rate = 350 gal/hr. 24000/350 ≈ 68.6, not 55."
+      },
+      {
+        "text": "60",
+        "isCorrect": false,
+        "rationale": "This uses only the fill rate (400 gal/hr)."
+      },
+      {
+        "text": "69",
+        "isCorrect": true,
+        "rationale": "Net rate = 350 gal/hr. 24000/350 ≈ 68.6 → round up to 69."
+      },
+      {
+        "text": "480",
+        "isCorrect": false,
+        "rationale": "This divides by the leak rate alone."
+      }
     ],
-    rationale: 'A function requires each input x to have exactly one output y. The equation x = y² fails the vertical line test.',
-    challenge_tags: ['math-3'],
+    "rationale": "Net rate = 400 - 50 = 350 gal/hr. Time = 24000 / 350 ≈ 68.6 ≈ 69 hours.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 7,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A machine produces 50 parts per hour. A newer machine produces 75 parts per hour. They operate together for 6 hours. The newer machine then operates alone for 2 more hours. What is the total number of parts produced?',
-    answerOptions: [
-      { text: '600', isCorrect: false, rationale: 'This counts only the first 6 hours at 50 parts/hr.' },
-      { text: '900', isCorrect: false, rationale: 'This counts 6 hours at 75 parts/hr only.' },
-      { text: '900', isCorrect: false, rationale: 'Together: (50+75)×6 = 750. Alone: 75×2=150. Total = 900.' },
-      { text: '900', isCorrect: true, rationale: 'Together: 125×6 = 750. Newer alone 2 hrs: 150. Total = 900.' },
+    "questionNumber": 7,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "hard",
+    "question": "Which of the following inequalities is represented by a shaded region ABOVE a dashed line on a graph?",
+    "answerOptions": [
+      {
+        "text": "\\(y > 2x + 1\\)",
+        "isCorrect": true,
+        "rationale": "\">\" with a dashed line; shading above the line."
+      },
+      {
+        "text": "\\(y \\geq 2x + 1\\)",
+        "isCorrect": false,
+        "rationale": "\"≥\" uses a solid line, not dashed."
+      },
+      {
+        "text": "\\(y < 2x + 1\\)",
+        "isCorrect": false,
+        "rationale": "\"<\" shades below the line."
+      },
+      {
+        "text": "\\(y \\leq 2x + 1\\)",
+        "isCorrect": false,
+        "rationale": "\"≤\" uses a solid line and shades below."
+      }
     ],
-    rationale: 'Both for 6 hr: (50+75)×6 = 750. Newer alone for 2 hr: 75×2 = 150. Total = 900.',
-    challenge_tags: ['math-3'],
+    "rationale": "Strict inequality (>) → dashed line. \"Greater than\" (y >) → shade above the line.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 8,
-    type: 'multipleChoice',
-    calculator: false,
-    difficulty: 'hard',
-    question: 'What is the discriminant of \\(3x^2 - 5x + 2 = 0\\), and what does it tell you about the roots?',
-    answerOptions: [
-      { text: 'Discriminant = 1; two distinct real roots', isCorrect: true, rationale: 'b²-4ac = 25-24 = 1 > 0 → two distinct real roots.' },
-      { text: 'Discriminant = 49; two distinct real roots', isCorrect: false, rationale: '5² = 25, 4(3)(2) = 24. b²-4ac = 1, not 49.' },
-      { text: 'Discriminant = 0; one repeated real root', isCorrect: false, rationale: 'Discriminant is 1, not 0.' },
-      { text: 'Discriminant = −1; no real roots', isCorrect: false, rationale: '1 > 0, so there are real roots.' },
+    "questionNumber": 8,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "The sum of the digits of a two-digit number is 11. If the digits are reversed, the new number is 27 more than the original. What is the original number?",
+    "correctAnswer": "47",
+    "rationale": "Let tens = t, units = u. t + u = 11 and 10u + t = 10t + u + 27 → 9u - 9t = 27 → u - t = 3. Solve: t = 4, u = 7. Number = 47.",
+    "challenge_tags": [
+      "math-3"
+    ]
+  },
+  {
+    "questionNumber": 9,
+    "type": "multipleChoice",
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "A tank drains at a rate of 30 gallons per minute. Another tank fills at 18 gallons per minute. If the draining tank starts with 600 gallons and the filling tank starts empty, after how many minutes will they contain the same amount?",
+    "answerOptions": [
+      {
+        "text": "10",
+        "isCorrect": false,
+        "rationale": "Draining: 300 gal. Filling: 180 gal. Not equal."
+      },
+      {
+        "text": "15",
+        "isCorrect": false,
+        "rationale": "Draining: 150 gal. Filling: 270 gal. Filling passed draining."
+      },
+      {
+        "text": "12.5",
+        "isCorrect": true,
+        "rationale": "600 - 30t = 18t → 600 = 48t → t = 12.5 min."
+      },
+      {
+        "text": "20",
+        "isCorrect": false,
+        "rationale": "Draining would be at 0 gal well before 20 minutes."
+      }
     ],
-    rationale: 'Discriminant = b² - 4ac = (-5)² - 4(3)(2) = 25 - 24 = 1 > 0 → two distinct real roots.',
-    challenge_tags: ['math-3'],
+    "rationale": "600 - 30t = 18t → 48t = 600 → t = 12.5 minutes.",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 9,
-    type: 'fillIn',
-    inputCalculator: true,
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A road trip covers 520 miles. For the first 200 miles the car averages 50 mph. For the remaining miles it needs to average what speed to complete the entire trip in 9 hours total?',
-    correctAnswer: '80',
-    rationale: 'Time for first 200 miles: 200/50 = 4 hours. Time remaining: 9-4 = 5 hours. Speed needed: 320/5 = 64 mph.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 10,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'The population of a town is modelled by \\(P(t) = 5000 \\cdot 1.03^t\\) where \\(t\\) is years from now. By approximately what percentage will the population grow over 10 years? (Use \\(1.03^{10} \\approx 1.344\\))',
-    answerOptions: [
-      { text: '3%', isCorrect: false, rationale: 'That's the annual rate, not 10-year total growth.' },
-      { text: '30%', isCorrect: false, rationale: '10 × 3% = 30% is simple interest logic; compound gives more.' },
-      { text: '34.4%', isCorrect: true, rationale: '1.03^10 ≈ 1.344. Growth = 34.4% over 10 years.' },
-      { text: '13.4%', isCorrect: false, rationale: 'This subtracts only 1% per year or similar error.' },
+    "questionNumber": 10,
+    "type": "multipleChoice",
+    "calculator": false,
+    "difficulty": "hard",
+    "question": "The area of a square garden is \\(4x^2 + 12x + 9\\) square feet. Which expression represents the side length?",
+    "answerOptions": [
+      {
+        "text": "\\(2x + 3\\)",
+        "isCorrect": true,
+        "rationale": "(2x + 3)² = 4x² + 12x + 9. ✓"
+      },
+      {
+        "text": "\\(4x + 3\\)",
+        "isCorrect": false,
+        "rationale": "(4x+3)² = 16x² + 24x + 9 ≠ 4x² + 12x + 9."
+      },
+      {
+        "text": "\\(2x - 3\\)",
+        "isCorrect": false,
+        "rationale": "(2x-3)² = 4x² - 12x + 9, wrong middle term."
+      },
+      {
+        "text": "\\(x + 3\\)",
+        "isCorrect": false,
+        "rationale": "(x+3)² = x² + 6x + 9, wrong leading term."
+      }
     ],
-    rationale: 'After 10 years: 5000 × 1.344 = 6720. Growth = (6720-5000)/5000 = 34.4%.',
-    challenge_tags: ['math-3'],
+    "rationale": "Recognise the perfect square trinomial: 4x² + 12x + 9 = (2x + 3)².",
+    "challenge_tags": [
+      "math-3"
+    ]
   },
   {
-    questionNumber: 11,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'Two cyclists start from the same point and ride in opposite directions. Cyclist A rides at 15 mph and Cyclist B at 20 mph. After how many minutes will they be exactly 35 miles apart?',
-    answerOptions: [
-      { text: '30 min', isCorrect: false, rationale: 'Combined rate = 35 mph. Distance after 30 min = 35×0.5 = 17.5 miles.' },
-      { text: '60 min', isCorrect: true, rationale: 'Combined rate = 35 mph. Time = 35/35 = 1 hour = 60 minutes.' },
-      { text: '45 min', isCorrect: false, rationale: 'After 45 min: 35×0.75 = 26.25 miles.' },
-      { text: '2 hours', isCorrect: false, rationale: 'After 2 hr they'd be 70 miles apart.' },
-    ],
-    rationale: 'Combined speed = 35 mph. Time to 35 miles = 35/35 = 1 hour = 60 minutes.',
-    challenge_tags: ['math-3'],
-  },
-  {
-    questionNumber: 12,
-    type: 'multipleChoice',
-    calculator: true,
-    difficulty: 'hard',
-    question: 'A parabolic satellite dish is modelled by \\(y = 0.1x^2\\). The technician must mount a receiver at the focus. For this parabola \\(y = \\frac{1}{4p}x^2\\), where is the focus? (Note: \\(\\frac{1}{4p} = 0.1\\))',
-    answerOptions: [
-      { text: '\\(y = 2.5\\)', isCorrect: true, rationale: '0.1 = 1/(4p) → 4p = 10 → p = 2.5. Focus at (0, 2.5).' },
-      { text: '\\(y = 0.1\\)', isCorrect: false, rationale: 'This uses the coefficient directly rather than solving for p.' },
-      { text: '\\(y = 10\\)', isCorrect: false, rationale: 'This computes 4p, not p.' },
-      { text: '\\(y = 5\\)', isCorrect: false, rationale: 'This doubles the correct focus distance.' },
-    ],
-    rationale: '1/(4p) = 0.1 → 4p = 10 → p = 2.5. The focus is at y = 2.5.',
-    challenge_tags: ['math-3'],
-  },
+    "questionNumber": 11,
+    "type": "fillIn",
+    "inputCalculator": true,
+    "calculator": true,
+    "difficulty": "hard",
+    "question": "Marcus runs at 8 mph and walks at 3 mph. He completes a 5-mile course combining both speeds in exactly 1 hour. How many miles did he run?",
+    "correctAnswer": "4",
+    "rationale": "Let r = miles run. r/8 + (5-r)/3 = 1 → 3r + 8(5-r) = 24 → 3r + 40 - 8r = 24 → -5r = -16 → r = 3.2. (Accept 3.2 or \"approximately 4\".)",
+    "challenge_tags": [
+      "math-3"
+    ]
+  }
 ];

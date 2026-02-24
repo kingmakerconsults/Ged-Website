@@ -1,76 +1,90 @@
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multiple-choice-text",
-    "difficulty": "easy",
-    "imageUrl": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.png",
-    "imageUrl": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
-    "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
-      "passage": "Alt text: A black and white photograph depicting President Franklin D. Roosevelt seated at a desk, signing a document, surrounded by observers.\n\nDescription: This black and white photograph captures President Franklin D. Roosevelt seated at a desk, focused on signing a document with a pen. He is surrounded by a group of individuals, mostly men in suits and one woman, who are observing the event intently. The setti…",
-      "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.png",
-      "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
+    questionNumber: 1,
+    type: 'multiple-choice-text',
+    difficulty: 'easy',
+    imageUrl:
+      '/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg',
+    imageURL:
+      '/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg',
+    content: {
+      passage:
+        'Alt text: A black and white photograph depicting President Franklin D. Roosevelt seated at a desk, signing a document, surrounded by observers.\n\nDescription: President Roosevelt signs a document while officials watch, suggesting a formal executive action during the New Deal era.',
+      imageURL:
+        '/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg',
+      questionText:
+        'Which branch of government is most directly represented in this photograph?',
     },
-    "answerOptions": [
+    answerOptions: [
       {
-        "text": "John Kerry",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
+        text: 'Executive branch',
+        rationale:
+          'Correct. The president carrying out official duties is an executive function.',
+        isCorrect: true,
       },
       {
-        "text": "state formation",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
+        text: 'Judicial branch',
+        rationale:
+          'Incorrect. The image does not show courts or judges interpreting law.',
+        isCorrect: false,
       },
       {
-        "text": "legislation",
-        "rationale": "Correct. This term/label is shown in the image text/labels or metadata.",
-        "isCorrect": true
+        text: 'Legislative branch',
+        rationale:
+          'Incorrect. Congress writes and passes laws; this image shows presidential action.',
+        isCorrect: false,
       },
       {
-        "text": "Erie Triangle",
-        "rationale": "Incorrect. This term/label is not shown in the visual.",
-        "isCorrect": false
-      }
+        text: 'State government',
+        rationale:
+          'Incorrect. Roosevelt is shown in a federal presidential role.',
+        isCorrect: false,
+      },
     ],
-    "challenge_tags": [
-      "social:3"
-    ]
+    challenge_tags: ['social:3'],
   },
   {
-    "questionNumber": 2,
-    "type": "multiple-choice-text",
-    "difficulty": "hard",
-    "imageUrl": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.png",
-    "imageUrl": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
-    "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
-      "passage": "Alt text: A black and white photograph depicting President Franklin D. Roosevelt seated at a desk, signing a document, surrounded by observers.\n\nDescription: This black and white photograph captures President Franklin D. Roosevelt seated at a desk, focused on signing a document with a pen. He is surrounded by a group of individuals, mostly men in suits and one woman, who are observing the event intently. The setti…",
-      "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.png",
-      "imageURL": "/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg",
+    questionNumber: 2,
+    type: 'multiple-choice-text',
+    difficulty: 'hard',
+    imageUrl:
+      '/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg',
+    imageURL:
+      '/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg',
+    content: {
+      passage:
+        'Alt text: A black and white photograph depicting President Franklin D. Roosevelt seated at a desk, signing a document, surrounded by observers.\n\nDescription: President Roosevelt signs a document while officials watch, suggesting a formal executive action during the New Deal era.',
+      imageURL:
+        '/images/Social%20Studies/political_ideologies_in_the_united_states_0002.jpg',
+      questionText:
+        'Which inference best connects this scene to how federal policy expanded during the 1930s?',
     },
-    "answerOptions": [
+    answerOptions: [
       {
-        "text": "West Virginia and March 30",
-        "rationale": "Incorrect. One or both labels are not shown in the visual.",
-        "isCorrect": false
+        text: 'It reflects increased use of executive action to implement national economic reforms',
+        rationale:
+          'Correct. New Deal governance often involved strong federal executive leadership in policy implementation.',
+        isCorrect: true,
       },
       {
-        "text": "Franklin D. Roosevelt and FDR",
-        "rationale": "Correct. Both labels are shown in the image text/labels or metadata.",
-        "isCorrect": true
+        text: 'It proves all economic policy authority shifted entirely to state governments',
+        rationale:
+          'Incorrect. The image depicts federal presidential authority, not devolution to states.',
+        isCorrect: false,
       },
       {
-        "text": "Franklin D. Roosevelt and March 30",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
+        text: 'It indicates Congress no longer played any role in lawmaking',
+        rationale:
+          'Incorrect. Legislation still required congressional action.',
+        isCorrect: false,
       },
       {
-        "text": "US statistics and FDR",
-        "rationale": "Incorrect. One of these labels is not shown in the visual.",
-        "isCorrect": false
-      }
+        text: 'It documents a Supreme Court ruling being issued from the Oval Office',
+        rationale:
+          'Incorrect. Court rulings are judicial decisions, not presidential signings.',
+        isCorrect: false,
+      },
     ],
-    "challenge_tags": [
-      "social:3"
-    ]
-  }
+    challenge_tags: ['social:3'],
+  },
 ];

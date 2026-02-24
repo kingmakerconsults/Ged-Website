@@ -1,128 +1,386 @@
-// Reading Comprehension — Core Skills: Practice 4 / Main Idea
-// 10 questions | inference, author purpose, structure, longer passages 80-120 words
 module.exports = [
   {
-    questionNumber: 1, type: 'multipleChoice', difficulty: 'easy',
-    passage: "In the decades following World War II, the United States experienced a dramatic economic expansion. Returning veterans benefited from the GI Bill, which provided low-cost mortgages, tuition support, and job training. Suburban developments sprung up around major cities as families left urban centres in search of larger homes and safer neighbourhoods. This migration — often called 'white flight' — reshaped America's demographic landscape and had lasting effects on urban tax bases and school quality that persisted for generations.",
-    question: "What is the main idea of this passage?",
-    answerOptions: [
-      { text: "The GI Bill was the most important law in American history.", isCorrect: false, rationale: "The GI Bill is one detail among several; the passage doesn't make this superlative claim." },
-      { text: "Post-WWII economic expansion and the GI Bill triggered a suburban migration with lasting social consequences.", isCorrect: true, rationale: "The passage connects economic expansion, the GI Bill, suburban growth, and long-term effects — this is the complete main idea." },
-      { text: "Urban areas became poorer because veterans moved to cities.", isCorrect: false, rationale: "Veterans moved to suburbs, not cities; the detail is reversed." },
-      { text: "White flight caused World War II.", isCorrect: false, rationale: "Cause and effect are reversed — white flight followed WWII, not the reverse." },
+    "questionNumber": 1,
+    "type": "multipleChoice",
+    "difficulty": "easy",
+    "passage": "The community potluck will be held this Saturday at noon in the main park pavilion. Please bring a dish to share. Plates, utensils, and drinks will be provided. We will have games for children and a raffle with prizes donated by local businesses. We look forward to seeing everyone there for a day of food, fun, and community.",
+    "question": "What is the main idea of this announcement?",
+    "answerOptions": [
+      {
+        "text": "There will be a raffle with prizes at the park.",
+        "rationale": "This is a detail about one of the activities, not the main point.",
+        "isCorrect": false
+      },
+      {
+        "text": "A community potluck with food and activities will take place this Saturday at noon in the park.",
+        "rationale": "Correct. This statement effectively summarizes the event, date, time, and purpose of the announcement.",
+        "isCorrect": true
+      },
+      {
+        "text": "Attendees must bring a dish to share.",
+        "rationale": "This is a key instruction for attendees, but not the overall main idea of the event announcement.",
+        "isCorrect": false
+      },
+      {
+        "text": "Games will be available for children.",
+        "rationale": "This is another detail about the event's activities, not the central message.",
+        "isCorrect": false
+      }
     ],
-    challenge_tags: ['rla-2'],
+    "challenge_tags": [
+      "rla-1"
+    ]
   },
   {
-    questionNumber: 2, type: 'multipleChoice', difficulty: 'easy',
-    passage: "Photosynthesis is the process by which plants, algae, and some bacteria convert light energy — usually from the sun — into chemical energy stored in glucose. This process uses carbon dioxide and water as raw materials and releases oxygen as a byproduct. Photosynthesis is the foundation of virtually all food chains on Earth, providing the organic matter that fuels nearly every ecosystem. Without it, life as we know it would not exist.",
-    question: "According to the passage, what is the most important reason to consider photosynthesis 'the foundation of virtually all food chains'?",
-    answerOptions: [
-      { text: "It uses carbon dioxide, which reduces air pollution.", isCorrect: false, rationale: "CO₂ use is a detail, not the reason it underpins food chains." },
-      { text: "It produces the oxygen that all animals breathe.", isCorrect: false, rationale: "Oxygen production is important but isn't the stated reason for underpinning food chains." },
-      { text: "It produces the organic matter (glucose) that fuels nearly every ecosystem.", isCorrect: true, rationale: "The passage explicitly connects food-chain foundation to organic matter production." },
-      { text: "It requires sunlight, which is unlimited.", isCorrect: false, rationale: "Sunlight is a raw material input, not the reason photosynthesis underpins food chains." },
+    "questionNumber": 2,
+    "type": "multipleChoice",
+    "difficulty": "easy",
+    "passage": "Proper hydration is essential for your health, especially during the hot summer months. Drinking enough water helps regulate body temperature, keeps joints lubricated, and delivers nutrients to cells. Dehydration can lead to fatigue, dizziness, and other serious health issues. Be sure to carry a water bottle with you and drink regularly, even if you don't feel thirsty.",
+    "question": "Which sentence best states the main idea of the passage?",
+    "answerOptions": [
+      {
+        "text": "Dehydration can cause fatigue and dizziness.",
+        "rationale": "This describes the negative consequences of not following the main advice, but it's not the main idea itself.",
+        "isCorrect": false
+      },
+      {
+        "text": "You should carry a water bottle with you in the summer.",
+        "rationale": "This is a specific piece of advice, not the overall main idea about why hydration is important.",
+        "isCorrect": false
+      },
+      {
+        "text": "Drinking enough water is crucial for your health for several reasons, and it's especially important in the summer.",
+        "rationale": "Correct. This sentence captures the central message about the importance of hydration and its key supporting reasons.",
+        "isCorrect": true
+      },
+      {
+        "text": "Water helps deliver nutrients to your cells.",
+        "rationale": "This is one of the specific benefits of hydration, not the main point.",
+        "isCorrect": false
+      }
     ],
-    challenge_tags: ['rla-2'],
+    "challenge_tags": [
+      "rla-1"
+    ]
   },
   {
-    questionNumber: 3, type: 'multipleChoice', difficulty: 'medium',
-    passage: "For decades, urban planners in the United States prioritised car travel. Wide roads, generous parking requirements, and zoning that separated housing from commerce made walking or cycling impractical. By the 2000s, researchers documented a connection between car-dependent urban design and rising rates of obesity, social isolation, and air pollution. Cities like Portland, Oregon and Minneapolis, Minnesota began investing in light rail, protected bike lanes, and mixed-use zoning — and reported measurable improvements in physical activity rates, air quality, and business district vitality.",
-    question: "Based on the passage, what is the implied criticism of traditional urban planning?",
-    answerOptions: [
-      { text: "Traditional planners did not care about the environment.", isCorrect: false, rationale: "The passage implies their choices caused environmental harm; it doesn't claim planners were indifferent." },
-      { text: "Prioritising cars over human-scale design contributed to harmful public health, social, and environmental outcomes.", isCorrect: true, rationale: "This accurately reflects the implied argument based on the cause-and-effect structure of the passage." },
-      { text: "Urban planners were not qualified to make infrastructure decisions.", isCorrect: false, rationale: "No such claim is made or implied." },
-      { text: "All American cities must now copy Portland and Minneapolis.", isCorrect: false, rationale: "The passage uses those cities as examples, not as mandates for all cities." },
+    "questionNumber": 3,
+    "type": "multipleChoice",
+    "difficulty": "medium",
+    "passage": "The rise of online streaming services has fundamentally changed the entertainment industry. Traditional cable companies are losing subscribers at an unprecedented rate as viewers opt for the flexibility and lower cost of on-demand content. This shift has also forced television networks and movie studios to adapt, with many launching their own streaming platforms to compete. The result is a fragmented, highly competitive market where content is king.",
+    "question": "What is the central point of the passage?",
+    "answerOptions": [
+      {
+        "text": "Traditional cable companies are losing subscribers.",
+        "rationale": "This is a key effect of the main trend, but not the entire main idea.",
+        "isCorrect": false
+      },
+      {
+        "text": "Online streaming services have disrupted the entertainment industry by changing how viewers consume content and forcing traditional companies to adapt.",
+        "rationale": "Correct. This statement effectively summarizes the cause (streaming), the effect on viewers and companies, and the resulting market conditions.",
+        "isCorrect": true
+      },
+      {
+        "text": "Many television networks have launched their own streaming platforms.",
+        "rationale": "This is an example of how the industry is adapting, not the main idea itself.",
+        "isCorrect": false
+      },
+      {
+        "text": "On-demand content is more flexible and less expensive than cable.",
+        "rationale": "This explains why viewers are making the switch, but it's not the overall point about the industry's transformation.",
+        "isCorrect": false
+      }
     ],
-    challenge_tags: ['rla-2'],
+    "challenge_tags": [
+      "rla-1"
+    ]
   },
   {
-    questionNumber: 4, type: 'multipleChoice', difficulty: 'medium',
-    passage: "The Dust Bowl of the 1930s was one of the worst ecological disasters in American history. Years of overfarming fragile Great Plains soil, combined with a prolonged drought, stripped the land of its natural grass cover. Without roots to hold it, the topsoil became loose and was swept into massive dust storms — 'black blizzards' — that darkened skies as far east as New York and Washington D.C. Hundreds of thousands of farming families abandoned their land. Many migrated west to California, where they faced discrimination and exploitative labour conditions.",
-    question: "What is the most accurate conclusion supported by the passage?",
-    answerOptions: [
-      { text: "The Dust Bowl was caused solely by drought.", isCorrect: false, rationale: "The passage identifies both overfarming AND drought as causes — 'solely' is inaccurate." },
-      { text: "Agricultural practices and drought combined to destabilise the Great Plains ecosystem, with devastating human and environmental consequences.", isCorrect: true, rationale: "This accurately captures the dual cause (farming + drought) and the consequences (ecological disaster, displacement, discrimination)." },
-      { text: "California farmers welcomed Dust Bowl migrants with support and jobs.", isCorrect: false, rationale: "The passage says migrants faced 'discrimination and exploitative labour conditions.'" },
-      { text: "The Dust Bowl was limited to the Great Plains region.", isCorrect: false, rationale: "Dust clouds reached as far east as New York and Washington D.C." },
+    "questionNumber": 4,
+    "type": "multipleChoice",
+    "difficulty": "medium",
+    "passage": "Mentorship programs in the workplace can be a powerful tool for professional development. For junior employees, they provide invaluable guidance, networking opportunities, and a clearer path for career advancement. For senior employees, serving as a mentor can be a rewarding experience that hones their leadership skills and allows them to leave a legacy. Companies benefit from higher employee engagement and retention.",
+    "question": "Which sentence best expresses the main idea of the passage?",
+    "answerOptions": [
+      {
+        "text": "Mentorship helps junior employees advance in their careers.",
+        "rationale": "This is a benefit for one group, but the main idea is broader.",
+        "isCorrect": false
+      },
+      {
+        "text": "Senior employees can hone their leadership skills by mentoring.",
+        "rationale": "This is a benefit for another group, but it doesn't encompass the full scope of the passage.",
+        "isCorrect": false
+      },
+      {
+        "text": "Workplace mentorship programs offer significant benefits for junior employees, senior mentors, and the company as a whole.",
+        "rationale": "Correct. This statement comprehensively covers the advantages for all three parties mentioned in the passage.",
+        "isCorrect": true
+      },
+      {
+        "text": "Companies with mentorship programs have higher employee retention.",
+        "rationale": "This is a benefit for the company, but not the entire main idea.",
+        "isCorrect": false
+      }
     ],
-    challenge_tags: ['rla-2'],
+    "challenge_tags": [
+      "rla-1"
+    ]
   },
   {
-    questionNumber: 5, type: 'multipleChoice', difficulty: 'medium',
-    passage: "Fiction writer Toni Morrison once explained her creative philosophy this way: 'If there's a book you really want to read, but it hasn't been written yet, then you must write it.' This deceptively simple statement contains a profound artistic principle: that writers should fill absences, not replicate what already exists. Morrison's own body of work embodied this philosophy — her novels explored the lives of Black Americans in depth and complexity that had rarely appeared in American literary fiction before her, centring experiences that mainstream literature had historically marginalised or ignored.",
-    question: "What does the passage suggest about Morrison's creative approach?",
-    answerOptions: [
-      { text: "She believed writers should imitate successful novels.", isCorrect: false, rationale: "The exact opposite — she wrote to fill absences, not to replicate." },
-      { text: "She wrote to give voice to experiences and perspectives that had been excluded from mainstream American literature.", isCorrect: true, rationale: "The passage directly connects her philosophy ('fill absences') to her practice of centring Black American experiences." },
-      { text: "She only wrote for Black American audiences.", isCorrect: false, rationale: "The passage doesn't make this claim — it describes what she wrote about, not for whom." },
-      { text: "She believed all writers should write autobiographically.", isCorrect: false, rationale: "No such claim appears in the passage." },
+    "questionNumber": 5,
+    "type": "multipleChoice",
+    "difficulty": "hard",
+    "passage": "The debate over the use of native language versus English in the education of Native American children in the early 20th century was complex. Government-run boarding schools enforced an English-only policy, arguing it was necessary for assimilation and economic success. However, many tribal leaders and educators resisted, contending that the loss of native languages would lead to a devastating loss of cultural identity. They argued that bilingual education could provide a bridge between two worlds, allowing children to succeed in mainstream society without sacrificing their heritage.",
+    "question": "What is the central idea of the passage?",
+    "answerOptions": [
+      {
+        "text": "Government-run boarding schools in the 20th century had an English-only policy.",
+        "rationale": "This describes one side of the debate, but not the full conflict.",
+        "isCorrect": false
+      },
+      {
+        "text": "Bilingual education is the best way to teach children.",
+        "rationale": "This was the viewpoint of one side, but the main idea of the passage is to describe the debate itself.",
+        "isCorrect": false
+      },
+      {
+        "text": "The early 20th-century debate over Native American education involved a conflict between the goals of cultural assimilation through English-only policies and the preservation of cultural identity through native languages.",
+        "rationale": "Correct. This statement accurately summarizes the two opposing viewpoints and the central conflict described in the passage.",
+        "isCorrect": true
+      },
+      {
+        "text": "The loss of native languages is a devastating loss of cultural identity.",
+        "rationale": "This is the argument made by one side in the debate, not the main idea of the passage which is to present the debate itself.",
+        "isCorrect": false
+      }
     ],
-    challenge_tags: ['rla-2'],
+    "challenge_tags": [
+      "rla-1"
+    ]
   },
   {
-    questionNumber: 6, type: 'multipleChoice', difficulty: 'hard',
-    passage: "The history of public health is largely a history of conflict between individual liberty and collective wellbeing. Vaccine mandates, quarantine orders, and smoking bans have all faced fierce resistance from those who view such measures as government overreach. Yet most societies have ultimately accepted certain restrictions when the evidence of collective benefit is overwhelming. Smallpox vaccination campaigns — mandatory in many countries by the early 20th century — eradicated a disease that had killed hundreds of millions over the course of human history. The tension between individual rights and public health will continue to define political debates in every generation.",
-    question: "Which statement best captures the author's perspective on the individual liberty vs. public health debate?",
-    answerOptions: [
-      { text: "Individual liberty should always take precedence over public health concerns.", isCorrect: false, rationale: "The author presents historical examples where restrictions were accepted — this does not reflect the passage's balance." },
-      { text: "The conflict is permanent but societies have repeatedly chosen collective benefit when evidence is strong enough.", isCorrect: true, rationale: "The passage shows ongoing tension ('will continue') but also historical examples where society accepted restrictions." },
-      { text: "All vaccine mandates are an unacceptable violation of liberty.", isCorrect: false, rationale: "The author presents smallpox vaccination as a successful example of such a mandate." },
-      { text: "Governments should never restrict individual behaviour for public health.", isCorrect: false, rationale: "The passage says societies 'ultimately accepted' such restrictions when evidence was strong." },
+    "questionNumber": 6,
+    "type": "multipleChoice",
+    "difficulty": "hard",
+    "passage": "The psychology of 'choice architecture' suggests that the way options are presented to us can significantly influence our decisions. For example, a cafeteria that places fruits and salads at the beginning of the line will see higher consumption of those items than one that places them at the end. This is not about restricting choice, but about 'nudging' people toward certain behaviors by making those choices easier or more prominent. This principle is now being used in fields from public health to finance to subtly encourage better decision-making.",
+    "question": "Which statement best articulates the main idea of the passage?",
+    "answerOptions": [
+      {
+        "text": "Cafeterias should place fruits and salads at the beginning of the line.",
+        "rationale": "This is a specific example used to illustrate the main concept, not the main idea itself.",
+        "isCorrect": false
+      },
+      {
+        "text": "The way choices are presented can be designed to subtly influence decisions, a principle that is being applied in various fields to encourage better outcomes.",
+        "rationale": "Correct. This statement defines 'choice architecture,' explains its mechanism ('nudging'), and describes its broad application, covering all the key points of the passage.",
+        "isCorrect": true
+      },
+      {
+        "text": "'Nudging' is a way of restricting people's choices.",
+        "rationale": "The passage explicitly states the opposite: 'This is not about restricting choice'.",
+        "isCorrect": false
+      },
+      {
+        "text": "The psychology of decision-making is a complex field.",
+        "rationale": "This is a very general statement. The passage is about a specific concept within that field.",
+        "isCorrect": false
+      }
     ],
-    challenge_tags: ['rla-2'],
+    "challenge_tags": [
+      "rla-1"
+    ]
   },
   {
-    questionNumber: 7, type: 'multipleChoice', difficulty: 'hard',
-    passage: "In her 1963 book The Feminine Mystique, Betty Friedan described 'the problem that has no name' — a pervasive sense of dissatisfaction among educated, middle-class American women who were expected to find complete fulfilment in being wives and mothers. Friedan argued that postwar American culture had pushed women out of professional and civic life and back into the domestic sphere, isolating them and leaving their intellectual and personal ambitions unfulfilled. Critics of Friedan later noted that her analysis was largely limited to white, educated, middle-class women and did not represent the diverse experiences of working-class women, women of colour, or women outside the United States.",
-    question: "The critics' observation about Friedan's analysis is best described as:",
-    answerOptions: [
-      { text: "A refutation of Friedan's core argument.", isCorrect: false, rationale: "The critics note a limitation in scope, not that her core argument about the women she described is wrong." },
-      { text: "A challenge to the representativeness of Friedan's claims — noting that the 'problem' she described did not apply equally to all women.", isCorrect: true, rationale: "This accurately characterises the critics' point: Friedan's analysis was real for some women but not universal." },
-      { text: "Evidence that Friedan opposed the feminist movement.", isCorrect: false, rationale: "The Feminine Mystique is foundational to second-wave feminism; this characterisation is false." },
-      { text: "Proof that middle-class women did not actually face dissatisfaction.", isCorrect: false, rationale: "Critics dispute scope, not the existence of the problem for the women Friedan studied." },
+    "questionNumber": 7,
+    "type": "multipleChoice",
+    "difficulty": "easy",
+    "passage": "Please silence all electronic devices before the performance begins. The use of cameras or recording devices is strictly prohibited. Latecomers will be seated at a suitable break in the performance. Thank you for your cooperation in creating an enjoyable experience for everyone.",
+    "question": "What is the main idea of this announcement?",
+    "answerOptions": [
+      {
+        "text": "Latecomers will be seated during a break.",
+        "rationale": "This is one of the specific rules, not the overall point.",
+        "isCorrect": false
+      },
+      {
+        "text": "The performance is about to begin.",
+        "rationale": "This is the context, but the main idea is about the rules of conduct for the audience.",
+        "isCorrect": false
+      },
+      {
+        "text": "Audience members must follow certain rules of etiquette to ensure a good experience for all.",
+        "rationale": "Correct. This statement summarizes the purpose behind all the specific instructions given.",
+        "isCorrect": true
+      },
+      {
+        "text": "Using a camera is strictly prohibited.",
+        "rationale": "This is a key rule, but not the complete main idea.",
+        "isCorrect": false
+      }
     ],
-    challenge_tags: ['rla-2'],
+    "challenge_tags": [
+      "rla-1"
+    ]
   },
   {
-    questionNumber: 8, type: 'multipleChoice', difficulty: 'hard',
-    passage: "Excerpt from a 1906 US federal report on meatpacking conditions:
-
-'We saw meat shoveled from filthy wooden floors, piled on tables rarely washed, pushed from room to room in rotten box carts, in all of which processes it was in contact with splinters, floor dirt, and the expectoration of tuberculous workers. In these rooms the air was thick with the odor and the steam of the cooking fat and steam pipes, out of which the condensation constantly dripped onto the men and the food.'",
-    question: "What is the primary purpose of this excerpt?",
-    answerOptions: [
-      { text: "To praise the efficiency of industrial meatpacking.", isCorrect: false, rationale: "Every detail in the passage describes dangerous, unsanitary conditions — not efficiency." },
-      { text: "To document unsanitary conditions in order to build the case for government regulation.", isCorrect: true, rationale: "This is a federal report — its purpose is factual documentation to support policy action. The vivid, specific detail serves to justify intervention." },
-      { text: "To entertain readers with shocking descriptions.", isCorrect: false, rationale: "Federal reports have regulatory, not entertainment, purposes." },
-      { text: "To advertise improved sanitation standards.", isCorrect: false, rationale: "The conditions described are horrific; no improvement is mentioned." },
+    "questionNumber": 8,
+    "type": "multipleChoice",
+    "difficulty": "medium",
+    "passage": "The transition from a traditional manufacturing economy to a knowledge-based economy has had a profound impact on the workforce. In the past, many jobs were based on manual labor and physical skill. Today, there is a much greater demand for workers with expertise in areas like data analysis, software development, and digital marketing. This shift requires a greater emphasis on higher education and continuous skill development.",
+    "question": "What is the main point of the passage?",
+    "answerOptions": [
+      {
+        "text": "There is a high demand for data analysts and software developers today.",
+        "rationale": "These are examples of the types of jobs in demand, not the main point about the overall economic shift.",
+        "isCorrect": false
+      },
+      {
+        "text": "The economy's shift from manufacturing to knowledge-based work has increased the demand for educated and skilled workers.",
+        "rationale": "Correct. This statement accurately describes the economic shift and its primary consequence for the workforce.",
+        "isCorrect": true
+      },
+      {
+        "text": "Jobs in the past were based on manual labor.",
+        "rationale": "This describes the old economy, providing contrast but not capturing the main idea about the current situation.",
+        "isCorrect": false
+      },
+      {
+        "text": "Workers now need to focus on continuous skill development.",
+        "rationale": "This is the result of the main shift, but not the entire main idea itself.",
+        "isCorrect": false
+      }
     ],
-    challenge_tags: ['rla-2'],
+    "challenge_tags": [
+      "rla-1"
+    ]
   },
   {
-    questionNumber: 9, type: 'multipleChoice', difficulty: 'hard',
-    passage: "The Amazon rainforest has been called 'the lungs of the Earth' because it absorbs vast quantities of carbon dioxide and releases oxygen. However, scientists have recently reported that significant portions of the Eastern Amazon have crossed a threshold and are now releasing more carbon dioxide than they absorb — a result of decades of deforestation and climate-change-driven stress. If this net-carbon-release zone expands, the Amazon could transform from a carbon sink to a carbon source, potentially accelerating global climate change in ways that existing models have not fully accounted for.",
-    question: "What does the passage suggest about the relationship between local deforestation and global climate change?",
-    answerOptions: [
-      { text: "They are unrelated because the Amazon is too large to affect global systems.", isCorrect: false, rationale: "The passage says the Amazon already affects and is affected by global climate systems." },
-      { text: "Deforestation stress on the Amazon could create a feedback loop that accelerates global climate change beyond current projections.", isCorrect: true, rationale: "A possible 'net carbon source' Amazon would worsen climate change — a feedback loop with global consequences 'not fully accounted for' in models." },
-      { text: "Oxygen levels globally are declining because of Amazon deforestation.", isCorrect: false, rationale: "The passage discusses carbon emissions, not a global drop in oxygen levels." },
-      { text: "The Amazon is currently in good health and absorbing carbon efficiently.", isCorrect: false, rationale: "Portions have already crossed the release threshold — the opposite of 'good health.'" },
+    "questionNumber": 9,
+    "type": "multipleChoice",
+    "difficulty": "medium",
+    "passage": "Urban wildlife, such as raccoons, coyotes, and hawks, has become increasingly adept at surviving in human-dominated landscapes. These animals have learned to find food in garbage cans, make dens in abandoned buildings, and navigate busy streets. While their presence can sometimes lead to conflict with humans, it is also a testament to their remarkable adaptability. Managing these interactions requires a better understanding of animal behavior and more thoughtful urban planning.",
+    "question": "Which sentence best expresses the main idea?",
+    "answerOptions": [
+      {
+        "text": "Raccoons and coyotes are examples of urban wildlife.",
+        "rationale": "These are examples, not the central point of the passage.",
+        "isCorrect": false
+      },
+      {
+        "text": "Urban wildlife often comes into conflict with humans.",
+        "rationale": "This is a supporting detail, but the main idea is broader and includes the concept of adaptability.",
+        "isCorrect": false
+      },
+      {
+        "text": "Many species of wildlife have shown remarkable adaptability to urban environments, which requires new strategies for human-animal coexistence.",
+        "rationale": "Correct. This statement covers the animals' adaptability, the resulting human interaction, and the need for management.",
+        "isCorrect": true
+      },
+      {
+        "text": "Animals have learned to find food in garbage cans.",
+        "rationale": "This is a specific example of adaptation, not the overall main idea.",
+        "isCorrect": false
+      }
     ],
-    challenge_tags: ['rla-2'],
+    "challenge_tags": [
+      "rla-1"
+    ]
   },
   {
-    questionNumber: 10, type: 'multipleChoice', difficulty: 'hard',
-    passage: "Frederick Douglass wrote in his 1852 speech 'What to the Slave is the Fourth of July?':
-
-'This Fourth July is YOURS, not MINE. You may rejoice, I must mourn. To drag a man in fetters into the grand illuminated temple of liberty, and call upon him to join you in joyous anthems, were inhuman mockery and sacrilegious irony.'",
-    question: "What rhetorical strategy does Douglass use most powerfully in this excerpt?",
-    answerOptions: [
-      { text: "Appeals to historical data about the number of enslaved people in America.", isCorrect: false, rationale: "No statistics appear in the excerpt." },
-      { text: "Creating contrast between the celebration of liberty and the reality of enslavement to expose the hypocrisy of the holiday for enslaved people.", isCorrect: true, rationale: "The 'yours, not mine' contrast, the temple of liberty vs. fetters imagery, and 'inhuman mockery' all use ironic contrast as the core rhetorical move." },
-      { text: "Politely requesting that white Americans include Black Americans in celebrations.", isCorrect: false, rationale: "The tone is accusatory and ironic, not polite or requesting." },
-      { text: "Arguing that the Fourth of July should be abolished.", isCorrect: false, rationale: "Douglass does not call for abolishing the holiday — he calls out its hollow meaning while slavery persists." },
+    "questionNumber": 10,
+    "type": "multipleChoice",
+    "difficulty": "hard",
+    "passage": "The concept of 'historical memory' refers to how a society chooses to remember its past, and it is often a subject of intense debate. The construction of monuments, the writing of history textbooks, and the creation of public holidays are all ways in which a society shapes its collective memory. These choices are rarely neutral they often reflect the values and power structures of the present. The ongoing debates about which historical figures to honor show that a society's understanding of its past is not fixed, but is constantly being renegotiated.",
+    "question": "What is the central argument of the passage?",
+    "answerOptions": [
+      {
+        "text": "History textbooks are an important part of education.",
+        "rationale": "Textbooks are used as one example of how historical memory is shaped, but they are not the main subject.",
+        "isCorrect": false
+      },
+      {
+        "text": "The construction of monuments is often controversial.",
+        "rationale": "This is a supporting detail, but the main argument is broader than just monuments.",
+        "isCorrect": false
+      },
+      {
+        "text": "A society's collective memory of its past is not a neutral set of facts, but a constantly evolving narrative shaped by present-day values and debates.",
+        "rationale": "Correct. This statement effectively captures the main idea that historical memory is a constructed and contested process.",
+        "isCorrect": true
+      },
+      {
+        "text": "A society's understanding of its past is fixed and unchangeable.",
+        "rationale": "The passage argues the exact opposite, stating that this understanding is 'constantly being renegotiated'.",
+        "isCorrect": false
+      }
     ],
-    challenge_tags: ['rla-2'],
+    "challenge_tags": [
+      "rla-1"
+    ]
   },
+  {
+    "questionNumber": 11,
+    "type": "multipleChoice",
+    "difficulty": "hard",
+    "passage": "Crowdfunding has emerged as a viable alternative to traditional financing for many entrepreneurs and artists. Platforms like Kickstarter and GoFundMe allow individuals to solicit small amounts of money from a large number of people, a model known as micropatronage. This democratizes the funding process, giving creators a chance to bring their ideas to life without relying on a few wealthy investors or corporate sponsors. However, it also shifts the burden of marketing and promotion directly onto the creator, who must build and engage a community of supporters to succeed.",
+    "question": "Which statement best summarizes the main idea of the passage?",
+    "answerOptions": [
+      {
+        "text": "Crowdfunding is a way to get money from a large number of people.",
+        "rationale": "This is a definition, but it doesn't capture the full scope of the main idea.",
+        "isCorrect": false
+      },
+      {
+        "text": "Crowdfunding requires creators to be good at marketing.",
+        "rationale": "This is a key challenge mentioned, but not the overall main idea.",
+        "isCorrect": false
+      },
+      {
+        "text": "Crowdfunding has democratized financing for creators but also places the responsibility for marketing directly on them.",
+        "rationale": "Correct. This statement captures both the primary benefit (democratization of funding) and the main challenge (marketing burden) of the crowdfunding model, which is the central point of the passage.",
+        "isCorrect": true
+      },
+      {
+        "text": "Kickstarter and GoFundMe are popular crowdfunding platforms.",
+        "rationale": "These are examples, not the main idea about the concept itself.",
+        "isCorrect": false
+      }
+    ],
+    "challenge_tags": [
+      "rla-1"
+    ]
+  },
+  {
+    "questionNumber": 12,
+    "type": "multipleChoice",
+    "passage": "An article describes how a small-town newspaper survived the shift to digital news. Rather than competing with national outlets, the staff focused on in-depth coverage of local school board meetings, neighborhood events, and high school sports. They launched a weekly email digest that now reaches 4,000 subscribers and partnered with local businesses for sponsorships. The editor concludes that staying close to community stories has kept the paper relevant.",
+    "question": "Which sentence best states the main idea of the article?",
+    "answerOptions": [
+      {
+        "text": "The newspaper covers high school sports and neighborhood events.",
+        "rationale": "These are examples of coverage, but the main idea is about how the paper stayed relevant overall.",
+        "isCorrect": false
+      },
+      {
+        "text": "By focusing on hyperlocal reporting and community partnerships, the newspaper remained relevant in the digital age.",
+        "rationale": "Correct. This option captures the strategy (local focus and partnerships) and the result (remaining relevant).",
+        "isCorrect": true
+      },
+      {
+        "text": "The staff created a weekly email digest for 4,000 subscribers.",
+        "rationale": "The email digest is one tactic, not the central idea of the article.",
+        "isCorrect": false
+      },
+      {
+        "text": "Local businesses sponsor several community events each year.",
+        "rationale": "Sponsorships are mentioned as part of the strategy, but the main idea emphasizes the paper's overall approach to survival.",
+        "isCorrect": false
+      }
+    ],
+    "difficulty": "medium",
+    "challenge_tags": [
+      "rla-1"
+    ]
+  }
 ];
