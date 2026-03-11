@@ -1,374 +1,139 @@
+﻿// Language & Grammar  Practice 4: Adjective Clauses & Relative Pronouns
+
 module.exports = [
   {
-    "questionNumber": 1,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence is grammatically correct?",
-    "answerOptions": [
-      {
-        "text": "Me and my friends are going to the concert.",
-        "rationale": "'Me' cannot be a subject. It should be 'My friends and I'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The dog lost its bone.",
-        "rationale": "Correct. 'Its' is the correct possessive pronoun.",
-        "isCorrect": true
-      },
-      {
-        "text": "There was less people than we expected.",
-        "rationale": "Use 'fewer' for countable nouns like 'people'.",
-        "isCorrect": false
-      },
-      {
-        "text": "She done a great job on the presentation.",
-        "rationale": "The correct past tense is 'did'. 'Done' is the past participle.",
-        "isCorrect": false
-      }
+    questionNumber: 1,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    question: 'Which underlined portion of the following sentence is an adjective clause?\n\n"The teacher WHO ASSIGNED the project gave us two weeks to finish it."',
+    answerOptions: [
+      { text: 'who assigned the project', isCorrect: true, rationale: 'Correct. "Who assigned the project" is an adjective clause introduced by the relative pronoun "who." It modifies the noun "teacher" by telling us which teacher is being discussed.' },
+      { text: 'gave us two weeks', isCorrect: false, rationale: 'Incorrect. "Gave us two weeks" is part of the main clause\'s predicate, not a subordinate adjective clause. It does not begin with a relative pronoun.' },
+      { text: 'to finish it', isCorrect: false, rationale: 'Incorrect. "To finish it" is an infinitive phrase functioning as an adverb, not an adjective clause.' },
+      { text: 'The teacher', isCorrect: false, rationale: 'Incorrect. "The teacher" is a noun phrase serving as the subject of the sentence. An adjective clause must contain a subject and a verb and begin with a relative pronoun.' },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-6'],
   },
   {
-    "questionNumber": 2,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence is punctuated correctly?",
-    "answerOptions": [
-      {
-        "text": "The movie was long, boring, and predictable.",
-        "rationale": "Correct. Commas are used correctly to separate adjectives in a series.",
-        "isCorrect": true
-      },
-      {
-        "text": "She asked, 'what time is it'.",
-        "rationale": "The question mark should be inside the quotation marks, and 'what' should be capitalized.",
-        "isCorrect": false
-      },
-      {
-        "text": "I need to buy: milk bread and eggs.",
-        "rationale": "A colon is not necessary here.",
-        "isCorrect": false
-      },
-      {
-        "text": "Its a beautiful day outside.",
-        "rationale": "It should be 'It's' to mean 'it is'.",
-        "isCorrect": false
-      }
+    questionNumber: 2,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    question: 'In the sentence below, identify the relative pronoun that introduces the adjective clause.\n\n"The novel THAT I borrowed from the library was overdue."',
+    answerOptions: [
+      { text: 'from', isCorrect: false, rationale: 'Incorrect. "From" is a preposition, not a relative pronoun. Relative pronouns include who, whom, whose, which, and that.' },
+      { text: 'that', isCorrect: true, rationale: 'Correct. "That" is a relative pronoun introducing the adjective clause "that I borrowed from the library," which modifies the noun "novel."' },
+      { text: 'was', isCorrect: false, rationale: 'Incorrect. "Was" is the main verb of the sentence, not a relative pronoun.' },
+      { text: 'the', isCorrect: false, rationale: 'Incorrect. "The" is a definite article. It cannot introduce an adjective clause. Only relative pronouns (who, whom, whose, which, that) begin adjective clauses.' },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-6'],
   },
   {
-    "questionNumber": 3,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence provides the most clear and effective revision of 'The report was read by him.'?",
-    "answerOptions": [
-      {
-        "text": "The report, it was read by him.",
-        "rationale": "This is redundant and awkward.",
-        "isCorrect": false
-      },
-      {
-        "text": "He read the report.",
-        "rationale": "Correct. This changes the sentence from passive voice to active voice, making it more direct and clear.",
-        "isCorrect": true
-      },
-      {
-        "text": "Reading the report was what he did.",
-        "rationale": "This is wordy and less direct.",
-        "isCorrect": false
-      },
-      {
-        "text": "It was him who read the report.",
-        "rationale": "This is grammatically awkward 'he' would be better than 'him', but the active voice in the correct answer is best.",
-        "isCorrect": false
-      }
+    questionNumber: 3,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    question: 'Which version correctly punctuates the non-restrictive adjective clause in this sentence?\n\nMy sister _____ lives in Denver is a nurse.',
+    answerOptions: [
+      { text: 'My sister, who lives in Denver, is a nurse.', isCorrect: true, rationale: 'Correct. When an adjective clause is non-restrictive (it adds extra information rather than identifying which sister), it must be set off with commas. "Who" is the appropriate pronoun for a person.' },
+      { text: 'My sister who lives in Denver is a nurse.', isCorrect: false, rationale: 'Incorrect. Without commas this becomes a restrictive clause, implying you have multiple sisters and are specifying which one. The question asks for non-restrictive punctuation.' },
+      { text: 'My sister, that lives in Denver, is a nurse.', isCorrect: false, rationale: 'Incorrect. "That" should not introduce a non-restrictive clause. Standard English uses "who" or "which" for non-restrictive adjective clauses, never "that."' },
+      { text: 'My sister whom, lives in Denver, is a nurse.', isCorrect: false, rationale: 'Incorrect. The comma is misplaced after "whom," and "whom" is the wrong case here because the pronoun serves as the subject of "lives," requiring "who."' },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-6'],
   },
   {
-    "questionNumber": 4,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence has a subject-verb agreement error?",
-    "answerOptions": [
-      {
-        "text": "The pack of wolves live in the nearby forest.",
-        "rationale": "Correct. The subject is 'pack' (singular), so the verb should be 'lives', not 'live'.",
-        "isCorrect": true
-      },
-      {
-        "text": "Either the cat or the dogs are making that noise.",
-        "rationale": "The verb 'are' correctly agrees with the closer subject, 'dogs'.",
-        "isCorrect": false
-      },
-      {
-        "text": "The news from the front lines is not good.",
-        "rationale": "'News' is a singular noun and correctly uses the singular verb 'is'.",
-        "isCorrect": false
-      },
-      {
-        "text": "One of my friends is coming to visit.",
-        "rationale": "The subject 'One' is singular and correctly uses the singular verb 'is'.",
-        "isCorrect": false
-      }
+    questionNumber: 4,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'The city council voted to demolish the old library, which had served the community for over a century. Several residents protested the decision. The historic building that was designed by a famous architect in 1910 held sentimental value for many families.',
+    question: 'In the passage above, which adjective clause is restrictive?',
+    answerOptions: [
+      { text: 'which had served the community for over a century', isCorrect: false, rationale: 'Incorrect. This clause is non-restrictive. It is set off by a comma and introduced by "which," adding extra information about the old library rather than identifying it.' },
+      { text: 'that was designed by a famous architect in 1910', isCorrect: true, rationale: 'Correct. This is a restrictive adjective clause. It begins with "that," has no surrounding commas, and is essential for identifying which historic building is meant.' },
+      { text: 'Several residents protested the decision', isCorrect: false, rationale: 'Incorrect. This is an independent clause forming its own sentence. It does not modify a noun and is not an adjective clause at all.' },
+      { text: 'Both clauses are non-restrictive because they describe nouns', isCorrect: false, rationale: 'Incorrect. Not all clauses that describe nouns are non-restrictive. A restrictive clause limits or identifies the noun and is essential to the sentence\'s meaning; it uses "that" and no commas.' },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-6'],
   },
   {
-    "questionNumber": 5,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which sentence avoids redundancy?",
-    "answerOptions": [
-      {
-        "text": "The two twins look exactly alike.",
-        "rationale": "'Twins' implies two, and 'alike' implies exactly, so 'two' and 'exactly' are redundant.",
-        "isCorrect": false
-      },
-      {
-        "text": "She is a new beginner at yoga.",
-        "rationale": "A 'beginner' is by definition 'new', so 'new' is redundant.",
-        "isCorrect": false
-      },
-      {
-        "text": "We will repeat the presentation again for the latecomers.",
-        "rationale": "'Repeat' means to do again, so 'again' is redundant.",
-        "isCorrect": false
-      },
-      {
-        "text": "The final outcome of the experiment was unexpected.",
-        "rationale": "Correct. This sentence does not contain unnecessary repetition.",
-        "isCorrect": true
-      }
+    questionNumber: 5,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    question: 'Choose the correct relative pronoun to complete the sentence:\n\n"The candidate _____ résumé impressed the committee was offered the position."',
+    answerOptions: [
+      { text: 'who', isCorrect: false, rationale: 'Incorrect. "Who" functions as a subject pronoun. Here the pronoun needs to show possession of the résumé, so "whose" is required.' },
+      { text: 'whom', isCorrect: false, rationale: 'Incorrect. "Whom" is an object pronoun. The sentence requires a possessive form to indicate that the résumé belongs to the candidate.' },
+      { text: 'whose', isCorrect: true, rationale: 'Correct. "Whose" is the possessive relative pronoun. The clause "whose résumé impressed the committee" modifies "candidate" and shows that the résumé belongs to that candidate.' },
+      { text: 'which', isCorrect: false, rationale: 'Incorrect. "Which" refers to things, not people. Additionally, "which résumé" would not correctly convey possession the way "whose résumé" does.' },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-6'],
   },
   {
-    "questionNumber": 6,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence provides the most effective revision for conciseness? 'It is absolutely essential that all employees be on time for the mandatory meeting.'",
-    "answerOptions": [
-      {
-        "text": "All employees must be on time for the meeting.",
-        "rationale": "Correct. This revision removes the wordy phrases 'It is absolutely essential' and 'mandatory' (which is implied by 'must'), making it much more concise.",
-        "isCorrect": true
-      },
-      {
-        "text": "Being on time for the mandatory meeting is essential for all employees.",
-        "rationale": "This is still quite wordy.",
-        "isCorrect": false
-      },
-      {
-        "text": "The mandatory meeting requires that all employees be on time.",
-        "rationale": "This is a slight improvement, but not the most concise.",
-        "isCorrect": false
-      },
-      {
-        "text": "It is essential that employees attend the mandatory meeting on time.",
-        "rationale": "This is still unnecessarily wordy.",
-        "isCorrect": false
-      }
+    questionNumber: 6,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    question: 'Select the sentence that uses the correct relative pronoun.\n',
+    answerOptions: [
+      { text: 'The manager who I spoke to yesterday approved my request.', isCorrect: false, rationale: 'Incorrect. "Who" is a subject pronoun, but here the pronoun is the object of the preposition "to." The correct form is "whom" (or "whom I spoke to" / "to whom I spoke").' },
+      { text: 'The manager whom I spoke to yesterday approved my request.', isCorrect: true, rationale: 'Correct. "Whom" is the object form of the relative pronoun. Since the pronoun receives the action (I spoke to whom), "whom" is grammatically correct.' },
+      { text: 'The manager which I spoke to yesterday approved my request.', isCorrect: false, rationale: 'Incorrect. "Which" is used for things, not people. When the antecedent is a person, use "who" or "whom."' },
+      { text: 'The manager whose I spoke to yesterday approved my request.', isCorrect: false, rationale: 'Incorrect. "Whose" is a possessive pronoun and does not fit here. The sentence does not indicate possession; it indicates the object of the verb phrase "spoke to."' },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-6'],
   },
   {
-    "questionNumber": 7,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence correctly combines the following two ideas? 'The company's profits have declined. The company must implement a new marketing strategy.'",
-    "answerOptions": [
-      {
-        "text": "The company's profits have declined, it must implement a new marketing strategy.",
-        "rationale": "This is a comma splice.",
-        "isCorrect": false
-      },
-      {
-        "text": "Because the company's profits have declined, it must implement a new marketing strategy.",
-        "rationale": "Correct. This sentence correctly uses a subordinating conjunction to show the cause-and-effect relationship between the two ideas.",
-        "isCorrect": true
-      },
-      {
-        "text": "The company's profits have declined, and so, it must implement a new marketing strategy.",
-        "rationale": "The 'and so' is a bit redundant and less formal.",
-        "isCorrect": false
-      },
-      {
-        "text": "The company must implement a new marketing strategy, for the reason that its profits have declined.",
-        "rationale": "This is unnecessarily wordy.",
-        "isCorrect": false
-      }
+    questionNumber: 7,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'The museum displays ancient pottery. The pottery was discovered in 1955. Archaeologists found it in a remote cave.',
+    question: 'Which revision best combines the sentences in the passage above into one sentence using an adjective clause?',
+    answerOptions: [
+      { text: 'The museum displays ancient pottery that was discovered in a remote cave in 1955.', isCorrect: true, rationale: 'Correct. The adjective clause "that was discovered in a remote cave in 1955" concisely combines the key information from all three sentences and correctly modifies "pottery."' },
+      { text: 'The museum displays ancient pottery, and it was discovered in 1955, and archaeologists found it in a remote cave.', isCorrect: false, rationale: 'Incorrect. This version chains independent clauses with "and" rather than using an adjective clause. It is wordy and does not meet the requirement of combining with a relative clause.' },
+      { text: 'The museum displays ancient pottery, it was discovered by archaeologists in a remote cave in 1955.', isCorrect: false, rationale: 'Incorrect. This creates a comma splicetwo independent clauses joined only by a comma. It also lacks a relative pronoun, so no adjective clause is formed.' },
+      { text: 'The museum displays ancient pottery whom archaeologists discovered in 1955 in a cave.', isCorrect: false, rationale: 'Incorrect. "Whom" refers only to people. Since the antecedent is "pottery" (a thing), the correct relative pronoun would be "that" or "which."' },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-6'],
   },
   {
-    "questionNumber": 8,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence is phrased in the most formal and appropriate style for a business report?",
-    "answerOptions": [
-      {
-        "text": "We figured out that the main problem is that we're not spending enough on ads.",
-        "rationale": "This phrasing is too informal ('figured out', 'we're', 'ads').",
-        "isCorrect": false
-      },
-      {
-        "text": "The investigation revealed that the primary issue is insufficient expenditure on advertising.",
-        "rationale": "Correct. This sentence uses formal language ('investigation revealed', 'primary issue', 'insufficient expenditure', 'advertising') and is appropriate for a business report.",
-        "isCorrect": true
-      },
-      {
-        "text": "It's pretty obvious that we just need to throw more money at advertising.",
-        "rationale": "This is highly informal and unprofessional.",
-        "isCorrect": false
-      },
-      {
-        "text": "The bottom line is our advertising budget is too small to get the job done.",
-        "rationale": "This uses informal idioms ('bottom line', 'get the job done').",
-        "isCorrect": false
-      }
+    questionNumber: 8,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'Elena adopted a dog from the shelter. The dog had been rescued from a flooded neighborhood. The neighborhood was hit by the hurricane last August.',
+    question: 'Which revision most effectively combines the sentences in the passage using adjective clauses while preserving all essential information?',
+    answerOptions: [
+      { text: 'Elena adopted a dog from the shelter that had been rescued from a flooded neighborhood that was hit by the hurricane last August.', isCorrect: false, rationale: 'Incorrect. Stacking two "that" clauses creates ambiguity: "that had been rescued" could modify "shelter" instead of "dog." Effective writing avoids chaining multiple restrictive clauses this way.' },
+      { text: 'Elena adopted a shelter dog, which had been rescued from a neighborhood that was flooded by the hurricane last August.', isCorrect: true, rationale: 'Correct. The non-restrictive clause "which had been rescued from a neighborhood" clearly modifies "dog," and the restrictive clause "that was flooded by the hurricane last August" identifies the neighborhood. All essential information is preserved without ambiguity.' },
+      { text: 'Elena adopted a dog from the shelter who had been rescued from a flooded neighborhood hit by the hurricane last August.', isCorrect: false, rationale: 'Incorrect. "Who" should refer to people, not animals in standard formal writing when the antecedent is "dog." Additionally, "who" could be misread as modifying "shelter."' },
+      { text: 'A dog was adopted by Elena from the shelter, and the neighborhood was flooded, which was hit by the hurricane last August.', isCorrect: false, rationale: 'Incorrect. The passive construction is awkward, the clause "which was hit by the hurricane" illogically seems to modify the entire preceding clause rather than "neighborhood," and key information about the rescue is lost.' },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-6'],
   },
   {
-    "questionNumber": 9,
-    "type": "multipleChoice",
-    "difficulty": "easy",
-    "question": "Which sentence uses capitalization correctly?",
-    "answerOptions": [
-      {
-        "text": "I am taking a class in spanish this semester.",
-        "rationale": "Names of languages, like 'Spanish', should be capitalized.",
-        "isCorrect": false
-      },
-      {
-        "text": "We are going to visit aunt Maria in the fall.",
-        "rationale": "Titles used as part of a name, like 'Aunt Maria', should be capitalized.",
-        "isCorrect": false
-      },
-      {
-        "text": "The declaration of independence was signed in 1776.",
-        "rationale": "The names of historical documents, like 'Declaration of Independence', should be capitalized.",
-        "isCorrect": false
-      },
-      {
-        "text": "She works for the Federal Bureau of Investigation.",
-        "rationale": "Correct. The names of specific government agencies are capitalized.",
-        "isCorrect": true
-      }
+    questionNumber: 9,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'The report was filed by the officer who the suspect described, which was thorough, whom the detective later interviewed.',
+    question: 'The passage above contains a misplaced adjective clause. Which revision corrects the error?',
+    answerOptions: [
+      { text: 'The thorough report, which was filed by the officer whom the suspect described, impressed the detective who later interviewed the suspect.', isCorrect: true, rationale: 'Correct. This revision places each adjective clause next to its antecedent: "which was filed by the officer" modifies "report," "whom the suspect described" modifies "officer," and "who later interviewed" modifies "detective." The meaning is clear and unambiguous.' },
+      { text: 'The report that was thorough was filed by the officer, who the suspect described, whom the detective later interviewed.', isCorrect: false, rationale: 'Incorrect. "Who the suspect described" should be "whom" (object of "described"), and the stacked clauses at the end still create confusion about whether "whom the detective later interviewed" modifies "suspect" or "officer."' },
+      { text: 'Filed by the officer, the report which the suspect described was thorough, whom the detective interviewed.', isCorrect: false, rationale: 'Incorrect. This revision still misplaces the clause "whom the detective interviewed," which dangles at the end with no clear antecedent. Adjective clauses must immediately follow the noun they modify.' },
+      { text: 'The report requires no revision because all adjective clauses are correctly placed next to their antecedents.', isCorrect: false, rationale: 'Incorrect. In the original sentence, "which was thorough" awkwardly interrupts the flow between unrelated clauses, and "whom the detective later interviewed" is stranded far from its logical antecedent.' },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-6'],
   },
   {
-    "questionNumber": 10,
-    "type": "multipleChoice",
-    "difficulty": "medium",
-    "question": "Which of the following has a punctuation error?",
-    "answerOptions": [
-      {
-        "text": "The car, a red convertible, sped down the highway.",
-        "rationale": "The phrase 'a red convertible' is a correctly punctuated appositive.",
-        "isCorrect": false
-      },
-      {
-        "text": "She packed three things: a book, a snack, and a water bottle.",
-        "rationale": "The colon is used correctly to introduce a list.",
-        "isCorrect": false
-      },
-      {
-        "text": "My sister, who lives in Ohio, is a doctor.",
-        "rationale": "The non-essential clause 'who lives in Ohio' is correctly set off by commas.",
-        "isCorrect": false
-      },
-      {
-        "text": "He said that, 'we should leave soon.'",
-        "rationale": "Correct. There should not be a comma after 'that' when introducing a quote.",
-        "isCorrect": true
-      }
+    questionNumber: 10,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'The scholarship committee selected three finalists. Each finalist had submitted an essay which the judges reviewed carefully. The judges, that included two published authors, scored the essays on originality and clarity.',
+    question: 'Which sentence in the passage contains an error in relative pronoun usage, and what is the correction?',
+    answerOptions: [
+      { text: 'The first sentence needs "who" added: "The scholarship committee who selected three finalists."', isCorrect: false, rationale: 'Incorrect. The first sentence is a simple independent clause with no adjective clause needed. Adding "who" would create a fragment or change the meaning.' },
+      { text: 'The second sentence should replace "which" with "whom" because the antecedent is "finalist," a person.', isCorrect: false, rationale: 'Incorrect. The relative pronoun "which" refers to "essay," not "finalist." Since "essay" is a thing, "which" (or "that") is acceptable. "Whom" would be wrong because it refers to people.' },
+      { text: 'The third sentence should replace "that" with "who" because the non-restrictive clause refers to people (the judges).', isCorrect: true, rationale: 'Correct. "That" cannot introduce a non-restrictive (comma-separated) adjective clause. Since "judges" are people and the clause is set off by commas, the correct pronoun is "who": "The judges, who included two published authors, scored the essays."' },
+      { text: 'All three sentences are correct; no changes are needed.', isCorrect: false, rationale: 'Incorrect. The third sentence misuses "that" in a non-restrictive clause. Standard grammar requires "who" or "which" (never "that") when the clause is set off by commas.' },
     ],
-    "challenge_tags": [
-      "rla-6"
-    ]
+    challenge_tags: ['rla-6'],
   },
-  {
-    "questionNumber": 11,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence provides the most effective revision for 'Having been repaired, the mechanic returned the car to the customer.'?",
-    "answerOptions": [
-      {
-        "text": "The mechanic, having repaired the car, returned it to the customer.",
-        "rationale": "This is grammatically correct, but not the most direct phrasing.",
-        "isCorrect": false
-      },
-      {
-        "text": "After the car was repaired, the mechanic returned it to the customer.",
-        "rationale": "This is correct and clear.",
-        "isCorrect": false
-      },
-      {
-        "text": "The mechanic returned the repaired car to the customer.",
-        "rationale": "Correct. This is the most concise and direct revision, embedding the idea of the repair as an adjective.",
-        "isCorrect": true
-      },
-      {
-        "text": "The customer's car was returned after the mechanic repaired it.",
-        "rationale": "This uses the passive voice, which is less direct.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  },
-  {
-    "questionNumber": 12,
-    "type": "multipleChoice",
-    "difficulty": "hard",
-    "question": "Which sentence correctly combines these two ideas with the most sophisticated structure? 'The city is facing a budget crisis. Many public services may be cut.'",
-    "answerOptions": [
-      {
-        "text": "The city is facing a budget crisis, so many public services may be cut.",
-        "rationale": "This is grammatically correct, but it's a simple structure.",
-        "isCorrect": false
-      },
-      {
-        "text": "Facing a budget crisis, the city may have to cut many public services.",
-        "rationale": "Correct. This version uses an introductory participial phrase, creating a more sophisticated and concise sentence.",
-        "isCorrect": true
-      },
-      {
-        "text": "The city is facing a budget crisis, and many public services may be cut.",
-        "rationale": "This is also correct but uses a simple coordinating conjunction.",
-        "isCorrect": false
-      },
-      {
-        "text": "Many public services may be cut because the city is facing a budget crisis.",
-        "rationale": "This is correct but places the main point (the service cuts) at the beginning, which may be less effective depending on context.",
-        "isCorrect": false
-      }
-    ],
-    "challenge_tags": [
-      "rla-6"
-    ]
-  }
 ];

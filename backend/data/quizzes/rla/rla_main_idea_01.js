@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -8,29 +8,27 @@ module.exports = [
     "question": "Which sentence best states the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "The company is introducing a new employee portal for better communication.",
-        "rationale": "The portal is mentioned as a tool to access the training, but it is not the main topic.",
+        "text": "The company recently redesigned its employee portal to improve overall workplace communication.",
+        "rationale": "The portal is mentioned only as a tool to access the training module, not as the subject of the memo.",
         "isCorrect": false
       },
       {
-        "text": "All employees must complete a new, mandatory safety training module by the end of the month.",
-        "rationale": "Correct. This sentence accurately summarizes the central point of the workplace memo.",
+        "text": "Employees must complete a mandatory safety training module by month's end.",
+        "rationale": "Correct. This summarizes the central directive of the workplace memo.",
         "isCorrect": true
       },
       {
-        "text": "Employees who fail to complete the training will have their network access suspended.",
-        "rationale": "This is a supporting detail about the consequences, not the main idea itself.",
+        "text": "Employees who miss the deadline will permanently lose access to all company systems.",
+        "rationale": "The passage says suspension may be temporary, not permanent, and only involves network access.",
         "isCorrect": false
       },
       {
-        "text": "The training will cover emergency procedures and hazard communication.",
-        "rationale": "This describes the content of the training, which is a detail supporting the main idea.",
+        "text": "The training focuses exclusively on the proper use of personal protective equipment.",
+        "rationale": "PPE is one of several topics; the course also covers emergency procedures and hazard communication.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 2,
@@ -40,29 +38,27 @@ module.exports = [
     "question": "What is the central message of this announcement?",
     "answerOptions": [
       {
-        "text": "The city is launching a new recycling program with blue bins and bi-weekly pick-up to reduce waste.",
-        "rationale": "Correct. This statement captures the key components of the new program announced in the passage.",
+        "text": "The city is introducing a recycling program with blue bins and bi-weekly pick-up to cut waste.",
+        "rationale": "Correct. This captures the key components of the new program announced in the passage.",
         "isCorrect": true
       },
       {
-        "text": "Residents will be mailed a detailed guide about acceptable materials.",
-        "rationale": "This is a specific detail about how information will be shared, not the main idea.",
+        "text": "A detailed mailing will explain which materials each household is legally required to recycle.",
+        "rationale": "The guide is a supporting detail about information sharing; legal requirements are not mentioned.",
         "isCorrect": false
       },
       {
-        "text": "The city wants to increase its recycling rate by 30%.",
-        "rationale": "This is the goal of the program, a key detail, but not the entire main idea.",
+        "text": "The city plans to completely eliminate its landfill within the next year through this program.",
+        "rationale": "The goal is a 30% increase in recycling rate, not elimination of the landfill.",
         "isCorrect": false
       },
       {
-        "text": "Pick-up for the new program will be on the same day as trash collection.",
-        "rationale": "This is a logistical detail, not the central message.",
+        "text": "Regular trash collection will be reduced to once a month to encourage higher recycling rates.",
+        "rationale": "The passage says recycling pick-up occurs on the same day as regular trash collection; trash frequency is unchanged.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 3,
@@ -72,29 +68,27 @@ module.exports = [
     "question": "Which sentence best expresses the main idea?",
     "answerOptions": [
       {
-        "text": "A 30-minute walk is a form of moderate exercise.",
-        "rationale": "This is an example provided in the text, not the overall point.",
+        "text": "Walking for 30 minutes each day has been proven to prevent all cardiovascular diseases.",
+        "rationale": "The passage mentions a 30-minute walk as one example of moderate exercise with benefits, not as a cure-all.",
         "isCorrect": false
       },
       {
-        "text": "You should find an enjoyable form of exercise.",
-        "rationale": "This is a concluding tip, but not the main idea of the entire passage.",
+        "text": "Choosing an enjoyable activity is the most important factor in any fitness routine.",
+        "rationale": "Enjoyment is mentioned as a tip for consistency, but the main idea is about the health benefits of activity.",
         "isCorrect": false
       },
       {
-        "text": "Regular physical activity is essential for good physical and mental health.",
-        "rationale": "Correct. This sentence summarizes the overall argument and its supporting points.",
+        "text": "Regular physical activity is essential for maintaining good physical and mental health.",
+        "rationale": "Correct. This summarizes the overall argument about the importance of regular exercise.",
         "isCorrect": true
       },
       {
-        "text": "Exercise helps with weight management.",
-        "rationale": "This is one of the specific benefits mentioned, not the central claim.",
+        "text": "Weight management is the primary reason most health experts recommend daily exercise.",
+        "rationale": "Weight management is one of several benefits listed alongside cardiovascular health and mental clarity.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 4,
@@ -104,29 +98,27 @@ module.exports = [
     "question": "What is the main point of these instructions?",
     "answerOptions": [
       {
-        "text": "You should call customer service if you have questions.",
-        "rationale": "This is what to do if parts are missing, not the main instruction.",
+        "text": "Customer service is available to answer any questions about bookshelf assembly techniques.",
+        "rationale": "Customer service is mentioned only for requesting missing parts, not for assembly guidance.",
         "isCorrect": false
       },
       {
-        "text": "Verify that you have all the necessary parts before you begin assembling the bookshelf.",
-        "rationale": "Correct. The entire passage is focused on the preliminary step of checking for all components.",
+        "text": "Check that all parts are present in the package before you start assembling the bookshelf.",
+        "rationale": "Correct. The entire passage focuses on the preliminary step of verifying all components.",
         "isCorrect": true
       },
       {
-        "text": "The bookshelf has four shelves and two side panels.",
-        "rationale": "This lists some of the parts, but it is a detail, not the main directive.",
+        "text": "The bookshelf requires four shelves, two side panels, and a wrench that you supply yourself.",
+        "rationale": "The wrench is included in the hardware kit; the passage does not ask the customer to supply their own.",
         "isCorrect": false
       },
       {
-        "text": "Do not proceed with assembly if items are missing.",
-        "rationale": "This is a key instruction, but it's part of the broader main idea of checking parts first.",
+        "text": "Assembling the bookshelf without the back panel will not affect the overall structural stability.",
+        "rationale": "The passage says not to proceed if any items are missing, implying all parts are needed.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 5,
@@ -136,29 +128,27 @@ module.exports = [
     "question": "What is the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "Community gardens help people save money on groceries.",
-        "rationale": "This is one of the benefits mentioned, but not the only one. The main idea is broader.",
+        "text": "Community gardens primarily help urban residents reduce their monthly grocery expenses.",
+        "rationale": "Reducing food costs is one benefit mentioned, but the main idea also includes nutrition and community building.",
         "isCorrect": false
       },
       {
-        "text": "Working in a garden helps build a sense of accomplishment.",
-        "rationale": "This is a social benefit, but not the complete central idea.",
+        "text": "Gardening together builds a sense of accomplishment that no other community activity can match.",
+        "rationale": "The passage mentions accomplishment as one social benefit, not as a uniquely superior community activity.",
         "isCorrect": false
       },
       {
-        "text": "Community gardens provide multiple benefits to urban residents, including better nutrition and stronger social connections.",
-        "rationale": "Correct. This statement encompasses both the practical (food) and social (community) benefits described.",
+        "text": "Community gardens benefit urban residents through better nutrition and stronger social connections.",
+        "rationale": "Correct. This encompasses both the practical and social benefits described in the passage.",
         "isCorrect": true
       },
       {
-        "text": "Urban areas need more green spaces for social interaction.",
-        "rationale": "While true according to the passage, the main idea is specifically about the role of community gardens.",
+        "text": "Urban areas need more green spaces because concrete environments cause widespread mental health issues.",
+        "rationale": "The passage mentions green spaces as a benefit of gardens but does not discuss mental health issues from concrete.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 6,
@@ -168,29 +158,27 @@ module.exports = [
     "question": "Which sentence best captures the central argument of the passage?",
     "answerOptions": [
       {
-        "text": "Robots and artificial intelligence are going to eliminate a large number of jobs in the future.",
-        "rationale": "The passage presents this as one viewpoint but contrasts it with another, making this statement incomplete.",
-        "isCorrect": false
-      },
-      {
-        "text": "Workers should focus on developing skills in creativity and strategic thinking.",
-        "rationale": "This is a key detail, but it doesn't encompass the entire argument about the transformation.",
-        "isCorrect": false
-      },
-      {
-        "text": "The automation of the workplace is shifting the focus of human jobs toward complex skills and requires continuous learning.",
-        "rationale": "Correct. This sentence summarizes the cause (automation), the effect (shift in job focus), and the solution (lifelong learning).",
+        "text": "Automation is shifting workplace demands toward complex skills and requires continuous learning.",
+        "rationale": "Correct. This captures the economic shift, its effect on job requirements, and the necessary response.",
         "isCorrect": true
       },
       {
-        "text": "Repetitive, manual tasks are the first that will be automated in the workplace.",
-        "rationale": "This is a specific point supporting the larger argument about the changing nature of work.",
+        "text": "Robots and AI will eventually eliminate all human jobs within the next few decades.",
+        "rationale": "The passage presents job elimination as one viewpoint but contrasts it with the creation of new roles.",
+        "isCorrect": false
+      },
+      {
+        "text": "Manual tasks should never be automated because human workers perform them more reliably.",
+        "rationale": "The passage does not argue against automation; it says repetitive tasks are most likely to be automated.",
+        "isCorrect": false
+      },
+      {
+        "text": "Strategic thinking skills are only needed by senior management, not by entry-level employees.",
+        "rationale": "The passage says human workers broadly will focus on strategic thinking; it does not limit this to management.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 7,
@@ -200,29 +188,27 @@ module.exports = [
     "question": "What is the main idea the author is conveying?",
     "answerOptions": [
       {
-        "text": "Nonprofit organizations are now offering free financial workshops.",
-        "rationale": "This is presented as a solution, but the main idea is about the importance of the skill itself.",
+        "text": "Nonprofit workshops are now the primary way most Americans learn about personal finance topics.",
+        "rationale": "The workshops are mentioned as one response to the problem, not described as the primary learning method.",
         "isCorrect": false
       },
       {
-        "text": "Financial literacy, which is crucial for stability, is an often-neglected skill that some organizations are now trying to teach.",
-        "rationale": "Correct. This statement covers the importance of the skill, the problem (it's overlooked), and the emerging solution.",
+        "text": "Financial literacy is a crucial but often neglected skill that organizations are now working to teach.",
+        "rationale": "Correct. This covers the skill's importance, its neglect in education, and the emerging solutions.",
         "isCorrect": true
       },
       {
-        "text": "A lack of financial knowledge can lead to debt and other problems.",
-        "rationale": "This explains the consequences of the problem, but it's not the entire main idea.",
+        "text": "People without budgeting skills will inevitably accumulate large amounts of consumer debt.",
+        "rationale": "The passage says people are 'more susceptible' to debt, not that it is inevitable for everyone.",
         "isCorrect": false
       },
       {
-        "text": "Budgeting, saving, and investing are key financial concepts.",
-        "rationale": "These are examples of what financial literacy includes, not the central message about its importance.",
+        "text": "Investing is the most important component of financial literacy because it builds long-term wealth.",
+        "rationale": "Investing is listed alongside budgeting and saving; the passage does not rank one concept above others.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 8,
@@ -232,29 +218,27 @@ module.exports = [
     "question": "Which of the following best states the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "Public speaking is a source of anxiety for many people.",
-        "rationale": "This is the problem the passage addresses, but the main idea is about the solution.",
+        "text": "Public speaking anxiety is a medical condition that requires professional treatment to overcome.",
+        "rationale": "The passage presents speaking anxiety as common and manageable through practice, not as a medical condition.",
         "isCorrect": false
       },
       {
-        "text": "Confidence is important for public speaking.",
-        "rationale": "While true, the main idea is broader, explaining how to build that confidence.",
+        "text": "Knowing your material thoroughly is the single most important factor in delivering an effective speech.",
+        "rationale": "Preparation is one of several strategies mentioned, not singled out as the most important one.",
         "isCorrect": false
       },
       {
-        "text": "Audiences are generally supportive of speakers.",
-        "rationale": "This is a helpful tip mentioned in the passage, not its main point.",
-        "isCorrect": false
-      },
-      {
-        "text": "Anxiety about public speaking can be overcome through preparation and gradual practice.",
-        "rationale": "Correct. This sentence effectively summarizes the practical advice given in the passage.",
+        "text": "Public speaking anxiety can be overcome through preparation and gradual practice in low-stakes settings.",
+        "rationale": "Correct. This summarizes the passage's practical advice about building confidence incrementally.",
         "isCorrect": true
+      },
+      {
+        "text": "Most audiences are highly critical of speakers and notice every mistake during a presentation.",
+        "rationale": "The passage says the opposite: audiences are typically supportive and want the speaker to succeed.",
+        "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 9,
@@ -264,29 +248,27 @@ module.exports = [
     "question": "What is the central point of the passage?",
     "answerOptions": [
       {
-        "text": "The American West was home to many Native American tribes.",
-        "rationale": "This is a true statement from the passage, but it is only one part of the more complex picture the author is painting.",
+        "text": "Native American tribes were the only original inhabitants of the American West before settlers arrived.",
+        "rationale": "The passage mentions Native Americans alongside Mexican ranchers and Asian and European immigrants as contributors.",
         "isCorrect": false
       },
       {
-        "text": "The popular portrayal of the American West is often oversimplified and ignores the diverse cultural interactions that truly shaped it.",
-        "rationale": "Correct. The author's main purpose is to correct the simplistic narrative by highlighting the region's complexity and diversity.",
+        "text": "The popular portrayal of the West oversimplifies its diverse cultural interactions and complex history.",
+        "rationale": "Correct. The author's main purpose is to correct the simplistic narrative by highlighting the region's true diversity.",
         "isCorrect": true
       },
       {
-        "text": "Interactions between different cultural groups in the West were not always peaceful.",
-        "rationale": "This is a supporting detail that adds nuance to the main idea about complexity.",
+        "text": "Interactions between cultural groups in the West were always peaceful and mutually beneficial for everyone.",
+        "rationale": "The passage explicitly states that interactions 'were not always peaceful.'",
         "isCorrect": false
       },
       {
-        "text": "Popular media has created a unique identity for the American West.",
-        "rationale": "The passage argues that media has simplified a pre-existing unique identity, not created it.",
+        "text": "Popular media has accurately captured the unique regional identity of the American West throughout history.",
+        "rationale": "The passage argues the opposite: popular media has simplified the West's actual complexity.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 10,
@@ -296,61 +278,57 @@ module.exports = [
     "question": "Which statement best articulates the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "The gig economy is a superior alternative to traditional employment due to its flexibility.",
-        "rationale": "The passage presents both pros and cons, describing it as a 'double-edged sword,' not as superior.",
+        "text": "The gig economy is a clearly superior alternative to traditional employment for all types of workers.",
+        "rationale": "The passage describes the gig economy as a 'double-edged sword' with both advantages and disadvantages.",
         "isCorrect": false
       },
       {
-        "text": "The gig economy offers both significant advantages like flexibility and serious disadvantages like a lack of benefits, posing a challenge for modern labor policy.",
-        "rationale": "Correct. This statement captures the central tension of the passage—the pros and cons—and the resulting challenge.",
+        "text": "The gig economy offers flexibility but lacks worker protections, creating a policy challenge.",
+        "rationale": "Correct. This captures the central tension and the resulting challenge for policymakers and companies.",
         "isCorrect": true
       },
       {
-        "text": "Workers in the gig economy do not receive health insurance, retirement plans, or paid sick leave.",
-        "rationale": "This is a key supporting detail for the 'disadvantage' side of the argument, not the overall main idea.",
+        "text": "Gig workers earn significantly higher wages than traditional employees in the same industries.",
+        "rationale": "The passage discusses flexibility and benefits, not comparative wage levels between gig and traditional work.",
         "isCorrect": false
       },
       {
-        "text": "Policymakers must find a way to regulate the growing gig economy.",
-        "rationale": "This is the concluding challenge, but it doesn't include the reasons why the challenge exists (the pros and cons).",
+        "text": "Policymakers have already successfully adapted all existing labor protections to cover gig workers.",
+        "rationale": "The passage describes this as an ongoing challenge, not a completed achievement.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 11,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "The concept of 'food deserts'—areas with limited access to affordable and nutritious food—is a critical issue in public health. While often associated with remote rural areas, they are also prevalent in low-income urban neighborhoods. The lack of access to supermarkets forces residents to rely on convenience stores, which primarily stock processed, high-calorie foods. This can lead to higher rates of obesity and other diet-related health problems. Addressing this requires a multi-faceted approach, including supporting local farmers' markets, improving public transportation, and incentivizing grocery stores to open in underserved communities.",
+    "passage": "The concept of 'food deserts'areas with limited access to affordable and nutritious foodis a critical issue in public health. While often associated with remote rural areas, they are also prevalent in low-income urban neighborhoods. The lack of access to supermarkets forces residents to rely on convenience stores, which primarily stock processed, high-calorie foods. This can lead to higher rates of obesity and other diet-related health problems. Addressing this requires a multi-faceted approach, including supporting local farmers' markets, improving public transportation, and incentivizing grocery stores to open in underserved communities.",
     "question": "What is the central argument of the passage?",
     "answerOptions": [
       {
-        "text": "Food deserts are only a problem in remote rural areas.",
-        "rationale": "The passage explicitly states that they are also prevalent in urban neighborhoods.",
+        "text": "Food deserts exist only in remote rural areas where residents live too far from any retail stores.",
+        "rationale": "The passage explicitly states food deserts are also prevalent in low-income urban neighborhoods.",
         "isCorrect": false
       },
       {
-        "text": "Convenience stores are the primary cause of obesity in the United States.",
-        "rationale": "The passage links them as a contributing factor in food deserts, but does not make such a broad, causal claim.",
+        "text": "Convenience stores are directly responsible for causing obesity in every community where they operate.",
+        "rationale": "The passage links convenience store reliance to poor health in food deserts specifically, not in every community.",
         "isCorrect": false
       },
       {
-        "text": "Food deserts are a significant public health issue in both urban and rural areas that contributes to poor health outcomes and requires complex solutions.",
-        "rationale": "Correct. This statement accurately covers the definition, location, consequences, and solutions presented in the text.",
+        "text": "Food deserts are a public health problem in urban and rural areas that requires multi-faceted solutions.",
+        "rationale": "Correct. This covers the definition, scope, consequences, and need for complex solutions described in the passage.",
         "isCorrect": true
       },
       {
-        "text": "The best way to solve the problem of food deserts is to improve public transportation.",
-        "rationale": "This is mentioned as one part of a 'multi-faceted approach,' not the single best way.",
+        "text": "Improving public transportation is the single most effective way to solve the food desert problem.",
+        "rationale": "Transportation improvement is listed as one part of a multi-faceted approach alongside several other strategies.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 12,
@@ -360,28 +338,26 @@ module.exports = [
     "question": "Which sentence best expresses the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "Memory is a reconstructive process, not a perfect recording, which has major implications for the legal system.",
-        "rationale": "Correct. This statement summarizes the scientific view of memory presented and connects it to the real-world example provided.",
+        "text": "Memory is a reconstructive process rather than a reliable recording, with major legal implications.",
+        "rationale": "Correct. This summarizes the scientific view of memory and connects it to the real-world consequence described.",
         "isCorrect": true
       },
       {
-        "text": "Eyewitness testimony is often unreliable because people's memories fade over time.",
-        "rationale": "This is a key implication, but the main idea is the broader psychological concept of memory reconstruction.",
+        "text": "Eyewitness testimony should be completely banned from courtrooms because all memories are entirely fabricated.",
+        "rationale": "The passage says memories can be altered, not that they are entirely fabricated; it doesn't call for a ban.",
         "isCorrect": false
       },
       {
-        "text": "Psychological research has changed our understanding of how memory works.",
-        "rationale": "This is true, but it doesn't state what that new understanding is, which is the core of the passage.",
+        "text": "Psychological research has recently discovered that memory exists but has not yet determined how it works.",
+        "rationale": "The passage describes decades of research that have identified memory as reconstructive; the mechanism is understood.",
         "isCorrect": false
       },
       {
-        "text": "People's memories can be influenced by suggestion and bias.",
-        "rationale": "This is a supporting detail explaining why memory is reconstructive, not the main idea itself.",
+        "text": "Memories become more accurate each time we recall them because repetition strengthens the original recording.",
+        "rationale": "The passage argues the opposite: each recall involves rebuilding, which can alter details.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   }
 ];

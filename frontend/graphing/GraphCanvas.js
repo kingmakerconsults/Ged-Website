@@ -235,6 +235,11 @@ class GraphCanvas {
     this.addLineContext = null; // for two-click line drawing
     this.removeBubble = null; // quiz-mode remove confirmation
 
+    // Quiz mode: crosshair cursor for click-to-plot
+    if (this.quizMode) {
+      this.svg.style.cursor = 'crosshair';
+    }
+
     this.unsubscribe = subscribe((snapshot) => {
       this.state = snapshot;
       this.viewBox = { ...snapshot.viewport };
@@ -429,6 +434,9 @@ class GraphCanvas {
   }
 
   handlePointerMove(evt) {
+    // Quiz mode: no panning or dragging — just click-to-plot
+    if (this.quizMode) return;
+
     if (this.state.mode === 'trace') {
       this.updateTraceTooltip(evt);
     } else {
@@ -474,6 +482,8 @@ class GraphCanvas {
   }
 
   handleWheel(evt) {
+    // Quiz mode: no zooming
+    if (this.quizMode) return;
     if (!evt.ctrlKey) return;
     evt.preventDefault();
     const delta = evt.deltaY > 0 ? 1.1 : 0.9;
@@ -997,6 +1007,15 @@ export function mount(el, payload = {}) {
       const toolbarContainer = document.createElement('div');
       wrapper.appendChild(toolbarContainer);
       toolbar = new GraphToolbar(toolbarContainer);
+    } else {
+      // Quiz mode: simple instruction banner
+      const banner = document.createElement('div');
+      banner.style.cssText =
+        'padding: 8px 14px; border-radius: 10px; font-size: 14px; font-weight: 600; ' +
+        'color: #1e40af; background: #eff6ff; border: 1px solid #bfdbfe; ' +
+        'display: flex; align-items: center; gap: 8px;';
+      banner.innerHTML = '<span style="font-size:18px">\u{1F4CD}</span> Click on the graph to plot your point. Click an existing point to remove it.';
+      wrapper.appendChild(banner);
     }
 
     // Create canvas container

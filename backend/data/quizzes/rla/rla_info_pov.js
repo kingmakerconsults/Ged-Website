@@ -1,493 +1,211 @@
-/**
- * Point of View & Purpose
- * Extracted from frontend app.jsx
- * Fixed to backend format: array of questions
- */
-
-module.exports = [
+﻿module.exports = [
   {
     questionNumber: 1,
-
-    question: "What is the author's primary purpose in writing this passage?",
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'According to the Centers for Disease Control and Prevention, washing your hands with soap and water for at least twenty seconds is one of the most effective ways to prevent the spread of illness. Germs can survive on surfaces for hours and are easily transferred to the eyes, nose, and mouth by unwashed hands. Studies show that proper hand hygiene reduces respiratory infections by up to twenty-one percent and gastrointestinal illnesses by up to thirty-one percent. Health officials recommend washing hands before eating, after using the restroom, and after coughing or sneezing.',
+    question: 'What is the primary purpose of this passage?',
     answerOptions: [
-      {
-        text: 'To provide a balanced, neutral overview of different school calendars.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'To persuade the reader that year-round schooling is superior to the traditional calendar.',
-        isCorrect: true,
-        rationale:
-          'To persuade the reader that year-round schooling is superior to the traditional calendar.',
-      },
-      {
-        text: 'To criticize the summer tourism industry.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'To analyze the history of the agrarian school calendar.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
+      { text: 'To persuade readers to purchase a specific brand of antibacterial soap', isCorrect: false, rationale: 'The passage does not mention or promote any particular soap brand. It presents general health information about hand hygiene without advocating for a product.' },
+      { text: 'To inform readers about the importance and effectiveness of hand hygiene', isCorrect: true, rationale: 'The passage presents factual data from the CDC, cites specific statistics about illness reduction, and provides practical guidelines. This is characteristic of informational writing.' },
+      { text: 'To entertain readers with a humorous story about germs', isCorrect: false, rationale: 'There is no humor, storytelling, or entertainment element in this passage. The tone is straightforward and factual throughout.' },
+      { text: 'To synthesize contradictory epidemiological paradigms about hygiene practices', isCorrect: false, rationale: 'This answer uses unnecessarily complex jargon. The passage does not discuss conflicting scientific viewpoints; it presents a single, consistent message about hand washing.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "Which statement best describes the author's point of view regarding the traditional school calendar?",
+    questionNumber: 2,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Our city\'s parks are in desperate need of funding. Playground equipment is rusting, walking trails are crumbling, and community gardens have been abandoned due to lack of maintenance. Meanwhile, the city council has proposed cutting the parks budget by another fifteen percent next year. If we do not act now, these vital public spaces will deteriorate beyond repair. I urge every resident to attend next Tuesday\'s council meeting and demand that our parks receive the investment they deserve.',
+    question: 'What is the author\'s primary purpose in writing this passage?',
     answerOptions: [
-      {
-        text: 'It is a cherished tradition that should be preserved.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'It is an effective model for all students, regardless of background.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'It is an outdated system that hinders student learning.',
-        isCorrect: true,
-        rationale: 'It is an outdated system that hinders student learning.',
-      },
-      {
-        text: 'It is a minor issue that does not require significant change.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'To persuade residents to support park funding', isCorrect: true, rationale: 'The author uses urgent language like "desperate need," "act now," and "I urge," and calls readers to a specific action: attending a council meeting. These are hallmarks of persuasive writing.' },
+      { text: 'To provide a neutral summary of the city budget', isCorrect: false, rationale: 'Although the passage mentions the budget, the language is far from neutral. Words like "desperate" and "demand" reveal a clear persuasive intent rather than objective reporting.' },
+      { text: 'To describe the biological life cycles of garden plants', isCorrect: false, rationale: 'Community gardens are mentioned briefly, but the passage says nothing about plant biology. This answer is completely unrelated to the passage\'s content.' },
+      { text: 'To deconstruct the socioeconomic implications of urban green infrastructure', isCorrect: false, rationale: 'This option uses academic jargon that does not match the passage\'s direct, conversational tone. The author is rallying citizens, not conducting a scholarly analysis.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The author uses the phrase 'outdated relic of an agrarian past' in the first paragraph to create a sense of:",
+    questionNumber: 3,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'The first time I tried to make Thanksgiving dinner by myself, I set off the smoke alarm three times before noon. The turkey was still frozen in the middle despite hours in the oven, the mashed potatoes had the consistency of wallpaper paste, and I somehow managed to burn the salad. My family still reminds me of that legendary meal every holiday season, usually while ordering takeout. I have since learned that reading the recipe before starting is not, in fact, optional.',
+    question: 'What is the author\'s primary purpose in this passage?',
     answerOptions: [
-      {
-        text: 'nostalgia and respect for tradition.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'the calendar being old-fashioned and no longer useful.',
-        isCorrect: true,
-        rationale: 'the calendar being old-fashioned and no longer useful.',
-      },
-      {
-        text: 'the calendar being beneficial for farming communities.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'the calendar being a complex historical artifact.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
+      { text: 'To warn readers about the dangers of kitchen appliances', isCorrect: false, rationale: 'Although a smoke alarm goes off, the author is not issuing a safety warning. The humorous tone and self-deprecating details show this is meant to amuse, not caution.' },
+      { text: 'To provide step-by-step instructions for cooking a turkey', isCorrect: false, rationale: 'The passage describes a cooking disaster, not a recipe. No instructions or measurements are provided at any point.' },
+      { text: 'To entertain readers with a humorous personal story', isCorrect: true, rationale: 'The author uses exaggeration, self-deprecating humor, and a punchline about reading recipes. The entire structure is built around making the reader laugh at a relatable experience.' },
+      { text: 'To critique the performative rituals embedded in holiday consumption patterns', isCorrect: false, rationale: 'This option imposes an academic framework that does not match the lighthearted, personal tone of the passage. The author is sharing a funny memory, not analyzing cultural practices.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      'How does the author address the opposing viewpoint that year-round schooling disrupts family traditions?',
+    questionNumber: 4,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Elena Marsh\'s debut novel, The Cartographer\'s Daughter, is a stunning achievement in historical fiction. Marsh brings eighteenth-century Portugal to vivid life through meticulous research and lyrical prose that never feels overwrought. The protagonist, a young mapmaker navigating colonial politics and personal loss, is drawn with remarkable depth and nuance. This reviewer has not been so captivated by a first novel in over a decade.',
+    question: 'What is the reviewer\'s point of view toward the novel?',
     answerOptions: [
-      {
-        text: 'By dismissing it as completely invalid and irrelevant.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'By acknowledging it as a valid concern but arguing that the educational benefits are more important.',
-        isCorrect: true,
-        rationale:
-          'By acknowledging it as a valid concern but arguing that the educational benefits are more important.',
-      },
-      {
-        text: 'By providing evidence that year-round schooling does not disrupt family traditions.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'By ignoring the opposing viewpoint entirely.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
+      { text: 'The reviewer is deeply impressed and recommends the novel', isCorrect: true, rationale: 'Words like "stunning achievement," "vivid life," "remarkable depth," and "captivated" clearly convey admiration and enthusiasm for the book.' },
+      { text: 'The reviewer finds the novel competent but unremarkable', isCorrect: false, rationale: 'This contradicts the passage\'s language. Calling a novel a "stunning achievement" and saying one has not been "so captivated" in a decade goes well beyond a lukewarm assessment.' },
+      { text: 'The reviewer has not finished reading the novel yet', isCorrect: false, rationale: 'Nothing in the passage suggests the reviewer is still reading. The detailed commentary on plot, prose, and character indicates a completed reading.' },
+      { text: 'The reviewer uses reverse psychological framing to mask disapproval', isCorrect: false, rationale: 'There is no evidence of irony or hidden criticism in the passage. The praise is consistent and sincere throughout, with no contradictory signals.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    passage:
-      "The traditional ten-month school calendar, with its long summer break, is an outdated relic of an agrarian past that no longer serves the needs of modern students. It is time for a fundamental shift to a year-round schooling model. A balanced calendar, with shorter, more frequent breaks distributed throughout the year, offers a powerful solution to combat the well-documented 'summer slide'—the significant learning loss that occurs over the long summer vacation. This loss is particularly detrimental to students from low-income families, who often lack access to enriching summer activities, thus widening the achievement gap.\n\nOpponents of year-round schooling often raise concerns about disrupting family traditions and the summer tourism industry. While these are valid considerations, they pale in comparison to the profound educational benefits. Shorter breaks mean that teachers spend less time re-teaching old material in the fall, allowing them to cover more ground and delve deeper into complex topics. Furthermore, a balanced calendar can reduce teacher and student burnout by providing more frequent opportunities for rest and rejuvenation. The argument that 'kids need a break' misunderstands the nature of modern learning; the goal is not to eliminate breaks, but to distribute them more effectively to create a continuous and more engaging learning environment.\n\nUltimately, the transition to year-round schooling is not merely a logistical change; it is an investment in our children's future. It is a commitment to closing the achievement gap, improving academic retention, and creating a more efficient and effective educational system. Clinging to a calendar designed for a bygone era is a disservice to our students. We must have the courage to embrace a model that is better suited to the demands of the 21st century.",
-    question: "The author's tone can best be described as:",
+    questionNumber: 5,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Over the past three decades, rising ocean temperatures have caused widespread coral bleaching events across the Great Barrier Reef. When water temperatures exceed normal ranges by even one or two degrees Celsius, corals expel the symbiotic algae that give them color and provide most of their nutrition. Without intervention, scientists warn that up to ninety percent of the world\'s coral reefs could disappear by 2050. Marine biologist Dr. Reena Kapoor describes the situation as an ecological emergency that demands immediate policy action.',
+    question: 'From whose perspective is this passage primarily written?',
     answerOptions: [
-      {
-        text: 'uncertain and questioning.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'humorous and lighthearted.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'objective and detached.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'passionate and urgent.',
-        isCorrect: true,
-        rationale: 'passionate and urgent.',
-      },
+      { text: 'A tourism industry representative promoting reef vacations', isCorrect: false, rationale: 'The passage does not mention tourism or promote travel. Its focus on bleaching data and ecological emergency is inconsistent with a promotional perspective.' },
+      { text: 'A scientist concerned about environmental damage to coral reefs', isCorrect: true, rationale: 'The passage cites scientific data, quotes a marine biologist, and uses terms like "ecological emergency." This reflects a scientific perspective focused on conservation.' },
+      { text: 'A seafood chef discussing coral reef cuisine', isCorrect: false, rationale: 'The passage has nothing to do with food preparation. It addresses the ecological crisis facing coral reefs, not their culinary uses.' },
+      { text: 'An epistemological relativist questioning observable climate phenomena', isCorrect: false, rationale: 'This option uses dense philosophical jargon that does not apply. The passage accepts climate data as factual and advocates for action rather than questioning whether observations are valid.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question: 'What bias does the author display in the passage?',
+    questionNumber: 6,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'The federal government should expand tax credits for homeowners who install solar panels and wind turbines. Currently, these incentives cover only thirty percent of installation costs, which remains prohibitive for middle-income families. Countries like Germany and Denmark have demonstrated that robust government support accelerates renewable energy adoption and creates thousands of skilled jobs. Without stronger incentives, the United States risks falling further behind in the global clean energy transition.',
+    question: 'Which statement best describes the author\'s perspective?',
     answerOptions: [
-      {
-        text: 'A bias against students from low-income families.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'A strong bias in favor of year-round schooling.',
-        isCorrect: true,
-        rationale: 'A strong bias in favor of year-round schooling.',
-      },
-      {
-        text: 'A bias against teachers and school administrators.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'A neutral and unbiased perspective.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
+      { text: 'The author believes renewable energy will naturally succeed without any government help', isCorrect: false, rationale: 'This directly contradicts the passage. The author argues that current incentives are insufficient and explicitly calls for expanded government support.' },
+      { text: 'The author thinks only wealthy homeowners should use renewable energy', isCorrect: false, rationale: 'The passage actually highlights the burden on middle-income families and advocates for making solar and wind more affordable for them through expanded credits.' },
+      { text: 'The author confuses fiscal policy with market deregulation to obscure the real argument', isCorrect: false, rationale: 'This option uses misleading jargon. The author\'s argument is clear and direct: expand tax credits to promote renewable energy. There is no confusion or hidden agenda.' },
+      { text: 'The author believes stronger government incentives are necessary to advance renewable energy', isCorrect: true, rationale: 'The passage argues that current credits are too small, cites international examples of successful government support, and warns of consequences if incentives are not expanded.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The author claims that the 'summer slide' is 'particularly detrimental to students from low-income families.' What is the likely purpose of including this detail?",
+    questionNumber: 7,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'After thirty-seven years of operation, the Millbrook textile factory closed its doors last Friday, leaving over four hundred workers without jobs in a town where the plant was the largest employer. Families who had depended on the factory for generations now face an uncertain future. Local food banks have already reported a surge in demand, and community leaders describe the mood as one of shock and grief. For many residents, the factory was not just a workplace but the heart of their community.',
+    question: 'Which word best describes the tone of this passage?',
     answerOptions: [
-      {
-        text: 'To suggest that only low-income students would benefit from year-round school.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: "To appeal to the reader's sense of fairness and social justice.",
-        isCorrect: true,
-        rationale:
-          "To appeal to the reader's sense of fairness and social justice.",
-      },
-      {
-        text: 'To prove that all summer activities are expensive.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'To criticize the parents of low-income students.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
+      { text: 'Sympathetic', isCorrect: true, rationale: 'The passage emphasizes human impact with phrases like "uncertain future," "shock and grief," and "heart of their community." This language shows compassion for the affected workers and town.' },
+      { text: 'Objective and detached', isCorrect: false, rationale: 'Although the passage includes factual details, its word choices reveal emotional engagement with the subject. A truly objective account would avoid evocative language like "shock and grief" and "heart of their community."' },
+      { text: 'Celebratory and optimistic', isCorrect: false, rationale: 'Nothing in the passage suggests a positive outlook. The focus on job loss, food bank demand, and community grief is the opposite of celebration.' },
+      { text: 'Didactically prescriptive', isCorrect: false, rationale: 'This term means instructing in a preachy way. The passage describes a situation and its impact but does not lecture readers or tell them what to do about it.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "In paragraph 2, the author states that concerns about family traditions 'pale in comparison to the profound educational benefits.' The phrase 'pale in comparison' is used to:",
+    questionNumber: 8,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'Introducing the all-new Meridian Grand Touring sedan. Every detail has been masterfully crafted to deliver an unrivaled driving experience, from the hand-stitched Italian leather interior to the whisper-quiet, twin-turbocharged engine. The Meridian is not simply a car; it is a statement of refined taste and uncompromising excellence. Schedule your private test drive at an authorized dealership today.',
+    question: 'How does the author\'s word choice affect the reader\'s impression?',
     answerOptions: [
-      {
-        text: 'suggest the two issues are equally important.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'minimize the importance of the opposing argument.',
-        isCorrect: true,
-        rationale: 'minimize the importance of the opposing argument.',
-      },
-      {
-        text: 'show that the author is changing their mind.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'indicate that the opposing argument is too complex to discuss.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'It warns consumers about hidden mechanical defects', isCorrect: false, rationale: 'The passage contains no warnings or negative information whatsoever. Every sentence is designed to highlight positive attributes of the vehicle.' },
+      { text: 'It provides balanced technical data for comparison shopping', isCorrect: false, rationale: 'The passage offers no specifications, prices, or comparisons with other vehicles. The language is promotional rather than informational.' },
+      { text: 'It creates a sense of luxury and exclusivity around the product', isCorrect: true, rationale: 'Words like "masterfully crafted," "unrivaled," "hand-stitched Italian leather," and "refined taste" are deliberately chosen to associate the car with prestige and high status.' },
+      { text: 'It subverts consumerist expectations through ironic understatement', isCorrect: false, rationale: 'The passage uses direct, superlative praise rather than irony or understatement. Calling the car "unrivaled" and "a statement of excellence" is the opposite of subtle.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "What is the author's likely purpose for using strong, emotional language like 'commitment,' 'courage,' and 'disservice' in the final paragraph?",
+    questionNumber: 9,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'The Industrial Revolution, which began in Britain in the late eighteenth century, fundamentally transformed manufacturing processes and labor markets across Europe and North America. Historians generally agree that the shift from agrarian economies to industrial ones was driven by a combination of technological innovation, access to raw materials, and favorable trade policies. While the resulting economic growth was substantial, it also introduced significant challenges, including hazardous working conditions, child labor, and urban overcrowding. Understanding these competing outcomes remains essential to any balanced assessment of the period.',
+    question: 'What is the overall tone of this passage?',
     answerOptions: [
-      {
-        text: 'To provide statistical evidence.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'To present a counterargument.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'To create a sense of shared responsibility and inspire action.',
-        isCorrect: true,
-        rationale:
-          'To create a sense of shared responsibility and inspire action.',
-      },
-      {
-        text: 'To maintain a neutral and objective tone.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'Angry and confrontational toward industrialists', isCorrect: false, rationale: 'Although the passage mentions negative outcomes like child labor, it does not assign blame or express anger. The language remains measured and presents both gains and problems.' },
+      { text: 'Academic and balanced', isCorrect: true, rationale: 'The passage uses formal language, cites historians, and acknowledges both positive outcomes and significant challenges. The closing sentence explicitly calls for a "balanced assessment."' },
+      { text: 'Silly and lighthearted', isCorrect: false, rationale: 'There is no humor or casual language in the passage. Topics like hazardous conditions and child labor are treated with appropriate seriousness.' },
+      { text: 'Performatively neutral while deploying covert ideological frameworks', isCorrect: false, rationale: 'This jargon-heavy option implies the passage hides a secret agenda. In reality, the author is straightforwardly presenting a standard historical overview with acknowledged complexity.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The author's main argument is that year-round schooling should be adopted because:",
+    questionNumber: 10,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'I received the ZenithPro wireless headphones as a complimentary sample from the manufacturer and have been testing them for two weeks. The sound quality is absolutely phenomenal, the noise cancellation is world-class, and the battery easily lasts the advertised forty hours. I did not encounter a single issue during my testing period. I can confidently say these are the best wireless headphones on the market today, and I recommend them without reservation.',
+    question: 'What evidence of potential bias is present in this passage?',
     answerOptions: [
-      {
-        text: 'it is a new and modern idea.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'it would save schools money on air conditioning.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'it provides significant educational advantages, such as reducing learning loss.',
-        isCorrect: true,
-        rationale:
-          'it provides significant educational advantages, such as reducing learning loss.',
-      },
-      {
-        text: 'it is easier for parents to schedule vacations.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'The reviewer received the product for free and reports only positive experiences', isCorrect: true, rationale: 'Receiving a free product creates a financial incentive that may influence the review. Combined with the absence of any criticism, this suggests the review may not be fully objective.' },
+      { text: 'The reviewer uses specific technical terms like noise cancellation', isCorrect: false, rationale: 'Using accurate product terminology does not indicate bias. Technical language is expected and appropriate in a product review regardless of the reviewer\'s objectivity.' },
+      { text: 'The reviewer writes in grammatically correct English', isCorrect: false, rationale: 'Good grammar has nothing to do with bias. A biased review and an unbiased review can both be well-written.' },
+      { text: 'The reviewer\'s implicit cognitive schema precludes dialectical objectivity', isCorrect: false, rationale: 'This answer uses impenetrable academic jargon to say something vague about objectivity. The actual evidence of bias is much simpler: a free product and exclusively glowing praise.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "Which of the following best describes the author's perspective on teachers?",
+    questionNumber: 11,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'Standardized testing has been the backbone of educational accountability for decades, and for good reason. In the fifteen school districts that adopted our recommended testing framework, math proficiency scores rose by an average of twelve percent over three years. These results prove that regular standardized assessments drive student achievement and should be expanded nationwide. Critics who claim that testing narrows the curriculum simply fail to appreciate how measurable outcomes benefit every student.',
+    question: 'What problematic assumption underlies the author\'s argument?',
     answerOptions: [
-      {
-        text: 'The author believes teachers are overworked and would benefit from the more frequent breaks in a year-round model.',
-        isCorrect: true,
-        rationale:
-          'The author believes teachers are overworked and would benefit from the more frequent breaks in a year-round model.',
-      },
-      {
-        text: 'The author believes teachers are the main opponents of year-round schooling.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'The author believes teachers are not affected by the school calendar.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: "The author believes teachers are responsible for the 'summer slide.'",
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
+      { text: 'That standardized tests exist as a common educational tool', isCorrect: false, rationale: 'This is a factual statement, not a problematic assumption. The existence of standardized testing is well established and not the logical weakness in the argument.' },
+      { text: 'That students attend school during the academic year', isCorrect: false, rationale: 'This is a basic, uncontroversial fact about education. It has no bearing on the logical flaw in the author\'s reasoning about test effectiveness.' },
+      { text: 'That results from fifteen selected districts can represent all schools nationwide', isCorrect: true, rationale: 'The author generalizes from a small, self-selected sample to the entire country. Districts that adopted the framework may have had advantages or resources that other districts lack, making the results unrepresentative.' },
+      { text: 'That the hermeneutic validity of psychometric instruments is self-evident', isCorrect: false, rationale: 'This option buries a potentially relevant point under impenetrable jargon. While test validity is a real concern, this phrasing is designed to confuse rather than clarify, and it does not address the specific sampling flaw in the argument.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question: 'The intended audience for this passage is most likely:',
+    questionNumber: 12,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'Artificial intelligence is ushering in a golden age of innovation and productivity. Our company\'s AI tools have already helped businesses reduce operating costs by up to forty percent while improving customer satisfaction scores. Some commentators have raised concerns about job displacement, but history shows that every major technological leap ultimately creates more opportunities than it eliminates. The future belongs to those organizations bold enough to embrace AI fully and without hesitation.',
+    question: 'How does the author\'s bias shape this passage?',
     answerOptions: [
-      {
-        text: 'students who dislike summer vacation.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'historians studying agrarian societies.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'parents, educators, and community members involved in education policy.',
-        isCorrect: true,
-        rationale:
-          'parents, educators, and community members involved in education policy.',
-      },
-      {
-        text: 'owners of summer camps and tourist attractions.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'The author includes detailed counterarguments from AI skeptics', isCorrect: false, rationale: 'The passage does the opposite. It briefly mentions concerns about job displacement only to dismiss them with a sweeping historical generalization, never engaging with the specifics.' },
+      { text: 'The author relies on peer-reviewed studies from independent researchers', isCorrect: false, rationale: 'The data cited comes from the company\'s own products, not independent research. This self-referential evidence is a sign of bias, not objectivity.' },
+      { text: 'The author uses neutral, measured language to analyze both sides', isCorrect: false, rationale: 'Phrases like "golden age," "bold enough," and "without hesitation" are promotional, not neutral. The passage advocates for AI adoption rather than analyzing it objectively.' },
+      { text: 'The author highlights only benefits while dismissing concerns to promote the company\'s product', isCorrect: true, rationale: 'The author has a financial interest in promoting AI tools, cites only the company\'s own data, and brushes aside criticism with a vague historical claim. This one-sided presentation reflects clear commercial bias.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question: 'How does the author attempt to build credibility?',
+    questionNumber: 13,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'Passage A: The Great Fire of London began on September 2, 1666, in a bakery on Pudding Lane. Over four days, the blaze destroyed approximately thirteen thousand houses and eighty-seven churches, including the original St. Paul\'s Cathedral. Historians estimate that seventy thousand of the city\'s eighty thousand residents were left homeless. Passage B: I stood at the river\'s edge and watched my father\'s shop crumble into ash. We had fled with nothing but the clothes on our backs and a single leather satchel of documents. The heat was so fierce that even across the Thames I could feel it pressing against my face like an open furnace door.',
+    question: 'How does the difference in purpose affect these two passages about the same event?',
     answerOptions: [
-      {
-        text: 'By citing numerous scientific studies and statistics.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'By using formal language and presenting a logical argument, while also acknowledging counterarguments.',
-        isCorrect: true,
-        rationale:
-          'By using formal language and presenting a logical argument, while also acknowledging counterarguments.',
-      },
-      {
-        text: 'By sharing personal anecdotes about their own school experiences.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'By claiming to be the sole expert on the topic.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'Passage A presents factual data while Passage B conveys personal experience and emotion', isCorrect: true, rationale: 'Passage A uses statistics and historical facts to inform, while Passage B uses sensory details and personal loss to make the reader feel the event. Their different purposes produce fundamentally different content.' },
+      { text: 'Both passages present identical information in the same objective style', isCorrect: false, rationale: 'The passages differ dramatically. Passage A is impersonal and data-driven; Passage B is first-person and emotionally vivid. They share a topic but not a style or purpose.' },
+      { text: 'Passage B contains more statistical data than Passage A', isCorrect: false, rationale: 'This is the reverse of what actually appears. Passage A contains all the statistics, while Passage B contains none, focusing instead on personal narrative.' },
+      { text: 'The divergent rhetorical teleologies produce incompatible epistemological registers', isCorrect: false, rationale: 'While this option vaguely gestures at the idea that the passages differ in approach, it does so in needlessly obscure language. The difference is straightforward: one informs with facts, the other shares personal experience.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The author's use of the word 'clinging' in the final paragraph suggests that adherence to the traditional calendar is:",
+    questionNumber: 14,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'Every day, hundreds of animals in our county wait in overcrowded shelters, hoping for a second chance. Last month, a three-legged dog named Biscuit arrived at our facility, trembling and malnourished after being found on the side of a highway. Thanks to generous donors like you, Biscuit received emergency veterinary care and is now thriving in a loving foster home. Your tax-deductible gift of just twenty-five dollars can provide food, medicine, and shelter for an animal in need for an entire week.',
+    question: 'How does the author\'s purpose influence the content of this passage?',
     answerOptions: [
-      {
-        text: 'a thoughtful and considered choice.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'a stubborn and irrational refusal to change.',
-        isCorrect: true,
-        rationale: 'a stubborn and irrational refusal to change.',
-      },
-      {
-        text: 'a temporary and flexible arrangement.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'a popular and modern trend.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'The informational purpose requires a balanced statistical analysis of shelter operations', isCorrect: false, rationale: 'The passage is not primarily informational. It uses emotional storytelling and a direct donation appeal, which are persuasive techniques, not the hallmarks of objective reporting.' },
+      { text: 'The persuasive purpose leads the author to use emotional stories and a direct call to action', isCorrect: true, rationale: 'Biscuit\'s individual story creates an emotional connection, and the specific donation amount provides a clear call to action. Both choices are driven by the goal of persuading readers to donate.' },
+      { text: 'The author\'s main purpose is to provide veterinary medical advice', isCorrect: false, rationale: 'Veterinary care is mentioned as something the shelter provides, but the passage does not offer medical guidance. Its purpose is to solicit donations, not to educate about animal health.' },
+      { text: 'The author\'s pragmatic illocutionary force undermines the perlocutionary coherence of the appeal', isCorrect: false, rationale: 'This option uses speech-act theory jargon in a way that is both confusing and inaccurate. The passage\'s emotional appeal and its call to action work together effectively rather than undermining each other.' },
     ],
     challenge_tags: ['rla-3'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      'If this passage were to continue, what would the author most likely discuss next?',
+    questionNumber: 15,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'Two dominant approaches to urban development have emerged in recent decades. Transit-oriented development concentrates housing, offices, and retail around public transportation hubs, reducing car dependency and encouraging walkable neighborhoods. Sprawl-based development, by contrast, prioritizes low-density residential zones connected by highways, offering larger lot sizes but increasing commute times and infrastructure costs. Each model carries distinct trade-offs in affordability, environmental impact, and quality of life that policymakers must weigh carefully.',
+    question: 'How does the author\'s purpose shape the structure of this passage?',
     answerOptions: [
-      {
-        text: 'A detailed history of summer vacation traditions.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'Specific examples or case studies of schools that have successfully implemented a year-round model.',
-        isCorrect: true,
-        rationale:
-          'Specific examples or case studies of schools that have successfully implemented a year-round model.',
-      },
-      {
-        text: 'A list of fun activities for students to do during shorter breaks.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'An argument in favor of homeschooling.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
+      { text: 'The author uses chronological order to narrate the history of one city', isCorrect: false, rationale: 'The passage is not organized by time or focused on a single city. It compares two general development models side by side using a point-by-point structure.' },
+      { text: 'The author presents random facts with no clear organizing principle', isCorrect: false, rationale: 'The passage is carefully organized around two contrasting approaches, describing each in turn and then noting their trade-offs. This is a deliberate, logical structure.' },
+      { text: 'The author organizes the passage around two contrasting approaches to highlight their differences', isCorrect: true, rationale: 'The compare-and-contrast structure directly serves the author\'s purpose of helping readers understand two competing models. Each approach is described in parallel terms so the reader can evaluate the trade-offs.' },
+      { text: 'The author employs recursive dialectical synthesis to transcend binary structural paradigms', isCorrect: false, rationale: 'This jargon-laden option misrepresents the passage\'s structure. The author maintains a clear binary comparison throughout and does not attempt to merge the two approaches into a single framework.' },
     ],
     challenge_tags: ['rla-3'],
   },

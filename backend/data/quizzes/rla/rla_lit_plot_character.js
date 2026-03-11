@@ -1,494 +1,211 @@
-/**
- * Plot & Character
- * Extracted from frontend app.jsx
- * Fixed to backend format: array of questions
- */
-
-module.exports = [
+﻿module.exports = [
   {
     questionNumber: 1,
-
-    question:
-      'What is the central conflict that Della faces at the beginning of the passage?',
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Marco stared at the eviction notice taped to his apartment door, the red letters blurring as his eyes filled with heat. He had thirty days. Thirty days to find the money his brother had promised and never delivered, thirty days to convince his landlord that a man who repaired shoes for a living was still worth trusting. He crumpled the paper and stuffed it into his coat pocket, then walked downstairs to open the shop as though nothing had changed. The first customer of the morning was Mrs. Okafor, carrying the same pair of oxfords she brought in every February. "Good morning, Marco," she said brightly. He forced a smile and reached for the shoes.',
+    question: 'What is the central conflict Marco faces in this passage?',
     answerOptions: [
-      {
-        text: 'She is unhappy with her apartment.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'She does not have enough money to buy a worthy Christmas present for her husband.',
-        isCorrect: true,
-        rationale:
-          'She does not have enough money to buy a worthy Christmas present for her husband.',
-      },
-      {
-        text: 'She is in a disagreement with the local grocer.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'She is worried about her hair losing its color.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'He is struggling to keep his home after his brother failed to provide promised financial help.', isCorrect: true, rationale: 'The passage explicitly states Marco received an eviction notice and that his brother "promised and never delivered" money, establishing an external conflict over housing and broken trust.' },
+      { text: 'He is in a bitter argument with Mrs. Okafor over an unpaid repair bill.', isCorrect: false, rationale: 'Mrs. Okafor is a friendly, regular customer. Nothing in the passage suggests any dispute between them.' },
+      { text: 'He resents his career as a shoe repairman and wants to pursue a different profession.', isCorrect: false, rationale: 'The passage gives no indication Marco dislikes his work. His conflict centers on finances and housing, not career dissatisfaction.' },
+      { text: 'He is experiencing a character-versus-nature conflict because of the February weather.', isCorrect: false, rationale: 'February is mentioned only as a detail about Mrs. Okafor\'s routine. The conflict is interpersonal and financial, not related to nature or weather.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      'Which of the following character traits best describes Della in the first three paragraphs?',
+    questionNumber: 2,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Alina watched her daughter zip the last suitcase and carry it to the front door. The house already felt hollow, echoes bouncing off walls that had absorbed eighteen years of laughter, arguments, and late-night piano practice. "You\'ll call every Sunday?" Alina asked, hating the tremor in her own voice. Petra nodded without turning around. Outside, the taxi idled, its headlights cutting pale arcs through the morning fog. Alina reached for Petra\'s shoulder but let her hand fall before making contact, afraid that touching her daughter would make the goodbye impossible.',
+    question: 'Which statement best identifies the central conflict in the passage?',
     answerOptions: [
-      {
-        text: 'Careless and extravagant',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'Angry and resentful',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'Loving and resourceful, but distressed',
-        isCorrect: true,
-        rationale: 'Loving and resourceful, but distressed',
-      },
-      {
-        text: 'Calm and indifferent',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
+      { text: 'Alina is angry at Petra for leaving and refuses to say goodbye.', isCorrect: false, rationale: 'Alina is not angry; she is emotional and reluctant to let go. She asks Petra to call and reaches toward her, showing attachment rather than refusal.' },
+      { text: 'Alina struggles with the emotional pain of her daughter leaving home.', isCorrect: true, rationale: 'The passage centers on Alina\'s internal struggle: the hollow house, the tremor in her voice, and her inability to touch Petra\'s shoulder all reveal her difficulty accepting the separation.' },
+      { text: 'The rising action occurs when the taxi driver honks impatiently.', isCorrect: false, rationale: 'The taxi is idling, not honking. This answer misidentifies a plot-structure term as a conflict and invents a detail not present in the text.' },
+      { text: 'Petra is running away from home without her mother\'s permission.', isCorrect: false, rationale: 'Nothing suggests Petra is running away. She is leaving with a packed suitcase while Alina, though sad, asks her to call, indicating a planned departure.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The description of the 'gray cat walking a gray fence in a gray backyard' in paragraph 3 serves primarily to:",
+    questionNumber: 3,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Two fishing boats rocked side by side at the Millhaven dock, their hulls nearly touching. Captain Reese had painted his boat fresh white that spring; Captain Dahl\'s vessel still wore last decade\'s chipped blue. Both captains sold their catch to the same buyer, a restaurant owner named Sung, who had just told them he could only afford one supplier going forward. Reese crossed his arms and stared at the waterline. Dahl pulled his cap lower and spat into the harbor. Neither man spoke, but the silence between them carried the weight of twenty years of uneasy friendship.',
+    question: 'What drives the central conflict between Reese and Dahl?',
     answerOptions: [
-      {
-        text: 'suggest that Della wants a pet.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: "reflect Della's dull and hopeless mood at that moment.",
-        isCorrect: true,
-        rationale: "reflect Della's dull and hopeless mood at that moment.",
-      },
-      {
-        text: 'introduce a new character to the story.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'show that the story takes place in the city.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
+      { text: 'They must now compete for a single buyer who can no longer support both of them.', isCorrect: true, rationale: 'Sung\'s announcement that he can afford only one supplier forces two longtime colleagues into direct economic rivalry, which is the passage\'s core tension.' },
+      { text: 'Reese is jealous because Dahl\'s boat is newer and better maintained.', isCorrect: false, rationale: 'The passage states the opposite: Reese\'s boat is freshly painted while Dahl\'s is chipped, so there is no basis for Reese\'s jealousy on this point.' },
+      { text: 'Dahl wants to retire and is trying to sell his boat to Reese.', isCorrect: false, rationale: 'Nothing in the passage mentions retirement or a boat sale. Both captains are actively working and selling fish.' },
+      { text: 'The denouement reveals that Sung has been secretly favoring Dahl all along.', isCorrect: false, rationale: 'There is no denouement in this passage\u2014it presents a developing situation\u2014and no evidence of Sung favoring either captain.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "What happens in the plot that marks a turning point for Della's emotional state?",
+    questionNumber: 4,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Joelle arrived at the community garden before sunrise, her boots already muddy from yesterday\'s work. She knelt beside the row of tomato plants she had nursed through a late frost, adjusting stakes with quick, practiced hands. When a neighbor complained that Joelle\'s plot was creeping past its boundary, she apologized immediately and shifted two plants inward, even though her tape measure showed she was within her allotted space. By noon she had weeded three other people\'s rows without being asked, simply because the sight of unchecked crabgrass bothered her.',
+    question: 'Which character trait is BEST supported by Joelle\'s actions?',
     answerOptions: [
-      {
-        text: 'She counts her money for the third time.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'She looks out the window at the gray cat.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'She suddenly has an idea while looking in the mirror.',
-        isCorrect: true,
-        rationale: 'She suddenly has an idea while looking in the mirror.',
-      },
-      {
-        text: 'She puts on her old brown jacket and hat.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'She is competitive and wants her garden to outshine the others.', isCorrect: false, rationale: 'Joelle yields space to a neighbor and helps weed others\' plots. These actions show cooperation, not competition.' },
+      { text: 'She is conscientious and eager to maintain harmony.', isCorrect: true, rationale: 'Joelle arrives early, tends her plants carefully, concedes space she is entitled to in order to avoid conflict, and voluntarily helps others\u2014all hallmarks of conscientiousness and a desire for harmony.' },
+      { text: 'She is passive and unable to stand up for herself.', isCorrect: false, rationale: 'While Joelle does concede space, the passage also shows her as proactive and industrious. Her accommodation appears deliberate rather than a sign of helpless passivity.' },
+      { text: 'She displays the archetype of an unreliable narrator.', isCorrect: false, rationale: 'The passage is told by a third-person narrator, not by Joelle herself. "Unreliable narrator" is a narrative-perspective term that does not describe a character trait.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The author states that Della's hair and Jim's watch are possessions in which they 'took a mighty pride.' What is the purpose of highlighting these two items?",
+    questionNumber: 5,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'At fourteen, Dev already knew how to read a room. When his father slammed the cabinet doors after work, Dev would herd his younger sisters into the back bedroom and start a board game loud enough to mask the shouting. When his mother hummed while cooking, Dev would leave the girls in the living room and sit at the kitchen counter doing homework, knowing the evening would be calm. His teachers often praised his maturity, unaware that it had been built not from wisdom but from necessity.',
+    question: 'What primarily motivates Dev\'s behavior at home?',
     answerOptions: [
-      {
-        text: 'To show that Della and Jim are wealthy and materialistic.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'To establish these items as the most valuable things they own, foreshadowing their importance to the plot.',
-        isCorrect: true,
-        rationale:
-          'To establish these items as the most valuable things they own, foreshadowing their importance to the plot.',
-      },
-      {
-        text: 'To suggest that they should sell both items to improve their living situation.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'To describe the history of the James Dillingham Young family.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'He wants his teachers to continue praising his maturity.', isCorrect: false, rationale: 'The passage states teachers praise him, but his actions at home are driven by protecting his sisters, not by seeking adult approval.' },
+      { text: 'A desire to shield his younger sisters from household tension.', isCorrect: true, rationale: 'Dev reads emotional cues\u2014cabinet slamming versus humming\u2014and repositions his sisters accordingly, showing that protecting them from conflict is his primary motivation.' },
+      { text: 'He dislikes board games and only plays them to pass the time.', isCorrect: false, rationale: 'Dev uses board games strategically to cover shouting, not out of boredom or personal preference.' },
+      { text: 'He is experiencing a static character arc in which he never changes.', isCorrect: false, rationale: 'This answer confuses a literary analysis term with a character motivation. The question asks what drives Dev, not whether he changes over time.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "How does Della's character evolve from the beginning of the passage to the end?",
+    questionNumber: 6,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'Renata had spent twelve years as the only female welder at Garvey Iron Works, and she wore that distinction the way she wore her leather apron\u2014without ceremony. She trained every new apprentice the same way, offering blunt corrections and rare, hard-won nods of approval. When the company hired Tessa, a twenty-two-year-old fresh out of trade school, Renata assigned her the most tedious joint work and watched her without comment for three full days. On the fourth morning, Renata set a cup of coffee beside Tessa\'s station and said, "Your bead spacing is getting tighter. Don\'t let it go to your head." Tessa grinned behind her visor.',
+    question: 'What does Renata\'s treatment of Tessa reveal about her character?',
     answerOptions: [
-      {
-        text: 'She goes from being happy to being sad.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'She goes from a state of despair to one of determined action.',
-        isCorrect: true,
-        rationale:
-          'She goes from a state of despair to one of determined action.',
-      },
-      {
-        text: 'She becomes more concerned with her own appearance.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'She decides that buying a gift is not important.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
+      { text: 'She mentors through high standards and measured praise, showing respect by demanding competence.', isCorrect: true, rationale: 'Renata assigns difficult tasks, observes silently, and delivers a compliment wrapped in caution. This pattern reveals a mentor who expresses care through professional rigor rather than warmth.' },
+      { text: 'She resents Tessa for threatening her status as the only woman at the company.', isCorrect: false, rationale: 'Renata trains all apprentices the same way and eventually offers Tessa coffee and a compliment, which indicates acceptance rather than resentment.' },
+      { text: 'She is indifferent to Tessa and only interacts because company policy requires it.', isCorrect: false, rationale: 'Bringing coffee and commenting on Tessa\'s improvement are voluntary acts that go beyond obligation, contradicting indifference.' },
+      { text: 'She acts as a foil to Tessa, representing the falling action of the story.', isCorrect: false, rationale: 'While Renata and Tessa may contrast in experience, calling Renata "the falling action" misapplies a plot-structure term as though it were a character role.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The phrase 'silent imputation of parsimony' in the first paragraph means that Della felt:",
+    questionNumber: 7,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'Before the trial, Owen wore ironed shirts and arrived at the courthouse fifteen minutes early, a binder of notes tucked under his arm. He spoke to reporters with careful, rehearsed optimism. After four weeks on the witness stand, something shifted. He stopped shaving. His answers grew shorter, rawer. On the day the verdict was read, Owen sat perfectly still while the courtroom erupted around him. Walking out, he dropped the binder into a trash can without breaking stride. A journalist called his name; Owen kept walking, hands loose at his sides, eyes fixed on the ordinary afternoon sky.',
+    question: 'How does Owen change over the course of the passage?',
     answerOptions: [
-      {
-        text: 'proud of her ability to save money.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'the shopkeepers were silently accusing her of being overly cheap.',
-        isCorrect: true,
-        rationale:
-          'the shopkeepers were silently accusing her of being overly cheap.',
-      },
-      {
-        text: 'the shopkeepers admired her for her bargaining skills.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'that she was not paying enough for the groceries.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
+      { text: 'He transforms from composed and optimistic to quietly resigned.', isCorrect: true, rationale: 'Early details\u2014ironed shirts, rehearsed optimism, organized binder\u2014contrast with later ones: unshaven face, raw answers, discarding the binder. The shift shows a move from controlled hope to weary acceptance.' },
+      { text: 'He becomes increasingly angry and confrontational with the press.', isCorrect: false, rationale: 'Owen does not confront the journalist; he simply ignores the call and walks on. His demeanor is withdrawn, not combative.' },
+      { text: 'He remains the same throughout, demonstrating a flat character arc.', isCorrect: false, rationale: 'The passage highlights multiple behavioral changes\u2014grooming, speech, and actions\u2014making Owen a clearly dynamic character, not a flat one.' },
+      { text: 'He experiences an epiphany that restores his earlier confidence.', isCorrect: false, rationale: 'Owen ends the passage walking away silently with hands loose, showing detachment rather than restored confidence. No moment of revelation that renews his hope is described.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question: 'What is the climax of this particular excerpt?',
+    questionNumber: 8,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'When Lila first moved to the lake house, she locked every window before dark and kept the porch light burning until morning. The forest sounds\u2014owl calls, branch cracks, the slap of water on rock\u2014made her pulse race. She missed pavement, streetlights, the mechanical comfort of a city bus rumbling past her old apartment. By autumn, she had begun leaving the back door propped open while she painted. She learned to identify the barred owl by its call, and the particular creak of the cedar by the dock. One October night, the power went out during a storm. Lila lit a candle, opened a window to listen to the rain, and kept painting.',
+    question: 'Which statement best describes Lila\'s character development?',
     answerOptions: [
-      {
-        text: 'Della counting her money.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'Della looking out the window.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'Della realizing what she can do and then quickly leaving the apartment.',
-        isCorrect: true,
-        rationale:
-          'Della realizing what she can do and then quickly leaving the apartment.',
-      },
-      {
-        text: "The author's moral reflection on life.",
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
+      { text: 'She grows from fearful isolation into comfortable familiarity with her new environment.', isCorrect: true, rationale: 'Lila progresses from locking windows and missing the city to leaving doors open, identifying wildlife, and painting calmly during a storm\u2014a clear arc from fear to ease.' },
+      { text: 'She remains frightened of the forest and eventually decides to move back to the city.', isCorrect: false, rationale: 'The passage shows Lila adapting, not retreating. By October she is calm enough to open a window during a power outage, contradicting ongoing fear.' },
+      { text: 'Her development is driven by an external antagonist who forces her to adapt.', isCorrect: false, rationale: 'No antagonist appears. Lila\'s change is internal and gradual, prompted by daily exposure rather than by conflict with another character.' },
+      { text: 'She is a stock character whose sole purpose is to symbolize urban decay.', isCorrect: false, rationale: '"Stock character" implies a flat, stereotypical role, which contradicts the detailed arc the passage traces. Nothing in the passage addresses urban decay.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    passage:
-      "One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies. Pennies saved one and two at a time by bulldozing the grocer and the vegetable man and the butcher until one's cheeks burned with the silent imputation of parsimony that such close dealing implied. Three times Della counted it. One dollar and eighty-seven cents. And the next day would be Christmas.\n\nThere was clearly nothing to do but flop down on the shabby little couch and howl. So Della did it. Which instigates the moral reflection that life is made up of sobs, sniffles, and smiles, with sniffles predominating.\n\nDella finished her cry and attended to her cheeks with the powder rag. She stood by the window and looked out dully at a gray cat walking a gray fence in a gray backyard. Tomorrow would be Christmas Day, and she had only $1.87 with which to buy Jim a present. Her Jim. Many a happy hour she had spent planning for something nice for him. Something fine and rare and sterling—'something just a little bit near to being worthy of the honor of being owned by Jim.\n\nSuddenly she whirled from the window and stood before the glass. Her eyes were shining brilliantly, but her face had lost its color within twenty seconds. Rapidly she pulled down her hair and let it fall to its full length. Now, there were two possessions of the James Dillingham Youngs in which they both took a mighty pride. One was Jim's gold watch that had been his father's and his grandfather's. The other was Della's hair. Had the queen of Sheba lived in the flat across the airshaft, Della would have let her hair hang out the window some day to dry just to depreciate Her Majesty's jewels and gifts. Had King Solomon been the janitor, with all his treasures piled up in the basement, Jim would have pulled out his watch every time he passed, just to see him pluck at his beard from envy.\n\nSo now Della's beautiful hair fell about her, rippling and shining like a cascade of brown waters. It reached below her knee and made itself almost a garment for her. And then she did it up again nervously and quickly. Once she faltered for a minute and stood still while a tear or two splashed on the worn red carpet. On went her old brown jacket; on went her old brown hat. With a whirl of skirts and with the brilliant sparkle still in her eyes, she fluttered out the door and down the stairs to the street.",
-    question:
-      "The author's comparison of Della's hair to the Queen of Sheba's jewels and Jim's watch to King Solomon's treasures is an example of what literary device?",
+    questionNumber: 9,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'For most of high school, Calvin sat in the back row and answered questions only when called upon. Group projects made him sweat. He would do his section alone, email it the night before, and pray that no one asked him to present. Senior year, his English teacher assigned a spoken-word poetry unit and paired Calvin with Drea, the loudest girl in class. Drea refused to let Calvin hide behind a shared Google Doc. She made him rehearse aloud in the hallway, correcting his rhythm until his voice stopped shaking. At the showcase, Calvin stepped to the microphone, heart hammering, and delivered his poem to a packed auditorium. The applause startled him. So did the realization that he wanted to hear it again.',
+    question: 'What causes Calvin\'s character to develop by the end of the passage?',
     answerOptions: [
-      {
-        text: 'Metaphor',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'Personification',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'Allusion',
-        isCorrect: true,
-        rationale: 'Allusion',
-      },
-      {
-        text: 'Onomatopoeia',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'He discovers a hidden talent for writing poetry that makes him famous overnight.', isCorrect: false, rationale: 'The passage does not mention fame or an exceptional writing talent. Calvin\'s change is about overcoming shyness through practice and encouragement, not sudden celebrity.' },
+      { text: 'Drea\'s persistent encouragement pushes him to confront his fear of public speaking.', isCorrect: true, rationale: 'Drea refuses to let Calvin avoid participation and drills him until his voice steadies. Her insistence is the catalyst that moves him from hiding to performing and wanting more.' },
+      { text: 'The English teacher threatens Calvin with a failing grade unless he performs.', isCorrect: false, rationale: 'The passage mentions assignment requirements but says nothing about threats or failing grades. Calvin\'s motivation comes from Drea\'s support, not from punishment.' },
+      { text: 'Calvin\'s arc illustrates the exposition phase of a five-act structure.', isCorrect: false, rationale: 'This answer misapplies a plot-structure label. The question asks what causes Calvin\'s growth, not which structural phase his story occupies, and his arc encompasses far more than exposition.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "What primary motivation drives Della's actions throughout the passage?",
+    questionNumber: 10,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'The morning of the bake-off, Harriet discovered that her oven had died overnight. She stood in her cold kitchen, staring at the dark display panel as though willpower alone could reignite it. Her entry\u2014a three-layer lemon cake that had taken two practice rounds to perfect\u2014required precise temperatures she could not achieve with a broken appliance. She considered withdrawing, then remembered that her neighbor Gil owned a commercial-grade oven he rarely used. Knocking on his door meant swallowing a year\'s worth of pride; she and Gil had not spoken since their argument over the shared fence line. Harriet put on her coat, picked up her mixing bowl, and crossed the yard.',
+    question: 'Which element of plot structure does Harriet\'s broken oven represent?',
     answerOptions: [
-      {
-        text: 'Her desire to be wealthy.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'Her deep love for her husband, Jim.',
-        isCorrect: true,
-        rationale: 'Her deep love for her husband, Jim.',
-      },
-      {
-        text: 'Her frustration with her living conditions.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'Her wish to compete with royalty.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
+      { text: 'The resolution, because the story\'s conflict is now settled.', isCorrect: false, rationale: 'The broken oven introduces a problem rather than resolving one. Harriet still needs to bake her cake, so the conflict remains unresolved at this point.' },
+      { text: 'The inciting incident, because it creates a problem that forces Harriet to act.', isCorrect: true, rationale: 'The oven failure disrupts Harriet\'s plan and compels her to seek help from Gil, setting the story\'s central action in motion. This is the event that launches the plot.' },
+      { text: 'The climax, because it is the most emotionally intense moment.', isCorrect: false, rationale: 'The broken oven happens at the start of the narrative. The greater emotional tension lies in Harriet\'s decision to approach Gil after their falling-out, which has not yet fully played out.' },
+      { text: 'The falling action, because Harriet has already resolved her internal conflict.', isCorrect: false, rationale: 'Harriet has not resolved anything yet; she is still deciding what to do. Falling action follows the climax, and the story has not reached that stage.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The author writes, 'Once she faltered for a minute and stood still while a tear or two splashed on the worn red carpet.' This moment in the plot reveals that Della's decision:",
+    questionNumber: 11,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'The town council meeting had dragged past nine o\'clock when Rosa finally stood. She had listened for two hours as developers outlined a plan to convert the old textile mill into luxury condominiums. Slide after slide showed gleaming kitchens and rooftop pools. No one mentioned the forty families who rented apartments in the mill\'s current residential wing. Rosa\'s voice was steady when she spoke: "You\'ve shown us what the building could become. I\'d like you to show us where those forty families will go." The room went quiet. The lead developer clicked to a blank slide and said he would follow up. Rosa remained standing.',
+    question: 'At what point in the plot structure does Rosa\'s statement function, and why?',
     answerOptions: [
-      {
-        text: 'was easy and made without any emotion.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'was difficult and caused her a moment of sadness or hesitation.',
-        isCorrect: true,
-        rationale:
-          'was difficult and caused her a moment of sadness or hesitation.',
-      },
-      {
-        text: 'was something she had planned for a long time.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'was an accident.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'It is the climax because it is the moment of highest tension where the core conflict\u2014progress versus displacement\u2014is directly confronted.', isCorrect: true, rationale: 'Rosa\'s question forces the room to face the human cost the presentation ignored, creating the peak confrontation between development interests and residents\' welfare. The blank slide and silence confirm the tension has reached its highest point.' },
+      { text: 'It is the exposition because Rosa is introducing herself and the setting to the audience.', isCorrect: false, rationale: 'The exposition\u2014the meeting, the developers, the mill\u2014is established before Rosa stands. Her challenge escalates the conflict rather than introducing background information.' },
+      { text: 'It serves as the resolution because the developer agrees to follow up.', isCorrect: false, rationale: 'The developer\'s vague promise to "follow up" does not resolve the conflict; it deflects it. A resolution would require the families\' housing concern to be addressed, which does not happen here.' },
+      { text: 'It is a flashback that reveals Rosa\'s earlier opposition to the mill project.', isCorrect: false, rationale: 'Rosa\'s statement occurs in the present moment of the narrative, not in a flashback. Nothing indicates she opposed the project earlier; she raises the issue for the first time during this meeting.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      'Which of the following is part of the exposition of the story, as presented in the excerpt?',
+    questionNumber: 12,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'Eli had been running the family orchard since his father\'s stroke three years ago. Each season he borrowed more to cover the gap between what the trees produced and what the bank expected. This spring, a late freeze killed half the apple blossoms, and Eli spent a week walking silent rows of blackened branches. His sister, June, drove up from the city with a real-estate developer\'s card in her pocket. Over dinner, she laid out the numbers: sell the land, pay the debts, move on. Eli listened without interrupting, then cleared the dishes and walked outside. He stood under the one tree his grandfather had planted seven decades ago, its branches still heavy with surviving buds. When he came back inside, he told June he would sell every parcel except the hill where that tree stood.',
+    question: 'How does Eli\'s decision function within the story\'s plot structure?',
     answerOptions: [
-      {
-        text: "Della's decision to leave the apartment.",
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'The introduction of the setting, the main character (Della), and her central problem.',
-        isCorrect: true,
-        rationale:
-          'The introduction of the setting, the main character (Della), and her central problem.',
-      },
-      {
-        text: "The comparison of Della's hair to a cascade of brown waters.",
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: "The 'brilliant sparkle' in Della's eyes.",
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
+      { text: 'It is rising action because it increases suspense about the eventual outcome.', isCorrect: false, rationale: 'Eli\'s decision is the turning point that follows the buildup of financial pressure and the freeze. It determines the story\'s direction rather than merely adding tension.' },
+      { text: 'It is the resolution because Eli finds a compromise that addresses the financial crisis while preserving a piece of family heritage.', isCorrect: true, rationale: 'By agreeing to sell most of the land but keeping the grandfather\'s tree, Eli resolves the external conflict with the bank and the internal conflict over legacy. The decision settles both pressures, functioning as the story\'s resolution.' },
+      { text: 'It is the inciting incident because it triggers the central problem of the story.', isCorrect: false, rationale: 'The central problem\u2014mounting debt and crop loss\u2014is established well before Eli\'s decision. The inciting incident is closer to the late freeze that destroys the blossoms.' },
+      { text: 'It represents a deus ex machina because the surviving tree appears without prior foreshadowing.', isCorrect: false, rationale: 'The passage establishes the orchard and family history from the start, so the grandfather\'s tree is a natural detail, not an improbable intervention. A deus ex machina would be an unlikely outside rescue.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The description of Della putting on her 'old brown jacket' and 'old brown hat' contributes to the characterization by emphasizing her:",
+    questionNumber: 13,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'The ferry crossing took forty minutes on calm days, longer when the strait churned gray and the wind stripped foam off the waves. Noor made the crossing every weekday to reach the mainland hospital where she worked as a nurse. On rough mornings she gripped the railing and recited patient charts in her head, turning seasickness into study. Islanders called the strait "the sieve" because it filtered out anyone who wasn\'t stubborn enough to stay. Noor had watched three neighbors leave in the past year, each citing the crossing as the final reason. She understood. Some mornings the water looked like it wanted to swallow the boat. But each time the ferry docked and she stepped onto the mainland pier, she felt a small, fierce pride, as though the strait had tested her and she had answered.',
+    question: 'How does the setting of the strait influence Noor\'s characterization?',
     answerOptions: [
-      {
-        text: 'lack of style.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'love for the color brown.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'modest financial means.',
-        isCorrect: true,
-        rationale: 'modest financial means.',
-      },
-      {
-        text: 'desire to be unnoticed.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
+      { text: 'It serves as a daily physical challenge that reveals her resilience and stubbornness.', isCorrect: true, rationale: 'The harsh crossing filters out less determined residents, but Noor endures it, converting discomfort into productivity. The setting functions as a proving ground that externalizes her inner toughness.' },
+      { text: 'It symbolizes Noor\'s desire to leave the island permanently.', isCorrect: false, rationale: 'Noor continues to make the crossing and feels pride upon completing it. Neighbors leave, but Noor stays, indicating commitment to the island rather than a wish to abandon it.' },
+      { text: 'It creates a romantic atmosphere that highlights Noor\'s emotional vulnerability.', isCorrect: false, rationale: 'The strait is described as gray, churning, and menacing\u2014hardly romantic. Noor\'s response is practical and determined, not emotionally vulnerable.' },
+      { text: 'The setting functions as the story\'s antagonist because it exhibits free will and malice toward Noor.', isCorrect: false, rationale: 'While the water is personified briefly ("looked like it wanted to swallow the boat"), the passage does not present the strait as a sentient antagonist with free will. It is a natural obstacle, not a character.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "What does the 'brilliant sparkle' in Della's eyes at the end of the passage symbolize?",
+    questionNumber: 14,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'The basement apartment smelled of mildew and old carpet no matter how many candles Yara lit. A single window near the ceiling let in a rectangle of light that moved across the floor like a slow clock. Yara had moved here after the divorce, trading a four-bedroom colonial for seven hundred square feet below ground. She told friends it was temporary, but six months had passed and she had started hanging pictures. Her daughter\'s crayon drawing of a yellow house was taped above the kitchen sink\u2014the only spot where the wall didn\'t sweat. At night, Yara could hear footsteps overhead from the upstairs tenant, a reminder that someone else\'s floor was her ceiling. She\'d lie awake and plan the garden she would plant once she found a place with a yard, sketching rows of tomatoes and sunflowers on graph paper balanced on her knees.',
+    question: 'In what way does the basement setting reflect and deepen the story\'s conflict?',
     answerOptions: [
-      {
-        text: 'Her lingering sadness and despair.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'Her newfound hope, determination, and love.',
-        isCorrect: true,
-        rationale: 'Her newfound hope, determination, and love.',
-      },
-      {
-        text: 'Her anger at her situation.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'Her fear of what Jim will think.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'It mirrors Yara\'s psychological state of feeling trapped between her past life and an uncertain future.', isCorrect: true, rationale: 'The underground space, the ceiling that is someone else\'s floor, the sweating walls, and the minimal light all parallel Yara\'s constrained circumstances and her sense of being caught between what she lost and what she hopes to build.' },
+      { text: 'It proves that Yara is financially irresponsible and caused her own divorce.', isCorrect: false, rationale: 'The passage attributes the move to the divorce but does not assign blame or describe financial irresponsibility. The setting reflects her current condition, not its cause.' },
+      { text: 'It establishes a cheerful tone that contrasts with Yara\'s inner sadness.', isCorrect: false, rationale: 'Mildew, sweating walls, and a single window near the ceiling create a somber tone that matches, rather than contrasts with, Yara\'s emotional state.' },
+      { text: 'The setting is an example of third-person omniscient narration rather than a literary device.', isCorrect: false, rationale: 'Point of view and setting are different literary concepts. The description of the basement functions as a literary device (symbolic setting) regardless of the narrative perspective being used.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question: 'The rising action of this excerpt begins when:',
+    questionNumber: 15,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'The community garden sat on a triangle of land between the highway overpass and the chain-link fence of a shuttered elementary school. Traffic noise was constant, and exhaust drifted over the raised beds like low fog. Despite all this, the plots thrived. Mr. Huang grew bitter melon along a trellis he had welded from rebar. Keisha planted collard greens in soil she had amended with compost she carried by bus from the city dump\'s free pile. On Saturdays, the gardeners gathered under the overpass\'s shadow for potluck lunches, their folding tables arranged on cracked asphalt. They did not romanticize the space. They knew the soil had been tested for lead, the water pressure was unreliable, and the city could reclaim the lot with thirty days\' notice. They gardened anyway, treating each harvest as both a meal and a small act of defiance.',
+    question: 'How does the relationship between setting and character function in this passage?',
     answerOptions: [
-      {
-        text: 'Della counts her money.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'Della looks out the window.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'Della suddenly whirls from the window with an idea.',
-        isCorrect: true,
-        rationale: 'Della suddenly whirls from the window with an idea.',
-      },
-      {
-        text: 'The author makes a moral reflection about life.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'The hostile urban environment highlights the gardeners\' resourcefulness and collective determination.', isCorrect: true, rationale: 'Every setting detail\u2014highway noise, exhaust, lead-tested soil, threat of eviction\u2014emphasizes obstacles, while every character action\u2014welding trellises, hauling compost by bus, gathering for potlucks\u2014demonstrates resilience. The setting magnifies the significance of their effort.' },
+      { text: 'The garden is a pastoral retreat that allows the characters to escape urban hardship.', isCorrect: false, rationale: 'The passage explicitly states the gardeners "did not romanticize the space." Traffic, exhaust, and lead contamination are inescapable. The garden exists within hardship, not apart from it.' },
+      { text: 'The setting has no meaningful connection to the characters because it is described objectively.', isCorrect: false, rationale: 'Objective description does not mean disconnection. The passage carefully juxtaposes setting obstacles with character actions to draw a thematic link between environment and determination.' },
+      { text: 'The passage uses the setting as an allegory for the protagonist\'s tragic flaw of excessive pride.', isCorrect: false, rationale: 'There is no single protagonist, no tragic flaw, and no allegory. The passage presents a collective group acting practically, and their persistence is framed as defiance, not prideful hubris.' },
     ],
     challenge_tags: ['rla-5'],
   },

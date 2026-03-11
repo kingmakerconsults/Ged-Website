@@ -1,499 +1,211 @@
-/**
- * Poetry & Figurative Language
- * Extracted from frontend app.jsx
- * Fixed to backend format: array of questions
- */
-
-module.exports = [
+﻿module.exports = [
   {
     questionNumber: 1,
-    passage:
-      '<div class="passage-text"><div style="white-space: pre-line; font-family: serif; line-height: 1.8;">Two roads diverged in a yellow wood,<br/>And sorry I could not travel both<br/>And be one traveler, long I stood<br/>And looked down one as far as I could<br/>To where it bent in the undergrowth;<br/><br/>Then took the other, as just as fair,<br/>And having perhaps the better claim,<br/>Because it was grassy and wanted wear;<br/>Though as for that the passing there<br/>Had worn them really about the same,<br/><br/>And both that morning equally lay<br/>In leaves no step had trodden black.<br/>Oh, I kept the first for another day!<br/>Yet knowing how way leads on to way,<br/>I doubted if I should ever come back.<br/><br/>I shall be telling this with a sigh<br/>Somewhere ages and ages hence:<br/>Two roads diverged in a wood, and I—<br/>I took the one less traveled by,<br/>And that has made all the difference.</div></div>',
-    question: "The 'two roads' in the poem are a metaphor for what?",
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Marta had not spoken to her sister in eleven years. When the letter arrived\u2014plain white envelope, no return address\u2014she held it for a long time before opening it. Inside was a single photograph: the two of them as children, standing ankle-deep in the creek behind their grandmother\'s house. Marta set the photograph on the kitchen table and wept, not from sadness, but from the sudden understanding that some bonds cannot be dissolved by silence.',
+    question: 'Which of the following best describes the theme of this passage?',
     answerOptions: [
-      {
-        text: 'An actual forest path.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'Choices one must make in life.',
-        isCorrect: true,
-        rationale: 'Choices one must make in life.',
-      },
-      {
-        text: 'The past and the future.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'Friendships.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'Family connections endure despite distance and conflict.', isCorrect: true, rationale: 'The passage emphasizes that the bond between the sisters survived eleven years of silence, and Marta\'s emotional response confirms the theme of enduring family ties.' },
+      { text: 'Photographs are powerful tools for manipulation.', isCorrect: false, rationale: 'Nothing in the passage suggests the photograph is sent to manipulate Marta; the tone is one of reconciliation, not deception.' },
+      { text: 'Sisters always forgive each other eventually.', isCorrect: false, rationale: 'This is too absolute. The passage does not say Marta forgives her sister\u2014only that the bond still exists. Forgiveness and connection are different ideas.' },
+      { text: 'Silence between people means they no longer care.', isCorrect: false, rationale: 'The passage directly contradicts this idea; Marta\'s tears show that the connection persisted through the silence.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question: 'What is the central theme of the poem?',
+    questionNumber: 2,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Every morning Jonas walked past the abandoned factory on Elm Street. Weeds pushed through the parking lot. Windows gaped like missing teeth. Yet someone had planted a row of marigolds along the chain-link fence, and every spring they returned, brighter than the year before. Jonas always slowed his pace there, just to look.',
+    question: 'What theme does the detail about the marigolds help develop?',
     answerOptions: [
-      {
-        text: 'The beauty of nature in autumn.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'The importance of following the crowd.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: "The idea that individual choices shape one's life and identity.",
-        isCorrect: true,
-        rationale:
-          "The idea that individual choices shape one's life and identity.",
-      },
-      {
-        text: 'The regret that comes from making a wrong decision.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'Industrial decay harms the environment.', isCorrect: false, rationale: 'While the factory is decaying, the marigolds thrive, so the passage is not focused on environmental harm.' },
+      { text: 'Beauty and hope can persist in neglected places.', isCorrect: true, rationale: 'The marigolds growing brighter each year amid the decay illustrate that hope and beauty can survive even in forgotten settings.' },
+      { text: 'Jonas is lonely and has nothing else to do.', isCorrect: false, rationale: 'The passage does not describe Jonas as lonely; it highlights his appreciation for the marigolds, not boredom.' },
+      { text: 'The factory represents the theme of technology.', isCorrect: false, rationale: 'The factory is a backdrop of neglect, not a commentary on technology. The thematic focus is on the marigolds, not the factory\'s original purpose.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question: "In the first stanza, what does the 'yellow wood' symbolize?",
+    questionNumber: 3,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'When the floodwaters finally receded, the Nguyens found their living room filled with silt. Photo albums were ruined. The piano was warped beyond repair. But on the mantel, somehow untouched, sat the ceramic rooster Mrs. Nguyen\'s mother had brought from Vietnam forty years ago. Mr. Nguyen picked it up, wiped it with his sleeve, and set it back in the center of the shelf. \"We start from here,\" he said.',
+    question: 'Which statement best captures the theme of this passage?',
     answerOptions: [
-      {
-        text: "A time of decision or a crossroads in the speaker's life.",
-        isCorrect: true,
-        rationale: "A time of decision or a crossroads in the speaker's life.",
-      },
-      {
-        text: "The speaker's fear and uncertainty.",
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'A place of danger.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: "The speaker's happy memories.",
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
+      { text: 'Natural disasters are unavoidable.', isCorrect: false, rationale: 'The passage is not about the inevitability of disasters; it focuses on what happens after the flood, not the flood itself.' },
+      { text: 'Heritage and resilience anchor people through loss.', isCorrect: true, rationale: 'The surviving ceramic rooster\u2014a family heirloom\u2014becomes the focal point for rebuilding, connecting heritage to resilience.' },
+      { text: 'Material possessions define a family\'s identity.', isCorrect: false, rationale: 'Most possessions were destroyed, yet the family\'s identity persists. The theme is about what endures, not about valuing all possessions equally.' },
+      { text: 'Mr. Nguyen uses allegory to comfort his wife.', isCorrect: false, rationale: 'This confuses a literary device (allegory) with a character\'s action. Mr. Nguyen speaks literally, and the question asks about theme, not technique.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "In the second stanza, the speaker notes that the second road 'was grassy and wanted wear.' What does this figurative language suggest?",
+    questionNumber: 4,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Her laughter was a bell tower at noon,\nringing out over rooftops and startling the pigeons.\nEveryone on the block turned to listen,\nnot because it was loud,\nbut because it made the whole street feel like Sunday.',
+    question: 'The comparison of her laughter to \"a bell tower at noon\" is an example of which figurative device?',
     answerOptions: [
-      {
-        text: 'The road was poorly maintained.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'The road was more beautiful than the first.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'The road appeared to be less traveled or less conventional.',
-        isCorrect: true,
-        rationale:
-          'The road appeared to be less traveled or less conventional.',
-      },
-      {
-        text: 'The road was dangerous and overgrown.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'Simile', isCorrect: false, rationale: 'A simile uses \"like\" or \"as\" to make a comparison. This line states her laughter was a bell tower, making a direct identification without \"like\" or \"as.\"' },
+      { text: 'Personification', isCorrect: false, rationale: 'Personification gives human traits to non-human things. Here a human quality (laughter) is compared to an object, not the other way around.' },
+      { text: 'Metaphor', isCorrect: true, rationale: 'A metaphor directly equates two unlike things without using \"like\" or \"as.\" Saying her laughter \"was a bell tower\" is a metaphor.' },
+      { text: 'Onomatopoeia', isCorrect: false, rationale: 'Onomatopoeia refers to words that imitate sounds (buzz, crash). \"Bell tower\" describes an object, not a sound word.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      'How does the speaker contradict his own description of the two roads in the second stanza?',
+    questionNumber: 5,
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'The old dog moved through the yard like a ship cutting through fog, slow and deliberate, as though each step required careful navigation. His eyes, cloudy as river stones, swept the fence line once before he settled into the grass with a sigh that seemed to carry the weight of every summer he had known.',
+    question: 'Which phrase from the passage is an example of a simile?',
     answerOptions: [
-      {
-        text: 'By saying one was much more difficult.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: "By admitting that 'the passing there / Had worn them really about the same.'",
-        isCorrect: true,
-        rationale:
-          "By admitting that 'the passing there / Had worn them really about the same.'",
-      },
-      {
-        text: 'By claiming that one road was made of stone.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'By stating that he had traveled both roads before.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
+      { text: '\"settled into the grass with a sigh\"', isCorrect: false, rationale: 'This phrase describes an action but does not compare two unlike things using \"like\" or \"as.\"' },
+      { text: '\"like a ship cutting through fog\"', isCorrect: true, rationale: 'This phrase uses \"like\" to compare the dog\'s movement to a ship in fog, which is the defining structure of a simile.' },
+      { text: '\"a sigh that seemed to carry the weight\"', isCorrect: false, rationale: 'This is closer to personification or metaphor (giving a sigh physical weight), but it does not use \"like\" or \"as\" to draw a comparison.' },
+      { text: '\"swept the fence line once\"', isCorrect: false, rationale: 'This is a verb choice (swept) that could be considered mild figurative language, but it is not a simile because it lacks a comparative structure with \"like\" or \"as.\"' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "What does the line 'And both that morning equally lay / In leaves no step had trodden black' imply?",
+    questionNumber: 6,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'The gymnasium was an oven by the third quarter, and the crowd was a single living creature, rising and falling with each basket. Coach Delgado stood motionless on the sideline, a statue carved from concentration. When the final buzzer sounded, the creature erupted, and the statue cracked into a grin.',
+    question: 'How does the extended metaphor in this passage function?',
     answerOptions: [
-      {
-        text: 'That the speaker was the first person there that day, and the choice was truly his own.',
-        isCorrect: true,
-        rationale:
-          'That the speaker was the first person there that day, and the choice was truly his own.',
-      },
-      {
-        text: 'That it was too dark to see the paths clearly.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'That both paths were unpopular.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'That the speaker was lost.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'It uses similes to compare the coach to a player.', isCorrect: false, rationale: 'The passage uses metaphors (\"was an oven,\" \"was a single living creature,\" \"a statue\"), not similes, and the coach is never compared to a player.' },
+      { text: 'It contrasts the crowd\'s energy with the coach\'s stillness, then unifies them in the moment of victory.', isCorrect: true, rationale: 'The crowd-as-creature and coach-as-statue metaphors set up a contrast between motion and stillness that collapses when the statue \"cracks into a grin\" at the buzzer.' },
+      { text: 'It personifies the gymnasium to show it is angry.', isCorrect: false, rationale: 'Calling the gym \"an oven\" is a metaphor for heat, not personification suggesting anger.' },
+      { text: 'It is an allegory about the dangers of competitive sports.', isCorrect: false, rationale: 'An allegory is a sustained symbolic narrative with a moral message. This passage is a vivid scene description using metaphor, not an allegory warning against competition.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The 'sigh' mentioned in the final stanza ('I shall be telling this with a sigh') is best interpreted as a sigh of:",
+    questionNumber: 7,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'The wind clawed at the shutters all night,\nhowling complaints through every crack in the walls.\nBy dawn it gave up and slouched away,\nleaving the house standing\u2014barely\u2014\nlike a boxer who won by simply refusing to fall.',
+    question: 'Which figurative device is MOST prominent in the first three lines of this poem?',
     answerOptions: [
-      {
-        text: 'simple regret for the path not taken.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'satisfaction and contentment with the choice made.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'complex reflection, blending nostalgia, satisfaction, and a sense of the weight of the decision.',
-        isCorrect: true,
-        rationale:
-          'complex reflection, blending nostalgia, satisfaction, and a sense of the weight of the decision.',
-      },
-      {
-        text: 'deep sadness and disappointment.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'Hyperbole', isCorrect: false, rationale: 'Hyperbole is deliberate exaggeration. While the storm is dramatic, the figurative language gives the wind human actions (clawing, howling complaints, slouching), which is personification, not exaggeration.' },
+      { text: 'Symbolism', isCorrect: false, rationale: 'Symbolism involves an object representing an abstract idea. The wind is given human traits rather than standing as a symbol for something else.' },
+      { text: 'Personification', isCorrect: true, rationale: 'The wind \"clawed,\" \"howled complaints,\" and \"slouched away\"\u2014all human or animal actions attributed to a natural force. This is personification.' },
+      { text: 'Irony', isCorrect: false, rationale: 'Irony involves a contrast between expectation and reality. The wind behaving aggressively and then leaving is sequential, not ironic.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The phrase 'way leads on to way' in the third stanza suggests that:",
+    questionNumber: 8,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'I have told you a thousand times: the garden will not plant itself. The tomatoes will not leap into the soil and tuck themselves in like children at bedtime. The weeds will not march to the compost heap on their own. If you want a garden, you must become the season yourself\u2014rain and sun and stubborn dirt under your nails.',
+    question: 'Which line contains the clearest example of hyperbole?',
     answerOptions: [
-      {
-        text: 'all paths eventually lead to the same destination.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'it is easy to get lost in the woods.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'one choice in life inevitably leads to another, making it difficult to go back and change the past.',
-        isCorrect: true,
-        rationale:
-          'one choice in life inevitably leads to another, making it difficult to go back and change the past.',
-      },
-      {
-        text: 'the speaker plans to explore all possible paths.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
+      { text: '\"you must become the season yourself\"', isCorrect: false, rationale: 'This is a metaphor (equating a person with a season), not hyperbole. It does not exaggerate a quantity or degree.' },
+      { text: '\"The weeds will not march to the compost heap\"', isCorrect: false, rationale: 'This is personification (weeds marching), not hyperbole. It gives weeds a human action rather than exaggerating a fact.' },
+      { text: '\"I have told you a thousand times\"', isCorrect: true, rationale: 'Saying \"a thousand times\" is a deliberate exaggeration of how often the speaker has repeated the message, which is the hallmark of hyperbole.' },
+      { text: '\"stubborn dirt under your nails\"', isCorrect: false, rationale: 'Calling dirt \"stubborn\" is personification (giving dirt a human trait), not exaggeration.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The final lines, 'I took the one less traveled by, / And that has made all the difference,' are often interpreted as a celebration of individualism. However, considering the poem's earlier statement that the roads were 'really about the same,' what is another possible interpretation of the theme?",
+    questionNumber: 9,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'The market at dusk: pyramids of saffron-yellow mangoes, the iron tang of fresh meat, smoke curling from a grill like a gray cat stretching. Somewhere a radio played a song she almost recognized. The cobblestones were slick with rain and crushed petals, and the air tasted of charcoal and cilantro.',
+    question: 'Which type of figurative language does this passage rely on most heavily?',
     answerOptions: [
-      {
-        text: 'The speaker made a terrible mistake.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'The poem is about how we create meaning and significance for our choices after we make them.',
-        isCorrect: true,
-        rationale:
-          'The poem is about how we create meaning and significance for our choices after we make them.',
-      },
-      {
-        text: 'The speaker is lying about which road he took.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'The poem is a warning against taking any risks.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'Allegory', isCorrect: false, rationale: 'Allegory is a narrative where characters and events symbolize abstract ideas. This passage is a descriptive scene, not a symbolic narrative.' },
+      { text: 'Imagery', isCorrect: true, rationale: 'The passage appeals to sight (saffron-yellow mangoes), smell and taste (charcoal and cilantro), touch (slick cobblestones), and sound (radio). This dense sensory detail is imagery.' },
+      { text: 'Dramatic irony', isCorrect: false, rationale: 'Dramatic irony requires the audience to know something a character does not. No such gap exists here.' },
+      { text: 'Hyperbole', isCorrect: false, rationale: 'Nothing in the passage is exaggerated. The descriptions are vivid but realistic.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The repetition of the word 'And' at the beginning of lines 2, 3, and 4 is a literary device called anaphora. What is its effect?",
+    questionNumber: 10,
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'Every evening, Alma lit a candle in the window facing the sea. The wax pooled and hardened on the sill in layers\u2014white over yellow over white\u2014like the years themselves. Ships passed but never stopped. Still she lit the candle, even when the wick was almost gone, even when the glass had cracked from the heat. Her daughter once asked why. Alma said, \"Because a light in the window means someone is still waiting, and waiting means the story isn\'t over.\"',
+    question: 'In this passage, the candle most likely symbolizes which of the following?',
     answerOptions: [
-      {
-        text: 'It makes the poem sound confusing.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'It creates a sense of hesitation and thoughtful deliberation as the speaker weighs his options.',
-        isCorrect: true,
-        rationale:
-          'It creates a sense of hesitation and thoughtful deliberation as the speaker weighs his options.',
-      },
-      {
-        text: 'It shows that the speaker is in a hurry.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'It suggests the speaker is not telling the truth.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
+      { text: 'The danger of fire in coastal homes', isCorrect: false, rationale: 'This is a literal reading that ignores the emotional and thematic weight the passage gives the candle.' },
+      { text: 'Alma\'s persistent hope and refusal to give up', isCorrect: true, rationale: 'Alma continues lighting the candle despite the cracked glass and shrinking wick, and her own words connect the act to waiting and an unfinished story\u2014both signs of enduring hope.' },
+      { text: 'A metaphor for the passage of time', isCorrect: false, rationale: 'The layered wax suggests passing time, but the candle itself\u2014and Alma\'s act of lighting it\u2014symbolizes hope, not time. Time is a secondary detail.' },
+      { text: 'A hyperbolic gesture meant to attract ships', isCorrect: false, rationale: 'Hyperbole means exaggeration. Lighting a candle is a modest, quiet act, and Alma\'s motivation is emotional, not practical.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The 'undergrowth' where the path bends can be seen as a symbol for:",
+    questionNumber: 11,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'In the land of Kael, every citizen was born carrying a stone. The stones were different sizes: some no larger than a marble, others heavy as a millstone. The law said no one could set a stone down, ever. Those with small stones built towers and bridges. Those with great stones sat in the dust and wept. One day a girl named Sura, whose stone was enormous, began to roll hers forward instead of carrying it. She was slow, but she moved. Others followed. In time the road behind them was paved with the stones they had rolled, and no one who came after had to walk in dust.',
+    question: 'This passage is best described as an allegory because it\u2014',
     answerOptions: [
-      {
-        text: 'a beautiful garden.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'the future, which cannot be fully seen or understood from the present.',
-        isCorrect: true,
-        rationale:
-          'the future, which cannot be fully seen or understood from the present.',
-      },
-      {
-        text: "the speaker's past mistakes.",
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'a place of safety and comfort.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
+      { text: 'uses vivid sensory details to create a mood of despair', isCorrect: false, rationale: 'While some details evoke hardship, the passage\'s defining feature is its symbolic narrative, not its sensory language. Imagery alone does not make an allegory.' },
+      { text: 'tells a symbolic story in which characters and objects represent abstract concepts like burden, inequality, and perseverance', isCorrect: true, rationale: 'The stones represent life\'s burdens, the law represents societal constraints, and Sura\'s innovation represents perseverance. The entire narrative operates on a symbolic level, which is the hallmark of allegory.' },
+      { text: 'contains a simile comparing stones to marbles and millstones', isCorrect: false, rationale: 'The similes are minor details. A single simile does not make a passage an allegory; allegory requires a sustained symbolic narrative.' },
+      { text: 'exaggerates Sura\'s strength to make a point about leadership', isCorrect: false, rationale: 'Sura is explicitly described as slow; the passage does not exaggerate her abilities. Her contribution is method (rolling instead of carrying), not superhuman strength.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The poem's rhyme scheme is ABAAB. What effect does this consistent structure have?",
+    questionNumber: 12,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'All summer the scarecrow watched the crows.\nThey landed on his shoulders, nested in his hat.\nHe could not lift a hand to stop them.\nBy autumn his straw heart was full of feathers,\nand the farmer, seeing the ruined field,\nblamed the scarecrow for befriending the enemy.\nBut the scarecrow had no say in the matter\u2014\nhe was built to stand, not to choose.',
+    question: 'What does the scarecrow most likely symbolize in this poem?',
     answerOptions: [
-      {
-        text: 'It makes the poem feel chaotic and unpredictable.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'It gives the poem a thoughtful, musical quality that reinforces its contemplative mood.',
-        isCorrect: true,
-        rationale:
-          'It gives the poem a thoughtful, musical quality that reinforces its contemplative mood.',
-      },
-      {
-        text: 'It makes the poem difficult to understand.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'It signals that the poem should be read as a joke.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
+      { text: 'A person blamed for failures beyond their control', isCorrect: true, rationale: 'The scarecrow cannot move or choose, yet the farmer blames him. This mirrors people held responsible for outcomes they have no power to change.' },
+      { text: 'The destructive nature of farming practices', isCorrect: false, rationale: 'The poem is not a commentary on agriculture. The farm setting is a vehicle for the symbolic meaning, not the subject.' },
+      { text: 'The irony of crows being smarter than farmers', isCorrect: false, rationale: 'The poem does not compare the intelligence of crows and farmers. The focus is on the scarecrow\'s helplessness, not on who is smarter.' },
+      { text: 'A metaphor for how straw decays in autumn weather', isCorrect: false, rationale: 'This reads the poem literally. The straw heart \"full of feathers\" is symbolic, not a description of physical decay.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    passage:
-      'Two roads diverged in a yellow wood,\nAnd sorry I could not travel both\nAnd be one traveler, long I stood\nAnd looked down one as far as I could\nTo where it bent in the undergrowth;\n\nThen took the other, as just as fair,\nAnd having perhaps the better claim,\nBecause it was grassy and wanted wear;\nThough as for that the passing there\nHad worn them really about the same,\n\nAnd both that morning equally lay\nIn leaves no step had trodden black.\nOh, I kept the first for another day!\nYet knowing how way leads on to way,\nI doubted if I should ever come back.\n\nI shall be telling this with a sigh\nSomewhere ages and ages hence:\nTwo roads diverged in a wood, and I\nI took the one less traveled by,\nAnd that has made all the difference.',
-    question:
-      'Which of the following words best describes the overall mood of the poem?',
+    questionNumber: 13,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'Marcus trained for the marathon every day for two years. He ran in rain, in snow, through a stress fracture that made each step feel like stepping on glass. On race day he crossed the finish line in first place and stood on the podium while the crowd cheered. That night, alone in his apartment, he set the trophy on the shelf, sat on the edge of his bed, and thought: \"So this is what empty feels like.\"',
+    question: 'Which type of irony is illustrated by Marcus\'s final thought?',
     answerOptions: [
-      {
-        text: 'Joyful and carefree',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'Angry and bitter',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'Reflective and contemplative',
-        isCorrect: true,
-        rationale: 'Reflective and contemplative',
-      },
-      {
-        text: 'Frightened and anxious',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'Verbal irony, because Marcus says the opposite of what he means', isCorrect: false, rationale: 'Marcus is sincere\u2014he genuinely feels empty. Verbal irony requires the speaker to intentionally say the opposite of their meaning, which is not the case here.' },
+      { text: 'Dramatic irony, because the reader knows something Marcus does not', isCorrect: false, rationale: 'Dramatic irony requires the audience to have knowledge a character lacks. Here, Marcus and the reader arrive at the realization simultaneously.' },
+      { text: 'Situational irony, because the expected joy of winning is replaced by emptiness', isCorrect: true, rationale: 'Situational irony occurs when the outcome contradicts expectations. After years of sacrifice, the reader expects fulfillment, but Marcus feels empty\u2014the opposite of what was anticipated.' },
+      { text: 'It is not irony; it is an example of hyperbole', isCorrect: false, rationale: 'Marcus is not exaggerating. His emptiness is presented as a genuine emotional experience, and the contrast between expectation and reality is a textbook case of situational irony.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The title 'The Road Not Taken' is significant because the poem focuses heavily on:",
+    questionNumber: 14,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: '\"What a lovely day for a picnic,\" said Rena, pulling her coat tighter as sleet hammered the windshield. The engine coughed twice and died. Gerald stared at the temperature gauge\u2014fifteen degrees below zero. \"Absolutely perfect,\" Rena added, her voice flat as a frozen lake.',
+    question: 'Rena\'s dialogue is an example of which literary device?',
     answerOptions: [
-      {
-        text: 'the road the speaker chose to travel.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'the memory and imagined possibilities of the road the speaker did not choose.',
-        isCorrect: true,
-        rationale:
-          'the memory and imagined possibilities of the road the speaker did not choose.',
-      },
-      {
-        text: 'the physical characteristics of both roads.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: "the speaker's hiking ability.",
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
+      { text: 'Situational irony', isCorrect: false, rationale: 'Situational irony involves an unexpected outcome in plot events. Rena\'s comments are deliberate sarcasm\u2014she knows the conditions are terrible and says the opposite on purpose.' },
+      { text: 'Verbal irony', isCorrect: true, rationale: 'Verbal irony occurs when a speaker intentionally says the opposite of what they mean. Rena calls the freezing, sleety conditions \"lovely\" and \"absolutely perfect,\" clearly meaning the opposite.' },
+      { text: 'Personification', isCorrect: false, rationale: 'While the engine \"coughed\" is personification, Rena\'s dialogue itself is not. The question asks specifically about her speech.' },
+      { text: 'Foreshadowing', isCorrect: false, rationale: 'Foreshadowing hints at future events. Rena is commenting on present conditions, not predicting what will happen next.' },
     ],
     challenge_tags: ['rla-5'],
   },
   {
-    questionNumber: 1,
-
-    question:
-      "The poem uses the past tense until the final stanza. Why does the poet switch to the future tense ('I shall be telling this...')?",
+    questionNumber: 15,
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'The acceptance letter arrived on a Tuesday. Claire read it three times, folded it neatly, and placed it inside the encyclopedia on the shelf\u2014Volume E, for \"Escape.\" She did not mention it at dinner. Her father talked about the farm, the broken tractor, the cost of seed. Her mother passed the bread without looking up. Claire chewed slowly, the letter burning a quiet hole through the bookshelf and into the back of her mind.',
+    question: 'How would you best describe the overall tone of this passage?',
     answerOptions: [
-      {
-        text: 'To show that the speaker has forgotten what happened.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'To emphasize how the speaker will reflect on this moment and assign it meaning in the distant future.',
-        isCorrect: true,
-        rationale:
-          'To emphasize how the speaker will reflect on this moment and assign it meaning in the distant future.',
-      },
-      {
-        text: 'To suggest that the events of the poem have not actually happened yet.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'To confuse the reader about the timeline of the story.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
+      { text: 'Joyful and celebratory', isCorrect: false, rationale: 'Although Claire received good news, she hides it. The silence at dinner and the weight of family obligation create tension, not celebration.' },
+      { text: 'Restrained and conflicted', isCorrect: true, rationale: 'Claire suppresses her excitement, hides the letter, and sits through a tense dinner. The tone is one of quiet internal conflict held beneath a calm surface.' },
+      { text: 'Angry and resentful', isCorrect: false, rationale: 'Claire shows no anger. Her actions\u2014folding the letter neatly, chewing slowly\u2014suggest careful restraint, not resentment.' },
+      { text: 'Whimsical and lighthearted', isCorrect: false, rationale: 'The dinner scene is heavy with unspoken tension. Nothing in the language or imagery suggests playfulness or lightheartedness.' },
     ],
     challenge_tags: ['rla-5'],
   },

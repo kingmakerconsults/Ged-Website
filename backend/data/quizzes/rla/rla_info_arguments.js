@@ -1,483 +1,211 @@
-/**
- * Analyzing Arguments
- * Extracted from frontend app.jsx
- * Fixed to backend format: array of questions
- */
-
-module.exports = [
+﻿module.exports = [
   {
     questionNumber: 1,
-    question: "What is the author's main claim in the passage?",
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'City planners across the country are pushing for more investment in public transportation. They argue that expanding bus and rail networks reduces traffic congestion, lowers carbon emissions, and provides affordable mobility for low-income residents. Several major cities that invested in transit infrastructure over the past decade have seen measurable decreases in commuter drive times. Critics who favor highway expansion often overlook these proven benefits.',
+    question: 'What is the author\'s main claim in this passage?',
     answerOptions: [
-      {
-        text: 'Cities should focus exclusively on building more affordable housing.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'Urban green spaces are a critical and necessary component of a healthy city.',
-        isCorrect: true,
-        rationale:
-          'Urban green spaces are a critical and necessary component of a healthy city.',
-      },
-      {
-        text: 'The environmental benefits of parks outweigh the social benefits.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'City planners are not doing enough to combat the urban heat island effect.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
+      { text: 'Highway expansion is the best solution to urban traffic.', isCorrect: false, rationale: 'This directly contradicts the author\'s argument. The passage advocates for public transit, not highway expansion, as the better approach.' },
+      { text: 'Investing in public transportation reduces congestion, emissions, and costs for cities.', isCorrect: true, rationale: 'The author explicitly argues that expanding transit networks reduces congestion, lowers emissions, and provides affordable mobility, making this the central claim of the passage.' },
+      { text: 'Bus networks help people get to work on time.', isCorrect: false, rationale: 'While commute times are mentioned, this is far too narrow to capture the author\'s main claim, which addresses congestion, emissions, and affordability together.' },
+      { text: 'Multi-modal transit infrastructure yields compounding returns on per-capita mobility indices.', isCorrect: false, rationale: 'This uses technical jargon not found in the passage. The author makes a straightforward argument about transit benefits without referencing per-capita mobility indices.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 2,
-    question:
-      'Which piece of evidence does the author use to support the claim about environmental benefits?',
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Preventive healthcare saves both lives and money, yet many Americans lack access to basic screenings and vaccinations. Studies from the Centers for Disease Control show that every dollar spent on childhood immunizations saves roughly ten dollars in future medical costs. Despite this evidence, funding for community health clinics has been cut repeatedly over the past five years. The author of a recent policy brief argues that restoring this funding should be a national priority.',
+    question: 'Which statement best represents the author\'s thesis?',
     answerOptions: [
-      {
-        text: 'The assertion that parks increase the value of nearby properties.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'The statement that a single tree can provide the cooling effect of ten air conditioners.',
-        isCorrect: true,
-        rationale:
-          'The statement that a single tree can provide the cooling effect of ten air conditioners.',
-      },
-      {
-        text: 'The argument that parks foster community cohesion.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'The claim that time spent in nature reduces stress.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'Funding for preventive healthcare should be restored because it saves lives and reduces long-term costs.', isCorrect: true, rationale: 'The passage builds the case that preventive care is cost-effective and life-saving, then concludes that restoring funding should be a priority. This captures the full thesis.' },
+      { text: 'Childhood immunizations are the only cost-effective form of healthcare.', isCorrect: false, rationale: 'The passage uses immunizations as one example of preventive care but never claims they are the only cost-effective form of healthcare.' },
+      { text: 'The CDC is responsible for setting healthcare budgets.', isCorrect: false, rationale: 'The CDC is mentioned as a source of data, not as the agency that sets budgets. This confuses a supporting detail with the main argument.' },
+      { text: 'Preventive healthcare has been proven ineffective at reducing overall national expenditures.', isCorrect: false, rationale: 'This directly contradicts the passage, which states that every dollar spent on immunizations saves roughly ten dollars in future costs.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 3,
-    question:
-      'In paragraph 4, the author addresses the counterargument that cities need land for housing, not parks. How does the author rebut this point?',
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'Universal pre-kindergarten programs have gained support from educators and economists alike. Research from several states shows that children who attend structured preschool programs perform better on reading and math assessments through third grade. Opponents argue the programs are too expensive, but proponents counter that the long-term savings in reduced special education costs and higher graduation rates more than justify the investment. The debate centers on whether short-term budget pressures should outweigh long-term educational gains.',
+    question: 'What is the author\'s central argument in this passage?',
     answerOptions: [
-      {
-        text: 'By arguing that housing is not as important as parks.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'By agreeing that parks should only be built if there is no housing shortage.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: "By stating that the choice between housing and parks is a 'false dichotomy' and that both are possible.",
-        isCorrect: true,
-        rationale:
-          "By stating that the choice between housing and parks is a 'false dichotomy' and that both are possible.",
-      },
-      {
-        text: 'By providing statistics on how many new parks have been built recently.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'Special education programs should receive less funding than preschool programs.', isCorrect: false, rationale: 'The passage mentions reduced special education costs as a benefit of pre-K, but never argues that special education should be defunded.' },
+      { text: 'Pre-kindergarten is opposed by most economists.', isCorrect: false, rationale: 'This contradicts the opening sentence, which states that economists support universal pre-K programs.' },
+      { text: 'Universal pre-K is a worthwhile investment because its long-term benefits outweigh its costs.', isCorrect: true, rationale: 'The passage presents evidence of academic gains and long-term savings, framing the debate around whether long-term benefits justify short-term costs. The author clearly sides with the investment.' },
+      { text: 'Third-grade assessment scores are the primary metric for evaluating educational policy effectiveness.', isCorrect: false, rationale: 'Third-grade scores are mentioned as one piece of evidence, not as the author\'s main argument or the primary metric for policy evaluation.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 4,
-    question:
-      "The author's claim that 'studies have consistently shown' that nature reduces stress is an appeal to what?",
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'The Clean Water Act has been one of the most successful environmental laws in American history. Before its passage in 1972, industrial waste was dumped directly into rivers and lakes with little oversight. Since then, the Environmental Protection Agency reports that the percentage of waterways meeting quality standards has more than doubled. However, recent proposals to roll back enforcement provisions have alarmed environmental groups who warn that progress could be reversed within a decade.',
+    question: 'Which detail from the passage provides the strongest evidence for the effectiveness of the Clean Water Act?',
     answerOptions: [
-      {
-        text: 'Emotion',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'Tradition',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'Authority or expert evidence',
-        isCorrect: true,
-        rationale: 'Authority or expert evidence',
-      },
-      {
-        text: 'Anecdotal evidence',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
+      { text: 'Environmental groups are alarmed by rollback proposals.', isCorrect: false, rationale: 'This describes a reaction to future policy changes, not evidence of the law\'s past effectiveness.' },
+      { text: 'Industrial waste was dumped into rivers before 1972.', isCorrect: false, rationale: 'This establishes the problem that existed before the law, but it does not demonstrate the law\'s effectiveness after passage.' },
+      { text: 'The Clean Water Act was passed in 1972.', isCorrect: false, rationale: 'The date of passage is a historical fact, not evidence of the law\'s impact or success.' },
+      { text: 'The percentage of waterways meeting quality standards has more than doubled.', isCorrect: true, rationale: 'This is a specific, measurable outcome cited from the EPA that directly demonstrates the law\'s positive effect on water quality.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 5,
-    question:
-      "What is the logical flaw in the argument that cities 'cannot afford to 'waste' land on parks,' as described by the author?",
+    type: 'multipleChoice',
+    difficulty: 'easy',
+    passage: 'A growing number of pediatricians are calling for stricter guidelines on screen time for children under five. A 2023 study published in the Journal of Developmental Psychology tracked 1,200 toddlers over three years and found that those with more than two hours of daily screen exposure scored significantly lower on language development tests. The American Academy of Pediatrics currently recommends no more than one hour per day for children ages two to five. Some parents argue these limits are unrealistic in modern households where both adults work.',
+    question: 'What type of evidence does the author primarily use to support the call for stricter screen time guidelines?',
     answerOptions: [
-      {
-        text: 'It is an ad hominem attack on city planners.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'It is a slippery slope argument that assumes parks will lead to bankruptcy.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'It presents a false dichotomy by suggesting the only choice is between parks and housing.',
-        isCorrect: true,
-        rationale:
-          'It presents a false dichotomy by suggesting the only choice is between parks and housing.',
-      },
-      {
-        text: 'It is a circular argument that repeats the claim without evidence.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'Personal stories from parents who limit screen time.', isCorrect: false, rationale: 'The passage does not include any personal anecdotes. Parents are only mentioned in the context of objecting to the limits.' },
+      { text: 'A published research study tracking child development outcomes.', isCorrect: true, rationale: 'The passage cites a specific 2023 study from a named journal that tracked 1,200 toddlers, making peer-reviewed research the primary form of evidence.' },
+      { text: 'Economic data showing the cost of language therapy.', isCorrect: false, rationale: 'No economic data or cost figures appear anywhere in the passage.' },
+      { text: 'A theoretical framework correlating ambient electromagnetic exposure with neuroplasticity deficits.', isCorrect: false, rationale: 'This uses scientific-sounding jargon that has nothing to do with the passage. The study measured screen time and language scores, not electromagnetic exposure.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 6,
-    question:
-      'Which of the following statements is presented as a fact rather than an opinion in the passage?',
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'Supporters of expanded remote work policies point to a Stanford University study that found remote employees were 13 percent more productive than their in-office counterparts. They also cite reduced overhead costs for employers and improved work-life balance for employees. However, the study focused on call center workers performing repetitive tasks, raising questions about whether those results apply to creative or collaborative roles. Additionally, a 2024 Gallup survey found that fully remote workers reported higher rates of professional isolation.',
+    question: 'Why does the author mention that the Stanford study focused on call center workers?',
     answerOptions: [
-      {
-        text: 'Green spaces are not a luxury, but a vital necessity.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'The argument against green spaces is shortsighted.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'Trees and vegetation absorb carbon dioxide.',
-        isCorrect: true,
-        rationale: 'Trees and vegetation absorb carbon dioxide.',
-      },
-      {
-        text: 'The choice is between short-term profit and long-term sustainability.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
+      { text: 'To suggest the study\'s findings may not apply to all types of work.', isCorrect: true, rationale: 'By noting the study\'s narrow focus on repetitive tasks, the author raises a legitimate concern about generalizability, questioning whether the results hold for creative or collaborative roles.' },
+      { text: 'To prove that remote work only benefits call center employees.', isCorrect: false, rationale: 'The author does not conclude that remote work only benefits call centers. The point is about the limits of the evidence, not a definitive claim.' },
+      { text: 'To show that Stanford University is biased toward remote work.', isCorrect: false, rationale: 'The passage does not accuse Stanford of bias. It simply notes the scope of the study as a limitation.' },
+      { text: 'To demonstrate that repetitive task metrics are inversely correlated with collaborative output indices.', isCorrect: false, rationale: 'This uses confusing jargon not present in the passage. The author\'s point is simply that call center work differs from creative work, not that specific metrics are inversely correlated.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 7,
-    question:
-      "The author's argument would be most weakened by which of the following findings?",
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'Criminal justice reformers argue that mandatory minimum sentences have failed to deter crime and have instead contributed to mass incarceration. They point to data showing that states which eliminated mandatory minimums for nonviolent drug offenses saw no increase in crime rates. Opponents of reform contend that strict sentencing sends a clear message and keeps dangerous individuals off the streets. Reformers respond that mandatory minimums often apply to low-level offenders who pose no public safety threat, wasting resources that could fund rehabilitation programs.',
+    question: 'How do criminal justice reformers counter the argument that strict sentencing deters crime?',
     answerOptions: [
-      {
-        text: 'A new study showing that the cooling effect of trees is less than previously thought.',
-        isCorrect: true,
-        rationale:
-          'A new study showing that the cooling effect of trees is less than previously thought.',
-      },
-      {
-        text: 'A report that community gardens are growing in popularity.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'Evidence that most city residents prefer indoor recreation.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'A survey showing that people feel happier after visiting a park.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
+      { text: 'They argue that all convicted individuals are dangerous regardless of their offense.', isCorrect: false, rationale: 'This is the opposite of the reformers\' position. They specifically argue that many people affected by mandatory minimums are low-level offenders who are not dangerous.' },
+      { text: 'They claim that judges should have no role in determining sentence length.', isCorrect: false, rationale: 'The passage does not discuss the role of judges in sentencing. This introduces a topic not addressed in the argument.' },
+      { text: 'They argue that mandatory minimums target low-level offenders and divert resources from rehabilitation.', isCorrect: true, rationale: 'The passage states that reformers respond by pointing out that mandatory minimums often apply to low-level offenders and that the money could be better spent on rehabilitation programs.' },
+      { text: 'They suggest that recidivism matrices demonstrate a positive feedback loop in sentencing deterrence models.', isCorrect: false, rationale: 'This uses academic-sounding language not found in the passage. The reformers\' rebuttal focuses on who is affected and how resources are allocated, not on statistical models.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 8,
-    question: "The author's argument would be most strengthened by including:",
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'A recent editorial argued that increasing legal immigration would strengthen the economy by filling labor shortages in agriculture, healthcare, and construction. The author cited Bureau of Labor Statistics data projecting a shortfall of 1.2 million workers in these sectors by 2030. Critics responded that expanding immigration could depress wages for native-born workers in these industries. The editorial\'s author countered that historical data shows wages in immigrant-heavy industries have actually risen over the past two decades when adjusted for inflation.',
+    question: 'What counterargument do critics raise against expanding legal immigration?',
     answerOptions: [
-      {
-        text: 'more emotional language about the beauty of nature.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: "a personal story about the author's favorite park.",
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'specific data from a city where adding parks led to measurable economic and health benefits.',
-        isCorrect: true,
-        rationale:
-          'specific data from a city where adding parks led to measurable economic and health benefits.',
-      },
-      {
-        text: 'a longer discussion of the history of urban development.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'Legal immigration has no effect on the labor market.', isCorrect: false, rationale: 'This is not the critics\' position. They argue immigration does affect the labor market, specifically by depressing wages.' },
+      { text: 'Expanding immigration could lower wages for workers already in those industries.', isCorrect: true, rationale: 'The passage directly states that critics argue expanding immigration could depress wages for native-born workers in agriculture, healthcare, and construction.' },
+      { text: 'The Bureau of Labor Statistics data is from an unreliable source.', isCorrect: false, rationale: 'No one in the passage questions the reliability of the Bureau of Labor Statistics. The critics focus on wage effects, not data sources.' },
+      { text: 'Immigration policy should focus on sectors outside of construction and healthcare.', isCorrect: false, rationale: 'The critics\' objection is about wage depression, not about redirecting immigration to different industries.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 9,
-    question:
-      'What unstated assumption does the author make about their audience?',
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'Proponents of raising the federal minimum wage to fifteen dollars an hour argue that it would lift millions of workers out of poverty. They note that the current minimum wage has not kept pace with inflation since 1968 and that a full-time minimum wage worker cannot afford a one-bedroom apartment in any U.S. state. Opponents warn that a sudden increase could force small businesses to cut staff or raise prices. Proponents acknowledge this concern but point to studies from cities like Seattle, where phased wage increases did not cause significant job losses.',
+    question: 'How do minimum wage proponents address the concern about job losses?',
     answerOptions: [
-      {
-        text: 'The audience is primarily made up of real estate developers.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'The audience values scientific evidence and the well-being of citizens.',
-        isCorrect: true,
-        rationale:
-          'The audience values scientific evidence and the well-being of citizens.',
-      },
-      {
-        text: 'The audience is opposed to any form of government spending.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Consider the key details in the question.',
-      },
-      {
-        text: 'The audience has little interest in environmental issues.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'They deny that any businesses would be affected by wage increases.', isCorrect: false, rationale: 'The passage says proponents acknowledge the concern, not deny it. This misrepresents their position.' },
+      { text: 'They argue that workers should accept lower wages to preserve jobs.', isCorrect: false, rationale: 'This contradicts the proponents\' central argument for raising wages. They would not argue for accepting lower pay.' },
+      { text: 'They claim that inflation automatically adjusts wages without legislation.', isCorrect: false, rationale: 'The passage states the opposite: the minimum wage has not kept pace with inflation, which is why legislation is needed.' },
+      { text: 'They cite studies from cities where phased increases did not cause significant job losses.', isCorrect: true, rationale: 'The passage explicitly states that proponents point to studies from cities like Seattle showing that phased wage increases did not lead to significant job losses.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 10,
-    question:
-      "By stating that the argument against green spaces is 'shortsighted,' the author implies that opponents are:",
+    type: 'multipleChoice',
+    difficulty: 'medium',
+    passage: 'A viral social media post claimed that a popular breakfast cereal causes cancer, citing a single blog written by someone with no medical credentials. The post was shared over two million times before any fact-checking organization reviewed it. When researchers examined the claim, they found it was based on a misreading of a study that tested a chemical compound at concentrations thousands of times higher than what appears in food. Despite the correction, many people continued to believe the original claim.',
+    question: 'Which logical fallacy is most evident in the original social media claim?',
     answerOptions: [
-      {
-        text: 'focusing on immediate costs without considering long-term benefits.',
-        isCorrect: true,
-        rationale:
-          'focusing on immediate costs without considering long-term benefits.',
-      },
-      {
-        text: 'maliciously trying to harm the environment.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'unaware of the current housing shortage.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'proposing a better long-term solution.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
+      { text: 'Relying on an unqualified source and misrepresenting scientific evidence.', isCorrect: true, rationale: 'The claim was based on a blog by someone without medical credentials and misread a study by ignoring the massive difference in chemical concentrations. This combines an appeal to false authority with distortion of evidence.' },
+      { text: 'Using statistical data from too large a sample size.', isCorrect: false, rationale: 'The problem is not an overly large sample but rather the complete lack of credible evidence. The blog had no qualified source backing it.' },
+      { text: 'Presenting a balanced view that gives equal weight to both sides.', isCorrect: false, rationale: 'The social media post did not present a balanced view at all. It made a one-sided, sensational claim without acknowledging the actual science.' },
+      { text: 'The post committed a fallacy of collective attribution by extrapolating group-level toxicology data to individual consumption patterns.', isCorrect: false, rationale: 'While this sounds technical, the actual problem is simpler: the source was unqualified and the study was misrepresented. The passage does not describe group-to-individual extrapolation.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 11,
-    question:
-      "Is the author's claim that green spaces can 'save millions in infrastructure costs' a valid conclusion based on the evidence provided?",
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'During a school board debate on vaccination requirements, one parent stated: "My neighbor\'s child received a vaccine and was diagnosed with autism six months later. This proves vaccines cause autism." The school board president responded by citing a meta-analysis of 1.2 million children that found no link between vaccines and autism. A second parent added: "If vaccines are so safe, why does the government have a vaccine injury compensation program?" The board president explained that the program exists as a precaution, not as evidence of widespread harm.',
+    question: 'What logical fallacy does the first parent\'s statement demonstrate?',
     answerOptions: [
-      {
-        text: 'No, because the author provides no evidence to support this specific financial claim.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
-      {
-        text: 'Yes, because the author logically connects permeable surfaces to reduced stormwater runoff and flooding.',
-        isCorrect: true,
-        rationale:
-          'Yes, because the author logically connects permeable surfaces to reduced stormwater runoff and flooding.',
-      },
-      {
-        text: 'No, because building parks is always more expensive than building flood barriers.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'Yes, because all green spaces are known to generate revenue for cities.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'Straw man argument, because the parent attacks a position no one holds.', isCorrect: false, rationale: 'A straw man involves misrepresenting an opponent\'s argument. The parent is making a causal claim based on personal experience, not distorting someone else\'s position.' },
+      { text: 'Ad hominem attack, because the parent insults the school board.', isCorrect: false, rationale: 'The parent does not attack anyone personally. The statement focuses on an event involving a child, not on discrediting a person\'s character.' },
+      { text: 'Post hoc ergo propter hoc, because the parent assumes one event caused another simply because it came first.', isCorrect: true, rationale: 'The parent assumes the vaccine caused the autism diagnosis solely because the vaccine was administered first. Correlation in timing does not establish causation, which is the defining feature of this fallacy.' },
+      { text: 'False equivalence, because the parent equates two unrelated medical procedures.', isCorrect: false, rationale: 'The parent is not comparing two procedures. The error is assuming a causal link based on sequence, not equating dissimilar things.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 12,
-    question:
-      "The author's argument that green spaces are 'essential infrastructure' is an attempt to:",
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'In a letter to the editor, a reader argued: "Standardized tests must be a good measure of student ability because every school in the country uses them. Millions of students take these tests each year, so they clearly work. Anyone who opposes standardized testing probably just did poorly on them." The letter concluded that eliminating standardized tests would send education back to the dark ages.',
+    question: 'Which TWO logical fallacies are present in the reader\'s argument?',
     answerOptions: [
-      {
-        text: "frame parks as being as critical to a city's function as roads and bridges.",
-        isCorrect: true,
-        rationale:
-          "frame parks as being as critical to a city's function as roads and bridges.",
-      },
-      {
-        text: 'suggest that parks should be funded through taxes on gasoline.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'argue that all green spaces should be built with concrete and steel.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
-      },
-      {
-        text: 'prove that green spaces are a new and untested idea.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'Hasty generalization and straw man.', isCorrect: false, rationale: 'The reader does not draw a broad conclusion from limited evidence, which is hasty generalization. The reader also does not misrepresent an opponent\'s argument, which is a straw man. These fallacies do not match the passage.' },
+      { text: 'Appeal to popularity and ad hominem attack.', isCorrect: true, rationale: 'The reader argues tests must be good because everyone uses them, which is an appeal to popularity. The reader then attacks opponents by suggesting they performed poorly on the tests, which is an ad hominem attack on character rather than a response to their argument.' },
+      { text: 'False dilemma and circular reasoning.', isCorrect: false, rationale: 'A false dilemma presents only two options when more exist. While the conclusion is somewhat extreme, the core fallacies are the appeal to widespread use and the personal attack on opponents.' },
+      { text: 'Ecological fallacy and affirming the consequent.', isCorrect: false, rationale: 'These are formal logical fallacies from statistics and symbolic logic. The reader\'s errors are informal reasoning mistakes: assuming popularity equals quality and attacking opponents personally.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 13,
-    question:
-      "How does the author use the example of 'underserved neighborhoods' in paragraph 3 to support the main argument?",
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'In a speech to Congress, a senator argued for aggressive carbon emission regulations: "Last summer, I stood on the shore of Lake Erie and watched dead fish float past for twenty minutes. I spoke with a grandmother who told me her grandchildren can no longer swim in the lake where she grew up. These are not statistics on a page. These are real people whose lives have been damaged by pollution. If we do not act now, we are choosing to sacrifice our children\'s future for corporate profit."',
+    question: 'Which rhetorical strategies does the senator primarily use in this passage?',
     answerOptions: [
-      {
-        text: 'To suggest that only poor neighborhoods need parks.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'To highlight the equity and social justice dimension of providing green spaces.',
-        isCorrect: true,
-        rationale:
-          'To highlight the equity and social justice dimension of providing green spaces.',
-      },
-      {
-        text: 'To argue that parks in wealthy neighborhoods are a waste of money.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'To prove that all social gatherings happen in parks.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
+      { text: 'Logos and technical data to build a fact-based case.', isCorrect: false, rationale: 'The senator deliberately avoids statistics, stating "these are not statistics on a page." The appeal relies on personal experience and emotion, not data.' },
+      { text: 'An objective, neutral tone designed to present both sides of the debate.', isCorrect: false, rationale: 'The speech is clearly one-sided and emotionally charged. The senator does not present opposing arguments or maintain neutrality.' },
+      { text: 'Ethos by citing a scientific study conducted at Lake Erie.', isCorrect: false, rationale: 'No scientific study is cited. The senator uses personal observation and a constituent\'s testimony, not research-based credibility.' },
+      { text: 'Pathos through vivid imagery and personal testimony, combined with a moral appeal.', isCorrect: true, rationale: 'The dead fish image, the grandmother\'s story, and the phrase "sacrifice our children\'s future" are all emotional appeals. The senator uses pathos to create urgency and frames inaction as a moral failure.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 14,
-    question:
-      'Which of the following claims made by the author is LEAST supported by specific evidence in the text?',
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'A technology columnist wrote: "Artificial intelligence will eliminate millions of jobs within the next decade. The question is not whether this will happen, but whether we will prepare for it. Consider that ATMs did not eliminate bank tellers; instead, banks hired tellers for more complex customer service roles. Similarly, AI may transform jobs rather than destroy them. However, this transition requires massive investment in retraining programs. Countries that fail to invest will face unemployment crises while those that adapt will lead the next economic boom."',
+    question: 'How does the author use the ATM analogy to strengthen the argument?',
     answerOptions: [
-      {
-        text: 'Green spaces mitigate the urban heat island effect.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'Access to green space is linked to improved health.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'The presence of parks can increase the value of nearby residential properties.',
-        isCorrect: true,
-        rationale:
-          'The presence of parks can increase the value of nearby residential properties.',
-      },
-      {
-        text: 'Green spaces can help manage stormwater.',
-        isCorrect: false,
-        rationale:
-          'This answer is incorrect. Review the passage carefully to find the correct information.',
-      },
+      { text: 'It provides a historical precedent showing that technology can transform jobs rather than eliminate them, supporting the call for retraining.', isCorrect: true, rationale: 'The ATM example demonstrates that past technology shifts changed the nature of work without destroying all jobs. This parallel supports the columnist\'s argument that AI could do the same if paired with retraining programs.' },
+      { text: 'It proves that AI and ATMs are identical technologies with the same economic effects.', isCorrect: false, rationale: 'The author uses the analogy to draw a parallel, not to claim ATMs and AI are identical. The word "similarly" signals a comparison, not an equation.' },
+      { text: 'It demonstrates that bank tellers are the workers most at risk from AI.', isCorrect: false, rationale: 'The ATM example is used to show how workers adapted in the past, not to identify which current workers are most threatened by AI.' },
+      { text: 'It distracts from the main argument by introducing an unrelated topic.', isCorrect: false, rationale: 'The analogy directly supports the main argument by providing evidence that technology transitions can be managed with proper adaptation.' },
     ],
     challenge_tags: ['rla-7'],
   },
   {
     questionNumber: 15,
-    question:
-      "Overall, is the author's argument that green spaces are a 'vital necessity' convincing?",
+    type: 'multipleChoice',
+    difficulty: 'hard',
+    passage: 'An advocacy group published a report on prison reform that began with the story of Marcus, a nineteen-year-old sentenced to eight years for a nonviolent drug offense. The report then presented data showing that the United States incarcerates more people per capita than any other nation. It quoted a former prison warden who stated, "We are warehousing people, not rehabilitating them." The report concluded by listing three policy proposals supported by bipartisan think tanks, including expanded drug courts and job training for inmates.',
+    question: 'How does the report use multiple persuasive strategies to build its argument?',
     answerOptions: [
-      {
-        text: 'No, because the author fails to address any counterarguments.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
-      {
-        text: 'No, because the author relies solely on emotional appeals without any factual evidence.',
-        isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'Yes, because the author presents a variety of environmental, social, and health benefits and refutes a key counterargument.',
-        isCorrect: true,
-        rationale:
-          'Yes, because the author presents a variety of environmental, social, and health benefits and refutes a key counterargument.',
-      },
-      {
-        text: 'Yes, but only for cities that do not have a housing shortage.',
-        isCorrect: false,
-        rationale:
-          'This is not the correct answer based on the information provided.',
-      },
+      { text: 'It relies entirely on emotional storytelling and avoids factual evidence.', isCorrect: false, rationale: 'The report includes comparative incarceration data and specific policy proposals from bipartisan sources. It does not rely solely on emotion.' },
+      { text: 'It uses only statistical data and expert quotations without any narrative elements.', isCorrect: false, rationale: 'The report opens with Marcus\'s personal story, which is a clear narrative element designed to humanize the issue.' },
+      { text: 'It combines pathos through personal narrative, logos through comparative data, and ethos through expert testimony and bipartisan sources.', isCorrect: true, rationale: 'Marcus\'s story creates emotional connection, the incarceration data provides logical evidence, the warden\'s quote lends expert credibility, and the bipartisan policy proposals add institutional authority. Together these cover all three classical rhetorical appeals.' },
+      { text: 'It employs a dialectical synthesis of rehabilitative paradigms within a retributive justice framework to construct normative policy prescriptions.', isCorrect: false, rationale: 'This answer uses dense academic jargon that obscures rather than clarifies. The report\'s strategy is best described in terms of classical rhetoric: pathos, logos, and ethos working together.' },
     ],
     challenge_tags: ['rla-7'],
   },

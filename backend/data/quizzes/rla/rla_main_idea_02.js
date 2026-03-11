@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -8,29 +8,27 @@ module.exports = [
     "question": "What is the main idea of this announcement?",
     "answerOptions": [
       {
-        "text": "A new team of support staff has been hired.",
-        "rationale": "This is a detail explaining how the main change will be implemented.",
-        "isCorrect": false
-      },
-      {
-        "text": "The company is extending its customer support hours to 24/7, starting next Monday.",
-        "rationale": "Correct. This statement captures the core message of the announcement.",
+        "text": "The company is extending customer support hours to 24/7 starting next Monday.",
+        "rationale": "Correct. This captures the core message about the change and its timing.",
         "isCorrect": true
       },
       {
-        "text": "The change will provide clients with more flexibility.",
-        "rationale": "This explains the goal or benefit of the change, not the change itself.",
+        "text": "A new team of overnight staff has been hired as part of the company's annual recruiting drive.",
+        "rationale": "The hiring is a detail about implementation; an annual recruiting drive is not mentioned in the passage.",
         "isCorrect": false
       },
       {
-        "text": "The new hours are effective next Monday.",
-        "rationale": "This is a specific detail about the timing, not the overall main idea.",
+        "text": "The company's current support staff are being replaced by a new overnight team.",
+        "rationale": "The passage says a new team was hired in addition, not that existing staff are being replaced.",
+        "isCorrect": false
+      },
+      {
+        "text": "Clients have complained that customer service flexibility does not meet their basic needs.",
+        "rationale": "The passage mentions providing flexibility but does not reference specific client complaints.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 2,
@@ -40,61 +38,57 @@ module.exports = [
     "question": "What is the main purpose of this memo?",
     "answerOptions": [
       {
-        "text": "To inform employees about the location and time of the picnic.",
-        "rationale": "This information is mentioned as remaining the same, but it's not the main point.",
+        "text": "To apologize to employees for the inconvenience of cancelling a popular company tradition.",
+        "rationale": "The event is rescheduled, not cancelled; the apology is a polite closing, not the main purpose.",
         "isCorrect": false
       },
       {
-        "text": "To apologize for any inconvenience.",
-        "rationale": "The apology is a polite closing, not the main purpose of the memo.",
-        "isCorrect": false
-      },
-      {
-        "text": "To announce that the company picnic has been rescheduled for the following Saturday due to bad weather.",
-        "rationale": "Correct. This sentence summarizes the key information: what is changing and why.",
+        "text": "To announce the company picnic has been rescheduled for next Saturday due to weather.",
+        "rationale": "Correct. This summarizes the key information: what changed, when it will happen, and why.",
         "isCorrect": true
       },
       {
-        "text": "To warn employees about a forecast of heavy thunderstorms.",
-        "rationale": "The weather is the reason for the change, not the main subject of the memo itself.",
+        "text": "To warn employees about a dangerous weather forecast expected for this coming Saturday.",
+        "rationale": "The weather is the reason for rescheduling, not the main subject of the memo itself.",
+        "isCorrect": false
+      },
+      {
+        "text": "To inform employees that the picnic location and time have been changed along with the date.",
+        "rationale": "The passage explicitly states all other details including location and time remain the same.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 3,
     "type": "multipleChoice",
     "difficulty": "medium",
-    "passage": "Cross-training employees—teaching them the skills to perform jobs other than their own—is a valuable strategy for any business. It increases operational flexibility, as managers can reassign staff to cover for absences or handle surges in demand. For employees, it provides a pathway to skill development and can reduce workplace monotony, leading to higher job satisfaction.",
+    "passage": "Cross-training employees\u2014teaching them the skills to perform jobs other than their own\u2014is a valuable strategy for any business. It increases operational flexibility, as managers can reassign staff to cover for absences or handle surges in demand. For employees, it provides a pathway to skill development and can reduce workplace monotony, leading to higher job satisfaction.",
     "question": "Which statement best expresses the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "Cross-training helps managers cover for employee absences.",
-        "rationale": "This is one specific benefit for the company, but not the overall main idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "Cross-training is a beneficial strategy for both businesses and employees.",
-        "rationale": "Correct. This statement captures the dual benefits—for the company and for the staff—that are described in the passage.",
+        "text": "Cross-training is a beneficial strategy that serves both business needs and employee development.",
+        "rationale": "Correct. This captures the dual benefits for companies and for individual staff described in the passage.",
         "isCorrect": true
       },
       {
-        "text": "Employees who are cross-trained have higher job satisfaction.",
-        "rationale": "This is a benefit for employees, but it doesn't include the advantages for the business.",
+        "text": "Managers should reassign employees during demand surges regardless of their training level or experience.",
+        "rationale": "The passage says cross-training enables flexible reassignment; it doesn't suggest assigning untrained people.",
         "isCorrect": false
       },
       {
-        "text": "Teaching employees new skills can reduce monotony.",
-        "rationale": "This is a supporting detail about the employee experience, not the full central idea.",
+        "text": "Cross-training eliminates workplace monotony entirely and guarantees higher compensation for employees.",
+        "rationale": "The passage says cross-training 'can reduce' monotony; it does not mention compensation at all.",
+        "isCorrect": false
+      },
+      {
+        "text": "Employees who are not cross-trained will inevitably become dissatisfied and leave the company.",
+        "rationale": "The passage says cross-training can lead to higher job satisfaction, not that its absence guarantees turnover.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 4,
@@ -104,29 +98,27 @@ module.exports = [
     "question": "What is the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "Volunteering is a good way to build a support system.",
-        "rationale": "This is one of the specific benefits mentioned, not the central point.",
+        "text": "The social connections formed through volunteering are more valuable than the actual service performed.",
+        "rationale": "Social connection is one benefit listed alongside stress reduction and sense of purpose; it is not ranked above others.",
         "isCorrect": false
       },
       {
-        "text": "Volunteering has significant positive effects on mental health by reducing stress and fostering social connection.",
-        "rationale": "Correct. This sentence summarizes the core argument of the passage and its main supporting points.",
+        "text": "Volunteering has significant positive effects on mental health through stress reduction and social connection.",
+        "rationale": "Correct. This summarizes the core argument about volunteering's mental health benefits.",
         "isCorrect": true
       },
       {
-        "text": "Helping others can give people a sense of purpose.",
-        "rationale": "This is a supporting detail, not the entire main idea.",
+        "text": "Studies have proven that volunteering is the most effective treatment for clinical depression.",
+        "rationale": "The passage says volunteering can 'combat depression,' not that it is the most effective clinical treatment.",
         "isCorrect": false
       },
       {
-        "text": "People should volunteer to combat depression.",
-        "rationale": "While this is mentioned as a benefit, the main idea is broader and covers more aspects of mental health.",
+        "text": "People should volunteer primarily because their communities need help rather than for personal benefit.",
+        "rationale": "The passage emphasizes the personal mental health benefits of volunteering, framing it as both giving and investing.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 5,
@@ -136,61 +128,57 @@ module.exports = [
     "question": "Which of the following best states the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "The Great Chicago Fire of 1871 was a devastating event.",
-        "rationale": "This is the historical context, but the main idea focuses on the consequences of the fire.",
+        "text": "The Great Chicago Fire of 1871 was one of the most devastating disasters in American history.",
+        "rationale": "The fire's devastation is the starting point, but the main idea focuses on the innovation that followed.",
         "isCorrect": false
       },
       {
-        "text": "The first skyscrapers were built in Chicago.",
-        "rationale": "This is a key detail, but it doesn't encompass the full scope of the main idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "The tragedy of the Great Chicago Fire led to a period of architectural innovation that shaped the modern city.",
-        "rationale": "Correct. This statement captures both the destructive event and its positive, transformative consequences, which is the central point of the passage.",
+        "text": "The Chicago Fire led to architectural innovation that reshaped the city into its modern form.",
+        "rationale": "Correct. This captures both the destructive event and its positive, transformative consequences.",
         "isCorrect": true
       },
       {
-        "text": "Architects used new, fire-resistant materials to rebuild Chicago.",
-        "rationale": "This is a specific example of the innovation that occurred, not the overall main idea.",
+        "text": "The first skyscrapers in the world were built exclusively with fire-resistant materials in Chicago.",
+        "rationale": "Skyscrapers and fire-resistant materials are specific details; the passage doesn't claim the materials were exclusive.",
+        "isCorrect": false
+      },
+      {
+        "text": "Architects moved to Chicago primarily because land prices were extremely low after the fire destroyed the city.",
+        "rationale": "The passage says architects were attracted by the opportunity to innovate, not by land prices.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 6,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "The theory of plate tectonics, which describes the movement of the Earth's lithosphere, was not widely accepted until the 1960s. For decades, the idea that continents could drift was considered a radical, fringe theory. However, the accumulation of evidence—such as the discovery of mid-ocean ridges, the mapping of earthquake patterns, and the analysis of magnetic stripes on the ocean floor—eventually led to a paradigm shift in geology. This process demonstrates that scientific consensus is not static but evolves as new evidence emerges.",
+    "passage": "The theory of plate tectonics, which describes the movement of the Earth's lithosphere, was not widely accepted until the 1960s. For decades, the idea that continents could drift was considered a radical, fringe theory. However, the accumulation of evidence\u2014such as the discovery of mid-ocean ridges, the mapping of earthquake patterns, and the analysis of magnetic stripes on the ocean floor\u2014eventually led to a paradigm shift in geology. This process demonstrates that scientific consensus is not static but evolves as new evidence emerges.",
     "question": "Which statement best articulates the central idea of the passage?",
     "answerOptions": [
       {
-        "text": "The theory of plate tectonics is an important concept in modern geology.",
-        "rationale": "While true, this doesn't capture the main point about how the theory came to be accepted.",
+        "text": "Plate tectonics explains the movement of continents across Earth's surface over millions of years.",
+        "rationale": "This defines plate tectonics but misses the main point about how scientific consensus changes.",
         "isCorrect": false
       },
       {
-        "text": "The acceptance of plate tectonics illustrates how scientific consensus evolves in the face of accumulating evidence.",
-        "rationale": "Correct. The passage uses the story of plate tectonics as a prime example of the evolving nature of science.",
+        "text": "The acceptance of plate tectonics shows how scientific consensus evolves as new evidence accumulates.",
+        "rationale": "Correct. The passage uses plate tectonics as an example of the evolving nature of scientific understanding.",
         "isCorrect": true
       },
       {
-        "text": "Mid-ocean ridges and earthquake patterns are key pieces of evidence for continental drift.",
-        "rationale": "This lists supporting evidence but misses the broader point about the process of scientific acceptance.",
+        "text": "Mid-ocean ridges and magnetic stripes on the ocean floor are the most important geological discoveries ever made.",
+        "rationale": "These are listed as pieces of evidence, but the passage doesn't rank them as the most important discoveries ever.",
         "isCorrect": false
       },
       {
-        "text": "The idea of continental drift was once considered a radical theory.",
-        "rationale": "This is the starting point of the story, but the main idea is about how and why that changed.",
+        "text": "Scientific theories that are initially rejected by the mainstream always turn out to be correct eventually.",
+        "rationale": "The passage shows one theory was later accepted; it doesn't claim all rejected theories are eventually vindicated.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 7,
@@ -200,29 +188,27 @@ module.exports = [
     "question": "What is the main argument of the passage?",
     "answerOptions": [
       {
-        "text": "Offices should have more potted plants on desks.",
-        "rationale": "The passage explicitly states that the concept is 'more than just' potted plants.",
+        "text": "Placing potted plants on office desks is the simplest way to apply biophilic design principles.",
+        "rationale": "The passage explicitly states the concept is 'more than just' placing potted plants on desks.",
         "isCorrect": false
       },
       {
-        "text": "Biophilia is the idea that humans seek connections with nature.",
-        "rationale": "This is the definition of the key term, but the main argument is about its application and benefits.",
-        "isCorrect": false
-      },
-      {
-        "text": "Incorporating natural elements into office design, a practice known as biophilia, can improve employee well-being and productivity.",
-        "rationale": "Correct. This statement summarizes the concept, its application in office design, and its documented benefits.",
+        "text": "Incorporating nature-based elements into office design improves employee well-being and productivity.",
+        "rationale": "Correct. This captures the what (biophilic design), the where (offices), and the why (documented benefits).",
         "isCorrect": true
       },
       {
-        "text": "Using natural materials like wood and stone can reduce stress.",
-        "rationale": "This is a specific example of a biophilic design element, not the overall main argument.",
+        "text": "Wood and stone are the only building materials that can reduce workplace stress levels effectively.",
+        "rationale": "These are examples of natural materials; the passage also mentions natural light and green space views.",
+        "isCorrect": false
+      },
+      {
+        "text": "Biophilia is a recently discovered psychological tendency that has no established research support.",
+        "rationale": "The passage describes biophilia as an innate human tendency and cites studies supporting its workplace benefits.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 8,
@@ -232,29 +218,27 @@ module.exports = [
     "question": "What is the main idea of this notice?",
     "answerOptions": [
       {
-        "text": "The company is concerned about the security of its data.",
-        "rationale": "This explains why the procedures exist, but it's not the main directive.",
-        "isCorrect": false
-      },
-      {
-        "text": "Visitors must follow specific sign-in and sign-out procedures for security reasons.",
-        "rationale": "Correct. This sentence accurately summarizes all the required actions and the reason for them.",
+        "text": "Visitors must follow sign-in and sign-out procedures with badges for security reasons.",
+        "rationale": "Correct. This accurately summarizes all the required actions and the reason behind them.",
         "isCorrect": true
       },
       {
-        "text": "Every visitor receives a badge upon arrival.",
-        "rationale": "This is one step in the process, not the overall main idea.",
+        "text": "The company has experienced recent security breaches that prompted these new visitor policies.",
+        "rationale": "Security breaches are not mentioned; the passage describes the procedures without explaining their origin.",
         "isCorrect": false
       },
       {
-        "text": "Visitors must return their badges when they leave.",
-        "rationale": "This is the final step, but not the complete message.",
+        "text": "Visitors who forget to return their badges will be charged a replacement fee by the front desk.",
+        "rationale": "No fees or consequences for unreturned badges are mentioned in the notice.",
+        "isCorrect": false
+      },
+      {
+        "text": "Employees are also required to wear visitor badges at all times while inside the building.",
+        "rationale": "The badge requirement applies specifically to visitors, not to employees.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 9,
@@ -264,29 +248,27 @@ module.exports = [
     "question": "Which sentence best states the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "The printing press allowed new ideas to spread with unprecedented speed.",
-        "rationale": "This is a key result, but it doesn't fully capture the main idea about the invention's overall impact.",
+        "text": "Books produced before the printing press were only available to the clergy and wealthy elites.",
+        "rationale": "This provides historical context about who had access to books, but the main idea is about the change the press brought.",
         "isCorrect": false
       },
       {
-        "text": "Before the printing press, books were not accessible to most people.",
-        "rationale": "This provides important context, but the main idea is about the change the printing press brought about.",
-        "isCorrect": false
-      },
-      {
-        "text": "The printing press was a pivotal invention that democratized knowledge and fueled major historical movements.",
-        "rationale": "Correct. This statement summarizes the invention's significance, its primary effect (making knowledge accessible), and its major consequences.",
+        "text": "The printing press democratized knowledge and fueled major intellectual and cultural movements.",
+        "rationale": "Correct. This summarizes the invention's primary effect and its major historical consequences.",
         "isCorrect": true
       },
       {
-        "text": "The printing press was invented in the 15th century.",
-        "rationale": "This is a factual detail, not the central point about the invention's impact.",
+        "text": "The Scientific Revolution was the most important historical event caused by the printing press.",
+        "rationale": "The passage lists the Scientific Revolution alongside the Renaissance and the Reformation without ranking them.",
+        "isCorrect": false
+      },
+      {
+        "text": "The printing press was invented in the 15th century by a European craftsman working independently.",
+        "rationale": "The passage mentions the century but says nothing about who invented it or how.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 10,
@@ -296,29 +278,27 @@ module.exports = [
     "question": "What is the central point of the passage?",
     "answerOptions": [
       {
-        "text": "Libraries now offer free Wi-Fi and public computers.",
-        "rationale": "This is a specific example of how libraries are evolving, not the main point.",
-        "isCorrect": false
-      },
-      {
-        "text": "Libraries are adapting to the digital age by expanding their services beyond books to serve as essential community hubs.",
-        "rationale": "Correct. This statement captures the core idea that libraries are changing and expanding their role in response to modern needs.",
+        "text": "Libraries are adapting to modern needs by expanding services beyond books to serve as community hubs.",
+        "rationale": "Correct. This captures the evolution of libraries and their expanded role in the digital age.",
         "isCorrect": true
       },
       {
-        "text": "Libraries are important for providing free access to books.",
-        "rationale": "The passage argues that their role has expanded far beyond just books.",
+        "text": "Libraries will eventually stop providing physical books and transition entirely to digital services.",
+        "rationale": "The passage says libraries 'still provide access to books' while adding new services, not replacing them.",
         "isCorrect": false
       },
       {
-        "text": "Libraries host workshops on topics like resume writing.",
-        "rationale": "This is a supporting detail, not the main idea.",
+        "text": "Free Wi-Fi is the most valued service that modern public libraries currently offer to their communities.",
+        "rationale": "Wi-Fi is listed as one of many new services; the passage does not rank it as the most valued.",
+        "isCorrect": false
+      },
+      {
+        "text": "Coding workshops at libraries have replaced traditional reading programs as the primary community attraction.",
+        "rationale": "Coding workshops are mentioned as one example of many topics; no claim of replacement or primary status is made.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 11,
@@ -328,60 +308,56 @@ module.exports = [
     "question": "Which statement best articulates the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "Stoicism is an ancient Greek philosophy that emphasizes self-control.",
-        "rationale": "This is a definition, but it doesn't capture the full main idea about its modern relevance.",
+        "text": "Stoicism teaches that we cannot control any external events, only our internal responses to them.",
+        "rationale": "This describes the core teaching but misses the main point about why Stoicism is experiencing a modern revival.",
         "isCorrect": false
       },
       {
-        "text": "We cannot control external events, only our responses to them.",
-        "rationale": "This is the core teaching of Stoicism, but the main idea of the passage is about the philosophy's resurgence.",
-        "isCorrect": false
-      },
-      {
-        "text": "The ancient philosophy of Stoicism is experiencing a modern revival because its practical focus on resilience and inner peace appeals to people in an uncertain world.",
-        "rationale": "Correct. This statement explains what Stoicism is, notes its resurgence, and provides the reason why it is appealing today.",
+        "text": "Ancient Stoicism is experiencing a modern revival because its practical tools for resilience appeal in uncertain times.",
+        "rationale": "Correct. This covers what Stoicism is, its current resurgence, and why people find it relevant today.",
         "isCorrect": true
       },
       {
-        "text": "Building resilience and inner peace are important goals.",
-        "rationale": "This is the goal that Stoicism helps with, but the main idea is about the philosophy itself and its renewed popularity.",
+        "text": "Stoicism is the only ancient philosophy that has maintained relevance in the modern world.",
+        "rationale": "The passage discusses Stoicism's resurgence but does not compare it to other ancient philosophies.",
+        "isCorrect": false
+      },
+      {
+        "text": "Courage and self-control are virtues that were first identified by the ancient Greek Stoic philosophers.",
+        "rationale": "The passage lists these as Stoic virtues but doesn't claim Stoics were the first to identify them.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 12,
     "type": "multipleChoice",
     "difficulty": "hard",
-    "passage": "For nearly a century, the prevailing wisdom in urban planning was to prioritize the automobile. Cities were redesigned with wide avenues, sprawling suburbs, and vast parking lots, often at the expense of pedestrian-friendly spaces. This has led to increased traffic congestion, air pollution, and social isolation. Today, a growing movement of urban planners is seeking to reverse this trend. They advocate for 'new urbanism'—designing walkable, mixed-use neighborhoods with robust public transit to create more sustainable and connected communities.",
+    "passage": "For nearly a century, the prevailing wisdom in urban planning was to prioritize the automobile. Cities were redesigned with wide avenues, sprawling suburbs, and vast parking lots, often at the expense of pedestrian-friendly spaces. This has led to increased traffic congestion, air pollution, and social isolation. Today, a growing movement of urban planners is seeking to reverse this trend. They advocate for 'new urbanism'\u2014designing walkable, mixed-use neighborhoods with robust public transit to create more sustainable and connected communities.",
     "question": "What is the central argument of the passage?",
     "answerOptions": [
       {
-        "text": "For a long time, urban planning was designed to prioritize cars.",
-        "rationale": "This is the historical background, not the full argument the author is making.",
+        "text": "Sprawling suburbs with wide avenues and large parking lots are the most efficient design for modern cities.",
+        "rationale": "The passage argues this design led to congestion, pollution, and isolation and describes a movement to reverse it.",
         "isCorrect": false
       },
       {
-        "text": "Car-centric urban design has led to negative consequences like pollution and social isolation.",
-        "rationale": "This describes the problem, but it doesn't include the proposed solution, which is part of the central argument.",
-        "isCorrect": false
-      },
-      {
-        "text": "'New urbanism' advocates for walkable, mixed-use neighborhoods.",
-        "rationale": "This describes the solution, but it doesn't provide the context of the problem it is trying to solve.",
-        "isCorrect": false
-      },
-      {
-        "text": "The historical focus on cars in urban planning has created significant problems, leading to a modern movement that advocates for more walkable, transit-oriented communities.",
-        "rationale": "Correct. This statement effectively summarizes the historical problem, its negative effects, and the emerging solution, which together form the author's central argument.",
+        "text": "Car-centric planning created problems like congestion and isolation, leading to a movement for walkable communities.",
+        "rationale": "Correct. This covers the historical problem, its consequences, and the emerging solution advocated by new urbanists.",
         "isCorrect": true
+      },
+      {
+        "text": "Public transit systems are too expensive to maintain and should be replaced with wider highway networks.",
+        "rationale": "The passage advocates for robust public transit, not its replacement with highways.",
+        "isCorrect": false
+      },
+      {
+        "text": "Air pollution from vehicles is the only significant problem created by automobile-focused urban planning.",
+        "rationale": "The passage lists air pollution alongside traffic congestion and social isolation as consequences.",
+        "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   }
 ];

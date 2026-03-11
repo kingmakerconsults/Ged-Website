@@ -1,4 +1,4 @@
-// Imported from frontend/Expanded
+﻿// Imported from frontend/Expanded
 module.exports = [
   {
     "questionNumber": 1,
@@ -8,29 +8,27 @@ module.exports = [
     "question": "What is the main idea of this announcement?",
     "answerOptions": [
       {
-        "text": "There will be a raffle with prizes at the park.",
-        "rationale": "This is a detail about one of the activities, not the main point.",
+        "text": "Local businesses have donated prizes for a raffle that will be held at the park this weekend.",
+        "rationale": "The raffle is a detail about one activity, not the main point of the announcement.",
         "isCorrect": false
       },
       {
-        "text": "A community potluck with food and activities will take place this Saturday at noon in the park.",
-        "rationale": "Correct. This statement effectively summarizes the event, date, time, and purpose of the announcement.",
+        "text": "A community potluck with food and activities will be held Saturday at noon in the park.",
+        "rationale": "Correct. This summarizes the event, its date, time, and location.",
         "isCorrect": true
       },
       {
-        "text": "Attendees must bring a dish to share.",
-        "rationale": "This is a key instruction for attendees, but not the overall main idea of the event announcement.",
+        "text": "Attendees who do not bring a dish to share will not be admitted to the potluck event.",
+        "rationale": "The announcement asks people to bring a dish but does not state anyone will be turned away.",
         "isCorrect": false
       },
       {
-        "text": "Games will be available for children.",
-        "rationale": "This is another detail about the event's activities, not the central message.",
+        "text": "The park pavilion was recently renovated and this potluck is its grand reopening celebration.",
+        "rationale": "There is no mention of a renovation or reopening; the pavilion is simply the event location.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 2,
@@ -40,29 +38,27 @@ module.exports = [
     "question": "Which sentence best states the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "Dehydration can cause fatigue and dizziness.",
-        "rationale": "This describes the negative consequences of not following the main advice, but it's not the main idea itself.",
+        "text": "Dehydration causes fatigue and dizziness, which can lead to emergency room visits during summer.",
+        "rationale": "Emergency room visits are not mentioned; dehydration consequences are a supporting detail, not the main idea.",
         "isCorrect": false
       },
       {
-        "text": "You should carry a water bottle with you in the summer.",
-        "rationale": "This is a specific piece of advice, not the overall main idea about why hydration is important.",
+        "text": "You should always carry a water bottle because thirst is an unreliable indicator of dehydration.",
+        "rationale": "Carrying a water bottle is a specific tip; the passage doesn't focus on thirst reliability.",
         "isCorrect": false
       },
       {
-        "text": "Drinking enough water is crucial for your health for several reasons, and it's especially important in the summer.",
-        "rationale": "Correct. This sentence captures the central message about the importance of hydration and its key supporting reasons.",
+        "text": "Staying properly hydrated is crucial for health, especially in summer, because water serves vital body functions.",
+        "rationale": "Correct. This captures the central message about hydration's importance and its supporting reasons.",
         "isCorrect": true
       },
       {
-        "text": "Water helps deliver nutrients to your cells.",
-        "rationale": "This is one of the specific benefits of hydration, not the main point.",
+        "text": "Water primarily helps deliver nutrients to cells, which is the main reason health experts recommend eight glasses daily.",
+        "rationale": "Nutrient delivery is one of several functions listed; the passage does not mention a specific number of glasses.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 3,
@@ -72,29 +68,27 @@ module.exports = [
     "question": "What is the central point of the passage?",
     "answerOptions": [
       {
-        "text": "Traditional cable companies are losing subscribers.",
-        "rationale": "This is a key effect of the main trend, but not the entire main idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "Online streaming services have disrupted the entertainment industry by changing how viewers consume content and forcing traditional companies to adapt.",
-        "rationale": "Correct. This statement effectively summarizes the cause (streaming), the effect on viewers and companies, and the resulting market conditions.",
+        "text": "Streaming services have disrupted entertainment by changing viewing habits and forcing traditional companies to adapt.",
+        "rationale": "Correct. This covers the cause, its effects on consumers and companies, and the resulting market conditions.",
         "isCorrect": true
       },
       {
-        "text": "Many television networks have launched their own streaming platforms.",
-        "rationale": "This is an example of how the industry is adapting, not the main idea itself.",
+        "text": "Traditional cable companies will likely go bankrupt within the next decade due to subscriber losses.",
+        "rationale": "The passage notes subscriber losses but does not predict bankruptcy or provide a timeline.",
         "isCorrect": false
       },
       {
-        "text": "On-demand content is more flexible and less expensive than cable.",
-        "rationale": "This explains why viewers are making the switch, but it's not the overall point about the industry's transformation.",
+        "text": "On-demand content is more flexible and less expensive, which is why every household now uses streaming.",
+        "rationale": "The passage notes advantages of streaming but doesn't claim every household has switched.",
+        "isCorrect": false
+      },
+      {
+        "text": "Television networks launched streaming platforms primarily to prevent their own employees from switching careers.",
+        "rationale": "Networks launched platforms to compete for viewers, not to retain employees; career switching is not mentioned.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 4,
@@ -104,29 +98,27 @@ module.exports = [
     "question": "Which sentence best expresses the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "Mentorship helps junior employees advance in their careers.",
-        "rationale": "This is a benefit for one group, but the main idea is broader.",
+        "text": "Junior employees benefit most from mentorship because they receive guidance and networking opportunities.",
+        "rationale": "Junior employees are one of three beneficiary groups; the main idea is broader than benefits to one group.",
         "isCorrect": false
       },
       {
-        "text": "Senior employees can hone their leadership skills by mentoring.",
-        "rationale": "This is a benefit for another group, but it doesn't encompass the full scope of the passage.",
-        "isCorrect": false
-      },
-      {
-        "text": "Workplace mentorship programs offer significant benefits for junior employees, senior mentors, and the company as a whole.",
-        "rationale": "Correct. This statement comprehensively covers the advantages for all three parties mentioned in the passage.",
+        "text": "Workplace mentorship programs benefit junior employees, senior mentors, and the company as a whole.",
+        "rationale": "Correct. This comprehensively covers the advantages for all three parties mentioned in the passage.",
         "isCorrect": true
       },
       {
-        "text": "Companies with mentorship programs have higher employee retention.",
-        "rationale": "This is a benefit for the company, but not the entire main idea.",
+        "text": "Senior employees should become mentors primarily because it allows them to leave a professional legacy.",
+        "rationale": "Legacy is one benefit for mentors alongside leadership development; the passage doesn't say it's the primary reason.",
+        "isCorrect": false
+      },
+      {
+        "text": "Companies with mentorship programs will always have the highest employee retention rates in their industry.",
+        "rationale": "The passage says mentorship contributes to higher retention, not that it guarantees the highest rates.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 5,
@@ -136,29 +128,27 @@ module.exports = [
     "question": "What is the central idea of the passage?",
     "answerOptions": [
       {
-        "text": "Government-run boarding schools in the 20th century had an English-only policy.",
-        "rationale": "This describes one side of the debate, but not the full conflict.",
+        "text": "Government boarding schools enforced English-only policies because English was superior for academic learning.",
+        "rationale": "The schools argued for assimilation and economic success, not linguistic superiority for academics.",
         "isCorrect": false
       },
       {
-        "text": "Bilingual education is the best way to teach children.",
-        "rationale": "This was the viewpoint of one side, but the main idea of the passage is to describe the debate itself.",
+        "text": "Bilingual education was ultimately adopted by all government boarding schools in the early 20th century.",
+        "rationale": "The passage presents bilingual education as a position of resistance, not as an outcome that was universally adopted.",
         "isCorrect": false
       },
       {
-        "text": "The early 20th-century debate over Native American education involved a conflict between the goals of cultural assimilation through English-only policies and the preservation of cultural identity through native languages.",
-        "rationale": "Correct. This statement accurately summarizes the two opposing viewpoints and the central conflict described in the passage.",
+        "text": "The debate involved a conflict between English-only assimilation policies and preservation of cultural identity through native languages.",
+        "rationale": "Correct. This accurately summarizes the two opposing viewpoints and the central conflict of the passage.",
         "isCorrect": true
       },
       {
-        "text": "The loss of native languages is a devastating loss of cultural identity.",
-        "rationale": "This is the argument made by one side in the debate, not the main idea of the passage which is to present the debate itself.",
+        "text": "Tribal leaders opposed bilingual education because they wanted children to learn only in their native languages.",
+        "rationale": "Tribal leaders actually supported bilingual education as a bridge between two worlds, not native-language-only education.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 6,
@@ -168,29 +158,27 @@ module.exports = [
     "question": "Which statement best articulates the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "Cafeterias should place fruits and salads at the beginning of the line.",
-        "rationale": "This is a specific example used to illustrate the main concept, not the main idea itself.",
+        "text": "Cafeterias that rearrange their food displays can increase fruit and salad consumption among customers.",
+        "rationale": "The cafeteria example illustrates the concept but is not the main idea about choice architecture broadly.",
         "isCorrect": false
       },
       {
-        "text": "The way choices are presented can be designed to subtly influence decisions, a principle that is being applied in various fields to encourage better outcomes.",
-        "rationale": "Correct. This statement defines 'choice architecture,' explains its mechanism ('nudging'), and describes its broad application, covering all the key points of the passage.",
+        "text": "How choices are presented can be designed to influence decisions, a principle applied across many fields.",
+        "rationale": "Correct. This captures the concept, its mechanism, and its broad application.",
         "isCorrect": true
       },
       {
-        "text": "'Nudging' is a way of restricting people's choices.",
-        "rationale": "The passage explicitly states the opposite: 'This is not about restricting choice'.",
+        "text": "Choice architecture works by restricting the number of options available so people make faster decisions.",
+        "rationale": "The passage explicitly states the approach is 'not about restricting choice' but about making certain options more prominent.",
         "isCorrect": false
       },
       {
-        "text": "The psychology of decision-making is a complex field.",
-        "rationale": "This is a very general statement. The passage is about a specific concept within that field.",
+        "text": "Financial institutions use nudging primarily to encourage customers to open higher-fee savings accounts.",
+        "rationale": "Finance is mentioned as one field using the principle, but the passage says nothing about specific financial products.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 7,
@@ -200,29 +188,27 @@ module.exports = [
     "question": "What is the main idea of this announcement?",
     "answerOptions": [
       {
-        "text": "Latecomers will be seated during a break.",
-        "rationale": "This is one of the specific rules, not the overall point.",
+        "text": "Latecomers will not be admitted to the performance venue under any circumstances once it begins.",
+        "rationale": "The announcement says latecomers will be seated at a suitable break, not that they will be denied entry.",
         "isCorrect": false
       },
       {
-        "text": "The performance is about to begin.",
-        "rationale": "This is the context, but the main idea is about the rules of conduct for the audience.",
+        "text": "The performance has been delayed because audience members have not silenced their electronic devices yet.",
+        "rationale": "The announcement requests devices be silenced before the performance; no delay is mentioned.",
         "isCorrect": false
       },
       {
-        "text": "Audience members must follow certain rules of etiquette to ensure a good experience for all.",
-        "rationale": "Correct. This statement summarizes the purpose behind all the specific instructions given.",
+        "text": "Audience members must follow rules of etiquette to ensure an enjoyable experience for everyone.",
+        "rationale": "Correct. This summarizes the purpose behind all the specific instructions given.",
         "isCorrect": true
       },
       {
-        "text": "Using a camera is strictly prohibited.",
-        "rationale": "This is a key rule, but not the complete main idea.",
+        "text": "Recording the performance is prohibited because it violates the performers' copyright protections.",
+        "rationale": "Recording is prohibited, but the passage gives no specific reason such as copyright.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 8,
@@ -232,29 +218,27 @@ module.exports = [
     "question": "What is the main point of the passage?",
     "answerOptions": [
       {
-        "text": "There is a high demand for data analysts and software developers today.",
-        "rationale": "These are examples of the types of jobs in demand, not the main point about the overall economic shift.",
+        "text": "Data analysis and software development are currently the two highest-paying careers in the modern economy.",
+        "rationale": "These are listed as examples of in-demand fields; the passage says nothing about pay levels.",
         "isCorrect": false
       },
       {
-        "text": "The economy's shift from manufacturing to knowledge-based work has increased the demand for educated and skilled workers.",
-        "rationale": "Correct. This statement accurately describes the economic shift and its primary consequence for the workforce.",
+        "text": "The shift from manufacturing to a knowledge economy has increased demand for skilled, educated workers.",
+        "rationale": "Correct. This describes the economic shift and its primary consequence for the workforce.",
         "isCorrect": true
       },
       {
-        "text": "Jobs in the past were based on manual labor.",
-        "rationale": "This describes the old economy, providing contrast but not capturing the main idea about the current situation.",
+        "text": "Manual labor jobs no longer exist in the modern economy because all manufacturing has been automated.",
+        "rationale": "The passage says demand has shifted, not that manual labor jobs have been completely eliminated.",
         "isCorrect": false
       },
       {
-        "text": "Workers now need to focus on continuous skill development.",
-        "rationale": "This is the result of the main shift, but not the entire main idea itself.",
+        "text": "Higher education is the only path to employment in a knowledge-based economy regardless of experience.",
+        "rationale": "The passage calls for greater emphasis on education and continuous skill development, not education as the only path.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 9,
@@ -264,29 +248,27 @@ module.exports = [
     "question": "Which sentence best expresses the main idea?",
     "answerOptions": [
       {
-        "text": "Raccoons and coyotes are examples of urban wildlife.",
-        "rationale": "These are examples, not the central point of the passage.",
+        "text": "Raccoons, coyotes, and hawks are the three most common species of wildlife found in American cities.",
+        "rationale": "These are examples of urban wildlife; the passage doesn't rank them as the most common species.",
         "isCorrect": false
       },
       {
-        "text": "Urban wildlife often comes into conflict with humans.",
-        "rationale": "This is a supporting detail, but the main idea is broader and includes the concept of adaptability.",
+        "text": "Urban wildlife conflicts should be resolved by removing all wild animals from cities as quickly as possible.",
+        "rationale": "The passage calls for better understanding and thoughtful planning, not removal of animals.",
         "isCorrect": false
       },
       {
-        "text": "Many species of wildlife have shown remarkable adaptability to urban environments, which requires new strategies for human-animal coexistence.",
-        "rationale": "Correct. This statement covers the animals' adaptability, the resulting human interaction, and the need for management.",
+        "text": "Many wildlife species have adapted remarkably to urban environments, requiring new strategies for coexistence.",
+        "rationale": "Correct. This covers the animals' adaptability and the need for management strategies.",
         "isCorrect": true
       },
       {
-        "text": "Animals have learned to find food in garbage cans.",
-        "rationale": "This is a specific example of adaptation, not the overall main idea.",
+        "text": "Abandoned buildings provide the best habitat for urban wildlife because they closely resemble natural dens.",
+        "rationale": "Abandoned buildings are mentioned as one place animals use; the passage doesn't call them the best habitat.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 10,
@@ -296,29 +278,27 @@ module.exports = [
     "question": "What is the central argument of the passage?",
     "answerOptions": [
       {
-        "text": "History textbooks are an important part of education.",
-        "rationale": "Textbooks are used as one example of how historical memory is shaped, but they are not the main subject.",
+        "text": "History textbooks are the most important tool for shaping a society's understanding of its own past.",
+        "rationale": "Textbooks are one example listed alongside monuments and holidays; the passage doesn't rank their importance.",
         "isCorrect": false
       },
       {
-        "text": "The construction of monuments is often controversial.",
-        "rationale": "This is a supporting detail, but the main argument is broader than just monuments.",
-        "isCorrect": false
-      },
-      {
-        "text": "A society's collective memory of its past is not a neutral set of facts, but a constantly evolving narrative shaped by present-day values and debates.",
-        "rationale": "Correct. This statement effectively captures the main idea that historical memory is a constructed and contested process.",
+        "text": "A society's collective memory is not a neutral set of facts but an evolving narrative shaped by present values.",
+        "rationale": "Correct. This captures the main argument that historical memory is constructed and constantly renegotiated.",
         "isCorrect": true
       },
       {
-        "text": "A society's understanding of its past is fixed and unchangeable.",
-        "rationale": "The passage argues the exact opposite, stating that this understanding is 'constantly being renegotiated'.",
+        "text": "Debates about which historical figures to honor are always resolved through democratic voting processes.",
+        "rationale": "The passage mentions ongoing debates but says nothing about how they are resolved or about voting.",
+        "isCorrect": false
+      },
+      {
+        "text": "A society's understanding of its past is fixed once monuments are built and textbooks are published.",
+        "rationale": "The passage argues the exact opposite: understanding is constantly being renegotiated.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 11,
@@ -328,29 +308,27 @@ module.exports = [
     "question": "Which statement best summarizes the main idea of the passage?",
     "answerOptions": [
       {
-        "text": "Crowdfunding is a way to get money from a large number of people.",
-        "rationale": "This is a definition, but it doesn't capture the full scope of the main idea.",
+        "text": "Kickstarter and GoFundMe are the largest and most successful crowdfunding platforms in the world today.",
+        "rationale": "These are mentioned as examples of platforms; the passage doesn't rank them by size or success.",
         "isCorrect": false
       },
       {
-        "text": "Crowdfunding requires creators to be good at marketing.",
-        "rationale": "This is a key challenge mentioned, but not the overall main idea.",
-        "isCorrect": false
-      },
-      {
-        "text": "Crowdfunding has democratized financing for creators but also places the responsibility for marketing directly on them.",
-        "rationale": "Correct. This statement captures both the primary benefit (democratization of funding) and the main challenge (marketing burden) of the crowdfunding model, which is the central point of the passage.",
+        "text": "Crowdfunding has democratized creative financing but shifts the marketing burden directly onto creators.",
+        "rationale": "Correct. This captures both the primary benefit and the main challenge of the crowdfunding model.",
         "isCorrect": true
       },
       {
-        "text": "Kickstarter and GoFundMe are popular crowdfunding platforms.",
-        "rationale": "These are examples, not the main idea about the concept itself.",
+        "text": "Corporate sponsors are no longer willing to fund creative projects because crowdfunding has made them unnecessary.",
+        "rationale": "The passage says crowdfunding reduces reliance on sponsors, not that sponsors have stopped funding or become unnecessary.",
+        "isCorrect": false
+      },
+      {
+        "text": "Micropatronage guarantees creators will successfully fund their projects if they set realistic financial goals.",
+        "rationale": "The passage says creators must build community and market effectively to succeed; success is not guaranteed.",
         "isCorrect": false
       }
     ],
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   },
   {
     "questionNumber": 12,
@@ -359,29 +337,27 @@ module.exports = [
     "question": "Which sentence best states the main idea of the article?",
     "answerOptions": [
       {
-        "text": "The newspaper covers high school sports and neighborhood events.",
-        "rationale": "These are examples of coverage, but the main idea is about how the paper stayed relevant overall.",
-        "isCorrect": false
-      },
-      {
-        "text": "By focusing on hyperlocal reporting and community partnerships, the newspaper remained relevant in the digital age.",
-        "rationale": "Correct. This option captures the strategy (local focus and partnerships) and the result (remaining relevant).",
+        "text": "The newspaper survived by focusing on hyperlocal reporting and community partnerships rather than competing nationally.",
+        "rationale": "Correct. This captures the strategy (local focus and partnerships) and the result (remaining relevant).",
         "isCorrect": true
       },
       {
-        "text": "The staff created a weekly email digest for 4,000 subscribers.",
-        "rationale": "The email digest is one tactic, not the central idea of the article.",
+        "text": "The newspaper's weekly email digest is now its primary source of advertising revenue from local businesses.",
+        "rationale": "The email digest and sponsorships are mentioned separately; the passage doesn't say the digest is a revenue source.",
         "isCorrect": false
       },
       {
-        "text": "Local businesses sponsor several community events each year.",
-        "rationale": "Sponsorships are mentioned as part of the strategy, but the main idea emphasizes the paper's overall approach to survival.",
+        "text": "Small-town newspapers cannot compete with national news outlets under any circumstances in the digital age.",
+        "rationale": "The article describes a newspaper that survived by finding a different strategy, not one that failed completely.",
+        "isCorrect": false
+      },
+      {
+        "text": "High school sports coverage was the single factor that saved the newspaper from going out of business.",
+        "rationale": "Sports coverage is one element of the hyperlocal strategy alongside school board meetings and community events.",
         "isCorrect": false
       }
     ],
     "difficulty": "medium",
-    "challenge_tags": [
-      "rla-1"
-    ]
+    "challenge_tags": ["rla-1"]
   }
 ];
