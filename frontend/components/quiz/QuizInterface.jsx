@@ -95,20 +95,45 @@ export function QuizInterface({
 
   // MULTIPLE-SELECT ENHANCEMENT: Support both single-select and multiple-select questions
   const detectMultiSelect = (q) => {
+    if (!q || typeof q !== 'object') return false;
+
+    // Explicit metadata flags should always win.
     if (
       q.itemType === 'multi_select' ||
       q.selectType === 'multiple' ||
-      q.type === 'multiple-select'
-    )
+      q.type === 'multiple-select' ||
+      q.multipleSelect === true ||
+      q.multiSelect === true ||
+      q.allowMultiple === true ||
+      q.isMultiSelect === true
+    ) {
       return true;
-    const qText = (q.questionText || q.question || '').toLowerCase();
-    if (
-      /select\s+(the\s+)?(two|2|all|both)|choose\s+(the\s+)?(two|2|all|both)/.test(
-        qText
-      )
-    )
+    }
+
+    // If a question has multiple correct options, treat it as multi-select.
+    const options = Array.isArray(q.answerOptions) ? q.answerOptions : [];
+    const correctCount = options.filter((opt) => getOptionIsCorrect(opt)).length;
+    if (correctCount > 1) {
       return true;
-    return false;
+    }
+
+    // Fallback to instruction text checks from common question fields.
+    const textFields = [
+      q.questionText,
+      q.question,
+      q.prompt,
+      q.stem,
+      q.instructions,
+      q.instruction,
+      q.text,
+    ]
+      .filter((v) => typeof v === 'string')
+      .join(' ')
+      .toLowerCase();
+
+    return /select\s+(the\s+)?(two|three|four|five|2|3|4|5|all|both)|choose\s+(the\s+)?(two|three|four|five|2|3|4|5|all|both)|all\s+that\s+apply/.test(
+      textFields
+    );
   };
 
   const handleSelect = (optionText) => {
@@ -969,17 +994,25 @@ export function QuizInterface({
                 <div className="space-y-3">
                   {/* Multi-select instruction */}
                   {isMultipleSelect && (
-                    <p
-                      className="mb-3 text-sm font-medium px-3 py-2 rounded-lg"
-                      style={{
-                        color: scheme.accentText,
-                        backgroundColor: scheme.accentSoft,
-                        border: `1px solid ${scheme.accentBorder}`,
-                      }}
-                    >
-                      ℹ️ Select ALL correct answers. Multiple answers may be
-                      correct.
-                    </p>
+                    <div className="mb-3 space-y-2">
+                      <p
+                        className="text-sm font-medium px-3 py-2 rounded-lg"
+                        style={{
+                          color: scheme.accentText,
+                          backgroundColor: scheme.accentSoft,
+                          border: `1px solid ${scheme.accentBorder}`,
+                        }}
+                      >
+                        ℹ️ Select ALL correct answers. Multiple answers may be
+                        correct.
+                      </p>
+                      <p
+                        className="text-xs font-semibold"
+                        style={{ color: scheme.mutedText }}
+                      >
+                        Selected: {selectedOptions.length}
+                      </p>
+                    </div>
                   )}
                   {(currentQ.answerOptions || []).map((opt, i) => {
                     // Handle both string and object formats for answerOptions

@@ -37956,9 +37956,21 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
   };
 
   const RLA_TRAIT_LABELS = {
-    trait1: { label: 'Trait 1 — Analysis of Arguments', max: 2 },
-    trait2: { label: 'Trait 2 — Development of Ideas & Structure', max: 2 },
-    trait3: { label: 'Trait 3 — Language Conventions', max: 2 },
+    trait1: {
+      label: 'Trait 1 — Argument & Evidence',
+      officialName: 'Developed an argument using evidence from the passages',
+      max: 2,
+    },
+    trait2: {
+      label: 'Trait 2 — Organization',
+      officialName: 'Developed ideas in an organized way',
+      max: 2,
+    },
+    trait3: {
+      label: 'Trait 3 — Command of English',
+      officialName: 'Followed the rules of the English language',
+      max: 2,
+    },
   };
 
   return (
@@ -37999,6 +38011,10 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
           <h3 className="text-xl font-bold subject-accent-heading mb-3">
             Extended Response Score
           </h3>
+          <p className="text-xs text-secondary mb-3 italic">
+            GED essays are scored on how well you argue from the passages,
+            organize your ideas, and control grammar/mechanics.
+          </p>
           <div className="flex items-center justify-between mb-3">
             <span className="text-secondary font-semibold">
               Total Essay Score
@@ -38007,41 +38023,81 @@ function ResultsScreen({ results, quiz, onRestart, onHome, onReviewMarked }) {
               {results.essayScore.overallScore} / 6
             </span>
           </div>
+          {results.essayScore.overallFeedback && (
+            <p className="text-sm text-secondary mb-3">
+              {results.essayScore.overallFeedback}
+            </p>
+          )}
           <div className="space-y-3">
-            {Object.entries(RLA_TRAIT_LABELS).map(([key, { label, max }]) => {
-              const traitScore =
-                results.essayScore[key]?.score ?? results.essayScore[key] ?? 0;
-              const pct = (traitScore / max) * 100;
-              const color =
-                pct >= 70
-                  ? 'var(--color-success, #16a34a)'
-                  : pct >= 50
-                    ? 'var(--color-warning, #d97706)'
-                    : 'var(--color-danger, #dc2626)';
-              return (
-                <div key={key} className="panel-surface p-3 rounded-lg">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-semibold text-secondary">
-                      {label}
-                    </span>
-                    <span className="font-bold text-primary">
-                      {traitScore} / {max}
-                    </span>
+            {Object.entries(RLA_TRAIT_LABELS).map(
+              ([key, { label, officialName, max }]) => {
+                const traitData = results.essayScore[key];
+                const traitScore =
+                  traitData?.score ??
+                  (typeof traitData === 'number' ? traitData : 0);
+                const pct = (traitScore / max) * 100;
+                const color =
+                  pct >= 70
+                    ? 'var(--color-success, #16a34a)'
+                    : pct >= 50
+                      ? 'var(--color-warning, #d97706)'
+                      : 'var(--color-danger, #dc2626)';
+                return (
+                  <div key={key} className="panel-surface p-3 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-semibold text-secondary">
+                        {traitData?.label || label}
+                      </span>
+                      <span className="font-bold text-primary">
+                        {traitScore} / {max}
+                      </span>
+                    </div>
+                    {officialName && (
+                      <p className="text-xs text-secondary mt-0.5 opacity-70">
+                        {officialName}
+                      </p>
+                    )}
+                    {traitData?.feedback && (
+                      <p className="text-xs text-secondary mt-1 italic">
+                        {traitData.feedback}
+                      </p>
+                    )}
+                    {Array.isArray(traitData?.strengths) &&
+                      traitData.strengths.length > 0 && (
+                        <div className="mt-1">
+                          <span className="text-xs font-semibold text-green-700">
+                            Strengths:
+                          </span>
+                          <ul className="text-xs text-secondary list-disc ml-4">
+                            {traitData.strengths.map((s, i) => (
+                              <li key={i}>{s}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    {Array.isArray(traitData?.nextSteps) &&
+                      traitData.nextSteps.length > 0 && (
+                        <div className="mt-1">
+                          <span className="text-xs font-semibold text-amber-700">
+                            Next Steps:
+                          </span>
+                          <ul className="text-xs text-secondary list-disc ml-4">
+                            {traitData.nextSteps.map((s, i) => (
+                              <li key={i}>{s}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    <div className="w-full bg-surface-alt rounded-full h-2 mt-2">
+                      <div
+                        className="h-2 rounded-full transition-all"
+                        style={{ width: `${pct}%`, backgroundColor: color }}
+                      />
+                    </div>
                   </div>
-                  {results.essayScore[key]?.feedback && (
-                    <p className="text-xs text-secondary mt-1 italic">
-                      {results.essayScore[key].feedback}
-                    </p>
-                  )}
-                  <div className="w-full bg-surface-alt rounded-full h-2 mt-2">
-                    <div
-                      className="h-2 rounded-full transition-all"
-                      style={{ width: `${pct}%`, backgroundColor: color }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+                );
+              }
+            )}
           </div>
         </div>
       )}
@@ -40720,32 +40776,66 @@ function EssayGuide({ onExit }) {
                   <h4 className="text-xl font-bold text-indigo-800">
                     AI Feedback
                   </h4>
+                  <p className="text-xs text-indigo-600 mt-1 italic">
+                    GED essays are scored on how well you argue from the
+                    passages, organize your ideas, and control
+                    grammar/mechanics.
+                  </p>
                   <p className="mt-2">
                     <strong>Overall Score:</strong> {scoreResult.overallScore}/6
                   </p>
-                  <p className="mt-1">
-                    <strong>Feedback:</strong> {scoreResult.overallFeedback}
-                  </p>
-                  <details className="mt-2">
+                  {scoreResult.overallFeedback && (
+                    <p className="mt-1">
+                      <strong>Feedback:</strong> {scoreResult.overallFeedback}
+                    </p>
+                  )}
+                  <details className="mt-2" open>
                     <summary className="font-semibold cursor-pointer">
                       View Trait-by-Trait Breakdown
                     </summary>
-                    <div className="mt-2 pl-4 border-l-2 border-indigo-200">
-                      <p>
-                        <strong>Trait 1 (Analysis):</strong> Score{' '}
-                        {scoreResult.trait1.score}/2.{' '}
-                        {scoreResult.trait1.feedback}
-                      </p>
-                      <p>
-                        <strong>Trait 2 (Evidence):</strong> Score{' '}
-                        {scoreResult.trait2.score}/2.{' '}
-                        {scoreResult.trait2.feedback}
-                      </p>
-                      <p>
-                        <strong>Trait 3 (Clarity):</strong> Score{' '}
-                        {scoreResult.trait3.score}/2.{' '}
-                        {scoreResult.trait3.feedback}
-                      </p>
+                    <div className="mt-2 pl-4 border-l-2 border-indigo-200 space-y-3">
+                      {[
+                        { key: 'trait1', label: 'Argument & Evidence' },
+                        { key: 'trait2', label: 'Organization' },
+                        { key: 'trait3', label: 'Command of English' },
+                      ].map(({ key, label }) => {
+                        const t = scoreResult[key];
+                        if (!t) return null;
+                        return (
+                          <div key={key}>
+                            <p>
+                              <strong>{t.label || label}:</strong> Score{' '}
+                              {t.score}/2. {t.feedback}
+                            </p>
+                            {Array.isArray(t.strengths) &&
+                              t.strengths.length > 0 && (
+                                <div className="mt-1 ml-2">
+                                  <span className="text-xs font-semibold text-green-700">
+                                    Strengths:
+                                  </span>
+                                  <ul className="text-xs list-disc ml-4">
+                                    {t.strengths.map((s, i) => (
+                                      <li key={i}>{s}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            {Array.isArray(t.nextSteps) &&
+                              t.nextSteps.length > 0 && (
+                                <div className="mt-1 ml-2">
+                                  <span className="text-xs font-semibold text-amber-700">
+                                    Next Steps:
+                                  </span>
+                                  <ul className="text-xs list-disc ml-4">
+                                    {t.nextSteps.map((s, i) => (
+                                      <li key={i}>{s}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </details>
                 </div>

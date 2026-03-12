@@ -38184,32 +38184,66 @@ function EssayGuide({ onExit }) {
                   <h4 className="text-xl font-bold text-indigo-800">
                     AI Feedback
                   </h4>
+                  <p className="text-xs text-indigo-600 mt-1 italic">
+                    GED essays are scored on how well you argue from the
+                    passages, organize your ideas, and control
+                    grammar/mechanics.
+                  </p>
                   <p className="mt-2">
                     <strong>Overall Score:</strong> {scoreResult.overallScore}/6
                   </p>
-                  <p className="mt-1">
-                    <strong>Feedback:</strong> {scoreResult.overallFeedback}
-                  </p>
-                  <details className="mt-2">
+                  {scoreResult.overallFeedback && (
+                    <p className="mt-1">
+                      <strong>Feedback:</strong> {scoreResult.overallFeedback}
+                    </p>
+                  )}
+                  <details className="mt-2" open>
                     <summary className="font-semibold cursor-pointer">
                       View Trait-by-Trait Breakdown
                     </summary>
-                    <div className="mt-2 pl-4 border-l-2 border-indigo-200">
-                      <p>
-                        <strong>Trait 1 (Analysis):</strong> Score{' '}
-                        {scoreResult.trait1.score}/2.{' '}
-                        {scoreResult.trait1.feedback}
-                      </p>
-                      <p>
-                        <strong>Trait 2 (Evidence):</strong> Score{' '}
-                        {scoreResult.trait2.score}/2.{' '}
-                        {scoreResult.trait2.feedback}
-                      </p>
-                      <p>
-                        <strong>Trait 3 (Clarity):</strong> Score{' '}
-                        {scoreResult.trait3.score}/2.{' '}
-                        {scoreResult.trait3.feedback}
-                      </p>
+                    <div className="mt-2 pl-4 border-l-2 border-indigo-200 space-y-3">
+                      {[
+                        { key: 'trait1', label: 'Argument & Evidence' },
+                        { key: 'trait2', label: 'Organization' },
+                        { key: 'trait3', label: 'Command of English' },
+                      ].map(({ key, label }) => {
+                        const t = scoreResult[key];
+                        if (!t) return null;
+                        return (
+                          <div key={key}>
+                            <p>
+                              <strong>{t.label || label}:</strong> Score{' '}
+                              {t.score}/2. {t.feedback}
+                            </p>
+                            {Array.isArray(t.strengths) &&
+                              t.strengths.length > 0 && (
+                                <div className="mt-1 ml-2">
+                                  <span className="text-xs font-semibold text-green-700">
+                                    Strengths:
+                                  </span>
+                                  <ul className="text-xs list-disc ml-4">
+                                    {t.strengths.map((s, i) => (
+                                      <li key={i}>{s}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            {Array.isArray(t.nextSteps) &&
+                              t.nextSteps.length > 0 && (
+                                <div className="mt-1 ml-2">
+                                  <span className="text-xs font-semibold text-amber-700">
+                                    Next Steps:
+                                  </span>
+                                  <ul className="text-xs list-disc ml-4">
+                                    {t.nextSteps.map((s, i) => (
+                                      <li key={i}>{s}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </details>
                 </div>

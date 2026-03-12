@@ -1,4 +1,4 @@
-// server.js (Updated Version)
+﻿// server.js (Updated Version)
 
 const path = require('path');
 const fs = require('fs');
@@ -38,6 +38,21 @@ const {
   getRandomScienceNumeracyItem,
   getRandomScienceShortResponse,
 } = require('./data/scienceTemplates');
+const {
+  buildEssayScoringPrompt,
+  ESSAY_RESPONSE_SCHEMA,
+  normalizeEssayResponse,
+  analyzeEssayHeuristics,
+  applyHeuristicCaps,
+  deriveChallengeTags,
+  buildFallbackResponse,
+} = require('./src/essayRubric');
+const {
+  buildComprehensivePlan,
+} = require('./src/exams/buildComprehensivePlan');
+const { fillExamPlan } = require('./src/exams/fillExamPlan');
+const { finalizeExamPayload } = require('./src/exams/finalizeExamPayload');
+const { validateFilledPlan } = require('./src/exams/validateExamPlan');
 let ALL_QUIZZES = require('./data/quizzes/index.js').ALL_QUIZZES;
 
 const QUIZZES_DIR_ABS = path.join(__dirname, 'data', 'quizzes');
@@ -12048,6 +12063,604 @@ app.get('/metrics/ai', (_req, res) => {
   });
 });
 
+// ═══════════════════════════════════════════════════════════════════════
+//  SLOT-BASED GENERATORS (adapt existing functions to fill interface)
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * Build AI + bank + template generators for a subject.
+ * Each generator receives a slot definition and returns question(s).
+ */
+function buildSlotGenerators(normalizedSubject, aiOptions) {
+  const generators = {};
+
+  // ── Social Studies generators ─────────────────────────────────────
+  if (normalizedSubject === 'Social Studies') {
+    const ssPassages = getCuratedSocialStudiesPassages(PASSAGE_DB);
+    const ssImages = getCuratedSocialStudiesImages(IMAGE_DB);
+    const usedPassageIds = new Set();
+    const usedImagePaths = new Set();
+
+    generators.bankFill = async (slot) => {
+      // Try premade bank questions matching slot constraints
+      return pickFromPremadeBank('Social Studies', slot, usedPassageIds);
+    };
+
+    generators.aiFill = async (slot, opts) => {
+      if (slot.stimulusType === 'passage') {
+        const passage = pickPassageForSlot(
+          ssPassages,
+          slot.category,
+          usedPassageIds
+        );
+        const qs = await generateSocialStudiesPassageSet({
+          category: slot.category,
+          subject: 'Social Studies',
+          passageSource: passage,
+          numQuestions: slot.questionsNeeded,
+          aiOptions: opts,
+        });
+        return qs || [];
+      }
+      if (slot.stimulusType === 'image') {
+        const image = pickImageForSlot(ssImages, slot.category, usedImagePaths);
+        if (image) {
+          const qs = await generateSocialStudiesImageSet({
+            category: slot.category,
+            subject: 'Social Studies',
+            image,
+            numQuestions: slot.questionsNeeded,
+            aiOptions: opts,
+            usedImages: usedImagePaths,
+          });
+          return qs || [];
+        }
+        // No image available — fall back to standalone
+        const q = await generateSocialStudiesStandaloneQuestion({
+          category: slot.category,
+          subject: 'Social Studies',
+          aiOptions: opts,
+          allowNumeracy:
+            slot.category === 'Economics' ||
+            slot.category === 'Civics & Government',
+        });
+        return q ? [q] : [];
+      }
+      // Standalone
+      const q = await generateSocialStudiesStandaloneQuestion({
+        category: slot.category,
+        subject: 'Social Studies',
+        aiOptions: opts,
+        allowNumeracy:
+          slot.category === 'Economics' ||
+          slot.category === 'Civics & Government',
+      });
+      return q ? [q] : [];
+    };
+  }
+
+  // ── Science generators ────────────────────────────────────────────
+  if (normalizedSubject === 'Science') {
+    generators.bankFill = async (slot) => {
+      return pickFromPremadeBank('Science', slot);
+    };
+
+    generators.templateFill = async (slot) => {
+      // Chemistry balancing uses template generator
+      if (slot.group === 'chem_balance') {
+        const q = getChemistryBalancingQuestion();
+        return q ? [q] : [];
+      }
+      // Science numeracy template
+      if (slot.numeracy) {
+        const item = getRandomScienceNumeracyItem
+          ? getRandomScienceNumeracyItem()
+          : null;
+        if (item) return [item];
+      }
+      // Science scenario template
+      const scenario = getRandomScienceScenario
+        ? getRandomScienceScenario()
+        : null;
+      if (scenario) return Array.isArray(scenario) ? scenario : [scenario];
+      return [];
+    };
+
+    generators.aiFill = async (slot, opts) => {
+      if (slot.stimulusType === 'passage/data') {
+        // For science literacy / passage slots
+        if (slot.group && slot.group.includes('literacy')) {
+          const set = await generateScienceLiteracySet(
+            slot.questionsNeeded,
+            opts
+          );
+          return Array.isArray(set) ? set : [];
+        }
+        const qs = await generatePassageSet(
+          slot.category,
+          'Science',
+          slot.questionsNeeded,
+          opts
+        );
+        return Array.isArray(qs) ? qs : qs ? [qs] : [];
+      }
+      if (['chart', 'table', 'diagram'].includes(slot.stimulusType)) {
+        const imgQs = await generateImageQuestion(
+          slot.category,
+          'Science',
+          curatedImages,
+          slot.questionsNeeded,
+          opts
+        );
+        if (imgQs && imgQs.length) return imgQs;
+        // Fallback to standalone
+        const q = await generateStandaloneQuestion(
+          'Science',
+          slot.category,
+          opts
+        );
+        return q ? (Array.isArray(q) ? q : [q]) : [];
+      }
+      // Standalone (possibly numeracy)
+      if (slot.numeracy) {
+        const q = await generateScienceNumeracyQuestion(slot.category, opts);
+        return q ? [q] : [];
+      }
+      const q = await generateStandaloneQuestion(
+        'Science',
+        slot.category,
+        opts
+      );
+      return q ? (Array.isArray(q) ? q : [q]) : [];
+    };
+  }
+
+  // ── RLA generators ────────────────────────────────────────────────
+  if (normalizedSubject === 'RLA') {
+    generators.bankFill = async (slot) => {
+      if (slot.section === 'part1_reading') {
+        return pickFromPremadeRlaBank('part1', slot);
+      }
+      if (slot.section === 'part3_language') {
+        return pickFromPremadeRlaBank('part3', slot);
+      }
+      return [];
+    };
+
+    generators.aiFill = async (slot, opts) => {
+      if (slot.section === 'part1_reading') {
+        // Generate questions for a reading passage group
+        const qs = await generateRlaPart1(opts);
+        if (!Array.isArray(qs)) return [];
+        // Filter to the specific group's questions
+        return qs.slice(0, slot.questionsNeeded);
+      }
+      if (slot.section === 'part3_language') {
+        const qs = await generateRlaPart3(opts);
+        if (!Array.isArray(qs)) return [];
+        return qs.slice(0, slot.questionsNeeded);
+      }
+      return [];
+    };
+
+    generators.essayFill = async (slot, opts) => {
+      return await generateRlaPart2(opts);
+    };
+
+    generators.essayBankFill = async (_slot) => {
+      // Hardcoded fallback essay
+      return {
+        passages: [
+          {
+            title: 'Position A: Expand Public Transportation',
+            author: 'Jordan Ellis',
+            content:
+              '<p>City leaders argue that expanded transit improves access to work and education while reducing traffic congestion. They cite pilot programs where frequent service increased ridership, lowered household transportation costs, and improved access for workers with nontraditional schedules.</p><p>Supporters also point to economic benefits in business districts that become easier to reach without parking constraints. They argue that reliable routes can broaden customer traffic and reduce missed work caused by commuting delays.</p><p>Critics acknowledge these gains but stress that expansion plans should include measurable service targets and transparent budgeting so long-term operating costs remain sustainable and service quality is protected.</p>',
+          },
+          {
+            title: 'Position B: Prioritize Road Infrastructure First',
+            author: 'Casey Morgan',
+            content:
+              '<p>Opponents of rapid transit expansion argue that roadway bottlenecks should be addressed first because they affect most commuters, freight movement, and emergency response times. They cite projects where targeted intersection upgrades produced quick travel-time improvements.</p><p>They also contend that many neighborhoods have limited transit access today, so immediate road improvements deliver broader short-term benefits while longer-term transit plans are evaluated.</p><p>Transit advocates respond that road-only strategies can reinforce congestion over time and delay cleaner alternatives. They argue that cities should pair road upgrades with meaningful transit investment to provide practical non-car options.</p>',
+          },
+        ],
+        prompt:
+          'Analyze both passages and determine which position is better supported by evidence and reasoning. Use specific evidence from both sources to support your response.',
+      };
+    };
+  }
+
+  // ── Math generators ───────────────────────────────────────────────
+  if (normalizedSubject === 'Math') {
+    generators.bankFill = async (slot) => {
+      return pickFromPremadeBank('Math', slot);
+    };
+
+    generators.templateFill = async (slot) => {
+      // Word problem templates by difficulty
+      if (PASSAGE_DB.math_word_problems) {
+        const pool = PASSAGE_DB.math_word_problems.filter(
+          (p) => p.difficulty === slot.difficulty
+        );
+        if (pool.length > 0) {
+          const template = pool[Math.floor(Math.random() * pool.length)];
+          const q = instantiateMathWordProblem(template, aiOptions);
+          if (q) return Array.isArray(q) ? q : [q];
+        }
+      }
+      return [];
+    };
+
+    generators.aiFill = async (slot, opts) => {
+      const section = slot.section;
+      if (section === 'part1_non_calculator') {
+        const q = await generateNonCalculatorQuestion(opts);
+        return q ? [q] : [];
+      }
+      // Calculator section — dispatch by category
+      const cat = slot.category;
+      if (cat === 'Geometry') {
+        const qs = await generateGeometryQuestion('Geometry', 'Math', 1, opts);
+        return qs ? (Array.isArray(qs) ? qs : [qs]) : [];
+      }
+      if (cat === 'Data Analysis & Probability') {
+        const q = await generateDataQuestion(opts);
+        return q ? (Array.isArray(q) ? q : [q]) : [];
+      }
+      if (cat === 'Graphing & Functions') {
+        const q = await generateGraphingQuestion(opts);
+        return q ? (Array.isArray(q) ? q : [q]) : [];
+      }
+      if (slot.responseType === 'fill_in' || slot.responseType === 'numeric') {
+        const q = await generateMath_FillInTheBlank(opts);
+        if (q) {
+          q.responseType = slot.responseType;
+          return [q];
+        }
+      }
+      // Default: standalone algebra/ratio etc
+      const q = await generateStandaloneQuestion('Math', cat, opts);
+      return q ? (Array.isArray(q) ? q : [q]) : [];
+    };
+  }
+
+  return generators;
+}
+
+/**
+ * Build fallback generators that only use the premade question bank.
+ * Used when AI generation fails completely.
+ */
+function buildFallbackGenerators(normalizedSubject) {
+  return {
+    bankFill: async (slot) => {
+      if (normalizedSubject === 'RLA') {
+        if (slot.section === 'part1_reading')
+          return pickFromPremadeRlaBank('part1', slot);
+        if (slot.section === 'part3_language')
+          return pickFromPremadeRlaBank('part3', slot);
+        return [];
+      }
+      return pickFromPremadeBank(normalizedSubject, slot);
+    },
+    essayBankFill: async (_slot) => ({
+      passages: [
+        {
+          title: 'Position A: Expand Public Transportation',
+          author: 'Jordan Ellis',
+          content:
+            '<p>City leaders argue that expanded transit improves access to work and education while reducing traffic congestion. They cite pilot programs where frequent service increased ridership, lowered household transportation costs, and improved access for workers with nontraditional schedules.</p><p>Supporters also point to economic benefits in business districts that become easier to reach without parking constraints. They argue that reliable routes can broaden customer traffic and reduce missed work caused by commuting delays.</p><p>Critics acknowledge these gains but stress that expansion plans should include measurable service targets and transparent budgeting so long-term operating costs remain sustainable and service quality is protected.</p>',
+        },
+        {
+          title: 'Position B: Prioritize Road Infrastructure First',
+          author: 'Casey Morgan',
+          content:
+            '<p>Opponents of rapid transit expansion argue that roadway bottlenecks should be addressed first because they affect most commuters, freight movement, and emergency response times. They cite projects where targeted intersection upgrades produced quick travel-time improvements.</p><p>They also contend that many neighborhoods have limited transit access today, so immediate road improvements deliver broader short-term benefits while longer-term transit plans are evaluated.</p><p>Transit advocates respond that road-only strategies can reinforce congestion over time and delay cleaner alternatives. They argue that cities should pair road upgrades with meaningful transit investment to provide practical non-car options.</p>',
+        },
+      ],
+      prompt:
+        'Analyze both passages and determine which position is better supported by evidence and reasoning. Use specific evidence from both sources to support your response.',
+    }),
+  };
+}
+
+// ── Premade bank picking helpers ──────────────────────────────────────
+
+// Track used premade questions across a single generation run
+const _usedPremadeTexts = new Set();
+
+function resetPremadeTracker() {
+  _usedPremadeTexts.clear();
+}
+
+function pickFromPremadeBank(subject, slot) {
+  const questions = [];
+  const quizData = ALL_QUIZZES && ALL_QUIZZES[subject];
+  if (!quizData || !quizData.categories) return [];
+
+  for (const [catName, catData] of Object.entries(quizData.categories)) {
+    // Filter by category if slot specifies one
+    if (slot.category && catName !== slot.category) continue;
+    if (!catData.topics || !Array.isArray(catData.topics)) continue;
+
+    for (const topic of catData.topics) {
+      const sources = [];
+      if (topic.quizzes && Array.isArray(topic.quizzes)) {
+        for (const quiz of topic.quizzes) {
+          if (quiz.questions && Array.isArray(quiz.questions)) {
+            sources.push(...quiz.questions);
+          }
+        }
+      }
+      if (topic.questions && Array.isArray(topic.questions)) {
+        sources.push(...topic.questions);
+      }
+
+      for (const q of sources) {
+        if (!q.answerOptions || q.answerOptions.length < 2) continue;
+        const text = q.questionText || q.question || '';
+        if (_usedPremadeTexts.has(text)) continue;
+
+        questions.push({
+          ...q,
+          questionText: text,
+          subject,
+          category: slot.category || catName,
+          difficulty: q.difficulty || slot.difficulty || 'medium',
+          source: 'premade',
+          itemType: q.passage ? 'passage' : q.imageUrl ? 'image' : 'standalone',
+        });
+      }
+    }
+  }
+
+  // Shuffle and pick needed count
+  for (let i = questions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questions[i], questions[j]] = [questions[j], questions[i]];
+  }
+
+  const picked = questions.slice(0, slot.questionsNeeded);
+  for (const q of picked) {
+    _usedPremadeTexts.add(q.questionText);
+  }
+  return picked;
+}
+
+let _rlaP1Cache = null;
+let _rlaP2Cache = null;
+let _rlaP1Idx = 0;
+let _rlaP3Idx = 0;
+
+function pickFromPremadeRlaBank(part, slot) {
+  try {
+    if (part === 'part1') {
+      if (!_rlaP1Cache) {
+        const raw = require('./quizzes/rla.quizzes.part1.json');
+        _rlaP1Cache = Array.isArray(raw)
+          ? raw.flatMap((e) => (Array.isArray(e.questions) ? e.questions : [e]))
+          : [];
+        // Shuffle once
+        for (let i = _rlaP1Cache.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [_rlaP1Cache[i], _rlaP1Cache[j]] = [_rlaP1Cache[j], _rlaP1Cache[i]];
+        }
+        _rlaP1Idx = 0;
+      }
+      const picked = _rlaP1Cache.slice(
+        _rlaP1Idx,
+        _rlaP1Idx + slot.questionsNeeded
+      );
+      _rlaP1Idx += slot.questionsNeeded;
+      return picked.map((q) => ({ ...q, source: 'premade', type: 'passage' }));
+    }
+    if (part === 'part3') {
+      if (!_rlaP2Cache) {
+        const raw = require('./quizzes/rla.quizzes.part2.json');
+        _rlaP2Cache = Array.isArray(raw)
+          ? raw.flatMap((e) => (Array.isArray(e.questions) ? e.questions : [e]))
+          : [];
+        for (let i = _rlaP2Cache.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [_rlaP2Cache[i], _rlaP2Cache[j]] = [_rlaP2Cache[j], _rlaP2Cache[i]];
+        }
+        _rlaP3Idx = 0;
+      }
+      const picked = _rlaP2Cache.slice(
+        _rlaP3Idx,
+        _rlaP3Idx + slot.questionsNeeded
+      );
+      _rlaP3Idx += slot.questionsNeeded;
+      return picked.map((q) => ({ ...q, source: 'premade', type: 'passage' }));
+    }
+  } catch (e) {
+    console.warn(`[RLA] Could not load premade Part ${part}:`, e.message);
+  }
+  return [];
+}
+
+/**
+ * Pick a curated passage matching the category.
+ */
+function pickPassageForSlot(passages, category, usedIds) {
+  const catLower = category.toLowerCase();
+  const keywords = {
+    'civics & government': [
+      'civics',
+      'government',
+      'constitution',
+      'rights',
+      'voting',
+      'democracy',
+      'amendment',
+      'suffrage',
+      'legislation',
+      'citizen',
+    ],
+    'u.s. history': [
+      'history',
+      'civil war',
+      'founding',
+      'revolution',
+      'reconstruction',
+      'abolition',
+      'slavery',
+      'colonial',
+      'independence',
+      'war',
+    ],
+    economics: [
+      'econom',
+      'trade',
+      'market',
+      'depression',
+      'industrial',
+      'labor',
+      'tariff',
+      'tax',
+      'monetary',
+      'fiscal',
+      'banking',
+    ],
+    'geography & the world': [
+      'geograph',
+      'world',
+      'region',
+      'climate',
+      'territory',
+      'expansion',
+      'exploration',
+      'continent',
+      'border',
+      'migration',
+      'imperialism',
+    ],
+  };
+  const kws = keywords[catLower] || [];
+
+  const available = passages.filter((p) => {
+    if (usedIds.has(p.id)) return false;
+    const combined =
+      `${p.topic || ''} ${p.area || ''} ${p.title || ''}`.toLowerCase();
+    return kws.some((kw) => combined.includes(kw));
+  });
+
+  if (available.length === 0) return null;
+  const picked = available[Math.floor(Math.random() * available.length)];
+  usedIds.add(picked.id);
+  return picked;
+}
+
+/**
+ * Pick a curated image matching the category.
+ */
+function pickImageForSlot(images, category, usedPaths) {
+  const catLower = category.toLowerCase();
+  const keywords = {
+    'civics & government': [
+      'civics',
+      'government',
+      'political',
+      'election',
+      'suffrage',
+      'constitution',
+      'democracy',
+      'voting',
+      'rights',
+    ],
+    'u.s. history': [
+      'history',
+      'historical',
+      'war',
+      'president',
+      'civil war',
+      'reconstruction',
+      'colonial',
+      'revolution',
+    ],
+    economics: [
+      'econom',
+      'trade',
+      'business',
+      'market',
+      'depression',
+      'industrial',
+      'labor',
+      'graph',
+      'chart',
+      'budget',
+    ],
+    'geography & the world': [
+      'geograph',
+      'world',
+      'map',
+      'region',
+      'territory',
+      'global',
+      'continent',
+      'border',
+      'migration',
+    ],
+  };
+  const kws = keywords[catLower] || [];
+
+  const available = images.filter((img) => {
+    if (img.filePath && usedPaths.has(img.filePath)) return false;
+    const combined =
+      `${img.category || ''} ${img.altText || ''} ${img.detailedDescription || ''}`.toLowerCase();
+    return kws.some((kw) => combined.includes(kw));
+  });
+
+  if (available.length === 0) return null;
+  const picked = available[Math.floor(Math.random() * available.length)];
+  if (picked.filePath) usedPaths.add(picked.filePath);
+  return picked;
+}
+
+/**
+ * Build a summary log of final counts for a completed exam.
+ */
+function buildFinalCountLog(plan, quiz) {
+  const log = { subject: plan.subject, totalQuestions: 0 };
+  const qs = quiz.questions || [];
+  log.totalQuestions = qs.length;
+  if (quiz.part2_essay) log.totalQuestions += 1;
+
+  // Category breakdown
+  log.categories = {};
+  for (const q of qs) {
+    const cat = q.category || 'unknown';
+    log.categories[cat] = (log.categories[cat] || 0) + 1;
+  }
+
+  // Difficulty breakdown
+  log.difficulty = {};
+  for (const q of qs) {
+    const d = q.difficulty || 'unknown';
+    log.difficulty[d] = (log.difficulty[d] || 0) + 1;
+  }
+
+  // Section breakdown (for multi-part)
+  if (quiz.part1_non_calculator)
+    log.part1_non_calculator = quiz.part1_non_calculator.length;
+  if (quiz.part2_calculator)
+    log.part2_calculator = quiz.part2_calculator.length;
+  if (quiz.part1_reading) log.part1_reading = quiz.part1_reading.length;
+  if (quiz.part3_language) log.part3_language = quiz.part3_language.length;
+  if (quiz.part2_essay) log.part2_essay = 1;
+
+  // Stimulus breakdown
+  log.stimulus = {};
+  for (const q of qs) {
+    let type = 'standalone';
+    if (q.passage) type = 'passage';
+    else if (q.stimulusImage || q.imageUrl) type = 'image';
+    log.stimulus[type] = (log.stimulus[type] || 0) + 1;
+  }
+
+  return log;
+}
+
 app.post('/generate-quiz', async (req, res) => {
   const { subject, topic, comprehensive } = req.body;
 
@@ -12061,1858 +12674,184 @@ app.post('/generate-quiz', async (req, res) => {
   const generationStart = Date.now();
 
   if (comprehensive) {
-    // --- COMPREHENSIVE EXAM LOGIC ---
-    if (subject === 'Social Studies') {
-      try {
-        console.log(
-          '[SS] Starting comprehensive Social Studies exam generation'
-        );
-        const timeoutMs = selectModelTimeoutMs({ examType });
-        const aiOptions = { timeoutMs };
-
-        // Load curated resources
-        const ssPassages = getCuratedSocialStudiesPassages(PASSAGE_DB);
-        const ssImages = getCuratedSocialStudiesImages(IMAGE_DB);
-        console.log(
-          `[SS] Loaded ${ssPassages.length} passages, ${ssImages.length} images`
-        );
-
-        // Track usage
-        const usedPassageIds = new Set();
-        const usedImages = new Set();
-        let groupCounter = 0;
-
-        // Define GED-aligned blueprint
-        const SS_CATEGORIES = [
-          'Civics & Government',
-          'U.S. History',
-          'Economics',
-          'Geography & the World',
-        ];
-
-        const socialStudiesBlueprint = {
-          'Civics & Government': { passages: 3, images: 2, standalone: 3 },
-          'U.S. History': { passages: 3, images: 1, standalone: 1 },
-          Economics: { passages: 1, images: 2, standalone: 1 },
-          'Geography & the World': { passages: 2, images: 1, standalone: 1 },
-        };
-
-        const TOTAL_QUESTIONS = 35;
-        const allQuestions = [];
-
-        // Helper to pick unused passage for category
-        const pickPassageForCategory = (cat) => {
-          const catLower = cat.toLowerCase();
-          const available = ssPassages.filter((p) => {
-            if (usedPassageIds.has(p.id)) return false;
-            const pTopic = (p.topic || '').toLowerCase();
-            const pArea = (p.area || '').toLowerCase();
-            const pTitle = (p.title || '').toLowerCase();
-            const combined = `${pTopic} ${pArea} ${pTitle}`;
-
-            if (cat === 'Civics & Government') {
-              return (
-                combined.includes('civics') ||
-                combined.includes('government') ||
-                combined.includes('constitution') ||
-                combined.includes('rights') ||
-                combined.includes('voting') ||
-                combined.includes('democracy') ||
-                combined.includes('amendment') ||
-                combined.includes('suffrage') ||
-                combined.includes('reform') ||
-                combined.includes('legislation') ||
-                combined.includes('citizen')
-              );
-            }
-            if (cat === 'U.S. History') {
-              return (
-                combined.includes('history') ||
-                combined.includes('civil war') ||
-                combined.includes('founding') ||
-                combined.includes('revolution') ||
-                combined.includes('reconstruction') ||
-                combined.includes('abolition') ||
-                combined.includes('slavery') ||
-                combined.includes('colonial') ||
-                combined.includes('independence') ||
-                combined.includes('war')
-              );
-            }
-            if (cat === 'Economics') {
-              return (
-                combined.includes('econom') ||
-                combined.includes('trade') ||
-                combined.includes('market') ||
-                combined.includes('depression') ||
-                combined.includes('industrial') ||
-                combined.includes('labor') ||
-                combined.includes('tariff') ||
-                combined.includes('tax') ||
-                combined.includes('monetary') ||
-                combined.includes('fiscal') ||
-                combined.includes('banking') ||
-                combined.includes('poverty') ||
-                combined.includes('wealth') ||
-                combined.includes('gilded')
-              );
-            }
-            if (cat === 'Geography & the World') {
-              return (
-                combined.includes('geograph') ||
-                combined.includes('world') ||
-                combined.includes('region') ||
-                combined.includes('climate') ||
-                combined.includes('territory') ||
-                combined.includes('expansion') ||
-                combined.includes('exploration') ||
-                combined.includes('continent') ||
-                combined.includes('atlantic') ||
-                combined.includes('border') ||
-                combined.includes('frontier') ||
-                combined.includes('migration') ||
-                combined.includes('imperialism') ||
-                combined.includes('foreign')
-              );
-            }
-            return false;
-          });
-
-          if (available.length === 0) return null;
-          const picked =
-            available[Math.floor(Math.random() * available.length)];
-          usedPassageIds.add(picked.id);
-          return picked;
-        };
-
-        // Helper to pick unused image for category
-        const pickImageForCategory = (cat) => {
-          const catLower = cat.toLowerCase();
-          const available = ssImages.filter((img) => {
-            if (img.filePath && usedImages.has(img.filePath)) return false;
-            const imgCat = (img.category || '').toLowerCase();
-            const imgAlt = (img.altText || '').toLowerCase();
-            const imgDesc = (img.detailedDescription || '').toLowerCase();
-            const combined = `${imgCat} ${imgAlt} ${imgDesc}`;
-
-            if (cat === 'Civics & Government') {
-              return (
-                combined.includes('civics') ||
-                combined.includes('government') ||
-                combined.includes('political') ||
-                combined.includes('election') ||
-                combined.includes('suffrage') ||
-                combined.includes('legislation') ||
-                combined.includes('constitution') ||
-                combined.includes('democracy') ||
-                combined.includes('voting') ||
-                combined.includes('rights')
-              );
-            }
-            if (cat === 'U.S. History') {
-              return (
-                combined.includes('history') ||
-                combined.includes('historical') ||
-                combined.includes('war') ||
-                combined.includes('president') ||
-                combined.includes('civil war') ||
-                combined.includes('reconstruction') ||
-                combined.includes('colonial') ||
-                combined.includes('revolution')
-              );
-            }
-            if (cat === 'Economics') {
-              return (
-                combined.includes('econom') ||
-                combined.includes('trade') ||
-                combined.includes('business') ||
-                combined.includes('market') ||
-                combined.includes('depression') ||
-                combined.includes('industrial') ||
-                combined.includes('labor') ||
-                combined.includes('graph') ||
-                combined.includes('chart') ||
-                combined.includes('statistic') ||
-                combined.includes('budget') ||
-                combined.includes('spending')
-              );
-            }
-            if (cat === 'Geography & the World') {
-              return (
-                combined.includes('geograph') ||
-                combined.includes('world') ||
-                combined.includes('map') ||
-                combined.includes('region') ||
-                combined.includes('territory') ||
-                combined.includes('global') ||
-                combined.includes('continent') ||
-                combined.includes('border') ||
-                combined.includes('migration') ||
-                combined.includes('imperialism')
-              );
-            }
-            return false;
-          });
-
-          if (available.length === 0) return null;
-          const picked =
-            available[Math.floor(Math.random() * available.length)];
-          if (picked.filePath) usedImages.add(picked.filePath);
-          return picked;
-        };
-
-        // Generate questions for each category
-        for (const category of SS_CATEGORIES) {
-          const counts = socialStudiesBlueprint[category];
-          console.log(
-            `[SS] Generating for ${category}: ${JSON.stringify(counts)}`
-          );
-
-          // Passage-based clusters
-          for (let i = 0; i < counts.passages; i++) {
-            const passage = pickPassageForCategory(category);
-            if (passage) {
-              for (let attempt = 0; attempt < 2; attempt++) {
-                try {
-                  const qs = await generateSocialStudiesPassageSet({
-                    category,
-                    subject: 'Social Studies',
-                    passageSource: passage,
-                    numQuestions: Math.random() > 0.5 ? 2 : 3,
-                    aiOptions,
-                  });
-                  if (qs && qs.length) {
-                    allQuestions.push(...qs);
-                    console.log(
-                      `[SS] Added ${qs.length} passage questions for ${category}`
-                    );
-                    break; // success, stop retrying
-                  }
-                } catch (error) {
-                  console.error(
-                    `[SS] Passage generation failed for ${category} (attempt ${attempt + 1}):`,
-                    error.message
-                  );
-                  if (attempt === 0)
-                    console.log('[SS] Retrying passage generation...');
-                }
-              }
-            } else {
-              console.log(
-                `[SS] No curated passage for ${category}, using AI-generated passage`
-              );
-              // Let AI generate both the passage and questions
-              for (let attempt = 0; attempt < 2; attempt++) {
-                try {
-                  const qs = await generateSocialStudiesPassageSet({
-                    category,
-                    subject: 'Social Studies',
-                    passageSource: null,
-                    numQuestions: Math.random() > 0.5 ? 2 : 3,
-                    aiOptions,
-                  });
-                  if (qs && qs.length) {
-                    allQuestions.push(...qs);
-                    console.log(
-                      `[SS] Added ${qs.length} AI-generated passage questions for ${category}`
-                    );
-                    break;
-                  }
-                } catch (err) {
-                  console.error(
-                    `[SS] AI passage generation failed for ${category} (attempt ${attempt + 1}):`,
-                    err.message
-                  );
-                  if (attempt === 0)
-                    console.log('[SS] Retrying AI passage generation...');
-                }
-              }
-            }
-          }
-
-          // Image-based clusters
-          for (let i = 0; i < counts.images; i++) {
-            const image = pickImageForCategory(category);
-            if (image) {
-              for (let attempt = 0; attempt < 2; attempt++) {
-                try {
-                  const qs = await generateSocialStudiesImageSet({
-                    category,
-                    subject: 'Social Studies',
-                    image,
-                    numQuestions: Math.random() > 0.5 ? 2 : 1,
-                    aiOptions,
-                    usedImages,
-                  });
-                  if (qs && qs.length) {
-                    allQuestions.push(...qs);
-                    console.log(
-                      `[SS] Added ${qs.length} image questions for ${category}`
-                    );
-                    break; // success, stop retrying
-                  }
-                } catch (error) {
-                  console.error(
-                    `[SS] Image generation failed for ${category} (attempt ${attempt + 1}):`,
-                    error.message
-                  );
-                  if (attempt === 0)
-                    console.log('[SS] Retrying image generation...');
-                }
-              }
-            } else {
-              console.warn(`[SS] No unused image found for ${category}`);
-            }
-          }
-
-          // Standalone questions (with optional numeracy)
-          for (let i = 0; i < counts.standalone; i++) {
-            for (let attempt = 0; attempt < 2; attempt++) {
-              try {
-                const allowNumeracy =
-                  category === 'Economics' ||
-                  category === 'Civics & Government';
-                const q = await generateSocialStudiesStandaloneQuestion({
-                  category,
-                  subject: 'Social Studies',
-                  aiOptions,
-                  allowNumeracy,
-                });
-                if (q) {
-                  allQuestions.push(q);
-                  console.log(`[SS] Added standalone question for ${category}`);
-                  break; // success
-                }
-              } catch (error) {
-                console.error(
-                  `[SS] Standalone generation failed for ${category} (attempt ${attempt + 1}):`,
-                  error.message
-                );
-                if (attempt === 0)
-                  console.log('[SS] Retrying standalone generation...');
-              }
-            }
-          }
-        }
-
-        console.log(`[SS] Generated ${allQuestions.length} total questions`);
-
-        // Top-up: if we have fewer than TOTAL_QUESTIONS, generate more standalone questions
-        if (allQuestions.length < TOTAL_QUESTIONS) {
-          const deficit = TOTAL_QUESTIONS - allQuestions.length;
-          console.log(
-            `[SS] Deficit of ${deficit} questions, generating standalone top-ups...`
-          );
-          const topUpCategories = [...SS_CATEGORIES, ...SS_CATEGORIES]; // cycle categories
-          for (let i = 0; i < deficit && i < topUpCategories.length; i++) {
-            const cat = topUpCategories[i % SS_CATEGORIES.length];
-            try {
-              const q = await generateSocialStudiesStandaloneQuestion({
-                category: cat,
-                subject: 'Social Studies',
-                aiOptions,
-                allowNumeracy:
-                  cat === 'Economics' || cat === 'Civics & Government',
-              });
-              if (q) {
-                allQuestions.push(q);
-                console.log(`[SS] Top-up standalone added for ${cat}`);
-              }
-            } catch (err) {
-              console.error(
-                `[SS] Top-up standalone failed for ${cat}:`,
-                err.message
-              );
-            }
-          }
-          console.log(
-            `[SS] After top-up: ${allQuestions.length} total questions`
-          );
-        }
-
-        // Apply QA and enforcement
-        let finalQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
-        finalQuestions = dedupeNearDuplicates(
-          finalQuestions,
-          0.85,
-          TOTAL_QUESTIONS + 5
-        );
-        finalQuestions = finalQuestions
-          .map(tagMissingItemType)
-          .map(tagMissingDifficulty);
-        finalQuestions = enforceDifficultySpread(
-          finalQuestions,
-          {
-            easy: 0.3,
-            medium: 0.5,
-            hard: 0.2,
-          },
-          TOTAL_QUESTIONS
-        );
-        finalQuestions = enforceVarietyMix(
-          finalQuestions,
-          {
-            passage: 0.4,
-            image: 0.25,
-            standalone: 0.35,
-          },
-          TOTAL_QUESTIONS
-        );
-
-        // Trim to target count
-        const draftQuestionSet = finalQuestions.slice(0, TOTAL_QUESTIONS);
-        draftQuestionSet.forEach((q, index) => {
-          q.questionNumber = index + 1;
-          q.subject = 'Social Studies';
-        });
-
-        const draftQuiz = {
-          id: `ai_comp_ss_${new Date().getTime()}`,
-          title: `Comprehensive Social Studies Exam`,
-          subject: subject,
-          source: 'aiGenerated',
-          fraction_plain_text_mode: false,
-          questions: draftQuestionSet,
-        };
-
-        console.log('[SS] Sending for review and correction pass...');
-        let finalQuiz;
-        try {
-          finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
-          // Safety: if AI review dropped questions, fall back to the draft
-          const reviewedCount =
-            finalQuiz && finalQuiz.questions ? finalQuiz.questions.length : 0;
-          const draftCount = draftQuiz.questions.length;
-          if (reviewedCount < draftCount * 0.8) {
-            console.warn(
-              `[SS] Review step returned ${reviewedCount} questions (draft had ${draftCount}), using draft instead`
-            );
-            finalQuiz = draftQuiz;
-          } else {
-            console.log(`[SS] Review complete: ${reviewedCount} questions`);
-          }
-        } catch (reviewError) {
-          console.error(
-            '[SS] Review step failed, using draft:',
-            reviewError.message
-          );
-          finalQuiz = draftQuiz;
-        }
-
-        // Persist to AI question bank (stored for reference, not reused in future exams)
-        if (AI_QUESTION_BANK_ENABLED) {
-          await persistQuestionsToBank(finalQuiz.questions || [], {
-            subject,
-            topic: null,
-            sourceModel: finalQuiz.source || 'aiGenerated',
-            generatedForUserId: req.user?.id || null,
-            originQuizId: finalQuiz.id || null,
-          });
-          logQuizGeneration({
-            quizId: finalQuiz.id,
-            subject,
-            quizType: 'comprehensive',
-            topic: null,
-            source: finalQuiz.source || 'aiGenerated',
-            generatedForUserId: req.user?.id || null,
-            questionCount: (finalQuiz.questions || []).length,
-            quizPayload: finalQuiz,
-          }).catch(() => {});
-        }
-
-        // Also save to local file for offline review
-        try {
-          const genDir = path.join(__dirname, 'data', 'generated-exams');
-          if (!fs.existsSync(genDir)) fs.mkdirSync(genDir, { recursive: true });
-          const ts = new Date().toISOString().replace(/[:.]/g, '-');
-          const outPath = path.join(genDir, `ss-comp-${ts}.json`);
-          fs.writeFileSync(outPath, JSON.stringify(finalQuiz, null, 2), 'utf8');
-          console.log(`[SS] Saved generated exam to ${outPath}`);
-        } catch (saveErr) {
-          console.warn('[SS] Could not save exam to file:', saveErr.message);
-        }
-
-        logGenerationDuration(examType, subject, generationStart);
-        console.log('[SS] Comprehensive Social Studies exam complete');
-        res.json(finalQuiz);
-      } catch (error) {
-        console.error('[SS] Error generating Social Studies exam:', error);
-        console.log('[SS] Falling back to premade quiz assembly');
-
-        // FALLBACK: Pull from premade quiz bank AND quiz part files
-        try {
-          const allQuestions = [];
-          const categoryBuckets = {
-            'Civics & Government': [],
-            'U.S. History': [],
-            Economics: [],
-            'Geography & the World': [],
-          };
-
-          // Helper to normalize a quiz-file question into comprehensive format
-          const normalizeQuestion = (q, category) => {
-            const normalized = {
-              questionNumber: q.questionNumber || 0,
-              type:
-                q.type === 'multipleChoice'
-                  ? 'multiple-choice-text'
-                  : q.type || 'multiple-choice-text',
-              questionText:
-                q.questionText ||
-                q.question ||
-                (q.content && q.content.questionText) ||
-                '',
-              answerOptions: (q.answerOptions || []).map((opt) => ({
-                text: opt.text || '',
-                isCorrect: !!opt.isCorrect,
-                rationale: opt.rationale || '',
-              })),
-              subject: 'Social Studies',
-              category: category,
-              difficulty: q.difficulty || 'medium',
-            };
-            // Preserve passage
-            if (q.passage) normalized.passage = q.passage;
-            if (q.content && q.content.passage && !normalized.passage)
-              normalized.passage = q.content.passage;
-            // Preserve image
-            if (q.imageUrl || q.imageURL) {
-              normalized.stimulusImage = {
-                src: q.imageUrl || q.imageURL || '',
-                alt:
-                  (q.content && q.content.questionText) ||
-                  'Visual for question',
-              };
-              normalized.itemType = 'image';
-            } else if (normalized.passage) {
-              normalized.itemType = 'passage';
-            } else {
-              normalized.itemType = 'standalone';
-            }
-            return normalized;
-          };
-
-          // Helper to extract questions from a quiz-file category structure
-          const extractFromQuizFile = (fileData, categoryMapping) => {
-            if (!fileData || !fileData.categories) return;
-            for (const [catName, catData] of Object.entries(
-              fileData.categories
-            )) {
-              const targetCategory = categoryMapping[catName] || catName;
-              if (!categoryBuckets[targetCategory]) continue; // skip unknown categories
-              if (catData.topics && Array.isArray(catData.topics)) {
-                for (const topic of catData.topics) {
-                  // Check quizzes array (primary storage)
-                  if (topic.quizzes && Array.isArray(topic.quizzes)) {
-                    for (const quiz of topic.quizzes) {
-                      if (quiz.questions && Array.isArray(quiz.questions)) {
-                        for (const q of quiz.questions) {
-                          if (q.answerOptions && q.answerOptions.length >= 2) {
-                            categoryBuckets[targetCategory].push(
-                              normalizeQuestion(q, targetCategory)
-                            );
-                          }
-                        }
-                      }
-                    }
-                  }
-                  // Check direct questions array (fallback storage)
-                  if (topic.questions && Array.isArray(topic.questions)) {
-                    for (const q of topic.questions) {
-                      if (q.answerOptions && q.answerOptions.length >= 2) {
-                        categoryBuckets[targetCategory].push(
-                          normalizeQuestion(q, targetCategory)
-                        );
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          };
-
-          // Category mapping from quiz file names to blueprint categories
-          const categoryMapping = {
-            'Civics & Government': 'Civics & Government',
-            'U.S. History': 'U.S. History',
-            Economics: 'Economics',
-            'Geography & the World': 'Geography & the World',
-            'Geography and the World': 'Geography & the World',
-            'Image Based Practice': null, // handled specially below
-            Diagnostic: null, // skip diagnostic
-          };
-
-          // Load quiz part files
-          const quizPartFiles = [
-            path.join(
-              __dirname,
-              '..',
-              'public',
-              'quizzes',
-              'social-studies.quizzes.part1.json'
-            ),
-            path.join(
-              __dirname,
-              '..',
-              'public',
-              'quizzes',
-              'social-studies.quizzes.part2.json'
-            ),
-            path.join(__dirname, 'quizzes', 'social-studies.quizzes.json'),
-          ];
-
-          for (const filePath of quizPartFiles) {
-            try {
-              if (fs.existsSync(filePath)) {
-                const fileData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-                extractFromQuizFile(fileData, categoryMapping);
-
-                // Special handling for Image Based Practice - distribute to categories by topic name
-                if (
-                  fileData.categories &&
-                  fileData.categories['Image Based Practice']
-                ) {
-                  const imgCat = fileData.categories['Image Based Practice'];
-                  if (imgCat.topics && Array.isArray(imgCat.topics)) {
-                    for (const topic of imgCat.topics) {
-                      const tid = (topic.id || '').toLowerCase();
-                      let targetCat = 'U.S. History'; // default
-                      if (
-                        tid.includes('economic') ||
-                        tid.includes('financial') ||
-                        tid.includes('income')
-                      ) {
-                        targetCat = 'Economics';
-                      } else if (
-                        tid.includes('civics') ||
-                        tid.includes('government') ||
-                        tid.includes('election') ||
-                        tid.includes('political_map')
-                      ) {
-                        targetCat = 'Civics & Government';
-                      } else if (
-                        tid.includes('geography') ||
-                        tid.includes('world_map') ||
-                        tid.includes('demographics')
-                      ) {
-                        targetCat = 'Geography & the World';
-                      }
-                      if (topic.quizzes && Array.isArray(topic.quizzes)) {
-                        for (const quiz of topic.quizzes) {
-                          if (quiz.questions && Array.isArray(quiz.questions)) {
-                            for (const q of quiz.questions) {
-                              if (
-                                q.answerOptions &&
-                                q.answerOptions.length >= 2
-                              ) {
-                                categoryBuckets[targetCat].push(
-                                  normalizeQuestion(q, targetCat)
-                                );
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            } catch (loadErr) {
-              console.warn(
-                `[SS Fallback] Could not load ${filePath}:`,
-                loadErr.message
-              );
-            }
-          }
-
-          // Also pull from ALL_QUIZZES premade bank
-          if (ALL_QUIZZES && ALL_QUIZZES['Social Studies']) {
-            extractFromQuizFile(ALL_QUIZZES['Social Studies'], categoryMapping);
-          }
-
-          // Log counts per category
-          for (const [cat, qs] of Object.entries(categoryBuckets)) {
-            console.log(`[SS Fallback] ${cat}: ${qs.length} questions`);
-          }
-
-          // Category-aware sampling: 50% Civics, 20% History, 15% Economics, 15% Geography
-          const targetCounts = {
-            'Civics & Government': Math.round(35 * 0.5), // 18
-            'U.S. History': Math.round(35 * 0.2), // 7
-            Economics: Math.round(35 * 0.15), // 5
-            'Geography & the World': Math.round(35 * 0.15), // 5
-          };
-
-          const selected = [];
-          for (const [cat, target] of Object.entries(targetCounts)) {
-            const bucket = categoryBuckets[cat] || [];
-            // Shuffle bucket
-            for (let i = bucket.length - 1; i > 0; i--) {
-              const j = Math.floor(Math.random() * (i + 1));
-              [bucket[i], bucket[j]] = [bucket[j], bucket[i]];
-            }
-            selected.push(...bucket.slice(0, target));
-          }
-
-          // If we didn't reach 35, fill from any remaining questions
-          if (selected.length < 35) {
-            const usedIds = new Set(selected.map((q) => q.questionText));
-            const remaining = Object.values(categoryBuckets)
-              .flat()
-              .filter((q) => !usedIds.has(q.questionText));
-            for (let i = remaining.length - 1; i > 0; i--) {
-              const j = Math.floor(Math.random() * (i + 1));
-              [remaining[i], remaining[j]] = [remaining[j], remaining[i]];
-            }
-            selected.push(...remaining.slice(0, 35 - selected.length));
-          }
-
-          // Final shuffle
-          for (let i = selected.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [selected[i], selected[j]] = [selected[j], selected[i]];
-          }
-
-          // Number them
-          selected.forEach((q, idx) => {
-            q.questionNumber = idx + 1;
-            q.subject = 'Social Studies';
-          });
-
-          const fallbackQuiz = {
-            id: `premade_comp_ss_${Date.now()}`,
-            title: 'Comprehensive Social Studies Exam',
-            subject: 'Social Studies',
-            source: 'premade',
-            questions: selected,
-          };
-
-          logGenerationDuration(examType, subject, generationStart, 'fallback');
-          console.log(
-            '[SS] Returning fallback quiz with',
-            selected.length,
-            'questions'
-          );
-          return res.json(fallbackQuiz);
-        } catch (fallbackError) {
-          console.error('[SS] Fallback also failed:', fallbackError);
-        }
-
-        logGenerationDuration(examType, subject, generationStart, 'failed');
-        res
-          .status(500)
-          .json({ error: 'Failed to generate Social Studies exam.' });
-      }
-    } else if (subject === 'Science') {
-      try {
-        const timeoutMs = selectModelTimeoutMs({ examType });
-        const aiOptions = { timeoutMs };
-        const blueprint = {
-          'Life Science': { passages: 3, images: 3, standalone: 6 },
-          'Physical Science': { passages: 3, images: 2, standalone: 6 },
-          'Earth & Space Science': { passages: 2, images: 1, standalone: 2 },
-        };
-        const TOTAL_QUESTIONS = 38;
-        let promises = [];
-
-        for (const [category, counts] of Object.entries(blueprint)) {
-          for (let i = 0; i < counts.passages; i++)
-            promises.push(
-              generatePassageSet(
-                category,
-                subject,
-                Math.random() > 0.5 ? 2 : 1,
-                aiOptions
-              )
-            );
-          for (let i = 0; i < counts.images; i++)
-            promises.push(
-              (async () => {
-                const imgQs = await generateImageQuestion(
-                  category,
-                  subject,
-                  curatedImages,
-                  Math.random() > 0.5 ? 2 : 1,
-                  aiOptions
-                );
-                if (imgQs && imgQs.length) return imgQs;
-                return await generateStandaloneQuestion(
-                  subject,
-                  category,
-                  aiOptions
-                );
-              })()
-            );
-          for (let i = 0; i < counts.standalone; i++)
-            promises.push(
-              generateStandaloneQuestion(subject, category, aiOptions)
-            );
-        }
-
-        const results = await Promise.all(promises);
-        let allQuestions = results.flat().filter((q) => q);
-
-        // AI now generates tables automatically in passages and standalone questions
-        // No need to inject hardcoded tables
-
-        allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
-        let draftQuestionSet = allQuestions.slice(0, TOTAL_QUESTIONS);
-
-        // Enforce >= 1/3 numeracy post-processing
-        const categoryList = Object.keys(blueprint);
-        draftQuestionSet = await ensureScienceNumeracy(draftQuestionSet, {
-          requiredFraction: 1 / 3,
-          categories: categoryList,
-          aiOptions,
-        });
-
-        draftQuestionSet = injectScienceTemplateItems(draftQuestionSet, {
-          scenarioSets: 2,
-          shortResponses: 2,
-          targetCount: TOTAL_QUESTIONS,
-        });
-
-        // Mix in a few readable science passages from the local passage bank so not all items are purely data-driven
-        try {
-          let injected = 0;
-          for (let i = 0; i < draftQuestionSet.length && injected < 3; i++) {
-            const q = draftQuestionSet[i];
-            // Prefer items without any existing passage/stimulus
-            const hasPassage =
-              typeof q?.passage === 'string' && q.passage.trim().length > 0;
-            if (!hasPassage) {
-              const p = pickPassageFor('science');
-              if (p && p.text) {
-                q.passage = p.text;
-                if (p.id) q.stimulusId = p.id;
-                injected++;
-              }
-            }
-          }
-        } catch (e) {
-          try {
-            console.warn(
-              '[Science][Passages] Failed to inject bank passages:',
-              e?.message || e
-            );
-          } catch {}
-        }
-
-        // Remove <img> tags with alt text containing chart/graph/table, then normalize tables
-        function removeChartImgs(html) {
-          if (typeof html !== 'string') return html;
-          return html.replace(
-            /<img[^>]*alt=["']?([^"'>]*)["']?[^>]*>/gi,
-            (match, alt) => {
-              if (alt && /(chart|graph|table)/i.test(alt)) return '';
-              return match;
-            }
-          );
-        }
-        draftQuestionSet = draftQuestionSet.map((q) => {
-          let qt = q?.questionText;
-          let ps = q?.passage;
-          if (qt) qt = normalizeTables(removeChartImgs(qt));
-          if (ps) ps = normalizeTables(removeChartImgs(ps));
-          return { ...q, questionText: qt, passage: ps };
-        });
-
-        // Append two reading-focused (science literacy) passage sets
-        try {
-          const literacySets = [];
-          for (let i = 0; i < 2; i++) {
-            const set = await generateScienceLiteracySet(5, aiOptions);
-            if (Array.isArray(set) && set.length) literacySets.push(...set);
-          }
-          if (literacySets.length) {
-            draftQuestionSet.push(...literacySets);
-            console.log(
-              `[Science][Literacy] Added ${literacySets.length} passage-based literacy questions.`
-            );
-          }
-        } catch (e) {
-          try {
-            console.warn(
-              '[Science][Literacy] Unable to append literacy sets:',
-              e?.message || e
-            );
-          } catch {}
-        }
-
-        draftQuestionSet.forEach((q, index) => {
-          q.questionNumber = index + 1;
-        });
-        // Ensure every science question has a source label; numeracy detection heuristic adds 'numeracy' earlier but backfill if missing
-        draftQuestionSet = draftQuestionSet.map((q) => ({
-          ...q,
-          source:
-            q.source || (isScienceNumeracyItem(q) ? 'numeracy' : 'literacy'),
-        }));
-
-        // Add chemistry balancing questions (4-6 questions)
-        const chemCount = 4 + Math.floor(Math.random() * 3); // 4-6 questions
-        console.log(
-          `[Science][Chemistry] Adding ${chemCount} chemistry balancing questions.`
-        );
-        for (let i = 0; i < chemCount; i++) {
-          const chemQ = getChemistryBalancingQuestion();
-          draftQuestionSet.push(chemQ);
-        }
-
-        // Ensure at least 25-35% are formula-based questions
-        const totalQuestions = draftQuestionSet.length;
-        const formulaBasedCount = draftQuestionSet.filter((q) => {
-          const text = (q.questionText || '').toLowerCase();
-          return (
-            /formula|density|velocity|speed|distance|time|mass|volume|work|force|efficiency|concentration|pH|pressure|acceleration/i.test(
-              text
-            ) ||
-            q.source === 'numeracy' ||
-            q.qaProfileKey === 'numeracy'
-          );
-        }).length;
-        const formulaRatio = formulaBasedCount / totalQuestions;
-        const requiredFormulaRatio = 0.25 + Math.random() * 0.1; // 25-35%
-
-        if (formulaRatio < requiredFormulaRatio) {
-          const needed =
-            Math.ceil(totalQuestions * requiredFormulaRatio) -
-            formulaBasedCount;
-          console.log(
-            `[Science][Formulas] Need ${needed} more formula-based questions (current: ${(
-              formulaRatio * 100
-            ).toFixed(1)}%)`
-          );
-          for (let i = 0; i < needed; i++) {
-            const cat = [
-              'Physical Science',
-              'Life Science',
-              'Earth & Space Science',
-            ][i % 3];
-            try {
-              const numeracyQ = await generateScienceNumeracyQuestion(
-                cat,
-                aiOptions
-              );
-              if (numeracyQ) draftQuestionSet.push(numeracyQ);
-            } catch (e) {
-              console.warn(
-                '[Science][Formulas] Failed to add formula question:',
-                e.message
-              );
-            }
-          }
-        }
-
-        // Remove questions with passage-chart mismatches
-        const beforeMismatchCheck = draftQuestionSet.length;
-        draftQuestionSet = draftQuestionSet.filter(
-          (q) => !passageChartMismatch(q)
-        );
-        const removedMismatches = beforeMismatchCheck - draftQuestionSet.length;
-        if (removedMismatches > 0) {
-          console.log(
-            `[Science][Sanitizer] Removed ${removedMismatches} questions with passage-chart mismatches`
-          );
-        }
-
-        // Apply Science/Math sanitizer - NO WRITTEN RESPONSES
-        draftQuestionSet = sanitizeScienceAndMathQuestions(
-          draftQuestionSet,
-          'Science'
-        );
-
-        // Re-number after all modifications
-        draftQuestionSet.forEach((q, index) => {
-          q.questionNumber = index + 1;
-        });
-
-        const draftQuiz = {
-          id: `ai_comp_sci_draft_${new Date().getTime()}`,
-          title: `Comprehensive Science Exam`,
-          subject: subject,
-          source: 'aiGenerated',
-          fraction_plain_text_mode: false,
-          // Enable formula sheet in frontend header
-          config: { formulaSheet: true },
-          questions: draftQuestionSet,
-        };
-
-        console.log(
-          'Science draft complete. Sending for second pass review...'
-        );
-        const finalQuiz = await reviewAndCorrectQuiz(draftQuiz, aiOptions);
-
-        // Persist to AI question bank (capture-only)
-        if (AI_QUESTION_BANK_ENABLED) {
-          await persistQuestionsToBank(finalQuiz.questions || [], {
-            subject,
-            topic: null,
-            sourceModel: finalQuiz.source || 'aiGenerated',
-            generatedForUserId: req.user?.id || null,
-            originQuizId: finalQuiz.id || null,
-          });
-          logQuizGeneration({
-            quizId: finalQuiz.id,
-            subject,
-            quizType: 'comprehensive',
-            topic: null,
-            source: finalQuiz.source || 'aiGenerated',
-            generatedForUserId: req.user?.id || null,
-            questionCount: (finalQuiz.questions || []).length,
-            quizPayload: finalQuiz,
-          }).catch(() => {});
-        }
-
-        logGenerationDuration(examType, subject, generationStart);
-        res.json(finalQuiz);
-      } catch (error) {
-        console.error('Error generating Science exam:', error);
-        console.log('[Science] Falling back to premade quiz assembly');
-
-        // FALLBACK: Pull from premade quiz bank
-        try {
-          const allQuestions = [];
-
-          if (ALL_QUIZZES && ALL_QUIZZES['Science']) {
-            const sciData = ALL_QUIZZES['Science'];
-            if (sciData.categories) {
-              for (const [catName, catData] of Object.entries(
-                sciData.categories
-              )) {
-                if (catData.topics && Array.isArray(catData.topics)) {
-                  for (const topic of catData.topics) {
-                    if (topic.questions && Array.isArray(topic.questions)) {
-                      allQuestions.push(
-                        ...topic.questions.map((q) => ({
-                          ...q,
-                          subject: 'Science',
-                          category: catName,
-                        }))
-                      );
-                    }
-                  }
-                }
-              }
-            }
-          }
-
-          console.log(
-            `[Science Fallback] Found ${allQuestions.length} premade questions`
-          );
-
-          const shuffled = shuffleQuestionsPreservingStimulus(allQuestions);
-          const selected = shuffled.slice(0, 38);
-
-          selected.forEach((q, idx) => {
-            q.questionNumber = idx + 1;
-            q.subject = 'Science';
-          });
-
-          const fallbackQuiz = {
-            id: `premade_comp_sci_${Date.now()}`,
-            title: 'Comprehensive Science Exam',
-            subject: 'Science',
-            source: 'premade',
-            config: { formulaSheet: true },
-            questions: selected,
-          };
-
-          logGenerationDuration(examType, subject, generationStart, 'fallback');
-          console.log(
-            '[Science] Returning fallback quiz with',
-            selected.length,
-            'questions'
-          );
-          return res.json(fallbackQuiz);
-        } catch (fallbackError) {
-          console.error('[Science] Fallback also failed:', fallbackError);
-        }
-
-        logGenerationDuration(examType, subject, generationStart, 'failed');
-        res.status(500).json({ error: 'Failed to generate Science exam.' });
-      }
-    } else if (isRlaSubject(subject)) {
-      try {
-        console.log('Generating comprehensive RLA exam...');
-
-        const timeoutMs = selectModelTimeoutMs({ examType });
-        const aiOptions = { timeoutMs };
-
-        const [part1Result, part2Result, part3Result] =
-          await Promise.allSettled([
-            generateRlaPart1(aiOptions),
-            generateRlaPart2(aiOptions),
-            generateRlaPart3(aiOptions),
-          ]);
-
-        let part1Questions =
-          part1Result.status === 'fulfilled' && Array.isArray(part1Result.value)
-            ? part1Result.value
-            : [];
-        let part3Questions =
-          part3Result.status === 'fulfilled' && Array.isArray(part3Result.value)
-            ? part3Result.value
-            : [];
-
-        let part2Essay =
-          part2Result.status === 'fulfilled' && part2Result.value
-            ? part2Result.value
-            : null;
-
-        const hasEssayContent =
-          part2Essay &&
-          typeof part2Essay === 'object' &&
-          Array.isArray(part2Essay.passages) &&
-          part2Essay.passages.length >= 2 &&
-          typeof part2Essay.prompt === 'string';
-
-        if (!hasEssayContent) {
-          console.warn(
-            '[RLA] Part 2 essay generation failed in first pass. Retrying.'
-          );
-          try {
-            part2Essay = await generateRlaPart2({
-              timeoutMs: Math.max(90000, Math.floor(timeoutMs * 0.75)),
-              generationOverrides: { temperature: 0.6 },
-            });
-          } catch (retryError) {
-            console.warn(
-              '[RLA] Part 2 essay retry failed:',
-              retryError?.message || retryError
-            );
-          }
-        }
-
-        const hasRecoveredEssayContent =
-          part2Essay &&
-          typeof part2Essay === 'object' &&
-          Array.isArray(part2Essay.passages) &&
-          part2Essay.passages.length >= 2 &&
-          typeof part2Essay.prompt === 'string';
-
-        if (!hasRecoveredEssayContent) {
-          throw new Error('RLA Part 2 essay generation failed after retry.');
-        }
-
-        // Enforce target question counts — pad from premade bank if AI was short
-        const PART1_TARGET = 20;
-        const PART3_TARGET = 25;
-
-        let part1Final = part1Questions.slice(0, PART1_TARGET);
-        if (part1Final.length < PART1_TARGET) {
-          console.warn(
-            `[RLA] Part 1 short: got ${part1Final.length}/${PART1_TARGET}. Padding from premade bank.`
-          );
-          try {
-            const premadeP1 = require('./quizzes/rla.quizzes.part1.json');
-            const allPremade = Array.isArray(premadeP1)
-              ? premadeP1.flatMap((q) =>
-                  Array.isArray(q.questions) ? q.questions : [q]
-                )
-              : [];
-            const needed = PART1_TARGET - part1Final.length;
-            const usedTexts = new Set(part1Final.map((q) => q.questionText));
-            const filler = allPremade
-              .filter((q) => q.questionText && !usedTexts.has(q.questionText))
-              .slice(0, needed)
-              .map((q) => ({ ...q, type: 'passage', source: 'premade' }));
-            part1Final = [...part1Final, ...filler];
-          } catch (e) {
-            console.warn(
-              '[RLA] Could not load premade Part 1 fallback:',
-              e.message
-            );
-          }
-        }
-
-        let part3Final = part3Questions.slice(0, PART3_TARGET);
-        if (part3Final.length < PART3_TARGET) {
-          console.warn(
-            `[RLA] Part 3 short: got ${part3Final.length}/${PART3_TARGET}. Padding from premade bank.`
-          );
-          try {
-            const premadeP2 = require('./quizzes/rla.quizzes.part2.json');
-            const allPremade = Array.isArray(premadeP2)
-              ? premadeP2.flatMap((q) =>
-                  Array.isArray(q.questions) ? q.questions : [q]
-                )
-              : [];
-            const needed = PART3_TARGET - part3Final.length;
-            const usedTexts = new Set(part3Final.map((q) => q.questionText));
-            const filler = allPremade
-              .filter((q) => q.questionText && !usedTexts.has(q.questionText))
-              .slice(0, needed)
-              .map((q) => ({ ...q, type: 'passage', source: 'premade' }));
-            part3Final = [...part3Final, ...filler];
-          } catch (e) {
-            console.warn(
-              '[RLA] Could not load premade Part 3 fallback:',
-              e.message
-            );
-          }
-        }
-
-        let allQuestions = [...part1Final, ...part3Final];
-        allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
-        allQuestions.forEach((q, index) => {
-          q.questionNumber = index + 1;
-        });
-
-        const finalQuiz = {
-          id: `ai_comp_rla_${new Date().getTime()}`,
-          title: `Comprehensive RLA Exam`,
-          subject: subject,
-          type: 'multi-part-rla', // Special type for the frontend
-          totalTime: 150 * 60, // 150 minutes
-          part1_reading: part1Final,
-          part2_essay: part2Essay,
-          part3_language: part3Final,
-          questions: allQuestions, // Keep this for compatibility with results screen
-          source:
-            part1Final.some((q) => q?.source === 'premade') ||
-            part3Final.some((q) => q?.source === 'premade')
-              ? 'mixed'
-              : 'aiGenerated',
-          fraction_plain_text_mode: false,
-        };
-
-        // RLA does not need a second review pass due to its complex, multi-part nature
-
-        // ── RLA Comprehensive Validation ──────────────────────────────
-        const rlaWarnings = [];
-        const PART1_MIN = 15;
-        const PART3_MIN = 18;
-        const MIN_OPTIONS = 3;
-        const MAX_OPTIONS = 6;
-        // Item types that don't require multiple-choice answer options
-        const NON_MC_TYPES = [
-          'short_constructed_response',
-          'fill_in',
-          'numeric_entry',
-          'sentence_rewrite',
-          'drag_drop_ordering',
-          'placement',
-          'inline_dropdown',
-        ];
-
-        // 1. Part counts
-        if (part1Final.length < PART1_MIN) {
-          rlaWarnings.push(
-            `Part 1 has only ${part1Final.length} questions (minimum ${PART1_MIN}).`
-          );
-        }
-        if (part3Final.length < PART3_MIN) {
-          rlaWarnings.push(
-            `Part 3 has only ${part3Final.length} questions (minimum ${PART3_MIN}).`
-          );
-        }
-
-        // 2. Essay validation
-        if (!part2Essay || !part2Essay.prompt) {
-          rlaWarnings.push('Part 2 essay is missing or has no prompt.');
-        } else if (
-          !Array.isArray(part2Essay.passages) ||
-          part2Essay.passages.length < 2
-        ) {
-          rlaWarnings.push(
-            `Part 2 essay has ${part2Essay.passages?.length || 0} passages (expected 2).`
-          );
-        }
-
-        // 3. Per-question validation
-        const validateQuestions = (questions, partLabel) => {
-          questions.forEach((q, idx) => {
-            const qNum = q.questionNumber || idx + 1;
-            const itemType = (q.itemType || q.type || '').toLowerCase();
-            const isNonMC = NON_MC_TYPES.some((t) => itemType.includes(t));
-
-            if (isNonMC) return; // Skip option validation for non-MC types
-
-            const opts = Array.isArray(q.answerOptions) ? q.answerOptions : [];
-            if (opts.length < MIN_OPTIONS) {
-              rlaWarnings.push(
-                `${partLabel} Q${qNum}: only ${opts.length} answer options (need ≥${MIN_OPTIONS}).`
-              );
-            } else if (opts.length > MAX_OPTIONS) {
-              rlaWarnings.push(
-                `${partLabel} Q${qNum}: ${opts.length} answer options (max ${MAX_OPTIONS}).`
-              );
-            }
-
-            // Check every option has text
-            const emptyOpts = opts.filter(
-              (o) => !o?.text || !String(o.text).trim()
-            );
-            if (emptyOpts.length > 0) {
-              rlaWarnings.push(
-                `${partLabel} Q${qNum}: ${emptyOpts.length} option(s) missing text.`
-              );
-            }
-
-            // Check at least one correct answer
-            const hasCorrect = opts.some((o) => o?.isCorrect === true);
-            if (!hasCorrect) {
-              rlaWarnings.push(
-                `${partLabel} Q${qNum}: no correct answer marked.`
-              );
-            }
-
-            // Check question has text
-            if (!q.questionText && !q.question) {
-              rlaWarnings.push(`${partLabel} Q${qNum}: missing question text.`);
-            }
-          });
-        };
-
-        validateQuestions(part1Final, 'Part 1');
-        validateQuestions(part3Final, 'Part 3');
-
-        if (rlaWarnings.length > 0) {
-          console.warn(`[RLA Validation] ${rlaWarnings.length} warning(s):`);
-          rlaWarnings.forEach((w) => console.warn(`  ⚠ ${w}`));
-          finalQuiz.validationWarnings = rlaWarnings;
-        } else {
-          console.log('[RLA Validation] ✓ All checks passed.');
-        }
-        // ── End RLA Validation ────────────────────────────────────────
-
-        // Persist to AI question bank (capture-only)
-        if (AI_QUESTION_BANK_ENABLED) {
-          await persistQuestionsToBank(finalQuiz.questions || [], {
-            subject,
-            topic: null,
-            sourceModel: finalQuiz.source || 'aiGenerated',
-            generatedForUserId: req.user?.id || null,
-            originQuizId: finalQuiz.id || null,
-          });
-          // Persist essay to dedicated essay bank
-          if (part2Essay && part2Essay.prompt) {
-            persistEssayToBank(part2Essay, {
-              subject: 'rla',
-              sourceModel: finalQuiz.source || 'aiGenerated',
-              generatedForUserId: req.user?.id || null,
-              originQuizId: finalQuiz.id || null,
-            }).catch(() => {});
-          }
-          logQuizGeneration({
-            quizId: finalQuiz.id,
-            subject,
-            quizType: 'comprehensive',
-            topic: null,
-            source: finalQuiz.source || 'aiGenerated',
-            generatedForUserId: req.user?.id || null,
-            questionCount: (finalQuiz.questions || []).length,
-            quizPayload: finalQuiz,
-          }).catch(() => {});
-        }
-
-        logGenerationDuration(examType, subject, generationStart);
-        res.json(finalQuiz);
-      } catch (error) {
-        console.error('Error generating comprehensive RLA exam:', error);
-        try {
-          const readPremadeQuestions = (payload) => {
-            if (Array.isArray(payload)) {
-              return payload.flatMap((entry) => {
-                if (Array.isArray(entry?.questions)) return entry.questions;
-                return entry && typeof entry === 'object' ? [entry] : [];
-              });
-            }
-
-            const out = [];
-            const categories = payload?.categories || {};
-            for (const category of Object.values(categories)) {
-              const topics = Array.isArray(category?.topics)
-                ? category.topics
-                : [];
-              for (const topic of topics) {
-                if (Array.isArray(topic?.questions))
-                  out.push(...topic.questions);
-                const quizzes = Array.isArray(topic?.quizzes)
-                  ? topic.quizzes
-                  : [];
-                for (const quiz of quizzes) {
-                  if (Array.isArray(quiz?.questions))
-                    out.push(...quiz.questions);
-                }
-              }
-            }
-            return out;
-          };
-
-          const normalizeQuestion = (q) => ({
-            ...q,
-            questionText:
-              typeof q?.questionText === 'string'
-                ? q.questionText
-                : typeof q?.question === 'string'
-                  ? q.question
-                  : '',
-            question:
-              typeof q?.question === 'string'
-                ? q.question
-                : typeof q?.questionText === 'string'
-                  ? q.questionText
-                  : '',
-            source: 'premade',
-          });
-
-          const premadeP1 = require('./quizzes/rla.quizzes.part1.json');
-          const premadeP2 = require('./quizzes/rla.quizzes.part2.json');
-
-          const part1_reading = readPremadeQuestions(premadeP1)
-            .map(normalizeQuestion)
-            .slice(0, 20);
-          const part3_language = readPremadeQuestions(premadeP2)
-            .map(normalizeQuestion)
-            .slice(0, 25);
-
-          if (!part1_reading.length || !part3_language.length) {
-            throw new Error('Premade RLA question pools are empty.');
-          }
-
-          let part2_essay;
-          try {
-            part2_essay = await generateRlaPart2({
-              timeoutMs: Math.max(
-                90000,
-                Math.floor(selectModelTimeoutMs({ examType }) * 0.75)
-              ),
-              generationOverrides: { temperature: 0.5 },
-            });
-          } catch (essayFallbackErr) {
-            console.warn(
-              '[RLA] AI essay generation failed during fallback:',
-              essayFallbackErr?.message || essayFallbackErr
-            );
-          }
-
-          const hasEssay =
-            part2_essay &&
-            typeof part2_essay === 'object' &&
-            Array.isArray(part2_essay.passages) &&
-            part2_essay.passages.length >= 2 &&
-            typeof part2_essay.prompt === 'string';
-
-          if (!hasEssay) {
-            part2_essay = {
-              passages: [
-                {
-                  title: 'Position A: Expand Public Transportation',
-                  author: 'Jordan Ellis',
-                  content:
-                    '<p>City leaders argue that expanded transit improves access to work and education while reducing traffic congestion. They cite pilot programs where frequent service increased ridership, lowered household transportation costs, and improved access for workers with nontraditional schedules.</p><p>Supporters also point to economic benefits in business districts that become easier to reach without parking constraints. They argue that reliable routes can broaden customer traffic and reduce missed work caused by commuting delays.</p><p>Critics acknowledge these gains but stress that expansion plans should include measurable service targets and transparent budgeting so long-term operating costs remain sustainable and service quality is protected.</p>',
-                },
-                {
-                  title: 'Position B: Prioritize Road Infrastructure First',
-                  author: 'Casey Morgan',
-                  content:
-                    '<p>Opponents of rapid transit expansion argue that roadway bottlenecks should be addressed first because they affect most commuters, freight movement, and emergency response times. They cite projects where targeted intersection upgrades produced quick travel-time improvements.</p><p>They also contend that many neighborhoods have limited transit access today, so immediate road improvements deliver broader short-term benefits while longer-term transit plans are evaluated.</p><p>Transit advocates respond that road-only strategies can reinforce congestion over time and delay cleaner alternatives. They argue that cities should pair road upgrades with meaningful transit investment to provide practical non-car options.</p>',
-                },
-              ],
-              prompt:
-                'Analyze both passages and determine which position is better supported by evidence and reasoning. Use specific evidence from both sources to support your response.',
-            };
-          }
-
-          const questions = [...part1_reading, ...part3_language].map(
-            (q, idx) => ({
-              ...q,
-              questionNumber: idx + 1,
-            })
-          );
-
-          const fallbackQuiz = {
-            id: `premade_comp_rla_${new Date().getTime()}`,
-            title: `Comprehensive RLA Exam`,
-            subject: subject,
-            type: 'multi-part-rla',
-            totalTime: 150 * 60,
-            part1_reading,
-            part2_essay,
-            part3_language,
-            questions,
-            source: 'premade',
-            fraction_plain_text_mode: false,
-          };
-
-          logGenerationDuration(examType, subject, generationStart, 'fallback');
-          return res.json(fallbackQuiz);
-        } catch (fallbackError) {
-          console.error('[RLA] Premade fallback also failed:', fallbackError);
-          logGenerationDuration(examType, subject, generationStart, 'failed');
-          return res
-            .status(500)
-            .json({ error: 'Failed to generate RLA exam.' });
-        }
-      }
-    } else if (subject === 'Math' && comprehensive) {
-      try {
-        console.log(
-          'Generating comprehensive Math exam with two-part structure...'
-        );
-        console.log('Request received for comprehensive Math exam.'); // Added for debugging
-
-        const timeoutMs = selectModelTimeoutMs({ examType });
-        const aiOptions = { timeoutMs };
-
-        // Part 1: Non-Calculator (5 questions)
-        const part1Promises = Array(5)
-          .fill()
-          .map(() => generateNonCalculatorQuestion(aiOptions));
-        const part1Questions = await Promise.all(
-          part1Promises.map((p) =>
-            p.catch((e) => {
-              console.error(
-                'A promise in the non-calculator math section failed:',
-                e
-              );
-              return null;
-            })
-          )
-        );
-
-        // Part 2: Calculator-Permitted (41 questions with difficulty bands)
-        const part2Promises = [];
-
-        // Difficulty-stratified selection: 25% easy (10q), 55% medium (23q), 20% hard (8q)
-        const pickByDiff = (diff, count) => {
-          if (!PASSAGE_DB.math_word_problems) return [];
-          const pool = PASSAGE_DB.math_word_problems.filter(
-            (p) => p.difficulty === diff
-          );
-          const selected = [];
-          for (let i = 0; i < count && selected.length < count; i++) {
-            if (pool.length === 0) break;
-            const template = pool[Math.floor(Math.random() * pool.length)];
-            const wpQuestions = instantiateMathWordProblem(template, aiOptions);
-            if (wpQuestions) selected.push(wpQuestions);
-          }
-          return selected;
-        };
-
-        // Try difficulty bands first, fallback to original logic if insufficient templates
-        const easyQs = pickByDiff('easy', 10);
-        const mediumQs = pickByDiff('medium', 23);
-        const hardQs = pickByDiff('hard', 8);
-        const diffBandQuestions = [...easyQs, ...mediumQs, ...hardQs]
-          .flat()
-          .filter((q) => q);
-
-        if (diffBandQuestions.length >= 25) {
-          console.log(
-            `[Math] Using difficulty bands: ${easyQs.flat().length} easy, ${
-              mediumQs.flat().length
-            } medium, ${hardQs.flat().length} hard`
-          );
-          part2Promises.push(
-            ...diffBandQuestions.map((q) => Promise.resolve(q))
-          );
-          // Fill remaining with diverse question types
-          const remaining = 41 - diffBandQuestions.length;
-          for (let i = 0; i < Math.min(remaining, 8); i++)
-            part2Promises.push(
-              generateGeometryQuestion('Geometry', 'Math', 1, aiOptions)
-            );
-          for (let i = 0; i < Math.min(remaining - 8, 4); i++)
-            part2Promises.push(generateMath_FillInTheBlank(aiOptions));
-          for (let i = 0; i < Math.min(remaining - 12, 5); i++)
-            part2Promises.push(generateDataQuestion(aiOptions));
-        } else {
-          console.log(
-            '[Math] Insufficient word problem templates, using original mixed logic'
-          );
-          // Original Part 2 generation logic
-          for (let i = 0; i < 8; i++)
-            part2Promises.push(
-              generateGeometryQuestion('Geometry', 'Math', 1, aiOptions)
-            );
-          for (let i = 0; i < 4; i++)
-            part2Promises.push(generateMath_FillInTheBlank(aiOptions));
-          for (let i = 0; i < 5; i++)
-            part2Promises.push(generateDataQuestion(aiOptions));
-          for (let i = 0; i < 5; i++)
-            part2Promises.push(generateGraphingQuestion(aiOptions));
-          for (let i = 0; i < 10; i++)
-            part2Promises.push(
-              generateStandaloneQuestion(
-                'Math',
-                'Expressions, Equations, and Inequalities',
-                aiOptions
-              )
-            );
-          for (let i = 0; i < 5; i++)
-            part2Promises.push(
-              generateStandaloneQuestion(
-                'Math',
-                'Ratios, Proportions, and Percents',
-                aiOptions
-              )
-            );
-          for (let i = 0; i < 4; i++)
-            part2Promises.push(generateMath_FillInTheBlank(aiOptions));
-        }
-
-        const part2Results = await Promise.all(
-          part2Promises.map((p) =>
-            p.catch((e) => {
-              console.error(
-                'A promise in the calculator math section failed:',
-                e
-              );
-              return null;
-            })
-          )
-        );
-
-        let part2Questions = part2Results.flat().filter((q) => q);
-        // Ensure we have exactly 41 questions for Part 2, even if some promises failed
-        while (part2Questions.length < 41) {
-          console.log(
-            'A question generation failed, adding a fallback question.'
-          );
-          part2Questions.push(
-            await generateStandaloneQuestion(
-              'Math',
-              'General Problem Solving',
-              aiOptions
-            )
-          );
-        }
-        part2Questions = part2Questions.slice(0, 41);
-
-        let allQuestions = [...part1Questions, ...part2Questions].filter(
-          (q) => q
-        );
-
-        // Add numeric response type to ~15% of questions (7 out of 46)
-        const numericCount = Math.ceil(allQuestions.length * 0.15);
-        const indices = Array.from({ length: allQuestions.length }, (_, i) => i)
-          .sort(() => Math.random() - 0.5)
-          .slice(0, numericCount);
-        indices.forEach((idx) => {
-          if (allQuestions[idx]) allQuestions[idx].responseType = 'numeric';
-        });
-        console.log(
-          `[Math] Marked ${numericCount} questions as numeric response type`
-        );
-
-        allQuestions = shuffleQuestionsPreservingStimulus(allQuestions);
-        allQuestions.forEach((q, index) => {
-          q.questionNumber = index + 1;
-        });
-
-        // --- NEW: Second Pass Correction for Math ---
-        let correctedPart1;
-        let correctedPart2;
-        let correctedAllQuestions;
-
-        if (MATH_TWO_PASS_ENABLED) {
-          console.log('Applying math two-pass linting pipeline...');
-          correctedPart1 = part1Questions.filter((q) => q);
-          correctedPart2 = part2Questions.filter((q) => q);
-          correctedAllQuestions = [...correctedPart1, ...correctedPart2];
-          await runMathTwoPassOnQuestions(correctedAllQuestions, subject);
-        } else {
-          console.log('Applying legacy math correction pipeline...');
-          correctedPart1 = await Promise.all(
-            part1Questions
-              .filter((q) => q)
-              .map((q) => reviewAndCorrectMathQuestion(q, aiOptions))
-          );
-          correctedPart2 = await Promise.all(
-            part2Questions.map((q) =>
-              reviewAndCorrectMathQuestion(q, aiOptions)
-            )
-          );
-          correctedAllQuestions = [...correctedPart1, ...correctedPart2];
-        }
-
-        correctedAllQuestions = await applyMathCorrectnessPass(
-          correctedAllQuestions,
-          aiOptions
-        );
-        if (Array.isArray(correctedAllQuestions)) {
-          const part1Count = correctedPart1.length;
-          correctedPart1 = correctedAllQuestions.slice(0, part1Count);
-          correctedPart2 = correctedAllQuestions.slice(part1Count);
-        }
-
-        // --- NEW: Final Server-Side Sanitization ---
-        correctedAllQuestions.forEach((q) => {
-          if (q.questionText) {
-            // Fix the most common LaTeX error
-            q.questionText = q.questionText.replace(/\\rac/g, '\\frac');
-            // Remove any inline CSS from tables to help the frontend
-            q.questionText = q.questionText.replace(/style="[^"]*"/g, '');
-          }
-          if (q.answerOptions) {
-            q.answerOptions.forEach((opt) => {
-              if (opt.text) {
-                opt.text = opt.text.replace(/\\rac/g, '\\frac');
-              }
-            });
-          }
-        });
-        // --- End of Sanitization ---
-
-        correctedAllQuestions.forEach((q, index) => {
-          q.questionNumber = index + 1;
-        });
-        // --- End of Second Pass Correction ---
-
-        // Remove questions with passage-chart mismatches
-        const beforeMismatchCheck = correctedAllQuestions.length;
-        correctedAllQuestions = correctedAllQuestions.filter(
-          (q) => !passageChartMismatch(q)
-        );
-        const removedMismatches =
-          beforeMismatchCheck - correctedAllQuestions.length;
-        if (removedMismatches > 0) {
-          console.log(
-            `[Math][Sanitizer] Removed ${removedMismatches} questions with passage-chart mismatches`
-          );
-        }
-
-        // Apply Math sanitizer - NO WRITTEN RESPONSES, NUMERIC ONLY FOR FILL-IN
-        correctedAllQuestions = sanitizeScienceAndMathQuestions(
-          correctedAllQuestions,
-          'Math'
-        );
-
-        // Re-number after sanitization
-        correctedAllQuestions.forEach((q, index) => {
-          q.questionNumber = index + 1;
-        });
-
-        const draftQuiz = {
-          id: `ai_comp_math_${new Date().getTime()}`,
-          title: `Comprehensive Mathematical Reasoning Exam`,
-          subject: subject,
-          type: 'multi-part-math',
-          source: 'aiGenerated',
-          fraction_plain_text_mode: true,
-          // Enable formula sheet in frontend header
-          config: { formulaSheet: true },
-          part1_non_calculator: correctedPart1,
-          part2_calculator: correctedPart2,
-          questions: correctedAllQuestions,
-        };
-
-        const finalQuiz = draftQuiz;
-
-        // Persist to AI question bank (capture-only)
-        if (AI_QUESTION_BANK_ENABLED) {
-          await persistQuestionsToBank(finalQuiz.questions || [], {
-            subject,
-            topic: null,
-            sourceModel: finalQuiz.source || 'aiGenerated',
-            generatedForUserId: req.user?.id || null,
-            originQuizId: finalQuiz.id || null,
-          });
-          logQuizGeneration({
-            quizId: finalQuiz.id,
-            subject,
-            quizType: 'comprehensive',
-            topic: null,
-            source: finalQuiz.source || 'aiGenerated',
-            generatedForUserId: req.user?.id || null,
-            questionCount: (finalQuiz.questions || []).length,
-            quizPayload: finalQuiz,
-          }).catch(() => {});
-        }
-
-        logGenerationDuration(examType, subject, generationStart);
-        // Return comprehensive Math quiz as-is
-        res.json(finalQuiz);
-      } catch (error) {
-        console.error('Error generating comprehensive Math exam:', error);
-        console.log('[Math] Falling back to premade quiz assembly');
-
-        // FALLBACK: Pull from premade quiz bank
-        try {
-          const allQuestions = [];
-
-          if (ALL_QUIZZES && ALL_QUIZZES['Math']) {
-            const mathData = ALL_QUIZZES['Math'];
-            if (mathData.categories) {
-              for (const [catName, catData] of Object.entries(
-                mathData.categories
-              )) {
-                if (catData.topics && Array.isArray(catData.topics)) {
-                  for (const topicEntry of catData.topics) {
-                    if (
-                      topicEntry.questions &&
-                      Array.isArray(topicEntry.questions)
-                    ) {
-                      allQuestions.push(
-                        ...topicEntry.questions.map((q) => ({
-                          ...q,
-                          subject: 'Math',
-                          category: catName,
-                        }))
-                      );
-                    }
-                  }
-                }
-              }
-            }
-          }
-
-          console.log(
-            `[Math Fallback] Found ${allQuestions.length} premade questions`
-          );
-
-          const shuffled = shuffleQuestionsPreservingStimulus(allQuestions);
-          const selected = shuffled.slice(0, 46);
-
-          // Split into Part 1 (non-calculator: first 5) and Part 2 (calculator: rest)
-          const part1 = selected
-            .slice(0, 5)
-            .map((q) => ({ ...q, calculator: false }));
-          const part2 = selected
-            .slice(5)
-            .map((q) => ({ ...q, calculator: true }));
-
-          selected.forEach((q, idx) => {
-            q.questionNumber = idx + 1;
-            q.subject = 'Math';
-          });
-
-          const fallbackQuiz = {
-            id: `premade_comp_math_${Date.now()}`,
-            title: 'Comprehensive Mathematical Reasoning Exam',
-            subject: 'Math',
-            type: 'multi-part-math',
-            source: 'premade',
-            fraction_plain_text_mode: true,
-            config: { formulaSheet: true },
-            part1_non_calculator: part1,
-            part2_calculator: part2,
-            questions: selected,
-          };
-
-          logGenerationDuration(examType, subject, generationStart, 'fallback');
-          console.log(
-            '[Math] Returning fallback quiz with',
-            selected.length,
-            'questions'
-          );
-          return res.json(fallbackQuiz);
-        } catch (fallbackError) {
-          console.error('[Math] Fallback also failed:', fallbackError);
-        }
-
-        logGenerationDuration(examType, subject, generationStart, 'failed');
-        res.status(500).json({ error: 'Failed to generate Math exam.' });
-      }
-    } else {
-      // This handles comprehensive requests for subjects without that logic yet.
+    // ═══════════════════════════════════════════════════════════════
+    //  SLOT-BASED COMPREHENSIVE EXAM GENERATION
+    // ═══════════════════════════════════════════════════════════════
+    const normalizedSubject = isRlaSubject(subject) ? 'RLA' : subject;
+
+    // Reject unsupported subjects early
+    const SUPPORTED_COMPREHENSIVE = [
+      'Social Studies',
+      'Science',
+      'RLA',
+      'Math',
+    ];
+    if (!SUPPORTED_COMPREHENSIVE.includes(normalizedSubject)) {
       logGenerationDuration(examType, subject, generationStart, 'failed');
-      res.status(400).json({
+      return res.status(400).json({
         error: `Comprehensive exams for ${subject} are not yet available.`,
       });
+    }
+
+    try {
+      // Reset premade tracking for a fresh generation run
+      resetPremadeTracker();
+      _rlaP1Cache = null;
+      _rlaP2Cache = null;
+      _rlaP1Idx = 0;
+      _rlaP3Idx = 0;
+
+      // 1. Build the immutable plan
+      const plan = buildComprehensivePlan(normalizedSubject);
+      console.log(
+        `[Comprehensive] Built plan for ${normalizedSubject}: ${plan.totalQuestions} questions, ${plan.slots.length} slots`
+      );
+
+      const timeoutMs = selectModelTimeoutMs({ examType });
+      const aiOptions = { timeoutMs };
+
+      // 2. Build subject-specific generators that adapt existing server.js functions to the slot interface
+      const generators = buildSlotGenerators(normalizedSubject, aiOptions);
+
+      // 3. Fill every slot according to the plan
+      const { filledSlots, log: fillLog } = await fillExamPlan(
+        plan,
+        generators,
+        aiOptions,
+        { maxRetries: 2 }
+      );
+
+      // 4. Log generation summary
+      console.log(
+        `[Comprehensive][${normalizedSubject}] Fill complete:`,
+        JSON.stringify({
+          subject: normalizedSubject,
+          planTotal: plan.totalQuestions,
+          sourceBreakdown: fillLog.sourceBreakdown,
+          retryTotal: fillLog.retryTotal,
+          droppedItems: fillLog.droppedItems.length,
+        })
+      );
+      for (const sr of fillLog.slotResults) {
+        if (sr.errors.length > 0) {
+          console.warn(
+            `[Comprehensive][${normalizedSubject}] Slot ${sr.slotId} (${sr.category}/${sr.stimulusType}): filled=${sr.filledCount}/${sr.questionsNeeded}, source=${sr.source}, retries=${sr.retries}, errors: ${sr.errors.join('; ')}`
+          );
+        }
+      }
+
+      // 5. Build sanitizer based on subject
+      const subjectSanitizer =
+        normalizedSubject === 'Science' || normalizedSubject === 'Math'
+          ? (qs) => sanitizeScienceAndMathQuestions(qs, normalizedSubject)
+          : null;
+
+      // 6. Finalize and validate
+      const finalQuiz = await finalizeExamPayload(plan, filledSlots, {
+        sanitizer: subjectSanitizer,
+        reviewPass:
+          normalizedSubject === 'Social Studies' ||
+          normalizedSubject === 'Science'
+            ? reviewAndCorrectQuiz
+            : null,
+        aiOptions,
+      });
+
+      // 7. Log final exact counts
+      const finalCountLog = buildFinalCountLog(plan, finalQuiz);
+      console.log(
+        `[Comprehensive][${normalizedSubject}] Final counts:`,
+        JSON.stringify(finalCountLog)
+      );
+
+      // 8. Persist to question bank
+      if (AI_QUESTION_BANK_ENABLED) {
+        await persistQuestionsToBank(finalQuiz.questions || [], {
+          subject,
+          topic: null,
+          sourceModel: finalQuiz.source || 'aiGenerated',
+          generatedForUserId: req.user?.id || null,
+          originQuizId: finalQuiz.id || null,
+        });
+        if (finalQuiz.part2_essay && finalQuiz.part2_essay.prompt) {
+          persistEssayToBank(finalQuiz.part2_essay, {
+            subject: 'rla',
+            sourceModel: finalQuiz.source || 'aiGenerated',
+            generatedForUserId: req.user?.id || null,
+            originQuizId: finalQuiz.id || null,
+          }).catch(() => {});
+        }
+        logQuizGeneration({
+          quizId: finalQuiz.id,
+          subject,
+          quizType: 'comprehensive',
+          topic: null,
+          source: finalQuiz.source || 'aiGenerated',
+          generatedForUserId: req.user?.id || null,
+          questionCount: (finalQuiz.questions || []).length,
+          quizPayload: finalQuiz,
+        }).catch(() => {});
+      }
+
+      // 9. Save to local file for offline review
+      try {
+        const genDir = path.join(__dirname, 'data', 'generated-exams');
+        if (!fs.existsSync(genDir)) fs.mkdirSync(genDir, { recursive: true });
+        const ts = new Date().toISOString().replace(/[:.]/g, '-');
+        const prefix = normalizedSubject.toLowerCase().replace(/\s+/g, '-');
+        const outPath = path.join(genDir, `${prefix}-comp-${ts}.json`);
+        fs.writeFileSync(outPath, JSON.stringify(finalQuiz, null, 2), 'utf8');
+        console.log(`[Comprehensive] Saved exam to ${outPath}`);
+      } catch (saveErr) {
+        console.warn(
+          '[Comprehensive] Could not save exam file:',
+          saveErr.message
+        );
+      }
+
+      logGenerationDuration(examType, subject, generationStart);
+      return res.json(finalQuiz);
+    } catch (error) {
+      console.error(
+        `[Comprehensive][${normalizedSubject}] Generation failed:`,
+        error
+      );
+      console.log(
+        `[Comprehensive][${normalizedSubject}] Falling back to premade quiz assembly`
+      );
+
+      // ── SLOT-AWARE FALLBACK ─────────────────────────────────────
+      try {
+        const plan = buildComprehensivePlan(normalizedSubject);
+        const fallbackGenerators = buildFallbackGenerators(normalizedSubject);
+        const { filledSlots, log: fallbackLog } = await fillExamPlan(
+          plan,
+          fallbackGenerators,
+          {},
+          { maxRetries: 0 }
+        );
+
+        console.log(
+          `[Comprehensive][${normalizedSubject}] Fallback fill:`,
+          JSON.stringify(fallbackLog.sourceBreakdown)
+        );
+
+        const fallbackQuiz = await finalizeExamPayload(plan, filledSlots, {});
+        fallbackQuiz.source = 'premade';
+        fallbackQuiz.id = fallbackQuiz.id.replace('ai_comp_', 'premade_comp_');
+
+        logGenerationDuration(examType, subject, generationStart, 'fallback');
+        return res.json(fallbackQuiz);
+      } catch (fallbackError) {
+        console.error(
+          `[Comprehensive][${normalizedSubject}] Fallback also failed:`,
+          fallbackError
+        );
+        logGenerationDuration(examType, subject, generationStart, 'failed');
+        return res
+          .status(500)
+          .json({ error: `Failed to generate ${subject} exam.` });
+      }
     }
   } else {
     // --- CORRECTED TOPIC-SPECIFIC "SMITH A QUIZ" LOGIC ---
@@ -14757,6 +13696,47 @@ function getCorrectOptions(question) {
   return options.filter((opt) => opt && opt.isCorrect);
 }
 
+function isMultipleSelectQuestion(question) {
+  if (!question || typeof question !== 'object') return false;
+
+  if (
+    question.itemType === 'multi_select' ||
+    question.selectType === 'multiple' ||
+    question.type === 'multiple-select' ||
+    question.multipleSelect === true ||
+    question.multiSelect === true ||
+    question.allowMultiple === true ||
+    question.isMultiSelect === true
+  ) {
+    return true;
+  }
+
+  const options = Array.isArray(question.answerOptions)
+    ? question.answerOptions
+    : [];
+  const correctCount = options.filter((opt) => opt && opt.isCorrect).length;
+  if (correctCount > 1) {
+    return true;
+  }
+
+  const textFields = [
+    question.questionText,
+    question.question,
+    question.prompt,
+    question.stem,
+    question.instructions,
+    question.instruction,
+    question.text,
+  ]
+    .filter((v) => typeof v === 'string')
+    .join(' ')
+    .toLowerCase();
+
+  return /select\s+(the\s+)?(two|three|four|five|2|3|4|5|all|both)|choose\s+(the\s+)?(two|three|four|five|2|3|4|5|all|both)|all\s+that\s+apply/.test(
+    textFields
+  );
+}
+
 function isCorrectAnswer(question, answer) {
   if (answer === null || answer === undefined || answer === '') return false;
   const normalizedAnswer = Array.isArray(answer)
@@ -14767,8 +13747,7 @@ function isCorrectAnswer(question, answer) {
     const correctOptions = getCorrectOptions(question).map((opt) =>
       normalizeAnswerValue(opt.text)
     );
-    const isMultiple =
-      question.selectType === 'multiple' || question.type === 'multiple-select';
+    const isMultiple = isMultipleSelectQuestion(question);
     if (isMultiple) {
       const answerSet = new Set(
         Array.isArray(normalizedAnswer) ? normalizedAnswer : [normalizedAnswer]
@@ -15274,7 +14253,7 @@ app.post(
 );
 
 app.post('/score-essay', async (req, res) => {
-  const { essayText, completion } = req.body; // Get completion data
+  const { essayText, completion } = req.body;
   if (!essayText) {
     return res.status(400).json({ error: 'Essay text is required.' });
   }
@@ -15285,52 +14264,13 @@ app.post('/score-essay', async (req, res) => {
     return res.status(500).json({ error: 'Server configuration error.' });
   }
 
-  const prompt = `Act as a GED RLA essay evaluator. The student was asked to write a 5-paragraph essay.
-
-        IMPORTANT CONTEXT: The student's level of completion for this draft was ${completion} sections. Factor this completion level into your feedback and scores, especially for Trait 3. An incomplete essay cannot score a 2 on Trait 3.
-
-        Here is the student's essay:
-        ---
-        ${essayText}
-        ---
-
-        Please provide your evaluation in a valid JSON object format with keys "trait1", "trait2", "trait3", "overallScore", and "overallFeedback". For each trait, provide a "score" from 0 to 2 and "feedback" explaining the score. The "overallScore" is the sum of the trait scores. "overallFeedback" should be a summary.`;
-
-  const schema = {
-    type: 'OBJECT',
-    properties: {
-      trait1: {
-        type: 'OBJECT',
-        properties: {
-          score: { type: 'NUMBER' },
-          feedback: { type: 'STRING' },
-        },
-      },
-      trait2: {
-        type: 'OBJECT',
-        properties: {
-          score: { type: 'NUMBER' },
-          feedback: { type: 'STRING' },
-        },
-      },
-      trait3: {
-        type: 'OBJECT',
-        properties: {
-          score: { type: 'NUMBER' },
-          feedback: { type: 'STRING' },
-        },
-      },
-      overallScore: { type: 'NUMBER' },
-      overallFeedback: { type: 'STRING' },
-    },
-    required: ['trait1', 'trait2', 'trait3', 'overallScore', 'overallFeedback'],
-  };
+  const prompt = buildEssayScoringPrompt(essayText, completion);
 
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: {
       responseMimeType: 'application/json',
-      responseSchema: schema,
+      responseSchema: ESSAY_RESPONSE_SCHEMA,
     },
   };
 
@@ -15338,13 +14278,24 @@ app.post('/score-essay', async (req, res) => {
 
   try {
     const response = await http.post(apiUrl, payload);
-    res.json(response.data);
+    const normalized = normalizeEssayResponse(response.data);
+    if (!normalized) {
+      throw new Error('AI response was not parseable');
+    }
+    // Apply heuristic caps
+    const heuristics = analyzeEssayHeuristics(essayText);
+    const warnings = applyHeuristicCaps(normalized, heuristics);
+    deriveChallengeTags(normalized, heuristics);
+    if (warnings.length) {
+      console.log('[SCORE-ESSAY] Heuristic warnings:', warnings);
+    }
+    res.json(normalized);
   } catch (error) {
     console.error(
       'Error calling Google AI API for essay scoring:',
       error.response ? error.response.data : error.message
     );
-    res.status(500).json({ error: 'Failed to score essay from AI service.' });
+    res.status(200).json(buildFallbackResponse());
   }
 });
 
@@ -15367,87 +14318,17 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
     return res.status(500).json({ error: 'Server configuration error.' });
   }
 
-  const prompt =
-    `Act as a GED RLA essay evaluator. The student was asked to write a 5-paragraph essay.\n\n` +
-    `IMPORTANT CONTEXT: The student's level of completion for this draft was ${
-      completion ?? 'unknown'
-    } sections. ` +
-    `Factor this completion level into your feedback and scores, especially for Trait 3. An incomplete essay cannot score a 2 on Trait 3.\n\n` +
-    `Here is the student's essay:\n---\n${essayText}\n---\n\n` +
-    `Please provide your evaluation in a valid JSON object format with keys "trait1", "trait2", "trait3", "overallScore", and "overallFeedback". ` +
-    `For each trait, provide a "score" from 0 to 2 and "feedback" explaining the score. The "overallScore" is the sum of the trait scores (0..6). ` +
-    `"overallFeedback" should be a short summary. ` +
-    `After scoring the essay, also output a field \"challenge_tags\" which is an array of zero or more of the following strings: ` +
-    `\"writing:thesis\", \"writing:evidence\", \"writing:organization\", \"writing:grammar-mechanics\", \"writing:addressing-prompt\", \"writing:analysis\", \"writing:clarity\", \"writing:vocabulary\". ` +
-    `Only include a tag if the essay showed that specific weakness. ` +
-    `CRITICAL GRADING RULE: If the student gives their own opinion instead of analyzing how the author supported their argument, the score MUST be under 2. ` +
-    `Check specifically for phrases like "The author states..." or "The evidence suggests..." ` +
-    `Finally, include a "model_response" field with a brief (300 word) example of a perfect 6/6 essay for this specific prompt. ` +
-    `Return JSON.`;
-
-  const schema = {
-    type: 'OBJECT',
-    properties: {
-      trait1: {
-        type: 'OBJECT',
-        properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } },
-      },
-      trait2: {
-        type: 'OBJECT',
-        properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } },
-      },
-      trait3: {
-        type: 'OBJECT',
-        properties: { score: { type: 'NUMBER' }, feedback: { type: 'STRING' } },
-      },
-      overallScore: { type: 'NUMBER' },
-      overallFeedback: { type: 'STRING' },
-      model_response: { type: 'STRING' },
-      challenge_tags: { type: 'ARRAY', items: { type: 'STRING' } },
-    },
-    required: [
-      'trait1',
-      'trait2',
-      'trait3',
-      'overallScore',
-      'overallFeedback',
-      'model_response',
-    ],
-  };
+  const prompt = buildEssayScoringPrompt(essayText, completion);
 
   const payload = {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: {
       responseMimeType: 'application/json',
-      responseSchema: schema,
+      responseSchema: ESSAY_RESPONSE_SCHEMA,
     },
   };
 
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-
-  const normalizeResponse = (raw) => {
-    try {
-      // If the model returned the structured object, prefer it
-      if (
-        raw &&
-        typeof raw === 'object' &&
-        raw.trait1 &&
-        raw.trait2 &&
-        raw.trait3
-      ) {
-        return raw;
-      }
-      // Otherwise, attempt to peel the Google response format
-      const txt = raw?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (typeof txt === 'string') {
-        const parsed = JSON.parse(txt);
-        return parsed;
-      }
-    } catch (e) {
-      // fall through to fallback
-    }
-    return null;
-  };
 
   console.log('[ESSAY-SCORE] Scoring request received', {
     userId,
@@ -15458,16 +14339,20 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
 
   try {
     const response = await http.post(apiUrl, payload);
-    const normalized = normalizeResponse(response.data);
+    const normalized = normalizeEssayResponse(response.data);
     if (!normalized) {
       throw new Error('AI response was not parseable');
     }
 
-    // Clamp and normalize the total score to 0..6, integer
-    const total = Math.max(
-      0,
-      Math.min(6, Math.round(Number(normalized.overallScore)))
-    );
+    // Apply heuristic caps and derive challenge tags
+    const heuristics = analyzeEssayHeuristics(essayText);
+    const warnings = applyHeuristicCaps(normalized, heuristics);
+    deriveChallengeTags(normalized, heuristics);
+    if (warnings.length) {
+      console.log('[ESSAY-SCORE] Heuristic warnings:', warnings);
+    }
+
+    const total = normalized.overallScore;
     try {
       await pool.query(
         `INSERT INTO essay_scores (user_id, total_score, prompt_id) VALUES ($1, $2, $3)`,
@@ -15487,23 +14372,18 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
 
     // Challenge tags integration
     try {
-      const tags = Array.isArray(normalized.challenge_tags)
-        ? normalized.challenge_tags
-        : [];
+      const tags = normalized.challenge_tags || [];
       for (const rawTag of tags) {
         if (!rawTag || typeof rawTag !== 'string') continue;
         const t = rawTag.trim().toLowerCase();
         if (!t) continue;
-        // Audit log
         try {
           await pool.query(
             `INSERT INTO essay_challenge_log (user_id, challenge_tag, essay_id, source) VALUES ($1, $2, $3, 'essay')`,
             [userId, t, promptId || null]
           );
         } catch (_e) {}
-        // Upsert stats: essays count as "wrong" to trigger practice
         await upsertChallengeStat(userId, t, false, 'essay');
-        // Suggest add if not active
         const active = await userHasActiveChallenge(userId, t);
         if (!active) {
           await createSuggestion(
@@ -15522,43 +14402,13 @@ app.post('/api/essay/score', authenticateBearerToken, async (req, res) => {
       );
     }
 
-    // Return normalized structure directly to the client
-    return res.json({
-      trait1: normalized.trait1,
-      trait2: normalized.trait2,
-      trait3: normalized.trait3,
-      overallScore: total,
-      overallFeedback: normalized.overallFeedback || '',
-      challenge_tags: Array.isArray(normalized.challenge_tags)
-        ? normalized.challenge_tags
-        : [],
-    });
+    return res.json(normalized);
   } catch (error) {
     const errMsg = error?.response
       ? JSON.stringify(error.response.data)
       : error?.message || String(error);
     console.error('[ESSAY-SCORE] AI scoring failed:', errMsg);
-    // Safe fallback response: do not persist, but return a neutral evaluation
-    return res.status(200).json({
-      trait1: {
-        score: 0,
-        feedback:
-          'We could not evaluate this draft right now. Try again shortly.',
-      },
-      trait2: {
-        score: 0,
-        feedback:
-          'We could not evaluate this draft right now. Try again shortly.',
-      },
-      trait3: {
-        score: 0,
-        feedback:
-          'We could not evaluate this draft right now. Try again shortly.',
-      },
-      overallScore: 0,
-      overallFeedback:
-        'Temporary scoring outage. Your draft was not saved for scoring; please rescore later.',
-    });
+    return res.status(200).json(buildFallbackResponse());
   }
 });
 

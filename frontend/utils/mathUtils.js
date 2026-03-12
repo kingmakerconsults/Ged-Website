@@ -543,11 +543,14 @@ export function renderQuestionTextForDisplay(
   questionCtx = null
 ) {
   const guardedText = stripLeadingScenarioPrefixForDisplay(text);
+  // Use KaTeX rendering for premade content OR when the quiz/question
+  // carries the usesKatex flag (e.g., comprehensive AI-generated exams).
+  const quizUsesKatex = Boolean(questionCtx && questionCtx.usesKatex === true);
   const useKatex = Boolean(
     typeof window !== 'undefined' &&
     window.__APP_CONFIG__ &&
     window.__APP_CONFIG__.premadeUsesKatex === true &&
-    isPremade === true
+    (isPremade === true || quizUsesKatex)
   );
   if (useKatex) {
     return { __html: renderStemWithKatex(guardedText) };

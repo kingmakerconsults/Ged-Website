@@ -1,5 +1,10 @@
 const { useState, useMemo } = React;
 
+const getOptionIsCorrect = (option) => {
+  if (!option || typeof option !== 'object') return false;
+  return Boolean(option.isCorrect || option.correct || option.answer === true);
+};
+
 function RlaReadingSplitView({
   questions,
   answers,
@@ -57,10 +62,42 @@ function RlaReadingSplitView({
   );
 
   const detectMultiSelect = (q) => {
-    if (q.itemType === 'multi_select' || q.selectType === 'multiple' || q.type === 'multiple-select') return true;
-    const qText = (q.questionText || q.question || '').toLowerCase();
-    if (/select\s+(the\s+)?(two|2|all|both)|choose\s+(the\s+)?(two|2|all|both)/.test(qText)) return true;
-    return false;
+    if (!q || typeof q !== 'object') return false;
+
+    if (
+      q.itemType === 'multi_select' ||
+      q.selectType === 'multiple' ||
+      q.type === 'multiple-select' ||
+      q.multipleSelect === true ||
+      q.multiSelect === true ||
+      q.allowMultiple === true ||
+      q.isMultiSelect === true
+    ) {
+      return true;
+    }
+
+    const options = Array.isArray(q.answerOptions) ? q.answerOptions : [];
+    const correctCount = options.filter((opt) => getOptionIsCorrect(opt)).length;
+    if (correctCount > 1) {
+      return true;
+    }
+
+    const textFields = [
+      q.questionText,
+      q.question,
+      q.prompt,
+      q.stem,
+      q.instructions,
+      q.instruction,
+      q.text,
+    ]
+      .filter((v) => typeof v === 'string')
+      .join(' ')
+      .toLowerCase();
+
+    return /select\s+(the\s+)?(two|three|four|five|2|3|4|5|all|both)|choose\s+(the\s+)?(two|three|four|five|2|3|4|5|all|both)|all\s+that\s+apply/.test(
+      textFields
+    );
   };
 
   const handleSelect = (optionText) => {
@@ -179,9 +216,15 @@ function RlaReadingSplitView({
 
             {/* Multi-select instruction */}
             {isMultipleSelect && (
-              <p className="mb-3 text-sm font-medium px-3 py-2 rounded-lg bg-blue-50 text-blue-800 border border-blue-200">
-                ℹ️ Select ALL correct answers. Multiple answers may be correct.
-              </p>
+              <div className="mb-3 space-y-2">
+                <p className="text-sm font-medium px-3 py-2 rounded-lg bg-blue-50 text-blue-800 border border-blue-200">
+                  ℹ️ Select ALL correct answers. Multiple answers may be
+                  correct.
+                </p>
+                <p className="text-xs font-semibold text-slate-600 dark:text-slate-400">
+                  Selected: {selectedOptions.length}
+                </p>
+              </div>
             )}
 
             {/* Options */}
