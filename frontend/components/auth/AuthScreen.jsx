@@ -1,20 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { DEV_ROLES } from '../../src/dev/devLogin.js';
-
-// Resolve API base robustly: prefer explicit config; on localhost default to backend port 3002
-const API_BASE_URL = (() => {
-  if (typeof window === 'undefined') return '';
-  const explicit =
-    window.API_BASE_URL || window.__CLIENT_CONFIG__?.API_BASE_URL;
-  if (explicit) return explicit;
-  const host = window.location.hostname;
-  const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-  if (host === 'localhost' || host === '127.0.0.1') {
-    const port = window.API_PORT || 3002;
-    return `${protocol}//localhost:${port}`;
-  }
-  return window.location.origin;
-})();
+import { getApiBaseUrl } from '../../src/utils/apiBase.js';
 
 export function AuthScreen({ onLogin }) {
   const googleButton = useRef(null);
@@ -31,7 +17,7 @@ export function AuthScreen({ onLogin }) {
   const handleDevLogin = async () => {
     try {
       setDevSubmitting(true);
-      const response = await fetch(`${API_BASE_URL}/api/dev-login-as`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/dev-login-as`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role: devRole }),
@@ -55,7 +41,7 @@ export function AuthScreen({ onLogin }) {
   const handleCredentialResponse = useCallback(
     async (response) => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
+        const res = await fetch(`${getApiBaseUrl()}/api/auth/google`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -141,7 +127,7 @@ export function AuthScreen({ onLogin }) {
     try {
       setAuthSubmitting(true);
       const endpoint = authMode === 'register' ? 'register' : 'login';
-      const res = await fetch(`${API_BASE_URL}/api/${endpoint}`, {
+      const res = await fetch(`${getApiBaseUrl()}/api/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: trimmedEmail, password }),

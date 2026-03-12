@@ -205,7 +205,13 @@ const ESSAY_RESPONSE_SCHEMA = {
     overallFeedback: { type: 'STRING' },
     challenge_tags: { type: 'ARRAY', items: { type: 'STRING' } },
   },
-  required: ['trait1', 'trait2', 'trait3', 'overallScore', 'overallFeedback'],
+  required: [
+    'trait1',
+    'trait2',
+    'trait3',
+    'overallScore',
+    'overallFeedback',
+  ],
 };
 
 // ---------------------------------------------------------------------------
@@ -262,7 +268,9 @@ function normalizeEssayResponse(raw) {
   const overallScore = trait1.score + trait2.score + trait3.score;
 
   // Filter challenge_tags to only valid values
-  const rawTags = Array.isArray(data.challenge_tags) ? data.challenge_tags : [];
+  const rawTags = Array.isArray(data.challenge_tags)
+    ? data.challenge_tags
+    : [];
   const challenge_tags = rawTags
     .map((t) => String(t).trim().toLowerCase())
     .filter((t) => ESSAY_CHALLENGE_TAGS.includes(t));
@@ -340,7 +348,9 @@ function analyzeEssayHeuristics(essayText) {
   const wordCount = words.length;
 
   // Paragraph count (split on double-newline or multiple newlines)
-  const paragraphs = text.split(/\n\s*\n/).filter((p) => p.trim().length > 10);
+  const paragraphs = text
+    .split(/\n\s*\n/)
+    .filter((p) => p.trim().length > 10);
   const paragraphCount = paragraphs.length;
 
   // Evidence phrase detection
@@ -364,7 +374,9 @@ function analyzeEssayHeuristics(essayText) {
   const transitionCount = TRANSITION_WORDS.reduce(
     (count, word) =>
       count +
-      (new RegExp('\\b' + word.replace(/\s+/g, '\\s+') + '\\b', 'i').test(text)
+      (new RegExp('\\b' + word.replace(/\s+/g, '\\s+') + '\\b', 'i').test(
+        text
+      )
         ? 1
         : 0),
     0

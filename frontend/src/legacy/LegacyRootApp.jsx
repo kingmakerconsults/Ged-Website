@@ -37297,13 +37297,18 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                           by {p.author}
                         </p>
                       ) : null}
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: sanitizeHtmlContent(p?.content || '', {
-                            normalizeSpacing: true,
-                          }),
-                        }}
-                      />
+                      <div>
+                        {(p?.content || '')
+                          .replace(/<\/?p[^>]*>/gi, '\n\n')
+                          .split(/\n\s*\n/)
+                          .map((s) => s.trim())
+                          .filter(Boolean)
+                          .map((para, pIdx) => (
+                            <p key={pIdx} className="mb-3 leading-relaxed">
+                              {para}
+                            </p>
+                          ))}
+                      </div>
                     </div>
                   ))}
               </div>
@@ -38819,30 +38824,6 @@ function EssayGuide({ onExit }) {
     };
   }, [essayMode, timerActive, timer, essayText]);
 
-  // Helper: strip HTML to plain text, preserve basic paragraph breaks
-  const stripHtmlToPlain = (html) => {
-    if (typeof html !== 'string') return '';
-    // Replace paragraph tags with double newlines before stripping other tags
-    let text = html
-      .replace(/<\s*br\s*\/?/gi, '\n')
-      .replace(/<\s*\/?p[^>]*>/gi, '\n\n')
-      .replace(/<\s*\/?li[^>]*>/gi, (m) => (m.startsWith('</') ? '\n' : ' '))
-      .replace(/<[^>]+>/g, '');
-    // Decode a few common entities
-    text = text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, "'");
-    // Normalize whitespace
-    return text
-      .replace(/[\t\r ]+/g, ' ')
-      .replace(/\s*\n\s*\n\s*/g, '\n\n')
-      .trim();
-  };
-
   // Helper: keep markup for highlighting while sanitizing
   const sanitizeEssayHtml = (html) => {
     if (typeof html !== 'string') return '';
@@ -38855,66 +38836,6 @@ function EssayGuide({ onExit }) {
   const wordCount = (text) => {
     if (!text) return 0;
     return String(text).trim().split(/\s+/).filter(Boolean).length;
-  };
-
-  const genericExpansion = {
-    stronger:
-      'Proponents argue that the most persuasive way to evaluate this issue is to look at measurable outcomes and well-documented mechanisms. ' +
-      'When a policy or practice produces consistent benefits across different settings, it suggests the core claim is not just theoretically appealing but operationally sound. ' +
-      'For instance, researchers often highlight trends that persist after controlling for confounding factors, which strengthens causal interpretations. ' +
-      'In everyday terms, the effects show up in places that are not cherry-picked: large districts as well as small ones, urban areas as well as rural communities, and across diverse populations. ' +
-      'This breadth matters because it demonstrates that the argument is not reliant on a single exceptional case.\n\n' +
-      'Equally important is the internal logic of the claim. ' +
-      'A clear explanation of how inputs become outcomesbacked by credible studies or official recordsbuilds reader confidence. ' +
-      'When authors acknowledge limitations, address counterarguments directly, and explain why competing explanations fall short, they further enhance credibility. ' +
-      'The tone remains measured and analytic rather than speculative, and the supporting evidence goes beyond anecdotes to include trends, comparative data, or longitudinal results.\n\n' +
-      'Finally, strong arguments connect evidence to implications. ' +
-      'They clarify not only that an approach works, but why it is better than realistic alternatives in terms of access, cost, fairness, or long-term sustainability. ' +
-      'This emphasis on mechanisms and trade-offs gives readers a trustworthy basis for judgment, which is precisely what the GED essay task asks evaluators to reward.',
-    weaker:
-      'Skeptics raise concerns that deserve attention, though their claims often rely on broad generalizations, isolated examples, or predictions that are not fully supported by data. ' +
-      'These reservations can be useful for surfacing potential risks or unintended consequences, but they are most convincing when paired with specific evidence and a clear explanation of scope. ' +
-      'Without those anchors, caution can drift into conjecture, making it hard to weigh against concrete results reported elsewhere.\n\n' +
-      'In addition, weaker arguments sometimes mistake correlation for causation or rely on assumptions about human behavior that are plausible but untested. ' +
-      'They may emphasize exceptional casesoutlierswhile downplaying broader trends that move in the opposite direction. ' +
-      'A careful reader should ask whether the same claim holds across settings and whether competing explanations have been seriously considered. ' +
-      'When key terms are left undefined or evidence is largely anecdotal, the overall force of the case diminishes.\n\n' +
-      'That said, raising practical constraints and ethical considerations is valuable. ' +
-      'Well-framed questions about cost, feasibility, or equity can guide better policy design. ' +
-      'But to match the rigor expected on the GED, these concerns need to be grounded in verifiable facts and organized into a clear line of reasoning rather than relying primarily on intuition or personal experience.',
-  };
-
-  const expandIfShort = (topic, title, baseHtml) => {
-    const MIN = 450;
-    const MAX = 650;
-    let html = sanitizeEssayHtml(baseHtml);
-    let text = stripHtmlToPlain(html);
-    let wc = wordCount(text);
-    if (wc >= MIN && wc <= MAX) return sanitizeEssayHtml(html);
-    const stance = /stronger/i.test(title)
-      ? 'stronger'
-      : /weaker/i.test(title)
-        ? 'weaker'
-        : 'stronger';
-    // Append one or more generic expansions until within range
-    const add = genericExpansion[stance];
-    while (wc < MIN) {
-      html += `<p class="prompt-expansion">${add}</p>`;
-      text = stripHtmlToPlain(html);
-      wc = wordCount(text);
-      if (wc > MAX) break;
-    }
-    // If we overshoot significantly, we can trim last sentence
-    if (wc > MAX) {
-      const sentences = text.split(/(?<=[.!?])\s+/);
-      while (wordCount(sentences.join(' ')) > MAX && sentences.length > 3) {
-        sentences.pop();
-      }
-      const trimmedPlain = sentences.join(' ');
-      // Rebuild minimal HTML with trimmed plain text if needed
-      html = `<p>${trimmedPlain}</p>`;
-    }
-    return sanitizeEssayHtml(html);
   };
 
   const passagesData = [
@@ -39190,6 +39111,134 @@ function EssayGuide({ onExit }) {
       },
     },
   ];
+
+  const essayPassageExpansions = {
+    'Should the Voting Age Be Lowered to 16?': {
+      passage1:
+        "<p><span class='good-evidence'>Communities that have paired youth advisory boards with voter-registration drives also report stronger participation in school board and municipal elections.</span> Supporters argue that sixteen-year-olds already make consequential decisions about work, transportation, and coursework, so giving them a ballot during those civics-heavy years turns classroom learning into real democratic practice rather than an abstract lesson.</p>",
+      passage2:
+        "<p>Critics also worry that many younger voters would be heavily influenced by family pressures, viral trends, or school culture rather than by independent review of public policy. <span class='bad-evidence'>A single energized social media campaign, they argue, could sway teenagers who have not yet built durable political habits.</span></p>",
+    },
+    'Is Universal Basic Income (UBI) a Viable Solution to Poverty?': {
+      passage1:
+        "<p>Opponents add that the fiscal math is difficult to ignore: a broad monthly payment large enough to matter would require either major tax increases or deep cuts elsewhere in the safety net. In their view, expanding child tax credits, housing vouchers, and wage supports produces more measurable anti-poverty effects because those tools are aimed at the households facing the greatest hardship.</p>",
+      passage2:
+        "<p>Supporters counter that a guaranteed base payment could make it easier for caregivers, students, and people between jobs to plan ahead instead of constantly reacting to emergencies. <span class='bad-evidence'>They often suggest that people would naturally use that breathing room to launch businesses, return to school, or find better jobs, even though those outcomes are asserted more confidently than they are demonstrated.</span></p>",
+    },
+    'Should Governments Aggressively Subsidize Renewable Energy?': {
+      passage1:
+        "<p>Advocates also note that subsidies can speed up grid modernization, battery research, and domestic manufacturing at the same time. When clean-energy deployment grows, utilities gain more experience managing storage and transmission, and public health systems benefit from fewer asthma and pollution-related illnesses tied to fossil-fuel combustion.</p>",
+      passage2:
+        "<p>Opponents further argue that large subsidy programs can lock governments into expensive technologies before the market has sorted out which systems are most dependable. <span class='bad-evidence'>They frequently point to visual clutter, land-use objections, or fears about mineral supply chains as proof that public investment should slow down, even when those concerns are presented without careful cost comparisons.</span></p>",
+    },
+    'Does Social Media Do More Harm Than Good for Teen Mental Health?': {
+      passage1:
+        "<p>Another concern is that online platforms do not just consume time; they shape the emotional tone of that time through recommendation systems, public metrics, and constant notifications. Researchers have warned that late-night scrolling, cyberbullying, and exposure to idealized images can combine into a feedback loop in which sleep loss and social stress reinforce one another.</p>",
+      passage2:
+        "<p>Defenders of social media emphasize that online spaces can introduce teens to support groups, creative communities, and mental-health resources they may never find locally. <span class='bad-evidence'>Yet these examples often rest on uplifting personal stories rather than on broad evidence showing that the benefits consistently outweigh the emotional strain created by comparison, harassment, or compulsive use.</span></p>",
+    },
+    'Is a Four-Year College Degree the Best Path to a Successful Career?': {
+      passage1:
+        "<p>Proponents of the four-year path also stress the network effects of college: internships, faculty mentorship, alumni connections, and access to research opportunities can open doors that are difficult to quantify on paper. <span class='bad-evidence'>They often treat those advantages as universal, however, even though outcomes vary sharply by major, institution, debt load, and regional job market.</span></p>",
+      passage2:
+        "<p>Skilled-trades advocates add that many apprenticeship routes combine classroom instruction with paid, supervised fieldwork, which lets students build both competence and earnings from the outset. They argue that this model is especially powerful because it links training directly to labor-market demand rather than asking students to borrow heavily before discovering whether their degree will translate into stable employment.</p>",
+    },
+    'Should Schools Ban the Use of Smartphones in the Classroom?': {
+      passage1:
+        "<p>Teachers who support bans also describe a practical classroom benefit: fewer interruptions over notifications, filming, messaging, and off-task browsing means less time spent redirecting attention and more time spent teaching. In schools that use simple collection systems or locked pouches, administrators report that disputes over cheating and hallway conflicts tied to online drama can become easier to manage.</p>",
+      passage2:
+        "<p>Critics of phone bans reply that devices can serve as calculators, cameras, translators, and research tools when lessons are designed thoughtfully. <span class='bad-evidence'>Still, they often jump from those possible uses to the assumption that unrestricted access will produce better learning on its own, without addressing how easily entertainment apps and private messages compete with instruction.</span></p>",
+    },
+    'Should Fast-Food Restaurants Be Required to Display Calorie Counts?': {
+      passage1:
+        "<p>Public-health advocates also argue that labeling does more than influence individual customers; it pressures large chains to reformulate menu items so that the posted numbers look less extreme. Even modest shifts in default sides, beverage size, or sandwich composition can matter at scale when millions of transactions occur each week.</p>",
+      passage2:
+        "<p>Restaurant groups respond that menu boards are already crowded with pricing, combo details, and promotions, and they worry that additional disclosures can overwhelm rather than inform customers. <span class='bad-evidence'>That complaint often rests on the assumption that because some diners will ignore the numbers, the information has no value for anyone else.</span></p>",
+    },
+    'Should National Parks Implement a Lottery System to Manage Overcrowding?': {
+      passage1:
+        "<p>Supporters of lotteries argue that the policy is not about excluding the public but about protecting fragile places from predictable damage during peak seasons. They point out that timed-entry systems can be paired with shuttles, shoulder-season incentives, and clearer visitor education so that access is spread out rather than simply shut down.</p>",
+      passage2:
+        "<p>Opponents remain concerned that reservation systems favor travelers with flexible jobs, strong internet access, and the ability to plan months ahead. <span class='bad-evidence'>They often suggest that a family missing out on a summer trip is itself proof that the policy is unfair, even though that emotional appeal does not resolve the environmental pressures created by unmanaged crowds.</span></p>",
+    },
+    'Should Standardized Test Scores Be a Primary Factor in College Admissions?': {
+      passage1:
+        "<p>Test-optional supporters add that heavy reliance on admissions exams can reward expensive coaching as much as raw academic readiness. A transcript built over several years captures persistence, course selection, and classroom performance in a way that a single Saturday exam cannot, especially for students balancing jobs, caregiving, or uneven access to preparation resources.</p>",
+      passage2:
+        "<p>Defenders of testing maintain that some common benchmark is necessary when applicants come from schools with very different grading standards. <span class='bad-evidence'>Even so, they often frame essays, recommendations, and course rigor as hopelessly subjective while treating tests as neutral, without fully reckoning with the documented role of family income and access in score differences.</span></p>",
+    },
+    'Is a Remote Work Model More Beneficial Than a Traditional In-Office Model?': {
+      passage1:
+        "<p>Remote-work supporters also emphasize the savings workers themselves experience through reduced commuting, lower transportation costs, and greater control over the workday. When organizations invest in clear documentation, intentional check-ins, and flexible scheduling, they argue that distributed teams can maintain accountability while giving employees more time and autonomy.</p>",
+      passage2:
+        "<p>Office-first advocates warn that culture can weaken when colleagues rarely meet in person, especially for new employees trying to learn informal norms. <span class='bad-evidence'>Those concerns are often expressed through intuition about lost energy or hallway creativity, however, rather than through consistent evidence that in-person attendance by itself produces stronger output across industries.</span></p>",
+    },
+    'Should Homework in High School Be Limited to One Hour per Night?': {
+      passage1:
+        "<p>Supporters of a cap argue that the issue is not whether practice matters, but whether assignments are coordinated and purposeful across multiple classes. A one-hour guideline can push departments to trim repetitive worksheets, focus on higher-value tasks, and avoid turning evening time into an endurance contest that favors students with the fewest outside obligations.</p>",
+      passage2:
+        "<p>Critics answer that ambitious students should expect demanding workloads if they want to be ready for college. <span class='bad-evidence'>They often cite personal memories of late nights or broad claims about toughness as proof that more homework automatically builds discipline, even though that does not show it improves learning for most students.</span></p>",
+    },
+    'Should Public Transit Be Free in Major Cities?': {
+      passage1:
+        "<p>Urban planners also note that fare collection itself carries costs: ticket machines, enforcement, maintenance, and boarding delays all consume money and time. If a city already subsidizes most operating costs, removing the last barrier at the bus door can make transit more legible and more useful for workers, students, and riders making short local trips.</p>",
+      passage2:
+        "<p>Opponents argue that fares reinforce the idea that transit is a service with real operating expenses rather than an unlimited public giveaway. <span class='bad-evidence'>But they often slide from that budget concern into vivid predictions about joyriding, disorder, or packed buses without showing that those outcomes would outweigh the mobility gains of easier access.</span></p>",
+    },
+    'Should Schools Adopt Year-Round Academic Calendars?': {
+      passage1:
+        "<p>Backers of year-round calendars say the shorter breaks also create more natural windows for tutoring, enrichment, and recovery before students fall too far behind. Instead of spending the first weeks of every fall reteaching forgotten material, schools can use intersessions to respond quickly to learning gaps while routines and relationships are still fresh.</p>",
+      passage2:
+        "<p>Traditional-calendar supporters counter that summer provides space for camps, jobs, and family travel that are harder to arrange when breaks are scattered. <span class='bad-evidence'>Those benefits are real for some households, but the argument often assumes all families can use long summers well and does not fully address the academic losses that accumulate for students with fewer enrichment options.</span></p>",
+    },
+    'Should Cities Ban Single-Use Plastic Bags?': {
+      passage1:
+        "<p>Environmental groups further argue that lightweight plastic bags are uniquely prone to escaping waste systems, snagging in storm drains, and breaking into smaller pieces that are hard to remove from waterways. They see bag bans as a practical policy because they target one of the most visible forms of everyday litter while encouraging reusable habits that can spread to other consumer choices.</p>",
+      passage2:
+        "<p>Retail opponents often reply that consumers may simply switch to thicker trash liners or paper bags, reducing the environmental benefit of a ban. <span class='bad-evidence'>That possibility deserves study, but it is often presented as a conversation-stopper rather than as a reason to compare life-cycle impacts carefully and design complementary waste-reduction policies.</span></p>",
+    },
+    'Should Public Colleges Be Tuition-Free?': {
+      passage1:
+        "<p>Supporters of tuition-free college also argue that the policy can simplify a confusing financial-aid process that discourages many capable students before they even enroll. When students understand the price up front, they are more likely to attempt community college transfers, teacher preparation, nursing programs, and other public-interest pathways that require credentials but do not always promise high starting salaries.</p>",
+      passage2:
+        "<p>Fiscal critics say universal tuition policies risk directing public dollars toward families who could already afford college while leaving less money for academic support, advising, and completion programs. <span class='bad-evidence'>They often leap from that concern to images of overcrowded campuses and aimless students, however, without distinguishing between manageable enrollment growth and true system failure.</span></p>",
+    },
+    'Should Voting Be Compulsory in National Elections?': {
+      passage1:
+        "<p>Advocates argue that compulsory voting changes campaign incentives by forcing candidates to appeal to a wider public instead of focusing narrowly on the most reliable partisans. In that model, modest fines or easy excuses are less about punishment than about signaling that democratic participation is a basic civic obligation, much like jury service.</p>",
+      passage2:
+        "<p>Critics object that genuine democratic participation includes the freedom to abstain when citizens feel uninformed or alienated from the available choices. <span class='bad-evidence'>Still, the weaker version of this argument often assumes reluctant voters would automatically cast random ballots, rather than considering how broader turnout requirements might also encourage better voter education and outreach.</span></p>",
+    },
+    'Should School Cafeterias Adopt Plant-Forward Menus?': {
+      passage1:
+        "<p>Nutrition advocates also point out that plant-forward does not mean eliminating all familiar foods overnight; it usually means shifting defaults toward beans, grains, vegetables, and more varied proteins while preserving student choice. Districts that pair menu changes with taste tests, student feedback, and staff training often find that acceptance rises when the food is seasoned well and framed positively.</p>",
+      passage2:
+        "<p>Opponents worry that ambitious menu changes could leave trays untouched if students reject unfamiliar dishes. <span class='bad-evidence'>That concern is understandable, but it often depends on narrow examples of picky eating and on the unsupported assumption that meat-centered menus are the only practical way to meet nutrition needs.</span></p>",
+    },
+    'Should Cities Implement Congestion Pricing for Downtown Driving?': {
+      passage1:
+        "<p>Supporters emphasize that congestion pricing can also make downtown deliveries, emergency travel, and bus schedules more predictable by reducing the total number of discretionary car trips during peak hours. When revenue is transparently reinvested into better transit, sidewalks, and bike connections, they argue that the policy becomes a broader mobility upgrade rather than a stand-alone fee.</p>",
+      passage2:
+        "<p>Opponents say the charges would hit commuters who already feel squeezed by housing costs and long travel times. <span class='bad-evidence'>Yet the weaker versions of that claim often assume every driver lacks alternatives and rarely engage with targeted exemptions, employer transit benefits, or the public costs imposed by congestion itself.</span></p>",
+    },
+    'Should Public Schools Enforce Strict Student Dress Codes?': {
+      passage1:
+        "<p>Researchers critical of strict dress codes also note that enforcement often falls unevenly, drawing staff attention away from instruction and toward subjective judgments about hemlines, headwear, or body type. Policies centered on safety and respectful conduct, they argue, can protect the learning environment without turning clothing into a recurring discipline issue.</p>",
+      passage2:
+        "<p>Supporters of rigid codes believe visible order reinforces academic seriousness and reduces peer competition over fashion. <span class='bad-evidence'>But the argument frequently treats appearance as a shortcut for character, assuming that polished clothing will reliably improve conduct even when evidence of academic benefit is thin.</span></p>",
+    },
+    'Should High Schools Require a Financial Literacy Course for Graduation?': {
+      passage1:
+        "<p>Supporters argue that adolescents regularly encounter financial decisions long before adulthood, from choosing debit cards to evaluating college loans and phone contracts. A required course gives schools a dedicated place to teach interest, budgeting, taxes, insurance, and consumer risk in a way that does not depend on whether students happen to hear good advice at home.</p>",
+      passage2:
+        "<p>Opponents say graduation requirements should stay lean and that practical money skills can be taught informally across families or electives. <span class='bad-evidence'>That response often overlooks how uneven that home instruction is and assumes that because some students learn these concepts elsewhere, schools do not need to guarantee the basics for everyone.</span></p>",
+    },
+  };
+
+  const getExpandedEssayPassageHtml = (topic, passageKey, baseHtml) => {
+    const expansion = essayPassageExpansions[topic]?.[passageKey] || '';
+    return sanitizeEssayHtml(`${baseHtml || ''}${expansion}`);
+  };
 
   // Auto-fill essay templates with article-specific data
   const fillEssayTemplate = (template, passageData) => {
@@ -39527,9 +39576,9 @@ function EssayGuide({ onExit }) {
     if (!selectedPassage) return null;
     switch (overlayView) {
       case 'passage1': {
-        const html = expandIfShort(
+        const html = getExpandedEssayPassageHtml(
           selectedPassage.topic,
-          selectedPassage.passage1.title,
+          'passage1',
           selectedPassage.passage1.content
         );
         return (
@@ -39541,9 +39590,9 @@ function EssayGuide({ onExit }) {
         );
       }
       case 'passage2': {
-        const html = expandIfShort(
+        const html = getExpandedEssayPassageHtml(
           selectedPassage.topic,
-          selectedPassage.passage2.title,
+          'passage2',
           selectedPassage.passage2.content
         );
         return (
@@ -39761,9 +39810,9 @@ function EssayGuide({ onExit }) {
                     className="essay-prompt-body"
                     style={{ whiteSpace: 'pre-wrap' }}
                     dangerouslySetInnerHTML={{
-                      __html: expandIfShort(
+                      __html: getExpandedEssayPassageHtml(
                         selectedPassage.topic,
-                        selectedPassage.passage1.title,
+                        'passage1',
                         selectedPassage.passage1.content
                       ),
                     }}
@@ -39777,9 +39826,9 @@ function EssayGuide({ onExit }) {
                     className="essay-prompt-body"
                     style={{ whiteSpace: 'pre-wrap' }}
                     dangerouslySetInnerHTML={{
-                      __html: expandIfShort(
+                      __html: getExpandedEssayPassageHtml(
                         selectedPassage.topic,
-                        selectedPassage.passage2.title,
+                        'passage2',
                         selectedPassage.passage2.content
                       ),
                     }}

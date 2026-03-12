@@ -35894,13 +35894,18 @@ function MultiPartRlaRunner({ quiz, onComplete, onExit }) {
                           by {p.author}
                         </p>
                       ) : null}
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: sanitizeHtmlContent(p?.content || '', {
-                            normalizeSpacing: true,
-                          }),
-                        }}
-                      />
+                      <div>
+                        {(p?.content || '')
+                          .replace(/<\/?p[^>]*>/gi, '\n\n')
+                          .split(/\n\s*\n/)
+                          .map((s) => s.trim())
+                          .filter(Boolean)
+                          .map((para, pIdx) => (
+                            <p key={pIdx} className="mb-3 leading-relaxed">
+                              {para}
+                            </p>
+                          ))}
+                      </div>
                     </div>
                   ))}
               </div>

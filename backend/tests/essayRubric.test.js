@@ -24,11 +24,7 @@ const {
 // ---------------------------------------------------------------------------
 describe('GED_TRAITS', () => {
   it('has exactly 3 traits', () => {
-    assert.deepStrictEqual(Object.keys(GED_TRAITS), [
-      'trait1',
-      'trait2',
-      'trait3',
-    ]);
+    assert.deepStrictEqual(Object.keys(GED_TRAITS), ['trait1', 'trait2', 'trait3']);
   });
 
   it('each trait has label, officialName, max=2, and descriptors for 0,1,2', () => {
@@ -67,24 +63,9 @@ describe('clampTraitScore', () => {
 // ---------------------------------------------------------------------------
 describe('normalizeEssayResponse', () => {
   const makeRaw = (t1 = 2, t2 = 2, t3 = 2) => ({
-    trait1: {
-      score: t1,
-      feedback: 'Good argument',
-      strengths: ['clear claim'],
-      nextSteps: ['add more quotes'],
-    },
-    trait2: {
-      score: t2,
-      feedback: 'Well organized',
-      strengths: ['intro/body/conclusion'],
-      nextSteps: [],
-    },
-    trait3: {
-      score: t3,
-      feedback: 'Mostly correct',
-      strengths: ['sentence variety'],
-      nextSteps: ['watch commas'],
-    },
+    trait1: { score: t1, feedback: 'Good argument', strengths: ['clear claim'], nextSteps: ['add more quotes'] },
+    trait2: { score: t2, feedback: 'Well organized', strengths: ['intro/body/conclusion'], nextSteps: [] },
+    trait3: { score: t3, feedback: 'Mostly correct', strengths: ['sentence variety'], nextSteps: ['watch commas'] },
     overallScore: t1 + t2 + t3,
     overallFeedback: 'Great essay',
     challenge_tags: ['writing:evidence'],
@@ -118,17 +99,9 @@ describe('normalizeEssayResponse', () => {
 
   it('filters invalid challenge tags', () => {
     const raw = makeRaw();
-    raw.challenge_tags = [
-      'writing:evidence',
-      'invalid:tag',
-      'writing:clarity',
-      '',
-    ];
+    raw.challenge_tags = ['writing:evidence', 'invalid:tag', 'writing:clarity', ''];
     const result = normalizeEssayResponse(raw);
-    assert.deepStrictEqual(result.challenge_tags, [
-      'writing:evidence',
-      'writing:clarity',
-    ]);
+    assert.deepStrictEqual(result.challenge_tags, ['writing:evidence', 'writing:clarity']);
   });
 
   it('returns null for null/undefined input', () => {
@@ -143,23 +116,19 @@ describe('normalizeEssayResponse', () => {
 
   it('handles Gemini wrapper format', () => {
     const wrapped = {
-      candidates: [
-        {
-          content: {
-            parts: [
-              {
-                text: JSON.stringify({
-                  trait1: { score: 1, feedback: 'ok' },
-                  trait2: { score: 1, feedback: 'ok' },
-                  trait3: { score: 0, feedback: 'ok' },
-                  overallScore: 2,
-                  overallFeedback: 'ok',
-                }),
-              },
-            ],
-          },
-        },
-      ],
+      candidates: [{
+        content: {
+          parts: [{
+            text: JSON.stringify({
+              trait1: { score: 1, feedback: 'ok' },
+              trait2: { score: 1, feedback: 'ok' },
+              trait3: { score: 0, feedback: 'ok' },
+              overallScore: 2,
+              overallFeedback: 'ok',
+            })
+          }]
+        }
+      }]
     };
     const result = normalizeEssayResponse(wrapped);
     assert.notStrictEqual(result, null);
@@ -197,7 +166,7 @@ describe('analyzeEssayHeuristics', () => {
   it('detects mention of both passages', () => {
     const h = analyzeEssayHeuristics(
       'The first passage argues X. The second passage claims Y. ' +
-        'After analyzing both, the first article is stronger because of evidence.'
+      'After analyzing both, the first article is stronger because of evidence.'
     );
     assert.strictEqual(h.mentionsBothPassages, true);
   });
@@ -255,16 +224,7 @@ describe('applyHeuristicCaps', () => {
 
   it('caps trait1 when only one passage referenced', () => {
     const n = makeNormalized(2, 2, 2);
-    const h = {
-      mentionsBothPassages: false,
-      mentionsPassage1: true,
-      mentionsPassage2: false,
-      personalPhraseCount: 0,
-      evidencePhraseCount: 5,
-      isSeverelyShort: false,
-      isVeryShort: false,
-      wordCount: 300,
-    };
+    const h = { mentionsBothPassages: false, mentionsPassage1: true, mentionsPassage2: false, personalPhraseCount: 0, evidencePhraseCount: 5, isSeverelyShort: false, isVeryShort: false, wordCount: 300 };
     const warnings = applyHeuristicCaps(n, h);
     assert.strictEqual(n.trait1.score, 1);
     assert.strictEqual(n.overallScore, 5);
@@ -273,14 +233,7 @@ describe('applyHeuristicCaps', () => {
 
   it('caps trait1 for heavy personal opinion with little evidence', () => {
     const n = makeNormalized(2, 2, 2);
-    const h = {
-      mentionsBothPassages: true,
-      personalPhraseCount: 4,
-      evidencePhraseCount: 1,
-      isSeverelyShort: false,
-      isVeryShort: false,
-      wordCount: 300,
-    };
+    const h = { mentionsBothPassages: true, personalPhraseCount: 4, evidencePhraseCount: 1, isSeverelyShort: false, isVeryShort: false, wordCount: 300 };
     const warnings = applyHeuristicCaps(n, h);
     assert.strictEqual(n.trait1.score, 1);
     assert.ok(warnings.length > 0);
@@ -288,14 +241,7 @@ describe('applyHeuristicCaps', () => {
 
   it('caps all traits to 0 for severely short essay', () => {
     const n = makeNormalized(2, 2, 2);
-    const h = {
-      mentionsBothPassages: true,
-      personalPhraseCount: 0,
-      evidencePhraseCount: 0,
-      isSeverelyShort: true,
-      isVeryShort: true,
-      wordCount: 20,
-    };
+    const h = { mentionsBothPassages: true, personalPhraseCount: 0, evidencePhraseCount: 0, isSeverelyShort: true, isVeryShort: true, wordCount: 20 };
     const warnings = applyHeuristicCaps(n, h);
     assert.strictEqual(n.trait1.score, 0);
     assert.strictEqual(n.trait2.score, 0);
@@ -305,14 +251,7 @@ describe('applyHeuristicCaps', () => {
 
   it('caps all traits to 1 for very short essay', () => {
     const n = makeNormalized(2, 2, 2);
-    const h = {
-      mentionsBothPassages: true,
-      personalPhraseCount: 0,
-      evidencePhraseCount: 0,
-      isSeverelyShort: false,
-      isVeryShort: true,
-      wordCount: 80,
-    };
+    const h = { mentionsBothPassages: true, personalPhraseCount: 0, evidencePhraseCount: 0, isSeverelyShort: false, isVeryShort: true, wordCount: 80 };
     const warnings = applyHeuristicCaps(n, h);
     assert.strictEqual(n.trait1.score, 1);
     assert.strictEqual(n.trait2.score, 1);
@@ -322,14 +261,7 @@ describe('applyHeuristicCaps', () => {
 
   it('does not cap a strong essay with both passages and evidence', () => {
     const n = makeNormalized(2, 2, 2);
-    const h = {
-      mentionsBothPassages: true,
-      personalPhraseCount: 0,
-      evidencePhraseCount: 5,
-      isSeverelyShort: false,
-      isVeryShort: false,
-      wordCount: 400,
-    };
+    const h = { mentionsBothPassages: true, personalPhraseCount: 0, evidencePhraseCount: 5, isSeverelyShort: false, isVeryShort: false, wordCount: 400 };
     const warnings = applyHeuristicCaps(n, h);
     assert.strictEqual(n.trait1.score, 2);
     assert.strictEqual(n.trait2.score, 2);
@@ -344,90 +276,33 @@ describe('applyHeuristicCaps', () => {
 // ---------------------------------------------------------------------------
 describe('deriveChallengeTags', () => {
   it('adds writing:addressing-prompt when passages not referenced', () => {
-    const n = {
-      trait1: { score: 0 },
-      trait2: { score: 1 },
-      trait3: { score: 1 },
-      challenge_tags: [],
-    };
-    deriveChallengeTags(n, {
-      mentionsBothPassages: false,
-      evidencePhraseCount: 0,
-      personalPhraseCount: 0,
-      paragraphCount: 1,
-      transitionCount: 0,
-    });
+    const n = { trait1: { score: 0 }, trait2: { score: 1 }, trait3: { score: 1 }, challenge_tags: [] };
+    deriveChallengeTags(n, { mentionsBothPassages: false, evidencePhraseCount: 0, personalPhraseCount: 0, paragraphCount: 1, transitionCount: 0 });
     assert.ok(n.challenge_tags.includes('writing:addressing-prompt'));
   });
 
   it('adds writing:evidence for thin evidence', () => {
-    const n = {
-      trait1: { score: 1 },
-      trait2: { score: 2 },
-      trait3: { score: 2 },
-      challenge_tags: [],
-    };
-    deriveChallengeTags(n, {
-      mentionsBothPassages: true,
-      evidencePhraseCount: 0,
-      personalPhraseCount: 0,
-      paragraphCount: 5,
-      transitionCount: 4,
-    });
+    const n = { trait1: { score: 1 }, trait2: { score: 2 }, trait3: { score: 2 }, challenge_tags: [] };
+    deriveChallengeTags(n, { mentionsBothPassages: true, evidencePhraseCount: 0, personalPhraseCount: 0, paragraphCount: 5, transitionCount: 4 });
     assert.ok(n.challenge_tags.includes('writing:evidence'));
   });
 
   it('adds writing:organization for few paragraphs', () => {
-    const n = {
-      trait1: { score: 2 },
-      trait2: { score: 1 },
-      trait3: { score: 2 },
-      challenge_tags: [],
-    };
-    deriveChallengeTags(n, {
-      mentionsBothPassages: true,
-      evidencePhraseCount: 5,
-      personalPhraseCount: 0,
-      paragraphCount: 1,
-      transitionCount: 0,
-    });
+    const n = { trait1: { score: 2 }, trait2: { score: 1 }, trait3: { score: 2 }, challenge_tags: [] };
+    deriveChallengeTags(n, { mentionsBothPassages: true, evidencePhraseCount: 5, personalPhraseCount: 0, paragraphCount: 1, transitionCount: 0 });
     assert.ok(n.challenge_tags.includes('writing:organization'));
   });
 
   it('adds writing:grammar-mechanics for trait3=0', () => {
-    const n = {
-      trait1: { score: 2 },
-      trait2: { score: 2 },
-      trait3: { score: 0 },
-      challenge_tags: [],
-    };
-    deriveChallengeTags(n, {
-      mentionsBothPassages: true,
-      evidencePhraseCount: 5,
-      personalPhraseCount: 0,
-      paragraphCount: 5,
-      transitionCount: 4,
-    });
+    const n = { trait1: { score: 2 }, trait2: { score: 2 }, trait3: { score: 0 }, challenge_tags: [] };
+    deriveChallengeTags(n, { mentionsBothPassages: true, evidencePhraseCount: 5, personalPhraseCount: 0, paragraphCount: 5, transitionCount: 4 });
     assert.ok(n.challenge_tags.includes('writing:grammar-mechanics'));
   });
 
   it('deduplicates tags', () => {
-    const n = {
-      trait1: { score: 0 },
-      trait2: { score: 1 },
-      trait3: { score: 1 },
-      challenge_tags: ['writing:addressing-prompt'],
-    };
-    deriveChallengeTags(n, {
-      mentionsBothPassages: false,
-      evidencePhraseCount: 0,
-      personalPhraseCount: 0,
-      paragraphCount: 1,
-      transitionCount: 0,
-    });
-    const addrCount = n.challenge_tags.filter(
-      (t) => t === 'writing:addressing-prompt'
-    ).length;
+    const n = { trait1: { score: 0 }, trait2: { score: 1 }, trait3: { score: 1 }, challenge_tags: ['writing:addressing-prompt'] };
+    deriveChallengeTags(n, { mentionsBothPassages: false, evidencePhraseCount: 0, personalPhraseCount: 0, paragraphCount: 1, transitionCount: 0 });
+    const addrCount = n.challenge_tags.filter(t => t === 'writing:addressing-prompt').length;
     assert.strictEqual(addrCount, 1);
   });
 });
@@ -500,24 +375,9 @@ describe('buildEssayScoringPrompt', () => {
 describe('Integration scenarios', () => {
   it('strong essay with evidence from both passages scores 5-6', () => {
     const raw = {
-      trait1: {
-        score: 2,
-        feedback: 'Clear argument with both passages',
-        strengths: ['claim identified'],
-        nextSteps: [],
-      },
-      trait2: {
-        score: 2,
-        feedback: 'Well organized',
-        strengths: ['transitions'],
-        nextSteps: [],
-      },
-      trait3: {
-        score: 2,
-        feedback: 'Good grammar',
-        strengths: ['sentence variety'],
-        nextSteps: [],
-      },
+      trait1: { score: 2, feedback: 'Clear argument with both passages', strengths: ['claim identified'], nextSteps: [] },
+      trait2: { score: 2, feedback: 'Well organized', strengths: ['transitions'], nextSteps: [] },
+      trait3: { score: 2, feedback: 'Good grammar', strengths: ['sentence variety'], nextSteps: [] },
       overallScore: 6,
       overallFeedback: 'Excellent',
       challenge_tags: [],
@@ -528,13 +388,10 @@ describe('Integration scenarios', () => {
       'The second passage claims testing is unfair. The second author states that "socioeconomic factors skew results." However, the second author relies primarily on anecdotal evidence and emotional appeals.\n\n' +
       'When comparing both passages, the first passage is better supported because it provides statistical evidence and expert citations. The reasoning is logical and addresses counterarguments directly.\n\n' +
       'Furthermore, the first author acknowledges potential flaws in testing but argues they can be mitigated. This nuanced approach strengthens the overall argument.\n\n' +
-      "In conclusion, the first author presents the more convincing case by effectively using data and logical reasoning, while the second author's reliance on anecdotes weakens the opposing position.";
+      'In conclusion, the first author presents the more convincing case by effectively using data and logical reasoning, while the second author\'s reliance on anecdotes weakens the opposing position.';
     const heuristics = analyzeEssayHeuristics(essayText);
     applyHeuristicCaps(normalized, heuristics);
-    assert.ok(
-      normalized.overallScore >= 5,
-      `Expected >= 5, got ${normalized.overallScore}`
-    );
+    assert.ok(normalized.overallScore >= 5, `Expected >= 5, got ${normalized.overallScore}`);
   });
 
   it('personal opinion essay gets trait1 capped', () => {

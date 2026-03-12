@@ -8904,7 +8904,7 @@ const promptLibrary = {
         CRITICAL RULE FOR CURRENCY: Always use a literal dollar sign before the number, like '$50.25'. NEVER wrap currency in math delimiters such as '$$50.25$'. Do not use '$...$' for currency; write $30 or 30 dollars, never place the dollar sign after the number, and never wrap currency in LaTeX.`,
     comprehensive: {
       part1: `Generate the Reading Comprehension section of a GED RLA exam. Create exactly 4 long passages, each 4-5 paragraphs long, and each passage MUST have a concise, engaging title wrapped in <strong> tags. The passages must be formatted with <p> tags for each paragraph. The passage breakdown must be 3 informational texts and 1 literary text. For EACH of the 4 passages, generate exactly 5 reading comprehension questions. The final output must be a total of 20 questions.`,
-      part2: `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two short, opposing passages that you create. The passages should be 3-4 paragraphs each and formatted with <p> tags. Each of the two passages MUST have its own title. The output should be a JSON object with two keys: "passages" (an array of two objects, each with a "title" and "content") and "prompt" (the essay question).`,
+      part2: `Generate one GED-style Extended Response (essay) prompt. The prompt must be based on two short, opposing passages that you create. The passages should be 3-4 paragraphs each, separated by double newlines. Do NOT use HTML tags like <p> or <br>. Each of the two passages MUST have its own title. The output should be a JSON object with two keys: "passages" (an array of two objects, each with a "title" and "content") and "prompt" (the essay question).`,
       part3: `Generate the Language and Grammar section of a GED RLA exam. Create 7 short passages (1-2 paragraphs each) formatted with <p> tags. The passages should contain a mix of grammatical errors, awkward phrasing, and organizational issues. For EACH of the 7 passages, generate 3-4 questions focused on correcting sentences, improving word choice, and identifying errors. This should total 25 questions.`,
     },
   },
@@ -11445,7 +11445,7 @@ Output a JSON object with:
       .filter(Boolean);
   };
 
-  const ensureThreeParagraphHtml = (content) => {
+  const ensureThreeParagraphs = (content) => {
     let paragraphs = splitIntoParagraphs(content);
 
     if (paragraphs.length < 3) {
@@ -11513,7 +11513,7 @@ Output a JSON object with:
       );
     }
 
-    return finalParagraphs.map((p) => `<p>${p}</p>`).join('\n');
+    return finalParagraphs.join('\n\n');
   };
 
   const isValidEssayPayload = (value) =>
@@ -11549,7 +11549,7 @@ Output a JSON object with:
         : index === 0
           ? 'Alex Rivera'
           : 'Jordan Blake',
-    content: ensureThreeParagraphHtml(p?.content || ''),
+    content: ensureThreeParagraphs(p?.content || ''),
     strengths_and_weaknesses: Array.isArray(p?.strengths_and_weaknesses)
       ? p.strengths_and_weaknesses.map((s) => String(s).trim()).filter(Boolean)
       : [],
@@ -12255,13 +12255,13 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
             title: 'Position A: Expand Public Transportation',
             author: 'Jordan Ellis',
             content:
-              '<p>City leaders argue that expanded transit improves access to work and education while reducing traffic congestion. They cite pilot programs where frequent service increased ridership, lowered household transportation costs, and improved access for workers with nontraditional schedules.</p><p>Supporters also point to economic benefits in business districts that become easier to reach without parking constraints. They argue that reliable routes can broaden customer traffic and reduce missed work caused by commuting delays.</p><p>Critics acknowledge these gains but stress that expansion plans should include measurable service targets and transparent budgeting so long-term operating costs remain sustainable and service quality is protected.</p>',
+              'City leaders argue that expanded transit improves access to work and education while reducing traffic congestion. They cite pilot programs where frequent service increased ridership, lowered household transportation costs, and improved access for workers with nontraditional schedules.\n\nSupporters also point to economic benefits in business districts that become easier to reach without parking constraints. They argue that reliable routes can broaden customer traffic and reduce missed work caused by commuting delays.\n\nCritics acknowledge these gains but stress that expansion plans should include measurable service targets and transparent budgeting so long-term operating costs remain sustainable and service quality is protected.',
           },
           {
             title: 'Position B: Prioritize Road Infrastructure First',
             author: 'Casey Morgan',
             content:
-              '<p>Opponents of rapid transit expansion argue that roadway bottlenecks should be addressed first because they affect most commuters, freight movement, and emergency response times. They cite projects where targeted intersection upgrades produced quick travel-time improvements.</p><p>They also contend that many neighborhoods have limited transit access today, so immediate road improvements deliver broader short-term benefits while longer-term transit plans are evaluated.</p><p>Transit advocates respond that road-only strategies can reinforce congestion over time and delay cleaner alternatives. They argue that cities should pair road upgrades with meaningful transit investment to provide practical non-car options.</p>',
+              'Opponents of rapid transit expansion argue that roadway bottlenecks should be addressed first because they affect most commuters, freight movement, and emergency response times. They cite projects where targeted intersection upgrades produced quick travel-time improvements.\n\nThey also contend that many neighborhoods have limited transit access today, so immediate road improvements deliver broader short-term benefits while longer-term transit plans are evaluated.\n\nTransit advocates respond that road-only strategies can reinforce congestion over time and delay cleaner alternatives. They argue that cities should pair road upgrades with meaningful transit investment to provide practical non-car options.',
           },
         ],
         prompt:
@@ -12349,13 +12349,13 @@ function buildFallbackGenerators(normalizedSubject) {
           title: 'Position A: Expand Public Transportation',
           author: 'Jordan Ellis',
           content:
-            '<p>City leaders argue that expanded transit improves access to work and education while reducing traffic congestion. They cite pilot programs where frequent service increased ridership, lowered household transportation costs, and improved access for workers with nontraditional schedules.</p><p>Supporters also point to economic benefits in business districts that become easier to reach without parking constraints. They argue that reliable routes can broaden customer traffic and reduce missed work caused by commuting delays.</p><p>Critics acknowledge these gains but stress that expansion plans should include measurable service targets and transparent budgeting so long-term operating costs remain sustainable and service quality is protected.</p>',
+            'City leaders argue that expanded transit improves access to work and education while reducing traffic congestion. They cite pilot programs where frequent service increased ridership, lowered household transportation costs, and improved access for workers with nontraditional schedules.\n\nSupporters also point to economic benefits in business districts that become easier to reach without parking constraints. They argue that reliable routes can broaden customer traffic and reduce missed work caused by commuting delays.\n\nCritics acknowledge these gains but stress that expansion plans should include measurable service targets and transparent budgeting so long-term operating costs remain sustainable and service quality is protected.',
         },
         {
           title: 'Position B: Prioritize Road Infrastructure First',
           author: 'Casey Morgan',
           content:
-            '<p>Opponents of rapid transit expansion argue that roadway bottlenecks should be addressed first because they affect most commuters, freight movement, and emergency response times. They cite projects where targeted intersection upgrades produced quick travel-time improvements.</p><p>They also contend that many neighborhoods have limited transit access today, so immediate road improvements deliver broader short-term benefits while longer-term transit plans are evaluated.</p><p>Transit advocates respond that road-only strategies can reinforce congestion over time and delay cleaner alternatives. They argue that cities should pair road upgrades with meaningful transit investment to provide practical non-car options.</p>',
+            'Opponents of rapid transit expansion argue that roadway bottlenecks should be addressed first because they affect most commuters, freight movement, and emergency response times. They cite projects where targeted intersection upgrades produced quick travel-time improvements.\n\nThey also contend that many neighborhoods have limited transit access today, so immediate road improvements deliver broader short-term benefits while longer-term transit plans are evaluated.\n\nTransit advocates respond that road-only strategies can reinforce congestion over time and delay cleaner alternatives. They argue that cities should pair road upgrades with meaningful transit investment to provide practical non-car options.',
         },
       ],
       prompt:

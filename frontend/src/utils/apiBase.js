@@ -8,7 +8,8 @@ export function getApiBaseUrl() {
   const host = window.location.hostname;
   const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
   if (host === 'localhost' || host === '127.0.0.1') {
-    const port = window.API_PORT || 3002;
+    const port =
+      window.API_PORT || window.localStorage?.getItem('apiPort') || 3002;
     return `${protocol}//localhost:${port}`;
   }
   return 'https://ged-website.onrender.com';

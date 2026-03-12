@@ -87,28 +87,64 @@
     <script src="https://ged-website.onrender.com/client-config.js"></script>
     <script>
       (function ensureApiBase() {
+        async function detectLocalApiBase() {
+          const configuredBase =
+            (window.__APP_CONFIG__ && window.__APP_CONFIG__.apiBaseUrl) ||
+            window.__CLIENT_CONFIG__?.API_BASE_URL ||
+            window.localStorage?.getItem('apiBaseUrl') ||
+            '';
+          if (configuredBase) {
+            return configuredBase;
+          }
+
+          const configuredPort =
+            window.API_PORT || window.localStorage?.getItem('apiPort') || '';
+          if (configuredPort) {
+            return `${window.location.protocol}//localhost:${configuredPort}`;
+          }
+
+          const candidates = ['http://localhost:3002', 'http://localhost:3003'];
+          for (const base of candidates) {
+            try {
+              const response = await fetch(`${base}/api/all-quizzes`, {
+                cache: 'no-store',
+              });
+              if (response.ok) {
+                return base;
+              }
+            } catch (_error) {}
+          }
+
+          return 'http://localhost:3002';
+        }
+
         try {
-          // Dev mode: use localhost backend on port 3002
+          window.__API_BASE_READY__ = Promise.resolve('');
+
           const isLocalhost =
             window.location.hostname === 'localhost' ||
             window.location.hostname === '127.0.0.1';
           if (isLocalhost) {
-            // If running on Vite (5173), point to backend (3002 default)
             if (window.location.port === '5173') {
-              window.API_BASE_URL = 'http://localhost:3002';
+              window.__API_BASE_READY__ = detectLocalApiBase().then((base) => {
+                window.API_BASE_URL = base;
+                return base;
+              });
             } else {
-              // If running on backend port (3002, 3003, etc), use relative path
               window.API_BASE_URL = window.location.origin;
+              window.__API_BASE_READY__ = Promise.resolve(window.API_BASE_URL);
             }
             return;
           }
-          // Production: use configured base or default
+
           const base =
             (window.__APP_CONFIG__ && window.__APP_CONFIG__.apiBaseUrl) ||
             'https://ged-website.onrender.com';
           window.API_BASE_URL = base;
+          window.__API_BASE_READY__ = Promise.resolve(base);
         } catch {
           window.API_BASE_URL = 'https://ged-website.onrender.com';
+          window.__API_BASE_READY__ = Promise.resolve(window.API_BASE_URL);
         }
       })();
     </script>
