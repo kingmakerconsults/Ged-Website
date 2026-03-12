@@ -205,6 +205,23 @@ test('Math plan does not use random numeric response', () => {
   }
 });
 
+test('Math plan algebra is >= 50% of total', () => {
+  const plan = buildComprehensivePlan('Math');
+  const algebraCats = new Set([
+    'Expressions, Equations, and Inequalities',
+    'Expressions & Equations',
+    'Graphing & Functions',
+  ]);
+  const algebraSlots = plan.slots
+    .filter((s) => algebraCats.has(s.category))
+    .reduce((sum, sl) => sum + sl.questionsNeeded, 0);
+  const pct = algebraSlots / plan.totalQuestions;
+  assert.ok(
+    pct >= 0.5,
+    `Algebra is ${(pct * 100).toFixed(1)}% (${algebraSlots}/${plan.totalQuestions}), expected >= 50%`
+  );
+});
+
 test('All plans have unique slotIds', () => {
   for (const subject of ['Social Studies', 'Science', 'RLA', 'Math']) {
     const plan = buildComprehensivePlan(subject);

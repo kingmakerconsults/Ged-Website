@@ -75,7 +75,7 @@ module.exports = [
   {
     questionNumber: 3,
     type: 'image',
-    imageUrl: '//images/Social Studies/the_cold_war_era_0001.jpg',
+    imageUrl: '/images/Social Studies/the_cold_war_era_0001.jpg',
     question:
       "This photograph shows Martin Luther King Jr. delivering his 'I Have a Dream' speech during the March on Washington for Jobs and Freedom in 1963. What was the primary goal of this event?",
     answerOptions: [

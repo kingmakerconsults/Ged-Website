@@ -2888,7 +2888,39 @@ function extractMathSegments(input) {
     /\$\$([\s\S]+?)\$\$|\\\[([\s\S]+?)\\\]|\$([\s\S]+?)\$|\\\(([\s\S]+?)\\\)/g;
   let lastIndex = 0;
   let match;
+
+  // Helper: detect if a $...$ match is actually English prose mis-captured
+  // between two currency dollar signs (e.g. "$12.50, and shipping ... fee of $7.00")
+  // Heuristic: if it contains 4+ whitespace-separated words and no LaTeX commands, it's prose.
+  const looksLikeProse = (body) => {
+    if (!body) return false;
+    const words = body.trim().split(/\s+/);
+    if (words.length < 4) return false;
+    // Real math content has LaTeX commands, braces, or is mainly symbols
+    if (/\\[a-zA-Z]+/.test(body)) return false; // has \frac, \sqrt, etc.
+    if (/[{}]/.test(body)) return false; // has braces
+    // Count alpha words vs total — if majority is English, it's prose
+    const alphaWords = words.filter((w) => /^[a-zA-Z]{2,}/.test(w)).length;
+    return alphaWords / words.length > 0.5;
+  };
+
   while ((match = mathRegex.exec(input)) !== null) {
+    // For single-dollar $...$ matches, check if it's actually prose between
+    // two currency dollar signs
+    if (typeof match[3] !== 'undefined' && looksLikeProse(match[3])) {
+      // Treat the entire match as plain text, not math
+      // But advance only past the opening $ so the regex can find the closing $ as a new potential delimiter
+      if (match.index >= lastIndex) {
+        segments.push({
+          type: 'text',
+          value: input.slice(lastIndex, match.index + 1),
+        });
+      }
+      lastIndex = match.index + 1;
+      mathRegex.lastIndex = match.index + 1;
+      continue;
+    }
+
     if (match.index > lastIndex) {
       segments.push({
         type: 'text',

@@ -682,7 +682,7 @@ module.exports = [
   {
     "questionNumber": 3,
     "type": "image",
-    "imageUrl": "//images/Social Studies/a_new_nation_quiz_2_0001.png",
+    "imageUrl": "/images/Social Studies/a_new_nation_quiz_2_0001.png",
     "question": "This map illustrates the impact of the Louisiana Purchase in 1803. What was the most significant effect of this event?",
     "answerOptions": [
       {

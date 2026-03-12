@@ -23,6 +23,78 @@ function warn(...args) {
   console.warn(...args);
 }
 
+// ── Visual-Asset Integrity (ASSET SOURCE RULE) ──────────────────────────────
+// All image references in quiz questions must resolve to an approved asset in
+// frontend/public/images/. No placeholder charts, fake diagrams, or external URLs.
+
+const IMAGE_ROOT = path.join(root, 'frontend', 'public', 'images');
+const IMAGE_EXTENSIONS = new Set([
+  '.png',
+  '.jpg',
+  '.jpeg',
+  '.gif',
+  '.svg',
+  '.webp',
+]);
+
+function walkImageDir(dir) {
+  const results = [];
+  if (!fs.existsSync(dir)) return results;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) results.push(...walkImageDir(full));
+    else if (IMAGE_EXTENSIONS.has(path.extname(entry.name).toLowerCase())) {
+      results.push(full);
+    }
+  }
+  return results;
+}
+
+const approvedAssets = (function buildAssetSet() {
+  const publicBase = path.join(root, 'frontend', 'public');
+  const files = walkImageDir(IMAGE_ROOT);
+  const set = new Set();
+  for (const f of files) {
+    set.add('/' + path.relative(publicBase, f).replace(/\\/g, '/'));
+  }
+  return set;
+})();
+
+function resolveAssetUrl(url) {
+  if (!url || typeof url !== 'string' || !url.trim()) return { valid: true };
+  const trimmed = url.trim();
+  if (/^https?:\/\//i.test(trimmed))
+    return { valid: false, issue: 'external-url' };
+  let normalized = trimmed.startsWith('//images/') ? trimmed.slice(1) : trimmed;
+  if (approvedAssets.has(normalized)) return { valid: true };
+  const decoded = decodeURIComponent(normalized);
+  if (approvedAssets.has(decoded)) return { valid: true };
+  for (const asset of approvedAssets) {
+    if (asset.toLowerCase() === decoded.toLowerCase()) return { valid: true };
+  }
+  return { valid: false, issue: 'missing-asset' };
+}
+
+function validateImageAsset(q, idx, issues, filePath, quizId) {
+  const context = `[${filePath}][${quizId} Q#${idx}]`;
+  const urls = [
+    q.imageUrl,
+    q.imageURL,
+    q.content?.imageURL,
+    q.content?.imageUrl,
+  ].filter((u) => u && typeof u === 'string' && u.trim());
+  for (const url of [...new Set(urls)]) {
+    const result = resolveAssetUrl(url);
+    if (!result.valid) {
+      issues.push(
+        result.issue === 'external-url'
+          ? `${context} External image URL not allowed (ASSET SOURCE RULE): ${url}`
+          : `${context} Image asset not found (ASSET SOURCE RULE): ${url}`
+      );
+    }
+  }
+}
+
 function safeRead(p) {
   try {
     return fs.readFileSync(p, 'utf8');
@@ -625,6 +697,7 @@ async function main() {
     totalQuestions += questions.length;
     for (const it of questions) {
       validateQuestion(it.question, it.index, issues, it.filePath, it.quizId);
+      validateImageAsset(it.question, it.index, issues, it.filePath, it.quizId);
       // Only run math check for recognizable patterns to avoid false positives
       try {
         maybeCheckMath(it.question, issues, it.filePath, it.quizId, it.index);

@@ -53,6 +53,33 @@ test('upgradeToKatex does not convert pi inside words', () => {
   assert.equal(upgradeToKatex('pint'), 'pint');
 });
 
+test('upgradeToKatex escapes currency $ to HTML entity', () => {
+  const input =
+    'Each book costs $12.50, and shipping for the entire order is a flat fee of $7.00.';
+  const result = upgradeToKatex(input);
+  // Currency $ signs should be escaped to &#36; so they are not parsed as math delimiters
+  assert.ok(!result.includes('$12.50'), 'Should have escaped $12.50');
+  assert.ok(!result.includes('$7.00'), 'Should have escaped $7.00');
+  assert.ok(result.includes('&#36;12.50'), 'Should contain &#36;12.50');
+  assert.ok(result.includes('&#36;7.00'), 'Should contain &#36;7.00');
+  // The prose between the amounts should NOT be italicized/math-rendered
+  assert.ok(
+    result.includes('and shipping for the entire order'),
+    'Prose should be preserved as-is'
+  );
+});
+
+test('upgradeToKatex escapes $100 and $5,000.50', () => {
+  assert.equal(
+    upgradeToKatex('She has $100 to spend'),
+    'She has &#36;100 to spend'
+  );
+  assert.equal(
+    upgradeToKatex('The total was $5,000.50'),
+    'The total was &#36;5,000.50'
+  );
+});
+
 test('upgradeToKatex converts numeric fractions', () => {
   assert.equal(
     upgradeToKatex('What is 3/4 of 20?'),

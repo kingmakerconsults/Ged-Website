@@ -62,8 +62,17 @@ function normalizeMathToHTML(input) {
 function upgradeToKatex(input) {
   if (!input || typeof input !== 'string') return input;
 
+  let s = input;
+
+  // ── Step 0: Escape currency $ signs before any math processing ────
+  // Matches $N, $N.NN, $N,NNN.NN patterns (US currency) and replaces the
+  // leading $ with the HTML entity &#36; so the frontend parser will never
+  // mistake two currency amounts for LaTeX delimiters.
+  // Must run BEFORE normalizeMathToLatex which doesn't touch $ at all.
+  s = s.replace(/\$(\d[\d,]*(?:\.\d{0,2})?)/g, '&#36;$1');
+
   // Start with the existing exponent/frac wrapping
-  let s = normalizeMathToLatex(input);
+  s = normalizeMathToLatex(s);
 
   // Convert sqrt(...) to \(\sqrt{...}\) — handle simple balanced parens
   s = s.replace(

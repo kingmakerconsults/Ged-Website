@@ -552,77 +552,28 @@ function buildMathPlan() {
   }
 
   // --- Part 2: Calculator (41 questions) ---
-  // Difficulty: easy=10, medium=23, hard=8
+  // GED Math is ~55% Algebraic Reasoning. Distribute to reflect that.
   //
-  // Category distribution for Part 2:
-  //   Geometry: 8
-  //   Expressions, Equations, and Inequalities: 10
-  //   Ratios, Proportions, and Percents: 5
-  //   Data Analysis & Probability: 5
-  //   Graphing & Functions: 5
-  //   Fill-in / Numeric Response: 8 (these are response-type variations, distributed across categories)
+  // Category distribution for Part 2 (33 MC + 8 fill-in/numeric):
+  //   Algebra (Expressions, Equations, Inequalities): 15 MC + 3 fill-in = 18
+  //   Graphing & Functions:                             5 MC + 1 fill-in =  6
+  //   Geometry:                                         5 MC + 1 numeric =  6
+  //   Ratios, Proportions, and Percents:                4 MC + 1 fill-in =  5
+  //   Data Analysis & Probability:                      4 MC + 1 numeric =  5
+  //   Number Operations (fill-in only):                                    1
+  //   Total:                                           33 MC + 8 alt     = 41
   //
-  // Stimulus: mostly standalone, some with passage/data
+  // Difficulty: easy=10, medium=22, hard=9
 
-  // Geometry (8 questions)
-  slots.push(
-    standaloneSlot(P, 'Geometry', 'easy', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Geometry', 'easy', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Geometry', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Geometry', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Geometry', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Geometry', 'hard', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Geometry', 'hard', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Geometry', 'hard', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-
-  // Algebra / Expressions, Equations, and Inequalities (10 questions)
-  for (let i = 0; i < 3; i++)
+  // Algebra / Expressions, Equations, and Inequalities (15 MC questions)
+  for (let i = 0; i < 4; i++)
     slots.push(
       standaloneSlot(P, 'Expressions, Equations, and Inequalities', 'easy', 1, {
         section: 'part2_calculator',
         calculatorAllowed: true,
       })
     );
-  for (let i = 0; i < 5; i++)
+  for (let i = 0; i < 8; i++)
     slots.push(
       standaloneSlot(
         P,
@@ -632,7 +583,7 @@ function buildMathPlan() {
         { section: 'part2_calculator', calculatorAllowed: true }
       )
     );
-  for (let i = 0; i < 2; i++)
+  for (let i = 0; i < 3; i++)
     slots.push(
       standaloneSlot(P, 'Expressions, Equations, and Inequalities', 'hard', 1, {
         section: 'part2_calculator',
@@ -640,31 +591,63 @@ function buildMathPlan() {
       })
     );
 
-  // Ratios, Proportions, and Percents (5 questions)
+  // Graphing & Functions (5 MC questions)
+  slots.push(
+    standaloneSlot(P, 'Graphing & Functions', 'easy', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+    })
+  );
+  for (let i = 0; i < 3; i++)
+    slots.push(
+      standaloneSlot(P, 'Graphing & Functions', 'medium', 1, {
+        section: 'part2_calculator',
+        calculatorAllowed: true,
+      })
+    );
+  slots.push(
+    standaloneSlot(P, 'Graphing & Functions', 'hard', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+    })
+  );
+
+  // Geometry (5 MC questions)
+  slots.push(
+    standaloneSlot(P, 'Geometry', 'easy', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+    })
+  );
+  for (let i = 0; i < 2; i++)
+    slots.push(
+      standaloneSlot(P, 'Geometry', 'medium', 1, {
+        section: 'part2_calculator',
+        calculatorAllowed: true,
+      })
+    );
+  for (let i = 0; i < 2; i++)
+    slots.push(
+      standaloneSlot(P, 'Geometry', 'hard', 1, {
+        section: 'part2_calculator',
+        calculatorAllowed: true,
+      })
+    );
+
+  // Ratios, Proportions, and Percents (4 MC questions)
   slots.push(
     standaloneSlot(P, 'Ratios, Proportions, and Percents', 'easy', 1, {
       section: 'part2_calculator',
       calculatorAllowed: true,
     })
   );
-  slots.push(
-    standaloneSlot(P, 'Ratios, Proportions, and Percents', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Ratios, Proportions, and Percents', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Ratios, Proportions, and Percents', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
+  for (let i = 0; i < 2; i++)
+    slots.push(
+      standaloneSlot(P, 'Ratios, Proportions, and Percents', 'medium', 1, {
+        section: 'part2_calculator',
+        calculatorAllowed: true,
+      })
+    );
   slots.push(
     standaloneSlot(P, 'Ratios, Proportions, and Percents', 'hard', 1, {
       section: 'part2_calculator',
@@ -672,16 +655,9 @@ function buildMathPlan() {
     })
   );
 
-  // Data Analysis & Probability (5 questions) – with data stimulus
+  // Data Analysis & Probability (4 MC questions – some with data stimulus)
   slots.push(
     passageSlot(P, 'Data Analysis & Probability', 'easy', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-      stimulusType: 'passage/data',
-    })
-  );
-  slots.push(
-    passageSlot(P, 'Data Analysis & Probability', 'medium', 1, {
       section: 'part2_calculator',
       calculatorAllowed: true,
       stimulusType: 'passage/data',
@@ -707,51 +683,19 @@ function buildMathPlan() {
     })
   );
 
-  // Graphing & Functions (5 questions)
-  slots.push(
-    standaloneSlot(P, 'Graphing & Functions', 'easy', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Graphing & Functions', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Graphing & Functions', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Graphing & Functions', 'medium', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-  slots.push(
-    standaloneSlot(P, 'Graphing & Functions', 'hard', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-    })
-  );
-
-  // Fill-in / Numeric Response (8 questions – explicitly marked eligible)
-  slots.push(
-    standaloneSlot(P, 'Number Operations', 'easy', 1, {
-      section: 'part2_calculator',
-      calculatorAllowed: true,
-      responseType: 'numeric',
-    })
-  );
+  // Fill-in / Numeric Response (8 questions – distributed across categories)
   slots.push(
     standaloneSlot(P, 'Number Operations', 'medium', 1, {
       section: 'part2_calculator',
       calculatorAllowed: true,
       responseType: 'numeric',
+    })
+  );
+  slots.push(
+    standaloneSlot(P, 'Expressions, Equations, and Inequalities', 'easy', 1, {
+      section: 'part2_calculator',
+      calculatorAllowed: true,
+      responseType: 'fill_in',
     })
   );
   slots.push(
