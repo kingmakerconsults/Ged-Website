@@ -39,6 +39,12 @@ const {
   getRandomScienceShortResponse,
 } = require('./data/scienceTemplates');
 const {
+  SOCIAL_STUDIES_IMAGE_QUESTION_BANK,
+} = require('./data/socialStudiesImageQuestionBank');
+const {
+  SOCIAL_STUDIES_IMAGE_QUESTION_SETS,
+} = require('./data/socialStudiesImageQuestionSets');
+const {
   buildEssayScoringPrompt,
   ESSAY_RESPONSE_SCHEMA,
   normalizeEssayResponse,
@@ -9059,7 +9065,7 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
 
         // Load curated resources
         const ssPassages = getCuratedSocialStudiesPassages(PASSAGE_DB);
-        const ssImages = getCuratedSocialStudiesImages(IMAGE_DB);
+        const ssImages = getSeededSocialStudiesImages(IMAGE_DB);
 
         const usedPassageIds = new Set();
         const usedImages = new Set();
@@ -9156,7 +9162,7 @@ app.post('/api/topic-based/:subject', express.json(), async (req, res) => {
         // Generate 1 image-based cluster (2-3 questions)
         const topicImages =
           imgs.length > 0
-            ? imgs
+            ? imgs.filter(hasPremadeImageQuestions)
             : ssImages.filter((img) => {
                 const imgCat = (img.category || '').toLowerCase();
                 const imgAlt = (img.altText || '').toLowerCase();
@@ -10017,6 +10023,100 @@ function getCuratedSocialStudiesImages(imageCatalog) {
   });
 }
 
+function getSocialStudiesImageBankEntry(img) {
+  if (!img?.filePath) return null;
+  return SOCIAL_STUDIES_IMAGE_QUESTION_BANK[img.filePath] || null;
+}
+
+function getSocialStudiesImageQuestionSetEntry(img) {
+  if (!img?.filePath) return null;
+  return SOCIAL_STUDIES_IMAGE_QUESTION_SETS[img.filePath] || null;
+}
+
+function getImageQuestionSeeds(img) {
+  const curatedEntry = getSocialStudiesImageBankEntry(img);
+  if (curatedEntry) {
+    return Array.isArray(curatedEntry.questionSeeds)
+      ? curatedEntry.questionSeeds
+          .map((seed) => String(seed).trim())
+          .filter(Boolean)
+      : [];
+  }
+
+  const subject = String(img?.subject || '').toLowerCase();
+  if (subject.includes('social')) {
+    return [];
+  }
+
+  return Array.isArray(img?.questionSeeds)
+    ? img.questionSeeds.map((seed) => String(seed).trim()).filter(Boolean)
+    : [];
+}
+
+function getImageUsageDirectives(img) {
+  const curatedEntry = getSocialStudiesImageBankEntry(img);
+  if (curatedEntry?.usageDirectives) {
+    return String(curatedEntry.usageDirectives).trim();
+  }
+
+  return String(img?.usageDirectives || '').trim();
+}
+
+function hasHandAuthoredSocialStudiesImageQuestions(img) {
+  return Array.isArray(getSocialStudiesImageQuestionSetEntry(img)?.questions);
+}
+
+function buildSocialStudiesImageQuestionItems({ image, category, questions }) {
+  const groupId = `ss-img-${image.filePath?.split('/').pop() || Date.now()}`;
+
+  return questions.map((entry) =>
+    enforceWordCapsOnItem(
+      {
+        ...entry,
+        itemType: 'image',
+        subject: 'Social Studies',
+        category,
+        stimulusImage: {
+          src: image.filePath,
+          alt: image.altText || '',
+        },
+        groupId,
+      },
+      'Social Studies'
+    )
+  );
+}
+
+function getHandAuthoredSocialStudiesImageQuestions({
+  image,
+  category,
+  numQuestions,
+}) {
+  const entry = getSocialStudiesImageQuestionSetEntry(image);
+  if (!Array.isArray(entry?.questions) || !entry.questions.length) return [];
+
+  const picked = shuffleArray(entry.questions.slice()).slice(
+    0,
+    Math.max(1, numQuestions)
+  );
+
+  return buildSocialStudiesImageQuestionItems({
+    image,
+    category,
+    questions: picked,
+  });
+}
+
+function hasPremadeImageQuestions(img) {
+  return getImageQuestionSeeds(img).length > 0;
+}
+
+function getSeededSocialStudiesImages(imageCatalog) {
+  return getCuratedSocialStudiesImages(imageCatalog).filter(
+    hasPremadeImageQuestions
+  );
+}
+
 // ========================================
 // AI-generated passage + questions (no curated source)
 // ========================================
@@ -10303,6 +10403,27 @@ async function generateSocialStudiesImageSet({
 }) {
   if (!image) return [];
 
+  const handAuthoredQuestions = getHandAuthoredSocialStudiesImageQuestions({
+    image,
+    category,
+    numQuestions,
+  });
+  if (handAuthoredQuestions.length) {
+    if (image.filePath && usedImages) {
+      usedImages.add(image.filePath);
+    }
+    return handAuthoredQuestions;
+  }
+
+  const questionSeeds = getImageQuestionSeeds(image);
+  if (!questionSeeds.length) {
+    console.warn(
+      '[SS] Skipping image without premade question seeds:',
+      image.filePath || image.fileName || '[unknown image]'
+    );
+    return [];
+  }
+
   // Mark image as used
   if (image.filePath && usedImages) {
     usedImages.add(image.filePath);
@@ -10313,7 +10434,13 @@ async function generateSocialStudiesImageSet({
     altText: image.altText || '',
     description: image.detailedDescription || '',
     keywords: Array.isArray(image.keywords) ? image.keywords.join(', ') : '',
+    extractedText: image.extractedText || '',
+    usageDirectives: getImageUsageDirectives(image),
   };
+
+  const seedBlock = questionSeeds
+    .map((seed, index) => `${index + 1}. ${seed}`)
+    .join('\n');
 
   const prompt = `You are creating GED-level Social Studies questions that require students to interpret an image.
 
@@ -10322,6 +10449,11 @@ IMAGE CONTEXT:
 - Description: ${imageContext.description}
 - Alt Text: ${imageContext.altText}
 - Keywords: ${imageContext.keywords}
+- Extracted Text: ${imageContext.extractedText}
+- Usage Directives: ${imageContext.usageDirectives}
+
+PREMADE QUESTION ANGLES:
+${seedBlock}
 
 Create EXACTLY ${numQuestions} multiple-choice questions for ${category} that:
 - Require interpreting the visual message (for political cartoons: symbolism, satire, perspective)
@@ -10331,6 +10463,9 @@ Create EXACTLY ${numQuestions} multiple-choice questions for ${category} that:
 
 CRITICAL RULES:
 - Questions MUST rely on the image to answer
+- Every question MUST stay within one of the premade question angles above
+- Do NOT invent a different region, event, era, map, or data set that is not explicitly supported by the image context and premade question angles
+- Do NOT fall back to generic prompts about broad historical importance or vague civic themes unless the premade angle explicitly calls for that
 - Keep data simple: 2-3 digit numbers for any calculations
 - Multiple-choice with 4 answer options
 - Focus on ${category} content
@@ -10368,22 +10503,11 @@ ${TABLE_INTEGRITY_RULES}`;
     const result = await callAI(prompt, imageQuestionSchema, aiOptions);
     const questions = Array.isArray(result) ? result : [];
 
-    return questions.map((q) =>
-      enforceWordCapsOnItem(
-        {
-          ...q,
-          itemType: 'image',
-          subject: 'Social Studies',
-          category,
-          stimulusImage: {
-            src: image.filePath,
-            alt: image.altText || '',
-          },
-          groupId: `ss-img-${image.filePath?.split('/').pop() || Date.now()}`,
-        },
-        'Social Studies'
-      )
-    );
+    return buildSocialStudiesImageQuestionItems({
+      image,
+      category,
+      questions,
+    });
   } catch (error) {
     console.error('[SS] Image set generation failed:', error.message);
     return [];
@@ -12077,7 +12201,7 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
   // ── Social Studies generators ─────────────────────────────────────
   if (normalizedSubject === 'Social Studies') {
     const ssPassages = getCuratedSocialStudiesPassages(PASSAGE_DB);
-    const ssImages = getCuratedSocialStudiesImages(IMAGE_DB);
+    const ssImages = getSeededSocialStudiesImages(IMAGE_DB);
     const usedPassageIds = new Set();
     const usedImagePaths = new Set();
 
@@ -12569,14 +12693,16 @@ function pickImageForSlot(images, category, usedPaths) {
       'rights',
     ],
     'u.s. history': [
-      'history',
-      'historical',
-      'war',
+      'american',
+      'united states',
       'president',
       'civil war',
       'reconstruction',
       'colonial',
       'revolution',
+      'founding',
+      'new deal',
+      'civil rights',
     ],
     economics: [
       'econom',
@@ -12606,13 +12732,19 @@ function pickImageForSlot(images, category, usedPaths) {
 
   const available = images.filter((img) => {
     if (img.filePath && usedPaths.has(img.filePath)) return false;
+    if (!hasPremadeImageQuestions(img)) return false;
     const combined =
-      `${img.category || ''} ${img.altText || ''} ${img.detailedDescription || ''}`.toLowerCase();
+      `${img.category || ''} ${img.altText || ''} ${img.detailedDescription || ''} ${getImageUsageDirectives(img)} ${getImageQuestionSeeds(img).join(' ')} ${Array.isArray(img.keywords) ? img.keywords.join(' ') : ''}`.toLowerCase();
     return kws.some((kw) => combined.includes(kw));
   });
 
   if (available.length === 0) return null;
-  const picked = available[Math.floor(Math.random() * available.length)];
+  const authoredPool = available.filter(
+    hasHandAuthoredSocialStudiesImageQuestions
+  );
+  const selectionPool = authoredPool.length ? authoredPool : available;
+  const picked =
+    selectionPool[Math.floor(Math.random() * selectionPool.length)];
   if (picked.filePath) usedPaths.add(picked.filePath);
   return picked;
 }
