@@ -371,10 +371,9 @@ module.exports = [
     questionNumber: 12,
     challenge_tags: ['social-5'],
     type: 'image',
-    imageUrl:
-      '/images/Social Studies/the_u_s_economy_0001.png',
+    imageUrl: '/images/Social Studies/unclassified_0045.png',
     question:
-      'This chart shows the unemployment rate in the U.S. over time. A sharp spike in the unemployment rate, like the ones seen around 2009 and 2020, is typically associated with which phase of the business cycle?',
+      'This chart shows the unemployment rate in the U.S. over time. A sharp spike in the unemployment rate, like the one seen around 2009, is typically associated with which phase of the business cycle?',
     answerOptions: [
       {
         text: 'Expansion',

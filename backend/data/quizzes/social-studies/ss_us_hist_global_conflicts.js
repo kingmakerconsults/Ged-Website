@@ -75,30 +75,32 @@ module.exports = [
   {
     questionNumber: 3,
     type: 'image',
-    imageUrl: '/images/Social Studies/global_conflicts_0002.jpg',
+    imageUrl: '/images/Social Studies/unclassified_0051.png',
     question:
-      'This map shows the new borders of Europe established by the Treaty of Versailles after World War I. Why did the U.S. Senate refuse to ratify this treaty?',
+      "This diagram shows how the Treaty of Versailles led to political and economic instability in Germany. According to the diagram, which development helped create the conditions for Adolf Hitler's rise to power?",
     answerOptions: [
       {
-        text: 'They believed the treaty was too harsh on Germany.',
+        text: 'Germany experienced widespread resentment and a crippled economy.',
         rationale:
-          'While some had this concern, the primary reason for rejection was opposition to the League of Nations.',
-        isCorrect: false,
-      },
-      {
-        text: 'They were opposed to joining the League of Nations, fearing it would compromise U.S. sovereignty.',
-        rationale:
-          "Correct. The treaty's provisions included joining the League of Nations, which was the main point of contention for the Senate.",
+          'Correct. The diagram links harsh treaty terms to political resentment and economic hardship, which helped Hitler gain support.',
         isCorrect: true,
       },
       {
-        text: 'President Wilson himself decided the treaty was flawed.',
-        rationale: "President Wilson was the treaty's greatest champion.",
+        text: 'The United States joined the League of Nations and restored German territory.',
+        rationale:
+          'The diagram does not show the U.S. joining the League or Germany regaining its lost territory.',
         isCorrect: false,
       },
       {
-        text: 'Great Britain and France refused to allow the U.S. to join.',
-        rationale: 'The other Allied powers wanted the U.S. to join.',
+        text: 'Germany immediately recovered because reparations payments strengthened its economy.',
+        rationale:
+          'The diagram shows the opposite: reparations and economic strain weakened Germany.',
+        isCorrect: false,
+      },
+      {
+        text: 'The treaty reduced nationalist feeling and prevented militarization.',
+        rationale:
+          'The diagram shows rising nationalist sentiment and eventual rearmament, not their prevention.',
         isCorrect: false,
       },
     ],
@@ -172,32 +174,32 @@ module.exports = [
   {
     questionNumber: 6,
     type: 'image',
-    imageUrl: '/images/Social Studies/global_conflicts_0001.jpg',
+    imageUrl: '/images/Social Studies/great_depression_0001.png',
     question:
-      "This photograph from the 1930s shows a 'Hooverville.' What does this image represent?",
+      'This photograph shows unemployed men waiting in a breadline during the Great Depression. What does this image represent?',
     answerOptions: [
       {
         text: 'Government-built housing projects for the poor.',
         rationale:
-          'These were shantytowns built by the homeless themselves, not government projects.',
+          'The image shows private charitable relief for unemployed people, not government housing projects.',
         isCorrect: false,
       },
       {
         text: 'The widespread homelessness and poverty caused by the Great Depression.',
         rationale:
-          "Correct. 'Hoovervilles' were shantytowns built by unemployed and homeless people, named mockingly after President Herbert Hoover, whom many blamed for the crisis.",
+          'Correct. Breadlines and free food distribution became common because unemployment and poverty were so widespread during the Great Depression.',
         isCorrect: true,
       },
       {
         text: 'Temporary camps for soldiers during World War II.',
         rationale:
-          'This photo depicts civilian life during the Depression, not military life during WWII.',
+          'The photo depicts civilians seeking relief during the Depression, not military camps.',
         isCorrect: false,
       },
       {
         text: 'Planned suburban communities built in the 1920s.',
         rationale:
-          'This is a makeshift shantytown, the opposite of a planned community.',
+          'A breadline for the unemployed is the opposite of a prosperous planned community.',
         isCorrect: false,
       },
     ],
@@ -273,8 +275,7 @@ module.exports = [
   {
     questionNumber: 9,
     type: 'image',
-    imageUrl:
-      '/images/Social Studies/global_conflicts_0003.png',
+    imageUrl: '/images/Social Studies/licensed_image_0002.jpg',
     question:
       "This iconic 'Rosie the Riveter' poster from World War II became a symbol of what major change on the U.S. home front?",
     answerOptions: [

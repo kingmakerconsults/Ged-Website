@@ -106,28 +106,27 @@ module.exports = [
     type: 'image',
     imageUrl: '/images/Social%20Studies/map_and_data_skills_0003.jpg',
     question:
-      'This world map shows Gross Domestic Product (GDP) per capita, with darker colors representing higher GDP per capita. According to the map, which of these regions generally has the highest GDP per capita?',
+      'This political world map shows continents and national borders. According to the map, which of these countries is located in South America?',
     answerOptions: [
       {
-        text: 'Central Africa',
+        text: 'Brazil',
         rationale:
-          'Central Africa is shown in the lightest shades, indicating lower GDP per capita.',
-        isCorrect: false,
-      },
-      {
-        text: 'South America',
-        rationale: 'South America is shown in light to medium shades.',
-        isCorrect: false,
-      },
-      {
-        text: 'North America and Western Europe',
-        rationale:
-          'Correct. The United States, Canada, and countries in Western Europe are shown in the darkest shades, indicating the highest GDP per capita.',
+          'Correct. Brazil is labeled in eastern South America on the map.',
         isCorrect: true,
       },
       {
-        text: 'Southeast Asia',
-        rationale: 'Southeast Asia is shown in lighter shades.',
+        text: 'India',
+        rationale: 'India is located in South Asia, not South America.',
+        isCorrect: false,
+      },
+      {
+        text: 'Egypt',
+        rationale: 'Egypt is located in northeastern Africa.',
+        isCorrect: false,
+      },
+      {
+        text: 'Spain',
+        rationale: 'Spain is located in southwestern Europe.',
         isCorrect: false,
       },
     ],
@@ -136,30 +135,28 @@ module.exports = [
     questionNumber: 5,
     type: 'image',
     imageUrl: '/images/Social%20Studies/map_and_data_skills_0003.jpg',
-    question:
-      "Based on the map's key, which shows that darker colors represent higher GDP per capita, what can be inferred about the economic status of Australia?",
+    question: 'According to the map, Australia is part of which world region?',
     answerOptions: [
       {
-        text: 'It has one of the lowest GDPs per capita in the world.',
-        rationale: 'Australia is shown in one of the darkest shades.',
+        text: 'Europe',
+        rationale: 'Australia is not part of Europe.',
         isCorrect: false,
       },
       {
-        text: 'It has a GDP per capita comparable to that of Western Europe and North America.',
+        text: 'Oceania',
         rationale:
-          'Correct. Australia is shaded with the same dark color as the United States, Canada, and Western European countries, indicating a similar high level of GDP per capita.',
+          'Correct. Australia is located in the Oceania region on the world map.',
         isCorrect: true,
       },
       {
-        text: 'It has a GDP per capita similar to that of most countries in Africa.',
-        rationale:
-          'Most countries in Africa are shown in the lightest shades, indicating much lower GDP per capita.',
+        text: 'South America',
+        rationale: 'Australia is southeast of Asia, not in South America.',
         isCorrect: false,
       },
       {
-        text: "The map does not provide enough information to determine Australia's economic status.",
+        text: 'North America',
         rationale:
-          'The map clearly shows Australia and provides a key for interpretation.',
+          'North America includes countries such as the United States and Canada.',
         isCorrect: false,
       },
     ],
@@ -235,28 +232,30 @@ module.exports = [
     type: 'image',
     imageUrl: '/images/Social%20Studies/map_and_data_skills_0002.jpg',
     question:
-      'This is a political map of South America. Which country is located on the west coast of the continent, bordering Peru, Bolivia, and Argentina?',
+      'This historical map shows the Roman Empire at its greatest extent in 117 AD. Which city is marked as the capital of the empire?',
     answerOptions: [
       {
-        text: 'Brazil',
-        rationale: 'Brazil is the largest country, located on the east coast.',
+        text: 'Carthage',
+        rationale:
+          'Carthage was an important city in North Africa, but it is not marked as the capital.',
         isCorrect: false,
       },
       {
-        text: 'Colombia',
+        text: 'Alexandria',
         rationale:
-          'Colombia is in the northwest, bordering Peru but not Bolivia or Argentina.',
+          'Alexandria was a major city in Egypt, but not the capital of the empire.',
         isCorrect: false,
       },
       {
-        text: 'Chile',
+        text: 'Roma',
         rationale:
-          'Correct. The map shows Chile as a long, narrow country on the west coast, with borders matching the description.',
+          'Correct. The map labels Roma as the political center of the Roman Empire.',
         isCorrect: true,
       },
       {
-        text: 'Venezuela',
-        rationale: 'Venezuela is on the northern coast of the continent.',
+        text: 'Athens',
+        rationale:
+          "Athens was a major Greek city, but it is not marked as the empire's capital.",
         isCorrect: false,
       },
     ],
@@ -266,27 +265,30 @@ module.exports = [
     type: 'image',
     imageUrl: '/images/Social%20Studies/map_and_data_skills_0002.jpg',
     question:
-      "Using the map's scale of miles, the approximate distance from the capital of Colombia (Bogotá) to the capital of Venezuela (Caracas) is:",
+      "Which body of water shown on the map borders much of the Roman Empire's territory in southern Europe and northern Africa?",
     answerOptions: [
       {
-        text: 'About 100 miles',
-        rationale: 'This distance is significantly underestimated.',
+        text: 'The Atlantic Ocean',
+        rationale:
+          "The Atlantic Ocean is west of Iberia, but it does not border most of the empire's central lands.",
         isCorrect: false,
       },
       {
-        text: 'About 600 miles',
+        text: 'The Mediterranean Sea',
         rationale:
-          'Correct. By visually applying the map scale, the distance between the two capitals is approximately 600 miles.',
+          'Correct. The Mediterranean Sea, labeled on the map, touches large portions of southern Europe and northern Africa.',
         isCorrect: true,
       },
       {
-        text: 'About 1,500 miles',
-        rationale: 'This distance is significantly overestimated.',
+        text: 'The North Sea',
+        rationale:
+          'The North Sea is not the central sea around which most Roman territory is shown.',
         isCorrect: false,
       },
       {
-        text: 'About 2,000 miles',
-        rationale: 'This is a vast overestimation.',
+        text: 'The Black Sea only',
+        rationale:
+          "The Black Sea is shown, but it does not border most of the empire's territory.",
         isCorrect: false,
       },
     ],

@@ -16787,6 +16787,114 @@ function questionHasMissingLocalImage(q) {
   return urls.some((u) => !imageExistsForUrl(u));
 }
 
+function getImageMetadataLookup() {
+  const lookup = new Map();
+  const list = Array.isArray(IMAGE_DB) ? IMAGE_DB : [];
+  list.forEach((img) => {
+    const key = normalizeImageUrlToPublicPath(img?.filePath || img?.imageUrl);
+    if (key) lookup.set(key.toLowerCase(), img);
+  });
+  return lookup;
+}
+
+function getQuestionImageMetadata(question) {
+  const urls = collectQuestionImageUrls(question);
+  if (!urls.length) return null;
+  const lookup = getImageMetadataLookup();
+  for (const url of urls) {
+    const key = normalizeImageUrlToPublicPath(url);
+    if (!key) continue;
+    const match = lookup.get(key.toLowerCase());
+    if (match) return match;
+  }
+  return null;
+}
+
+function questionHasObviousImageMismatch(question) {
+  if (!question || typeof question !== 'object') return false;
+  const imageMeta = getQuestionImageMetadata(question);
+  if (!imageMeta) return false;
+
+  const text = `${question.question || ''} ${question.questionText || ''}`
+    .toLowerCase()
+    .trim();
+  if (!text) return false;
+
+  const bag = [
+    imageMeta.category,
+    imageMeta.altText,
+    imageMeta.detailedDescription,
+    Array.isArray(imageMeta.keywords) ? imageMeta.keywords.join(' ') : '',
+    imageMeta.extractedText,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  const modalityChecks = [
+    {
+      questionRe: /\bphoto(graph)?\b|\bpictured\b|\bshown in the photograph\b/,
+      expectedRe:
+        /photo|photograph|historical-photos|historic-photos|historical-photographs|crowd|people|portrait|march/,
+      bannedRe:
+        /map|graph|chart|table|timeline|flowchart|compass|navigation|cartoon|diagram/,
+    },
+    {
+      questionRe: /\bmap\b/,
+      expectedRe:
+        /map|maps-and-navigation|cartograph|route|border|territor|continent|country|navigation|compass/,
+      bannedRe: /graph|chart|table|timeline|flowchart|cartoon|photograph/,
+    },
+    {
+      questionRe: /\bgraph\b|\bbar graph\b|\bline graph\b/,
+      expectedRe:
+        /graph|bar-graph|bar graph|line-graph|line graph|economics-graphs|demographics-graphs/,
+      bannedRe: /cartoon|photograph|map|table|timeline|flowchart/,
+    },
+    {
+      questionRe: /\bchart\b|\bpie chart\b/,
+      expectedRe: /chart|pie-chart|pie chart|bar-chart|bar chart/,
+      bannedRe: /cartoon|photograph|map|table|timeline|flowchart/,
+    },
+    {
+      questionRe: /\btable\b/,
+      expectedRe:
+        /table|tables|data table|civics-tables|economics-tables|terminology-table/,
+      bannedRe: /cartoon|photograph|map|graph|timeline|flowchart/,
+    },
+    {
+      questionRe: /\bflowchart\b/,
+      expectedRe: /flowchart|civics-flowcharts/,
+      bannedRe: /cartoon|photograph|map|graph|table|timeline/,
+    },
+    {
+      questionRe: /\btimeline\b/,
+      expectedRe: /timeline|timelines/,
+      bannedRe: /cartoon|photograph|map|graph|table|flowchart/,
+    },
+    {
+      questionRe: /\bcartoon\b|\bcaricature\b/,
+      expectedRe:
+        /cartoon|caricature|satire|political-cartoons|political cartoon/,
+      bannedRe: /photograph|map|graph|chart|table|flowchart|timeline/,
+    },
+  ];
+
+  for (const check of modalityChecks) {
+    if (!check.questionRe.test(text)) continue;
+    if (check.bannedRe.test(bag) && !check.expectedRe.test(bag)) return true;
+    if (!check.expectedRe.test(bag)) return true;
+  }
+
+  if (/ellis island|immigrant|immigration|naturalization/.test(text)) {
+    const immigrationRe =
+      /ellis|immigra|naturalization|citizen|refugee|migration/;
+    if (!immigrationRe.test(bag)) return true;
+  }
+
+  return false;
+}
+
 const getPremadeQuestions = (subject, count, options = {}) => {
   const allQuestions = [];
   const targetTier = normalizeLearnerQuestionTier(options?.targetTier);
@@ -16897,6 +17005,7 @@ const getPremadeQuestions = (subject, count, options = {}) => {
                 );
                 // Option B: drop questions that reference missing local images
                 if (questionHasMissingLocalImage(normalized)) return;
+                if (questionHasObviousImageMismatch(normalized)) return;
                 if (normalized.content && normalized.content.questionText) {
                   normalized.question = normalized.content.questionText;
                 }
@@ -16926,6 +17035,7 @@ const getPremadeQuestions = (subject, count, options = {}) => {
                 );
                 // Option B: drop questions that reference missing local images
                 if (questionHasMissingLocalImage(normalized)) return;
+                if (questionHasObviousImageMismatch(normalized)) return;
                 // Flatten content.questionText to question field for frontend compatibility
                 if (normalized.content && normalized.content.questionText) {
                   normalized.question = normalized.content.questionText;
@@ -17152,6 +17262,7 @@ function flattenSubjectQuestions(subjectKey) {
         if (!isValidMC(q)) return;
         // Option B: drop questions that reference missing local images
         if (questionHasMissingLocalImage(q)) return;
+        if (questionHasObviousImageMismatch(q)) return;
         // Ensure subject property present
         if (!q.subject) q.subject = subjectKey;
         out.push(q);

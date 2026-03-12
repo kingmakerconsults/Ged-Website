@@ -208,8 +208,7 @@ module.exports = [
     questionNumber: 7,
     challenge_tags: ['social-1'],
     type: 'image',
-    imageUrl:
-      '/images/Social Studies/industrial_america_0003.jpg',
+    imageUrl: '/images/Social Studies/industrial_america_0003.jpg',
     question:
       "This political cartoon, titled 'The Protectors of Our Industries,' satirizes the powerful industrialists of the Gilded Age. What term was often used to criticize business leaders like the ones depicted, who used ruthless tactics to amass great wealth?",
     answerOptions: [
@@ -276,33 +275,32 @@ module.exports = [
   {
     questionNumber: 9,
     type: 'image',
-    imageUrl: '/images/Social Studies/industrial_america_0002.jpg',
+    imageUrl: '/images/Social Studies/unclassified_0094.png',
     question:
-      'This photograph shows immigrants arriving at Ellis Island in the early 20th century. The process these individuals are undergoing is most likely:',
+      'According to the bar graph, during which decade did the United States receive the highest number of immigrants?',
     answerOptions: [
       {
-        text: 'a welcoming ceremony with city officials.',
+        text: 'the 1930s',
         isCorrect: false,
         rationale:
-          'This is not the correct answer based on the information provided.',
+          'The 1930s bar is much lower than the tallest bar on the graph.',
       },
       {
-        text: 'a medical and legal inspection to determine their eligibility for admission to the United States.',
+        text: 'the 1970s',
+        isCorrect: false,
+        rationale:
+          'Immigration rises in the 1970s, but the graph shows a higher peak later.',
+      },
+      {
+        text: 'the 1990s',
         isCorrect: true,
         rationale:
-          'a medical and legal inspection to determine their eligibility for admission to the United States.',
+          'Correct. The tallest bar appears in the 1990s, indicating the highest immigration total shown.',
       },
       {
-        text: 'a recruitment event for the U.S. military.',
+        text: 'the 1950s',
         isCorrect: false,
-        rationale:
-          'This option does not accurately reflect the passage or question context.',
-      },
-      {
-        text: 'a class to learn how to speak English.',
-        isCorrect: false,
-        rationale:
-          'While this might seem plausible, it is not supported by the information given.',
+        rationale: "The 1950s bar is well below the graph's peak decade.",
       },
     ],
     challenge_tags: ['social-1'],
@@ -310,10 +308,9 @@ module.exports = [
   {
     questionNumber: 10,
     type: 'image',
-    imageUrl:
-      '/images/Social Studies/industrial_america_0004.png',
+    imageUrl: '/images/Social Studies/unclassified_0077.png',
     question:
-      'This graph shows a significant trend of population growth, similar to the urbanization seen in the U.S. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?',
+      'This table shows that the percentage of Americans living in urban areas rose dramatically over time. What was a major social problem that arose from the rapid growth of cities in the late 19th and early 20th centuries?',
     answerOptions: [
       {
         text: 'A shortage of factory jobs.',
