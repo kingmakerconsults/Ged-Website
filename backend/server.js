@@ -34,6 +34,7 @@ const genAI = process.env.GOOGLE_AI_API_KEY
   ? new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY)
   : null;
 const {
+  SCIENTIFIC_SCENARIO_SETS,
   getRandomScienceScenario,
   getRandomScienceNumeracyItem,
   getRandomScienceShortResponse,
@@ -1435,17 +1436,195 @@ function buildScienceShortResponseItem(template) {
 }
 
 function instantiateScienceNumeracyTemplate(excludeIds = new Set()) {
-  const tpl = getRandomScienceNumeracyItem(excludeIds);
+  let tpl = getRandomScienceNumeracyItem(excludeIds);
+  if (!tpl && excludeIds.size > 0) {
+    excludeIds.clear();
+    tpl = getRandomScienceNumeracyItem(excludeIds);
+  }
   if (!tpl) return null;
   excludeIds.add(tpl.id);
   return buildScienceNumeracyTemplateItem(tpl);
 }
 
 function instantiateScienceScenarioCluster(excludeIds = new Set()) {
-  const tpl = getRandomScienceScenario(excludeIds);
+  let tpl = getRandomScienceScenario(excludeIds);
+  if (!tpl && excludeIds.size > 0) {
+    excludeIds.clear();
+    tpl = getRandomScienceScenario(excludeIds);
+  }
   if (!tpl) return null;
   excludeIds.add(tpl.id);
   return buildScienceScenarioCluster(tpl);
+}
+
+function instantiateScienceScenarioClusterForSlot(
+  slot,
+  excludeIds = new Set()
+) {
+  if (slot?.group === 'life_genetics') {
+    const geneticsTemplate = SCIENTIFIC_SCENARIO_SETS.find(
+      (item) => item.id === 'scenario_genetics_punnett'
+    );
+    if (geneticsTemplate) {
+      return buildScienceScenarioCluster(geneticsTemplate);
+    }
+  }
+  return instantiateScienceScenarioCluster(excludeIds);
+}
+
+function buildTrustedScienceImageQuestionSet(slot) {
+  if (slot?.group === 'life_genetics') {
+    return [
+      {
+        type: 'image',
+        questionType: 'multiple_choice_single',
+        responseType: 'mc',
+        difficulty: slot.difficulty || 'medium',
+        imageUrl: '/images/Science/dominance_genetics_0002.png',
+        questionText:
+          'The Punnett square shows all four first-generation offspring as Rr. What phenotype should students expect if Rr produces pink flowers?',
+        answerOptions: [
+          {
+            text: 'All four offspring should be pink.',
+            isCorrect: true,
+            rationale:
+              'Each box is labeled Rr, and the prompt states that Rr produces pink flowers.',
+          },
+          {
+            text: 'Two offspring should be red and two should be white.',
+            isCorrect: false,
+            rationale:
+              'That outcome would require different genotypes in the square.',
+          },
+          {
+            text: 'All four offspring should be red because R is present.',
+            isCorrect: false,
+            rationale:
+              'The image models incomplete dominance, not complete dominance.',
+          },
+          {
+            text: 'The offspring color cannot be predicted from the image.',
+            isCorrect: false,
+            rationale:
+              'The image provides the genotype for all four offspring.',
+          },
+        ],
+      },
+      {
+        type: 'image',
+        questionType: 'multiple_choice_single',
+        responseType: 'mc',
+        difficulty: 'medium',
+        imageUrl: '/images/Science/dominance_genetics_0002.png',
+        questionText:
+          'Which statement best explains why the Punnett square is useful for this flower-color cross?',
+        answerOptions: [
+          {
+            text: 'It organizes the allele combinations each offspring could inherit.',
+            isCorrect: true,
+            rationale:
+              'Punnett squares show the possible genotype outcomes from the parental alleles.',
+          },
+          {
+            text: 'It measures how much sunlight each parent plant received.',
+            isCorrect: false,
+            rationale:
+              'The diagram shows inheritance, not environmental measurements.',
+          },
+          {
+            text: 'It proves flower color is caused only by fertilizer levels.',
+            isCorrect: false,
+            rationale:
+              'The image models allele combinations, not fertilizer effects.',
+          },
+          {
+            text: 'It guarantees the exact number of flowers that will grow.',
+            isCorrect: false,
+            rationale:
+              'Punnett squares predict probabilities and ratios, not exact counts.',
+          },
+        ],
+      },
+    ].slice(0, slot.questionsNeeded);
+  }
+
+  if (slot?.group === 'phys_image1') {
+    return [
+      {
+        type: 'image',
+        questionType: 'multiple_choice_single',
+        responseType: 'mc',
+        difficulty: slot.difficulty || 'medium',
+        imageUrl: '/images/Science/earth_and_space_systems_0001.png',
+        questionText:
+          'Based on the pH table image, which pair of substances should both turn litmus paper blue?',
+        answerOptions: [
+          {
+            text: 'Soapy water and ammonia',
+            isCorrect: true,
+            rationale:
+              'Both substances have pH values above 7 in the image, so both are bases and turn litmus blue.',
+          },
+          {
+            text: 'Orange juice and vinegar',
+            isCorrect: false,
+            rationale: 'Those substances are acidic and turn litmus red.',
+          },
+          {
+            text: 'Water and vinegar',
+            isCorrect: false,
+            rationale: 'Water is neutral and vinegar is acidic.',
+          },
+          {
+            text: 'Orange juice and drain cleaner',
+            isCorrect: false,
+            rationale: 'One is acidic and the other is strongly basic.',
+          },
+        ],
+      },
+    ];
+  }
+
+  if (slot?.group === 'earth_diag1') {
+    return [
+      {
+        type: 'image',
+        questionType: 'multiple_choice_single',
+        responseType: 'mc',
+        difficulty: slot.difficulty || 'easy',
+        imageUrl: '/images/Science/earth_s_magnetic_field_0001.png',
+        questionText:
+          'According to the Earth-layer diagram, which layer lies directly beneath the crust?',
+        answerOptions: [
+          {
+            text: 'Mantle',
+            isCorrect: true,
+            rationale:
+              'The diagram shows the mantle immediately below the crust.',
+          },
+          {
+            text: 'Inner core',
+            isCorrect: false,
+            rationale:
+              'The inner core is at the center of Earth, not beneath the crust.',
+          },
+          {
+            text: 'Outer core',
+            isCorrect: false,
+            rationale: 'The outer core lies below the mantle.',
+          },
+          {
+            text: 'Magnetosphere',
+            isCorrect: false,
+            rationale:
+              'The magnetosphere is not one of the internal layers shown in the diagram.',
+          },
+        ],
+      },
+    ];
+  }
+
+  return [];
 }
 
 function instantiateScienceShortResponse(excludeIds = new Set()) {
@@ -1980,10 +2159,13 @@ const CHEMISTRY_BALANCING_TEMPLATES = [
  * Get random chemistry balancing question
  */
 function getChemistryBalancingQuestion() {
-  const template =
-    CHEMISTRY_BALANCING_TEMPLATES[
-      Math.floor(Math.random() * CHEMISTRY_BALANCING_TEMPLATES.length)
-    ];
+  const eligibleTemplates = CHEMISTRY_BALANCING_TEMPLATES.filter(
+    (template) => !template.answerOptions
+  );
+  const sourcePool = eligibleTemplates.length
+    ? eligibleTemplates
+    : CHEMISTRY_BALANCING_TEMPLATES;
+  const template = sourcePool[Math.floor(Math.random() * sourcePool.length)];
 
   const question = {
     id: `${template.id}_${Date.now()}`,
@@ -11870,6 +12052,7 @@ async function reviewAndCorrectQuiz(draftQuiz, options = {}) {
         groupId: q.groupId || null,
         stimulusId: q.stimulusId || null,
         category: q.category || null,
+        toolsAllowed: Array.isArray(q.toolsAllowed) ? q.toolsAllowed : null,
       };
     });
   }
@@ -11946,6 +12129,7 @@ Return ONLY the corrected quiz JSON object.`;
         if (orig.groupId) q.groupId = orig.groupId;
         if (orig.stimulusId) q.stimulusId = orig.stimulusId;
         if (orig.category) q.category = orig.category;
+        if (orig.toolsAllowed) q.toolsAllowed = orig.toolsAllowed;
         // If the AI added imageUrl/stimulusImage to a non-image question, strip them
         if (!orig.stimulusImage && !orig.imageUrl) {
           delete q.stimulusImage;
@@ -12281,13 +12465,16 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
     };
 
     generators.templateFill = async (slot) => {
+      const trustedImages = buildTrustedScienceImageQuestionSet(slot);
+      if (trustedImages.length) return trustedImages;
+
       // Chemistry balancing uses template generator
       if (slot.group === 'chem_balance') {
         const q = getChemistryBalancingQuestion();
         return q ? [q] : [];
       }
       if (slot.stimulusType === 'passage/data') {
-        const scenario = instantiateScienceScenarioCluster();
+        const scenario = instantiateScienceScenarioClusterForSlot(slot);
         if (scenario && scenario.length) {
           return scenario.slice(0, slot.questionsNeeded);
         }
@@ -12296,7 +12483,7 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
         const items = buildScienceNumeracyTemplateSet(slot.questionsNeeded);
         if (items.length) return items;
       }
-      const scenario = instantiateScienceScenarioCluster();
+      const scenario = instantiateScienceScenarioClusterForSlot(slot);
       if (scenario && scenario.length) {
         return scenario.slice(0, slot.questionsNeeded);
       }
@@ -12544,11 +12731,20 @@ function tagFilledQuestionForSlot(
 
 function buildGuaranteedScienceFilledSlots(plan) {
   const filledSlots = new Map();
+  const scenarioExclude = new Set();
+  const numeracyExclude = new Set();
 
   for (const slot of plan.slots) {
     const filled = [];
+    const trustedImages = buildTrustedScienceImageQuestionSet(slot);
 
-    if (slot.group === 'chem_balance') {
+    if (trustedImages.length) {
+      filled.push(...trustedImages.slice(0, slot.questionsNeeded));
+    }
+
+    if (filled.length >= slot.questionsNeeded) {
+      // Trusted local images already satisfied this slot.
+    } else if (slot.group === 'chem_balance') {
       while (filled.length < slot.questionsNeeded) {
         const item = getChemistryBalancingQuestion();
         if (!item) break;
@@ -12556,7 +12752,10 @@ function buildGuaranteedScienceFilledSlots(plan) {
       }
     } else if (slot.stimulusType === 'passage/data') {
       while (filled.length < slot.questionsNeeded) {
-        const cluster = instantiateScienceScenarioCluster();
+        const cluster = instantiateScienceScenarioClusterForSlot(
+          slot,
+          scenarioExclude
+        );
         if (!cluster || !cluster.length) break;
         filled.push(...cluster.slice(0, slot.questionsNeeded - filled.length));
       }
@@ -12565,7 +12764,7 @@ function buildGuaranteedScienceFilledSlots(plan) {
       slot.numeracy
     ) {
       while (filled.length < slot.questionsNeeded) {
-        const item = instantiateScienceNumeracyTemplate();
+        const item = instantiateScienceNumeracyTemplate(numeracyExclude);
         if (!item) break;
         filled.push(item);
       }
@@ -12599,9 +12798,10 @@ function buildGuaranteedScienceFilledSlots(plan) {
 }
 
 function buildScienceNumeracyTemplateSet(count) {
+  const excludeIds = new Set();
   const items = [];
   while (items.length < count) {
-    const item = instantiateScienceNumeracyTemplate();
+    const item = instantiateScienceNumeracyTemplate(excludeIds);
     if (!item) break;
     items.push(item);
   }
@@ -12619,6 +12819,20 @@ function resetPremadeTracker() {
 
 function pickFromPremadeBank(subject, slot) {
   const questions = [];
+  const trustedImages =
+    subject === 'Science' ? buildTrustedScienceImageQuestionSet(slot) : [];
+  if (trustedImages.length) {
+    return trustedImages.slice(0, slot.questionsNeeded).map((q) => ({
+      ...q,
+      questionText: q.questionText || q.question || '',
+      subject,
+      category: q.category || slot.category,
+      difficulty: q.difficulty || slot.difficulty || 'medium',
+      source: 'trustedLocalImage',
+      itemType: 'image',
+    }));
+  }
+
   const quizData = ALL_QUIZZES && ALL_QUIZZES[subject];
   if (!quizData || !quizData.categories) return [];
 

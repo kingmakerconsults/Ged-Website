@@ -267,9 +267,9 @@ function buildSciencePlan() {
     })
   );
   slots.push(
-    passageSlot(P, 'Life Science', 'medium', 2, {
+    imageSlot(P, 'Life Science', 'medium', 2, {
       group: 'life_genetics',
-      stimulusType: 'passage/data',
+      stimulusType: 'diagram',
       toolsAllowed: ['punnett-square'],
       sourcePriority: templateFirst,
     })
@@ -357,9 +357,8 @@ function buildSciencePlan() {
   );
   slots.push(
     imageSlot(P, 'Physical Science', 'medium', 1, {
-      stimulusType: 'table',
-      group: 'phys_table2',
-      numeracy: true,
+      stimulusType: 'image',
+      group: 'phys_image1',
       sourcePriority: templateFirst,
     })
   );
