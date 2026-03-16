@@ -140,6 +140,52 @@ function validateQuestion(question, slot) {
     // Soft warning - not a hard failure
   }
 
+  // 7. Content-quality checks (reject fact-recall and contaminated stems)
+  const stemLower = qText.toLowerCase();
+
+  // Reject cross-subject contamination (social studies stems in science banks)
+  const contaminationPatterns = [
+    /civic context/i,
+    /historical.*context/i,
+    /political significance/i,
+    /constitutional/i,
+    /government policy/i,
+  ];
+  for (const pat of contaminationPatterns) {
+    if (pat.test(stemLower)) {
+      errors.push(`Cross-subject contamination detected: "${pat.source}"`);
+      break;
+    }
+  }
+
+  // Reject pure fact-recall stems (for Science exams) — these should have stimulus
+  if (slot.stimulusType === 'standalone') {
+    const factRecallPatterns = [
+      /^what is the (?:name|term|definition) (?:for|of)\b/,
+      /^what is a [a-z]+\?$/,
+      /^an? \w+ is defined by\b/,
+      /^which of the following (?:is|are) (?:the )?(?:correct )?definition/,
+    ];
+    for (const pat of factRecallPatterns) {
+      if (pat.test(stemLower)) {
+        errors.push(
+          `Fact-recall stem rejected (not comprehension-based): "${pat.source}"`
+        );
+        break;
+      }
+    }
+  }
+
+  // Reject questions with "subject": "Social Studies" in a Science slot
+  if (
+    slot.category &&
+    /science/i.test(slot.category) &&
+    question.subject &&
+    /social.?studies/i.test(question.subject)
+  ) {
+    errors.push('Question subject is Social Studies but slot is Science');
+  }
+
   return { valid: errors.length === 0, errors };
 }
 

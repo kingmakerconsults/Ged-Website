@@ -19,6 +19,7 @@ import {
 } from '../../utils/textUtils.js';
 import MathInputWithPad from '../MathInputWithPad.jsx';
 import { TI30XSCalculator } from '../TI30XSCalculator.jsx';
+import PunnettSquarePractice from '../tools/PunnettSquarePractice.jsx';
 
 const DEFAULT_COLOR_SCHEME = {
   background: 'var(--nav-active-bg)',
@@ -66,6 +67,7 @@ export function QuizInterface({
   const toolInstanceRef = useRef(null);
   const toolTypeRef = useRef(null); // 'graph' | 'geometry' | null
   const [showCalculator, setShowCalculator] = useState(false);
+  const [showPunnett, setShowPunnett] = useState(false);
   const [zenMode, setZenMode] = useState(false);
 
   useEffect(() => {
@@ -112,7 +114,9 @@ export function QuizInterface({
 
     // If a question has multiple correct options, treat it as multi-select.
     const options = Array.isArray(q.answerOptions) ? q.answerOptions : [];
-    const correctCount = options.filter((opt) => getOptionIsCorrect(opt)).length;
+    const correctCount = options.filter((opt) =>
+      getOptionIsCorrect(opt)
+    ).length;
     if (correctCount > 1) {
       return true;
     }
@@ -293,6 +297,11 @@ export function QuizInterface({
     isMathOrScienceQuiz &&
     quizConfig?.calculator !== false &&
     currentQ?.calculator !== false;
+
+  // Punnett square tool: allowed when the question explicitly enables it
+  const punnettAllowed =
+    Array.isArray(currentQ?.toolsAllowed) &&
+    currentQ.toolsAllowed.includes('punnett-square');
   const subjectColors = SUBJECT_COLORS[subjectForRender] || {};
   const scheme = { ...DEFAULT_COLOR_SCHEME, ...subjectColors };
   const timerStyle =
@@ -340,6 +349,20 @@ export function QuizInterface({
       )}
       {showCalculator && (
         <TI30XSCalculator onClose={() => setShowCalculator(false)} />
+      )}
+      {showPunnett && punnettAllowed && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div
+            className="relative max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl"
+            style={{ width: 'min(420px, 95vw)' }}
+          >
+            <PunnettSquarePractice
+              examMode
+              dark={document.documentElement.classList.contains('dark')}
+              onClose={() => setShowPunnett(false)}
+            />
+          </div>
+        </div>
       )}
       <div
         className="quiz-panel rounded-2xl p-4 sm:p-6 shadow-lg"
@@ -466,6 +489,20 @@ export function QuizInterface({
                       }}
                     >
                       🧮 Calculator
+                    </button>
+                  )}
+                  {punnettAllowed && (
+                    <button
+                      type="button"
+                      onClick={() => setShowPunnett(true)}
+                      className="rounded-md px-3 py-1.5 text-sm font-semibold shadow-sm transition"
+                      data-role="secondary"
+                      style={{
+                        color: scheme.accentText,
+                        borderColor: scheme.accent,
+                      }}
+                    >
+                      🧬 Punnett Square
                     </button>
                   )}
                   {formulaSheetEnabled && (

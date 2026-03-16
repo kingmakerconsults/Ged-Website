@@ -182,6 +182,7 @@ async function fillExamPlan(plan, generators, aiOptions, opts = {}) {
         if (slot.group) q._group = slot.group;
         if (slot.calculatorAllowed !== null)
           q.calculator = slot.calculatorAllowed;
+        if (slot.toolsAllowed) q.toolsAllowed = slot.toolsAllowed;
         if (
           slot.responseType === 'numeric' ||
           slot.responseType === 'fill_in'

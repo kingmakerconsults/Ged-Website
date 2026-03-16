@@ -335,6 +335,8 @@ function textWordCount(item) {
 
 async function generateScienceNumeracyQuestion(category, options = {}) {
   const prompt = `You are a GED Science exam creator. Generate a single numeracy-focused question in the category "${category}".
+The GED Science test is a COMPREHENSION exam — students must interpret data, NOT recall facts.
+
 Requirements:
 - Include a small, cleanly formatted HTML <table> (use <thead> and <tbody> if possible) with 2–4 columns and 3–5 rows.
 - Always include column headers (use concise labels; avoid vague headers like Data1).
@@ -350,6 +352,8 @@ Requirements:
 </table>
 
 - After the table, write a concise question stem requiring interpretation of the table OR a short calculation (one or two steps). Do NOT ask the student to copy the table.
+- NEVER write a pure definition or fact-recall question like "What is the name of…" or "What is the term for…".
+- The question MUST require the student to USE the data in the table to answer.
 - Do NOT wrap JSON in markdown fences.
 Return one JSON object with "questionText" and "answerOptions" (array of {text, isCorrect, rationale}).
 
@@ -1298,8 +1302,14 @@ async function generateScienceLiteracySet(numQuestions = 5, aiOptions = {}) {
     const capped = Math.max(1, Math.min(8, numQuestions));
     const prompt = `You are a GED Science exam creator.
 Using ONLY the passage below, create ${capped} multiple-choice Science literacy questions.
+The GED Science test is a COMPREHENSION exam — students must interpret text and data, NOT recall facts.
+
 Focus on comprehension, inference, author's purpose, interpretation of scientific claims, and evaluation of evidence.
 Do NOT create numeracy/calculation questions. Avoid asking for formula application.
+NEVER write a pure definition question like "What is the name of…" or "What is the term for…".
+Every question MUST require the student to USE information from the passage to answer correctly.
+Do not reference images, charts, or graphs that are not in the passage text.
+
 Each question must have 4 answer options with exactly one correct marked.
 Return JSON ONLY with {"questions": [ {"questionText": "...", "answerOptions": [ {"text": "...", "isCorrect": true, "rationale": "..." }, {"text": "...", "isCorrect": false, "rationale": "..."} ] } ] }.
 Do not wrap JSON in markdown fences.
@@ -12524,6 +12534,17 @@ function pickFromPremadeBank(subject, slot) {
         if (!q.answerOptions || q.answerOptions.length < 2) continue;
         const text = q.questionText || q.question || '';
         if (_usedPremadeTexts.has(text)) continue;
+
+        // Reject cross-subject contamination (e.g., Social Studies stems in Science banks)
+        if (subject === 'Science') {
+          if (q.subject && /social.?studies/i.test(q.subject)) continue;
+          if (
+            /civic context|historical.*context|political significance/i.test(
+              text
+            )
+          )
+            continue;
+        }
 
         questions.push({
           ...q,

@@ -48,6 +48,7 @@ function passageSlot(
     allowMultiSelect: extra.allowMultiSelect || false,
     numeracy: extra.numeracy || false,
     group: extra.group || null,
+    toolsAllowed: extra.toolsAllowed || null,
   };
 }
 
@@ -65,6 +66,7 @@ function imageSlot(prefix, category, difficulty, questionsNeeded, extra = {}) {
     allowMultiSelect: extra.allowMultiSelect || false,
     numeracy: extra.numeracy || false,
     group: extra.group || null,
+    toolsAllowed: extra.toolsAllowed || null,
   };
 }
 
@@ -88,6 +90,7 @@ function standaloneSlot(
     allowMultiSelect: extra.allowMultiSelect || false,
     numeracy: extra.numeracy || false,
     group: extra.group || null,
+    toolsAllowed: extra.toolsAllowed || null,
   };
 }
 
@@ -239,13 +242,15 @@ function buildSciencePlan() {
   const P = 'sci';
   const slots = [];
 
-  // Category counts: Life 15, Physical 15, Earth 8
-  // Stimulus:  passage/data=12, chart/table/diagram=10, standalone=16
+  // ─── Redesigned Science Comprehensive ─────────────────────────────
+  // 38 questions: Life 15 · Physical 15 · Earth & Space 8
+  // Stimulus mix (comprehension-first):
+  //   passage/data ≈ 14   chart/table/diagram ≈ 12   standalone ≈ 12
   // Numeracy minimum: 13
-  // Chemistry balancing and literacy are planned slots, not appended extras.
+  // Genetics questions tagged with toolsAllowed: ['punnett-square']
 
-  // --- Life Science: 15 questions ---
-  // 2 passage groups × 2q = 4 passage/data
+  // ── Life Science: 15 questions ────────────────────────────────────
+  // 3 passage groups × 2q = 6 (one for genetics)
   slots.push(
     passageSlot(P, 'Life Science', 'easy', 2, {
       group: 'life_p1',
@@ -258,11 +263,19 @@ function buildSciencePlan() {
       stimulusType: 'passage/data',
     })
   );
-  // 2 chart/table/diagram slots × 2q = 4
+  slots.push(
+    passageSlot(P, 'Life Science', 'medium', 2, {
+      group: 'life_genetics',
+      stimulusType: 'passage/data',
+      toolsAllowed: ['punnett-square'],
+    })
+  );
+  // 2 chart/diagram slots × 2q = 4
   slots.push(
     imageSlot(P, 'Life Science', 'medium', 2, {
       stimulusType: 'chart',
       group: 'life_chart1',
+      numeracy: true,
     })
   );
   slots.push(
@@ -271,15 +284,13 @@ function buildSciencePlan() {
       group: 'life_diag1',
     })
   );
-  // 7 standalone (some numeracy)
+  // 3 standalone (comprehension: must have stimulus or scenario stem)
   slots.push(standaloneSlot(P, 'Life Science', 'easy', 1, { numeracy: true }));
-  slots.push(standaloneSlot(P, 'Life Science', 'easy', 1, { numeracy: true }));
+  slots.push(standaloneSlot(P, 'Life Science', 'easy', 1));
   slots.push(
     standaloneSlot(P, 'Life Science', 'medium', 1, { numeracy: true })
   );
-  slots.push(standaloneSlot(P, 'Life Science', 'medium', 1));
-  slots.push(standaloneSlot(P, 'Life Science', 'medium', 1));
-  // 1 science literacy passage (planned slot, not appended)
+  // 1 science literacy passage (planned, not appended)
   slots.push(
     passageSlot(P, 'Life Science', 'medium', 2, {
       group: 'life_literacy',
@@ -287,8 +298,8 @@ function buildSciencePlan() {
     })
   );
 
-  // --- Physical Science: 15 questions ---
-  // 2 passage groups × 2q = 4 passage/data
+  // ── Physical Science: 15 questions ────────────────────────────────
+  // 3 passage groups × 2q = 6
   slots.push(
     passageSlot(P, 'Physical Science', 'medium', 2, {
       group: 'phys_p1',
@@ -301,32 +312,40 @@ function buildSciencePlan() {
       stimulusType: 'passage/data',
     })
   );
-  // 2 chart slots × 2q = 4
+  slots.push(
+    passageSlot(P, 'Physical Science', 'medium', 2, {
+      group: 'phys_p3',
+      stimulusType: 'passage/data',
+      numeracy: true,
+    })
+  );
+  // 3 chart/table slots: 2×2q + 1×1q = 5
   slots.push(
     imageSlot(P, 'Physical Science', 'medium', 2, {
       stimulusType: 'table',
       group: 'phys_table1',
+      numeracy: true,
     })
   );
   slots.push(
     imageSlot(P, 'Physical Science', 'hard', 2, {
       stimulusType: 'chart',
       group: 'phys_chart1',
+      numeracy: true,
     })
   );
-  // 5 standalone (numeracy-heavy for Physical)
+  slots.push(
+    imageSlot(P, 'Physical Science', 'medium', 1, {
+      stimulusType: 'diagram',
+      group: 'phys_diag1',
+    })
+  );
+  // 2 standalone (numeracy-heavy for Physical)
   slots.push(
     standaloneSlot(P, 'Physical Science', 'easy', 1, { numeracy: true })
   );
   slots.push(
     standaloneSlot(P, 'Physical Science', 'medium', 1, { numeracy: true })
-  );
-  slots.push(
-    standaloneSlot(P, 'Physical Science', 'medium', 1, { numeracy: true })
-  );
-  slots.push(standaloneSlot(P, 'Physical Science', 'medium', 1));
-  slots.push(
-    standaloneSlot(P, 'Physical Science', 'hard', 1, { numeracy: true })
   );
   // 2 chemistry balancing (planned slots)
   slots.push(
@@ -344,33 +363,34 @@ function buildSciencePlan() {
     })
   );
 
-  // --- Earth & Space Science: 8 questions ---
-  // 1 passage group × 2q = 2 passage/data
+  // ── Earth & Space Science: 8 questions ────────────────────────────
+  // 1 passage group × 2q = 2
   slots.push(
     passageSlot(P, 'Earth & Space Science', 'medium', 2, {
       group: 'earth_p1',
       stimulusType: 'passage/data',
     })
   );
-  // 1 chart/diagram slot × 2q = 2
+  // 2 chart/diagram slots × 2q = 4
   slots.push(
     imageSlot(P, 'Earth & Space Science', 'easy', 2, {
       stimulusType: 'diagram',
       group: 'earth_diag1',
     })
   );
-  // 4 standalone (some numeracy)
+  slots.push(
+    imageSlot(P, 'Earth & Space Science', 'medium', 2, {
+      stimulusType: 'chart',
+      group: 'earth_chart1',
+      numeracy: true,
+    })
+  );
+  // 2 standalone
   slots.push(
     standaloneSlot(P, 'Earth & Space Science', 'easy', 1, { numeracy: true })
   );
   slots.push(
     standaloneSlot(P, 'Earth & Space Science', 'medium', 1, { numeracy: true })
-  );
-  slots.push(
-    standaloneSlot(P, 'Earth & Space Science', 'medium', 1, { numeracy: true })
-  );
-  slots.push(
-    standaloneSlot(P, 'Earth & Space Science', 'hard', 1, { numeracy: true })
   );
 
   const totalQ = slots.reduce((s, sl) => s + sl.questionsNeeded, 0);
@@ -390,11 +410,11 @@ function buildSciencePlan() {
         'Earth & Space Science': 8,
       },
       stimulus: {
-        'passage/data': 12,
-        'chart/table/diagram': 10,
-        standalone: 16,
+        'passage/data': 16,
+        'chart/table/diagram': 13,
+        standalone: 9,
       },
-      difficulty: { easy: 10, medium: 18, hard: 10 },
+      difficulty: { easy: 9, medium: 19, hard: 10 },
       numeracyMinimum: 13,
     },
     slots,
