@@ -401,15 +401,15 @@ function buildSciencePlan() {
       sourcePriority: templateFirst,
     })
   );
-  // 2 chart/diagram slots × 2q = 4
+  // 1 diagram question + 1 chart slot worth 3 questions = 4
   slots.push(
-    imageSlot(P, 'Earth & Space Science', 'easy', 2, {
+    imageSlot(P, 'Earth & Space Science', 'easy', 1, {
       stimulusType: 'diagram',
       group: 'earth_diag1',
     })
   );
   slots.push(
-    imageSlot(P, 'Earth & Space Science', 'medium', 2, {
+    imageSlot(P, 'Earth & Space Science', 'medium', 3, {
       stimulusType: 'chart',
       group: 'earth_chart1',
       numeracy: true,

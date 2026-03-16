@@ -12293,8 +12293,8 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
         }
       }
       if (slot.numeracy) {
-        const item = instantiateScienceNumeracyTemplate();
-        if (item) return [item];
+        const items = buildScienceNumeracyTemplateSet(slot.questionsNeeded);
+        if (items.length) return items;
       }
       const scenario = instantiateScienceScenarioCluster();
       if (scenario && scenario.length) {
@@ -12513,8 +12513,7 @@ function buildFallbackGenerators(normalizedSubject) {
           : [];
       }
       if (slot.numeracy) {
-        const item = instantiateScienceNumeracyTemplate();
-        return item ? [item] : [];
+        return buildScienceNumeracyTemplateSet(slot.questionsNeeded);
       }
       return [];
     };
@@ -12597,6 +12596,16 @@ function buildGuaranteedScienceFilledSlots(plan) {
   }
 
   return filledSlots;
+}
+
+function buildScienceNumeracyTemplateSet(count) {
+  const items = [];
+  while (items.length < count) {
+    const item = instantiateScienceNumeracyTemplate();
+    if (!item) break;
+    items.push(item);
+  }
+  return items;
 }
 
 // ── Premade bank picking helpers ──────────────────────────────────────
@@ -13055,31 +13064,38 @@ app.post('/generate-quiz', async (req, res) => {
 
       // 8. Persist to question bank
       if (AI_QUESTION_BANK_ENABLED) {
-        await persistQuestionsToBank(finalQuiz.questions || [], {
-          subject,
-          topic: null,
-          sourceModel: finalQuiz.source || 'aiGenerated',
-          generatedForUserId: req.user?.id || null,
-          originQuizId: finalQuiz.id || null,
-        });
-        if (finalQuiz.part2_essay && finalQuiz.part2_essay.prompt) {
-          persistEssayToBank(finalQuiz.part2_essay, {
-            subject: 'rla',
+        try {
+          await persistQuestionsToBank(finalQuiz.questions || [], {
+            subject,
+            topic: null,
             sourceModel: finalQuiz.source || 'aiGenerated',
             generatedForUserId: req.user?.id || null,
             originQuizId: finalQuiz.id || null,
+          });
+          if (finalQuiz.part2_essay && finalQuiz.part2_essay.prompt) {
+            persistEssayToBank(finalQuiz.part2_essay, {
+              subject: 'rla',
+              sourceModel: finalQuiz.source || 'aiGenerated',
+              generatedForUserId: req.user?.id || null,
+              originQuizId: finalQuiz.id || null,
+            }).catch(() => {});
+          }
+          logQuizGeneration({
+            quizId: finalQuiz.id,
+            subject,
+            quizType: 'comprehensive',
+            topic: null,
+            source: finalQuiz.source || 'aiGenerated',
+            generatedForUserId: req.user?.id || null,
+            questionCount: (finalQuiz.questions || []).length,
+            quizPayload: finalQuiz,
           }).catch(() => {});
+        } catch (persistErr) {
+          console.warn(
+            `[Comprehensive][${normalizedSubject}] Persist/log skipped:`,
+            persistErr?.message || persistErr
+          );
         }
-        logQuizGeneration({
-          quizId: finalQuiz.id,
-          subject,
-          quizType: 'comprehensive',
-          topic: null,
-          source: finalQuiz.source || 'aiGenerated',
-          generatedForUserId: req.user?.id || null,
-          questionCount: (finalQuiz.questions || []).length,
-          quizPayload: finalQuiz,
-        }).catch(() => {});
       }
 
       // 9. Save to local file for offline review
