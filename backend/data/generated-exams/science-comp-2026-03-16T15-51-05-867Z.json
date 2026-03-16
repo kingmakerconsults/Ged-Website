@@ -1,0 +1,915 @@
+{
+  "id": "ai_comp_science_1773676176051",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 2,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 3,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 1.1 g/cm³.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the difference in density between the two samples, rounded to the nearest tenth."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "7695c123d7df17c1ef6a1ae48f08cb754ce77305"
+    },
+    {
+      "questionNumber": 4,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 1.1 g/cm³.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the difference in density between the two samples, rounded to the nearest tenth."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "7695c123d7df17c1ef6a1ae48f08cb754ce77305"
+    },
+    {
+      "questionNumber": 5,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 1.35 mL/min.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the average evaporation rate based on the provided data."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "260202d39d76c985639cf25488e79b8055b32a2c"
+    },
+    {
+      "questionNumber": 6,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 1.1 g/cm³.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the difference in density between the two samples, rounded to the nearest tenth."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "7695c123d7df17c1ef6a1ae48f08cb754ce77305"
+    },
+    {
+      "questionNumber": 7,
+      "type": "image",
+      "questionText": "This diagram illustrates the rock cycle. What process is required to turn a sedimentary rock into a metamorphic rock?",
+      "answerOptions": [
+        {
+          "text": "Weathering and erosion",
+          "isCorrect": false,
+          "rationale": "This would break the rock down into sediments."
+        },
+        {
+          "text": "Melting and cooling",
+          "isCorrect": false,
+          "rationale": "This would turn it into igneous rock."
+        },
+        {
+          "text": "Heat and pressure",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows that heat and pressure transform existing rocks into metamorphic rocks."
+        },
+        {
+          "text": "Compaction and cementation",
+          "isCorrect": false,
+          "rationale": "This is the process that forms sedimentary rocks from sediment."
+        }
+      ],
+      "imageUrl": "/images/Science/earth_and_space_systems_0001.png",
+      "itemType": "image",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "191551dc75f84283b7acb97632b501cf155aae11"
+    },
+    {
+      "questionNumber": 8,
+      "type": "passage",
+      "questionText": "Which of the following statements accurately describes a trend observed in the data?",
+      "answerOptions": [
+        {
+          "text": "As a gas giant's mass decreases, its average temperature generally decreases.",
+          "isCorrect": true,
+          "rationale": "Observing the data, Jupiter has the highest mass and highest average temperature. As mass decreases through Saturn, Uranus, and Neptune, the average temperature generally decreases (becomes more negative/colder)."
+        },
+        {
+          "text": "Planets with larger radii always have higher average temperatures.",
+          "isCorrect": false,
+          "rationale": "While Jupiter has the largest radius and highest temperature, Uranus (4.0 Earths) and Neptune (3.9 Earths) have very similar radii but different average temperatures, meaning the relationship is not always exact or simple for all cases, though a general trend exists."
+        },
+        {
+          "text": "There is no clear relationship between a gas giant's mass and its average temperature.",
+          "isCorrect": false,
+          "rationale": "There is a clear trend: generally, as mass decreases, temperature also decreases across the sampled planets."
+        },
+        {
+          "text": "Gas giants with higher mass tend to have smaller radii.",
+          "isCorrect": false,
+          "rationale": "The opposite is observed; Jupiter has the highest mass (318 Earths) and the largest radius (11.2 Earths)."
+        }
+      ],
+      "passage": "**Properties of Gas Giant Planets**Planet | Mass (Earths) | Radius (Earths) | Avg. Temp (°C) ||Jupiter | 318 | 11.2 | -145 ||Saturn | 95 | 9.4 | -178 ||Uranus | 14.5 | 4.0 | -195 ||Neptune | 17 | 3.9 | -201",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "11d16003097360d3b798ebf2173920a110f6a0ab"
+    },
+    {
+      "questionNumber": 9,
+      "type": "passage",
+      "questionText": "Based on the data, what can be inferred about the relationship between a gas giant's size and its average temperature?",
+      "answerOptions": [
+        {
+          "text": "Larger gas giants tend to have higher average temperatures than smaller gas giants.",
+          "isCorrect": true,
+          "rationale": "Jupiter, with the largest radius (11.2 Earths), has the warmest average temperature (-145°C). Saturn (9.4 Earths) is colder (-178°C). Uranus (4.0 Earths) is colder (-195°C), and Neptune (3.9 Earths) is the coldest (-201°C). This indicates a general correlation where larger size is associated with higher average temperature."
+        },
+        {
+          "text": "Smaller gas giants consistently have warmer average temperatures.",
+          "isCorrect": false,
+          "rationale": "The data shows the opposite trend; smaller gas giants like Uranus and Neptune are colder than larger ones like Jupiter and Saturn."
+        },
+        {
+          "text": "A planet's radius has no influence on its average temperature.",
+          "isCorrect": false,
+          "rationale": "There appears to be a clear relationship in the data, where larger radii correlate with higher average temperatures."
+        },
+        {
+          "text": "Gas giants with very similar radii always have identical average temperatures.",
+          "isCorrect": false,
+          "rationale": "Uranus and Neptune have very similar radii (4.0 and 3.9 Earths, respectively) but different average temperatures (-195°C and -201°C), disproving this statement."
+        }
+      ],
+      "passage": "**Properties of Gas Giant Planets**Planet | Mass (Earths) | Radius (Earths) | Avg. Temp (°C) ||Jupiter | 318 | 11.2 | -145 ||Saturn | 95 | 9.4 | -178 ||Uranus | 14.5 | 4.0 | -195 ||Neptune | 17 | 3.9 | -201",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "4cfb3117b31a8f2ad434d33cd022b9e1c47fc403"
+    },
+    {
+      "questionNumber": 10,
+      "type": "passage",
+      "questionText": "Which station should serve as the control when evaluating the effect of fertilizer runoff on dissolved oxygen?",
+      "answerOptions": [
+        {
+          "text": "Upstream forest station",
+          "isCorrect": true,
+          "rationale": "It is unaffected by farms or town runoff, so it isolates natural conditions."
+        },
+        {
+          "text": "Midstream near farms",
+          "isCorrect": false,
+          "rationale": "This is the impacted site, not the control."
+        },
+        {
+          "text": "Downstream near the town outflow",
+          "isCorrect": false,
+          "rationale": "This location adds new variables (treated wastewater)."
+        },
+        {
+          "text": "All stations combined",
+          "isCorrect": false,
+          "rationale": "Controls must be a single baseline condition."
+        }
+      ],
+      "passage": "<p>Students investigate whether increased fertilizer runoff is lowering dissolved oxygen (DO) in a river. They set three sample stations: upstream forest, midstream near farms, and downstream near a town outflow. Each day they record water temperature, nitrates (mg/L), and DO (mg/L). They also note that algae blooms appear most frequently near the farms.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:water-quality",
+      "stimulusId": "scenario_water_quality",
+      "category": "Life Science",
+      "bankFingerprint": "742ec621350df6c8d82b808cfaea0df6f13150d9"
+    },
+    {
+      "questionNumber": 11,
+      "type": "passage",
+      "questionText": "If nitrates spike midstream while temperature stays constant, which claim best explains a drop in dissolved oxygen?",
+      "answerOptions": [
+        {
+          "text": "Cooler water upstream dissolves less oxygen.",
+          "isCorrect": false,
+          "rationale": "Cooler water dissolves more oxygen, not less."
+        },
+        {
+          "text": "Excess nutrients fuel algae that consume oxygen when they decompose.",
+          "isCorrect": true,
+          "rationale": "Correct. Decomposition of algal blooms lowers DO."
+        },
+        {
+          "text": "Higher river velocity midstream forces oxygen out of solution.",
+          "isCorrect": false,
+          "rationale": "Faster water usually increases oxygen mixing."
+        },
+        {
+          "text": "Town wastewater dilutes oxygen midstream.",
+          "isCorrect": false,
+          "rationale": "Town runoff is downstream, not midstream."
+        }
+      ],
+      "passage": "<p>Students investigate whether increased fertilizer runoff is lowering dissolved oxygen (DO) in a river. They set three sample stations: upstream forest, midstream near farms, and downstream near a town outflow. Each day they record water temperature, nitrates (mg/L), and DO (mg/L). They also note that algae blooms appear most frequently near the farms.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:water-quality",
+      "stimulusId": "scenario_water_quality",
+      "category": "Life Science",
+      "bankFingerprint": "32a380da7fd2de910077029ae8c8d03ac615e720"
+    },
+    {
+      "questionNumber": 12,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 40%.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the efficiency percentage based on the provided data."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "a02d0ff1ac6848d1c63d9d7ef79826962bd54328"
+    },
+    {
+      "questionNumber": 13,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 40%.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the efficiency percentage based on the provided data."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "a02d0ff1ac6848d1c63d9d7ef79826962bd54328"
+    },
+    {
+      "questionNumber": 14,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 40%.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the efficiency percentage based on the provided data."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "a02d0ff1ac6848d1c63d9d7ef79826962bd54328"
+    },
+    {
+      "questionNumber": 15,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 16,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 17,
+      "type": "multiple_choice_single",
+      "questionText": "Based on the climatic conditions illustrated in the diagram, how would the plant and animal life at point B likely compare to that at point D?",
+      "answerOptions": [
+        {
+          "text": "Point B would have organisms adapted to dry, desert-like conditions, while point D would have organisms adapted to humid forests.",
+          "isCorrect": false,
+          "rationale": "Point B is on the windward side of the mountain, receiving significant rainfall and supporting humid conditions. Point D is on the leeward side, in the rain shadow, which is dry and desert-like."
+        },
+        {
+          "text": "Point D would support a greater variety of plant species than point B due to its higher elevation and increased rainfall.",
+          "isCorrect": false,
+          "rationale": "Point D is in the rain shadow, meaning it receives less rainfall and would support fewer species adapted to arid conditions. Point B is on the windward side with more rainfall."
+        },
+        {
+          "text": "Point B would likely feature lush vegetation and diverse animal life suited for humid environments, whereas point D would host species adapted to arid or semi-arid conditions.",
+          "isCorrect": true,
+          "rationale": "Point B is on the windward side of the mountain, where prevailing winds bring moisture, leading to higher rainfall and a humid climate, supporting lush ecosystems. Point D is on the leeward side, in the rain shadow, which is characterized by dry, arid conditions and supports species adapted to such environments."
+        },
+        {
+          "text": "Both points B and D would exhibit similar types of ecosystems because they are on the same side of the ocean.",
+          "isCorrect": false,
+          "rationale": "The mountain range creates significantly different climatic conditions on its windward (B) and leeward (D) sides, leading to distinct ecosystems, despite their relative proximity to the ocean."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_13_0001.png",
+        "alt": "Diagram showing prevailing winds causing a rain shadow effect over mountains near an ocean, with elevation and distance scales."
+      },
+      "itemType": "image",
+      "category": "Life Science",
+      "bankFingerprint": "183b4e3729fd047721e2b607d24b9b63bbc57f5c"
+    },
+    {
+      "questionNumber": 18,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 1.35 mL/min.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the average evaporation rate based on the provided data."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "260202d39d76c985639cf25488e79b8055b32a2c"
+    },
+    {
+      "questionNumber": 19,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 1.35 mL/min.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the average evaporation rate based on the provided data."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "260202d39d76c985639cf25488e79b8055b32a2c"
+    },
+    {
+      "questionNumber": 20,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 1.35 mL/min.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the average evaporation rate based on the provided data."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "260202d39d76c985639cf25488e79b8055b32a2c"
+    },
+    {
+      "questionNumber": 21,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 1.1 g/cm³.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the difference in density between the two samples, rounded to the nearest tenth."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "7695c123d7df17c1ef6a1ae48f08cb754ce77305"
+    },
+    {
+      "questionNumber": 22,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 23,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 24,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 40%.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the efficiency percentage based on the provided data."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "a02d0ff1ac6848d1c63d9d7ef79826962bd54328"
+    },
+    {
+      "questionNumber": 25,
+      "type": "multiple_choice_single",
+      "questionText": "What is the jelly-like substance that fills the cell and surrounds the organelles?",
+      "answerOptions": [
+        {
+          "text": "Nucleolus",
+          "isCorrect": false,
+          "rationale": "The nucleolus is a structure within the nucleus."
+        },
+        {
+          "text": "Cytoplasm",
+          "isCorrect": true,
+          "rationale": "Correct. This is the medium for most of the cell's metabolic reactions."
+        },
+        {
+          "text": "Cellulose",
+          "isCorrect": false,
+          "rationale": "Cellulose is the material that makes up the plant cell wall."
+        },
+        {
+          "text": "DNA",
+          "isCorrect": false,
+          "rationale": "DNA is the genetic material found in the nucleus."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "b09f68f1fa1ce3a841d5078ca9c8aeecf6d0a332"
+    },
+    {
+      "questionNumber": 26,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 1.1 g/cm³.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the difference in density between the two samples, rounded to the nearest tenth."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "7695c123d7df17c1ef6a1ae48f08cb754ce77305"
+    },
+    {
+      "questionNumber": 27,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 1.1 g/cm³.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the difference in density between the two samples, rounded to the nearest tenth."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "7695c123d7df17c1ef6a1ae48f08cb754ce77305"
+    },
+    {
+      "questionNumber": 28,
+      "type": "image",
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "category": "Physical Science",
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionNumber": 29,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 1.35 mL/min.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the average evaporation rate based on the provided data."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "260202d39d76c985639cf25488e79b8055b32a2c"
+    },
+    {
+      "questionNumber": 30,
+      "type": "passage",
+      "questionText": "Which station should serve as the control when evaluating the effect of fertilizer runoff on dissolved oxygen?",
+      "answerOptions": [
+        {
+          "text": "Upstream forest station",
+          "isCorrect": true,
+          "rationale": "It is unaffected by farms or town runoff, so it isolates natural conditions."
+        },
+        {
+          "text": "Midstream near farms",
+          "isCorrect": false,
+          "rationale": "This is the impacted site, not the control."
+        },
+        {
+          "text": "Downstream near the town outflow",
+          "isCorrect": false,
+          "rationale": "This location adds new variables (treated wastewater)."
+        },
+        {
+          "text": "All stations combined",
+          "isCorrect": false,
+          "rationale": "Controls must be a single baseline condition."
+        }
+      ],
+      "passage": "<p>Students investigate whether increased fertilizer runoff is lowering dissolved oxygen (DO) in a river. They set three sample stations: upstream forest, midstream near farms, and downstream near a town outflow. Each day they record water temperature, nitrates (mg/L), and DO (mg/L). They also note that algae blooms appear most frequently near the farms.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:water-quality",
+      "stimulusId": "scenario_water_quality",
+      "category": "Life Science",
+      "bankFingerprint": "742ec621350df6c8d82b808cfaea0df6f13150d9"
+    },
+    {
+      "questionNumber": 31,
+      "type": "passage",
+      "questionText": "If nitrates spike midstream while temperature stays constant, which claim best explains a drop in dissolved oxygen?",
+      "answerOptions": [
+        {
+          "text": "Cooler water upstream dissolves less oxygen.",
+          "isCorrect": false,
+          "rationale": "Cooler water dissolves more oxygen, not less."
+        },
+        {
+          "text": "Excess nutrients fuel algae that consume oxygen when they decompose.",
+          "isCorrect": true,
+          "rationale": "Correct. Decomposition of algal blooms lowers DO."
+        },
+        {
+          "text": "Higher river velocity midstream forces oxygen out of solution.",
+          "isCorrect": false,
+          "rationale": "Faster water usually increases oxygen mixing."
+        },
+        {
+          "text": "Town wastewater dilutes oxygen midstream.",
+          "isCorrect": false,
+          "rationale": "Town runoff is downstream, not midstream."
+        }
+      ],
+      "passage": "<p>Students investigate whether increased fertilizer runoff is lowering dissolved oxygen (DO) in a river. They set three sample stations: upstream forest, midstream near farms, and downstream near a town outflow. Each day they record water temperature, nitrates (mg/L), and DO (mg/L). They also note that algae blooms appear most frequently near the farms.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:water-quality",
+      "stimulusId": "scenario_water_quality",
+      "category": "Life Science",
+      "bankFingerprint": "32a380da7fd2de910077029ae8c8d03ac615e720"
+    },
+    {
+      "questionNumber": 32,
+      "type": "multiple_choice_single",
+      "questionText": "Based on the data presented, which experimental condition resulted in the least plant growth for the bean plants?",
+      "answerOptions": [
+        {
+          "text": "Red light",
+          "isCorrect": false,
+          "rationale": "Plants under red light grew to 18 cm with 7 leaves, indicating good growth, not the least."
+        },
+        {
+          "text": "Green light",
+          "isCorrect": false,
+          "rationale": "Plants under green light grew to 8 cm with 4 leaves, which is less than other colors but not the absolute least growth observed."
+        },
+        {
+          "text": "White (Control) light",
+          "isCorrect": false,
+          "rationale": "White light resulted in the most growth (20 cm, 8 leaves), making this an incorrect choice."
+        },
+        {
+          "text": "Dark",
+          "isCorrect": true,
+          "rationale": "Plants kept in the dark only grew to 2 cm and had 1 leaf, which is the lowest measure of growth across all conditions, indicating the least plant growth."
+        }
+      ],
+      "passage": "**Effect of Light Color on Bean Plant Growth**Light Color | Average Plant Height (cm) | Number of Leaves ||Red | 18 | 7 ||Blue | 15 | 6 ||Green | 8 | 4 ||White (Control) | 20 | 8 ||Dark | 2 | 1",
+      "category": "Life Science",
+      "bankFingerprint": "4e5c7cf5bdd3d3fb4d2283e2333df554346cf9d6"
+    },
+    {
+      "questionNumber": 33,
+      "type": "multiple_choice_single",
+      "questionText": "What general conclusion can be drawn regarding the necessity of light for bean plant growth from this experiment?",
+      "answerOptions": [
+        {
+          "text": "Bean plants can grow equally well in any color of light or in total darkness.",
+          "isCorrect": false,
+          "rationale": "The data shows significant variation in growth across different light colors and extremely poor growth in darkness, disproving this statement."
+        },
+        {
+          "text": "Light is not essential for bean plant growth, as some growth occurred in the dark.",
+          "isCorrect": false,
+          "rationale": "While some minimal growth occurred in the dark, the significantly greater growth under all light conditions demonstrates that light is essential for substantial and healthy growth."
+        },
+        {
+          "text": "Green light is the most effective color for promoting bean plant growth.",
+          "isCorrect": false,
+          "rationale": "Green light resulted in relatively poor growth (8 cm, 4 leaves) compared to red, blue, or white light, making this statement incorrect."
+        },
+        {
+          "text": "Light is essential for substantial and healthy bean plant growth.",
+          "isCorrect": true,
+          "rationale": "The stark difference in growth between plants exposed to any light (even less effective colors) and plants kept in total darkness (2 cm, 1 leaf) clearly indicates that light is essential for substantial and healthy bean plant development."
+        }
+      ],
+      "passage": "**Effect of Light Color on Bean Plant Growth**Light Color | Average Plant Height (cm) | Number of Leaves ||Red | 18 | 7 ||Blue | 15 | 6 ||Green | 8 | 4 ||White (Control) | 20 | 8 ||Dark | 2 | 1",
+      "category": "Life Science",
+      "bankFingerprint": "25f54a39cd92540893a8304070b47c78a6e14e14"
+    },
+    {
+      "questionNumber": 34,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 40%.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the efficiency percentage based on the provided data."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "a02d0ff1ac6848d1c63d9d7ef79826962bd54328"
+    },
+    {
+      "questionNumber": 35,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "The correct answer is 40%.",
+          "isCorrect": true,
+          "rationale": "This question requires calculating the efficiency percentage based on the provided data."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "a02d0ff1ac6848d1c63d9d7ef79826962bd54328"
+    },
+    {
+      "questionNumber": 36,
+      "type": "multiple_choice_single",
+      "questionText": "Based on the provided diagram of the human urinary system, what is the primary function of the organs labeled 'Kidney'?",
+      "answerOptions": [
+        {
+          "text": "To produce hormones that regulate blood sugar levels.",
+          "isCorrect": false,
+          "rationale": "This describes the function of organs like the pancreas or adrenal glands (which are also shown, but the question is about the kidneys), not the primary function of the kidneys themselves."
+        },
+        {
+          "text": "To filter waste products from the blood and produce urine.",
+          "isCorrect": true,
+          "rationale": "The kidneys are essential organs in the urinary system responsible for filtering metabolic waste products from the blood to form urine, which is then excreted from the body."
+        },
+        {
+          "text": "To pump blood throughout the body and deliver oxygen.",
+          "isCorrect": false,
+          "rationale": "This describes the function of the heart and the circulatory system, not the urinary system or the kidneys."
+        },
+        {
+          "text": "To absorb nutrients from digested food into the bloodstream.",
+          "isCorrect": false,
+          "rationale": "This describes the function of organs in the digestive system, such as the small intestine, not the kidneys."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/human_body_0002.png",
+        "alt": "Diagram of the human urinary system showing kidneys, ureters, bladder, and urethra, with adrenal glands."
+      },
+      "itemType": "image",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "240f18ca488a70a4f51350b5bc5d66809b8417ca"
+    },
+    {
+      "questionNumber": 37,
+      "type": "standalone",
+      "questionText": "What coefficient is needed to balance this equation: __H₂ + O₂ → 2H₂O?",
+      "answerOptions": [
+        {
+          "text": "The correct coefficient is 2.",
+          "isCorrect": true,
+          "rationale": "Balancing the equation requires two H₂ molecules to react with one O₂ molecule to produce two H₂O molecules."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "fa08660c60b9b7c950a555b434aa6a8e87a5d8ff"
+    },
+    {
+      "questionNumber": 38,
+      "type": "standalone",
+      "questionText": "What coefficient is needed to balance this equation: __H₂ + O₂ → 2H₂O?",
+      "answerOptions": [
+        {
+          "text": "The correct coefficient is 2.",
+          "isCorrect": true,
+          "rationale": "Balancing the equation requires two H₂ molecules to react with one O₂ molecule to produce two H₂O molecules."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "fa08660c60b9b7c950a555b434aa6a8e87a5d8ff"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 14, expected 16",
+    "49 near-duplicate question pair(s) detected",
+    "Difficulty \"easy\": 4, expected ~9",
+    "Difficulty \"medium\": 28, expected ~19",
+    "Difficulty \"hard\": 6, expected ~10"
+  ]
+}

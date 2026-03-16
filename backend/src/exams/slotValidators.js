@@ -95,13 +95,32 @@ function validateQuestion(question, slot) {
   if (slot.stimulusType !== 'standalone') {
     const hasPassage =
       typeof question.passage === 'string' &&
-      question.passage.trim().length > 10;
-    const hasImage =
-      question.stimulusImage || question.imageUrl || question.imageURL;
-    const hasData = question.dataTable || question.chartData;
-    if (!hasPassage && !hasImage && !hasData) {
+      question.passage.trim().length > 50;
+    const hasImage = Boolean(
+      question.stimulusImage || question.imageUrl || question.imageURL
+    );
+    const hasData = Boolean(
+      question.dataTable ||
+      question.chartData ||
+      /<table\b/i.test(
+        String(question.questionText || question.question || '')
+      ) ||
+      /<table\b/i.test(String(question.passage || ''))
+    );
+    const hasRequiredStimulus =
+      slot.stimulusType === 'passage/data'
+        ? hasPassage || hasData
+        : ['chart', 'table'].includes(slot.stimulusType)
+          ? hasData
+          : ['diagram', 'image'].includes(slot.stimulusType)
+            ? hasImage
+            : slot.stimulusType === 'passage'
+              ? hasPassage
+              : hasPassage || hasImage || hasData;
+
+    if (!hasRequiredStimulus) {
       errors.push(
-        `Slot requires stimulus (${slot.stimulusType}) but question has none`
+        `Slot requires ${slot.stimulusType} stimulus but question does not match`
       );
     }
   }

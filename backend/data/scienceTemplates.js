@@ -64,91 +64,89 @@ const SCIENTIFIC_SCENARIO_SETS = [
     groupId: 'scenario:genetics-punnett',
     qaProfileKey: 'reasoning',
     sharedPassage:
-      '<p>A biology class studies flower color using a Punnett square. One parent flower has red petals and the other has white petals. The square shows that each offspring receives one R allele and one r allele, so all four boxes in the first generation are labeled Rr. In this cross, the heterozygous genotype produces pink flowers because neither allele is completely dominant.</p>',
+      '<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class="data-table"><thead><tr><th> </th><th>G</th><th>g</th></tr></thead><tbody><tr><th>G</th><td>GG</td><td>Gg</td></tr><tr><th>g</th><td>Gg</td><td>gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>',
     questions: [
       {
         questionText:
-          'Which conclusion is best supported by the Punnett square shown in the passage?',
+          'Based on the completed Punnett square, what is the genotype ratio of the offspring?',
         answerOptions: [
           {
-            text: 'All first-generation offspring will be pink because each has the genotype Rr.',
+            text: '1 GG : 2 Gg : 1 gg',
             rationale:
-              'Correct. The passage states that every box in the Punnett square is Rr and that Rr produces pink flowers.',
+              'Correct. The four outcomes are one GG, two Gg, and one gg.',
             isCorrect: true,
           },
           {
-            text: 'Half of the offspring will be red and half will be white.',
+            text: '3 GG : 1 gg',
             rationale:
-              'That would require two different genotype outcomes, but all four boxes are Rr.',
+              'The completed square includes two heterozygous outcomes, not three GG outcomes.',
             isCorrect: false,
           },
           {
-            text: 'All first-generation offspring will be red because red is always dominant.',
-            rationale:
-              'The passage describes incomplete dominance, not complete dominance.',
+            text: '2 GG : 1 Gg : 1 gg',
+            rationale: 'Only one GG square appears in the passage.',
             isCorrect: false,
           },
           {
-            text: 'The cross cannot be predicted because only one parent genotype is known.',
-            rationale:
-              'The passage gives the allele each parent contributes and the full Punnett result.',
+            text: '1 GG : 1 Gg : 2 gg',
+            rationale: 'Only one gg square appears in the completed square.',
             isCorrect: false,
           },
         ],
       },
       {
         questionText:
-          'If students crossed two pink flowers from the first generation, which result would be most likely?',
+          'If purple is dominant over white, what is the phenotype ratio for the offspring in this cross?',
         answerOptions: [
           {
-            text: 'A mix of red, pink, and white offspring because each pink parent can contribute either allele.',
+            text: '3 purple : 1 white',
             rationale:
-              'Correct. A cross of two heterozygous pink flowers can produce RR, Rr, and rr combinations.',
+              'Correct. Three boxes contain at least one dominant G allele, while one box is gg.',
             isCorrect: true,
           },
           {
-            text: 'Only pink offspring because the first generation was all pink.',
-            rationale:
-              'The first generation being all pink does not prevent later generations from showing other genotypes.',
+            text: '1 purple : 1 white',
+            rationale: 'The square shows three purple outcomes, not one.',
             isCorrect: false,
           },
           {
-            text: 'Only red and white offspring because pink is not a real genotype.',
-            rationale:
-              'Pink corresponds to the heterozygous genotype in this inheritance pattern.',
+            text: '1 purple : 2 white',
+            rationale: 'Only one box gives the recessive white phenotype.',
             isCorrect: false,
           },
           {
-            text: 'No offspring with recessive alleles because those disappeared in the first generation.',
-            rationale: 'The r allele is still present in each Rr offspring.',
+            text: '4 purple : 0 white',
+            rationale:
+              'The completed square includes one recessive gg outcome.',
             isCorrect: false,
           },
         ],
       },
       {
-        questionText: 'Why is a Punnett square useful in this investigation?',
+        questionText:
+          'What is the probability that an offspring from this cross will be homozygous recessive?',
         answerOptions: [
           {
-            text: 'It organizes the possible allele combinations the offspring can inherit.',
-            rationale:
-              'Correct. Punnett squares help predict genotype and phenotype outcomes from parental alleles.',
+            text: '1/4',
+            rationale: 'Correct. One of the four equally likely boxes is gg.',
             isCorrect: true,
           },
           {
-            text: 'It measures how fast the flowers grow in different soils.',
-            rationale: 'A Punnett square does not measure growth data.',
+            text: '1/2',
+            rationale:
+              'Two of the four boxes are heterozygous, not homozygous recessive.',
             isCorrect: false,
           },
           {
-            text: 'It proves the environment has no effect on any trait.',
+            text: '3/4',
             rationale:
-              'The diagram predicts inheritance, not every environmental effect.',
+              'Three-fourths of the offspring are not homozygous recessive.',
             isCorrect: false,
           },
           {
-            text: 'It shows the exact number of flowers that will bloom in the greenhouse.',
+            text: '1',
             rationale:
-              'Punnett squares predict ratios and probabilities, not exact counts.',
+              'The completed square does not show every offspring as gg.',
             isCorrect: false,
           },
         ],

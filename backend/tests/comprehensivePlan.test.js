@@ -444,6 +444,42 @@ test('No malformed multi-part payloads', async () => {
   assert.ok(mathQuiz.part2_calculator, 'Math missing part2_calculator');
 });
 
+test('Math review pass output is re-sanitized before final payload', async () => {
+  const plan = buildComprehensivePlan('Math');
+  const gens = mockGenerators();
+  const { filledSlots } = await fillExamPlan(plan, gens, {});
+
+  const quiz = await finalizeExamPayload(plan, filledSlots, {
+    aiOptions: {},
+    reviewPass: async (draftQuiz) => ({
+      ...draftQuiz,
+      questions: draftQuiz.questions.map((question, index) => {
+        if (index !== 0) return question;
+        return {
+          ...question,
+          questionText: 'Solve x <= 5.55',
+          answerOptions: [
+            {
+              text: '\\(m \\leq 124\\).50',
+              isCorrect: true,
+              rationale:
+                'Let m represent the number of minutes used. Then m = 22.\\(\\frac{50}{0}\\).15.',
+            },
+            ...question.answerOptions.slice(1),
+          ],
+        };
+      }),
+    }),
+  });
+
+  assert.equal(quiz.questions[0].questionText, 'Solve \\(x \\leq 5.55\\)');
+  assert.equal(quiz.questions[0].answerOptions[0].text, '\\(m \\leq 124.50\\)');
+  assert.equal(
+    quiz.questions[0].answerOptions[0].rationale,
+    'Let m represent the number of minutes used. Then m = \\(22.\\frac{50}{0.15}\\).'
+  );
+});
+
 // ═══════════════════════════════════════════════════════════════════════
 //  SLOT VALIDATOR TESTS
 // ═══════════════════════════════════════════════════════════════════════

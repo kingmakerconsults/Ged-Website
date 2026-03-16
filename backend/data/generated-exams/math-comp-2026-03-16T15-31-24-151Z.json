@@ -1,0 +1,3179 @@
+{
+  "id": "ai_comp_math_1773675082646",
+  "title": "Comprehensive Mathematical Reasoning Exam",
+  "subject": "Math",
+  "type": "multi-part-math",
+  "source": "aiGenerated",
+  "usesKatex": true,
+  "fraction_plain_text_mode": false,
+  "config": {
+    "formulaSheet": true
+  },
+  "part1_non_calculator": [
+    {
+      "id": "math_wp_math_money_01_1773674965541",
+      "questionText": "If 6 bottles of water cost &#36;4.20, what is the cost per bottle?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;0.70 per bottle",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Unit Price'."
+        },
+        {
+          "text": "&#36;1.7 per bottle",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;0 per bottle",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Number Operations",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": false,
+      "questionNumber": 1,
+      "bankFingerprint": "268f30bce9f2739d48422fbc6cd6da3d6cac2092"
+    },
+    {
+      "id": "math_wp_math_ratio_05_1773674965541",
+      "questionText": "On a map, 1 inch represents 20 miles. How many miles are represented by 3.5 inches?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "70 miles",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Scale Drawing'."
+        },
+        {
+          "text": "77 miles",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "63 miles",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions & Equations",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": false,
+      "questionNumber": 2,
+      "bankFingerprint": "9c338808dd85bd39c17fb7c0731c5b76e24b8620"
+    },
+    {
+      "id": "math_wp_math_algebra_01_1773674972787",
+      "questionText": "A taxi company charges &#36;3 plus &#36;2 per mile. How much would a 6-mile trip cost?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;15",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Cost Equation'."
+        },
+        {
+          "text": "&#36;17",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;13",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Quantitative Reasoning",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": false,
+      "questionNumber": 3,
+      "bankFingerprint": "2fe3679d75eb4454f8461141e9a3900b3907c551"
+    },
+    {
+      "questionText": "Which of the following fractions has the greatest value?",
+      "answerOptions": [
+        {
+          "text": "\\(\\frac{1}{2}\\)",
+          "isCorrect": false,
+          "rationale": "To compare the fractions, find a common denominator. The least common multiple of 2, 4, 3, and 8 is 24. \\(\\frac{1}{2}\\) is equivalent to \\(\\frac{12}{24}\\)."
+        },
+        {
+          "text": "\\(\\frac{3}{4}\\)",
+          "isCorrect": true,
+          "rationale": "To compare the fractions, find a common denominator. The least common multiple of 2, 4, 3, and 8 is 24. \\(\\frac{3}{4}\\) is equivalent to \\(\\frac{18}{24}\\). This is the largest value among the options."
+        },
+        {
+          "text": "\\(\\frac{2}{3}\\)",
+          "isCorrect": false,
+          "rationale": "To compare the fractions, find a common denominator. The least common multiple of 2, 4, 3, and 8 is 24. \\(\\frac{2}{3}\\) is equivalent to \\(\\frac{16}{24}\\)."
+        },
+        {
+          "text": "\\(\\frac{5}{8}\\)",
+          "isCorrect": false,
+          "rationale": "To compare the fractions, find a common denominator. The least common multiple of 2, 4, 3, and 8 is 24. \\(\\frac{5}{8}\\) is equivalent to \\(\\frac{15}{24}\\)."
+        }
+      ],
+      "type": "standalone",
+      "calculator": false,
+      "category": "Number Operations",
+      "difficulty": "easy",
+      "subject": "Math",
+      "questionNumber": 4,
+      "bankFingerprint": "e7d55f5536d4d0c245b691e414db98c0c3dc8246"
+    },
+    {
+      "questionText": "What is \\(\\frac{5}{6}\\) - \\(\\frac{1}{3}\\)?",
+      "answerOptions": [
+        {
+          "text": "\\(\\frac{1}{6}\\)",
+          "isCorrect": false,
+          "rationale": "This would be the result if \\(\\frac{1}{3}\\) was incorrectly converted or if the subtraction was performed with incorrect common denominators, perhaps treating \\(\\frac{1}{3}\\) as \\(\\frac{1}{6}\\)."
+        },
+        {
+          "text": "\\(\\frac{2}{3}\\)",
+          "isCorrect": false,
+          "rationale": "This would be the answer if \\(\\frac{1}{3}\\) was incorrectly subtracted from \\(\\frac{5}{6}\\), for example, if the numerators and denominators were subtracted without finding a common denominator, or if \\(\\frac{5}{6}\\) - \\(\\frac{1}{6}\\) was performed."
+        },
+        {
+          "text": "\\(\\frac{1}{2}\\)",
+          "isCorrect": true,
+          "rationale": "To subtract \\(\\frac{1}{3}\\) from \\(\\frac{5}{6}\\), first find a common denominator. The least common multiple of 6 and 3 is 6. Convert \\(\\frac{1}{3}\\) to an equivalent fraction with a denominator of 6: \\(\\frac{1}{3}\\) = \\(\\frac{2}{6}\\). Then, subtract: \\(\\frac{5}{6}\\) - \\(\\frac{2}{6}\\) = \\(\\frac{3}{6}\\). Finally, simplify the fraction: \\(\\frac{3}{6}\\) = \\(\\frac{1}{2}\\)."
+        },
+        {
+          "text": "\\(\\frac{4}{3}\\)",
+          "isCorrect": false,
+          "rationale": "This would be the answer if \\(\\frac{1}{3}\\) was added to \\(\\frac{5}{6}\\) instead of subtracted, without finding a common denominator, or if the operation was performed incorrectly."
+        }
+      ],
+      "type": "standalone",
+      "calculator": false,
+      "category": "Expressions & Equations",
+      "difficulty": "hard",
+      "subject": "Math",
+      "questionNumber": 5,
+      "bankFingerprint": "9b0af27d85b114c6462c08490cc712eaea334a31"
+    }
+  ],
+  "part2_calculator": [
+    {
+      "id": "math_wp_math_geometry_09_1773674999759",
+      "questionText": "A carpenter needs to cut a board into 5 equal pieces from a 12-foot board. How long is each piece?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "2.4 feet",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Carpentry'."
+        },
+        {
+          "text": "3.4 feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "1.4 feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 6,
+      "bankFingerprint": "bc3ffc6d1509ca1ae0bf72e52a72ed5bdc292cfe"
+    },
+    {
+      "questionText": "A gym membership costs &#36;35 per month plus &#36;2.50 for each personal training session. If a member wants to keep their total monthly bill under &#36;70, what is the maximum number of personal training sessions they can attend?",
+      "answerOptions": [
+        {
+          "text": "13",
+          "isCorrect": true,
+          "rationale": "Let 's' be the number of personal training sessions. The cost can be represented by the expression 35 + 2.50s. To keep the bill under &#36;70, we set up the inequality 35 + 2.50s < 70. Subtracting 35 from both sides gives 2.50s < 35. Dividing by 2.50 yields s < 14. Since the number of sessions must be a whole number and less than 14, the maximum number of sessions is 13."
+        },
+        {
+          "text": "14",
+          "isCorrect": false,
+          "rationale": "If a member attends 14 sessions, the cost would be 35 + 2.50(14) = 35 + 35 = &#36;70. The problem states the bill must be 'under' &#36;70, not equal to or under. Therefore, 14 sessions would meet the limit, not stay strictly under it."
+        },
+        {
+          "text": "28",
+          "isCorrect": false,
+          "rationale": "This answer is incorrect because it only considers the variable cost relative to the total desired amount (70 / 2.50 = 28) and does not account for the fixed monthly fee of &#36;35."
+        },
+        {
+          "text": "35",
+          "isCorrect": false,
+          "rationale": "This value represents the fixed monthly membership fee and is not related to the number of personal training sessions possible under the budget."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 7,
+      "bankFingerprint": "201c3e6f817494c7876ae981dcf7feaa1513559d"
+    },
+    {
+      "type": "geometry",
+      "questionText": "A landscape designer is creating a plan for a garden that consists of a rectangular section and an attached semi-circular flower bed. The rectangular section has a length of 10 feet and a width of 6 feet. The semi-circular flower bed is attached to one of the 6-foot sides of the rectangle, and its diameter is equal to the length of that side. What is the total area of the garden, in square feet? The diagram shows a rectangle with a length of 10 feet and a width of 6 feet. A semi-circle is attached to one of the 6-foot sides, with its diameter coinciding with that side.",
+      "answerOptions": [
+        {
+          "text": "60 + 3pi sq ft",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "60 + 4.5pi sq ft",
+          "isCorrect": true,
+          "rationale": ""
+        },
+        {
+          "text": "60 + 9pi sq ft",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "60 + 18pi sq ft",
+          "isCorrect": false,
+          "rationale": ""
+        }
+      ],
+      "geometrySpec": null,
+      "useGeometryTool": false,
+      "category": "Geometry",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 8,
+      "bankFingerprint": "989b7e3547269fd20a378d1da3019564394cceef"
+    },
+    {
+      "type": "geometry",
+      "questionText": "A landscaper is designing a patio that combines a rectangular section with a semi-circular section. What is the total area of the patio, in square feet, to the nearest hundredth? Use \\(\\pi\\) \nis approximately 3.14. The diagram shows a rectangle with a length of 10 feet and a width of 6 feet. Attached to one of the 6-foot sides of the rectangle is a semicircle, with its diameter matching the 6-foot width.",
+      "answerOptions": [
+        {
+          "text": "60.00 square feet",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "74.13 square feet",
+          "isCorrect": true,
+          "rationale": ""
+        },
+        {
+          "text": "88.26 square feet",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "100.00 square feet",
+          "isCorrect": false,
+          "rationale": ""
+        }
+      ],
+      "geometrySpec": null,
+      "useGeometryTool": false,
+      "category": "Geometry",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 9,
+      "bankFingerprint": "01cb84de70ab106ec2e4be353cd1363a0a1b8bab"
+    },
+    {
+      "id": "math_wp_math_money_02_1773675082629",
+      "questionText": "A car salesperson earns a 6% commission on &#36;12,000 in sales. How much does the salesperson earn?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;720",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Sales Commission'."
+        },
+        {
+          "text": "&#36;792",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;648",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "fill_in",
+      "questionNumber": 10,
+      "bankFingerprint": "876785480a2373d72b95712de381586a39e14343"
+    },
+    {
+      "questionText": "Sarah has &#36;50 to spend on art supplies. She buys a sketch pad for &#36;12.50 and wants to buy paint tubes that cost &#36;6.75 each. What is the maximum number of paint tubes she can buy?",
+      "answerOptions": [
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "If Sarah buys 4 paint tubes, the total cost would be &#36;12.50 + (4 * &#36;6.75) = &#36;12.50 + &#36;27.00 = &#36;39.50. This is within her budget, but she could buy more."
+        },
+        {
+          "text": "5",
+          "isCorrect": true,
+          "rationale": "Let x be the number of paint tubes. The inequality is &#36;12.50 + &#36;6.75x <= &#36;50. Subtracting &#36;12.50 from both sides gives &#36;6.75x <= &#36;37.50. Dividing by &#36;6.75 gives \\(x \\leq 5\\).55... Since Sarah can only buy whole paint tubes, the maximum number she can buy is 5. The total cost would be &#36;12.50 + (5 * &#36;6.75) = &#36;12.50 + &#36;33.75 = &#36;46.25, which is within her budget."
+        },
+        {
+          "text": "6",
+          "isCorrect": false,
+          "rationale": "If Sarah buys 6 paint tubes, the total cost would be &#36;12.50 + (6 * &#36;6.75) = &#36;12.50 + &#36;40.50 = &#36;53.00, which exceeds her &#36;50 budget."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "If Sarah buys 7 paint tubes, the total cost would be &#36;12.50 + (7 * &#36;6.75) = &#36;12.50 + &#36;47.25 = &#36;59.75, which significantly exceeds her &#36;50 budget."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 11,
+      "bankFingerprint": "4c6f8734599c3283cec52b3e2bd320e4f9006e15"
+    },
+    {
+      "questionText": "The graph of the linear function f(x) is shown in the coordinate plane. The graph passes through the points (0, 10), (2, 14), and (5, 20). What is the value of f(2)?",
+      "answerOptions": [
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "The value of f(0) is 10, not f(2). The value of the function at x=2 is the y-coordinate when x=2."
+        },
+        {
+          "text": "12",
+          "isCorrect": false,
+          "rationale": "This value is not directly shown in the given points for x=2. The value of the function at x=2 is 14."
+        },
+        {
+          "text": "14",
+          "isCorrect": true,
+          "rationale": "From the given points on the graph, when x=2, the corresponding y-value (or f(x) value) is 14. Therefore, f(2) = 14."
+        },
+        {
+          "text": "20",
+          "isCorrect": false,
+          "rationale": "The value of f(5) is 20, not f(2). The value of the function at x=2 is 14."
+        }
+      ],
+      "type": "standalone",
+      "calculator": true,
+      "graphSpec": {
+        "type": "line",
+        "points": [
+          {
+            "x": 0,
+            "y": 10
+          },
+          {
+            "x": 10,
+            "y": 5
+          }
+        ],
+        "xLabel": "x",
+        "yLabel": "y"
+      },
+      "useGraphTool": true,
+      "category": "Graphing & Functions",
+      "difficulty": "easy",
+      "subject": "Math",
+      "questionNumber": 12,
+      "bankFingerprint": "e208d4eaed871eef8ebb4abda3420d65232cc47a"
+    },
+    {
+      "type": "fill-in-the-blank",
+      "questionText": "What is the value of \\(5^{3}\\) - \\(\\sqrt{25}\\)?",
+      "correctAnswer": "120",
+      "calculator": true,
+      "responseType": "numeric",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "easy",
+      "subject": "Math",
+      "questionType": "short_constructed_response",
+      "questionNumber": 13,
+      "bankFingerprint": "1dd39fe47937001ad8aa91deef299375ad7031f2"
+    },
+    {
+      "id": "math_wp_math_work_02_1773674999759",
+      "questionText": "If a plumber can install 6 sinks in 3 hours, how many can he install in 8 hours at the same rate?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "16 sinks",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Work Completion'."
+        },
+        {
+          "text": "18 sinks",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "14 sinks",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 14,
+      "bankFingerprint": "59beacb584b55003ebd0f6bbc09e5536611857fa"
+    },
+    {
+      "id": "math_wp_math_algebra_01_1773674999759",
+      "questionText": "A taxi company charges &#36;3 plus &#36;2 per mile. How much would a 6-mile trip cost?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;15",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Cost Equation'."
+        },
+        {
+          "text": "&#36;17",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;13",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 15,
+      "bankFingerprint": "2fe3679d75eb4454f8461141e9a3900b3907c551"
+    },
+    {
+      "id": "math_wp_math_time_03_1773675043630",
+      "questionText": "Maya earns &#36;18 per hour and works 7.5 hours a day. How much does she earn in one day?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;135",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Hourly Pay'."
+        },
+        {
+          "text": "&#36;149",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;121",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Geometry",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 16,
+      "bankFingerprint": "ca9040dc1c42fddf7ab0022474d7c4e469372594"
+    },
+    {
+      "questionText": "A store is having a sale on jackets. A jacket that originally cost &#36;80 is now on sale for 25% off its original price. What is the sale price of the jacket?",
+      "answerOptions": [
+        {
+          "text": "&#36;60",
+          "isCorrect": true,
+          "rationale": "To find the sale price, first calculate the discount amount: 25% of &#36;80 is 0.25 * &#36;80 = &#36;20. Then subtract the discount from the original price: &#36;80 - &#36;20 = &#36;60."
+        },
+        {
+          "text": "&#36;20",
+          "isCorrect": false,
+          "rationale": "This amount represents the discount only, not the final sale price. The sale price is the original price minus the discount."
+        },
+        {
+          "text": "&#36;55",
+          "isCorrect": false,
+          "rationale": "This answer incorrectly subtracts the percentage value directly from the price (&#36;80 - 25 = &#36;55) instead of calculating 25% of the price first."
+        },
+        {
+          "text": "&#36;100",
+          "isCorrect": false,
+          "rationale": "This answer would be correct if the price were increased by 25%, but the jacket is on sale for 25% off, meaning the price should decrease."
+        }
+      ],
+      "type": "standalone",
+      "category": "Ratios, Proportions, and Percents",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 17,
+      "bankFingerprint": "1c2728e4100db7fef256c895ee2978be928ea8a4"
+    },
+    {
+      "id": "math_wp_math_ratio_02_1773675076639",
+      "questionText": "A recipe uses 2 cups of rice for every 3 cups of water. How much water is needed for 8 cups of rice?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "12 cups of water",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Cooking Ratio'."
+        },
+        {
+          "text": "13 cups of water",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "11 cups of water",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Number Operations",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "numeric",
+      "questionNumber": 18,
+      "bankFingerprint": "4a9afdce011d639a70f8cd6c498305b44be65299"
+    },
+    {
+      "questionNumber": 19,
+      "type": "multipleChoice",
+      "calculator": true,
+      "difficulty": "medium",
+      "question": "A coin is flipped and a die is rolled. What is the total number of possible outcomes?",
+      "answerOptions": [
+        {
+          "text": "6",
+          "isCorrect": false,
+          "rationale": "This is the number of outcomes for the die."
+        },
+        {
+          "text": "8",
+          "isCorrect": false,
+          "rationale": "This is 2+6."
+        },
+        {
+          "text": "12",
+          "isCorrect": true,
+          "rationale": "There are 2 outcomes for the coin and 6 for the die. Total outcomes = 2 * 6 = 12."
+        },
+        {
+          "text": "36",
+          "isCorrect": false,
+          "rationale": "This is 6*6."
+        }
+      ],
+      "rationale": "The coin has 2 possible outcomes (heads or tails), and the die has 6 possible outcomes. To find the total number of outcomes, multiply the outcomes for each event: 2 * 6 = 12.",
+      "challenge_tags": [
+        "math-6"
+      ],
+      "questionText": "A coin is flipped and a die is rolled. What is the total number of possible outcomes?",
+      "subject": "Math",
+      "category": "Data Analysis & Probability",
+      "source": "premade",
+      "itemType": "standalone",
+      "bankFingerprint": "45f21f599451b1d5f02613aca13ceae3ad26ba33"
+    },
+    {
+      "id": "math_wp_math_percent_01_1773675043630",
+      "questionText": "A pair of shoes originally costs &#36;60 and is on sale for 25% off. What is the sale price?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;45",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Percent Discount'."
+        },
+        {
+          "text": "&#36;50",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;40",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Geometry",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 20,
+      "bankFingerprint": "f0ce16a907a2a30c93d98f6605a65322e55bd558"
+    },
+    {
+      "questionNumber": 21,
+      "calculator": true,
+      "type": "chart",
+      "passage": "<div class='passage-text'><b>Final Exam Scores: 75, 80, 80, 85, 90, 95, 100</b></div>",
+      "question": "What is the mode of the final exam scores?",
+      "answerOptions": [
+        {
+          "text": "80",
+          "isCorrect": true,
+          "rationale": "The mode is the number that appears most frequently in a data set. The score 80 appears twice."
+        },
+        {
+          "text": "85",
+          "isCorrect": false,
+          "rationale": "85 is the median of the scores."
+        },
+        {
+          "text": "86.4",
+          "isCorrect": false,
+          "rationale": "This is the approximate mean of the scores."
+        },
+        {
+          "text": "25",
+          "isCorrect": false,
+          "rationale": "25 is the range of the scores (100 - 75)."
+        }
+      ],
+      "challenge_tags": [
+        "math-6"
+      ],
+      "questionText": "What is the mode of the final exam scores?",
+      "subject": "Math",
+      "category": "Data Analysis & Probability",
+      "difficulty": "medium",
+      "source": "premade",
+      "itemType": "passage",
+      "bankFingerprint": "f4f82549070700dac07a3bfefe9c4c18090a18c5"
+    },
+    {
+      "questionNumber": 22,
+      "type": "multipleChoice",
+      "calculator": true,
+      "difficulty": "hard",
+      "question": "A test has 5 true/false questions. How many different ways can the test be answered?",
+      "answerOptions": [
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This is 5*2."
+        },
+        {
+          "text": "25",
+          "isCorrect": false,
+          "rationale": "This is \\(5^{2}\\)."
+        },
+        {
+          "text": "32",
+          "isCorrect": true,
+          "rationale": "There are 2 choices for each of the 5 questions. \\(2 \\times 2 \\times 2 \\times 2 \\times 2 = \\(2^{5}\\) = 32\\)."
+        },
+        {
+          "text": "120",
+          "isCorrect": false,
+          "rationale": "This is 5!."
+        }
+      ],
+      "rationale": "Each question has 2 possible answers (true or false). Since there are 5 questions, the total number of different ways to answer is 2 * 2 * 2 * 2 * 2 = &#36;\\(2^{5}\\) = 32.",
+      "challenge_tags": [
+        "math-6"
+      ],
+      "questionText": "A test has 5 true/false questions. How many different ways can the test be answered?",
+      "subject": "Math",
+      "category": "Data Analysis & Probability",
+      "source": "premade",
+      "itemType": "standalone",
+      "bankFingerprint": "e7c35e64d983203317543358e43359ca3c37cfa6"
+    },
+    {
+      "questionText": "Sarah has a budget of &#36;200 for her groceries this week. She has already spent &#36;75.50. Which inequality represents the amount of money, m, Sarah can still spend on groceries without exceeding her budget?",
+      "answerOptions": [
+        {
+          "text": "m < 124.50",
+          "isCorrect": false,
+          "rationale": "The amount Sarah can spend must be less than or equal to the remaining budget, not strictly less than. She can spend exactly &#36;124.50 without exceeding her budget."
+        },
+        {
+          "text": "m > 124.50",
+          "isCorrect": false,
+          "rationale": "This inequality suggests Sarah can spend more than her remaining budget, which would cause her to exceed her &#36;200 limit."
+        },
+        {
+          "text": "\\(m \\leq 124\\).50",
+          "isCorrect": true,
+          "rationale": "Sarah has &#36;200 - &#36;75.50 = &#36;124.50 left in her budget. She can spend any amount up to and including &#36;124.50 without exceeding her total budget. Thus, m must be less than or equal to &#36;124.50."
+        },
+        {
+          "text": "\\(m \\geq 124\\).50",
+          "isCorrect": false,
+          "rationale": "This inequality suggests Sarah must spend at least &#36;124.50, and could spend more, which would exceed her budget. She is allowed to spend less than &#36;124.50."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 23,
+      "bankFingerprint": "d630b765b8bec955729fa4506ccffadf11c936fc"
+    },
+    {
+      "id": "math_wp_math_time_01_1773675065894",
+      "questionText": "A movie starts at 7:25 PM and ends at 9:05 PM. How long is the movie?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "1 hour 40 minutes",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Elapsed Time'."
+        },
+        {
+          "text": "2 hour 40 minutes",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "0 hour 40 minutes",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Ratios, Proportions, and Percents",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 24,
+      "bankFingerprint": "28b9d5a548e8030c7587357d99eb9d185971e698"
+    },
+    {
+      "id": "math_wp_math_percent_01_1773674999759",
+      "questionText": "A pair of shoes originally costs &#36;60 and is on sale for 25% off. What is the sale price?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;45",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Percent Discount'."
+        },
+        {
+          "text": "&#36;50",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;40",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 25,
+      "bankFingerprint": "f0ce16a907a2a30c93d98f6605a65322e55bd558"
+    },
+    {
+      "id": "math_wp_math_percent_04_1773674999759",
+      "questionText": "A store buys a chair for &#36;40 and sells it for &#36;50. What is the percent markup?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "25%",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Markup'."
+        },
+        {
+          "text": "28%",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "22%",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 26,
+      "bankFingerprint": "03840235c465f9796df2c6658943381be9b625af"
+    },
+    {
+      "id": "math_wp_math_geometry_05_1773675082629",
+      "questionText": "A wall is 12 feet wide and 8 feet tall. How many square feet must be painted?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "96 square feet",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Painting Wall Area'."
+        },
+        {
+          "text": "106 square feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "86 square feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Geometry",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "numeric",
+      "questionNumber": 27,
+      "bankFingerprint": "b1ba2573e03540052f5cd0b03a209a7449db6835"
+    },
+    {
+      "questionText": "A company's production cost C for x units is given by C(x) = 15x + 300. The revenue R from selling x units is R(x) = 25x. The company wants to earn a profit of at least &#36;1000. What is the minimum number of units, x, the company must sell to achieve this profit goal?",
+      "answerOptions": [
+        {
+          "text": "x ≥ 70",
+          "isCorrect": false,
+          "rationale": "This would result from an error in setting up the inequality or calculation, for example if 300 was subtracted from 1000, giving 700, then dividing by 10."
+        },
+        {
+          "text": "x ≥ 100",
+          "isCorrect": false,
+          "rationale": "This might occur if there was an error in the initial profit calculation, or if &#36;1000 was mistakenly divided by 10 directly without accounting for the fixed cost."
+        },
+        {
+          "text": "x ≥ 130",
+          "isCorrect": true,
+          "rationale": "Profit is calculated as Revenue - Cost. So, Profit = 25x - (15x + 300). Simplifying, Profit = 25x - 15x - 300 = 10x - 300. To earn a profit of at least &#36;1000, we set up the inequality: 10x - 300 ≥ 1000. Add 300 to both sides: 10x ≥ 1300. Divide by 10: x ≥ 130. Therefore, the company must sell at least 130 units."
+        },
+        {
+          "text": "x ≥ 200",
+          "isCorrect": false,
+          "rationale": "This answer is too high, suggesting an error in calculation or setting up the inequality. For example, if the fixed cost (300) was incorrectly added to the target profit (1000) before dividing by 10."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 28,
+      "bankFingerprint": "a238d0f18e73ff5b61d9404120644df5d839fcce"
+    },
+    {
+      "id": "math_wp_math_money_05_1773675033676",
+      "questionText": "If you start with &#36;500 in a bank account and withdraw &#36;125 each week, how much will remain after 3 weeks?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;125",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Bank Withdrawal'."
+        },
+        {
+          "text": "&#36;138",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;112",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Graphing & Functions",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 29,
+      "bankFingerprint": "fd4f54eb7bc476fdf70e5ec75e6b0fd2be6bb52f"
+    },
+    {
+      "questionText": "Given the function f(x) = -3x + 8, what is the value of f(-2)?",
+      "answerOptions": [
+        {
+          "text": "2",
+          "isCorrect": false,
+          "rationale": "This answer might result from an error in calculating -3(-2) as -6 instead of 6, leading to -6 + 8 = 2."
+        },
+        {
+          "text": "14",
+          "isCorrect": true,
+          "rationale": "To find f(-2), substitute x = -2 into the function: f(-2) = -3(-2) + 8 = 6 + 8 = 14."
+        },
+        {
+          "text": "-2",
+          "isCorrect": false,
+          "rationale": "This answer might result from incorrect sign handling, such as -3(2) + 8 = -6 + 8 = 2, or some other calculation error."
+        },
+        {
+          "text": "-14",
+          "isCorrect": false,
+          "rationale": "This answer might result from errors like -3(2) - 8 = -6 - 8 = -14, or -3(-2) - 8 = 6 - 8 = -2, indicating multiple sign errors."
+        }
+      ],
+      "type": "standalone",
+      "calculator": true,
+      "graphSpec": {
+        "type": "line",
+        "points": [
+          {
+            "x": 0,
+            "y": 10
+          },
+          {
+            "x": 10,
+            "y": 5
+          }
+        ],
+        "xLabel": "x",
+        "yLabel": "y"
+      },
+      "useGraphTool": true,
+      "category": "Graphing & Functions",
+      "difficulty": "hard",
+      "subject": "Math",
+      "questionNumber": 30,
+      "bankFingerprint": "9d02e08047019e5efbe920629b5e7292c687cb82"
+    },
+    {
+      "id": "math_wp_math_geometry_06_1773675033676",
+      "questionText": "A kitchen floor is 10 feet long and 9 feet wide. How many square feet of tile are needed to cover it?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "90 square feet",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Flooring Area'."
+        },
+        {
+          "text": "99 square feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "81 square feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Graphing & Functions",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 31,
+      "bankFingerprint": "373309e3a86890b5f61c5860868f1f0b842aa506"
+    },
+    {
+      "questionText": "A cell phone plan costs &#36;30 per month plus &#36;0.05 for each text message. If a user wants to keep their total monthly bill under &#36;40, what is the maximum number of text messages they can send in a month?",
+      "answerOptions": [
+        {
+          "text": "199",
+          "isCorrect": true,
+          "rationale": "Let t be the number of text messages. The total cost is represented by the expression 30 + 0.05t. To keep the bill under &#36;40, we set up the inequality 30 + 0.05t < 40. Subtract 30 from both sides: 0.05t < 10. Divide by 0.05: t < 200. Since the number of text messages must be a whole number, the maximum number of text messages allowed is 199."
+        },
+        {
+          "text": "200",
+          "isCorrect": false,
+          "rationale": "If a user sends 200 text messages, the cost would be &#36;30 + &#36;0.05(200) = &#36;30 + &#36;10 = &#36;40. The problem states the bill must be *under* &#36;40, so &#36;40 is not acceptable."
+        },
+        {
+          "text": "100",
+          "isCorrect": false,
+          "rationale": "If a user sends 100 text messages, the cost would be &#36;30 + &#36;0.05(100) = &#36;30 + &#36;5 = &#36;35. While this is under &#36;40, it is not the *maximum* number of texts allowed."
+        },
+        {
+          "text": "250",
+          "isCorrect": false,
+          "rationale": "If a user sends 250 text messages, the cost would be &#36;30 + &#36;0.05(250) = &#36;30 + &#36;12.50 = &#36;42.50. This amount is not under &#36;40."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 32,
+      "bankFingerprint": "6dc3c419d49608b44b44bf73a17211b54baea563"
+    },
+    {
+      "questionNumber": 33,
+      "challenge_tags": [
+        "math-5"
+      ],
+      "calculator": true,
+      "question": "A rectangle is 8 inches long and 5 inches wide. What is its area?",
+      "answerOptions": [
+        {
+          "text": "40 sq in",
+          "isCorrect": true,
+          "rationale": "The area of a rectangle is length times width. \\(8 \\(\times\\) 5 = 40.\\)"
+        },
+        {
+          "text": "26 in",
+          "isCorrect": false,
+          "rationale": "This is the perimeter of the rectangle."
+        },
+        {
+          "text": "13 in",
+          "isCorrect": false,
+          "rationale": "This is the sum of the length and width."
+        },
+        {
+          "text": "64 sq in",
+          "isCorrect": false,
+          "rationale": "This would be the area if it were a square with side 8."
+        }
+      ],
+      "questionText": "A rectangle is 8 inches long and 5 inches wide. What is its area?",
+      "subject": "Math",
+      "category": "Data Analysis & Probability",
+      "difficulty": "medium",
+      "source": "premade",
+      "itemType": "standalone",
+      "responseType": "numeric",
+      "bankFingerprint": "20cb2384da9b8c889b5a02a1de6056b21f5df778"
+    },
+    {
+      "id": "math_wp_math_money_06_1773674999759",
+      "questionText": "A family spends 35% of its &#36;3,200 monthly income on rent. How much do they spend on rent?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;1,120",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Budget Allocation'."
+        },
+        {
+          "text": "&#36;2,120",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;0,120",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 34,
+      "bankFingerprint": "da0ab570156674fd32598e9784a346e47e7c56c6"
+    },
+    {
+      "questionNumber": 35,
+      "calculator": true,
+      "type": "chart",
+      "passage": "<div class='passage-text'><b>Points scored in 5 games: 10, 15, 12, 10, 18</b></div>",
+      "question": "What is the mode of the points scored?",
+      "answerOptions": [
+        {
+          "text": "10",
+          "isCorrect": true,
+          "rationale": "The mode is the value that appears most frequently. 10 appears twice."
+        },
+        {
+          "text": "12",
+          "isCorrect": false,
+          "rationale": "12 is the median."
+        },
+        {
+          "text": "13",
+          "isCorrect": false,
+          "rationale": "13 is the mean."
+        },
+        {
+          "text": "8",
+          "isCorrect": false,
+          "rationale": "8 is the range."
+        }
+      ],
+      "challenge_tags": [
+        "math-6"
+      ],
+      "questionText": "What is the mode of the points scored?",
+      "subject": "Math",
+      "category": "Data Analysis & Probability",
+      "difficulty": "easy",
+      "source": "premade",
+      "itemType": "passage",
+      "bankFingerprint": "85382adec8f923410cc576fa3ecf49f9acc87b90"
+    },
+    {
+      "questionText": "What is the solution to the inequality 3x - 5 < 10?",
+      "answerOptions": [
+        {
+          "text": "x < 5",
+          "isCorrect": true,
+          "rationale": "To solve the inequality, first add 5 to both sides: 3x - 5 + 5 < 10 + 5, which simplifies to 3x < 15. Then, divide both sides by 3: 3x/3 < \\(\\frac{15}{3}\\), which results in x < 5."
+        },
+        {
+          "text": "x > 5",
+          "isCorrect": false,
+          "rationale": "This answer incorrectly reversed the inequality sign or made a calculation error. The correct solution maintains the direction of the inequality sign after adding and dividing by positive numbers."
+        },
+        {
+          "text": "x < 15",
+          "isCorrect": false,
+          "rationale": "This answer incorrectly stopped after adding 5 to both sides and did not complete the final step of dividing by 3."
+        },
+        {
+          "text": "x > 15",
+          "isCorrect": false,
+          "rationale": "This answer incorrectly reversed the inequality sign and did not complete the final step of dividing by 3."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 36,
+      "bankFingerprint": "811f6d27f1d8e6b30b171fa1e9d12a47a93278a7"
+    },
+    {
+      "id": "math_wp_math_percent_01_1773675082629",
+      "questionText": "A pair of shoes originally costs &#36;60 and is on sale for 25% off. What is the sale price?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;45",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Percent Discount'."
+        },
+        {
+          "text": "&#36;50",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;40",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Graphing & Functions",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "fill_in",
+      "questionNumber": 37,
+      "bankFingerprint": "f0ce16a907a2a30c93d98f6605a65322e55bd558"
+    },
+    {
+      "id": "math_wp_math_geometry_10_1773674999759",
+      "questionText": "A rectangular plot of land is 60 yards by 40 yards. What is the area of the land?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "2,400 square yards",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Land Area'."
+        },
+        {
+          "text": "3,400 square yards",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "1,400 square yards",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 38,
+      "bankFingerprint": "7bad18b085b60750d7d89cdc81f2e89cc3e6793e"
+    },
+    {
+      "type": "geometry",
+      "questionText": "A landscape designer is creating a plan for a new patio. The patio will consist of a rectangular section and a semicircular section. The rectangular section has a length of 8 feet and a width of 6 feet. The semicircular section is attached to one of the 6-foot sides of the rectangle. What is the total area of the patio, in square feet? Use \\(\\pi\\) = 3.14. The diagram shows a rectangle with a semicircle attached to one of its shorter sides. The rectangle has dimensions 8 feet by 6 feet, and the semicircle's diameter is the 6-foot side.",
+      "answerOptions": [
+        {
+          "text": "48.00",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "57.42",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "62.13",
+          "isCorrect": true,
+          "rationale": ""
+        },
+        {
+          "text": "76.26",
+          "isCorrect": false,
+          "rationale": ""
+        }
+      ],
+      "geometrySpec": null,
+      "useGeometryTool": false,
+      "category": "Geometry",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 39,
+      "bankFingerprint": "484d96a1954d0f605f6b71da93ece8bee2af8497"
+    },
+    {
+      "questionText": "A store is having a sale where all items are discounted by 25%. A shirt originally costs &#36;40. If a customer has a coupon for an additional 10% off the sale price, what is the final price of the shirt?",
+      "answerOptions": [
+        {
+          "text": "&#36;27.00",
+          "isCorrect": true,
+          "rationale": "First, calculate the price after the 25% discount: &#36;40 multiplied by (1 - 0.25) equals &#36;40 multiplied by 0.75, which is &#36;30. Then, apply the additional 10% discount to this sale price: &#36;30 multiplied by (1 - 0.10) equals &#36;30 multiplied by 0.90, which is &#36;27. So, the final price is &#36;27.00."
+        },
+        {
+          "text": "&#36;30.00",
+          "isCorrect": false,
+          "rationale": "This is the price after only applying the initial 25% discount (&#36;40 multiplied by 0.75 = &#36;30), but it does not account for the additional 10% coupon off the sale price."
+        },
+        {
+          "text": "&#36;26.00",
+          "isCorrect": false,
+          "rationale": "This result would occur if you incorrectly added the percentages (25% + 10% = 35%) and then applied that single percentage to the original price (&#36;40 multiplied by 0.35 = &#36;14, and &#36;40 - &#36;14 = &#36;26). Successive discounts are applied to the reduced price, not added together and applied to the original."
+        },
+        {
+          "text": "&#36;36.00",
+          "isCorrect": false,
+          "rationale": "This is the price if only the 10% coupon was applied to the original price (&#36;40 multiplied by 0.90 = &#36;36), ignoring the initial 25% sale discount."
+        }
+      ],
+      "type": "standalone",
+      "category": "Ratios, Proportions, and Percents",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 40,
+      "bankFingerprint": "df284e674d1fa5f031246114e06de742f2d57989"
+    },
+    {
+      "id": "math_wp_math_percent_04_1773675065894",
+      "questionText": "A store buys a chair for &#36;40 and sells it for &#36;50. What is the percent markup?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "25%",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Markup'."
+        },
+        {
+          "text": "28%",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "22%",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Ratios, Proportions, and Percents",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 41,
+      "bankFingerprint": "03840235c465f9796df2c6658943381be9b625af"
+    },
+    {
+      "id": "math_wp_math_ratio_04_1773675082629",
+      "questionText": "A recipe that serves 4 people uses 2 cups of flour. How much flour is needed to serve 10 people?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "5 cups of flour",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Recipe Adjustment'."
+        },
+        {
+          "text": "6 cups of flour",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "4 cups of flour",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "fill_in",
+      "questionNumber": 42,
+      "bankFingerprint": "1840d75a1a38f6f3b41923fd546ca31c4677db8c"
+    },
+    {
+      "questionText": "A cellular phone company offers a plan that costs &#36;25 per month plus &#36;0.15 for each minute of talk time used. If a customer's bill for one month was &#36;47.50, how many minutes of talk time did the customer use?",
+      "answerOptions": [
+        {
+          "text": "100 minutes",
+          "isCorrect": false,
+          "rationale": "This answer would result from an incorrect calculation or setting up the equation incorrectly. If 100 minutes were used, the bill would be 25 + 0.15(100) = 25 + 15 = &#36;40, which is not &#36;47.50."
+        },
+        {
+          "text": "125 minutes",
+          "isCorrect": false,
+          "rationale": "This answer is incorrect. If 125 minutes were used, the bill would be 25 + 0.15(125) = 25 + 18.75 = &#36;43.75, which is not &#36;47.50."
+        },
+        {
+          "text": "150 minutes",
+          "isCorrect": true,
+          "rationale": "Let 'm' represent the number of minutes used. The cost can be represented by the equation: 25 + 0.15m = 47.50. First, subtract the base fee of &#36;25 from both sides: 0.15m = 47.50 - 25. This simplifies to 0.15m = 22.50. Next, divide both sides by 0.15 to find 'm': m = 22.\\(\\frac{50}{0}\\).15. Therefore, m = 150 minutes."
+        },
+        {
+          "text": "175 minutes",
+          "isCorrect": false,
+          "rationale": "This answer is incorrect. If 175 minutes were used, the bill would be 25 + 0.15(175) = 25 + 26.25 = &#36;51.25, which is not &#36;47.50."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 43,
+      "bankFingerprint": "eac6be34d967773a9d9dd336e2a38e5da1e63d04"
+    },
+    {
+      "id": "math_wp_math_work_02_1773675082629",
+      "questionText": "If a plumber can install 6 sinks in 3 hours, how many can he install in 8 hours at the same rate?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "16 sinks",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Work Completion'."
+        },
+        {
+          "text": "18 sinks",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "14 sinks",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Ratios, Proportions, and Percents",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "fill_in",
+      "questionNumber": 44,
+      "bankFingerprint": "59beacb584b55003ebd0f6bbc09e5536611857fa"
+    },
+    {
+      "id": "math_wp_math_geometry_04_1773674999759",
+      "questionText": "Find the circumference of a circular pond with a diameter of 20 meters. Use π = 3.14.",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "62.8 meters",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Circumference'."
+        },
+        {
+          "text": "68.8 meters",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "56.8 meters",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 45,
+      "bankFingerprint": "4adaa010a318e5c035da2abb95c48372a22cbf12"
+    },
+    {
+      "id": "math_wp_math_fractions_01_1773675033676",
+      "questionText": "Maria ran \\(\\frac{2}{3}\\) of a mile on Monday and \\(\\frac{3}{4}\\) of a mile on Tuesday. How far did she run in total?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "1 \\(\\frac{5}{12}\\) miles",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Adding Fractions'."
+        },
+        {
+          "text": "2 \\(\\frac{5}{12}\\) miles",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "0 \\(\\frac{5}{12}\\) miles",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Graphing & Functions",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 46,
+      "bankFingerprint": "13faeb7bbbfb8e339379e2a890da2718558e05ff"
+    }
+  ],
+  "questions": [
+    {
+      "id": "math_wp_math_money_01_1773674965541",
+      "questionText": "If 6 bottles of water cost &#36;4.20, what is the cost per bottle?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;0.70 per bottle",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Unit Price'."
+        },
+        {
+          "text": "&#36;1.7 per bottle",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;0 per bottle",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Number Operations",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": false,
+      "questionNumber": 1,
+      "bankFingerprint": "268f30bce9f2739d48422fbc6cd6da3d6cac2092"
+    },
+    {
+      "id": "math_wp_math_ratio_05_1773674965541",
+      "questionText": "On a map, 1 inch represents 20 miles. How many miles are represented by 3.5 inches?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "70 miles",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Scale Drawing'."
+        },
+        {
+          "text": "77 miles",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "63 miles",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions & Equations",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": false,
+      "questionNumber": 2,
+      "bankFingerprint": "9c338808dd85bd39c17fb7c0731c5b76e24b8620"
+    },
+    {
+      "id": "math_wp_math_algebra_01_1773674972787",
+      "questionText": "A taxi company charges &#36;3 plus &#36;2 per mile. How much would a 6-mile trip cost?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;15",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Cost Equation'."
+        },
+        {
+          "text": "&#36;17",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;13",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Quantitative Reasoning",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": false,
+      "questionNumber": 3,
+      "bankFingerprint": "2fe3679d75eb4454f8461141e9a3900b3907c551"
+    },
+    {
+      "questionText": "Which of the following fractions has the greatest value?",
+      "answerOptions": [
+        {
+          "text": "\\(\\frac{1}{2}\\)",
+          "isCorrect": false,
+          "rationale": "To compare the fractions, find a common denominator. The least common multiple of 2, 4, 3, and 8 is 24. \\(\\frac{1}{2}\\) is equivalent to \\(\\frac{12}{24}\\)."
+        },
+        {
+          "text": "\\(\\frac{3}{4}\\)",
+          "isCorrect": true,
+          "rationale": "To compare the fractions, find a common denominator. The least common multiple of 2, 4, 3, and 8 is 24. \\(\\frac{3}{4}\\) is equivalent to \\(\\frac{18}{24}\\). This is the largest value among the options."
+        },
+        {
+          "text": "\\(\\frac{2}{3}\\)",
+          "isCorrect": false,
+          "rationale": "To compare the fractions, find a common denominator. The least common multiple of 2, 4, 3, and 8 is 24. \\(\\frac{2}{3}\\) is equivalent to \\(\\frac{16}{24}\\)."
+        },
+        {
+          "text": "\\(\\frac{5}{8}\\)",
+          "isCorrect": false,
+          "rationale": "To compare the fractions, find a common denominator. The least common multiple of 2, 4, 3, and 8 is 24. \\(\\frac{5}{8}\\) is equivalent to \\(\\frac{15}{24}\\)."
+        }
+      ],
+      "type": "standalone",
+      "calculator": false,
+      "category": "Number Operations",
+      "difficulty": "easy",
+      "subject": "Math",
+      "questionNumber": 4,
+      "bankFingerprint": "e7d55f5536d4d0c245b691e414db98c0c3dc8246"
+    },
+    {
+      "questionText": "What is \\(\\frac{5}{6}\\) - \\(\\frac{1}{3}\\)?",
+      "answerOptions": [
+        {
+          "text": "\\(\\frac{1}{6}\\)",
+          "isCorrect": false,
+          "rationale": "This would be the result if \\(\\frac{1}{3}\\) was incorrectly converted or if the subtraction was performed with incorrect common denominators, perhaps treating \\(\\frac{1}{3}\\) as \\(\\frac{1}{6}\\)."
+        },
+        {
+          "text": "\\(\\frac{2}{3}\\)",
+          "isCorrect": false,
+          "rationale": "This would be the answer if \\(\\frac{1}{3}\\) was incorrectly subtracted from \\(\\frac{5}{6}\\), for example, if the numerators and denominators were subtracted without finding a common denominator, or if \\(\\frac{5}{6}\\) - \\(\\frac{1}{6}\\) was performed."
+        },
+        {
+          "text": "\\(\\frac{1}{2}\\)",
+          "isCorrect": true,
+          "rationale": "To subtract \\(\\frac{1}{3}\\) from \\(\\frac{5}{6}\\), first find a common denominator. The least common multiple of 6 and 3 is 6. Convert \\(\\frac{1}{3}\\) to an equivalent fraction with a denominator of 6: \\(\\frac{1}{3}\\) = \\(\\frac{2}{6}\\). Then, subtract: \\(\\frac{5}{6}\\) - \\(\\frac{2}{6}\\) = \\(\\frac{3}{6}\\). Finally, simplify the fraction: \\(\\frac{3}{6}\\) = \\(\\frac{1}{2}\\)."
+        },
+        {
+          "text": "\\(\\frac{4}{3}\\)",
+          "isCorrect": false,
+          "rationale": "This would be the answer if \\(\\frac{1}{3}\\) was added to \\(\\frac{5}{6}\\) instead of subtracted, without finding a common denominator, or if the operation was performed incorrectly."
+        }
+      ],
+      "type": "standalone",
+      "calculator": false,
+      "category": "Expressions & Equations",
+      "difficulty": "hard",
+      "subject": "Math",
+      "questionNumber": 5,
+      "bankFingerprint": "9b0af27d85b114c6462c08490cc712eaea334a31"
+    },
+    {
+      "id": "math_wp_math_geometry_09_1773674999759",
+      "questionText": "A carpenter needs to cut a board into 5 equal pieces from a 12-foot board. How long is each piece?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "2.4 feet",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Carpentry'."
+        },
+        {
+          "text": "3.4 feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "1.4 feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 6,
+      "bankFingerprint": "bc3ffc6d1509ca1ae0bf72e52a72ed5bdc292cfe"
+    },
+    {
+      "questionText": "A gym membership costs &#36;35 per month plus &#36;2.50 for each personal training session. If a member wants to keep their total monthly bill under &#36;70, what is the maximum number of personal training sessions they can attend?",
+      "answerOptions": [
+        {
+          "text": "13",
+          "isCorrect": true,
+          "rationale": "Let 's' be the number of personal training sessions. The cost can be represented by the expression 35 + 2.50s. To keep the bill under &#36;70, we set up the inequality 35 + 2.50s < 70. Subtracting 35 from both sides gives 2.50s < 35. Dividing by 2.50 yields s < 14. Since the number of sessions must be a whole number and less than 14, the maximum number of sessions is 13."
+        },
+        {
+          "text": "14",
+          "isCorrect": false,
+          "rationale": "If a member attends 14 sessions, the cost would be 35 + 2.50(14) = 35 + 35 = &#36;70. The problem states the bill must be 'under' &#36;70, not equal to or under. Therefore, 14 sessions would meet the limit, not stay strictly under it."
+        },
+        {
+          "text": "28",
+          "isCorrect": false,
+          "rationale": "This answer is incorrect because it only considers the variable cost relative to the total desired amount (70 / 2.50 = 28) and does not account for the fixed monthly fee of &#36;35."
+        },
+        {
+          "text": "35",
+          "isCorrect": false,
+          "rationale": "This value represents the fixed monthly membership fee and is not related to the number of personal training sessions possible under the budget."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 7,
+      "bankFingerprint": "201c3e6f817494c7876ae981dcf7feaa1513559d"
+    },
+    {
+      "type": "geometry",
+      "questionText": "A landscape designer is creating a plan for a garden that consists of a rectangular section and an attached semi-circular flower bed. The rectangular section has a length of 10 feet and a width of 6 feet. The semi-circular flower bed is attached to one of the 6-foot sides of the rectangle, and its diameter is equal to the length of that side. What is the total area of the garden, in square feet? The diagram shows a rectangle with a length of 10 feet and a width of 6 feet. A semi-circle is attached to one of the 6-foot sides, with its diameter coinciding with that side.",
+      "answerOptions": [
+        {
+          "text": "60 + 3pi sq ft",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "60 + 4.5pi sq ft",
+          "isCorrect": true,
+          "rationale": ""
+        },
+        {
+          "text": "60 + 9pi sq ft",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "60 + 18pi sq ft",
+          "isCorrect": false,
+          "rationale": ""
+        }
+      ],
+      "geometrySpec": null,
+      "useGeometryTool": false,
+      "category": "Geometry",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 8,
+      "bankFingerprint": "989b7e3547269fd20a378d1da3019564394cceef"
+    },
+    {
+      "type": "geometry",
+      "questionText": "A landscaper is designing a patio that combines a rectangular section with a semi-circular section. What is the total area of the patio, in square feet, to the nearest hundredth? Use \\(\\pi\\) \nis approximately 3.14. The diagram shows a rectangle with a length of 10 feet and a width of 6 feet. Attached to one of the 6-foot sides of the rectangle is a semicircle, with its diameter matching the 6-foot width.",
+      "answerOptions": [
+        {
+          "text": "60.00 square feet",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "74.13 square feet",
+          "isCorrect": true,
+          "rationale": ""
+        },
+        {
+          "text": "88.26 square feet",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "100.00 square feet",
+          "isCorrect": false,
+          "rationale": ""
+        }
+      ],
+      "geometrySpec": null,
+      "useGeometryTool": false,
+      "category": "Geometry",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 9,
+      "bankFingerprint": "01cb84de70ab106ec2e4be353cd1363a0a1b8bab"
+    },
+    {
+      "id": "math_wp_math_money_02_1773675082629",
+      "questionText": "A car salesperson earns a 6% commission on &#36;12,000 in sales. How much does the salesperson earn?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;720",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Sales Commission'."
+        },
+        {
+          "text": "&#36;792",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;648",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "fill_in",
+      "questionNumber": 10,
+      "bankFingerprint": "876785480a2373d72b95712de381586a39e14343"
+    },
+    {
+      "questionText": "Sarah has &#36;50 to spend on art supplies. She buys a sketch pad for &#36;12.50 and wants to buy paint tubes that cost &#36;6.75 each. What is the maximum number of paint tubes she can buy?",
+      "answerOptions": [
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "If Sarah buys 4 paint tubes, the total cost would be &#36;12.50 + (4 * &#36;6.75) = &#36;12.50 + &#36;27.00 = &#36;39.50. This is within her budget, but she could buy more."
+        },
+        {
+          "text": "5",
+          "isCorrect": true,
+          "rationale": "Let x be the number of paint tubes. The inequality is &#36;12.50 + &#36;6.75x <= &#36;50. Subtracting &#36;12.50 from both sides gives &#36;6.75x <= &#36;37.50. Dividing by &#36;6.75 gives \\(x \\leq 5\\).55... Since Sarah can only buy whole paint tubes, the maximum number she can buy is 5. The total cost would be &#36;12.50 + (5 * &#36;6.75) = &#36;12.50 + &#36;33.75 = &#36;46.25, which is within her budget."
+        },
+        {
+          "text": "6",
+          "isCorrect": false,
+          "rationale": "If Sarah buys 6 paint tubes, the total cost would be &#36;12.50 + (6 * &#36;6.75) = &#36;12.50 + &#36;40.50 = &#36;53.00, which exceeds her &#36;50 budget."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "If Sarah buys 7 paint tubes, the total cost would be &#36;12.50 + (7 * &#36;6.75) = &#36;12.50 + &#36;47.25 = &#36;59.75, which significantly exceeds her &#36;50 budget."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 11,
+      "bankFingerprint": "4c6f8734599c3283cec52b3e2bd320e4f9006e15"
+    },
+    {
+      "questionText": "The graph of the linear function f(x) is shown in the coordinate plane. The graph passes through the points (0, 10), (2, 14), and (5, 20). What is the value of f(2)?",
+      "answerOptions": [
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "The value of f(0) is 10, not f(2). The value of the function at x=2 is the y-coordinate when x=2."
+        },
+        {
+          "text": "12",
+          "isCorrect": false,
+          "rationale": "This value is not directly shown in the given points for x=2. The value of the function at x=2 is 14."
+        },
+        {
+          "text": "14",
+          "isCorrect": true,
+          "rationale": "From the given points on the graph, when x=2, the corresponding y-value (or f(x) value) is 14. Therefore, f(2) = 14."
+        },
+        {
+          "text": "20",
+          "isCorrect": false,
+          "rationale": "The value of f(5) is 20, not f(2). The value of the function at x=2 is 14."
+        }
+      ],
+      "type": "standalone",
+      "calculator": true,
+      "graphSpec": {
+        "type": "line",
+        "points": [
+          {
+            "x": 0,
+            "y": 10
+          },
+          {
+            "x": 10,
+            "y": 5
+          }
+        ],
+        "xLabel": "x",
+        "yLabel": "y"
+      },
+      "useGraphTool": true,
+      "category": "Graphing & Functions",
+      "difficulty": "easy",
+      "subject": "Math",
+      "questionNumber": 12,
+      "bankFingerprint": "e208d4eaed871eef8ebb4abda3420d65232cc47a"
+    },
+    {
+      "type": "fill-in-the-blank",
+      "questionText": "What is the value of \\(5^{3}\\) - \\(\\sqrt{25}\\)?",
+      "correctAnswer": "120",
+      "calculator": true,
+      "responseType": "numeric",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "easy",
+      "subject": "Math",
+      "questionType": "short_constructed_response",
+      "questionNumber": 13,
+      "bankFingerprint": "1dd39fe47937001ad8aa91deef299375ad7031f2"
+    },
+    {
+      "id": "math_wp_math_work_02_1773674999759",
+      "questionText": "If a plumber can install 6 sinks in 3 hours, how many can he install in 8 hours at the same rate?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "16 sinks",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Work Completion'."
+        },
+        {
+          "text": "18 sinks",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "14 sinks",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 14,
+      "bankFingerprint": "59beacb584b55003ebd0f6bbc09e5536611857fa"
+    },
+    {
+      "id": "math_wp_math_algebra_01_1773674999759",
+      "questionText": "A taxi company charges &#36;3 plus &#36;2 per mile. How much would a 6-mile trip cost?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;15",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Cost Equation'."
+        },
+        {
+          "text": "&#36;17",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;13",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 15,
+      "bankFingerprint": "2fe3679d75eb4454f8461141e9a3900b3907c551"
+    },
+    {
+      "id": "math_wp_math_time_03_1773675043630",
+      "questionText": "Maya earns &#36;18 per hour and works 7.5 hours a day. How much does she earn in one day?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;135",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Hourly Pay'."
+        },
+        {
+          "text": "&#36;149",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;121",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Geometry",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 16,
+      "bankFingerprint": "ca9040dc1c42fddf7ab0022474d7c4e469372594"
+    },
+    {
+      "questionText": "A store is having a sale on jackets. A jacket that originally cost &#36;80 is now on sale for 25% off its original price. What is the sale price of the jacket?",
+      "answerOptions": [
+        {
+          "text": "&#36;60",
+          "isCorrect": true,
+          "rationale": "To find the sale price, first calculate the discount amount: 25% of &#36;80 is 0.25 * &#36;80 = &#36;20. Then subtract the discount from the original price: &#36;80 - &#36;20 = &#36;60."
+        },
+        {
+          "text": "&#36;20",
+          "isCorrect": false,
+          "rationale": "This amount represents the discount only, not the final sale price. The sale price is the original price minus the discount."
+        },
+        {
+          "text": "&#36;55",
+          "isCorrect": false,
+          "rationale": "This answer incorrectly subtracts the percentage value directly from the price (&#36;80 - 25 = &#36;55) instead of calculating 25% of the price first."
+        },
+        {
+          "text": "&#36;100",
+          "isCorrect": false,
+          "rationale": "This answer would be correct if the price were increased by 25%, but the jacket is on sale for 25% off, meaning the price should decrease."
+        }
+      ],
+      "type": "standalone",
+      "category": "Ratios, Proportions, and Percents",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 17,
+      "bankFingerprint": "1c2728e4100db7fef256c895ee2978be928ea8a4"
+    },
+    {
+      "id": "math_wp_math_ratio_02_1773675076639",
+      "questionText": "A recipe uses 2 cups of rice for every 3 cups of water. How much water is needed for 8 cups of rice?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "12 cups of water",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Cooking Ratio'."
+        },
+        {
+          "text": "13 cups of water",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "11 cups of water",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Number Operations",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "numeric",
+      "questionNumber": 18,
+      "bankFingerprint": "4a9afdce011d639a70f8cd6c498305b44be65299"
+    },
+    {
+      "questionNumber": 19,
+      "type": "multipleChoice",
+      "calculator": true,
+      "difficulty": "medium",
+      "question": "A coin is flipped and a die is rolled. What is the total number of possible outcomes?",
+      "answerOptions": [
+        {
+          "text": "6",
+          "isCorrect": false,
+          "rationale": "This is the number of outcomes for the die."
+        },
+        {
+          "text": "8",
+          "isCorrect": false,
+          "rationale": "This is 2+6."
+        },
+        {
+          "text": "12",
+          "isCorrect": true,
+          "rationale": "There are 2 outcomes for the coin and 6 for the die. Total outcomes = 2 * 6 = 12."
+        },
+        {
+          "text": "36",
+          "isCorrect": false,
+          "rationale": "This is 6*6."
+        }
+      ],
+      "rationale": "The coin has 2 possible outcomes (heads or tails), and the die has 6 possible outcomes. To find the total number of outcomes, multiply the outcomes for each event: 2 * 6 = 12.",
+      "challenge_tags": [
+        "math-6"
+      ],
+      "questionText": "A coin is flipped and a die is rolled. What is the total number of possible outcomes?",
+      "subject": "Math",
+      "category": "Data Analysis & Probability",
+      "source": "premade",
+      "itemType": "standalone",
+      "bankFingerprint": "45f21f599451b1d5f02613aca13ceae3ad26ba33"
+    },
+    {
+      "id": "math_wp_math_percent_01_1773675043630",
+      "questionText": "A pair of shoes originally costs &#36;60 and is on sale for 25% off. What is the sale price?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;45",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Percent Discount'."
+        },
+        {
+          "text": "&#36;50",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;40",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Geometry",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 20,
+      "bankFingerprint": "f0ce16a907a2a30c93d98f6605a65322e55bd558"
+    },
+    {
+      "questionNumber": 21,
+      "calculator": true,
+      "type": "chart",
+      "passage": "<div class='passage-text'><b>Final Exam Scores: 75, 80, 80, 85, 90, 95, 100</b></div>",
+      "question": "What is the mode of the final exam scores?",
+      "answerOptions": [
+        {
+          "text": "80",
+          "isCorrect": true,
+          "rationale": "The mode is the number that appears most frequently in a data set. The score 80 appears twice."
+        },
+        {
+          "text": "85",
+          "isCorrect": false,
+          "rationale": "85 is the median of the scores."
+        },
+        {
+          "text": "86.4",
+          "isCorrect": false,
+          "rationale": "This is the approximate mean of the scores."
+        },
+        {
+          "text": "25",
+          "isCorrect": false,
+          "rationale": "25 is the range of the scores (100 - 75)."
+        }
+      ],
+      "challenge_tags": [
+        "math-6"
+      ],
+      "questionText": "What is the mode of the final exam scores?",
+      "subject": "Math",
+      "category": "Data Analysis & Probability",
+      "difficulty": "medium",
+      "source": "premade",
+      "itemType": "passage",
+      "bankFingerprint": "f4f82549070700dac07a3bfefe9c4c18090a18c5"
+    },
+    {
+      "questionNumber": 22,
+      "type": "multipleChoice",
+      "calculator": true,
+      "difficulty": "hard",
+      "question": "A test has 5 true/false questions. How many different ways can the test be answered?",
+      "answerOptions": [
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This is 5*2."
+        },
+        {
+          "text": "25",
+          "isCorrect": false,
+          "rationale": "This is \\(5^{2}\\)."
+        },
+        {
+          "text": "32",
+          "isCorrect": true,
+          "rationale": "There are 2 choices for each of the 5 questions. \\(2 \\times 2 \\times 2 \\times 2 \\times 2 = \\(2^{5}\\) = 32\\)."
+        },
+        {
+          "text": "120",
+          "isCorrect": false,
+          "rationale": "This is 5!."
+        }
+      ],
+      "rationale": "Each question has 2 possible answers (true or false). Since there are 5 questions, the total number of different ways to answer is 2 * 2 * 2 * 2 * 2 = &#36;\\(2^{5}\\) = 32.",
+      "challenge_tags": [
+        "math-6"
+      ],
+      "questionText": "A test has 5 true/false questions. How many different ways can the test be answered?",
+      "subject": "Math",
+      "category": "Data Analysis & Probability",
+      "source": "premade",
+      "itemType": "standalone",
+      "bankFingerprint": "e7c35e64d983203317543358e43359ca3c37cfa6"
+    },
+    {
+      "questionText": "Sarah has a budget of &#36;200 for her groceries this week. She has already spent &#36;75.50. Which inequality represents the amount of money, m, Sarah can still spend on groceries without exceeding her budget?",
+      "answerOptions": [
+        {
+          "text": "m < 124.50",
+          "isCorrect": false,
+          "rationale": "The amount Sarah can spend must be less than or equal to the remaining budget, not strictly less than. She can spend exactly &#36;124.50 without exceeding her budget."
+        },
+        {
+          "text": "m > 124.50",
+          "isCorrect": false,
+          "rationale": "This inequality suggests Sarah can spend more than her remaining budget, which would cause her to exceed her &#36;200 limit."
+        },
+        {
+          "text": "\\(m \\leq 124\\).50",
+          "isCorrect": true,
+          "rationale": "Sarah has &#36;200 - &#36;75.50 = &#36;124.50 left in her budget. She can spend any amount up to and including &#36;124.50 without exceeding her total budget. Thus, m must be less than or equal to &#36;124.50."
+        },
+        {
+          "text": "\\(m \\geq 124\\).50",
+          "isCorrect": false,
+          "rationale": "This inequality suggests Sarah must spend at least &#36;124.50, and could spend more, which would exceed her budget. She is allowed to spend less than &#36;124.50."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 23,
+      "bankFingerprint": "d630b765b8bec955729fa4506ccffadf11c936fc"
+    },
+    {
+      "id": "math_wp_math_time_01_1773675065894",
+      "questionText": "A movie starts at 7:25 PM and ends at 9:05 PM. How long is the movie?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "1 hour 40 minutes",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Elapsed Time'."
+        },
+        {
+          "text": "2 hour 40 minutes",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "0 hour 40 minutes",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Ratios, Proportions, and Percents",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 24,
+      "bankFingerprint": "28b9d5a548e8030c7587357d99eb9d185971e698"
+    },
+    {
+      "id": "math_wp_math_percent_01_1773674999759",
+      "questionText": "A pair of shoes originally costs &#36;60 and is on sale for 25% off. What is the sale price?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;45",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Percent Discount'."
+        },
+        {
+          "text": "&#36;50",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;40",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 25,
+      "bankFingerprint": "f0ce16a907a2a30c93d98f6605a65322e55bd558"
+    },
+    {
+      "id": "math_wp_math_percent_04_1773674999759",
+      "questionText": "A store buys a chair for &#36;40 and sells it for &#36;50. What is the percent markup?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "25%",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Markup'."
+        },
+        {
+          "text": "28%",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "22%",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 26,
+      "bankFingerprint": "03840235c465f9796df2c6658943381be9b625af"
+    },
+    {
+      "id": "math_wp_math_geometry_05_1773675082629",
+      "questionText": "A wall is 12 feet wide and 8 feet tall. How many square feet must be painted?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "96 square feet",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Painting Wall Area'."
+        },
+        {
+          "text": "106 square feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "86 square feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Geometry",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "numeric",
+      "questionNumber": 27,
+      "bankFingerprint": "b1ba2573e03540052f5cd0b03a209a7449db6835"
+    },
+    {
+      "questionText": "A company's production cost C for x units is given by C(x) = 15x + 300. The revenue R from selling x units is R(x) = 25x. The company wants to earn a profit of at least &#36;1000. What is the minimum number of units, x, the company must sell to achieve this profit goal?",
+      "answerOptions": [
+        {
+          "text": "x ≥ 70",
+          "isCorrect": false,
+          "rationale": "This would result from an error in setting up the inequality or calculation, for example if 300 was subtracted from 1000, giving 700, then dividing by 10."
+        },
+        {
+          "text": "x ≥ 100",
+          "isCorrect": false,
+          "rationale": "This might occur if there was an error in the initial profit calculation, or if &#36;1000 was mistakenly divided by 10 directly without accounting for the fixed cost."
+        },
+        {
+          "text": "x ≥ 130",
+          "isCorrect": true,
+          "rationale": "Profit is calculated as Revenue - Cost. So, Profit = 25x - (15x + 300). Simplifying, Profit = 25x - 15x - 300 = 10x - 300. To earn a profit of at least &#36;1000, we set up the inequality: 10x - 300 ≥ 1000. Add 300 to both sides: 10x ≥ 1300. Divide by 10: x ≥ 130. Therefore, the company must sell at least 130 units."
+        },
+        {
+          "text": "x ≥ 200",
+          "isCorrect": false,
+          "rationale": "This answer is too high, suggesting an error in calculation or setting up the inequality. For example, if the fixed cost (300) was incorrectly added to the target profit (1000) before dividing by 10."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 28,
+      "bankFingerprint": "a238d0f18e73ff5b61d9404120644df5d839fcce"
+    },
+    {
+      "id": "math_wp_math_money_05_1773675033676",
+      "questionText": "If you start with &#36;500 in a bank account and withdraw &#36;125 each week, how much will remain after 3 weeks?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;125",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Bank Withdrawal'."
+        },
+        {
+          "text": "&#36;138",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;112",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Graphing & Functions",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 29,
+      "bankFingerprint": "fd4f54eb7bc476fdf70e5ec75e6b0fd2be6bb52f"
+    },
+    {
+      "questionText": "Given the function f(x) = -3x + 8, what is the value of f(-2)?",
+      "answerOptions": [
+        {
+          "text": "2",
+          "isCorrect": false,
+          "rationale": "This answer might result from an error in calculating -3(-2) as -6 instead of 6, leading to -6 + 8 = 2."
+        },
+        {
+          "text": "14",
+          "isCorrect": true,
+          "rationale": "To find f(-2), substitute x = -2 into the function: f(-2) = -3(-2) + 8 = 6 + 8 = 14."
+        },
+        {
+          "text": "-2",
+          "isCorrect": false,
+          "rationale": "This answer might result from incorrect sign handling, such as -3(2) + 8 = -6 + 8 = 2, or some other calculation error."
+        },
+        {
+          "text": "-14",
+          "isCorrect": false,
+          "rationale": "This answer might result from errors like -3(2) - 8 = -6 - 8 = -14, or -3(-2) - 8 = 6 - 8 = -2, indicating multiple sign errors."
+        }
+      ],
+      "type": "standalone",
+      "calculator": true,
+      "graphSpec": {
+        "type": "line",
+        "points": [
+          {
+            "x": 0,
+            "y": 10
+          },
+          {
+            "x": 10,
+            "y": 5
+          }
+        ],
+        "xLabel": "x",
+        "yLabel": "y"
+      },
+      "useGraphTool": true,
+      "category": "Graphing & Functions",
+      "difficulty": "hard",
+      "subject": "Math",
+      "questionNumber": 30,
+      "bankFingerprint": "9d02e08047019e5efbe920629b5e7292c687cb82"
+    },
+    {
+      "id": "math_wp_math_geometry_06_1773675033676",
+      "questionText": "A kitchen floor is 10 feet long and 9 feet wide. How many square feet of tile are needed to cover it?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "90 square feet",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Flooring Area'."
+        },
+        {
+          "text": "99 square feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "81 square feet",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Graphing & Functions",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 31,
+      "bankFingerprint": "373309e3a86890b5f61c5860868f1f0b842aa506"
+    },
+    {
+      "questionText": "A cell phone plan costs &#36;30 per month plus &#36;0.05 for each text message. If a user wants to keep their total monthly bill under &#36;40, what is the maximum number of text messages they can send in a month?",
+      "answerOptions": [
+        {
+          "text": "199",
+          "isCorrect": true,
+          "rationale": "Let t be the number of text messages. The total cost is represented by the expression 30 + 0.05t. To keep the bill under &#36;40, we set up the inequality 30 + 0.05t < 40. Subtract 30 from both sides: 0.05t < 10. Divide by 0.05: t < 200. Since the number of text messages must be a whole number, the maximum number of text messages allowed is 199."
+        },
+        {
+          "text": "200",
+          "isCorrect": false,
+          "rationale": "If a user sends 200 text messages, the cost would be &#36;30 + &#36;0.05(200) = &#36;30 + &#36;10 = &#36;40. The problem states the bill must be *under* &#36;40, so &#36;40 is not acceptable."
+        },
+        {
+          "text": "100",
+          "isCorrect": false,
+          "rationale": "If a user sends 100 text messages, the cost would be &#36;30 + &#36;0.05(100) = &#36;30 + &#36;5 = &#36;35. While this is under &#36;40, it is not the *maximum* number of texts allowed."
+        },
+        {
+          "text": "250",
+          "isCorrect": false,
+          "rationale": "If a user sends 250 text messages, the cost would be &#36;30 + &#36;0.05(250) = &#36;30 + &#36;12.50 = &#36;42.50. This amount is not under &#36;40."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 32,
+      "bankFingerprint": "6dc3c419d49608b44b44bf73a17211b54baea563"
+    },
+    {
+      "questionNumber": 33,
+      "challenge_tags": [
+        "math-5"
+      ],
+      "calculator": true,
+      "question": "A rectangle is 8 inches long and 5 inches wide. What is its area?",
+      "answerOptions": [
+        {
+          "text": "40 sq in",
+          "isCorrect": true,
+          "rationale": "The area of a rectangle is length times width. \\(8 \\(\times\\) 5 = 40.\\)"
+        },
+        {
+          "text": "26 in",
+          "isCorrect": false,
+          "rationale": "This is the perimeter of the rectangle."
+        },
+        {
+          "text": "13 in",
+          "isCorrect": false,
+          "rationale": "This is the sum of the length and width."
+        },
+        {
+          "text": "64 sq in",
+          "isCorrect": false,
+          "rationale": "This would be the area if it were a square with side 8."
+        }
+      ],
+      "questionText": "A rectangle is 8 inches long and 5 inches wide. What is its area?",
+      "subject": "Math",
+      "category": "Data Analysis & Probability",
+      "difficulty": "medium",
+      "source": "premade",
+      "itemType": "standalone",
+      "responseType": "numeric",
+      "bankFingerprint": "20cb2384da9b8c889b5a02a1de6056b21f5df778"
+    },
+    {
+      "id": "math_wp_math_money_06_1773674999759",
+      "questionText": "A family spends 35% of its &#36;3,200 monthly income on rent. How much do they spend on rent?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;1,120",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Budget Allocation'."
+        },
+        {
+          "text": "&#36;2,120",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;0,120",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 34,
+      "bankFingerprint": "da0ab570156674fd32598e9784a346e47e7c56c6"
+    },
+    {
+      "questionNumber": 35,
+      "calculator": true,
+      "type": "chart",
+      "passage": "<div class='passage-text'><b>Points scored in 5 games: 10, 15, 12, 10, 18</b></div>",
+      "question": "What is the mode of the points scored?",
+      "answerOptions": [
+        {
+          "text": "10",
+          "isCorrect": true,
+          "rationale": "The mode is the value that appears most frequently. 10 appears twice."
+        },
+        {
+          "text": "12",
+          "isCorrect": false,
+          "rationale": "12 is the median."
+        },
+        {
+          "text": "13",
+          "isCorrect": false,
+          "rationale": "13 is the mean."
+        },
+        {
+          "text": "8",
+          "isCorrect": false,
+          "rationale": "8 is the range."
+        }
+      ],
+      "challenge_tags": [
+        "math-6"
+      ],
+      "questionText": "What is the mode of the points scored?",
+      "subject": "Math",
+      "category": "Data Analysis & Probability",
+      "difficulty": "easy",
+      "source": "premade",
+      "itemType": "passage",
+      "bankFingerprint": "85382adec8f923410cc576fa3ecf49f9acc87b90"
+    },
+    {
+      "questionText": "What is the solution to the inequality 3x - 5 < 10?",
+      "answerOptions": [
+        {
+          "text": "x < 5",
+          "isCorrect": true,
+          "rationale": "To solve the inequality, first add 5 to both sides: 3x - 5 + 5 < 10 + 5, which simplifies to 3x < 15. Then, divide both sides by 3: 3x/3 < \\(\\frac{15}{3}\\), which results in x < 5."
+        },
+        {
+          "text": "x > 5",
+          "isCorrect": false,
+          "rationale": "This answer incorrectly reversed the inequality sign or made a calculation error. The correct solution maintains the direction of the inequality sign after adding and dividing by positive numbers."
+        },
+        {
+          "text": "x < 15",
+          "isCorrect": false,
+          "rationale": "This answer incorrectly stopped after adding 5 to both sides and did not complete the final step of dividing by 3."
+        },
+        {
+          "text": "x > 15",
+          "isCorrect": false,
+          "rationale": "This answer incorrectly reversed the inequality sign and did not complete the final step of dividing by 3."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "easy",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 36,
+      "bankFingerprint": "811f6d27f1d8e6b30b171fa1e9d12a47a93278a7"
+    },
+    {
+      "id": "math_wp_math_percent_01_1773675082629",
+      "questionText": "A pair of shoes originally costs &#36;60 and is on sale for 25% off. What is the sale price?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "&#36;45",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Percent Discount'."
+        },
+        {
+          "text": "&#36;50",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "&#36;40",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Graphing & Functions",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "fill_in",
+      "questionNumber": 37,
+      "bankFingerprint": "f0ce16a907a2a30c93d98f6605a65322e55bd558"
+    },
+    {
+      "id": "math_wp_math_geometry_10_1773674999759",
+      "questionText": "A rectangular plot of land is 60 yards by 40 yards. What is the area of the land?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "2,400 square yards",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Land Area'."
+        },
+        {
+          "text": "3,400 square yards",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "1,400 square yards",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 38,
+      "bankFingerprint": "7bad18b085b60750d7d89cdc81f2e89cc3e6793e"
+    },
+    {
+      "type": "geometry",
+      "questionText": "A landscape designer is creating a plan for a new patio. The patio will consist of a rectangular section and a semicircular section. The rectangular section has a length of 8 feet and a width of 6 feet. The semicircular section is attached to one of the 6-foot sides of the rectangle. What is the total area of the patio, in square feet? Use \\(\\pi\\) = 3.14. The diagram shows a rectangle with a semicircle attached to one of its shorter sides. The rectangle has dimensions 8 feet by 6 feet, and the semicircle's diameter is the 6-foot side.",
+      "answerOptions": [
+        {
+          "text": "48.00",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "57.42",
+          "isCorrect": false,
+          "rationale": ""
+        },
+        {
+          "text": "62.13",
+          "isCorrect": true,
+          "rationale": ""
+        },
+        {
+          "text": "76.26",
+          "isCorrect": false,
+          "rationale": ""
+        }
+      ],
+      "geometrySpec": null,
+      "useGeometryTool": false,
+      "category": "Geometry",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 39,
+      "bankFingerprint": "484d96a1954d0f605f6b71da93ece8bee2af8497"
+    },
+    {
+      "questionText": "A store is having a sale where all items are discounted by 25%. A shirt originally costs &#36;40. If a customer has a coupon for an additional 10% off the sale price, what is the final price of the shirt?",
+      "answerOptions": [
+        {
+          "text": "&#36;27.00",
+          "isCorrect": true,
+          "rationale": "First, calculate the price after the 25% discount: &#36;40 multiplied by (1 - 0.25) equals &#36;40 multiplied by 0.75, which is &#36;30. Then, apply the additional 10% discount to this sale price: &#36;30 multiplied by (1 - 0.10) equals &#36;30 multiplied by 0.90, which is &#36;27. So, the final price is &#36;27.00."
+        },
+        {
+          "text": "&#36;30.00",
+          "isCorrect": false,
+          "rationale": "This is the price after only applying the initial 25% discount (&#36;40 multiplied by 0.75 = &#36;30), but it does not account for the additional 10% coupon off the sale price."
+        },
+        {
+          "text": "&#36;26.00",
+          "isCorrect": false,
+          "rationale": "This result would occur if you incorrectly added the percentages (25% + 10% = 35%) and then applied that single percentage to the original price (&#36;40 multiplied by 0.35 = &#36;14, and &#36;40 - &#36;14 = &#36;26). Successive discounts are applied to the reduced price, not added together and applied to the original."
+        },
+        {
+          "text": "&#36;36.00",
+          "isCorrect": false,
+          "rationale": "This is the price if only the 10% coupon was applied to the original price (&#36;40 multiplied by 0.90 = &#36;36), ignoring the initial 25% sale discount."
+        }
+      ],
+      "type": "standalone",
+      "category": "Ratios, Proportions, and Percents",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 40,
+      "bankFingerprint": "df284e674d1fa5f031246114e06de742f2d57989"
+    },
+    {
+      "id": "math_wp_math_percent_04_1773675065894",
+      "questionText": "A store buys a chair for &#36;40 and sells it for &#36;50. What is the percent markup?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "25%",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Markup'."
+        },
+        {
+          "text": "28%",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "22%",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Ratios, Proportions, and Percents",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 41,
+      "bankFingerprint": "03840235c465f9796df2c6658943381be9b625af"
+    },
+    {
+      "id": "math_wp_math_ratio_04_1773675082629",
+      "questionText": "A recipe that serves 4 people uses 2 cups of flour. How much flour is needed to serve 10 people?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "5 cups of flour",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Recipe Adjustment'."
+        },
+        {
+          "text": "6 cups of flour",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "4 cups of flour",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "fill_in",
+      "questionNumber": 42,
+      "bankFingerprint": "1840d75a1a38f6f3b41923fd546ca31c4677db8c"
+    },
+    {
+      "questionText": "A cellular phone company offers a plan that costs &#36;25 per month plus &#36;0.15 for each minute of talk time used. If a customer's bill for one month was &#36;47.50, how many minutes of talk time did the customer use?",
+      "answerOptions": [
+        {
+          "text": "100 minutes",
+          "isCorrect": false,
+          "rationale": "This answer would result from an incorrect calculation or setting up the equation incorrectly. If 100 minutes were used, the bill would be 25 + 0.15(100) = 25 + 15 = &#36;40, which is not &#36;47.50."
+        },
+        {
+          "text": "125 minutes",
+          "isCorrect": false,
+          "rationale": "This answer is incorrect. If 125 minutes were used, the bill would be 25 + 0.15(125) = 25 + 18.75 = &#36;43.75, which is not &#36;47.50."
+        },
+        {
+          "text": "150 minutes",
+          "isCorrect": true,
+          "rationale": "Let 'm' represent the number of minutes used. The cost can be represented by the equation: 25 + 0.15m = 47.50. First, subtract the base fee of &#36;25 from both sides: 0.15m = 47.50 - 25. This simplifies to 0.15m = 22.50. Next, divide both sides by 0.15 to find 'm': m = 22.\\(\\frac{50}{0}\\).15. Therefore, m = 150 minutes."
+        },
+        {
+          "text": "175 minutes",
+          "isCorrect": false,
+          "rationale": "This answer is incorrect. If 175 minutes were used, the bill would be 25 + 0.15(175) = 25 + 26.25 = &#36;51.25, which is not &#36;47.50."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "hard",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 43,
+      "bankFingerprint": "eac6be34d967773a9d9dd336e2a38e5da1e63d04"
+    },
+    {
+      "id": "math_wp_math_work_02_1773675082629",
+      "questionText": "If a plumber can install 6 sinks in 3 hours, how many can he install in 8 hours at the same rate?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "16 sinks",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Work Completion'."
+        },
+        {
+          "text": "18 sinks",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "14 sinks",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Ratios, Proportions, and Percents",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "responseType": "fill_in",
+      "questionNumber": 44,
+      "bankFingerprint": "59beacb584b55003ebd0f6bbc09e5536611857fa"
+    },
+    {
+      "id": "math_wp_math_geometry_04_1773674999759",
+      "questionText": "Find the circumference of a circular pond with a diameter of 20 meters. Use π = 3.14.",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "62.8 meters",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Circumference'."
+        },
+        {
+          "text": "68.8 meters",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "56.8 meters",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Expressions, Equations, and Inequalities",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 45,
+      "bankFingerprint": "4adaa010a318e5c035da2abb95c48372a22cbf12"
+    },
+    {
+      "id": "math_wp_math_fractions_01_1773675033676",
+      "questionText": "Maria ran \\(\\frac{2}{3}\\) of a mile on Monday and \\(\\frac{3}{4}\\) of a mile on Tuesday. How far did she run in total?",
+      "passage": "",
+      "answerOptions": [
+        {
+          "text": "1 \\(\\frac{5}{12}\\) miles",
+          "isCorrect": true,
+          "rationale": "Correct answer based on provided scenario; derived from original template 'Adding Fractions'."
+        },
+        {
+          "text": "2 \\(\\frac{5}{12}\\) miles",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "0 \\(\\frac{5}{12}\\) miles",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        },
+        {
+          "text": "Cannot be determined",
+          "isCorrect": false,
+          "rationale": "Plausible but incorrect."
+        }
+      ],
+      "type": "standalone",
+      "category": "Graphing & Functions",
+      "difficulty": "medium",
+      "subject": "Math",
+      "calculator": true,
+      "questionNumber": 46,
+      "bankFingerprint": "13faeb7bbbfb8e339379e2a890da2718558e05ff"
+    }
+  ],
+  "validationWarnings": [
+    "6 near-duplicate question pair(s) detected"
+  ]
+}

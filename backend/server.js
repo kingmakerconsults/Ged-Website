@@ -34,11 +34,15 @@ const genAI = process.env.GOOGLE_AI_API_KEY
   ? new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY)
   : null;
 const {
+  SCI_NUMERIC_TABLE_ITEMS,
   SCIENTIFIC_SCENARIO_SETS,
   getRandomScienceScenario,
   getRandomScienceNumeracyItem,
   getRandomScienceShortResponse,
 } = require('./data/scienceTemplates');
+const {
+  SCIENCE_CURATED_IMAGE_BANK,
+} = require('./data/scienceCuratedImageBank');
 const {
   SOCIAL_STUDIES_IMAGE_QUESTION_BANK,
 } = require('./data/socialStudiesImageQuestionBank');
@@ -1435,22 +1439,98 @@ function buildScienceShortResponseItem(template) {
   return enforceWordCapsOnItem(item, 'Science');
 }
 
-function instantiateScienceNumeracyTemplate(excludeIds = new Set()) {
-  let tpl = getRandomScienceNumeracyItem(excludeIds);
+function scienceTemplateMatchesCategory(template, category) {
+  if (!template || !category) return true;
+
+  const categoryAliases = {
+    'life science': ['life science', 'biology'],
+    'physical science': ['physical science', 'physics', 'chemistry'],
+    'earth & space science': [
+      'earth & space science',
+      'earth science',
+      'space science',
+      'earth systems',
+    ],
+  };
+
+  const normalizedCategory = String(category).toLowerCase();
+  const acceptedLabels = new Set(
+    categoryAliases[normalizedCategory] || [normalizedCategory]
+  );
+
+  const declaredCategories = Array.isArray(template.subjectAreas)
+    ? template.subjectAreas
+    : Array.isArray(template.categories)
+      ? template.categories
+      : [];
+
+  if (declaredCategories.length > 0) {
+    return declaredCategories.some((entry) =>
+      acceptedLabels.has(String(entry).toLowerCase())
+    );
+  }
+
+  const tags = Array.isArray(template.topicTags)
+    ? template.topicTags.map((tag) => String(tag).toLowerCase())
+    : [];
+  if (tags.some((tag) => acceptedLabels.has(tag))) {
+    return true;
+  }
+
+  const scenarioCategoryMap = {
+    scenario_genetics_punnett: ['Life Science'],
+    scenario_water_quality: ['Life Science', 'Earth & Space Science'],
+    scenario_free_fall_lab: ['Physical Science'],
+  };
+
+  return (scenarioCategoryMap[template.id] || []).some((entry) =>
+    acceptedLabels.has(String(entry).toLowerCase())
+  );
+}
+
+function pickScienceTemplateByCategory(list, category, excludeIds = new Set()) {
+  const pool = list.filter(
+    (item) =>
+      !excludeIds.has(item.id) && scienceTemplateMatchesCategory(item, category)
+  );
+  if (!pool.length) return null;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function instantiateScienceNumeracyTemplate(category, excludeIds = new Set()) {
+  let tpl = pickScienceTemplateByCategory(
+    SCI_NUMERIC_TABLE_ITEMS,
+    category,
+    excludeIds
+  );
   if (!tpl && excludeIds.size > 0) {
     excludeIds.clear();
-    tpl = getRandomScienceNumeracyItem(excludeIds);
+    tpl = pickScienceTemplateByCategory(
+      SCI_NUMERIC_TABLE_ITEMS,
+      category,
+      excludeIds
+    );
   }
   if (!tpl) return null;
   excludeIds.add(tpl.id);
   return buildScienceNumeracyTemplateItem(tpl);
 }
 
-function instantiateScienceScenarioCluster(excludeIds = new Set()) {
-  let tpl = getRandomScienceScenario(excludeIds);
+function instantiateScienceScenarioCluster(category, excludeIds = new Set()) {
+  const reservedIds = new Set(excludeIds);
+  reservedIds.add('scenario_genetics_punnett');
+  let tpl = pickScienceTemplateByCategory(
+    SCIENTIFIC_SCENARIO_SETS,
+    category,
+    reservedIds
+  );
   if (!tpl && excludeIds.size > 0) {
     excludeIds.clear();
-    tpl = getRandomScienceScenario(excludeIds);
+    tpl = pickScienceTemplateByCategory(
+      SCIENTIFIC_SCENARIO_SETS,
+      category,
+      new Set(['scenario_genetics_punnett'])
+    );
   }
   if (!tpl) return null;
   excludeIds.add(tpl.id);
@@ -1469,162 +1549,82 @@ function instantiateScienceScenarioClusterForSlot(
       return buildScienceScenarioCluster(geneticsTemplate);
     }
   }
-  return instantiateScienceScenarioCluster(excludeIds);
+  return instantiateScienceScenarioCluster(slot?.category, excludeIds);
 }
 
-function buildTrustedScienceImageQuestionSet(slot) {
+function pickScienceImageForSlot(slot, usedPaths = new Set()) {
+  const scienceCatalog = getSeededScienceImages(
+    Array.isArray(curatedImages) && curatedImages.length
+      ? curatedImages
+      : IMAGE_DB
+  );
+  if (!scienceCatalog.length) return null;
+
+  const groupPathMap = {
+    life_genetics: ['/images/Science/dominance_genetics_0001.png'],
+    life_image1: ['/images/Science/human_body_0003.png'],
+    phys_image1: ['/images/Science/ged_scince_fig_3_0001.png'],
+    earth_diag1: ['/images/Science/ged_scince_fig_13_0001.png'],
+  };
+
+  const preferredPaths = groupPathMap[slot?.group] || [];
+  const preferred = scienceCatalog.find(
+    (img) =>
+      preferredPaths.includes(img.filePath) &&
+      !usedPaths.has(img.filePath) &&
+      hasHandAuthoredScienceImageQuestions(img)
+  );
+  if (preferred) {
+    usedPaths.add(preferred.filePath);
+    return preferred;
+  }
+
+  const fallback = scienceCatalog
+    .filter((img) => {
+      if (!img?.filePath || usedPaths.has(img.filePath)) return false;
+      const entry = getScienceImageBankEntry(img);
+      if (!entry || !hasHandAuthoredScienceImageQuestions(img)) return false;
+      if (
+        slot?.category &&
+        Array.isArray(entry.subjectAreas) &&
+        !entry.subjectAreas.includes(slot.category)
+      ) {
+        return false;
+      }
+      if (
+        slot?.group !== 'life_genetics' &&
+        Array.isArray(entry.topicTags) &&
+        entry.topicTags.includes('punnett-square')
+      ) {
+        return false;
+      }
+      return true;
+    })
+    .sort((left, right) => {
+      const leftRank = getScienceImageBankEntry(left)?.qualityRank || 999;
+      const rightRank = getScienceImageBankEntry(right)?.qualityRank || 999;
+      return leftRank - rightRank;
+    })[0];
+
+  if (fallback?.filePath) {
+    usedPaths.add(fallback.filePath);
+  }
+  return fallback || null;
+}
+
+function buildTrustedScienceImageQuestionSet(slot, usedPaths = new Set()) {
   if (slot?.group === 'life_genetics') {
-    return [
-      {
-        type: 'image',
-        questionType: 'multiple_choice_single',
-        responseType: 'mc',
-        difficulty: slot.difficulty || 'medium',
-        imageUrl: '/images/Science/dominance_genetics_0002.png',
-        questionText:
-          'The Punnett square shows all four first-generation offspring as Rr. What phenotype should students expect if Rr produces pink flowers?',
-        answerOptions: [
-          {
-            text: 'All four offspring should be pink.',
-            isCorrect: true,
-            rationale:
-              'Each box is labeled Rr, and the prompt states that Rr produces pink flowers.',
-          },
-          {
-            text: 'Two offspring should be red and two should be white.',
-            isCorrect: false,
-            rationale:
-              'That outcome would require different genotypes in the square.',
-          },
-          {
-            text: 'All four offspring should be red because R is present.',
-            isCorrect: false,
-            rationale:
-              'The image models incomplete dominance, not complete dominance.',
-          },
-          {
-            text: 'The offspring color cannot be predicted from the image.',
-            isCorrect: false,
-            rationale:
-              'The image provides the genotype for all four offspring.',
-          },
-        ],
-      },
-      {
-        type: 'image',
-        questionType: 'multiple_choice_single',
-        responseType: 'mc',
-        difficulty: 'medium',
-        imageUrl: '/images/Science/dominance_genetics_0002.png',
-        questionText:
-          'Which statement best explains why the Punnett square is useful for this flower-color cross?',
-        answerOptions: [
-          {
-            text: 'It organizes the allele combinations each offspring could inherit.',
-            isCorrect: true,
-            rationale:
-              'Punnett squares show the possible genotype outcomes from the parental alleles.',
-          },
-          {
-            text: 'It measures how much sunlight each parent plant received.',
-            isCorrect: false,
-            rationale:
-              'The diagram shows inheritance, not environmental measurements.',
-          },
-          {
-            text: 'It proves flower color is caused only by fertilizer levels.',
-            isCorrect: false,
-            rationale:
-              'The image models allele combinations, not fertilizer effects.',
-          },
-          {
-            text: 'It guarantees the exact number of flowers that will grow.',
-            isCorrect: false,
-            rationale:
-              'Punnett squares predict probabilities and ratios, not exact counts.',
-          },
-        ],
-      },
-    ].slice(0, slot.questionsNeeded);
+    return [];
   }
 
-  if (slot?.group === 'phys_image1') {
-    return [
-      {
-        type: 'image',
-        questionType: 'multiple_choice_single',
-        responseType: 'mc',
-        difficulty: slot.difficulty || 'medium',
-        imageUrl: '/images/Science/earth_and_space_systems_0001.png',
-        questionText:
-          'Based on the pH table image, which pair of substances should both turn litmus paper blue?',
-        answerOptions: [
-          {
-            text: 'Soapy water and ammonia',
-            isCorrect: true,
-            rationale:
-              'Both substances have pH values above 7 in the image, so both are bases and turn litmus blue.',
-          },
-          {
-            text: 'Orange juice and vinegar',
-            isCorrect: false,
-            rationale: 'Those substances are acidic and turn litmus red.',
-          },
-          {
-            text: 'Water and vinegar',
-            isCorrect: false,
-            rationale: 'Water is neutral and vinegar is acidic.',
-          },
-          {
-            text: 'Orange juice and drain cleaner',
-            isCorrect: false,
-            rationale: 'One is acidic and the other is strongly basic.',
-          },
-        ],
-      },
-    ];
-  }
+  const image = pickScienceImageForSlot(slot, usedPaths);
+  if (!image) return [];
 
-  if (slot?.group === 'earth_diag1') {
-    return [
-      {
-        type: 'image',
-        questionType: 'multiple_choice_single',
-        responseType: 'mc',
-        difficulty: slot.difficulty || 'easy',
-        imageUrl: '/images/Science/earth_s_magnetic_field_0001.png',
-        questionText:
-          'According to the Earth-layer diagram, which layer lies directly beneath the crust?',
-        answerOptions: [
-          {
-            text: 'Mantle',
-            isCorrect: true,
-            rationale:
-              'The diagram shows the mantle immediately below the crust.',
-          },
-          {
-            text: 'Inner core',
-            isCorrect: false,
-            rationale:
-              'The inner core is at the center of Earth, not beneath the crust.',
-          },
-          {
-            text: 'Outer core',
-            isCorrect: false,
-            rationale: 'The outer core lies below the mantle.',
-          },
-          {
-            text: 'Magnetosphere',
-            isCorrect: false,
-            rationale:
-              'The magnetosphere is not one of the internal layers shown in the diagram.',
-          },
-        ],
-      },
-    ];
-  }
-
-  return [];
+  return getHandAuthoredScienceImageQuestions({
+    image,
+    category: slot.category,
+    numQuestions: slot.questionsNeeded,
+  }).slice(0, slot.questionsNeeded);
 }
 
 function instantiateScienceShortResponse(excludeIds = new Set()) {
@@ -1643,7 +1643,7 @@ function injectScienceTemplateItems(
   if (scenarioSets > 0) {
     const scenarioExclude = new Set();
     for (let i = 0; i < scenarioSets; i++) {
-      const cluster = instantiateScienceScenarioCluster(scenarioExclude);
+      const cluster = instantiateScienceScenarioCluster(null, scenarioExclude);
       if (!cluster || !cluster.length) break;
       templateItems.push(...cluster);
     }
@@ -10225,6 +10225,11 @@ function getSocialStudiesImageQuestionSetEntry(img) {
   return SOCIAL_STUDIES_IMAGE_QUESTION_SETS[img.filePath] || null;
 }
 
+function getScienceImageBankEntry(img) {
+  if (!img?.filePath) return null;
+  return SCIENCE_CURATED_IMAGE_BANK[img.filePath] || null;
+}
+
 function getImageQuestionSeeds(img) {
   const curatedEntry = getSocialStudiesImageBankEntry(img);
   if (curatedEntry) {
@@ -10233,6 +10238,13 @@ function getImageQuestionSeeds(img) {
           .map((seed) => String(seed).trim())
           .filter(Boolean)
       : [];
+  }
+
+  const scienceEntry = getScienceImageBankEntry(img);
+  if (scienceEntry?.questionSeeds) {
+    return scienceEntry.questionSeeds
+      .map((seed) => String(seed).trim())
+      .filter(Boolean);
   }
 
   const subject = String(img?.subject || '').toLowerCase();
@@ -10249,6 +10261,11 @@ function getImageUsageDirectives(img) {
   const curatedEntry = getSocialStudiesImageBankEntry(img);
   if (curatedEntry?.usageDirectives) {
     return String(curatedEntry.usageDirectives).trim();
+  }
+
+  const scienceEntry = getScienceImageBankEntry(img);
+  if (scienceEntry?.usageDirectives) {
+    return String(scienceEntry.usageDirectives).trim();
   }
 
   return String(img?.usageDirectives || '').trim();
@@ -10306,6 +10323,73 @@ function hasPremadeImageQuestions(img) {
 function getSeededSocialStudiesImages(imageCatalog) {
   return getCuratedSocialStudiesImages(imageCatalog).filter(
     hasPremadeImageQuestions
+  );
+}
+
+function getCuratedScienceImages(imageCatalog) {
+  const images = Array.isArray(imageCatalog)
+    ? imageCatalog
+    : imageCatalog && typeof imageCatalog === 'object'
+      ? Object.values(imageCatalog)
+      : [];
+
+  return images.filter((img) => {
+    if (!img?.filePath || img.__exists === false) return false;
+    if (String(img.subject || '') !== 'Science') return false;
+    return Boolean(getScienceImageBankEntry(img));
+  });
+}
+
+function hasHandAuthoredScienceImageQuestions(img) {
+  return Array.isArray(getScienceImageBankEntry(img)?.questions);
+}
+
+function buildScienceImageQuestionItems({ image, category, questions }) {
+  const entry = getScienceImageBankEntry(image) || {};
+  const groupId = `sci-img-${image.filePath?.split('/').pop() || Date.now()}`;
+
+  return questions.map((question) =>
+    enforceWordCapsOnItem(
+      {
+        ...question,
+        type: 'image',
+        itemType: 'image',
+        responseType: question.responseType || 'mc',
+        questionType: question.questionType || 'multiple_choice_single',
+        subject: 'Science',
+        category,
+        imageUrl: image.filePath,
+        stimulusImage: {
+          src: image.filePath,
+          alt: image.altText || '',
+        },
+        groupId,
+        toolsAllowed: entry.toolsAllowed || question.toolsAllowed || null,
+      },
+      'Science'
+    )
+  );
+}
+
+function getHandAuthoredScienceImageQuestions({
+  image,
+  category,
+  numQuestions,
+}) {
+  const entry = getScienceImageBankEntry(image);
+  if (!Array.isArray(entry?.questions) || !entry.questions.length) return [];
+
+  return buildScienceImageQuestionItems({
+    image,
+    category,
+    questions: entry.questions.slice(0, Math.max(1, numQuestions)),
+  });
+}
+
+function getSeededScienceImages(imageCatalog) {
+  return getCuratedScienceImages(imageCatalog).filter(
+    (img) =>
+      hasHandAuthoredScienceImageQuestions(img) || hasPremadeImageQuestions(img)
   );
 }
 
@@ -12460,12 +12544,35 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
 
   // ── Science generators ────────────────────────────────────────────
   if (normalizedSubject === 'Science') {
+    const usedScienceImagePaths = new Set();
+    const scenarioExcludeByCategory = new Map();
+    const numeracyExcludeByCategory = new Map();
+
+    const getScenarioExclude = (category) => {
+      const key = category || '__default__';
+      if (!scenarioExcludeByCategory.has(key)) {
+        scenarioExcludeByCategory.set(key, new Set());
+      }
+      return scenarioExcludeByCategory.get(key);
+    };
+
+    const getNumeracyExclude = (category) => {
+      const key = category || '__default__';
+      if (!numeracyExcludeByCategory.has(key)) {
+        numeracyExcludeByCategory.set(key, new Set());
+      }
+      return numeracyExcludeByCategory.get(key);
+    };
+
     generators.bankFill = async (slot) => {
       return pickFromPremadeBank('Science', slot);
     };
 
     generators.templateFill = async (slot) => {
-      const trustedImages = buildTrustedScienceImageQuestionSet(slot);
+      const trustedImages = buildTrustedScienceImageQuestionSet(
+        slot,
+        usedScienceImagePaths
+      );
       if (trustedImages.length) return trustedImages;
 
       // Chemistry balancing uses template generator
@@ -12474,18 +12581,22 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
         return q ? [q] : [];
       }
       if (slot.stimulusType === 'passage/data') {
-        const scenario = instantiateScienceScenarioClusterForSlot(slot);
+        const scenario = instantiateScienceScenarioClusterForSlot(
+          slot,
+          getScenarioExclude(slot.category)
+        );
         if (scenario && scenario.length) {
           return scenario.slice(0, slot.questionsNeeded);
         }
+        return [];
       }
-      if (slot.numeracy) {
-        const items = buildScienceNumeracyTemplateSet(slot.questionsNeeded);
+      if (['chart', 'table'].includes(slot.stimulusType) || slot.numeracy) {
+        const items = buildScienceNumeracyTemplateSet(
+          slot.questionsNeeded,
+          slot.category,
+          getNumeracyExclude(slot.category)
+        );
         if (items.length) return items;
-      }
-      const scenario = instantiateScienceScenarioClusterForSlot(slot);
-      if (scenario && scenario.length) {
-        return scenario.slice(0, slot.questionsNeeded);
       }
       return [];
     };
@@ -12508,11 +12619,12 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
         );
         return Array.isArray(qs) ? qs : qs ? [qs] : [];
       }
-      if (['chart', 'table', 'diagram'].includes(slot.stimulusType)) {
+      if (['chart', 'table', 'diagram', 'image'].includes(slot.stimulusType)) {
+        const scienceImages = getSeededScienceImages(curatedImages);
         const imgQs = await generateImageQuestion(
           slot.category,
           'Science',
-          curatedImages,
+          scienceImages.length ? scienceImages : curatedImages,
           slot.questionsNeeded,
           opts
         );
@@ -12731,12 +12843,32 @@ function tagFilledQuestionForSlot(
 
 function buildGuaranteedScienceFilledSlots(plan) {
   const filledSlots = new Map();
-  const scenarioExclude = new Set();
-  const numeracyExclude = new Set();
+  const scenarioExcludeByCategory = new Map();
+  const numeracyExcludeByCategory = new Map();
+  const usedScienceImagePaths = new Set();
+
+  const getScenarioExclude = (category) => {
+    const key = category || '__default__';
+    if (!scenarioExcludeByCategory.has(key)) {
+      scenarioExcludeByCategory.set(key, new Set());
+    }
+    return scenarioExcludeByCategory.get(key);
+  };
+
+  const getNumeracyExclude = (category) => {
+    const key = category || '__default__';
+    if (!numeracyExcludeByCategory.has(key)) {
+      numeracyExcludeByCategory.set(key, new Set());
+    }
+    return numeracyExcludeByCategory.get(key);
+  };
 
   for (const slot of plan.slots) {
     const filled = [];
-    const trustedImages = buildTrustedScienceImageQuestionSet(slot);
+    const trustedImages = buildTrustedScienceImageQuestionSet(
+      slot,
+      usedScienceImagePaths
+    );
 
     if (trustedImages.length) {
       filled.push(...trustedImages.slice(0, slot.questionsNeeded));
@@ -12754,7 +12886,7 @@ function buildGuaranteedScienceFilledSlots(plan) {
       while (filled.length < slot.questionsNeeded) {
         const cluster = instantiateScienceScenarioClusterForSlot(
           slot,
-          scenarioExclude
+          getScenarioExclude(slot.category)
         );
         if (!cluster || !cluster.length) break;
         filled.push(...cluster.slice(0, slot.questionsNeeded - filled.length));
@@ -12764,7 +12896,10 @@ function buildGuaranteedScienceFilledSlots(plan) {
       slot.numeracy
     ) {
       while (filled.length < slot.questionsNeeded) {
-        const item = instantiateScienceNumeracyTemplate(numeracyExclude);
+        const item = instantiateScienceNumeracyTemplate(
+          slot.category,
+          getNumeracyExclude(slot.category)
+        );
         if (!item) break;
         filled.push(item);
       }
@@ -12797,11 +12932,14 @@ function buildGuaranteedScienceFilledSlots(plan) {
   return filledSlots;
 }
 
-function buildScienceNumeracyTemplateSet(count) {
-  const excludeIds = new Set();
+function buildScienceNumeracyTemplateSet(
+  count,
+  category,
+  excludeIds = new Set()
+) {
   const items = [];
   while (items.length < count) {
-    const item = instantiateScienceNumeracyTemplate(excludeIds);
+    const item = instantiateScienceNumeracyTemplate(category, excludeIds);
     if (!item) break;
     items.push(item);
   }
@@ -12812,15 +12950,19 @@ function buildScienceNumeracyTemplateSet(count) {
 
 // Track used premade questions across a single generation run
 const _usedPremadeTexts = new Set();
+const _usedScienceImagePaths = new Set();
 
 function resetPremadeTracker() {
   _usedPremadeTexts.clear();
+  _usedScienceImagePaths.clear();
 }
 
 function pickFromPremadeBank(subject, slot) {
   const questions = [];
   const trustedImages =
-    subject === 'Science' ? buildTrustedScienceImageQuestionSet(slot) : [];
+    subject === 'Science'
+      ? buildTrustedScienceImageQuestionSet(slot, _usedScienceImagePaths)
+      : [];
   if (trustedImages.length) {
     return trustedImages.slice(0, slot.questionsNeeded).map((q) => ({
       ...q,

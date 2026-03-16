@@ -267,9 +267,9 @@ function buildSciencePlan() {
     })
   );
   slots.push(
-    imageSlot(P, 'Life Science', 'medium', 2, {
+    passageSlot(P, 'Life Science', 'medium', 1, {
       group: 'life_genetics',
-      stimulusType: 'diagram',
+      stimulusType: 'passage/data',
       toolsAllowed: ['punnett-square'],
       sourcePriority: templateFirst,
     })
@@ -291,7 +291,14 @@ function buildSciencePlan() {
       sourcePriority: templateFirst,
     })
   );
-  // 3 standalone (comprehension: must have stimulus or scenario stem)
+  // 1 additional curated image + 2 standalone
+  slots.push(
+    imageSlot(P, 'Life Science', 'medium', 1, {
+      stimulusType: 'image',
+      group: 'life_image1',
+      sourcePriority: templateFirst,
+    })
+  );
   slots.push(
     standaloneSlot(P, 'Life Science', 'easy', 1, {
       numeracy: true,

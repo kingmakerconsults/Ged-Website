@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 
 const {
   normalizeMathToLatex,
+  repairInlineMathDecimalFragments,
   upgradeToKatex,
   upgradeQuestionToKatex,
 } = require('../src/lib/mathSanitizer');
@@ -94,6 +95,42 @@ test('upgradeToKatex converts single-letter fractions', () => {
 test('upgradeToKatex converts >= and <=', () => {
   assert.equal(upgradeToKatex('x >= 5'), '\\(x \\geq 5\\)');
   assert.equal(upgradeToKatex('y <= 10'), '\\(y \\leq 10\\)');
+});
+
+test('upgradeToKatex preserves decimal coefficients in inequalities', () => {
+  assert.equal(upgradeToKatex('2.25m <= 20'), '\\(2.25m \\leq 20\\)');
+  assert.equal(upgradeToKatex('m <= 7.33'), '\\(m \\leq 7.33\\)');
+});
+
+test('upgradeToKatex does not split decimal division into a fake fraction', () => {
+  assert.equal(upgradeToKatex('65/0.15'), '65/0.15');
+  assert.equal(upgradeToKatex('16.50/2.25'), '16.50/2.25');
+});
+
+test('repairInlineMathDecimalFragments merges decimal prefixes and suffixes', () => {
+  assert.equal(
+    repairInlineMathDecimalFragments('0.\\(15m \\leq 50\\)'),
+    '\\(0.15m \\leq 50\\)'
+  );
+  assert.equal(
+    repairInlineMathDecimalFragments('\\(x \\leq 8\\).33'),
+    '\\(x \\leq 8.33\\)'
+  );
+  assert.equal(
+    repairInlineMathDecimalFragments('\\(\\frac{65}{0}\\).15'),
+    '\\(\\frac{65}{0.15}\\)'
+  );
+});
+
+test('upgradeToKatex repairs malformed decimal-adjacent inline math', () => {
+  assert.equal(
+    upgradeToKatex('35 + 0.\\(15m \\leq 50\\)'),
+    '35 + \\(0.15m \\leq 50\\)'
+  );
+  assert.equal(
+    upgradeToKatex('x <= \\(\\frac{25}{3}\\) or \\(x \\leq 8\\).33'),
+    'x <= \\(\\frac{25}{3}\\) or \\(x \\leq 8.33\\)'
+  );
 });
 
 test('upgradeToKatex is idempotent', () => {

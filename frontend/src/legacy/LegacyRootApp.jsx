@@ -2439,7 +2439,20 @@ function wrapInlineMathForKatex(text) {
     .replace(/\\\)\s*\\\)/g, '\\)')
     // Remove stray dollar delimiters inside \( ... \)
     .replace(/\\\(\s*\$+/g, '\\(')
-    .replace(/\$+\\\)/g, '\\)');
+    .replace(/\$+\\\)/g, '\\)')
+    // Repair AI output that splits decimal values across inline-math boundaries.
+    .replace(
+      /\\\((\\frac\{[^{}]+\}\{[^{}]*\d)\}\\\)\.(\d+)/g,
+      (_m, prefix, digits) => `\\(${prefix}.${digits}}\\)`
+    )
+    .replace(
+      /(\d+)\.\\\(([^]*?)\\\)/g,
+      (_m, whole, inner) => `\\(${whole}.${inner.trim()}\\)`
+    )
+    .replace(
+      /\\\(([^]*?\d)\\\)\.(\d+)/g,
+      (_m, inner, digits) => `\\(${inner.trim()}.${digits}\\)`
+    );
 
   const balanced = (() => {
     let working = normalized;
@@ -2471,16 +2484,16 @@ function wrapInlineMathForKatex(text) {
       // Normalize common inequality shorthands in plain text
       let value = seg.value
         .replace(
-          /([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)\s*(>=|<=)\s*([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)/g,
+          /([A-Za-z0-9.()]+(?:\s*[+\-*/]\s*[A-Za-z0-9.()]+)*)\s*(>=|<=)\s*([A-Za-z0-9.()]+(?:\s*[+\-*/]\s*[A-Za-z0-9.()]+)*)/g,
           (_m, left, op, right) =>
             `\\(${left}${op === '>=' ? '\\geq' : '\\leq'}${right}\\)`
         )
         .replace(
-          /([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)\s+geq\s+([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)/gi,
+          /([A-Za-z0-9.()]+(?:\s*[+\-*/]\s*[A-Za-z0-9.()]+)*)\s+geq\s+([A-Za-z0-9.()]+(?:\s*[+\-*/]\s*[A-Za-z0-9.()]+)*)/gi,
           (_m, left, right) => `\\(${left}\\geq${right}\\)`
         )
         .replace(
-          /([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)\s+leq\s+([A-Za-z0-9()]+(?:\s*[+\-*/]\s*[A-Za-z0-9()]+)*)/gi,
+          /([A-Za-z0-9.()]+(?:\s*[+\-*/]\s*[A-Za-z0-9.()]+)*)\s+leq\s+([A-Za-z0-9.()]+(?:\s*[+\-*/]\s*[A-Za-z0-9.()]+)*)/gi,
           (_m, left, right) => `\\(${left}\\leq${right}\\)`
         );
 
@@ -2492,26 +2505,26 @@ function wrapInlineMathForKatex(text) {
 
       // fractions like 3/4, 1/2x -> \frac{1}{2}x
       value = value.replace(
-        /(\d+)\s*\/\s*(\d+)([A-Za-z])/g,
+        /(?<![A-Za-z0-9.])(\d+)\s*\/\s*(\d+)([A-Za-z])/g,
         (_m, num, den, trailing) => `\\(\\frac{${num}}{${den}}${trailing}\\)`
       );
       // Only convert a/b into a fraction when it is NOT inside a word.
       // This prevents corrupting strings like "true/false" -> "tru\frac{e}{f}alse".
       value = value
         .replace(
-          /(?<![A-Za-z0-9])([A-Za-z])\s*\/\s*([A-Za-z])(?![A-Za-z0-9])/g,
+          /(?<![A-Za-z0-9.])([A-Za-z])\s*\/\s*([A-Za-z])(?![A-Za-z0-9.])/g,
           (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
         )
         .replace(
-          /(?<![A-Za-z0-9])(\d+)\s*\/\s*(\d+)(?![A-Za-z0-9])/g,
+          /(?<![A-Za-z0-9.])(\d+)\s*\/\s*(\d+)(?![A-Za-z0-9.])/g,
           (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
         )
         .replace(
-          /(?<![A-Za-z0-9])(\d+)\s*\/\s*([A-Za-z])(?![A-Za-z0-9])/g,
+          /(?<![A-Za-z0-9.])(\d+)\s*\/\s*([A-Za-z])(?![A-Za-z0-9.])/g,
           (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
         )
         .replace(
-          /(?<![A-Za-z0-9])([A-Za-z])\s*\/\s*(\d+)(?![A-Za-z0-9])/g,
+          /(?<![A-Za-z0-9.])([A-Za-z])\s*\/\s*(\d+)(?![A-Za-z0-9.])/g,
           (_m, num, den) => `\\(\\frac{${num}}{${den}}\\)`
         );
 

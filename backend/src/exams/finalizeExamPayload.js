@@ -186,6 +186,14 @@ async function finalizeExamPayload(plan, filledSlots, opts = {}) {
     }
   }
 
+  // Review can rewrite text fields and reintroduce malformed plain/inline math,
+  // so rerun KaTeX normalization on the final payload as the last math cleanup step.
+  if (katexSubjects.has(plan.subject) && Array.isArray(quiz.questions)) {
+    quiz.questions = quiz.questions.map((q) =>
+      upgradeQuestionToKatex({ ...q })
+    );
+  }
+
   // ── 8. Post-review re-validation ────────────────────────────────
   // Re-verify counts after any review pass
   const finalCount = quiz.questions ? quiz.questions.length : 0;

@@ -43,6 +43,29 @@ function normalizeMathToHTML(input) {
   return s;
 }
 
+function repairInlineMathDecimalFragments(input) {
+  if (!input || typeof input !== 'string') return input;
+
+  let s = input;
+
+  s = s.replace(
+    /\\\((\\frac\{[^{}]+\}\{[^{}]*\d)\}\\\)\.(\d+)/g,
+    (_m, prefix, digits) => `\\(${prefix}.${digits}}\\)`
+  );
+
+  s = s.replace(
+    /(\d+)\.\\\(([^]*?)\\\)/g,
+    (_m, whole, inner) => `\\(${whole}.${inner.trim()}\\)`
+  );
+
+  s = s.replace(
+    /\\\(([^]*?\d)\\\)\.(\d+)/g,
+    (_m, inner, digits) => `\\(${inner.trim()}.${digits}\\)`
+  );
+
+  return s;
+}
+
 /**
  * Comprehensive KaTeX upgrade: converts plain-text math tokens to
  * KaTeX-ready delimited form. Designed for post-processing AI-generated
@@ -73,6 +96,7 @@ function upgradeToKatex(input) {
 
   // Start with the existing exponent/frac wrapping
   s = normalizeMathToLatex(s);
+  s = repairInlineMathDecimalFragments(s);
 
   // Convert sqrt(...) to \(\sqrt{...}\) — handle simple balanced parens
   s = s.replace(
@@ -84,10 +108,18 @@ function upgradeToKatex(input) {
   // an existing \(...\) block and not part of a larger word
   s = s.replace(/(?<![A-Za-z\\(])(?<!\\)\bpi\b(?![A-Za-z)])/g, '\\(\\pi\\)');
 
+  // Convert >= and <= in math-like contexts, including decimal coefficients
+  // such as 2.25m <= 20 or m <= 7.33.
+  s = s.replace(
+    /(?<![A-Za-z0-9.\\])([A-Za-z0-9.(){}\[\]]+(?:\s*[+\-*/]\s*[A-Za-z0-9.(){}\[\]]+)*)\s*(>=|<=)\s*([A-Za-z0-9.(){}\[\]]+(?:\s*[+\-*/]\s*[A-Za-z0-9.(){}\[\]]+)*)/g,
+    (_m, left, op, right) =>
+      `\\(${left} ${op === '>=' ? '\\geq' : '\\leq'} ${right}\\)`
+  );
+
   // Convert numeric fractions a/b → \(\frac{a}{b}\) when not already delimited
   // Only convert when surrounded by non-alpha boundaries to avoid corrupting prose
   s = s.replace(
-    /(?<![A-Za-z0-9\\(])(\d+)\s*\/\s*(\d+)(?![A-Za-z0-9])/g,
+    /(?<![A-Za-z0-9.\\(])(\d+)\s*\/\s*(\d+)(?![A-Za-z0-9.])/g,
     (_m, num, den) => {
       // Don't convert dates that look like fractions (e.g., "2/3" is fine but "12/25" in date context)
       // For GED math, numeric fractions are overwhelmingly math
@@ -103,18 +135,8 @@ function upgradeToKatex(input) {
 
   // Convert mixed fractions like n/d trailing a letter: 3/4x → \(\frac{3}{4}x\)
   s = s.replace(
-    /(?<![A-Za-z0-9\\(])(\d+)\s*\/\s*(\d+)([A-Za-z])/g,
+    /(?<![A-Za-z0-9.\\(])(\d+)\s*\/\s*(\d+)([A-Za-z])/g,
     (_m, num, den, trail) => `\\(\\frac{${num}}{${den}}${trail}\\)`
-  );
-
-  // Convert >= and <= in math-like contexts
-  s = s.replace(
-    /([A-Za-z0-9)}\]]+)\s*>=\s*([A-Za-z0-9({[]+)/g,
-    (_m, left, right) => `\\(${left} \\geq ${right}\\)`
-  );
-  s = s.replace(
-    /([A-Za-z0-9)}\]]+)\s*<=\s*([A-Za-z0-9({[]+)/g,
-    (_m, left, right) => `\\(${left} \\leq ${right}\\)`
   );
 
   // Clean up double-wrapped delimiters that may result from chained conversions
@@ -164,6 +186,7 @@ function upgradeQuestionToKatex(item) {
 module.exports = {
   normalizeMathToLatex,
   normalizeMathToHTML,
+  repairInlineMathDecimalFragments,
   upgradeToKatex,
   upgradeQuestionToKatex,
 };
