@@ -11939,6 +11939,7 @@ Return ONLY the corrected quiz JSON object.`;
       const orig = originalStimuli[idx];
       if (orig) {
         // Restore stimulus data that the AI should not have touched
+        if (orig.passage) q.passage = orig.passage;
         if (orig.stimulusImage) q.stimulusImage = orig.stimulusImage;
         if (orig.imageUrl) q.imageUrl = orig.imageUrl;
         if (orig.itemType) q.itemType = orig.itemType;
@@ -12285,18 +12286,20 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
         const q = getChemistryBalancingQuestion();
         return q ? [q] : [];
       }
-      // Science numeracy template
+      if (slot.stimulusType === 'passage/data') {
+        const scenario = instantiateScienceScenarioCluster();
+        if (scenario && scenario.length) {
+          return scenario.slice(0, slot.questionsNeeded);
+        }
+      }
       if (slot.numeracy) {
-        const item = getRandomScienceNumeracyItem
-          ? getRandomScienceNumeracyItem()
-          : null;
+        const item = instantiateScienceNumeracyTemplate();
         if (item) return [item];
       }
-      // Science scenario template
-      const scenario = getRandomScienceScenario
-        ? getRandomScienceScenario()
-        : null;
-      if (scenario) return Array.isArray(scenario) ? scenario : [scenario];
+      const scenario = instantiateScienceScenarioCluster();
+      if (scenario && scenario.length) {
+        return scenario.slice(0, slot.questionsNeeded);
+      }
       return [];
     };
 
@@ -12466,7 +12469,7 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
  * Used when AI generation fails completely.
  */
 function buildFallbackGenerators(normalizedSubject) {
-  return {
+  const generators = {
     bankFill: async (slot) => {
       if (normalizedSubject === 'RLA') {
         if (slot.section === 'part1_reading')
@@ -12496,6 +12499,28 @@ function buildFallbackGenerators(normalizedSubject) {
         'Analyze both passages and determine which position is better supported by evidence and reasoning. Use specific evidence from both sources to support your response.',
     }),
   };
+
+  if (normalizedSubject === 'Science') {
+    generators.templateFill = async (slot) => {
+      if (slot.group === 'chem_balance') {
+        const q = getChemistryBalancingQuestion();
+        return q ? [q] : [];
+      }
+      if (slot.stimulusType === 'passage/data') {
+        const scenario = instantiateScienceScenarioCluster();
+        return scenario && scenario.length
+          ? scenario.slice(0, slot.questionsNeeded)
+          : [];
+      }
+      if (slot.numeracy) {
+        const item = instantiateScienceNumeracyTemplate();
+        return item ? [item] : [];
+      }
+      return [];
+    };
+  }
+
+  return generators;
 }
 
 // ── Premade bank picking helpers ──────────────────────────────────────
@@ -12511,6 +12536,40 @@ function pickFromPremadeBank(subject, slot) {
   const questions = [];
   const quizData = ALL_QUIZZES && ALL_QUIZZES[subject];
   if (!quizData || !quizData.categories) return [];
+
+  function questionMatchesSlotStimulus(q, targetSlot) {
+    if (!targetSlot) return true;
+
+    const hasPassage =
+      typeof q.passage === 'string' && q.passage.trim().length >= 80;
+    const hasImage = Boolean(
+      q.stimulusImage || q.imageUrl || q.imageURL || q.image
+    );
+    const hasTable = Boolean(
+      q.dataTable ||
+      q.chartData ||
+      /<table\b/i.test(String(q.questionText || q.question || '')) ||
+      /<table\b/i.test(String(q.passage || ''))
+    );
+
+    if (targetSlot.stimulusType === 'passage/data') {
+      return hasPassage || hasTable;
+    }
+    if (targetSlot.stimulusType === 'standalone') {
+      return !hasPassage && !hasImage && !hasTable;
+    }
+    if (['chart', 'table'].includes(targetSlot.stimulusType)) {
+      return hasTable;
+    }
+    if (['diagram', 'image'].includes(targetSlot.stimulusType)) {
+      return hasImage;
+    }
+    if (targetSlot.stimulusType === 'passage') {
+      return hasPassage;
+    }
+
+    return true;
+  }
 
   for (const [catName, catData] of Object.entries(quizData.categories)) {
     // Filter by category if slot specifies one
@@ -12534,6 +12593,7 @@ function pickFromPremadeBank(subject, slot) {
         if (!q.answerOptions || q.answerOptions.length < 2) continue;
         const text = q.questionText || q.question || '';
         if (_usedPremadeTexts.has(text)) continue;
+        if (!questionMatchesSlotStimulus(q, slot)) continue;
 
         // Reject cross-subject contamination (e.g., Social Studies stems in Science banks)
         if (subject === 'Science') {

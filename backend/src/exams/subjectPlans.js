@@ -39,7 +39,7 @@ function passageSlot(
     slotId: nextSlotId(prefix),
     section: extra.section || 'main',
     category,
-    stimulusType: 'passage',
+    stimulusType: extra.stimulusType || 'passage',
     difficulty,
     responseType: extra.responseType || 'single_select',
     calculatorAllowed: extra.calculatorAllowed ?? null,

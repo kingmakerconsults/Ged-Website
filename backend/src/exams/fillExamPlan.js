@@ -157,13 +157,44 @@ async function fillExamPlan(plan, generators, aiOptions, opts = {}) {
       }
     }
 
-    // Emergency bank-only fallback (only for non-essay)
-    if (!filled && !isEssay && generators.bankFill) {
+    // Emergency fallback. Never bypass validation here.
+    if (!filled && !isEssay) {
       try {
-        const bankQs = await generators.bankFill(slot);
-        if (Array.isArray(bankQs) && bankQs.length > 0) {
-          filled = bankQs.slice(0, slot.questionsNeeded);
-          source = 'fallback';
+        let emergencyQs = [];
+
+        if (generators.templateFill) {
+          const templateQs = await generators.templateFill(slot);
+          if (Array.isArray(templateQs) && templateQs.length > 0) {
+            emergencyQs = templateQs;
+            source = 'fallback';
+          }
+        }
+
+        if (!emergencyQs.length && generators.bankFill) {
+          const bankQs = await generators.bankFill(slot);
+          if (Array.isArray(bankQs) && bankQs.length > 0) {
+            emergencyQs = bankQs;
+            source = 'fallback';
+          }
+        }
+
+        if (emergencyQs.length > 0) {
+          const validQuestions = [];
+          for (const q of emergencyQs) {
+            const result = validateQuestion(q, slot);
+            if (result.valid) {
+              validQuestions.push(q);
+            } else {
+              slotLog.errors.push(
+                `Emergency fallback rejected: ${result.errors.join('; ')}`
+              );
+            }
+            if (validQuestions.length >= slot.questionsNeeded) break;
+          }
+
+          if (validQuestions.length > 0) {
+            filled = validQuestions.slice(0, slot.questionsNeeded);
+          }
         }
       } catch (_) {
         /* ignore */

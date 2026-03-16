@@ -116,7 +116,40 @@ function validateFilledPlan(plan, filledSlots) {
     }
   }
 
-  // 4. Stimulus counts (if specified)
+  // 4. Slot-level stimulus integrity
+  for (const q of allQuestions) {
+    const slot = plan.slots.find((s) => s.slotId === q._slotId);
+    if (!slot || slot.stimulusType === 'standalone') continue;
+
+    const hasPassage =
+      typeof q.passage === 'string' && q.passage.trim().length > 50;
+    const hasImage = Boolean(q.stimulusImage || q.imageUrl || q.imageURL);
+    const hasData = Boolean(
+      q.dataTable ||
+      q.chartData ||
+      /<table\b/i.test(String(q.questionText || '')) ||
+      /<table\b/i.test(String(q.passage || ''))
+    );
+
+    const hasRequiredStimulus =
+      slot.stimulusType === 'passage/data'
+        ? hasPassage || hasData
+        : ['chart', 'table'].includes(slot.stimulusType)
+          ? hasData
+          : ['diagram', 'image'].includes(slot.stimulusType)
+            ? hasImage
+            : slot.stimulusType === 'passage'
+              ? hasPassage
+              : hasPassage || hasImage || hasData;
+
+    if (!hasRequiredStimulus) {
+      errors.push(
+        `Slot ${slot.slotId} (${slot.category}/${slot.stimulusType}) finalized with no matching stimulus`
+      );
+    }
+  }
+
+  // 5. Stimulus counts (if specified)
   if (plan.invariants.stimulus) {
     const stimCounts = {};
     for (const q of allQuestions) {
@@ -139,7 +172,7 @@ function validateFilledPlan(plan, filledSlots) {
     }
   }
 
-  // 5. Science numeracy minimum
+  // 6. Science numeracy minimum
   if (plan.invariants.numeracyMinimum) {
     const numeracyCount = allQuestions.filter((q) => q.numeracy).length;
     if (numeracyCount < plan.invariants.numeracyMinimum) {
@@ -149,19 +182,19 @@ function validateFilledPlan(plan, filledSlots) {
     }
   }
 
-  // 6. Null item check
+  // 7. Null item check
   const nullItems = allQuestions.filter((q) => !q || !q.questionText);
   if (nullItems.length > 0) {
     errors.push(`${nullItems.length} null or text-less questions found`);
   }
 
-  // 7. Duplicate check (near-duplicate stems)
+  // 8. Duplicate check (near-duplicate stems)
   const dupes = findDuplicateStems(allQuestions, 0.85);
   if (dupes.length > 0) {
     warnings.push(`${dupes.length} near-duplicate question pair(s) detected`);
   }
 
-  // 8. Difficulty distribution (soft check)
+  // 9. Difficulty distribution (soft check)
   if (plan.invariants.difficulty) {
     const diffCounts = {};
     for (const q of allQuestions) {

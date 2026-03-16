@@ -49,6 +49,28 @@ function mockQuestion(slot, idx = 0) {
     'sentence_rewrite',
     'placement',
   ].includes(slot.responseType);
+  const longPassage =
+    'Sample passage text for this question stimulus with enough detail to satisfy passage validation requirements and mimic a real comprehension-style prompt.';
+  const tableMarkup =
+    '<table><thead><tr><th>Trial</th><th>Value</th></tr></thead><tbody><tr><td>1</td><td>10</td></tr><tr><td>2</td><td>12</td></tr></tbody></table>';
+  const imagePath = '/images/test-stimulus.png';
+
+  let passage;
+  let imageUrl;
+  let chartData;
+
+  if (slot.stimulusType === 'passage' || slot.stimulusType === 'passage/data') {
+    passage =
+      slot.stimulusType === 'passage/data'
+        ? `${longPassage}\n\n${tableMarkup}`
+        : longPassage;
+  } else if (['chart', 'table'].includes(slot.stimulusType)) {
+    passage = tableMarkup;
+    chartData = { labels: ['A', 'B'], values: [10, 12] };
+  } else if (['image', 'diagram'].includes(slot.stimulusType)) {
+    imageUrl = imagePath;
+  }
+
   return {
     questionText: `Question for ${slot.category} slot ${slot.slotId} item ${idx}`,
     answerOptions: isNonMC
@@ -62,10 +84,9 @@ function mockQuestion(slot, idx = 0) {
     category: slot.category,
     difficulty: slot.difficulty,
     subject: 'Test',
-    passage:
-      slot.stimulusType !== 'standalone'
-        ? 'Sample passage text for this question stimulus.'
-        : undefined,
+    passage,
+    imageUrl,
+    chartData,
     responseType: slot.responseType || 'single_select',
   };
 }
@@ -348,6 +369,48 @@ test('Fallback mode still respects blueprint', async () => {
   const { filledSlots } = await fillExamPlan(plan, gens, {}, { maxRetries: 0 });
   const quiz = await finalizeExamPayload(plan, filledSlots);
   assert.equal(quiz.questions.length, 35);
+});
+
+test('Invalid fallback questions cannot satisfy required science stimuli', async () => {
+  const plan = buildComprehensivePlan('Science');
+  const passageSlot = plan.slots.find(
+    (slot) => slot.stimulusType === 'passage/data'
+  );
+  assert.ok(passageSlot, 'Expected a science passage/data slot');
+
+  const gens = {
+    bankFill: async () => [
+      {
+        questionText: 'What is the name of the planet closest to the sun?',
+        answerOptions: [
+          { text: 'Mercury', isCorrect: true, rationale: 'Correct' },
+          { text: 'Venus', isCorrect: false, rationale: 'Wrong' },
+        ],
+      },
+      {
+        questionText: 'What energy transformation occurs in photosynthesis?',
+        answerOptions: [
+          { text: 'Light to chemical', isCorrect: true, rationale: 'Correct' },
+          { text: 'Thermal to light', isCorrect: false, rationale: 'Wrong' },
+        ],
+      },
+    ],
+  };
+
+  const { filledSlots } = await fillExamPlan(
+    {
+      ...plan,
+      slots: [passageSlot],
+      totalQuestions: passageSlot.questionsNeeded,
+    },
+    gens,
+    {},
+    { maxRetries: 0 }
+  );
+
+  const filled = filledSlots.get(passageSlot.slotId);
+  assert.equal(Array.isArray(filled), true);
+  assert.equal(filled.length, 0);
 });
 
 test('Science numeracy minimum met without exceeding total', async () => {
