@@ -12523,6 +12523,82 @@ function buildFallbackGenerators(normalizedSubject) {
   return generators;
 }
 
+function tagFilledQuestionForSlot(
+  question,
+  slot,
+  subject,
+  source = 'local-fallback'
+) {
+  const q = { ...question };
+  q.category = q.category || slot.category;
+  q.difficulty = q.difficulty || slot.difficulty;
+  q.subject = q.subject || subject;
+  q._slotId = slot.slotId;
+  q._section = slot.section;
+  q._source = source;
+  if (slot.group) q._group = slot.group;
+  if (slot.calculatorAllowed !== null) q.calculator = slot.calculatorAllowed;
+  if (slot.toolsAllowed) q.toolsAllowed = slot.toolsAllowed;
+  if (slot.numeracy) q.numeracy = true;
+  return q;
+}
+
+function buildGuaranteedScienceFilledSlots(plan) {
+  const filledSlots = new Map();
+
+  for (const slot of plan.slots) {
+    const filled = [];
+
+    if (slot.group === 'chem_balance') {
+      while (filled.length < slot.questionsNeeded) {
+        const item = getChemistryBalancingQuestion();
+        if (!item) break;
+        filled.push(item);
+      }
+    } else if (slot.stimulusType === 'passage/data') {
+      while (filled.length < slot.questionsNeeded) {
+        const cluster = instantiateScienceScenarioCluster();
+        if (!cluster || !cluster.length) break;
+        filled.push(...cluster.slice(0, slot.questionsNeeded - filled.length));
+      }
+    } else if (
+      ['chart', 'table'].includes(slot.stimulusType) ||
+      slot.numeracy
+    ) {
+      while (filled.length < slot.questionsNeeded) {
+        const item = instantiateScienceNumeracyTemplate();
+        if (!item) break;
+        filled.push(item);
+      }
+    } else if (['diagram', 'image'].includes(slot.stimulusType)) {
+      const bankItems = pickFromPremadeBank('Science', slot);
+      if (Array.isArray(bankItems) && bankItems.length) {
+        filled.push(...bankItems.slice(0, slot.questionsNeeded));
+      }
+    } else {
+      const bankItems = pickFromPremadeBank('Science', slot);
+      if (Array.isArray(bankItems) && bankItems.length) {
+        filled.push(...bankItems.slice(0, slot.questionsNeeded));
+      }
+    }
+
+    if (filled.length < slot.questionsNeeded) {
+      throw new Error(
+        `Guaranteed science fallback could not fill ${slot.slotId} (${slot.category}/${slot.stimulusType}): ${filled.length}/${slot.questionsNeeded}`
+      );
+    }
+
+    filledSlots.set(
+      slot.slotId,
+      filled
+        .slice(0, slot.questionsNeeded)
+        .map((q) => tagFilledQuestionForSlot(q, slot, plan.subject))
+    );
+  }
+
+  return filledSlots;
+}
+
 // ── Premade bank picking helpers ──────────────────────────────────────
 
 // Track used premade questions across a single generation run
@@ -13060,6 +13136,35 @@ app.post('/generate-quiz', async (req, res) => {
           `[Comprehensive][${normalizedSubject}] Fallback also failed:`,
           fallbackError
         );
+
+        if (normalizedSubject === 'Science') {
+          try {
+            const plan = buildComprehensivePlan(normalizedSubject);
+            const guaranteedSlots = buildGuaranteedScienceFilledSlots(plan);
+            const guaranteedQuiz = await finalizeExamPayload(
+              plan,
+              guaranteedSlots,
+              {
+                sanitizer: (qs) =>
+                  sanitizeScienceAndMathQuestions(qs, normalizedSubject),
+              }
+            );
+            guaranteedQuiz.source = 'scienceLocalFallback';
+            logGenerationDuration(
+              examType,
+              subject,
+              generationStart,
+              'fallback'
+            );
+            return res.json(guaranteedQuiz);
+          } catch (scienceFallbackError) {
+            console.error(
+              `[Comprehensive][${normalizedSubject}] Guaranteed local fallback failed:`,
+              scienceFallbackError
+            );
+          }
+        }
+
         logGenerationDuration(examType, subject, generationStart, 'failed');
         return res
           .status(500)
