@@ -382,6 +382,517 @@ const SOCIAL_STUDIES_IMAGE_QUESTION_SETS = Object.freeze({
       ]),
     ],
   },
+  '/images/Social%20Studies/a_new_nation_quiz_2_0001.png': {
+    questions: [
+      q('On the map, what territory is highlighted in white?', [
+        o(
+          'The Louisiana Purchase',
+          true,
+          'Correct. The white region is labeled as the Louisiana Purchase territory.'
+        ),
+        o(
+          'The Mexican Cession',
+          false,
+          'That territory was added later and is not the white region on this map.'
+        ),
+        o(
+          'The Oregon Territory',
+          false,
+          'The map specifically highlights the Louisiana Purchase, not Oregon.'
+        ),
+        o(
+          'The original thirteen states',
+          false,
+          'The original states are shown separately from the white-highlighted area.'
+        ),
+      ]),
+      q('What does the map best show about the Louisiana Purchase?', [
+        o(
+          'It greatly expanded U.S. territory west of the Mississippi River.',
+          true,
+          'Correct. The map shows a very large land acquisition stretching far westward from the earlier United States.'
+        ),
+        o(
+          'It gave the United States control of all of Canada.',
+          false,
+          'Canada is shown bordering the region, not becoming part of the United States.'
+        ),
+        o(
+          'It reduced the size of the United States.',
+          false,
+          'The acquisition clearly enlarged the country.'
+        ),
+        o(
+          'It happened after the Civil War.',
+          false,
+          'The Louisiana Purchase occurred much earlier, in 1803.'
+        ),
+      ]),
+    ],
+  },
+  '/images/Social%20Studies/american_civil_war_0002.png': {
+    questions: [
+      q('What overall change does the Civil War map show from 1861 to 1865?', [
+        o(
+          'The Confederacy lost territory over time as Union control expanded.',
+          true,
+          'Correct. The shaded regions show the Confederacy shrinking while Union-controlled areas spread.'
+        ),
+        o(
+          'The Union steadily lost all coastal territory.',
+          false,
+          'The map instead shows Union control growing, including coastal areas.'
+        ),
+        o(
+          'The Confederacy gained new western territories each year.',
+          false,
+          'The map does not show Confederate expansion.'
+        ),
+        o(
+          'State borders disappeared by the end of the war.',
+          false,
+          'The map still uses state borders as part of the display.'
+        ),
+      ]),
+      q('Why is the legend important for interpreting this map?', [
+        o(
+          'It explains which patterns represent Union control and which represent territory lost by the Confederacy in different years.',
+          true,
+          'Correct. Without the legend, the shaded regions and dates would be much harder to interpret accurately.'
+        ),
+        o(
+          'It lists the names of every Civil War general.',
+          false,
+          'The legend identifies map patterns, not generals.'
+        ),
+        o(
+          'It gives the exact number of soldiers in each battle.',
+          false,
+          'The map is about territorial control, not troop counts.'
+        ),
+        o(
+          'It shows the text of the Emancipation Proclamation.',
+          false,
+          'That document is not what the legend is for.'
+        ),
+      ]),
+    ],
+  },
+  '/images/Social%20Studies/civil_rights_movement_0001.png': {
+    questions: [
+      q(
+        'Which goal is most clearly shown by the protest signs in the photograph?',
+        [
+          o(
+            'Expanding civil rights such as voting rights, school integration, and equal opportunity',
+            true,
+            'Correct. The signs call for voting rights, integrated schools, jobs, and equal rights.'
+          ),
+          o(
+            'Ending overseas military alliances',
+            false,
+            'The signs address domestic civil-rights issues, not foreign policy.'
+          ),
+          o(
+            'Lowering tariffs on imported goods',
+            false,
+            'The photograph is not about trade policy.'
+          ),
+          o(
+            'Expanding westward settlement',
+            false,
+            'That is unrelated to the demands shown in the image.'
+          ),
+        ]
+      ),
+      q(
+        'What does this image suggest about how many civil rights activists tried to create change?',
+        [
+          o(
+            'They used organized public marches to draw attention to injustice and demand reform.',
+            true,
+            'Correct. The large crowd, signs, and leaders marching together show coordinated public protest.'
+          ),
+          o(
+            'They relied mainly on secret military operations.',
+            false,
+            'The image shows an open public demonstration, not military action.'
+          ),
+          o(
+            'They avoided public communication with government.',
+            false,
+            'Marches were designed to make demands visible and public.'
+          ),
+          o(
+            'They focused only on local issues instead of national rights.',
+            false,
+            'The signs point to broad national civil-rights goals.'
+          ),
+        ]
+      ),
+    ],
+  },
+  '/images/Social%20Studies/colonial_history_of_the_united_states_0003.png': {
+    questions: [
+      q(
+        'Before the Treaty of Utrecht, which European power controlled the largest continuous land area shown on the map?',
+        [
+          o(
+            'France',
+            true,
+            'Correct. The map shows French claims stretching across a large connected area of Canada and Louisiana.'
+          ),
+          o(
+            'Great Britain',
+            false,
+            'Britain controlled important Atlantic areas but not the largest continuous interior landmass shown.'
+          ),
+          o(
+            'Spain',
+            false,
+            'Spain held major territory, but not the largest continuous area on this specific map.'
+          ),
+          o(
+            'The Netherlands',
+            false,
+            'The Netherlands is not one of the main powers represented on this map.'
+          ),
+        ]
+      ),
+      q(
+        'What does the map suggest was one effect of the Treaty of Utrecht in 1713?',
+        [
+          o(
+            'France gave up some northeastern territory to Great Britain.',
+            true,
+            'Correct. The map specifically highlights territories ceded by France to Great Britain under the treaty.'
+          ),
+          o(
+            'Spain transferred Louisiana to France.',
+            false,
+            'That is not the territorial change highlighted by the treaty note on the map.'
+          ),
+          o(
+            'Great Britain lost all Atlantic coast colonies.',
+            false,
+            'The map does not show Britain losing all Atlantic colonies.'
+          ),
+          o(
+            'All European claims in North America ended.',
+            false,
+            'The map clearly shows continuing European territorial claims.'
+          ),
+        ]
+      ),
+    ],
+  },
+  '/images/Social%20Studies/ged_grsph_1_0001.png': {
+    questions: [
+      q('Which territorial acquisition on the map appears to be the largest?', [
+        o(
+          'The Louisiana Purchase',
+          true,
+          'Correct. The Louisiana Purchase covers the largest labeled land area on the map.'
+        ),
+        o(
+          'The Gadsden Purchase',
+          false,
+          'The Gadsden Purchase is a much smaller strip of land.'
+        ),
+        o(
+          'The Florida Cession',
+          false,
+          'Florida is much smaller than the Louisiana Purchase.'
+        ),
+        o(
+          'Texas Annexation',
+          false,
+          'Texas added a large area, but the Louisiana Purchase is larger on the map.'
+        ),
+      ]),
+      q(
+        'What general pattern of U.S. growth is shown by the sequence of acquisitions on the map?',
+        [
+          o(
+            'The United States expanded mostly westward and southward across the continent.',
+            true,
+            'Correct. The acquisitions extend the country outward from its original eastern base toward the interior, Southwest, and Pacific.'
+          ),
+          o(
+            'The United States expanded mostly eastward into the Atlantic Ocean.',
+            false,
+            'The growth shown is continental, not eastward into the ocean.'
+          ),
+          o(
+            'The United States shrank after 1803.',
+            false,
+            'The map documents expansion, not contraction.'
+          ),
+          o(
+            'The United States gained all of North America by 1853.',
+            false,
+            'The map still shows territory outside U.S. control.'
+          ),
+        ]
+      ),
+    ],
+  },
+  '/images/Social%20Studies/ged_grsph_4_0001.png': {
+    questions: [
+      q(
+        'Which amendment on the voting-rights timeline granted women the right to vote nationwide?',
+        [
+          o(
+            'The Nineteenth Amendment',
+            true,
+            'Correct. The Nineteenth Amendment extended voting rights to women nationwide.'
+          ),
+          o(
+            'The Fifteenth Amendment',
+            false,
+            'The Fifteenth Amendment addressed race-based denial of voting rights, not women’s suffrage.'
+          ),
+          o(
+            'The Twenty-Fourth Amendment',
+            false,
+            'The Twenty-Fourth Amendment banned poll taxes in federal elections.'
+          ),
+          o(
+            'The Twenty-Sixth Amendment',
+            false,
+            'The Twenty-Sixth Amendment lowered the voting age to 18.'
+          ),
+        ]
+      ),
+      q(
+        'Which amendment on the timeline lowered the voting age from 21 to 18?',
+        [
+          o(
+            'The Twenty-Sixth Amendment',
+            true,
+            'Correct. The Twenty-Sixth Amendment lowered the voting age to 18.'
+          ),
+          o(
+            'The Fourteenth Amendment',
+            false,
+            'The Fourteenth Amendment addressed citizenship and equal protection, not voting age.'
+          ),
+          o(
+            'The Nineteenth Amendment',
+            false,
+            'That amendment focused on women’s suffrage.'
+          ),
+          o(
+            'The Twenty-Fourth Amendment',
+            false,
+            'That amendment addressed poll taxes, not age requirements.'
+          ),
+        ]
+      ),
+    ],
+  },
+  '/images/Social%20Studies/global_conflicts_0002.jpg': {
+    questions: [
+      q(
+        'Which continent would a student look at to find Brazil on the political world map?',
+        [
+          o(
+            'South America',
+            true,
+            'Correct. Brazil is located on the South American continent.'
+          ),
+          o('Europe', false, 'Brazil is not in Europe.'),
+          o(
+            'Africa',
+            false,
+            'Brazil is across the Atlantic from Africa, not on that continent.'
+          ),
+          o('Australia', false, 'Brazil is not part of Australia or Oceania.'),
+        ]
+      ),
+      q(
+        'What is the main purpose of using different colors for neighboring countries on the map?',
+        [
+          o(
+            'To make political borders easier to distinguish',
+            true,
+            'Correct. Different colors help readers identify separate countries and follow borders more easily.'
+          ),
+          o(
+            'To show which countries have the largest populations',
+            false,
+            'Color on this map distinguishes countries, not population size.'
+          ),
+          o(
+            'To show which countries share a language',
+            false,
+            'The colors are not a language key.'
+          ),
+          o(
+            'To show average annual rainfall',
+            false,
+            'This is a political map, not a climate map.'
+          ),
+        ]
+      ),
+    ],
+  },
+  '/images/Social%20Studies/great_depression_0001.png': {
+    questions: [
+      q(
+        'What problem of the Great Depression is most directly shown in this photograph?',
+        [
+          o(
+            'Widespread unemployment and poverty',
+            true,
+            'Correct. The lines for free food and aid point to severe unemployment and economic hardship.'
+          ),
+          o(
+            'Overseas military expansion',
+            false,
+            'The photo is about domestic economic struggle, not war.'
+          ),
+          o(
+            'Rapid suburban growth',
+            false,
+            'The image shows hardship, not suburban development.'
+          ),
+          o(
+            'A boom in factory wages',
+            false,
+            'The need for free food suggests the opposite of economic prosperity.'
+          ),
+        ]
+      ),
+      q(
+        'What do the signs offering free coffee, doughnuts, and soup suggest about life during this period?',
+        [
+          o(
+            'Many people depended on charitable relief to meet basic needs.',
+            true,
+            'Correct. The signs indicate that private or community aid was helping unemployed people get food.'
+          ),
+          o(
+            'Most workers could easily afford restaurant meals.',
+            false,
+            'The need for free food suggests the opposite.'
+          ),
+          o(
+            'The federal government had ended all forms of assistance.',
+            false,
+            'The signs show relief existed, even if the source is charitable.'
+          ),
+          o(
+            'Unemployment only affected rural farmers.',
+            false,
+            'The urban street scene shows hardship beyond rural areas.'
+          ),
+        ]
+      ),
+    ],
+  },
+  '/images/Social%20Studies/history_of_propaganda_0002.png': {
+    questions: [
+      q(
+        'What message is this World War II poster most clearly designed to promote?',
+        [
+          o(
+            'Infantry service requires courage and deserves public respect and support.',
+            true,
+            'Correct. The dramatic combat scene and the word courage are meant to honor and promote the infantry.'
+          ),
+          o(
+            'War should be avoided because soldiers are ineffective.',
+            false,
+            'The poster praises infantry service rather than criticizing it.'
+          ),
+          o(
+            'Civilian factory work was unimportant during wartime.',
+            false,
+            'The poster focuses on infantry courage, not on dismissing other wartime roles.'
+          ),
+          o(
+            'The war had already been won in 1943.',
+            false,
+            'The poster encourages wartime commitment; it does not claim the war was already finished.'
+          ),
+        ]
+      ),
+      q('How do the text and imagery work together in this poster?', [
+        o(
+          'The battle scene visually dramatizes the bravery named in the slogan.',
+          true,
+          'Correct. The poster pairs the word courage with soldiers under fire so the message feels urgent and heroic.'
+        ),
+        o(
+          'The text contradicts the image by discouraging military service.',
+          false,
+          'The text and image reinforce the same patriotic message.'
+        ),
+        o(
+          'The imagery is neutral and avoids emotion.',
+          false,
+          'Explosions, smoke, and active combat are highly emotional choices.'
+        ),
+        o(
+          'The text is unrelated to the soldiers shown.',
+          false,
+          'The text directly labels and celebrates the infantry depicted.'
+        ),
+      ]),
+    ],
+  },
+  '/images/Social%20Studies/join_or_die_0001.png': {
+    questions: [
+      q('What is the main idea of the segmented snake labeled Join, or Die?', [
+        o(
+          'The colonies needed to unite in order to resist British pressure effectively.',
+          true,
+          'Correct. The broken snake symbolizes separate colonies that would be stronger if joined together.'
+        ),
+        o(
+          'Each colony should act alone and avoid cooperation.',
+          false,
+          'The slogan argues for unity, not separation.'
+        ),
+        o(
+          'The colonies should immediately form separate nations.',
+          false,
+          'The symbol is about joining together, not breaking further apart.'
+        ),
+        o(
+          'Britain had already granted complete independence.',
+          false,
+          'The 1774 context is one of rising conflict, not settled independence.'
+        ),
+      ]),
+      q(
+        'Why is the 1774 date on the newspaper important to understanding the image?',
+        [
+          o(
+            'It places the masthead in the tense pre-Revolution period when colonial unity was becoming urgent.',
+            true,
+            'Correct. In 1774, conflict with Britain was escalating, so calls for unity carried clear political meaning.'
+          ),
+          o(
+            'It shows the image was made after the Civil War.',
+            false,
+            'The date is nearly a century earlier than the Civil War.'
+          ),
+          o(
+            'It proves the newspaper was printed after the Constitution was adopted.',
+            false,
+            'The Constitution had not yet been written in 1774.'
+          ),
+          o(
+            'It indicates the colonies had already ratified the Bill of Rights.',
+            false,
+            'That happened much later, after independence and the Constitution.'
+          ),
+        ]
+      ),
+    ],
+  },
   '/images/Social%20Studies/ged_social_studies_fig_9_0001.png': {
     questions: [
       q('What long-term trend is shown by the median-age bar graph?', [

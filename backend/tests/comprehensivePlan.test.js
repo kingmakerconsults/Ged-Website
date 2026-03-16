@@ -413,6 +413,28 @@ test('Invalid fallback questions cannot satisfy required science stimuli', async
   assert.equal(filled.length, 0);
 });
 
+test('Science chart slots accept image-backed chart stimuli when tagged', () => {
+  const plan = buildComprehensivePlan('Science');
+  const chartSlot = plan.slots.find((slot) => slot.stimulusType === 'chart');
+  assert.ok(chartSlot, 'Expected a science chart slot');
+
+  const question = {
+    questionText:
+      'According to the chart image, which trend increases over time?',
+    answerOptions: [
+      { text: 'Option A', isCorrect: true, rationale: 'Correct' },
+      { text: 'Option B', isCorrect: false, rationale: 'Wrong' },
+      { text: 'Option C', isCorrect: false, rationale: 'Wrong' },
+      { text: 'Option D', isCorrect: false, rationale: 'Wrong' },
+    ],
+    imageUrl: '/images/test-chart.png',
+    stimulusType: 'chart',
+  };
+
+  const result = validateQuestion(question, chartSlot);
+  assert.equal(result.valid, true, `Errors: ${result.errors.join('; ')}`);
+});
+
 test('Science numeracy minimum met without exceeding total', async () => {
   const plan = buildComprehensivePlan('Science');
   const gens = mockGenerators();

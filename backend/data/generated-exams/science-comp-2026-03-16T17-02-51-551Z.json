@@ -1,0 +1,1218 @@
+{
+  "id": "ai_comp_science_1773680457601",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "image",
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionNumber": 2,
+      "type": "standalone",
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionNumber": 3,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor X. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Correct. Efficiency = (210 ÷ 520) × 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor Z. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "50%",
+          "isCorrect": false,
+          "rationale": "This value is too high for Bioreactor Y. Recalculate using (output ÷ input) × 100."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "9a9e7d86bcc10f49c50a08ba3f0277786a6f754d"
+    },
+    {
+      "questionNumber": 4,
+      "type": "passage",
+      "questionText": "Based on the passage, what is the author's primary argument for the government's role in natural resource management?",
+      "answerOptions": [
+        {
+          "text": "The government should ensure resources are locked up to prevent any use.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'Conservation does not mean locking everything up; it means use without abuse.'"
+        },
+        {
+          "text": "The government is responsible for ensuring resources are used wisely for the benefit of all, including future generations.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'The government, as trustee for the people, must see that these resources are used wisely' and 'our children and our children’s children may have their share.'"
+        },
+        {
+          "text": "The government's role is to facilitate the rapid extraction of resources for immediate economic profit.",
+          "isCorrect": false,
+          "rationale": "The passage argues against wasting resources 'for the profit of a few' and advocates for long-term benefit."
+        },
+        {
+          "text": "The government should only intervene when natural resources are entirely depleted.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes proactive management ('use without abuse—development joined to foresight') rather than intervention only after depletion."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "48b6f8c567522abdefe47611caaa5e9fbef202cf"
+    },
+    {
+      "questionNumber": 5,
+      "type": "passage",
+      "questionText": "According to the passage, what is a direct environmental consequence of 'recklessly' cutting forests?",
+      "answerOptions": [
+        {
+          "text": "An increase in the overall value of lumber products due to scarcity.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the negative environmental impact, not market dynamics of lumber."
+        },
+        {
+          "text": "An improvement in soil quality due to increased sunlight reaching the forest floor.",
+          "isCorrect": false,
+          "rationale": "The passage states that if forests are cut recklessly, 'the soil washes away and whole valleys are ruined,' indicating a negative impact on soil."
+        },
+        {
+          "text": "Increased flooding and soil erosion, leading to the ruination of valleys.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'Forests prevent floods, regulate streams... If they are cut recklessly, the soil washes away and whole valleys are ruined.'"
+        },
+        {
+          "text": "A boost in local wildlife populations due to new open habitats.",
+          "isCorrect": false,
+          "rationale": "The passage describes negative consequences such as soil erosion and ruined valleys, not benefits for wildlife."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "383b9a3337fe6d2277769ca6b04493e304e68d94"
+    },
+    {
+      "questionNumber": 6,
+      "type": "standalone",
+      "questionText": "What coefficient is needed to balance this equation: __H₂ + O₂ → 2H₂O?",
+      "answerOptions": [
+        {
+          "text": "1",
+          "isCorrect": false,
+          "rationale": "A coefficient of 1 would mean the hydrogen atoms are not balanced."
+        },
+        {
+          "text": "2",
+          "isCorrect": true,
+          "rationale": "Correct. With 2H₂ + O₂ → 2H₂O, there are 4 hydrogen atoms and 2 oxygen atoms on both sides."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "A coefficient of 3 would mean the hydrogen atoms are not balanced."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "A coefficient of 4 would mean the hydrogen atoms are not balanced."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "e1a61f2a57da68541cddd2d35273d54338a36efc"
+    },
+    {
+      "questionNumber": 7,
+      "type": "standalone",
+      "questionText": "What coefficient is needed for Fe in: __Fe + 2HCl → FeCl₂ + H₂?",
+      "answerOptions": [
+        {
+          "text": "0",
+          "isCorrect": false,
+          "rationale": "A coefficient of 0 would mean no Fe is present, which is incorrect."
+        },
+        {
+          "text": "1",
+          "isCorrect": true,
+          "rationale": "Correct. With 1Fe + 2HCl → FeCl₂ + H₂, there is 1 Fe, 2 H, and 2 Cl on both sides, balancing the equation."
+        },
+        {
+          "text": "2",
+          "isCorrect": false,
+          "rationale": "A coefficient of 2 would mean the iron and chlorine atoms are not balanced."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "A coefficient of 3 would mean the iron and chlorine atoms are not balanced."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "4ddd399bc7ae3c500ccb980e3445fd3b860d577a"
+    },
+    {
+      "questionNumber": 8,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor X. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Correct. Efficiency = (210 ÷ 520) × 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor Z. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "50%",
+          "isCorrect": false,
+          "rationale": "This value is too high for Bioreactor Y. Recalculate using (output ÷ input) × 100."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "9a9e7d86bcc10f49c50a08ba3f0277786a6f754d"
+    },
+    {
+      "questionNumber": 9,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor X. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Correct. Efficiency = (210 ÷ 520) × 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor Z. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "50%",
+          "isCorrect": false,
+          "rationale": "This value is too high for Bioreactor Y. Recalculate using (output ÷ input) × 100."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "9a9e7d86bcc10f49c50a08ba3f0277786a6f754d"
+    },
+    {
+      "questionNumber": 10,
+      "type": "passage",
+      "questionText": "The author's observations of celestial bodies orbiting Jupiter directly challenge which previously held scientific belief?",
+      "answerOptions": [
+        {
+          "text": "All planets are visible to the naked eye.",
+          "isCorrect": false,
+          "rationale": "The passage states the observed bodies were 'invisible without the aid of a glass,' but the challenge was to the geocentric model, not merely visibility."
+        },
+        {
+          "text": "Jupiter is larger than Earth.",
+          "isCorrect": false,
+          "rationale": "The passage does not provide information about the relative sizes of Jupiter and Earth."
+        },
+        {
+          "text": "The Earth is the center of all heavenly orbits.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed,' directly challenging the geocentric model."
+        },
+        {
+          "text": "There are no other planets beyond Mars.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss the existence of planets beyond Mars."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Starry Messenger (Excerpt)</strong></p><p><em>Galileo Galilei, 1610</em></p><p>Through my telescope I have observed four planets revolving about Jupiter, invisible without the aid of a glass. These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "26e631d905e96d20e4778d25e40c3f41aa8e844f"
+    },
+    {
+      "questionNumber": 11,
+      "type": "passage",
+      "questionText": "Based on the passage, what can be inferred about the role of the telescope in advancing astronomical understanding?",
+      "answerOptions": [
+        {
+          "text": "It confirmed that all heavenly bodies revolve around Earth.",
+          "isCorrect": false,
+          "rationale": "The telescope observations *disproved* the idea that all heavenly bodies revolve around Earth."
+        },
+        {
+          "text": "It allowed for the discovery of previously unobservable celestial phenomena.",
+          "isCorrect": true,
+          "rationale": "The passage notes that the planets revolving about Jupiter were 'invisible without the aid of a glass,' indicating the telescope revealed new, unseen phenomena."
+        },
+        {
+          "text": "It proved that Jupiter is the largest planet.",
+          "isCorrect": false,
+          "rationale": "The passage mentions observing bodies around Jupiter but does not provide information to compare its size to other planets."
+        },
+        {
+          "text": "It was primarily used to measure distances between planets.",
+          "isCorrect": false,
+          "rationale": "The passage describes the telescope's use for observation of orbits, not for measuring distances."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Starry Messenger (Excerpt)</strong></p><p><em>Galileo Galilei, 1610</em></p><p>Through my telescope I have observed four planets revolving about Jupiter, invisible without the aid of a glass. These observations prove that not all heavenly bodies revolve around the Earth, as was formerly believed.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "8f99302e4168a0ab4fce0bfab1144680ced91579"
+    },
+    {
+      "questionNumber": 12,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 13,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 14,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 15,
+      "type": "passage",
+      "questionText": "What is the author's primary purpose in describing the phenomena of a candle?",
+      "answerOptions": [
+        {
+          "text": "To explain the specific chemical formula for carbonic acid.",
+          "isCorrect": false,
+          "rationale": "The passage mentions carbonic acid as a product but does not delve into its specific chemical formula; this is too narrow to be the primary purpose."
+        },
+        {
+          "text": "To demonstrate how a simple object can illustrate fundamental scientific principles.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that 'from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter,' indicating its use as a teaching tool for universal laws."
+        },
+        {
+          "text": "To argue that fire is a complex and dangerous element.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes the scientific principles demonstrated by a candle, not the dangers or inherent complexity of fire itself."
+        },
+        {
+          "text": "To provide instructions for making a candle burn brighter.",
+          "isCorrect": false,
+          "rationale": "While the effect of pure oxygen on the flame is mentioned, the passage's overall aim is to educate about scientific principles, not to provide practical instructions for candle use."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "a154164d221313a6f80d218e3cd6af6cbde9d5b3"
+    },
+    {
+      "questionNumber": 16,
+      "type": "passage",
+      "questionText": "Based on the passage, what must happen to the wax before it can truly burn?",
+      "answerOptions": [
+        {
+          "text": "It must be enclosed to cut off the air.",
+          "isCorrect": false,
+          "rationale": "Enclosing the candle and cutting off air extinguishes the flame, rather than enabling the wax to burn."
+        },
+        {
+          "text": "It needs to be supplied with pure oxygen.",
+          "isCorrect": false,
+          "rationale": "While pure oxygen makes the flame brighter, the passage states that the wax must first vaporize before burning, regardless of oxygen purity."
+        },
+        {
+          "text": "It must turn from a solid into a vapor.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns.'"
+        },
+        {
+          "text": "It must mix with carbonic acid.",
+          "isCorrect": false,
+          "rationale": "Carbonic acid is described as a product of the candle's combustion, not a necessary component for the wax to burn."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Chemical History of a Candle (Excerpt)</strong></p><p><em>Michael Faraday, 1861</em></p><p>There is not a law under which any part of this universe is governed which does not come into play in the phenomena of a candle. Consider the flame: fed by the melted wax, supplied with oxygen from the air, it gives light and heat while producing water and carbonic acid. The wax, though solid, is first turned into a vapor, and it is this vapor that truly burns. The current of hot gases rises, drawing in fresh air below, so that the process continues. If we enclose the candle and cut off the air, the flame is extinguished; if we supply pure oxygen, it burns brighter. Thus from so simple an object as a candle we may learn the nature of combustion, the properties of gases, and the conservation of matter.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "5c1f1e396b74e81bedff457183233743d299eccb"
+    },
+    {
+      "questionNumber": 17,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "1.05 mL/min",
+          "isCorrect": false,
+          "rationale": "This rate is for a different interval or fan speed (e.g., low speed from 40 to 60 min)."
+        },
+        {
+          "text": "1.35 mL/min",
+          "isCorrect": false,
+          "rationale": "This value is half of the actual calculated evaporation rate based on the data provided."
+        },
+        {
+          "text": "2.60 mL/min",
+          "isCorrect": false,
+          "rationale": "This rate is for a shorter interval within the high-speed fan data (e.g., 40 to 60 min)."
+        },
+        {
+          "text": "2.70 mL/min",
+          "isCorrect": true,
+          "rationale": "Correct. The volume evaporated is (198 mL - 90 mL) = 108 mL. The time elapsed is (60 min - 20 min) = 40 min. The average evaporation rate is 108 mL / 40 min = 2.70 mL/min."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "ec5e98068c3bf2383222e3ef0499ead6c0b18cf6"
+    },
+    {
+      "questionNumber": 18,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "1.05 mL/min",
+          "isCorrect": false,
+          "rationale": "This rate is for a different interval or fan speed (e.g., low speed from 40 to 60 min)."
+        },
+        {
+          "text": "1.35 mL/min",
+          "isCorrect": false,
+          "rationale": "This value is half of the actual calculated evaporation rate based on the data provided."
+        },
+        {
+          "text": "2.60 mL/min",
+          "isCorrect": false,
+          "rationale": "This rate is for a shorter interval within the high-speed fan data (e.g., 40 to 60 min)."
+        },
+        {
+          "text": "2.70 mL/min",
+          "isCorrect": true,
+          "rationale": "Correct. The volume evaporated is (198 mL - 90 mL) = 108 mL. The time elapsed is (60 min - 20 min) = 40 min. The average evaporation rate is 108 mL / 40 min = 2.70 mL/min."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "ec5e98068c3bf2383222e3ef0499ead6c0b18cf6"
+    },
+    {
+      "questionNumber": 19,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "1.05 mL/min",
+          "isCorrect": false,
+          "rationale": "This rate is for a different interval or fan speed (e.g., low speed from 40 to 60 min)."
+        },
+        {
+          "text": "1.35 mL/min",
+          "isCorrect": false,
+          "rationale": "This value is half of the actual calculated evaporation rate based on the data provided."
+        },
+        {
+          "text": "2.60 mL/min",
+          "isCorrect": false,
+          "rationale": "This rate is for a shorter interval within the high-speed fan data (e.g., 40 to 60 min)."
+        },
+        {
+          "text": "2.70 mL/min",
+          "isCorrect": true,
+          "rationale": "Correct. The volume evaporated is (198 mL - 90 mL) = 108 mL. The time elapsed is (60 min - 20 min) = 40 min. The average evaporation rate is 108 mL / 40 min = 2.70 mL/min."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "ec5e98068c3bf2383222e3ef0499ead6c0b18cf6"
+    },
+    {
+      "questionNumber": 20,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "1.05 mL/min",
+          "isCorrect": false,
+          "rationale": "This rate is for a different interval or fan speed (e.g., low speed from 40 to 60 min)."
+        },
+        {
+          "text": "1.35 mL/min",
+          "isCorrect": false,
+          "rationale": "This value is half of the actual calculated evaporation rate based on the data provided."
+        },
+        {
+          "text": "2.60 mL/min",
+          "isCorrect": false,
+          "rationale": "This rate is for a shorter interval within the high-speed fan data (e.g., 40 to 60 min)."
+        },
+        {
+          "text": "2.70 mL/min",
+          "isCorrect": true,
+          "rationale": "Correct. The volume evaporated is (198 mL - 90 mL) = 108 mL. The time elapsed is (60 min - 20 min) = 40 min. The average evaporation rate is 108 mL / 40 min = 2.70 mL/min."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "ec5e98068c3bf2383222e3ef0499ead6c0b18cf6"
+    },
+    {
+      "questionNumber": 21,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor X. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Correct. Efficiency = (210 ÷ 520) × 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor Z. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "50%",
+          "isCorrect": false,
+          "rationale": "This value is too high for Bioreactor Y. Recalculate using (output ÷ input) × 100."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "9a9e7d86bcc10f49c50a08ba3f0277786a6f754d"
+    },
+    {
+      "questionNumber": 22,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor X. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Correct. Efficiency = (210 ÷ 520) × 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor Z. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "50%",
+          "isCorrect": false,
+          "rationale": "This value is too high for Bioreactor Y. Recalculate using (output ÷ input) × 100."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "9a9e7d86bcc10f49c50a08ba3f0277786a6f754d"
+    },
+    {
+      "questionNumber": 23,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor X. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Correct. Efficiency = (210 ÷ 520) × 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is the approximate efficiency for Bioreactor Z. Recalculate for Bioreactor Y."
+        },
+        {
+          "text": "50%",
+          "isCorrect": false,
+          "rationale": "This value is too high for Bioreactor Y. Recalculate using (output ÷ input) × 100."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "9a9e7d86bcc10f49c50a08ba3f0277786a6f754d"
+    },
+    {
+      "questionNumber": 24,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "0.3 g/cm³",
+          "isCorrect": false,
+          "rationale": "Ensure calculations are precise before rounding to the nearest tenth."
+        },
+        {
+          "text": "0.4 g/cm³",
+          "isCorrect": true,
+          "rationale": "Correct. Density A = 312 g / 40 cm³ = 7.8 g/cm³. Density B = 260 g / 35 cm³ ≈ 7.43 g/cm³. The difference is 7.8 - 7.43 = 0.37 g/cm³, which rounds to 0.4 g/cm³."
+        },
+        {
+          "text": "1.1 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value does not represent the density difference based on the provided table data."
+        },
+        {
+          "text": "7.8 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is the density of Sample A only, not the difference between Sample A and Sample B."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "a75b1cd505fc2dc7d59bbb74f7d56950370e2b1b"
+    },
+    {
+      "questionNumber": 25,
+      "type": "passage",
+      "questionText": "What is the central claim the author makes about the nature of light, based on their mathematical expression of electric and magnetic phenomena?",
+      "answerOptions": [
+        {
+          "text": "Light itself is an electromagnetic disturbance propagated through a field according to electromagnetic laws.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws,' which is the main conclusion derived from the author's work."
+        },
+        {
+          "text": "Light and magnetism are entirely separate physical phenomena with no inherent connection.",
+          "isCorrect": false,
+          "rationale": "This contradicts the passage, which states, 'Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave.'"
+        },
+        {
+          "text": "Electric and magnetic forces are instantaneous actions at a distance, unrelated to light.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'Electric and magnetic forces are not instantaneous actions at a distance,' directly refuting this option."
+        },
+        {
+          "text": "Faraday's experiments proved that light travels at an infinite velocity through empty space.",
+          "isCorrect": false,
+          "rationale": "The passage states waves travel with a 'finite velocity' and that Faraday's experiments showed the 'relation' between electric and magnetic phenomena, not the velocity of light itself in this context."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>A Dynamical Theory of the Electromagnetic Field (Excerpt)</strong></p><p><em>James Clerk Maxwell, 1865</em></p><p>The experiments of Faraday have shown that electric and magnetic phenomena are closely related. I have endeavored to express this relation in mathematical form. The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws. Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space. When these conditions change, waves are set up which travel with a finite velocity. That velocity, as determined from the experiments, is the same as that of light. Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave. Thus two great departments of physics are united.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "0b53676c681e635efbbab9924a7286b265970833"
+    },
+    {
+      "questionNumber": 26,
+      "type": "passage",
+      "questionText": "The author describes electric and magnetic forces as 'not instantaneous actions at a distance.' What alternative explanation does the author provide for these forces?",
+      "answerOptions": [
+        {
+          "text": "They are conditions of a medium filling space, and changes in these conditions create waves that travel at a finite velocity.",
+          "isCorrect": true,
+          "rationale": "The passage explains, 'Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space. When these conditions change, waves are set up which travel with a finite velocity.'"
+        },
+        {
+          "text": "They are a direct result of light interacting with different types of matter.",
+          "isCorrect": false,
+          "rationale": "The passage describes light *as* an electromagnetic disturbance, not the *cause* of electric and magnetic forces in this way. The forces are conditions of a medium."
+        },
+        {
+          "text": "They are fundamental particles that exert influence on each other without needing a medium.",
+          "isCorrect": false,
+          "rationale": "The passage attributes forces to 'conditions of a medium filling space,' not to fundamental particles acting at a distance."
+        },
+        {
+          "text": "They only occur in the presence of very specific chemical reactions that generate energy.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention chemical reactions; it describes forces as 'conditions of a medium filling space' and relates them to light propagation in physics."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>A Dynamical Theory of the Electromagnetic Field (Excerpt)</strong></p><p><em>James Clerk Maxwell, 1865</em></p><p>The experiments of Faraday have shown that electric and magnetic phenomena are closely related. I have endeavored to express this relation in mathematical form. The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws. Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space. When these conditions change, waves are set up which travel with a finite velocity. That velocity, as determined from the experiments, is the same as that of light. Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave. Thus two great departments of physics are united.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "32c68614f1393a243314971d95a0d5033b74a9e7"
+    },
+    {
+      "questionNumber": 27,
+      "type": "passage",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 28,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "1.05 mL/min",
+          "isCorrect": false,
+          "rationale": "This rate is for a different interval or fan speed (e.g., low speed from 40 to 60 min)."
+        },
+        {
+          "text": "1.35 mL/min",
+          "isCorrect": false,
+          "rationale": "This value is half of the actual calculated evaporation rate based on the data provided."
+        },
+        {
+          "text": "2.60 mL/min",
+          "isCorrect": false,
+          "rationale": "This rate is for a shorter interval within the high-speed fan data (e.g., 40 to 60 min)."
+        },
+        {
+          "text": "2.70 mL/min",
+          "isCorrect": true,
+          "rationale": "Correct. The volume evaporated is (198 mL - 90 mL) = 108 mL. The time elapsed is (60 min - 20 min) = 40 min. The average evaporation rate is 108 mL / 40 min = 2.70 mL/min."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "ec5e98068c3bf2383222e3ef0499ead6c0b18cf6"
+    },
+    {
+      "questionNumber": 29,
+      "type": "passage",
+      "questionText": "Which claim is most strongly supported by the author's experiments concerning liquids, as described in the passage?",
+      "answerOptions": [
+        {
+          "text": "Microscopic organisms only appear in liquids that are left uncovered.",
+          "isCorrect": false,
+          "rationale": "While exposed liquids become teeming with life, the underlying reason is the presence of germs in the air, not merely being uncovered. Protection from germs is the key factor, not just exposure."
+        },
+        {
+          "text": "Spontaneous generation is a valid process for the creation of new life forms in unsterilized liquids.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, \"The idea that life can arise spontaneously from lifeless matter has no foundation in experiment. Life comes only from life,\" directly refuting spontaneous generation."
+        },
+        {
+          "text": "The air carries living particles that are responsible for contaminating and animating previously pure liquids.",
+          "isCorrect": true,
+          "rationale": "The author states, \"the air contains the germs of microscopic organisms which cause fermentation and putrefaction. If a liquid is protected from these germs, it remains pure. If exposed, it becomes teeming with life.\" This directly supports the idea that air-borne living particles (germs) cause contamination and life to appear."
+        },
+        {
+          "text": "All liquids naturally contain dormant life forms that activate upon exposure to certain conditions.",
+          "isCorrect": false,
+          "rationale": "The passage attributes the appearance of life to external germs from the air, not to dormant life forms already within the liquid itself."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Germ Theory (Expanded)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>Gentlemen, I have shown that the air contains the germs of microscopic organisms which cause fermentation and putrefaction. If a liquid is protected from these germs, it remains pure. If exposed, it becomes teeming with life. The idea that life can arise spontaneously from lifeless matter has no foundation in experiment. Life comes only from life. This simple truth has immense consequences for medicine and hygiene. If we can prevent germs from entering wounds, we can prevent disease. If we can sterilize instruments and bandages, we can save lives. Thus a scientific fact becomes a moral duty: to use knowledge to lessen suffering and preserve health.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "497af3fcb266ed767975812d33c1854a0021e178"
+    },
+    {
+      "questionNumber": 30,
+      "type": "passage",
+      "questionText": "By concluding with \"Thus a scientific fact becomes a moral duty: to use knowledge to lessen suffering and preserve health,\" the author primarily aims to:",
+      "answerOptions": [
+        {
+          "text": "Encourage further scientific research into the nature of germs.",
+          "isCorrect": false,
+          "rationale": "While further research is always possible, the concluding statement focuses on the application of existing knowledge and its ethical implications, not primarily on encouraging more research into the nature of germs."
+        },
+        {
+          "text": "Stress the importance of applying scientific discoveries to improve human health and reduce suffering.",
+          "isCorrect": true,
+          "rationale": "The phrase \"to use knowledge to lessen suffering and preserve health\" directly supports the idea of applying scientific facts (like the germ theory) for the benefit of humanity, transforming it into a moral duty."
+        },
+        {
+          "text": "Suggest that scientific findings are often influenced by pre-existing moral beliefs.",
+          "isCorrect": false,
+          "rationale": "The passage discusses scientific discovery leading to a moral duty, not moral beliefs influencing scientific findings. It's a cause-and-effect relationship in the opposite direction."
+        },
+        {
+          "text": "Outline the legal obligations for medical professionals in preventing disease.",
+          "isCorrect": false,
+          "rationale": "The passage speaks of a \"moral duty,\" which is an ethical obligation, not explicitly a \"legal obligation.\" The scope is broader than just legal requirements for professionals."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Germ Theory (Expanded)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>Gentlemen, I have shown that the air contains the germs of microscopic organisms which cause fermentation and putrefaction. If a liquid is protected from these germs, it remains pure. If exposed, it becomes teeming with life. The idea that life can arise spontaneously from lifeless matter has no foundation in experiment. Life comes only from life. This simple truth has immense consequences for medicine and hygiene. If we can prevent germs from entering wounds, we can prevent disease. If we can sterilize instruments and bandages, we can save lives. Thus a scientific fact becomes a moral duty: to use knowledge to lessen suffering and preserve health.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "161f1287ca0a0d9e2eb5496d1cf1bd2ebad3fec0"
+    },
+    {
+      "questionNumber": 31,
+      "type": "multipleChoice",
+      "questionText": "What is the process by which plants use sunlight to create their own food?",
+      "answerOptions": [
+        {
+          "text": "Respiration",
+          "isCorrect": false,
+          "rationale": "Respiration is the process of converting food into energy."
+        },
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis uses sunlight, water, and carbon dioxide to create glucose (sugar)."
+        },
+        {
+          "text": "Transpiration",
+          "isCorrect": false,
+          "rationale": "Transpiration is the process of water movement through a plant and its evaporation from leaves."
+        },
+        {
+          "text": "Germination",
+          "isCorrect": false,
+          "rationale": "Germination is the process of a seed sprouting."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "e84cf3e02cc765dcb380866d0c545bd248bfc6b7"
+    },
+    {
+      "questionNumber": 32,
+      "type": "image",
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0033.png",
+      "category": "Life Science",
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionNumber": 33,
+      "type": "image",
+      "questionText": "Which energy source is projected to have the highest total consumption in 2040 on the graph?",
+      "answerOptions": [
+        {
+          "text": "Petroleum",
+          "isCorrect": true,
+          "rationale": "Correct. The petroleum line remains above the other energy-source lines at the end of the graph."
+        },
+        {
+          "text": "Nuclear",
+          "isCorrect": false,
+          "rationale": "Nuclear is much lower than petroleum on the graph."
+        },
+        {
+          "text": "Other energy",
+          "isCorrect": false,
+          "rationale": "Other energy does not reach the highest level shown."
+        },
+        {
+          "text": "None of the sources increase by 2040",
+          "isCorrect": false,
+          "rationale": "Several lines increase across the time period shown."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "366e6867eac9d4fa3319ba8179570e76759f8eeb"
+    },
+    {
+      "questionNumber": 34,
+      "type": "image",
+      "questionText": "What is the main advantage of showing all five energy sources on the same graph?",
+      "answerOptions": [
+        {
+          "text": "It allows direct comparison of long-term trends among different energy sources.",
+          "isCorrect": true,
+          "rationale": "Correct. A shared graph makes it easier to compare relative growth and overall levels across sources."
+        },
+        {
+          "text": "It guarantees every energy source will grow at the same rate.",
+          "isCorrect": false,
+          "rationale": "The graph compares trends; it does not force them to be equal."
+        },
+        {
+          "text": "It shows the exact location of each power plant in the world.",
+          "isCorrect": false,
+          "rationale": "This is a consumption graph, not a geographic map."
+        },
+        {
+          "text": "It measures atmospheric humidity instead of energy use.",
+          "isCorrect": false,
+          "rationale": "The graph is explicitly about world energy consumption."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "915603009560f1cd719c146eb1105f26dba0c798"
+    },
+    {
+      "questionNumber": 35,
+      "type": "image",
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "category": "Physical Science",
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionNumber": 36,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "0.3 g/cm³",
+          "isCorrect": false,
+          "rationale": "Ensure calculations are precise before rounding to the nearest tenth."
+        },
+        {
+          "text": "0.4 g/cm³",
+          "isCorrect": true,
+          "rationale": "Correct. Density A = 312 g / 40 cm³ = 7.8 g/cm³. Density B = 260 g / 35 cm³ ≈ 7.43 g/cm³. The difference is 7.8 - 7.43 = 0.37 g/cm³, which rounds to 0.4 g/cm³."
+        },
+        {
+          "text": "1.1 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value does not represent the density difference based on the provided table data."
+        },
+        {
+          "text": "7.8 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is the density of Sample A only, not the difference between Sample A and Sample B."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "a75b1cd505fc2dc7d59bbb74f7d56950370e2b1b"
+    },
+    {
+      "questionNumber": 37,
+      "type": "passage",
+      "questionText": "According to the passage, what is a key reason alternating current (AC) is superior to direct current (DC) for transmitting electric power over long distances?",
+      "answerOptions": [
+        {
+          "text": "AC can be easily converted to higher voltages for transmission and then reduced for local use, which minimizes power loss.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"Alternating current... can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use,\" immediately following the declaration that \"direct current systems would always suffer great losses over distance.\" This capability directly addresses and mitigates the transmission loss issue mentioned for DC."
+        },
+        {
+          "text": "AC systems employ rotating magnetic fields, making them inherently more stable for long-distance travel.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions rotating magnetic fields in relation to AC, it specifically attributes them to the construction of efficient and reliable motors, not directly to the stability of long-distance transmission itself. The primary advantage for transmission is voltage transformation."
+        },
+        {
+          "text": "AC current naturally experiences fewer losses when traveling through conductors over long distances.",
+          "isCorrect": false,
+          "rationale": "The passage implies AC systems allow for reduced losses due to voltage transformation, not that AC itself inherently experiences fewer losses regardless of voltage. It's the ability to transform voltage that is key to mitigating loss."
+        },
+        {
+          "text": "AC power generation is more efficient at harnessing distant energy sources like waterfalls.",
+          "isCorrect": false,
+          "rationale": "The passage states that the spread of AC systems makes it possible to harness waterfalls and distant sources, but this is a consequence of its efficient transmission capabilities, not the reason for AC's superiority in long-distance transmission itself. The superiority lies in its voltage transformation for reduced losses."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Use of Alternating Currents (Excerpt)</strong></p><p><em>Nikola Tesla, 1892</em></p><p>In considering the transmission of electric power, it became evident to me that direct current systems would always suffer great losses over distance. Alternating current, on the other hand, can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use. By employing rotating magnetic fields and polyphase systems, we can construct motors that are both efficient and reliable, with few parts to wear. The spread of such systems will make it possible to harness waterfalls and distant sources of energy for the service of cities. Electricity, so managed, will become not a curiosity but a universal servant, lighting homes, driving machinery, and improving daily life.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "864050e18e36fffa7dfb416f890f1f77de6af0f3"
+    },
+    {
+      "questionNumber": 38,
+      "type": "passage",
+      "questionText": "The author's prediction that electricity will become a \"universal servant\" is most strongly supported by the passage's description of AC's ability to:",
+      "answerOptions": [
+        {
+          "text": "Facilitate the transmission of power from distant generation sites to populated areas for diverse applications.",
+          "isCorrect": true,
+          "rationale": "The passage links the \"spread of such systems\" (AC) to \"harness waterfalls and distant sources of energy for the service of cities\" and describes electricity then \"lighting homes, driving machinery, and improving daily life.\" This combination directly supports the idea of electricity being widely available and useful (\"universal servant\")."
+        },
+        {
+          "text": "Be used to construct motors that are both efficient and reliable with minimal wear.",
+          "isCorrect": false,
+          "rationale": "While an important benefit of AC, the reliability of motors alone does not encompass the full scope of \"universal servant,\" which implies widespread availability and application across many facets of daily life, not just motor-driven machinery."
+        },
+        {
+          "text": "Minimize the great losses over distance that plague direct current systems.",
+          "isCorrect": false,
+          "rationale": "This is the underlying technical reason for AC's practicality, but the \"universal servant\" concept focuses more on the outcomes of that practicality—the widespread use and impact—rather than just the technical efficiency of transmission."
+        },
+        {
+          "text": "Allow electricity to transition from a scientific curiosity to a practical commodity.",
+          "isCorrect": false,
+          "rationale": "This statement describes a result or transition that enables electricity to become a \"universal servant,\" but it does not detail how AC specifically achieves this universal service, unlike the option that describes transmitting power widely for various applications."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Use of Alternating Currents (Excerpt)</strong></p><p><em>Nikola Tesla, 1892</em></p><p>In considering the transmission of electric power, it became evident to me that direct current systems would always suffer great losses over distance. Alternating current, on the other hand, can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use. By employing rotating magnetic fields and polyphase systems, we can construct motors that are both efficient and reliable, with few parts to wear. The spread of such systems will make it possible to harness waterfalls and distant sources of energy for the service of cities. Electricity, so managed, will become not a curiosity but a universal servant, lighting homes, driving machinery, and improving daily life.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "5d6931c4f81eb30dfec39b2a34f68968a9708fa3"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "26 near-duplicate question pair(s) detected",
+    "Difficulty \"easy\": 5, expected ~9",
+    "Difficulty \"medium\": 23, expected ~19"
+  ]
+}

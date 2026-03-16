@@ -348,7 +348,7 @@ function buildSciencePlan() {
   // 3 chart/table slots: 2×2q + 1×1q = 5
   slots.push(
     imageSlot(P, 'Physical Science', 'medium', 2, {
-      stimulusType: 'table',
+      stimulusType: 'chart',
       group: 'phys_table1',
       numeracy: true,
       sourcePriority: templateFirst,
@@ -415,9 +415,17 @@ function buildSciencePlan() {
     })
   );
   slots.push(
-    imageSlot(P, 'Earth & Space Science', 'medium', 3, {
+    imageSlot(P, 'Earth & Space Science', 'medium', 2, {
       stimulusType: 'chart',
       group: 'earth_chart1',
+      numeracy: true,
+      sourcePriority: templateFirst,
+    })
+  );
+  slots.push(
+    imageSlot(P, 'Earth & Space Science', 'medium', 1, {
+      stimulusType: 'chart',
+      group: 'earth_chart2',
       numeracy: true,
       sourcePriority: templateFirst,
     })

@@ -1,0 +1,984 @@
+{
+  "id": "ai_comp_science_1773680980065",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "passage",
+      "questionText": "According to the passage, what is the fundamental distinction between light and color?",
+      "answerOptions": [
+        {
+          "text": "Light is a physical entity, while color is a perception by an observer.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'The rays of light are not colored. Colors are the sensations of the observer,' directly contrasting the objective nature of light with the subjective experience of color."
+        },
+        {
+          "text": "Light can be altered by refraction, but color cannot.",
+          "isCorrect": false,
+          "rationale": "The passage indicates that light can be separated into rays that excite different colors, but it does not claim that color itself is unalterable or that light is fundamentally altered in its uncolored state."
+        },
+        {
+          "text": "Light is visible, whereas color is an abstract concept.",
+          "isCorrect": false,
+          "rationale": "While color is an abstract concept in some contexts, the passage refers to colors as 'sensations of the observer,' implying a direct experience rather than pure abstraction, and doesn't explicitly define light as merely 'visible.'"
+        },
+        {
+          "text": "Light is composed of various colors, which are then detected by the observer.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states, 'The rays of light are not colored,' refuting the idea that light itself is composed of colors. Instead, light excites the sensation of color."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Opticks (Excerpt)</strong></p><p><em>Isaac Newton, 1704</em></p><p>The rays of light are not colored. Colors are the sensations of the observer. When light is refracted or reflected, it may be separated into rays that excite different colors, but the light itself remains uncolored.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "2f24b82551f06fa24e19082f6185cc16f1f179d7"
+    },
+    {
+      "questionNumber": 2,
+      "type": "passage",
+      "questionText": "Based on the passage, what happens to light during the processes of refraction or reflection that leads to the perception of color?",
+      "answerOptions": [
+        {
+          "text": "Light itself transforms into various colors during these processes.",
+          "isCorrect": false,
+          "rationale": "The passage directly contradicts this by stating, 'but the light itself remains uncolored,' even when separated into rays that excite different colors."
+        },
+        {
+          "text": "The light is separated into different rays that are capable of stimulating the sensation of specific colors in an observer.",
+          "isCorrect": true,
+          "rationale": "The passage explains, 'When light is refracted or reflected, it may be separated into rays that excite different colors,' indicating that the separation of light's components causes the color sensation."
+        },
+        {
+          "text": "Refraction and reflection reveal colors that were inherently present within the light all along.",
+          "isCorrect": false,
+          "rationale": "This contradicts the passage's primary claim that 'The rays of light are not colored.' The colors are sensations, not inherent properties of light itself."
+        },
+        {
+          "text": "The observer's eye adds color to the uncolored light during refraction or reflection.",
+          "isCorrect": false,
+          "rationale": "While colors are 'sensations of the observer,' the passage attributes the *separation* into rays that 'excite' these colors to refraction or reflection, not to the observer adding color to undifferentiated light."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Opticks (Excerpt)</strong></p><p><em>Isaac Newton, 1704</em></p><p>The rays of light are not colored. Colors are the sensations of the observer. When light is refracted or reflected, it may be separated into rays that excite different colors, but the light itself remains uncolored.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "df7172110c08ecf95673f96653132f8cfe231481"
+    },
+    {
+      "questionNumber": 3,
+      "type": "image",
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionNumber": 4,
+      "type": "standalone",
+      "questionText": "Why does the figure include both a main pie chart and a breakdown of renewable energy sources?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "afecf01ea2098eea28b37d6c537e1ce0cdd56ceb"
+    },
+    {
+      "questionNumber": 5,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 6,
+      "type": "standalone",
+      "questionText": "Balance this equation: N₂ + __H₂ → 2NH₃. What coefficient is needed for H₂?",
+      "answerOptions": [],
+      "category": "Physical Science",
+      "bankFingerprint": "bbcb949a7e6315ca33c9692fb96de9eeea3127ed"
+    },
+    {
+      "questionNumber": 7,
+      "type": "standalone",
+      "questionText": "Balance this equation: N₂ + __H₂ → 2NH₃. What coefficient is needed for H₂?",
+      "answerOptions": [],
+      "category": "Physical Science",
+      "bankFingerprint": "bbcb949a7e6315ca33c9692fb96de9eeea3127ed"
+    },
+    {
+      "questionNumber": 8,
+      "type": "passage",
+      "questionText": "Based on the passage, what is the author's primary distinction between \"conservation\" and simply \"locking up\" natural resources?",
+      "answerOptions": [
+        {
+          "text": "Conservation involves responsible use and management for long-term benefit, while locking up resources implies no use at all.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'Conservation does not mean locking everything up; it means use without abuse—development joined to foresight,' clearly indicating responsible use rather than total restriction."
+        },
+        {
+          "text": "Locking up resources is a private fault, whereas conservation is a public crime.",
+          "isCorrect": false,
+          "rationale": "The passage states 'waste is not only a private fault; it is a public crime,' referring to waste in general, not the distinction between conservation and locking up."
+        },
+        {
+          "text": "Conservation prioritizes immediate profit, while locking up resources benefits only future generations.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states resources are 'not to be wasted for the profit of a few' and that conservation is 'for the longest time,' contradicting immediate profit as a priority."
+        },
+        {
+          "text": "Locking up resources prevents floods, but conservation regulates streams.",
+          "isCorrect": false,
+          "rationale": "The passage attributes 'prevent floods, regulate streams' to forests, not to the general concept of 'locking up resources' versus 'conservation.'"
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "4a717b1da5df5fe986504cf609c63bced261dfc0"
+    },
+    {
+      "questionNumber": 9,
+      "type": "passage",
+      "questionText": "According to the passage, what is a direct environmental consequence of cutting forests recklessly?",
+      "answerOptions": [
+        {
+          "text": "Soil erosion and the ruination of entire valleys.",
+          "isCorrect": true,
+          "rationale": "The passage directly states, 'If they are cut recklessly, the soil washes away and whole valleys are ruined.'"
+        },
+        {
+          "text": "An increase in mineral profits for a select few.",
+          "isCorrect": false,
+          "rationale": "This describes an economic or social consequence related to resource exploitation, not a direct environmental impact of reckless forest cutting itself."
+        },
+        {
+          "text": "Improved regulation of streams and rivers.",
+          "isCorrect": false,
+          "rationale": "The passage indicates that forests *regulate streams*, implying that reckless cutting would harm this function, not improve it."
+        },
+        {
+          "text": "The government losing its role as trustee for the people.",
+          "isCorrect": false,
+          "rationale": "This describes a political or governance consequence, not a direct environmental outcome of cutting forests recklessly."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Fight for Conservation (Excerpt)</strong></p><p><em>Gifford Pinchot, 1910</em></p><p>Conservation means the greatest good to the greatest number for the longest time. The forests, rivers, and minerals of the United States are not to be wasted for the profit of a few, but managed so that our children and our children’s children may have their share. Waste is not only a private fault; it is a public crime. Forests prevent floods, regulate streams, and furnish lumber. If they are cut recklessly, the soil washes away and whole valleys are ruined. The government, as trustee for the people, must see that these resources are used wisely. Conservation does not mean locking everything up; it means use without abuse—development joined to foresight.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "0f731211ac0e5a13b65423ce1e1546e6266aed55"
+    },
+    {
+      "questionNumber": 10,
+      "type": "passage",
+      "questionText": "What is the primary argument the author presents regarding the relationship between different scientific disciplines?",
+      "answerOptions": [
+        {
+          "text": "Each scientific branch operates independently and rarely influences others.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that the various branches of science are 'closely interwoven' and 'frequently illuminate another,' contradicting the idea of independent operation."
+        },
+        {
+          "text": "Mathematics is the only fundamental science upon which all others depend.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions 'Astronomy depends on mathematics,' it also gives other examples of interconnections (chemistry with heat/electricity, geology with astronomy), indicating that mathematics is not presented as the *only* fundamental dependency."
+        },
+        {
+          "text": "Diverse scientific fields are fundamentally connected and operate under shared principles.",
+          "isCorrect": true,
+          "rationale": "The passage emphasizes that sciences are 'closely interwoven' and that phenomena like planetary perturbations and tides 'obey general principles,' highlighting the unity and interconnectedness of different fields."
+        },
+        {
+          "text": "Scientific discoveries in one field are often irrelevant to other areas of study.",
+          "isCorrect": false,
+          "rationale": "The author's main object is 'to show that the laws discovered in one field frequently illuminate another,' directly refuting the idea of irrelevance."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Connexion of the Physical Sciences (Excerpt)</strong></p><p><em>Mary Somerville, 1834</em></p><p>The various branches of science, though often studied apart, are in truth closely interwoven. Astronomy depends on mathematics; chemistry is aided by heat and electricity; geology borrows from astronomy when it considers the age and formation of the Earth. It is the object of this work to show that the laws discovered in one field frequently illuminate another. The perturbations of the planets, the tides of the ocean, the form of the Earth, the properties of light—all obey general principles. The more we compare, the more we perceive a unity of design and operation. Such a view not only enlarges the mind but encourages further inquiry, for it suggests that nature is intelligible and harmonious.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "d2b8335a192504144203563839b6ab4c53c2c490"
+    },
+    {
+      "questionNumber": 11,
+      "type": "passage",
+      "questionText": "Based on the passage, what can be inferred about the benefit of understanding the connections between various scientific fields?",
+      "answerOptions": [
+        {
+          "text": "It limits the scope of scientific inquiry by focusing on universal laws.",
+          "isCorrect": false,
+          "rationale": "The passage states that such a view 'encourages further inquiry' and 'enlarges the mind,' which contradicts the idea of limiting inquiry."
+        },
+        {
+          "text": "It primarily simplifies complex scientific problems by reducing them to basic components.",
+          "isCorrect": false,
+          "rationale": "While finding unity might simplify understanding, the passage emphasizes 'enlarges the mind' and 'encourages further inquiry,' rather than just simplification, as the primary benefit."
+        },
+        {
+          "text": "It makes nature seem more understandable and motivates further exploration.",
+          "isCorrect": true,
+          "rationale": "The passage concludes that this view 'suggests that nature is intelligible and harmonious' and 'encourages further inquiry,' directly supporting this inference."
+        },
+        {
+          "text": "It proves that all scientific phenomena have been fully explained by existing laws.",
+          "isCorrect": false,
+          "rationale": "The phrase 'encourages further inquiry' implies that there is still more to discover and understand, not that everything has been fully explained."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Connexion of the Physical Sciences (Excerpt)</strong></p><p><em>Mary Somerville, 1834</em></p><p>The various branches of science, though often studied apart, are in truth closely interwoven. Astronomy depends on mathematics; chemistry is aided by heat and electricity; geology borrows from astronomy when it considers the age and formation of the Earth. It is the object of this work to show that the laws discovered in one field frequently illuminate another. The perturbations of the planets, the tides of the ocean, the form of the Earth, the properties of light—all obey general principles. The more we compare, the more we perceive a unity of design and operation. Such a view not only enlarges the mind but encourages further inquiry, for it suggests that nature is intelligible and harmonious.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "13a60070c5719b15b25295758460bd399b6635c6"
+    },
+    {
+      "questionNumber": 12,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 13,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 14,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 15,
+      "type": "image",
+      "questionText": "Which energy source is projected to have the highest total consumption in 2040 on the graph?",
+      "answerOptions": [
+        {
+          "text": "Petroleum",
+          "isCorrect": true,
+          "rationale": "Correct. The petroleum line remains above the other energy-source lines at the end of the graph."
+        },
+        {
+          "text": "Nuclear",
+          "isCorrect": false,
+          "rationale": "Nuclear is much lower than petroleum on the graph."
+        },
+        {
+          "text": "Other energy",
+          "isCorrect": false,
+          "rationale": "Other energy does not reach the highest level shown."
+        },
+        {
+          "text": "None of the sources increase by 2040",
+          "isCorrect": false,
+          "rationale": "Several lines increase across the time period shown."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "366e6867eac9d4fa3319ba8179570e76759f8eeb"
+    },
+    {
+      "questionNumber": 16,
+      "type": "image",
+      "questionText": "What is the main advantage of showing all five energy sources on the same graph?",
+      "answerOptions": [
+        {
+          "text": "It allows direct comparison of long-term trends among different energy sources.",
+          "isCorrect": true,
+          "rationale": "Correct. A shared graph makes it easier to compare relative growth and overall levels across sources."
+        },
+        {
+          "text": "It guarantees every energy source will grow at the same rate.",
+          "isCorrect": false,
+          "rationale": "The graph compares trends; it does not force them to be equal."
+        },
+        {
+          "text": "It shows the exact location of each power plant in the world.",
+          "isCorrect": false,
+          "rationale": "This is a consumption graph, not a geographic map."
+        },
+        {
+          "text": "It measures atmospheric humidity instead of energy use.",
+          "isCorrect": false,
+          "rationale": "The graph is explicitly about world energy consumption."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "915603009560f1cd719c146eb1105f26dba0c798"
+    },
+    {
+      "questionNumber": 17,
+      "type": "passage",
+      "questionText": "Based on the passage, what was the author's ultimate goal in developing a system for classifying plants and animals?",
+      "answerOptions": [
+        {
+          "text": "To understand the inherent order and design within the natural world.",
+          "isCorrect": true,
+          "rationale": "The passage states the purpose is \"not merely to label, but to reveal the plan of the Creator as shown in the forms of life\" and that classification is \"the key to understanding the richness of the natural world.\""
+        },
+        {
+          "text": "To provide a universal language for naturalists to communicate about species.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions the binomial system allows naturalists to \"speak the same language,\" this is presented as a practical benefit of the system, not the author's overarching \"purpose.\""
+        },
+        {
+          "text": "To count the exact number of different species existing on Earth.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes making sense of diversity and revealing order, not a census of species. Counting is not mentioned as a goal."
+        },
+        {
+          "text": "To demonstrate the vastness and confusion present in nature.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that diversity is \"not confused\" and that \"Nature is orderly,\" making this option incorrect."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Systema Naturae (Excerpt)</strong></p><p><em>Carl Linnaeus, 1735</em></p><p>The diversity of living things is vast, yet it is not confused. Nature is orderly. To make sense of this order, I have proposed that every plant and animal be given two names: a generic name and a specific name. By this binomial system, all naturalists in every land may speak the same language. Creatures that resemble each other in structure and reproduction are placed in the same genus; related genera are grouped into higher ranks. The purpose is not merely to label, but to reveal the plan of the Creator as shown in the forms of life. By careful observation of parts—the petals of flowers, the teeth of animals, the number of limbs—we can place each organism in a natural system. Thus classification becomes the key to understanding the richness of the natural world.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "7ea741dc3099cec1b0f7f62831b2933163b4d15b"
+    },
+    {
+      "questionNumber": 18,
+      "type": "passage",
+      "questionText": "According to the passage, which principle guides the placement of organisms into specific classifications?",
+      "answerOptions": [
+        {
+          "text": "Similarities in physical structure and reproductive characteristics.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"Creatures that resemble each other in structure and reproduction are placed in the same genus\" and mentions observing \"parts—the petals of flowers, the teeth of animals, the number of limbs\" for classification."
+        },
+        {
+          "text": "The geographic location where the organisms are discovered.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention geographic location as a criterion for classification; it focuses on internal and external physical traits and reproduction."
+        },
+        {
+          "text": "The historical evolutionary relationships between different species.",
+          "isCorrect": false,
+          "rationale": "The passage refers to \"the plan of the Creator\" and similarities in structure and reproduction as the basis for classification, not evolutionary history, which is a modern concept not discussed here."
+        },
+        {
+          "text": "The complexity of an organism's behavior and social interactions.",
+          "isCorrect": false,
+          "rationale": "The passage details physical parts (\"petals of flowers, the teeth of animals, the number of limbs\") and reproduction as key observations for classification, not behavior or social interactions."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Systema Naturae (Excerpt)</strong></p><p><em>Carl Linnaeus, 1735</em></p><p>The diversity of living things is vast, yet it is not confused. Nature is orderly. To make sense of this order, I have proposed that every plant and animal be given two names: a generic name and a specific name. By this binomial system, all naturalists in every land may speak the same language. Creatures that resemble each other in structure and reproduction are placed in the same genus; related genera are grouped into higher ranks. The purpose is not merely to label, but to reveal the plan of the Creator as shown in the forms of life. By careful observation of parts—the petals of flowers, the teeth of animals, the number of limbs—we can place each organism in a natural system. Thus classification becomes the key to understanding the richness of the natural world.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "81cdcbf011d86893b139af427fb28f0c46de7c43"
+    },
+    {
+      "questionNumber": 19,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 20,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 21,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 22,
+      "type": "image",
+      "questionText": "Which process shown in the diagram happens first as moist ocean air moves toward the mountain?",
+      "answerOptions": [
+        {
+          "text": "The air rises along the windward slope and cools.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows moist air forced upward first, which leads to cooling and later precipitation."
+        },
+        {
+          "text": "The air descends on the leeward side and becomes drier.",
+          "isCorrect": false,
+          "rationale": "That occurs after the air has already risen, cooled, and lost moisture on the windward side."
+        },
+        {
+          "text": "Groundwater collects at the base of the mountain.",
+          "isCorrect": false,
+          "rationale": "Groundwater is not the first atmospheric process shown in the diagram."
+        },
+        {
+          "text": "The ocean temperature falls below freezing.",
+          "isCorrect": false,
+          "rationale": "The diagram is about orographic lifting, not ocean freezing."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "7485d96b4ec78594f184c918ad0c19854bd7b1fd"
+    },
+    {
+      "questionNumber": 23,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "9d6b1167dd3f610bbce20325adf0b6067605c58c"
+    },
+    {
+      "questionNumber": 24,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "9d6b1167dd3f610bbce20325adf0b6067605c58c"
+    },
+    {
+      "questionNumber": 25,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 26,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 27,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "dd47571e77cd17050a5ae49e500a7fbdcdea6e86"
+    },
+    {
+      "questionNumber": 28,
+      "type": "image",
+      "questionText": "What conclusion is best supported by the hurricane image and the sea-surface temperature data shown with it?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "97cd5546229dcea8ca2b2de9d4ee529171153ffe"
+    },
+    {
+      "questionNumber": 29,
+      "type": "passage",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 30,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "dd47571e77cd17050a5ae49e500a7fbdcdea6e86"
+    },
+    {
+      "questionNumber": 31,
+      "type": "multipleChoice",
+      "questionText": "Which two body systems work together to deliver oxygen to cells and remove carbon dioxide?",
+      "answerOptions": [
+        {
+          "text": "Digestive and Nervous",
+          "isCorrect": false,
+          "rationale": "These systems have different primary functions."
+        },
+        {
+          "text": "Skeletal and Muscular",
+          "isCorrect": false,
+          "rationale": "These systems work together for movement and support."
+        },
+        {
+          "text": "Respiratory and Circulatory",
+          "isCorrect": true,
+          "rationale": "Correct. The respiratory system takes in oxygen, and the circulatory system (blood) transports it to the cells and carries away waste CO2."
+        },
+        {
+          "text": "Endocrine and Urinary",
+          "isCorrect": false,
+          "rationale": "The endocrine system produces hormones, and the urinary system removes waste."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "54dfa185dc5fc0a4bb9f9576f2d33d36de277e21"
+    },
+    {
+      "questionNumber": 32,
+      "type": "image",
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "category": "Physical Science",
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionNumber": 33,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 34,
+      "type": "passage",
+      "questionText": "Based on the passage, what significant conclusion is drawn about the nature of light?",
+      "answerOptions": [
+        {
+          "text": "Light is a form of energy that can be converted into magnetic fields.",
+          "isCorrect": false,
+          "rationale": "The passage states light *is* an electromagnetic disturbance, not something converted into magnetic fields. While related, this option misrepresents the relationship."
+        },
+        {
+          "text": "Light is an electromagnetic disturbance that propagates through a field at a finite velocity.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws\" and \"waves are set up which travel with a finite velocity. That velocity...is the same as that of light.\""
+        },
+        {
+          "text": "Light acts instantaneously across distances, linking electric and magnetic phenomena.",
+          "isCorrect": false,
+          "rationale": "The passage states that electric and magnetic forces are *not* instantaneous actions at a distance, and waves travel with a *finite* velocity."
+        },
+        {
+          "text": "Light is a substance that creates both electric and magnetic forces.",
+          "isCorrect": false,
+          "rationale": "The passage suggests light is an \"affection of the same substance\" as magnetism and an electromagnetic wave, implying it's a manifestation or disturbance, not the substance itself creating forces. The forces are \"conditions of a medium.\""
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>A Dynamical Theory of the Electromagnetic Field (Excerpt)</strong></p><p><em>James Clerk Maxwell, 1865</em></p><p>The experiments of Faraday have shown that electric and magnetic phenomena are closely related. I have endeavored to express this relation in mathematical form. The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws. Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space. When these conditions change, waves are set up which travel with a finite velocity. That velocity, as determined from the experiments, is the same as that of light. Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave. Thus two great departments of physics are united.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "db7d58db89e7eb98160a85b0e5823e8a82144ad7"
+    },
+    {
+      "questionNumber": 35,
+      "type": "passage",
+      "questionText": "The author states that 'What is called trained nursing is the knowledge of how to manage the patient’s environment.' What does this definition emphasize as the primary responsibility of a trained nurse?",
+      "answerOptions": [
+        {
+          "text": "To administer complex medical treatments and medications prescribed by doctors.",
+          "isCorrect": false,
+          "rationale": "The passage defines trained nursing in terms of 'managing the patient’s environment' and lists actions like opening windows and airing beds, not administering complex medical treatments."
+        },
+        {
+          "text": "To ensure that the patient's surroundings are conducive to natural healing processes.",
+          "isCorrect": true,
+          "rationale": "The passage states the nurse’s duty is 'to place the patient in the best possible condition for nature to act upon him,' specifying elements like 'pure air, pure water, efficient drainage, cleanliness, and light,' which directly relates to managing the environment for natural healing."
+        },
+        {
+          "text": "To provide emotional support and comfort to patients during their illness.",
+          "isCorrect": false,
+          "rationale": "While emotional support may be part of nursing, the passage specifically defines 'trained nursing' by its focus on physical environmental management, such as clean air and light, rather than emotional support."
+        },
+        {
+          "text": "To conduct scientific research on new methods to combat infectious diseases.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on practical, immediate environmental management within a hospital setting, not on conducting scientific research or developing new disease-combating methods."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>A Dynamical Theory of the Electromagnetic Field (Excerpt)</strong></p><p><em>James Clerk Maxwell, 1865</em></p><p>The experiments of Faraday have shown that electric and magnetic phenomena are closely related. I have endeavored to express this relation in mathematical form. The result is that light itself appears to be an electromagnetic disturbance propagated through the field according to electromagnetic laws. Electric and magnetic forces are not instantaneous actions at a distance, but conditions of a medium filling space. When these conditions change, waves are set up which travel with a finite velocity. That velocity, as determined from the experiments, is the same as that of light. Hence we are led to the remarkable conclusion that light and magnetism are affections of the same substance, and that light is an electromagnetic wave. Thus two great departments of physics are united.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "cb28e12d752f2f1bad37720bf1a8caa19482839f"
+    },
+    {
+      "questionNumber": 36,
+      "type": "image",
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0033.png",
+      "category": "Life Science",
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionNumber": 37,
+      "type": "passage",
+      "questionText": "According to the passage, what is the most critical factor contributing to patient mortality in hospitals, beyond their original illness?",
+      "answerOptions": [
+        {
+          "text": "The lack of advanced medical technology and surgical expertise.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention advanced medical technology or surgical expertise as contributing factors to patient mortality beyond their original illness; it focuses on environmental conditions."
+        },
+        {
+          "text": "Poor environmental conditions such as foul air, inadequate drainage, and lack of cleanliness.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'Yet many patients perish not from their original disease but from foul air, bad drainage, and want of cleanliness,' identifying these environmental factors as critical."
+        },
+        {
+          "text": "The patient's inherent inability to recover from disease without direct medical intervention.",
+          "isCorrect": false,
+          "rationale": "The passage implies that 'nature to act upon him' is key, suggesting that patients can recover if placed in optimal conditions, rather than attributing mortality solely to their inherent inability to recover."
+        },
+        {
+          "text": "Nurses lacking a comprehensive understanding of specific disease pathologies.",
+          "isCorrect": false,
+          "rationale": "The passage defines 'trained nursing' as managing the patient’s environment, not necessarily understanding specific disease pathologies, and attributes mortality to environmental factors rather than a lack of pathology knowledge."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Notes on Nursing (Excerpt)</strong></p><p><em>Florence Nightingale, 1859</em></p><p>The very first requirement in a hospital is that it should do the sick no harm. Yet many patients perish not from their original disease but from foul air, bad drainage, and want of cleanliness. The nurse’s duty is to place the patient in the best possible condition for nature to act upon him. This means pure air, pure water, efficient drainage, cleanliness, and light. The sick should not breathe the air they have just exhaled. Windows must be opened, beds aired, and rooms kept free of needless noise. What is called trained nursing is the knowledge of how to manage the patient’s environment. It is no small thing, for on it often depends whether life or death shall prevail.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "a34f05b4ff6ffbc2948206dd5e91fc7d0bc8be95"
+    },
+    {
+      "questionNumber": 38,
+      "type": "passage",
+      "questionText": "The author states that 'What is called trained nursing is the knowledge of how to manage the patient’s environment.' What does this definition emphasize as the primary responsibility of a trained nurse?",
+      "answerOptions": [
+        {
+          "text": "To administer complex medical treatments and medications prescribed by doctors.",
+          "isCorrect": false,
+          "rationale": "The passage defines trained nursing in terms of 'managing the patient’s environment' and lists actions like opening windows and airing beds, not administering complex medical treatments."
+        },
+        {
+          "text": "To ensure that the patient's surroundings are conducive to natural healing processes.",
+          "isCorrect": true,
+          "rationale": "The passage states the nurse’s duty is 'to place the patient in the best possible condition for nature to act upon him,' specifying elements like 'pure air, pure water, efficient drainage, cleanliness, and light,' which directly relates to managing the environment for natural healing."
+        },
+        {
+          "text": "To provide emotional support and comfort to patients during their illness.",
+          "isCorrect": false,
+          "rationale": "While emotional support may be part of nursing, the passage specifically defines 'trained nursing' by its focus on physical environmental management, such as clean air and light, rather than emotional support."
+        },
+        {
+          "text": "To conduct scientific research on new methods to combat infectious diseases.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on practical, immediate environmental management within a hospital setting, not on conducting scientific research or developing new disease-combating methods."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Notes on Nursing (Excerpt)</strong></p><p><em>Florence Nightingale, 1859</em></p><p>The very first requirement in a hospital is that it should do the sick no harm. Yet many patients perish not from their original disease but from foul air, bad drainage, and want of cleanliness. The nurse’s duty is to place the patient in the best possible condition for nature to act upon him. This means pure air, pure water, efficient drainage, cleanliness, and light. The sick should not breathe the air they have just exhaled. Windows must be opened, beds aired, and rooms kept free of needless noise. What is called trained nursing is the knowledge of how to manage the patient’s environment. It is no small thing, for on it often depends whether life or death shall prevail.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "3b265ea11e0593b23c8bf39fe67b1e0584ddef74"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "19 near-duplicate question pair(s) detected",
+    "Difficulty \"easy\": 3, expected ~9",
+    "Difficulty \"medium\": 25, expected ~19"
+  ]
+}

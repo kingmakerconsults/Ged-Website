@@ -124,6 +124,9 @@ function validateFilledPlan(plan, filledSlots) {
     const hasPassage =
       typeof q.passage === 'string' && q.passage.trim().length > 50;
     const hasImage = Boolean(q.stimulusImage || q.imageUrl || q.imageURL);
+    const declaredStimulusType = String(
+      q.stimulusType || q.itemType || ''
+    ).toLowerCase();
     const hasData = Boolean(
       q.dataTable ||
       q.chartData ||
@@ -135,7 +138,7 @@ function validateFilledPlan(plan, filledSlots) {
       slot.stimulusType === 'passage/data'
         ? hasPassage || hasData
         : ['chart', 'table'].includes(slot.stimulusType)
-          ? hasData
+          ? hasData || (hasImage && declaredStimulusType === slot.stimulusType)
           : ['diagram', 'image'].includes(slot.stimulusType)
             ? hasImage
             : slot.stimulusType === 'passage'

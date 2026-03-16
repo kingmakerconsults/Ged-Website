@@ -1299,10 +1299,120 @@ function pickPassageFor(subject, { topic = '', difficulty = '' } = {}) {
   };
 }
 
+function sciencePassageMatchesCategory(passage, category) {
+  if (!passage || !category) return true;
+
+  const categoryAliases = {
+    'life science': [
+      'life science',
+      'biology',
+      'evolution',
+      'ecology',
+      'microbiology',
+      'genetics',
+      'botany',
+      'physiology',
+      'anatomy',
+      'medicine',
+    ],
+    'physical science': [
+      'physical science',
+      'physics',
+      'chemistry',
+      'electricity',
+      'magnetism',
+      'light',
+      'motion',
+      'radioactivity',
+      'atom',
+      'electromagnetic',
+    ],
+    'earth & space science': [
+      'earth & space science',
+      'earth science',
+      'space science',
+      'astronomy',
+      'geology',
+      'environmental science',
+      'conservation',
+      'climate',
+      'ocean',
+      'sea',
+      'river',
+      'mountain',
+      'earth',
+    ],
+  };
+
+  const acceptedLabels = categoryAliases[String(category).toLowerCase()] || [
+    String(category).toLowerCase(),
+  ];
+  const haystack = [passage.topic, passage.area, passage.label, passage.title]
+    .filter(Boolean)
+    .map((value) => String(value).toLowerCase())
+    .join(' ');
+
+  return acceptedLabels.some((label) => haystack.includes(label));
+}
+
+function pickSciencePassageForCategory(category, usedIds = new Set()) {
+  const pool = Array.isArray(PASSAGE_DB.science) ? PASSAGE_DB.science : [];
+  if (!pool.length) return null;
+
+  const categoryPool = pool.filter((passage) =>
+    sciencePassageMatchesCategory(passage, category)
+  );
+  let candidates = categoryPool.filter((passage) => !usedIds.has(passage.id));
+
+  if (!candidates.length) {
+    candidates = categoryPool.length
+      ? categoryPool
+      : pool.filter((passage) => !usedIds.has(passage.id));
+  }
+  if (!candidates.length) {
+    candidates = pool;
+  }
+
+  const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+  if (!chosen) return null;
+  if (chosen.id) usedIds.add(chosen.id);
+
+  return {
+    id: chosen.id || null,
+    title: chosen.title || chosen.label || '',
+    author: chosen.author || '',
+    year: chosen.year || '',
+    text: chosen.text || chosen.passage || '',
+    topic: chosen.topic || chosen.area || '',
+  };
+}
+
+function buildSciencePassageStimulus(passage) {
+  if (!passage?.text) return '';
+
+  const titleLine = passage.title
+    ? `<p><strong>${String(passage.title)}</strong></p>`
+    : '';
+  const bylineParts = [passage.author, passage.year].filter(Boolean);
+  const byline = bylineParts.length
+    ? `<p><em>${bylineParts.join(', ')}</em></p>`
+    : '';
+
+  return normalizeTables(
+    `<div class="passage-text">${titleLine}${byline}<p>${String(passage.text)}</p></div>`
+  );
+}
+
 // Generate a set of science literacy (reading comprehension) questions from a bank passage
-async function generateScienceLiteracySet(numQuestions = 5, aiOptions = {}) {
+async function generateScienceLiteracySet(
+  numQuestions = 5,
+  aiOptions = {},
+  options = {}
+) {
   try {
-    const passage = pickPassageFor('science');
+    const passage =
+      options.passageSource ||
+      pickSciencePassageForCategory(options.category, options.usedPassageIds);
     if (!passage || !passage.text) return [];
     const capped = Math.max(1, Math.min(8, numQuestions));
     const prompt = `You are a GED Science exam creator.
@@ -1318,6 +1428,9 @@ Do not reference images, charts, or graphs that are not in the passage text.
 Each question must have 4 answer options with exactly one correct marked.
 Return JSON ONLY with {"questions": [ {"questionText": "...", "answerOptions": [ {"text": "...", "isCorrect": true, "rationale": "..." }, {"text": "...", "isCorrect": false, "rationale": "..."} ] } ] }.
 Do not wrap JSON in markdown fences.
+
+PASSAGE TITLE: ${passage.title || 'Untitled passage'}
+PASSAGE CONTEXT: ${passage.topic || options.category || 'Science'}
 
 PASSAGE:\n"""${passage.text}"""`;
 
@@ -1352,12 +1465,16 @@ PASSAGE:\n"""${passage.text}"""`;
     const res = await callAI(prompt, schema, aiOptions);
     const qs = Array.isArray(res?.questions) ? res.questions : [];
     return qs.map((q) => ({
-      ...q,
-      passage: normalizeTables(passage.text),
+      ...enforceWordCapsOnItem(q, 'Science'),
+      passage: buildSciencePassageStimulus(passage),
       questionText: normalizeTables(q.questionText || ''),
       type: 'passage',
+      itemType: 'passage',
       qaProfileKey: 'literacy',
-      source: 'literacy',
+      source: 'sciencePassageBank:literacy',
+      passageBankId: passage.id || null,
+      passageTitle: passage.title || '',
+      topicTags: passage.topic ? [passage.topic] : [],
     }));
   } catch (e) {
     try {
@@ -1552,6 +1669,40 @@ function instantiateScienceScenarioClusterForSlot(
   return instantiateScienceScenarioCluster(slot?.category, excludeIds);
 }
 
+const SCIENCE_COMPREHENSIVE_PRIORITY_IMAGE_PATHS = new Set([
+  '/images/Science/ged_scince_fig_8_0001.png',
+  '/images/Science/ged_sci_1_1024x847_0001.png',
+  '/images/Science/unclassified_0052.png',
+  '/images/Science/unclassified_0041.png',
+  '/images/Science/unclassified_0032.png',
+  '/images/Science/unclassified_0033.png',
+  '/images/Science/licensed_image_0009.jpg',
+  '/images/Science/unclassified_0007.png',
+  '/images/Science/unclassified_0008.png',
+  '/images/Science/unclassified_0027.png',
+]);
+
+function scienceImageEntrySupportsStimulus(entry, stimulusType) {
+  if (!entry || !stimulusType) return true;
+  const supported = Array.isArray(entry.stimulusTypes)
+    ? entry.stimulusTypes.map((value) => String(value).toLowerCase())
+    : [];
+  if (!supported.length) return true;
+  if (stimulusType === 'image') {
+    return supported.includes('image') || supported.includes('diagram');
+  }
+  if (stimulusType === 'diagram') {
+    return supported.includes('diagram') || supported.includes('image');
+  }
+  if (stimulusType === 'chart') {
+    return supported.includes('chart') || supported.includes('graph');
+  }
+  if (stimulusType === 'table') {
+    return supported.includes('table') || supported.includes('chart');
+  }
+  return supported.includes(String(stimulusType).toLowerCase());
+}
+
 function pickScienceImageForSlot(slot, usedPaths = new Set()) {
   const scienceCatalog = getSeededScienceImages(
     Array.isArray(curatedImages) && curatedImages.length
@@ -1562,9 +1713,9 @@ function pickScienceImageForSlot(slot, usedPaths = new Set()) {
 
   const groupPathMap = {
     life_genetics: ['/images/Science/dominance_genetics_0001.png'],
-    life_image1: ['/images/Science/human_body_0003.png'],
-    phys_image1: ['/images/Science/ged_scince_fig_3_0001.png'],
-    earth_diag1: ['/images/Science/ged_scince_fig_13_0001.png'],
+    life_image1: ['/images/Science/unclassified_0033.png'],
+    phys_image1: ['/images/Science/unclassified_0027.png'],
+    earth_diag1: ['/images/Science/ged_scince_fig_8_0001.png'],
   };
 
   const preferredPaths = groupPathMap[slot?.group] || [];
@@ -1572,16 +1723,23 @@ function pickScienceImageForSlot(slot, usedPaths = new Set()) {
     (img) =>
       preferredPaths.includes(img.filePath) &&
       !usedPaths.has(img.filePath) &&
-      hasHandAuthoredScienceImageQuestions(img)
+      hasHandAuthoredScienceImageQuestions(img) &&
+      scienceImageEntrySupportsStimulus(
+        getScienceImageBankEntry(img),
+        slot?.stimulusType
+      )
   );
   if (preferred) {
     usedPaths.add(preferred.filePath);
     return preferred;
   }
 
-  const fallback = scienceCatalog
+  const reusablePreferred = scienceCatalog
     .filter((img) => {
-      if (!img?.filePath || usedPaths.has(img.filePath)) return false;
+      if (!img?.filePath) return false;
+      if (!SCIENCE_COMPREHENSIVE_PRIORITY_IMAGE_PATHS.has(img.filePath)) {
+        return false;
+      }
       const entry = getScienceImageBankEntry(img);
       if (!entry || !hasHandAuthoredScienceImageQuestions(img)) return false;
       if (
@@ -1589,6 +1747,9 @@ function pickScienceImageForSlot(slot, usedPaths = new Set()) {
         Array.isArray(entry.subjectAreas) &&
         !entry.subjectAreas.includes(slot.category)
       ) {
+        return false;
+      }
+      if (!scienceImageEntrySupportsStimulus(entry, slot?.stimulusType)) {
         return false;
       }
       if (
@@ -1606,6 +1767,53 @@ function pickScienceImageForSlot(slot, usedPaths = new Set()) {
       return leftRank - rightRank;
     })[0];
 
+  if (reusablePreferred?.filePath) {
+    return reusablePreferred;
+  }
+
+  const fallback = scienceCatalog
+    .filter((img) => {
+      if (!img?.filePath || usedPaths.has(img.filePath)) return false;
+      const entry = getScienceImageBankEntry(img);
+      if (!entry || !hasHandAuthoredScienceImageQuestions(img)) return false;
+      if (
+        slot?.category &&
+        Array.isArray(entry.subjectAreas) &&
+        !entry.subjectAreas.includes(slot.category)
+      ) {
+        return false;
+      }
+      if (!scienceImageEntrySupportsStimulus(entry, slot?.stimulusType)) {
+        return false;
+      }
+      if (
+        slot?.group !== 'life_genetics' &&
+        Array.isArray(entry.topicTags) &&
+        entry.topicTags.includes('punnett-square')
+      ) {
+        return false;
+      }
+      return true;
+    })
+    .sort((left, right) => {
+      const leftPreferred = SCIENCE_COMPREHENSIVE_PRIORITY_IMAGE_PATHS.has(
+        left.filePath
+      )
+        ? 0
+        : 1;
+      const rightPreferred = SCIENCE_COMPREHENSIVE_PRIORITY_IMAGE_PATHS.has(
+        right.filePath
+      )
+        ? 0
+        : 1;
+      if (leftPreferred !== rightPreferred) {
+        return leftPreferred - rightPreferred;
+      }
+      const leftRank = getScienceImageBankEntry(left)?.qualityRank || 999;
+      const rightRank = getScienceImageBankEntry(right)?.qualityRank || 999;
+      return leftRank - rightRank;
+    })[0];
+
   if (fallback?.filePath) {
     usedPaths.add(fallback.filePath);
   }
@@ -1613,7 +1821,10 @@ function pickScienceImageForSlot(slot, usedPaths = new Set()) {
 }
 
 function buildTrustedScienceImageQuestionSet(slot, usedPaths = new Set()) {
-  if (slot?.group === 'life_genetics') {
+  if (
+    slot?.group === 'life_genetics' ||
+    !['image', 'diagram', 'chart', 'table'].includes(slot?.stimulusType)
+  ) {
     return [];
   }
 
@@ -1624,6 +1835,7 @@ function buildTrustedScienceImageQuestionSet(slot, usedPaths = new Set()) {
     image,
     category: slot.category,
     numQuestions: slot.questionsNeeded,
+    slotStimulusType: slot.stimulusType,
   }).slice(0, slot.questionsNeeded);
 }
 
@@ -10344,9 +10556,21 @@ function hasHandAuthoredScienceImageQuestions(img) {
   return Array.isArray(getScienceImageBankEntry(img)?.questions);
 }
 
-function buildScienceImageQuestionItems({ image, category, questions }) {
+function buildScienceImageQuestionItems({
+  image,
+  category,
+  questions,
+  slotStimulusType,
+}) {
   const entry = getScienceImageBankEntry(image) || {};
   const groupId = `sci-img-${image.filePath?.split('/').pop() || Date.now()}`;
+  const defaultStimulusType = Array.isArray(entry.stimulusTypes)
+    ? entry.stimulusTypes.find((type) =>
+        ['chart', 'table', 'diagram', 'image'].includes(
+          String(type).toLowerCase()
+        )
+      ) || 'image'
+    : 'image';
 
   return questions.map((question) =>
     enforceWordCapsOnItem(
@@ -10359,6 +10583,10 @@ function buildScienceImageQuestionItems({ image, category, questions }) {
         subject: 'Science',
         category,
         imageUrl: image.filePath,
+        stimulusType:
+          slotStimulusType ||
+          question.stimulusType ||
+          String(defaultStimulusType).toLowerCase(),
         stimulusImage: {
           src: image.filePath,
           alt: image.altText || '',
@@ -10375,6 +10603,7 @@ function getHandAuthoredScienceImageQuestions({
   image,
   category,
   numQuestions,
+  slotStimulusType,
 }) {
   const entry = getScienceImageBankEntry(image);
   if (!Array.isArray(entry?.questions) || !entry.questions.length) return [];
@@ -10382,6 +10611,7 @@ function getHandAuthoredScienceImageQuestions({
   return buildScienceImageQuestionItems({
     image,
     category,
+    slotStimulusType,
     questions: entry.questions.slice(0, Math.max(1, numQuestions)),
   });
 }
@@ -12545,6 +12775,7 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
   // ── Science generators ────────────────────────────────────────────
   if (normalizedSubject === 'Science') {
     const usedScienceImagePaths = new Set();
+    const usedSciencePassageIds = new Set();
     const scenarioExcludeByCategory = new Map();
     const numeracyExcludeByCategory = new Map();
 
@@ -12581,6 +12812,17 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
         return q ? [q] : [];
       }
       if (slot.stimulusType === 'passage/data') {
+        if (!slot.numeracy && slot.group !== 'life_genetics') {
+          const bankSet = await generateScienceLiteracySet(
+            slot.questionsNeeded,
+            aiOptions,
+            {
+              category: slot.category,
+              usedPassageIds: usedSciencePassageIds,
+            }
+          );
+          if (bankSet.length) return bankSet;
+        }
         const scenario = instantiateScienceScenarioClusterForSlot(
           slot,
           getScenarioExclude(slot.category)
@@ -12603,13 +12845,18 @@ function buildSlotGenerators(normalizedSubject, aiOptions) {
 
     generators.aiFill = async (slot, opts) => {
       if (slot.stimulusType === 'passage/data') {
-        // For science literacy / passage slots
-        if (slot.group && slot.group.includes('literacy')) {
+        if (!slot.numeracy && slot.group !== 'life_genetics') {
           const set = await generateScienceLiteracySet(
             slot.questionsNeeded,
-            opts
+            opts,
+            {
+              category: slot.category,
+              usedPassageIds: usedSciencePassageIds,
+            }
           );
-          return Array.isArray(set) ? set : [];
+          if (Array.isArray(set) && set.length) {
+            return set;
+          }
         }
         const qs = await generatePassageSet(
           slot.category,

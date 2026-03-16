@@ -1,0 +1,849 @@
+{
+  "id": "ai_comp_science_1773680153594",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "9d6b1167dd3f610bbce20325adf0b6067605c58c"
+    },
+    {
+      "questionNumber": 2,
+      "type": "standalone",
+      "questionText": "What coefficient is needed to balance this equation: __H₂ + O₂ → 2H₂O?",
+      "answerOptions": [],
+      "category": "Physical Science",
+      "bankFingerprint": "66cb138df3295106e3ab31c1e7157463c5cf97c9"
+    },
+    {
+      "questionNumber": 3,
+      "type": "standalone",
+      "questionText": "Balance this equation: N₂ + __H₂ → 2NH₃. What coefficient is needed for H₂?",
+      "answerOptions": [],
+      "category": "Physical Science",
+      "bankFingerprint": "bbcb949a7e6315ca33c9692fb96de9eeea3127ed"
+    },
+    {
+      "questionNumber": 4,
+      "type": "image",
+      "questionText": "In the element table, lithium has an atomic mass of 7 and 3 protons. What value should replace X for the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "category": "Physical Science",
+      "bankFingerprint": "f6c93ae4882e8d7ad7e191e23d4509864e90628e"
+    },
+    {
+      "questionNumber": 5,
+      "type": "image",
+      "questionText": "The table shows aluminum forms a 3+ ion and combines with chlorine. Which formula should replace Z for the sample compound with chlorine?",
+      "answerOptions": [
+        {
+          "text": "AlCl",
+          "isCorrect": false,
+          "rationale": "One chlorine atom would not balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "AlCl2",
+          "isCorrect": false,
+          "rationale": "Two chlorine atoms would create a total charge of 2−, not 3−."
+        },
+        {
+          "text": "AlCl3",
+          "isCorrect": true,
+          "rationale": "Correct. Three chloride ions balance the 3+ charge on aluminum."
+        },
+        {
+          "text": "Al3Cl",
+          "isCorrect": false,
+          "rationale": "This does not follow the charge pattern shown in the table."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "category": "Physical Science",
+      "bankFingerprint": "dbd78a9282e0bb5824d5ae20875815b525a89bb9"
+    },
+    {
+      "questionNumber": 6,
+      "type": "passage",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 7,
+      "type": "multipleChoice",
+      "questionText": "In a forest ecosystem, grass is eaten by rabbits. The rabbits are eaten by foxes, and the foxes are eaten by owls. When any of these organisms die, they are broken down by fungi. If a disease were to suddenly wipe out the rabbit population, which organism would be most directly affected?",
+      "answerOptions": [
+        {
+          "text": "The grass",
+          "isCorrect": false,
+          "rationale": "The grass population would likely increase due to the loss of a primary consumer."
+        },
+        {
+          "text": "The foxes",
+          "isCorrect": true,
+          "rationale": "Correct. The foxes rely on the rabbits as a primary food source. A loss of rabbits would directly impact their survival."
+        },
+        {
+          "text": "The owls",
+          "isCorrect": false,
+          "rationale": "While the owls might be indirectly affected if the fox population declines, the most direct impact is on the foxes."
+        },
+        {
+          "text": "The fungi",
+          "isCorrect": false,
+          "rationale": "The fungi decompose all organisms, so they would still have a source of dead organic matter."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "785025e72aaa6b09dd04a4613ca7fbfb2207612a"
+    },
+    {
+      "questionNumber": 8,
+      "type": "image",
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0033.png",
+      "category": "Life Science",
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionNumber": 9,
+      "type": "image",
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionNumber": 10,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "dd47571e77cd17050a5ae49e500a7fbdcdea6e86"
+    },
+    {
+      "questionNumber": 11,
+      "type": "passage",
+      "questionText": "According to the passage, what development was crucial in transforming chemistry from a mysterious art into a science?",
+      "answerOptions": [
+        {
+          "text": "The ability to combine different particles to create new substances.",
+          "isCorrect": false,
+          "rationale": "The passage states 'Nothing is created and nothing is lost,' emphasizing transformation, not creation of new substances in a way that distinguishes it as a science."
+        },
+        {
+          "text": "The careful and systematic approach of naming, measuring, and recording chemical processes.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation.'"
+        },
+        {
+          "text": "The discovery that all materials increase in weight when burned in air.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions metal increasing in weight when burned, this is an example used to illustrate a principle, not the overarching development that transformed chemistry into a science."
+        },
+        {
+          "text": "The understanding that particles can be separated or combined but never truly disappear.",
+          "isCorrect": false,
+          "rationale": "This describes the law of conservation of mass, a key principle, but the passage highlights the <em>methodology</em> (naming, measuring, recording) as the crucial element for the transformation into a science."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "59bec10529ebffe6ca004c3c9adcf21a1ea4ca71"
+    },
+    {
+      "questionNumber": 12,
+      "type": "passage",
+      "questionText": "Based on the law of conservation of mass as described in the passage, what can be concluded about a chemical reaction where a gas is produced?",
+      "answerOptions": [
+        {
+          "text": "The gas produced will always be heavier than the original substances.",
+          "isCorrect": false,
+          "rationale": "The passage states the total weight remains the same, not that the gas alone is heavier than the original substances."
+        },
+        {
+          "text": "The total weight of all substances involved, including the gas, will remain constant.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass.'"
+        },
+        {
+          "text": "Some of the original mass must have been lost to form the gas, thus decreasing the total weight.",
+          "isCorrect": false,
+          "rationale": "The law of conservation of mass states 'nothing is lost in the operations of chemistry,' indicating mass is conserved, not lost."
+        },
+        {
+          "text": "The reaction violates the law of conservation of mass if a gas escapes.",
+          "isCorrect": false,
+          "rationale": "The passage clarifies that even when a gas is produced, the weight before and after remains the same, meaning the law holds true regardless of the state of matter."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "1cd0506afd325ebe702d1e69700bc0188d083c52"
+    },
+    {
+      "questionNumber": 13,
+      "type": "passage",
+      "questionText": "Which observation from the Galápagos Islands primarily led the author to question the immutability of species?",
+      "answerOptions": [
+        {
+          "text": "Many organic productions were aboriginal creations found nowhere else.",
+          "isCorrect": false,
+          "rationale": "While the uniqueness of species was remarkable, it was the variations <em>within</em> closely related species across different islands that most directly led the author to question immutability, as it suggested modification over time."
+        },
+        {
+          "text": "The archipelago seemed to be a 'little world within itself,' isolated from other landmasses.",
+          "isCorrect": false,
+          "rationale": "The isolation of the archipelago set the stage, but it was the observable differences among related species on different islands that provided the direct evidence against species being unchanging."
+        },
+        {
+          "text": "Species such as mockingbirds and tortoises exhibited slight differences from island to island, despite their resemblance to mainland forms.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that the slight differences in mockingbirds from island to island and the distinct marks on tortoises by which their island of origin could be determined were the 'facts' that seemed 'explicable if species had been modified by their conditions of life,' directly leading to the idea that species may not be immutable."
+        },
+        {
+          "text": "The birds and reptiles were closely allied to those of the American continent.",
+          "isCorrect": false,
+          "rationale": "This observation suggested a common ancestry, but it was the subsequent divergence and variation <em>within</em> the archipelago that prompted the questioning of species immutability."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Voyage of the Beagle (Galápagos Excerpt)</strong></p><p><em>Charles Darwin, 1839</em></p><p>The natural history of this archipelago is very remarkable: it seems to be a little world within itself. Most of the organic productions are aboriginal creations, found nowhere else. The birds, though closely allied to those of the American continent, are in many cases peculiar species. So it is with the reptiles and the plants. Seeing this, I was deeply impressed with the idea that species may not be immutable. Why should the Galápagos mockingbirds, for example, differ slightly from island to island, though all resemble the mainland form? Why should the tortoises bear marks by which an inhabitant can tell from which island they came? These facts seemed explicable if species had been modified by their conditions of life. The voyage thus planted in my mind the seeds of that later theory which I called natural selection.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "fa5ce78067689b14e6e6cd5ad5b78972b7383bb5"
+    },
+    {
+      "questionNumber": 14,
+      "type": "passage",
+      "questionText": "Based on the passage, what can be inferred about the author's prior understanding of species before his observations in the Galápagos?",
+      "answerOptions": [
+        {
+          "text": "He believed that species always originated from nearby continental landmasses.",
+          "isCorrect": false,
+          "rationale": "While the passage notes the alliance of island species to continental ones, the author's main shift in understanding was about the <em>fixity</em> of species, not primarily their geographic origin."
+        },
+        {
+          "text": "He likely adhered to the then-prevalent idea that species were fixed and unchangeable.",
+          "isCorrect": true,
+          "rationale": "The statement 'I was deeply impressed with the idea that species may not be immutable' suggests a significant shift in his thinking. This implies that prior to these observations, he, like many scientists of his era, likely held the belief that species were immutable or unchanging."
+        },
+        {
+          "text": "He had already formulated the initial concepts of natural selection.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that the voyage 'planted in my mind the seeds of that later theory,' indicating that the theory of natural selection was an outcome of these observations, not a pre-existing concept he held."
+        },
+        {
+          "text": "He understood that environmental conditions were the primary driver of species modification.",
+          "isCorrect": false,
+          "rationale": "The idea that 'species had been modified by their conditions of life' was a conclusion drawn from his Galápagos observations, not a prior understanding."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Voyage of the Beagle (Galápagos Excerpt)</strong></p><p><em>Charles Darwin, 1839</em></p><p>The natural history of this archipelago is very remarkable: it seems to be a little world within itself. Most of the organic productions are aboriginal creations, found nowhere else. The birds, though closely allied to those of the American continent, are in many cases peculiar species. So it is with the reptiles and the plants. Seeing this, I was deeply impressed with the idea that species may not be immutable. Why should the Galápagos mockingbirds, for example, differ slightly from island to island, though all resemble the mainland form? Why should the tortoises bear marks by which an inhabitant can tell from which island they came? These facts seemed explicable if species had been modified by their conditions of life. The voyage thus planted in my mind the seeds of that later theory which I called natural selection.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "78ad8421bb6c30e1f05ade347abc16bb2644153f"
+    },
+    {
+      "questionNumber": 15,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 16,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 17,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 18,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 19,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 20,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "9d6b1167dd3f610bbce20325adf0b6067605c58c"
+    },
+    {
+      "questionNumber": 21,
+      "type": "passage",
+      "questionText": "What is the primary message the author conveys about humanity's relationship with the sea?",
+      "answerOptions": [
+        {
+          "text": "Humans must learn to control the sea to survive.",
+          "isCorrect": false,
+          "rationale": "The passage suggests humans are linked to the sea, implying interdependence rather than control. The phrase \"not above it\" directly contradicts the idea of human control."
+        },
+        {
+          "text": "Humans are an integral part of the natural systems influenced by the sea.",
+          "isCorrect": true,
+          "rationale": "The passage states, \"Man has begun to understand that he is linked to the sea, not above it,\" indicating a connection and a recognition of the sea's profound influence on Earth's systems, including humanity."
+        },
+        {
+          "text": "Humans have always fully understood the powerful influence of the ocean.",
+          "isCorrect": false,
+          "rationale": "The passage says, \"Man has begun to understand,\" which implies a recent or ongoing realization, not a historical full understanding."
+        },
+        {
+          "text": "Humans are primarily responsible for the changes occurring in the sea.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the sea's powerful influence on the land, climate, and life, and humanity's realization of its link to the sea. It does not discuss human responsibility for changes within the sea."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>To stand at the shore is to witness eternity. The sea has shaped the land, governed the climate, and sustained the web of life. The rhythm of tides, the endless rising and falling, tells us that change and balance are the essence of the Earth. Man has begun to understand that he is linked to the sea, not above it.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "7397c1ee04be53509000abd9bab8cf1206ade231"
+    },
+    {
+      "questionNumber": 22,
+      "type": "passage",
+      "questionText": "Based on the passage, which of the following best describes the sea's fundamental role on Earth?",
+      "answerOptions": [
+        {
+          "text": "It primarily serves as a barrier preventing land erosion.",
+          "isCorrect": false,
+          "rationale": "While the sea \"shaped the land,\" this option is too narrow and doesn't encompass the sea's broader roles in governing climate and sustaining life, as mentioned in the passage."
+        },
+        {
+          "text": "It acts as a consistent force maintaining Earth's static conditions.",
+          "isCorrect": false,
+          "rationale": "The passage refers to the \"rhythm of tides, the endless rising and falling,\" emphasizing constant change and balance, not static conditions."
+        },
+        {
+          "text": "It is a dynamic and essential element that influences both the physical environment and living systems.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states the sea has \"shaped the land, governed the climate, and sustained the web of life,\" covering physical environment (land, climate) and living systems (web of life), and implies dynamism through \"rhythm of tides.\""
+        },
+        {
+          "text": "It is an isolated entity that rarely interacts with terrestrial environments.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes the sea's profound interactions by stating it \"shaped the land, governed the climate,\" directly linking it to terrestrial and atmospheric environments."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Sea Around Us (Excerpt)</strong></p><p><em>Rachel Carson, 1951</em></p><p>To stand at the shore is to witness eternity. The sea has shaped the land, governed the climate, and sustained the web of life. The rhythm of tides, the endless rising and falling, tells us that change and balance are the essence of the Earth. Man has begun to understand that he is linked to the sea, not above it.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "d5acc2d817ad9ec35575b69cdb044026078ada71"
+    },
+    {
+      "questionNumber": 23,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "dd47571e77cd17050a5ae49e500a7fbdcdea6e86"
+    },
+    {
+      "questionNumber": 24,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 25,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "fe8e8f74075c362dc467e632be3668f98239f23f"
+    },
+    {
+      "questionNumber": 26,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "dd47571e77cd17050a5ae49e500a7fbdcdea6e86"
+    },
+    {
+      "questionNumber": 27,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "dd47571e77cd17050a5ae49e500a7fbdcdea6e86"
+    },
+    {
+      "questionNumber": 28,
+      "type": "passage",
+      "questionText": "According to the passage, what increases an individual's likelihood of survival amidst the 'struggle for existence'?",
+      "answerOptions": [
+        {
+          "text": "Being born in greater numbers than other individuals.",
+          "isCorrect": false,
+          "rationale": "The passage states that 'many more individuals of each species are born than can possibly survive,' indicating that high birth rates lead to a struggle, not guaranteed survival for an individual."
+        },
+        {
+          "text": "Developing variations that provide a personal advantage.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'if it vary in any manner profitable to itself, will have a better chance of surviving.'"
+        },
+        {
+          "text": "Avoiding any form of competition with other members of its species.",
+          "isCorrect": false,
+          "rationale": "The passage highlights a 'recurring struggle for existence,' implying that competition is an unavoidable aspect of survival."
+        },
+        {
+          "text": "Receiving direct selection from its environment or other species.",
+          "isCorrect": false,
+          "rationale": "The passage describes natural selection as a consequence of varying profitably and surviving, not as an active selection by external forces on individuals."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Origin of Species (Excerpt)</strong></p><p><em>Charles Darwin, 1859</em></p><p>As many more individuals of each species are born than can possibly survive; and as, consequently, there is a recurring struggle for existence, it follows that any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "44af44dc94585fc6798b86b47fbfead7d2e0e801"
+    },
+    {
+      "questionNumber": 29,
+      "type": "passage",
+      "questionText": "Based on the information presented in the passage, what is the most accurate interpretation of being 'naturally selected'?",
+      "answerOptions": [
+        {
+          "text": "It means that an individual is chosen by other species for its unique traits.",
+          "isCorrect": false,
+          "rationale": "The passage describes natural selection as a consequence of an individual's own profitable variations and better survival, not an active choice by other species."
+        },
+        {
+          "text": "It implies that all individuals of a species will eventually survive and reproduce successfully.",
+          "isCorrect": false,
+          "rationale": "The passage begins by stating that 'many more individuals of each species are born than can possibly survive,' directly contradicting this interpretation."
+        },
+        {
+          "text": "It signifies that individuals with advantageous variations are more likely to endure and pass on those traits.",
+          "isCorrect": true,
+          "rationale": "The passage connects profitable variations to a 'better chance of surviving, and thus be naturally selected,' implying that these individuals are favored by the process of survival and reproduction."
+        },
+        {
+          "text": "It indicates a process where the struggle for existence is completely eliminated for a species.",
+          "isCorrect": false,
+          "rationale": "The passage mentions a 'recurring struggle for existence,' indicating that this struggle is ongoing and not eliminated by natural selection."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Origin of Species (Excerpt)</strong></p><p><em>Charles Darwin, 1859</em></p><p>As many more individuals of each species are born than can possibly survive; and as, consequently, there is a recurring struggle for existence, it follows that any being, if it vary in any manner profitable to itself, will have a better chance of surviving, and thus be naturally selected.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "89440fb2548f103437c828928ce8f2cea05a9f28"
+    },
+    {
+      "questionNumber": 30,
+      "type": "passage",
+      "questionText": "The author suggests that alternating current (AC) is superior to direct current (DC) for widespread electric power transmission primarily because AC systems:",
+      "answerOptions": [
+        {
+          "text": "Suffer fewer losses over short distances.",
+          "isCorrect": false,
+          "rationale": "The passage states direct current suffers great losses over distance, implying AC is better for long distances, not specifically short ones."
+        },
+        {
+          "text": "Can be easily adjusted to different voltage levels for efficient long-distance travel.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that AC \"can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use,\" highlighting this as a key advantage."
+        },
+        {
+          "text": "Do not require rotating magnetic fields for their operation.",
+          "isCorrect": false,
+          "rationale": "The passage mentions \"employing rotating magnetic fields\" for the construction of AC motors, not that AC systems avoid them."
+        },
+        {
+          "text": "Are simpler to construct and maintain due to fewer parts.",
+          "isCorrect": false,
+          "rationale": "The passage mentions AC motors having \"few parts to wear\" making them efficient and reliable, but this is specific to motors, not the overall transmission system as its primary advantage."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Use of Alternating Currents (Excerpt)</strong></p><p><em>Nikola Tesla, 1892</em></p><p>In considering the transmission of electric power, it became evident to me that direct current systems would always suffer great losses over distance. Alternating current, on the other hand, can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use. By employing rotating magnetic fields and polyphase systems, we can construct motors that are both efficient and reliable, with few parts to wear. The spread of such systems will make it possible to harness waterfalls and distant sources of energy for the service of cities. Electricity, so managed, will become not a curiosity but a universal servant, lighting homes, driving machinery, and improving daily life.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "de111b5b2a34588f6efe455ca9da3f1b386e1b34"
+    },
+    {
+      "questionNumber": 31,
+      "type": "passage",
+      "questionText": "Based on the passage, what is the author's main point regarding the future impact of alternating current systems?",
+      "answerOptions": [
+        {
+          "text": "They will primarily serve to replace existing direct current motors in factories.",
+          "isCorrect": false,
+          "rationale": "While AC motors are mentioned as efficient, the author's vision extends far beyond just replacing motors, encompassing cities, homes, and improving daily life."
+        },
+        {
+          "text": "They will enable the widespread and practical use of electricity to improve daily life.",
+          "isCorrect": true,
+          "rationale": "The author concludes by stating electricity will become \"a universal servant, lighting homes, driving machinery, and improving daily life,\" clearly emphasizing its transformative and widespread practical impact."
+        },
+        {
+          "text": "They will make electricity a more exclusive and specialized commodity.",
+          "isCorrect": false,
+          "rationale": "The phrase \"universal servant\" contradicts the idea of electricity becoming more exclusive or specialized."
+        },
+        {
+          "text": "They will lead to the discovery of entirely new sources of energy.",
+          "isCorrect": false,
+          "rationale": "The passage mentions harnessing \"waterfalls and distant sources of energy\" that already exist, not discovering new ones."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Use of Alternating Currents (Excerpt)</strong></p><p><em>Nikola Tesla, 1892</em></p><p>In considering the transmission of electric power, it became evident to me that direct current systems would always suffer great losses over distance. Alternating current, on the other hand, can be transformed to higher voltages, transmitted over long lines, and then reduced again for practical use. By employing rotating magnetic fields and polyphase systems, we can construct motors that are both efficient and reliable, with few parts to wear. The spread of such systems will make it possible to harness waterfalls and distant sources of energy for the service of cities. Electricity, so managed, will become not a curiosity but a universal servant, lighting homes, driving machinery, and improving daily life.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "e35cfb96d6d2ab0e2da853aba651aa7c390ca5f7"
+    },
+    {
+      "questionNumber": 32,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "9d6b1167dd3f610bbce20325adf0b6067605c58c"
+    },
+    {
+      "questionNumber": 33,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "9d6b1167dd3f610bbce20325adf0b6067605c58c"
+    },
+    {
+      "questionNumber": 34,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "9d6b1167dd3f610bbce20325adf0b6067605c58c"
+    },
+    {
+      "questionNumber": 35,
+      "type": "passage",
+      "questionText": "What is the author's primary purpose in discussing observations made through microscopes?",
+      "answerOptions": [
+        {
+          "text": "To highlight the historical development and advancements in microscope technology.",
+          "isCorrect": false,
+          "rationale": "The passage describes the observations made using microscopes, but it does not delve into the history or technological development of the instruments themselves."
+        },
+        {
+          "text": "To demonstrate that common objects appear vastly different and more complex when viewed at a magnified level.",
+          "isCorrect": true,
+          "rationale": "The author provides examples like cork, insects, and a razor's edge to illustrate how microscopes reveal intricate details that challenge initial perceptions, thereby showing a 'new visible world'."
+        },
+        {
+          "text": "To encourage readers to purchase and use their own microscopes for scientific inquiry.",
+          "isCorrect": false,
+          "rationale": "While the passage promotes curiosity, it does not explicitly advocate for readers to acquire microscopes, focusing instead on the scientific implications of their use."
+        },
+        {
+          "text": "To argue that all prior scientific understanding based on naked-eye observation is fundamentally flawed.",
+          "isCorrect": false,
+          "rationale": "The passage suggests that our senses 'do not reveal the whole of nature,' implying an incomplete rather than entirely flawed understanding."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Micrographia (Excerpt)</strong></p><p><em>Robert Hooke, 1665</em></p><p>By the help of microscopes, there is nothing so small as to escape our inquiry; hence there is a new visible world discovered to the understanding. A slice of cork, which to the naked eye appears solid, is seen to be composed of many little boxes or cells, like a honeycomb. Insects that seemed but tiny specks are revealed to be elaborately jointed machines, furnished with hairs, eyes, and claws. The edge of a razor, thought to be smooth, is found ragged and uneven. These observations teach us humility, for they show that our senses do not reveal the whole of nature. They also teach us curiosity, for who can tell what other wonders lie hidden beyond the reach of our present instruments?</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "c4d8c778329a2ba3435fc2baa8c2d31d319b45e3"
+    },
+    {
+      "questionNumber": 36,
+      "type": "passage",
+      "questionText": "Based on the passage, what inference can be made about the relationship between human senses and scientific discovery?",
+      "answerOptions": [
+        {
+          "text": "Human senses are sufficient for a complete understanding of the natural world, and instruments are largely unnecessary.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that 'our senses do not reveal the whole of nature,' indicating their insufficiency alone."
+        },
+        {
+          "text": "Scientific discovery often begins with observations made by the naked eye, but instruments are essential to uncover deeper truths.",
+          "isCorrect": true,
+          "rationale": "The passage implies that initial perceptions from the naked eye (e.g., solid cork, tiny insects, smooth razor) are incomplete, and microscopes are needed to reveal the true complexity, leading to 'humility' and 'curiosity' about what lies beyond."
+        },
+        {
+          "text": "The most important scientific discoveries are purely theoretical and do not rely on direct observation.",
+          "isCorrect": false,
+          "rationale": "The passage is entirely focused on empirical observation through instruments, contradicting the idea that discoveries are purely theoretical."
+        },
+        {
+          "text": "All scientific inquiry must first prove that human senses are inherently deceptive before any valid research can proceed.",
+          "isCorrect": false,
+          "rationale": "The passage suggests senses are incomplete, not inherently deceptive, and the focus is on what instruments <em>add</em> to understanding, not a prerequisite proof of deception."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Micrographia (Excerpt)</strong></p><p><em>Robert Hooke, 1665</em></p><p>By the help of microscopes, there is nothing so small as to escape our inquiry; hence there is a new visible world discovered to the understanding. A slice of cork, which to the naked eye appears solid, is seen to be composed of many little boxes or cells, like a honeycomb. Insects that seemed but tiny specks are revealed to be elaborately jointed machines, furnished with hairs, eyes, and claws. The edge of a razor, thought to be smooth, is found ragged and uneven. These observations teach us humility, for they show that our senses do not reveal the whole of nature. They also teach us curiosity, for who can tell what other wonders lie hidden beyond the reach of our present instruments?</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "77760276306a4fe814c602f4fc2cd72eed307a66"
+    },
+    {
+      "questionNumber": 37,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 38,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "31 near-duplicate question pair(s) detected",
+    "Difficulty \"easy\": 3, expected ~9",
+    "Difficulty \"medium\": 27, expected ~19"
+  ]
+}

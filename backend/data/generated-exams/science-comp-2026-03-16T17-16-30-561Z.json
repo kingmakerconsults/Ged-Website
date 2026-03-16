@@ -1,0 +1,1236 @@
+{
+  "id": "ai_comp_science_1773681275648",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 2,
+      "type": "image",
+      "questionText": "Which energy source is projected to have the highest total consumption in 2040 on the graph?",
+      "answerOptions": [
+        {
+          "text": "Petroleum",
+          "isCorrect": true,
+          "rationale": "Correct. The petroleum line remains above the other energy-source lines at the end of the graph."
+        },
+        {
+          "text": "Nuclear",
+          "isCorrect": false,
+          "rationale": "Nuclear is much lower than petroleum on the graph."
+        },
+        {
+          "text": "Other energy",
+          "isCorrect": false,
+          "rationale": "Other energy does not reach the highest level shown."
+        },
+        {
+          "text": "None of the sources increase by 2040",
+          "isCorrect": false,
+          "rationale": "Several lines increase across the time period shown."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "366e6867eac9d4fa3319ba8179570e76759f8eeb"
+    },
+    {
+      "questionNumber": 3,
+      "type": "image",
+      "questionText": "What is the main advantage of showing all five energy sources on the same graph?",
+      "answerOptions": [
+        {
+          "text": "It allows direct comparison of long-term trends among different energy sources.",
+          "isCorrect": true,
+          "rationale": "Correct. A shared graph makes it easier to compare relative growth and overall levels across sources."
+        },
+        {
+          "text": "It guarantees every energy source will grow at the same rate.",
+          "isCorrect": false,
+          "rationale": "The graph compares trends; it does not force them to be equal."
+        },
+        {
+          "text": "It shows the exact location of each power plant in the world.",
+          "isCorrect": false,
+          "rationale": "This is a consumption graph, not a geographic map."
+        },
+        {
+          "text": "It measures atmospheric humidity instead of energy use.",
+          "isCorrect": false,
+          "rationale": "The graph is explicitly about world energy consumption."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "915603009560f1cd719c146eb1105f26dba0c798"
+    },
+    {
+      "questionNumber": 4,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 5,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 6,
+      "type": "standalone",
+      "questionText": "Which of the following organisms perform cellular respiration?",
+      "answerOptions": [
+        {
+          "text": "Animals only",
+          "isCorrect": false,
+          "rationale": "Plants and many other organisms also respire."
+        },
+        {
+          "text": "Plants only",
+          "isCorrect": false,
+          "rationale": "Animals and many other organisms also respire."
+        },
+        {
+          "text": "Both plants and animals",
+          "isCorrect": true,
+          "rationale": "Correct. Nearly all living organisms, including plants, animals, fungi, and bacteria, perform cellular respiration to get energy from their food."
+        },
+        {
+          "text": "Neither plants nor animals",
+          "isCorrect": false,
+          "rationale": "All living things need energy to survive."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "367d1692f6d51e509c245fd8363f8416d3ada3f3"
+    },
+    {
+      "questionNumber": 7,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "2.7 mL/min",
+          "isCorrect": true,
+          "rationale": "The water evaporated is 198 mL - 90 mL = 108 mL. The time elapsed is 60 min - 20 min = 40 min. The average rate is 108 mL / 40 min = 2.7 mL/min."
+        },
+        {
+          "text": "1.35 mL/min",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Recalculate the change in volume over the change in time for the specified period."
+        },
+        {
+          "text": "2.6 mL/min",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Double-check your calculation for the change in volume and time."
+        },
+        {
+          "text": "—",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Perform the calculation based on the table data."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "c59968029745f77b39a84c0e493a0f3354131277"
+    },
+    {
+      "questionNumber": 8,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency for Bioreactor Y = (Chemical Output / Light Input) * 100 = (210 kJ / 520 kJ) * 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Double-check your calculation for Bioreactor Y's efficiency."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Ensure you are rounding to the nearest whole percent correctly."
+        },
+        {
+          "text": "43%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Calculate the ratio of output to input and convert to a percentage."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "c73b87fc31ed878b274d55c3fc02e6f3537d1e8a"
+    },
+    {
+      "questionNumber": 9,
+      "type": "image",
+      "questionText": "According to the carbon-cycle diagram, which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0033.png",
+      "category": "Life Science",
+      "bankFingerprint": "f9a129a79b470643e5baa5c780c874859e7ce8a4"
+    },
+    {
+      "questionNumber": 10,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency for Bioreactor Y = (Chemical Output / Light Input) * 100 = (210 kJ / 520 kJ) * 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Double-check your calculation for Bioreactor Y's efficiency."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Ensure you are rounding to the nearest whole percent correctly."
+        },
+        {
+          "text": "43%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Calculate the ratio of output to input and convert to a percentage."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "c73b87fc31ed878b274d55c3fc02e6f3537d1e8a"
+    },
+    {
+      "questionNumber": 11,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency for Bioreactor Y = (Chemical Output / Light Input) * 100 = (210 kJ / 520 kJ) * 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Double-check your calculation for Bioreactor Y's efficiency."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Ensure you are rounding to the nearest whole percent correctly."
+        },
+        {
+          "text": "43%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Calculate the ratio of output to input and convert to a percentage."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "c73b87fc31ed878b274d55c3fc02e6f3537d1e8a"
+    },
+    {
+      "questionNumber": 12,
+      "type": "passage",
+      "questionText": "Based on the experiments described in the passage, which conclusion is most strongly supported regarding the origin of microscopic life in a liquid?",
+      "answerOptions": [
+        {
+          "text": "Microscopic organisms appear in liquids only when exposed to germs from the air.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'If a liquid is protected from these germs, it remains pure. If exposed, it becomes teeming with life,' directly supporting that exposure to airborne germs causes life to appear."
+        },
+        {
+          "text": "Life spontaneously generates in liquids when conditions are favorable for growth.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly refutes this idea, stating, 'The idea that life can arise spontaneously from lifeless matter has no foundation in experiment. Life comes only from life.'"
+        },
+        {
+          "text": "All liquids inherently contain dormant microscopic life that activates when exposed to oxygen.",
+          "isCorrect": false,
+          "rationale": "The passage attributes the life in liquids to 'germs of microscopic organisms which cause fermentation and putrefaction' found in the air, not dormant life within the liquid itself, nor solely to oxygen exposure."
+        },
+        {
+          "text": "The purity of a liquid is primarily determined by its chemical composition, not external factors.",
+          "isCorrect": false,
+          "rationale": "The passage argues against this by demonstrating that external 'germs' are the key factor in whether a liquid remains pure or becomes 'teeming with life,' not just its inherent composition."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Germ Theory (Expanded)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>Gentlemen, I have shown that the air contains the germs of microscopic organisms which cause fermentation and putrefaction. If a liquid is protected from these germs, it remains pure. If exposed, it becomes teeming with life. The idea that life can arise spontaneously from lifeless matter has no foundation in experiment. Life comes only from life. This simple truth has immense consequences for medicine and hygiene. If we can prevent germs from entering wounds, we can prevent disease. If we can sterilize instruments and bandages, we can save lives. Thus a scientific fact becomes a moral duty: to use knowledge to lessen suffering and preserve health.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "da71d3c11d57e3b0fee8c090659dc42b4d94e59a"
+    },
+    {
+      "questionNumber": 13,
+      "type": "passage",
+      "questionText": "The author concludes that 'a scientific fact becomes a moral duty.' What 'moral duty' is directly derived from the scientific findings presented in the passage?",
+      "answerOptions": [
+        {
+          "text": "To apply the knowledge of germ transmission to improve public health and reduce suffering.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states this duty: 'Thus a scientific fact becomes a moral duty: to use knowledge to lessen suffering and preserve health,' which follows from the implications for medicine and hygiene."
+        },
+        {
+          "text": "To conduct more experiments to discover new types of microscopic organisms.",
+          "isCorrect": false,
+          "rationale": "While scientific exploration is important, the passage focuses on the application of existing knowledge to 'lessen suffering and preserve health,' not the moral duty to discover more organisms."
+        },
+        {
+          "text": "To educate the public about the importance of funding scientific research.",
+          "isCorrect": false,
+          "rationale": "The passage discusses the application of a scientific finding to practical problems, not the advocacy for research funding as a moral duty."
+        },
+        {
+          "text": "To ensure that all individuals have access to purified liquids for consumption.",
+          "isCorrect": false,
+          "rationale": "While related to hygiene, this is a specific application and narrower than the broad 'moral duty' to 'lessen suffering and preserve health' by preventing germs in general medical contexts."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Germ Theory (Expanded)</strong></p><p><em>Louis Pasteur, 1864</em></p><p>Gentlemen, I have shown that the air contains the germs of microscopic organisms which cause fermentation and putrefaction. If a liquid is protected from these germs, it remains pure. If exposed, it becomes teeming with life. The idea that life can arise spontaneously from lifeless matter has no foundation in experiment. Life comes only from life. This simple truth has immense consequences for medicine and hygiene. If we can prevent germs from entering wounds, we can prevent disease. If we can sterilize instruments and bandages, we can save lives. Thus a scientific fact becomes a moral duty: to use knowledge to lessen suffering and preserve health.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "14c01fa5f4a2476e467c38fc1a49a1d274637e6c"
+    },
+    {
+      "questionNumber": 14,
+      "type": "passage",
+      "questionText": "According to the passage, what is the primary benefit of installing pointed metal rods on structures during a thunderstorm?",
+      "answerOptions": [
+        {
+          "text": "The rods create a new, safe electrical current that neutralizes the thundercloud.",
+          "isCorrect": false,
+          "rationale": "The passage states, \"Electricity is not created by our machines, but collected and transferred,\" indicating rods do not create new currents."
+        },
+        {
+          "text": "The rods allow scientists to collect and store lightning for future energy needs.",
+          "isCorrect": false,
+          "rationale": "The passage mentions \"collected and transferred\" in the context of electricity generally, but the rods' purpose is specifically for protection by diverting lightning, not storage for energy needs."
+        },
+        {
+          "text": "The rods attract and guide lightning safely into the moist earth, preventing damage to the structure.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, \"the lightning will often follow it rather than strike a building. Thus we may protect houses...by affixing to them metal rods which rise above the highest point and pass into the moist earth below.\""
+        },
+        {
+          "text": "The rods generate sparks that deter lightning from approaching the building.",
+          "isCorrect": false,
+          "rationale": "While sparks may be drawn from a rod, the primary protection mechanism described is the lightning following the rod to the earth, not deterrence via sparks."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Experiments and Observations on Electricity (Excerpt)</strong></p><p><em>Benjamin Franklin, 1751</em></p><p>It appears from many experiments that lightning is an electrical fire. When a pointed rod is elevated toward a thundercloud, sparks may be drawn from it; and if the rod be conducted to the earth, the lightning will often follow it rather than strike a building. Thus we may protect houses, ships, and magazines of powder by affixing to them metal rods which rise above the highest point and pass into the moist earth below. Electricity is not created by our machines, but collected and transferred. It may be positive or negative, and bodies become charged when these quantities are uneven. By understanding this fluid, we may turn a fearful natural phenomenon into a thing partially under human control.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "dfffb707c3e3e1447b0eae88124e7de15db455ef"
+    },
+    {
+      "questionNumber": 15,
+      "type": "passage",
+      "questionText": "The author concludes that by understanding electricity, humans can turn a 'fearful natural phenomenon into a thing partially under human control.' Which aspect of electricity, as described in the passage, most directly supports this conclusion?",
+      "answerOptions": [
+        {
+          "text": "Electricity can be positive or negative, determining its overall strength.",
+          "isCorrect": false,
+          "rationale": "While electricity being positive or negative is mentioned, the passage does not link this directly to human control of lightning, but rather to how bodies become charged."
+        },
+        {
+          "text": "Electricity is collected and transferred, not created, allowing for its diversion.",
+          "isCorrect": true,
+          "rationale": "The passage explains that lightning is electrical fire and can be diverted (transferred) away from structures using rods, which is a form of partial control, consistent with electricity being collected and transferred rather than created."
+        },
+        {
+          "text": "Lightning is an 'electrical fire' which means it can be extinguished with specific agents.",
+          "isCorrect": false,
+          "rationale": "The passage identifies lightning as an 'electrical fire' but does not suggest it can be extinguished; instead, it describes how to protect against its destructive path."
+        },
+        {
+          "text": "Bodies become charged when electrical quantities are uneven, making them attract lightning.",
+          "isCorrect": false,
+          "rationale": "This describes how bodies become charged but doesn't directly explain how humans exert control over lightning, nor does it state charged bodies attract lightning in a way that implies controlled diversion."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Experiments and Observations on Electricity (Excerpt)</strong></p><p><em>Benjamin Franklin, 1751</em></p><p>It appears from many experiments that lightning is an electrical fire. When a pointed rod is elevated toward a thundercloud, sparks may be drawn from it; and if the rod be conducted to the earth, the lightning will often follow it rather than strike a building. Thus we may protect houses, ships, and magazines of powder by affixing to them metal rods which rise above the highest point and pass into the moist earth below. Electricity is not created by our machines, but collected and transferred. It may be positive or negative, and bodies become charged when these quantities are uneven. By understanding this fluid, we may turn a fearful natural phenomenon into a thing partially under human control.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "f5fe48fb59cc55cd19c0117dbd093361a730de59"
+    },
+    {
+      "questionNumber": 16,
+      "type": "standalone",
+      "questionText": "What coefficient is needed for Fe in: __Fe + 2HCl → FeCl₂ + H₂?",
+      "answerOptions": [
+        {
+          "text": "1",
+          "isCorrect": true,
+          "rationale": "The equation is already balanced with 1 atom of Fe on both sides."
+        },
+        {
+          "text": "2",
+          "isCorrect": false,
+          "rationale": "A coefficient of 2 would unbalance the iron atoms."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "A coefficient of 3 would unbalance the iron atoms."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "A coefficient of 4 would unbalance the iron atoms."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "0313acd8d54da53f61ef575b0248860df78b00c2"
+    },
+    {
+      "questionNumber": 17,
+      "type": "standalone",
+      "questionText": "What coefficient is needed for O₂ in this equation: CH₄ + __O₂ → CO₂ + 2H₂O?",
+      "answerOptions": [
+        {
+          "text": "2",
+          "isCorrect": true,
+          "rationale": "To balance the oxygen atoms, there are 2 from CO₂ and 2 from 2H₂O on the product side (total 4 O). Therefore, 2 O₂ molecules are needed on the reactant side."
+        },
+        {
+          "text": "1",
+          "isCorrect": false,
+          "rationale": "A coefficient of 1 for O₂ would result in only 2 oxygen atoms on the reactant side, while there are 4 on the product side."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "A coefficient of 3 for O₂ would result in 6 oxygen atoms on the reactant side, which would unbalance the equation."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "A coefficient of 4 for O₂ would result in 8 oxygen atoms on the reactant side, which would unbalance the equation."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "2b6ccad06ab5301ec81fb92c808263cd3558fbea"
+    },
+    {
+      "questionNumber": 18,
+      "type": "passage",
+      "questionText": "Based on the passage, what is the primary mechanism by which new species arise?",
+      "answerOptions": [
+        {
+          "text": "Through sudden, spontaneous mutations that create new forms of life.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that the origin of species is explained 'without calling upon sudden acts of creation' and instead involves 'natural causes acting slowly over long periods.'"
+        },
+        {
+          "text": "When individual organisms intentionally develop new traits to adapt to their environment.",
+          "isCorrect": false,
+          "rationale": "The passage states individuals 'happen to be born with a slight advantage,' implying a passive, natural process rather than intentional development or adaptation."
+        },
+        {
+          "text": "By the accumulation of favorable traits over time, as individuals best suited to their conditions survive and reproduce.",
+          "isCorrect": true,
+          "rationale": "The passage explains that individuals with 'a slight advantage' are 'more likely to live and to reproduce,' preserving 'favorable traits' and allowing 'differences [to] continue to accumulate' until varieties become 'distinct species.'"
+        },
+        {
+          "text": "As species migrate to new regions and instantly transform into new distinct species.",
+          "isCorrect": false,
+          "rationale": "The passage describes a slow process of accumulation of differences over long periods, not an instant transformation due to migration alone."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Tendency of Varieties to Depart Indefinitely from the Original Type (Excerpt)</strong></p><p><em>Alfred Russel Wallace, 1858</em></p><p>Every species is constantly exposed to conditions which destroy many of its individuals. Those which happen to be born with a slight advantage—greater swiftness, better color for concealment, stronger beak—are more likely to live and to reproduce. Their favorable traits are thus preserved, while the less favored die out. In regions where the conditions differ, different traits will be favored, and so varieties may arise. If the differences continue to accumulate, these varieties may become distinct species. Thus the origin of species can be explained by natural causes acting slowly over long periods, without calling upon sudden acts of creation. This view is supported by the geographical distribution of animals, which shows clearly that closely allied forms inhabit neighboring regions.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "2870746727f590d93da8138c111ad30b5d9f19d7"
+    },
+    {
+      "questionNumber": 19,
+      "type": "passage",
+      "questionText": "The author uses the geographical distribution of animals as evidence for which claim?",
+      "answerOptions": [
+        {
+          "text": "That all species originated in a single location and then spread globally.",
+          "isCorrect": false,
+          "rationale": "The passage states that 'closely allied forms inhabit neighboring regions,' which suggests localized divergence rather than a single point of origin for all species."
+        },
+        {
+          "text": "That closely related species tend to be found in adjacent areas, supporting the idea of slow divergence from common ancestors.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states that 'the geographical distribution of animals, which shows clearly that closely allied forms inhabit neighboring regions,' supports the view that varieties arise and accumulate differences over time in different regions, leading to new species."
+        },
+        {
+          "text": "That environmental conditions are uniform across all neighboring regions.",
+          "isCorrect": false,
+          "rationale": "The passage implies that conditions differ in different regions, leading to different favored traits, which contradicts the idea of uniform conditions."
+        },
+        {
+          "text": "That species are created suddenly in specific geographical areas.",
+          "isCorrect": false,
+          "rationale": "The passage argues against 'sudden acts of creation,' instead supporting slow, natural causes."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>On the Tendency of Varieties to Depart Indefinitely from the Original Type (Excerpt)</strong></p><p><em>Alfred Russel Wallace, 1858</em></p><p>Every species is constantly exposed to conditions which destroy many of its individuals. Those which happen to be born with a slight advantage—greater swiftness, better color for concealment, stronger beak—are more likely to live and to reproduce. Their favorable traits are thus preserved, while the less favored die out. In regions where the conditions differ, different traits will be favored, and so varieties may arise. If the differences continue to accumulate, these varieties may become distinct species. Thus the origin of species can be explained by natural causes acting slowly over long periods, without calling upon sudden acts of creation. This view is supported by the geographical distribution of animals, which shows clearly that closely allied forms inhabit neighboring regions.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "2b0bd9cffdd177906fe92fd1c178141d561df496"
+    },
+    {
+      "questionNumber": 20,
+      "type": "passage",
+      "questionText": "Based on the passage, how does the author distinguish between light and color?",
+      "answerOptions": [
+        {
+          "text": "Light is a physical phenomenon, while color is a subjective perception.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'The rays of light are not colored. Colors are the sensations of the observer,' directly contrasting the objective nature of light with the subjective experience of color."
+        },
+        {
+          "text": "Light is always visible, but color requires specific conditions to be seen.",
+          "isCorrect": false,
+          "rationale": "The passage does not discuss the visibility conditions of light or color; it focuses on their inherent nature."
+        },
+        {
+          "text": "Color is a fundamental property of light that is revealed through refraction.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states 'the rays of light are not colored' and 'the light itself remains uncolored,' contradicting the idea that color is a property of light."
+        },
+        {
+          "text": "Light and color are essentially the same, but perceived differently by observers.",
+          "isCorrect": false,
+          "rationale": "The passage clearly separates light as 'uncolored' from colors as 'sensations of the observer,' indicating they are not the same."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Opticks (Excerpt)</strong></p><p><em>Isaac Newton, 1704</em></p><p>The rays of light are not colored. Colors are the sensations of the observer. When light is refracted or reflected, it may be separated into rays that excite different colors, but the light itself remains uncolored.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "d797bd11b059d4d7c6205381771ba47c109edb9d"
+    },
+    {
+      "questionNumber": 21,
+      "type": "passage",
+      "questionText": "According to the passage, what is the result when light is refracted or reflected?",
+      "answerOptions": [
+        {
+          "text": "The light itself acquires specific colors, making it visible.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that 'the light itself remains uncolored' even after refraction or reflection."
+        },
+        {
+          "text": "It becomes separated into rays that create different color sensations in an observer.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'When light is refracted or reflected, it may be separated into rays that excite different colors,' directly supporting this option."
+        },
+        {
+          "text": "It loses its ability to be detected, becoming invisible to the observer.",
+          "isCorrect": false,
+          "rationale": "The passage does not suggest that light becomes invisible after refraction or reflection; it describes how colors are excited."
+        },
+        {
+          "text": "The fundamental composition of the light rays is altered, changing its physical properties.",
+          "isCorrect": false,
+          "rationale": "The passage describes the separation of rays and the excitation of color sensations, not a fundamental alteration of the light's physical composition."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Opticks (Excerpt)</strong></p><p><em>Isaac Newton, 1704</em></p><p>The rays of light are not colored. Colors are the sensations of the observer. When light is refracted or reflected, it may be separated into rays that excite different colors, but the light itself remains uncolored.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "269b53d577ecc94b3f531b04a2d7c02b89bfc015"
+    },
+    {
+      "questionNumber": 22,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "0.4 g/cm³",
+          "isCorrect": true,
+          "rationale": "Density of A = 312 g / 40 cm³ = 7.8 g/cm³. Density of B = 260 g / 35 cm³ ≈ 7.43 g/cm³. Difference = 7.8 - 7.43 = 0.37 g/cm³, rounded to the nearest tenth is 0.4 g/cm³."
+        },
+        {
+          "text": "1.1 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Recalculate the densities and their difference, rounding to the nearest tenth."
+        },
+        {
+          "text": "0.3 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Double-check your rounding."
+        },
+        {
+          "text": "0.5 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Carefully perform the density calculations."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "47459f3a82ffef240801c89db3ca295f46673d02"
+    },
+    {
+      "questionNumber": 23,
+      "type": "passage",
+      "questionText": "According to the passage, what crucial development transformed chemistry from a 'mysterious art' into a verifiable science?",
+      "answerOptions": [
+        {
+          "text": "The understanding that new elements could be synthesized during chemical operations.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states 'Nothing is created and nothing is lost,' indicating new elements are not synthesized but particles are rearranged."
+        },
+        {
+          "text": "The adoption of precise nomenclature, exact measurement, and clear recording of experimental results.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art... but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.'"
+        },
+        {
+          "text": "The ability to visually observe and qualitatively describe the changes occurring during reactions.",
+          "isCorrect": false,
+          "rationale": "While observation is part of science, the passage emphasizes 'exact measurement' and 'calculation' as key to moving beyond a mysterious art, not just qualitative description."
+        },
+        {
+          "text": "The discovery that metals always gain weight when burned in the presence of air.",
+          "isCorrect": false,
+          "rationale": "This is presented as an example illustrating a concept (combination with air), not the overarching transformation of chemistry into a science. The passage points to systematic methodology."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "7fd458cf69c8d68ef9d50e7ae5d1566e5942c2dc"
+    },
+    {
+      "questionNumber": 24,
+      "type": "passage",
+      "questionText": "The passage states, 'Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. ... This is the law of conservation of mass.' What can be inferred about chemical reactions based on this law?",
+      "answerOptions": [
+        {
+          "text": "The total mass of reactants before a reaction will always equal the total mass of products after the reaction.",
+          "isCorrect": true,
+          "rationale": "The law of conservation of mass, as described, implies that mass is conserved; therefore, 'the weight of the substances before and after remains the same,' reflecting a rearrangement of particles, not creation or loss."
+        },
+        {
+          "text": "Chemical reactions can result in substances having less overall weight due to particles being lost.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states 'nothing is lost' and 'the weight of the substances before and after remains the same,' directly contradicting the idea of mass reduction."
+        },
+        {
+          "text": "Elements can transform into entirely different elements during a chemical process without changing mass.",
+          "isCorrect": false,
+          "rationale": "The passage refers to 'change, a combination, a separation of particles,' which refers to rearrangement of existing particles (elements), not the transformation of one element into another, which is a nuclear process, not typically chemical."
+        },
+        {
+          "text": "The weight gain observed when a metal burns in air demonstrates the creation of new matter.",
+          "isCorrect": false,
+          "rationale": "The passage clarifies that the metal increases in weight 'because it has combined with a portion of the air,' meaning it's a combination of existing matter, not the creation of new matter."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "3a55869812458b1bfbf19b9b0980c4965ceec7d0"
+    },
+    {
+      "questionNumber": 25,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    },
+    {
+      "questionNumber": 26,
+      "type": "image",
+      "questionText": "Which process shown in the diagram happens first as moist ocean air moves toward the mountain?",
+      "answerOptions": [
+        {
+          "text": "The air rises along the windward slope and cools.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows moist air forced upward first, which leads to cooling and later precipitation."
+        },
+        {
+          "text": "The air descends on the leeward side and becomes drier.",
+          "isCorrect": false,
+          "rationale": "That occurs after the air has already risen, cooled, and lost moisture on the windward side."
+        },
+        {
+          "text": "Groundwater collects at the base of the mountain.",
+          "isCorrect": false,
+          "rationale": "Groundwater is not the first atmospheric process shown in the diagram."
+        },
+        {
+          "text": "The ocean temperature falls below freezing.",
+          "isCorrect": false,
+          "rationale": "The diagram is about orographic lifting, not ocean freezing."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "7485d96b4ec78594f184c918ad0c19854bd7b1fd"
+    },
+    {
+      "questionNumber": 27,
+      "type": "image",
+      "questionText": "Which energy source is projected to have the highest total consumption in 2040 on the graph?",
+      "answerOptions": [
+        {
+          "text": "Petroleum",
+          "isCorrect": true,
+          "rationale": "Correct. The petroleum line remains above the other energy-source lines at the end of the graph."
+        },
+        {
+          "text": "Nuclear",
+          "isCorrect": false,
+          "rationale": "Nuclear is much lower than petroleum on the graph."
+        },
+        {
+          "text": "Other energy",
+          "isCorrect": false,
+          "rationale": "Other energy does not reach the highest level shown."
+        },
+        {
+          "text": "None of the sources increase by 2040",
+          "isCorrect": false,
+          "rationale": "Several lines increase across the time period shown."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "366e6867eac9d4fa3319ba8179570e76759f8eeb"
+    },
+    {
+      "questionNumber": 28,
+      "type": "image",
+      "questionText": "What is the main advantage of showing all five energy sources on the same graph?",
+      "answerOptions": [
+        {
+          "text": "It allows direct comparison of long-term trends among different energy sources.",
+          "isCorrect": true,
+          "rationale": "Correct. A shared graph makes it easier to compare relative growth and overall levels across sources."
+        },
+        {
+          "text": "It guarantees every energy source will grow at the same rate.",
+          "isCorrect": false,
+          "rationale": "The graph compares trends; it does not force them to be equal."
+        },
+        {
+          "text": "It shows the exact location of each power plant in the world.",
+          "isCorrect": false,
+          "rationale": "This is a consumption graph, not a geographic map."
+        },
+        {
+          "text": "It measures atmospheric humidity instead of energy use.",
+          "isCorrect": false,
+          "rationale": "The graph is explicitly about world energy consumption."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "915603009560f1cd719c146eb1105f26dba0c798"
+    },
+    {
+      "questionNumber": 29,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency for Bioreactor Y = (Chemical Output / Light Input) * 100 = (210 kJ / 520 kJ) * 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Double-check your calculation for Bioreactor Y's efficiency."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Ensure you are rounding to the nearest whole percent correctly."
+        },
+        {
+          "text": "43%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Calculate the ratio of output to input and convert to a percentage."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "c73b87fc31ed878b274d55c3fc02e6f3537d1e8a"
+    },
+    {
+      "questionNumber": 30,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency for Bioreactor Y = (Chemical Output / Light Input) * 100 = (210 kJ / 520 kJ) * 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Double-check your calculation for Bioreactor Y's efficiency."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Ensure you are rounding to the nearest whole percent correctly."
+        },
+        {
+          "text": "43%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Calculate the ratio of output to input and convert to a percentage."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "c73b87fc31ed878b274d55c3fc02e6f3537d1e8a"
+    },
+    {
+      "questionNumber": 31,
+      "type": "image",
+      "questionText": "According to the 2012 energy-consumption pie chart, what percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "210ebd25e602d2dab2fb5b9630c00249d6fedc02"
+    },
+    {
+      "questionNumber": 32,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency for Bioreactor Y = (Chemical Output / Light Input) * 100 = (210 kJ / 520 kJ) * 100 = 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "38%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Double-check your calculation for Bioreactor Y's efficiency."
+        },
+        {
+          "text": "41%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Ensure you are rounding to the nearest whole percent correctly."
+        },
+        {
+          "text": "43%",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Calculate the ratio of output to input and convert to a percentage."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "c73b87fc31ed878b274d55c3fc02e6f3537d1e8a"
+    },
+    {
+      "questionNumber": 33,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "2.7 mL/min",
+          "isCorrect": true,
+          "rationale": "The water evaporated is 198 mL - 90 mL = 108 mL. The time elapsed is 60 min - 20 min = 40 min. The average rate is 108 mL / 40 min = 2.7 mL/min."
+        },
+        {
+          "text": "1.35 mL/min",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Recalculate the change in volume over the change in time for the specified period."
+        },
+        {
+          "text": "2.6 mL/min",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Double-check your calculation for the change in volume and time."
+        },
+        {
+          "text": "—",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Perform the calculation based on the table data."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "c59968029745f77b39a84c0e493a0f3354131277"
+    },
+    {
+      "questionNumber": 34,
+      "type": "passage",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 35,
+      "type": "passage",
+      "questionText": "According to the passage, how can geologists best understand the historical changes on Earth's surface?",
+      "answerOptions": [
+        {
+          "text": "By assuming that different, more powerful forces existed in the distant past.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that the forces now operating are 'the very same forces that have acted for countless ages,' contradicting the idea of different, more powerful past forces."
+        },
+        {
+          "text": "By examining evidence of abrupt, violent global events that rapidly altered the landscape.",
+          "isCorrect": false,
+          "rationale": "The passage argues against needing to 'imagine sudden, violent catastrophes to account for the great changes recorded in the rocks,' favoring slow processes."
+        },
+        {
+          "text": "By studying current geological processes and extrapolating their effects backward in time.",
+          "isCorrect": true,
+          "rationale": "The passage asserts, 'We can study nature as it is today and infer the history of our planet,' which directly supports this method of understanding past changes through present observations."
+        },
+        {
+          "text": "By calculating the exact age of the Earth based on the speed of mountain formation.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention calculating age from specific rates or formulas; its focus is on conceptual understanding of processes over time."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principles of Geology (Excerpt)</strong></p><p><em>Charles Lyell, 1830</em></p><p>The present is the key to the past. This is the doctrine I have endeavored to illustrate: that the forces now operating upon the Earth’s surface—rivers wearing down mountains, oceans depositing sediments, volcanoes building up land—are the very same forces that have acted for countless ages. We need not imagine sudden, violent catastrophes to account for the great changes recorded in the rocks. Slow, observable processes, given sufficient time, can raise continents and hollow seas. This uniformity of causes gives geology a firm foundation, for we can study nature as it is today and infer the history of our planet. Thus the Earth is far older than many have supposed, and its features are the result of long, continuous action.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "c801980be4a151a29fe8924de8966de0687df975"
+    },
+    {
+      "questionNumber": 36,
+      "type": "passage",
+      "questionText": "The author supports the claim that 'the Earth is far older than many have supposed' by emphasizing that:",
+      "answerOptions": [
+        {
+          "text": "Scientific instruments can precisely measure the age of ancient rock formations.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention scientific instruments or precise measurement techniques; its argument for Earth's age is based on the nature of geological processes."
+        },
+        {
+          "text": "The formation of major geological features is the cumulative result of slow, continuous actions over vast periods.",
+          "isCorrect": true,
+          "rationale": "The passage states, 'Slow, observable processes, given sufficient time, can raise continents and hollow seas. This uniformity of causes gives geology a firm foundation... Thus the Earth is far older...' directly linking slow processes over time to Earth's age."
+        },
+        {
+          "text": "Observable forces like rivers and volcanoes were more active in the past, leading to faster changes.",
+          "isCorrect": false,
+          "rationale": "The passage states these are 'the very same forces,' implying their nature and rate of action are consistent with the past, not necessarily more active."
+        },
+        {
+          "text": "Catastrophic events, though rare, have dramatically accelerated geological processes throughout history.",
+          "isCorrect": false,
+          "rationale": "The author explicitly downplays the role of 'sudden, violent catastrophes' in favor of slow, continuous processes as the primary cause of geological change and Earth's age."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Principles of Geology (Excerpt)</strong></p><p><em>Charles Lyell, 1830</em></p><p>The present is the key to the past. This is the doctrine I have endeavored to illustrate: that the forces now operating upon the Earth’s surface—rivers wearing down mountains, oceans depositing sediments, volcanoes building up land—are the very same forces that have acted for countless ages. We need not imagine sudden, violent catastrophes to account for the great changes recorded in the rocks. Slow, observable processes, given sufficient time, can raise continents and hollow seas. This uniformity of causes gives geology a firm foundation, for we can study nature as it is today and infer the history of our planet. Thus the Earth is far older than many have supposed, and its features are the result of long, continuous action.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "39fd1459206fd01b2be92b336f4b19cd456ced5b"
+    },
+    {
+      "questionNumber": 37,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "0.4 g/cm³",
+          "isCorrect": true,
+          "rationale": "Density of A = 312 g / 40 cm³ = 7.8 g/cm³. Density of B = 260 g / 35 cm³ ≈ 7.43 g/cm³. Difference = 7.8 - 7.43 = 0.37 g/cm³, rounded to the nearest tenth is 0.4 g/cm³."
+        },
+        {
+          "text": "1.1 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Recalculate the densities and their difference, rounding to the nearest tenth."
+        },
+        {
+          "text": "0.3 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Double-check your rounding."
+        },
+        {
+          "text": "0.5 g/cm³",
+          "isCorrect": false,
+          "rationale": "This is incorrect. Carefully perform the density calculations."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "47459f3a82ffef240801c89db3ca295f46673d02"
+    },
+    {
+      "questionNumber": 38,
+      "type": "standalone",
+      "questionText": "Based on the diagram, why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "374e7b204041837fd83984fcc0883c7b0635ac0e"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "22 near-duplicate question pair(s) detected",
+    "Difficulty \"easy\": 5, expected ~9",
+    "Difficulty \"medium\": 22, expected ~19"
+  ]
+}

@@ -1,0 +1,1236 @@
+{
+  "id": "ai_comp_science_1773680723649",
+  "title": "Comprehensive Science Exam",
+  "subject": "Science",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "type": "standalone",
+      "questionText": "Why is the leeward side of the mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "deb94f7fa6536e2f92407c2af1f03c88c8d1aeed"
+    },
+    {
+      "questionNumber": 2,
+      "type": "standalone",
+      "questionText": "Which process happens first as moist ocean air moves toward the mountain?",
+      "answerOptions": [
+        {
+          "text": "The air rises along the windward slope and cools.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows moist air forced upward first, which leads to cooling and later precipitation."
+        },
+        {
+          "text": "The air descends on the leeward side and becomes drier.",
+          "isCorrect": false,
+          "rationale": "That occurs after the air has already risen, cooled, and lost moisture on the windward side."
+        },
+        {
+          "text": "Groundwater collects at the base of the mountain.",
+          "isCorrect": false,
+          "rationale": "Groundwater is not the first atmospheric process shown in the diagram."
+        },
+        {
+          "text": "The ocean temperature falls below freezing.",
+          "isCorrect": false,
+          "rationale": "The diagram is about orographic lifting, not ocean freezing."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "ae9806ccbf5b17309b201f09f16f1b3ef5844a7f"
+    },
+    {
+      "questionNumber": 3,
+      "type": "passage",
+      "questionText": "According to the passage, when a metal burns in air and increases in weight, how does this phenomenon relate to the law of conservation of mass?",
+      "answerOptions": [
+        {
+          "text": "The metal creates new mass, which violates the law of conservation of mass.",
+          "isCorrect": false,
+          "rationale": "The passage states that 'nothing is created' in chemical operations, so the metal does not create new mass."
+        },
+        {
+          "text": "The increase in the metal's weight indicates it has combined with another substance from the air, maintaining the total mass of the system.",
+          "isCorrect": true,
+          "rationale": "The passage explains, 'When a metal is burned in air, it increases in weight because it has combined with a portion of the air.' This combination ensures that while the metal's weight changes, the total mass of the reacting substances (metal + air) remains constant, in line with the law of conservation of mass where 'nothing is created and nothing is lost'."
+        },
+        {
+          "text": "A portion of the metal is lost to the air, causing the apparent increase in weight.",
+          "isCorrect": false,
+          "rationale": "The passage states 'nothing is lost' and an increase in weight signifies a gain, not a loss, by the metal itself."
+        },
+        {
+          "text": "The law of conservation of mass only applies to gases, not to reactions involving metals.",
+          "isCorrect": false,
+          "rationale": "The passage introduces the law as applying to 'operations of chemistry' generally, and while it uses a gas example, it does not limit the law's applicability only to gases."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "8ce0bc1b2e96a45181a1f3e7df812776f87fcac3"
+    },
+    {
+      "questionNumber": 4,
+      "type": "passage",
+      "questionText": "What primary changes, according to the passage, helped transform chemistry from a 'mysterious art' into a 'science resting on observation and calculation'?",
+      "answerOptions": [
+        {
+          "text": "The discovery of new elements and more complex chemical reactions.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on methods, not specific discoveries, as the catalysts for chemistry becoming a science."
+        },
+        {
+          "text": "The accurate naming of substances and the precise measurement of their weights.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states: 'By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.' It also mentions that to understand chemical reactions, one must 'name the substances correctly, measure them exactly, and record the results clearly,' which allowed chemistry to become a science based on observation and calculation."
+        },
+        {
+          "text": "The recognition that particles can only combine and separate, never be created or lost.",
+          "isCorrect": false,
+          "rationale": "While a fundamental principle of chemistry, the passage attributes the transformation to specific methodical practices rather than just this understanding."
+        },
+        {
+          "text": "A broader understanding that chemical operations involve only changes in particles.",
+          "isCorrect": false,
+          "rationale": "This describes the fundamental nature of chemical operations, but the passage highlights specific methodologies (nomenclature and measurement) as the key drivers for its transformation into a science."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Elements of Chemistry (Excerpt)</strong></p><p><em>Antoine Lavoisier, 1789</em></p><p>Nothing is created and nothing is lost in the operations of chemistry; there is only a change, a combination, a separation of particles. When a metal is burned in air, it increases in weight because it has combined with a portion of the air. When a gas is produced, the weight of the substances before and after remains the same. This is the law of conservation of mass. To understand chemical reactions, we must name the substances correctly, measure them exactly, and record the results clearly. Chemistry thus becomes not a mysterious art practiced by a few, but a science resting on observation and calculation. By adopting a rational nomenclature and by using the balance, we have laid the foundations for all future discoveries.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "2e63779d38c9c2c5877d84f805c3f558d2b11371"
+    },
+    {
+      "questionNumber": 5,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "2.7 mL/min",
+          "isCorrect": true,
+          "rationale": "To find the average evaporation rate between 20 and 60 minutes for the high-speed fan, calculate the change in volume: 198 mL (at 20 min) - 90 mL (at 60 min) = 108 mL. Then divide by the change in time: 60 min - 20 min = 40 min. Rate = 108 mL / 40 min = 2.7 mL/min."
+        },
+        {
+          "text": "1.35 mL/min",
+          "isCorrect": false,
+          "rationale": "This value may result from an incorrect calculation or interpretation of the data."
+        },
+        {
+          "text": "108 mL/min",
+          "isCorrect": false,
+          "rationale": "This is the total volume evaporated, not the rate."
+        },
+        {
+          "text": "40 mL/min",
+          "isCorrect": false,
+          "rationale": "This is the time interval, not the rate."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "48aac5e98c6763df331355d9c6dcdaada81620ed"
+    },
+    {
+      "questionNumber": 6,
+      "type": "passage",
+      "questionText": "Which drop provides the best approximation of free fall near Earth’s surface?",
+      "answerOptions": [
+        {
+          "text": "Drop A (smooth metal sphere)",
+          "isCorrect": true,
+          "rationale": "The streamlined sphere experiences minimal air resistance."
+        },
+        {
+          "text": "Drop B (sphere with parachute)",
+          "isCorrect": false,
+          "rationale": "The parachute dramatically increases drag, breaking free-fall conditions."
+        },
+        {
+          "text": "Drop C (crumpled paper ball)",
+          "isCorrect": false,
+          "rationale": "Paper is light and affected by drag, so it deviates from free fall."
+        },
+        {
+          "text": "None of the drops model free fall because gravity varies.",
+          "isCorrect": false,
+          "rationale": "Gravity is effectively constant over the small height."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "ba6b10f8cf636e19c5a2c73c5bd736a5215df391"
+    },
+    {
+      "questionNumber": 7,
+      "type": "passage",
+      "questionText": "Why does the velocity-time graph for Drop B level off quickly?",
+      "answerOptions": [
+        {
+          "text": "The sensor lost connection mid-trial.",
+          "isCorrect": false,
+          "rationale": "Data show consistent readings, so this is unlikely."
+        },
+        {
+          "text": "The parachute adds drag until net force becomes zero.",
+          "isCorrect": true,
+          "rationale": "Correct. Terminal velocity occurs when drag equals weight."
+        },
+        {
+          "text": "The mass of the object increases during the fall.",
+          "isCorrect": false,
+          "rationale": "Mass stays constant; drag is the changing factor."
+        },
+        {
+          "text": "Gravity weakens at higher speeds.",
+          "isCorrect": false,
+          "rationale": "Gravity is independent of speed at these scales."
+        }
+      ],
+      "passage": "<p>A physics class compares motion sensor data for objects dropped from a balcony. Drop A uses a smooth metal sphere, Drop B uses the same sphere with a parachute, and Drop C uses a crumpled paper ball. Students graph velocity vs. time for each drop.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:free-fall",
+      "stimulusId": "scenario_free_fall_lab",
+      "category": "Physical Science",
+      "bankFingerprint": "f5c797d9e9da088763c5115b6ee2b6b64cb11fc4"
+    },
+    {
+      "questionNumber": 8,
+      "type": "standalone",
+      "questionText": "Which process removes carbon dioxide from the atmosphere and stores it in organic matter?",
+      "answerOptions": [
+        {
+          "text": "Photosynthesis",
+          "isCorrect": true,
+          "rationale": "Correct. Photosynthesis takes in atmospheric carbon dioxide and converts it into organic carbon in plants."
+        },
+        {
+          "text": "Auto and factory emissions",
+          "isCorrect": false,
+          "rationale": "Those emissions add carbon dioxide to the atmosphere rather than removing it."
+        },
+        {
+          "text": "Animal respiration",
+          "isCorrect": false,
+          "rationale": "Respiration releases carbon dioxide back to the atmosphere."
+        },
+        {
+          "text": "Combustion of fossil fuels",
+          "isCorrect": false,
+          "rationale": "Burning fossil fuels adds carbon dioxide to the air."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0033.png",
+        "alt": "A grayscale diagram illustrating the interconnected processes of the carbon cycle on Earth."
+      },
+      "imageUrl": "/images/Science/unclassified_0033.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0033.png",
+      "category": "Life Science",
+      "bankFingerprint": "a85d276119800d0064999f1bbf57b1258c1163c3"
+    },
+    {
+      "questionNumber": 9,
+      "type": "passage",
+      "questionText": "According to the passage, what fundamental scientific understanding was challenged by the discovery of radium?",
+      "answerOptions": [
+        {
+          "text": "The belief that all elements were discovered and cataloged.",
+          "isCorrect": false,
+          "rationale": "The passage discusses the properties of radium and its implications for atomic theory, not the completeness of the periodic table."
+        },
+        {
+          "text": "The idea that light requires an external energy source to be produced.",
+          "isCorrect": false,
+          "rationale": "While radium's internal light production is mentioned, the passage highlights a more fundamental challenge: 'It showed that atoms were not indivisible but contained immense stores of energy.'"
+        },
+        {
+          "text": "The principle that atoms are indivisible and lack internal energy stores.",
+          "isCorrect": true,
+          "rationale": "The passage explicitly states, 'It showed that atoms were not indivisible but contained immense stores of energy,' directly challenging previous atomic theory."
+        },
+        {
+          "text": "The notion that minerals like pitchblende could contain highly active substances.",
+          "isCorrect": false,
+          "rationale": "The passage mentions pitchblende was 'far more active than uranium itself,' implying some level of activity was already understood, but the fundamental challenge was about the nature of atoms, not just mineral activity."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Discovery of Radium (Excerpt)</strong></p><p><em>Marie Curie, 1898</em></p><p>During my studies with my husband Pierre, we examined a mineral called pitchblende, which was far more active than uranium itself. After long and patient work, dissolving and crystallizing tons of the mineral, we obtained a small amount of a new substance—a salt of a new element. It emitted rays far stronger than those of uranium or thorium. We named it 'radium.' Its light seemed to come from within itself, requiring no fuel or air. Day and night, it glowed faintly in the dark laboratory. The discovery of radium opened new paths in physics and chemistry. It showed that atoms were not indivisible but contained immense stores of energy. Yet, even then, we did not foresee all the uses and dangers that would follow.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "21b0f55130e9dc7c3f293dcdffdc45edb466d5fb"
+    },
+    {
+      "questionNumber": 10,
+      "type": "passage",
+      "questionText": "The passage states that radium's light 'seemed to come from within itself, requiring no fuel or air.' What can be inferred about radium based on this description?",
+      "answerOptions": [
+        {
+          "text": "Radium's luminosity is dependent on absorbing ambient light.",
+          "isCorrect": false,
+          "rationale": "The phrase 'from within itself' and 'requiring no fuel or air' contradicts the idea that it needs to absorb external light."
+        },
+        {
+          "text": "Radium possessed an inherent property that allowed it to continuously emit energy.",
+          "isCorrect": true,
+          "rationale": "The description 'from within itself, requiring no fuel or air' and 'Day and night, it glowed faintly' implies an intrinsic and continuous energy emission."
+        },
+        {
+          "text": "Radium's glowing effect was a temporary phenomenon that eventually faded.",
+          "isCorrect": false,
+          "rationale": "The passage states 'Day and night, it glowed faintly in the dark laboratory,' suggesting a continuous, rather than temporary, glow."
+        },
+        {
+          "text": "Radium's light emission was a byproduct of a conventional combustion reaction.",
+          "isCorrect": false,
+          "rationale": "The phrase 'requiring no fuel or air' specifically rules out conventional combustion as the source of its light."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>The Discovery of Radium (Excerpt)</strong></p><p><em>Marie Curie, 1898</em></p><p>During my studies with my husband Pierre, we examined a mineral called pitchblende, which was far more active than uranium itself. After long and patient work, dissolving and crystallizing tons of the mineral, we obtained a small amount of a new substance—a salt of a new element. It emitted rays far stronger than those of uranium or thorium. We named it 'radium.' Its light seemed to come from within itself, requiring no fuel or air. Day and night, it glowed faintly in the dark laboratory. The discovery of radium opened new paths in physics and chemistry. It showed that atoms were not indivisible but contained immense stores of energy. Yet, even then, we did not foresee all the uses and dangers that would follow.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "74f210bf71b89da930c3ee3928f455c443783d3f"
+    },
+    {
+      "questionNumber": 11,
+      "type": "passage",
+      "questionText": "According to the passage, which statement best describes how new traits are developed and maintained in a species over time?",
+      "answerOptions": [
+        {
+          "text": "New traits emerge spontaneously in response to a sudden environmental change.",
+          "isCorrect": false,
+          "rationale": "The passage emphasizes 'slow and continual progress' and explicitly states 'Nature never makes leaps,' contradicting the idea of sudden changes or spontaneous emergence of new traits in this context."
+        },
+        {
+          "text": "Organisms intentionally develop new organs that are then passed on to their offspring.",
+          "isCorrect": false,
+          "rationale": "The passage describes traits developing through 'frequent use' or 'disuse' of existing organs, not intentional development of entirely new ones. The mechanism is a physical response, not an intentional act."
+        },
+        {
+          "text": "Features strengthened by repeated use or weakened by disuse are inherited by succeeding generations.",
+          "isCorrect": true,
+          "rationale": "This option accurately reflects the 'two great laws' mentioned in the passage: 'that the frequent use of any organ strengthens and develops it, while the disuse of it weakens and diminishes it; and second, that these acquired developments are transmitted to offspring.'"
+        },
+        {
+          "text": "The simplest forms of life continuously progress towards more complex organization, creating entirely new species.",
+          "isCorrect": false,
+          "rationale": "While the passage mentions 'slow and continual progress toward more complex organization,' this describes the overall direction of life's development, not the specific mechanism by which new traits are developed and maintained within a species, which is attributed to use/disuse and inheritance."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Zoological Philosophy (Excerpt)</strong></p><p><em>Jean-Baptiste Lamarck, 1809</em></p><p>No species has been formed all at once. Nature never makes leaps. From the simplest forms of life, produced by spontaneous generation in the earliest ages, there has been a slow and continual progress toward more complex organization. This progress is guided by two great laws: first, that the frequent use of any organ strengthens and develops it, while the disuse of it weakens and diminishes it; and second, that these acquired developments are transmitted to offspring. Thus, in a race of animals that has long been obliged to wade in water, the toes may spread and a membrane may form; in others, the neck may lengthen to reach leaves. Environment, need, and habit act together. Though later naturalists may improve upon this theory, I submit that it explains the great variety of living forms by natural causes rather than by separate acts of creation.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "3622a5311843c1ee06c4b461a86d7e60befd3db4"
+    },
+    {
+      "questionNumber": 12,
+      "type": "passage",
+      "questionText": "What is the main implication of the author's statement that the theory 'explains the great variety of living forms by natural causes rather than by separate acts of creation'?",
+      "answerOptions": [
+        {
+          "text": "The author believes that genetic mutations are the ultimate source of all biological diversity.",
+          "isCorrect": false,
+          "rationale": "The passage predates the scientific understanding of genetics and mutations; its focus is on observable changes due to use/disuse and their inheritance, not genetic mechanisms."
+        },
+        {
+          "text": "The theory suggests that evolution occurs rapidly through sudden leaps in biological development.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states 'Nature never makes leaps' and describes a 'slow and continual progress,' directly contradicting the idea of rapid or sudden evolutionary leaps."
+        },
+        {
+          "text": "The author proposes that environmental factors and habits drive changes in organisms, leading to new forms without divine intervention.",
+          "isCorrect": true,
+          "rationale": "This statement aligns with the author's core argument that 'Environment, need, and habit act together' to produce the 'great variety of living forms by natural causes,' directly contrasting with 'separate acts of creation' (divine intervention)."
+        },
+        {
+          "text": "The author's primary goal is to highlight the role of spontaneous generation in creating complex life forms.",
+          "isCorrect": false,
+          "rationale": "While spontaneous generation is mentioned as the origin of 'simplest forms of life,' the main implication of the quoted statement is about explaining the variety of all living forms through ongoing natural processes, not solely the initial origin of the simplest life."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Zoological Philosophy (Excerpt)</strong></p><p><em>Jean-Baptiste Lamarck, 1809</em></p><p>No species has been formed all at once. Nature never makes leaps. From the simplest forms of life, produced by spontaneous generation in the earliest ages, there has been a slow and continual progress toward more complex organization. This progress is guided by two great laws: first, that the frequent use of any organ strengthens and develops it, while the disuse of it weakens and diminishes it; and second, that these acquired developments are transmitted to offspring. Thus, in a race of animals that has long been obliged to wade in water, the toes may spread and a membrane may form; in others, the neck may lengthen to reach leaves. Environment, need, and habit act together. Though later naturalists may improve upon this theory, I submit that it explains the great variety of living forms by natural causes rather than by separate acts of creation.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "5c9bb2d71b07f07435da2880892b40d7595dbfdf"
+    },
+    {
+      "questionNumber": 13,
+      "type": "passage",
+      "questionText": "Based on the completed Punnett square, what is the genotype ratio of the offspring?",
+      "answerOptions": [
+        {
+          "text": "1 GG : 2 Gg : 1 gg",
+          "isCorrect": true,
+          "rationale": "Correct. The four outcomes are one GG, two Gg, and one gg."
+        },
+        {
+          "text": "3 GG : 1 gg",
+          "isCorrect": false,
+          "rationale": "The completed square includes two heterozygous outcomes, not three GG outcomes."
+        },
+        {
+          "text": "2 GG : 1 Gg : 1 gg",
+          "isCorrect": false,
+          "rationale": "Only one GG square appears in the passage."
+        },
+        {
+          "text": "1 GG : 1 Gg : 2 gg",
+          "isCorrect": false,
+          "rationale": "Only one gg square appears in the completed square."
+        }
+      ],
+      "passage": "<p>A biology class completes a Punnett square for two heterozygous flower plants, Gg x Gg. In this trait, G is the dominant allele for purple flowers and g is the recessive allele for white flowers.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\"> </th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th></tr></thead><tbody><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">G</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">GG</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td></tr><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">g</th><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Gg</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">gg</td></tr></tbody></table><p>Use the completed Punnett square to answer the questions.</p>",
+      "itemType": "passage",
+      "groupId": "scenario:genetics-punnett",
+      "stimulusId": "scenario_genetics_punnett",
+      "category": "Life Science",
+      "toolsAllowed": [
+        "punnett-square"
+      ],
+      "bankFingerprint": "41c71a631658d0dffcd65a1a5d28b43bf7744e1a"
+    },
+    {
+      "questionNumber": 14,
+      "type": "multipleChoice",
+      "questionText": "In most eukaryotic cells, the genetic material is found inside the:",
+      "answerOptions": [
+        {
+          "text": "Mitochondrion",
+          "isCorrect": false,
+          "rationale": "Mitochondria have their own small amount of DNA, but the vast majority is in the nucleus."
+        },
+        {
+          "text": "Ribosome",
+          "isCorrect": false,
+          "rationale": "Ribosomes are responsible for protein synthesis."
+        },
+        {
+          "text": "Cytoplasm",
+          "isCorrect": false,
+          "rationale": "In eukaryotes, the DNA is enclosed within the nucleus, separate from the cytoplasm."
+        },
+        {
+          "text": "Nucleus",
+          "isCorrect": true,
+          "rationale": "Correct. The nucleus acts as the control center of the cell and contains the chromosomes."
+        }
+      ],
+      "itemType": "standalone",
+      "category": "Life Science",
+      "bankFingerprint": "f61d9cf30054d19df44023223ba2abba8d466879"
+    },
+    {
+      "questionNumber": 15,
+      "type": "standalone",
+      "questionText": "Which energy source is projected to have the highest total consumption in 2040?",
+      "answerOptions": [
+        {
+          "text": "Petroleum",
+          "isCorrect": true,
+          "rationale": "Correct. The petroleum line remains above the other energy-source lines at the end of the graph."
+        },
+        {
+          "text": "Nuclear",
+          "isCorrect": false,
+          "rationale": "Nuclear is much lower than petroleum on the graph."
+        },
+        {
+          "text": "Other energy",
+          "isCorrect": false,
+          "rationale": "Other energy does not reach the highest level shown."
+        },
+        {
+          "text": "None of the sources increase by 2040",
+          "isCorrect": false,
+          "rationale": "Several lines increase across the time period shown."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "bcbc6f80b339d96509670787c3050692631cded8"
+    },
+    {
+      "questionNumber": 16,
+      "type": "standalone",
+      "questionText": "What is the main advantage of comparing different energy sources?",
+      "answerOptions": [
+        {
+          "text": "It allows direct comparison of long-term trends among different energy sources.",
+          "isCorrect": true,
+          "rationale": "Correct. A shared graph makes it easier to compare relative growth and overall levels across sources."
+        },
+        {
+          "text": "It guarantees every energy source will grow at the same rate.",
+          "isCorrect": false,
+          "rationale": "The graph compares trends; it does not force them to be equal."
+        },
+        {
+          "text": "It shows the exact location of each power plant in the world.",
+          "isCorrect": false,
+          "rationale": "This is a consumption graph, not a geographic map."
+        },
+        {
+          "text": "It measures atmospheric humidity instead of energy use.",
+          "isCorrect": false,
+          "rationale": "The graph is explicitly about world energy consumption."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0008.png",
+        "alt": "Line graph showing world energy consumption by source (petroleum, coal, natural gas, nuclear, other) from 2010 to 2040."
+      },
+      "imageUrl": "/images/Science/unclassified_0008.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0008.png",
+      "category": "Physical Science",
+      "bankFingerprint": "9e1471e4fdb2e6b599070078a331e75339d1dbac"
+    },
+    {
+      "questionNumber": 17,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency = (Chemical Output ÷ Light Input) × 100 = (210 kJ ÷ 520 kJ) × 100 ≈ 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "35%",
+          "isCorrect": false,
+          "rationale": "Recheck your calculation for Bioreactor Y."
+        },
+        {
+          "text": "42%",
+          "isCorrect": false,
+          "rationale": "Recheck your rounding or calculation for Bioreactor Y."
+        },
+        {
+          "text": "52%",
+          "isCorrect": false,
+          "rationale": "This is approximately the input value, not the efficiency."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "4eaa19aa1f2f8d3bcc6ed4c5bef6383cdec6a05b"
+    },
+    {
+      "questionNumber": 18,
+      "type": "passage",
+      "questionText": "Based on Pasteur's conclusion, what was likely the common scientific belief about the origin of microbes that his experiments aimed to disprove?",
+      "answerOptions": [
+        {
+          "text": "Microbes only came from other living microbes.",
+          "isCorrect": false,
+          "rationale": "This was Pasteur's conclusion, not the belief he aimed to disprove. He concluded that microbes come 'only from other microbes'."
+        },
+        {
+          "text": "Microbes required specific nutrients to spontaneously generate.",
+          "isCorrect": false,
+          "rationale": "While nutrients are important for life, the passage focuses on spontaneous generation itself, not specific nutrient requirements for it."
+        },
+        {
+          "text": "Microbes could appear spontaneously from non-living matter.",
+          "isCorrect": true,
+          "rationale": "Pasteur concluded that microbes do 'not by spontaneous generation,' directly implying that the prevailing belief he was challenging was that microbes could spontaneously arise from non-living matter."
+        },
+        {
+          "text": "Microbes were primarily found in liquids exposed to high temperatures.",
+          "isCorrect": false,
+          "rationale": "The passage states that he boiled the liquid, which would kill existing microbes, making this an unlikely belief and irrelevant to the core debate."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Pasteur’s Experiments on Germs</strong></p><p><em>Louis Pasteur, 1864</em></p><p>In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "09932fa70ce25e27aba1b392b8fa23b1e9b33100"
+    },
+    {
+      "questionNumber": 19,
+      "type": "passage",
+      "questionText": "What was the primary purpose of observing both flasks 'open to the air' and flasks 'sealed with curved necks' after boiling the broth?",
+      "answerOptions": [
+        {
+          "text": "To determine the ideal temperature for microbial growth.",
+          "isCorrect": false,
+          "rationale": "The boiling step was consistent across all flasks to sterilize them, so the varying conditions (open vs. sealed) were not primarily about temperature optimization after boiling."
+        },
+        {
+          "text": "To investigate if exposure to external air sources was necessary for microbial development.",
+          "isCorrect": true,
+          "rationale": "The open flasks allowed exposure to airborne microbes, while the sealed ones (with curved necks trapping dust/microbes) largely prevented this, directly testing if outside contamination was the source of life."
+        },
+        {
+          "text": "To demonstrate that boiling itself creates microscopic life.",
+          "isCorrect": false,
+          "rationale": "Boiling was used to sterilize the broth, meaning it killed existing life, not created it. The experiment sought to understand re-growth."
+        },
+        {
+          "text": "To measure the rate at which broth spoils in different containers.",
+          "isCorrect": false,
+          "rationale": "While related to spoilage, the core scientific question being addressed was the origin of the microscopic life, not merely its rate of appearance."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Pasteur’s Experiments on Germs</strong></p><p><em>Louis Pasteur, 1864</em></p><p>In experiments with flasks containing broth, I boiled the liquid and left some flasks open to the air while others remained sealed with curved necks. Those open to the air soon teemed with microscopic life, while the sealed ones stayed clear. From this I concluded that microbes come only from other microbes, not by spontaneous generation.</p></div>",
+      "itemType": "passage",
+      "category": "Life Science",
+      "bankFingerprint": "7677351f24f96a86b5e85589d7523a24ea6f2f42"
+    },
+    {
+      "questionNumber": 20,
+      "type": "standalone",
+      "questionText": "Why is the leeward side of a mountain drier than the windward side?",
+      "answerOptions": [
+        {
+          "text": "Air descends on the leeward side, warms, and holds more water vapor before rain can form.",
+          "isCorrect": true,
+          "rationale": "Correct. The diagram shows rising air cooling and releasing precipitation on the windward side, while descending air on the leeward side becomes warmer and drier."
+        },
+        {
+          "text": "Air on the leeward side is always colder than air on the windward side.",
+          "isCorrect": false,
+          "rationale": "The leeward side is typically warmer because the air is descending after losing moisture."
+        },
+        {
+          "text": "The mountain blocks sunlight from reaching the leeward side.",
+          "isCorrect": false,
+          "rationale": "The rain-shadow effect is caused by air movement and temperature change, not lack of sunlight."
+        },
+        {
+          "text": "Ocean water evaporates only on the windward side of the mountain.",
+          "isCorrect": false,
+          "rationale": "Evaporation from the ocean supplies moisture before the air reaches the mountain; it is not limited to one side of the mountain."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_8_0001.png",
+        "alt": "Diagram illustrating orographic lifting, showing wind, clouds, precipitation, and temperature changes over a mountain."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_8_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_8_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "0bf7b5fb93262ae1b3277698acd718712f95642c"
+    },
+    {
+      "questionNumber": 21,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency = (Chemical Output ÷ Light Input) × 100 = (210 kJ ÷ 520 kJ) × 100 ≈ 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "35%",
+          "isCorrect": false,
+          "rationale": "Recheck your calculation for Bioreactor Y."
+        },
+        {
+          "text": "42%",
+          "isCorrect": false,
+          "rationale": "Recheck your rounding or calculation for Bioreactor Y."
+        },
+        {
+          "text": "52%",
+          "isCorrect": false,
+          "rationale": "This is approximately the input value, not the efficiency."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "4eaa19aa1f2f8d3bcc6ed4c5bef6383cdec6a05b"
+    },
+    {
+      "questionNumber": 22,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency = (Chemical Output ÷ Light Input) × 100 = (210 kJ ÷ 520 kJ) × 100 ≈ 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "35%",
+          "isCorrect": false,
+          "rationale": "Recheck your calculation for Bioreactor Y."
+        },
+        {
+          "text": "42%",
+          "isCorrect": false,
+          "rationale": "Recheck your rounding or calculation for Bioreactor Y."
+        },
+        {
+          "text": "52%",
+          "isCorrect": false,
+          "rationale": "This is approximately the input value, not the efficiency."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "4eaa19aa1f2f8d3bcc6ed4c5bef6383cdec6a05b"
+    },
+    {
+      "questionNumber": 23,
+      "type": "passage",
+      "questionText": "According to the passage, what is a fundamental consequence of time and space not being absolute?",
+      "answerOptions": [
+        {
+          "text": "All physical measurements, including time and space, remain constant for all observers.",
+          "isCorrect": false,
+          "rationale": "The passage explicitly states that 'Time and space are not absolute, but depend on the motion of the observer,' which contradicts the idea of all measurements remaining constant."
+        },
+        {
+          "text": "The laws of physics change depending on the observer's speed.",
+          "isCorrect": false,
+          "rationale": "The passage states that 'The laws of physics are the same for all observers in uniform motion,' directly contradicting this option."
+        },
+        {
+          "text": "Observers in different states of motion may measure time and spatial dimensions differently.",
+          "isCorrect": true,
+          "rationale": "The phrase 'Time and space are not absolute, but depend on the motion of the observer' directly implies that measurements of time and space can vary for observers with different motions."
+        },
+        {
+          "text": "The universe operates under a single, universal clock and fixed spatial grid.",
+          "isCorrect": false,
+          "rationale": "This option suggests absolute time and space, which the passage explicitly refutes by stating 'Time and space are not absolute.'"
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Relativity: The Special and General Theory (Excerpt)</strong></p><p><em>Albert Einstein, 1916</em></p><p>The laws of physics are the same for all observers in uniform motion. Time and space are not absolute, but depend on the motion of the observer. This simple idea leads to consequences that change our understanding of the universe.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "058738840aa2c308b3ef0a07725a1e52f52c6867"
+    },
+    {
+      "questionNumber": 24,
+      "type": "passage",
+      "questionText": "The author describes a 'simple idea' that 'leads to consequences that change our understanding of the universe.' Based on the passage, what is the core of this 'simple idea'?",
+      "answerOptions": [
+        {
+          "text": "The concept that the universe is constantly expanding.",
+          "isCorrect": false,
+          "rationale": "The passage does not mention the expansion of the universe. The 'simple idea' refers to the principles stated within the excerpt."
+        },
+        {
+          "text": "The principle that the laws of physics are consistent for all observers in uniform motion, and that time and space are relative.",
+          "isCorrect": true,
+          "rationale": "The passage introduces two core principles: 'The laws of physics are the same for all observers in uniform motion' and 'Time and space are not absolute, but depend on the motion of the observer.' These are presented as the foundational ideas that have profound consequences."
+        },
+        {
+          "text": "The challenge of accurately measuring very high speeds.",
+          "isCorrect": false,
+          "rationale": "While measuring speed is part of physics, the passage does not highlight this as the 'simple idea' leading to profound changes; it focuses on the nature of physical laws, time, and space."
+        },
+        {
+          "text": "The belief that scientific theories are often difficult to develop.",
+          "isCorrect": false,
+          "rationale": "The passage refers to a 'simple idea' and its consequences, not the general difficulty of developing theories."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Relativity: The Special and General Theory (Excerpt)</strong></p><p><em>Albert Einstein, 1916</em></p><p>The laws of physics are the same for all observers in uniform motion. Time and space are not absolute, but depend on the motion of the observer. This simple idea leads to consequences that change our understanding of the universe.</p></div>",
+      "itemType": "passage",
+      "category": "Physical Science",
+      "bankFingerprint": "7480eee42815609a9398d13d0987249540c84264"
+    },
+    {
+      "questionNumber": 25,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency = (Chemical Output ÷ Light Input) × 100 = (210 kJ ÷ 520 kJ) × 100 ≈ 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "35%",
+          "isCorrect": false,
+          "rationale": "Recheck your calculation for Bioreactor Y."
+        },
+        {
+          "text": "42%",
+          "isCorrect": false,
+          "rationale": "Recheck your rounding or calculation for Bioreactor Y."
+        },
+        {
+          "text": "52%",
+          "isCorrect": false,
+          "rationale": "This is approximately the input value, not the efficiency."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "4eaa19aa1f2f8d3bcc6ed4c5bef6383cdec6a05b"
+    },
+    {
+      "questionNumber": 26,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency = (Chemical Output ÷ Light Input) × 100 = (210 kJ ÷ 520 kJ) × 100 ≈ 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "35%",
+          "isCorrect": false,
+          "rationale": "Recheck your calculation for Bioreactor Y."
+        },
+        {
+          "text": "42%",
+          "isCorrect": false,
+          "rationale": "Recheck your rounding or calculation for Bioreactor Y."
+        },
+        {
+          "text": "52%",
+          "isCorrect": false,
+          "rationale": "This is approximately the input value, not the efficiency."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "4eaa19aa1f2f8d3bcc6ed4c5bef6383cdec6a05b"
+    },
+    {
+      "questionNumber": 27,
+      "type": "passage",
+      "questionText": "What is the average evaporation rate (in mL/min) for the high-speed fan between 20 and 60 minutes?",
+      "answerOptions": [
+        {
+          "text": "2.7 mL/min",
+          "isCorrect": true,
+          "rationale": "To find the average evaporation rate between 20 and 60 minutes for the high-speed fan, calculate the change in volume: 198 mL (at 20 min) - 90 mL (at 60 min) = 108 mL. Then divide by the change in time: 60 min - 20 min = 40 min. Rate = 108 mL / 40 min = 2.7 mL/min."
+        },
+        {
+          "text": "1.35 mL/min",
+          "isCorrect": false,
+          "rationale": "This value may result from an incorrect calculation or interpretation of the data."
+        },
+        {
+          "text": "108 mL/min",
+          "isCorrect": false,
+          "rationale": "This is the total volume evaporated, not the rate."
+        },
+        {
+          "text": "40 mL/min",
+          "isCorrect": false,
+          "rationale": "This is the time interval, not the rate."
+        }
+      ],
+      "passage": "<p>A student tracks how much water remains in two identical trays while a fan runs at low and high speed.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Time (min)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Low Speed (mL)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">High Speed (mL)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">0</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">250</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">20</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">212</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">198</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">181</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">142</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">60</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">160</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">90</td></tr></tbody></table>",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "48aac5e98c6763df331355d9c6dcdaada81620ed"
+    },
+    {
+      "questionNumber": 28,
+      "type": "standalone",
+      "questionText": "What coefficient is needed to balance this equation: __H₂ + O₂ → 2H₂O?",
+      "answerOptions": [
+        {
+          "text": "2",
+          "isCorrect": true,
+          "rationale": "To balance the equation, you need 2 molecules of H₂ to react with 1 molecule of O₂ to produce 2 molecules of H₂O. The coefficient for H₂ is 2."
+        },
+        {
+          "text": "1",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 1, the hydrogen atoms will not be balanced."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 3, the hydrogen atoms will not be balanced."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 4, the hydrogen atoms will not be balanced."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "5a2e78717ae5175a6a8d7cc18111cd7ef5271c38"
+    },
+    {
+      "questionNumber": 29,
+      "type": "standalone",
+      "questionText": "What coefficient is needed to balance this equation: __H₂ + O₂ → 2H₂O?",
+      "answerOptions": [
+        {
+          "text": "2",
+          "isCorrect": true,
+          "rationale": "To balance the equation, you need 2 molecules of H₂ to react with 1 molecule of O₂ to produce 2 molecules of H₂O. The coefficient for H₂ is 2."
+        },
+        {
+          "text": "1",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 1, the hydrogen atoms will not be balanced."
+        },
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 3, the hydrogen atoms will not be balanced."
+        },
+        {
+          "text": "4",
+          "isCorrect": false,
+          "rationale": "If the coefficient is 4, the hydrogen atoms will not be balanced."
+        }
+      ],
+      "category": "Physical Science",
+      "bankFingerprint": "5a2e78717ae5175a6a8d7cc18111cd7ef5271c38"
+    },
+    {
+      "questionNumber": 30,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "0.4 g/cm³",
+          "isCorrect": true,
+          "rationale": "Density of Sample A = 312 g / 40 cm³ = 7.8 g/cm³. Density of Sample B = 260 g / 35 cm³ ≈ 7.4 g/cm³. The difference is 7.8 - 7.4 = 0.4 g/cm³ when rounded to the nearest tenth."
+        },
+        {
+          "text": "1.1 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value may result from an incorrect calculation or interpretation of the data."
+        },
+        {
+          "text": "0.2 g/cm³",
+          "isCorrect": false,
+          "rationale": "Recheck your density calculations for both samples and their difference."
+        },
+        {
+          "text": "1.2 g/cm³",
+          "isCorrect": false,
+          "rationale": "Recheck your density calculations for both samples and their difference."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "2471b6c081f640971e95a83cda2a85f5b9eded2c"
+    },
+    {
+      "questionNumber": 31,
+      "type": "passage",
+      "questionText": "What is the efficiency percentage of Bioreactor Y? (Efficiency = output ÷ input × 100.) Round to the nearest whole percent.",
+      "answerOptions": [
+        {
+          "text": "40%",
+          "isCorrect": true,
+          "rationale": "Efficiency = (Chemical Output ÷ Light Input) × 100 = (210 kJ ÷ 520 kJ) × 100 ≈ 40.38%, which rounds to 40%."
+        },
+        {
+          "text": "35%",
+          "isCorrect": false,
+          "rationale": "Recheck your calculation for Bioreactor Y."
+        },
+        {
+          "text": "42%",
+          "isCorrect": false,
+          "rationale": "Recheck your rounding or calculation for Bioreactor Y."
+        },
+        {
+          "text": "52%",
+          "isCorrect": false,
+          "rationale": "This is approximately the input value, not the efficiency."
+        }
+      ],
+      "passage": "<p>An investigation tracks how efficiently algae bioreactors convert light energy into chemical energy.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Bioreactor</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Light Input (kJ)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Chemical Output (kJ)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">X</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">480</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">182</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Y</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">520</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">210</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">Z</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">500</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">205</td></tr></tbody></table>",
+      "category": "Life Science",
+      "bankFingerprint": "4eaa19aa1f2f8d3bcc6ed4c5bef6383cdec6a05b"
+    },
+    {
+      "questionNumber": 32,
+      "type": "passage",
+      "questionText": "Based on the table, what is the density difference (in g/cm³) between Sample A and Sample B? Give your answer rounded to the nearest tenth.",
+      "answerOptions": [
+        {
+          "text": "0.4 g/cm³",
+          "isCorrect": true,
+          "rationale": "Density of Sample A = 312 g / 40 cm³ = 7.8 g/cm³. Density of Sample B = 260 g / 35 cm³ ≈ 7.4 g/cm³. The difference is 7.8 - 7.4 = 0.4 g/cm³ when rounded to the nearest tenth."
+        },
+        {
+          "text": "1.1 g/cm³",
+          "isCorrect": false,
+          "rationale": "This value may result from an incorrect calculation or interpretation of the data."
+        },
+        {
+          "text": "0.2 g/cm³",
+          "isCorrect": false,
+          "rationale": "Recheck your density calculations for both samples and their difference."
+        },
+        {
+          "text": "1.2 g/cm³",
+          "isCorrect": false,
+          "rationale": "Recheck your density calculations for both samples and their difference."
+        }
+      ],
+      "passage": "<p>Two metal samples with identical volumes are tested in the lab.</p><table class=\"data-table\"><thead><tr><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Sample</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Mass (g)</th><th style=\"text-align:left;padding:4px;border:1px solid #ccc;\">Volume (cm³)</th></tr></thead><tbody><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">A</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">312</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">40</td></tr><tr><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">B</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">260</td><td style=\"text-align:center;padding:4px;border:1px solid #ccc;\">35</td></tr></tbody></table>",
+      "category": "Physical Science",
+      "bankFingerprint": "2471b6c081f640971e95a83cda2a85f5b9eded2c"
+    },
+    {
+      "questionNumber": 33,
+      "type": "standalone",
+      "questionText": "Lithium has an atomic mass of 7 and 3 protons. What is the number of neutrons in lithium?",
+      "answerOptions": [
+        {
+          "text": "3",
+          "isCorrect": false,
+          "rationale": "Three is the number of protons, not the number of neutrons."
+        },
+        {
+          "text": "4",
+          "isCorrect": true,
+          "rationale": "Correct. Neutrons equal atomic mass minus protons, so 7 − 3 = 4."
+        },
+        {
+          "text": "7",
+          "isCorrect": false,
+          "rationale": "Seven is the atomic mass, not the neutron count."
+        },
+        {
+          "text": "10",
+          "isCorrect": false,
+          "rationale": "This does not match the relationship shown in the table."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_scince_fig_3_0001.png",
+        "alt": "Table of five elements (Lithium, Sodium, Calcium, Magnesium, Aluminum) showing their symbol, protons, neutrons, electrons, atomic mass, ion charge, and a sample compound with chlorine. Contains missing values X and Z."
+      },
+      "imageUrl": "/images/Science/ged_scince_fig_3_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_scince_fig_3_0001.png",
+      "category": "Physical Science",
+      "bankFingerprint": "bbd5143e064bbf762d3f075c8f5bfc51e50f9d8a"
+    },
+    {
+      "questionNumber": 34,
+      "type": "standalone",
+      "questionText": "What percentage of U.S. energy came from fossil fuels?",
+      "answerOptions": [
+        {
+          "text": "81%",
+          "isCorrect": true,
+          "rationale": "Correct. Petroleum (36%), natural gas (27%), and coal (18%) add to 81%."
+        },
+        {
+          "text": "36%",
+          "isCorrect": false,
+          "rationale": "That is only the share from petroleum."
+        },
+        {
+          "text": "45%",
+          "isCorrect": false,
+          "rationale": "That total is too low for the combined fossil-fuel share."
+        },
+        {
+          "text": "95%",
+          "isCorrect": false,
+          "rationale": "Ninety-five is the total quadrillion Btu shown, not the fossil-fuel percentage."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "929615382b76633c5cbd690127f66ad49bbd5172"
+    },
+    {
+      "questionNumber": 35,
+      "type": "standalone",
+      "questionText": "Which of the following describes the relationship between total energy consumption and renewable energy sources in a typical energy breakdown display?",
+      "answerOptions": [
+        {
+          "text": "To show both renewable energy’s share of total use and the different sources within that category.",
+          "isCorrect": true,
+          "rationale": "Correct. The main pie chart shows renewable energy as one category, and the expanded graphic shows what makes up that category."
+        },
+        {
+          "text": "To prove renewable energy was larger than all fossil fuels combined.",
+          "isCorrect": false,
+          "rationale": "The chart shows the opposite; fossil fuels make up the much larger share."
+        },
+        {
+          "text": "To show that nuclear power is a form of renewable energy.",
+          "isCorrect": false,
+          "rationale": "Nuclear electric power is shown as a separate category."
+        },
+        {
+          "text": "To replace the need for any percentages in the graphic.",
+          "isCorrect": false,
+          "rationale": "The figure still relies on percentages and totals for interpretation."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/unclassified_0027.png",
+        "alt": "Pie chart illustrating 2012 U.S. energy consumption by source, with a breakdown of renewable energy types."
+      },
+      "imageUrl": "/images/Science/unclassified_0027.png",
+      "itemType": "image",
+      "groupId": "sci-img-unclassified_0027.png",
+      "category": "Physical Science",
+      "bankFingerprint": "a9ff0d44f3d2509bae25dbad108347437115b9c2"
+    },
+    {
+      "questionNumber": 36,
+      "type": "passage",
+      "questionText": "What was the primary implication of Galileo's discovery that \"not all heavenly bodies revolve about the Earth\"?",
+      "answerOptions": [
+        {
+          "text": "It provided evidence against the long-held belief that Earth was the center of all celestial orbits.",
+          "isCorrect": true,
+          "rationale": "The statement \"not all heavenly bodies revolve about the Earth\" directly contradicts the geocentric model, which posits Earth as the center of all celestial motion."
+        },
+        {
+          "text": "It confirmed that Jupiter was the largest planet in the solar system.",
+          "isCorrect": false,
+          "rationale": "The passage focuses on the orbital mechanics around Jupiter, not on comparing Jupiter's size to other planets."
+        },
+        {
+          "text": "It established that only planets, not stars, orbit other celestial bodies.",
+          "isCorrect": false,
+          "rationale": "The 'stars' Galileo observed were moons, and the conclusion was specifically about bodies orbiting Jupiter, not a general rule about all stars or planets."
+        },
+        {
+          "text": "It meant that the four newly discovered celestial bodies would eventually leave Jupiter's orbit.",
+          "isCorrect": false,
+          "rationale": "The passage states they \"never departing far from it,\" indicating a stable orbit, not an eventual departure."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Galileo Observes Jupiter's Moons</strong></p><p><em>Galileo Galilei, 1610</em></p><p>In January of 1610, I discovered four stars wandering around Jupiter, invisible before my observations. They moved as companions of the great planet, never departing far from it. Night after night, their changes confirmed that not all heavenly bodies revolve about the Earth. This discovery gave support to the Copernican idea that the planets circle the Sun.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "0c3fd8fb87adc3dc92476c54eabe36d6fd53332b"
+    },
+    {
+      "questionNumber": 37,
+      "type": "passage",
+      "questionText": "According to Galileo's account, what specific observation allowed him to conclude that \"not all heavenly bodies revolve about the Earth\"?",
+      "answerOptions": [
+        {
+          "text": "The consistent movement of the four celestial bodies around Jupiter, never straying far.",
+          "isCorrect": true,
+          "rationale": "The passage states, \"They moved as companions of the great planet, never departing far from it. Night after night, their changes confirmed that not all heavenly bodies revolve about the Earth.\" This direct observation of objects orbiting Jupiter led to his conclusion."
+        },
+        {
+          "text": "The initial invisibility of the stars before his telescopic observations.",
+          "isCorrect": false,
+          "rationale": "Their prior invisibility explains why they were discovered, but not the evidence for their orbital pattern or the conclusion about Earth's centrality."
+        },
+        {
+          "text": "The support his discovery gave to the Copernican idea of planets orbiting the Sun.",
+          "isCorrect": false,
+          "rationale": "The support for the Copernican idea was a consequence of his conclusion, not the direct observation that led to the conclusion itself."
+        },
+        {
+          "text": "The fact that Jupiter itself is a \"great planet.\"",
+          "isCorrect": false,
+          "rationale": "While Jupiter is described as a 'great planet,' its size is not the direct observation that proves other bodies do not revolve around Earth; it is the movement of its companions around it that provides the evidence."
+        }
+      ],
+      "passage": "<div class=\"passage-text\"><p><strong>Galileo Observes Jupiter's Moons</strong></p><p><em>Galileo Galilei, 1610</em></p><p>In January of 1610, I discovered four stars wandering around Jupiter, invisible before my observations. They moved as companions of the great planet, never departing far from it. Night after night, their changes confirmed that not all heavenly bodies revolve about the Earth. This discovery gave support to the Copernican idea that the planets circle the Sun.</p></div>",
+      "itemType": "passage",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "0c6fc2f5dfeccbca7753a1db940ab49c9aef4f3e"
+    },
+    {
+      "questionNumber": 38,
+      "type": "standalone",
+      "questionText": "What conclusion is best supported by data on hurricane formation and sea-surface temperature?",
+      "answerOptions": [
+        {
+          "text": "Warmer ocean water can provide energy that helps a hurricane strengthen.",
+          "isCorrect": true,
+          "rationale": "Correct. The paired image and data are meant to connect hurricane strength with warm ocean water as an energy source."
+        },
+        {
+          "text": "Hurricanes form only when ocean water is below freezing.",
+          "isCorrect": false,
+          "rationale": "The figure links hurricanes with warm water, not freezing conditions."
+        },
+        {
+          "text": "Ocean temperature has no effect on storm intensity.",
+          "isCorrect": false,
+          "rationale": "The purpose of the table is to show that water temperature is relevant to storm development."
+        },
+        {
+          "text": "Hurricanes get all of their energy from land surfaces.",
+          "isCorrect": false,
+          "rationale": "The image focuses on an ocean-based storm and water-temperature data, not land heating."
+        }
+      ],
+      "stimulusImage": {
+        "src": "/images/Science/ged_sci_1_1024x847_0001.png",
+        "alt": "Satellite image of a hurricane from space with a table listing average temperatures of large bodies of water."
+      },
+      "imageUrl": "/images/Science/ged_sci_1_1024x847_0001.png",
+      "itemType": "image",
+      "groupId": "sci-img-ged_sci_1_1024x847_0001.png",
+      "category": "Earth & Space Science",
+      "bankFingerprint": "6f97bba4958a264abd6715cc5c59f8c1c410cbff"
+    }
+  ],
+  "validationWarnings": [
+    "Stimulus \"passage/data\": 15, expected 16",
+    "Stimulus \"chart/table/diagram\": 12, expected 13",
+    "19 near-duplicate question pair(s) detected",
+    "Difficulty \"easy\": 4, expected ~9",
+    "Difficulty \"medium\": 24, expected ~19"
+  ]
+}

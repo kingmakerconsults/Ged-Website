@@ -99,6 +99,9 @@ function validateQuestion(question, slot) {
     const hasImage = Boolean(
       question.stimulusImage || question.imageUrl || question.imageURL
     );
+    const declaredStimulusType = String(
+      question.stimulusType || question.itemType || ''
+    ).toLowerCase();
     const hasData = Boolean(
       question.dataTable ||
       question.chartData ||
@@ -111,7 +114,7 @@ function validateQuestion(question, slot) {
       slot.stimulusType === 'passage/data'
         ? hasPassage || hasData
         : ['chart', 'table'].includes(slot.stimulusType)
-          ? hasData
+          ? hasData || (hasImage && declaredStimulusType === slot.stimulusType)
           : ['diagram', 'image'].includes(slot.stimulusType)
             ? hasImage
             : slot.stimulusType === 'passage'
