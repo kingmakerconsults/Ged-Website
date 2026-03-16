@@ -241,6 +241,7 @@ function buildSciencePlan() {
   resetSlotCounter();
   const P = 'sci';
   const slots = [];
+  const templateFirst = ['template', 'bank', 'ai'];
 
   // ─── Redesigned Science Comprehensive ─────────────────────────────
   // 38 questions: Life 15 · Physical 15 · Earth & Space 8
@@ -255,12 +256,14 @@ function buildSciencePlan() {
     passageSlot(P, 'Life Science', 'easy', 2, {
       group: 'life_p1',
       stimulusType: 'passage/data',
+      sourcePriority: templateFirst,
     })
   );
   slots.push(
     passageSlot(P, 'Life Science', 'medium', 2, {
       group: 'life_p2',
       stimulusType: 'passage/data',
+      sourcePriority: templateFirst,
     })
   );
   slots.push(
@@ -268,33 +271,46 @@ function buildSciencePlan() {
       group: 'life_genetics',
       stimulusType: 'passage/data',
       toolsAllowed: ['punnett-square'],
+      sourcePriority: templateFirst,
     })
   );
-  // 2 chart/diagram slots × 2q = 4
+  // 2 chart/table slots × 2q = 4
   slots.push(
     imageSlot(P, 'Life Science', 'medium', 2, {
       stimulusType: 'chart',
       group: 'life_chart1',
       numeracy: true,
+      sourcePriority: templateFirst,
     })
   );
   slots.push(
     imageSlot(P, 'Life Science', 'hard', 2, {
-      stimulusType: 'diagram',
-      group: 'life_diag1',
+      stimulusType: 'table',
+      group: 'life_table1',
+      numeracy: true,
+      sourcePriority: templateFirst,
     })
   );
   // 3 standalone (comprehension: must have stimulus or scenario stem)
-  slots.push(standaloneSlot(P, 'Life Science', 'easy', 1, { numeracy: true }));
+  slots.push(
+    standaloneSlot(P, 'Life Science', 'easy', 1, {
+      numeracy: true,
+      sourcePriority: templateFirst,
+    })
+  );
   slots.push(standaloneSlot(P, 'Life Science', 'easy', 1));
   slots.push(
-    standaloneSlot(P, 'Life Science', 'medium', 1, { numeracy: true })
+    standaloneSlot(P, 'Life Science', 'medium', 1, {
+      numeracy: true,
+      sourcePriority: templateFirst,
+    })
   );
   // 1 science literacy passage (planned, not appended)
   slots.push(
     passageSlot(P, 'Life Science', 'medium', 2, {
       group: 'life_literacy',
       stimulusType: 'passage/data',
+      sourcePriority: templateFirst,
     })
   );
 
@@ -304,12 +320,14 @@ function buildSciencePlan() {
     passageSlot(P, 'Physical Science', 'medium', 2, {
       group: 'phys_p1',
       stimulusType: 'passage/data',
+      sourcePriority: templateFirst,
     })
   );
   slots.push(
     passageSlot(P, 'Physical Science', 'hard', 2, {
       group: 'phys_p2',
       stimulusType: 'passage/data',
+      sourcePriority: templateFirst,
     })
   );
   slots.push(
@@ -317,6 +335,7 @@ function buildSciencePlan() {
       group: 'phys_p3',
       stimulusType: 'passage/data',
       numeracy: true,
+      sourcePriority: templateFirst,
     })
   );
   // 3 chart/table slots: 2×2q + 1×1q = 5
@@ -325,6 +344,7 @@ function buildSciencePlan() {
       stimulusType: 'table',
       group: 'phys_table1',
       numeracy: true,
+      sourcePriority: templateFirst,
     })
   );
   slots.push(
@@ -332,20 +352,29 @@ function buildSciencePlan() {
       stimulusType: 'chart',
       group: 'phys_chart1',
       numeracy: true,
+      sourcePriority: templateFirst,
     })
   );
   slots.push(
     imageSlot(P, 'Physical Science', 'medium', 1, {
-      stimulusType: 'diagram',
-      group: 'phys_diag1',
+      stimulusType: 'table',
+      group: 'phys_table2',
+      numeracy: true,
+      sourcePriority: templateFirst,
     })
   );
   // 2 standalone (numeracy-heavy for Physical)
   slots.push(
-    standaloneSlot(P, 'Physical Science', 'easy', 1, { numeracy: true })
+    standaloneSlot(P, 'Physical Science', 'easy', 1, {
+      numeracy: true,
+      sourcePriority: templateFirst,
+    })
   );
   slots.push(
-    standaloneSlot(P, 'Physical Science', 'medium', 1, { numeracy: true })
+    standaloneSlot(P, 'Physical Science', 'medium', 1, {
+      numeracy: true,
+      sourcePriority: templateFirst,
+    })
   );
   // 2 chemistry balancing (planned slots)
   slots.push(
@@ -369,6 +398,7 @@ function buildSciencePlan() {
     passageSlot(P, 'Earth & Space Science', 'medium', 2, {
       group: 'earth_p1',
       stimulusType: 'passage/data',
+      sourcePriority: templateFirst,
     })
   );
   // 2 chart/diagram slots × 2q = 4
@@ -383,14 +413,21 @@ function buildSciencePlan() {
       stimulusType: 'chart',
       group: 'earth_chart1',
       numeracy: true,
+      sourcePriority: templateFirst,
     })
   );
   // 2 standalone
   slots.push(
-    standaloneSlot(P, 'Earth & Space Science', 'easy', 1, { numeracy: true })
+    standaloneSlot(P, 'Earth & Space Science', 'easy', 1, {
+      numeracy: true,
+      sourcePriority: templateFirst,
+    })
   );
   slots.push(
-    standaloneSlot(P, 'Earth & Space Science', 'medium', 1, { numeracy: true })
+    standaloneSlot(P, 'Earth & Space Science', 'medium', 1, {
+      numeracy: true,
+      sourcePriority: templateFirst,
+    })
   );
 
   const totalQ = slots.reduce((s, sl) => s + sl.questionsNeeded, 0);
